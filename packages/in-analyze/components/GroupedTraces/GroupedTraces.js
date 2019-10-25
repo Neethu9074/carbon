@@ -15,6 +15,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import theme from 'in-themes';
 
@@ -127,7 +128,8 @@ export default compose(
         tagFilters: tagFiltersForSubscription,
         group: {
           groupbyTag: filters.group ? filters.group.name : null,
-          groupbyTagSecondLevelKey: filters.group ? filters.group.value : ''
+          groupbyTagSecondLevelKey: filters.group ? filters.group.value : '',
+          groupbyTagEntity: filters.group ? filters.group.entity : entityTypes.NOT_APPLICABLE
         }
       });
     }

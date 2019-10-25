@@ -22,6 +22,7 @@ import './analyse/EditTagFilterDialog.story';
 import './analyse/FilterBar.story';
 import './analyse/GroupingInfo.story';
 import './analyse/IcicleChart.story';
+import './analyse/RadioInput.story';
 import './analyse/StackTrace.story';
 import './analyse/TagFilterList.story';
 import './analyse/TraceDetail/ErroneousTraceIndicator.story';

@@ -140,6 +140,7 @@ describe('in-analyze/tagFiltersHoc', () => {
           operator: 'GREATER_THAN'
         },
         {
+          entity: 'NOT_APPLICABLE',
           name: 'call.name',
           operator: 'EQUALS',
           secondLevelName: false,
@@ -158,6 +159,7 @@ describe('in-analyze/tagFiltersHoc', () => {
         operator: 'LESS_THAN'
       },
       {
+        entity: 'NOT_APPLICABLE',
         name: 'call.latency',
         secondLevelName: false,
         value: '50',
@@ -183,12 +185,14 @@ describe('in-analyze/tagFiltersHoc', () => {
       const filteredTags = setTagFilters.getCall(0).args[0];
       expect(filteredTags).to.deep.equal([
         {
+          entity: 'NOT_APPLICABLE',
           name: 'call.latency',
           secondLevelName: false,
           value: '50',
           operator: 'GREATER_THAN'
         },
         {
+          entity: 'NOT_APPLICABLE',
           name: 'call.latency',
           secondLevelName: false,
           value: '70',

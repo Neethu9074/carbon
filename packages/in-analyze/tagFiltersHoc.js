@@ -15,14 +15,15 @@ export const tagFilterManipulators = withProps(props => {
   const { filters, setTagFilters } = props;
   const tagFilters = filters.tagFilter;
   return {
-    removeTagFilter(name, operator, secondLevelName, value) {
+    removeTagFilter(name, operator, secondLevelName, value, entity) {
       const before = tagFilters.slice();
       const newTagFilter = tagFilters.filter(
         f =>
           f.name !== name ||
           (operator != null && f.operator !== operator) ||
           (secondLevelName != null && f.secondLevelName !== secondLevelName) ||
-          (value != null && f.value !== value)
+          (value != null && f.value !== value) ||
+          (entity != null && f.entity !== entity)
       );
       setTagFilters(newTagFilter);
 

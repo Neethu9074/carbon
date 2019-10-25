@@ -17,6 +17,11 @@
     color: @lib__colors__light-blue800;
     font-weight: bold;
     font-size: 0.75rem;
+    margin-right: .5rem;
+  }
+
+  .icon {
+    fill: @lib__colors__light-blue800;
   }
 
   .removeGrouping {

@@ -1,9 +1,10 @@
 import { get } from 'lodash';
 
+import { TAG_TYPES, entityTypes } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepCopy } from 'in-services/util/object';
 import { isInstanaEngineer } from 'in-stores/user';
+import moment from 'moment';
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -183,6 +184,9 @@ function buildTagTree() {
 
     tagMap[node.fullyQualifiedName] = node;
     node.type = tag.type;
+    node.canApplyToSource = tag.canApplyToSource;
+    node.canApplyToDestination = tag.canApplyToDestination;
+    node.sourceValueAvailableFrom = tag.sourceValueAvailableFrom;
     rootNode.addChild(node);
   }
 }
@@ -220,6 +224,32 @@ export function requiresSecondLevelName(fullyQualifiedName) {
 export function getTagType(fullyQualifiedName) {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   return definition ? definition.type : null;
+}
+
+export function getTagEntity(fullyQualifiedName) {
+  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+  if (definition.canApplyToDestination && definition.canApplyToSource) {
+    return entityTypes.SOURCE_AND_DESTINATION;
+  } else if (definition.canApplyToDestination && !definition.canApplyToSource) {
+    return entityTypes.DESTINATION;
+  } else if (!definition.canApplyToDestination && definition.canApplyToSource) {
+    return entityTypes.SOURCE;
+  } else {
+    return entityTypes.NOT_APPLICABLE;
+  }
+}
+
+export function getSourceEntityAvailability(fullyQualifiedName, timeConfig) {
+  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+  const sourceEntityAvailability = definition ? definition.sourceValueAvailableFrom : null;
+
+  const to = timeConfig.to || Date.now();
+  const from = to - timeConfig.windowSize;
+
+  if (moment(sourceEntityAvailability).isAfter(from)) {
+    return false;
+  }
+  return true;
 }
 
 export function findChildByName(node, childName) {

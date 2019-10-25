@@ -1,4 +1,5 @@
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 let configs;
 export default function getByDataSource(dataSource) {
@@ -12,7 +13,7 @@ export default function getByDataSource(dataSource) {
         isSyntheticTagPreset: 'call.is_synthetic',
         countMetricText: 'Traces',
         countMetricKey: 'traces',
-        defaultGrouping: { name: 'trace.endpoint.name', value: '' },
+        defaultGrouping: { name: 'trace.endpoint.name', value: '', entity: entityTypes.NOT_APPLICABLE },
         defaultFilters: [{ name: 'call.is_synthetic', value: 'false' }],
         breadcrumbLabel: 'Analyze Traces',
         getMatcher: traceId => item => item.trace.id === traceId,
@@ -28,7 +29,7 @@ export default function getByDataSource(dataSource) {
         isSyntheticTagPreset: 'call.is_synthetic',
         countMetricText: 'Calls',
         countMetricKey: 'calls',
-        defaultGrouping: { name: 'endpoint.name', value: '' },
+        defaultGrouping: { name: 'endpoint.name', value: '', entity: entityTypes.DESTINATION },
         defaultFilters: [{ name: 'call.is_synthetic', value: 'false' }],
         breadcrumbLabel: 'Analyze Calls',
         getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,

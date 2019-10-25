@@ -39,6 +39,13 @@ export const operators = {
   ENDS_WITH: 'ENDS_WITH'
 };
 
+export const entityTypes = {
+  SOURCE_AND_DESTINATION: 'SOURCE_AND_DESTINATION',
+  DESTINATION: 'DESTINATION',
+  SOURCE: 'SOURCE',
+  NOT_APPLICABLE: 'NOT_APPLICABLE'
+};
+
 export const operatorBlacklists = {
   appConfigBlacklist: [operators.IS_EMPTY],
   syntheticEndpointConfigBlacklist: [
@@ -139,6 +146,10 @@ const operatorLabelLUT = {
   }
 };
 
+export function getEntityLabel(entity) {
+  return get(entityTypes, [entity]);
+}
+
 export function getOperatorLabel(type, operator) {
   return get(operatorLabelLUT, [type, operator], operator);
 }
@@ -149,7 +160,7 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
-    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator };
+    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator, entity: tag.entity };
     getValueByTag(backendTagFilter, tag);
     return backendTagFilter;
   });
