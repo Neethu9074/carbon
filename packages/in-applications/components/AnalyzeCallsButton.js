@@ -20,7 +20,14 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
     observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
   }
   return observables;
-})(function AnalyzeTracesButton({ applicationLabel, serviceLabel, endpointLabel, isSynthetic }) {
+})(function AnalyzeCallsButton({
+  applicationLabel,
+  serviceLabel,
+  endpointLabel,
+  isSynthetic,
+  filters = [],
+  groupByTag
+}) {
   return (
     <Button
       kind="primary"
@@ -29,12 +36,12 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointLabel,
-        dataSource: 'traces',
-        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null,
-        groupByTag: endpointLabel ? {} : null // no default grouping when analyzing traces for an endpoint
+        dataSource: 'calls',
+        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }, ...filters] : filters,
+        groupByTag: groupByTag ? groupByTag : {}
       })}
     >
-      Analyze Traces
+      Analyze Calls
     </Button>
   );
 });
