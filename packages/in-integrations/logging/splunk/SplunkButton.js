@@ -52,7 +52,7 @@ function constructSplunkLink(integration, props) {
   return `${integration.url}/en-US/app/search/search${toParams(queryParameters, '?', '&')}`;
 }
 
-function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWithinKubernetes }, index) {
+function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainerId, isWithinKubernetes }, index) {
   const query = {};
 
   if (index) {
@@ -63,11 +63,12 @@ function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWith
     query['kubernetes.pod_name'] = kubernetesPodName;
   } else if (dockerContainerId) {
     query['docker.container_id'] = dockerContainerId;
-  } else if (hostFqdn) {
+  } else if (hostFqdn || hostName) {
+    const hostParam = hostName ? hostName : hostFqdn;
     if (isWithinKubernetes) {
-      query['kubernetes.host'] = hostFqdn;
+      query['kubernetes.host'] = hostParam;
     } else {
-      query['host'] = hostFqdn;
+      query['host'] = hostParam;
     }
   }
 
