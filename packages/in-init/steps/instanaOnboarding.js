@@ -11,6 +11,7 @@ import { isInitialOnboardingCheckEnabled } from 'in-services/featureFlags';
 
 export function init() {
   const reportingData = window.instana.reportingData;
+  // the onboarding dialog is skipped when ther are reporting hosts right now
   if (!isInitialOnboardingCheckEnabled || (reportingData && reportingData.hostCount > 0)) {
     return just(true);
   }

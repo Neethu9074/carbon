@@ -22,7 +22,9 @@ function App({ apiCallSatisfied }) {
   return (
     <ErrorBoundary name="app">
       <DialogPresenter />
+
       <DisabledBodyScroll />
+
       <FullViewOnboardingWidget
         isRestricted
         disableAwsSensorDocumentation

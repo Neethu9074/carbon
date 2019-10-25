@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
@@ -11,15 +11,13 @@ import Link from 'in-components/Link';
 
 // Sizes and labels taken from the Chrome developer tools
 const sizes = {
-  '<= 320px': 320,
-  '<= 375px': 375,
-  '<= 425px': 425,
-  '<= 768px': 768,
-  '<= 1440px': 1440,
-  '<= 1650px': 1650,
-  '<= 1920px': 1920,
-  '<= 2560px': 2560,
-  '> 2560px': 2561
+  '4k': 2560,
+  'Laptop (L)': 1440,
+  Laptop: 1024,
+  Tablet: 768,
+  'Mobile (L)': 425,
+  'Mobile (M)': 375,
+  'Mobile (S)': 320
 };
 
 export default connectTo(({ timeConfig, tagFilters }) => ({
@@ -29,20 +27,18 @@ export default connectTo(({ timeConfig, tagFilters }) => ({
     windowWidths: Object.keys(sizes).map(label => sizes[label])
   })
 }))(function WindowWidthBreakdown({ result, tagFilters, websiteLabel }) {
-  const [selectedMetric, onChangeMetric] = useState('pageLoads');
-
   return (
     <TopListCardPresenter
       result={result}
       title="Browser Window Width Breakdown"
-      metrics={['pageLoads', 'users']}
-      labels={['Page Loads', 'Users']}
-      selectedMetric={selectedMetric}
-      onChangeMetric={onChangeMetric}
+      metrics={['Page Loads']}
+      labels={['Page Loads']}
+      onChangeMetric={() => {}}
+      selectedMetric="Page Loads"
+      showMetricSelectorsForSingleMetrics
       getItemsFromResult={r => r.data}
       renderLabel={Label}
-      getMetricValueFromItem={(selectedMetric, item) => item[selectedMetric]}
-      selectedMetricFormatter={number.compact}
+      renderMetric={({ item }) => number.compact(item.pageLoads)}
       tagFilters={tagFilters}
       websiteLabel={websiteLabel}
     />
