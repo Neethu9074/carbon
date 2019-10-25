@@ -5,6 +5,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -15,7 +16,6 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import { capitalize } from 'in-services/formatters/string';
@@ -108,12 +108,13 @@ function Actions({ clusterId, timeConfig, result }) {
 
 function SubTypes({ result }) {
   const version = get(result, ['data', 'version']);
+  const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagedBy = get(result, ['data', 'clusterManagedBy']);
 
   return (
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
-      <TypesBadgeList type="K8s Cluster" />
+      <TypesBadgeList type={`${clusterBadgeName(clusterDistribution)} Cluster`} />
       <ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />
     </Fragment>
   );
