@@ -4,7 +4,7 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
+import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
@@ -15,6 +15,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashboard({ location, timeConfig }) {
   const props = {
@@ -50,11 +51,13 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <Fragment>
-      <AnalyzeTracesButton
+      <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
+        filters={[{ name: 'application.name', operator: operators.NOT_EQUAL, entity: entityTypes.SOURCE }]}
+        groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}

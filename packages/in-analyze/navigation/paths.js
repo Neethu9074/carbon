@@ -18,6 +18,7 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 
 export const analyze = '/analyze';
 export const analyzeRaw = `${analyze}/raw`;
@@ -54,15 +55,30 @@ export function getLinkToAnalyze({
     let tagFilter = null;
     if (applicationName != null) {
       tagFilter = tagFilter || [];
-      tagFilter.push({ name: APPLICATION.name, value: applicationName });
+      tagFilter.push({
+        name: APPLICATION.name,
+        value: applicationName,
+        operator: operators.EQUALS,
+        entity: entityTypes.DESTINATION
+      });
     }
     if (serviceName != null) {
       tagFilter = tagFilter || [];
-      tagFilter.push({ name: SERVICE.name, value: serviceName });
+      tagFilter.push({
+        name: SERVICE.name,
+        value: serviceName,
+        operator: operators.EQUALS,
+        entity: entityTypes.DESTINATION
+      });
     }
     if (endpointName != null) {
       tagFilter = tagFilter || [];
-      tagFilter.push({ name: ENDPOINT.name, value: endpointName });
+      tagFilter.push({
+        name: ENDPOINT.name,
+        value: endpointName,
+        operator: operators.EQUALS,
+        entity: entityTypes.DESTINATION
+      });
     }
     if (filters) {
       tagFilter = tagFilter || [];
@@ -70,6 +86,14 @@ export function getLinkToAnalyze({
     }
 
     if (tagFilter != null) {
+      const values = {
+        'application.name': applicationName,
+        'service.name': serviceName,
+        'endpoint.name': endpointName
+      };
+      tagFilter = tagFilter.map(
+        filter => (values[filter.name] && Object.assign(filter, { value: values[filter.name] })) || filter
+      );
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
     } else if (dataSource === 'calls') {
       // remove blacklisted filters
