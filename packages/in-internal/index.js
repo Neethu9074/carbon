@@ -21,6 +21,7 @@ import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDa
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
+import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
 import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsights';
@@ -70,6 +71,10 @@ export default function Internal() {
             <Route
               path="/internal/monitoringUnit/eum/jsStackTraceTranslator"
               component={wrapIninternalView(JsStackTraceTranslator)}
+            />
+            <Route
+              path="/internal/monitoringUnit/eum/eumHealthProcessor"
+              component={wrapIninternalView(EumHealthProcessor)}
             />
             <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
             <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />

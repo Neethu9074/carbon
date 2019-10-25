@@ -192,6 +192,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                           description="eum-processor enriches received beacons and forwards them to Kafka for persistence."
                         />
                         <LinkListItem
+                          label="eum-health-processor (health rule execution)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/eumHealthProcessor')
+                          )}
+                          description="eum-health-processor reads processed beacons from Kafka and executes rules on buckets of beacons."
+                        />
+                        <LinkListItem
                           label="appdata-writer (beacon ingestion)"
                           href$={getModifiedUrlStream(
                             params => (params.pathname = '/internal/monitoringUnit/eum/appdata-writer')

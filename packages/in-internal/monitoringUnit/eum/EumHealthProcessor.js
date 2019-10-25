@@ -1,0 +1,136 @@
+import React from 'react';
+
+import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { number } from 'in-services/formatters/number';
+import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
+export default connectTo(
+  {
+    timeConfig: timeConfig$,
+    rows: getDropwizardWithContext('entity.label:"eum-health-processor"')
+  },
+  function EumHealthProcessor({ rows, timeConfig }) {
+    if (rows.length === 0) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    rows = rows.slice().sort((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
+
+    const labels = rows.map(getLabel);
+
+    return (
+      <div>
+        <h1>eum-health-processor</h1>
+
+        <Columize>
+          <DashboardSection title={`Incoming Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons_by_website.calls`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Dropped Incoming Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons_by_website.errors`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Beacon Processing`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.KPI.processing.processed_website_monitoring_beacons_by_website.calls`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Beacon Processing Failures`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.KPI.processing.processed_website_monitoring_beacons_by_website.errors`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Outgoing Events`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.events.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Failed Outgoing Events`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.events.errors`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+      </div>
+    );
+  }
+);
+
+export function getLabel(row) {
+  return row.container
+    .getIn(['data', 'Nomad', 'allocName'], row.host.get('label'))
+    .replace('eum-health-processor.eum-health-processor', 'allocation');
+}
