@@ -15,9 +15,7 @@ export default {
 
       if (!pointsAreTooCloseTogether(lastXPos, xPos)) {
         config.backBufferCtx.beginPath();
-        config.backBufferCtx.lineWidth = 1;
-        config.backBufferCtx.arc(xPos, yPos, 2, 0, CIRCLE_ARC);
-        config.backBufferCtx.fillStyle = color;
+        drawPoint(config, xPos, yPos, color);
         config.backBufferCtx.fill();
       }
 
@@ -28,3 +26,9 @@ export default {
     }
   }
 };
+
+export function drawPoint(config, xPos, yPos, color) {
+  config.backBufferCtx.lineWidth = 1;
+  config.backBufferCtx.arc(xPos - 2, yPos, 2, 0, CIRCLE_ARC);
+  config.backBufferCtx.fillStyle = color;
+}

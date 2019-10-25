@@ -475,9 +475,17 @@ function MissingMetrics() {
 }
 
 function MissingDataPoint() {
-  const dataSeries1 = generateMetrics(60, 20, oneMinute);
+  let dataSeries1 = generateMetrics(60, 20, oneMinute);
   dataSeries1[0] = undefined;
   dataSeries1[10] = undefined;
+  dataSeries1[11] = undefined;
+  dataSeries1[12] = undefined;
+  dataSeries1[13] = undefined;
+  dataSeries1[15] = undefined;
+  dataSeries1[16] = undefined;
+  dataSeries1[17] = undefined;
+  dataSeries1[19] = undefined;
+  dataSeries1[20] = undefined;
 
   const dataSeries2 = generateMetrics(60, 20, oneMinute);
   dataSeries2[10] = undefined;
@@ -578,6 +586,18 @@ function MissingDataPoint() {
             renderer: Renderer.stackedBar,
             labels: ['Metric A', 'Metric B'],
             metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.line,
+            labels: ['Metric A'],
+            metrics: [dataSeries1]
           }
         }}
       />
