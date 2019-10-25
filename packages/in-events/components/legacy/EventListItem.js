@@ -13,7 +13,7 @@ import Marker, { hasServiceImpact } from 'in-events/components/legacy/Marker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
-import EventChart from 'in-events/components/legacy/EventChart';
+import EventChart from 'in-events/components/EventChart';
 import { formatTime } from 'in-services/formatters/date';
 import Spacer from 'in-events/components/legacy/Spacer';
 import EventIcon from 'in-components/EventIcon';

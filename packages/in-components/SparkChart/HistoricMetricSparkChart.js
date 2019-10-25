@@ -3,14 +3,16 @@ import React from 'react';
 
 import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
-import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { deepCopy } from 'in-services/util/object';
+import { serverTime$ } from 'in-stores/serverTime';
+import { always } from 'in-services/fixedStreams';
+import SparkChart from 'in-components/SparkChart';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { createLogger } from 'instalog';
 
-const logger = createLogger('in-charts.SparkChart');
+const logger = createLogger('in-components/SparkChart/HistoricMetricSparkChart');
 
 export default connectTo(
   props => {
@@ -69,7 +71,36 @@ export default connectTo(
     };
 
     render() {
-      return <SparkChart {...this.props} datasource={this.state.datasource} rollup={this.state.rollup} />;
+      return <SparkChartWrapper {...this.props} datasource={this.state.datasource} rollup={this.state.rollup} />;
     }
+  }
+);
+
+const SparkChartWrapper = connectTo(
+  props => {
+    if (props.timeConfig.to) {
+      return {
+        metrics: props.datasource,
+        timeConfig: always({
+          windowSize: props.timeConfig.windowSize + props.wiggleRoom,
+          to: props.timeConfig.to,
+          focusedMoment: props.timeConfig.focusedMoment,
+          autoRefresh: false
+        })
+      };
+    }
+
+    return {
+      metrics: props.datasource,
+      timeConfig: serverTime$.map(serverTime => ({
+        windowSize: props.timeConfig.windowSize + props.wiggleRoom,
+        to: serverTime - props.wiggleRoom,
+        focusedMoment: serverTime - props.wiggleRoom,
+        autoRefresh: props.timeConfig.autoRefresh
+      }))
+    };
+  },
+  function(props) {
+    return <SparkChart {...props} />;
   }
 );

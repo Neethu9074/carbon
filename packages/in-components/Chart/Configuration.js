@@ -7,10 +7,10 @@ import {
 } from 'in-services/featureFlags';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { updateCanvasDimensions } from 'in-charts/canvas';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
 import theme from 'in-themes';

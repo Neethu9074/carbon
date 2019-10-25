@@ -8,8 +8,8 @@ import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
+import { copyCanvasInto } from 'in-components/Chart/canvas';
 import { toServerTime } from 'in-stores/timeOffset';
-import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';
 
 const STEADY_FRAMERATE = 1000 / 30; // max FPS in ms the render scheduler renders

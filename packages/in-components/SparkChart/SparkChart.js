@@ -1,5 +1,5 @@
 import LineMetricRenderer from 'in-components/SparkChart/LineMetricRenderer';
-import { updateCanvasDimensions } from 'in-charts/canvas';
+import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
 export default class SparkChart {
   constructor(canvas, { width, height, theme = 'light' }) {

@@ -1,8 +1,0 @@
-{
-  "name": "in-charts",
-  "version": "1.0.0",
-  "description": "Everything related to charts",
-  "main": "index.js",
-  "license": "UNLICENSED",
-  "private": true
-}

@@ -54,6 +54,7 @@ const EventView = compose(
         timeConfig =>
           timeConfig.autoRefresh
             ? mouseMoveSignal$
+                .startWith(true)
                 .throttle(1000)
                 .flatMap(() => interval(1000 * 10))
                 .map(() => timeConfig)

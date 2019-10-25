@@ -2,8 +2,8 @@ let layerBuffer;
 let layerBufferCtx;
 
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
+import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
-import { updateCanvasDimensions } from 'in-charts/canvas';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {

@@ -8,7 +8,7 @@ describe('in-components/Chart/Chart', () => {
   beforeEach(() => {
     const Chart = proxyquire('in-components/Chart/Chart', {
       'in-components/Chart/Configuration': proxyquire('in-components/Chart/Configuration', {
-        'in-charts/canvas': {
+        'in-components/Chart/canvas': {
           updateCanvasDimensions: () => {}
         },
         'in-components/Chart/canvasHelper': {
