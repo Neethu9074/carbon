@@ -24,7 +24,7 @@ export default function AlertingConfigurationButton({ alertConfig, websiteLabel 
         )
       }
     >
-      View Alerting Configuration
+      View/Edit Alerting Configuration
     </Button>
   );
 }

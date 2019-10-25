@@ -46,7 +46,7 @@ function generateFormData(error, tagFilters, websiteId) {
     tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
     rule: {
       alertType: 'specificJsError',
-      operator: 'CONTAINS',
+      operator: 'EQUALS',
       value: error.message
     },
     threshold: {

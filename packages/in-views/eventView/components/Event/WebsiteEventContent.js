@@ -54,18 +54,6 @@ export default connectTo(
             <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
           </Card>
 
-          <Card title="Domain">
-            <div className={locals.filterList}>
-              <TagFilterListPresenter
-                tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: tagFiltersWithWebsiteId,
-                  websiteLabel
-                })}
-                disabled
-              />
-            </div>
-          </Card>
-
           <Card title="# of JS Errors">
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeJsErrorsButton
@@ -79,6 +67,18 @@ export default connectTo(
               timeConfig={timeConfig}
               tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
             />
+          </Card>
+
+          <Card title="Domain">
+            <div className={locals.filterList}>
+              <TagFilterListPresenter
+                tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  tagFilters: tagFiltersWithWebsiteId,
+                  websiteLabel
+                })}
+                disabled
+              />
+            </div>
           </Card>
         </Col>
       </Row>

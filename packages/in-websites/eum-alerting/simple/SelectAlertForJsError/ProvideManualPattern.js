@@ -23,6 +23,7 @@ export function ProvideManualPattern({ form, onChange }) {
             value={field.value}
             options={getOperators()}
             onChange={e => onChange(form, fieldNames.operator, (e && e.value) || '')}
+            defaultValue={getOperators()[0].value}
             searchable
             autoFocus
           />
