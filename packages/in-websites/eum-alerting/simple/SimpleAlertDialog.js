@@ -5,9 +5,16 @@ import PropTypes from 'prop-types';
 import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import SimpleAlertDialogPresenter from 'in-websites/eum-alerting/simple/SimpleAlertDialogPresenter';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
+import { operators } from 'in-analyze/applicationFilter';
 
 const logger = createLogger('in-websites/eum-alerting/simple/SimpleAlertDialog');
 const twelveHours = 1000 * 60 * 60 * 12;
+const operatorDescriptionValues = {
+  [operators.EQUALS]: 'equal',
+  [operators.CONTAINS]: 'contain',
+  [operators.STARTS_WITH]: 'start with',
+  [operators.ENDS_WITH]: 'end with'
+};
 
 export default function SimpleAlertDialog({ onClose, formData, websiteLabel, editMode }) {
   const [form, setForm] = useState(() => alertFormDefinition(formData));
@@ -78,7 +85,9 @@ function toAlertConfigObject(form) {
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     severity: form.get(fieldNames.severity).value,
-    description: form.get(fieldNames.description).value,
+    description: `JS Errors which ${operatorDescriptionValues[form.get(fieldNames.operator).value]} "${
+      form.get(fieldNames.value).value
+    }" have been detected.`,
     name: `JS Error(s): ${form.get(fieldNames.value).value}`,
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
