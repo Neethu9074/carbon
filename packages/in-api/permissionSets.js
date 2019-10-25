@@ -12,22 +12,6 @@ export function getPermissionSets() {
   }).map(response => response.body);
 }
 
-export function getApplications() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: '/api/settings/permission-sets/applications'
-  }).map(response => response.body);
-}
-
-export function getWebsites() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: '/api/settings/permission-sets/websites'
-  }).map(response => response.body);
-}
-
 export function getK8sClusters() {
   return http({
     method: 'POST',

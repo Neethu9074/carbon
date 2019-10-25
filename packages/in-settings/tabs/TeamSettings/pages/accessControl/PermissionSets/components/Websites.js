@@ -1,7 +1,7 @@
 import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getWebsites } from 'in-api/permissionSets';
+import { getWebsites } from 'in-websites/api/websites';
 
 import locals from './Websites.mless';
 
