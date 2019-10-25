@@ -106,7 +106,6 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
-    const yOffset = 1;
 
     const vertices = this.getFactoryVertices();
     if (!vertices || vertices.length === 0) {
@@ -131,7 +130,7 @@ export default class BasicCameraController extends Subscriber {
     }
 
     minX -= FOCUS_MARGIN;
-    minY -= FOCUS_MARGIN + yOffset;
+    minY -= FOCUS_MARGIN;
     maxX += FOCUS_MARGIN;
     maxY += FOCUS_MARGIN;
 
