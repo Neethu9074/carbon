@@ -126,11 +126,12 @@ export default function ServiceComponent({ call, beacon }) {
                 />
               )}
               <div className={locals.sourceChildren}>
-                {beacon && (
-                  <ExpandableGroup title="Details" defaultExpanded>
-                    <BeaconDetails beacon={beacon} />
-                  </ExpandableGroup>
-                )}
+                {beacon &&
+                  sourceService.id === 'ROOT' && (
+                    <ExpandableGroup title="Details" defaultExpanded>
+                      <BeaconDetails beacon={beacon} />
+                    </ExpandableGroup>
+                  )}
                 {exitSpan && (
                   <ExpandableGroup
                     title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
