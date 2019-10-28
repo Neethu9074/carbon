@@ -9,6 +9,7 @@ import theme from 'in-themes';
 export default function EumAlertingBarChart({ threshold, timeConfig, tagFilters }) {
   return (
     <WebsiteChartWrapper
+      isDebounced
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
