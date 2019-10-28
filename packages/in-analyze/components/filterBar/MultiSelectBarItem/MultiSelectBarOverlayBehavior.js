@@ -4,10 +4,10 @@ import React from 'react';
 
 import MultiSelectBarOverlay from 'in-analyze/components/filterBar/MultiSelectBarOverlay/MultiSelectBarOverlay';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import connect from 'in-hoc/connectTo';
-import { operators } from 'in-analyze/applicationFilter';
 
 export default compose(
   withState('query', 'setQuery', ''),
@@ -102,7 +102,8 @@ function MultiSelectBarOverlayBehavior({
         addTagFilter({
           name: tag,
           stringValue: newItem.key,
-          operator: operators.EQUALS
+          operator: operators.EQUALS,
+          entity: tag === 'technology' ? entityTypes.DESTINATION : entityTypes.NOT_APPLICABLE
         });
       }}
       moreDataAvailable={result.data && result.data.canLoadMore}

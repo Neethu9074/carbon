@@ -27,7 +27,8 @@ export default function QueryBuilderWorkspace(props) {
           tagFilters={tagFilters.map(tagFilter => ({
             tag: tagFilter,
             onClick: () => setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
-            onRemove: () => removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value)
+            onRemove: () =>
+              removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
           }))}
           defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
         />
