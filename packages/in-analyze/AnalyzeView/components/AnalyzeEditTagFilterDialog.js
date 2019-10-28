@@ -1,7 +1,7 @@
 import { withProps } from 'recompose';
 
+import { getTagFilterListForBackendSubscription, entityTypes } from 'in-analyze/applicationFilter';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
-import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { mapDataHO, noResultObservable } from 'in-services/util/result';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -54,6 +54,7 @@ export function getValueSuggestions({ tagFilters, timeConfig, form }) {
   }
   const tagName = form.get('tag').value;
   const secondLevelKeyTagName = form.containsKey('key') ? form.get('key').value : null;
+  const entity = form.containsKey('entity') ? form.get('entity').value : entityTypes.NOT_APPLICABLE;
 
   const node = findSubTreeByFullyQualifiedName(tagName);
   if (
@@ -72,6 +73,7 @@ export function getValueSuggestions({ tagFilters, timeConfig, form }) {
     tagFilters: getTagFilterListForBackendSubscription(tagFilters),
     tagName,
     secondLevelKeyTagName,
+    entity,
     valueFilter: null
   }).map(mapResultData);
 }
