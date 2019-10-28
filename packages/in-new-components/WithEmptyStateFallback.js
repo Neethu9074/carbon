@@ -34,7 +34,7 @@ export default connectTo(
 
     const content = FallbackComponent ? (
       typeof FallbackComponent === 'function' ? (
-        <FallbackComponent notFoundComponent={notFoundComponent} {...fallbackComponentProps} />
+        <FallbackComponent notFoundComponent={notFoundComponent} {...props} {...fallbackComponentProps} />
       ) : (
         FallbackComponent
       )
