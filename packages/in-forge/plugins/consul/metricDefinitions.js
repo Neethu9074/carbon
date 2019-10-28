@@ -42,9 +42,9 @@ export default [
       'Raft: last log index',
       'Raft: last log term',
       'Raft: last snapshot index',
-      'Raft: last snapshop term',
+      'Raft: last snapshot term',
       'Raft: number of peers',
-      'Raft: term, describes the number of new leader elections that have happened'
+      'Raft: term - new leader elections'
     ],
     min: 0,
     category: ['Consul'],
