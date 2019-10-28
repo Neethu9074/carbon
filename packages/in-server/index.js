@@ -36,9 +36,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(unitCoordinates);
 app.use(errorPagesRoutes);
 app.use(assetRoutes);
+
+// Allow retrieval of assets without valid unit identification.
+app.use(unitCoordinates);
 
 // we need to place the waiting resource middleware before we enrich the config because
 // we don't have a deployed backend for now. Therefore the config cannot work correctly
