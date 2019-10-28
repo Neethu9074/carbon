@@ -28,9 +28,9 @@ export const tagFilterManipulators = withProps(props => {
       setTagFilters(newTagFilter);
 
       if (before.length > 0) {
-        filterRemovedTracker({ name, filter: before[0], secondLevelName, value });
+        filterRemovedTracker({ name, filter: before[0], secondLevelName, value, entity });
       } else {
-        filterRemovedTracker({ name, secondLevelName, value });
+        filterRemovedTracker({ name, secondLevelName, value, entity });
       }
     },
     addTagFilter(newTagFilter) {
