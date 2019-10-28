@@ -11,17 +11,21 @@ export default function JdbcSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Connection">{span.getIn(['data', 'jdbc', 'connection'])}</Di>
-        <Di title="User">{span.getIn(['data', 'jdbc', 'user'])}</Di>
-        <Di title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</Di>
-        <Di title="Result Size">{span.getIn(['data', 'jdbc', 'size'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'jdbc', 'error'])} />
 
         {statement ? (
           <Di title="Statement" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
+
+        <p />
+        <Di title="Connection" verticalDisplay>
+          <Code softWrap={true} code={span.getIn(['data', 'jdbc', 'connection'])} />
+        </Di>
+        <Di title="User">{span.getIn(['data', 'jdbc', 'user'])}</Di>
+        <Di title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</Di>
+        <Di title="Result Size">{span.getIn(['data', 'jdbc', 'size'])}</Di>
       </Dl>
     </div>
   );

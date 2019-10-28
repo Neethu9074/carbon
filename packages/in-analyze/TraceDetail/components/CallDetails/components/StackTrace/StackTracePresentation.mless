@@ -1,6 +1,19 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
 :local {
   .stackTrace {
     margin: 0 0 1.5rem 0;
+    border-top: 2px solid @lib__colors__N200;
+  }
+
+  .title {
+    width: 10rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding-top: 1rem;
+    font-weight: 500;
+    .ellipsis();
   }
 
   .list {
