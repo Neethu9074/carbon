@@ -16,11 +16,12 @@ exports.send403 = function send403(req, res) {
   res.status(403).send(template403({}));
 };
 
-exports.send404 = function send403(req, res) {
+exports.send404 = function send404(req, res) {
+  res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
   res.status(404).send(template404({}));
 };
 
-exports.send500 = function send403(req, res) {
+exports.send500 = function send500(req, res) {
   res.status(500).send(template500({}));
 };
 
