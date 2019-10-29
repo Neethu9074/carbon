@@ -4,6 +4,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
@@ -28,42 +29,39 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="All Requests">
-          <MetricValue snapshotId={snapshotId} metric="metrics.requests" />
-        </KpiKeyValue>
         <KpiKeyValue label="Active Sessions">
           <MetricValue snapshotId={snapshotId} metric="metrics.httpsessions.active" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Request Count">
+      <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: [
-              'metrics.requests',
               'metrics.statusCode.1xx',
               'metrics.statusCode.2xx',
               'metrics.statusCode.3xx',
               'metrics.statusCode.4xx',
               'metrics.statusCode.5xx'
             ],
-            labels: ['All Requests', '1xx', '2xx', '3xx', '4xx', '5xx'],
+            labels: ['1xx', '2xx', '3xx', '4xx', '5xx'],
             colors: [
-              theme.lib.colors.indigo800,
               theme.lib.colors.lightBlue800,
               theme.lib.colors.green800,
               theme.lib.colors.yellow800,
               theme.lib.colors.orange800,
               theme.lib.colors.red800
             ],
-            type: 'line'
+            type: 'stackedBar',
+            aggregation: 'sum',
+            formatter: number.compact
           }}
         />
       </DashboardSection>
       {httpSessionsMax ? (
-        <DashboardSection title="HTTP Sessions Active">
+        <DashboardSection title="HTTP Sessions">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
