@@ -9,6 +9,8 @@ export default function MemcacheSpanDetailView({ span }) {
       <Dl>
         <Di title="Operation">{span.getIn(['data', 'memcached', 'operation'])}</Di>
         <Di title="Key">{span.getIn(['data', 'memcached', 'key'])}</Di>
+        <Di title="Result Code">{span.getIn(['data', 'memcached', 'resultCode'])}</Di>
+        <Di title="Result Message">{span.getIn(['data', 'memcached', 'resultMessage'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'memcached', 'error'])} />
       </Dl>
     </div>
