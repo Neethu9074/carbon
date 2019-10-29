@@ -228,11 +228,11 @@ export function getTagType(fullyQualifiedName) {
 
 export function getTagEntity(fullyQualifiedName) {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
-  if (definition.canApplyToDestination && definition.canApplyToSource) {
+  if (definition && definition.canApplyToDestination && definition.canApplyToSource) {
     return entityTypes.SOURCE_AND_DESTINATION;
-  } else if (definition.canApplyToDestination && !definition.canApplyToSource) {
+  } else if (definition && definition.canApplyToDestination && !definition.canApplyToSource) {
     return entityTypes.DESTINATION;
-  } else if (!definition.canApplyToDestination && definition.canApplyToSource) {
+  } else if (definition && !definition.canApplyToDestination && definition.canApplyToSource) {
     return entityTypes.SOURCE;
   } else {
     return entityTypes.NOT_APPLICABLE;
