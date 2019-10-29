@@ -88,10 +88,13 @@ export default function EditGroupDialogPresenter({
           <div>
             Apply to call source or destination
             <RadioGroup
-              disabled={tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability}
+              disabled={
+                tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability || tagName.includes('beacon.')
+              }
               value={field.value}
               onChange={e => onEntityChange(e.target.value)}
               tagName={tagName}
+              sourceEntityAvailability={sourceEntityAvailability}
             />
           </div>
         ))}
