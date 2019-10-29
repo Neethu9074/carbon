@@ -1,6 +1,7 @@
 const express = require('express');
 
 const configEnrichment = require('../middleware/configEnrichment');
+const unitCoordinates = require('../middleware/unitCoordinates');
 const checkSumMod = require('../services/checksum');
 const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
@@ -19,6 +20,7 @@ const sendFilesConfig = {
 };
 
 // Do not permit access to our internal chunk.
+router.use('/bundle/internal.*.js', unitCoordinates);
 router.use('/bundle/internal.*.js', configEnrichment);
 router.use('/bundle/internal.*.js', (req, res, next) => {
   getCurrentUser(req)
