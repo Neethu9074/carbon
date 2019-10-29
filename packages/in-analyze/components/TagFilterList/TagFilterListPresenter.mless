@@ -63,6 +63,7 @@
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_large;
     color: @lib__colors__N500;
+    min-width: fit-content;
   }
 
   .value {
@@ -125,6 +126,14 @@
     color: @lib__colors__N500;
     padding: 0.125rem 0.25rem;
     z-index: 2; // raise above connecting lines
-    position: relative;  // raise above connecting lines
+    position: relative; // raise above connecting lines
+  }
+
+  .readOnly {
+    cursor: not-allowed;
+  }
+
+  .disabled {
+    pointer-events: none;
   }
 }

@@ -20,6 +20,8 @@ export default class ChartEventsManager {
   }
 
   renderEvents(events, config) {
-    chartMarkerRender.render(events, config);
+    if (!config.releaseMarkersDisabled) {
+      chartMarkerRender.render(events, config);
+    }
   }
 }

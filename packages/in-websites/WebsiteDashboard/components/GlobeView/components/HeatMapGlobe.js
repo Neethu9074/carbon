@@ -3,9 +3,10 @@ import { create } from 'reactive-observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
-import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
+import { copyCanvasIntoShort } from 'in-components/Chart/canvas';
 import { rgbToHex } from 'in-services/formatters/color';
-import { copyCanvasIntoShort } from 'in-charts/canvas';
+
+import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 
 export default class HeatMapGlobe {
   constructor(scene, getData$) {

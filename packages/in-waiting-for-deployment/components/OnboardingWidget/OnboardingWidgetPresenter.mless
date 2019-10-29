@@ -1,0 +1,9 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    background: @lib__colors__white;
+    border-radius: @lib__shapes__radius_large @lib__shapes__radius_large 0 0;
+    overflow: auto;
+  }
+}

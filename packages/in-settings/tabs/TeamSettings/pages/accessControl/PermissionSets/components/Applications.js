@@ -1,8 +1,8 @@
 import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { getApplications } from 'in-api/permissionSets';
 
 import locals from './Applications.mless';
 
@@ -29,7 +29,7 @@ export default function Applications({
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getApplications}
+      loadEntities={loadEntities ? loadEntities : getApplicationConfigs}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="label"

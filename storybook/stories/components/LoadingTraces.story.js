@@ -18,9 +18,24 @@ const runningProgress = {
   })
 };
 
-const errors = [
+const errorServer = [
   {
-    Message: 'Deadline exceeded'
+    code: 'SERVER',
+    message: ''
+  }
+];
+
+const errorClient = [
+  {
+    code: 'CLIENT',
+    message: ''
+  }
+];
+
+const errorOther = [
+  {
+    code: 504,
+    message: ''
   }
 ];
 
@@ -33,4 +48,6 @@ storiesOf('Components/Loading/Analyze Loading States', module)
   .addParameters({ component: LoadingStates })
   .add('Default', () => <LoadingStates progress={prepProgress} />)
   .add('Query Running', () => <LoadingStates progress={runningProgress} />)
-  .add('Query Failed', () => <LoadingStates progress={failedProgress} errors={errors} />);
+  .add('Query Failed, Server', () => <LoadingStates progress={failedProgress} errors={errorServer} />)
+  .add('Query Failed, Client', () => <LoadingStates progress={failedProgress} errors={errorClient} />)
+  .add('Query Failed, Time out', () => <LoadingStates progress={failedProgress} errors={errorOther} />);

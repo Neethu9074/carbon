@@ -11,9 +11,14 @@ import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import { capitalize } from 'in-services/formatters/string';
 import { timeConfig$ } from 'in-stores/time/config';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+
+import locals from './ClusterList.mless';
 
 const pathSegment = clusterList;
 const matrixPrefix = 'k8Cluster.';
@@ -23,14 +28,16 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      const distributionType = get(item, ['cluster', 'distributionType'], 'Kubernetes');
-      const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+      const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
+      const clusterIcon = `lib_${clusterDistribution}`;
+      const clusterManagedBy = get(item, ['cluster', 'clusterManagedBy']);
       return (
         <SeverityAwareEntityLink
           icon={clusterIcon}
           label={get(item, ['cluster', 'label'])}
           href$={getClusterDashboard(get(item, ['cluster', 'id']))}
           severity={item.entityHealthInfo.maxSeverity}
+          subscriptComponent={<ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />}
         />
       );
     }
@@ -118,19 +125,16 @@ export default connectTo(
         >
           <ServerTableWithUrlState
             get={getTableData}
-            filterColumnDefinitionsByResult={result => {
-              return columnDefinition => {
-                if (
-                  result.data &&
-                  result.data.items &&
-                  find(
-                    result.data.items,
-                    item => get(item, ['cluster', 'distributionType'], 'Kubernetes') === 'OpenShift'
+            filterColumnDefinitions={({ result }) => {
+              const anyOpenshift =
+                result.data &&
+                result.data.items &&
+                Boolean(
+                  find(result.data.items, item =>
+                    isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes'))
                   )
-                )
-                  return true;
-                else return columnDefinition.id !== 'deploymentConfigs';
-              };
+                );
+              return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}
             timeConfig={timeConfig}
           />
@@ -172,4 +176,18 @@ function getKubernetesClustersSubscribeEvent({
       timeConfig
     }
   });
+}
+
+function ClusterManagedByWithIcon({ clusterManagedBy }) {
+  if (clusterManagedBy && clusterManagedBy !== 'none') {
+    return (
+      <div className={locals.clusterManagedBy}>
+        <Fragment>
+          <span className={locals.clusterManagedByLabel}>Managed by {capitalize(clusterManagedBy)}</span>
+          <SvgIcon className={locals.clusterManagedByIcon} type={`lib_${clusterManagedBy}`} />
+        </Fragment>
+      </div>
+    );
+  }
+  return null;
 }

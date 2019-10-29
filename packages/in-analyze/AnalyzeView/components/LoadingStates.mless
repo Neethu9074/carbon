@@ -71,7 +71,11 @@
     border-radius: 0.3125rem;
   }
 
-  .errorIcon {
+  .warnIcon {
     fill: @lib__colors__warning;
+  }
+
+  .errorIcon {
+    fill: @lib__colors__failure
   }
 }

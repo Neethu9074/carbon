@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .legend {
     display: flex;
@@ -25,7 +27,6 @@
     align-items: center;
 
     margin-right: 1rem;
-    cursor: pointer;
 
     &:last-child {
       margin-right: 0;
@@ -34,6 +35,10 @@
 
   .disabledMetric {
     color: rgb(156, 156, 156);
+  }
+
+  .toggleable {
+    cursor: pointer;
   }
 
   .dot {
@@ -46,6 +51,10 @@
   }
 
   .disabledDot {
-    background: #ccc !important;
+    background: @lib__colors__N400 !important;
+  }
+
+  .disabledIcon {
+    fill: @lib__colors__N400 !important;
   }
 }

@@ -16,8 +16,11 @@ function ExpandableCard({
   header,
   expanded,
   setExpanded,
+  titleSubText,
   expansionTracker,
-  openByDefault = false
+  openByDefault = false,
+  className,
+  framed
 }) {
   expanded = expanded != null ? expanded : openByDefault;
 
@@ -44,7 +47,15 @@ function ExpandableCard({
   );
 
   return (
-    <Card title={title} titleSubText={!expanded && preview} header={rightSide} withoutPadding={!expanded}>
+    <Card
+      title={title}
+      titleSubText={expanded ? titleSubText : preview}
+      header={rightSide}
+      withoutPadding={!expanded}
+      framed={framed}
+      onHeaderBackgroundClicked={() => setExpanded(!expanded)}
+      className={className}
+    >
       {expanded && children}
     </Card>
   );

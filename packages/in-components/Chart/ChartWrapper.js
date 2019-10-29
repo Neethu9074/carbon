@@ -92,7 +92,7 @@ function wrapProps(result, props) {
   propsClone.cardHeader = props.cardHeader;
 
   propsClone.timeConfig = getResolvedTimeConfig(propsClone.timeConfig, result);
-  propsClone.granularity = getChartGranularity(propsClone.timeConfig);
+  propsClone.granularity = propsClone.granularity || getChartGranularity(propsClone.timeConfig);
 
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id] || []);
   propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);

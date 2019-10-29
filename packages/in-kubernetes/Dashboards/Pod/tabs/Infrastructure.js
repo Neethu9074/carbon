@@ -125,16 +125,16 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, podIdUrlParameter],
-    defaultOrderBy: 'label',
-    defaultOrderDirection: 'ASC',
-    columnDefinitions,
-    pathSegment,
-    matrixPrefix
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
+    columnDefinitions
   }),
-  columnDefinitions
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, podIdUrlParameter],
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  columnDefinitions,
+  pathSegment,
+  matrixPrefix
 });
 
 export default connectTo(

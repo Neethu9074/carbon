@@ -73,6 +73,7 @@ export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
 const logManagement = `${teamSettings}/logManagement`;
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
+export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;
 
 const audit = `${teamSettings}/audit`;
 export const teamSettingsAuditLog = `${audit}/log`;

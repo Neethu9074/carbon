@@ -10,10 +10,11 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
+import changeExplanation from 'in-websites/emptyListExplanation';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
@@ -73,23 +74,22 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      websiteIdUrlParameter,
-      tagFiltersInDashboardUrlParameter,
-      pageIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'errorsAgg',
-    defaultOrderDirection: 'DESC',
-    pathSegment: '/errors'
+    entityName: 'JavaScript errors',
+    changeExplanation
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    websiteIdUrlParameter,
+    tagFiltersInDashboardUrlParameter,
+    pageIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'JavaScript errors',
-  changeExplanation: (explanation, props) =>
-    props.tagFilters && props.tagFilters.length > 1 ? `${explanation}  matching your filters` : explanation
+  defaultOrderBy: 'errorsAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment: '/errors'
 });
 
 export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel }) {

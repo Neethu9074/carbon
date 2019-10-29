@@ -22,8 +22,8 @@ export default connect(({ applicationId, timeConfig }) => ({
       href$={getLinkToAnalyze({
         dataSource: 'calls',
         filters: [
-          { name: 'cf.app.id', value: application ? application.guid : '' },
-          { name: 'cf.app.name', value: application ? application.label : '' }
+          { name: 'cloudfoundry.app.id', value: application ? application.guid : '' },
+          { name: 'cloudfoundry.app.name', value: application ? application.label : '' }
         ],
         groupByTag: getConfigByDataSource('calls').defaultGrouping
       })}

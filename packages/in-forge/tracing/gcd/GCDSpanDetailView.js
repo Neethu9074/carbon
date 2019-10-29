@@ -1,21 +1,17 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function GCDSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Operation">{span.getIn(['data', 'gcd', 'op'])}</DescriptionItem>
-        <DescriptionItem title="Operation mode">{span.getIn(['data', 'gcd', 'mode'])}</DescriptionItem>
-        <DescriptionItem title="Namespace">{span.getIn(['data', 'gcd', 'namespace'])}</DescriptionItem>
-        <DescriptionItem title="Entity Identifier">
-          {span.getIn(['data', 'gcd', 'entity', 'identifier'])}
-        </DescriptionItem>
-        <DescriptionItem title="Entity properties">
-          {span.getIn(['data', 'gcs', 'entity', 'properties'])}
-        </DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Operation">{span.getIn(['data', 'gcd', 'op'])}</Di>
+        <Di title="Operation mode">{span.getIn(['data', 'gcd', 'mode'])}</Di>
+        <Di title="Namespace">{span.getIn(['data', 'gcd', 'namespace'])}</Di>
+        <Di title="Entity Identifier">{span.getIn(['data', 'gcd', 'entity', 'identifier'])}</Di>
+        <Di title="Entity properties">{span.getIn(['data', 'gcs', 'entity', 'properties'])}</Di>
+      </Dl>
     </div>
   );
 }

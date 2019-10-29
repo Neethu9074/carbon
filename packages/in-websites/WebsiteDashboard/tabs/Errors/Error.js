@@ -16,6 +16,7 @@ import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
 import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -35,7 +36,7 @@ import theme from 'in-themes';
 
 import locals from './Error.mless';
 
-export default connectTo(({ location, timeConfig }) => {
+export default connectTo(({ location, timeConfig, websiteId }) => {
   const observables = {};
 
   const errorId = getMatrixParameter(location, '/details', 'errorId');
@@ -43,7 +44,8 @@ export default connectTo(({ location, timeConfig }) => {
   if (errorId) {
     observables.result = getWebsiteError({
       timeConfig,
-      errorId
+      errorId,
+      websiteId
     });
   }
   return observables;
@@ -298,6 +300,19 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
       </div>
 
       {content}
+      {result &&
+        result.data && (
+          <CreateAlert
+            error={result.data}
+            {...{
+              websiteId,
+              websiteLabel,
+              pageId,
+              tagFilters,
+              timeConfig
+            }}
+          />
+        )}
     </Fragment>
   );
 }

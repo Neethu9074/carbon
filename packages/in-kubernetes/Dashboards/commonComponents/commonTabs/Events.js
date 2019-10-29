@@ -14,6 +14,8 @@ import EntityLink from 'in-new-components/EntityLink';
 import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
 
+const unknownPlugin = 'com.instana.plugins.Unknown';
+
 const allColumns = [
   {
     id: 'type',
@@ -52,6 +54,7 @@ const allColumns = [
     label: 'Involved Object',
     getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
       const isLinkableEntity =
+        item.sourcePlugin !== unknownPlugin &&
         [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1 &&
         translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin) !== plugins.kubernetesReplicaSet;
 
@@ -90,18 +93,18 @@ const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
 function eventsTable(columnDefinitions) {
-  const ServerTableWithUrlState = withEmptyTableState({
-    Component: createServerTableWithUrlState({
-      paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  const ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
       columnDefinitions,
-      defaultOrderBy: 'time',
-      defaultOrderDirection: 'DESC',
-      defaultPageSize: 10,
-      pathSegment,
-      matrixPrefix
+      entityName: 'events'
     }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions,
-    entityName: 'events'
+    defaultOrderBy: 'time',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment,
+    matrixPrefix
   });
 
   return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {

@@ -6,7 +6,7 @@ registerSnapshotDefinition({
   plugin: plugins.pCFApplication,
   iconSvgPath,
   pluginName: {
-    singular: 'PCF Application',
-    plural: 'PCF Applications'
+    singular: 'Cloud Foundry Application',
+    plural: 'Cloud Foundry Applications'
   }
 });

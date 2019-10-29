@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function HibernateSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Mode">{span.getIn(['data', 'hibernate', 'mode'])}</DescriptionItem>
-      <DescriptionItem title="ID">{span.getIn(['data', 'hibernate', 'id'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Mode">{span.getIn(['data', 'hibernate', 'mode'])}</Di>
+      <Di title="ID">{span.getIn(['data', 'hibernate', 'id'])}</Di>
+    </Dl>
   );
 }

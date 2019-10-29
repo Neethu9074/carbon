@@ -8,7 +8,6 @@ import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import Controls from 'in-components/MapOverlayControls';
-import EventSidebar from 'in-components/EventSidebar';
 import MapSidebar from 'in-components/MapSidebar';
 import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
@@ -38,7 +37,6 @@ export default function MapHandler(props) {
                 <DisabledBodyScroll />
                 <Map />
                 <Controls />
-                <EventSidebar />
                 <MapSidebar />
                 <MapNotes />
               </section>

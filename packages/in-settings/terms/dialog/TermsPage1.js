@@ -59,7 +59,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
           {form.get('tosAccepted').map(({ value }) => (
             <Fragment>
               <CheckboxFancy
-                label="I have read, and agree to Instana's.&nbsp;" // Terms of Service
+                label="I have read and agree to Instana's&nbsp;" // Terms of Service
                 checked={value}
                 onChange={() => onChange(form, 'tosAccepted', !value)}
                 size="large"
@@ -72,7 +72,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
           {form.get('privacyAgreementAccepted').map(({ value }) => (
             <Fragment>
               <CheckboxFancy
-                label="I have read, and agree to Instana's.&nbsp;" // Privacy Policy
+                label="I have read and agree to Instana's&nbsp;" // Privacy Policy
                 checked={value}
                 onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
                 size="large"

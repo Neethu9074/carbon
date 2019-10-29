@@ -3,14 +3,21 @@ import { timeout, empty } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 
+import {
+  getTagType,
+  requiresSecondLevelName,
+  isLatencyTag,
+  getTagEntity,
+  getSourceEntityAvailability
+} from 'in-applications/tags';
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
-import { getTagType, requiresSecondLevelName, isLatencyTag } from 'in-applications/tags';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
@@ -40,8 +47,11 @@ export default compose(
       form,
       trackFilterChanged,
       trackFilterRemoved,
-      forAnalyzeCalls
+      forAnalyzeCalls,
+      timeConfig
     }) => ({
+      tagEntity: getTagEntity(form.get('tag').value),
+      sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
       onClose: close,
       editMode: Boolean(tagFilter),
       operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], [])
@@ -92,6 +102,7 @@ export default compose(
         setForm(updatedForm);
       },
       onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
+      onEntityChange: entity => setForm(form.updateIn(['entity'], f => f.setValue(entity).setTouched(true))),
       onSubmit: e => {
         stopPropagationAndPreventDefault(e);
         if (!form.hierarchyValid) {
@@ -106,8 +117,14 @@ export default compose(
 
         if (forAnalyzeCalls) {
           // for analyze traces/calls
+          const tagEntity = getTagEntity(form.get('tag').value);
+
           newTagFilter.value = form.containsKey('value') && form.get('value').value;
           newTagFilter.secondLevelName = form.containsKey('key') && form.get('key').value;
+          newTagFilter.entity =
+            tagEntity === entityTypes.NOT_APPLICABLE
+              ? entityTypes.NOT_APPLICABLE
+              : form.containsKey('entity') && form.get('entity').value;
         } else {
           // for website monitoring
           const isPresenceOperator =
@@ -158,7 +175,6 @@ export default compose(
       // Do not load suggestions with the tag filter that is being edited
       tagFilters: props.tagFilter ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter)) : props.tagFilters
     };
-
     let keySuggestions$;
     if (props.getKeySuggestions && props.selectedTagType === 'KEY_VALUE_PAIR') {
       keySuggestions$ = props.getKeySuggestions(loadingProps);
@@ -199,13 +215,23 @@ function getInitialState({ tagSuggestions, tagFilter, forAnalyzeCalls }) {
 function getState(form) {
   return {
     form,
-    selectedTagType: getTagType(form.get('tag').value)
+    selectedTagType: getTagType(form.get('tag').value),
+    tagName: form.get('tag').value
   };
+}
+
+function setResolvedEntity(tag) {
+  const tagEntity = getTagEntity(tag);
+  if (tagEntity === entityTypes.NOT_APPLICABLE) {
+    return entityTypes.NOT_APPLICABLE;
+  }
+  return entityTypes.DESTINATION;
 }
 
 function createForm(tag, tagFilter, forAnalyzeCalls) {
   const resolvedTag = tagFilter ? tagFilter.name : tag;
   const tagType = getTagType(resolvedTag);
+  const resolvedEntity = tagFilter ? tagFilter.entity : setResolvedEntity(tag);
 
   let form = createMapForm()
     .put(
@@ -220,6 +246,12 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
       createField({
         value: tagFilter ? tagFilter.operator : 'EQUALS',
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'entity',
+      createField({
+        value: resolvedEntity
       })
     );
 

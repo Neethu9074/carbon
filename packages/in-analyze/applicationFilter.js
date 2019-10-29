@@ -34,7 +34,16 @@ export const operators = {
   NOT_EQUAL: 'NOT_EQUAL',
   NOT_CONTAIN: 'NOT_CONTAIN',
   NOT_BLANK: 'NOT_BLANK',
-  IS_BLANK: 'IS_BLANK'
+  IS_BLANK: 'IS_BLANK',
+  STARTS_WITH: 'STARTS_WITH',
+  ENDS_WITH: 'ENDS_WITH'
+};
+
+export const entityTypes = {
+  SOURCE_AND_DESTINATION: 'SOURCE_AND_DESTINATION',
+  DESTINATION: 'DESTINATION',
+  SOURCE: 'SOURCE',
+  NOT_APPLICABLE: 'NOT_APPLICABLE'
 };
 
 export const operatorBlacklists = {
@@ -56,7 +65,9 @@ export const TAG_TYPES = {
       operators.CONTAINS,
       operators.NOT_CONTAIN,
       operators.NOT_EMPTY,
-      operators.IS_EMPTY
+      operators.IS_EMPTY,
+      operators.STARTS_WITH,
+      operators.ENDS_WITH
     ]
   },
   NUMBER: {
@@ -76,6 +87,8 @@ export const TAG_TYPES = {
       operators.NOT_CONTAIN,
       operators.NOT_EMPTY,
       operators.IS_EMPTY,
+      operators.STARTS_WITH,
+      operators.ENDS_WITH,
       operators.NOT_BLANK,
       operators.IS_BLANK
     ],
@@ -104,7 +117,9 @@ const operatorLabelLUT = {
     CONTAINS: 'contains',
     NOT_CONTAIN: 'does not contain',
     NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present'
+    IS_EMPTY: 'is not present',
+    STARTS_WITH: 'starts with',
+    ENDS_WITH: 'ends with'
   },
   NUMBER: {
     EQUALS: '=',
@@ -125,9 +140,15 @@ const operatorLabelLUT = {
     NOT_EMPTY: 'is present',
     IS_EMPTY: 'is not present',
     IS_BLANK: 'does not have value',
-    NOT_BLANK: 'has value'
+    NOT_BLANK: 'has value',
+    STARTS_WITH: 'starts with',
+    ENDS_WITH: 'ends with'
   }
 };
+
+export function getEntityLabel(entity) {
+  return get(entityTypes, [entity]);
+}
 
 export function getOperatorLabel(type, operator) {
   return get(operatorLabelLUT, [type, operator], operator);
@@ -139,7 +160,7 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
-    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator };
+    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator, entity: tag.entity };
     getValueByTag(backendTagFilter, tag);
     return backendTagFilter;
   });

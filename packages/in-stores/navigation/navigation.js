@@ -3,7 +3,6 @@ import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/pat
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
 import { ineum } from 'in-services/tracking/ineum';
 import { createStore } from 'in-stores/store';
@@ -18,7 +17,6 @@ export const navigationParameters$ = navigationParameters;
 history.listen(location => {
   ineum('page', location.pathname);
   store.mutateTo(cloneLocation(location));
-  onRouteChange();
 });
 
 export function mutateUrl(mutator, replace = false) {

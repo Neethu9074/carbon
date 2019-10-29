@@ -29,6 +29,7 @@
     "handlebars": "^4.0.2",
     "js-yaml": "^3.13.1",
     "node-uuid": "^1.4.3",
+    "pg": "^7.12.1",
     "request": "^2.65.0",
     "request-promise": "^4.2.2"
   },

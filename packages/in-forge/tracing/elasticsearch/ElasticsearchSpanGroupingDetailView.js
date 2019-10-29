@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function ElasticsearchSpanGroupingDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</DescriptionItem>
-      <DescriptionItem title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
+      <Di title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
+    </Dl>
   );
 }

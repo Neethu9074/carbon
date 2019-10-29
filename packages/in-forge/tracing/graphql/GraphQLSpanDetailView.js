@@ -2,17 +2,17 @@ import React, { Fragment } from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function GraphQLSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Operation Type">{span.getIn(['data', 'graphql', 'operationType'])}</DescriptionItem>
-      <DescriptionItem title="Operation Name">{span.getIn(['data', 'graphql', 'operationName'])}</DescriptionItem>
+    <Dl>
+      <Di title="Operation Type">{span.getIn(['data', 'graphql', 'operationType'])}</Di>
+      <Di title="Operation Name">{span.getIn(['data', 'graphql', 'operationName'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'graphql', 'errors'])} />
       {getObjectTypeDetails(span)}
-    </DescriptionList>
+    </Dl>
   );
 }
 
@@ -53,9 +53,9 @@ function getObjectTypeDetails(span) {
         );
       }
       return (
-        <DescriptionItem title={`Object Type "${objectType}"`} key={`${objectType}`}>
+        <Di title={`Object Type "${objectType}"`} key={`${objectType}`}>
           {content}
-        </DescriptionItem>
+        </Di>
       );
     })
     .valueSeq()

@@ -13,7 +13,7 @@ export default connectTo(
   {
     messages: messages$
   },
-  function MessageFlyout({ messages }) {
+  function MessageFlyout({ messages, filterRegularMessages }) {
     if (!messages || messages.length === 0) {
       return null;
     }
@@ -32,13 +32,14 @@ export default connectTo(
           </Fragment>
         )}
 
-        {normalMessages.length > 0 && (
-          <Fragment>
-            {normalMessages.map(message => (
-              <Message key={message.id} message={message} />
-            ))}
-          </Fragment>
-        )}
+        {normalMessages.length > 0 &&
+          !filterRegularMessages && (
+            <Fragment>
+              {normalMessages.map(message => (
+                <Message key={message.id} message={message} />
+              ))}
+            </Fragment>
+          )}
       </div>
     );
   }

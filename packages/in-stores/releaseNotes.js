@@ -15,6 +15,7 @@ const releaseNotesBaseUrl = '/notifications/release-notes';
 const localStorageKeyVersion = 'in-read-release-notes-version';
 let noBuildInformationWarningHasBeenLogged = false;
 let noReleaseNotesWarningHasBeenLogged = false;
+let fetchLaterHandle;
 
 const noReleaseNotesContent = {
   version: null,
@@ -103,18 +104,21 @@ function retrieveLatestReleaseNotes() {
       url: `${releaseNotesBaseUrl}/index.json?cacheBust=${Date.now()}`,
       responseType: 'text'
     });
-    indexObservable.once(indexResponse => {
-      processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor);
-    });
-    indexObservable.errors().once(() => {
+    indexObservable.once(
+      indexResponse => {
+        processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor);
+      },
       // ignore HTTP errors silently and try again later
-      tryFetchingReleaseNotesLater();
-    });
+      tryFetchingReleaseNotesLater
+    );
   });
 }
 
 function tryFetchingReleaseNotesLater() {
-  setInterval(retrieveLatestReleaseNotes, 10 * 60 * 1000 /* try again ten minutes later */);
+  if (fetchLaterHandle) {
+    clearTimeout(fetchLaterHandle);
+  }
+  fetchLaterHandle = setTimeout(retrieveLatestReleaseNotes, 10 * 60 * 1000 /* try again ten minutes later */);
 }
 
 function processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor) {
@@ -141,11 +145,11 @@ function processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMin
       responseType: 'text'
     });
 
-    releaseNotesObservable.once(processReleaseNotesMarkdown);
-    releaseNotesObservable.errors().once(() => {
+    releaseNotesObservable.once(
+      processReleaseNotesMarkdown,
       // ignore HTTP errors silently and try again later
-      tryFetchingReleaseNotesLater();
-    });
+      tryFetchingReleaseNotesLater
+    );
   } catch (e) {
     logger.warn('Could not parse release notes index.');
     tryFetchingReleaseNotesLater();

@@ -53,23 +53,23 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      clusterIdUrlParameter,
-      podIdUrlParameter,
-      deploymentIdUrlParameter,
-      deploymentConfigIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'type',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
+    entityName: 'conditions'
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    clusterIdUrlParameter,
+    podIdUrlParameter,
+    deploymentIdUrlParameter,
+    deploymentConfigIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'conditions'
+  defaultOrderBy: 'type',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
 });
 
 export default function Conditions(props) {

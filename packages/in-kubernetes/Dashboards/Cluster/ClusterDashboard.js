@@ -5,6 +5,8 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
+import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -16,12 +18,15 @@ import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
+import { capitalize } from 'in-services/formatters/string';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
+
+import icons from 'in-components/SvgIcon/registry.json';
 
 export default function ClusterDashboard({ location }) {
   const props = {
@@ -45,7 +50,7 @@ export default function ClusterDashboard({ location }) {
         tabChangeTracker={clusterTabChange}
         filterTabByResult={result => {
           return tab => {
-            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
             else return tab.label !== 'Deployment Configs';
           };
         }}
@@ -68,8 +73,8 @@ export default function ClusterDashboard({ location }) {
 }
 
 function Header(props) {
-  const distributionType = get(props, ['result', 'data', 'distributionType'], 'Kubernetes');
-  const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+  const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
+  const clusterIcon = `lib_${clusterDistribution}`;
 
   return (
     <BasicDashboardHeader
@@ -103,10 +108,22 @@ function Actions({ clusterId, timeConfig, result }) {
 
 function SubTypes({ result }) {
   const version = get(result, ['data', 'version']);
+  const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
+  const clusterManagedBy = get(result, ['data', 'clusterManagedBy']);
+
   return (
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
-      <TypesBadgeList type="K8s Cluster" />
+      <TypesBadgeList type={`${clusterBadgeName(clusterDistribution)} Cluster`} />
+      <ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />
     </Fragment>
   );
+}
+
+function ClusterManagedByWithIcon({ clusterManagedBy }) {
+  if (clusterManagedBy && clusterManagedBy !== 'none') {
+    const iconPath = icons[`lib_${clusterManagedBy}`].path;
+    return <TechnologyLabelWithIcon path={iconPath} label={`Managed by ${capitalize(clusterManagedBy)}`} />;
+  }
+  return null;
 }

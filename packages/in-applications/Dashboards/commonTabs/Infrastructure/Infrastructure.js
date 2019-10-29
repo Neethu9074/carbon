@@ -42,22 +42,22 @@ const tablesByType = {
 
 function getTable(type) {
   const columnDefinitions = getColumnDefinitions(type);
-  return withEmptyTableState({
-    Component: createServerTableWithUrlState({
-      paginationResettingUrlParameters: [
-        {
-          path: '/infrastructure',
-          name: `selectedType`
-        }
-      ],
-      columnDefinitions,
-      defaultOrderBy: 'callsAgg',
-      defaultOrderDirection: 'DESC',
-      defaultPageSize: 10,
-      pathSegment: '/infrastructure',
-      matrixPrefix: ''
+  return createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions
     }),
-    columnDefinitions
+    paginationResettingUrlParameters: [
+      {
+        path: '/infrastructure',
+        name: 'selectedType'
+      }
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment: '/infrastructure',
+    matrixPrefix: ''
   });
 }
 

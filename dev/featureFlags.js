@@ -22,9 +22,14 @@ module.exports = {
   javaScriptStackTraceTranslationEnabled: true,
   pcfEnabled: true,
   humioEnabled: true,
+  splunkEnabled: true,
   logDnaEnabled: true,
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
   optInOptOutEnabled: true,
-  isOnPrem: false
+  isOnPrem: false,
+  isInitialOnboardingCheckEnabled: true,
+  contextGuideEnabled: false,
+  eumAlertingEnabled: true,
+  googleAnalyticsDisabled: false
 };

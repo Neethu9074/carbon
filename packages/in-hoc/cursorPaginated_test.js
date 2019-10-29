@@ -48,6 +48,7 @@ describe('in-hoc/cursorPaginated', () => {
     getResult.emit(result);
     wrapper.update();
     expect(getProps(wrapper)).to.deep.equal({
+      adjustedWindowSize: undefined,
       canLoadMore: false,
       errors: [],
       time: undefined,
@@ -173,6 +174,7 @@ describe('in-hoc/cursorPaginated', () => {
     wrapper.update();
     expect(get.callCount).to.equal(2);
     expect(getProps(wrapper)).to.deep.equal({
+      adjustedWindowSize: undefined,
       canLoadMore: false,
       errors: ['Something broke miserably'],
       foo: 'bar',

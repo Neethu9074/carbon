@@ -14,7 +14,7 @@ export default function EmptyAnalyzeView({ type }) {
       <CenterAlignmentColumn>
         <EntityPageMainNotification
           icon={getIconByType(type)}
-          renderExplanation={() => <ArticleContent id="websiteAnalyzeNoData" />}
+          explanation={() => <ArticleContent id="websiteAnalyzeNoData" />}
           title={`No ${entityName} found`}
         />
       </CenterAlignmentColumn>

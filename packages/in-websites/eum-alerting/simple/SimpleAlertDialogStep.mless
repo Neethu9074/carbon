@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .headline {
+    grid-column: 1 / span 3;
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h700__font-size;
+    line-height: 2.5rem;
+    margin: 8px;
+    font-weight: normal;
+  }
+
+  .alertChannelsContainer {
+    grid-column: 1 / span 3;
+    height: 400px;
+    overflow: auto;
+  }
+}

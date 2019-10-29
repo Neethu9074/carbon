@@ -25,7 +25,11 @@ export default function AnalyzeGroupingInfo(props) {
                 groupChangedTracker({ before: group.name, after: _group.groupbyTag });
               }
               const newState = {};
-              newState[groupByMatrixParameter] = { name: _group.groupbyTag, value: _group.groupbyTagSecondLevelKey };
+              newState[groupByMatrixParameter] = {
+                name: _group.groupbyTag,
+                value: _group.groupbyTagSecondLevelKey,
+                entity: _group.entity
+              };
               onChangeAnalyzeConfig(newState);
             }}
           />

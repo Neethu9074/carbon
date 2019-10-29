@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 
@@ -9,29 +9,25 @@ export default function HttpSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="SAPI Type">{span.getIn(['data', 'php', 'sapi'])}</DescriptionItem>
-        <DescriptionItem title="PHP Version">{span.getIn(['data', 'php', 'version'])}</DescriptionItem>
-        <DescriptionItem title="Script Arguments">{span.getIn(['data', 'php', 'argv'])}</DescriptionItem>
-        <DescriptionItem title="Host Header">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
-        <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
-        <DescriptionItem title="Request URI">{span.getIn(['data', 'http', 'url'])}</DescriptionItem>
-        {params != null && (
-          <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
-        )}
-        <DescriptionItem title="Request Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
-        <DescriptionItem title="HTTP Status Code">
+      <Dl>
+        <Di title="SAPI Type">{span.getIn(['data', 'php', 'sapi'])}</Di>
+        <Di title="PHP Version">{span.getIn(['data', 'php', 'version'])}</Di>
+        <Di title="Script Arguments">{span.getIn(['data', 'php', 'argv'])}</Di>
+        <Di title="Host Header">{span.getIn(['data', 'http', 'host'])}</Di>
+        <Di title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</Di>
+        <Di title="Request URI">{span.getIn(['data', 'http', 'url'])}</Di>
+        {params != null && <Di title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</Di>}
+        <Di title="Request Method">{span.getIn(['data', 'http', 'method'])}</Di>
+        <Di title="HTTP Status Code">
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
-        </DescriptionItem>
-        <DescriptionItem title="Wordpress Version">{span.getIn(['data', 'wp', 'version'])}</DescriptionItem>
-        <DescriptionItem title="Wordpress Cache Hits">{span.getIn(['data', 'wp', 'cache_hits'])}</DescriptionItem>
-        <DescriptionItem title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</DescriptionItem>
-        <DescriptionItem title="Wordpress Current User">
-          {mapUserId(span.getIn(['data', 'wp', 'user_id']))}
-        </DescriptionItem>
-        <DescriptionItem title="Peak Memory Usage">{span.getIn(['data', 'php', 'memory'])}</DescriptionItem>
+        </Di>
+        <Di title="Wordpress Version">{span.getIn(['data', 'wp', 'version'])}</Di>
+        <Di title="Wordpress Cache Hits">{span.getIn(['data', 'wp', 'cache_hits'])}</Di>
+        <Di title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
+        <Di title="Wordpress Current User">{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
+        <Di title="Peak Memory Usage">{span.getIn(['data', 'php', 'memory'])}</Di>
         {getCustomHeaders(span)}
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }
@@ -45,9 +41,9 @@ function getCustomHeaders(span) {
     .getIn(['data', 'http', 'header'], emptyMap)
     .map((v, k) => {
       return (
-        <DescriptionItem title={`Header: ${k}`} key={`header-${k}`}>
+        <Di title={`Header: ${k}`} key={`header-${k}`}>
           {v}
-        </DescriptionItem>
+        </Di>
       );
     })
     .valueSeq()

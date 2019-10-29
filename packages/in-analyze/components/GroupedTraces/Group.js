@@ -95,6 +95,7 @@ function getGroupingChange(filters, selectedGroupValue) {
   const tagName = group.name;
   const secondLevelKey = group.value;
   const tagFilter = filters.tagFilter;
+  const entity = group.entity;
 
   // if the second level key of a key value pair tag is empty
   // set the selected group as second level key and update the grouping tag
@@ -102,7 +103,8 @@ function getGroupingChange(filters, selectedGroupValue) {
     return {
       [groupByMatrixParameter]: {
         name: tagName,
-        value: selectedGroupValue
+        value: selectedGroupValue,
+        enity: entity
       },
       [tagFilterMatrixParameter]: tagFilter
     };
@@ -113,14 +115,16 @@ function getGroupingChange(filters, selectedGroupValue) {
       newTagFilter = createFilter({
         name: group.name,
         secondLevelName: group.value,
-        operator: operators.IS_BLANK
+        operator: operators.IS_BLANK,
+        entity: group.entity
       });
     } else {
       newTagFilter = createFilter({
         name: group.name,
         secondLevelName: group.value,
         value: selectedGroupValue,
-        operator: operators.EQUALS
+        operator: operators.EQUALS,
+        entity: group.entity
       });
     }
     return {
@@ -132,7 +136,8 @@ function getGroupingChange(filters, selectedGroupValue) {
             f.name !== newTagFilter.name ||
             f.secondLevelName !== newTagFilter.secondLevelName ||
             f.value !== newTagFilter.value ||
-            f.operator !== newTagFilter.operator
+            f.operator !== newTagFilter.operator ||
+            f.entity !== newTagFilter.entity
         )
         .concat(newTagFilter)
     };
@@ -146,6 +151,7 @@ function trackSetGrouping(filters, selectedGroupValue) {
     context: filters.dataSource,
     type: group.name,
     value: group.value,
-    group: selectedGroupValue
+    group: selectedGroupValue,
+    entity: group.enity
   });
 }

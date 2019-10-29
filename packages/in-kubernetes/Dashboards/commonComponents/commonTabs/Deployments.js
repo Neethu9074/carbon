@@ -99,22 +99,22 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      clusterIdUrlParameter,
-      serviceIdUrlParameter,
-      namespaceIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'name',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
+    entityName: 'deployments'
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    clusterIdUrlParameter,
+    serviceIdUrlParameter,
+    namespaceIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'deployments'
+  defaultOrderBy: 'name',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
 });
 
 export default function DeploymentsTable(props) {

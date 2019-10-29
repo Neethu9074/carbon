@@ -60,23 +60,23 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      applicationDashboardUrlParameters.applicationId,
-      applicationDashboardUrlParameters.serviceId,
-      applicationDashboardUrlParameters.endpointId
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'logsAgg',
-    defaultOrderDirection: 'DESC',
-    defaultPageSize: 10,
-    pathSegment,
-    matrixPrefix
+    entityName: 'log messages'
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    applicationDashboardUrlParameters.applicationId,
+    applicationDashboardUrlParameters.serviceId,
+    applicationDashboardUrlParameters.endpointId
+  ],
   columnDefinitions,
-  entityName: 'log messages'
+  defaultOrderBy: 'logsAgg',
+  defaultOrderDirection: 'DESC',
+  defaultPageSize: 10,
+  pathSegment,
+  matrixPrefix
 });
 
 export default function LogMessagesTable({
@@ -154,7 +154,9 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName }) {
-  const logMessageFilter = { name: 'log.message', value: message };
+  const logMessageFilter = message
+    ? { name: 'log.message', value: message }
+    : { name: 'log.message', operator: 'IS_EMPTY' };
 
   return (
     <Link
@@ -167,7 +169,7 @@ function Message({ message, applicationName, serviceName, endpointName }) {
         filters: [logMessageFilter]
       })}
     >
-      {message}
+      {message ? message : <div className={locals.italic}>No log message available</div>}
     </Link>
   );
 }

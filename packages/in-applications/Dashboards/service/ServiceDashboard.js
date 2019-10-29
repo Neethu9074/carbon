@@ -7,7 +7,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
+import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -19,6 +19,7 @@ import { hasKubernetesAccess } from 'in-stores/permission';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
   const props = {
@@ -68,11 +69,12 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <Fragment>
-      <AnalyzeTracesButton
+      <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
+        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
       />
       {hasKubernetesAccess && (
         <InstanaServiceToKubernetesServicesButton

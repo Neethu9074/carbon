@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import AgentInstallationView from 'in-views/agentView/components/AgentInstallationView';
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
@@ -20,6 +21,15 @@ export default function AgentView() {
     <Fragment>
       <Switch>
         {DashboardNavigationRoute}
+
+        <Route
+          path="/agents/installation"
+          render={() => (
+            <MaxWidthFullscreenContainer>
+              <AgentInstallationView />
+            </MaxWidthFullscreenContainer>
+          )}
+        />
 
         <Route
           path="/agents"

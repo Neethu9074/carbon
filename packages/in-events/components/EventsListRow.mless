@@ -1,0 +1,48 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+@import '~in-themes/mediaQueries.less';
+
+:local {
+  .entityWrapper {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .entityIcon {
+    margin-right: 0.313rem;
+    flex-shrink: 0;
+    fill: black;
+  }
+
+  .text,
+  .title {
+    .ellipsis();
+  }
+
+  .title {
+    max-width: 15rem;
+  }
+
+  @media @min-medium-screen {
+    .title {
+      max-width: 22rem;
+    }
+  }
+
+  .timelineWrapper {
+    position: relative;
+
+    height: 10px;
+
+    overflow: hidden;
+  }
+
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: @lib__colors__N600Light;
+    border-radius: 5px;
+  }
+}

@@ -49,7 +49,7 @@
     .breakWord();
 
     em {
-      color: #fff;
+      color: @lib__colors__primary2;
       font-style: normal;
     }
   }

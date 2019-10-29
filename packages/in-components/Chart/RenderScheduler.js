@@ -8,8 +8,8 @@ import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
+import { copyCanvasInto } from 'in-components/Chart/canvas';
 import { toServerTime } from 'in-stores/timeOffset';
-import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';
 
 const STEADY_FRAMERATE = 1000 / 30; // max FPS in ms the render scheduler renders
@@ -94,8 +94,14 @@ export default class RenderScheduler {
     this.tickPositions = null;
   }
 
-  intermediateRenderDuringUpdate() {
+  intermediateRenderDuringAnimation() {
     this.render();
+  }
+
+  updateWindowSizeDuringAnimation() {
+    // in order to get a clean state update, we can just call startLiveMode. It will take care that the current animation progress
+    // is stopped and the scales are all refreshed to they reflect the current config state.
+    this.startLiveMode();
   }
 
   render() {

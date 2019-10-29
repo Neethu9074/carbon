@@ -120,7 +120,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              max: snapshot.getIn(['data', 'openFiles.max']),
               formatter: siPrefix.compact,
               tooltipFormatter: number.compact,
               metrics: ['openFiles.current'],

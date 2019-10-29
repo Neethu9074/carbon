@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function MuleClientSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Protocol">{span.getIn(['data', 'mule', 'protocol'])}</DescriptionItem>
-        <DescriptionItem title="Address">{span.getIn(['data', 'mule', 'address'])}</DescriptionItem>
-        <DescriptionItem title="Pattern">{span.getIn(['data', 'mule', 'pattern'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Protocol">{span.getIn(['data', 'mule', 'protocol'])}</Di>
+        <Di title="Address">{span.getIn(['data', 'mule', 'address'])}</Di>
+        <Di title="Pattern">{span.getIn(['data', 'mule', 'pattern'])}</Di>
+      </Dl>
     </div>
   );
 }

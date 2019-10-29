@@ -12,7 +12,8 @@ window.instana = {
     tenantUnit: 'test',
     environment: 'internal',
     featureFlags: {
-      javaScriptStackTraceTranslationEnabled: true
+      javaScriptStackTraceTranslationEnabled: true,
+      eumAlertingEnabled: true
     }
   },
   build: {

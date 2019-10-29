@@ -1,6 +1,0 @@
-{
-  "name": "EventSidebar",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./EventSidebar.js"
-}

@@ -14,6 +14,7 @@ import { getLinkToXhrRequest, getLinkToAnalyze } from 'in-websites/navigation/pa
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
+import changeExplanation from 'in-websites/emptyListExplanation';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
@@ -95,23 +96,22 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      websiteIdUrlParameter,
-      tagFiltersInDashboardUrlParameter,
-      pageIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'beaconCountAgg',
-    defaultOrderDirection: 'DESC',
-    pathSegment: '/ajax'
+    entityName: 'HTTP requests',
+    changeExplanation
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    websiteIdUrlParameter,
+    tagFiltersInDashboardUrlParameter,
+    pageIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'HTTP requests',
-  changeExplanation: (explanation, props) =>
-    props.tagFilters && props.tagFilters.length > 2 ? `${explanation}  matching your filters` : explanation
+  defaultOrderBy: 'beaconCountAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment: '/ajax'
 });
 
 export default function XhrRequests({ timeConfig, tagFilters, websiteId, websiteLabel }) {

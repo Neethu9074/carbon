@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function QuartzSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Group">{span.getIn(['data', 'quartz', 'group'])}</DescriptionItem>
-      <DescriptionItem title="Name">{span.getIn(['data', 'quartz', 'name'])}</DescriptionItem>
-      <DescriptionItem title="Type">{span.getIn(['data', 'quartz', 'type'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Group">{span.getIn(['data', 'quartz', 'group'])}</Di>
+      <Di title="Name">{span.getIn(['data', 'quartz', 'name'])}</Di>
+      <Di title="Type">{span.getIn(['data', 'quartz', 'type'])}</Di>
+    </Dl>
   );
 }

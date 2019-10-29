@@ -1,0 +1,99 @@
+@import '~in-themes/active.less';
+
+:local {
+  .description {
+    margin-top: 0;
+    font-size: 0.8125rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .codeWrapper {
+    margin-bottom: 0.5rem;
+  }
+
+  .code {
+    display: block;
+
+    padding: 0.75rem;
+
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 0.688rem;
+    line-height: 1.4;
+
+    background: @lib__colors__N900Primary;
+    color: @lib__colors__white;
+    overflow: auto;
+    border-radius: 0.125rem;
+    white-space: normal;
+  }
+
+  .dropDown {
+    min-width: 15rem;
+
+    & + .dropDown {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .smallSpacer {
+    height: 0.5rem;
+  }
+
+  .largeSpacer {
+    height: 1rem;
+  }
+
+  .helpBox {
+    padding: 0.75rem;
+
+    background: @lib__colors__N200;
+    color: @lib__colors__N600Light;
+  }
+
+  .helpBoxTitle {
+    margin-top: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+  }
+
+  .textWithLink {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .rowItem {
+    & + .rowItem {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .dialog {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .dialogHeader {
+    display: flex;
+    align-items: center;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    margin-left: 0.5rem;
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+}

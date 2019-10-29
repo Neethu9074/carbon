@@ -1,20 +1,20 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function EJBSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Module">{span.getIn(['data', 'ejb', 'module'])}</DescriptionItem>
-      <DescriptionItem title="App">{span.getIn(['data', 'ejb', 'app'])}</DescriptionItem>
-      <DescriptionItem title="Bean">{span.getIn(['data', 'ejb', 'bean'])}</DescriptionItem>
-      <DescriptionItem title="Method">{span.getIn(['data', 'ejb', 'method'])}</DescriptionItem>
-      <DescriptionItem title="Node">{span.getIn(['data', 'ejb', 'node'])}</DescriptionItem>
-      <DescriptionItem title="Id">{span.getIn(['data', 'ejb', 'id'])}</DescriptionItem>
-      <DescriptionItem title="Connection">{span.getIn(['data', 'ejb', 'connection'])}</DescriptionItem>
-      <DescriptionItem title="Result">{span.getIn(['data', 'ejb', 'result'])}</DescriptionItem>
-      <DescriptionItem title="Type">{span.getIn(['data', 'ejb', 'sort'])}</DescriptionItem>
-      <DescriptionItem title="Error">{span.getIn(['data', 'ejb', 'error'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Module">{span.getIn(['data', 'ejb', 'module'])}</Di>
+      <Di title="App">{span.getIn(['data', 'ejb', 'app'])}</Di>
+      <Di title="Bean">{span.getIn(['data', 'ejb', 'bean'])}</Di>
+      <Di title="Method">{span.getIn(['data', 'ejb', 'method'])}</Di>
+      <Di title="Node">{span.getIn(['data', 'ejb', 'node'])}</Di>
+      <Di title="Id">{span.getIn(['data', 'ejb', 'id'])}</Di>
+      <Di title="Connection">{span.getIn(['data', 'ejb', 'connection'])}</Di>
+      <Di title="Result">{span.getIn(['data', 'ejb', 'result'])}</Di>
+      <Di title="Type">{span.getIn(['data', 'ejb', 'sort'])}</Di>
+      <Di title="Error">{span.getIn(['data', 'ejb', 'error'])}</Di>
+    </Dl>
   );
 }

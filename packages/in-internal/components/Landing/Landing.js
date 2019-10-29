@@ -85,6 +85,12 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                 </LinkListItem>
 
                 <LinkListItem
+                  label="Region Statistics"
+                  href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/region'))}
+                  description="Statistics across the whole monitoring unit, i.e. all units and shared components."
+                />
+
+                <LinkListItem
                   label="Units"
                   description="Gather insights how the various units are performing and identify which unit is having problems."
                 >
@@ -125,7 +131,9 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                         />
                         <LinkListItem
                           label="Batching & Writing"
-                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights'))}
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights')
+                          )}
                         />
                         <LinkListItem
                           label="Writing & Reading"
@@ -182,6 +190,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                             params => (params.pathname = '/internal/monitoringUnit/eum/eum-processor')
                           )}
                           description="eum-processor enriches received beacons and forwards them to Kafka for persistence."
+                        />
+                        <LinkListItem
+                          label="eum-health-processor (health rule execution)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/eumHealthProcessor')
+                          )}
+                          description="eum-health-processor reads processed beacons from Kafka and executes rules on buckets of beacons."
                         />
                         <LinkListItem
                           label="appdata-writer (beacon ingestion)"

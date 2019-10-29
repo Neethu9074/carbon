@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 
@@ -9,18 +9,18 @@ export default function ActiveRecordSpanDetailView({ span }) {
   const sql = span.getIn(['data', 'activerecord', 'sql']);
 
   return (
-    <DescriptionList>
-      <DescriptionItem title="Adapter">{span.getIn(['data', 'activerecord', 'adapter'])}</DescriptionItem>
-      <DescriptionItem title="Database">{span.getIn(['data', 'activerecord', 'db'])}</DescriptionItem>
-      <DescriptionItem title="Database Host">{span.getIn(['data', 'activerecord', 'host'])}</DescriptionItem>
-      <DescriptionItem title="Username">{span.getIn(['data', 'activerecord', 'username'])}</DescriptionItem>
+    <Dl>
+      <Di title="Adapter">{span.getIn(['data', 'activerecord', 'adapter'])}</Di>
+      <Di title="Database">{span.getIn(['data', 'activerecord', 'db'])}</Di>
+      <Di title="Database Host">{span.getIn(['data', 'activerecord', 'host'])}</Di>
+      <Di title="Username">{span.getIn(['data', 'activerecord', 'username'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'activerecord', 'error'])} />
 
       {sql ? (
-        <DescriptionItem title="SQL" verticalDisplay>
+        <Di title="SQL" verticalDisplay>
           <Code code={formatSql(sql)} lang="sql" />
-        </DescriptionItem>
+        </Di>
       ) : null}
-    </DescriptionList>
+    </Dl>
   );
 }

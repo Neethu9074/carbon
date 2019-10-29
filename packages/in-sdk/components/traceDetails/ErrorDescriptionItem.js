@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { Di } from 'in-new-components/HorizontalDescriptionList';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
 import theme from 'in-themes';
@@ -11,8 +11,8 @@ export default function ErrorDescriptionItem({ error }) {
   }
 
   return (
-    <DescriptionItem title="Error" style={{ color: theme.lib.colors.failure }} verticalDisplay>
+    <Di title="Error" style={{ color: theme.lib.colors.failure }} verticalDisplay>
       <Code code={error} lang="plain" softWrap />
-    </DescriptionItem>
+    </Di>
   );
 }

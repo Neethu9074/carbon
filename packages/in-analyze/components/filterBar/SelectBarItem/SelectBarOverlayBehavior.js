@@ -6,6 +6,7 @@ import React from 'react';
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { identity } from 'in-services/util/function';
 import connect from 'in-hoc/connectTo';
 
@@ -101,7 +102,11 @@ function SelectBarOverlayBehavior({
           upsertTagFilter({
             name: tag,
             stringValue: newItem.key,
-            operator: 'EQUALS'
+            operator: 'EQUALS',
+            entity:
+              tag === 'service.name' || tag === 'application.name' || tag === 'endpoint.name'
+                ? entityTypes.DESTINATION
+                : entityTypes.NOT_APPLICABLE
           });
         }
         close();

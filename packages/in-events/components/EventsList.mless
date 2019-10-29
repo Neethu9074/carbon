@@ -1,0 +1,6 @@
+:local {
+  .timelineColumn {
+    max-width: 18.75rem;
+    min-width: 6.25rem;
+  }
+}

@@ -3,6 +3,7 @@ import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { capitalize } from 'in-services/formatters/string';
 import { getK8sClusters } from 'in-api/permissionSets';
 
 import locals from './K8sClusters.mless';
@@ -36,7 +37,7 @@ export default function K8sClusters({
       initialOrderBy="cluster.label"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
-      searchAttributes={['cluster.label', 'cluster.distributionType']}
+      searchAttributes={['cluster.label', 'cluster.clusterDistribution']}
       extraFilters={createFilters(hiddenIds)}
       searchPlaceholder="Filter…"
       onRowClick={onRowClick}
@@ -53,9 +54,9 @@ function columnDefinitions() {
       width: 30,
       ellipsis: true,
       getContent(entity) {
-        const distributionType = get(entity, ['cluster', 'distributionType'], 'Kubernetes');
+        const clusterDistribution = capitalize(get(entity, ['cluster', 'clusterDistribution'], 'kubernetes'));
         return (
-          <WithSubscript subscript={distributionType}>
+          <WithSubscript subscript={clusterDistribution}>
             <span className={locals.ellipsis}>{get(entity, ['cluster', 'label'], '-')}</span>
           </WithSubscript>
         );

@@ -7,6 +7,8 @@ const paths = require('../services/paths');
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
+const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
+const waitingCssChecksum = checkSumMod.getChecksumForFile(paths.waitingCss);
 
 const router = (module.exports = express.Router());
 const cacheControlHeader = 'public, max-age=86400, stale-while-revalidate=3600, stale-if-error=86400';
@@ -52,35 +54,35 @@ router.use(
 // When receiving the call, we need to make sure that the version supplied is actually
 // the version this ui-client supports. If it is not, we must return a 404 so that the
 // proxy may attempt calling another ui-client to retrieve the correct file.
+
 router.get('/bundle/index-:version.js', (req, res) => {
-  if (req.params.version !== indexJsChecksum) {
-    res.sendStatus(404);
-    return;
-  }
-
-  res.sendFile(paths.indexJs, sendFilesConfig, err => {
-    if (err) {
-      console.error('Failed to send file. Cannot complete request.', err);
-    }
-  });
+  checkChecksumAndSend(req, res, indexJsChecksum, paths.indexJs);
 });
 
-// This file doesn't actually exist on disk. The path exists for cache busting reasons.
-// When receiving the call, we need to make sure that the version supplied is actually
-// the version this ui-client supports. If it is not, we must return a 404 so that the
-// proxy may attempt calling another ui-client to retrieve the correct file.
+router.get('/bundle/waiting-:version.js', (req, res) => {
+  checkChecksumAndSend(req, res, waitingJsChecksum, paths.waitingJs);
+});
+
 router.get('/bundle/index-:version.css', (req, res) => {
-  if (req.params.version !== indexCssChecksum) {
+  checkChecksumAndSend(req, res, indexCssChecksum, paths.indexCss);
+});
+
+router.get('/bundle/waiting-:version.css', (req, res) => {
+  checkChecksumAndSend(req, res, waitingCssChecksum, paths.waitingCss);
+});
+
+function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {
+  if (req.params.version !== checksumToCheck) {
     res.sendStatus(404);
     return;
   }
 
-  res.sendFile(paths.indexCss, sendFilesConfig, err => {
+  res.sendFile(fileToSend, sendFilesConfig, err => {
     if (err) {
       console.error('Failed to send file. Cannot complete request.', err);
     }
   });
-});
+}
 
 function getUserFromUserStr(userStr) {
   let user;

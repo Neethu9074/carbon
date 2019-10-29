@@ -1,27 +1,27 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function ElasticsearchSpanDetailView({ span }) {
   const query = span.getIn(['data', 'elasticsearch', 'query']);
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Endpoint">{span.getIn(['data', 'elasticsearch', 'endpoint'])}</DescriptionItem>
-        <DescriptionItem title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</DescriptionItem>
-        <DescriptionItem title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</DescriptionItem>
-        <DescriptionItem title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</DescriptionItem>
+      <Dl>
+        <Di title="Endpoint">{span.getIn(['data', 'elasticsearch', 'endpoint'])}</Di>
+        <Di title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
+        <Di title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</Di>
+        <Di title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'elasticsearch', 'error'])} />
 
         {query ? (
-          <DescriptionItem title="Query" verticalDisplay>
+          <Di title="Query" verticalDisplay>
             <Code code={prettyPrintQuery(query)} lang="json" />
-          </DescriptionItem>
+          </Di>
         ) : null}
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

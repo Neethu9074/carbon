@@ -89,13 +89,14 @@ function Header(props) {
 }
 
 function Actions({ podId, timeConfig, result }) {
+  const podName = get(result, ['data', 'label']);
   return (
     <Fragment>
-      <LoggingIntegrationButtons kubernetesPodId={podId} timeConfig={timeConfig} />
+      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterId'])}
         namespaceName={get(result, ['data', 'namespace'])}
-        podName={get(result, ['data', 'label'])}
+        podName={podName}
         timeConfig={timeConfig}
       />
       <EntityHealthIndicator

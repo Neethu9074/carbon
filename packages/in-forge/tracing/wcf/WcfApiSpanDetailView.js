@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function WebApiSpanDetailView({ span }) {
   const binding = span.getIn(['data', 'wcf', 'binding']);
@@ -9,13 +9,13 @@ export default function WebApiSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Service-Class">{span.getIn(['data', 'wcf', 'svcclass'])}</DescriptionItem>
-        <DescriptionItem title="Action">{span.getIn(['data', 'wcf', 'svcmethod'])}</DescriptionItem>
-        <DescriptionItem title="Binding">{binding ? binding : 'unknown'}</DescriptionItem>
-        <DescriptionItem title="Url">{span.getIn(['data', 'wcf', 'localaddress'])}</DescriptionItem>
+      <Dl>
+        <Di title="Service-Class">{span.getIn(['data', 'wcf', 'svcclass'])}</Di>
+        <Di title="Action">{span.getIn(['data', 'wcf', 'svcmethod'])}</Di>
+        <Di title="Binding">{binding ? binding : 'unknown'}</Di>
+        <Di title="Url">{span.getIn(['data', 'wcf', 'localaddress'])}</Di>
         <ErrorDescriptionItem error={error} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

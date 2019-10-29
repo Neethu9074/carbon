@@ -1,5 +1,13 @@
 import React from 'react';
 
-export default function JavamailSpanDetailView() {
-  return <div />;
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+
+export default function JavamailSpanDetailView({ span }) {
+  return (
+    <div>
+      <Dl>
+        <Di title="Address">{span.getIn(['data', 'mail', 'error'])}</Di>
+      </Dl>
+    </div>
+  );
 }

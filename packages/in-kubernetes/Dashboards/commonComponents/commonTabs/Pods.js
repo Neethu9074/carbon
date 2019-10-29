@@ -183,29 +183,29 @@ const ServerTableWithUrlStateWithoutNamespace = createTable(columnDefinitionsWit
 const ServerTableWithUrlState = createTable(allColumnDefinitions);
 
 function createTable(columnDefinitions) {
-  return withEmptyTableState({
-    Component: createServerTableWithUrlState({
-      paginationResettingUrlParameters: [
-        ...timeConfigUrlParameters,
-        clusterIdUrlParameter,
-        serviceIdUrlParameter,
-        namespaceIdUrlParameter,
-        podIdUrlParameter,
-        nodeIdUrlParameter,
-        deploymentIdUrlParameter,
-        deploymentConfigIdUrlParameter,
-        phasePodListUrlParameter
-      ],
+  return createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
       columnDefinitions,
-      defaultOrderBy: 'name',
-      defaultOrderDirection: 'ASC',
-      defaultDisabledColumns: ['phase', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits'],
-      settingsKey: 'table_disabled_columns_pods',
-      pathSegment,
-      matrixPrefix
+      entityName: 'pods'
     }),
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      clusterIdUrlParameter,
+      serviceIdUrlParameter,
+      namespaceIdUrlParameter,
+      podIdUrlParameter,
+      nodeIdUrlParameter,
+      deploymentIdUrlParameter,
+      deploymentConfigIdUrlParameter,
+      phasePodListUrlParameter
+    ],
     columnDefinitions,
-    entityName: 'pods'
+    defaultOrderBy: 'name',
+    defaultOrderDirection: 'ASC',
+    defaultDisabledColumns: ['phase', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits'],
+    settingsKey: 'table_disabled_columns_pods',
+    pathSegment,
+    matrixPrefix
   });
 }
 

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
+import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
@@ -66,11 +67,11 @@ export default function QuickFilterBar(props) {
         selectedItemRenderer={renderType}
         itemLabelRenderer={renderType}
       />
-      <AnalyzeSelectBarItem
+      <AnalyzeMultiSelectBarItem
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
-        tag="call.technology"
+        tag="technology"
         singularLabel="Technology"
         pluralLabel="Technologies"
         selectedItemRenderer={getTechnologyLabel}

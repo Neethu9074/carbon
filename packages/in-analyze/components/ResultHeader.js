@@ -5,6 +5,8 @@ import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
+import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ResultHeader.mless';
@@ -14,7 +16,15 @@ export default connectTo(
     historicOrLargeDataResult: historicOrLargeDataResult$
   },
 
-  function ResultHeader({ itemType, nbRows, nbItems, historicOrLargeDataResult, withoutMargin = false, withMaxWidth }) {
+  function ResultHeader({
+    itemType,
+    nbRows,
+    nbItems,
+    historicOrLargeDataResult,
+    withoutMargin = false,
+    withMaxWidth,
+    adjustedWindowSize
+  }) {
     let counter = '';
     const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
 
@@ -45,6 +55,14 @@ export default connectTo(
           {counter}
         </span>
         {!samplingIndicatorEnabled && containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
+        {adjustedWindowSize && (
+          <Tooltip
+            content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
+            align="bottomMiddle"
+          >
+            <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
+          </Tooltip>
+        )}
       </div>
     );
   }
