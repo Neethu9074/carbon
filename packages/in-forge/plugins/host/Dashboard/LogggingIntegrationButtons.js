@@ -14,7 +14,9 @@ export default connectTo(
             hostId: props.snapshotId,
             timeConfig
           }
-        }).map(result => result.data)
+        })
+          .map(result => result.data)
+          .filter(Boolean)
       )
     };
   },

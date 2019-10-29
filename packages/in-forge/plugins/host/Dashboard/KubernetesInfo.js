@@ -18,7 +18,9 @@ export default connectTo(
           hostId: snapshotId,
           timeConfig
         }
-      }).map(result => result.data)
+      })
+        .map(result => result.data)
+        .filter(Boolean)
     );
     return {
       node: node$,
