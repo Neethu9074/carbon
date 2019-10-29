@@ -19,12 +19,16 @@ export default function WebsiteChartWrapper(props) {
 const ConnectedWebsiteChartWrapper = connectTo(
   props => {
     return {
-      result: props.query$
-        .debounce(props.isDebounced ? 500 : 0)
-        .flatMap(metricsConfiguration => {
-          return getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration));
-        })
-        .startWith(pendingResult)
+      result: props.isDebounced
+        ? props.query$
+            .debounce(500)
+            .flatMap(metricsConfiguration =>
+              getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
+            )
+            .startWith(pendingResult)
+        : props.query$.flatMap(metricsConfiguration =>
+            getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
+          )
     };
   },
   function WebsiteChartWrapper(props) {
