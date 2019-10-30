@@ -90,7 +90,8 @@ const EventView = compose(
   }),
   withUrlState({
     bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
-    reducerName: 'onChange'
+    reducerName: 'onChange',
+    replaceHistory: false
   }),
   cursorPaginated({
     getResettingProps: () => [
