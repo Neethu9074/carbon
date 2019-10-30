@@ -16,6 +16,7 @@ import { pcfEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
@@ -46,6 +47,8 @@ export default (
     {pcfEnabled && cloudfoundryRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
+    {integrationRoutes}
+
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />

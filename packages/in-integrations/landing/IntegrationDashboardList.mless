@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .itemWrapper {
+    display: flex;
+    width: 100%;
+  }
+
+  .simplePluginIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__blue800;
+  }
+}
