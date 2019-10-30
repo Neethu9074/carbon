@@ -1,10 +1,9 @@
 import irpt from 'react-immutable-proptypes';
-import React, { Fragment } from 'react';
 import rpt from 'prop-types';
+import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
-import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
@@ -93,15 +92,7 @@ export default connectTo(
                   <ProblemDescription event={event} />
                   <EventSpecificationLink event={event} />
                   <Spacer />
-                  {isOfflineEvent(event) ? (
-                    <OfflineEventDescription event={event} />
-                  ) : (
-                    <Fragment>
-                      <EventChart event={event} />
-                      <Spacer />
-                      <AnalyzeIssueCallsButton event={event} />
-                    </Fragment>
-                  )}
+                  {isOfflineEvent(event) ? <OfflineEventDescription event={event} /> : <EventChart event={event} />}
                 </div>
               ) : null}
             </div>

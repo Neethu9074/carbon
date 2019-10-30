@@ -13,10 +13,12 @@ import {
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-events/timeframe';
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
+import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import DownloadButton from 'in-components/DownloadButton';
@@ -98,8 +100,14 @@ const ChartWrapper = connectTo(
 
     return (
       <div className={locals.chart}>
-        {allowDownloadMetricsFromCharts && (
-          <div className={locals.buttonPanel}>
+        <div className={locals.buttonPanel}>
+          <AnalyzeIssueCallsButton
+            className={evaluateClassNames({
+              [locals.marginRight]: allowDownloadMetricsFromCharts
+            })}
+            event={event}
+          />
+          {allowDownloadMetricsFromCharts && (
             <DownloadButton>
               <EventMetricChartDownloadView
                 metric={metric}
@@ -111,8 +119,8 @@ const ChartWrapper = connectTo(
                 metricAccessId={metricAccessId}
               />
             </DownloadButton>
-          </div>
-        )}
+          )}
+        </div>
         <Chart
           snapshotId={metricAccessId}
           timeConfig={timeConfig}

@@ -11,6 +11,7 @@ import {
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -31,7 +32,7 @@ export default connectTo(
     }
     return observables;
   },
-  function AnalyzeIssueCalls({ event, endpointEntity }) {
+  function AnalyzeIssueCalls({ className, event, endpointEntity }) {
     if (!event) {
       return null;
     }
@@ -61,7 +62,12 @@ export default connectTo(
     const dataSource = 'calls';
 
     return (
-      <div className={locals.buttonWrapper}>
+      <div
+        className={evaluateClassNames({
+          [locals.buttonWrapper]: true,
+          [className]: className
+        })}
+      >
         <Button
           kind="primary"
           icon="lib_application_call"

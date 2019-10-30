@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
-import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -20,8 +19,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
-
-import locals from './Summary.mless';
 
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
@@ -83,9 +80,6 @@ function EventContent({ event }) {
               <Col xs>
                 <Card title="Metrics">
                   <EventChart event={event} />
-                  <div className={locals.analyzeButtonWrapper}>
-                    <AnalyzeIssueCallsButton event={event} />
-                  </div>
                 </Card>
               </Col>
             </Row>
