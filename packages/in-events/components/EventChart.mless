@@ -9,6 +9,11 @@
 
   .buttonPanel {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+  }
+
+  .marginRight {
+    margin-right: 0.5rem;
   }
 }
