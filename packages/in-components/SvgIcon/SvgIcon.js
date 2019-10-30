@@ -71,7 +71,7 @@ export default function SvgIcon({
       width={sizeInPx}
       height={sizeInPx}
       style={style}
-      viewBox="0 0 24 24"
+      viewBox={iconPath ? '0 0 128 128' : '0 0 24 24'}
       fill={color}
       onClick={onClick}
       onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}

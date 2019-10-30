@@ -25,8 +25,8 @@ export default function Breadcrumb({
     [locals.activeBreadcrumb]: isActive,
     [className]: className
   });
-  const iconSize = iconPath ? 's' : 'regular';
 
+  const iconSize = iconPath ? 's' : 'regular';
   let iconCompontent = <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} size={iconSize} />;
 
   if (healthInfo) {
