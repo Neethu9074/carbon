@@ -1,15 +1,13 @@
 import { Map } from 'immutable';
 import { get } from 'lodash';
 
-import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
-import { createStore, createTrackingStore } from 'in-stores/store';
-import { navigationParameters$ } from 'in-stores/navigation';
 import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
+import { createStore } from 'in-stores/store';
 import theme from 'in-themes';
 
 const noProblemsHealthInfo = Map({
@@ -123,83 +121,14 @@ export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALU
   return nearestEvent;
 }
 
-const highlightedEvent = createStore({
-  name: 'highlightedEventStore',
-  initialValue: null
-});
-export const highlightedEvent$ = highlightedEvent.observable
-  .distinct()
-  // Event highlighting is prone to high frequency changes. We need to protect the backend
-  // against this as retrieving the data for event displaying is expensive to retrieve
-  // (entities for highlighting).
-  .debounce(200);
-
-export function setHighlightedEvent(event) {
-  highlightedEvent.applyStateMutation(() => event);
-  if (event) {
-    setHighlightedEntityId(event.getIn(['entityId']));
-  } else {
-    clearHighlightedEntityId();
-  }
-}
-
-export const selectedEventId$ = createTrackingStore({
-  name: 'events/selectedEventId',
-  observable: navigationParameters$
-    .map(params => {
-      const query = params.query;
-      if ('eventId' in query) {
-        return query.eventId;
-      }
-      return null;
-    })
-    .distinct()
-}).observable;
-
-export const selectedEvent$ = createTrackingStore({
-  name: 'events/selectedEvent',
-  observable: selectedEventId$.flatMap(id => (id ? getEvent(id) : alwaysNull)).distinct()
-}).observable;
-
-export const selectedIncident$ = createTrackingStore({
-  name: 'events/selectedIncident',
-  observable: selectedEvent$.map(event => (event == null || event.get('type') === 'incident' ? event : null))
-}).observable;
-
-export function countEvents(events) {
-  const counter = {
-    warning: 0,
-    danger: 0,
-    change: 0,
-    incident: 0
-  };
-
-  events.forEach(event => {
-    switch (getEventType(event)) {
-      case EVENT_TYPES.ISSUE_WARNING:
-        counter.warning++;
-        break;
-      case EVENT_TYPES.ISSUE_CRITICAL:
-        counter.danger++;
-        break;
-      case EVENT_TYPES.CHANGE:
-        counter.change++;
-        break;
-      case EVENT_TYPES.INCIDENT:
-        counter.incident++;
-        break;
-      default:
-    }
-  });
-
-  return counter;
-}
-
-export function getColorByEvent({ event, timeConfig, defaultColor }) {
-  const severity = event.getIn(['problem', 'severity'], 0);
-  const start = event.get('start');
-  const end = event.get('end');
-  const state = event.get('state');
+export function getColor({ event, timeConfig, defaultColor }) {
+  const isImmutableObject = !!event.get;
+  const severity = isImmutableObject
+    ? event.getIn(['problem', 'severity'], 0)
+    : get(event, ['problem', 'severity'], event.severity || 0);
+  const start = isImmutableObject ? event.get('start') : event.start;
+  const end = isImmutableObject ? event.get('end') : event.end;
+  const state = isImmutableObject ? event.get('state') : event.state;
   const color = getColorBySeverity(severity, { defaultColor });
 
   if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
@@ -209,30 +138,7 @@ export function getColorByEvent({ event, timeConfig, defaultColor }) {
 }
 
 export function getColorForEventAtFocusedMomentAsStream(event, params) {
-  return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, ...params }));
-}
-
-export function getColorByEventState({ event, defaultColor }) {
-  if (event.get('state') === 'open') {
-    return getColorBySeverity(event.getIn(['problem', 'severity'], 0), {
-      defaultColor
-    });
-  } else {
-    return getColorBySeverity(0, { defaultColor });
-  }
-}
-
-export function getColorForMostSevereEvents(events) {
-  let eventWithMaxSeverity = null;
-  let maxSeverity = 0;
-  events.forEach(event => {
-    const severity = event.getIn(['problem', 'severity'], 0);
-    if (severity > maxSeverity) {
-      maxSeverity = severity;
-      eventWithMaxSeverity = event;
-    }
-  });
-  return getColorByEvent({ event: eventWithMaxSeverity });
+  return timeConfig$.map(timeConfig => getColor({ event, timeConfig, ...params }));
 }
 
 export const healthColors = [
@@ -288,44 +194,34 @@ export const EVENT_TYPES = {
   INCIDENT: 4
 };
 
-/**
- * Gets the icontype, needed for Icon components for an events type.
- *
- * @param {EVENT_TYPES} eventType The event type for which the icon type should be determined.
- * @returns {string} The icon type of the event
- */
-export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
+export function getIcon({ event, eventType }) {
+  if (!eventType) {
+    eventType = getEventType(event);
+  }
   switch (eventType) {
     case EVENT_TYPES.ISSUE_WARNING:
-      return 'warning';
+      return 'lib_events_warning';
     case EVENT_TYPES.ISSUE_CRITICAL:
-      return 'critical';
+      return 'lib_events_critical';
     case EVENT_TYPES.INCIDENT:
-      return 'incidents';
+      return 'lib_events_incident';
     default:
-      return useAlternativeChangeIcon ? 'change2' : 'change';
+      return 'lib_events_change';
   }
 }
 
-/**
- * Gets the icontype, needed for Icon components for an event.
- *
- * @param {Immutable<Event>} event The event for which the icon type should be determined.
- * @returns {string} The icon type of the event
- */
-export function getIconTypeForEvent(event, useAlternativeChangeIcon = false) {
-  return getIconTypeForEventType(getEventType(event, useAlternativeChangeIcon));
-}
-
 export function getEventType(event) {
-  const eventType = event.get ? event.get('type') : event.type;
+  const isImmutableObject = !!event.get;
+  const eventType = isImmutableObject ? event.get('type') : event.type;
   switch (eventType) {
     case 'incident':
       return EVENT_TYPES.INCIDENT;
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue': {
-      const severity = event.getIn ? event.getIn(['problem', 'severity'], 0) : get(event, ['problem', 'severity'], 0);
+      const severity = isImmutableObject
+        ? event.getIn(['problem', 'severity'], 0)
+        : get(event, ['problem', 'severity'], event.severity || 0);
       if (severity > 8) {
         return EVENT_TYPES.ISSUE_CRITICAL;
       } else if (severity > 4) {

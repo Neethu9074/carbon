@@ -24,14 +24,15 @@ export default connectTo(
           className={`${block}__in`}
           onClick={CameraControllerServiceLocator.zoomIn}
           tooltipText="Zoom in"
-          type="plus_without_frame"
+          type="lib_openclose_add"
         />
 
         <Control
           className={`${block}__out`}
           onClick={CameraControllerServiceLocator.zoomOut}
           tooltipText="Zoom out"
-          type={'minus'}
+          size="xl"
+          type="lib_openclose_remove"
         />
       </div>
     );

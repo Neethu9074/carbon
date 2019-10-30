@@ -32,7 +32,7 @@ export default function ViewGrouping() {
     <Control
       createMenuContent={() => <ViewGroupingMenu />}
       tooltipText="Configure perspective and grouping"
-      type="grouping"
+      type="lib_views_grid"
     />
   );
 }

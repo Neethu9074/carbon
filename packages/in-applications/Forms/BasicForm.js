@@ -128,7 +128,7 @@ class BasicForm extends React.Component {
             {form &&
               form.touched && (
                 <Button
-                  icon={saving ? 'spinner' : null}
+                  icon={saving ? 'lib_actions_loading' : null}
                   iconSpinning
                   kind="create"
                   type="submit"

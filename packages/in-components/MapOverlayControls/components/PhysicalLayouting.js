@@ -20,14 +20,14 @@ export default connectTo(
           className={`${block}__left`}
           onClick={() => setLayoutingStrategy(simpleLayouting$)}
           tooltipText="Rearrange zones by name"
-          type="options"
+          type="lib_menu_more_horizontal"
           isActive={simpleLayouting$ === currentLayoutingStrategy}
         />
         <Control
           className={`${block}__right`}
           onClick={() => setLayoutingStrategy(packedLayouting$)}
           tooltipText="Rearrange zones as a compact structure"
-          type="packed_layouting"
+          type="lib_views_apps"
           isActive={packedLayouting$ === currentLayoutingStrategy}
         />
       </div>

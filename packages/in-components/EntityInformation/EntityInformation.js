@@ -125,7 +125,7 @@ function EntityWebsiteInformation({ entity, label }) {
     <div className={block}>
       <span className={`${block}__label`}>{label ? label : 'On:'}</span>
       <Link href$={getLinkToWebsite(entity.data.id)} className={`${block}__entity`}>
-        <SvgIcon className={`${block}__entity-icon`} type={'lib_website'} size="xxs" />
+        <SvgIcon className={`${block}__entity-icon`} type="lib_website" size="xxs" />
         {entity.data.label}
       </Link>
     </div>

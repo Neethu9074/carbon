@@ -217,7 +217,7 @@ function Operator({ children }) {
 function Loading({ children }) {
   return (
     <span className={locals.loading}>
-      <SvgIcon type="spinner" size="xxs" spinning className={locals.loadingIcon} />
+      <SvgIcon type="lib_actions_loading" size="xs" spinning className={locals.loadingIcon} />
       {children}
     </span>
   );

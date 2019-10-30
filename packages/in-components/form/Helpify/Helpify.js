@@ -13,7 +13,7 @@ export default function Helpify({ children, helpText }) {
       <div className={`${block}__content`}>{children}</div>
       <div className={`${block}__help-icon`}>
         <Tooltip content={helpText} align="leftMiddle">
-          <SvgIcon type="info" size="xs" color="#2D4048" style={{ marginTop: '.25rem' }} />
+          <SvgIcon type="lib_help_error_info_outline" color="#2D4048" style={{ marginTop: '.25rem' }} />
         </Tooltip>
       </div>
     </div>

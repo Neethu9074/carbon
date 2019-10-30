@@ -41,7 +41,7 @@ export default function SvgIcon({
   tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;
 
   if (!type && !customIcon) {
-    type = 'empty';
+    type = 'lib_empty';
   }
 
   const icon = type ? icons[type] : customIcon;
@@ -53,27 +53,25 @@ export default function SvgIcon({
   }
 
   const sizeInPx = getPixelsBySize(size);
-  const { iconWidth, iconHeight } = getIconDimensions(sizeInPx, iconPath, icon);
 
   style = style || {};
-  style.minHeight = `${iconHeight}px`;
+  style.minHeight = `${sizeInPx}px`;
   style.maxHeight = style.minHeight;
-  style.minWidth = `${iconWidth}px`;
+  style.minWidth = `${sizeInPx}px`;
   style.maxWidth = style.minWidth;
 
   return (
     <svg
       className={evaluateClassNames({
         [locals.icon]: true,
-        [locals.spinningClockwise]: spinning && spinning === 'clockwise',
-        [locals.spinningCounterClockwise]: spinning && spinning !== 'clockwise',
+        [locals.spinningCounterClockwise]: spinning,
         [locals.clickable]: onClick,
         [className]: className
       })}
       width={sizeInPx}
       height={sizeInPx}
       style={style}
-      viewBox={'0 0 ' + icon.width + ' ' + icon.height}
+      viewBox="0 0 24 24"
       fill={color}
       onClick={onClick}
       onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
@@ -99,17 +97,4 @@ export function getPixelsBySize(size) {
 
 export function getPath(type) {
   return icons[type].path;
-}
-
-function getIconDimensions(sizeInPx, iconPath, icon) {
-  if (iconPath) {
-    return { iconWidth: sizeInPx, iconHeight: sizeInPx };
-  }
-
-  const iconRatio = icon.ratio > 1 ? icon.ratio : 1 / icon.ratio;
-
-  if (icon.width > icon.height) {
-    return { iconWidth: sizeInPx, iconHeight: sizeInPx / iconRatio };
-  }
-  return { iconWidth: sizeInPx / iconRatio, iconHeight: sizeInPx };
 }

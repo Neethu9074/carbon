@@ -32,7 +32,7 @@ export default function WaitStep({ websiteId, websiteName }) {
           )}
         </CopyToClipboard>
 
-        <Button kind="secondary" disabled icon="spinner" iconSpinning>
+        <Button kind="secondary" disabled icon="lib_actions_loading" iconSpinning>
           Enabling monitoring…
         </Button>
       </Actions>

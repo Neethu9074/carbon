@@ -1,5 +1,4 @@
 import { just } from 'reactive-observables';
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import {
@@ -45,14 +44,7 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon
-          event={fromJS({
-            ...event,
-            problem: {
-              severity: event.severity
-            }
-          })}
-        />
+        <EventIcon event={event} />
       </Td>
       <Td>
         <div className={locals.title}>{event.title}</div>
@@ -80,19 +72,19 @@ const On = connectTo(
     if (isApplicationEntity(props.rawEvent.entityType)) {
       return {
         entity: getApplication({ id: props.rawEvent.entityId }),
-        app20IconType: just('app_application')
+        app20IconType: just('lib_application')
       };
     } else if (isServiceEntity(props.rawEvent.entityType)) {
       return {
         entity: getServiceLabel({ id: props.rawEvent.entityId }),
-        app20IconType: just('app_service')
+        app20IconType: just('lib_application_service')
       };
     } else if (isEndpointEntity(props.rawEvent.entityType)) {
       return {
         entity: getEndpointInfo({
           id: props.rawEvent.entityId
         }),
-        app20IconType: just('app_endpoint')
+        app20IconType: just('lib_application_endpoint')
       };
     } else if (isWebsiteEntityType(props.rawEvent.entityType)) {
       return {
@@ -124,7 +116,7 @@ const On = connectTo(
     return (
       <div className={locals.entityWrapper}>
         {app20IconType ? (
-          <SvgIcon className={locals.entityIcon} type={app20IconType} size="xxs" />
+          <SvgIcon className={locals.entity20Icon} type={app20IconType} size="xs" />
         ) : (
           <PluginIcon className={locals.entityIcon} size="xxs" snapshot={entity} />
         )}

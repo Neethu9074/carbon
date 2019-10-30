@@ -30,7 +30,7 @@ export default class Message extends React.Component {
         <span className={locals.content}>{children}</span>
         {dismissible && (
           <span className={locals.dismissContainer}>
-            <SvgIcon type="x" size="xxs" className={locals.dismiss} onClick={this.onDismiss} />
+            <SvgIcon type="lib_openclose_cancel" size="s" className={locals.dismiss} onClick={this.onDismiss} />
           </span>
         )}
       </div>

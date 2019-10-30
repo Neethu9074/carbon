@@ -5,7 +5,6 @@
     display: flex;
     align-items: center;
     font-size: 0.75rem;
-    margin-bottom: 0.25rem;
   }
 
   .pluginIcon {
@@ -16,7 +15,7 @@
   .infoIcon {
     min-width: 0.75rem;
     min-height: 0.75rem;
-    margin: 0 0.5rem 0 0.15rem;
+    margin-right: 0.25rem;
     cursor: pointer;
   }
 }

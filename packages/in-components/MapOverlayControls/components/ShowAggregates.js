@@ -13,7 +13,7 @@ export default connectTo(
       <Control
         onClick={toggle}
         tooltipText={`${showAggregations ? 'Disable' : 'Enable'} time window based metric aggregations`}
-        type="timerange"
+        type="lib_datetime_timerange"
         isActive={showAggregations}
       />
     );

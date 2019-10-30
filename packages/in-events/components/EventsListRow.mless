@@ -9,10 +9,15 @@
     max-width: 100%;
   }
 
-  .entityIcon {
+  .entityIcon,
+  .entity20Icon {
     margin-right: 0.313rem;
     flex-shrink: 0;
     fill: black;
+  }
+
+  .entity20Icon {
+    margin-left: -0.125rem;
   }
 
   .text,

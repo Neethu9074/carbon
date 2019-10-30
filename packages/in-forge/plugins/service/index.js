@@ -1,12 +1,12 @@
+import { lib_application_service } from 'in-components/SvgIcon/registry';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { app_service } from 'in-components/SvgIcon/registry';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.service,
 
-  iconSvgPath: app_service.path,
+  iconSvgPath: lib_application_service.path,
   metricDefinitions,
 
   pluginName: {

@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -12,14 +11,7 @@ export default function EventRow({ event, active, onClick }) {
   return (
     <Tr size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon
-          event={fromJS({
-            ...event,
-            problem: {
-              severity: event.severity
-            }
-          })}
-        />
+        <EventIcon event={event} />
       </Td>
       <Td>
         <div

@@ -76,13 +76,13 @@ export default class extends React.Component {
 
     if (status.state === 'success') {
       className = `${className} ${block}__success`;
-      iconType = 'ok';
+      iconType = 'lib_check';
     } else if (status.state === 'failure') {
       className = `${className} ${block}__failure`;
-      iconType = 'x';
+      iconType = 'lib_openclose_cancel';
     } else if (status.state === 'loading') {
       className = `${className} ${block}__loading`;
-      iconType = 'spinner';
+      iconType = 'lib_actions_loading';
       spinning = true;
     }
 

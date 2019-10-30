@@ -47,8 +47,8 @@ export default function HierarchicalLinkPresenter({
           stopPropagation(e);
           setExpanded(!isExpanded);
         }}
-        type={isExpanded ? 'timeline_close' : 'timeline_open'}
-        size="xxs"
+        type={isExpanded ? 'lib_openclose_remove_circle_outline' : 'lib_openclose_add_circle_outline'}
+        size="xs"
       />
       {isExpanded ? (
         <Hierarchy

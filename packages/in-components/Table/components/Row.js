@@ -12,8 +12,8 @@ const block = 'in-table-row';
 const selectedRow = `${block}--selected`;
 const clickableRow = `${block}--clickable`;
 
-const expand = <SvgIcon type="timeline_open" size="xxs" className={`${block}__toggle`} />;
-const collapse = <SvgIcon type="timeline_close" size="xxs" className={`${block}__toggle`} />;
+const expand = <SvgIcon className={`${block}__toggle`} type="lib_openclose_add_circle_outline" size="xs" />;
+const collapse = <SvgIcon className={`${block}__toggle`} type="lib_openclose_remove_circle_outline" size="xs" />;
 
 export default class Row extends React.Component {
   constructor() {

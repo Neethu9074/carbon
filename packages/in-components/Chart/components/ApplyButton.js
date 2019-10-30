@@ -53,15 +53,15 @@ export default connectTo(
     return (
       <div className={locals.buttons}>
         <Button className={locals.button} kind="secondary" href={href} onClick={onZoomApplied}>
-          <SvgIcon type="search" size="xxs" color="#172429" />
+          <SvgIcon type="lib_actions_search" size="xs" color="#172429" />
         </Button>
         {allowDownloadMetricsFromCharts && (
-          <Button className={locals.downloadButton} kind="secondary" href={href} onClick={e => download(e, metrics)}>
+          <Button className={locals.button} kind="secondary" href={href} onClick={e => download(e, metrics)}>
             <SvgIcon type="lib_actions_download" size="xs" color="#172429" />
           </Button>
         )}
-        <Button className={locals.button} kind="secondary" onClick={onButtonClicked}>
-          <SvgIcon type="x" size="xxs" color="#172429" />
+        <Button className={locals.closeButton} kind="secondary" onClick={onButtonClicked}>
+          <SvgIcon type="lib_openclose_cancel" size="s" color="#172429" />
         </Button>
       </div>
     );

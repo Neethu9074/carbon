@@ -124,7 +124,6 @@ import './x_old_components/Code.story';
 import './x_old_components/ComboBox.story';
 import './x_old_components/form/DateInput.story';
 import './x_old_components/form/Input.story';
-import './x_old_components/Icon.story';
 import './x_old_components/Kpi.story';
 import './x_old_components/sdk/Collapsible.story';
 import './x_old_components/sdk/Descriptions.story';

@@ -178,7 +178,7 @@ function ViewAll(props, className) {
 function Label({ item }, _item, className) {
   return (
     <Fragment>
-      <SvgIcon type="app_endpoint" size="xs" style={{ marginRight: '0.5rem' }} />
+      <SvgIcon type="lib_application_endpoint" size="xs" style={{ marginRight: '0.5rem' }} />
       <Link className={className} href="https://instana.com">
         {item.label}
       </Link>

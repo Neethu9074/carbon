@@ -3,7 +3,7 @@ import React from 'react';
 import {
   getColorForEventAtFocusedMomentAsStream,
   fireCallbacksForEventAtFocusedMomentAsStream,
-  getIconTypeForEventType,
+  getIcon,
   getEventType,
   EVENT_TYPES
 } from 'in-stores/events';
@@ -56,7 +56,7 @@ export default connectTo(
       >
         <SvgIcon
           className={evaluateClassNames({ [`${block}__icon`]: true, [`${block}__icon_in_preview`]: isPreview })}
-          type={getIconTypeForEventType(eventType)}
+          type={getIcon({ eventType })}
           size="xs"
           color={color}
         />

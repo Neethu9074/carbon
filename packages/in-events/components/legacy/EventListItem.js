@@ -15,7 +15,7 @@ import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import EventChart from 'in-events/components/EventChart';
 import { formatTime } from 'in-services/formatters/date';
 import Spacer from 'in-events/components/legacy/Spacer';
-import EventIcon from 'in-components/EventIcon';
+import EventIcon from 'in-events/components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -81,7 +81,7 @@ export default connectTo(
             <div className={`${block}__content-wrapper`}>
               <DetailsHeader
                 event={event}
-                iconType={isExpanded ? 'timeline_close' : 'timeline_open'}
+                iconType={isExpanded ? 'lib_openclose_remove_circle_outline' : 'lib_openclose_add_circle_outline'}
                 background={background}
                 timeConfig={timeConfigFromEvent}
                 onClick={() => this.setState({ isExpanded: !isExpanded })}
@@ -127,7 +127,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
         <div className={`${block}__icon-wrapper`} style={{ background }}>
-          <EventIcon event={event} size="xxs" />
+          <EventIcon event={event} disableColorCalculation size="xs" />
         </div>
 
         <div className={`${block}__entity`}>
@@ -145,7 +145,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
         </div>
       </div>
 
-      <SvgIcon className={`${block}__expand-icon`} type={iconType} size="xxs" color="#7b8e96" />
+      <SvgIcon type={iconType} size="xs" color="#7b8e96" />
     </div>
   );
 }

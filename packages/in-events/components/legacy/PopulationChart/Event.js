@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
-import EventIcon from 'in-components/EventIcon';
+import EventIcon from 'in-events/components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import './Event.less';
@@ -61,7 +61,7 @@ export default connectTo(
         onClick={() => onEventClick(event)}
       >
         <div className={`${block}__icon`}>
-          <EventIcon event={event} useAlternativeChangeIcon={false} size="xxs" />
+          <EventIcon event={event} disableColorCalculation size="xs" />
         </div>
 
         <div

@@ -55,7 +55,7 @@ export default class extends React.Component {
         <Section>
           <Button
             kind="primaryv2"
-            icon={this.state.loading ? 'spinner' : null}
+            icon={this.state.loading ? 'lib_actions_loading' : null}
             iconSpinning
             onClick={() => this.test(this.props.alertChannel, this.props.form)}
             disabled={!this.props.form.hierarchyValid && this.props.form.touched}

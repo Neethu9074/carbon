@@ -113,7 +113,7 @@ const ClearQueryButton = connectTo(
     }
     return (
       <div className={`${block}__delete-query-button`} onClick={() => setQueryInput('', query.searchContext)}>
-        <SvgIcon type="x" size="xxs" color="#6b8088" />
+        <SvgIcon type="lib_openclose_cancel" size="s" color="#6b8088" />
       </div>
     );
   }

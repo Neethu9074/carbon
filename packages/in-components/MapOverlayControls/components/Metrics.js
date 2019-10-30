@@ -34,7 +34,7 @@ export default connectTo(
           createMenuContent={createMenuContent}
           isActive={this.props.activeMetric ? true : false}
           tooltipText="Show metrics"
-          type="metrics"
+          type="lib_datetime_speed"
         />
       );
     }

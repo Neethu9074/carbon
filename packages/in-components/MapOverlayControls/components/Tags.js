@@ -16,7 +16,7 @@ export default connectTo(
         createMenuContent={createMenuContent}
         isActive={filteredTags.size > 0}
         tooltipText="Show tags"
-        type="tag"
+        type="lib_views_tag"
       />
     );
   }

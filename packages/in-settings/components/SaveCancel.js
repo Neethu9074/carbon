@@ -41,7 +41,7 @@ export default function SaveCancel({
             type="submit"
             className={locals.button}
             disabled={(!form.hierarchyValid && form.touched) || loading || saving || !saveEnabled}
-            icon={saving ? 'spinner' : null}
+            icon={saving ? 'lib_actions_loading' : null}
             iconSpinning
           >
             {saving ? savingStateName : saveButtonLabel}
