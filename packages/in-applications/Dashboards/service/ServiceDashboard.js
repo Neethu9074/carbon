@@ -16,10 +16,10 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import { hasKubernetesAccess } from 'in-stores/permission';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
-import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
   const props = {

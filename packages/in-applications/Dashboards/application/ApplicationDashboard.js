@@ -9,13 +9,13 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
-import { entityTypes, operators } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashboard({ location, timeConfig }) {
   const props = {

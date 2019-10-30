@@ -17,6 +17,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
@@ -25,7 +26,6 @@ import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
 import locals from './EndpointDashboard.mless';
-import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard({ location, timeConfig }) {
   const props = {
@@ -150,7 +150,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isS
         endpointId={endpointId}
         isSynthetic={isSynthetic}
         timeConfig={timeConfig}
-        groupByTag={{ name: 'call.name', entity: entityTypes.DESTINATION }}
+        groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}
