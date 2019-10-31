@@ -26,9 +26,11 @@ const ConnectedWebsiteChartWrapper = connectTo(
               getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
             )
             .startWith(pendingResult)
-        : props.query$.flatMap(metricsConfiguration =>
-            getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
-          )
+        : props.query$
+            .flatMap(metricsConfiguration =>
+              getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
+            )
+            .startWith(pendingResult)
     };
   },
   function WebsiteChartWrapper(props) {
