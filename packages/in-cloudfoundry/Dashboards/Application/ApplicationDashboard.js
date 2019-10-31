@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
+import CloudfoundryApplicationToInstanaServiceButton from 'in-cloudfoundry/commonComponents/CloudfoundryApplicationToInstanaServiceButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
@@ -73,8 +74,13 @@ function Header(props) {
     />
   );
 }
-function Actions({ applicationId, timeConfig }) {
-  return <AnalyzeTracesButton applicationId={applicationId} timeConfig={timeConfig} />;
+function Actions(props) {
+  return (
+    <Fragment>
+      <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
+      <CloudfoundryApplicationToInstanaServiceButton {...props} />
+    </Fragment>
+  );
 }
 
 function SubTypes({ result }) {
