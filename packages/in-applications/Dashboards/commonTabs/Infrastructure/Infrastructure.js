@@ -15,15 +15,15 @@ import { number, meanLatencyFixed, percentage } from 'in-services/formatters/num
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
-import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
@@ -156,7 +156,7 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
         {datacenter && (
           <MetaEntityLink
             entity={datacenter}
-            icon="lib_cloudfoundry_application"
+            icon="lib_vsphere"
             getDashboard={vsphereEnabled && getVsphereDatacenterDashboard}
           >
             instance of
@@ -398,13 +398,12 @@ function getColumnDefinitions(type) {
             </WithCloudfoundryPhysicalContext>
           );
         }
-        return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
 
-        // if (item.physicalContext.vsphere) {
-        //   return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
-        // }
-        //
-        // return link;
+        if (item.physicalContext.vsphere) {
+          return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
+        }
+
+        return link;
       }
     };
   } else if (type == 'HOST') {

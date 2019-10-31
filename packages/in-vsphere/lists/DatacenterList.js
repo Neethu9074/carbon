@@ -8,8 +8,8 @@ import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { number, zeroDecimalPlaces } from 'in-services/formatters/number';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -22,9 +22,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return (
-        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_kubernetes_cluster" />
-      );
+      return <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere" />;
     }
   },
   {

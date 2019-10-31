@@ -1,8 +1,8 @@
 import React from 'react';
 
-import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import TabLabelWithCounter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounter';
 import VirtualMachines from 'in-vsphere/Dashboards/Datacenter/tabs/VirtualMachines';
-import TabLabelWithCounter from 'in-vsphere/commonComponents/TabLabelWithCounter';
+import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VSphereHosts from 'in-vsphere/Dashboards/Datacenter/tabs/VsphereHosts';
 import Summary from 'in-vsphere/Dashboards/Datacenter/tabs/Summary';
@@ -25,7 +25,7 @@ export default [
     component: VirtualMachines,
     header: props => getCounterComponent(props, 'vms')
   }
-].filter(Boolean);
+];
 
 function getCounterComponent(props, resultPropName) {
   return (

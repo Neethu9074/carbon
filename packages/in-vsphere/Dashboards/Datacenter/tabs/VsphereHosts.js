@@ -11,7 +11,7 @@ import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import MemoryTotal from './MemoryTotal';
+import { MemoryTotal } from './MemoryTotal';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
@@ -79,17 +79,17 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'label',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
+    entityName: 'vhosts'
   }),
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,
-  entityName: 'vhosts'
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
 });
 
 export default function VsphereHosts(props) {

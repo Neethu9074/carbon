@@ -13,7 +13,7 @@ import theme from 'in-themes';
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
-  const { teal800: allocated, lightBlue800: usage } = theme.lib.colors;
+  const { lightBlue800: usage } = theme.lib.colors;
 
   return (
     <Fragment>
@@ -58,10 +58,10 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: d => twoDecimalPlaces(d / 100) + '%',
-                metrics: ['cpu.usage.percent.maximum.*'].filter(Boolean),
-                labels: ['Usage'].filter(Boolean),
+                metrics: ['cpu.usage.percent.maximum.*'],
+                labels: ['Usage'],
                 type: 'line',
-                colors: [usage, allocated]
+                colors: [usage]
               }}
             />
           </Card>
@@ -73,10 +73,10 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: d => twoDecimalPlaces(d / 1000) + '%',
-                metrics: ['mem.usage.average.percent'].filter(Boolean),
-                labels: ['Usage'].filter(Boolean),
+                metrics: ['mem.usage.average.percent'],
+                labels: ['Usage'],
                 type: 'line',
-                colors: [usage, allocated]
+                colors: [usage]
               }}
             />
           </Card>

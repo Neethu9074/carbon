@@ -61,8 +61,6 @@ function Header(props) {
       title="Cluster"
       icon="lib_kubernetes_cluster"
       {...props}
-      // renderActions={Actions} to be implemented
-      // renderSubTypes={SubTypes} implement if needed
       getLabel={result => get(result, ['data', 'label'])}
     />
   );
