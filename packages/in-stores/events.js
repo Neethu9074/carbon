@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { get } from 'lodash';
 
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
@@ -194,30 +195,30 @@ export function countEvents(events) {
   return counter;
 }
 
-export function getColorByEvent({ event, timeConfig, theme = 'night' }) {
+export function getColorByEvent({ event, timeConfig, defaultColor }) {
   const severity = event.getIn(['problem', 'severity'], 0);
   const start = event.get('start');
   const end = event.get('end');
   const state = event.get('state');
-  const color = getColorBySeverity(severity);
+  const color = getColorBySeverity(severity, { defaultColor });
 
   if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
     return color;
   }
-  return getColorBySeverity(0, { theme });
+  return getColorBySeverity(0, { defaultColor });
 }
 
-export function getColorForEventAtFocusedMomentAsStream(event, theme) {
-  return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, theme }));
+export function getColorForEventAtFocusedMomentAsStream(event, params) {
+  return timeConfig$.map(timeConfig => getColorByEvent({ event, timeConfig, ...params }));
 }
 
-export function getColorByEventState({ event, theme = 'night' }) {
+export function getColorByEventState({ event, defaultColor }) {
   if (event.get('state') === 'open') {
     return getColorBySeverity(event.getIn(['problem', 'severity'], 0), {
-      theme
+      defaultColor
     });
   } else {
-    return getColorBySeverity(0, { theme });
+    return getColorBySeverity(0, { defaultColor });
   }
 }
 
@@ -255,8 +256,8 @@ export function getColorBySeverity(severity, params = {}) {
   }
   // 5.1 -> 5
   severity = severity | 0;
-  if (severity === 0 && params.theme === 'day') {
-    return '#bababa';
+  if (severity <= 0 && params.defaultColor) {
+    return params.defaultColor;
   }
   return healthColors[Math.max(0, severity) | 0];
 }
@@ -317,14 +318,14 @@ export function getIconTypeForEvent(event, useAlternativeChangeIcon = false) {
 }
 
 export function getEventType(event) {
-  const eventType = event.get('type');
+  const eventType = event.get ? event.get('type') : event.type;
   switch (eventType) {
     case 'incident':
       return EVENT_TYPES.INCIDENT;
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue': {
-      const severity = event.getIn(['problem', 'severity'], 0);
+      const severity = event.getIn ? event.getIn(['problem', 'severity'], 0) : get(event, ['problem', 'severity'], 0);
       if (severity > 8) {
         return EVENT_TYPES.ISSUE_CRITICAL;
       } else if (severity > 4) {

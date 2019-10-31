@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart';
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 

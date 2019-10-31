@@ -9,6 +9,7 @@ import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
@@ -155,7 +156,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 tab: '/deploymentconfigs'
               })
             }}
-            showDeploymentConfigs={get(cluster, ['distributionType'], 'Kubernetes') === 'OpenShift'}
+            showDeploymentConfigs={isOpenshift(get(cluster, ['clusterDistribution'], 'kubernetes'))}
           />
         </Col>
       </Row>

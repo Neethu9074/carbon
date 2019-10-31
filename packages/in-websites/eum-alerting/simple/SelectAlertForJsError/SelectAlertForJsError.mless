@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    margin: 0.5rem;
+  }
+
+  .headline {
+    color: @lib__colors__N600Light;
+    font-size: @lib__typography__h200__font-size;
+    font-weight: 600;
+    line-height: 1.5rem;
+  }
+
+  .description {
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__body-bold__font-size;
+    font-weight: @lib__typography__body-bold__font-weight;
+    line-height: 1.25rem;
+    width: 100%;
+  }
+}

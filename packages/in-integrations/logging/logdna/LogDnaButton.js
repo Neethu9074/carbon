@@ -18,13 +18,18 @@ export default connectTo({
     return null;
   }
 
-  const query = serializeQuery(props);
-  if (isBlank(query)) {
+  if (!shouldShowButton(props)) {
     return null;
   }
 
   return (
-    <Button kind="primary" target="_blank" href={constructLink(integration, props)}>
+    <Button
+      className={props.className}
+      kind="secondary"
+      icon="lib_logdna"
+      target="_blank"
+      href={constructLink(integration, props)}
+    >
       Go to LogDNA
     </Button>
   );
@@ -55,4 +60,9 @@ function serializeQuery({ hostFqdn }) {
   }
 
   return query.trim();
+}
+
+export function shouldShowButton(props) {
+  const query = serializeQuery(props);
+  return !isBlank(query);
 }

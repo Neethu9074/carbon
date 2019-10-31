@@ -1,12 +1,19 @@
 import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsLambdaFunction/Info';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 import TagList from 'in-sdk/components/sidebar/TagList';
 
 export default function AwsLambdaFunctionSidebar({ snapshot }) {
+  const latestVersionForFunction = snapshot.update('entityId', entityId =>
+    entityId
+      .set('pluginId', fullyQualifiedPlugins.awsLambdaVersion)
+      .update('steadyId', unqualifiedArn => `${unqualifiedArn}:$LATEST`)
+  );
   return (
     <div>
       <Collapsible initiallyOpen>
@@ -23,6 +30,7 @@ export default function AwsLambdaFunctionSidebar({ snapshot }) {
         subscription={getVersionsForLambdaFunction}
         label="Versions"
       />
+      <ServiceInstancesList snapshot={latestVersionForFunction} header="Services for $LATEST" />
     </div>
   );
 }

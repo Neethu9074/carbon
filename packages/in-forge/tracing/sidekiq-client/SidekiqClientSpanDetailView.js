@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function SidekiqClientSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Job">{span.getIn(['data', 'sidekiq-client', 'job'])}</DescriptionItem>
-      <DescriptionItem title="Queue">{span.getIn(['data', 'sidekiq-client', 'queue'])}</DescriptionItem>
-      <DescriptionItem title="Retry">{span.getIn(['data', 'sidekiq-client', 'retry'])}</DescriptionItem>
-      <DescriptionItem title="Job ID">{span.getIn(['data', 'sidekiq-client', 'job_id'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Job">{span.getIn(['data', 'sidekiq-client', 'job'])}</Di>
+      <Di title="Queue">{span.getIn(['data', 'sidekiq-client', 'queue'])}</Di>
+      <Di title="Retry">{span.getIn(['data', 'sidekiq-client', 'retry'])}</Di>
+      <Di title="Job ID">{span.getIn(['data', 'sidekiq-client', 'job_id'])}</Di>
+    </Dl>
   );
 }

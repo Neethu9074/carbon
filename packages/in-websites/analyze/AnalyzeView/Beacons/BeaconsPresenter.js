@@ -51,7 +51,13 @@ export default function BeaconsPresenter(props) {
         header={
           <Fragment>
             <AnalyzeHeader />
-            <QuickFilterBar showWebsiteSelector showPageSelector {...props} />
+            <QuickFilterBar
+              showWebsiteSelector
+              showPageSelector
+              showSubdivisionSelector
+              showWindowWidthSelector
+              {...props}
+            />
           </Fragment>
         }
       >

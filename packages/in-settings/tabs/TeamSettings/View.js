@@ -31,7 +31,8 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAuditLog,
-  teamSettingsLogManagementHumio
+  teamSettingsLogManagementHumio,
+  teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -44,21 +45,22 @@ import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
-import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
+import { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
-import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
+import { isRbacEnabled, humioEnabled, splunkEnabled } from 'in-services/featureFlags';
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
+import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import { isRbacEnabled, humioEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -248,6 +250,14 @@ function navigationTreeForRole(role): NavigationTree {
         path: teamSettingsLogManagementHumio,
         label: 'Humio',
         component: HumioPage
+      });
+    }
+
+    if (splunkEnabled) {
+      logManagementPages.push({
+        path: teamSettingsLogManagementSplunk,
+        label: 'Splunk',
+        component: SplunkPage
       });
     }
 

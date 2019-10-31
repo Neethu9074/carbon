@@ -65,10 +65,15 @@ registerSnapshotDefinition({
 
   DashboardHeaderActions({ snapshot, timeConfig }) {
     let hostFqdn = snapshot.getIn(['data', 'fqdn']);
-    if (!hostFqdn) {
-      hostFqdn = snapshot.getIn(['data', 'hostname']);
-    }
+    let hostName = snapshot.getIn(['data', 'hostname']);
 
-    return <LoggingIntegrationButtons snapshotId={snapshot.get('id')} hostFqdn={hostFqdn} timeConfig={timeConfig} />;
+    return (
+      <LoggingIntegrationButtons
+        snapshotId={snapshot.get('id')}
+        hostFqdn={hostFqdn}
+        hostName={hostName}
+        timeConfig={timeConfig}
+      />
+    );
   }
 });

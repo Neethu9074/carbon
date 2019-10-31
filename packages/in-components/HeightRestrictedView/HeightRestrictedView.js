@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { joinClassNames } from 'in-services/util/classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import { scrollToTop } from 'in-services/util/dom';
@@ -19,15 +18,10 @@ export default class HeightRestrictedView extends React.Component {
   }
 
   componentDidMount() {
-    this.footerHeightSubscription = timelineHeight$.subscribe(this.onFooterHeightChanged);
+    this.calculateDimensions();
     this.resizeSubscripotion = debouncedResize$.subscribe(this.onResize);
     this.onResize();
   }
-
-  onFooterHeightChanged = footerHeight => {
-    this.footerHeight = footerHeight;
-    this.calculateDimensions();
-  };
 
   onResize = () => {
     if (this.element) {
@@ -44,20 +38,16 @@ export default class HeightRestrictedView extends React.Component {
   };
 
   calculateDimensions() {
-    if (window.innerHeight == null || this.footerHeight == null || this.elementCoordinates == null) {
+    if (window.innerHeight == null || this.elementCoordinates == null) {
       return;
     }
 
-    const height = window.innerHeight - this.footerHeight - this.elementCoordinates.top;
+    const height = window.innerHeight - this.elementCoordinates.top;
     this.setState({ height });
   }
 
   componentWillUnmount() {
     this.disableScrollIndication();
-    if (this.footerHeightSubscription) {
-      this.footerHeightSubscription.dispose();
-      this.footerHeightSubscription = null;
-    }
   }
 
   componentDidUpdate(prevProps) {

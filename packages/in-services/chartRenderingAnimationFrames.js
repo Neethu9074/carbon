@@ -1,6 +1,6 @@
 import { create } from 'reactive-observables';
 
-import requestAnimationFrameWithFps from 'in-charts/Chart/requestAnimationFrameWithFps';
+import requestAnimationFrameWithFps from 'in-components/Chart/requestAnimationFrameWithFps';
 
 const streams = {};
 export function getAnimationFramesWithAnAnimationDurationOf(animationDuration) {

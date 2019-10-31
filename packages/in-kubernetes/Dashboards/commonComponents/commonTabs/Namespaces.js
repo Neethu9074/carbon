@@ -15,6 +15,7 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -154,33 +155,31 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'label',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
+    entityName: 'namespaces'
   }),
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
   columnDefinitions,
-  entityName: 'namespaces'
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
 });
 
 export default function Namespaces(props) {
   return (
     <ServerTableWithUrlState
       get={getTableData}
-      filterColumnDefinitionsByResult={result => {
-        return columnDefinition => {
-          if (
-            result.data &&
-            result.data.items &&
-            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
-          )
-            return true;
-          else return columnDefinition.id !== 'deploymentConfigs';
-        };
+      filterColumnDefinitions={({ result }) => {
+        const anyOpenshift =
+          result.data &&
+          result.data.items &&
+          Boolean(
+            find(result.data.items, item => isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes')))
+          );
+        return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
       }}
       timeConfig={props.timeConfig}
       clusterId={props.clusterId}

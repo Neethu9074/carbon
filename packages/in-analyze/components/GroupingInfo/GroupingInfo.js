@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { getEntityLabel, entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -25,11 +26,17 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
       groupedBy = `${groupedBy}.${group.value}`;
     }
   }
+  const groupedByEntity = group.entity;
 
   return (
     <div className={locals.wrapper}>
       <span className={locals.label}>Grouped by</span>
 
+      {groupedByEntity !== entityTypes.NOT_APPLICABLE && (
+        <Tooltip content={groupedByEntity ? `${getEntityLabel(groupedByEntity)}` : ''} align="topMiddle">
+          <SvgIcon className={locals.icon} type={getIconByName(groupedByEntity)} />
+        </Tooltip>
+      )}
       {isNotBlank(groupedBy) && (
         <Fragment>
           <span className={locals.grouping}>{groupedBy}</span>
@@ -57,4 +64,12 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
       </Button>
     </div>
   );
+}
+
+function getIconByName(entity) {
+  if (entity === 'DESTINATION') {
+    return 'lib_application_call_destination';
+  } else if (entity === 'SOURCE') {
+    return 'lib_application_call_source';
+  }
 }

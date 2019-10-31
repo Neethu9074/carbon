@@ -61,6 +61,10 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
     ? calculateMaxValueForStackedMetrics
     : calculateMaxValueIndependetMetrics)(axis, metrics, filteredDataSeries);
 
+  if (axis.getMax != null) {
+    return (axis.maxValue = axis.getMax(maxValue));
+  }
+
   if (maxValue === 0) {
     return (axis.maxValue = 1);
   }

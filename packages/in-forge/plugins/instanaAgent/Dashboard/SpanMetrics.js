@@ -109,7 +109,7 @@ export default function SpanMetrics({ snapshot, timeConfig }) {
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
-      maxItemsPerPage={8}
+      maxItemsPerPage={10}
     />
   );
 }

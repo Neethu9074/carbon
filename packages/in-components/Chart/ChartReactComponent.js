@@ -50,13 +50,22 @@ const ChartReactWrapper = compose(
     }
 
     render() {
-      const { chart, width, height, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
+      const {
+        chart,
+        width,
+        height,
+        timeConfig,
+        renderLegend = true,
+        reverseTooltipOrder,
+        alignLegendToLeftSideOfChart
+      } = this.props;
 
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
       return (
         <div className={locals.chart}>
-          {chart && renderLegend && <Legend chart={chart} />}
+          {chart &&
+            renderLegend && <Legend alignLegendToLeftSideOfChart={alignLegendToLeftSideOfChart} chart={chart} />}
           <div className={locals.chartAxisWrapper}>
             {chart &&
               chart.config.y1 && (

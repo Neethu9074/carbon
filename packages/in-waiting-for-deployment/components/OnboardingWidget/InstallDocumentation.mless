@@ -1,0 +1,54 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 1rem 1rem 1rem 1.5rem;
+
+    background: @lib__colors__white;
+  }
+
+  .heading {
+    margin-bottom: 1rem;
+
+    font-size: 1.5rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .contentWithNavigation {
+    display: flex;
+  }
+
+  .navigationWrapper {
+    width: 16rem;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    padding: 0 1rem 0 2rem;
+
+    overflow-y: auto;
+  }
+
+  @media (min-height: 0) {
+    .content {
+      max-height: 26rem;
+    }
+  }
+
+  @media (min-height: 40.5rem) {
+    .content {
+      max-height: calc(100vh - 15.5rem);
+    }
+  }
+
+  @media (min-height: 62.5rem) {
+    .content {
+      min-height: 41rem;
+      max-height: 41rem;
+    }
+  }
+}

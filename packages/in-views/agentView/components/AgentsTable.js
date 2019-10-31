@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
@@ -8,6 +8,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { compare as compareBoolean } from 'in-services/util/boolean';
@@ -23,6 +24,7 @@ import Button from 'in-new-components/Button';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import locals from './AgentsTable.mless';
@@ -181,20 +183,34 @@ export default connectTo(
     });
 
     return (
-      <Fragment>
-        {isInternalVisible && (
+      <>
+        {(isInternalVisible || role.canConfigureAgents) && (
           <DashboardSection title="Administration">
-            <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
-              Update All Agents
-            </Button>
-            <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
-              Reset All Agents
-            </Button>
+            {isInternalVisible && (
+              <>
+                <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
+                  Update All Agents
+                </Button>
+                <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
+                  Reset All Agents
+                </Button>
+              </>
+            )}
+            {role.canConfigureAgents && (
+              <Button
+                kind="primary"
+                href$={getModifiedUrlStream(params => {
+                  params.pathname = '/agents/installation';
+                })}
+              >
+                Instana agent installation
+              </Button>
+            )}
           </DashboardSection>
         )}
 
         <Table cardTitle="Agent Details" maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
-      </Fragment>
+      </>
     );
   }
 );

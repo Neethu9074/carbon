@@ -7,6 +7,7 @@ import { isFakeRootCall, isUnknownTypeSpan, isInternalCall } from 'in-analyze/Tr
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -135,7 +136,7 @@ function CallInformation(props) {
           />
         )}
         <ErrorIndicator erroneous={call.errorCount} />
-        <Tooltip themeStyle="light" content={call.label}>
+        <Tooltip themeStyle="light" content={shorten(call.label)}>
           <span
             className={evaluateClassNames({
               [locals.label]: true,

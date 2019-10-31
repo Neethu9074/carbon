@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .button {
+    bottom: 0.75rem;
+    display: inline-block;
+    position: fixed;
+    right: 1.25rem;
+  }
+}

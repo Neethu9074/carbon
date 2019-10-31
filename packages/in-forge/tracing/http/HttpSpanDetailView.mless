@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .error {
+    color: @lib__colors__failure;
+  }
+}

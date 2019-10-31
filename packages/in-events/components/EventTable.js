@@ -1,0 +1,159 @@
+import { on } from 'reactive-observables';
+import { findIndex } from 'lodash';
+import React from 'react';
+
+import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { isAppDataEntityType } from 'in-services/entityUtils';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import EventsList from 'in-events/components/EventsList';
+import { eventsPath } from 'in-events/navigation/paths';
+import EventIcon from 'in-events/components/EventIcon';
+import { eventId } from 'in-events/navigation/matrix';
+import tabs from 'in-events/components/tabs/index';
+import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import { getEvent } from 'in-stores/events';
+import Pill from 'in-new-components/Pill';
+import Link from 'in-components/Link';
+import theme from 'in-themes';
+
+import locals from './EventTable.mless';
+
+export default class extends React.Component {
+  static displayName = 'EventTableWithMouseEvent';
+
+  componentDidMount() {
+    this.setupSubscriptions();
+  }
+
+  componentDidUpdate() {
+    this.disposeSubscriptions();
+    this.setupSubscriptions();
+  }
+
+  componentWillUnmount() {
+    this.disposeSubscriptions();
+  }
+
+  setupSubscriptions = () => {
+    if (!this.table) {
+      return;
+    }
+
+    this.onMouseMoveSubscription = on(this.table, 'mousemove').subscribe(() =>
+      this.props.mouseMoveSignal$.emit(Date.now())
+    );
+  };
+
+  disposeSubscriptions = () => {
+    if (this.onMouseMoveSubscription) {
+      this.onMouseMoveSubscription.dispose();
+      this.onMouseMoveSubscription = null;
+    }
+  };
+
+  render() {
+    return (
+      <div ref={table => (this.table = table)}>
+        <EventTable {...this.props} />
+      </div>
+    );
+  }
+}
+
+function EventTable(props) {
+  const { selectedEventId, items: rawEventList, items, onChange, progress } = props;
+
+  if (!rawEventList) {
+    return null;
+  }
+
+  function onItemClicked(eventId) {
+    onChange({ eventId: selectedEventId === eventId ? null : eventId });
+  }
+
+  if (!selectedEventId) {
+    return <EventsList {...props} onItemClicked={onItemClicked} progress={progress} />;
+  }
+
+  return (
+    <NavigatorSplitScreen
+      {...props}
+      items={rawEventList.map(rawEvent => {
+        if (rawEvent.type === 'release') {
+          rawEvent.isDisabledForOpen = true;
+        }
+        return rawEvent;
+      })}
+      navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
+      typeLabel="event"
+      openItemIndex={findIndex(items, event => event.id === selectedEventId)}
+      openItem={e => onChange({ eventId: e.id })}
+      totalRepresentedItemCount={rawEventList.length}
+    >
+      <TabView
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        result$={getEvent(selectedEventId).map(data => ({
+          data,
+          errors: [],
+          progress: { percentage: null, loading: false }
+        }))}
+        props={props}
+        withoutBreadcrumb
+        useFullAvailableWidth
+        withoutPadding
+      />
+    </NavigatorSplitScreen>
+  );
+}
+
+function Header(props) {
+  return (
+    <div className={locals.header}>
+      {!props.result ? (
+        <BasicDashboardHeader title="Event" result={{ data: null }} />
+      ) : (
+        <BasicDashboardHeader
+          title="Event"
+          renderIcon={() => renderIcon(props.result.data)}
+          getLabel={() => props.result.data.getIn(['problem', 'problemText'], '')}
+          renderActions={() => renderActions(props.result.data)}
+        />
+      )}
+    </div>
+  );
+}
+
+function renderActions(event) {
+  return (
+    <>
+      <TriggeredMarker event={event} />
+      <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
+        <Tooltip content="Close event detail">
+          <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
+        </Tooltip>
+      </Link>
+    </>
+  );
+}
+
+function TriggeredMarker({ event }) {
+  return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
+    <Pill color={theme.lib.colors.cyan800}>SERVICE IMPACT</Pill>
+  ) : null;
+}
+
+function hasServiceImpact(event) {
+  const entityType = event.get('entityType');
+  return isAppDataEntityType(entityType);
+}
+
+function renderIcon(event) {
+  return <EventIcon className={locals.icon} event={event} size="s" />;
+}

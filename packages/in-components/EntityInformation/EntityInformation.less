@@ -1,4 +1,5 @@
 @import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
 
 .in-event-view-event-information {
   display: inline-flex;
@@ -13,6 +14,12 @@
 
   &__entity-icon {
     margin: 0 0.25rem;
+    fill: @lib__colors__primary2;
+  }
+
+  &__entity {
+    display: inline-flex;
+    align-items: center;
   }
 
   &__link {

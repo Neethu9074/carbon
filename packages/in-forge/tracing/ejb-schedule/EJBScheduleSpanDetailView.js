@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function GlassfishSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Scheduled Task">{span.getIn(['data', 'ejb', 'schedule', 'id'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Scheduled Task">{span.getIn(['data', 'ejb', 'schedule', 'id'])}</Di>
+      </Dl>
     </div>
   );
 }

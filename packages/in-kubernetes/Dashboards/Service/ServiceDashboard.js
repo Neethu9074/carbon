@@ -15,6 +15,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';
@@ -56,7 +57,7 @@ export default function ServiceDashboard({ location }) {
         tabChangeTracker={serviceTabChange}
         filterTabByResult={result => {
           return tab => {
-            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
             else return tab.label !== 'Deployment Configs';
           };
         }}

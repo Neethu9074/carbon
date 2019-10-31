@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Card.mless';
@@ -10,11 +12,20 @@ export default function Card({
   children,
   withoutPadding,
   header,
+  onHeaderBackgroundClicked,
   className,
   bodyClassName,
   framed = true,
   useMaxAvailableHeight
 }) {
+  const isInteractiveCard = !!onHeaderBackgroundClicked;
+  const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
+  const headerProps = isInteractiveCard
+    ? toInteractiveElement({
+        onDefaultInteraction: onHeaderBackgroundClicked
+      })
+    : {};
+
   return (
     <div
       className={evaluateClassNames({
@@ -23,12 +34,42 @@ export default function Card({
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
-      <div className={locals.header}>
+      <div
+        className={evaluateClassNames({
+          [locals.header]: true,
+          [locals.clickableHeader]: isInteractiveCard
+        })}
+        {...headerProps}
+      >
         <div className={locals.title}>
-          {title}
-          {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
+          <span
+            className={evaluateClassNames({
+              [locals.nonClickable]: isInteractiveCard
+            })}
+            onClick={onClickPrevented}
+          >
+            {title}
+          </span>
+          {titleSubText && (
+            <span
+              className={evaluateClassNames({
+                [locals.titleSubText]: true,
+                [locals.nonClickable]: isInteractiveCard
+              })}
+              onClick={onClickPrevented}
+            >
+              {titleSubText}
+            </span>
+          )}
         </div>
-        {header}
+        <div
+          className={evaluateClassNames({
+            [locals.nonClickable]: isInteractiveCard
+          })}
+          onClick={onClickPrevented}
+        >
+          {header}
+        </div>
       </div>
 
       <div

@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: @lib__colors__N900Primary;
+    overflow-y: auto;
+  }
+
+  .maxWidth {
+    width: 100%;
+    max-width: 100rem;
+    min-width: 62rem;
+  }
+}

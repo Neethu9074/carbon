@@ -1,18 +1,18 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function JmsSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Destination">{span.getIn(['data', 'jms', 'destination'])}</DescriptionItem>
-        <DescriptionItem title="Message">{span.getIn(['data', 'jms', 'message'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'jms', 'type'])}</DescriptionItem>
-        <DescriptionItem title="Selector">{span.getIn(['data', 'jms', 'selector'])}</DescriptionItem>
+      <Dl>
+        <Di title="Destination">{span.getIn(['data', 'jms', 'destination'])}</Di>
+        <Di title="Message">{span.getIn(['data', 'jms', 'message'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'jms', 'type'])}</Di>
+        <Di title="Selector">{span.getIn(['data', 'jms', 'selector'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'jms', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

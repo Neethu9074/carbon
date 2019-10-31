@@ -1,16 +1,16 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function DistributeMeSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Service">{span.getIn(['data', 'distributeme', 'service'])}</DescriptionItem>
-        <DescriptionItem title="Method">{span.getIn(['data', 'distributeme', 'method'])}</DescriptionItem>
+      <Dl>
+        <Di title="Service">{span.getIn(['data', 'distributeme', 'service'])}</Di>
+        <Di title="Method">{span.getIn(['data', 'distributeme', 'method'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'distributeme', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

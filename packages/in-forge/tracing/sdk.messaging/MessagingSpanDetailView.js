@@ -1,15 +1,15 @@
 import React from 'react';
 
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function MessagingSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Destination">{span.getIn(['data', 'messaging', 'destination'])}</DescriptionItem>
+      <Dl>
+        <Di title="Destination">{span.getIn(['data', 'messaging', 'destination'])}</Di>
         <CustomDataDescriptionItem span={span} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

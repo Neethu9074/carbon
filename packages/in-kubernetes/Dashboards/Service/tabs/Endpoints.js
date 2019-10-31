@@ -63,18 +63,18 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceIdUrlParameter],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'address',
-    defaultOrderDirection: 'ASC',
-    defaultPageSize: 10,
-    pathSegment,
-    matrixPrefix
+    entityName: 'endpoints'
   }),
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceIdUrlParameter],
   columnDefinitions,
-  entityName: 'endpoints'
+  defaultOrderBy: 'address',
+  defaultOrderDirection: 'ASC',
+  defaultPageSize: 10,
+  pathSegment,
+  matrixPrefix
 });
 
 export default function Endpoints(props) {

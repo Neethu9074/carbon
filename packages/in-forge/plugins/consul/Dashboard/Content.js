@@ -45,7 +45,7 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
             <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
           )}
         <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
-        <KpiKeyValue label="AdvertiseAddr">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
+        <KpiKeyValue label="Advertise Address">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
         {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
           <KpiKeyValue label="Known Servers">{snapshot.getIn(['data', 'knownServers'], null)}</KpiKeyValue>
         )}

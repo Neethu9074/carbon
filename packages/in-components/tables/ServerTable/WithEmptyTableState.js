@@ -6,6 +6,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { emptyListResult } from 'in-services/fixedObjects';
 import { getPlural } from 'in-sdk/pluginName';
 
 export default function withEmptyTableState(props) {
@@ -17,27 +18,28 @@ function ServerTableWithEmptyState(props) {
     <WithEmptyStateFallback
       center={false}
       getHasDataToRender={() => isPaginatedResultEmpty(props.get(props))}
-      FallbackComponent={() => (
-        <ServerTablePresenter
-          {...props}
-          result={{ errors: [], progress: { loading: false }, data: { items: [] } }}
-          renderNoDataAvailable={() => NoDataAvailable(props)}
-        />
-      )}
+      fallbackComponentProps={props}
+      FallbackComponent={FallbackComponent}
     >
-      <props.Component {...props} />
+      <ServerTablePresenter {...props} />
     </WithEmptyStateFallback>
   );
 }
 
-function NoDataAvailable({ icon, entityName, plugin }) {
+function FallbackComponent(props) {
+  return (
+    <ServerTablePresenter {...props} result={emptyListResult} renderNoDataAvailable={() => NoDataAvailable(props)} />
+  );
+}
+
+function NoDataAvailable(props) {
+  const { entityName, plugin } = props;
   const entitiesName = getPlural(plugin) || entityName || 'entities';
   return (
     <CenterAlignmentColumn>
       <EntityPageMainNotification
+        {...props}
         title={`No ${entitiesName} available`}
-        plugin={plugin}
-        icon={icon}
         explanation={`There were no ${entitiesName} retrieved for the selected time range`}
       />
     </CenterAlignmentColumn>

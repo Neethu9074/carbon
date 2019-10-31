@@ -23,12 +23,6 @@ export function formatSql(statement) {
   // we want to be in total control over line breaks
   formattedStatement = formattedStatement.replace(/\n/g, ' ');
 
-  replacements.forEach(replacement => {
-    formattedStatement = formattedStatement.replace(replacement, (match, keyword) => {
-      return '\n' + keyword.toUpperCase() + ' ';
-    });
-  });
-
   // remove empty comments
   formattedStatement = formattedStatement.replace(/\/\* *\*\//g, '');
 
@@ -37,6 +31,18 @@ export function formatSql(statement) {
 
   // remove multiple successive spaces
   formattedStatement = formattedStatement.replace(/ {2,}/g, ' ');
+
+  // New line and indent on comma
+  formattedStatement = formattedStatement.replace(/,/g, ',\n\t');
+
+  replacements.forEach(replacement => {
+    formattedStatement = formattedStatement.replace(replacement, (match, keyword) => {
+      return '\n' + keyword.toUpperCase() + ' ';
+    });
+  });
+
+  // Indent the AND
+  formattedStatement = formattedStatement.replace(/AND /g, '\tAND ');
 
   return formattedStatement.trim();
 }

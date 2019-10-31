@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Nginx Server',
     plural: 'Nginx Servers'
+  },
+  technologyDescriptor: {
+    label: 'Nginx'
   }
 });

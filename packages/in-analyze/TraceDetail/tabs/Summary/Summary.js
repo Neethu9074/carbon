@@ -1,5 +1,5 @@
 import { just, create } from 'reactive-observables';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
@@ -18,12 +18,12 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -235,7 +235,14 @@ class Summary extends React.Component {
 
     const callDetails = (
       <ErrorBoundary name="call tree sidebar">
-        <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+        <CallDetails
+          callId={callId}
+          traceId={traceId}
+          getColor={getColor}
+          onClose={this.clearSelectedCall}
+          startTime={trace.startTime}
+          rootCall={callTreeResult.data}
+        />
       </ErrorBoundary>
     );
 
@@ -307,5 +314,9 @@ export default compose(
   }),
   connect(props => ({
     callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
+  })),
+  withProps(props => ({
+    ...props,
+    callId: props.callId === 'ROOT' && props.callTreeResult.data ? props.callTreeResult.data.id : props.callId
   }))
 )(Summary);

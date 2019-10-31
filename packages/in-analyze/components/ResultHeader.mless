@@ -29,4 +29,8 @@
     display: inline-block;
     max-width: 7rem;
   }
+
+  .adjustmentIcon {
+    fill: @lib__colors__N500;
+  }
 }

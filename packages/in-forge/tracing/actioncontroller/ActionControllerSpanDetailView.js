@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function ActionControllerSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Controller">{span.getIn(['data', 'actioncontroller', 'controller'])}</DescriptionItem>
-      <DescriptionItem title="Action">{span.getIn(['data', 'actioncontroller', 'action'])}</DescriptionItem>
-      <DescriptionItem title="Error Message">{span.getIn(['data', 'log', 'message'])}</DescriptionItem>
-      <DescriptionItem title="Error Type">{span.getIn(['data', 'log', 'parameters'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Controller">{span.getIn(['data', 'actioncontroller', 'controller'])}</Di>
+      <Di title="Action">{span.getIn(['data', 'actioncontroller', 'action'])}</Di>
+      <Di title="Error Message">{span.getIn(['data', 'log', 'message'])}</Di>
+      <Di title="Error Type">{span.getIn(['data', 'log', 'parameters'])}</Di>
+    </Dl>
   );
 }

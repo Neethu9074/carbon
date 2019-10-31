@@ -4,22 +4,23 @@ import React, { Fragment } from 'react';
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots';
 import { metrics$, removeMetric } from 'in-views/tableView/stores/metrics';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import DownloadButton from 'in-components/DownloadButton';
 import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getPlural } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 
 import './ChartsForSelectedEntities.less';
 
 const block = 'in-table-view-charts';
 
-function SelectedChart({ metric, snapshots, labels }) {
+function SelectedChart({ metric, snapshots, timeConfig, labels }) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
 
   let max = undefined;
@@ -65,6 +66,7 @@ function SelectedChart({ metric, snapshots, labels }) {
 
       <Chart
         snapshotIds={snapshots.map(s => s.get('id'))}
+        timeConfig={timeConfig}
         y1={{
           metrics: snapshots.map(() => definition.metric),
           labels,
@@ -82,6 +84,7 @@ function SelectedChart({ metric, snapshots, labels }) {
 export default connectTo(
   {
     metrics: metrics$,
+    timeConfig: timeConfig$,
     snapshots: selectedSnapshots$,
     plugin: plugin$,
     labels: combineLatest([plugin$, selectedSnapshots$]).flatMap(([plugin, selectedSnapshots]) => {
@@ -93,7 +96,7 @@ export default connectTo(
       return combineLatest(selectedSnapshots.map(s => tableDefinition.getChartLabel$(s).startWith(getLabel(s))));
     })
   },
-  function ChartsForSelectedEntities({ metrics, snapshots, plugin, labels }) {
+  function ChartsForSelectedEntities({ metrics, snapshots, plugin, timeConfig, labels }) {
     metrics = metrics || [];
     snapshots = snapshots || [];
     snapshots = snapshots.filter(snapshot => !!snapshot);
@@ -122,7 +125,7 @@ export default connectTo(
     return (
       <div className={block}>
         {metrics.map(metric => (
-          <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} />
+          <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} timeConfig={timeConfig} />
         ))}
       </div>
     );

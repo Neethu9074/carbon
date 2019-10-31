@@ -8,13 +8,15 @@ import Applications, {
 import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sNamespaces';
 import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sClusters';
 import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Websites';
-import { getK8sNamespaces, getApplications, getK8sClusters, getWebsites } from 'in-api/permissionSets';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { getK8sNamespaces, getK8sClusters } from 'in-api/permissionSets';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { productAreaPermissions } from 'in-stores/permission';
 import FormGroup from 'in-settings/components/FormGroup';
+import { getWebsites } from 'in-websites/api/websites';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -159,7 +161,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
 }
 
 function getSelectedApplicationConfigs(selectedApplications = []) {
-  return getApplications().map(application =>
+  return getApplicationConfigs().map(application =>
     filter(application, function(app) {
       return selectedApplications.indexOf(app.id) >= 0;
     })

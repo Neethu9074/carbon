@@ -15,8 +15,8 @@ export default connectTo(
     }).map(result => (result.data ? result.data : null))
   }),
   function ClusterBreadcrumb({ clusterId, cluster, href$ }) {
-    const distributionType = get(cluster, ['distributionType'], 'Kubernetes');
-    const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+    const clusterDistribution = get(cluster, ['clusterDistribution'], 'kubernetes');
+    const clusterIcon = `lib_${clusterDistribution}`;
 
     return (
       <WithInfrastructureHealthIndicationBehaviour

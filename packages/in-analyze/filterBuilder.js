@@ -1,5 +1,6 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 const jsonSerializer = buildJsonSerializer();
 const jsonParser = buildJsonParser(null);
@@ -24,7 +25,8 @@ export function getTagFilterToUrlString(tagFilter) {
     name: tag.name,
     value: tag.value,
     operator: tag.operator,
-    secondLevelName: tag.secondLevelName
+    secondLevelName: tag.secondLevelName,
+    entity: tag.entity
   }));
 
   return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
@@ -62,7 +64,8 @@ export function createFilter(config = {}) {
     name: config.name || '',
     secondLevelName: config.secondLevelName,
     value: config.value || config.stringValue || '',
-    operator: config.operator || 'EQUALS'
+    operator: config.operator || 'EQUALS',
+    entity: config.entity || entityTypes.NOT_APPLICABLE
   };
 }
 

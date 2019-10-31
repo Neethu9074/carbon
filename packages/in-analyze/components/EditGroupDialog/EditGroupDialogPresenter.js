@@ -1,8 +1,10 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
+import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import Dialog from 'in-new-components/Dialog';
@@ -22,7 +24,11 @@ export default function EditGroupDialogPresenter({
   keySuggestions,
   keySuggestionsLoading,
   onKeyChange,
-  help
+  onEntityChange,
+  help,
+  tagName,
+  tagEntity,
+  sourceEntityAvailability
 }) {
   return (
     <Dialog title="Group" onClose={onClose} showOverflow>
@@ -77,6 +83,18 @@ export default function EditGroupDialogPresenter({
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
+
+        {form.get('entity').map(field => (
+          <div>
+            Apply to call source or destination
+            <RadioGroup
+              disabled={tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability}
+              value={field.value}
+              onChange={e => onEntityChange(e.target.value)}
+              tagName={tagName}
+            />
+          </div>
+        ))}
 
         <div className={locals.actions}>
           <Button type="submit" kind="primaryv2" disabled={form.touched && !form.hierarchyValid}>

@@ -8,11 +8,11 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Version',
-    type: 'string',
+    title: 'Name',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return row.node.getIn(['data', 'version']);
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   },
@@ -26,17 +26,17 @@ const cols = [
     }
   },
   {
-    title: 'Health',
-    type: 'health',
+    title: 'Version',
+    type: 'string',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
+      getValue(row) {
+        return row.node.getIn(['data', 'version']);
       }
     }
   },
   {
-    title: 'Name',
-    type: 'snapshotLink',
+    title: 'Health',
+    type: 'health',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;

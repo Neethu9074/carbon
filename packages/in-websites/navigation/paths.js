@@ -57,6 +57,8 @@ export const configurationOptions = '/options';
 export const configurationOptionsFullyQualified = `${configurationTabFullyQualified}${configurationOptions}`;
 export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
+export const configurationAlerts = '/alerts';
+export const configurationAlertsFullyQualified = `${configurationTabFullyQualified}${configurationAlerts}`;
 
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;

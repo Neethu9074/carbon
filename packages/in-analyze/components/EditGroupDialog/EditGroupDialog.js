@@ -5,10 +5,11 @@ import { empty } from 'reactive-observables';
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { getTagType, getTagEntity, getSourceEntityAvailability } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { emptyArray } from 'in-services/fixedObjects';
-import { getTagType } from 'in-applications/tags';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -23,11 +24,16 @@ export default compose(
     reducerName: 'setForm',
     reducer: (prev, form) => getState(form)
   }),
-  withProps(({ setGroup, setForm, form }) => ({
+  withProps(({ setGroup, setForm, form, timeConfig }) => ({
+    tagEntity: getTagEntity(form.get('tag').value),
+    sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
     onClose: close,
     onTagChange: tag => setForm(createForm(tag)),
     onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
+    onEntityChange: entity => setForm(form.updateIn(['entity'], f => f.setValue(entity).setTouched(true))),
     onSubmit: e => {
+      const tagEntity = getTagEntity(form.get('tag').value);
+
       stopPropagationAndPreventDefault(e);
       if (!form.hierarchyValid) {
         setForm(form.setTouched(true, { recurse: true }));
@@ -37,6 +43,11 @@ export default compose(
       const newGroup = {
         groupbyTag: form.get('tag').value
       };
+
+      newGroup.entity =
+        tagEntity === entityTypes.NOT_APPLICABLE
+          ? entityTypes.NOT_APPLICABLE
+          : form.containsKey('entity') && form.get('entity').value;
 
       if (form.get('key')) {
         newGroup.groupbyTagSecondLevelKey = form.get('key').value;
@@ -73,21 +84,38 @@ function getInitialState({ tagSuggestions, group }) {
 
 function getState(form) {
   return {
-    form
+    form,
+    tagName: form.get('tag').value
   };
+}
+
+function setResolvedEntity(tag) {
+  const tagEntity = getTagEntity(tag);
+  if (tagEntity === entityTypes.NOT_APPLICABLE) {
+    return entityTypes.NOT_APPLICABLE;
+  }
+  return entityTypes.DESTINATION;
 }
 
 function createForm(tag, group) {
   const resolvedTag = (group && group.groupbyTag) || (group && group.name) || tag;
   const tagType = getTagType(resolvedTag);
+  const resolvedEntity = group ? group.entity : setResolvedEntity(tag);
 
-  let form = createMapForm().put(
-    'tag',
-    createField({
-      value: resolvedTag,
-      validator: notBlankValidator
-    })
-  );
+  let form = createMapForm()
+    .put(
+      'tag',
+      createField({
+        value: resolvedTag,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'entity',
+      createField({
+        value: resolvedEntity
+      })
+    );
 
   if (tagType === 'KEY_VALUE_PAIR') {
     form = form.put(

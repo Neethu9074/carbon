@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function MongoSpanDetailView({ span }) {
@@ -9,19 +9,19 @@ export default function MongoSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Hostname">{span.getIn(['data', 'peer', 'hostname'])}</DescriptionItem>
-        <DescriptionItem title="Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
-        <DescriptionItem title="Service">{span.getIn(['data', 'mongo', 'service'])}</DescriptionItem>
-        <DescriptionItem title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</DescriptionItem>
+      <Dl>
+        <Di title="Hostname">{span.getIn(['data', 'peer', 'hostname'])}</Di>
+        <Di title="Port">{span.getIn(['data', 'peer', 'port'])}</Di>
+        <Di title="Service">{span.getIn(['data', 'mongo', 'service'])}</Di>
+        <Di title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</Di>
         {query ? (
-          <DescriptionItem title="Query" verticalDisplay>
+          <Di title="Query" verticalDisplay>
             <Code code={query} lang="json" />
-          </DescriptionItem>
+          </Di>
         ) : null}
         <ErrorDescriptionItem error={span.getIn(['data', 'mongo', 'error'])} />
-        <DescriptionItem title="Error Code">{span.getIn(['data', 'mongo', 'error_code'])}</DescriptionItem>
-      </DescriptionList>
+        <Di title="Error Code">{span.getIn(['data', 'mongo', 'error_code'])}</Di>
+      </Dl>
     </div>
   );
 }

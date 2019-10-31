@@ -1,6 +1,7 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { eventsPath } from 'in-events/navigation/paths';
 
 export function focusEvent(eventId) {
   mutateUrl(params => {
@@ -12,7 +13,7 @@ export function focusEvent(eventId) {
     } else {
       params.pathname = eventsPath;
     }
-    params.query.eventId = eventId;
+    setOrDeleteMatrixKey(params, eventsPath, eventIdMatricParam, eventId);
     delete params.query.snapshotId;
     return params;
   });
@@ -71,9 +72,9 @@ export function getEventsViewFilteredBy({
     if (query) {
       params.query.q = query;
     }
-    if (eventId) {
-      params.query.eventId = eventId;
-    }
+
+    setOrDeleteMatrixKey(params, eventsPath, eventIdMatricParam, eventId || params.query.eventId);
+    delete params.query.eventId;
 
     if (eventTypeFilter) {
       setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);

@@ -55,13 +55,15 @@ class SparkChartReactWrapper extends React.Component {
     this.sparkChart.update(this.props);
   }
 
-  UNSAFE_componentWillUpdate(nextProps) {
+  componentDidUpdate(nextProps) {
     this.sparkChart.update(nextProps);
   }
 
   componentWillUnmount() {
-    this.sparkChart.dispose();
-    this.sparkChart = null;
+    if (this.sparkChart) {
+      this.sparkChart.dispose();
+      this.sparkChart = null;
+    }
   }
 
   render() {

@@ -1,5 +1,5 @@
-import React from 'react';
 import { createLogger } from 'instalog';
+import React from 'react';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';

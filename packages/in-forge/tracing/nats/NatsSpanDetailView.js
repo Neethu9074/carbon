@@ -1,16 +1,16 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function NatsSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Sort">{span.getIn(['data', 'nats', 'sort'])}</DescriptionItem>
-        <DescriptionItem title="Subject">{span.getIn(['data', 'nats', 'subject'])}</DescriptionItem>
+      <Dl>
+        <Di title="Sort">{span.getIn(['data', 'nats', 'sort'])}</Di>
+        <Di title="Subject">{span.getIn(['data', 'nats', 'subject'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'nats', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

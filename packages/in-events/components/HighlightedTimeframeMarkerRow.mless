@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .row {
+    background: @lib__colors__N100;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .notificationWrapper {
+    display: flex;
+    align-items: center;
+
+    color: @lib__colors__N600Light;
+  }
+
+  .icon {
+    margin: 0 0.5rem 0 -0.25rem;
+
+    fill: @lib__colors__N800Dark;
+  }
+}

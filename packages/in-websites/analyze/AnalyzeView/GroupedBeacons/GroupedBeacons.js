@@ -101,7 +101,13 @@ function GroupedBeacons(props) {
         header={
           <Fragment>
             <AnalyzeHeader isGrouped />
-            <QuickFilterBar showWebsiteSelector showPageSelector {...props} />
+            <QuickFilterBar
+              showWebsiteSelector
+              showPageSelector
+              showSubdivisionSelector
+              showWindowWidthSelector
+              {...props}
+            />
           </Fragment>
         }
       >

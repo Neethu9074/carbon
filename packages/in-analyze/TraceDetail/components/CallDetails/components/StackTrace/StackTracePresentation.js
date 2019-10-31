@@ -23,6 +23,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
 
   return (
     <div className={locals.stackTrace}>
+      <p className={locals.title}>StackTrace</p>
       <ol
         className={evaluateClassNames({
           [locals.list]: true,

@@ -21,6 +21,9 @@ import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';
 
+import locals from './DatabaseStatementDetail.mless';
+import AnalyzeStatementButton from 'in-applications/Dashboards/commonComponents/database/AnalyzeStatementButton';
+
 export default connectTo(
   props => ({
     statementResult: getDatabaseStatement({ id: props.match.params.statementId, timeConfig: props.timeConfig })
@@ -70,12 +73,21 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
   return (
     <MaxWidthFullscreenContainer>
       <Title title="Database Statement Details" dynamic={statement.statement} />
-      <BackButton
-        label="Back"
-        href$={getModifiedUrlStream(
-          params => (params.pathname = params.pathname.replace(/\/database\/statements\/.*/, ''))
-        )}
-      />
+      <div className={locals.actions}>
+        <BackButton
+          label="Back"
+          href$={getModifiedUrlStream(
+            params => (params.pathname = params.pathname.replace(/\/database\/statements\/.*/, ''))
+          )}
+        />
+
+        <AnalyzeStatementButton
+          applicationId={applicationId}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          statement={statement}
+        />
+      </div>
 
       <Row>
         <Col lg={4}>

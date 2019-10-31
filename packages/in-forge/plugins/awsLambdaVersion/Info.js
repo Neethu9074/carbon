@@ -14,6 +14,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
       <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
+      <DescriptionItem title="Revision ID">{data.get('revision')}</DescriptionItem>
+      <DescriptionItem title="Code Hash">{data.get('code_sha_256')}</DescriptionItem>
       {data.get('npmPackageName') && (
         <DescriptionItem title="Node.js Package Name">{data.get('npmPackageName')}</DescriptionItem>
       )}

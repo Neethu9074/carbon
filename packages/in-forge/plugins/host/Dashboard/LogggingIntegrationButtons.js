@@ -18,7 +18,14 @@ export default connectTo(
       )
     };
   },
-  function NodeInformation({ hostFqdn, nodeSnapshot, timeConfig }) {
-    return <LoggingIntegrationButtons hostFqdn={hostFqdn} isWithinKubernetes={nodeSnapshot} timeConfig={timeConfig} />;
+  function NodeInformation({ hostFqdn, hostName, nodeSnapshot, timeConfig }) {
+    return (
+      <LoggingIntegrationButtons
+        hostFqdn={hostFqdn}
+        hostName={hostName}
+        isWithinKubernetes={nodeSnapshot}
+        timeConfig={timeConfig}
+      />
+    );
   }
 );

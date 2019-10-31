@@ -69,16 +69,16 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
-    columnDefinitions,
-    defaultOrderBy: 'label',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
+    columnDefinitions
   }),
-  columnDefinitions
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
+  columnDefinitions,
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
 });
 
 export default function Infrastructure(props) {

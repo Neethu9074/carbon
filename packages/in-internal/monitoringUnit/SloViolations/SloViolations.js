@@ -13,8 +13,8 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { siPrefix } from 'in-services/formatters/number';
+import getRawEvents from 'in-subscription/getRawEvents';
 import { getColorBySeverity } from 'in-stores/events';
-import getRawEvents from 'in-subscription/rawEvents';
 import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSingular } from 'in-sdk/pluginName';
@@ -37,14 +37,18 @@ export default connect({
       .flatMap(() =>
         getRawEvents({
           timeConfig,
-          maxTimestamp: timeConfig.to || Date.now(),
-          minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
-          sortByField: 'start',
-          sortMode: 'desc',
           query: onlySlosQuery,
-          offset: 0,
-          size: 200
-        }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
+          pagination: {
+            cursor: null,
+            retrievalSize: 200
+          },
+          order: {
+            by: 'start',
+            direction: 'DESC'
+          }
+        })
+          .filter(data => data.items)
+          .map(data => data.items.filter(e => e.entityType === 'Entity10'))
       )
   )
 })(SloViolations);
@@ -64,7 +68,6 @@ function SloViolations({ events, timeConfig }) {
   return (
     <div className={locals.wrapper}>
       <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
-
       <Row>
         <Col lg={12}>
           <SloViolationsChart timeConfig={timeConfig} />

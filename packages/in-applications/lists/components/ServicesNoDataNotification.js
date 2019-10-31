@@ -9,7 +9,7 @@ export default function ServicesNoDataNotification() {
     <EntityPageMainNotification
       plugin={applicationPlugins.service}
       title="No Services yet"
-      renderExplanation={() => <ArticleContent id="servicesNoData" />}
+      explanation={() => <ArticleContent id="servicesNoData" />}
     />
   );
 }

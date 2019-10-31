@@ -3,22 +3,12 @@ import React from 'react';
 
 import ExpandableStackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
-import StackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTrace';
 
 import Root from '../_helpers/Root';
 
 storiesOf('Analyse/StackTrace', module)
-  .add('default', () => <Default />)
   .add('StackTrace direct', () => <StackTraceDirect />)
   .add('Expandable StackTrace', () => <ExpandingStackTrace />);
-
-function Default() {
-  return (
-    <Root>
-      <StackTrace call={callExample} />
-    </Root>
-  );
-}
 
 function StackTraceDirect() {
   const logs = callExample.logs;

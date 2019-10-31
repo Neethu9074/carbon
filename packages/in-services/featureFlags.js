@@ -40,12 +40,18 @@ export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
 export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
+export const splunkEnabled = isFeatureFlagEnabled('splunkEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', true);
 export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
-export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', true);
+export const isInitialOnboardingCheckEnabled =
+  !isInstanaEngineer && isFeatureFlagEnabled('isInitialOnboardingCheckEnabled', true);
+export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
+export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
+export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -56,7 +62,7 @@ export function getBlackListedSearchFieldKeywords() {
 export const blackListedSearchFieldValues = {
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
   'entity.type': ['agent'],
-  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics']
+  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics', 'region']
 };
 
 // ########################################################################################

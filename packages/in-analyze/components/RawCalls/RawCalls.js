@@ -40,7 +40,12 @@ export default compose(
         },
         tagFilters: filterByGroup
           ? tagFiltersForSubscription.concat([
-              { name: filterByGroup.name, operator: 'EQUALS', stringValue: filterByGroup.value }
+              {
+                name: filterByGroup.name,
+                operator: 'EQUALS',
+                stringValue: filterByGroup.value,
+                entity: filterByGroup.entity
+              }
             ])
           : tagFiltersForSubscription
       })

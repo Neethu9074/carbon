@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dialog {
+    width: 66.25rem;
+  }
+
+  .form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
+    grid-template-rows: min-content auto;
+    grid-column-gap: 0.5rem;
+    grid-row-gap: 0.5rem;
+
+    height: 29.375rem;
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    width: 4.375rem;
+  }
+}

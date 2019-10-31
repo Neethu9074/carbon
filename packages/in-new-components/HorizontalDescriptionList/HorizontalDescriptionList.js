@@ -9,13 +9,13 @@ export function Dl({ children }) {
   return <dl className={locals.list}>{children}</dl>;
 }
 
-export function Di({ title, children, ddClassName, rowClassName, dtClassName }) {
+export function Di({ title, children, ddClassName, rowClassName, dtClassName, verticalDisplay }) {
   if (children == null || (typeof children === 'string' && isBlank(children))) {
     return null;
   }
 
   return (
-    <div className={joinClassNames(locals.item, rowClassName)}>
+    <div className={joinClassNames(locals.item, rowClassName, verticalDisplay ? locals.verticalDisplay : '')}>
       <dt className={joinClassNames(locals.title, dtClassName)}>{title}</dt>
       <dd className={joinClassNames(locals.description, ddClassName)}>{children}</dd>
     </div>

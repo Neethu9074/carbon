@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   isInfraEntityType,
+  isWebsiteEntityType,
   isAppDataEntityType,
   isEndpointEntity,
   isApplicationEntity,
@@ -13,7 +14,9 @@ import {
 } from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { getSnapshot } from 'in-stores/snapshot';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -34,6 +37,17 @@ export default connectTo(
       return {
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
+    } else if (isWebsiteEntityType(entityType)) {
+      return {
+        entity: just({
+          data: {
+            id: entityId,
+            label: metadata.get('entityLabel'),
+            configId: metadata.get('eventSpecificationId'),
+            configCreated: metadata.get('alertConfigCreated')
+          }
+        })
+      };
     } else {
       return createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata);
     }
@@ -52,6 +66,8 @@ export default connectTo(
 
     if (isAppDataEntityType(entityType)) {
       return <EntityInformation20 {...props} />;
+    } else if (isWebsiteEntityType(entityType)) {
+      return <EntityWebsiteInformation {...props} />;
     } else {
       // !entityType || entityType === 'Entity10'
       return <EntityInformation10 {...props} />;
@@ -64,14 +80,16 @@ function EntityInformation10({
   label,
   useSnapshotLink = false,
   kind = 'dark',
-  getLabelCallback = label => label
+  getLabelCallback = label => label,
+  pathname
 }) {
   return (
     <div className={block}>
-      <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
+      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
       <HierarchicalLink
         snapshot={entity}
         className={`${block}__link`}
+        pathname={pathname}
         useSnapshotLink={useSnapshotLink}
         kind={kind}
         calculateHierarchy
@@ -96,8 +114,20 @@ function EntityInformation20({ entity, entityType, label }) {
 
   return (
     <div className={block}>
-      <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
+      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
       <Link href$={href$}>{data.label}</Link>
+    </div>
+  );
+}
+
+function EntityWebsiteInformation({ entity, label }) {
+  return (
+    <div className={block}>
+      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
+      <Link href$={getLinkToWebsite(entity.data.id)} className={`${block}__entity`}>
+        <SvgIcon className={`${block}__entity-icon`} type={'lib_website'} size="xxs" />
+        {entity.data.label}
+      </Link>
     </div>
   );
 }

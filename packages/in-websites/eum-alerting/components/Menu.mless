@@ -1,0 +1,44 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    height: 100%;
+    margin: 8px;
+  }
+
+  .list {
+    list-style: none;
+    // reset some browser styles
+    margin: 0;
+    padding: 0;
+  }
+
+  .item.selected {
+    background-color: @lib__colors__N600Light;
+    color: @lib__colors__white;
+  }
+
+  .item {
+    align-items: center;
+    border-radius: @lib__shapes__radius_small;
+    color: @lib__colors__N700Medium;
+    display: flex;
+    font-size: @lib__typography__body__font-size;
+    height: 2rem;
+    padding: 0.5rem;
+
+    &:hover {
+      background: @lib__colors__N300;
+      cursor: pointer;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .rightSeperator {
+    border-right: 1px solid @lib__colors__N300;
+    padding-right: 1rem;
+  }
+}

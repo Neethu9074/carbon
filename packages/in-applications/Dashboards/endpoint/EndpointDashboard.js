@@ -8,7 +8,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
+import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -25,6 +25,7 @@ import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
 import locals from './EndpointDashboard.mless';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard({ location, timeConfig }) {
   const props = {
@@ -143,12 +144,13 @@ function MessageBar({ title, message, link }) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isSynthetic }) {
   return (
     <Fragment>
-      <AnalyzeTracesButton
+      <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         isSynthetic={isSynthetic}
         timeConfig={timeConfig}
+        groupByTag={{ name: 'call.name', entity: entityTypes.DESTINATION }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}

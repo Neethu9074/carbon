@@ -1,0 +1,193 @@
+import React, { useState } from 'react';
+
+import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
+import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
+import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
+import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
+import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import PopulationChart from 'in-events/components/legacy/PopulationChart';
+import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import EventList from 'in-events/components/legacy/EventList';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import EventChart from 'in-events/components/EventChart';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import { emptyList } from 'in-services/fixedImmutables';
+import getRecentEvents$ from 'in-events/recentEvents';
+import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
+
+import locals from './Summary.mless';
+
+export default function Summary({ selectedEventId, data: event }) {
+  if (!event || selectedEventId !== event.get('id')) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  const eventType = getEventType(event);
+  const isIncident = eventType === EVENT_TYPES.INCIDENT;
+
+  return (
+    <HeightRestrictedView
+      render={() => (
+        <ContentWrapper>
+          <EventDetailsKPIs event={event} isIncident={isIncident} />
+          {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
+        </ContentWrapper>
+      )}
+    />
+  );
+}
+
+function EventContent({ event }) {
+  const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
+
+  if (isWebsiteEvent(event)) {
+    return <WebsiteEventContent event={event} timeConfigFromEvent={timeConfigFromEvent} />;
+  }
+
+  return (
+    <>
+      <Row>
+        <Col xs>
+          <Card title="Description">
+            <EntityWithParentInformation
+              entityId={event.get('entityId')}
+              entityType={event.get('entityType')}
+              metadata={event.get('metadata')}
+              timeConfig={timeConfigFromEvent}
+            />
+
+            <ProblemDescription event={event} className="in-event-view-event-content" />
+            <EventSpecificationLink event={event} />
+          </Card>
+        </Col>
+      </Row>
+
+      {isOfflineEvent(event) ? (
+        <Row>
+          <Col xs>
+            <Card title="Last process">
+              <OfflineEventDescription event={event} />
+            </Card>
+          </Col>
+        </Row>
+      ) : (
+        <>
+          {hasEvents(event) && (
+            <Row>
+              <Col xs>
+                <Card title="Metrics">
+                  <EventChart event={event} />
+                  <div className={locals.analyzeButtonWrapper}>
+                    <AnalyzeIssueCallsButton event={event} />
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          )}
+        </>
+      )}
+    </>
+  );
+}
+
+import connectTo from 'in-hoc/connectTo';
+
+const IncidentContent = connectTo(
+  ({ incident }) => ({
+    recentEvents: getRecentEvents$(incident)
+  }),
+  function IncidentContent({ incident, recentEvents }) {
+    const [changesAreVisible, setChangesAreVisible] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const numChanges = getNumberOfChanges(recentEvents);
+
+    const header = (
+      <>
+        {shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) && (
+          <Button
+            type="button"
+            kind={isExpanded ? 'primaryv2' : 'secondary'}
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? 'Collapse' : `Expand (${recentEvents.length})`}
+          </Button>
+        )}
+        {shouldRenderShowChangesButton(numChanges) && (
+          <Button
+            type="button"
+            kind={changesAreVisible ? 'primaryv2' : 'secondary'}
+            onClick={() => setChangesAreVisible(!changesAreVisible)}
+          >
+            {changesAreVisible ? 'Hide Changes' : 'Show Changes'}
+          </Button>
+        )}
+      </>
+    );
+
+    return (
+      <>
+        <Row>
+          <Col xs>
+            <Card title="Population" header={header}>
+              <PopulationChart
+                incidentId={incident.get('id')}
+                recentEvents={recentEvents}
+                changesAreVisible={changesAreVisible}
+                isExpanded={isExpanded}
+              />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs>
+            <Card title="Events">
+              <EventList incident={incident} />
+            </Card>
+          </Col>
+        </Row>
+      </>
+    );
+  }
+);
+
+function getNumberOfChanges(recentEvents) {
+  if (!recentEvents) {
+    return 0;
+  }
+
+  let counter = 0;
+  for (let i = 0, length = recentEvents.length; i < length; i++) {
+    const event = recentEvents[i];
+    if (getEventType(event) === EVENT_TYPES.CHANGE) {
+      counter++;
+    }
+  }
+  return counter;
+}
+
+function shouldRenderShowChangesButton(numChanges) {
+  return numChanges > 0;
+}
+
+function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
+  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
+}
+
+function isOfflineEvent(event) {
+  return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
+}
+
+function isWebsiteEvent(event) {
+  return event.hasIn(['metadata', 'websiteId']);
+}
+
+function hasEvents(event) {
+  return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}

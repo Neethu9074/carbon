@@ -1,3 +1,4 @@
+import { drawPoint } from 'in-components/Chart/renderer/point';
 export default {
   render: ({ dataSeries, color, scale, config }) => {
     config.backBufferCtx.beginPath();
@@ -8,13 +9,22 @@ export default {
       if (!dataPoint) {
         continue;
       }
+      const nextDataPoint = dataSeries[i + 1];
       const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
 
-      if (distanceToPreviousDataPointIsToBig(dataPoint, previousDataPoint)) {
+      if (distanceBetweenDataPointsIsTooBig(dataPoint, previousDataPoint)) {
         config.backBufferCtx.moveTo(xPos, yPos);
       } else {
         config.backBufferCtx.lineTo(xPos, yPos);
+      }
+
+      if (
+        (!previousDataPoint && !nextDataPoint) ||
+        (distanceBetweenDataPointsIsTooBig(nextDataPoint, dataPoint) &&
+          distanceBetweenDataPointsIsTooBig(dataPoint, previousDataPoint))
+      ) {
+        drawPoint(config, xPos, yPos, color);
       }
 
       previousDataPoint = dataPoint;
@@ -24,8 +34,8 @@ export default {
     config.backBufferCtx.lineWidth = 2;
     config.backBufferCtx.stroke();
 
-    function distanceToPreviousDataPointIsToBig(dataPoint, previousDataPoint) {
-      return !previousDataPoint || dataPoint[0] - previousDataPoint[0] > config.maxDistanceBetweenDatapointsInMillis;
+    function distanceBetweenDataPointsIsTooBig(a, b) {
+      return !a || !b || a[0] - b[0] > config.maxDistanceBetweenDatapointsInMillis;
     }
   }
 };

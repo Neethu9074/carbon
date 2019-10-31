@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 
+const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
@@ -23,76 +24,25 @@ exports.getButlerDomain = (tenant, unit) =>
 
 exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
-    return Promise.all([
-      getBooleanSetting(`settings/${tenant}-${unit}/JAVASCRIPT_STACK_TRACE_TRANSLATION_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ADHOC_METRIC_AGGREGATION_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`, false),
-      getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
-      getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false)
-    ]).then(
-      ([
-        javaScriptStackTraceTranslationEnabled,
-        isSelfService,
-        lastSevenDaysTimePresetEnabled,
-        customEventsInWebsiteMonitoringEnabled,
-        ruleDeprecationValidationChecksEnabled,
-        containerInfoEnabled,
-        internalMonitoringUnit,
-        isRbacEnabled,
-        isAdhocMetricAggregationEnabled,
-        customDashboardsEnabled,
-        trackUrlPathChanges,
-        samplingIndicatorEnabled,
-        unmonitoredHostsEnabled,
-        pcfEnabled,
-        humioEnabled,
-        logDnaEnabled,
-        urlShortenerEnabled,
-        websiteUserBreakdownEnabled,
-        optInOptOutEnabled,
-        isOnPrem
-      ]) => ({
-        javaScriptStackTraceTranslationEnabled,
-        isSelfService,
-        lastSevenDaysTimePresetEnabled,
-        releaseNotesEnabled: true,
-        maintenanceNotesEnabled: true,
-        useInstanaSaasEumTrackingUrlEnabled: true,
-        tenantSwitcherEnabled: true,
-        onPremLicenseInformationEnabled: false,
-        customEventsInWebsiteMonitoringEnabled,
-        ruleDeprecationValidationChecksEnabled,
-        containerInfoEnabled,
-        internalMonitoringUnit,
-        isRbacEnabled,
-        isAdhocMetricAggregationEnabled,
-        trackUrlPathChanges,
-        samplingIndicatorEnabled,
-        unmonitoredHostsEnabled,
-        customDashboardsEnabled,
-        pcfEnabled,
-        humioEnabled,
-        logDnaEnabled,
-        urlShortenerEnabled,
-        websiteUserBreakdownEnabled,
-        optInOptOutEnabled,
-        isOnPrem
-      })
+    const featureFlags = getFeatureFlagDefinitions(tenant, unit).map(definition => {
+      if (definition.consulKey) {
+        return getBooleanSetting(definition.consulKey, definition.defaultValue).then(value => ({
+          key: definition.uiClientKey,
+          value
+        }));
+      }
+
+      return Promise.resolve({
+        key: definition.uiClientKey,
+        value: definition.defaultValue
+      });
+    });
+
+    return Promise.all(featureFlags).then(resolvedFeatureFlags =>
+      resolvedFeatureFlags.reduce((agg, { key, value }) => {
+        agg[key] = value;
+        return agg;
+      }, {})
     );
   });
 

@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { getOperatorLabel, getEntityLabel, entityTypes } from 'in-analyze/applicationFilter';
 import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import { getOperatorLabel } from 'in-analyze/applicationFilter';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagFilter.mless';
@@ -16,7 +17,7 @@ export default function TagFilter({
   hasExtraMargin,
   isOnlyFilter
 }) {
-  let { name, secondLevelName, value, operator } = tagFilter.tag;
+  let { name, secondLevelName, value, operator, entity } = tagFilter.tag;
   const node = findSubTreeByFullyQualifiedName(name);
 
   if (secondLevelName) {
@@ -26,7 +27,16 @@ export default function TagFilter({
   return (
     <div className={locals.tagFilterWrapper}>
       <div className={locals.tagFilter} onClick={tagFilter.onClick}>
-        <SvgIcon className={locals.icon} type={getIconByName(name)} />
+        <Tooltip
+          content={
+            entity !== entityTypes.NOT_APPLICABLE
+              ? `Call ${getEntityLabel(entity)}`
+              : 'Source and destination not applicable'
+          }
+          align="topMiddle"
+        >
+          <SvgIcon className={locals.icon} type={getIconByName(name, entity)} />
+        </Tooltip>
 
         <span className={locals.name}>{name}</span>
         {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
@@ -63,7 +73,19 @@ export default function TagFilter({
   );
 }
 
-function getIconByName(type) {
+function getIconByName(type, entity = entityTypes.DESTINATION) {
+  if (type.includes('trace')) {
+    return 'lib_application_trace';
+  }
+  if (type.includes('call')) {
+    return 'lib_application_call';
+  }
+  if (entity === entityTypes.DESTINATION) {
+    return 'lib_application_call_destination';
+  }
+  if (entity === entityTypes.SOURCE) {
+    return 'lib_application_call_source';
+  }
   if (type === 'application.name') {
     return 'lib_application';
   }
@@ -73,5 +95,6 @@ function getIconByName(type) {
   if (type === 'endpoint.name') {
     return 'lib_application_endpoint';
   }
+
   return 'lib_views_tag';
 }

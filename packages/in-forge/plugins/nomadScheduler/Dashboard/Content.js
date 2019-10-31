@@ -12,19 +12,12 @@ import GaugesTable from './GaugesTable';
 export default function NomadDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const errorCode = snapshot.getIn(['data', 'error_code']);
-  const nomadVersion = snapshot.getIn(['data', 'nomad_version']);
 
   if (errorCode !== 'NO_ERROR') {
     return (
       <DashboardNotification type="warning">
-        <strong>Nomad version too old</strong>
-        <p>
-          The Nomad version you are using is too old and does not provide metrics. Please upgrade to version 0.7 or
-          higher to receive metrics in this dashboard.
-        </p>
-        <p>
-          Current Nomad Version: <code>{nomadVersion}</code>
-        </p>
+        <strong>Nomad metrics are not available</strong>
+        <p>Please check if the Nomad metrics endpoint is reachable.</p>
       </DashboardNotification>
     );
   } else {
@@ -56,7 +49,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         </KpiSection>
         <Columize>
-          <DashboardSection title="Allocated/Unallocated CPU (MHz)">
+          <DashboardSection title="CPU (MHz)">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -69,7 +62,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Allocated/Unallocated memory">
+          <DashboardSection title="Memory">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -84,7 +77,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title="Allocated/Unallocated disk">
+          <DashboardSection title="Disk">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -97,7 +90,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Allocated/Unallocated IOPS">
+          <DashboardSection title="IOPS">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

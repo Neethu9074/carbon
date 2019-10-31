@@ -4,12 +4,12 @@ import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
+import createDataHolder from 'in-components/Chart/data/dataHolder';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import createDataHolder from 'in-charts/data/dataHolder';
-import createQueue from 'in-charts/data/queue';
+import createQueue from 'in-components/Chart/data/queue';
 
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a

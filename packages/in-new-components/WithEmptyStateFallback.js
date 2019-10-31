@@ -9,7 +9,16 @@ export default connectTo(
     hasDataToRender: getHasDataToRender().distinct()
   }),
   function WithEmptyStateFallback(props) {
-    const { hasDataToRender = true, FallbackComponent, children, center = true, title, explanation } = props;
+    const {
+      hasDataToRender = true,
+      FallbackComponent,
+      children,
+      center = true,
+      title,
+      changeExplanation,
+      explanation,
+      fallbackComponentProps
+    } = props;
     if (hasDataToRender) {
       return children;
     }
@@ -19,12 +28,13 @@ export default connectTo(
         icon="lib_missing_data"
         title={title || 'No data available'}
         explanation={explanation}
+        changeExplanation={changeExplanation}
       />
     );
 
     const content = FallbackComponent ? (
       typeof FallbackComponent === 'function' ? (
-        <FallbackComponent notFoundComponent={notFoundComponent} {...props} />
+        <FallbackComponent notFoundComponent={notFoundComponent} {...props} {...fallbackComponentProps} />
       ) : (
         FallbackComponent
       )

@@ -18,10 +18,10 @@ module.exports = {
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
-    overlays: ++zIndex,
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
     dialog: ++zIndex,
+    overlays: ++zIndex,
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
   },
@@ -225,6 +225,7 @@ function buildLib() {
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));
+  lib.colors.chart.strokeColors50 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.15));
 
   // self
   lib.colors.chart.self100 = lib.colors.N500;

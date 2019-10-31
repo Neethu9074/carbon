@@ -4,7 +4,7 @@ import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/Clic
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-export default function ServiceListPresenter({ result }) {
+export default function ServiceListPresenter({ result, header = 'Services' }) {
   // we are not showing progress/errors in the Infra 1.0 sidebars
   if (result.progress.loading || result.errors.length > 0 || result.data.items.length === 0) {
     return null;
@@ -13,7 +13,7 @@ export default function ServiceListPresenter({ result }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Services</Collapsible.Header>
+        <Collapsible.Header>{header}</Collapsible.Header>
         <Collapsible.Content>
           <ClickableList>
             {result.data.items.map(service => (

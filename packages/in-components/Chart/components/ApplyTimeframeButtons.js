@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
-import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
+import ApplyButton from 'in-components/Chart/components/ApplyButton';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplyTimeframeButtons.mless';

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function MSMQSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Machine">{span.getIn(['data', 'msmq', 'machineName'])}</DescriptionItem>
-        <DescriptionItem title="Queue">{span.getIn(['data', 'msmq', 'queueName'])}</DescriptionItem>
-        <DescriptionItem title="Operation">{span.getIn(['data', 'msmq', 'operation'])}</DescriptionItem>
-        <DescriptionItem title="Transaction-Type">{span.getIn(['data', 'msmq', 'txType'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Machine">{span.getIn(['data', 'msmq', 'machineName'])}</Di>
+        <Di title="Queue">{span.getIn(['data', 'msmq', 'queueName'])}</Di>
+        <Di title="Operation">{span.getIn(['data', 'msmq', 'operation'])}</Di>
+        <Di title="Transaction-Type">{span.getIn(['data', 'msmq', 'txType'])}</Di>
+      </Dl>
     </div>
   );
 }

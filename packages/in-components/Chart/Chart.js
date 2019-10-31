@@ -17,6 +17,9 @@ export default class Chart {
   }
 
   update(props) {
+    // we need to check if the windowSize has changed in order to adjust the scale during live mode
+    const hasWindowSizeChanged = this.config.timeConfig.windowSize !== props.timeConfig.windowSize;
+
     this.config.update(props);
 
     const isLive = props.timeConfig.autoRefresh;
@@ -31,23 +34,27 @@ export default class Chart {
         this.renderScheduler.atomicRender();
       }
     } else {
-      this.forceUpdateRendering();
+      this.forceUpdateRendering(hasWindowSizeChanged);
     }
 
     this.isLive = isLive;
   }
 
-  getNearestDataPointDomainForTimestamp(timestamp) {
+  getNearestDataPointDomainForTimestamp(timestamp, floor = false) {
     if (this.timeIsNotDefined(timestamp)) {
       return null;
     }
 
     const allDomainValues = this.config.getAllDomainValues();
+    let domainValues = allDomainValues;
+    if (floor) {
+      domainValues = allDomainValues.filter(domain => domain <= timestamp);
+    }
     let distanceToNearestDataPoint = Number.MAX_VALUE;
     let nearestDomain = null;
 
-    for (let i = 0; i < allDomainValues.length; i++) {
-      const domain = allDomainValues[i];
+    for (let i = 0; i < domainValues.length; i++) {
+      const domain = domainValues[i];
       const distanceToDataPoint = Math.abs(timestamp - domain);
       if (distanceToDataPoint < distanceToNearestDataPoint) {
         nearestDomain = domain;
@@ -99,7 +106,7 @@ export default class Chart {
   getFilteredMetricIndices(axis) {
     const filteredIndices = [];
     for (let i = 0; i < axis.metrics.length; i++) {
-      if (this.isLabelFilteredByUser(axis.labels[i])) {
+      if (this.isLabelFiltered(axis.labels[i])) {
         filteredIndices.push(i);
       }
     }
@@ -114,16 +121,19 @@ export default class Chart {
     this.chartEventsManager.renderEvents(this.events, config);
   }
 
-  forceUpdateRendering() {
+  forceUpdateRendering(hasWindowSizeChanged = false) {
     if (!this.isLive) {
       this.renderScheduler.atomicRender();
     } else {
-      this.renderScheduler.intermediateRenderDuringUpdate();
+      if (hasWindowSizeChanged) {
+        this.renderScheduler.updateWindowSizeDuringAnimation();
+      }
+      this.renderScheduler.intermediateRenderDuringAnimation();
     }
   }
 
-  isLabelFilteredByUser(label) {
-    return this.config.filteredDataSeries.has(label);
+  isLabelFiltered(label) {
+    return this.config.isLabelFiltered(label);
   }
 
   timeIsNotDefined(timestamp) {

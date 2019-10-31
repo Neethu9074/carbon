@@ -3,29 +3,24 @@ import { get } from 'lodash';
 
 import {
   SourceLocation,
-  DestinationLocation
+  DestinationLocation,
+  EumSourceLocation
 } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
+import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
-import CallErrorSummaries from 'in-analyze/TraceDetail/components/CallDetails/components/CallErrorSummaries';
-import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import BeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/BeaconDetails';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { formatDateTime } from 'in-services/formatters/date';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { pendingResult } from 'in-services/fixedObjects';
-import PluginIcon from 'in-components/PluginIcon';
 import { find } from 'in-services/arrayUtils';
-import connectTo from 'in-hoc/connectTo';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call }) {
+export default function ServiceComponent({ call, beacon }) {
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
@@ -118,16 +113,25 @@ export default function ServiceComponent({ call }) {
                   <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
                 </svg>
               </div>
-              <SourceLocation
-                location={'source'}
-                sourceService={sourceService}
-                snapshotId={sourceSnapshotId}
-                entity={sourceEntity}
-                span={exitSpan}
-                physicalContext={sourcePhysicalContext}
-              />
+              {beacon && sourceService.id === 'ROOT' ? (
+                <EumSourceLocation location={'source'} beacon={beacon} />
+              ) : (
+                <SourceLocation
+                  location={'source'}
+                  service={sourceService}
+                  snapshotId={sourceSnapshotId}
+                  entity={sourceEntity}
+                  span={exitSpan}
+                  physicalContext={sourcePhysicalContext}
+                />
+              )}
               <div className={locals.sourceChildren}>
-                <CallErrorSummaries call={call} kind="EXIT" />
+                {beacon &&
+                  sourceService.id === 'ROOT' && (
+                    <ExpandableGroup title="Details" defaultExpanded>
+                      <BeaconDetails beacon={beacon} />
+                    </ExpandableGroup>
+                  )}
                 {exitSpan && (
                   <ExpandableGroup
                     title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -139,30 +143,38 @@ export default function ServiceComponent({ call }) {
                     )}
                   </ExpandableGroup>
                 )}
-                {(exitSpan || sourceSnapshotId) && (
-                  <ExpandableGroup
-                    expandedTitle="Infrastructure"
-                    title={
-                      <div className={locals.infraTitle}>
-                        <span>Infrastructure</span>
-                        {sourceEntity && (
-                          <InfrastructureEntityLink
-                            entity={sourceEntity}
-                            plugin={sourceEntity && sourceEntity.plugin}
-                            snapshotId={sourceSnapshotId}
-                            physicalContext={sourcePhysicalContext}
-                          />
-                        )}
-                      </div>
-                    }
-                  >
-                    <InfrastructureHierarchy
-                      snapshotId={sourceSnapshotId}
-                      calculateHierarchy
-                      pathname={physicalDashboardPath}
-                    />
-                  </ExpandableGroup>
-                )}
+                {sourceService.id === 'ROOT' &&
+                  !beacon && (
+                    <ExpandableGroup title="Details" defaultExpanded>
+                      <p>Instana is not tracing the source of this call.</p>
+                      <p>The first data about this trace are collected from the destination.</p>
+                    </ExpandableGroup>
+                  )}
+                {exitSpan &&
+                  sourceSnapshotId && (
+                    <ExpandableGroup
+                      expandedTitle="Infrastructure"
+                      title={
+                        <div className={locals.infraTitle}>
+                          <span>Infrastructure</span>
+                          {sourceEntity && (
+                            <InfrastructureEntityLink
+                              entity={sourceEntity}
+                              plugin={sourceEntity && sourceEntity.plugin}
+                              snapshotId={sourceSnapshotId}
+                              physicalContext={sourcePhysicalContext}
+                            />
+                          )}
+                        </div>
+                      }
+                    >
+                      <InfrastructureHierarchy
+                        snapshotId={sourceSnapshotId}
+                        calculateHierarchy
+                        pathname={physicalDashboardPath}
+                      />
+                    </ExpandableGroup>
+                  )}
               </div>
 
               <DestinationLocation
@@ -176,7 +188,6 @@ export default function ServiceComponent({ call }) {
               />
             </div>
             <div className={locals.destinationChildren}>
-              <CallErrorSummaries call={call} kind="ENTRY" />
               {entrySpan && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -188,7 +199,8 @@ export default function ServiceComponent({ call }) {
                   )}
                 </ExpandableGroup>
               )}
-              {(entrySpan || destinationSnapshotId) && (
+
+              {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
                 <ExpandableGroup
                   expandedTitle="Infrastructure"
                   title={
@@ -212,9 +224,31 @@ export default function ServiceComponent({ call }) {
                   )}
                 </ExpandableGroup>
               )}
+              {destinationPhysicalContext &&
+                destinationPhysicalContext.cluster && (
+                  <ExpandableGroup
+                    expandedTitle="Infrastructure"
+                    title={
+                      <Tooltip
+                        content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
+                        align="bottomLeft"
+                      >
+                        <div className={locals.infraTitle}>
+                          <span>Infrastructure</span>
+                          <InfrastructureEntityLink
+                            entity={destinationEntity}
+                            plugin={destinationEntity && destinationEntity.plugin}
+                            snapshotId={destinationSnapshotId}
+                            physicalContext={destinationPhysicalContext}
+                          />
+                        </div>
+                      </Tooltip>
+                    }
+                  />
+                )}
               {logs.length > 0 && (
                 <ExpandableGroup
-                  title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : null} ${
+                  title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
                     warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
                   } )`}
                 >
@@ -227,51 +261,6 @@ export default function ServiceComponent({ call }) {
     </Fragment>
   );
 }
-
-const InfrastructureEntityLink = connectTo(({ entity }) => ({
-  // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
-  snapshot:
-    entity &&
-    entity.id &&
-    entity.time &&
-    getSnapshot(entity.id, getTimeConfigAtMoment(entity.time)).startWith(pendingResult)
-}))(function InfrastructureEntityLink({ entity, snapshot, plugin, snapshotId, physicalContext }) {
-  const isLoading = get(snapshot, ['progress', 'loading']);
-
-  if (isLoading || physicalContext === null) {
-    return (
-      <div className={locals.skeleton}>
-        <Skeleton className={locals.skeleton} />
-      </div>
-    );
-  }
-
-  if (!entity && snapshotId && !snapshot) {
-    return (
-      <div className={locals.noLink}>
-        <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
-      </div>
-    );
-  }
-  return (
-    <EntityLink
-      plugin={plugin}
-      snapshot={snapshot}
-      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-        stay =>
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
-      )}
-    />
-  );
-});
 
 function getSnapshotId(call, location) {
   const snapshotId =
