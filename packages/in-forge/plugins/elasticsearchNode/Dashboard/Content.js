@@ -57,7 +57,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
-            metrics: ['indices.index_count', 'indices.deleted_count'],
+            metrics: ['indices.index_count', 'indices.delete_count'],
             labels: ['Added', 'Removed'],
             type: 'line'
           }}
