@@ -8,7 +8,7 @@ import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -51,7 +51,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={d => zeroDecimalPlaces(d / 10) + '%'}
+          formatter={percentage.compact}
           metric="cpu.usage.percent.maximum.*"
         />
       );
@@ -65,7 +65,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={d => zeroDecimalPlaces(d / 100) + '%'}
+          formatter={percentage.compact}
           metric="mem.usage.average.percent"
         />
       );

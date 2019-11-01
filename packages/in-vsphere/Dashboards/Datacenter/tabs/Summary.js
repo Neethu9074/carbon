@@ -5,7 +5,9 @@ import {
   twoDecimalPlaces,
   zeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
-  msZeroDecimalPlaces
+  msZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  percentage
 } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
@@ -45,7 +47,7 @@ export default function Summary({ timeConfig, data: cluster }) {
             title="CPU Usage"
             snapshotId={snapshotId}
             metric="cpu.usage.percent.maximum.*"
-            formatter={d => twoDecimalPlaces(d / 100) + '%'}
+            formatter={percentage.detailed}
           />
         </Col>
         <Col lg={6}>
@@ -53,7 +55,7 @@ export default function Summary({ timeConfig, data: cluster }) {
             title="Memory Usage"
             snapshotId={snapshotId}
             metric="mem.usage.average.percent"
-            formatter={d => twoDecimalPlaces(d / 1000) + '%'}
+            formatter={percentage.detailed}
           />
         </Col>
       </Row>
@@ -65,7 +67,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: d => twoDecimalPlaces(d / 100) + '%',
+                formatter: twoDecimalPlaces,
                 metrics: ['cpu.usage.percent.maximum.*'],
                 labels: ['Usage'],
                 type: 'line',
@@ -80,7 +82,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: d => twoDecimalPlaces(d / 1000) + '%',
+                formatter: bytesTwoDecimalPlaces,
                 metrics: ['mem.usage.average.percent'],
                 labels: ['Usage'],
                 type: 'line',

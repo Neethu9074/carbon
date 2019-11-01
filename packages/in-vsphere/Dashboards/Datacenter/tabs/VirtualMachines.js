@@ -10,7 +10,7 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { percentage } from 'in-services/formatters/number';
 import { MemoryTotal } from './MemoryTotal';
 
 const pathSegment = '/vms';
@@ -34,7 +34,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="cpu.usage.percent.maximum.*"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={d => zeroDecimalPlaces(d / 100) + '%'}
+          formatter={percentage.compact}
         />
       );
     }
@@ -57,7 +57,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="mem.usage.average.percent"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={d => zeroDecimalPlaces(d / 1000) + '%'}
+          formatter={percentage.compact}
         />
       );
     }
