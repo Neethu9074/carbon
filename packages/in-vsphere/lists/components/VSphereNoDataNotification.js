@@ -6,9 +6,9 @@ import ArticleContent from 'in-new-components/ArticleContent';
 export default function VSphereNoDataNotification(props) {
   return (
     <EntityPageMainNotification
-      icon="lib_cloudfoundry" //lib_vsphere
+      icon="lib_vsphere"
       title="No Monitoring Data Found"
-      renderExplanation={() => <ArticleContent id="cloudfoundryNoData" />}
+      renderExplanation={() => <ArticleContent id="vsphereNoData" />}
       {...props}
     />
   );

@@ -24,7 +24,9 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere" />;
+      return (
+        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere_cluster" />
+      );
     }
   },
   {
@@ -105,7 +107,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<VSphereNoDataNotification icon="lib_cloudfoundry_application" />}
+          FallbackComponent={<VSphereNoDataNotification icon="lib_vsphere" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

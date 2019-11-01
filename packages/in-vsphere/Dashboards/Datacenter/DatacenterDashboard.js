@@ -59,7 +59,7 @@ function Header(props) {
   return (
     <BasicDashboardHeader
       title="Cluster"
-      icon="lib_kubernetes_cluster"
+      icon="lib_vsphere_cluster"
       {...props}
       getLabel={result => get(result, ['data', 'label'])}
     />

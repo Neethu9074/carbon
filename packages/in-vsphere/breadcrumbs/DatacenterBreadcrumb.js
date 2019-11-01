@@ -16,7 +16,7 @@ export default connectTo(
   }),
   function DatacenterBreadcrumb({ datacenter }) {
     return (
-      <Breadcrumb label="vSphere Cluster" icon="lib_kubernetes_cluster">
+      <Breadcrumb label="vSphere Cluster" icon="lib_vsphere_cluster">
         {datacenter && datacenter.label}
       </Breadcrumb>
     );

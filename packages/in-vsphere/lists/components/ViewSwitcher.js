@@ -11,7 +11,7 @@ export default function VSphereViewSwitcher() {
       <SecondLevelNavigation>
         <SecondLevelNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = datacenterListFullyQualified))}
-          icon="lib_kubernetes_cluster" //should be changed to VSphereDatacenter
+          icon="lib_vsphere_cluster"
           label="vSphere Clusters"
           isActive
         />

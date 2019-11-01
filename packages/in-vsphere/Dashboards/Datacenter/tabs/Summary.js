@@ -99,8 +99,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: kiloBytesZeroDecimalPlaces,
-                metrics: ['mem.vmmemctl.kiloBytes.average.*'].filter(Boolean),
-                labels: ['VM balloon memory'].filter(Boolean),
+                metrics: ['mem.vmmemctl.kiloBytes.average.*'],
+                labels: ['VM balloon memory'],
                 type: 'line'
               }}
             />
@@ -113,8 +113,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: kbPerSecondFormatter,
-                metrics: ['net.usage.kiloBytesPerSecond.none.*'].filter(Boolean),
-                labels: ['Net usage'].filter(Boolean),
+                metrics: ['net.usage.kiloBytesPerSecond.none.*'],
+                labels: ['Net usage'],
                 type: 'line',
                 colors: [usage]
               }}
@@ -130,8 +130,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: msZeroDecimalPlaces,
-                metrics: ['cpu.wait.millisecond.summation.*', 'cpu.system.millisecond.summation.*'].filter(Boolean),
-                labels: ['Wait', 'System'].filter(Boolean),
+                metrics: ['cpu.wait.millisecond.summation.*', 'cpu.system.millisecond.summation.*'],
+                labels: ['Wait', 'System'],
                 type: 'line'
               }}
             />
