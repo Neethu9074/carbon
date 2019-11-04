@@ -128,7 +128,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                       hasError={!field.valid && field.touched}
                     />
                     <HelpText>
-                      Describe how to match the host segment of URLs. You can define wildcard matching via{' '}
+                      Describe how to match the path segment of URLs. You can define wildcard matching via{' '}
                       <code>*</code>
                     </HelpText>
                     <TouchedMessages field={field} />
