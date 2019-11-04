@@ -16,7 +16,7 @@ export default function SQLAlchemySpanDetailView({ span }) {
 
       {sql ? (
         <Di title="SQL" verticalDisplay>
-          <Code code={formatSql(sql)} lang="sql" />
+          <Code code={formatSql(sql)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}
     </Dl>

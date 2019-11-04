@@ -14,7 +14,7 @@ export default function OCI8SpanDetailView({ span }) {
         <Di title="Connection">{span.getIn(['data', 'oci8', 'conn'])}</Di>
         {statement ? (
           <Di title="Query" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
         <ErrorDescriptionItem error={span.getIn(['data', 'oci8', 'error'])} />

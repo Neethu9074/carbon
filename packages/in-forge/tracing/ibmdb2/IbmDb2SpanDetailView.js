@@ -12,7 +12,7 @@ export default function IbmDb2SpanDetailView({ span }) {
       <Dl>
         {statement ? (
           <Di title="Query" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
       </Dl>

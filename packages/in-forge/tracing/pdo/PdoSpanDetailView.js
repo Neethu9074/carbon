@@ -16,7 +16,7 @@ export default function PdoSpanDetailView({ span }) {
 
         {statement ? (
           <Di title="Query" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
 
