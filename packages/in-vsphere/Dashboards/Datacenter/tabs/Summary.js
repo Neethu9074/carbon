@@ -2,11 +2,9 @@ import React, { Fragment } from 'react';
 
 import {
   timeBySecondsTwoDecimalPlaces,
-  twoDecimalPlaces,
   zeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   msZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
   percentage
 } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -67,7 +65,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: twoDecimalPlaces,
+                formatter: percentage.detailed,
                 metrics: ['cpu.usage.percent.maximum.*'],
                 labels: ['Usage'],
                 type: 'line',
@@ -82,7 +80,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytesTwoDecimalPlaces,
+                formatter: percentage.detailed,
                 metrics: ['mem.usage.average.percent'],
                 labels: ['Usage'],
                 type: 'line',
