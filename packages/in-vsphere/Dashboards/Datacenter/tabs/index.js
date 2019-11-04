@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TabLabelWithCounter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounter';
+import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
 import VirtualMachines from 'in-vsphere/Dashboards/Datacenter/tabs/VirtualMachines';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
@@ -29,7 +29,7 @@ export default [
 
 function getCounterComponent(props, resultPropName) {
   return (
-    <TabLabelWithCounter
+    <TabLabelWithCounterPresenter
       label={props.tab.label}
       getCounters={() =>
         getVsphereDatacenter({
