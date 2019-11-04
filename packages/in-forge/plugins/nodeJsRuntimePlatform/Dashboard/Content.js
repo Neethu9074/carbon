@@ -6,8 +6,8 @@ import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/H
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { time, bytes, twoDecimalPlaces } from 'in-services/formatters/number';
+import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
+import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -24,6 +24,7 @@ export default connectTo({
   const gcStatsSupported = snapshot.getIn(['data', 'gc.statsSupported']);
   return (
     <div>
+      {getInitializedTooLateHint(snapshot)}
       {getNativeExtensionHint(snapshot)}
 
       <KpiSection>
@@ -178,6 +179,27 @@ function renderEventLoopMetrics(snapshot, timeConfig) {
         type: 'line'
       }}
     />
+  );
+}
+
+function getInitializedTooLateHint(snapshot) {
+  const probablyInitializedTooLate = snapshot.getIn(['data', 'initTooLate']);
+
+  if (!probablyInitializedTooLate) {
+    return null;
+  }
+
+  return (
+    <DashboardNotification type="danger">
+      It seems you have initialized the @instana/collector package too late. Please check our documentation on that, in
+      particular the{' '}
+      <a href="https://docs.instana.io/ecosystem/node-js/installation/#installing-the-nodejs-collector-package">
+        installation docs
+      </a>{' '}
+      for @instana/collector and the{' '}
+      <a href="https://docs.instana.io/ecosystem/node-js/installation/#common-pitfalls">common pitfalls section</a>.
+      Tracing might only work partially with this setup, that is, some calls will not be captured.
+    </DashboardNotification>
   );
 }
 
