@@ -136,7 +136,7 @@ function AwsSensorContent({ agentKey, region }) {
       <LargeSpacer />
       <Description
         lines={[
-          'Use the following as "User Data" when spinning up a dedicated EC2 Virtual Machine. We advise to run the Instana AWS sensor on an "Current Generation General Purpose" machine running Linux. The m4.large instances, for example, are perfectly suited to the task.'
+          'Use the following as "User Data" when spinning up a dedicated EC2 Virtual Machine. We advise to run the Instana AWS sensor on an "Current Generation General Purpose" machine running Linux. The m4.large instances, for example, are perfectly suited to the task. Please take note of the "-m aws" switch in the following command line.'
         ]}
       />
       <Bash
