@@ -2,9 +2,11 @@ import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
@@ -14,11 +16,12 @@ import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { eumAlertingEnabled } from 'in-services/featureFlags';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
@@ -161,18 +164,28 @@ function getBreadcrumbs(props) {
   ].filter(Boolean);
 }
 
-function Actions({ tagFilters, websiteLabel }) {
+function Actions({ tagFilters, websiteLabel, websiteId, timeConfig }) {
   return (
-    <Button
-      kind="primary"
-      icon="lib_website_page_load"
-      href$={getLinkToAnalyze({
-        beaconType: 'pageLoad',
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        group: defaultGroupings.pageLoad
-      })}
-    >
-      Analyze Page Loads
-    </Button>
+    <Fragment>
+      <Button
+        kind="primary"
+        icon="lib_website_page_load"
+        href$={getLinkToAnalyze({
+          beaconType: 'pageLoad',
+          tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+          group: defaultGroupings.pageLoad
+        })}
+      >
+        Analyze Page Loads
+      </Button>
+      {eumAlertingEnabled && (
+        <WebsiteHealthIndicatorBehavior
+          showOkayOnNoIssues={false}
+          IndicatorPresenter={HealthIndicatorButtonPresenter}
+          websiteId={websiteId}
+          timeConfig={timeConfig}
+        />
+      )}
+    </Fragment>
   );
 }
