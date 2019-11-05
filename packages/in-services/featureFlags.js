@@ -51,6 +51,7 @@ export const isInitialOnboardingCheckEnabled =
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords

@@ -15,14 +15,15 @@ import { number, meanLatencyFixed, percentage } from 'in-services/formatters/num
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
-import { pcfEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
@@ -140,6 +141,25 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
         {organization && (
           <MetaEntityLink entity={organization} icon="lib_cloudfoundry_organization">
             of
+          </MetaEntityLink>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WithVSpherePhysicalContext({ children, datacenter }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {datacenter && (
+          <MetaEntityLink
+            entity={datacenter}
+            icon="lib_vsphere"
+            getDashboard={vsphereEnabled && getVsphereDatacenterDashboard}
+          >
+            instance of
           </MetaEntityLink>
         )}
       </div>
@@ -377,6 +397,10 @@ function getColumnDefinitions(type) {
               {link}
             </WithCloudfoundryPhysicalContext>
           );
+        }
+
+        if (item.physicalContext.vsphere) {
+          return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
         }
 
         return link;

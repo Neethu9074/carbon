@@ -86,6 +86,7 @@ import './components/SparkChart.story';
 import './components/Stack.story';
 import './components/StackTrace.story';
 import './components/StepProgressBar.story';
+import './components/TabLabelWithCounterPresenter.story';
 import './components/TechnologyIndicator.story';
 import './components/time/TimeCount.story';
 import './components/time/TimePresenter.story';

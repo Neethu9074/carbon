@@ -31,5 +31,6 @@ module.exports = {
   isInitialOnboardingCheckEnabled: true,
   contextGuideEnabled: false,
   eumAlertingEnabled: true,
-  googleAnalyticsDisabled: false
+  googleAnalyticsDisabled: false,
+  vsphereEnabled: true
 };
