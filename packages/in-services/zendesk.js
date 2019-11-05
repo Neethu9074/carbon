@@ -75,6 +75,8 @@ function getZendeskOffset(pathname) {
       return { vertical: convertRemToPx(4.375), mobile: { vertical: convertRemToPx(4.375) } }; // 70px
     case '/websiteMonitoring/website/geography':
       return { vertical: convertRemToPx(11.25), mobile: { vertical: convertRemToPx(11.25) } }; // 180px
+    case '/websiteMonitoring/website/errors/details':
+      return { horizontal: convertRemToPx(11.25), mobile: { horizontal: convertRemToPx(11.25) } }; // 180px
     case '/websiteMonitoring/website/geography/globe':
       return { vertical: convertRemToPx(10.625), mobile: { vertical: convertRemToPx(10.625) } }; // 170px
     case '/application/map':
