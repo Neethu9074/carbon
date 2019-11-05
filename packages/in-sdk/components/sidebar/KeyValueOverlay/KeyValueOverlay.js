@@ -30,14 +30,7 @@ function KeyValueButtonWrapper(props) {
       <div className={locals.item}>
         <div className={locals.header}>{header}</div>
         <div className={isOpen ? locals.buttonOpen : locals.button} onClick={toggle}>
-          <SvgIcon
-            className={locals.icon}
-            type="popup"
-            size="xs"
-            color="#4a91e4"
-            expanded={isOpen}
-            refSetter={refSetter}
-          />
+          <SvgIcon className={locals.icon} type="lib_views_popup" size="xs" expanded={isOpen} refSetter={refSetter} />
         </div>
       </div>
     </div>
