@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import Tooltip from 'in-components/Tooltip';
+import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 import locals from './RadioGroup.mless';
 
 const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => {
+  if (!sourceEntityAvailability) {
+    return <Message>Filtering and grouping on source is not available for the selected timeframe</Message>;
+  } else if (disabled) {
+    return <Message>This tag is independent of source and destination</Message>;
+  }
   return (
-    <Tooltip content={toolTipContent(disabled, sourceEntityAvailability)} align="topMiddle">
+    <Fragment>
+      <span>Apply to call source or destination</span>
       <div className={locals.inputGroup}>
         <label
           className={evaluateClassNames({
@@ -46,18 +52,8 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
           <span className={locals.label}>Destination</span>
         </label>
       </div>
-    </Tooltip>
+    </Fragment>
   );
 };
 
 export default RadioGroup;
-
-function toolTipContent(disabled, sourceEntityAvailability) {
-  if (!sourceEntityAvailability) {
-    return 'Filtering and grouping on source is not available for the selected timeframe';
-  } else if (disabled) {
-    return 'This tag is independent of source and destination';
-  } else {
-    return '';
-  }
-}

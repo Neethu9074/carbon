@@ -7,6 +7,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
+import Message from 'in-new-components/Message';
 import Dialog from 'in-new-components/Dialog';
 import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
@@ -28,13 +29,13 @@ export default function EditGroupDialogPresenter({
   help,
   tagName,
   tagEntity,
-  sourceEntityAvailability
+  sourceEntityAvailability,
+  forAnalyzeCalls
 }) {
   return (
     <Dialog title="Group" onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
-        <p className={locals.help}>{help}</p>
-
+        <Message className={locals.help}>{help}</Message>
         {form.get('tag').map(field => (
           <FormGroup>
             <Label htmlFor="filter-tag" hasError={!field.valid && field.touched}>
@@ -84,20 +85,20 @@ export default function EditGroupDialogPresenter({
             </FormGroup>
           ))}
 
-        {form.get('entity').map(field => (
-          <div>
-            Apply to call source or destination
-            <RadioGroup
-              disabled={
-                tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability || tagName.includes('beacon.')
-              }
-              value={field.value}
-              onChange={e => onEntityChange(e.target.value)}
-              tagName={tagName}
-              sourceEntityAvailability={sourceEntityAvailability}
-            />
-          </div>
-        ))}
+        {forAnalyzeCalls &&
+          form
+            .get('entity')
+            .map(field => (
+              <RadioGroup
+                disabled={
+                  tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability || tagName.includes('beacon.')
+                }
+                value={field.value}
+                onChange={e => onEntityChange(e.target.value)}
+                tagName={tagName}
+                sourceEntityAvailability={sourceEntityAvailability}
+              />
+            ))}
 
         <div className={locals.actions}>
           <Button type="submit" kind="primaryv2" disabled={form.touched && !form.hierarchyValid}>

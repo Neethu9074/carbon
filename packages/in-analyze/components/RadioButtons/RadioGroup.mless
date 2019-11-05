@@ -11,6 +11,7 @@
     align-items: center;
     border: 1px solid  @lib__colors__primary2;
     min-width: 7.8125rem;
+    cursor: pointer;
   }
 
   .radioInputChecked {
