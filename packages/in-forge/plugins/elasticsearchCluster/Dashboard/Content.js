@@ -60,7 +60,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             min: 0,
             formatter: withSiPrefixThreeDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
-            metrics: ['index_count', 'deleted_count'],
+            metrics: ['index_count', 'delete_count'],
             labels: ['Added', 'Removed'],
             type: 'line'
           }}
