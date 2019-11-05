@@ -7,7 +7,7 @@ import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 
 export default function AnalyzeGroupingInfo(props) {
-  const { group, timeConfig, onChangeAnalyzeConfig, tagFilters } = props;
+  const { group, timeConfig, onChangeAnalyzeConfig, tagFilters, forAnalyzeCalls } = props;
   return (
     <GroupingInfo
       {...props}
@@ -32,6 +32,7 @@ export default function AnalyzeGroupingInfo(props) {
               };
               onChangeAnalyzeConfig(newState);
             }}
+            forAnalyzeCalls={forAnalyzeCalls}
           />
         )
       }

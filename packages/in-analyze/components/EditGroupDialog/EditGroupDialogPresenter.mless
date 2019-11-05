@@ -2,9 +2,7 @@
 
 :local {
   .help {
-    color: @lib__colors__N700Medium;
-    background: @lib__colors__N050;
-    padding: 1rem;
+    margin: 0 0 1rem;
   }
 
   .labelWithLoader {

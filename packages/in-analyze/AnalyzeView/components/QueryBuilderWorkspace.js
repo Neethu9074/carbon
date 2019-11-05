@@ -32,7 +32,13 @@ export default function QueryBuilderWorkspace(props) {
           }))}
           defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
         />
-        <AnalyzeGroupingInfo {...props} group={groupBy} timeConfig={timeConfig} tagFilters={tagFilters} />
+        <AnalyzeGroupingInfo
+          {...props}
+          group={groupBy}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          forAnalyzeCalls
+        />
       </MaxWidthFullscreenContainer>
     </Sticky>
   );
