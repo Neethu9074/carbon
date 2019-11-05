@@ -139,12 +139,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'optInOptOutEnabled',
-    instanaCtlKey: 'feature.opt.in.opt.out.enabled',
-    consulKey: `settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'isInitialOnboardingCheckEnabled',
     instanaCtlKey: 'feature.initial.onboarding.check.enabled',
     consulKey: `settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`,

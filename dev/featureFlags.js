@@ -26,7 +26,6 @@ module.exports = {
   logDnaEnabled: true,
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
-  optInOptOutEnabled: true,
   fullTermsConfigEnabled: true,
   isInitialOnboardingCheckEnabled: true,
   contextGuideEnabled: false,
