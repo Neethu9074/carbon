@@ -82,8 +82,8 @@ function Dialog() {
   );
 }
 
-// value for isOnPrem is taken from feature flag in UI-Client
-// import { isOnPrem } from 'in-services/featureFlags';
+// value for fullTermsConfigEnabled is taken from feature flag in UI-Client
+// import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 function DialogOnPrem() {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
   return (
@@ -95,7 +95,7 @@ function DialogOnPrem() {
         unsetSaveError={() => action('unsetSaveError')}
         onChange={onChange(setForm)}
         form={form}
-        isOnPrem
+        fullTermsConfigEnabled={false}
       />
     </Root>
   );
