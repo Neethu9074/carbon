@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import CloudfoundryApplicationToInstanaServiceButton from 'in-cloudfoundry/commonComponents/CloudfoundryApplicationToInstanaServiceButton';
+import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
