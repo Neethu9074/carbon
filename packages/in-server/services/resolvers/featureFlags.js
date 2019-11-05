@@ -167,5 +167,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.google.analytics.disabled',
     consulKey: `settings/${tenant}-${unit}/GOOGLE_ANALYTICS_DISABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'vsphereEnabled',
+    instanaCtlKey: 'feature.vsphere.enabled',
+    consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
+    defaultValue: false
   }
 ];
