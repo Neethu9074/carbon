@@ -1,0 +1,61 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
+import evaluateClassNames from 'in-services/util/classnames';
+
+import locals from './IconButton.mless';
+
+export const kinds = Object.freeze(['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']);
+export const sizes = iconSizes;
+const iconDimensions = {
+  normal: 'regular',
+  compact: 'xs'
+};
+
+export default function IconButton({
+  type,
+  size = 'normal',
+  iconSize,
+  kind = 'action',
+  onClick,
+  disabled,
+  leftAligned,
+  rightAligned
+}) {
+  return (
+    <button
+      className={evaluateClassNames({
+        [locals.iconButton]: true,
+        [locals[`iconButton--${kind}`]]: kind,
+        [locals[size]]: size,
+        [locals.rightAligned]: rightAligned,
+        [locals.leftAligned]: leftAligned,
+        [locals.disabled]: disabled
+      })}
+      onClick={e => onClick && onClick(e)}
+    >
+      <SvgIcon
+        type={type}
+        size={iconSize || iconDimensions[size]}
+        className={evaluateClassNames({
+          [locals.icon]: true,
+          [locals[`icon--${kind}`]]: kind,
+          [locals.disabled]: disabled
+        })}
+        tabIndex={-1}
+      />
+    </button>
+  );
+}
+
+IconButton.propTypes = {
+  disabled: PropTypes.bool,
+  kind: PropTypes.oneOf(kinds),
+  onClick: PropTypes.func,
+  iconSize: PropTypes.oneOf(Object.keys(sizes)),
+  size: PropTypes.oneOf(Object.keys(iconDimensions)),
+  type: PropTypes.string.isRequired,
+  leftAligned: PropTypes.bool,
+  rightAligned: PropTypes.bool
+};

@@ -16,7 +16,9 @@ export default function EumAlertingBarChart({ threshold, timeConfig, tagFilters 
       y1={{
         threshold,
         getMax: metricsMaxValue => {
-          return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, Math.trunc(threshold) + 1) : metricsMaxValue;
+          return threshold >= metricsMaxValue
+            ? Math.max(metricsMaxValue, Math.trunc(threshold) * 1.2)
+            : metricsMaxValue;
         },
         colors: [
           theme.lib.colors.blue800,

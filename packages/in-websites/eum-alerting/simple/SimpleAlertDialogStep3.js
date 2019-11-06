@@ -6,15 +6,16 @@ import AlertChannels, {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import Button from 'in-new-components/Button/Button';
 
 import locals from './SimpleAlertDialogStep.mless';
 
-export default function SimpleAlertDialogStep3({ form, onChange }) {
+export default function SimpleAlertDialogStep3({ form, onChange, setAlertChannelsVisible }) {
   return (
     <>
       <h1 className={locals.headline}>Who should get the alerts?</h1>
@@ -29,20 +30,37 @@ export default function SimpleAlertDialogStep3({ form, onChange }) {
                 noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
                 tableActions={alertChannelSelectionTableActions(form, onChange)}
                 rightHeader={
-                  <SelectListDialogButton
-                    form={form}
-                    onSubmit={selectedIds => onChange(form, fieldNames.alertChannelIds, selectedIds)}
-                    title="Add Alert Channels"
-                    label={'Add Alert Channels'}
-                    listComponent={AlertChannels}
-                    listComponentRightHeader={noRightHeader}
-                    hiddenIds={field.value}
-                    limit={limitForConnectedAlertChannels}
-                    createSubmitLabel={numberOfItems =>
-                      numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+                  <Button
+                    className={locals.selectButton}
+                    kind="action"
+                    onClick={() =>
+                      setAlertChannelsVisible({
+                        component: (
+                          <SelectListDialogContent
+                            listComponent={AlertChannels}
+                            listComponentRightHeader={noRightHeader}
+                            hiddenIds={field.value}
+                            limit={limitForConnectedAlertChannels}
+                            onSubmit={selectedIds => {
+                              onChange(form, fieldNames.alertChannelIds, selectedIds);
+                              setAlertChannelsVisible(null);
+                            }}
+                            createSubmitLabel={numberOfItems =>
+                              numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+                            }
+                            requiresAtLeastOneMessage="Please select at least one alert channel."
+                            pageSize={5}
+                            listFormGroupClassOverwrites={locals.alertChannelsList}
+                            tableScrollWrapperClassOverwrites={locals.alertChannelsList}
+                          />
+                        ),
+                        title: 'Select alert channels'
+                      })
                     }
-                    requiresAtLeastOneMessage="Please select at least one alert channel."
-                  />
+                    icon="lib_openclose_add_circle_outline"
+                  >
+                    Select Alert Channels
+                  </Button>
                 }
               />
               <TouchedMessages field={field} />

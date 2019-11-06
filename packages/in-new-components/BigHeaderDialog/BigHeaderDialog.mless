@@ -26,6 +26,7 @@
   }
 
   .header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,9 +39,9 @@
 
   .title {
     color: @lib__colors__N900Primary;
-    font-size: 22px;
+    font-size: 1.375rem;
     font-weight: 500;
-    line-height: 32px;
+    line-height: 2rem;
     margin: 0;
     padding: 0;
     .ellipsis();
@@ -53,6 +54,7 @@
     // 5rem to account for header height and to leave some space above/below
     max-height: ~'calc(100vh - 5rem)';
     overflow-y: auto;
+    overflow: hidden;
   }
 
   .withoutPadding {
@@ -76,8 +78,8 @@
   }
 
   .customTitle {
-    align-items: center;
     display: flex;
+    align-items: center;
     line-height: 2rem;
 
     h1 {

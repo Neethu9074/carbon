@@ -1,7 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .dialog {
     width: 80vw;
     max-width: 100rem;

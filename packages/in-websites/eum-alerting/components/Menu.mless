@@ -27,8 +27,11 @@
     height: 2rem;
     padding: 0.5rem;
 
-    &:hover {
+    &:not(.selected):hover {
       background: @lib__colors__N300;
+    }
+
+    &:hover {
       cursor: pointer;
     }
 

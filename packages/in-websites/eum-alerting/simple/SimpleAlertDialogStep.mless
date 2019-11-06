@@ -6,13 +6,17 @@
     color: @lib__colors__N900Primary;
     font-size: @lib__typography__h700__font-size;
     line-height: 2.5rem;
-    margin: 8px;
+    margin: 0.5rem;
     font-weight: normal;
   }
 
   .alertChannelsContainer {
     grid-column: 1 / span 3;
-    height: 400px;
+    height: 25rem;
     overflow: auto;
+  }
+
+  .alertChannelsList {
+    height: 26.875rem;
   }
 }

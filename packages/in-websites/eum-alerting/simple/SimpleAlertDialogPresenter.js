@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
+import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
 import SimpleAlertDialogStep1 from './SimpleAlertDialogStep1';
 import SimpleAlertDialogStep2 from './SimpleAlertDialogStep2';
 import SimpleAlertDialogStep3 from './SimpleAlertDialogStep3';
-import Dialog2 from 'in-new-components/Dialog2/Dialog2';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SimpleAlertDialogPresenter.mless';
@@ -27,44 +27,60 @@ export default function SimpleAlertDialogPresenter({
   editMode
 }) {
   const [step, setStep] = useState(steps.selectAlert);
+  const [slideInConfig, setSlideInConfig] = useState(null);
 
   return (
-    <Dialog2
+    <BigHeaderDialog
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}
+      slideInViewTitle={slideInConfig && slideInConfig.title}
+      onSlideInViewTitleClick={slideInConfig ? () => setSlideInConfig(null) : null}
       titleIconType="lib_alerts_create"
-      className={locals.dialog}
-      onClose={onClose}
+      onClose={slideInConfig ? null : onClose}
       doNotCloseOnOutsideClick
+      slideInViewVisible={!!slideInConfig}
+      slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
     >
-      <StepProgressBar stepTitles={stepTitles} step={step} />
+      <div className={locals.dialog}>
+        <StepProgressBar stepTitles={stepTitles} step={step} />
+        <form className={locals.form}>
+          {step === steps.selectAlert && (
+            <SimpleAlertDialogStep1
+              form={form}
+              onChange={onChange}
+              timeConfig={timeConfig}
+              setJsErrorsListVisible={SlideInConfig => setSlideInConfig(SlideInConfig)}
+            />
+          )}
+          {step === steps.confirmDomain && (
+            <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} />
+          )}
+          {step === steps.selectAlertingChannel && (
+            <SimpleAlertDialogStep3
+              form={form}
+              onChange={onChange}
+              setAlertChannelsVisible={SlideInConfig => setSlideInConfig(SlideInConfig)}
+            />
+          )}
+        </form>
 
-      <form className={locals.form}>
-        {step === steps.selectAlert && (
-          <SimpleAlertDialogStep1 form={form} onChange={onChange} timeConfig={timeConfig} />
-        )}
-        {step === steps.confirmDomain && (
-          <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} />
-        )}
-        {step === steps.selectAlertingChannel && <SimpleAlertDialogStep3 form={form} onChange={onChange} />}
-      </form>
-
-      <nav className={locals.controls}>
-        <Button
-          className={locals.button}
-          kind="secondary"
-          onClick={() => (step === steps.selectAlert ? onClose() : handleBackClick(setStep, step))}
-        >
-          {step === 0 ? 'Cancel' : 'Back'}
-        </Button>
-        <Button
-          className={locals.button}
-          onClick={() => (isLastStep(step, steps) ? onCreate() : handleNextClick(setStep, step))}
-          disabled={isLastStep(step, steps) && form.touched && !form.hierarchyValid}
-        >
-          {isLastStep(step, steps) ? (editMode ? 'Save' : 'Create') : 'Next'}
-        </Button>
-      </nav>
-    </Dialog2>
+        <nav className={locals.controls}>
+          <Button
+            className={locals.button}
+            kind="secondary"
+            onClick={() => (step === steps.selectAlert ? onClose() : handleBackClick(setStep, step))}
+          >
+            {step === 0 ? 'Cancel' : 'Back'}
+          </Button>
+          <Button
+            className={locals.button}
+            onClick={() => (isLastStep(step, steps) ? onCreate() : handleNextClick(setStep, step))}
+            disabled={isLastStep(step, steps) && form.touched && !form.hierarchyValid}
+          >
+            {isLastStep(step, steps) ? (editMode ? 'Save' : 'Create') : 'Next'}
+          </Button>
+        </nav>
+      </div>
+    </BigHeaderDialog>
   );
 }
 
