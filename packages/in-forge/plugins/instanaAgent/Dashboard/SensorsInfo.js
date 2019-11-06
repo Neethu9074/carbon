@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { listSensors } from 'in-forge/plugins/instanaAgent/selfMonitoring';
@@ -43,32 +43,29 @@ const cols = [
 ];
 
 export function getRows(sensors) {
-  return sensors.map(value => {
-    return {
-      key: value.name,
-      state: value.state,
-      version: value.version
-    };
-  });
+  return sensors
+    ? sensors.map(value => {
+        return {
+          key: value.name,
+          state: value.state,
+          version: value.version
+        };
+      })
+    : [];
 }
 
 export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), function SensorsInfo({ sensors }) {
-  if (!sensors) {
-    return (
-      <Dialog header="Sensors Info" onClose={close} contentClassName={locals.dialog}>
-        <LoadingIndicator type="dark" />
-      </Dialog>
-    );
-  }
-
   let rows = getRows(sensors);
   return (
     <Dialog header="Sensors Info" onClose={close} contentClassName={locals.dialog}>
       {!sensors && <LoadingIndicator type="dark" />}
 
-      <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
-
-      {sensors ? <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} /> : null}
+      {sensors && (
+        <Fragment>
+          <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
+          <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} />
+        </Fragment>
+      )}
     </Dialog>
   );
 });
