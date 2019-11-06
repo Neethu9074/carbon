@@ -25,7 +25,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cpuUsage',
+    id: 'cpu.usage.percent.maximum.*',
     label: 'CPU Usage',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
@@ -40,7 +40,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cpuAllocation',
+    id: 'cpuTotal',
     label: 'CPU Resources',
     sortable: canSortByMetricColumns,
     getContent(item) {
@@ -48,9 +48,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memoryUsage',
+    id: 'mem.usage.average.percent',
     label: 'Memory Usage',
-    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -63,7 +62,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memoryAllocation',
+    id: 'memTotal',
     label: 'Memory Resources',
     sortable: canSortByMetricColumns,
     getContent(item) {
