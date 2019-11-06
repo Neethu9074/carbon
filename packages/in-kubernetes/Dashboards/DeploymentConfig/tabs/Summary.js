@@ -6,6 +6,7 @@ import {
   bytesTwoDecimalPlaces,
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
@@ -33,6 +34,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
 
   return (
     <Fragment>
+      <MissingK8sAppsPermissions deploymentConfigId={deploymentConfig.id} timeConfig={timeConfig} />
+
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard

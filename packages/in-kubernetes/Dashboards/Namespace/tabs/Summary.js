@@ -7,6 +7,7 @@ import {
   resourceQuotaBytes,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
+import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -40,6 +41,8 @@ export default function Summary({ timeConfig, data: namespace }) {
 
   return (
     <Fragment>
+      <MissingK8sAppsPermissions namespaceId={namespace.id} timeConfig={timeConfig} />
+
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard title="Status" value={namespace.status} raw borderless />
         <KpiCard

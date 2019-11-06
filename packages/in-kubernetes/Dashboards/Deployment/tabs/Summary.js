@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
 import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
@@ -29,6 +30,8 @@ export default function Summary({ timeConfig, data: deployment }) {
 
   return (
     <Fragment>
+      <MissingK8sAppsPermissions deploymentId={deployment.id} timeConfig={timeConfig} />
+
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
