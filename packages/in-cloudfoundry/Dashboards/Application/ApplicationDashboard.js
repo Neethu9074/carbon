@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import CloudfoundryApplicationToInstanaServiceButton from 'in-cloudfoundry/commonComponents/CloudfoundryApplicationToInstanaServiceButton';
+import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
+import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
@@ -16,18 +17,18 @@ import tabs from 'in-cloudfoundry/Dashboards/Application/tabs/index';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfig } from 'in-stores/time/config';
+import locals from './ApplicationDashboard.mless';
 import WithIcon from 'in-new-components/WithIcon';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 
-import locals from './ApplicationDashboard.mless';
-
 export default function ApplicationDashboard({ location }) {
   const props = {
     applicationId: getMatrixParameter(location, applicationDashboard, matrixApplicationId),
     viewPath: applicationDashboard,
-    timeConfig: getTimeConfig(location)
+    timeConfig: getTimeConfig(location),
+    getInstanaServicesForEntityService: getApplicationServicesForCloudfoundryApplicationService
   };
 
   return (
@@ -78,7 +79,7 @@ function Actions(props) {
   return (
     <Fragment>
       <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
-      <CloudfoundryApplicationToInstanaServiceButton {...props} />
+      <EntityToInstanaServiceButton {...props} entityId={get(props.result, ['data', 'guid'])} />
     </Fragment>
   );
 }

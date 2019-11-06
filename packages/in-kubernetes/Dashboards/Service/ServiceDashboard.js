@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import KubernetesServiceToInstanaServicesButton from 'in-kubernetes/components/KubernetesServiceToInstanaServicesButton';
+import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
+import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -27,7 +28,8 @@ export default function ServiceDashboard({ location }) {
   const props = {
     serviceId: getMatrixParameter(location, serviceDashboard, matrixServiceId),
     viewPath: serviceDashboard,
-    timeConfig: getTimeConfig(location)
+    timeConfig: getTimeConfig(location),
+    getInstanaServicesForEntityService: getApplicationServicesForKubernetesService
   };
 
   return (
@@ -110,7 +112,7 @@ function Actions(props) {
         groupByTag={{ name: 'kubernetes.pod.name' }}
         timeConfig={props.timeConfig}
       />
-      <KubernetesServiceToInstanaServicesButton {...props} />
+      <EntityToInstanaServiceButton {...props} entityId={get(props.result, ['data', 'uid'])} />
     </Fragment>
   );
 }
