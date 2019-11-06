@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
@@ -27,18 +27,20 @@ export default connectTo(({ timeConfig, tagFilters }) => ({
     windowWidths: Object.keys(sizes).map(label => sizes[label])
   })
 }))(function WindowWidthBreakdown({ result, tagFilters, websiteLabel }) {
+  const [selectedMetric, onChangeMetric] = useState('pageLoads');
+
   return (
     <TopListCardPresenter
       result={result}
       title="Browser Window Width Breakdown"
-      metrics={['Page Loads']}
-      labels={['Page Loads']}
-      onChangeMetric={() => {}}
-      selectedMetric="Page Loads"
+      metrics={['pageLoads', 'users']}
+      labels={['Page Loads', 'Users']}
+      onChangeMetric={onChangeMetric}
+      selectedMetric={selectedMetric}
       showMetricSelectorsForSingleMetrics
       getItemsFromResult={r => r.data}
       renderLabel={Label}
-      renderMetric={({ item }) => number.compact(item.pageLoads)}
+      renderMetric={({ item, selectedMetric }) => number.compact(item[selectedMetric])}
       tagFilters={tagFilters}
       websiteLabel={websiteLabel}
     />
