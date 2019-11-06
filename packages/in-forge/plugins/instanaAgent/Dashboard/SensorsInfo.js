@@ -42,16 +42,14 @@ const cols = [
   }
 ];
 
-export function getRows(sensors) {
-  return sensors
-    ? sensors.map(value => {
-        return {
-          key: value.name,
-          state: value.state,
-          version: value.version
-        };
-      })
-    : [];
+export function getRows(sensors = []) {
+  return sensors.map(value => {
+    return {
+      key: value.name,
+      state: value.state,
+      version: value.version
+    };
+  });
 }
 
 export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), function SensorsInfo({ sensors }) {
