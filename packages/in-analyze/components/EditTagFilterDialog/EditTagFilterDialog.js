@@ -51,7 +51,7 @@ export default compose(
       timeConfig,
       hiddenSourceDestination
     }) => ({
-      hiddenSourceDestination: hiddenSourceDestination,
+      hiddenSourceDestination,
       tagEntity: getTagEntity(form.get('tag').value),
       sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
       onClose: close,
