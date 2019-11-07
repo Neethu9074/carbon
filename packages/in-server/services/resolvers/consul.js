@@ -48,7 +48,7 @@ exports.getFeatureFlags = (tenant, unit) =>
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
-    return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 50).then(
+    return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 200).then(
       maxAllowedAlertingConfigurations => ({
         maxAllowedAlertingConfigurations
       })

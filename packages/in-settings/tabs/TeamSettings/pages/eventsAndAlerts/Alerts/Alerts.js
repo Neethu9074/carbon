@@ -20,7 +20,7 @@ import Link from 'in-components/Link';
 
 import locals from './Alerts.mless';
 
-const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
+const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 200);
 
 export default function Alerts() {
   return (
