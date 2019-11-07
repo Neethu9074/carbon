@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
-import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
+import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
-import { hostDashboard } from 'in-vsphere/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import tabs from 'in-vsphere/Dashboards/Host/tabs/index';
 import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
+import { hostDashboard } from 'in-vsphere/navigation/paths';
+import tabs from 'in-vsphere/Dashboards/Host/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';

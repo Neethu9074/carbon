@@ -1,12 +1,6 @@
 import React, { Fragment } from 'react';
 
-import {
-  number,
-  kiloBytesZeroDecimalPlaces,
-  msZeroDecimalPlaces,
-  percentage,
-  bytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, kiloBytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -16,6 +10,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
+import DatastoreTable from './DatastoreTable';
 
 export default function Summary({ timeConfig, data: host }) {
   const snapshotId = host.id;
@@ -104,22 +99,8 @@ export default function Summary({ timeConfig, data: host }) {
           </Card>
         </Col>
       </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={12}>
-          <Card title="CPU" useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: msZeroDecimalPlaces,
-                metrics: ['cpu.wait.millisecond.summation.*', 'cpu.system.millisecond.summation.*'],
-                labels: ['Wait', 'System'],
-                type: 'line'
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
+
+      <DatastoreTable data={host} timeConfig={timeConfig} />
     </Fragment>
   );
 }

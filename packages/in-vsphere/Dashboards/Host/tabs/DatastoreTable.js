@@ -1,20 +1,8 @@
 import React, { Fragment } from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { isWindows } from 'in-forge/plugins/host/hostUtils';
-import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getMaxValue } from 'in-sdk/metrics';
-import {
-  percentage,
-  bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  kiloBytesTwoDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces,
-  withSiMultiplyPrefixThreeDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, bytesTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
 const deviceColumn = {
@@ -26,21 +14,12 @@ const deviceColumn = {
     }
   }
 };
-const mountColumn = {
-  title: 'Mount',
+const urlColumn = {
+  title: 'Url',
   type: 'string',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.get('mount');
-    }
-  }
-};
-const optionsColumn = {
-  title: 'Options',
-  type: 'string',
-  typeArgs: {
-    getValue(row) {
-      return row.filesystem.get('options');
+      return row.filesystem.url;
     }
   }
 };
@@ -49,8 +28,18 @@ const typeColumn = {
   type: 'string',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.get('systype');
+      return row.filesystem.type;
     }
+  }
+};
+const maxFileSizeColumn = {
+  title: 'Max file size',
+  type: 'number',
+  typeArgs: {
+    getValue(row) {
+      return row.filesystem.maxFileSize;
+    },
+    getContent: bytesTwoDecimalPlaces
   }
 };
 const capacityColumn = {
@@ -58,92 +47,39 @@ const capacityColumn = {
   type: 'number',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.get('capacity');
+      return row.filesystem.capacity;
     },
-    getContent: kiloBytesTwoDecimalPlaces
+    getContent: bytesTwoDecimalPlaces
   }
 };
-const usedColumn = {
-  title: 'Used',
-  type: 'metric',
+const freeSpaceColumn = {
+  title: 'Free space',
+  type: 'number',
   typeArgs: {
-    getSnapshotId(row) {
-      return row.snapshotId;
+    getValue(row) {
+      return row.filesystem.freeSpace;
     },
-    getMetricName(row) {
-      return `fs.${row.key}.used`;
-    },
-    getContent: percentage.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-const leakedColumn = {
-  title: 'Leaked',
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row) {
-      return row.snapshotId;
-    },
-    getMetricName(row) {
-      return `fs.${row.key}.leaked`;
-    },
-    getContent: kiloBytesTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
+    getContent: bytesTwoDecimalPlaces
   }
 };
 
-const iNodeUsageColumn = {
-  title: 'Inode usage',
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row) {
-      return row.snapshotId;
-    },
-    getMetricName(row) {
-      return `fs.${row.key}.inodeUsage`;
-    },
-    getContent: percentage.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    },
-    getFallbackContent() {
-      return 'N/A';
-    }
-  }
-};
-
-export default function FilesystemsTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const windows = isWindows(snapshot);
-  const rows = snapshot
-    .getIn(['data', 'filesystems'], emptyMap)
-    .map((filesystem, name) => {
+export default function FilesystemsTable({ data, timeConfig }) {
+  const rows = [
+    ...data.datastores.map(filesystem => {
       return {
-        key: name,
+        key: filesystem.label,
         filesystem,
         timeConfig,
-        snapshotId,
-        snapshot,
-        windows
+        data
       };
     })
-    .valueSeq()
-    .toArray();
+  ];
 
   if (rows.length === 0) {
     return null;
   }
 
-  const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, usedColumn, leakedColumn];
-
-  if (!windows) {
-    cols.splice(1, 0, mountColumn);
-    cols.push(iNodeUsageColumn);
-  }
+  const cols = [deviceColumn, urlColumn, typeColumn, maxFileSizeColumn, capacityColumn, freeSpaceColumn];
 
   return (
     <Table
@@ -153,7 +89,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
       rows={rows}
       getRowDetails={getDetails}
       initialSortDirection="desc"
-      initialSortColumn={cols.indexOf(usedColumn)}
+      initialSortColumn={cols.indexOf(capacityColumn)}
     />
   );
 }
@@ -163,65 +99,64 @@ function getDetails(row) {
     <Fragment>
       <Columize>
         <Chart
-          snapshotId={row.snapshotId}
+          snapshotId={row.data.id}
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
-            formatter: kiloBytesZeroDecimalPlaces,
-            tooltipFormatter: kiloBytesTwoDecimalPlaces,
-            metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
-            labels: ['Free', 'Leaked'],
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [
+              'datastore.datastoreReadIops.number.latest.' + row.filesystem.id,
+              'datastore.datastoreWriteIops.number.latest.' + row.filesystem.id
+            ],
+            labels: ['IOPS Read', 'IOPS Write'],
             type: 'line'
           }}
         />
-
         <Chart
-          snapshotId={row.snapshotId}
+          snapshotId={row.data.id}
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-            tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
-            metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
-            labels: ['Reads/s', 'Writes/s'],
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [
+              'datastore.numberReadAveraged.number.average.' + row.filesystem.id,
+              'datastore.numberWriteAveraged.number.average.' + row.filesystem.id
+            ],
+            labels: ['Read/s', 'Write/s'],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
-            labels: ['Bytes Read/s', 'Bytes Write/s'],
+            tooltipFormatter: bytesZeroDecimalPlaces,
+            metrics: [
+              'datastore.datastoreReadBytes.number.latest.' + row.filesystem.id,
+              'datastore.datastoreWriteBytes.number.latest.' + row.filesystem.id
+            ],
+            labels: ['Byte Read/s', 'Byte Write/s'],
             type: 'line'
           }}
         />
       </Columize>
-      {!row.windows &&
-        row.filesystem.get('icapacity') && (
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.inodeUsage', row.snapshot),
-              metrics: ['fs.' + row.key + '.inodeUsage'],
-              labels: ['Inode Usage'],
-              type: 'line',
-              formatter: percentage,
-              tooltipFormatter: percentageZeroDecimalPlaces
-            }}
-            y2={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
-              metrics: ['fs.' + row.key + '.ifree'],
-              labels: ['Inode Free'],
-              type: 'line',
-              formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }}
-          />
-        )}
+      <Columize>
+        <Chart
+          snapshotId={row.data.id}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [
+              'datastore.datastoreNormalReadLatency.number.latest.' + row.filesystem.id,
+              'datastore.datastoreNormalWriteLatency.number.latest.' + row.filesystem.id
+            ],
+            labels: ['Latency Read', 'Latency Write'],
+            type: 'line'
+          }}
+        />
+      </Columize>
     </Fragment>
   );
 }
