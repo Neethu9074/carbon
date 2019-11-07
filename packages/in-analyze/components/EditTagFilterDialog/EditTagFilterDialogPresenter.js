@@ -41,7 +41,8 @@ export default function EditTagFilterDialogPresenter({
   tagName,
   tagEntity,
   sourceEntityAvailability,
-  forAnalyzeCalls
+  forAnalyzeCalls,
+  hiddenSourceDestination
 }) {
   return (
     <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose} showOverflow>
@@ -163,6 +164,7 @@ export default function EditTagFilterDialogPresenter({
             </FormGroup>
           ))}
         {forAnalyzeCalls &&
+          !hiddenSourceDestination &&
           form
             .get('entity')
             .map(field => (
