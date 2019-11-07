@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
@@ -23,15 +22,6 @@ const deviceColumn = {
   typeArgs: {
     getValue(row) {
       return row.key;
-    }
-  }
-};
-const mountColumn = {
-  title: 'Mount',
-  type: 'string',
-  typeArgs: {
-    getValue(row) {
-      return row.filesystem.get('mount');
     }
   }
 };
@@ -96,39 +86,15 @@ const leakedColumn = {
   }
 };
 
-const iNodeUsageColumn = {
-  title: 'Inode usage',
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row) {
-      return row.snapshotId;
-    },
-    getMetricName(row) {
-      return `fs.${row.key}.inodeUsage`;
-    },
-    getContent: percentage.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    },
-    getFallbackContent() {
-      return 'N/A';
-    }
-  }
-};
-
-export default function FilesystemsTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const windows = isWindows(snapshot);
-  const rows = snapshot
-    .getIn(['data', 'filesystems'], emptyMap)
+export default function FilesystemsTable({ data, timeConfig }) {
+  const rows = data
+    .getIn(['data', 'datastores'], emptyMap)
     .map((filesystem, name) => {
       return {
         key: name,
         filesystem,
         timeConfig,
-        snapshotId,
-        snapshot,
-        windows
+        data
       };
     })
     .valueSeq()
@@ -139,11 +105,6 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
   }
 
   const cols = [deviceColumn, optionsColumn, typeColumn, capacityColumn, usedColumn, leakedColumn];
-
-  if (!windows) {
-    cols.splice(1, 0, mountColumn);
-    cols.push(iNodeUsageColumn);
-  }
 
   return (
     <Table
