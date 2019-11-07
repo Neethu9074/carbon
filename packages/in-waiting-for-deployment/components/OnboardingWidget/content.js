@@ -56,7 +56,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         },
         {
           label: 'Elastic Container Service for Kubernetes (EKS)',
-          keyWords: 'elasticcontainerkubernetes',
+          keyWords: 'elasticcontainerkubernetesk8s',
           Content: K8sDaemonSetContent
         }
       ].filter(subTechnology => (disableAwsSensorDocumentation ? subTechnology.label !== 'Instana AWS Sensor' : true))
@@ -69,7 +69,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       subTechnologies: [
         {
           label: 'Azure Kubernetes Service (AKS)',
-          keyWords: 'azurekubernetes',
+          keyWords: 'azurekubernetesk8s',
           Content: K8sDaemonSetContent
         }
       ]
@@ -80,7 +80,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       fullLabel: 'Cloud Foundry and other BOSH-based deployments',
       icon: 'lib_cloudfoundry',
       category: 'Platform',
-      keyWords: 'cloudfoundrybosh',
+      keyWords: 'cloudfoundryboshcf',
       Content: CfAndBoshContent
     },
     {
@@ -103,7 +103,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         },
         {
           label: 'Google Kubernetes Engine (GKE)',
-          keyWords: 'googlekubernetesenginegke',
+          keyWords: 'googlekubernetesenginegkek8s',
           Content: K8sGoogleKubernetesEngineContent
         }
       ]
@@ -115,27 +115,27 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       subTechnologies: [
         {
           label: 'Daemon set',
-          keyWords: 'kubernetesdeamonset',
+          keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
         {
           label: 'Helm chart',
-          keyWords: 'kuberneteshelmchart',
+          keyWords: 'kuberneteshelmchartk8s',
           Content: K8sHelmChartContent
         },
         {
           label: 'Azure Kubernetes Service (AKS)',
-          keyWords: 'azurekubernetesserviceaks',
+          keyWords: 'azurekubernetesserviceaksk8s',
           Content: K8sDaemonSetContent
         },
         {
           label: 'AWS Elastic Kubernetes Service (EKS)',
-          keyWords: 'awselastickubernetesserviceeks',
+          keyWords: 'awselastickubernetesserviceeksk8s',
           Content: K8sDaemonSetContent
         },
         {
           label: 'Google Kubernetes Engine (GKE)',
-          keyWords: 'googlekubernetesenginegke',
+          keyWords: 'googlekubernetesenginegkek8s',
           Content: K8sGoogleKubernetesEngineContent
         }
       ]
@@ -145,7 +145,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       icon: 'lib_pivotal_platform',
       fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
       category: 'Platform',
-      keyWords: 'pivotalplatformcloudfoundry',
+      keyWords: 'pivotalplatformpivotalcloudfoundrypcf',
       Content: PcfContent
     },
     {
@@ -155,7 +155,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       subTechnologies: [
         {
           label: 'Automatic Installation (One-liner)',
-          keyWords: 'linuxautomatic',
+          keyWords: 'linuxautomaticoneliner',
           Content: OneLinerContent
         },
         {
@@ -165,7 +165,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         },
         {
           label: 'Static tarballs',
-          keyWords: 'linuxmanual',
+          keyWords: 'linuxmanualtarball',
           Content: ManualLinuxContent
         },
         {
@@ -190,7 +190,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
     {
       label: 'Unix',
       category: 'OS',
-      keyWords: 'unix',
+      keyWords: 'unixtarball',
       icon: 'lib_unix',
       Content: ManualUnixContent
     },
@@ -201,12 +201,12 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       subTechnologies: [
         {
           label: 'Windows Installer',
-          keyWords: 'windows',
+          keyWords: 'windowsexe',
           Content: WindowsInstallerContent
         },
         {
           label: 'ZIP Archives',
-          keyWords: 'windows',
+          keyWords: 'windowszip',
           Content: ManualWindowsContent
         }
       ]
