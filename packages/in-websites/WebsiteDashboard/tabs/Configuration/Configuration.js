@@ -24,14 +24,16 @@ const NavigationItem = connectTo(({ path }) => ({
 });
 
 export default function Configuration(props) {
-  if (!javaScriptStackTraceTranslationEnabled) {
+  if (!javaScriptStackTraceTranslationEnabled && !eumAlertingEnabled) {
     return <Options {...props} lg={6} lgOffset={3} />;
   }
 
   const sidebar = (
     <SideNavigation title="Configuration">
       <NavigationItem label="Options" path={configurationOptionsFullyQualified} />
-      <NavigationItem label="JS Stack Trace Translation" path={configurationJsStackTraceTranslationFullyQualified} />
+      {javaScriptStackTraceTranslationEnabled && (
+        <NavigationItem label="JS Stack Trace Translation" path={configurationJsStackTraceTranslationFullyQualified} />
+      )}
       {eumAlertingEnabled && <NavigationItem label="Alerts" path={configurationAlertsFullyQualified} />}
     </SideNavigation>
   );
