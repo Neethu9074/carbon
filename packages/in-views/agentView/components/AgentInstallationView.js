@@ -23,6 +23,7 @@ export default connectTo(
             tenant={config.tenant}
             tenantUnit={config.tenantUnit}
             region={config.region}
+            butlerDomain={config.butlerDomain}
           />
         </div>
       );

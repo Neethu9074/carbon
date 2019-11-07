@@ -727,7 +727,7 @@ function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
   );
 }
 
-function ManualLinuxContent({ agentKey, tenant, tenantUnit }) {
+function ManualLinuxContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'linux64', label: 'Linux (64Bit)' },
     { key: 'linux32', label: 'Linux (32Bit)' },
@@ -743,7 +743,7 @@ function ManualLinuxContent({ agentKey, tenant, tenantUnit }) {
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -762,7 +762,7 @@ function ManualLinuxContent({ agentKey, tenant, tenantUnit }) {
   );
 }
 
-function ManualMacOsContent({ agentKey, tenant, tenantUnit }) {
+function ManualMacOsContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
   const agentOptions = [{ key: 'mac', label: 'Mac OS (64bit - Intel)' }];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -770,7 +770,7 @@ function ManualMacOsContent({ agentKey, tenant, tenantUnit }) {
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -789,7 +789,7 @@ function ManualMacOsContent({ agentKey, tenant, tenantUnit }) {
   );
 }
 
-function ManualUnixContent({ agentKey, region, tenant, tenantUnit }) {
+function ManualUnixContent({ agentKey, butlerDomain, region, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'sparc64', label: 'Solaris (64bit - SPARC)' },
     { key: 'sparc32', label: 'Solaris (32bit - SPARC)' },
@@ -802,11 +802,7 @@ function ManualUnixContent({ agentKey, region, tenant, tenantUnit }) {
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton
-          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${toURLstring(
-            region
-          )}&agentKey=${toURLstring(agentKey)}&type=${toURLstring(option)}`}
-        />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -825,7 +821,7 @@ function ManualUnixContent({ agentKey, region, tenant, tenantUnit }) {
   );
 }
 
-function ManualWindowsContent({ agentKey, tenant, tenantUnit }) {
+function ManualWindowsContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
     { key: 'win64', label: 'Windows Zip (64bit)' },
@@ -837,7 +833,7 @@ function ManualWindowsContent({ agentKey, tenant, tenantUnit }) {
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing

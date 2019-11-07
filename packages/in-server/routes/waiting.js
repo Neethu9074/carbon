@@ -39,7 +39,8 @@ router.get('/waiting', (req, res) => {
         tenantUnit: req.unit,
         agentKey: req.query.agentkey,
         tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
-        region: serverConfig.clientConfig.region
+        region: serverConfig.clientConfig.region,
+        butlerDomain: serverConfig.clientConfig.butlerDomain
       }),
       mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,

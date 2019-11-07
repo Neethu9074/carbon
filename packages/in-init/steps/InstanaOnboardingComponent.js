@@ -38,6 +38,7 @@ function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) 
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         region={config.region}
+        butlerDomain={config.butlerDomain}
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied,
           children: 'Go to Instana!',

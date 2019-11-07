@@ -21,10 +21,10 @@ export function toURLstring(str) {
   return encodeURIComponent(str);
 }
 
-export function getAgentDownloadURL(tenant, tenantUnit, agentKey, option) {
-  return `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
-    option
-  )}`;
+export function getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region) {
+  return `https://${butlerDomain}/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
+    agentKey
+  )}&type=${toURLstring(option)}${region ? '&region=' + region : ''}`;
 }
 
 function renderValueLines(lines) {
@@ -180,7 +180,11 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
 }
 
 export function DownloadButton({ href }) {
-  return <Button href={href}> Download</Button>;
+  return (
+    <Button target="_blank" href={href}>
+      Download
+    </Button>
+  );
 }
 
 export function Bash(props) {
