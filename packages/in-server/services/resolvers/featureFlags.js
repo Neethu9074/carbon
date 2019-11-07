@@ -12,12 +12,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'lastSevenDaysTimePresetEnabled',
-    instanaCtlKey: 'feature.last.seven.days.time.preset.enabled',
-    consulKey: `settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'releaseNotesEnabled',
     instanaCtlKey: 'feature.release.notes.enabled',
     defaultValue: true

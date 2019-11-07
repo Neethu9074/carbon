@@ -1100,7 +1100,6 @@
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
       "featureFlag.trackUrlPathChanges": "true",
       "featureFlag.containerInfoEnabled": "true",
-      "featureFlag.lastSevenDaysTimePresetEnabled": "false",
       "unit": "test",
       "featureFlag.ruleDeprecationValidationChecksEnabled": "true",
       "featureFlag.unmonitoredHostsEnabled": "false",

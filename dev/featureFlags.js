@@ -9,7 +9,6 @@ module.exports = {
   isUsageInfoPopupEnabled: false,
   onPremLicenseInformationEnabled: false,
   customEventsInWebsiteMonitoringEnabled: true,
-  lastSevenDaysTimePresetEnabled: true,
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
   trackUrlPathChanges: true,
