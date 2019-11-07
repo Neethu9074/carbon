@@ -48,8 +48,10 @@ export default compose(
       trackFilterChanged,
       trackFilterRemoved,
       forAnalyzeCalls,
-      timeConfig
+      timeConfig,
+      hiddenSourceDestination
     }) => ({
+      hiddenSourceDestination,
       tagEntity: getTagEntity(form.get('tag').value),
       sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
       onClose: close,
