@@ -1,10 +1,10 @@
 import React from 'react';
 
 import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
-import VirtualMachines from 'in-vsphere/Dashboards/Datacenter/tabs/VirtualMachines';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VSphereHosts from 'in-vsphere/Dashboards/Datacenter/tabs/VsphereHosts';
+import VirtualMachines from 'in-vsphere/commonComponents/VirtualMachines';
 import Summary from 'in-vsphere/Dashboards/Datacenter/tabs/Summary';
 
 export default [

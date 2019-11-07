@@ -10,7 +10,7 @@ import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { percentage } from 'in-services/formatters/number';
-import { MemoryTotal } from './MemoryTotal';
+import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
 import { getVsphereHostDashboard } from '../../../navigation/paths';
 import EntityLink from '../../../../in-new-components/EntityLink';
 
