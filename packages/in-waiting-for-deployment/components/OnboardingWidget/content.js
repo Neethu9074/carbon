@@ -184,12 +184,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       label: 'Mac OS',
       category: 'OS',
       keyWords: 'macosx',
+      icon: 'lib_apple',
       Content: ManualMacOsContent
     },
     {
       label: 'Unix',
       category: 'OS',
       keyWords: 'unix',
+      icon: 'lib_unix',
       Content: ManualUnixContent
     },
     {
