@@ -21,12 +21,12 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
-const maxClusterNameRegex = new RegExp(/\w{1,20}/);
+const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
 function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
 }
 
-const agentReleaseVersionRegex = new RegExp(/instana-agent-\d\.\d{1,3}\.\d+/);
+const agentReleaseVersionRegex = new RegExp(/^instana-agent-\d\.\d{1,3}\.\d+$/);
 function validateAgentReleaseVersion(agentReleaseVersion) {
   return agentReleaseVersionRegex.test(agentReleaseVersion);
 }
@@ -575,7 +575,7 @@ function CfAndBoshContent({ agentKey, region }) {
         {
           name: 'foundationName',
           placeholder: "Foundation name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: { validator: validateClusterName, validationMessage: 'The foundation name is invalid' }
         },
         {
           name: 'agentReleaseVersion',
