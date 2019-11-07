@@ -155,6 +155,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                     );
                                   }}
                                   forAnalyzeCalls
+                                  hiddenSourceDestination
                                 />
                               )
                             }
@@ -213,6 +214,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                   }}
                                   removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
                                   forAnalyzeCalls
+                                  hiddenSourceDestination
                                 />
                               ),
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
