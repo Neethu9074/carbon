@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
 import locals from './CheckboxFancy.mless';
 
@@ -19,7 +19,17 @@ const sizes = {
   }
 };
 
-export default function CheckboxFancy({ label, asRadioButton, checked, onChange, className, size, style, disabled }) {
+export default function CheckboxFancy({
+  label,
+  asRadioButton,
+  checked,
+  onChange,
+  className,
+  wrapperClassName,
+  size,
+  style,
+  disabled
+}) {
   const input = (
     <Input
       checked={checked}
@@ -32,7 +42,12 @@ export default function CheckboxFancy({ label, asRadioButton, checked, onChange,
     />
   );
   return label ? (
-    <label className={locals.label}>
+    <label
+      className={evaluateClassNames({
+        [locals.label]: true,
+        [wrapperClassName]: wrapperClassName
+      })}
+    >
       {input}
       {label}
     </label>

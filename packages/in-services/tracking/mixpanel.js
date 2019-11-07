@@ -8,7 +8,7 @@ import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
-import { config } from 'in-services/config';
+import config from 'in-services/config';
 
 const mixpanel = window.mixpanel;
 

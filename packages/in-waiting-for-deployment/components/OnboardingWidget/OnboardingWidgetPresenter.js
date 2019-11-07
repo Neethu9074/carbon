@@ -11,7 +11,7 @@ export default function OnboardingWidgetPresenter(props) {
     <div className={locals.wrapper}>
       <InstallDocumentation {...props} />
       <ProgressSection {...props} />
-      <InfoSection />
+      <InfoSection {...props} />
     </div>
   );
 }

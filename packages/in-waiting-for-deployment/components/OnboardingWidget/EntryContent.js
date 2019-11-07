@@ -1,17 +1,17 @@
 import React from 'react';
 
-import ExpandableCard from 'in-new-components/ExpandableCard';
+import Card from 'in-new-components/Card';
 import Select from 'in-components/form/Select';
 
 import locals from './EntryContent.mless';
 
 export default function EntryContent(props) {
+  const { entry, onSubEntrySelected } = props;
   const selectedSubEntryIndex = props.selectedSubEntryIndex || 0;
-  const { entry, onSubEntrySelected, onEntrySelected } = props;
   const entryToDisplay = entry.subTechnologies ? entry.subTechnologies[selectedSubEntryIndex] : entry;
 
   return (
-    <ExpandableCard
+    <Card
       className={locals.card}
       framed={false}
       openByDefault
@@ -26,15 +26,8 @@ export default function EntryContent(props) {
         )
       }
     >
-      <entryToDisplay.Content
-        {...props}
-        jumpToPage={(page, subPage) => {
-          onEntrySelected(page);
-          onSubEntrySelected(subPage ? subPage : undefined);
-        }}
-        regionShort={(props.region || '').indexOf('us-') >= 0 ? 'us' : 'eu'}
-      />
-    </ExpandableCard>
+      <entryToDisplay.Content {...props} regionShort={(props.region || '').includes('us-') ? 'us' : 'eu'} />
+    </Card>
   );
 }
 
@@ -45,7 +38,7 @@ function SubTechnologiesDropdown({ subTechnologies, selectedSubEntryIndex, onSub
       <Select
         className={locals.dropDown}
         value={selectedSubEntryIndex}
-        onChange={e => onSubEntrySelected(e.target.value)}
+        onChange={e => onSubEntrySelected(e.target.value, subTechnologies[e.target.value].label)}
         autoComplete="off"
       >
         {subTechnologies.map((subTechnology, i) => (

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import InstallDocumentation from 'in-waiting-for-deployment/components/OnboardingWidget/InstallDocumentation';
+import OnboardingWidget from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidget';
 import { getAgentKey } from 'in-api/agentKey';
 import connectTo from 'in-hoc/connectTo';
 import config from 'in-services/config';
@@ -11,27 +12,22 @@ export default connectTo(
   {
     agentKey: getAgentKey()
   },
-  function AgentInstallationView({ agentKey }) {
-    const [selectedEntryIndex, onEntrySelected] = useState(0);
-    const [selectedSubEntryIndex, onSubEntrySelected] = useState(undefined);
+  function AgentInstallationView({ agentKey = 'AGENT_KEY' }) {
+    function Renderer(props) {
+      return (
+        <div className={locals.wrapper}>
+          <InstallDocumentation
+            {...props}
+            contentClassName={locals.installationContent}
+            agentKey={agentKey}
+            tenant={config.tenant}
+            tenantUnit={config.tenantUnit}
+            region={config.region}
+          />
+        </div>
+      );
+    }
 
-    return (
-      <div className={locals.wrapper}>
-        <InstallDocumentation
-          contentClassName={locals.installationContent}
-          agentKey={agentKey || 'AGENT_KEY'}
-          tenant={config.tenant}
-          tenantUnit={config.tenantUnit}
-          region={config.region}
-          selectedEntryIndex={selectedEntryIndex}
-          onEntrySelected={index => {
-            onEntrySelected(index);
-            onSubEntrySelected(undefined);
-          }}
-          selectedSubEntryIndex={selectedSubEntryIndex}
-          onSubEntrySelected={onSubEntrySelected}
-        />
-      </div>
-    );
+    return <OnboardingWidget Renderer={Renderer} trackingIdPrefix="agent.installation.onboarding" />;
   }
 );

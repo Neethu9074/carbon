@@ -2,79 +2,61 @@ import React, { useState } from 'react';
 
 import {
   Bash,
-  Description,
-  DropDown,
   CheckBox,
-  SmallSpacer,
-  LargeSpacer,
+  Description,
+  DownloadButton,
+  DropDown,
+  getAgentDownloadURL,
   HelpBox,
+  Input,
+  JSON,
   Listing,
-  TextWithLink,
+  Row,
   Script,
-  YAML,
-  JSON
+  Spacer,
+  TextWithLink,
+  toURLstring,
+  ValidatedInputFields,
+  YAML
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
+
+const maxClusterNameRegex = new RegExp(/\w{1,20}/);
+function validateClusterName(clusterName) {
+  return maxClusterNameRegex.test(clusterName);
+}
+
+const agentReleaseVersionRegex = new RegExp(/instana-agent-\d\.\d{1,3}\.\d+/);
+function validateAgentReleaseVersion(agentReleaseVersion) {
+  return agentReleaseVersionRegex.test(agentReleaseVersion);
+}
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
   return [
     {
-      label: 'Kubernetes',
-      icon: 'lib_kubernetes',
-      subTechnologies: [
-        {
-          label: 'Helm chart',
-          Content: K8sHelmChartContent
-        },
-        {
-          label: 'Daemon set',
-          Content: K8sDaemonSetContent
-        },
-        {
-          label: 'Azure Kubernetes Service (AKS)',
-          Content: K8sDaemonSetContent
-        },
-        {
-          label: 'AWS Elastic Container Service for Kubernetes (EKS)',
-          Content: K8sDaemonSetContent
-        },
-        {
-          label: 'Google Kubernetes Engine (GKE)',
-          Content: K8sGoogleKubernetesEngineContent
-        }
-      ]
-    },
-    {
-      label: 'Linux',
-      icon: 'lib_linux',
-
-      subTechnologies: [
-        {
-          label: 'Automatic Installation',
-          Content: OneLinerContent
-        },
-        {
-          label: 'Packages (DEB, RPM)',
-          Content: PackagesContent
-        }
-      ]
-    },
-    {
-      label: 'Docker',
-      icon: 'lib_container_docker',
-      Content: DockerContent
-    },
-    {
       label: 'AWS',
       icon: 'lib_aws',
       fullLabel: 'Amazon Web Services',
+      category: 'Platform',
       subTechnologies: [
         {
           label: 'Instana AWS Sensor',
+          keyWords: 'aws',
           Content: AwsSensorContent
         },
         {
+          label: 'Elastic Computing (EC2) - Linux',
+          keyWords: 'elasticcomputeec2linux',
+          Content: ElasticComputingLinuxContent
+        },
+        {
+          label: 'Elastic Computing (EC2) - Windows',
+          keyWords: 'elasticcomputeec2windows',
+          Content: WindowsInstallerContent
+        },
+        {
           label: 'Elastic Container Service for Kubernetes (EKS)',
+          keyWords: 'elasticcontainerkubernetes',
           Content: K8sDaemonSetContent
         }
       ].filter(subTechnology => (disableAwsSensorDocumentation ? subTechnology.label !== 'Instana AWS Sensor' : true))
@@ -83,42 +65,149 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       label: 'Azure',
       icon: 'lib_azure',
       fullLabel: 'Microsoft Azure',
+      category: 'Platform',
       subTechnologies: [
         {
           label: 'Azure Kubernetes Service (AKS)',
+          keyWords: 'azurekubernetes',
           Content: K8sDaemonSetContent
         }
       ]
+    },
+
+    {
+      label: 'Cloud Foundry and BOSH',
+      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
+      icon: 'lib_cloudfoundry',
+      category: 'Platform',
+      keyWords: 'cloudfoundrybosh',
+      Content: CfAndBoshContent
+    },
+    {
+      label: 'Docker',
+      icon: 'lib_container_docker',
+      category: 'Platform',
+      keyWords: 'dockercontainer',
+      Content: DockerContent
     },
     {
       label: 'Google Cloud',
       icon: 'lib_google_cloud',
       fullLabel: 'Google Cloud Platform',
+      category: 'Platform',
       subTechnologies: [
         {
+          label: 'Google Compute Engine (GCE) - Linux',
+          keyWords: 'googlecloudplatformcomputeenginelinuxgce',
+          Content: GoogleComputeEngineContent
+        },
+        {
           label: 'Google Kubernetes Engine (GKE)',
+          keyWords: 'googlekubernetesenginegke',
           Content: K8sGoogleKubernetesEngineContent
         }
       ]
     },
-
+    {
+      label: 'Kubernetes (vanilla and managed)',
+      icon: 'lib_kubernetes',
+      category: 'Platform',
+      subTechnologies: [
+        {
+          label: 'Daemon set',
+          keyWords: 'kubernetesdeamonset',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'Helm chart',
+          keyWords: 'kuberneteshelmchart',
+          Content: K8sHelmChartContent
+        },
+        {
+          label: 'Azure Kubernetes Service (AKS)',
+          keyWords: 'azurekubernetesserviceaks',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'AWS Elastic Kubernetes Service (EKS)',
+          keyWords: 'awselastickubernetesserviceeks',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'Google Kubernetes Engine (GKE)',
+          keyWords: 'googlekubernetesenginegke',
+          Content: K8sGoogleKubernetesEngineContent
+        }
+      ]
+    },
     {
       label: 'Pivotal Platform',
       icon: 'lib_pivotal_platform',
       fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
+      category: 'Platform',
+      keyWords: 'pivotalplatformcloudfoundry',
       Content: PcfContent
     },
     {
-      label: 'Cloud Foundry and BOSH',
-      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
-      icon: 'lib_cloudfoundry',
-      Content: CfAndBoshContent
+      label: 'Linux',
+      icon: 'lib_linux',
+      category: 'OS',
+      subTechnologies: [
+        {
+          label: 'Automatic Installation (One-liner)',
+          keyWords: 'linuxautomatic',
+          Content: OneLinerContent
+        },
+        {
+          label: 'Packages (DEB, RPM)',
+          keyWords: 'linuxpackagesdeprpm',
+          Content: PackagesContent
+        },
+        {
+          label: 'Static tarballs',
+          keyWords: 'linuxmanual',
+          Content: ManualLinuxContent
+        },
+        {
+          label: 'AWS Elastic Computing (EC2)',
+          keyWords: 'linuxawselasticcomputingec2',
+          Content: ElasticComputingLinuxContent
+        },
+        {
+          label: 'Google Compute Engine (GCE)',
+          keyWords: 'linuxgooglecomputeenginegce',
+          Content: GoogleComputeEngineContent
+        }
+      ]
     },
-
+    {
+      label: 'Mac OS',
+      category: 'OS',
+      keyWords: 'macosx',
+      Content: ManualMacOsContent
+    },
+    {
+      label: 'Unix',
+      category: 'OS',
+      keyWords: 'unix',
+      Content: ManualUnixContent
+    },
     {
       label: 'Windows',
       icon: 'lib_windows',
-      Content: WindowsInstallerContent
+      category: 'OS',
+      subTechnologies: [
+        {
+          label: 'Windows Installer',
+          keyWords: 'windows',
+          Content: WindowsInstallerContent
+        },
+        {
+          label: 'ZIP Archives',
+          keyWords: 'windows',
+          Content: ManualWindowsContent
+        }
+      ]
     }
   ];
 }
@@ -133,7 +222,7 @@ function AwsSensorContent({ agentKey, region }) {
           href="https://docs.instana.io/ecosystem/aws/#aws-services"
         />
       </HelpBox>
-      <LargeSpacer />
+      <Spacer />
       <Description
         lines={[
           'Use the following as "User Data" when spinning up a dedicated EC2 Virtual Machine. We advise to run the Instana AWS sensor on an "Current Generation General Purpose" machine running Linux. The m4.large instances, for example, are perfectly suited to the task. Please take note of the "-m aws" switch in the following command line.'
@@ -146,7 +235,7 @@ function AwsSensorContent({ agentKey, region }) {
           `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -l ${region} -s`
         ]}
       />
-      <LargeSpacer />
+      <Spacer />
       <Description lines={['The EC2 Virtual Machine running the Instana AWS Sensor needs the following IAM Roles.']} />
       <JSON
         content={
@@ -207,7 +296,7 @@ function AwsSensorContent({ agentKey, region }) {
           '}\n'
         }
       />
-      <LargeSpacer />
+      <Spacer />
       <Description
         lines={[
           'The role above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
@@ -227,7 +316,28 @@ function AwsSensorContent({ agentKey, region }) {
           '}\n'
         }
       />
-      <LargeSpacer />
+      <Spacer />
+      <HelpBox title="User Data in AWS EC2">
+        <TextWithLink
+          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+          linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
+          href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
+        />
+      </HelpBox>
+    </>
+  );
+}
+
+function ElasticComputingLinuxContent({ agentKey, regionShort }) {
+  return (
+    <>
+      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <Bash
+        lines={[
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -l ${regionShort} -s -y`
+        ]}
+      />
+      <Spacer />
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
           text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
@@ -240,8 +350,11 @@ function AwsSensorContent({ agentKey, region }) {
 }
 
 function DockerContent({ agentKey, region }) {
+  const [zoneName, onZoneNameChange] = useState('');
+
   return (
     <>
+      <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
       <Bash
         lines={[
           'sudo docker run \\',
@@ -256,9 +369,10 @@ function DockerContent({ agentKey, region }) {
           '--net=host \\',
           '--pid=host \\',
           '--ipc=host \\',
-          `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
           `--env="INSTANA_AGENT_ENDPOINT=saas-${region}.instana.io" \\`,
           '--env="INSTANA_AGENT_ENDPOINT_PORT=443" \\',
+          `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+          `--env="INSTANA_AGENT_ZONE='${zoneName}'" \\`,
           'instana/agent'
         ]}
       />
@@ -277,15 +391,15 @@ function OneLinerContent({ agentKey, regionShort }) {
 
   return (
     <>
-      <DropDown value={jvmMode} options={jvmModeOptions} onChange={setMode} />
-      <DropDown value={installMode} options={installModeOptions} onChange={setInstallMode} />
-      <SmallSpacer />
+      <Row>
+        <DropDown value={jvmMode} options={jvmModeOptions} onChange={setMode} />
+        <DropDown value={installMode} options={installModeOptions} onChange={setInstallMode} />
+      </Row>
       <CheckBox
-        label="Install and start as service (only supported for systemd-based systems)"
+        label="Install and start as service (only supported for SystemD-based systems)"
         checked={isService}
         setChecked={setIsService}
       />
-      <SmallSpacer />
       <Bash
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
@@ -293,7 +407,7 @@ function OneLinerContent({ agentKey, regionShort }) {
           } -l ${regionShort} ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
         ]}
       />
-      <LargeSpacer />
+      <Spacer />
       <HelpBox title="Supported Operating Systems">
         <Listing
           items={[
@@ -305,10 +419,26 @@ function OneLinerContent({ agentKey, regionShort }) {
             'Amazon Linux (1 / 2)'
           ]}
         />
-        <SmallSpacer />
+      </HelpBox>
+    </>
+  );
+}
+
+function GoogleComputeEngineContent({ agentKey, regionShort }) {
+  return (
+    <>
+      <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
+      <Bash
+        lines={[
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -l ${regionShort} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
+        ]}
+      />
+      <Spacer />
+      <HelpBox title="Startup Scripts in Google Compute Engine">
         <TextWithLink
-          text="Packages are also available from our download site:"
-          href="https://packages.instana.io/agent/download"
+          text="For more information on how to use the script above as a startup script in GCE, refer to the "
+          linkText="&quot;Running startup scripts&quot; page."
+          href="https://cloud.google.com/compute/docs/startupscript"
         />
       </HelpBox>
     </>
@@ -319,17 +449,17 @@ function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
   return (
     <>
       <TextWithLink
-        text="Installing the Instana agent on Google Kubernetes Engine is straightforward. Look for "
+        text="Installing the Instana agent on Google Kubernetes Engine is integrated in the"
         href="https://console.cloud.google.com/marketplace/details/instana-public/instana?q=instana"
-        linkText="Instana on the Google Cloud Marketplace."
+        linkText="Google Cloud Marketplace."
       />
-      <LargeSpacer />
+      <Spacer />
       <Description
         lines={[
           'Click on "Configure" and select the Organization or Project containing the Kubernetes Cluster you want to deploy Instana to. The following configurations have to be applied during the "Configure" step in the Google Cloud Platform console.'
         ]}
       />
-      <LargeSpacer />
+      <Spacer />
       <GridRow>
         <Col xs={4}>
           <Description lines={['Instana Service Endpoint']} />
@@ -344,7 +474,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
-      <LargeSpacer />
+      <Spacer />
       <HelpBox title="Name your GKE cluster">
         <Description
           lines={[
@@ -357,84 +487,164 @@ function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
 }
 
 function K8sHelmChartContent({ agentKey, region }) {
+  const [zoneName, onZoneNameChange] = useState('');
+
   return (
-    <>
-      <Description lines={['Helm Chart']} />
-      <Bash
-        lines={[
-          'helm install --name instana-agent --namespace instana-agent \\',
-          `--set agent.key=${agentKey} \\`,
-          `--set agent.endpointHost=saas-${region}.instana.io \\`,
-          '--set agent.endpointPort=443 \\',
-          '--set zone.name=K8s-cluster \\',
-          'stable/instana-agent'
-        ]}
-      />
-      <LargeSpacer />
-      <HelpBox>
-        <TextWithLink
-          text="For more information visit the"
-          href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
-          linkText="Instana Kubernetes documentation."
-        />
-      </HelpBox>
-    </>
+    <ValidatedInputFields
+      fields={[
+        {
+          name: 'clusterName',
+          placeholder: "Cluster name, e.g., 'prod'",
+          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+        }
+      ]}
+      renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
+        <>
+          <Row>
+            {clusterNameInput}
+            <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+          </Row>
+          <Bash
+            disabledErrorMessage={clusterNameValidationMessage}
+            lines={[
+              'helm install --name instana-agent --namespace instana-agent \\',
+              `--set agent.key=${agentKey} \\`,
+              `--set agent.endpointHost=saas-${region}.instana.io \\`,
+              '--set agent.endpointPort=443 \\',
+              `--set cluster.name='${clusterName}'`,
+              `--set zone.name='${zoneName}'`,
+              'stable/instana-agent'
+            ]}
+          />
+          <Spacer />
+          <HelpBox>
+            <TextWithLink
+              text="For more information visit the"
+              href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
+              linkText="Instana Kubernetes documentation."
+            />
+          </HelpBox>
+        </>
+      )}
+    />
   );
 }
 
 function K8sDaemonSetContent({ agentKey, region }) {
+  const [zoneName, onZoneNameChange] = useState('');
+
   return (
-    <>
-      <YAML title="Daemonset.yaml" content={getKubernetesYamlConfig(agentKey, region)} />
-      <LargeSpacer />
-      <HelpBox>
-        <TextWithLink
-          text="For more information visit the"
-          href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
-          linkText="Instana Kubernetes documentation."
-        />
-      </HelpBox>
-    </>
+    <ValidatedInputFields
+      fields={[
+        {
+          name: 'clusterName',
+          placeholder: "Cluster name, e.g., 'prod'",
+          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+        }
+      ]}
+      renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
+        <>
+          <Row>
+            {clusterNameInput}
+            <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+          </Row>
+          <YAML
+            title="daemonset.yaml"
+            disabledErrorMessage={clusterNameValidationMessage}
+            content={getKubernetesYamlConfig(agentKey, region, clusterName, zoneName)}
+          />
+          <HelpBox>
+            <TextWithLink
+              text="For more information visit the"
+              href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
+              linkText="Instana Kubernetes documentation."
+            />
+          </HelpBox>
+        </>
+      )}
+    />
   );
 }
 
 function CfAndBoshContent({ agentKey, region }) {
   return (
-    <>
-      <Description lines={['Apply the following as BOSH runtime configuration to your BOSH director']} />
-      <YAML
-        content={
-          `releases:\n- name: instana-agent\n  version: TBD\n\naddons:\n` +
-          '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
-          `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
-          `        mode: APM\n        key: ${agentKey}\n        endpoint: saas-${region}.instana.io\n` +
-          '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
-          '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-          '    - name: redis\n      release: redis-service\n' +
-          '- name: instana-agent-configuration-pivotal-rabbitmq\n  jobs:\n  - name: instana-agent-configuration-pivotal-rabbitmq\n' +
-          '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-          '    - name: rabbitmq-server\n      release: cf-rabbitmq\n' +
-          '- name: instana-agent-configuration-pivotal-mysql\n  jobs:\n  - name: instana-agent-configuration-pivotal-mysql-v2\n' +
-          '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-          '    - name: mysql\n      release: dedicated-mysql\n' +
-          '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
-          '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-          '    - name: pxc-mysql\n      release: pxc\n'
+    <ValidatedInputFields
+      fields={[
+        {
+          name: 'foundationName',
+          placeholder: "Foundation name, e.g., 'prod'",
+          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+        },
+        {
+          name: 'agentReleaseVersion',
+          placeholder: "Agent release, e.g. 'instana-agent-0.0.1'",
+          validate: {
+            validator: validateAgentReleaseVersion,
+            validationMessage: 'The agent release version is invalid'
+          }
         }
-      />
-      <SmallSpacer />
-      <HelpBox title="Supported Stemcells">
-        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
-      </HelpBox>
-      <LargeSpacer />
-      <HelpBox title="Dynamic agents">
-        <TextWithLink
-          text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
-          href="https://docs.instana.io/ecosystem/cloudfoundry/"
-          linkText="Instana Cloud Foundry documentation."
-        />
-      </HelpBox>
-    </>
+      ]}
+      renderContent={({
+        foundationName,
+        foundationNameInput,
+        foundationNameValidationMessage,
+        agentReleaseVersion,
+        agentReleaseVersionInput,
+        agentReleaseVersionValidationMessage
+      }) => (
+        <>
+          <Description lines={['Apply the following as BOSH runtime configuration to your BOSH director:']} />
+          <Row>
+            {foundationNameInput}
+            {agentReleaseVersionInput}
+          </Row>
+          <Row>
+            <YAML
+              title="runtime-config.yml"
+              disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage}
+              content={
+                `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n\naddons:\n` +
+                '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
+                `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
+                `        mode: APM\n        key: ${agentKey}\n        endpoint: saas-${region}.instana.io\n` +
+                `        zone: '${foundationName}'\n` +
+                '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
+                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                '    - name: redis\n      release: redis-service\n' +
+                '- name: instana-agent-configuration-pivotal-rabbitmq\n  jobs:\n  - name: instana-agent-configuration-pivotal-rabbitmq\n' +
+                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                '    - name: rabbitmq-server\n      release: cf-rabbitmq\n' +
+                '- name: instana-agent-configuration-pivotal-mysql\n  jobs:\n  - name: instana-agent-configuration-pivotal-mysql-v2\n' +
+                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                '    - name: mysql\n      release: dedicated-mysql\n' +
+                '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
+                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                '    - name: pxc-mysql\n      release: pxc\n'
+              }
+            />
+          </Row>
+          <HelpBox title="How to set up BOSH runtime configurations">
+            <TextWithLink
+              text="For more information on how to set up BOSH runtime configurations, refer to the "
+              linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+              href="https://docs.instana.io/ecosystem/cloudfoundry/bosh-configuration/#applying-the-instana-agent-runtime-configurations"
+            />
+          </HelpBox>
+          <Spacer />
+          <HelpBox title="Supported Stemcells">
+            <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
+          </HelpBox>
+          <Spacer />
+          <HelpBox title="Dynamic agents">
+            <TextWithLink
+              text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
+              href="https://docs.instana.io/ecosystem/cloudfoundry/"
+              linkText="Instana Cloud Foundry documentation."
+            />
+          </HelpBox>
+        </>
+      )}
+    />
   );
 }
 
@@ -446,19 +656,18 @@ function PcfContent({ agentKey, region }) {
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
         linkText="Pivotal Network."
       />
-      <LargeSpacer />
+      <Spacer />
       <TextWithLink
         text="Upload the &quot;Instana Microservices Application Monitoring&quot; tile to your Ops Manager as described in the"
         href="https://docs.pivotal.io/partners/instana/installing.html"
         linkText="Instana tile documentation on Pivotal Network."
       />
-      <SmallSpacer />
       <Description
         lines={[
           'The following configurations have to be applied to the "Backend configuration" tab of the "Instana Microservices Application Monitoring" tile in Ops Manager.'
         ]}
       />
-      <LargeSpacer />
+      <Spacer />
       <GridRow>
         <Col xs={4}>
           <Description lines={['Endpoint host']} />
@@ -473,18 +682,18 @@ function PcfContent({ agentKey, region }) {
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
-      <LargeSpacer />
+      <Spacer />
       <Description
         lines={[
           'Finally, you will need to give your Pivotal Platform foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
         ]}
       />
       <TextWithLink text="Apply the changes introduced by the &quot;Instana Microservices Application Monitoring&quot; tile to all tiles in the Ops Manager. Tiles that are not selected for the &quot;Apply changes&quot; step in Ops Manager will not be visible in Instana." />
-      <LargeSpacer />
+      <Spacer />
       <HelpBox title="Supported Ops Manager versions">
         <Listing items={['2.3+']} />
       </HelpBox>
-      <LargeSpacer />
+      <Spacer />
       <HelpBox title="Supported Stemcells">
         <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
       </HelpBox>
@@ -504,19 +713,148 @@ function PackagesContent({ agentKey }) {
 function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
   return (
     <>
-      <Description lines={['We make available the latest Windows installer (64Bit) at following address']} />
+      <Description lines={['We make available the latest Windows installer (64Bit) at following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${decodeURIComponent(
-            region
-          )}&agentKey=${decodeURIComponent(agentKey)}&type=${decodeURIComponent('exe64')}`
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${toURLstring(region)}&agentKey=${toURLstring(
+            agentKey
+          )}&type=${toURLstring('exe64')}`
         ]}
       />
     </>
   );
 }
 
-function getKubernetesYamlConfig(agentKey, region) {
+function ManualLinuxContent({ agentKey, tenant, tenantUnit }) {
+  const agentOptions = [
+    { key: 'linux64', label: 'Linux (64Bit)' },
+    { key: 'linux32', label: 'Linux (32Bit)' },
+    { key: 'linuxarm64', label: 'Linux (64Bit - ARM)' },
+    { key: 'linuxarm32', label: 'Linux (32Bit - ARM)' },
+    { key: 'linuxppc64', label: 'Linux (64Bit - PowerPC)' },
+    { key: 'linuxppc32', label: 'Linux (32Bit - PowerPC)' },
+    { key: 'linuxs390x', label: 'Linux (s390x)' }
+  ];
+  const [option, setOption] = useState(agentOptions[0].key);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={option} options={agentOptions} onChange={setOption} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+      </Row>
+      <HelpBox title="Requires a Java 8 Runtime">
+        <Listing
+          items={[
+            'Azul Zulu JDK 8 (Preferred)',
+            'Oracle Hotspot JDK 8',
+            'IBM J9 8',
+            'OpenJDK 8',
+            'Amazon Corretto JDK 8'
+          ]}
+        />
+        <Spacer />
+        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+      </HelpBox>
+    </>
+  );
+}
+
+function ManualMacOsContent({ agentKey, tenant, tenantUnit }) {
+  const agentOptions = [{ key: 'mac', label: 'Mac OS (64bit - Intel)' }];
+  const [option, setOption] = useState(agentOptions[0].key);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={option} options={agentOptions} onChange={setOption} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+      </Row>
+      <HelpBox title="Requires a Java 8 Runtime">
+        <Listing
+          items={[
+            'Azul Zulu JDK 8 (Preferred)',
+            'Oracle Hotspot JDK 8',
+            'IBM J9 8',
+            'OpenJDK 8',
+            'Amazon Corretto JDK 8'
+          ]}
+        />
+        <Spacer />
+        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+      </HelpBox>
+    </>
+  );
+}
+
+function ManualUnixContent({ agentKey, region, tenant, tenantUnit }) {
+  const agentOptions = [
+    { key: 'sparc64', label: 'Solaris (64bit - SPARC)' },
+    { key: 'sparc32', label: 'Solaris (32bit - SPARC)' },
+    { key: 'aix64', label: 'AIX (64bit - PowerPC)' },
+    { key: 'aix32', label: 'AIX (32bit - PowerPC)' }
+  ];
+  const [option, setOption] = useState(agentOptions[0].key);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={option} options={agentOptions} onChange={setOption} />
+        <DownloadButton
+          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${toURLstring(
+            region
+          )}&agentKey=${toURLstring(agentKey)}&type=${toURLstring(option)}`}
+        />
+      </Row>
+      <HelpBox title="Requires a Java 8 Runtime">
+        <Listing
+          items={[
+            'Azul Zulu JDK 8 (Preferred)',
+            'Oracle Hotspot JDK 8',
+            'IBM J9 8',
+            'OpenJDK 8',
+            'Amazon Corretto JDK 8'
+          ]}
+        />
+        <Spacer />
+        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+      </HelpBox>
+    </>
+  );
+}
+
+function ManualWindowsContent({ agentKey, tenant, tenantUnit }) {
+  const agentOptions = [
+    { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
+    { key: 'win64', label: 'Windows Zip (64bit)' },
+    { key: 'win32', label: 'Windows Zip (32bit)' }
+  ];
+  const [option, setOption] = useState(agentOptions[0].key);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={option} options={agentOptions} onChange={setOption} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option)} />
+      </Row>
+      <HelpBox title="Requires a Java 8 Runtime">
+        <Listing
+          items={[
+            'Azul Zulu JDK 8 (Preferred)',
+            'Oracle Hotspot JDK 8',
+            'IBM J9 8',
+            'OpenJDK 8',
+            'Amazon Corretto JDK 8'
+          ]}
+        />
+        <Spacer />
+        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+      </HelpBox>
+    </>
+  );
+}
+
+function getKubernetesYamlConfig(agentKey, region, clusterName, zoneName) {
   return (
     'apiVersion: v1\n' +
     'kind: Namespace\n' +
@@ -569,8 +907,8 @@ function getKubernetesYamlConfig(agentKey, region) {
     '          env:\n' +
     '            - name: INSTANA_AGENT_LEADER_ELECTOR_PORT\n' +
     '              value: "42655"\n' +
-    '            - name: INSTANA_ZONE\n' +
-    '              value: k8s-cluster-name\n' +
+    '            - name: INSTANA_KUBERNETES_CLUSTER_NAME\n' +
+    `              value: '${clusterName}'\n` +
     '            - name: INSTANA_AGENT_ENDPOINT\n' +
     `              value: saas-${region}.instana.io\n` +
     '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
@@ -580,6 +918,8 @@ function getKubernetesYamlConfig(agentKey, region) {
     '                secretKeyRef:\n' +
     '                  name: instana-agent-secret\n' +
     '                  key: key\n' +
+    '            - name: INSTANA_ZONE\n' +
+    `              value: '${zoneName}'\n` +
     '            - name: JAVA_OPTS\n' +
     '              # Approximately 1/3 of container memory limits to allow for direct-buffer memory usage and JVM overhead\n' +
     '              value: "-Xmx170M -XX:+ExitOnOutOfMemoryError"\n' +

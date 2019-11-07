@@ -7,7 +7,14 @@
     color: @lib__colors__N700Medium;
   }
 
-  .codeWrapper {
+  .checkbox,
+  .codeWrapper,
+  .description,
+  .row,
+  .helpBox,
+  .input,
+  .script,
+  .textWithLink {
     margin-bottom: 0.5rem;
   }
 
@@ -27,20 +34,19 @@
     white-space: normal;
   }
 
+  .input,
   .dropDown {
     min-width: 15rem;
+  }
 
+  .dropDown {
     & + .dropDown {
       margin-left: 0.5rem;
     }
   }
 
-  .smallSpacer {
+  .spacer {
     height: 0.5rem;
-  }
-
-  .largeSpacer {
-    height: 1rem;
   }
 
   .helpBox {
