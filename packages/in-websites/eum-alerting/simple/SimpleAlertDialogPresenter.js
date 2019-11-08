@@ -51,7 +51,7 @@ export default function SimpleAlertDialogPresenter({
               timeConfig={timeConfig}
               setJsErrorsListVisible={SlideInConfig => {
                 setSlideInConfig(SlideInConfig);
-                setSlideInViewVisible(true);
+                setSlideInViewVisible(!!SlideInConfig);
               }}
             />
           )}
@@ -64,7 +64,7 @@ export default function SimpleAlertDialogPresenter({
               onChange={onChange}
               setAlertChannelsVisible={SlideInConfig => {
                 setSlideInConfig(SlideInConfig);
-                setSlideInViewVisible(true);
+                setSlideInViewVisible(!!SlideInConfig);
               }}
             />
           )}
