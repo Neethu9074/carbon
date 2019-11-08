@@ -53,7 +53,7 @@ function SelectListDialogContent({
       autoComplete="off"
     >
       <FormGroup>
-        <div className={joinClassNames(locals.listFormGroup, listFormGroupClassOverwrites)}>
+        <div className={listFormGroupClassOverwrites}>
           <ListComponent
             setTitle={false}
             scrollWrapperClassName={joinClassNames(locals.tableScrollWrapper, tableScrollWrapperClassOverwrites)}
