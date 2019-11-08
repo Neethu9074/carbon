@@ -17,5 +17,8 @@ registerSnapshotDefinition({
   },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS Lambda'
   }
 });
