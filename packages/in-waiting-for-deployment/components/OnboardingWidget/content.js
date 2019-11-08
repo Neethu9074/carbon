@@ -160,7 +160,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         },
         {
           label: 'Packages (DEB, RPM)',
-          keyWords: 'linuxpackagesdeprpm',
+          keyWords: 'linuxpackagesdebrpm',
           Content: PackagesContent
         },
         {
