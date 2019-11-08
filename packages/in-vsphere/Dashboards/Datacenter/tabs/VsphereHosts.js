@@ -22,7 +22,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id)} icon="lib_vsphere_cluster" />;
+      return <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id)} icon="lib_linux" />;
     }
   },
   {

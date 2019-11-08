@@ -59,7 +59,7 @@ function Header(props) {
   return (
     <BasicDashboardHeader
       title="Host"
-      icon="lib_vsphere_host"
+      icon="lib_linux"
       {...props}
       getLabel={result => get(result, ['data', 'label'])}
     />
