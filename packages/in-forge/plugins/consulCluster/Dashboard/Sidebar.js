@@ -1,6 +1,7 @@
 import React from 'react';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from '../Info';
 
 export default function ConsulClusterSidebar({ snapshot }) {
@@ -12,6 +13,8 @@ export default function ConsulClusterSidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }
