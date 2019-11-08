@@ -6,7 +6,15 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
-export default function Errors({ timeConfig, endpointId, applicationId, serviceId, includeSyntheticCalls, cardTitle }) {
+export default function Errors({
+  timeConfig,
+  endpointId,
+  applicationId,
+  serviceId,
+  includeSyntheticCalls,
+  boundaryScope,
+  cardTitle
+}) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -28,6 +36,7 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
             endpoint: endpointId,
             application: applicationId,
             service: serviceId,
+            applicationBoundaryScope: boundaryScope,
             includeSyntheticCalls
           },
           metrics: {

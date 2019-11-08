@@ -12,12 +12,13 @@ import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
+  ({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) => ({
     result: getTechnologyBreakdown({
       filter: {
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
+        applicationBoundaryScope: boundaryScope,
         timeConfig: extendWindowSizeOnLiveMode(timeConfig)
       },
       breakdownType: 'PROCESSING_TIME',

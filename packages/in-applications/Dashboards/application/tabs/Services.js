@@ -9,6 +9,7 @@ import {
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -83,7 +84,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Inbound Calls',
+    label: 'Calls',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -165,7 +166,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     technologiesUrlParameter,
     applicationDashboardUrlParameters.applicationId,
     applicationDashboardUrlParameters.serviceId,
-    applicationDashboardUrlParameters.endpointId
+    applicationDashboardUrlParameters.endpointId,
+    applicationDashboardUrlParameters.boundaryScope
   ],
   columnDefinitions,
   defaultOrderBy: 'callsAgg',
@@ -186,21 +188,35 @@ export default compose(
 )(ServiceList);
 
 function ServiceList(props) {
-  const { timeConfig, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter } = props;
+  const {
+    timeConfig,
+    applicationId,
+    serviceId,
+    endpointId,
+    boundaryScope,
+    onBoundaryStateChange,
+    endpointTypes,
+    technologies,
+    setFilter
+  } = props;
 
   const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      timeConfig={timeConfig}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      rightHeader={rightHeader}
-      endpointTypes={endpointTypes}
-      technologies={technologies}
-    />
+    <Fragment>
+      <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
+      <ServerTableWithUrlState
+        get={getTableData}
+        timeConfig={timeConfig}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        boundaryScope={boundaryScope}
+        rightHeader={rightHeader}
+        endpointTypes={endpointTypes}
+        technologies={technologies}
+      />
+    </Fragment>
   );
 }
 
@@ -213,6 +229,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   endpointTypes = [],
   technologies = [],
   timeConfig
@@ -273,6 +290,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      applicationBoundaryScope: boundaryScope,
       endpointTypes,
       technologies,
       timeConfig

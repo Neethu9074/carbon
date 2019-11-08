@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
@@ -10,20 +11,29 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeConfig, applicationId, endpointId, serviceId }) {
+export default function Summary({
+  timeConfig,
+  applicationId,
+  endpointId,
+  serviceId,
+  boundaryScope,
+  onBoundaryStateChange
+}) {
   const filter = {
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
-    service: serviceId
+    service: serviceId,
+    applicationBoundaryScope: boundaryScope
   };
 
   return (
     <Fragment>
+      <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
       <Row>
         <Col xs>
           <AppDataKpiCard
-            title="Inbound Calls"
+            title="Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
@@ -76,6 +86,7 @@ export default function Summary({ timeConfig, applicationId, endpointId, service
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
+            boundaryScope={boundaryScope}
           />
         </Col>
         <Col lg={4}>
@@ -85,6 +96,7 @@ export default function Summary({ timeConfig, applicationId, endpointId, service
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
+            boundaryScope={boundaryScope}
           />
         </Col>
         <Col lg={4}>
@@ -94,19 +106,25 @@ export default function Summary({ timeConfig, applicationId, endpointId, service
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
+            boundaryScope={boundaryScope}
           />
         </Col>
       </Row>
 
       <Row>
         <Col lg={4}>
-          <ServiceTopList applicationId={applicationId} timeConfig={timeConfig} />
+          <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
           <TraceTopList applicationId={applicationId} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          <TechnologyBreakdown
+            applicationId={applicationId}
+            serviceId={serviceId}
+            boundaryScope={boundaryScope}
+            timeConfig={timeConfig}
+          />
         </Col>
       </Row>
     </Fragment>

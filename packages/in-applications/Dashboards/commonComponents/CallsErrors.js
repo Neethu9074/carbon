@@ -10,6 +10,7 @@ export default function CallsErrors({
   applicationId,
   serviceId,
   includeSyntheticCalls,
+  boundaryScope,
   cardTitle
 }) {
   const granularity = getChartGranularity(timeConfig);
@@ -30,6 +31,7 @@ export default function CallsErrors({
             endpoint: endpointId,
             application: applicationId,
             service: serviceId,
+            applicationBoundaryScope: boundaryScope,
             includeSyntheticCalls
           },
           metrics: {

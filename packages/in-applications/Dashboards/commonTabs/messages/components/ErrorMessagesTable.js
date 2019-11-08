@@ -76,6 +76,7 @@ export default function ErrorMessagesTable({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   timeConfig,
   applicationName,
   serviceName,
@@ -91,6 +92,7 @@ export default function ErrorMessagesTable({
       applicationName={applicationName}
       serviceName={serviceName}
       endpointName={endpointName}
+      boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       rightHeader={
         <AnalyzeMessagesButton
@@ -114,6 +116,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   timeConfig
 }) {
   return getErrorMessages({
@@ -130,7 +133,8 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpoint: endpointId
+      endpoint: endpointId,
+      applicationBoundaryScope: boundaryScope
     },
     metrics: {
       callsAgg: {

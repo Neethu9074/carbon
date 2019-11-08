@@ -3,11 +3,12 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 import DatabaseStatementDetail from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementDetail';
+import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 
-export default function PerformanceTab(props) {
+export default function PerformanceTab({ boundaryScope, onBoundaryStateChange, ...props }) {
   return (
     <Switch>
       <Route
@@ -21,9 +22,16 @@ export default function PerformanceTab(props) {
         render={() => {
           return (
             <div>
-              <CommonPerformanceSections {...props} />
-              <DatabaseSections {...props} />
-              <HttpSections {...props} />
+              {boundaryScope &&
+                onBoundaryStateChange && (
+                  <InboundOrAllCallsChoice
+                    boundaryScope={boundaryScope}
+                    onBoundaryStateChange={onBoundaryStateChange}
+                  />
+                )}
+              <CommonPerformanceSections boundaryScope={boundaryScope} {...props} />
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+              <HttpSections boundaryScope={boundaryScope} {...props} />
             </div>
           );
         }}

@@ -16,11 +16,12 @@ export default connectTo(
         application: props.applicationId,
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeConfig: props.timeConfig
+        timeConfig: props.timeConfig,
+        applicationBoundaryScope: props.boundaryScope
       }
     }).map(result => result.data || null)
   }),
-  function HttpSections({ timeConfig, types, applicationId, serviceId, endpointId }) {
+  function HttpSections({ timeConfig, types, applicationId, serviceId, endpointId, boundaryScope }) {
     if (!hasHttpEndpoints(types)) {
       return null;
     }
@@ -51,7 +52,8 @@ export default connectTo(
                 timeConfig,
                 application: applicationId,
                 service: serviceId,
-                endpoint: endpointId
+                endpoint: endpointId,
+                applicationBoundaryScope: boundaryScope
               },
               metrics: {
                 'http.1xx': {

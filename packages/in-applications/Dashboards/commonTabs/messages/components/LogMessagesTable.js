@@ -83,6 +83,7 @@ export default function LogMessagesTable({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   timeConfig,
   applicationName,
   serviceName,
@@ -98,6 +99,7 @@ export default function LogMessagesTable({
       applicationName={applicationName}
       serviceName={serviceName}
       endpointName={endpointName}
+      boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       rightHeader={
         <AnalyzeMessagesButton
@@ -121,6 +123,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointName,
+  boundaryScope,
   timeConfig
 }) {
   return getLogMessages({
@@ -137,7 +140,8 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpointName: endpointName // logs are still using endpoint names as ids
+      endpointName: endpointName, // logs are still using endpoint names as ids
+      applicationBoundaryScope: boundaryScope
     },
     metrics: {
       logsAgg: {

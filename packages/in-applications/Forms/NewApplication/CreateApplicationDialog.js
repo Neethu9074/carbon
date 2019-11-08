@@ -18,12 +18,12 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
-import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';

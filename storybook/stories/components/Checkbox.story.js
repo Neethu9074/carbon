@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/react';
-import { withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { withState } from 'recompose';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+
 import Root from '../_helpers/Root';
 
 const sizes = ['default', 'large', 'larger', 'largest'];

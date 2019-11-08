@@ -7,6 +7,7 @@ import {
   getClusterDashboard,
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
+import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 'in-stores/snapshot';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -181,7 +182,17 @@ export default compose(
   })
 )(Infrastructure);
 
-function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
+function Infrastructure({
+  data: entity,
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig,
+  boundaryScope,
+  onBoundaryStateChange,
+  selectedType,
+  setType
+}) {
   const buttonPropsList = [];
 
   // in the application infra view, show all tabs, because we do not know the type of all entities
@@ -218,18 +229,25 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
   const Table = tablesByType[selectedType];
 
   return (
-    <Table
-      get={getTableData}
-      type={selectedType}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      timeConfig={timeConfig}
-      size="compact"
-      isSearchable={false}
-      rightHeader={rightHeader}
-      cardTitle="Infrastructure"
-    />
+    <Fragment>
+      {boundaryScope &&
+        onBoundaryStateChange && (
+          <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
+        )}
+      <Table
+        get={getTableData}
+        type={selectedType}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        boundaryScope={boundaryScope}
+        size="compact"
+        isSearchable={false}
+        rightHeader={rightHeader}
+        cardTitle="Infrastructure"
+      />
+    </Fragment>
   );
 }
 
@@ -289,6 +307,7 @@ function getTableData({
   serviceId,
   endpointId,
   timeConfig,
+  boundaryScope,
   type
 }) {
   return getInfrastructure({
@@ -335,7 +354,8 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeConfig
+      timeConfig,
+      applicationBoundaryScope: boundaryScope
     }
   });
 }

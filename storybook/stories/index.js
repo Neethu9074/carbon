@@ -106,6 +106,7 @@ import './content/table/Table.story';
 import './content/Typography.story';
 
 import './forms/ApplicationConfiguration.story';
+import './forms/InboundOrAllCalls.story';
 import './forms/BasicForm.story';
 import './forms/FormFields.story';
 import './forms/ServiceConfiguration.story';

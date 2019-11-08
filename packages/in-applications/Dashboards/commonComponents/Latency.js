@@ -11,6 +11,7 @@ export default function Latency({
   applicationId,
   serviceId,
   includeSyntheticCalls,
+  boundaryScope,
   cardTitle
 }) {
   const granularity = getChartGranularity(timeConfig);
@@ -44,6 +45,7 @@ export default function Latency({
           application: applicationId,
           service: serviceId,
           endpoint: endpointId,
+          applicationBoundaryScope: boundaryScope,
           includeSyntheticCalls
         },
         metrics: {

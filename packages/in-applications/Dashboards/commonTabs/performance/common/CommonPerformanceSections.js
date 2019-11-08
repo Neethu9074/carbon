@@ -5,7 +5,7 @@ import ServerHeatMap from 'in-new-components/HeatMap/ServerHeatMap';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 
-export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeConfig }) {
+export default function CommonPerformanceSection({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
   return (
     <Fragment>
       <Row>
@@ -16,6 +16,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
+            boundaryScope={boundaryScope}
           />
         </Col>
       </Row>
@@ -27,6 +28,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
               serviceId={endpointId ? null : serviceId}
               endpointId={endpointId}
               timeConfig={timeConfig}
+              boundaryScope={boundaryScope}
             />
           </Card>
         </Col>
