@@ -36,7 +36,7 @@ export default function SimpleAlertDialogPresenter({
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       titleIconType="lib_alerts_create"
-      onClose={slideInConfig ? null : onClose}
+      onClose={onClose}
       doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
