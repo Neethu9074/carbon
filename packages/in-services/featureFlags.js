@@ -44,8 +44,7 @@ export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const isInitialOnboardingCheckEnabled =
-  !isInstanaEngineer && isFeatureFlagEnabled('isInitialOnboardingCheckEnabled', true);
+export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);

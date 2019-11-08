@@ -133,9 +133,9 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'isInitialOnboardingCheckEnabled',
-    instanaCtlKey: 'feature.initial.onboarding.check.enabled',
-    consulKey: `settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`,
+    uiClientKey: 'isOnboardingGuideEnabled',
+    instanaCtlKey: 'feature.onboarding.guide.enabled',
+    consulKey: `settings/${tenant}-${unit}/IS_ONBOARDING_GUIDE_ENABLED`,
     defaultValue: true
   },
   {
