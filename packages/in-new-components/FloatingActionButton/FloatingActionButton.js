@@ -5,12 +5,27 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
-import locals from './ButtonRounded.mless';
+import locals from './FloatingActionButton.mless';
 
-export default function ButtonRounded({ children, iconType, onClick, withBoxShadow = false }) {
+export const positions = {
+  bottomRight: 'bottomRight'
+};
+
+export default function FloatingActionButton({
+  children,
+  iconType,
+  onClick,
+  position = positions.bottomRight,
+  withBoxShadow = false
+}) {
   return (
     <button
-      className={evaluateClassNames({ [locals.button]: true, [locals.withShadow]: withBoxShadow })}
+      className={evaluateClassNames({
+        [locals.button]: true,
+        [locals.withShadow]: withBoxShadow,
+        [locals.hasIcon]: !!iconType,
+        [locals[position]]: position
+      })}
       onClick={e => (onClick ? onClick() : stopPropagationAndPreventDefault(e))}
     >
       <div className={locals.inner}>
@@ -21,9 +36,10 @@ export default function ButtonRounded({ children, iconType, onClick, withBoxShad
   );
 }
 
-ButtonRounded.propTypes = {
+FloatingActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   iconType: PropTypes.string,
   onClick: PropTypes.func,
-  withBoxShadow: PropTypes.bool
+  withBoxShadow: PropTypes.bool,
+  position: PropTypes.oneOf(Object.values(positions))
 };

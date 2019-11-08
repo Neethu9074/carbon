@@ -68,23 +68,33 @@ function hideZEndeskChat(pathname) {
 }
 
 function getZendeskOffset(pathname) {
+  if (pathname.includes('/websiteMonitoring/website/configuration')) {
+    return {
+      vertical: convertRemToPx(0.75),
+      horizontal: 0,
+      mobile: { horizontal: 0 }
+    };
+  }
+
+  if (pathname !== '/websiteMonitoring/websites' && pathname.includes('/websiteMonitoring/website')) {
+    return {
+      vertical: convertRemToPx(0.75),
+      horizontal: convertRemToPx(11.25),
+      mobile: { horizontal: convertRemToPx(11.25) }
+    };
+  }
+
   switch (pathname) {
     case '/physical':
-      return { vertical: convertRemToPx(5.625), mobile: { vertical: convertRemToPx(5.625) } }; // 90px
+      return { vertical: convertRemToPx(6.375), mobile: { vertical: convertRemToPx(6.375) } }; // 90px
     case '/events':
-      return { vertical: convertRemToPx(4.375), mobile: { vertical: convertRemToPx(4.375) } }; // 70px
-    case '/websiteMonitoring/website/geography':
-      return { vertical: convertRemToPx(11.25), mobile: { vertical: convertRemToPx(11.25) } }; // 180px
-    case '/websiteMonitoring/website/errors/details':
-      return { horizontal: convertRemToPx(11.25), mobile: { horizontal: convertRemToPx(11.25) } }; // 180px
-    case '/websiteMonitoring/website/geography/globe':
-      return { vertical: convertRemToPx(10.625), mobile: { vertical: convertRemToPx(10.625) } }; // 170px
+      return { vertical: convertRemToPx(5.125), mobile: { vertical: convertRemToPx(5.125) } }; // 70px
     case '/application/map':
-      return { vertical: convertRemToPx(8.125), mobile: { vertical: convertRemToPx(8.125) } }; // 130px
+      return { vertical: convertRemToPx(8.875), mobile: { vertical: convertRemToPx(8.875) } }; // 130px
     case '/service/flowMap':
     case '/endpoint/flowMap':
-      return { vertical: convertRemToPx(5), mobile: { vertical: convertRemToPx(5) } }; // 80px
+      return { vertical: convertRemToPx(5.75), mobile: { vertical: convertRemToPx(5.75) } }; // 80px
     default:
-      return { vertical: '0', mobile: { vertical: '0' } };
+      return { horizontal: 0, vertical: '12', mobile: { vertical: '12', horizontal: 0 } };
   }
 }

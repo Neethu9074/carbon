@@ -1,20 +1,22 @@
 @import '~in-themes/active.less';
 
 :local {
+  @right: 1.5rem;
+
   .wrapper {
     position: relative;
   }
 
   .controlWrapperClassName {
     position: absolute;
-    right: 2rem;
-    bottom: 4.5rem;
+    right: @right;
+    bottom: ~'calc((100% - 16px)/2)';
   }
 
   .to3D {
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: ~'calc((100% - 95px)/2)';
+    right: @right;
     width: 2rem;
     display: flex;
     justify-content: center;

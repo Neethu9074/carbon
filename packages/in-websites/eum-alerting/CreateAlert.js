@@ -1,28 +1,64 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
+import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
-import ButtonRounded from 'in-new-components/ButtonRounded/ButtonRounded';
+import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { eumAlertingEnabled } from 'in-services/featureFlags';
-
-import locals from './CreateAlert.mless';
+import { alwaysNull } from 'in-services/fixedStreams';
+import connectTo from 'in-hoc/connectTo';
 
 const implicitTagFilters = ['beacon.website.id'];
 
-export default function CreateAlert({ error, tagFilters, websiteLabel, websiteId }) {
+export default connectTo(props => {
+  const observables = {};
+
+  const errorId = getMatrixParameter(props.location, '/details', 'errorId');
+
+  if (!props.error && errorId) {
+    observables.websiteErrorResult = getWebsiteError({
+      timeConfig: props.timeConfig,
+      websiteId: props.websiteId,
+      errorId
+    });
+  }
+
+  observables.websiteResult = props.websiteResult$ ? props.websiteResult$ : alwaysNull;
+
+  return observables;
+})(CreateAlert);
+
+function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, websiteLabel, tagFilters, error }) {
   if (!eumAlertingEnabled) {
+    return null;
+  }
+
+  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
     return null;
   }
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  if (!error && websiteErrorResult) {
+    error = get(websiteErrorResult, ['data']);
+  }
+
+  if (!websiteLabel && websiteResult) {
+    websiteLabel = get(websiteResult, ['data', 'label']);
+  }
+
   return (
     <>
-      <div className={locals.button}>
-        <ButtonRounded iconType="lib_alerts_create" onClick={() => setDialogOpen(true)} withBoxShadow>
-          Create Alert
-        </ButtonRounded>
-      </div>
+      <FloatingActionButton
+        iconType="lib_alerts_create"
+        onClick={() => setDialogOpen(true)}
+        position={positions.bottomRight}
+        withBoxShadow
+      >
+        Create Alert
+      </FloatingActionButton>
       {dialogOpen && (
         <SimpleAlertDialog
           onClose={() => setDialogOpen(false)}
@@ -35,10 +71,14 @@ export default function CreateAlert({ error, tagFilters, websiteLabel, websiteId
 }
 
 CreateAlert.propTypes = {
-  error: PropTypes.object.isRequired,
-  tagFilters: PropTypes.array,
+  error: PropTypes.object,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
+  }).isRequired,
+  tagFilters: PropTypes.array.isRequired,
+  websiteId: PropTypes.string.isRequired,
   websiteLabel: PropTypes.string,
-  timeConfig: PropTypes.object
+  websiteResult$: PropTypes.object
 };
 
 function generateFormData(error, tagFilters, websiteId) {
@@ -47,7 +87,7 @@ function generateFormData(error, tagFilters, websiteId) {
     rule: {
       alertType: 'specificJsError',
       operator: 'EQUALS',
-      value: error.message
+      value: error ? error.message : ''
     },
     threshold: {
       type: 'staticThreshold',

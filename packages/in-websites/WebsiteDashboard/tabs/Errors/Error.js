@@ -20,7 +20,6 @@ import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
-import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -300,19 +299,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
       </div>
 
       {content}
-      {result &&
-        result.data && (
-          <CreateAlert
-            error={result.data}
-            {...{
-              websiteId,
-              websiteLabel,
-              pageId,
-              tagFilters,
-              timeConfig
-            }}
-          />
-        )}
     </Fragment>
   );
 }

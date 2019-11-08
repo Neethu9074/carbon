@@ -48,7 +48,7 @@ import './components/Axis.story';
 import './components/Badge.story';
 import './components/Button.story';
 import './components/ButtonGroup.story';
-import './components/ButtonRounded.story';
+import './components/FloatingActionButton.story';
 import './components/ButtonSegmentedControl.story';
 import './components/Capitalize.story';
 import './components/Card.story';

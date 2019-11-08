@@ -21,6 +21,7 @@ import { eumAlertingEnabled } from 'in-services/featureFlags';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
@@ -135,6 +136,16 @@ function WebsiteDashboard({
     <Fragment>
       <Breadcrumbs items={getBreadcrumbs(props)} />
       <Sticky header={<BreadcrumbHeader />}>{content}</Sticky>
+      <CreateAlert
+        websiteId={props.websiteId}
+        tagFilters={tagFilters}
+        websiteResult$={getWebsite({
+          id: props.websiteId,
+          timeConfig: props.timeConfig
+        })}
+        timeConfig={props.timeConfig}
+        location={location}
+      />
       <Footer />
     </Fragment>
   );
