@@ -28,16 +28,17 @@ export default function SimpleAlertDialogPresenter({
 }) {
   const [step, setStep] = useState(steps.selectAlert);
   const [slideInConfig, setSlideInConfig] = useState(null);
+  const [slideInViewVisible, setSlideInViewVisible] = useState(false);
 
   return (
     <BigHeaderDialog
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}
       slideInViewTitle={slideInConfig && slideInConfig.title}
-      onSlideInViewTitleClick={slideInConfig ? () => setSlideInConfig(null) : null}
+      onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       titleIconType="lib_alerts_create"
       onClose={slideInConfig ? null : onClose}
       doNotCloseOnOutsideClick
-      slideInViewVisible={!!slideInConfig}
+      slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
     >
       <div className={locals.dialog}>
@@ -48,7 +49,10 @@ export default function SimpleAlertDialogPresenter({
               form={form}
               onChange={onChange}
               timeConfig={timeConfig}
-              setJsErrorsListVisible={SlideInConfig => setSlideInConfig(SlideInConfig)}
+              setJsErrorsListVisible={SlideInConfig => {
+                setSlideInConfig(SlideInConfig);
+                setSlideInViewVisible(true);
+              }}
             />
           )}
           {step === steps.confirmDomain && (
@@ -58,7 +62,10 @@ export default function SimpleAlertDialogPresenter({
             <SimpleAlertDialogStep3
               form={form}
               onChange={onChange}
-              setAlertChannelsVisible={SlideInConfig => setSlideInConfig(SlideInConfig)}
+              setAlertChannelsVisible={SlideInConfig => {
+                setSlideInConfig(SlideInConfig);
+                setSlideInViewVisible(true);
+              }}
             />
           )}
         </form>

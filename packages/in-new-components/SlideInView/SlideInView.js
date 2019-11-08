@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -7,7 +7,6 @@ import evaluateClassNames from 'in-services/util/classnames';
 import locals from './SlideInView.mless';
 
 export default function SlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
-  const _title = useKeepTitleIfSet(title);
   return (
     <div className={locals.container}>
       <div
@@ -26,7 +25,7 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       >
         <span className={locals.titleContainer}>
           <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} leftAligned />
-          <h1 className={locals.title}>{_title}</h1>
+          <h1 className={locals.title}>{title}</h1>
         </span>
       </div>
       <div className={locals.mainContentWrapper}>
@@ -52,14 +51,3 @@ SlideInView.propTypes = {
   title: PropTypes.string,
   onTitleIconClick: PropTypes.func
 };
-
-function useKeepTitleIfSet(title) {
-  const [_title, setTitle] = useState(title);
-  useEffect(
-    () => {
-      if (!_title) setTitle(title);
-    },
-    [title]
-  );
-  return _title;
-}
