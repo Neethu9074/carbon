@@ -27,7 +27,7 @@ module.exports = {
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
   optInOptOutEnabled: true,
-  isOnPrem: false,
+  fullTermsConfigEnabled: true,
   isOnboardingGuideEnabled: true,
   contextGuideEnabled: false,
   eumAlertingEnabled: true,

@@ -46,7 +46,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_ONBOARDING_GUIDE_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/FULL_TERMS_CONFIG_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/GOOGLE_ANALYTICS_DISABLED`, false)
     ]).then(
@@ -73,7 +73,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         optInOptOutEnabled,
         isOnboardingGuideEnabled,
         contextGuideEnabled,
-        isOnPrem,
+        fullTermsConfigEnabled,
         eumAlertingEnabled,
         googleAnalyticsDisabled
       ]) => ({
@@ -104,7 +104,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         optInOptOutEnabled,
         isOnboardingGuideEnabled,
         contextGuideEnabled,
-        isOnPrem,
+        fullTermsConfigEnabled,
         eumAlertingEnabled,
         googleAnalyticsDisabled
       })
