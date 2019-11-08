@@ -1,27 +1,20 @@
 import React from 'react';
 
 import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
-import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
-import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
-import VSphereHosts from 'in-vsphere/Dashboards/Datacenter/tabs/VsphereHosts';
+import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
+import { hostDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VirtualMachines from 'in-vsphere/commonComponents/VirtualMachines';
-import Summary from 'in-vsphere/Dashboards/Datacenter/tabs/Summary';
+import Summary from 'in-vsphere/Dashboards/Host/tabs/Summary';
 
 export default [
   {
     label: 'Summary',
-    path: `${datacenterDashboardFullyQualified}/summary`,
+    path: `${hostDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'vSphere hosts',
-    path: `${datacenterDashboardFullyQualified}/vsphere-hosts`,
-    component: VSphereHosts,
-    header: props => getCounterComponent(props, 'hosts')
-  },
-  {
     label: 'Virtual Machines',
-    path: `${datacenterDashboardFullyQualified}/vms`,
+    path: `${hostDashboardFullyQualified}/vms`,
     component: VirtualMachines,
     header: props => getCounterComponent(props, 'vms')
   }
@@ -32,9 +25,9 @@ function getCounterComponent(props, resultPropName) {
     <TabLabelWithCounterPresenter
       label={props.tab.label}
       getCounters={() =>
-        getVsphereDatacenter({
+        getVsphereVms({
           filter: {
-            datacenterId: props.datacenterId,
+            hostId: props.hostId,
             timeConfig: props.timeConfig
           }
         })

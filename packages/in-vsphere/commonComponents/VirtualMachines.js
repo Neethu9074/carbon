@@ -85,7 +85,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function VsphereHosts(props) {
-  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} datacenterId={props.datacenterId} />;
+  return (
+    <ServerTableWithUrlState
+      get={getTableData}
+      timeConfig={props.timeConfig}
+      datacenterId={props.datacenterId}
+      hostId={props.hostId}
+    />
+  );
 }
 
 function getTableData({
@@ -95,7 +102,8 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  datacenterId
+  datacenterId,
+  hostId
 }) {
   return getVsphereVms({
     pagination: {
@@ -109,6 +117,7 @@ function getTableData({
     filter: {
       label: query,
       datacenterId,
+      hostId,
       timeConfig
     },
     granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP

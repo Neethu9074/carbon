@@ -2,7 +2,6 @@ import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
@@ -11,7 +10,9 @@ import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { percentage } from 'in-services/formatters/number';
-import { MemoryTotal } from './MemoryTotal';
+import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
+import { getVsphereHostDashboard } from '../../../navigation/paths';
+import EntityLink from '../../../../in-new-components/EntityLink';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
@@ -21,7 +22,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <SeverityAwareEntityLink icon="lib_linux" label={item.label} />;
+      return <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id)} icon="lib_linux" />;
     }
   },
   {
