@@ -34,7 +34,7 @@ const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: 'Name',
-    getContent(item, { applicationId, endpointId }) {
+    getContent(item, { applicationId, endpointId, boundaryScope }) {
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
@@ -42,6 +42,7 @@ const columnDefinitions = [
           label={item.service.label}
           href$={getServiceDashboard(item.service.id, {
             applicationId,
+            boundaryScope,
             endpointId
           })}
         />

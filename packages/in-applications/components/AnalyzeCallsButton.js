@@ -24,6 +24,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   applicationLabel,
   serviceLabel,
   endpointLabel,
+  boundaryScope,
   isSynthetic,
   filters = [],
   groupByTag
@@ -36,6 +37,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointLabel,
+        boundaryScope,
         dataSource: 'calls',
         filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }, ...filters] : filters,
         groupByTag: groupByTag ? groupByTag : {}

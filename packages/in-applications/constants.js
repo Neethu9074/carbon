@@ -8,3 +8,7 @@ export const boundaryScopes = {
     all: { text: 'All Calls', icon: 'lib_application_boundary_all_calls' }
   }
 };
+
+export const switchScope = boundaryScope => {
+  return boundaryScope === boundaryScopes.all ? boundaryScopes.inbound : boundaryScopes.all;
+};

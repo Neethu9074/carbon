@@ -13,12 +13,13 @@ import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { callAnalysisBlacklistedTags } from 'in-applications/tags';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
-import { entityTypes, operators } from 'in-analyze/applicationFilter';
 
 export const analyze = '/analyze';
 export const analyzeRaw = `${analyze}/raw`;
@@ -31,6 +32,7 @@ export function getLinkToAnalyze({
   applicationName,
   serviceName,
   endpointName,
+  boundaryScope,
   dataSource = 'traces',
   filters,
   groupByTag, // use an empty object to prevent default grouping
@@ -61,6 +63,16 @@ export function getLinkToAnalyze({
         operator: operators.EQUALS,
         entity: entityTypes.DESTINATION
       });
+
+      // application inbound calls filter: source.application.name NOT EQUAL xxx
+      if (boundaryScope !== boundaryScopes.all) {
+        tagFilter.push({
+          name: APPLICATION.name,
+          value: applicationName,
+          operator: operators.NOT_EQUAL,
+          entity: entityTypes.SOURCE
+        });
+      }
     }
     if (serviceName != null) {
       tagFilter = tagFilter || [];

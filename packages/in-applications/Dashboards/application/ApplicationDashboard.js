@@ -9,10 +9,9 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
-import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import { boundaryScopes } from 'in-applications/constants';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
@@ -72,19 +71,6 @@ function Header(props) {
   return <BasicDashboardHeader title="Application" icon="lib_application" renderActions={Actions} {...props} />;
 }
 
-function filterByBoundaryScope(boundaryScope) {
-  return (
-    (boundaryScopes.inbound === boundaryScope && [
-      {
-        name: 'application.name',
-        operator: operators.NOT_EQUAL,
-        entity: entityTypes.SOURCE
-      }
-    ]) ||
-    []
-  );
-}
-
 function Actions({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
   return (
     <Fragment>
@@ -92,8 +78,8 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, boundarySco
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        boundaryScope={boundaryScope}
         timeConfig={timeConfig}
-        filters={filterByBoundaryScope(boundaryScope)}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
       />
       <ApplicationEntityHealthIndicatorBehavior
