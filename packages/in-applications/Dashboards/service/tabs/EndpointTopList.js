@@ -12,7 +12,7 @@ const labels = ['Latency', 'Calls', 'Errors'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [meanLatencyFixed.compact, number.compact, percentage.detailed];
 
-export default function EndpointTopList({ applicationId, serviceId, timeConfig }) {
+export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig }) {
   return (
     <TopList
       title="Top Endpoints"
@@ -28,11 +28,12 @@ export default function EndpointTopList({ applicationId, serviceId, timeConfig }
       timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
+      boundaryScope={boundaryScope}
     />
   );
 }
 
-function getList({ applicationId, serviceId, timeConfig, selectedMetric, selectedMetricAggregation }) {
+function getList({ applicationId, serviceId, boundaryScope, timeConfig, selectedMetric, selectedMetricAggregation }) {
   return getEndpoints({
     pagination: {
       page: 1,
@@ -52,6 +53,7 @@ function getList({ applicationId, serviceId, timeConfig, selectedMetric, selecte
       application: applicationId,
       service: serviceId,
       includeSyntheticCalls: false,
+      applicationBoundaryScope: boundaryScope,
       timeConfig
     }
   });

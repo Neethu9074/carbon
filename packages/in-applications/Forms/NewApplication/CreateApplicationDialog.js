@@ -29,6 +29,7 @@ import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -257,6 +258,12 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             />
                           </FormGroup>
                         ))}
+
+                        <Message>
+                          Soon you will be able to configure whether the default behavior of this Application
+                          Perspective is <b>Inbound calls</b> or <b>All calls</b>. The current default behavior is{' '}
+                          <b>Inbound calls</b>.
+                        </Message>
                       </Fragment>
                     )
                   }

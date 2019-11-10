@@ -10,13 +10,14 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeConfig, applicationId, serviceId, endpointId, data }) {
+export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
   const includeSyntheticCalls = get(data, 'synthetic', false);
 
   const filter = {
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
+    applicationBoundaryScope: boundaryScope,
     includeSyntheticCalls
   };
 
@@ -76,6 +77,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             cardTitle="Calls"
             applicationId={applicationId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />
@@ -85,6 +87,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             cardTitle="Errors"
             applicationId={applicationId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />
@@ -94,6 +97,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             cardTitle="Latency"
             applicationId={applicationId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />

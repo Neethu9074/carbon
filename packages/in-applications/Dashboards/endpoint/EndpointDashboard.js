@@ -2,22 +2,24 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsNotification';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { configureSyntheticEndpointsView, configureEndpointsView } from 'in-applications/navigation/paths';
+import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import { getEndpointDashboard, endpointDashboard } from 'in-applications/navigation/paths';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { switchScope } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
@@ -32,7 +34,9 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
     applicationId: getMatrixParameter(location, endpointDashboard, applicationId),
     serviceId: getMatrixParameter(location, endpointDashboard, serviceId),
     endpointId: getMatrixParameter(location, endpointDashboard, endpointId),
+    boundaryScope: getMatrixParameter(location, endpointDashboard, boundaryScope),
     viewPath: endpointDashboard,
+    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     timeConfig
   };
 
@@ -65,6 +69,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 });
 
 function Header(props) {
+  const { applicationId, serviceId, endpointId, boundaryScope, currentTab } = props;
   const isSynthetic = get(props.result, ['data', 'synthetic'], false);
   const label = get(props.result, ['data', 'label']);
   const type = get(props.result, ['data', 'type']);
@@ -74,6 +79,23 @@ function Header(props) {
 
   return (
     <Fragment>
+      {applicationId &&
+        currentTab !== '/flowMap' && (
+          <div className={locals.messageWrapper}>
+            <InboundOrAllCallsNotification
+              applicationId={applicationId}
+              boundaryScope={boundaryScope}
+              entityType="endpoint"
+              switchTo={getEndpointDashboard(endpointId, {
+                applicationId,
+                serviceId,
+                boundaryScope: switchScope(boundaryScope),
+                tab: currentTab
+              })}
+            />
+          </div>
+        )}
+
       {isSynthetic && (
         <MessageBar
           title="Synthetic Endpoint"
@@ -141,13 +163,14 @@ function MessageBar({ title, message, link }) {
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isSynthetic }) {
+function Actions({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result, isSynthetic }) {
   return (
     <Fragment>
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        boundaryScope={boundaryScope}
         isSynthetic={isSynthetic}
         timeConfig={timeConfig}
         groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
