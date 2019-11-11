@@ -22,9 +22,10 @@ export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
   return (
     <>
       <List
-        isSearchable={false}
+        isSearchable
         getHeader={() => ''}
-        getEntityName={config => config.name}
+        searchAttributes={[entity => entity.message]}
+        getEntityName={config => config.message}
         columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
@@ -41,7 +42,7 @@ export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
             .filter(tableData => tableData.data)
             .map(tableData => tableData.data.items.map(item => item.error))
         }
-        pageSize={15}
+        pageSize={10}
         noDataMessage="No alert configured."
         onRowClick={error => {
           const updatedForm = form.updateIn([fieldNames.operator], field => field.setValue(operators.EQUALS));
@@ -63,7 +64,7 @@ JsErrorsList.propTypes = {
 
 function getTableData({
   page = 1,
-  pageSize = 20,
+  pageSize = 15,
   orderBy = 'errorsAgg',
   orderDirection = 'DESC',
   timeConfig,
@@ -92,7 +93,7 @@ function getTableData({
 function ErrorRow(error) {
   return (
     <Tooltip content={error.message} align="topLeft">
-      <div className={locals.row}>{error.message}</div>;
+      <div className={locals.row}>{error.message}</div>
     </Tooltip>
   );
 }
