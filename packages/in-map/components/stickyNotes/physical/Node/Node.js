@@ -10,18 +10,28 @@ import 'in-map/components/stickyNotes/physical/Node/Node.less';
 
 export default createStickyNote(
   connectTo(
-    props => {
-      return {
-        snapshot: getSnapshot(props.id),
-        showHostLabels: getSetting$('map_showHostLabels')
-      };
+    {
+      showHostLabels: getSetting$('map_showHostLabels')
     },
-    function Node({ snapshot, showHostLabels }) {
-      if (!snapshot || !showHostLabels) {
+    function Node({ id, showHostLabels }) {
+      if (!showHostLabels) {
         return null;
       }
 
-      return <div className="in-sticky-note-node">{getLabel(snapshot)}</div>;
+      return <Label id={id} />;
     }
   )
+);
+
+const Label = connectTo(
+  ({ id }) => ({
+    snapshot: getSnapshot(id)
+  }),
+  function Label({ snapshot }) {
+    if (!snapshot) {
+      return null;
+    }
+
+    return <div className="in-sticky-note-node">{getLabel(snapshot)}</div>;
+  }
 );
