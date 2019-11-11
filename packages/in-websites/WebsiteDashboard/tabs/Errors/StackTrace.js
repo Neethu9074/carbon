@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 
 import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import ParsedStackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/ParsedStackTrace';
-import { javaScriptStackTraceTranslationEnabled } from 'in-services/featureFlags';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { serializeLines } from 'in-new-components/StackTrace';
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -20,8 +19,7 @@ export default withState('forceRawStackTrace', 'setForceRawStackTrace', false)(f
   buttonSize,
   children
 }) {
-  const hasParsedStackTrace =
-    javaScriptStackTraceTranslationEnabled && stackTraceParsingStatus === 1 && parsedStackTrace.length > 0;
+  const hasParsedStackTrace = stackTraceParsingStatus === 1 && parsedStackTrace.length > 0;
   const showParsedStackTrace = hasParsedStackTrace && !forceRawStackTrace;
 
   return children({

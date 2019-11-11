@@ -18,7 +18,6 @@ module.exports = {
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
   unmonitoredHostsEnabled: true,
-  javaScriptStackTraceTranslationEnabled: true,
   pcfEnabled: true,
   humioEnabled: true,
   splunkEnabled: true,
