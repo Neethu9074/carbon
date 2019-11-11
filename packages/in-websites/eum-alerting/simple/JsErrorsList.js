@@ -22,9 +22,10 @@ export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
   return (
     <>
       <List
-        isSearchable={false}
+        isSearchable
         getHeader={() => ''}
-        getEntityName={config => config.name}
+        searchAttributes={[entity => entity.message]}
+        getEntityName={config => config.message}
         columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
