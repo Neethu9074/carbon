@@ -6,7 +6,7 @@ import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { formUserSettingsObject } from '../termsAndPrivaySettings';
 import termsFormDefinition from '../termsFormDefinition';
-import { isOnPrem } from 'in-services/featureFlags';
+import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 import { createLogger } from 'instalog';
 
@@ -31,7 +31,7 @@ function TermsDialog({ termsAndPrivacySettings }) {
       userSettings={termsAndPrivacySettings}
       onChange={onChange(setForm)}
       form={form}
-      isOnPrem={isOnPrem}
+      fullTermsConfigEnabled={fullTermsConfigEnabled}
     />
   ) : null;
 }

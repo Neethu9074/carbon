@@ -157,10 +157,10 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'isOnPrem',
-    instanaCtlKey: 'feature.on.prem',
-    consulKey: `settings/${tenant}-${unit}/IS_ON_PREM`,
-    defaultValue: false
+    uiClientKey: 'fullTermsConfigEnabled',
+    instanaCtlKey: 'feature.full.terms.config.enabled',
+    consulKey: `settings/${tenant}-${unit}/FULL_TERMS_CONFIG_ENABLED`,
+    defaultValue: true
   },
   {
     uiClientKey: 'eumAlertingEnabled',
