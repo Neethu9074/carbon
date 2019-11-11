@@ -23,7 +23,7 @@ export default function MetricSelector({ plugin, onChange, value, metrics }) {
   );
 }
 const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) => (
-  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} initialSelectedItem={item}>
+  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} selectedItem={item}>
     {({
       getInputProps,
       getItemProps,
