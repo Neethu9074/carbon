@@ -30,6 +30,10 @@
     transition: visibility 0.1s 0.3s;
   }
 
+  .scrollShadow {
+    box-shadow: @lib__shadows__subtle;
+  }
+
   .slideIn.header {
     visibility: visible;
     transition: unset;
@@ -76,6 +80,8 @@
     z-index: @z-index__dialog;
     .useTransition();
     transition-property: box-shadow 0.1s 0.5s, transform;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .slideIn.slider {

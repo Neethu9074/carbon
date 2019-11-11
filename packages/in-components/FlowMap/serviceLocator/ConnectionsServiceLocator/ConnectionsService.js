@@ -46,11 +46,11 @@ export default function createConnectionsService(serviceLocatorUid) {
 
         if (heatMapSignal) {
           if (!colorUpdateSubscription) {
-            colorUpdateSubscription = colorUpdateSignal$.nextFrame().subscribe(() => updateColors());
+            colorUpdateSubscription = colorUpdateSignal$.nextFrame().subscribe(updateShaderInformation);
           }
         } else {
           if (colorUpdateSubscription) {
-            updateColors();
+            updateShaderInformation();
             colorUpdateSubscription.dispose();
             colorUpdateSubscription = null;
           }
@@ -118,9 +118,13 @@ export default function createConnectionsService(serviceLocatorUid) {
     }
   }
 
-  function updateGeometry() {
+  function updateShaderInformation() {
     updateVertices();
     updateColors();
+  }
+
+  function updateGeometry() {
+    updateShaderInformation();
 
     getServiceLocators(serviceLocatorUid)
       .sceneServiceLocator.getScene()

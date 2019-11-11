@@ -1,11 +1,5 @@
 module.exports = exports = (tenant, unit) => [
   {
-    uiClientKey: 'javaScriptStackTraceTranslationEnabled',
-    instanaCtlKey: 'feature.javaScript.stack.trace.translation.enabled',
-    consulKey: `settings/${tenant}-${unit}/JAVASCRIPT_STACK_TRACE_TRANSLATION_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'isSelfService',
     instanaCtlKey: 'feature.is.self.service',
     consulKey: `settings/${tenant}-${unit}/IS_SELFSERVICE`,

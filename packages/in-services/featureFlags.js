@@ -34,7 +34,6 @@ export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorE
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
-export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);

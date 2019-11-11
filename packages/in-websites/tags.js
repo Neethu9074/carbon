@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 
-import { javaScriptStackTraceTranslationEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 export const tagDefinitions = get(window, ['instana', 'tags'], [])
@@ -197,12 +196,12 @@ export const availableFilterTags = {
     ...commonFilterTags,
     'beacon.batchSize',
     'beacon.error.id',
-    ...(javaScriptStackTraceTranslationEnabled ? translatedStackTraceFilterTags : [])
+    ...translatedStackTraceFilterTags
   ].sort(),
   custom: [
     ...availableGroupingTags.custom,
     ...commonFilterTags,
     'beacon.batchSize',
-    ...(javaScriptStackTraceTranslationEnabled ? translatedStackTraceFilterTags : [])
+    ...translatedStackTraceFilterTags
   ].sort()
 };
