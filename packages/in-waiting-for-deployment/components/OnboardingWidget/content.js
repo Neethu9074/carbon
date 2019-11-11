@@ -495,7 +495,7 @@ function PcfContent({ agentKey, region }) {
 function PackagesContent({ agentKey }) {
   return (
     <>
-      <Description lines={['We make available regularly-updated RPM and DEB packages at the following address']} />
+      <Description lines={['We make regularly-updated RPM and DEB packages available at the following address']} />
       <Script lines={[`https://_:${agentKey}@packages.instana.io/agent/download`]} />
     </>
   );
@@ -504,7 +504,9 @@ function PackagesContent({ agentKey }) {
 function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
   return (
     <>
-      <Description lines={['We make available the latest Windows installer (64Bit) at following address']} />
+      <Description
+        lines={['We make the latest 64 bit Windows installer available for download at following address']}
+      />
       <Script
         lines={[
           `https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${decodeURIComponent(
@@ -512,6 +514,23 @@ function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
           )}&agentKey=${decodeURIComponent(agentKey)}&type=${decodeURIComponent('exe64')}`
         ]}
       />
+      <SmallSpacer />
+      <Description lines={['The following values have to be used during the installation.']} />
+      <LargeSpacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Endpoint host']} />
+          <Script lines={[`saas-${region}.instana.io`]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Endpoint port']} />
+          <Script lines={[`443`]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Agent key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
     </>
   );
 }
