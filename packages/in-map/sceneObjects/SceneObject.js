@@ -15,6 +15,7 @@ export default class SceneObject extends Subscriber {
     super();
 
     this.id = params.id;
+    this.entity = params.entity;
 
     this.components = new Map();
     this.defaultColor = params.defaultColor;
@@ -37,6 +38,14 @@ export default class SceneObject extends Subscriber {
 
   initialized() {
     sceneObjects.add(this.id, this);
+  }
+
+  updateSnapshotComponent(params) {
+    this.entity = params.entity;
+    const snapshotComponent = this.getComponent('snapshot');
+    if (snapshotComponent) {
+      snapshotComponent.refreshSnapshotSubscription();
+    }
   }
 
   getComponent(id) {
