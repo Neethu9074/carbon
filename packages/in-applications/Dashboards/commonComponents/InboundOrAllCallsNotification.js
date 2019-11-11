@@ -17,15 +17,15 @@ export default connectTo(
     if (currentScope === boundaryScopes.inbound) {
       return (
         <Message>
-          Calculating on Inbound Calls of {applicationName}, to see this {entityType} in its entirety switch to{' '}
-          <Link href$={switchTo}>All Calls</Link>.
+          Calculating on <strong>Inbound Calls</strong> of {applicationName}, to see this {entityType} in its entirety
+          switch to <Link href$={switchTo}>All Calls</Link>.
         </Message>
       );
     } else {
       return (
         <Message>
-          Calculating on All Calls of {applicationName}, to only see the part of this {entityType} at the application
-          boundary switch to <Link href$={switchTo}>Inbound Calls</Link>.
+          Calculating on <strong>All Calls</strong> of {applicationName}, to only see the part of this {entityType} at
+          the application boundary switch to <Link href$={switchTo}>Inbound Calls</Link>.
         </Message>
       );
     }
