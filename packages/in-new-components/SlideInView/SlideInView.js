@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -7,9 +7,11 @@ import evaluateClassNames from 'in-services/util/classnames';
 import locals from './SlideInView.mless';
 
 export default function SlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
+  const [scrollshadow, setScrollshadow] = useState(false);
   return (
     <div className={locals.container}>
       <div
+        onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
         className={evaluateClassNames({
           [locals.slider]: true,
           [locals.slideIn]: slideIn
@@ -20,6 +22,7 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       <div
         className={evaluateClassNames({
           [locals.header]: true,
+          [locals.scrollShadow]: scrollshadow,
           [locals.slideIn]: slideIn
         })}
       >

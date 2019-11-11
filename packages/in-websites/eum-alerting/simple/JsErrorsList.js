@@ -5,13 +5,16 @@ import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinit
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { operators } from 'in-analyze/applicationFilter';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
+
+import locals from './JsErrorsList.mless';
 
 const columnDefinitions = [
   {
     id: 'errorMessage',
     label: 'Error Message',
-    getContent: error => error.message
+    getContent: error => ErrorRow(error)
   }
 ];
 
@@ -84,4 +87,12 @@ function getTableData({
       }
     }
   });
+}
+
+function ErrorRow(error) {
+  return (
+    <Tooltip content={error.message} align="topLeft">
+      <div className={locals.row}>{error.message}</div>;
+    </Tooltip>
+  );
 }
