@@ -14,39 +14,12 @@ import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ timeConfig, entityId, getInstanaServicesForEntityService }) => {
-  if (!entityId) {
-    return {};
-  }
-  return {
-    instanaServices: getInstanaServicesForEntityService({
-      entityId: entityId,
-      timeConfig: timeConfig,
-      order: {
-        by: 'callsAgg',
-        direction: 'DESC'
-      },
-      metrics: {
-        callsAgg: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
-        },
-        maxSeverity: {
-          metric: 'maxSeverity',
-          aggregation: 'MAX'
-        }
-      }
-    }).map(result => result.data)
-  };
-}, EntityToInstanaServicesButton);
+export default connectTo(
+  ({ getServices }) => ({
+    instanaServices: getServices().map(result => result.data)
+  }),
+  EntityToInstanaServicesButton
+);
 
 export function EntityToInstanaServicesButton({ instanaServices }) {
   if (!instanaServices || instanaServices.length === 0) {

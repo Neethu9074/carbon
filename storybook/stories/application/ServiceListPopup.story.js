@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { KubernetesServiceToInstanaServicesButton } from 'in-kubernetes/components/KubernetesServiceToInstanaServicesButton';
+import { EntityToInstanaServicesButton } from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 
 import Section from '../_helpers/Section';
@@ -14,7 +14,7 @@ function ServiceListPopupStory() {
     <Root>
       <Section title="One Service">
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-          <KubernetesServiceToInstanaServicesButton
+          <EntityToInstanaServicesButton
             instanaServices={[
               {
                 id: 42,
@@ -30,7 +30,7 @@ function ServiceListPopupStory() {
 
       <Section title="Many Services">
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-          <KubernetesServiceToInstanaServicesButton
+          <EntityToInstanaServicesButton
             instanaServices={[
               {
                 id: 42,

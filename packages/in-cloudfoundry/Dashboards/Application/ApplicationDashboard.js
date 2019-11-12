@@ -79,7 +79,37 @@ function Actions(props) {
   return (
     <Fragment>
       <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
-      <EntityToInstanaServiceButton {...props} entityId={get(props.result, ['data', 'guid'])} />
+      <EntityToInstanaServiceButton
+        {...props}
+        getServices={() =>
+          props.getInstanaServicesForEntityService({
+            entityId: get(props.result, ['data', 'guid']),
+            timeConfig: props.timeConfig,
+            order: {
+              by: 'callsAgg',
+              direction: 'DESC'
+            },
+            metrics: {
+              callsAgg: {
+                metric: 'calls',
+                aggregation: 'SUM'
+              },
+              latencyAgg: {
+                metric: 'latency',
+                aggregation: 'MEAN'
+              },
+              errorsAgg: {
+                metric: 'errors',
+                aggregation: 'MEAN'
+              },
+              maxSeverity: {
+                metric: 'maxSeverity',
+                aggregation: 'MAX'
+              }
+            }
+          })
+        }
+      />
     </Fragment>
   );
 }
