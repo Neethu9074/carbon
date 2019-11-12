@@ -39,7 +39,7 @@ export default compose(
 )(ApplicationBreadcrumbWithSwitcher);
 
 function ApplicationBreadcrumbWithSwitcher(props) {
-  const { application, applications, applicationId } = props;
+  const { application, applications, applicationId, boundaryScope } = props;
 
   if (
     application.progress.loading ||
@@ -51,7 +51,7 @@ function ApplicationBreadcrumbWithSwitcher(props) {
         applicationId={applicationId}
         render={healthInfo => (
           <Breadcrumb
-            href$={getApplicationDashboard(applicationId)}
+            href$={getApplicationDashboard(applicationId, { boundaryScope })}
             label="Application"
             icon="lib_application"
             healthInfo={healthInfo}
@@ -69,7 +69,7 @@ function ApplicationBreadcrumbWithSwitcher(props) {
       render={healthInfo => (
         <Breadcrumb
           className={locals.wrapper}
-          href$={getApplicationDashboard(applicationId)}
+          href$={getApplicationDashboard(applicationId, { boundaryScope })}
           label={`Application (${applications.data.items.length})`}
           icon="lib_application"
           healthInfo={healthInfo}

@@ -41,7 +41,7 @@ export default connectTo(
       return null;
     })
   }),
-  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, metricValues }) {
+  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, boundaryScope, timeConfig, metricValues }) {
     if (!metricValues) {
       return null;
     }
@@ -54,6 +54,7 @@ export default connectTo(
               rootNodeData={{
                 id: data.id,
                 applicationContext: applicationId,
+                applicationBoundaryScope: boundaryScope,
                 service: data,
                 metricValues
               }}
