@@ -56,6 +56,7 @@ global.window.instana.user = {
         name: 'Owner',
         canConfigureServiceMapping: true,
         canConfigureEumApplications: true,
+        canConfigureMobileAppMonitoring: true,
         canConfigureUsers: true,
         canInstallNewAgents: true,
         canSeeUsageInformation: true,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/featureFlags';
+import { onPremLicenseInformationEnabled, isRbacEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -66,9 +66,20 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureEumApplications"
-          label="Website Monitoring configuration"
+          label="Website Monitoring Configuration"
           helpText="Permits configuration of website monitoring functionality."
         />
+
+        {mobileAppMonitoringEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureMobileAppMonitoring"
+            label="Mobile App Monitoring Configuration"
+            helpText="Permits configuration of mobile app monitoring functionality."
+          />
+        )}
 
         <Permission
           form={form}

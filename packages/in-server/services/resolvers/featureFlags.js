@@ -1,5 +1,11 @@
 module.exports = exports = (tenant, unit) => [
   {
+    uiClientKey: 'mobileAppMonitoringEnabled',
+    instanaCtlKey: 'feature.mobile.app.monitoring.enabled',
+    consulKey: `settings/${tenant}-${unit}/MOBILE_APP_MONITORING_ENABLED`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'isSelfService',
     instanaCtlKey: 'feature.is.self.service',
     consulKey: `settings/${tenant}-${unit}/IS_SELFSERVICE`,
