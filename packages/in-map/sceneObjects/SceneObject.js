@@ -40,11 +40,15 @@ export default class SceneObject extends Subscriber {
     sceneObjects.add(this.id, this);
   }
 
-  updateSnapshotComponent(params) {
+  updateSnapshotAndHealthComponent(params) {
     this.entity = params.entity;
     const snapshotComponent = this.getComponent('snapshot');
     if (snapshotComponent) {
       snapshotComponent.refreshSnapshotSubscription();
+    }
+    const healthComponent = this.getComponent('health');
+    if (healthComponent) {
+      healthComponent.refreshHealthSubscription();
     }
   }
 
