@@ -32,13 +32,14 @@ export const isApplicationsView = getRootPathPredicate(
 
 export function getApplicationDashboard(
   applicationId,
-  { serviceId, endpointId, tab, tabMatrix, timeConfig } = emptyObject
+  { serviceId, endpointId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
 ) {
   return getDashboard({
     base: applicationDashboard,
     applicationId,
     serviceId,
     endpointId,
+    boundaryScope,
     tab,
     tabMatrix,
     timeConfig

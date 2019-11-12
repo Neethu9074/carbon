@@ -12,14 +12,14 @@ export default connectTo(
       id: props.serviceId
     })
   }),
-  function ServiceBreadcrumb({ service, serviceId, applicationId }) {
+  function ServiceBreadcrumb({ service, serviceId, applicationId, boundaryScope }) {
     return (
       <WithApplicationHealthIndicationBehaviour
         applicationId={applicationId}
         serviceId={serviceId}
         render={healthInfo => (
           <Breadcrumb
-            href$={getServiceDashboard(serviceId, { applicationId })}
+            href$={getServiceDashboard(serviceId, { applicationId, boundaryScope })}
             label="Service"
             icon="lib_application_service"
             healthInfo={healthInfo}

@@ -14,6 +14,7 @@ export default connectTo(
       .stream.throttle(100),
     rootNodeId: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('rootNodeId'),
     applicationContext: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('applicationContext'),
+    boundaryScope: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on('applicationBoundaryScope'),
     nodesSize: getServiceLocators(props.serviceLocatorUid)
       .eventBusServiceLocator.on('worldUnits')
       .map(({ pixelsPer3DUnit }) => {

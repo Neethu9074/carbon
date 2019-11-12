@@ -51,7 +51,7 @@ export default function InboundOrAllCallsChoice({ boundaryScope, onBoundaryState
               [locals.optionBox]: true,
               [locals.optionBoxUnchecked]: boundaryScopes.all !== boundaryScope
             })}
-            description="The dashboard is displaying information based only on the calls that are performed within this application, by both consumers as well as internally."
+            description="The dashboard is displaying information based on all calls that are performed within this application, by both consumers as well as internally."
             checked={boundaryScopes.all === boundaryScope}
             onChange={() => onBoundaryStateChange({ boundaryScope: boundaryScopes.all })}
           />

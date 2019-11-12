@@ -44,9 +44,10 @@ export default class FlowMapState {
     return newChild;
   }
 
-  addRootNode({ id, service, endpoint, applicationContext, metricValues }) {
+  addRootNode({ id, service, endpoint, applicationContext, applicationBoundaryScope, metricValues }) {
     this.rootNodeId = id;
     this.applicationContext = applicationContext;
+    this.applicationBoundaryScope = applicationBoundaryScope;
     this.pathFinder.setRootNodeId(id);
 
     const rootNode = this.addNode(id, applicationContext, service, metricValues);
@@ -63,6 +64,10 @@ export default class FlowMapState {
 
   getApplicationContext() {
     return this.applicationContext;
+  }
+
+  getApplicationBoundaryScope() {
+    return this.applicationBoundaryScope;
   }
 
   addConnected(node, item, direction) {

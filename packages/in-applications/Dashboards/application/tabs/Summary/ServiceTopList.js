@@ -56,11 +56,12 @@ function getList({ applicationId, boundaryScope, timeConfig, selectedMetric, sel
   });
 }
 
-function ViewAll({ applicationId, selectedMetric }, className) {
+function ViewAll({ applicationId, boundaryScope, selectedMetric }, className) {
   return (
     <Link
       className={className}
       href$={getApplicationDashboard(applicationId, {
+        boundaryScope,
         tab: '/services',
         tabMatrix: {
           'service.orderBy': `${selectedMetric}Agg`,
@@ -73,11 +74,11 @@ function ViewAll({ applicationId, selectedMetric }, className) {
   );
 }
 
-function Label({ item, applicationId }, _item, className) {
+function Label({ item, applicationId, boundaryScope }, _item, className) {
   return (
     <Link
       className={className}
-      href$={getServiceDashboard(item.service.id, { applicationId })}
+      href$={getServiceDashboard(item.service.id, { applicationId, boundaryScope })}
       onClick={() => trackTopListNavigation()}
     >
       {item.service.label}
