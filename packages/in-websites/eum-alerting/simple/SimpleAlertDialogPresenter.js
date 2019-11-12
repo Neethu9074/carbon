@@ -56,7 +56,12 @@ export default function SimpleAlertDialogPresenter({
             />
           )}
           {step === steps.confirmDomain && (
-            <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} />
+            <SimpleAlertDialogStep2
+              form={form}
+              timeConfig={timeConfig}
+              websiteLabel={websiteLabel}
+              onChange={onChange}
+            />
           )}
           {step === steps.selectAlertingChannel && (
             <SimpleAlertDialogStep3
