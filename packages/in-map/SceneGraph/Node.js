@@ -34,9 +34,9 @@ export default class Node extends Subscriber {
 
   update() {}
 
-  updateSnapshotComponent(params) {
+  updateSnapshotAndHealthComponent(params) {
     if (this.sceneObjectInstance) {
-      this.sceneObjectInstance.updateSnapshotComponent(params);
+      this.sceneObjectInstance.updateSnapshotAndHealthComponent(params);
     }
   }
 
@@ -72,7 +72,7 @@ export default class Node extends Subscriber {
       if (existingChild) {
         if (existingChild.params !== entity.params) {
           existingChild.update(existingChild.params, entity.params);
-          existingChild.updateSnapshotComponent(entity.params);
+          existingChild.updateSnapshotAndHealthComponent(entity.params);
           existingChild.params = entity.params;
         }
       } else {
