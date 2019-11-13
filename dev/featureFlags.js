@@ -22,7 +22,6 @@ module.exports = {
   humioEnabled: true,
   splunkEnabled: true,
   logDnaEnabled: true,
-  urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   isOnboardingGuideEnabled: true,

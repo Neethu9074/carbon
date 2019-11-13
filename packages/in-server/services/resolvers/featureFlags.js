@@ -121,12 +121,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'urlShortenerEnabled',
-    instanaCtlKey: 'feature.url.shortener.enabled',
-    consulKey: `settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteUserBreakdownEnabled',
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,
