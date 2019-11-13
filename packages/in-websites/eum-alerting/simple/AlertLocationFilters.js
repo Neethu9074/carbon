@@ -10,6 +10,9 @@ import { availableFilterTags } from 'in-websites/tags';
 
 import locals from './AlertLocationFilters.mless';
 
+const BEACON_WEBSITE_NAME = 'beacon.website.name';
+const BEACON_WEBSITE_ID = 'beacon.website.id';
+
 export default function AlertLocationFilters({ form, websiteLabel, timeConfig, onChange, advancedMode }) {
   return (
     form && (
@@ -25,7 +28,7 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
               onChange(form, fieldNames.tagFilters, newTagFilters);
             }}
             removeTagFilter={name => {
-              if (name !== 'beacon.website.name') {
+              if (name !== BEACON_WEBSITE_NAME) {
                 onChange(form, fieldNames.tagFilters, withoutTagFilterForName(getTagFilters(form), name));
               }
             }}
@@ -36,7 +39,7 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                   tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
                   setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters)}
                   tagSuggestions={availableFilterTags.error.filter(
-                    name => name !== 'beacon.website.name' && name !== 'beacon.website.id'
+                    name => name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID
                   )}
                   timeConfig={timeConfig}
                 />
@@ -63,7 +66,7 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                 );
               }}
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-              readonly
+              readonlyFilterNames={[BEACON_WEBSITE_NAME, 'beacon.website.id']}
             />
           </div>
         </div>
@@ -73,6 +76,7 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
 }
 
 AlertLocationFilters.propTypes = {
+  advancedMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired,
@@ -84,12 +88,12 @@ function withoutTagFilterForName(tagFilters, name) {
 }
 
 function mutateFiltersForView(tagFilters, websiteLabel) {
-  const hasWebsiteName = tagFilters.some(({ name }) => name === 'beacon.website.name');
+  const hasWebsiteName = tagFilters.some(({ name }) => name === BEACON_WEBSITE_NAME);
   return hasWebsiteName
     ? tagFilters
     : [
         {
-          name: 'beacon.website.name',
+          name: BEACON_WEBSITE_NAME,
           operator: 'EQUALS',
           stringValue: websiteLabel
         },

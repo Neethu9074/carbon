@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -18,6 +19,7 @@ export default function TagFilterListPresenter({
   tagFilters,
   onTagFilterClick,
   onRemoveTagFilter,
+  readonlyFilterNames = emptyArray,
   readonly,
   disabled
 }) {
@@ -33,13 +35,23 @@ export default function TagFilterListPresenter({
           tagFilter={tagFilter}
           onTagFilterClick={onTagFilterClick}
           onRemoveTagFilter={onRemoveTagFilter}
-          readonly={readonly}
+          readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
           disabled={disabled}
         />
       ))}
     </ul>
   );
 }
+
+TagFilterListPresenter.propTypes = {
+  disabled: PropTypes.bool,
+  readonlyFilterNames: PropTypes.arrayOf(PropTypes.string),
+  implicitTagFilters: PropTypes.array,
+  onRemoveTagFilter: PropTypes.func,
+  onTagFilterClick: PropTypes.func,
+  readonly: PropTypes.bool,
+  tagFilters: PropTypes.array
+};
 
 function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled }) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
