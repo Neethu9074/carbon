@@ -19,8 +19,8 @@ export default class SnapshotComponent extends SceneObjectComponent {
     if (this.isLazy) {
       this.visibleSubscription = this.sceneObject.eventEmitter
         .on('isVisibleChanged' + this.sceneObject.id)
-        .nextFrame()
         .debounce(200)
+        .nextFrame()
         .subscribe(isVisible => {
           if (isVisible) {
             this.visibleSubscription.dispose();

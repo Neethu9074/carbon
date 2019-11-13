@@ -1,12 +1,9 @@
 import { combineLatest } from 'reactive-observables';
 
-import HostConnectionNode from 'in-map/SceneGraph/physical/HostConnectionNode';
 import LayerPlaceHolder from 'in-map/SceneGraph/physical/LayerPlaceholderNode';
-import ConnectionHandlerNode from 'in-map/SceneGraph/ConnectionHandlerNode';
 import HostMetricNode from 'in-map/SceneGraph/physical/HostMetricNode';
 import NodeSceneObject from 'in-map/sceneObjects/physical/Node';
 import LayerNode from 'in-map/SceneGraph/physical/LayerNode';
-import { nodes } from 'in-map/stores/physical/nodesStore';
 import { emptyArray } from 'in-services/fixedObjects';
 import { eventBus } from 'in-map/services/eventBus';
 import { activeMetric$ } from 'in-stores/metric';
@@ -18,22 +15,11 @@ export default class HostNode extends Node {
   constructor(params) {
     super({ InstanceType: NodeSceneObject, params });
 
-    this.connectionNode = new ConnectionHandlerNode({
-      params: {
-        id: `connectionNodeFor${params.id}`
-      },
-      connectionNodeType: HostConnectionNode
-    });
-
     this.metricNode = null;
 
-    const highlightingChangedCallback = this.highlightingChanged.bind(this);
     const activeMetricAndVisibilityChangedCallback = this.activeMetricAndVisibilityChanged.bind(this);
 
     this.addSubscriptions([
-      combineLatest([this.sceneObjectInstance.eventEmitter.on('isHighlighted').distinct(), nodes.stream]).subscribe(
-        highlightingChangedCallback
-      ),
       combineLatest([
         activeMetric$,
         eventBus.on('zoomLevelChanged'),
@@ -44,14 +30,6 @@ export default class HostNode extends Node {
         .debounce(100)
         .subscribe(activeMetricAndVisibilityChangedCallback)
     ]);
-  }
-
-  highlightingChanged([isHighlighted, _nodes]) {
-    if (isHighlighted) {
-      this.connectionNode.createConnections(this.entity, _nodes);
-    } else {
-      this.connectionNode.clearConnections();
-    }
   }
 
   activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible, isHighlighted]) {
@@ -147,15 +125,7 @@ export default class HostNode extends Node {
     }
   }
 
-  disposeConnectionNode() {
-    if (this.connectionNode) {
-      this.connectionNode.dispose();
-      this.connectionNode = null;
-    }
-  }
-
   dispose() {
-    this.disposeConnectionNode();
     this.disposeMetricNode();
 
     super.dispose();
