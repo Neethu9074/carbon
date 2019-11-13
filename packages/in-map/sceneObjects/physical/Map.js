@@ -24,7 +24,6 @@ export default class Map extends BaseMap {
     addFactory('solid_layer', new FadeByDistanceSingleMeshFactory({ renderOrder: 2 }));
     addFactory('solid', new FadeByDistanceSingleMeshFactory({ renderOrder: 3 }));
     addFactory('highlighting', new LineSingleMeshFactory({ useSceneObjectColors: false }));
-    addFactory('connections', new LineSingleMeshFactory());
     addFactory('layer', new BasicSingleMeshFactory({ renderOrder: 2 }));
     addFactory('lines', new LineSingleMeshFactory());
     addFactory('icons', new IconSingleMeshFactory({ useSceneObjectColors: false }));

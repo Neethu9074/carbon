@@ -52,7 +52,7 @@ export default class BasicCameraController extends Subscriber {
   initEvents() {
     this.addSubscriptions([
       this.eventEmitter.on('onClicked').subscribe(() => {
-        const { object, connections } = this.lastHitten;
+        const { object } = this.lastHitten;
 
         if (object) {
           if (object.dashboardId) {
@@ -61,13 +61,9 @@ export default class BasicCameraController extends Subscriber {
             });
           }
           setSelectedSnapshotId(object.dashboardId);
-          // dont reset the click if you clicken on connections
-        } else if (connections.length === 0) {
-          // the was something clicked but no object or connection available -> reset
+        } else {
           clearSelectedSnapshotId();
           clearSelectedEvent();
-        } else {
-          setSelectedSnapshotId(connections[0].id);
         }
       }),
       this.eventEmitter.on('onDoubleClicked').subscribe(() => {
