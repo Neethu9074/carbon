@@ -17,8 +17,8 @@ export default function MissingK8sAppsPermissions(props) {
   }
 }
 
-function WarningMessage(missingAppsPermissions) {
-  if (missingAppsPermissions) {
+function WarningMessage(props) {
+  if (props.missingAppsPermissions) {
     return (
       <Row>
         <Col lg={12}>
