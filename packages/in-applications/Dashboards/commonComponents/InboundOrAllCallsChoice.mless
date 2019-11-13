@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .headerPreview {
+    color: @lib__colors__teal800;
+    font-size: 1rem;
+    font-weight: normal;
+    vertical-align: middle;
+  }
+
+  .headerIcon {
+    margin-right: 1rem;
+    fill: @lib__colors__teal800;
+    vertical-align: middle;
+  }
+
+  .card {
+    margin-bottom: 1.5rem;
+  }
+
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: @lib__colors__N600Light;
+      }
+
+      * {
+        color: @lib__colors__N600Light;
+      }
+    }
+  }
+
+}

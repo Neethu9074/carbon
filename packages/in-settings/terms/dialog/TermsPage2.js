@@ -15,7 +15,7 @@ export default function TermsPage2({
   onChange,
   form,
   hasErrorOnSave = false,
-  isOnPrem = false,
+  fullTermsConfigEnabled,
   unsetSaveError
 }) {
   return (
@@ -24,7 +24,7 @@ export default function TermsPage2({
         <TermsProgressIndicator pageNumber={2} />
         <h1 className={locals.heading}>Your preferences</h1>
       </div>
-      {!isOnPrem && (
+      {fullTermsConfigEnabled && (
         <Fragment>
           <div>
             <svg
@@ -318,7 +318,7 @@ TermsPage2.propTypes = {
   form: PropTypes.object.isRequired,
   hasErrorOnSave: PropTypes.bool.isRequired,
   unsetSaveError: PropTypes.func.isRequired,
-  isOnPrem: PropTypes.bool
+  fullTermsConfigEnabled: PropTypes.bool
 };
 
 function handleBackClick(hasErrorOnSave, unsetSaveError, onBack) {

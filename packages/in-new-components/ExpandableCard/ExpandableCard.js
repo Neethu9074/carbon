@@ -18,6 +18,7 @@ function ExpandableCard({
   setExpanded,
   titleSubText,
   expansionTracker,
+  bodyWithoutPadding,
   openByDefault = false,
   className,
   framed
@@ -51,7 +52,7 @@ function ExpandableCard({
       title={title}
       titleSubText={expanded ? titleSubText : preview}
       header={rightSide}
-      withoutPadding={!expanded}
+      withoutPadding={!expanded || bodyWithoutPadding}
       framed={framed}
       onHeaderBackgroundClicked={() => setExpanded(!expanded)}
       className={className}

@@ -47,7 +47,7 @@ function Statement({ span }) {
 
   return (
     <Di title="Statement" verticalDisplay>
-      <Code code={code} lang={lang} />
+      <Code code={code} lang={lang} showLineNumbers={false} />
     </Di>
   );
 }

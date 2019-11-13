@@ -1,0 +1,153 @@
+@import '~in-themes/active.less';
+
+:local {
+  .iconButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    border: 0;
+    background: none;
+    border: solid 1px transparent;
+    border-radius: @lib__shapes__radius_round;
+    padding: 0.5rem;
+    margin-right: 0.25rem;
+  }
+
+  .iconButton:before {
+    position: absolute;
+    border-radius: @lib__shapes__radius_round;
+    opacity: 0;
+    pointer-events: none;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    content: '';
+  }
+
+  .iconButton:hover:before {
+    opacity: 0.05;
+  }
+
+  .iconButton--primary:before {
+    background-color: @lib__colors__primary1;
+  }
+
+  .iconButton--primaryv2:before {
+    background-color: @lib__colors__light-blue800;
+  }
+
+  .iconButton--action:before {
+    background-color: @lib__colors__N800Dark;
+  }
+
+  .iconButton--secondary:before {
+    background-color: @lib__colors__N050;
+  }
+
+  .iconButton--create:before {
+    background-color: @lib__colors__success;
+  }
+
+  .iconButton--danger:before {
+    background-color: @lib__colors__failure;
+  }
+
+  .iconButton--warning:before {
+    background-color: @lib__colors__warning;
+  }
+
+  .iconButton--info:before {
+    background-color: @lib__colors__chart__self100;
+  }
+
+  .icon {
+    pointer-events: none;
+  }
+
+  .icon--primary {
+    fill: @lib__colors__primary1;
+
+    &.disabled {
+      fill: rgba(244, 169, 160, 0.48);
+    }
+  }
+
+  .icon--primaryv2 {
+    fill: @lib__colors__light-blue800;
+    &.disabled {
+      fill: #86cff3;
+    }
+  }
+
+  .icon--action {
+    fill: @lib__colors__N800Dark;
+    &.disabled {
+      fill: @lib__colors__N300;
+    }
+  }
+
+  .icon--secondary {
+    fill: @lib__colors__N050;
+    &.disabled {
+      fill: #fcfcfd;
+    }
+  }
+
+  .icon--create {
+    fill: @lib__colors__success;
+    &.disabled {
+      fill: #91dab0;
+    }
+  }
+
+  .icon--danger {
+    fill: @lib__colors__failure;
+    &.disabled {
+      fill: rgba(220, 75, 65, 0.48);
+    }
+  }
+
+  .icon--warning {
+    fill: @lib__colors__warning;
+    &.disabled {
+      fill: #ffd86d;
+    }
+  }
+
+  .icon--info {
+    fill: @lib__colors__chart__self100;
+    &.disabled {
+      fill: @lib__colors__N400;
+    }
+  }
+
+  .compact {
+    padding: 0.25rem;
+    margin-right: 0.5rem;
+
+    .rightAligned {
+      margin-right: -0.75rem;
+    }
+
+    .leftAligned {
+      margin-left: -0.75rem;
+    }
+  }
+
+  .rightAligned {
+    margin-right: -0.75rem;
+  }
+
+  .leftAligned {
+    margin-left: -0.75rem;
+  }
+
+  .disabled,
+  .disabled:focus,
+  .disabled:hover {
+    cursor: not-allowed;
+  }
+}

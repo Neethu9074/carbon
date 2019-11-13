@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/featureFlags';
+import { onPremLicenseInformationEnabled, isRbacEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -53,8 +53,18 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureEumApplications"
-          label="Website Monitoring configuration"
+          label="Website Monitoring Configuration"
         />
+
+        {mobileAppMonitoringEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureMobileAppMonitoring"
+            label="Mobile App Monitoring Configuration"
+          />
+        )}
 
         <Permission
           form={form}

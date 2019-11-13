@@ -158,6 +158,11 @@ export default class FlowMap {
       'applicationContext',
       nextFlowMapState.getApplicationContext()
     );
+
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
+      'applicationBoundaryScope',
+      nextFlowMapState.getApplicationBoundaryScope()
+    );
   }
 
   disposeSceneGraph() {

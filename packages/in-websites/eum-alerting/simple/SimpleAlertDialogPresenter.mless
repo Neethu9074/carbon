@@ -2,7 +2,7 @@
 
 :local {
   .dialog {
-    width: 66.25rem;
+    width: 60vw;
   }
 
   .form {
@@ -24,5 +24,9 @@
 
   .button {
     width: 4.375rem;
+  }
+
+  .slideInContainer {
+    padding: 0 1.375rem;
   }
 }

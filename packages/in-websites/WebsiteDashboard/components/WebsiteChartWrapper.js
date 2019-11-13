@@ -1,44 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { create } from 'reactive-observables';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { pendingResult } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-export default function WebsiteChartWrapper(props) {
-  const [query$] = useState(create());
-  useEffect(() => {
-    query$.emit(props.metricsConfiguration);
-  });
-  return <ConnectedWebsiteChartWrapper {...props} query$={query$} />;
-}
-
-const ConnectedWebsiteChartWrapper = connectTo(
-  props => {
-    return {
-      result: props.isDebounced
-        ? props.query$
-            .debounce(500)
-            .flatMap(metricsConfiguration =>
-              getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
-            )
-            .startWith(pendingResult)
-        : props.query$
-            .flatMap(metricsConfiguration =>
-              getWebsiteMetrics(extendMetricConfigurationOnLiveMode(metricsConfiguration))
-            )
-            .startWith(pendingResult)
-    };
-  },
+export default connectTo(
+  props => ({
+    result: getWebsiteMetrics(extendMetricConfigurationOnLiveMode(props.metricsConfiguration))
+  }),
   function WebsiteChartWrapper(props) {
     return <ChartWrapper {...props} />;
   }
 );
-
-WebsiteChartWrapper.propTypes = {
-  metricsConfiguration: PropTypes.object.isRequired,
-  isDebounced: PropTypes.bool
-};

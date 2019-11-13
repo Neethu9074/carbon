@@ -3,23 +3,23 @@ import React from 'react';
 
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { pcfEnabled, customDashboardsEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
+import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import Map from 'promise-loader?global,infrastructure!in-map/index';
-
-import { pcfEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
-import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
+import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
@@ -45,6 +45,7 @@ export default (
     {hasAnalyzeAccess && analyzeRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
+    {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
     {integrationRoutes}

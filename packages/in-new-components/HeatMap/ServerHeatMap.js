@@ -19,7 +19,8 @@ export default compose(
         application: props.applicationId,
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeConfig: props.timeConfig
+        timeConfig: props.timeConfig,
+        applicationBoundaryScope: props.boundaryScope
       },
       maxTimeBuckets: 100,
       maxLatencyBuckets: 20

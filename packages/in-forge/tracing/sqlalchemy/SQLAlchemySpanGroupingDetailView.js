@@ -13,7 +13,7 @@ export default function SQLAlchemySpanGroupingDetailView({ span }) {
   return (
     <Dl>
       <Di title="SQL" verticalDisplay>
-        <Code code={formatSql(sql)} lang="sql" />
+        <Code code={formatSql(sql)} lang="sql" showLineNumbers={false} />
       </Di>
     </Dl>
   );

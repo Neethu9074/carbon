@@ -24,11 +24,11 @@ export default compose(
     reducerName: 'setForm',
     reducer: (prev, form) => getState(form)
   }),
-  withProps(({ setGroup, setForm, form, timeConfig }) => ({
+  withProps(({ setGroup, setForm, form, timeConfig, forAnalyzeCalls }) => ({
     tagEntity: getTagEntity(form.get('tag').value),
     sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
     onClose: close,
-    onTagChange: tag => setForm(createForm(tag)),
+    onTagChange: tag => setForm(createForm(tag, null, forAnalyzeCalls)),
     onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
     onEntityChange: entity => setForm(form.updateIn(['entity'], f => f.setValue(entity).setTouched(true))),
     onSubmit: e => {

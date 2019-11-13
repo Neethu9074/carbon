@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
@@ -8,8 +9,14 @@
   }
 
   .heading {
-    margin-bottom: 1rem;
+    .spaceBetweenFlexbox();
 
+    width: 100%;
+    margin-bottom: 1rem;
+    padding-right: 1rem;
+  }
+
+  .headingText {
     font-size: 1.5rem;
     color: @lib__colors__N700Medium;
   }

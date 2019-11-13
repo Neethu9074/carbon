@@ -14,7 +14,7 @@ export default function Neo4jSpanDetailView({ span }) {
       <ErrorDescriptionItem error={span.getIn(['data', 'neo4j', 'error'])} />
       {statement ? (
         <Di title="Statement" verticalDisplay>
-          <Code code={formatSql(statement)} lang="sql" />
+          <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}
     </Dl>

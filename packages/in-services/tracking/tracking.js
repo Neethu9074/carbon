@@ -91,3 +91,9 @@ export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+
+export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboarding.instana.beginner.videos.clicked';
+export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboarding.help.and.support.clicked';
+export const ONBOARDING_MAIN_TOPIC_CHANGED = 'onboarding.main.topic.changed';
+export const ONBOARDING_SUB_TOPIC_CHANGED = 'onboarding.sub.topic.changed';
+export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboarding.search.query.changed';

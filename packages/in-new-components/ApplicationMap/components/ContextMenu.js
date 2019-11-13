@@ -23,7 +23,7 @@ export default connectTo(
   ContextMenuContent
 );
 
-export function ContextMenuContent({ applicationId, application, node, isTrafficEnabled }) {
+export function ContextMenuContent({ applicationId, application, boundaryScope, node, isTrafficEnabled }) {
   // when traffic is disabled, we only see services filtered by this applicaiton id, therefore we can straight use it.
   // if traffic is enabled, the user wants to break the border of the application, therefore don't use a context at all.
   if (isTrafficEnabled) {
@@ -38,7 +38,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_views_stats"
-        href$={getServiceDashboard(node.id, { applicationId })}
+        href$={getServiceDashboard(node.id, { applicationId, boundaryScope })}
       >
         Go to Dashboard
       </Button>
@@ -47,7 +47,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_actions_flow_layout"
-        href$={getServiceDashboard(node.id, { applicationId, tab: '/flowMap' })}
+        href$={getServiceDashboard(node.id, { applicationId, boundaryScope, tab: '/flowMap' })}
       >
         Go to Flow
       </Button>
@@ -58,7 +58,8 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         icon="lib_analyze"
         href$={getLinkToAnalyze({
           applicationName: !application || isTrafficEnabled ? null : application.label,
-          serviceName: node.data.label
+          serviceName: node.data.label,
+          boundaryScope
         })}
       >
         Go to Analyze

@@ -56,7 +56,7 @@ const columnDefinitions = [
   {
     id: 'endpointLabel',
     label: 'Name',
-    getContent(item, { applicationId, serviceId }) {
+    getContent(item, { applicationId, serviceId, boundaryScope }) {
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
@@ -64,7 +64,7 @@ const columnDefinitions = [
           label={item.endpoint.label}
           tooltip={item.endpoint.synthetic ? 'Synthetic Endpoint' : null}
           specialIndicator={item.endpoint.synthetic ? true : false}
-          href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}
+          href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope })}
         />
       );
     }
@@ -163,6 +163,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     applicationDashboardUrlParameters.applicationId,
     applicationDashboardUrlParameters.serviceId,
     applicationDashboardUrlParameters.endpointId,
+    applicationDashboardUrlParameters.boundaryScope,
     'endpointTypes',
     'technologies'
   ],
@@ -174,7 +175,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 function Endpoints(props) {
-  const { timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter } = props;
+  const {
+    timeConfig,
+    data,
+    applicationId,
+    serviceId,
+    endpointId,
+    boundaryScope,
+    endpointTypes,
+    technologies,
+    setFilter
+  } = props;
 
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = (
@@ -207,6 +218,7 @@ function Endpoints(props) {
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
+      boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
@@ -224,6 +236,7 @@ function getTableData({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   endpointTypes = [],
   technologies = [],
   timeConfig
@@ -241,6 +254,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      applicationBoundaryScope: boundaryScope,
       includeSyntheticCalls: true,
       endpointTypes,
       technologies,

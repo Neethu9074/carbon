@@ -1,35 +1,58 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import {
+  SideNavigation,
+  SideNavigationSection,
+  SideNavigationItem
+} from 'in-new-components/SideNavigation/SideNavigation';
+import { categorise, filter, score } from 'in-waiting-for-deployment/components/OnboardingWidget/contentUtils';
 import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidget/HelpAndSupport';
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SearchInput from 'in-new-components/SearchInput';
 
 import locals from './InstallDocumentation.mless';
 
 export default function InstallDocumentation(props) {
-  const entries = getEntries(props);
+  const entities = getEntries(props);
+  let filteredEntities = filter(score(entities, props.query));
+  let hasError = false;
 
+  if (filteredEntities.length === 0) {
+    hasError = true;
+    filteredEntities = entities;
+  }
+  const categories = categorise(filteredEntities);
+
+  let index = 0;
   return (
     <div className={locals.wrapper}>
-      <div className={locals.heading}>Installing the Instana agent</div>
+      <div className={locals.heading}>
+        <span className={locals.headingText}>Installing the Instana agent</span>
+        <SearchInput maxWidth={200} onChange={props.onQueryChange} query={props.query} autoFocus hasError={hasError} />
+      </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>
-          <SideNavigation title="Platform">
-            {entries.map((entry, i) => (
-              <SideNavigationItem
-                key={i}
-                omitEmptyIcon
-                icon={entry.icon || 'lib_missing_data'}
-                label={entry.label}
-                isActive={props.selectedEntryIndex === i}
-                onClick={() => {
-                  props.onSubEntrySelected(null);
-                  props.onEntrySelected(i);
-                }}
-              />
+          <SideNavigation>
+            {categories.map(({ title, items }) => (
+              <Fragment key={title}>
+                <SideNavigationSection title={title} />
+                {items.map(({ icon, label }) => {
+                  const i = index++;
+                  return (
+                    <SideNavigationItem
+                      key={i}
+                      omitEmptyIcon
+                      icon={icon || 'lib_missing_data'}
+                      label={label}
+                      isActive={props.selectedEntryIndex === i}
+                      onClick={() => props.onEntrySelected(i, label)}
+                    />
+                  );
+                })}
+              </Fragment>
             ))}
           </SideNavigation>
         </div>
@@ -40,7 +63,7 @@ export default function InstallDocumentation(props) {
             [props.contentClassName]: props.contentClassName
           })}
         >
-          <EntryContent {...props} entry={entries[props.selectedEntryIndex]} />
+          <EntryContent {...props} entry={filteredEntities[props.selectedEntryIndex]} />
 
           {/* need to wrap this to have all the content inside the div bottom aligned */}
           <div>

@@ -34,6 +34,12 @@ export default class Node extends Subscriber {
 
   update() {}
 
+  updateSnapshotAndHealthComponent(params) {
+    if (this.sceneObjectInstance) {
+      this.sceneObjectInstance.updateSnapshotAndHealthComponent(params);
+    }
+  }
+
   updateEntities(newNodes) {
     // edge case tweak: if there are no new children, remove all what is left
     if (newNodes.length === 0) {
@@ -66,6 +72,7 @@ export default class Node extends Subscriber {
       if (existingChild) {
         if (existingChild.params !== entity.params) {
           existingChild.update(existingChild.params, entity.params);
+          existingChild.updateSnapshotAndHealthComponent(entity.params);
           existingChild.params = entity.params;
         }
       } else {

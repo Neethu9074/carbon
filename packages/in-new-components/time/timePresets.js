@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import { lastSevenDaysTimePresetEnabled } from 'in-services/featureFlags';
-
 const minute = 60 * 1000;
 const hour = 60 * minute;
 const twentyFourHours = 24 * hour;
@@ -39,15 +37,6 @@ const livePresets = [
   {
     windowSize: hour * 24,
     to: null
-  },
-  lastSevenDaysTimePresetEnabled && {
-    windowSize: sevenDays,
-    to: null
-  },
-  lastSevenDaysTimePresetEnabled && {
-    windowSize: hour * 24 * 31,
-    to: null,
-    label: 'Last 31 days'
   }
 ].filter(Boolean);
 

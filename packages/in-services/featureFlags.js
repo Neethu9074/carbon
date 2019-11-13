@@ -26,7 +26,6 @@ export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInst
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
-export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
 export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetricAggregationEnabled');
@@ -35,22 +34,21 @@ export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorE
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
-export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
-export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
-export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
+export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
+export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
 export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
 export const splunkEnabled = isFeatureFlagEnabled('splunkEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
-export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', true);
-export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
-export const isInitialOnboardingCheckEnabled =
-  !isInstanaEngineer && isFeatureFlagEnabled('isInitialOnboardingCheckEnabled', true);
-export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
-export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
-export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
+export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
+export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled');
+export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled');
+export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled');
+export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled');
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
+export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

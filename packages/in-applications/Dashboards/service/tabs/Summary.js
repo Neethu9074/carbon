@@ -10,12 +10,13 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeConfig, endpointId, applicationId, serviceId }) {
+export default function Summary({ timeConfig, endpointId, applicationId, serviceId, boundaryScope }) {
   const filter = {
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
-    service: serviceId
+    service: serviceId,
+    applicationBoundaryScope: boundaryScope
   };
 
   return (
@@ -23,7 +24,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
       <Row>
         <Col xs>
           <AppDataKpiCard
-            title="Inbound Calls"
+            title="Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
@@ -75,6 +76,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             timeConfig={timeConfig}
           />
         </Col>
@@ -84,6 +86,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             timeConfig={timeConfig}
           />
         </Col>
@@ -93,6 +96,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            boundaryScope={boundaryScope}
             timeConfig={timeConfig}
           />
         </Col>
@@ -100,13 +104,19 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
 
       <Row>
         <Col lg={4}>
-          <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          <EndpointTopList
+            applicationId={applicationId}
+            serviceId={serviceId}
+            boundaryScope={boundaryScope}
+            timeConfig={timeConfig}
+          />
         </Col>
         <Col lg={4}>
           <TraceTopList
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            applicationBoundaryScope={boundaryScope}
             timeConfig={timeConfig}
           />
         </Col>

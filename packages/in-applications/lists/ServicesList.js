@@ -92,7 +92,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Inbound Calls',
+    label: 'Calls',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

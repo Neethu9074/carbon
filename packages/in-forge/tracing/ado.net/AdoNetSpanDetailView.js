@@ -15,7 +15,7 @@ export default function JdbcSpanDetailView({ span }) {
         <Di title="Command-Type">{span.getIn(['data', 'ado', 'type'])}</Di>
         {statement ? (
           <Di title="Statement" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
         <ErrorDescriptionItem error={error} />

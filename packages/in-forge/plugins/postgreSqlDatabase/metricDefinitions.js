@@ -2,9 +2,11 @@ import {
   activity,
   hitRate,
   number,
+  seconds,
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces,
-  percentageTwoDecimalPlaces
+  percentageTwoDecimalPlaces,
+  bytesZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
@@ -77,5 +79,17 @@ export default [
     label: 'Connection',
     min: 0,
     formatter: zeroDecimalPlaces
+  },
+  {
+    metric: getMetricMatch('replications_stats', 'replication_delay_bytes'),
+    label: 'Replication delay in bytes',
+    min: 0,
+    formatter: bytesZeroDecimalPlaces
+  },
+  {
+    metric: getMetricMatch('replications_stats', 'replication_delay_seconds'),
+    label: 'Replication delay in seconds',
+    min: 0,
+    formatter: seconds
   }
 ];

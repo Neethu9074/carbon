@@ -55,7 +55,16 @@ export default connectTo(
 
     return observables;
   },
-  function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, service, metricValues }) {
+  function EndpointFlowMap({
+    data,
+    applicationId,
+    serviceId,
+    endpointId,
+    boundaryScope,
+    timeConfig,
+    service,
+    metricValues
+  }) {
     if (!service || !metricValues) {
       return null;
     }
@@ -69,6 +78,7 @@ export default connectTo(
               rootNodeData={{
                 id: serviceId,
                 applicationContext: applicationId,
+                applicationBoundaryScope: boundaryScope,
                 service,
                 endpoint: data,
                 metricValues

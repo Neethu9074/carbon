@@ -13,7 +13,7 @@ const labels = ['Latency', 'Calls', 'Error Rate'];
 const aggregations = ['MEAN', 'MEAN', 'MEAN'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
 
-export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeConfig }) {
+export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) {
   return (
     <TopList
       title="Top Statements"
@@ -31,6 +31,7 @@ export default function DatabaseStatementTopList({ applicationId, serviceId, end
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
+      boundaryScope={boundaryScope}
     />
   );
 }
@@ -43,7 +44,15 @@ function getMetricValueFromItem(metricId, item) {
   return item.metricValue;
 }
 
-function getList({ applicationId, serviceId, endpointId, timeConfig, selectedMetric, selectedMetricAggregation }) {
+function getList({
+  applicationId,
+  serviceId,
+  endpointId,
+  boundaryScope,
+  timeConfig,
+  selectedMetric,
+  selectedMetricAggregation
+}) {
   return getDatabaseStatementTopList({
     metric: {
       metric: selectedMetric,
@@ -53,6 +62,7 @@ function getList({ applicationId, serviceId, endpointId, timeConfig, selectedMet
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      applicationBoundaryScope: boundaryScope,
       timeConfig
     }
   });

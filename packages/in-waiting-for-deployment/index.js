@@ -22,6 +22,9 @@ initialiseSteps([
   // end-user monitoring for internal purposes
   'ineum',
 
+  // for anonymus tracking during the onboarding process
+  'anonymousMixpanel',
+
   // Rendering of the UI. This must come last!
   'waitingRendering'
 ]);

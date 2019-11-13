@@ -3,7 +3,14 @@ import React from 'react';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import HistogramCardWrapper from 'in-new-components/Histogram/HistogramCardWrapper';
 
-export default function LatencyDistributionHistogram({ timeConfig, applicationId, serviceId, endpointId, cardTitle }) {
+export default function LatencyDistributionHistogram({
+  timeConfig,
+  applicationId,
+  serviceId,
+  endpointId,
+  cardTitle,
+  boundaryScope
+}) {
   return (
     <HistogramCardWrapper
       cardTitle={cardTitle}
@@ -15,7 +22,8 @@ export default function LatencyDistributionHistogram({ timeConfig, applicationId
           timeConfig,
           application: applicationId,
           service: serviceId,
-          endpoint: endpointId
+          endpoint: endpointId,
+          applicationBoundaryScope: boundaryScope
         }
       })}
     />

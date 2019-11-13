@@ -34,6 +34,7 @@ function App({ apiCallSatisfied }) {
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         region={config.region}
+        butlerDomain={config.butlerDomain}
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied,
           href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,

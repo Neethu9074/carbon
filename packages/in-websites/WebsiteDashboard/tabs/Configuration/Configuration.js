@@ -7,13 +7,13 @@ import {
   configurationJsStackTraceTranslationFullyQualified,
   configurationAlertsFullyQualified
 } from 'in-websites/navigation/paths';
-import { javaScriptStackTraceTranslationEnabled, eumAlertingEnabled } from 'in-services/featureFlags';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import Alerts from 'in-websites/WebsiteDashboard/tabs/Configuration/Alerts/Alerts';
+import { eumAlertingEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 
 const NavigationItem = connectTo(({ path }) => ({
@@ -24,10 +24,6 @@ const NavigationItem = connectTo(({ path }) => ({
 });
 
 export default function Configuration(props) {
-  if (!javaScriptStackTraceTranslationEnabled) {
-    return <Options {...props} lg={6} lgOffset={3} />;
-  }
-
   const sidebar = (
     <SideNavigation title="Configuration">
       <NavigationItem label="Options" path={configurationOptionsFullyQualified} />

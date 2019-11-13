@@ -1,16 +1,17 @@
 import React from 'react';
 
+import ReplicationsTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/ReplicationsTable';
+import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import MetricValue from 'in-components/MetricValue';
 import {
   activityZeroDecimalPlaces,
   zeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
-import MetricValue from 'in-components/MetricValue';
 
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -56,6 +57,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ReplicationsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

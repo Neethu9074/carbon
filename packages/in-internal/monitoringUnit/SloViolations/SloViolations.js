@@ -47,8 +47,8 @@ export default connect({
             direction: 'DESC'
           }
         })
-          .filter(data => data.items)
-          .map(data => data.items.filter(e => e.entityType === 'Entity10'))
+          .filter(result => result.data)
+          .map(result => result.data.items.filter(e => e.entityType === 'Entity10'))
       )
   )
 })(SloViolations);

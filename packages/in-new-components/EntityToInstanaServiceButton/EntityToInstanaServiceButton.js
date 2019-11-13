@@ -62,10 +62,7 @@ function ServiceList({ instanaServices }) {
                   <EndpointTypeBadgeList types={service.types} />
                 </Td>
                 <Td>
-                  <EntityWithType
-                    label={calls >= 0 ? number.compact(calls) : valueMissingPlaceholder}
-                    type="Inbound Calls"
-                  />
+                  <EntityWithType label={calls >= 0 ? number.compact(calls) : valueMissingPlaceholder} type="Calls" />
                 </Td>
                 <Td>
                   <EntityWithType

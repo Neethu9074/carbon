@@ -16,7 +16,7 @@ export default connectTo(
       }
     })
   }),
-  function EndpointBreadcrumb({ endpoint, endpointId, applicationId, serviceId }) {
+  function EndpointBreadcrumb({ endpoint, endpointId, applicationId, serviceId, boundaryScope }) {
     if (!endpoint.data) {
       return null;
     }
@@ -28,7 +28,7 @@ export default connectTo(
         endpointId={endpointId}
         render={healthInfo => (
           <Breadcrumb
-            href$={getEndpointDashboard(endpoint.data.id, { applicationId, serviceId, endpointId })}
+            href$={getEndpointDashboard(endpoint.data.id, { applicationId, serviceId, endpointId, boundaryScope })}
             label="Endpoint"
             icon="lib_application_endpoint"
             healthInfo={healthInfo}

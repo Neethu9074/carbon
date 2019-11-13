@@ -1,4 +1,4 @@
-import { compose, withPropsOnChange, withProps } from 'recompose';
+import { compose, withPropsOnChange, withState } from 'recompose';
 import { create, just, interval } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
@@ -44,12 +44,9 @@ export default function LegacyEventViewMigration(props) {
 }
 
 const EventView = compose(
-  withProps(props => ({
-    ...props,
-    mouseMoveSignal$: create()
-  })),
-  connect(({ mouseMoveSignal$ }) => ({
-    timeConfig: timeConfig$
+  withState('mouseMoveSignal$', 'setSignal', create()),
+  withPropsOnChange(['mouseMoveSignal$'], ({ mouseMoveSignal$ }) => ({
+    timeConfig$: timeConfig$
       .flatMap(
         timeConfig =>
           timeConfig.autoRefresh
@@ -71,7 +68,10 @@ const EventView = compose(
           autoRefresh: false,
           windowSize: timeConfig.windowSize
         };
-      }),
+      })
+  })),
+  connect(({ timeConfig$ }) => ({
+    timeConfig: timeConfig$,
     highlightedTimeframe: highlightedTimeframe$.debounce(500),
     query: query$
   })),

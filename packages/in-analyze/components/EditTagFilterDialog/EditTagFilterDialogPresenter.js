@@ -9,6 +9,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
+import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Dialog from 'in-new-components/Dialog';
 import Button from 'in-new-components/Button';
@@ -39,12 +40,16 @@ export default function EditTagFilterDialogPresenter({
   onRemoveTagFilter,
   tagName,
   tagEntity,
-  sourceEntityAvailability
+  sourceEntityAvailability,
+  forAnalyzeCalls,
+  hiddenSourceDestination
 }) {
   return (
     <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
-        <p className={locals.help}>Select a tag by which your data should be filtered. Tags are case-sensitive.</p>
+        <Message className={locals.help}>
+          Select a tag by which your data should be filtered. Tags are case-sensitive.
+        </Message>
 
         {form.get('tag').map(field => (
           <FormGroup>
@@ -158,18 +163,19 @@ export default function EditTagFilterDialogPresenter({
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
-        {form.get('entity').map(field => (
-          <div>
-            Apply to call source or destination
-            <RadioGroup
-              disabled={tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability}
-              value={field.value}
-              onChange={e => onEntityChange(e.target.value)}
-              tagName={tagName}
-              sourceEntityAvailability={sourceEntityAvailability}
-            />
-          </div>
-        ))}
+        {forAnalyzeCalls &&
+          !hiddenSourceDestination &&
+          form
+            .get('entity')
+            .map(field => (
+              <RadioGroup
+                disabled={tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability}
+                value={field.value}
+                onChange={e => onEntityChange(e.target.value)}
+                tagName={tagName}
+                sourceEntityAvailability={sourceEntityAvailability}
+              />
+            ))}
         <div
           className={evaluateClassNames({
             [locals.actions]: true,

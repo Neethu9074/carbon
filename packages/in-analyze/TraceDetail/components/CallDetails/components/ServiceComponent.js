@@ -172,6 +172,9 @@ export default function ServiceComponent({ call, beacon }) {
                         snapshotId={sourceSnapshotId}
                         calculateHierarchy
                         pathname={physicalDashboardPath}
+                        entity={sourceEntity}
+                        plugin={sourceEntity && sourceEntity.plugin}
+                        physicalContext={sourcePhysicalContext}
                       />
                     </ExpandableGroup>
                   )}
@@ -220,6 +223,9 @@ export default function ServiceComponent({ call, beacon }) {
                       snapshotId={destinationSnapshotId}
                       calculateHierarchy
                       pathname={physicalDashboardPath}
+                      entity={destinationEntity}
+                      plugin={destinationEntity && destinationEntity.plugin}
+                      physicalContext={destinationPhysicalContext}
                     />
                   )}
                 </ExpandableGroup>

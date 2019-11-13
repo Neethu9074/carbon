@@ -7,12 +7,12 @@ import React from 'react';
 import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { isInitialOnboardingCheckEnabled } from 'in-services/featureFlags';
+import { isOnboardingGuideEnabled } from 'in-services/featureFlags';
 
 export function init() {
   const reportingData = window.instana.reportingData;
   // the onboarding dialog is skipped when ther are reporting hosts right now
-  if (!isInitialOnboardingCheckEnabled || (reportingData && reportingData.hostCount > 0)) {
+  if (!isOnboardingGuideEnabled || (reportingData && reportingData.hostCount > 0)) {
     return just(true);
   }
 

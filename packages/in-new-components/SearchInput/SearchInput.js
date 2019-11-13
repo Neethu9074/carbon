@@ -7,13 +7,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SearchInput.mless';
 
-export default function SearchInput({ onChange, query, maxWidth, autoFocus, placeholder }) {
+export default function SearchInput({ onChange, query, maxWidth, autoFocus, placeholder, hasError }) {
   return (
     <div className={locals.wrapper} style={{ maxWidth }}>
       <Input
         className={evaluateClassNames({
           [locals.searchInput]: true,
-          [locals.searchInputHasText]: isNotBlank(query)
+          [locals.searchInputHasText]: isNotBlank(query),
+          [locals.hasError]: hasError
         })}
         type="search"
         placeholder={placeholder}

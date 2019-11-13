@@ -3,8 +3,8 @@
 :local {
   .buttons {
     position: absolute;
-    right: 2rem;
-    bottom: 2rem;
+    right: 1.5rem;
+    bottom: 32.8125rem;
   }
 
   .buttonRow {
@@ -23,7 +23,7 @@
 
     padding: 0.125rem 0.25rem;
 
-    background: rgba(255,255,255,0.31);
+    background: rgba(255, 255, 255, 0.31);
     border-radius: 0 3px 3px 3px;
     font-weight: 700;
   }
@@ -34,7 +34,6 @@
     align-items: center;
     font-weight: bold;
     color: @lib__colors__N400;
-    width: 2rem;
 
     &:hover {
       color: @lib__colors__N500;
@@ -42,8 +41,6 @@
   }
 
   .placeholder {
-    width: 2rem;
-    height: 2rem;
-    margin: .5rem;
+    margin: 0.5rem;
   }
 }

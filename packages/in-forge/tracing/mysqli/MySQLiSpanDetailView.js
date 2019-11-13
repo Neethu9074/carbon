@@ -14,7 +14,7 @@ export default function MySQLiSpanDetailView({ span }) {
         <Di title="DSN">{span.getIn(['data', 'mysqli', 'dsn'])}</Di>
         {statement ? (
           <Di title="Query" verticalDisplay>
-            <Code code={formatSql(statement)} lang="sql" />
+            <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
         <ErrorDescriptionItem error={span.getIn(['data', 'mysqli', 'error'])} />

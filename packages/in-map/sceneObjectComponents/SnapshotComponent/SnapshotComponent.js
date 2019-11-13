@@ -1,3 +1,7 @@
+import { just } from 'reactive-observables';
+import { fromJS } from 'immutable';
+import { get } from 'lodash';
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { getSnapshot } from 'in-stores/snapshot';
 
@@ -12,8 +16,6 @@ export default class SnapshotComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    const snapshotChangedCallback = this.snapshotChanged.bind(this);
-
     if (this.isLazy) {
       this.visibleSubscription = this.sceneObject.eventEmitter
         .on('isVisibleChanged' + this.sceneObject.id)
@@ -23,18 +25,27 @@ export default class SnapshotComponent extends SceneObjectComponent {
           if (isVisible) {
             this.visibleSubscription.dispose();
             this.visibleSubscription = null;
-            this.addSubscription(
-              getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id).subscribe(
-                snapshotChangedCallback
-              )
-            );
+            this.refreshSnapshotSubscription();
           }
         });
     } else {
-      this.addSubscription(
-        getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id).subscribe(snapshotChangedCallback)
-      );
+      this.refreshSnapshotSubscription();
     }
+  }
+
+  refreshSnapshotSubscription() {
+    this.disposeEvents();
+
+    const snapshotChangedCallback = this.snapshotChanged.bind(this);
+    this.addSubscription(this.getSnapshotOrPreview().subscribe(snapshotChangedCallback));
+  }
+
+  getSnapshotOrPreview() {
+    const snapshot = get(this.sceneObject, ['entity', 'snapshotPreview']);
+    if (snapshot) {
+      return just(fromJS(snapshot));
+    }
+    return getSnapshot(this.alternativeId ? this.alternativeId : this.sceneObject.id);
   }
 
   snapshotChanged(snapshot) {

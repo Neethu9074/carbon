@@ -5,7 +5,8 @@ import { emptyObject } from 'in-services/fixedObjects';
 import {
   applicationId as matrixApplicationId,
   serviceId as matrixServiceId,
-  endpointId as matrixEndpointId
+  endpointId as matrixEndpointId,
+  boundaryScope as matrixBoundaryScope
 } from 'in-applications/navigation/matrix';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -31,13 +32,14 @@ export const isApplicationsView = getRootPathPredicate(
 
 export function getApplicationDashboard(
   applicationId,
-  { serviceId, endpointId, tab, tabMatrix, timeConfig } = emptyObject
+  { serviceId, endpointId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
 ) {
   return getDashboard({
     base: applicationDashboard,
     applicationId,
     serviceId,
     endpointId,
+    boundaryScope,
     tab,
     tabMatrix,
     timeConfig
@@ -46,13 +48,14 @@ export function getApplicationDashboard(
 
 export function getServiceDashboard(
   serviceId,
-  { applicationId, endpointId, tab, tabMatrix, timeConfig } = emptyObject
+  { applicationId, endpointId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
 ) {
   return getDashboard({
     base: serviceDashboard,
     applicationId,
     serviceId,
     endpointId,
+    boundaryScope,
     tab,
     tabMatrix,
     timeConfig
@@ -61,13 +64,14 @@ export function getServiceDashboard(
 
 export function getEndpointDashboard(
   endpointId,
-  { applicationId, serviceId, tab, tabMatrix, timeConfig } = emptyObject
+  { applicationId, serviceId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
 ) {
   return getDashboard({
     base: endpointDashboard,
     applicationId,
     endpointId,
     serviceId,
+    boundaryScope,
     tab,
     tabMatrix,
     timeConfig
@@ -79,6 +83,7 @@ function getDashboard({
   applicationId,
   serviceId,
   endpointId,
+  boundaryScope,
   tab = '/summary',
   tabMatrix = emptyObject,
   timeConfig
@@ -88,6 +93,7 @@ function getDashboard({
     setOrDeleteMatrixKey(params, base, matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
+    setOrDeleteMatrixKey(params, base, matrixBoundaryScope, boundaryScope);
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);

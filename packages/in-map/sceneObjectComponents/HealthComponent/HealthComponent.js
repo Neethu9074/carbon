@@ -1,3 +1,7 @@
+import { just } from 'reactive-observables';
+import { fromJS } from 'immutable';
+import { get } from 'lodash';
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
@@ -14,8 +18,6 @@ export default class HealthComponent extends SceneObjectComponent {
   initEvents() {
     super.initEvents();
 
-    const healthChangedCallback = this.healthChanged.bind(this);
-
     if (this.isLazy) {
       this.visibleSubscription = this.sceneObject.eventEmitter
         .on('isVisibleChanged' + this.sceneObject.id)
@@ -26,12 +28,30 @@ export default class HealthComponent extends SceneObjectComponent {
             this.visibleSubscription.dispose();
             this.visibleSubscription = null;
 
-            this.addSubscription(getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(healthChangedCallback));
+            this.refreshHealthSubscription();
           }
         });
     } else {
-      this.addSubscription(getHealthInfoAtFocusedMoment(this.sceneObject.id).subscribe(healthChangedCallback));
+      this.refreshHealthSubscription();
     }
+  }
+
+  refreshHealthSubscription() {
+    this.disposeEvents();
+
+    const healthChangedCallback = this.healthChanged.bind(this);
+    this.addSubscription(this.getHealth().subscribe(healthChangedCallback));
+  }
+
+  getHealth() {
+    const healthInfo = get(this.sceneObject, ['entity', 'healthInfo']);
+    if (healthInfo) {
+      return just(fromJS(healthInfo));
+    }
+    if (healthInfo === null) {
+      return just(null);
+    }
+    return getHealthInfoAtFocusedMoment(this.sceneObject.id);
   }
 
   healthChanged(health) {

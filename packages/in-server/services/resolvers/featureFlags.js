@@ -1,20 +1,14 @@
 module.exports = exports = (tenant, unit) => [
   {
-    uiClientKey: 'javaScriptStackTraceTranslationEnabled',
-    instanaCtlKey: 'feature.javaScript.stack.trace.translation.enabled',
-    consulKey: `settings/${tenant}-${unit}/JAVASCRIPT_STACK_TRACE_TRANSLATION_ENABLED`,
+    uiClientKey: 'mobileAppMonitoringEnabled',
+    instanaCtlKey: 'feature.mobile.app.monitoring.enabled',
+    consulKey: `settings/${tenant}-${unit}/MOBILE_APP_MONITORING_ENABLED`,
     defaultValue: false
   },
   {
     uiClientKey: 'isSelfService',
     instanaCtlKey: 'feature.is.self.service',
     consulKey: `settings/${tenant}-${unit}/IS_SELFSERVICE`,
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'lastSevenDaysTimePresetEnabled',
-    instanaCtlKey: 'feature.last.seven.days.time.preset.enabled',
-    consulKey: `settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`,
     defaultValue: false
   },
   {
@@ -139,15 +133,9 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'optInOptOutEnabled',
-    instanaCtlKey: 'feature.opt.in.opt.out.enabled',
-    consulKey: `settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`,
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'isInitialOnboardingCheckEnabled',
-    instanaCtlKey: 'feature.initial.onboarding.check.enabled',
-    consulKey: `settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`,
+    uiClientKey: 'isOnboardingGuideEnabled',
+    instanaCtlKey: 'feature.onboarding.guide.enabled',
+    consulKey: `settings/${tenant}-${unit}/IS_ONBOARDING_GUIDE_ENABLED`,
     defaultValue: true
   },
   {
@@ -157,10 +145,10 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'isOnPrem',
-    instanaCtlKey: 'feature.on.prem',
-    consulKey: `settings/${tenant}-${unit}/IS_ON_PREM`,
-    defaultValue: false
+    uiClientKey: 'fullTermsConfigEnabled',
+    instanaCtlKey: 'feature.full.terms.config.enabled',
+    consulKey: `settings/${tenant}-${unit}/FULL_TERMS_CONFIG_ENABLED`,
+    defaultValue: true
   },
   {
     uiClientKey: 'eumAlertingEnabled',
@@ -172,6 +160,12 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'googleAnalyticsDisabled',
     instanaCtlKey: 'feature.google.analytics.disabled',
     consulKey: `settings/${tenant}-${unit}/GOOGLE_ANALYTICS_DISABLED`,
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'vsphereEnabled',
+    instanaCtlKey: 'feature.vsphere.enabled',
+    consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
     defaultValue: false
   }
 ];
