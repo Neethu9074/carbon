@@ -37,6 +37,7 @@ export default function TagFilterListPresenter({
           onRemoveTagFilter={onRemoveTagFilter}
           readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
           disabled={disabled}
+          withPadding={readonlyFilterNames.includes(tagFilter.name) && tagFilters.length > 1}
         />
       ))}
     </ul>
@@ -53,12 +54,17 @@ TagFilterListPresenter.propTypes = {
   tagFilters: PropTypes.array
 };
 
-function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled }) {
+function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled, withPadding }) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
   const tagType = (node && node.type) || 'STRING';
 
   return (
-    <li className={locals.item}>
+    <li
+      className={evaluateClassNames({
+        [locals.item]: true,
+        [locals.withPadding]: withPadding
+      })}
+    >
       <a
         href=""
         onClick={e => {

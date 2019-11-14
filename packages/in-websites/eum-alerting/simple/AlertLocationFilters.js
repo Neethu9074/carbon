@@ -65,8 +65,12 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                   />
                 );
               }}
+              onRemoveTagFilter={({ name }) =>
+                onChange(form, fieldNames.tagFilters, withoutTagFilterForName(getTagFilters(form), name))
+              }
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-              readonlyFilterNames={[BEACON_WEBSITE_NAME, 'beacon.website.id']}
+              readonlyFilterNames={[BEACON_WEBSITE_NAME]}
+              undeleteableFilterNames={[BEACON_WEBSITE_NAME]}
             />
           </div>
         </div>

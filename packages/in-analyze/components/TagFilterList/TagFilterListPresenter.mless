@@ -136,4 +136,8 @@
   .disabled {
     pointer-events: none;
   }
+
+  .withPadding {
+    padding-right: 2.5rem;
+  }
 }
