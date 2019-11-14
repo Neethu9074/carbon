@@ -12,7 +12,7 @@ export default function PostgreSqlInfo({ snapshot }) {
       <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
       <DescriptionItem title="Max Connections">{data.get('max_connections')}</DescriptionItem>
       <DescriptionItem title="Version">{data.get('variables.VERSION')}</DescriptionItem>
-      <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
+      <DescriptionItem title="Role">{data.get('type')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
