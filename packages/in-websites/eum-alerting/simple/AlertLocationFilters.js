@@ -39,7 +39,8 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                   tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
                   setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters)}
                   tagSuggestions={availableFilterTags.error.filter(
-                    name => name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID
+                    name =>
+                      name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
                   )}
                   timeConfig={timeConfig}
                 />
