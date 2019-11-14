@@ -68,14 +68,14 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: bytesZeroDecimalPlaces,
               metrics: ['replication_stats.replication_delay_bytes'],
-              labels: ['Bytes'],
+              labels: ['In Bytes'],
               type: 'line'
             }}
             y2={{
               min: 0,
               formatter: seconds.fixedCompact,
               metrics: ['replication_stats.replication_delay_seconds'],
-              labels: ['Seconds'],
+              labels: ['In Seconds'],
               type: 'line'
             }}
           />
