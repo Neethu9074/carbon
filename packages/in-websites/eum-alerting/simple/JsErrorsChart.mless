@@ -17,7 +17,9 @@
     background-color: @lib__colors__N200;
     color: @lib__colors__N600Light;
     height: 14.375rem;
+    width: 100%;
     margin-top: 1.5rem;
+    padding: 0 8px 8px;
 
     > span {
       margin-left: 0.5rem;
