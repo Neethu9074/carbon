@@ -11,8 +11,8 @@ import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { percentage } from 'in-services/formatters/number';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
-import { getVsphereHostDashboard } from '../../../navigation/paths';
-import EntityLink from '../../../../in-new-components/EntityLink';
+import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
