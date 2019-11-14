@@ -11,7 +11,7 @@ export default function SimpleAlertDialogStep2({ form, timeConfig, websiteLabel,
     <>
       <h1 className={locals.headline}>Where do you want the alert to trigger?</h1>
       <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} onChange={onChange} />
-      <JsErrorsChart form={form} timeConfig={timeConfig} />
+      <JsErrorsChart form={form} timeConfig={timeConfig} onChange={onChange} />
     </>
   );
 }
