@@ -32,12 +32,12 @@ export default function JsErrorsChart({ form, timeConfig, onChange }) {
               <Label>Threshold</Label>
               <Input
                 type="number"
-                min={0}
+                min="0"
                 name={fieldNames.thresholdValue}
                 value={form.get(fieldNames.thresholdValue).value}
-                step="0.1"
+                step="1"
                 onChange={e =>
-                  onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Number(e.target.value) : '')
+                  onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
                 }
               />
             </FormGroup>
