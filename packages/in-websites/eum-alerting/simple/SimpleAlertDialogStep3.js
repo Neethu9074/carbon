@@ -35,26 +35,31 @@ export default function SimpleAlertDialogStep3({ form, onChange, setAlertChannel
                     kind="action"
                     onClick={() =>
                       setAlertChannelsVisible({
-                        component: (
-                          <SelectListDialogContent
-                            listComponent={AlertChannels}
-                            listComponentRightHeader={noRightHeader}
-                            hiddenIds={field.value}
-                            limit={limitForConnectedAlertChannels}
-                            onSubmit={selectedIds => {
-                              onChange(form, fieldNames.alertChannelIds, selectedIds);
-                              setAlertChannelsVisible(null);
-                            }}
-                            createSubmitLabel={numberOfItems =>
-                              numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
-                            }
-                            requiresAtLeastOneMessage="Please select at least one alert channel."
-                            pageSize={5}
-                            listFormGroupClassOverwrites={locals.alertChannelsList}
-                            tableScrollWrapperClassOverwrites={locals.alertChannelsList}
-                          />
-                        ),
-                        title: 'Select alert channels'
+                        slideInConfig: {
+                          component: (
+                            <SelectListDialogContent
+                              listComponent={AlertChannels}
+                              listComponentRightHeader={noRightHeader}
+                              hiddenIds={field.value}
+                              limit={limitForConnectedAlertChannels}
+                              onSubmit={selectedIds => {
+                                onChange(form, fieldNames.alertChannelIds, selectedIds);
+                                setAlertChannelsVisible({ isVisible: false });
+                              }}
+                              createSubmitLabel={numberOfItems =>
+                                numberOfItems > 0
+                                  ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}`
+                                  : 'Add'
+                              }
+                              requiresAtLeastOneMessage="Please select at least one alert channel."
+                              pageSize={5}
+                              listFormGroupClassOverwrites={locals.alertChannelsList}
+                              tableScrollWrapperClassOverwrites={locals.alertChannelsList}
+                            />
+                          ),
+                          title: 'Select alert channels'
+                        },
+                        isVisible: true
                       })
                     }
                     icon="lib_openclose_add_circle_outline"
