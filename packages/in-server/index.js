@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 
 const configEnrichment = require('./middleware/configEnrichment');
 const unitCoordinates = require('./middleware/unitCoordinates');
+const maximumCookies = require('./routes/maximumCookies');
 const errorPagesRoutes = require('./routes/errorPages');
 const serverConfig = require('./serverConfig.js');
 const productRoutes = require('./routes/product');
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 
 app.use(errorPagesRoutes);
 app.use(assetRoutes);
+app.use(maximumCookies);
 
 // Allow retrieval of assets without valid unit identification.
 app.use(unitCoordinates);

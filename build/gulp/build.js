@@ -127,10 +127,11 @@ gulp.task('writeTryBuildServerConfigFile', () => {
     cookie: {
       name: 'in-token-test'
     },
-    googleAnalyticsTrackingId: '',
+    googleAnalyticsTrackingId: 'UA-66215232-1',
+    mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
     eum: {
-      apiKey: '',
-      domain: ''
+      apiKey: 'S8sh0aF6Q9yH1Z6gMNWpFw',
+      domain: '//eum-test-fullstack-0-us-west-2.instana.io'
     },
     zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     clientConfig: buildUtil.getDevModeConfig({
