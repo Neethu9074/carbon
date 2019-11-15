@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -18,6 +19,7 @@ export default function TagFilterListPresenter({
   tagFilters,
   onTagFilterClick,
   onRemoveTagFilter,
+  readonlyFilterNames = emptyArray,
   readonly,
   disabled
 }) {
@@ -33,20 +35,36 @@ export default function TagFilterListPresenter({
           tagFilter={tagFilter}
           onTagFilterClick={onTagFilterClick}
           onRemoveTagFilter={onRemoveTagFilter}
-          readonly={readonly}
+          readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
           disabled={disabled}
+          withPadding={readonlyFilterNames.includes(tagFilter.name) && tagFilters.length > 1}
         />
       ))}
     </ul>
   );
 }
 
-function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled }) {
+TagFilterListPresenter.propTypes = {
+  disabled: PropTypes.bool,
+  readonlyFilterNames: PropTypes.arrayOf(PropTypes.string),
+  implicitTagFilters: PropTypes.array,
+  onRemoveTagFilter: PropTypes.func,
+  onTagFilterClick: PropTypes.func,
+  readonly: PropTypes.bool,
+  tagFilters: PropTypes.array
+};
+
+function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled, withPadding }) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
   const tagType = (node && node.type) || 'STRING';
 
   return (
-    <li className={locals.item}>
+    <li
+      className={evaluateClassNames({
+        [locals.item]: true,
+        [locals.withPadding]: withPadding
+      })}
+    >
       <a
         href=""
         onClick={e => {

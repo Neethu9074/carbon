@@ -3,7 +3,7 @@
 :local {
   .container {
     margin: 1rem 0.5rem 0 0;
-    width: 36.25rem;
+    width: 36rem;
   }
 
   .wrapper {
@@ -12,5 +12,6 @@
 
   .filterList {
     padding: 0 1rem;
+    border-top: 1px solid @lib__colors__N300;
   }
 }

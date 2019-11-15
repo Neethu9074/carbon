@@ -50,17 +50,18 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
             <Button
               onClick={() =>
                 onSelectJsError({
-                  component: (
-                    <JsErrorsList
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      slideOut={() => {
-                        onSelectJsError(null);
-                      }}
-                    />
-                  ),
-                  title: 'Select JS Error'
+                  slideInConfig: {
+                    component: (
+                      <JsErrorsList
+                        form={form}
+                        timeConfig={timeConfig}
+                        onChange={onChange}
+                        slideOut={() => onSelectJsError({ isVisible: false })}
+                      />
+                    ),
+                    title: 'Select JS Error'
+                  },
+                  isVisible: true
                 })
               }
             >
