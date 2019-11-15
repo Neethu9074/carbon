@@ -107,5 +107,5 @@ function mutateFiltersForView(tagFilters, websiteLabel) {
 }
 
 function getTagFilters(form) {
-  return form && form.get(fieldNames.tagFilters).value;
+  return form.get(fieldNames.tagFilters).value;
 }
