@@ -1,9 +1,10 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
 export const fieldNames = Object.freeze({
-  alertType: 'alertType',
-  operator: 'operator',
-  value: 'value',
+  ruleAlertType: 'ruleAlertType',
+  ruleOperator: 'ruleOperator',
+  ruleValue: 'ruleValue',
+  ruleMetricName: 'ruleMetricName',
   tagFilters: 'tagFilters',
   alertChannelIds: 'alertChannelIds',
   enabled: 'enabled',
@@ -14,7 +15,8 @@ export const fieldNames = Object.freeze({
   websiteId: 'websiteId',
   id: 'id',
   thresholdValue: 'thresholdValue',
-  thresholdType: 'thresholdType'
+  thresholdType: 'thresholdType',
+  thresholdOperator: 'thresholdOperator'
 });
 
 export default function alertFormDefinition(alertFormValues = {}) {
@@ -34,23 +36,30 @@ export default function alertFormDefinition(alertFormValues = {}) {
 
   let form = createMapForm()
     .put(
-      fieldNames.alertType,
+      fieldNames.ruleAlertType,
       createField({
-        value: rule && rule[fieldNames.alertType],
+        value: rule && rule.alertType,
         validator: notBlankValidator
       })
     )
     .put(
-      fieldNames.operator,
+      fieldNames.ruleOperator,
       createField({
-        value: rule && rule[fieldNames.operator],
+        value: rule && rule.operator,
         validator: notBlankValidator
       })
     )
     .put(
-      fieldNames.value,
+      fieldNames.ruleValue,
       createField({
-        value: rule && rule[fieldNames.value],
+        value: rule && rule.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.ruleMetricName,
+      createField({
+        value: (rule && rule.metricName) || 'errors',
         validator: notBlankValidator
       })
     )
@@ -112,17 +121,37 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.thresholdValue,
       createField({
-        value: (threshold && threshold[fieldNames.value]) || 0
+        value: (threshold && threshold.value) || 0,
+        validator: positiveNumberValidator
       })
     )
     .put(
       fieldNames.thresholdType,
       createField({
-        value: (threshold && threshold[fieldNames.thresholdType]) || 'staticThreshold'
+        value: (threshold && threshold.type) || 'staticThreshold',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdOperator,
+      createField({
+        value: (threshold && threshold.operator) || '>=',
+        validator: notBlankValidator
       })
     );
 
   return form;
+}
+
+function positiveNumberValidator(num) {
+  if (num === '' || num < 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please provide a number >= 0'
+      }
+    ];
+  }
 }
 
 function alertChannelsNotEmptyValiadator(array) {

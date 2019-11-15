@@ -21,8 +21,8 @@ export default function JsErrorsChart({ form, timeConfig, onChange }) {
             tagFilters={[
               {
                 name: 'beacon.error.message',
-                operator: form.get(fieldNames.operator).value,
-                stringValue: form.get(fieldNames.value).value
+                operator: form.get(fieldNames.ruleOperator).value,
+                stringValue: form.get(fieldNames.ruleValue).value
               },
               ...form.get(fieldNames.tagFilters).value
             ]}
@@ -60,5 +60,5 @@ JsErrorsChart.propTypes = {
 };
 
 function hasJsErrorSelected(form) {
-  return !!(form && form.get(fieldNames.value).value);
+  return !!(form && form.get(fieldNames.ruleValue).value);
 }
