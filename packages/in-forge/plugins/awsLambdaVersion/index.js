@@ -11,8 +11,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'AWS Lambda Version',
     plural: 'AWS Lambda Versions'
-  },
-  technologyDescriptor: {
-    label: 'AWS Lambda'
   }
 });
