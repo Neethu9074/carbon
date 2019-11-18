@@ -1,10 +1,4 @@
-import {
-  kiloBytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  msZeroDecimalPlaces,
-  percentage,
-  number
-} from 'in-services/formatters/number';
+import { bytes, bytesTwoDecimalPlaces, msZeroDecimalPlaces, percentage, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -63,19 +57,19 @@ export default [
     formatter: bytesTwoDecimalPlaces
   },
   {
-    metric: 'net.received.average.kiloBytesPerSecond',
+    metric: 'net.received.average.bytesPerSecond',
     label: 'Bytes received',
-    formatter: kiloBytesZeroDecimalPlaces
+    formatter: bytes.perSecond
   },
   {
-    metric: 'net.transmitted.average.kiloBytesPerSecond',
+    metric: 'net.transmitted.average.bytesPerSecond',
     label: 'Bytes transmitted',
-    formatter: kiloBytesZeroDecimalPlaces
+    formatter: bytes.perSecond
   },
   {
-    metric: 'net.bytestotal.average.kiloBytesPerSecond',
+    metric: 'net.bytestotal.average.bytesPerSecond',
     label: 'Total bytes',
-    formatter: kiloBytesZeroDecimalPlaces
+    formatter: bytes.perSecond
   },
   {
     metric: 'net.packetsRx.summation.number',

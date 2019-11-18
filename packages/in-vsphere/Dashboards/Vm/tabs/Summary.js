@@ -1,12 +1,6 @@
 import React, { Fragment } from 'react';
 
-import {
-  number,
-  kiloBytesZeroDecimalPlaces,
-  percentage,
-  bytesTwoDecimalPlaces,
-  msZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -109,11 +103,11 @@ export default function Summary({ timeConfig, data: vm }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: kiloBytesZeroDecimalPlaces,
+                formatter: bytes.perSecond,
                 metrics: [
-                  'net.received.average.kiloBytesPerSecond',
-                  'net.transmitted.average.kiloBytesPerSecond',
-                  'net.bytestotal.average.kiloBytesPerSecond'
+                  'net.received.average.bytesPerSecond',
+                  'net.transmitted.average.bytesPerSecond',
+                  'net.bytestotal.average.bytesPerSecond'
                 ],
                 labels: ['Bytes received', 'Bytes transmitted', 'Total bytes'],
                 type: 'line'
