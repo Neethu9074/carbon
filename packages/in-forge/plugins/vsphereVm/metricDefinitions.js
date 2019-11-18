@@ -34,7 +34,7 @@ export default [
   },
   {
     metric: 'cpu.latency.average.percent',
-    label: 'CPU Usage',
+    label: 'CPU Latency',
     formatter: percentage.detailed
   },
   {
