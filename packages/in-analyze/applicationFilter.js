@@ -10,6 +10,13 @@ export const APPLICATION = {
   label: 'Application'
 };
 
+export const APPLICATION_INBOUND = {
+  id: applicationId,
+  name: 'call.inbound_of_application',
+  technicalName: 'call.inbound_of_application',
+  label: 'Application Inbound'
+};
+
 export const SERVICE = {
   id: serviceId,
   name: 'service.name',

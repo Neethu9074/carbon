@@ -10,8 +10,8 @@ import {
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
+import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { callAnalysisBlacklistedTags } from 'in-applications/tags';
@@ -57,20 +57,19 @@ export function getLinkToAnalyze({
     let tagFilter = null;
     if (applicationName != null) {
       tagFilter = tagFilter || [];
-      tagFilter.push({
-        name: APPLICATION.name,
-        value: applicationName,
-        operator: operators.EQUALS,
-        entity: entityTypes.DESTINATION
-      });
 
-      // application inbound calls filter: source.application.name NOT EQUAL xxx
-      if (boundaryScope !== boundaryScopes.all) {
+      if (boundaryScope === boundaryScopes.all) {
         tagFilter.push({
           name: APPLICATION.name,
           value: applicationName,
-          operator: operators.NOT_EQUAL,
-          entity: entityTypes.SOURCE
+          operator: operators.EQUALS,
+          entity: entityTypes.DESTINATION
+        });
+      } else if (boundaryScope === boundaryScopes.inbound) {
+        tagFilter.push({
+          name: APPLICATION_INBOUND.name,
+          value: applicationName,
+          operator: operators.EQUALS
         });
       }
     }
