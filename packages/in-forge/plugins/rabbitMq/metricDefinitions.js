@@ -87,7 +87,7 @@ export default [
   },
   {
     metric: getMetricMatch('node_map', 'disk_free'),
-    label: 'Disk free space',
+    label: 'Disk alarm threshold',
     min: 0,
     category: ['Nodes'],
     formatter: bytes,
@@ -95,7 +95,7 @@ export default [
   },
   {
     metric: getMetricMatch('node_map', 'disk_free_limit'),
-    label: 'Disk alarm threshold',
+    label: 'Disk free space',
     min: 0,
     category: ['Nodes'],
     formatter: bytes,

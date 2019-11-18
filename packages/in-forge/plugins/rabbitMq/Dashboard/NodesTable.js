@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -13,86 +13,6 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.key;
-      }
-    }
-  },
-  {
-    title: 'Used file descriptors',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `node_map.${row.key}.fd_used`;
-      },
-      getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Used memory',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `node_map.${row.key}.mem_used`;
-      },
-      getContent: bytesZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Used Erlang processes',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `node_map.${row.key}.proc_used`;
-      },
-      getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Disk alarm threshold',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `node_map.${row.key}.disk_free_limit`;
-      },
-      getContent: bytesZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Disk free',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `node_map.${row.key}.disk_free`;
-      },
-      getContent: bytesZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
       }
     }
   }
@@ -154,7 +74,7 @@ function getRowDetails(row) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
-            labels: ['Erlang processes in use', 'Max Erlang processes'],
+            labels: ['Erlang processes in use', 'Maximum number of Erlang processes'],
             type: 'line'
           }}
         />
