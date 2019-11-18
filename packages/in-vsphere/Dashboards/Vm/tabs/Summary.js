@@ -66,7 +66,7 @@ export default function Summary({ timeConfig, data: vm }) {
               }}
               y2={{
                 formatter: percentage.detailed,
-                metrics: ['mem.usage.average.percent', 'cpu.readiness.average.percent', 'cpu.latency.average.percent'],
+                metrics: ['cpu.usage.maximum.percent', 'cpu.readiness.average.percent', 'cpu.latency.average.percent'],
                 labels: ['Usage', 'Readiness', 'Latency'],
                 type: 'line'
               }}
