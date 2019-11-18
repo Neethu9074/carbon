@@ -1,11 +1,10 @@
-
 @import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .descriptionList {
     margin: 0;
-    padding: 0 1rem
+    padding: 0 1rem;
   }
 
   .descriptionListItem {
@@ -36,6 +35,7 @@
 
   .descriptionListNoDetails {
     display: none;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem 0;
+    font-size: 0.75rem;
   }
 }
