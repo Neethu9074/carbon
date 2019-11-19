@@ -970,9 +970,18 @@ function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
 const gracePeriodOptions = [
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10 s' },
-  { value: '60000', label: '1 min' },
+  { value: '30000', label: '30 s' },
+  { value: '60000', label: '60 s' },
+  { value: '90000', label: '90 s' },
   { value: '300000', label: '5 min' },
-  { value: '3600000', label: '60 min' }
+  { value: '600000', label: '10 min' },
+  { value: '1800000', label: '30 min' },
+  { value: '3600000', label: '1 hr' },
+  { value: '7200000', label: '2 hrs' },
+  { value: '14400000', label: '4 hrs' },
+  { value: '21600000', label: '6 hrs' },
+  { value: '43200000', label: '12 hrs' },
+  { value: '86400000', label: '24 hrs' }
 ];
 
 const windowOptions = [
