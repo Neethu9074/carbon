@@ -82,6 +82,15 @@ function QueryFailed({ errors }) {
         </span>
       </div>
     );
+  } else if (error === 'VALIDATION') {
+    return (
+      <div className={locals.stateWrapper}>
+        <div className={locals.bigIconContainer}>
+          <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+        </div>
+        <span className={locals.description}>{errors[0].message}</span>
+      </div>
+    );
   } else {
     return (
       <div className={locals.stateWrapper}>
@@ -118,7 +127,9 @@ function LoadingCircle({ percentage }) {
 }
 
 function getError(errors) {
-  const filtered = errors.filter(e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 504);
+  const filtered = errors.filter(
+    e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 'VALIDATION' || e.code === 504
+  );
   const [error] = uniq(filtered.map(e => e.code));
   return error;
 }
