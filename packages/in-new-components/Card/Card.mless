@@ -16,7 +16,6 @@
     cursor: pointer;
   }
 
-  .titleSubText,
   .nonClickable {
     cursor: default;
   }
