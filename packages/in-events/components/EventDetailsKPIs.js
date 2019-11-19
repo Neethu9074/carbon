@@ -94,7 +94,7 @@ const Ended = connectTo(
     return isOpen ? (
       <KpiCard title="Ended" value={valueMissingPlaceholder} raw />
     ) : (
-      <DateTimeKpiCard title="Ended" time={event.get('end')} />
+      <DateTimeKpiCard title="Ended" time={event.get('start') !== event.get('end') ? event.get('end') : null} />
     );
   }
 );

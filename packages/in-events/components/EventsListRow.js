@@ -56,7 +56,9 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
         <span className={locals.text}>{formatDateTime(start)}</span>
       </Td>
       <Td>
-        <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(end)}</span>
+        <span className={locals.text}>
+          {event.state === 'open' ? 'active' : start !== end ? formatDateTime(end) : '--'}
+        </span>
       </Td>
       <Td>
         <div className={locals.timelineWrapper}>
