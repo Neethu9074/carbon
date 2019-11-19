@@ -1,0 +1,7 @@
+:local {
+  .card {
+    & + .card {
+      margin-top: 1rem;
+    }
+  }
+}

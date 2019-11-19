@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Collection from 'in-forge/plugins/azureCosmosDb/Dashboard/Collection';
+import Database from 'in-forge/plugins/azureCosmosDb/Dashboard/Database';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Collection',
+    title: 'Database',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +23,23 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `metrics.collections.${row.key}.tr`;
+        return `metrics.databases.${row.key}.tr`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Metadata Requests',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `metrics.databases.${row.key}.mr`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -39,7 +55,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `metrics.collections.${row.key}.dc`;
+        return `metrics.databases.${row.key}.dc`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -49,11 +65,11 @@ const cols = [
   }
 ];
 
-export default function CollectionsTable({
+export default function DatabaseTable({
   snapshot,
   timeConfig,
   region,
-  database,
+  databases,
   collections,
   statusCodes,
   resourceTypes
@@ -61,11 +77,11 @@ export default function CollectionsTable({
   const snapshotId = snapshot.get('id');
 
   var rows = emptyList;
-  collections.map(coll => {
-    if (coll.startsWith(database == null ? region : database)) {
+  databases.map(coll => {
+    if (coll.startsWith(region)) {
       rows = rows.push({
         key: coll,
-        name: snapshot.getIn(['data', 'meta.collections.' + coll]),
+        name: snapshot.getIn(['data', 'meta.databases.' + coll]),
         snapshotId: snapshotId,
         snapshot: snapshot,
         timeConfig: timeConfig
@@ -76,7 +92,7 @@ export default function CollectionsTable({
   return (
     <Table
       withoutPadding
-      cardTitle={`Collections (${rows.size})`}
+      cardTitle={`Databases (${rows.size})`}
       cols={cols}
       rows={rows.toArray()}
       getRowDetails={getRowDetails}
@@ -85,10 +101,12 @@ export default function CollectionsTable({
 
   function getRowDetails(row) {
     return (
-      <Collection
+      <Database
         snapshot={snapshot}
         timeConfig={timeConfig}
-        collection={row.key}
+        region={region}
+        database={row.key}
+        collections={collections}
         statusCodes={statusCodes}
         resourceTypes={resourceTypes}
       />

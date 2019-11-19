@@ -1,14 +1,15 @@
 import React from 'react';
-import StatusCode from './StatusCode.js';
-import ResourceType from './ResourceType.js';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import ResourceType from 'in-forge/plugins/azureCosmosDb/Dashboard/ResourceType';
+import StatusCode from 'in-forge/plugins/azureCosmosDb/Dashboard/StatusCode';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function Collection({ snapshot, timeConfig, collection, statusCodes, resourceTypes }) {
   const snapshotId = snapshot.get('id');
 
   return (
-    <div>
+    <>
       <Chart
         snapshotId={snapshotId}
         timeConfig={timeConfig}
@@ -55,6 +56,6 @@ export default function Collection({ snapshot, timeConfig, collection, statusCod
 
       <StatusCode snapshot={snapshot} timeConfig={timeConfig} collection={collection} statusCodes={statusCodes} />
       <ResourceType snapshot={snapshot} timeConfig={timeConfig} collection={collection} resourceTypes={resourceTypes} />
-    </div>
+    </>
   );
 }

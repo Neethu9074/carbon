@@ -1,6 +1,7 @@
 import React from 'react';
-import Instance from './Instance.js';
-import RegionsTable from './RegionsTable.js';
+
+import RegionsTable from 'in-forge/plugins/azureCosmosDb/Dashboard/RegionsTable';
+import Instance from 'in-forge/plugins/azureCosmosDb/Dashboard/Instance';
 
 export default function AzureCosmosDbDashboard({ snapshot, timeConfig }) {
   return (
