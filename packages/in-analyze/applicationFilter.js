@@ -53,6 +53,13 @@ export const entityTypes = {
   NOT_APPLICABLE: 'NOT_APPLICABLE'
 };
 
+export const entityTypesLUT = {
+  SOURCE_AND_DESTINATION: 'Source & Destination',
+  DESTINATION: 'Destination',
+  SOURCE: 'Source',
+  NOT_APPLICABLE: ''
+};
+
 export const operatorBlacklists = {
   appConfigBlacklist: [operators.IS_EMPTY],
   syntheticEndpointConfigBlacklist: [
@@ -155,6 +162,10 @@ const operatorLabelLUT = {
 
 export function getEntityLabel(entity) {
   return get(entityTypes, [entity]);
+}
+
+export function getEntityLabelLUT(entity) {
+  return get(entityTypesLUT, [entity]);
 }
 
 export function getOperatorLabel(type, operator) {
