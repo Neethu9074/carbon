@@ -302,6 +302,11 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/snapshotVersions'))}
                     description="Inspect versions for a single infrastructure entity and visualize when they were created and for how long they were valid/"
                   />
+                  <LinkListItem
+                    label="Internal Events"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/internalEvents'))}
+                    description="Request a list of internal events such as Agent Crash Reports"
+                  />
                 </LinkList>
               </Card>
             </Col>
