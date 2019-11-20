@@ -134,7 +134,7 @@ const Duration = connectTo(
   function Duration({ event, config }) {
     let value = valueMissingPlaceholder;
     if (config) {
-      value = formatDurationAccurately(config.to - event.get('start'));
+      value = formatDurationAccurately(config.to - event.get('start'), 1000);
     }
 
     return <KpiCard title="Duration" value={value} raw />;
