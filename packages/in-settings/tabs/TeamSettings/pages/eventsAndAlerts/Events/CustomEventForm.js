@@ -978,7 +978,7 @@ const gracePeriodOptions = [
   { value: '1800000', label: '30 min' },
   { value: '3600000', label: '60 min' },
   { value: '5400000', label: '90 min' },
-  { value: '7200000', label: '2 h' },
+  { value: '7200000', label: '120 min' },
   { value: '14400000', label: '4 h' },
   { value: '21600000', label: '6 h' },
   { value: '43200000', label: '12 h' },
