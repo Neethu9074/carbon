@@ -976,12 +976,13 @@ const gracePeriodOptions = [
   { value: '300000', label: '5 min' },
   { value: '600000', label: '10 min' },
   { value: '1800000', label: '30 min' },
-  { value: '3600000', label: '1 hr' },
-  { value: '7200000', label: '2 hrs' },
-  { value: '14400000', label: '4 hrs' },
-  { value: '21600000', label: '6 hrs' },
-  { value: '43200000', label: '12 hrs' },
-  { value: '86400000', label: '24 hrs' }
+  { value: '3600000', label: '60 min' },
+  { value: '5400000', label: '90 min' },
+  { value: '7200000', label: '2 h' },
+  { value: '14400000', label: '4 h' },
+  { value: '21600000', label: '6 h' },
+  { value: '43200000', label: '12 h' },
+  { value: '86400000', label: '24 h' }
 ];
 
 const windowOptions = [
