@@ -125,7 +125,7 @@ export default function ViewSwitcher({
       {hasAnalyzeAccess && (
         <View
           id="main-nav-analyze"
-          label="Analyze"
+          label="Analytics"
           icon="lib_analyze_inverted"
           isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
           href$={
