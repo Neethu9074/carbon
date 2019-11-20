@@ -8,6 +8,7 @@ import { applicationId } from 'in-applications/navigation/matrix';
 import { trackUrlPathChanges } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { combineLatest, just } from 'reactive-observables';
+import { defaultWindowSize } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import { track } from 'in-services/tracking/tracking';
 import { urlQueryKeys } from 'in-stores/time/config';
@@ -33,7 +34,10 @@ export const v2UsageDurationTracker = createDurationTracker('hybrid.v2');
 export function init() {
   initMixpanelCore(mixpanelIsActive => {
     if (mixpanelIsActive) {
-      track('pageLoadOrPageReload');
+      let windowSize;
+      navigationParameters$.once(location => (windowSize = resolveWindowSize(location)));
+
+      track('pageLoadOrPageReload', { windowSize });
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -43,7 +47,6 @@ export function init() {
 function initUsageDurationTrackers() {
   trackV2UsageDuration();
   trackLiveModeUsageDuration();
-  trackWindowSizeUsageDuration();
   trackApplicationUsageDuration();
   trackServiceAndEndpointDashboardsVsServiceUsageDuration();
   trackDashboardAndTabUsageDuration();
@@ -69,19 +72,6 @@ function trackLiveModeUsageDuration() {
       );
       first = false;
       liveModeUsageDurationTracker.start();
-    });
-}
-
-function trackWindowSizeUsageDuration() {
-  let lastWindowSize = null;
-  const windowSizeUsageDurationTracker = createDurationTracker('time.windowSize');
-  navigationParameters$
-    .map(location => get(location, ['query', urlQueryKeys.windowSize], null))
-    .distinct()
-    .subscribe(windowSize => {
-      windowSizeUsageDurationTracker.stop(lastWindowSize ? { windowSize: lastWindowSize } : {});
-      lastWindowSize = windowSize;
-      windowSizeUsageDurationTracker.start();
     });
 }
 
@@ -238,13 +228,30 @@ function trackPathChanges() {
   }
 
   let prevPath = null;
+  let prevWindowSize = null;
   navigationParameters$.subscribe(location => {
+    const windowSize = resolveWindowSize(location);
     // We deliberately only want to track path changes while ignoring query / matrix parameter changes
+    if (location.pathname === prevPath && prevWindowSize === windowSize) {
+      return;
+    }
+
     if (location.pathname !== prevPath) {
       prevPath = location.pathname;
-      track('url.path.change');
     }
+    if (windowSize !== prevWindowSize) {
+      prevWindowSize = windowSize;
+    }
+    track('url.path.change', { windowSize });
   });
+}
+
+function resolveWindowSize(location) {
+  if (location.pathname.indexOf('/config') === 0) {
+    return;
+  }
+  // no windowSize in the URL means the default is taken
+  return get(location, ['query', urlQueryKeys.windowSize], defaultWindowSize);
 }
 
 function trackView() {
