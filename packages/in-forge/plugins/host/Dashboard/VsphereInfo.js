@@ -5,11 +5,11 @@ import {
   getVsphereHostDashboard,
   getVsphereVmDashboard
 } from 'in-vsphere/navigation/paths';
-import getVsphereDatacenterByVmUuid from 'in-vsphere/subscriptions/getVsphereDatacenterByVmUuid';
+import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import VsphereSnapshotLink from 'in-components/Link/SnapshotLink/VsphereSnapshotLink';
-import getVsphereHostByVmUuid from 'in-vsphere/subscriptions/getVsphereHostByVmUuid';
-import getVsphereVmByUuid from 'in-vsphere/subscriptions/getVsphereVmByUuid';
+import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
+import getVsphereVmByVmHost from 'in-vsphere/subscriptions/getVsphereVmByVmHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -17,9 +17,9 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   ({ snapshotId }) => {
     const datacenter$ = timeConfig$.flatMap(timeConfig =>
-      getVsphereDatacenterByVmUuid({
+      getVsphereDatacenterByVm({
         filter: {
-          vmUuid: snapshotId,
+          snapshotId: snapshotId,
           timeConfig
         }
       })
@@ -27,9 +27,9 @@ export default connectTo(
         .filter(Boolean)
     );
     const host$ = timeConfig$.flatMap(timeConfig =>
-      getVsphereHostByVmUuid({
+      getVsphereHostByVm({
         filter: {
-          vmUuid: snapshotId,
+          snapshotId: snapshotId,
           timeConfig
         }
       })
@@ -37,9 +37,9 @@ export default connectTo(
         .filter(Boolean)
     );
     const vm$ = timeConfig$.flatMap(timeConfig =>
-      getVsphereVmByUuid({
+      getVsphereVmByVmHost({
         filter: {
-          vmUuid: snapshotId,
+          snapshotId: snapshotId,
           timeConfig
         }
       })
