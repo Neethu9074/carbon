@@ -1,6 +1,17 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
+  .header {
+    .flexbox();
+    border-bottom: 1px solid @lib__colors__N300;
+    padding-bottom: 0.5rem;
+  }
+
+  .icon {
+    fill: @lib__colors__N500;
+  }
+
   .profile {
     padding: 0.5rem 0;
 

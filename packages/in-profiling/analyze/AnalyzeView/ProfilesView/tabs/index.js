@@ -19,7 +19,7 @@ export default [
     isFullWidth: true
   },
   {
-    label: 'Time',
+    label: 'Wait time',
     path: `${analyzeProfilePathFullyQualified}/time`,
     component: TimeProfile,
     isFullWidth: true

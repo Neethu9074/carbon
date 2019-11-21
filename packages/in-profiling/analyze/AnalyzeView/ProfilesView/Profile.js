@@ -1,6 +1,9 @@
 import React from 'react';
 
 import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNode';
+import ResultHeader from 'in-analyze/components/ResultHeader';
+import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
 
@@ -9,8 +12,30 @@ export default function Profile({ profile, isOnline, processSnapshot }) {
     return null;
   }
 
+  let totalNumSamples = 0;
+  for (let i = 0; i < profile.profileGraph.length; i++) {
+    totalNumSamples += countSamples(profile.profileGraph[i]);
+  }
+
   return (
     <>
+      <div className={locals.header}>
+        <ResultHeader
+          withoutMargin
+          itemType="Profile"
+          nbRows={profile.profileGraph.length}
+          nbItems={profile.profileGraph.length}
+        />
+        {totalNumSamples > 0 &&
+          totalNumSamples < 100000000 && (
+            <Tooltip
+              content={`There are only very few samples available for these profiles (${totalNumSamples} samples)`}
+              align="rightMiddle"
+            >
+              <SvgIcon className={locals.icon} type="lib_approximately_equal" />
+            </Tooltip>
+          )}
+      </div>
       {profile.profileGraph.map((profileNode, i) => (
         <div key={i} className={locals.profile}>
           <ProfileNode profileNode={profileNode} processSnapshot={processSnapshot} isOnline={isOnline} />
@@ -18,4 +43,16 @@ export default function Profile({ profile, isOnline, processSnapshot }) {
       ))}
     </>
   );
+}
+
+// export for test
+export function countSamples(profile) {
+  let totalSamples = profile.numSamples || 0;
+
+  const children = profile.children || [];
+  for (let i = 0; i < children.length; i++) {
+    totalSamples += countSamples(children[i]);
+  }
+
+  return totalSamples;
 }

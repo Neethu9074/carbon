@@ -40,6 +40,7 @@ export default function ProfileNode({ processSnapshot, isOnline, profileNode, de
               })}
             />
           )}
+          <PercentIndicator percent={profileNode.percent} />
           <span className={locals.methodName}>
             {`<`}
             {profileNode.methodName}
@@ -60,10 +61,6 @@ export default function ProfileNode({ processSnapshot, isOnline, profileNode, de
           >
             {profileNode.fileName}:{profileNode.fileLine}
           </span>
-        </div>
-        <div className={locals.kpiLine}>
-          <PercentIndicator percent={profileNode.percent} />
-          <span className={locals.samples}>{profileNode.numSamples} Samples</span>
         </div>
       </div>
 
@@ -102,7 +99,7 @@ function ChildProfiles({ depth, profiles, processSnapshot, isOnline }) {
       <div className={locals.children}>
         {profilesWithoutLast.map((childNode, i) => (
           <Fragment key={i}>
-            {i < profiles.length - 1 && <div className={locals.vline} />}
+            {i < profiles.length - 1 && <div className={locals.verticalLine} />}
             <ProfileNode
               processSnapshot={processSnapshot}
               isOnline={isOnline}
@@ -120,12 +117,12 @@ function ChildProfiles({ depth, profiles, processSnapshot, isOnline }) {
 
 function PercentIndicator({ percent }) {
   // the percentage is given with high accurancy. Cap to 2 decimal places therefore
-  percent = ((percent * 100) | 0) / 100;
+  const percentLabel = ((percent * 100) | 0) / 100;
 
   return (
     <div className={locals.percentWrapper}>
-      <div style={{ width: `${percent}%` }} className={locals.percent}>
-        {percent}%
+      <div style={{ width: percent }} className={locals.percent}>
+        {percentLabel}%
       </div>
     </div>
   );

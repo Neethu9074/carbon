@@ -34,7 +34,7 @@
     position: relative;
   }
 
-  .vline {
+  .verticalLine {
     position: absolute;
     top: -0.375rem;
     bottom: 0;
@@ -43,18 +43,13 @@
     background: @lib__colors__N400;
   }
 
-  .fileLine,
-  .kpiLine {
+  .fileLine {
     display: flex;
     align-items: center;
   }
 
   .fileLine {
-    max-width: ~'calc(100% - 20rem)';
-  }
-
-  .kpiLine {
-    width: 20rem;
+    max-width: 100%;
   }
 
   .expandIcon {
@@ -78,7 +73,6 @@
   }
 
   .at,
-  .samples,
   .fileName {
     color: @lib__colors__N500;
   }
@@ -94,10 +88,6 @@
     }
   }
 
-  .samples {
-    width: 8rem;
-  }
-
   .at {
     margin: 0 0.5rem;
   }
@@ -107,9 +97,9 @@
     flex-direction: row-reverse;
 
     height: 1rem;
-    width: 10rem;
+    min-width: 2.25rem;
 
-    margin-right: 2rem;
+    margin-right: 1rem;
   }
 
   .percent {
