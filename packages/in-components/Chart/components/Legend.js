@@ -44,6 +44,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
       {axis.labels.map((label, i) => {
         const isDisabled = filteredDataSeries && filteredDataSeries.has(label);
         const isToggleable = !axis.nonToggleableSeries || !axis.nonToggleableSeries.has(axis.metricIds[i]);
+
         const content = (
           <li
             key={label}

@@ -12,7 +12,7 @@ export default class extends React.PureComponent {
   static displayName = 'Tooltip';
 
   static propTypes = {
-    content: rpt.node.isRequired,
+    content: rpt.node,
     themeStyle: rpt.string,
     children: rpt.any.isRequired,
     align: rpt.oneOf([
@@ -88,7 +88,7 @@ export default class extends React.PureComponent {
     // For a tooltip with delay it can happen that the component for which we want to show the tooltip has been
     // unmounted since the mouseenter event. In these cases the dom node will be null.
     // (componentWillUnmount -> removeListeners)
-    if (this.domNode) {
+    if (this.domNode && this.props.content) {
       setActiveTooltip({
         focusedElement: this.domNode,
         content: this.props.content,

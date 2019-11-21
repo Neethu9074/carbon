@@ -3,17 +3,17 @@ import invariant from 'invariant';
 import bar from 'in-components/Chart/renderer/bar';
 
 export default {
-  render: ({ axis, dataSeries, colors, scale, config }) => {
+  render: ({ axis, colors, scale, config, metrics }) => {
     validateProps(config, colors);
 
     const xScale = config.scales.xBackBuffer;
     const yScale = config.scales.y1;
     const chartHeight = scale.getRangeFrom();
-    const chartWidth = xScale.getDomainTo();
+    const chartWidth = xScale.getRangeTo();
     const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
 
     // historical data
-    bar.render({ axis, dataSeries, color: colors[0], scale, config });
+    bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
 
     // Background above line
     config.backBufferCtx.fillStyle = colors[1];
@@ -36,6 +36,9 @@ export default {
     config.backBufferCtx.stroke();
 
     config.backBufferCtx.globalAlpha = 1;
+  },
+  enrich: (config, axis) => {
+    axis.valuesDependOnEachOther = true;
   }
 };
 

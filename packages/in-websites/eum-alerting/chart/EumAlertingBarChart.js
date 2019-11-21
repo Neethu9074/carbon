@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper.js';
+import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
@@ -8,8 +8,7 @@ import theme from 'in-themes';
 
 export default function EumAlertingBarChart({ threshold, timeConfig, tagFilters }) {
   return (
-    <WebsiteChartWrapper
-      isDebounced
+    <EumAlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
@@ -31,8 +30,10 @@ export default function EumAlertingBarChart({ threshold, timeConfig, tagFilters 
         },
         renderer: Renderer.errorsBarWithBaseline,
         formatter: number.forcedCompact,
-        labels: ['Historical data', 'Violations', 'Threshold'],
-        metricIds: ['errors']
+        labels: ['Historical data', 'Threshold', 'Violations'],
+        excludedLabelsFromTooltip: ['Violations'],
+        metricIds: ['errors', 'threshold'],
+        nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
       metricsConfiguration={{
         timeConfig,
