@@ -1,3 +1,4 @@
+import InfrastructureTabSubscript from './InfrastructureTabSubscript/InfrastructureTabSubscript';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
@@ -14,5 +15,6 @@ registerSnapshotDefinition({
   },
   technologyDescriptor: {
     label: 'AWS Lambda'
-  }
+  },
+  infrastructureTabSubscript: InfrastructureTabSubscript
 });

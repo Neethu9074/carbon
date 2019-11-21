@@ -8,6 +8,7 @@ import {
   isAppDataEntityType,
   isWebsiteEntityType
 } from 'in-services/entityUtils';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
@@ -56,7 +57,9 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
         <span className={locals.text}>{formatDateTime(start)}</span>
       </Td>
       <Td>
-        <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(end)}</span>
+        <span className={locals.text}>
+          {event.state === 'open' ? 'active' : start !== end ? formatDateTime(end) : valueMissingPlaceholder}
+        </span>
       </Td>
       <Td>
         <div className={locals.timelineWrapper}>

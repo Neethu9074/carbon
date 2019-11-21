@@ -127,7 +127,7 @@ function getTermsAndPrivacySettings(req) {
       },
       (error, response, termsAndPrivacySettings) => {
         if (error) {
-          reject(new Error('Failed to retrieve user settings form tos and privacy from ui-backend: ' + String(error)));
+          reject(new Error('Failed to retrieve user settings for tos and privacy from ui-backend: ' + String(error)));
         } else {
           resolve(termsAndPrivacySettings);
         }

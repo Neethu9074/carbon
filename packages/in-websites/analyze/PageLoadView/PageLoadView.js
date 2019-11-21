@@ -81,7 +81,7 @@ function Header(props) {
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb label={`Analyze ${dataSourceTitles[props.beaconType]}s`} href$={closePageLoadViewLink} />,
+          <Breadcrumb label={`${dataSourceTitles[props.beaconType]} Analytics`} href$={closePageLoadViewLink} />,
           props.pageLoadLabel && <Breadcrumb label="Page Load">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
         ].filter(Boolean)}
       />

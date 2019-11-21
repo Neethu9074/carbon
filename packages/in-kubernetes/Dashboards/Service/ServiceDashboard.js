@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import KubernetesServiceToInstanaServicesButton from 'in-kubernetes/components/KubernetesServiceToInstanaServicesButton';
+import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
+import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -101,6 +102,7 @@ function SubTypes({ result }) {
 }
 
 function Actions(props) {
+  const k8sServiceUid = get(props.result, ['data', 'uid']);
   return (
     <Fragment>
       <AnalyzeCallsButton
@@ -110,7 +112,39 @@ function Actions(props) {
         groupByTag={{ name: 'kubernetes.pod.name' }}
         timeConfig={props.timeConfig}
       />
-      <KubernetesServiceToInstanaServicesButton {...props} />
+      {k8sServiceUid && (
+        <EntityToInstanaServiceButton
+          {...props}
+          getServices={() =>
+            getApplicationServicesForKubernetesService({
+              kubernetesServiceUid: k8sServiceUid,
+              timeConfig: props.timeConfig,
+              order: {
+                by: 'callsAgg',
+                direction: 'DESC'
+              },
+              metrics: {
+                callsAgg: {
+                  metric: 'calls',
+                  aggregation: 'SUM'
+                },
+                latencyAgg: {
+                  metric: 'latency',
+                  aggregation: 'MEAN'
+                },
+                errorsAgg: {
+                  metric: 'errors',
+                  aggregation: 'MEAN'
+                },
+                maxSeverity: {
+                  metric: 'maxSeverity',
+                  aggregation: 'MAX'
+                }
+              }
+            })
+          }
+        />
+      )}
     </Fragment>
   );
 }

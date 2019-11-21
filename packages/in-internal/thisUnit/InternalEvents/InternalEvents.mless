@@ -1,0 +1,61 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 1rem;
+    background: #acbec3;
+  }
+
+  .header {
+    margin: 0 0 2rem;
+  }
+
+  .duration {
+    margin: 0 1rem 0 0;
+    min-width: 4rem;
+  }
+
+  .title {
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+
+  .text {
+    font-size: 0.85rem;
+  }
+
+  .logTitle {
+    margin: 0 0 1rem 0;
+    display: block;
+
+    font-family: @font-family-sans-serif;
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  .log {
+    overflow: auto;
+    max-height: 32rem;
+    display: block;
+
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #43565e;
+      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .loadMoreButton {
+    margin-top: 2rem;
+    background-color: @lib__colors__N200;
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -10,7 +10,7 @@ export default function AnalyzeTracesWorkspace(props) {
   const { filters, children } = props;
   return (
     <Fragment>
-      <Title title="Analyze Traces" />
+      <Title title="Trace Analytics" />
 
       <Sticky header={<AnalyzeHeader isGrouped={filters.group && !!filters.group.name} />}>
         <QueryBuilderWorkspace {...props} />

@@ -1,73 +1,14 @@
 import React from 'react';
-import Region from './Region.js';
-import Table from 'in-sdk/components/dashboard/Table';
-import { number } from 'in-services/formatters/number';
-import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 
-const cols = [
-  {
-    title: 'Region',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.name;
-      }
-    }
-  },
-  {
-    title: 'Total Requests',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `metrics.regions.${row.key}.tr`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Metadata Requests',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `metrics.regions.${row.key}.mr`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Document Count',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `metrics.regions.${row.key}.dc`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  }
-];
+import Region from 'in-forge/plugins/azureCosmosDb/Dashboard/Region';
+import { emptyMap, emptyList } from 'in-services/fixedImmutables';
+import ExpandableCard from 'in-new-components/ExpandableCard';
+
+import locals from './RegionsTable.mless';
 
 export default function RegionsTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-
   var regions = emptyList;
+  var databases = emptyList;
   var collections = emptyList;
   var statusCodes = emptyList;
   var resourceTypes = emptyList;
@@ -75,6 +16,7 @@ export default function RegionsTable({ snapshot, timeConfig }) {
   var rows = emptyList;
 
   const regionsMeta = 'meta.regions';
+  const databasesMeta = 'meta.databases';
   const collectionsMeta = 'meta.collections';
   const statusCodesMeta = 'meta.statusCodes';
   const resourceTypesMeta = 'meta.resourceTypes';
@@ -87,12 +29,13 @@ export default function RegionsTable({ snapshot, timeConfig }) {
         regions = regions.push(regionKey);
         rows = rows.push({
           key: regionKey,
-          name: snapshot.getIn(['data', 'meta.regions.' + regionKey]),
-          snapshotId: snapshotId,
-          snapshot: snapshot,
-          timeConfig: timeConfig
+          name: snapshot.getIn(['data', 'meta.regions.' + regionKey])
         });
       }
+    } else if (dataKey.startsWith(databasesMeta)) {
+      var databaseKey = dataKey.substring(databasesMeta.length + 1);
+      if (databaseKey.endsWith('__Empty') || databaseKey.endsWith('<empty>')) return;
+      if (!databases.has(databaseKey)) databases = databases.push(databaseKey);
     } else if (dataKey.startsWith(collectionsMeta)) {
       var collectionKey = dataKey.substring(collectionsMeta.length + 1);
       if (!collections.has(collectionKey)) collections = collections.push(collectionKey);
@@ -106,25 +49,20 @@ export default function RegionsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table
-      withoutPadding
-      cardTitle={`Regions (${rows.size})`}
-      cols={cols}
-      rows={rows.toArray()}
-      getRowDetails={getRowDetails}
-    />
+    <>
+      {rows.map(region => (
+        <ExpandableCard key={region.key} className={locals.card} title={region.name}>
+          <Region
+            snapshot={snapshot}
+            timeConfig={timeConfig}
+            region={region.key}
+            databases={databases}
+            collections={collections}
+            statusCodes={statusCodes}
+            resourceTypes={resourceTypes}
+          />
+        </ExpandableCard>
+      ))}
+    </>
   );
-
-  function getRowDetails(row) {
-    return (
-      <Region
-        snapshot={snapshot}
-        timeConfig={timeConfig}
-        region={row.key}
-        collections={collections}
-        statusCodes={statusCodes}
-        resourceTypes={resourceTypes}
-      />
-    );
-  }
 }

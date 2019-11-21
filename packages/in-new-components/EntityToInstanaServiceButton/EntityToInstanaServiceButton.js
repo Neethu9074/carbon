@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -9,48 +8,20 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-new-components/EntityWithType';
+import locals from './EntityToInstanaServiceButton.mless';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './KubernetesServiceToInstanaServicesButton.mless';
+export default connectTo(
+  ({ getServices }) => ({
+    instanaServices: getServices().map(result => result.data)
+  }),
+  EntityToInstanaServicesButton
+);
 
-export default connectTo(({ timeConfig, result }) => {
-  if (!result || !result.data) {
-    return {};
-  }
-  return {
-    instanaServices: getApplicationServicesForKubernetesService({
-      kubernetesServiceUid: result.data.uid,
-      timeConfig: timeConfig,
-      order: {
-        by: 'callsAgg',
-        direction: 'DESC'
-      },
-      metrics: {
-        callsAgg: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
-        },
-        maxSeverity: {
-          metric: 'maxSeverity',
-          aggregation: 'MAX'
-        }
-      }
-    }).map(result => result.data)
-  };
-}, KubernetesServiceToInstanaServicesButton);
-
-export function KubernetesServiceToInstanaServicesButton({ instanaServices }) {
+export function EntityToInstanaServicesButton({ instanaServices }) {
   if (!instanaServices || instanaServices.length === 0) {
     return null;
   }

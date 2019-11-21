@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { getOperatorLabel, getEntityLabel, entityTypes } from 'in-analyze/applicationFilter';
 import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import EntityIndicator from 'in-analyze/components/EntityIndicator';
+import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagFilter.mless';
@@ -27,17 +27,7 @@ export default function TagFilter({
   return (
     <div className={locals.tagFilterWrapper}>
       <div className={locals.tagFilter} onClick={tagFilter.onClick}>
-        <Tooltip
-          content={
-            entity !== entityTypes.NOT_APPLICABLE
-              ? `Call ${getEntityLabel(entity)}`
-              : 'Source and destination not applicable'
-          }
-          align="topMiddle"
-        >
-          <SvgIcon className={locals.icon} type={getIconByName(name, entity)} />
-        </Tooltip>
-
+        <EntityIndicator type={name} groupedByEntity={entity} />
         <span className={locals.name}>{name}</span>
         {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
         {value && <span className={locals.value}>{value}</span>}
@@ -71,30 +61,4 @@ export default function TagFilter({
       <SvgIcon className={locals.removeIcon} type="lib_openclose_cancel" onClick={tagFilter.onRemove} />
     </div>
   );
-}
-
-function getIconByName(type, entity = entityTypes.DESTINATION) {
-  if (type.includes('trace')) {
-    return 'lib_application_trace';
-  }
-  if (type.includes('call')) {
-    return 'lib_application_call';
-  }
-  if (entity === entityTypes.DESTINATION) {
-    return 'lib_application_call_destination';
-  }
-  if (entity === entityTypes.SOURCE) {
-    return 'lib_application_call_source';
-  }
-  if (type === 'application.name') {
-    return 'lib_application';
-  }
-  if (type === 'service.name') {
-    return 'lib_application_service';
-  }
-  if (type === 'endpoint.name') {
-    return 'lib_application_endpoint';
-  }
-
-  return 'lib_views_tag';
 }

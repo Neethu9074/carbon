@@ -12,6 +12,7 @@ import Landing from 'in-internal/components/Landing';
 
 // features available on customer units
 import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
+import InternalEvents from 'in-internal/thisUnit/InternalEvents/InternalEvents';
 import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import Agents from 'in-internal/thisUnit/Agents';
@@ -110,6 +111,7 @@ export default function Internal() {
           <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />
           <Route path="/internal/thisUnit/graphExplorer" component={wrapIninternalView(GraphExplorer)} />
           <Route path="/internal/thisUnit/snapshotVersions" component={wrapIninternalView(SnapshotVersions)} />
+          <Route path="/internal/thisUnit/internalEvents" component={wrapIninternalView(InternalEvents)} />
           <Route path="/internal/thisUnit/agents" component={Agents} />
         </Fragment>
 

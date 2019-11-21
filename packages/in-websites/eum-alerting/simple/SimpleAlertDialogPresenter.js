@@ -49,23 +49,22 @@ export default function SimpleAlertDialogPresenter({
               form={form}
               onChange={onChange}
               timeConfig={timeConfig}
-              setJsErrorsListVisible={SlideInConfig => {
-                setSlideInConfig(SlideInConfig);
-                setSlideInViewVisible(!!SlideInConfig);
-              }}
+              setJsErrorsListVisible={setSliderState(setSlideInConfig, setSlideInViewVisible)}
             />
           )}
           {step === steps.confirmDomain && (
-            <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} />
+            <SimpleAlertDialogStep2
+              form={form}
+              timeConfig={timeConfig}
+              websiteLabel={websiteLabel}
+              onChange={onChange}
+            />
           )}
           {step === steps.selectAlertingChannel && (
             <SimpleAlertDialogStep3
               form={form}
               onChange={onChange}
-              setAlertChannelsVisible={SlideInConfig => {
-                setSlideInConfig(SlideInConfig);
-                setSlideInViewVisible(!!SlideInConfig);
-              }}
+              setAlertChannelsVisible={setSliderState(setSlideInConfig, setSlideInViewVisible)}
             />
           )}
         </form>
@@ -100,6 +99,15 @@ SimpleAlertDialogPresenter.propTypes = {
   websiteLabel: PropTypes.string.isRequired,
   editMode: PropTypes.bool
 };
+
+function setSliderState(setSlideInConfig, setSlideInViewVisible) {
+  return ({ slideInConfig, isVisible }) => {
+    if (slideInConfig) {
+      setSlideInConfig(slideInConfig);
+    }
+    setSlideInViewVisible(isVisible);
+  };
+}
 
 function isLastStep(step, steps) {
   return step === Object.entries(steps).length - 1;

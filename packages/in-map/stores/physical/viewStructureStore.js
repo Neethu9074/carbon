@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { isRbacEnabled, unmonitoredHostsEnabled } from 'in-services/featureFlags';
-import createViewStructureObservable from 'in-subscription/view';
+import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';

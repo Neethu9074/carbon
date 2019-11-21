@@ -2,24 +2,25 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import {
-  getPodDashboard,
-  getNamespaceDashboard,
   getClusterDashboard,
-  getNodeDashboard
+  getNamespaceDashboard,
+  getNodeDashboard,
+  getPodDashboard,
+  getServiceDashboard
 } from 'in-kubernetes/navigation/paths';
 import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 'in-stores/snapshot';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
-import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -85,6 +86,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
                 autoRefresh: false
               })
       )}
+      subscriptComponent={<SubscriptComponentForSnapshot plugin={plugin} snapshot={snapshot} time={entity.time} />}
     />
   );
 });
@@ -552,4 +554,13 @@ function UnmonitoredEntity() {
       </div>
     </Tooltip>
   );
+}
+
+function SubscriptComponentForSnapshot({ plugin, snapshot, time }) {
+  const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
+  if (snapshotDefinition && typeof snapshotDefinition.infrastructureTabSubscript === 'function') {
+    const Subscript = snapshotDefinition.infrastructureTabSubscript;
+    return <Subscript snapshot={snapshot} time={time} />;
+  }
+  return null;
 }

@@ -1,5 +1,4 @@
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -7,15 +6,11 @@ import Card from 'in-new-components/Card';
 
 import locals from './ExpandableCard.mless';
 
-export default compose(withState('expanded', 'setExpanded', null))(ExpandableCard);
-
-function ExpandableCard({
+export default function ExpandableCard({
   title,
   preview,
   children,
   header,
-  expanded,
-  setExpanded,
   titleSubText,
   expansionTracker,
   bodyWithoutPadding,
@@ -23,7 +18,7 @@ function ExpandableCard({
   className,
   framed
 }) {
-  expanded = expanded != null ? expanded : openByDefault;
+  const [expanded, setExpanded] = useState(openByDefault);
 
   const rightSide = (
     <div className={locals.rightSide}>

@@ -44,6 +44,7 @@ export default class Node extends Subscriber {
     // edge case tweak: if there are no new children, remove all what is left
     if (newNodes.length === 0) {
       this.disposeChildren();
+      this.sceneObjectInstance.afterUpdateEntities();
       return;
     }
 
@@ -79,6 +80,8 @@ export default class Node extends Subscriber {
         this.addChild(entity.NodeType, entity.params);
       }
     }
+
+    this.sceneObjectInstance.afterUpdateEntities();
   }
 
   disposeChildren() {

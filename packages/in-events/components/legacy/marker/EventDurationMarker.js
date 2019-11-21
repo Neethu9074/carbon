@@ -47,7 +47,10 @@ export default connectTo(
     }
 
     return (
-      <LabeledValue label="duration">{`${formatDurationAccurately(config.to - event.get('start'))}`}</LabeledValue>
+      <LabeledValue label="duration">{`${formatDurationAccurately(
+        config.to - event.get('start'),
+        1000
+      )}`}</LabeledValue>
     );
   }
 );

@@ -513,8 +513,8 @@ function K8sHelmChartContent({ agentKey, region }) {
               `--set agent.key=${agentKey} \\`,
               `--set agent.endpointHost=saas-${region}.instana.io \\`,
               '--set agent.endpointPort=443 \\',
-              `--set cluster.name='${clusterName}'`,
-              `--set zone.name='${zoneName}'`,
+              `--set cluster.name='${clusterName}' \\`,
+              `--set zone.name='${zoneName}' \\`,
               'stable/instana-agent'
             ]}
           />

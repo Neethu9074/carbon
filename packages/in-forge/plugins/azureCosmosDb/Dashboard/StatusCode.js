@@ -1,7 +1,8 @@
 import React from 'react';
+
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyList } from 'in-services/fixedImmutables';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
 
 export default function StatusCode({ snapshot, timeConfig, collection, statusCodes }) {
   const snapshotId = snapshot.get('id');

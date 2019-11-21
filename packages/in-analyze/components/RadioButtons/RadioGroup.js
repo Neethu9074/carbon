@@ -14,7 +14,7 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
   }
   return (
     <Fragment>
-      <span>Apply to call source or destination</span>
+      <span className={locals.textLabel}>Apply to call source or destination</span>
       <div className={locals.inputGroup}>
         <label
           className={evaluateClassNames({

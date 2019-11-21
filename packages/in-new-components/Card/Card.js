@@ -42,25 +42,8 @@ export default function Card({
         {...headerProps}
       >
         <div className={locals.title}>
-          <span
-            className={evaluateClassNames({
-              [locals.nonClickable]: isInteractiveCard
-            })}
-            onClick={onClickPrevented}
-          >
-            {title}
-          </span>
-          {titleSubText && (
-            <span
-              className={evaluateClassNames({
-                [locals.titleSubText]: true,
-                [locals.nonClickable]: isInteractiveCard
-              })}
-              onClick={onClickPrevented}
-            >
-              {titleSubText}
-            </span>
-          )}
+          {title}
+          {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
         </div>
         <div
           className={evaluateClassNames({

@@ -1,7 +1,8 @@
 import React from 'react';
-import Collection from './Collection.js';
-import { number } from 'in-services/formatters/number';
+
+import Collection from 'in-forge/plugins/azureCosmosDb/Dashboard/Collection';
 import { emptyList } from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -48,12 +49,20 @@ const cols = [
   }
 ];
 
-export default function CollectionsTable({ snapshot, timeConfig, region, collections, statusCodes, resourceTypes }) {
+export default function CollectionsTable({
+  snapshot,
+  timeConfig,
+  region,
+  database,
+  collections,
+  statusCodes,
+  resourceTypes
+}) {
   const snapshotId = snapshot.get('id');
 
   var rows = emptyList;
   collections.map(coll => {
-    if (coll.startsWith(region)) {
+    if (coll.startsWith(database == null ? region : database)) {
       rows = rows.push({
         key: coll,
         name: snapshot.getIn(['data', 'meta.collections.' + coll]),
@@ -79,7 +88,6 @@ export default function CollectionsTable({ snapshot, timeConfig, region, collect
       <Collection
         snapshot={snapshot}
         timeConfig={timeConfig}
-        region={region}
         collection={row.key}
         statusCodes={statusCodes}
         resourceTypes={resourceTypes}

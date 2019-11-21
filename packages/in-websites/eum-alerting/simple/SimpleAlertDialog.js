@@ -76,23 +76,25 @@ function createAlert(form, setForm, onClose, editMode) {
 function toAlertConfigObject(form) {
   return Object.freeze({
     rule: {
-      alertType: form.get(fieldNames.alertType).value,
-      operator: form.get(fieldNames.operator).value,
-      value: form.get(fieldNames.value).value
+      alertType: form.get(fieldNames.ruleAlertType).value,
+      operator: form.get(fieldNames.ruleOperator).value,
+      value: form.get(fieldNames.ruleValue).value,
+      metricName: form.get(fieldNames.ruleMetricName).value
     },
     tagFilters: form.get(fieldNames.tagFilters).value,
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     severity: form.get(fieldNames.severity).value,
-    description: `JS Errors which ${operatorDescriptionValues[form.get(fieldNames.operator).value]} "${
-      form.get(fieldNames.value).value
+    description: `JS Errors which ${operatorDescriptionValues[form.get(fieldNames.ruleOperator).value]} "${
+      form.get(fieldNames.ruleValue).value
     }" have been detected.`,
-    name: `JS Error(s): ${form.get(fieldNames.value).value}`,
+    name: `JS Error(s): ${form.get(fieldNames.ruleValue).value}`,
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
       type: form.get(fieldNames.thresholdType).value,
-      value: form.get(fieldNames.thresholdValue).value
+      value: form.get(fieldNames.thresholdValue).value,
+      operator: form.get(fieldNames.thresholdOperator).value
     }
   });
 }

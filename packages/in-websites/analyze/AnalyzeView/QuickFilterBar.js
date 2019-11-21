@@ -18,12 +18,13 @@ export default function QuickFilterBar(props) {
     showSubdivisionSelector,
     showWindowWidthSelector,
     removeBarPadding,
-    removeBarBackgroundColor
+    removeBarBackgroundColor,
+    hideClearFiltersButton
   } = props;
 
   return (
     <Bar
-      showClearFilters={tagFilters.length - implicitTagFilters.length > 0}
+      showClearFilters={hideClearFiltersButton ? false : tagFilters.length - implicitTagFilters.length > 0}
       onClearFilters={clearTagFilters}
       removePadding={removeBarPadding}
       removeBackgroundColor={removeBarBackgroundColor}

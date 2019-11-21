@@ -195,6 +195,46 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
           <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
           <BundleList snapshot={snapshot} />
 
+          <DashboardSection title="Tracer StringBuilder Pools">
+            <ChartExplanation>
+              The Java and PHP Tracer use pooled StringBuilder instances to process incoming spans. If the created and
+              released metrics are not zero the pools are full. StringBuilder instances are created (and released) on on
+              demand then. Also StringBuilder instances which grew over 8 MB are not pooled, but immediately released.
+              Both scenarios might lead to increased heap usage and GC pressure.
+            </ChartExplanation>
+            <Columize>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['java.sbc', 'java.sbr', 'php.sbc', 'php.sbr'],
+                  labels: ['Created (Java)', 'Released (Java)', 'Created (PHP)', 'Released (PHP)'],
+                  type: 'line',
+                  formatter: number.compact
+                }}
+              />
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['java.sbmuc', 'java.sbmc', 'java.sbtc', 'php.sbmuc', 'php.sbmc', 'php.sbtc'],
+                  labels: [
+                    'Max Used Capacity (Java)',
+                    'Max Capacity (Java)',
+                    'Total Capacity (Java)',
+                    'Max Used Capacity (PHP)',
+                    'Max Capacity (PHP)',
+                    'Total Capacity (PHP)'
+                  ],
+                  type: 'line',
+                  formatter: bytesZeroDecimalPlaces
+                }}
+              />
+            </Columize>
+          </DashboardSection>
+
           <DashboardSection title="Spans">
             <Chart
               snapshotId={snapshotId}

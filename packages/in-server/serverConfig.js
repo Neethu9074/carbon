@@ -11,8 +11,10 @@ const possibleConfigFileLocations = [
 
 const configFileContent = getConfigFileContent();
 if (!configFileContent) {
-  throw new Error(`Could not locate existing/readable config file at any of the checkable locations. ` +
-    `Checked: ${possibleConfigFileLocations.join(', ')}`);
+  throw new Error(
+    `Could not locate existing/readable config file at any of the checkable locations. ` +
+      `Checked: ${possibleConfigFileLocations.join(', ')}`
+  );
 }
 module.exports = yaml.safeLoad(configFileContent);
 
@@ -22,7 +24,9 @@ function getConfigFileContent() {
 
     try {
       // checks existence and readability at once
-      return fs.readFileSync(location, {encoding: 'utf8'});
+      const configFile = fs.readFileSync(location, { encoding: 'utf8' });
+      console.log('Will start with config file from: ' + location);
+      return configFile;
     } catch (e) {
       continue;
     }

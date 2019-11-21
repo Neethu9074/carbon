@@ -2,8 +2,6 @@ import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/st
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';
 import { setTooltip, clear as clearTooltip } from 'in-map/stores/tooltipStore';
-import connections from 'in-map/stores/connectionsStore';
-import { emptyArray } from 'in-services/fixedObjects';
 import { Raycaster } from 'in-map/3DLibProvider';
 
 export default class RayCasterDecorator extends Decorator {
@@ -15,11 +13,8 @@ export default class RayCasterDecorator extends Decorator {
 
     this.map = map;
 
-    this.currentConnections = emptyArray;
-
     this.addProperty('lastHitten', {
-      object: null,
-      connections: emptyArray
+      object: null
     });
     this.addProperty('getObjectOnCursor', this.getObjectOnCursor.bind(this));
     this.addProperty('getPointOfImpact', this.getPointOfImpact.bind(this));
@@ -32,16 +27,7 @@ export default class RayCasterDecorator extends Decorator {
   initEvents() {
     super.initEvents();
 
-    this.addSubscriptions([
-      this.eventEmitter.on('onMouseMoved').subscribe(() => this.handleRayCasting()),
-
-      // each time a connection is created, this one fires. To avoid massive Object->Array mappings
-      // debounce this stream
-      connections.stream.debounce(100).subscribe(_connections => {
-        this.currentConnections = [];
-        _connections.forEach(c => this.currentConnections.push(c));
-      })
-    ]);
+    this.addSubscriptions([this.eventEmitter.on('onMouseMoved').subscribe(() => this.handleRayCasting())]);
   }
 
   handleRayCasting() {
@@ -49,13 +35,11 @@ export default class RayCasterDecorator extends Decorator {
 
     // save the old state to compare with new data
     const lastHittenObject = lastHitten.object;
-    const lastHoveredConnections = lastHitten.connections;
 
-    const { hittenObject, hoveredConnections } = this.cameraController.getObjectOnCursor();
+    const { hittenObject } = this.cameraController.getObjectOnCursor();
 
     // replace with the new data
     lastHitten.object = hittenObject;
-    lastHitten.connections = hoveredConnections;
 
     if (lastHittenObject !== hittenObject) {
       if (hittenObject) {
@@ -67,16 +51,6 @@ export default class RayCasterDecorator extends Decorator {
       }
       return;
     }
-
-    if (lastHoveredConnections.length !== hoveredConnections.length) {
-      if (hoveredConnections.length > 0) {
-        setHighlightedEntityId(hoveredConnections[0].id);
-        setTooltip(hoveredConnections);
-      } else {
-        clearHighlightedEntityId();
-        clearTooltip();
-      }
-    }
   }
 
   getObjectOnCursor() {
@@ -87,14 +61,9 @@ export default class RayCasterDecorator extends Decorator {
 
     // find the hitten object
     const hittenObject = PhysicsServiceLocator.checkRaycaster(this.raycaster);
-    const hoveredConnections = hittenObject
-      ? emptyArray
-      : // don't calculate if another object than a connection was hitten
-        this.currentConnections.filter(connection => connection.intersects(this.raycaster));
 
     return {
-      hittenObject,
-      hoveredConnections
+      hittenObject
     };
   }
 

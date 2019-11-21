@@ -16,16 +16,16 @@ import locals from './ProvideManualPattern.mless';
 export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (
     <div className={locals.container}>
-      {form.get(fieldNames.operator).map(field => (
+      {form.get(fieldNames.ruleOperator).map(field => (
         <FormGroup>
-          <Label htmlFor={fieldNames.operator} hasError={!field.valid && field.touched}>
+          <Label htmlFor={fieldNames.ruleOperator} hasError={!field.valid && field.touched}>
             Error Message
           </Label>
           <ComboBox
-            name={fieldNames.operator}
+            name={fieldNames.ruleOperator}
             value={field.value}
             options={getOperators()}
-            onChange={e => onChange(form, fieldNames.operator, (e && e.value) || '')}
+            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '')}
             defaultValue={getOperators()[0].value}
             searchable
             autoFocus
@@ -33,34 +33,35 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-      {form.get(fieldNames.value).map(field => (
+      {form.get(fieldNames.ruleValue).map(field => (
         <FormGroup>
-          <Label htmlFor={fieldNames.value} hasError={!field.valid && field.touched}>
+          <Label htmlFor={fieldNames.ruleValue} hasError={!field.valid && field.touched}>
             String
           </Label>
           <div className={locals.jsErrorSelection}>
             <TextArea
-              name={fieldNames.value}
+              name={fieldNames.ruleValue}
               rows="3"
               value={field.value}
-              onChange={e => onChange(form, fieldNames.value, (e && e.target.value) || '')}
+              onChange={e => onChange(form, fieldNames.ruleValue, (e && e.target.value) || '')}
               hasError={!field.valid && field.touched}
               maxLength={65536}
             />
             <Button
               onClick={() =>
                 onSelectJsError({
-                  component: (
-                    <JsErrorsList
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      slideOut={() => {
-                        onSelectJsError(null);
-                      }}
-                    />
-                  ),
-                  title: 'Select JS Error'
+                  slideInConfig: {
+                    component: (
+                      <JsErrorsList
+                        form={form}
+                        timeConfig={timeConfig}
+                        onChange={onChange}
+                        slideOut={() => onSelectJsError({ isVisible: false })}
+                      />
+                    ),
+                    title: 'Select JS Error'
+                  },
+                  isVisible: true
                 })
               }
             >

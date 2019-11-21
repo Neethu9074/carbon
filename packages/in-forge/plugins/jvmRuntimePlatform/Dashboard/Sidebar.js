@@ -13,12 +13,7 @@ export default function JvmRuntimeSidebar({ snapshot }) {
 
   return (
     <div>
-      <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>App</Collapsible.Header>
-        <Collapsible.Content>
-          <AppInfo snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
+      <AppInfo snapshot={snapshot} />
 
       <Collapsible initiallyOpen>
         <Collapsible.Header>JVM</Collapsible.Header>

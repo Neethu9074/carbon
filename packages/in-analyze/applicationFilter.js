@@ -10,6 +10,13 @@ export const APPLICATION = {
   label: 'Application'
 };
 
+export const APPLICATION_INBOUND = {
+  id: applicationId,
+  name: 'call.inbound_of_application',
+  technicalName: 'call.inbound_of_application',
+  label: 'Application Inbound'
+};
+
 export const SERVICE = {
   id: serviceId,
   name: 'service.name',
@@ -44,6 +51,13 @@ export const entityTypes = {
   DESTINATION: 'DESTINATION',
   SOURCE: 'SOURCE',
   NOT_APPLICABLE: 'NOT_APPLICABLE'
+};
+
+export const entityTypesLUT = {
+  SOURCE_AND_DESTINATION: 'Source & Destination',
+  DESTINATION: 'Destination',
+  SOURCE: 'Source',
+  NOT_APPLICABLE: ''
 };
 
 export const operatorBlacklists = {
@@ -148,6 +162,10 @@ const operatorLabelLUT = {
 
 export function getEntityLabel(entity) {
   return get(entityTypes, [entity]);
+}
+
+export function getEntityLabelLUT(entity) {
+  return get(entityTypesLUT, [entity]);
 }
 
 export function getOperatorLabel(type, operator) {

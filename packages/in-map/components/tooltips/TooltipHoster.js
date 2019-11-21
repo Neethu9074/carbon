@@ -1,36 +1,27 @@
 import React from 'react';
 
-import Connections from 'in-map/components/tooltips/physical/Connections';
-import { view$, types as views } from 'in-stores/view';
 import { tooltip$ } from 'in-map/stores/tooltipStore';
 import { canvas$ } from 'in-map/stores/indexStore';
 import connectTo from 'in-hoc/connectTo';
+import { view$ } from 'in-stores/view';
 
 export default connectTo(
   {
-    entities: tooltip$.distinct(),
+    entity: tooltip$.distinct(),
     canvas: canvas$,
     view: view$
   },
-  function TooltipHoster({ entities, view, canvas }) {
-    if (!entities || !canvas) {
+  function TooltipHoster({ entity, canvas }) {
+    if (!entity || !canvas) {
       return null;
     }
 
-    // if it's a connection tooltip
-    if (entities.length > 0) {
-      if (view === views.physical) {
-        return <Connections entity={entities} canvas={canvas} />;
-      }
-      return null;
-    }
-
-    let Tooltip = entities.getComponent('tooltip');
+    let Tooltip = entity.getComponent('tooltip');
     if (!Tooltip) {
       return null;
     }
     Tooltip = Tooltip.getTooltipClass();
 
-    return <Tooltip entity={entities} canvas={canvas} />;
+    return <Tooltip entity={entity} canvas={canvas} />;
   }
 );

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
@@ -24,6 +25,8 @@ export default function Summary({ timeConfig, data: node }) {
 
   return (
     <Fragment>
+      <MissingK8sAppsPermissions nodeId={node.id} timeConfig={timeConfig} />
+
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
           title="Status"

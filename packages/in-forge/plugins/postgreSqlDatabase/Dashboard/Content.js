@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ReplicationsTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/ReplicationsTable';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -10,7 +9,9 @@ import MetricValue from 'in-components/MetricValue';
 import {
   activityZeroDecimalPlaces,
   zeroDecimalPlaces,
-  percentageTwoDecimalPlaces
+  percentageTwoDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  seconds
 } from 'in-services/formatters/number';
 
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
@@ -18,6 +19,8 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
+
+  const isSlave = snapshot.getIn(['data', 'type'], 'Master') === 'Slave';
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -56,8 +59,29 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      {isSlave && (
+        <DashboardSection title="Replication Delay">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: ['replication_stats.replication_delay_bytes'],
+              labels: ['In Bytes'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: seconds.fixedCompact,
+              metrics: ['replication_stats.replication_delay_seconds'],
+              labels: ['In Seconds'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      )}
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ReplicationsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
