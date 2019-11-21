@@ -9,6 +9,7 @@ import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
 import { meanLatencyFixed, percentage, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import Link from 'in-components/Link';
 import connect from 'in-hoc/connectTo';
 
@@ -118,6 +119,7 @@ function ViewAll({ applicationName, serviceName, endpointName, selectedMetric },
         applicationName,
         serviceName,
         endpointName,
+        boundaryScope: boundaryScopes.all,
         dataSource: 'traces',
         orderBy: `${selectedMetric}Agg`,
         orderDirection: 'DESC'
@@ -136,6 +138,7 @@ function Label({ item, applicationName, serviceName, endpointName }, className) 
         applicationName,
         serviceName,
         endpointName,
+        boundaryScope: boundaryScopes.all,
         groupByTag: {},
         dataSource: 'traces',
         filters: [{ name: 'trace.endpoint.name', value: item.name }]

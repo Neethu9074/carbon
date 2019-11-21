@@ -74,6 +74,8 @@ import './log';
 import './mail.javamail';
 import './memcache';
 import './memcached';
+import './micronaut.http.client';
+import './micronaut.http';
 import './missing';
 import './mongo';
 import './msmq';

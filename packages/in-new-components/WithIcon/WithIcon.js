@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
-import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './WithIcon.mless';
 

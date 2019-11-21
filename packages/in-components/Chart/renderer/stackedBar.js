@@ -36,10 +36,10 @@ export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth,
 function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSeries) {
   const chartHeight = scale.getRangeFrom();
 
-  config.backBufferCtx.beginPath();
   config.backBufferCtx.globalAlpha = 1.0;
 
-  const startIndex = shouldSkipFirstDataPoint(block[0], config.scales.xBackBuffer, barWidth) ? 1 : 0;
+  const startIndex =
+    !config.includeFirstDataPoint && shouldSkipFirstDataPoint(block[0], config.scales.xBackBuffer, barWidth) ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
     if (!dataPoint) {
@@ -61,16 +61,12 @@ function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSerie
 
     config.backBufferCtx.fillStyle = color;
     config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, barHeight);
-    config.backBufferCtx.fill();
 
     if (!isLastSeries) {
       config.backBufferCtx.fillStyle = '#fff';
       config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, 1);
-      config.backBufferCtx.fill();
     }
   }
-
-  config.backBufferCtx.closePath();
 }
 
 // For the very first set of blocks, skip the first (which would be half a bar), but for next sets start from 0

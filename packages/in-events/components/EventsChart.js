@@ -49,6 +49,7 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
         timeConfig={timeConfig}
         granularity={granularity}
         snapHighlightingToMetricBars
+        includeFirstDataPoint
         y1={{
           renderer: Renderer.stackedBar,
           formatter: number.forcedCompact,

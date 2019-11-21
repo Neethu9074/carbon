@@ -32,7 +32,7 @@ export function getLinkToAnalyze({
   applicationName,
   serviceName,
   endpointName,
-  boundaryScope,
+  boundaryScope = boundaryScopes.inbound,
   dataSource = 'traces',
   filters,
   groupByTag, // use an empty object to prevent default grouping

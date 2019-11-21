@@ -5,6 +5,7 @@ import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { boundaryScopes } from 'in-applications/constants';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 
@@ -28,6 +29,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointLabel,
+        boundaryScope: boundaryScopes.all,
         dataSource: 'calls',
         filters: [{ name: 'call.database.statement', operator: 'equals', value: statement.statement }],
         groupByTag: {}
