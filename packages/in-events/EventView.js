@@ -148,11 +148,18 @@ function EventViewComponent(props) {
 
 function concatQueries(userQuery, eventFilter) {
   if (userQuery && eventFilter) {
-    return `(${userQuery}) AND (event.type:${eventFilter})`;
+    return `(${userQuery}) AND (${getExplicitEventFilter(eventFilter)})`;
   } else if (!userQuery && eventFilter) {
-    return `event.type:${eventFilter}`;
+    return getExplicitEventFilter(eventFilter);
   } else if (userQuery && !eventFilter) {
     return userQuery;
   }
   return '';
+}
+
+function getExplicitEventFilter(eventFilter) {
+  if (eventFilter === 'change') {
+    return 'event.type:change OR event.type:offline OR (event.type:online)';
+  }
+  return `event.type:${eventFilter}`;
 }
