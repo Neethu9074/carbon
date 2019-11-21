@@ -5,7 +5,7 @@ import {
   twoDecimalPlaces,
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces,
-  percentagePlain
+  percentage
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -22,7 +22,7 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="mem.all_heaps" formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label="% Time in GC">
-          <MetricValue snapshotId={snapshotId} metric="mem.time_in_gc" formatter={twoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="mem.time_in_gcn" formatter={percentage.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Contention-Rate">
           <MetricValue snapshotId={snapshotId} metric="threads.lck_crs" formatter={twoDecimalPlaces} />
@@ -45,12 +45,12 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
           }}
           y2={{
             min: 0,
-            max: 100,
-            metrics: ['mem.time_in_gc'],
+            max: 1,
+            metrics: ['mem.time_in_gcn'],
             labels: ['Time spent in GC'],
             type: 'line',
-            formatter: percentagePlain.compact,
-            tooltipFormatter: percentagePlain.detailed
+            formatter: percentage.compact,
+            tooltipFormatter: percentage.detailed
           }}
         />
       </DashboardSection>
