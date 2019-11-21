@@ -37,6 +37,15 @@ const livePresets = [
   {
     windowSize: hour * 24,
     to: null
+  },
+  {
+    windowSize: sevenDays,
+    to: null
+  },
+  {
+    windowSize: hour * 24 * 31,
+    to: null,
+    label: 'Last 31 days'
   }
 ].filter(Boolean);
 
