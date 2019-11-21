@@ -8,7 +8,13 @@ import locals from './GroupingTableHeader.mless';
 export default function GroupingTableHeader(props) {
   return (
     <div className={locals.wrapper}>
-      <ResultHeader {...props} nbRows={props.totalHits} withoutMargin />
+      <ResultHeader
+        {...props}
+        itemType="Row"
+        nbRows={props.totalHits}
+        nbItems={props.totalRepresentedItemCount}
+        withoutMargin
+      />
 
       <div>
         {props.openMetricSelector && (

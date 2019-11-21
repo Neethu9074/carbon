@@ -1,0 +1,122 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .row,
+  .firstRow {
+    .flexbox();
+    justify-content: space-between;
+
+    padding: 0.25rem 0;
+  }
+
+  .row {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: -0.375rem;
+      left: -0.5rem;
+
+      width: 0.5rem;
+      height: 1.25rem;
+
+      border-bottom: 1px solid @lib__colors__N400;
+      border-left: 1px solid @lib__colors__N400;
+      content: '';
+    }
+  }
+  .childrenWrapper {
+    padding-left: 1rem;
+  }
+
+  .children {
+    position: relative;
+  }
+
+  .vline {
+    position: absolute;
+    top: -0.375rem;
+    bottom: 0;
+    width: 1px;
+    left: -0.5rem;
+    background: @lib__colors__N400;
+  }
+
+  .fileLine,
+  .kpiLine {
+    display: flex;
+    align-items: center;
+  }
+
+  .fileLine {
+    max-width: ~'calc(100% - 20rem)';
+  }
+
+  .kpiLine {
+    width: 20rem;
+  }
+
+  .expandIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__primary1;
+  }
+
+  .iconPlaceHolder {
+    width: 1.625rem;
+    height: 0.25rem;
+    margin-right: 0.125rem;
+  }
+
+  .iconPlaceHolderWithLine {
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+
+  .methodName {
+    color: @lib__colors__N900Primary;
+    .ellipsis();
+  }
+
+  .at,
+  .samples,
+  .fileName {
+    color: @lib__colors__N500;
+  }
+
+  .fileName {
+    .ellipsis();
+  }
+
+  .fileNameWithSourceCode {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .samples {
+    width: 8rem;
+  }
+
+  .at {
+    margin: 0 0.5rem;
+  }
+
+  .percentWrapper {
+    .flexbox();
+    flex-direction: row-reverse;
+
+    height: 1rem;
+    width: 10rem;
+
+    margin-right: 2rem;
+  }
+
+  .percent {
+    .flexbox();
+    flex-direction: row-reverse;
+
+    padding: 0.125rem;
+    background: @lib__colors__faded-blue800;
+  }
+}

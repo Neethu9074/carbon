@@ -29,4 +29,14 @@
       border-bottom: 3px solid @lib__colors__cyan800;
     }
   }
+
+  .disabledTab {
+    color: @lib__colors__N400;
+    cursor: not-allowed;
+
+    &:hover {
+      border-bottom: 3px solid transparent;
+      color: @lib__colors__N400;
+    }
+  }
 }

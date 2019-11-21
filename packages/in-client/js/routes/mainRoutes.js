@@ -3,7 +3,7 @@ import React from 'react';
 
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, customDashboardsEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, customDashboardsEnabled, vsphereEnabled, profilingEnabled } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
@@ -19,6 +19,7 @@ import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
+import profilingRoutes from 'in-profiling/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
@@ -49,6 +50,8 @@ export default (
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
     {integrationRoutes}
+
+    {profilingEnabled && profilingRoutes}
 
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
     {/* landing page */}

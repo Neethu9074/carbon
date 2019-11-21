@@ -161,5 +161,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.vsphere.enabled',
     consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'profilingEnabled',
+    instanaCtlKey: 'feature.profiling.enabled',
+    consulKey: `settings/${tenant}-${unit}/PROFILING_ENABLED`,
+    defaultValue: false
   }
 ];

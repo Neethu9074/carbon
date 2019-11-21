@@ -92,6 +92,14 @@ export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
 
+export const PROFILES_ANALYZE_FILTER_ADD = 'profiles.analyze.filter.add';
+export const PROFILES_ANALYZE_FILTER_CHANGE = 'profiles.analyze.filter.change';
+export const PROFILES_ANALYZE_FILTER_CLEAR = 'profiles.analyze.filter.clear';
+export const PROFILES_ANALYZE_FILTER_REMOVE = 'profiles.analyze.filter.remove';
+export const PROFILES_ANALYZE_FILTER_SET = 'profiles.analyze.filter.set';
+export const PROFILES_ANALYZE_GROUP_REMOVE = 'profiles.analyze.group.remove';
+export const PROFILES_ANALYZE_GROUP_SET = 'profiles.analyze.group.set';
+
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboarding.instana.beginner.videos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboarding.help.and.support.clicked';
 export const ONBOARDING_MAIN_TOPIC_CHANGED = 'onboarding.main.topic.changed';

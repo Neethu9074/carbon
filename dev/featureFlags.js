@@ -29,5 +29,6 @@ module.exports = {
   eumAlertingEnabled: true,
   googleAnalyticsDisabled: false,
   vsphereEnabled: true,
+  profilingEnabled: true,
   mobileAppMonitoringEnabled: true
 };

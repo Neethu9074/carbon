@@ -42,11 +42,12 @@ export const splunkEnabled = isFeatureFlagEnabled('splunkEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled');
-export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled');
-export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled');
-export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled');
-export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
+export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
+export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
+export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
+export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
+export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 
 // ########################################################################################

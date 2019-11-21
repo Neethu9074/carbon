@@ -4,17 +4,21 @@ import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
+import {
+  websiteMonitoringPath,
+  getLinkToAnalyze as getLinkToWebsiteAnalyze,
+  isAnalyzeView as isWebsiteAnalyzeView
+} from 'in-websites/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { isAnalyzeView as isProfileAnalyzeView } from 'in-profiling/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -127,7 +131,7 @@ export default function ViewSwitcher({
           id="main-nav-analyze"
           label="Analytics"
           icon="lib_analyze_inverted"
-          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
+          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isProfileAnalyzeView)}
           href$={
             hasApplicationsAccess
               ? getLinkToAnalyze({

@@ -33,6 +33,7 @@ export default function Header({
                 tab={tab}
                 location={location}
                 props={props}
+                result={result}
                 tabChangeTracker={tabChangeTracker}
               />
             ))}
@@ -48,9 +49,24 @@ function UseFullAvailableWidth({ children }) {
   return <div className={locals.fullWidthWrapper}>{children}</div>;
 }
 
-function TabComponent({ tab, location, props, tabChangeTracker }) {
+function TabComponent({ tab, result, location, props, tabChangeTracker }) {
   const isActive = location && location.pathname.indexOf(tab.path) === 0;
   const Header = tab.header || DefaultHeader;
+  const isTabDisabled = !!(tab.isTabDisabled && tab.isTabDisabled(result));
+
+  const tabContent = (
+    <Tab key={tab.label} isSelected={isActive} isDisabled={isTabDisabled}>
+      <div className={locals.flexWrapper}>
+        {tab.icon && <SvgIcon className={locals.icon} type={tab.icon} />}
+        <Header tab={tab} {...props} />
+      </div>
+    </Tab>
+  );
+
+  if (isTabDisabled) {
+    return tabContent;
+  }
+
   return (
     <Link
       className={evaluateClassNames({
@@ -68,12 +84,7 @@ function TabComponent({ tab, location, props, tabChangeTracker }) {
         }
       }}
     >
-      <Tab key={tab.label} isSelected={isActive}>
-        <div className={locals.flexWrapper}>
-          {tab.icon && <SvgIcon className={locals.icon} type={tab.icon} />}
-          <Header tab={tab} {...props} />
-        </div>
-      </Tab>
+      {tabContent}
     </Link>
   );
 }
