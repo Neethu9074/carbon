@@ -62,7 +62,7 @@ export function getIconByType(type) {
   } else if (type === 'custom') {
     return 'lib_website_custom';
   } else if (type === 'profiles') {
-    return 'lib_application_call';
+    return 'lib_profiling';
   }
 }
 
