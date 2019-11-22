@@ -5,8 +5,6 @@
   .row,
   .firstRow {
     .flexbox();
-    justify-content: space-between;
-
     padding: 0.25rem 0;
   }
 
@@ -41,15 +39,6 @@
     width: 1px;
     left: -0.5rem;
     background: @lib__colors__N400;
-  }
-
-  .fileLine {
-    display: flex;
-    align-items: center;
-  }
-
-  .fileLine {
-    max-width: 100%;
   }
 
   .expandIcon {
