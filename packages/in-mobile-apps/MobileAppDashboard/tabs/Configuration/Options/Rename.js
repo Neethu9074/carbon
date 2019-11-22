@@ -114,7 +114,7 @@ export default class Rename extends React.PureComponent {
     const { field, loading, saveError, savedLabel } = this.state;
 
     return (
-      <Card title="Rename MobileApp">
+      <Card title="Rename Mobile App">
         <form onSubmit={this.onSubmit}>
           <FormGroup className={locals.group}>
             {saveError && <SaveError>{saveError}</SaveError>}
