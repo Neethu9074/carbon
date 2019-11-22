@@ -70,7 +70,7 @@ export default connectTo(
               </DescriptionItem>
             )}
             {host && (
-              <DescriptionItem title="Host">
+              <DescriptionItem title="ESXi Host">
                 <VsphereSnapshotLink getVsphereViewEntityDashboard={getVsphereHostDashboard} snapshotId={host.id}>
                   {host.label}
                 </VsphereSnapshotLink>
