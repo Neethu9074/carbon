@@ -66,7 +66,7 @@ function Events({
   noDataMessage,
   hiddenIds,
   pageSize = 20,
-  rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
+  rightHeader = defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType),
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
@@ -254,7 +254,7 @@ function getSubscript(entity) {
   );
 }
 
-function defaultRightHeader(type, setType, severity, setSeverity) {
+function defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType) {
   return (
     <Fragment>
       {createNewEntityButton({
@@ -277,6 +277,14 @@ function defaultRightHeader(type, setType, severity, setSeverity) {
         onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
         placeholder="Incidents & Severity…"
         className={joinClassNames(locals.severityDropdown, locals.filterDropdown)}
+      />
+      <ComboBox
+        name="filter-entity-type"
+        value={entityType}
+        options={entityTypeOptions}
+        onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
+        placeholder="Entity Type…"
+        className={joinClassNames(locals.entityTypeDropdown, locals.filterDropdown)}
       />
     </Fragment>
   );
