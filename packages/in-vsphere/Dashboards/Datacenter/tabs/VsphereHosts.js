@@ -8,11 +8,11 @@ import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
-import { canSortByMetricColumns } from 'in-services/featureFlags';
-import { percentage } from 'in-services/formatters/number';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
 import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
+import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import { percentage } from 'in-services/formatters/number';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
