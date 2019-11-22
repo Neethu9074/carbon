@@ -33,7 +33,7 @@ const columnDefinitions = [
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.id}
-          metric="cpu.usage.percent.maximum"
+          metric="cpu.usage.maximum.percent"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={percentage.compact}
         />
