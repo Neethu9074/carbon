@@ -17,6 +17,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { analyzeGrouping as groupingTrackers } from 'in-profiling/tracker';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { availableGroupingTags } from 'in-profiling/tags';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
@@ -90,7 +91,7 @@ export default compose(
         />
       );
     },
-    getGroupAsFilterUrl: name => getGroupAsFilterUrl({ ...props, name })
+    getGroupAsFilterUrl: params => getGroupAsFilterUrl({ ...props, ...params })
   })),
   tagFilterManipulators
 )(props => (
@@ -137,7 +138,7 @@ function getGroupAsFilterUrl({ getChangeAsUrl, tagFilters, group, orderBy, order
         name: group.groupbyTag,
         value: name,
         operator: operators.EQUALS,
-        entity: group.entity
+        entity: entityTypes.SOURCE
       })
     ),
     group: {},

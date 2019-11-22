@@ -19,7 +19,7 @@ export default function Group({ item, getGroupAsFilterUrl }) {
   return (
     <Tr size="compact">
       <Td ellipsis="50vw">
-        <Link className={locals.link} href$={getGroupAsFilterUrl(groupName)}>
+        <Link className={locals.link} href$={getGroupAsFilterUrl({ name: groupName })}>
           <SvgIcon className={locals.icon} iconPath={getIconSvgPath(technologies[0])} size="xs" />
           {groupName}
         </Link>
