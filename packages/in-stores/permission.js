@@ -1,9 +1,10 @@
-import { isRbacEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
 export const ACCESS_KUBERNETES = 'ACCESS_KUBERNETES';
 export const ACCESS_WEBSITES = 'ACCESS_WEBSITES';
+export const ACCESS_MOBILE_APPS = 'ACCESS_MOBILE_APPS';
 
 const permissions = window.instana.permissions;
 
@@ -16,14 +17,16 @@ function hasPermission(permission) {
 export const hasApplicationsAccess = hasPermission(ACCESS_APPLICATIONS);
 export const hasKubernetesAccess = hasPermission(ACCESS_KUBERNETES);
 export const hasWebsitesAccess = hasPermission(ACCESS_WEBSITES);
-export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess;
+export const hasMobileAppsAccess = hasPermission(ACCESS_MOBILE_APPS);
+export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
 
 export const productAreaPermissions = getProductAreaPermissions();
 
 function getProductAreaPermissions() {
   return [
     { value: ACCESS_WEBSITES, label: 'Websites' },
+    mobileAppMonitoringEnabled && { value: ACCESS_MOBILE_APPS, label: 'Mobile Apps' },
     { value: ACCESS_APPLICATIONS, label: 'Applications' },
     { value: ACCESS_KUBERNETES, label: 'Kubernetes' }
-  ];
+  ].filter(Boolean);
 }

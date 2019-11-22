@@ -1,0 +1,65 @@
+import {
+  track,
+  MOBILE_APPS_OPEN_ADD_FORM,
+  MOBILE_APPS_ADD_MOBILE_APP,
+  MOBILE_APPS_ANALYZE_CHANGE_METRICS,
+  MOBILE_APPS_ANALYZE_FILTER_ADD,
+  MOBILE_APPS_ANALYZE_FILTER_CHANGE,
+  MOBILE_APPS_ANALYZE_FILTER_CLEAR,
+  MOBILE_APPS_ANALYZE_FILTER_REMOVE,
+  MOBILE_APPS_ANALYZE_FILTER_SET,
+  MOBILE_APPS_ANALYZE_GROUP_REMOVE,
+  MOBILE_APPS_ANALYZE_GROUP_SET,
+  MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW,
+  MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD,
+  MOBILE_APPS_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE,
+  MOBILE_APPS_ANALYZE_OPEN_PAGE_LOAD,
+  MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW,
+  MOBILE_APPS_DASHBOARD_FILTER_ADD,
+  MOBILE_APPS_DASHBOARD_FILTER_CHANGE,
+  MOBILE_APPS_DASHBOARD_FILTER_CLEAR,
+  MOBILE_APPS_DASHBOARD_FILTER_REMOVE,
+  MOBILE_APPS_DASHBOARD_FILTER_SET,
+  MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP,
+  MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP,
+  MOBILE_APPS_DASHBOARD_TAB_CHANGE
+} from 'in-services/tracking/tracking';
+
+// mobile app entry point
+export const mobileAppsOpenAddForm = e => track(MOBILE_APPS_OPEN_ADD_FORM, e);
+export const addMobileApp = e => track(MOBILE_APPS_ADD_MOBILE_APP, e);
+
+// democratisation dashboard
+export const renameMobileApp = e => track(MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP, e);
+export const removeMobileApp = e => track(MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP, e);
+export const tabChange = e => track(MOBILE_APPS_DASHBOARD_TAB_CHANGE, e);
+export const dashboardTagFilters = {
+  add: e => track(MOBILE_APPS_DASHBOARD_FILTER_ADD, e),
+  change: e => track(MOBILE_APPS_DASHBOARD_FILTER_CHANGE, e),
+  remove: e => track(MOBILE_APPS_DASHBOARD_FILTER_REMOVE, e),
+  clear: e => track(MOBILE_APPS_DASHBOARD_FILTER_CLEAR, e),
+  set: e => track(MOBILE_APPS_DASHBOARD_FILTER_SET, e)
+};
+
+// analyze
+export const changeAnalyzeMetrics = e => track(MOBILE_APPS_ANALYZE_CHANGE_METRICS, e);
+export const showMobileAppDetailsInTraceView = e => track(MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
+export const hideMobileAppDetailsInTraceView = e => track(MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW, e);
+export const analyzeTagFilters = {
+  add: e => track(MOBILE_APPS_ANALYZE_FILTER_ADD, e),
+  change: e => track(MOBILE_APPS_ANALYZE_FILTER_CHANGE, e),
+  remove: e => track(MOBILE_APPS_ANALYZE_FILTER_REMOVE, e),
+  clear: e => track(MOBILE_APPS_ANALYZE_FILTER_CLEAR, e),
+  set: e => track(MOBILE_APPS_ANALYZE_FILTER_SET, e)
+};
+export const analyzeGrouping = {
+  remove: e => track(MOBILE_APPS_ANALYZE_GROUP_REMOVE, e),
+  set: e => track(MOBILE_APPS_ANALYZE_GROUP_SET, e)
+};
+
+// page load view
+export const openPageLoad = e => track(MOBILE_APPS_ANALYZE_OPEN_PAGE_LOAD, e);
+export const navigateToBackendTraceFromPageLoad = e =>
+  track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD, e);
+export const navigateToPageLoadFromBackendTrace = e =>
+  track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE, e);

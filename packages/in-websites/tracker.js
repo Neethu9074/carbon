@@ -23,14 +23,12 @@ import {
   WEBSITES_DASHBOARD_REMOVE_WEBSITE,
   WEBSITES_DASHBOARD_RENAME_WEBSITE,
   WEBSITES_DASHBOARD_TAB_CHANGE,
-  WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS,
-  WEBSITES_RETURN_TO_CLASSIC
+  WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS
 } from 'in-services/tracking/tracking';
 
 // website entry point
 export const websitesOpenAddForm = e => track(WEBSITES_OPEN_ADD_FORM, e);
 export const addWebsite = e => track(WEBSITES_ADD_WEBSITE, e);
-export const returnToClassicTracker = e => track(WEBSITES_RETURN_TO_CLASSIC, e);
 
 // democratisation dashboard
 export const renameWebsite = e => track(WEBSITES_DASHBOARD_RENAME_WEBSITE, e);
