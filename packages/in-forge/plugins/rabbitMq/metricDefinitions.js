@@ -39,7 +39,7 @@ export default [
   },
   {
     metric: getMetricMatch('node_map', 'fd_used'),
-    label: 'Used file descriptors',
+    label: 'File descriptors used',
     min: 0,
     category: ['Nodes'],
     formatter: number,
@@ -55,7 +55,7 @@ export default [
   },
   {
     metric: getMetricMatch('node_map', 'mem_used'),
-    label: 'Used memory',
+    label: 'Memory Used',
     min: 0,
     category: ['Nodes'],
     formatter: bytes,
@@ -71,7 +71,7 @@ export default [
   },
   {
     metric: getMetricMatch('node_map', 'proc_used'),
-    label: 'Erlang processes in use',
+    label: 'Erlang processes used',
     min: 0,
     category: ['Nodes'],
     formatter: number,
@@ -99,6 +99,22 @@ export default [
     min: 0,
     category: ['Nodes'],
     formatter: bytes,
+    isAvailable
+  },
+  {
+    metric: getMetricMatch('node_map', 'sockets_total'),
+    label: 'Total sockets',
+    min: 0,
+    category: ['Nodes'],
+    formatter: number,
+    isAvailable
+  },
+  {
+    metric: getMetricMatch('node_map', 'sockets_used'),
+    label: 'Sockets used',
+    min: 0,
+    category: ['Nodes'],
+    formatter: number,
     isAvailable
   },
   {

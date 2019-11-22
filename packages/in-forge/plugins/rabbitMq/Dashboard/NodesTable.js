@@ -125,52 +125,64 @@ function getRowDetails(row) {
   const timeConfig = row.timeConfig;
 
   return (
-    <Columize>
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
-            labels: ['Used file descriptors', 'Total file descriptors'],
-            type: 'line'
-          }}
-        />
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['node_map.' + row.key + '.mem_used', 'node_map.' + row.key + '.mem_limit'],
-            labels: ['Used memory', 'Memory limit'],
-            type: 'line'
-          }}
-        />
-      </div>
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
-            labels: ['Erlang processes in use', 'Max Erlang processes'],
-            type: 'line'
-          }}
-        />
+    <div>
+      <Columize>
+        <div>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
+              labels: ['File descriptors used', 'Total file descriptors'],
+              type: 'line'
+            }}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesZeroDecimalPlaces,
+              tooltipFormatter: bytesTwoDecimalPlaces,
+              metrics: ['node_map.' + row.key + '.mem_used', 'node_map.' + row.key + '.mem_limit'],
+              labels: ['Memory used', 'Memory limit'],
+              type: 'line'
+            }}
+          />
+        </div>
+        <div>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
+              labels: ['Erlang processes used', 'Max Erlang processes'],
+              type: 'line'
+            }}
+          />
 
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['node_map.' + row.key + '.disk_free', 'node_map.' + row.key + '.disk_free_limit'],
-            labels: ['Disk alarm threshold', 'Disk free space'],
-            type: 'line'
-          }}
-        />
-      </div>
-    </Columize>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesZeroDecimalPlaces,
+              tooltipFormatter: bytesTwoDecimalPlaces,
+              metrics: ['node_map.' + row.key + '.disk_free', 'node_map.' + row.key + '.disk_free_limit'],
+              labels: ['Disk free space', 'Disk alarm threshold'],
+              type: 'line'
+            }}
+          />
+        </div>
+      </Columize>
+
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: ['node_map.' + row.key + '.sockets_used', 'node_map.' + row.key + '.sockets_total'],
+          labels: ['Sockets used', 'Total sockets'],
+          type: 'line'
+        }}
+      />
+    </div>
   );
 }
