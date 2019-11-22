@@ -107,7 +107,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: kbPerSecondFormatter,
-                metrics: ['net.usage.kiloBytesPerSecond.none.*'],
+                metrics: ['net.usage.average.bytesPerSecond'],
                 labels: ['Net usage'],
                 type: 'line',
                 colors: [usage]
