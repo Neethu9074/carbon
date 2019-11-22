@@ -1,5 +1,6 @@
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
+import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -13,6 +14,8 @@ export const datacenterDashboard = `/datacenter`;
 export const datacenterDashboardFullyQualified = `${vsphere}${datacenterDashboard}`;
 export const hostDashboard = `/host`;
 export const hostDashboardFullyQualified = `${vsphere}${hostDashboard}`;
+export const vmDashboard = `/vm`;
+export const vmDashboardFullyQualified = `${vsphere}${vmDashboard}`;
 
 export function getVsphereDatacenterDashboard(datacenterId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
@@ -35,6 +38,18 @@ export function getVsphereHostDashboard(hostId, { tab, tabMatrix, timeConfig } =
     matrixSegment: hostDashboard,
     matrixParam: matrixHostId,
     id: hostId
+  });
+}
+
+export function getVsphereVmDashboard(vmId, { tab, tabMatrix, timeConfig } = emptyObject) {
+  return getDashboard({
+    base: vmDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: vmDashboard,
+    matrixParam: matrixVmId,
+    id: vmId
   });
 }
 

@@ -2,14 +2,15 @@ import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
+import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
 import { MemoryTotal } from './MemoryTotal';
 
@@ -21,18 +22,18 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <SeverityAwareEntityLink icon="lib_vsphere_vm" label={item.label} />;
+      return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon="lib_linux" />;
     }
   },
   {
-    id: 'cpu.usage.percent.maximum.*',
+    id: 'cpu.usage.percent.maximum',
     label: 'CPU Usage',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.id}
-          metric="cpu.usage.percent.maximum.*"
+          metric="cpu.usage.percent.maximum"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={percentage.compact}
         />
