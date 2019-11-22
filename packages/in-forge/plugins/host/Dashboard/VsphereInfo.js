@@ -5,11 +5,11 @@ import {
   getVsphereHostDashboard,
   getVsphereVmDashboard
 } from 'in-vsphere/navigation/paths';
-import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import VsphereSnapshotLink from 'in-components/Link/SnapshotLink/VsphereSnapshotLink';
-import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
 import getVsphereVmByVmHost from 'in-vsphere/subscriptions/getVsphereVmByVmHost';
+import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -53,36 +53,36 @@ export default connectTo(
     };
   },
   function NodeAndClusterInformation({ vm, host, datacenter }) {
-    if (!vm && !host && !host) {
+    if (!datacenter) {
       return null;
     }
 
     return (
       <Collapsible>
-        <Collapsible.Header>Kubernetes</Collapsible.Header>
+        <Collapsible.Header>vSphere</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {vm && (
               <DescriptionItem title="VM">
-                <VsphereSnapshotLink getKubernetesViewEntityDashboard={getVsphereVmDashboard} snapshotId={vm.id}>
-                  {vm.name}
+                <VsphereSnapshotLink getVsphereViewEntityDashboard={getVsphereVmDashboard} snapshotId={vm.id}>
+                  {vm.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
             )}
             {host && (
               <DescriptionItem title="Host">
-                <VsphereSnapshotLink getKubernetesViewEntityDashboard={getVsphereHostDashboard} snapshotId={host.id}>
-                  {host.name}
+                <VsphereSnapshotLink getVsphereViewEntityDashboard={getVsphereHostDashboard} snapshotId={host.id}>
+                  {host.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
             )}
             {datacenter && (
               <DescriptionItem title="Datacenter">
                 <VsphereSnapshotLink
-                  getKubernetesViewEntityDashboard={getVsphereDatacenterDashboard}
+                  getVsphereViewEntityDashboard={getVsphereDatacenterDashboard}
                   snapshotId={datacenter.id}
                 >
-                  {datacenter.name}
+                  {datacenter.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
             )}

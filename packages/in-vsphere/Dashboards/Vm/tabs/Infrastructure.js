@@ -22,7 +22,7 @@ const columnDefinitions = [
       const snapshot = fromJS(item);
       return (
         <EntityLink
-          snapshot={snapshot}
+          snapshot={snapshot.id}
           label={getLabel(snapshot)}
           href$={getDashboardLink(item.id, {
             pathname: '/physical/dashboard',
