@@ -80,7 +80,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           timeConfig={timeConfig}
           formatter={kbPerSecondFormatter}
-          metric="net.received.kiloBytesPerSecond.average.*"
+          metric="net.received.average.bytesPerSecond"
         />
       );
     }
