@@ -51,14 +51,10 @@ export const callAnalysisBlacklistedTags = [
 const blacklists = {
   generalBlacklist: (() => {
     const blacklist = {
-      'application.id': true,
-      'source.application.id': true,
-      'service.id': true,
-      'source.service.id': !isInstanaEngineer,
-      'endpoint.id': true,
-      'source.endpoint.id': true,
-      'source.endpoint.name': !isInstanaEngineer,
-      'source.endpoint.type': true,
+      'application.id': !isInstanaEngineer,
+      'service.id': !isInstanaEngineer,
+      'service.rule_id': !isInstanaEngineer,
+      'endpoint.id': !isInstanaEngineer,
       'process.id': true,
       'docker.container.id': true,
       'host.snapshotId': !isInstanaEngineer,
@@ -68,8 +64,6 @@ const blacklists = {
       'cloud.snapshotId': !isInstanaEngineer,
       'call.span_type': !isInstanaEngineer,
       'call.processing_errors': !isInstanaEngineer,
-      'service.rule_id': !isInstanaEngineer,
-      'source.service.rule_id': !isInstanaEngineer,
       'call.http.hostCapturedFromSource': !isInstanaEngineer,
       'call.meta_tags': !isInstanaEngineer
     };
