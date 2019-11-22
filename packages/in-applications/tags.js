@@ -80,7 +80,7 @@ const blacklists = {
 };
 
 function isBeaconTag(tag) {
-  return tag.indexOf('beacon.') === 0;
+  return tag.indexOf('beacon.') === 0 || tag.indexOf('mobileBeacon.') === 0;
 }
 
 const latencyTags = ['call.latency', 'trace.latency', 'beacon.duration'];
