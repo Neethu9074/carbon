@@ -52,6 +52,7 @@ const columnDefinitions = [
   {
     id: 'Type',
     sortable: false,
+    noWrap: true,
     getContent(item) {
       return (
         <Fragment>
@@ -70,6 +71,7 @@ const columnDefinitions = [
   {
     id: 'Technology',
     sortable: false,
+    noWrap: true,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.service.technologies} />;
     }
