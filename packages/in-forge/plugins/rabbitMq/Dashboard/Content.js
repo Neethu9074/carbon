@@ -1,15 +1,15 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, twoDecimalPlaces, positiveNumber } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import MetricValue from 'in-components/MetricValue';
 import { emptyMap } from 'in-services/fixedImmutables';
+import MetricValue from 'in-components/MetricValue';
 
 export default function RabbitMqDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,13 +23,13 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
       {netPartitions.size > 0 && renderNetworkPartitionWarn(netPartitions)}
       <KpiSection>
         <KpiKeyValue label="Messages ready">
-          <MetricValue snapshotId={snapshotId} metric="overview.messages_ready" />
+          <MetricValue snapshotId={snapshotId} metric="overview.messages_ready" formatter={positiveNumber} />
         </KpiKeyValue>
         <KpiKeyValue label="Consumers">
-          <MetricValue snapshotId={snapshotId} metric="overview.consumers" />
+          <MetricValue snapshotId={snapshotId} metric="overview.consumers" formatter={positiveNumber} />
         </KpiKeyValue>
         <KpiKeyValue label="Connections">
-          <MetricValue snapshotId={snapshotId} metric="overview.connections" />
+          <MetricValue snapshotId={snapshotId} metric="overview.connections" formatter={positiveNumber} />
         </KpiKeyValue>
       </KpiSection>
 
