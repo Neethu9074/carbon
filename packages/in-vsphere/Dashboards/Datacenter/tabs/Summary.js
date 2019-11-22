@@ -25,7 +25,7 @@ export default function Summary({ timeConfig, data: cluster }) {
 
   return (
     <Fragment>
-      <KpiGridRow sizes={[6, 6]}>
+      <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard
           title="Overall Status"
           value={<Capitalize>{cluster.overallStatus || valueMissingPlaceholder}</Capitalize>}
@@ -38,25 +38,19 @@ export default function Summary({ timeConfig, data: cluster }) {
           metric="uptime.seconds"
           formatter={timeBySecondsTwoDecimalPlaces}
         />
+        <InfraMetricKpiCard
+          title="CPU Usage"
+          snapshotId={snapshotId}
+          metric="cpu.usage.percent.maximum.*"
+          formatter={percentage.detailed}
+        />
+        <InfraMetricKpiCard
+          title="Memory Usage"
+          snapshotId={snapshotId}
+          metric="mem.usage.average.percent"
+          formatter={percentage.detailed}
+        />
       </KpiGridRow>
-      <Row>
-        <Col lg={6}>
-          <InfraMetricKpiCard
-            title="CPU Usage"
-            snapshotId={snapshotId}
-            metric="cpu.usage.percent.maximum.*"
-            formatter={percentage.detailed}
-          />
-        </Col>
-        <Col lg={6}>
-          <InfraMetricKpiCard
-            title="Memory Usage"
-            snapshotId={snapshotId}
-            metric="mem.usage.average.percent"
-            formatter={percentage.detailed}
-          />
-        </Col>
-      </Row>
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
@@ -113,7 +107,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: kbPerSecondFormatter,
-                metrics: ['net.usage.kiloBytesPerSecond.none.*'],
+                metrics: ['net.usage.average.bytesPerSecond'],
                 labels: ['Net usage'],
                 type: 'line',
                 colors: [usage]
