@@ -31,7 +31,7 @@ const columnDefinitions = [
   },
   {
     id: 'hosts',
-    label: 'vSphere Hosts',
+    label: 'ESXi Hosts',
     getContent(item) {
       return <EntityCounter icon="lib_linux" count={item.hosts} />;
     }
