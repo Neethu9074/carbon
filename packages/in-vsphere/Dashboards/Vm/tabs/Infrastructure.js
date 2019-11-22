@@ -2,10 +2,9 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import getVsphereGuestHost from 'in-vsphere/subscriptions/getVsphereGuestHost';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import getVsphereGuestHost from 'in-vsphere/subscriptions/getVsphereGuestHost';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
@@ -39,7 +38,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
   defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
