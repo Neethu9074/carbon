@@ -17,7 +17,7 @@ const cols = [
     }
   },
   {
-    title: 'Used file descriptors',
+    title: 'File descriptors used',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -33,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Used memory',
+    title: 'Memory used',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -49,7 +49,23 @@ const cols = [
     }
   },
   {
-    title: 'Used Erlang processes',
+    title: 'Sockets used',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `node_map.${row.key}.sockets_used`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Erlang processes',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
