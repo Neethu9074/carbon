@@ -50,10 +50,10 @@ export default function QuickFilterBar(props) {
       <SelectBarItem {...props} tag="beacon.browser.name" singularLabel="browser" pluralLabel="browsers" />
       <SelectBarItem {...props} tag="beacon.os.name" singularLabel="OS" pluralLabel="OSs" />
       <SelectBarItem {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />
-      <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
       {showSubdivisionSelector && (
         <SelectBarItem {...props} tag="beacon.geo.subdivision" singularLabel="subdivision" pluralLabel="subdivisions" />
       )}
+      <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
       {showWindowWidthSelector && (
         <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Window Width" showRange />
       )}
