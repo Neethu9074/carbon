@@ -11,18 +11,36 @@ import theme from 'in-themes';
 
 import locals from './ProfileNode.mless';
 
-export default function ProfileNode({ processSnapshot, isOnline, profileNode, depth = 0, autoExpand = false }) {
+export default function ProfileNode({
+  processSnapshot,
+  selectedProfileNode,
+  setSelectedProfileNode,
+  isOnline,
+  profileNode,
+  depth = 0,
+  onKeyDown,
+  autoExpand = false
+}) {
   if (!profileNode) {
     return null;
   }
 
   const [expanded, setExpanded] = useState(autoExpand);
   const hasChildren = profileNode.children.length > 0;
+  const isSelectedRow = selectedProfileNode === profileNode;
 
   return (
-    <>
-      <Row depth={depth}>
-        <ExpandIcon hasChildren={hasChildren} expanded={expanded} setExpanded={setExpanded} depth={depth} />
+    <div onKeyDown={e => onKeyDown(selectedProfileNode, e)}>
+      <Row depth={depth} isSelected={isSelectedRow}>
+        <ExpandIcon
+          isFocusedIcon={isSelectedRow}
+          hasChildren={hasChildren}
+          expanded={expanded}
+          setExpanded={setExpanded}
+          depth={depth}
+          select={() => setSelectedProfileNode(profileNode)}
+          unselect={() => setSelectedProfileNode(null)}
+        />
         <PercentIndicator percent={profileNode.percent} />
         <MethodName methodName={profileNode.methodName} />
         <At />
@@ -37,26 +55,38 @@ export default function ProfileNode({ processSnapshot, isOnline, profileNode, de
               profiles={profileNode.children}
               processSnapshot={processSnapshot}
               isOnline={isOnline}
+              selectedProfileNode={selectedProfileNode}
+              setSelectedProfileNode={setSelectedProfileNode}
+              onKeyDown={onKeyDown}
             />
           </div>
         )}
-    </>
+    </div>
   );
 }
 
-function ChildProfiles({ depth, profiles, processSnapshot, isOnline }) {
+function ChildProfiles({
+  selectedProfileNode,
+  setSelectedProfileNode,
+  onKeyDown,
+  depth,
+  profiles,
+  processSnapshot,
+  isOnline
+}) {
   const lastProfile = profiles[profiles.length - 1];
 
+  const nodeProps = {
+    selectedProfileNode,
+    setSelectedProfileNode,
+    onKeyDown,
+    processSnapshot,
+    isOnline,
+    depth: depth + 1
+  };
+
   if (profiles.length <= 1) {
-    return (
-      <ProfileNode
-        processSnapshot={processSnapshot}
-        isOnline={isOnline}
-        profileNode={lastProfile}
-        depth={depth + 1}
-        autoExpand
-      />
-    );
+    return <ProfileNode {...nodeProps} profileNode={lastProfile} autoExpand />;
   }
 
   const profilesWithoutLast = profiles.slice(0, profiles.length - 1);
@@ -66,27 +96,23 @@ function ChildProfiles({ depth, profiles, processSnapshot, isOnline }) {
         {profilesWithoutLast.map((childNode, i) => (
           <Fragment key={i}>
             {i < profiles.length - 1 && <div className={locals.verticalLine} />}
-            <ProfileNode
-              processSnapshot={processSnapshot}
-              isOnline={isOnline}
-              key={i}
-              profileNode={childNode}
-              depth={depth + 1}
-            />
+            <ProfileNode key={i} {...nodeProps} profileNode={childNode} />
           </Fragment>
         ))}
       </div>
-      <ProfileNode processSnapshot={processSnapshot} isOnline={isOnline} profileNode={lastProfile} depth={depth + 1} />
+      <ProfileNode {...nodeProps} profileNode={lastProfile} />
     </>
   );
 }
 
-function Row({ depth, children }) {
+function Row({ depth, isSelected, children }) {
   return (
     <div
       className={evaluateClassNames({
-        [locals.row]: depth > 0,
-        [locals.firstRow]: depth === 0
+        [locals.row]: true,
+        [locals.expandedRow]: depth > 0,
+        [locals.firstRow]: depth === 0,
+        [locals.selectedRow]: isSelected
       })}
     >
       {children}
@@ -108,14 +134,19 @@ function At() {
   return <span className={locals.at}>at</span>;
 }
 
-function ExpandIcon({ hasChildren, expanded, setExpanded, depth }) {
+function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select, unselect, depth }) {
   if (hasChildren) {
     return (
       <SvgIcon
-        className={locals.expandIcon}
+        className={evaluateClassNames({
+          [locals.expandIcon]: true,
+          [locals.focusedIcon]: isFocusedIcon
+        })}
         type={expanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
         size="s"
         onClick={() => setExpanded(!expanded)}
+        onBlur={unselect}
+        onFocus={select}
         {...toInteractiveElement({
           ariaLabel: expanded ? 'Collapse' : 'Expand',
           onDefaultInteraction: () => setExpanded(!expanded)

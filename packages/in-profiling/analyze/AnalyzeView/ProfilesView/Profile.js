@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNode';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
+import nodeLocals from './ProfileNode.mless';
 
 export default function Profile({ profile, isOnline, processSnapshot }) {
   if (!profile) {
@@ -16,6 +19,8 @@ export default function Profile({ profile, isOnline, processSnapshot }) {
   for (let i = 0; i < profile.profileGraph.length; i++) {
     totalNumSamples += countSamples(profile.profileGraph[i]);
   }
+
+  const [selectedProfileNode, setSelectedProfileNode] = useState(null);
 
   return (
     <>
@@ -38,7 +43,14 @@ export default function Profile({ profile, isOnline, processSnapshot }) {
       </div>
       {profile.profileGraph.map((profileNode, i) => (
         <div key={i} className={locals.profile}>
-          <ProfileNode profileNode={profileNode} processSnapshot={processSnapshot} isOnline={isOnline} />
+          <ProfileNode
+            profileNode={profileNode}
+            processSnapshot={processSnapshot}
+            isOnline={isOnline}
+            selectedProfileNode={selectedProfileNode}
+            setSelectedProfileNode={setSelectedProfileNode}
+            onKeyDown={onKeyDown}
+          />
         </div>
       ))}
     </>
@@ -55,4 +67,43 @@ export function countSamples(profile) {
   }
 
   return totalSamples;
+}
+
+function onKeyDown(selectedNode, e) {
+  if (
+    e.keyCode !== keyCodes.arrows.up &&
+    e.keyCode !== keyCodes.arrows.down &&
+    e.keyCode !== keyCodes.arrows.left &&
+    e.keyCode !== keyCodes.arrows.right
+  ) {
+    return;
+  }
+
+  stopPropagationAndPreventDefault(e);
+  if (!selectedNode) {
+    return;
+  }
+
+  const offset = e.keyCode === keyCodes.arrows.up || e.keyCode === keyCodes.arrows.left ? -1 : 1;
+  const rows = [...Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.expandIcon}`))];
+  const focusedNode = Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.focusedIcon}`))[0];
+
+  const selectedNodeIndex = rows.reduce((agg, row, i) => {
+    if (row === focusedNode) {
+      return i;
+    }
+    return agg;
+  }, -1);
+
+  if (selectedNodeIndex === -1) {
+    return;
+  }
+
+  const indexOfNewSelectedNode = selectedNodeIndex + offset;
+  if (indexOfNewSelectedNode < rows.length) {
+    const newSelectedRow = rows[indexOfNewSelectedNode];
+    newSelectedRow.focus();
+  }
+
+  return;
 }

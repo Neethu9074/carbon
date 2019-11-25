@@ -2,13 +2,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  .row,
-  .firstRow {
+  .row {
     .flexbox();
     padding: 0.25rem 0;
   }
 
-  .row {
+  .expandedRow {
     position: relative;
 
     &::before {
@@ -24,6 +23,11 @@
       content: '';
     }
   }
+
+  .selectedRow {
+    background: @lib__colors__N200;
+  }
+
   .childrenWrapper {
     padding-left: 1rem;
   }
@@ -44,6 +48,10 @@
   .expandIcon {
     margin-right: 0.5rem;
     fill: @lib__colors__primary1;
+  }
+
+  .focusedIcon {
+    fill: @lib__colors__cyan800;
   }
 
   .iconPlaceHolder {

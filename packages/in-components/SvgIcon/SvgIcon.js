@@ -34,7 +34,9 @@ export default function SvgIcon({
   refSetter,
   id,
   iconPath,
-  size = 'regular'
+  size = 'regular',
+  onBlur,
+  onFocus
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
@@ -79,6 +81,8 @@ export default function SvgIcon({
       tabIndex={tabIndex}
       aria-label={ariaLabel}
       ref={refSetter}
+      onBlur={onBlur}
+      onFocus={onFocus}
       id={id}
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
