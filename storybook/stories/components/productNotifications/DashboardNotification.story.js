@@ -3,9 +3,9 @@ import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
 
-import Root from '../_helpers/Root';
+import Root from '../../_helpers/Root';
 
-storiesOf('Components/Dashboard Notification', module)
+storiesOf('Components/Product Notifications/Dashboard Notification', module)
   .add('Kinds', () => <KindsStory />)
   .add('Content', () => <ContentStory />);
 

@@ -55,7 +55,6 @@ import './components/Card.story';
 import './components/Chart.story';
 import './components/Checkbox.story';
 import './components/DashboardHeader.story';
-import './components/DashboardNotification.story';
 import './components/Dialog.story';
 import './components/EntityVersionList.story';
 import './components/EntityWithTypeAndIcon.story';
@@ -74,8 +73,6 @@ import './components/IconButton.story';
 import './components/InlineTabNavigation.story';
 import './components/KpiCard.story';
 import './components/KpiGridRow.story';
-import './components/Loading.story';
-import './components/LoadingTraces.story';
 import './components/MapControls.story';
 import './components/Message.story';
 import './components/overlays/Overlay.story';
@@ -98,6 +95,12 @@ import './components/TopListCard.story';
 import './components/TreeMap.story';
 import './components/VersionTimeline.story';
 import './components/ViewSwitcher.story';
+
+import './components/loading/Loading.story';
+import './components/loading/LoadingTraces.story';
+
+import './components/productNotifications/DashboardNotification.story';
+import './components/productNotifications/TraceValidationResult.story';
 
 import './content/List.story';
 import './content/table/ServerTable.story';
