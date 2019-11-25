@@ -127,7 +127,7 @@ export function getSnapshots(snapshotIds, { waitForCompletion = false } = {}) {
   return (
     combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId)), waitForCompletion)
       .nextFrame()
-      // Do not show snapshots which are still loading
+      // Do not show snapshots that are still loading
       .map(snapshots => snapshots.filter(Boolean))
       // We will have lots of incremental updates. One update every few
       // milliseconds is enough.

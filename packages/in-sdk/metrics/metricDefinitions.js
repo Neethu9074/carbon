@@ -181,7 +181,7 @@ function buildCategories(plugin) {
   };
 
   metricDefinitionsForPlugin.forEach(metricDefinitionForPlugin => {
-    // we cannot categorise metrics which are matched based on regex
+    // we cannot categorise metrics that are matched based on regex
     if (typeof metricDefinitionForPlugin.metric === 'string' && !metricDefinitionForPlugin.hideInMetricSelector) {
       insertMetric(root, metricDefinitionForPlugin);
     }

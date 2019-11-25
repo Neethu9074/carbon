@@ -28,7 +28,7 @@ import history from 'in-stores/navigation/history';
 //
 //   // define cases which should reset / change the URL state
 //   resets: [
-//     // reset the page to 1 when one of the properties changes which are used in get
+//     // reset the page to 1 when one of the properties changes that are used in get
 //     {
 //       bind: [
 //         {

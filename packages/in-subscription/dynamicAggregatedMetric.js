@@ -35,7 +35,7 @@ export default createSubscription({
       const result = allDataPoints
         .filter(
           dataPoints =>
-            // remove data points which are too old
+            // remove data points that are too old
             dataPoints.time >= lastValidTimestamp &&
             // remove all old data points for which we retrieved updated values
             newDataPointTimestamps[dataPoints.time] !== true

@@ -82,7 +82,7 @@ export default class extends React.Component {
           </HorizontalFormGroup>
 
           {unmonitoredHostsEnabled && (
-            <HorizontalFormGroup helpText="Instana automatically detects open TCP connections to hosts which are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map.">
+            <HorizontalFormGroup helpText="Instana automatically detects open TCP connections to hosts that are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map.">
               <Heading text="Show unmonitored hosts" htmlFor="unmonitored-hosts" />
               <Toggle
                 id="unmonitored-hosts"
