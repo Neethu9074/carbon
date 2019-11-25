@@ -2,7 +2,6 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
-import QueueDescriptionItem from 'in-forge/plugins/rabbitMq/Dashboard/QueueDescriptionItem';
 
 export default function RabbitMqInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -17,7 +16,6 @@ export default function RabbitMqInfo({ snapshot }) {
       <DescriptionItem title="Erlang version">{data.get('overview.erlang_version')}</DescriptionItem>
       <DescriptionItem title="Node">{data.get('overview.node')}</DescriptionItem>
       <DescriptionItem title="Nodes">{nodeNames.size}</DescriptionItem>
-      <QueueDescriptionItem snapshot={snapshot} />
       <DescriptionItem title="Channels">{channelNames.size}</DescriptionItem>
     </DescriptionList>
   );
