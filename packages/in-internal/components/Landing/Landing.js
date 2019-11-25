@@ -177,6 +177,15 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                           )}
                           description="eum-acceptor accepts end-user requests, validates, maps and transmits them via Kafka for processing."
                         />
+                        <LinkList>
+                          <LinkListItem
+                            label="ServerlessAcceptor"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
+                            )}
+                            description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, with an Instana agent in between."
+                          />
+                        </LinkList>
                         <LinkListItem
                           label="js-stack-trace-translator (beacon pre-processing)"
                           href$={getModifiedUrlStream(

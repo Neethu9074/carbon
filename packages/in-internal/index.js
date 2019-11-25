@@ -20,6 +20,7 @@ import Agents from 'in-internal/thisUnit/Agents';
 // features for monitoring units
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
+import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
@@ -104,6 +105,10 @@ export default function Internal() {
             <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
             <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
             <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
+            <Route
+              path="/internal/monitoringUnit/serverless/serverlessacceptors"
+              component={wrapIninternalView(ServerlessAcceptors)}
+            />
           </Fragment>
         )}
 
