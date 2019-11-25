@@ -56,13 +56,13 @@ import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/H
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
-import { isRbacEnabled, humioEnabled, splunkEnabled } from 'in-services/featureFlags';
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
@@ -244,30 +244,21 @@ function navigationTreeForRole(role): NavigationTree {
   }
 
   if (role.canConfigureLogManagement) {
-    const logManagementPages = [];
-
-    if (humioEnabled) {
-      logManagementPages.push({
-        path: teamSettingsLogManagementHumio,
-        label: 'Humio',
-        component: HumioPage
-      });
-    }
-
-    if (splunkEnabled) {
-      logManagementPages.push({
-        path: teamSettingsLogManagementSplunk,
-        label: 'Splunk',
-        component: SplunkPage
-      });
-    }
-
-    if (logManagementPages.length > 0) {
-      navigationTree.push({
-        title: 'Log Management',
-        pages: logManagementPages
-      });
-    }
+    navigationTree.push({
+      title: 'Log Management',
+      pages: [
+        {
+          path: teamSettingsLogManagementHumio,
+          label: 'Humio',
+          component: HumioPage
+        },
+        {
+          path: teamSettingsLogManagementSplunk,
+          label: 'Splunk',
+          component: SplunkPage
+        }
+      ]
+    });
   }
 
   if (role.canViewAuditLog) {

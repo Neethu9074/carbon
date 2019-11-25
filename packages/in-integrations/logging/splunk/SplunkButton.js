@@ -4,7 +4,6 @@ import { getIntegrationConfiguration } from 'in-integrations/logging/configurati
 import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { splunkEnabled } from 'in-services/featureFlags';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,7 +12,7 @@ export default connectTo({
 })(function SplunkButton(props) {
   const { integration } = props;
 
-  if (!splunkEnabled || !integration || !integration.enabled) {
+  if (!integration || !integration.enabled) {
     return null;
   }
 

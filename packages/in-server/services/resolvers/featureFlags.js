@@ -103,18 +103,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'humioEnabled',
-    instanaCtlKey: 'feature.humio.enabled',
-    consulKey: `settings/${tenant}-${unit}/HUMIO_ENABLED`,
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'splunkEnabled',
-    instanaCtlKey: 'feature.splunk.enabled',
-    consulKey: `settings/${tenant}-${unit}/SPLUNK_ENABLED`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'logDnaEnabled',
     instanaCtlKey: 'feature.logDna.enabled',
     consulKey: `settings/${tenant}-${unit}/LOG_DNA_ENABLED`,

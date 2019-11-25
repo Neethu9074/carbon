@@ -19,8 +19,6 @@ module.exports = {
   customDashboardsEnabled: true,
   unmonitoredHostsEnabled: true,
   pcfEnabled: true,
-  humioEnabled: true,
-  splunkEnabled: true,
   logDnaEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
