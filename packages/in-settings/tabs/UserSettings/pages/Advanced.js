@@ -3,7 +3,6 @@ import React from 'react';
 
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { unmonitoredHostsEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
@@ -80,17 +79,6 @@ export default class extends React.Component {
               onChange={e => this.saveSetting('zoomPanelIsActive', e.target.checked)}
             />
           </HorizontalFormGroup>
-
-          {unmonitoredHostsEnabled && (
-            <HorizontalFormGroup helpText="Instana automatically detects open TCP connections to hosts that are not monitored by Instana. These hosts are visualized as unmonitored hosts on the map.">
-              <Heading text="Show unmonitored hosts" htmlFor="unmonitored-hosts" />
-              <Toggle
-                id="unmonitored-hosts"
-                checked={!settings['map_excludeUnmonitoredHosts']}
-                onChange={e => this.saveSetting('map_excludeUnmonitoredHosts', !e.target.checked)}
-              />
-            </HorizontalFormGroup>
-          )}
 
           <HorizontalFormGroup>
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />

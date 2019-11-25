@@ -1102,7 +1102,6 @@
       "featureFlag.containerInfoEnabled": "true",
       "unit": "test",
       "featureFlag.ruleDeprecationValidationChecksEnabled": "true",
-      "featureFlag.unmonitoredHostsEnabled": "false",
       "build.tag": "1.158.199",
       "featureFlag.isSelfService": "false",
       "featureFlag.isAdhocMetricAggregationEnabled": "true",

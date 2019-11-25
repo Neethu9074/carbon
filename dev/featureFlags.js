@@ -17,7 +17,6 @@ module.exports = {
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
-  unmonitoredHostsEnabled: true,
   pcfEnabled: true,
   logDnaEnabled: true,
   websiteUserBreakdownEnabled: true,

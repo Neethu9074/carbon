@@ -85,12 +85,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'unmonitoredHostsEnabled',
-    instanaCtlKey: 'feature.unmonitored.hosts.enabled',
-    consulKey: `settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'customDashboardsEnabled',
     instanaCtlKey: 'feature.custom.dashboards.enabled',
     consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
