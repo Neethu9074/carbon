@@ -42,15 +42,15 @@ function OnboardingWidget(props) {
       selectedEntryIndex={props.selectedEntry}
       onEntrySelected={(index, entryLabel) => {
         props.onChange({ selectedEntry: index, selectedSubEntry: null });
-        trackingService.mainTopicChanged(entryLabel);
+        trackingService.mainTopicChanged({ topic: entryLabel });
       }}
       onSubEntrySelected={(index, subEntryLabel) => {
         props.onChange({ selectedSubEntry: index });
-        trackingService.subTopicChanged(subEntryLabel);
+        trackingService.subTopicChanged({ subTopic: subEntryLabel });
       }}
       onQueryChange={query => {
         props.onChange({ query, selectedEntry: 0, selectedSubEntry: null });
-        trackingService.searchQueryChanged(query);
+        trackingService.searchQueryChanged({ query });
       }}
     />
   );

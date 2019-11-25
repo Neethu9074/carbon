@@ -12,8 +12,8 @@ export default function createTracker(prefix) {
   return {
     beginnerVideosClicked: () => track(`${prefix}${ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED}`),
     helpAndSupportClicked: () => track(`${prefix}${ONBOARDING_HELP_AND_SUPPORT_CLICKED}`),
-    mainTopicChanged: entryLabel => track(`${prefix}${ONBOARDING_MAIN_TOPIC_CHANGED}`, entryLabel),
-    subTopicChanged: subEntryLabel => track(`${prefix}${ONBOARDING_SUB_TOPIC_CHANGED}`, subEntryLabel),
-    searchQueryChanged: query => track(`${prefix}${ONBOARDING_SEARCH_QUERY_CHANGED}`, query)
+    mainTopicChanged: e => track(`${prefix}${ONBOARDING_MAIN_TOPIC_CHANGED}`, e),
+    subTopicChanged: e => track(`${prefix}${ONBOARDING_SUB_TOPIC_CHANGED}`, e),
+    searchQueryChanged: e => track(`${prefix}${ONBOARDING_SEARCH_QUERY_CHANGED}`, e)
   };
 }
