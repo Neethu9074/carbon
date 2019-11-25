@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { get } from 'lodash';
 
 import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNode';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -80,14 +81,22 @@ function onKeyDown(selectedNode, e) {
   }
 
   stopPropagationAndPreventDefault(e);
-  if (!selectedNode) {
+  const focusedNode = Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.focusedIcon}`))[0];
+  if (!focusedNode) {
     return;
   }
 
-  const offset = e.keyCode === keyCodes.arrows.up || e.keyCode === keyCodes.arrows.left ? -1 : 1;
-  const rows = [...Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.expandIcon}`))];
-  const focusedNode = Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.focusedIcon}`))[0];
+  // when the current icon is a collapsed one, we want to expand it by simulating a click event on it
+  if (e.keyCode === keyCodes.arrows.right) {
+    const ariaLabel = get(focusedNode, ['attributes', 'aria-label', 'value']);
+    if (ariaLabel === 'Expand') {
+      const clickEvent = document.createEvent('Events');
+      clickEvent.initEvent('click', true, false);
+      return focusedNode.dispatchEvent(clickEvent);
+    }
+  }
 
+  const rows = [...Array.prototype.slice.call(document.querySelectorAll(`.${nodeLocals.expandIcon}`))];
   const selectedNodeIndex = rows.reduce((agg, row, i) => {
     if (row === focusedNode) {
       return i;
@@ -95,11 +104,12 @@ function onKeyDown(selectedNode, e) {
     return agg;
   }, -1);
 
-  if (selectedNodeIndex === -1) {
+  const offset = e.keyCode === keyCodes.arrows.up || e.keyCode === keyCodes.arrows.left ? -1 : 1;
+  const indexOfNewSelectedNode = selectedNodeIndex + offset;
+  if (indexOfNewSelectedNode < 0 || indexOfNewSelectedNode >= rows.length) {
     return;
   }
 
-  const indexOfNewSelectedNode = selectedNodeIndex + offset;
   if (indexOfNewSelectedNode < rows.length) {
     const newSelectedRow = rows[indexOfNewSelectedNode];
     newSelectedRow.focus();
