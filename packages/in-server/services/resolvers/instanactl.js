@@ -101,7 +101,7 @@ LIMIT 5
 const scopePrecedence = ['deployment', 'tenantUnit'];
 
 async function getSetting({ tenant, unit, key, notDefinedFallback, valueParser }) {
-  const parameters = [key, serverConfig.region, `${tenant}-${unit}`];
+  const parameters = [key, serverConfig.instanaRegion, `${tenant}-${unit}`];
   try {
     const res = await pool.query({
       // Name defined to enable prepared statement support
