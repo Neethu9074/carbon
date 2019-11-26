@@ -9,7 +9,7 @@ import locals from './SimpleAlertDialogStep.mless';
 
 const itemLabels = ['Specific JS Error(s)'];
 
-export default function SimpleAlertDialogStep1({ form, onChange, timeConfig, setJsErrorsListVisible }) {
+export default function SimpleAlertDialogStep1({ form, granularity, onChange, setJsErrorsListVisible, timeConfig }) {
   return (
     <>
       <h1 className={locals.headline}>What do you want to be alerted on?</h1>
@@ -20,13 +20,14 @@ export default function SimpleAlertDialogStep1({ form, onChange, timeConfig, set
         timeConfig={timeConfig}
         onSelectJsError={setJsErrorsListVisible}
       />
-      <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} />
+      <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
     </>
   );
 }
 
 SimpleAlertDialogStep1.propTypes = {
   form: PropTypes.object.isRequired,
+  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };

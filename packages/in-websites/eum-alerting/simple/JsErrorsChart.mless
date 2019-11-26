@@ -1,12 +1,15 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
   .container {
     margin: 0.5rem;
     width: 25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  }
+
+  .placeholder {
+    min-width: 400px;
+    min-height: 220px;
   }
 
   .message {
@@ -30,7 +33,13 @@
     }
   }
 
-  .thresholdInput {
-    margin-left: 3.75rem;
+  .metricSelect {
+    width: 148px;
+  }
+
+  .controls {
+    padding-left: 60px;
+    display: flex;
+    justify-content: space-between;
   }
 }

@@ -12,8 +12,9 @@ import locals from './AlertLocationFilters.mless';
 
 const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
+const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
-export default function AlertLocationFilters({ form, websiteLabel, timeConfig, onChange, advancedMode }) {
+export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel }) {
   return (
     form && (
       <div className={locals.container}>
@@ -25,11 +26,16 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
             upsertTagFilter={newTagFilter => {
               const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
               newTagFilters.push(newTagFilter);
-              onChange(form, fieldNames.tagFilters, newTagFilters);
+              onChange(form, fieldNames.tagFilters, newTagFilters, resetThresholdField);
             }}
             removeTagFilter={name => {
               if (name !== BEACON_WEBSITE_NAME) {
-                onChange(form, fieldNames.tagFilters, withoutTagFilterForName(getTagFilters(form), name));
+                onChange(
+                  form,
+                  fieldNames.tagFilters,
+                  withoutTagFilterForName(getTagFilters(form), name),
+                  resetThresholdField
+                );
               }
             }}
             onMoreClick={tagFilter => {
@@ -37,7 +43,7 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                 <WebsiteEditTagFilterDialog
                   tagFilter={tagFilter}
                   tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-                  setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters)}
+                  setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters, resetThresholdField)}
                   tagSuggestions={availableFilterTags.error.filter(
                     name =>
                       name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
@@ -60,14 +66,19 @@ export default function AlertLocationFilters({ form, websiteLabel, timeConfig, o
                   <WebsiteEditTagFilterDialog
                     tagFilter={tagFilter}
                     tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-                    setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters)}
+                    setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters, resetThresholdField)}
                     tagSuggestions={availableFilterTags.error}
                     timeConfig={timeConfig}
                   />
                 );
               }}
               onRemoveTagFilter={({ name }) =>
-                onChange(form, fieldNames.tagFilters, withoutTagFilterForName(getTagFilters(form), name))
+                onChange(
+                  form,
+                  fieldNames.tagFilters,
+                  withoutTagFilterForName(getTagFilters(form), name),
+                  resetThresholdField
+                )
               }
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
               readonlyFilterNames={[BEACON_WEBSITE_NAME]}
