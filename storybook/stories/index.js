@@ -100,6 +100,7 @@ import './components/loading/Loading.story';
 import './components/loading/LoadingTraces.story';
 
 import './components/productNotifications/DashboardNotification.story';
+import './components/productNotifications/HelpText.story';
 import './components/productNotifications/TraceValidationResult.story';
 
 import './content/List.story';
