@@ -9,19 +9,18 @@ export function init() {
     .map(({ data }) => data)
     .filter(Boolean)
     .map(getPushMessageConfig)
-    .subscribe(onReleaseEvent);
+    .subscribe(onReleaseNotification);
 }
 
-function getPushMessageConfig(latestRelease) {
+function getPushMessageConfig(releaseNotification) {
   return {
     message: {
       type: 'info',
-      content: <ReleaseOccurredMessage release={latestRelease} />
-    },
-    id: latestRelease.id
+      content: <ReleaseOccurredMessage release={releaseNotification} />
+    }
   };
 }
 
-function onReleaseEvent({ message, id }) {
-  addMessage(message, id);
+function onReleaseNotification({ message }) {
+  addMessage(message, 'release-notification-id');
 }
