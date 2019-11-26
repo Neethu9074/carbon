@@ -65,7 +65,8 @@ export default connectTo(
             <EumAlertingBarChart
               threshold={thresholdValue}
               timeConfig={timeConfig}
-              tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
+              tagFilters={tagFiltersWithWebsiteId}
+              errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
             />
           </Card>
 

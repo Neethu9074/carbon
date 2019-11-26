@@ -1,17 +1,31 @@
 import React from 'react';
 
+import getWebsiteSpecificJsErrorRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetric';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
+const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
+const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
+
 export default connectTo(
-  props => ({
-    result: getWebsiteMetrics(extendMetricConfigurationOnLiveMode(props.metricsConfiguration)).map(result =>
-      mergeResult(result, props.y1.threshold)
-    )
-  }),
+  props => {
+    let websiteMetrics$;
+
+    if (props.metricName === errorCount) {
+      websiteMetrics$ = getWebsiteMetrics(props.metricsConfiguration);
+    }
+
+    if (props.metricName === errorRate) {
+      websiteMetrics$ = getWebsiteSpecificJsErrorRateMetric(props.metricsConfiguration);
+    }
+
+    return {
+      result: websiteMetrics$.map(result => mergeResult(result, props.y1.threshold))
+    };
+  },
   function EumAlertingBarChartWrapper(props) {
     enrichChartMetrics(props);
     return <ChartWrapper {...props} />;
