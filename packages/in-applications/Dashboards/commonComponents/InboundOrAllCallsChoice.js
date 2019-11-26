@@ -21,10 +21,10 @@ export default function InboundOrAllCallsChoice({ boundaryScope, onBoundaryState
   return (
     <ExpandableCard
       className={locals.card}
-      bodyWithoutPadding={true}
+      bodyWithoutPadding
       preview={cardPreview}
       titleSubText={'Select only inbound calls or all calls'}
-      framed={true}
+      framed
       openByDefault={false}
     >
       <Row>
@@ -32,7 +32,7 @@ export default function InboundOrAllCallsChoice({ boundaryScope, onBoundaryState
           <OptionBox
             icon={boundaryScopes.info[boundaryScopes.inbound].icon}
             title={boundaryScopes.info[boundaryScopes.inbound].text}
-            asRadioButton={true}
+            asRadioButton
             className={evaluateClassNames({
               [locals.optionBox]: true,
               [locals.optionBoxUnchecked]: boundaryScopes.inbound !== boundaryScope
@@ -46,7 +46,7 @@ export default function InboundOrAllCallsChoice({ boundaryScope, onBoundaryState
           <OptionBox
             icon={boundaryScopes.info[boundaryScopes.all].icon}
             title={boundaryScopes.info[boundaryScopes.all].text}
-            asRadioButton={true}
+            asRadioButton
             className={evaluateClassNames({
               [locals.optionBox]: true,
               [locals.optionBoxUnchecked]: boundaryScopes.all !== boundaryScope
