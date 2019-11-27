@@ -21,7 +21,7 @@ export default compose(
   connect({ agentKey: getAgentKey() })
 )(InstanaOnboardingComponent);
 
-function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) {
+function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey = 'AGENT_KEY' }) {
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <DialogPresenter />
@@ -34,15 +34,15 @@ function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) 
         isAgentDeployed={apiCallSatisfied}
         isBackendAvailable
         disableAwsSensorDocumentation
-        agentKey={agentKey || 'AGENT_KEY'}
+        agentKey={agentKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
-        region={config.region}
+        agentEndpoint={config.agentEndpoint}
         butlerDomain={config.butlerDomain}
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied,
           children: 'Go to Instana!',
-          onClick: () => observable.emit(true)
+          onClick: onDialogSkip
         })}
       />
     </ErrorBoundary>

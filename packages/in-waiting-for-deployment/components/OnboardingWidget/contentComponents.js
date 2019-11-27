@@ -21,10 +21,10 @@ export function toURLstring(str) {
   return encodeURIComponent(str);
 }
 
-export function getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region) {
+export function getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain) {
   return `https://${butlerDomain}/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
     agentKey
-  )}&type=${toURLstring(option)}${region ? '&region=' + region : ''}`;
+  )}&type=${toURLstring(option)}`;
 }
 
 function renderValueLines(lines) {

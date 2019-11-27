@@ -33,7 +33,7 @@ function App({ apiCallSatisfied }) {
         agentKey={config.agentKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
-        region={config.region}
+        agentEndpoint={config.agentEndpoint}
         butlerDomain={config.butlerDomain}
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied,

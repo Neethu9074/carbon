@@ -220,7 +220,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
   ];
 }
 
-function AwsSensorContent({ agentKey, region }) {
+function AwsSensorContent({ agentKey, agentEndpoint }) {
   return (
     <>
       <HelpBox>
@@ -240,7 +240,7 @@ function AwsSensorContent({ agentKey, region }) {
         lines={[
           'curl -o setup_agent.sh https://setup.instana.io/agent',
           'chmod 700 ./setup_agent.sh',
-          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -l ${region} -s`
+          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint} -s`
         ]}
       />
       <Spacer />
@@ -337,7 +337,8 @@ function AwsSensorContent({ agentKey, region }) {
   );
 }
 
-function AWSLambdaContent({ agentKey, region }) {
+function AWSLambdaContent({ agentKey, agentEndpoint }) {
+  const endpoint = agentEndpoint.includes('-eu-') ? 'eu-west-1' : 'us-west-2';
   const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
@@ -370,7 +371,6 @@ function AWSLambdaContent({ agentKey, region }) {
   } else {
     steps = (
       <Fragment>
-        <Description lines={['']} />
         <HelpBox title="Configuring Your AWS Lambda Function">
           <Description
             lines={[
@@ -430,15 +430,15 @@ function AWSLambdaContent({ agentKey, region }) {
                 Set the following environment variables in your Lambda function:
                 <GridRow>
                   <Col xs={4}>
-                    <Description lines={[<code>INSTANA_ENDPOINT_URL</code>]} />
-                    <Script lines={[`https://serverless-${region}.instana.io/`]} />
+                    <Description lines={['INSTANA_ENDPOINT_URL']} />
+                    <Script lines={[`https://serverless-${endpoint}.instana.io/`]} />
                   </Col>
                   <Col xs={4}>
-                    <Description lines={[<code>INSTANA_AGENT_KEY</code>]} />
+                    <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
                   </Col>
                   <Col xs={4}>
-                    <Description lines={[<code>LAMBDA_HANDLER</code>]} />
+                    <Description lines={['LAMBDA_HANDLER']} />
                     <Script lines={[lambdaHandler]} />
                   </Col>
                 </GridRow>
@@ -484,7 +484,7 @@ function AWSLambdaContent({ agentKey, region }) {
             '   --handler instana-aws-lambda-auto-wrap.handler',
             `   --environment "Variables={${
               lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
-            }INSTANA_ENDPOINT_URL=https://serverless-${region}.instana.io/,INSTANA_AGENT_KEY=${agentKey} }"`
+            }INSTANA_ENDPOINT_URL=https://serverless-${endpoint}.instana.io/,INSTANA_AGENT_KEY=${agentKey} }"`
           ]}
         />
       </Fragment>
@@ -524,13 +524,13 @@ function AWSLambdaContent({ agentKey, region }) {
   );
 }
 
-function ElasticComputingLinuxContent({ agentKey, regionShort }) {
+function ElasticComputingLinuxContent({ agentKey, agentEndpoint }) {
   return (
     <>
       <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -l ${regionShort} -s -y`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint} -s -y`
         ]}
       />
       <Spacer />
@@ -545,7 +545,7 @@ function ElasticComputingLinuxContent({ agentKey, regionShort }) {
   );
 }
 
-function DockerContent({ agentKey, region }) {
+function DockerContent({ agentKey, agentEndpoint }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -565,7 +565,7 @@ function DockerContent({ agentKey, region }) {
           '--net=host \\',
           '--pid=host \\',
           '--ipc=host \\',
-          `--env="INSTANA_AGENT_ENDPOINT=saas-${region}.instana.io" \\`,
+          `--env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
           '--env="INSTANA_AGENT_ENDPOINT_PORT=443" \\',
           `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
           `--env="INSTANA_AGENT_ZONE='${zoneName}'" \\`,
@@ -576,7 +576,7 @@ function DockerContent({ agentKey, region }) {
   );
 }
 
-function OneLinerContent({ agentKey, regionShort }) {
+function OneLinerContent({ agentKey, agentEndpoint }) {
   const jvmModeOptions = ['Dynamic agent with Zulu JVM', 'Static agent with Zulu JVM'];
   const [jvmMode, setMode] = useState(jvmModeOptions[0]);
 
@@ -600,7 +600,7 @@ function OneLinerContent({ agentKey, regionShort }) {
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
             jvmMode === jvmModeOptions[0] ? 'dynamic' : 'static'
-          } -l ${regionShort} ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
+          } -e ${agentEndpoint} ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
         ]}
       />
       <Spacer />
@@ -620,13 +620,13 @@ function OneLinerContent({ agentKey, regionShort }) {
   );
 }
 
-function GoogleComputeEngineContent({ agentKey, regionShort }) {
+function GoogleComputeEngineContent({ agentKey, agentEndpoint }) {
   return (
     <>
       <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -l ${regionShort} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
         ]}
       />
       <Spacer />
@@ -641,7 +641,7 @@ function GoogleComputeEngineContent({ agentKey, regionShort }) {
   );
 }
 
-function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
+function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint }) {
   return (
     <>
       <TextWithLink
@@ -659,7 +659,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
       <GridRow>
         <Col xs={4}>
           <Description lines={['Instana Service Endpoint']} />
-          <Script lines={[`saas-${region}.instana.io`]} />
+          <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
           <Description lines={['Instana Service port']} />
@@ -682,7 +682,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, region }) {
   );
 }
 
-function K8sHelmChartContent({ agentKey, region }) {
+function K8sHelmChartContent({ agentKey, agentEndpoint }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -705,7 +705,7 @@ function K8sHelmChartContent({ agentKey, region }) {
             lines={[
               'helm install --name instana-agent --namespace instana-agent \\',
               `--set agent.key=${agentKey} \\`,
-              `--set agent.endpointHost=saas-${region}.instana.io \\`,
+              `--set agent.endpointHost=${agentEndpoint} \\`,
               '--set agent.endpointPort=443 \\',
               `--set cluster.name='${clusterName}' \\`,
               `--set zone.name='${zoneName}' \\`,
@@ -726,7 +726,7 @@ function K8sHelmChartContent({ agentKey, region }) {
   );
 }
 
-function K8sDaemonSetContent({ agentKey, region }) {
+function K8sDaemonSetContent({ agentKey, agentEndpoint }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -747,7 +747,7 @@ function K8sDaemonSetContent({ agentKey, region }) {
           <YAML
             title="daemonset.yaml"
             disabledErrorMessage={clusterNameValidationMessage}
-            content={getKubernetesYamlConfig(agentKey, region, clusterName, zoneName)}
+            content={getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)}
           />
           <HelpBox>
             <TextWithLink
@@ -762,7 +762,7 @@ function K8sDaemonSetContent({ agentKey, region }) {
   );
 }
 
-function CfAndBoshContent({ agentKey, region }) {
+function CfAndBoshContent({ agentKey, agentEndpoint }) {
   return (
     <ValidatedInputFields
       fields={[
@@ -802,7 +802,7 @@ function CfAndBoshContent({ agentKey, region }) {
                 `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n\naddons:\n` +
                 '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
                 `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
-                `        mode: APM\n        key: ${agentKey}\n        endpoint: saas-${region}.instana.io\n` +
+                `        mode: APM\n        key: ${agentKey}\n        endpoint: ${agentEndpoint}\n` +
                 `        zone: '${foundationName}'\n` +
                 '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
                 '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
@@ -844,7 +844,7 @@ function CfAndBoshContent({ agentKey, region }) {
   );
 }
 
-function PcfContent({ agentKey, region }) {
+function PcfContent({ agentKey, agentEndpoint }) {
   return (
     <>
       <TextWithLink
@@ -867,7 +867,7 @@ function PcfContent({ agentKey, region }) {
       <GridRow>
         <Col xs={4}>
           <Description lines={['Endpoint host']} />
-          <Script lines={[`saas-${region}.instana.io`]} />
+          <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
           <Description lines={['Endpoint port']} />
@@ -906,22 +906,22 @@ function PackagesContent({ agentKey }) {
   );
 }
 
-function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
+function WindowsInstallerContent({ agentKey, tenant, tenantUnit }) {
   return (
     <>
       <Description lines={['We make available the latest Windows installer (64Bit) at following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${toURLstring(region)}&agentKey=${toURLstring(
-            agentKey
-          )}&type=${toURLstring('exe64')}`
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
+            'exe64'
+          )}`
         ]}
       />
     </>
   );
 }
 
-function ManualLinuxContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
+function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'linux64', label: 'Linux (64Bit)' },
     { key: 'linux32', label: 'Linux (32Bit)' },
@@ -937,7 +937,7 @@ function ManualLinuxContent({ butlerDomain, region, agentKey, tenant, tenantUnit
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -956,7 +956,7 @@ function ManualLinuxContent({ butlerDomain, region, agentKey, tenant, tenantUnit
   );
 }
 
-function ManualMacOsContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
+function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [{ key: 'mac', label: 'Mac OS (64bit - Intel)' }];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -964,7 +964,7 @@ function ManualMacOsContent({ butlerDomain, region, agentKey, tenant, tenantUnit
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -983,7 +983,7 @@ function ManualMacOsContent({ butlerDomain, region, agentKey, tenant, tenantUnit
   );
 }
 
-function ManualUnixContent({ agentKey, butlerDomain, region, tenant, tenantUnit }) {
+function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'sparc64', label: 'Solaris (64bit - SPARC)' },
     { key: 'sparc32', label: 'Solaris (32bit - SPARC)' },
@@ -996,7 +996,7 @@ function ManualUnixContent({ agentKey, butlerDomain, region, tenant, tenantUnit 
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -1015,7 +1015,7 @@ function ManualUnixContent({ agentKey, butlerDomain, region, tenant, tenantUnit 
   );
 }
 
-function ManualWindowsContent({ butlerDomain, region, agentKey, tenant, tenantUnit }) {
+function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
     { key: 'win64', label: 'Windows Zip (64bit)' },
@@ -1027,7 +1027,7 @@ function ManualWindowsContent({ butlerDomain, region, agentKey, tenant, tenantUn
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain, region)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
       <HelpBox title="Requires a Java 8 Runtime">
         <Listing
@@ -1046,7 +1046,7 @@ function ManualWindowsContent({ butlerDomain, region, agentKey, tenant, tenantUn
   );
 }
 
-function getKubernetesYamlConfig(agentKey, region, clusterName, zoneName) {
+function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName) {
   return (
     'apiVersion: v1\n' +
     'kind: Namespace\n' +
@@ -1102,7 +1102,7 @@ function getKubernetesYamlConfig(agentKey, region, clusterName, zoneName) {
     '            - name: INSTANA_KUBERNETES_CLUSTER_NAME\n' +
     `              value: '${clusterName}'\n` +
     '            - name: INSTANA_AGENT_ENDPOINT\n' +
-    `              value: saas-${region}.instana.io\n` +
+    `              value: ${agentEndpoint}\n` +
     '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
     '              value: "443"\n' +
     '            - name: INSTANA_AGENT_KEY\n' +

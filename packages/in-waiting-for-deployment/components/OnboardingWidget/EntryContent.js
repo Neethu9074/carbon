@@ -26,7 +26,7 @@ export default function EntryContent(props) {
         )
       }
     >
-      <entryToDisplay.Content {...props} regionShort={(props.region || '').includes('us-') ? 'us' : 'eu'} />
+      <entryToDisplay.Content {...props} />
     </Card>
   );
 }
