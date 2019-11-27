@@ -41,7 +41,8 @@ function HostInformation({ hostSnapshotPreview }) {
 
   return (
     <EntityLink
-      snapshot={hostSnapshotPreview}
+      plugin={hostSnapshotPreview.plugin}
+      label={hostSnapshotPreview.label}
       href$={getDashboardLink(hostSnapshotPreview.id, { pathname: '/physical/dashboard' })}
     />
   );
