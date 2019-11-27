@@ -31,10 +31,10 @@ export default function InstallDocumentation(props) {
     <div className={locals.wrapper}>
       <div className={locals.heading}>
         <span className={locals.headingText}>Installing the Instana agent</span>
-        <SearchInput maxWidth={200} onChange={props.onQueryChange} query={props.query} autoFocus hasError={hasError} />
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>
+          <SearchInput onChange={props.onQueryChange} query={props.query} autoFocus hasError={hasError} />
           <SideNavigation>
             {categories.map(({ title, items }) => (
               <Fragment key={title}>

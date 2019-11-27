@@ -9,11 +9,7 @@
   }
 
   .heading {
-    .spaceBetweenFlexbox();
-
-    width: 100%;
     margin-bottom: 1rem;
-    padding-right: 1rem;
   }
 
   .headingText {
