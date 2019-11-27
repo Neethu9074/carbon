@@ -16,7 +16,7 @@ export default connectTo(
   }),
   function HostBreadcrumb({ host }) {
     return (
-      <Breadcrumb label="vSphere Host" icon="lib_vsphere_host">
+      <Breadcrumb label="vSphere Host" icon="lib_linux">
         {host && host.label}
       </Breadcrumb>
     );

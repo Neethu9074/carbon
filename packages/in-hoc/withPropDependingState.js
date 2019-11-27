@@ -12,7 +12,7 @@ import { emptyArray } from 'in-services/fixedObjects';
 //
 //   // define cases which should reset / change the URL state
 //   resets: [
-//     // reset the page to 1 when one of the properties changes which are used in get
+//     // reset the page to 1 when one of the properties changes that are used in get
 //     {
 //       getResettingProps: ({paginationResettingProps}) => paginationResettingProps || emptyArray,
 //       onReset: () => ({ page: 1 })

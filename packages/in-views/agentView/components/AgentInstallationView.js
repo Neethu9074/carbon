@@ -29,6 +29,6 @@ export default connectTo(
       );
     }
 
-    return <OnboardingWidget Renderer={Renderer} trackingIdPrefix="agent.installation.onboarding" />;
+    return <OnboardingWidget Renderer={Renderer} trackingIdPrefix="agent.installation" />;
   }
 );

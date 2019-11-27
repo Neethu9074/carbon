@@ -23,7 +23,7 @@ import history from 'in-stores/navigation/history';
 //
 //   // define cases which should reset / change the URL state
 //   resets: [
-//     // reset the page to 1 when one of the properties changes which are used in get
+//     // reset the page to 1 when one of the properties changes that are used in get
 //     {
 //       getResettingProps: ({paginationResettingProps}) => paginationResettingProps || emptyArray,
 //       onReset: () => ({ page: 1 })
@@ -136,7 +136,7 @@ export default ({
         }, {});
 
         let parsedUrlValues = getParsedUrlValues(urlValues);
-        // filter null/undefined values which are considered to be existing properties by defaults
+        // filter null/undefined values that are considered to be existing properties by defaults
         parsedUrlValues = Object.keys(parsedUrlValues).reduce((agg, k) => {
           if (urlValues[k] != null) {
             agg[k] = parsedUrlValues[k];

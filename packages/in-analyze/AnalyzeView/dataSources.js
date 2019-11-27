@@ -4,10 +4,11 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 let configs;
 export default function getByDataSource(dataSource) {
   if (!configs) {
+    const filterTagKeys = getAnalyzeFilterTagKeys();
     configs = {
       traces: {
+        filterTagKeys,
         groupTagKeys: getTraceGroupTagKeys(),
-        filterTagKeys: getAnalyzeFilterTagKeys(),
         errorneousTagPreset: 'trace.erroneous',
         latencyTagPreset: 'trace.latency',
         isSyntheticTagPreset: 'call.is_synthetic',
@@ -22,8 +23,8 @@ export default function getByDataSource(dataSource) {
         getCallIdByItem: () => undefined
       },
       calls: {
+        filterTagKeys,
         groupTagKeys: getCallGroupTagKeys(),
-        filterTagKeys: getAnalyzeFilterTagKeys(),
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         isSyntheticTagPreset: 'call.is_synthetic',
@@ -36,6 +37,9 @@ export default function getByDataSource(dataSource) {
         typeLabel: 'Call',
         getTraceIdByItem: item => item.call.traceId,
         getCallIdByItem: item => item.call.id
+      },
+      profiles: {
+        filterTagKeys
       }
     };
   }
@@ -57,6 +61,8 @@ export function getIconByType(type) {
     return 'lib_website_error';
   } else if (type === 'custom') {
     return 'lib_website_custom';
+  } else if (type === 'profiles') {
+    return 'lib_profiling';
   }
 }
 
@@ -71,6 +77,8 @@ export function getEntityNameByType(type) {
     return 'JavaScript errors';
   } else if (type === 'custom') {
     return 'custom events';
+  } else if (type === 'profiles') {
+    return 'profiles';
   }
 
   return type;

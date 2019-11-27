@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
+import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VSphereHosts from 'in-vsphere/Dashboards/Datacenter/tabs/VsphereHosts';
@@ -14,7 +14,7 @@ export default [
     component: Summary
   },
   {
-    label: 'vSphere hosts',
+    label: 'ESXi Hosts',
     path: `${datacenterDashboardFullyQualified}/vsphere-hosts`,
     component: VSphereHosts,
     header: props => getCounterComponent(props, 'hosts')
@@ -29,7 +29,7 @@ export default [
 
 function getCounterComponent(props, resultPropName) {
   return (
-    <TabLabelWithCounterPresenter
+    <TabLabelWithCounter
       label={props.tab.label}
       getCounters={() =>
         getVsphereDatacenter({

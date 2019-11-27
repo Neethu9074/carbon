@@ -78,7 +78,33 @@ export const WEBSITES_DASHBOARD_REMOVE_WEBSITE = 'websites.dashboard.removeWebsi
 export const WEBSITES_DASHBOARD_RENAME_WEBSITE = 'websites.dashboard.renameWebsite';
 export const WEBSITES_DASHBOARD_TAB_CHANGE = 'websites.dashboard.tabChange';
 export const WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'websites.dashboard.viewDeprecationDetails';
-export const WEBSITES_RETURN_TO_CLASSIC = 'websites.returnToClassic';
+
+export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
+export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';
+export const MOBILE_APPS_ANALYZE_CHANGE_METRICS = 'mobileApps.analyze.changeMetrics';
+export const MOBILE_APPS_ANALYZE_FILTER_ADD = 'mobileApps.analyze.filter.add';
+export const MOBILE_APPS_ANALYZE_FILTER_CHANGE = 'mobileApps.analyze.filter.change';
+export const MOBILE_APPS_ANALYZE_FILTER_CLEAR = 'mobileApps.analyze.filter.clear';
+export const MOBILE_APPS_ANALYZE_FILTER_REMOVE = 'mobileApps.analyze.filter.remove';
+export const MOBILE_APPS_ANALYZE_FILTER_SET = 'mobileApps.analyze.filter.set';
+export const MOBILE_APPS_ANALYZE_GROUP_REMOVE = 'mobileApps.analyze.group.remove';
+export const MOBILE_APPS_ANALYZE_GROUP_SET = 'mobileApps.analyze.group.set';
+export const MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW = 'mobileApps.analyze.hideMobileAppDetailsInTraceView';
+export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD =
+  'mobileApps.analyze.navigateToBackendTraceFromPageLoad';
+export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE =
+  'mobileApps.analyze.navigateToPageLoadFromBackendTrace';
+export const MOBILE_APPS_ANALYZE_OPEN_PAGE_LOAD = 'mobileApps.analyze.openPageLoad';
+export const MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW = 'mobileApps.analyze.showMobileAppDetailsInTraceView';
+export const MOBILE_APPS_DASHBOARD_FILTER_ADD = 'mobileApps.dashboard.filter.add';
+export const MOBILE_APPS_DASHBOARD_FILTER_CHANGE = 'mobileApps.dashboard.filter.change';
+export const MOBILE_APPS_DASHBOARD_FILTER_CLEAR = 'mobileApps.dashboard.filter.clear';
+export const MOBILE_APPS_DASHBOARD_FILTER_REMOVE = 'mobileApps.dashboard.filter.remove';
+export const MOBILE_APPS_DASHBOARD_FILTER_SET = 'mobileApps.dashboard.filter.set';
+export const MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP = 'mobileApps.dashboard.removeMobileApp';
+export const MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP = 'mobileApps.dashboard.renameMobileApp';
+export const MOBILE_APPS_DASHBOARD_TAB_CHANGE = 'mobileApps.dashboard.tabChange';
+export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashboard.viewDeprecationDetails';
 
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
@@ -91,6 +117,14 @@ export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+
+export const PROFILES_ANALYZE_FILTER_ADD = 'profiles.analyze.filter.add';
+export const PROFILES_ANALYZE_FILTER_CHANGE = 'profiles.analyze.filter.change';
+export const PROFILES_ANALYZE_FILTER_CLEAR = 'profiles.analyze.filter.clear';
+export const PROFILES_ANALYZE_FILTER_REMOVE = 'profiles.analyze.filter.remove';
+export const PROFILES_ANALYZE_FILTER_SET = 'profiles.analyze.filter.set';
+export const PROFILES_ANALYZE_GROUP_REMOVE = 'profiles.analyze.group.remove';
+export const PROFILES_ANALYZE_GROUP_SET = 'profiles.analyze.group.set';
 
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboarding.instana.beginner.videos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboarding.help.and.support.clicked';

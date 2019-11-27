@@ -4,7 +4,6 @@ import { getIntegrationConfiguration } from 'in-integrations/logging/configurati
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
-import { humioEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -14,7 +13,7 @@ export default connectTo({
 })(function HumioButton(props) {
   const { integration } = props;
 
-  if (!humioEnabled || !integration || !integration.enabled) {
+  if (!integration || !integration.enabled) {
     return null;
   }
 

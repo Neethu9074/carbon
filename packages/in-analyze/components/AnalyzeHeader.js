@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   analyzePath as websiteAnalyzePath
@@ -10,12 +8,20 @@ import {
   defaultGroupings as defaultWebsiteGroupings,
   dataSourceTitles as websiteDataSourceTitles
 } from 'in-websites/tags';
+import {
+  getLinkToAnalyze as getLinkToProfilesAnalyze,
+  analyzePath as profilingAnalyzePath
+} from 'in-profiling/navigation/paths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import { customEventsInWebsiteMonitoringEnabled, profilingEnabled } from 'in-services/featureFlags';
 import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import { dataSource as dataSourceTypeMatrixParameter } from 'in-profiling/navigation/matrix';
 import getConfigByDataSource, { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
-import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
+import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
 import { hasApplicationsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { defaultGrouping as defaultProfilesGrouping } from 'in-profiling/tags';
+import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -27,7 +33,8 @@ export default connectTo({
     .map(
       location =>
         getMatrixParameter(location, appAnalyzePath, `callList.${dataSourceMatrixParameter}`) ||
-        getMatrixParameter(location, websiteAnalyzePath, beaconTypeMatrixParameter)
+        getMatrixParameter(location, websiteAnalyzePath, beaconTypeMatrixParameter) ||
+        getMatrixParameter(location, profilingAnalyzePath, dataSourceTypeMatrixParameter)
     )
     .distinct()
 })(AnalyzeHeader);
@@ -115,6 +122,17 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               isActive={dataSource === 'custom'}
             />
           )}
+        {profilingEnabled && (
+          <SecondLevelNavigationItem
+            href$={getLinkToProfilesAnalyze({
+              group: defaultProfilesGrouping
+            })}
+            icon={getIconByType('profiles')}
+            label="Profiles"
+            isActive={dataSource === 'profiles'}
+            addSeparator
+          />
+        )}
       </SecondLevelNavigation>
     </HeaderWithTimeSelection>
   );

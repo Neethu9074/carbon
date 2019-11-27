@@ -1,4 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { operators } from 'in-analyze/applicationFilter';
 
 export const fieldNames = Object.freeze({
   ruleAlertType: 'ruleAlertType',
@@ -16,8 +17,22 @@ export const fieldNames = Object.freeze({
   id: 'id',
   thresholdValue: 'thresholdValue',
   thresholdType: 'thresholdType',
-  thresholdOperator: 'thresholdOperator'
+  thresholdOperator: 'thresholdOperator',
+  calculateThresholdOnBackend: 'calculateThresholdOnBackend'
 });
+
+export const selectOptions = {
+  [fieldNames.ruleOperator]: Object.freeze([
+    { value: operators.EQUALS, label: 'Equals' },
+    { value: operators.CONTAINS, label: 'Contains' },
+    { value: operators.STARTS_WITH, label: 'Starts with' },
+    { value: operators.ENDS_WITH, label: 'Ends with' }
+  ]),
+  [fieldNames.ruleMetricName]: Object.freeze([
+    { value: 'errors', label: 'Errors count' },
+    { value: 'specificJsErrorRate', label: 'Errors rate' }
+  ])
+};
 
 export default function alertFormDefinition(alertFormValues = {}) {
   const {
@@ -31,7 +46,8 @@ export default function alertFormDefinition(alertFormValues = {}) {
     name = '',
     websiteId = '',
     id = '',
-    threshold = ''
+    threshold = '',
+    calculateThresholdOnBackend = false
   } = alertFormValues;
 
   let form = createMapForm()
@@ -59,7 +75,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleMetricName,
       createField({
-        value: (rule && rule.metricName) || 'errors',
+        value: (rule && rule.metricName) || selectOptions[fieldNames.ruleMetricName][0].value,
         validator: notBlankValidator
       })
     )
@@ -137,6 +153,12 @@ export default function alertFormDefinition(alertFormValues = {}) {
       createField({
         value: (threshold && threshold.operator) || '>=',
         validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.calculateThresholdOnBackend,
+      createField({
+        value: calculateThresholdOnBackend
       })
     );
 

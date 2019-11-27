@@ -46,23 +46,22 @@ import './website/eum-alerting/SimpleAlertDialog.story';
 
 import './components/Axis.story';
 import './components/Badge.story';
+import './components/BigHeaderDialog.story';
 import './components/Button.story';
 import './components/ButtonGroup.story';
-import './components/FloatingActionButton.story';
 import './components/ButtonSegmentedControl.story';
 import './components/Capitalize.story';
 import './components/Card.story';
 import './components/Chart.story';
 import './components/Checkbox.story';
 import './components/DashboardHeader.story';
-import './components/DashboardNotification.story';
 import './components/Dialog.story';
-import './components/BigHeaderDialog.story';
 import './components/EntityVersionList.story';
 import './components/EntityWithTypeAndIcon.story';
 import './components/Errors.story';
 import './components/ExpandableCard.story';
 import './components/ExpandableCard.story';
+import './components/FloatingActionButton.story';
 import './components/flyouts/Usage.story';
 import './components/GeoHeatMap.story';
 import './components/Globe.story';
@@ -74,8 +73,6 @@ import './components/IconButton.story';
 import './components/InlineTabNavigation.story';
 import './components/KpiCard.story';
 import './components/KpiGridRow.story';
-import './components/Loading.story';
-import './components/LoadingTraces.story';
 import './components/MapControls.story';
 import './components/Message.story';
 import './components/overlays/Overlay.story';
@@ -98,6 +95,13 @@ import './components/TopListCard.story';
 import './components/TreeMap.story';
 import './components/VersionTimeline.story';
 import './components/ViewSwitcher.story';
+
+import './components/loading/Loading.story';
+import './components/loading/LoadingTraces.story';
+
+import './components/productNotifications/DashboardNotification.story';
+import './components/productNotifications/HelpText.story';
+import './components/productNotifications/TraceValidationResult.story';
 
 import './content/List.story';
 import './content/table/ServerTable.story';

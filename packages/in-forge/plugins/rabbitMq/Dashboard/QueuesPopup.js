@@ -12,15 +12,12 @@ export default connectTo(
     };
   },
   function QueuesPopup({ snapshot, oneTimeQueues }) {
-    let allQueues = null;
     let queues = snapshot.getIn(['data', 'queues'], emptyList);
 
-    allQueues = queues.concat(allQueues);
-
     if (oneTimeQueues) {
-      allQueues = allQueues.concat(oneTimeQueues);
+      queues = queues.concat(oneTimeQueues);
     }
 
-    return <KeyValueOverlay header="Queues" data={allQueues} />;
+    return <KeyValueOverlay header={'Queues (' + queues.size + ')'} data={queues} />;
   }
 );

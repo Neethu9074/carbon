@@ -1,7 +1,7 @@
-import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { assign, merge } from 'lodash';
 
-import { animationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
+import { animationDuration as globalAnimationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
+import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 
 const maximumNumberOfUsefulDataPoints = 80;
 
@@ -79,6 +79,7 @@ export function extendWindowSizeOnLiveMode(timeConfig) {
 
   const granularity = getChartGranularity(timeConfig);
   const modifiedTimeConfig = assign({}, timeConfig);
+  const animationDuration = timeConfig.autoRefresh ? globalAnimationDuration : 0;
   modifiedTimeConfig.windowSize += wiggleRoom + 2 * Math.max(animationDuration, granularity);
   return modifiedTimeConfig;
 }

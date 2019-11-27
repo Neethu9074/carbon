@@ -1,4 +1,4 @@
-import { lib_application_endpoint } from 'in-components/SvgIcon/registry';
+import iconSvgPath from 'in-forge/plugins/endpoint/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
@@ -6,7 +6,7 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.endpoint,
 
-  iconSvgPath: lib_application_endpoint.path,
+  iconSvgPath,
   metricDefinitions,
 
   pluginName: {

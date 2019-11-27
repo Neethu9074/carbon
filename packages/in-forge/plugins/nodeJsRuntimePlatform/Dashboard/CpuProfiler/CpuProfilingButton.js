@@ -25,7 +25,7 @@ export default connectTo(
     }
 
     return (
-      <Tooltip content="CPU profiling is only available for entities which are still under monitoring by Instana.">
+      <Tooltip content="CPU profiling is only available for entities that are still under monitoring by Instana.">
         {button}
       </Tooltip>
     );

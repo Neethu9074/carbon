@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList.js';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
 import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
+
+const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
 export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (
@@ -24,9 +25,10 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
           <ComboBox
             name={fieldNames.ruleOperator}
             value={field.value}
-            options={getOperators()}
-            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '')}
-            defaultValue={getOperators()[0].value}
+            options={selectOptions[fieldNames.ruleOperator]}
+            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '', resetThresholdField)}
+            defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
+            clearable={false}
             searchable
             autoFocus
           />
@@ -43,7 +45,7 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
               name={fieldNames.ruleValue}
               rows="3"
               value={field.value}
-              onChange={e => onChange(form, fieldNames.ruleValue, (e && e.target.value) || '')}
+              onChange={e => onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', resetThresholdField)}
               hasError={!field.valid && field.touched}
               maxLength={65536}
             />
@@ -55,7 +57,9 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
                       <JsErrorsList
                         form={form}
                         timeConfig={timeConfig}
-                        onChange={onChange}
+                        onChange={(updatedForm, fieldName, message) =>
+                          onChange(updatedForm, fieldName, message, resetThresholdField)
+                        }
                         slideOut={() => onSelectJsError({ isVisible: false })}
                       />
                     ),
@@ -77,16 +81,7 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
 
 ProvideManualPattern.propTypes = {
   form: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onSelectJsError: PropTypes.func.isRequired
+  onSelectJsError: PropTypes.func.isRequired,
+  timeConfig: PropTypes.object.isRequired
 };
-
-function getOperators() {
-  return Object.freeze([
-    { value: operators.EQUALS, label: 'Equals' },
-    { value: operators.CONTAINS, label: 'Contains' },
-    { value: operators.STARTS_WITH, label: 'Starts with' },
-    { value: operators.ENDS_WITH, label: 'Ends with' }
-  ]);
-}

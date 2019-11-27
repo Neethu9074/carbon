@@ -629,7 +629,16 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     { value: '120000', label: '2 min' },
     { value: '180000', label: '3 min' },
     { value: '300000', label: '5 min' },
-    { value: '600000', label: '10 min' }
+    { value: '600000', label: '10 min' },
+    { value: '1800000', label: '30 min' },
+    { value: '3600000', label: '60 min' },
+    { value: '5400000', label: '90 min' },
+    { value: '7200000', label: '120 min' },
+    { value: '14400000', label: '4 h' },
+    { value: '21600000', label: '6 h' },
+    { value: '43200000', label: '12 h' },
+    { value: '64800000', label: '18 h' },
+    { value: '86400000', label: '24 h' }
   ]);
 
   const entityTypeOptions = entityTypes.filter(({ value }) => entityTypesToExclude.indexOf(value) === -1);

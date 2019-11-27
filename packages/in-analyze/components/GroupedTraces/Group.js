@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
-import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEntityLink';
+import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';

@@ -66,7 +66,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
         // dispose previous subscriptions only after new subscriptions were
         // established to ensure that the connection to the backend does not
         // need to be reestablished. This makes reference counting more
-        // efficient for subscriptions which are immediately disposed or
+        // efficient for subscriptions that are immediately disposed or
         // for which values are immediately recalculated.
         if (oldSubscription) {
           oldSubscription.dispose();

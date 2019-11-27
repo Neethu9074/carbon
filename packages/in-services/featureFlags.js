@@ -32,21 +32,19 @@ export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetr
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
-export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
-export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
-export const splunkEnabled = isFeatureFlagEnabled('splunkEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled');
-export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled');
-export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled');
-export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled');
-export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
+export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
+export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
+export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
+export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
+export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 
 // ########################################################################################

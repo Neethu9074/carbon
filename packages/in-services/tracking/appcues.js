@@ -8,7 +8,7 @@ const featureFlagPrefix = 'featureFlag.';
 
 let Appcues;
 
-// extra targeting properties which are asynchronously loaded
+// extra targeting properties that are asynchronously loaded
 const extraTargetingProperties = {};
 
 // Events which will be `Appcues.track`ed once Appcues is loaded

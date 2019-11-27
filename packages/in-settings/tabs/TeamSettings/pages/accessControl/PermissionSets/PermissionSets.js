@@ -7,6 +7,7 @@ import {
   teamSettingsAccessControlPermissionSets
 } from 'in-settings/navigation/paths';
 import { getPermissionSets, deletePermissionSet } from 'in-api/permissionSets';
+import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import Link from 'in-components/Link';
 
@@ -67,8 +68,15 @@ const columnDefinitions = [
     getContent(entity) {
       return <span>{entity.websiteIds ? entity.websiteIds.length : 0}</span>;
     }
+  },
+  mobileAppMonitoringEnabled && {
+    id: 'mobileAppCount',
+    label: 'Mobile Apps',
+    getContent(entity) {
+      return <span>{entity.mobileAppIds ? entity.mobileAppIds.length : 0}</span>;
+    }
   }
-];
+].filter(Boolean);
 
 const tableActions = {
   delete: {

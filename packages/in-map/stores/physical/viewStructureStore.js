@@ -1,18 +1,15 @@
 import { combineLatest } from 'reactive-observables';
 
-import { isRbacEnabled, unmonitoredHostsEnabled } from 'in-services/featureFlags';
 import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSetting$ } from 'in-services/settings';
 import { isBlank } from 'in-services/util/string';
 import getScope from 'in-subscription/getScope';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
-
-const excludeUnmonitoredHosts$ = getSetting$('map_excludeUnmonitoredHosts');
 
 export function getViewStructure() {
   return combineLatest([
@@ -20,15 +17,13 @@ export function getViewStructure() {
     timeConfig$,
     searchMatches$,
     debouncedQuery$,
-    excludeUnmonitoredHosts$,
     viewGrouping$,
     timeConfig$.flatMap(timeConfig => getScope({ timeConfig }))
-  ]).flatMap(([viewType, timeConfig, _searchMatches, query, excludeUnmonitoredHosts, grouping, scope]) => {
+  ]).flatMap(([viewType, timeConfig, _searchMatches, query, grouping, scope]) => {
     const permittedIds = getPermittedIds(_searchMatches ? _searchMatches.toArray() : null, scope, query);
     return createViewStructureObservable({
       viewType,
       timeConfig,
-      unmonitoredHostsExcluded: !(unmonitoredHostsEnabled && !excludeUnmonitoredHosts),
       grouping
     }).map(_viewStructure => {
       const groupIds = {};

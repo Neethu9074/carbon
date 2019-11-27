@@ -49,6 +49,7 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
         timeConfig={timeConfig}
         granularity={granularity}
         snapHighlightingToMetricBars
+        includeFirstDataPoint
         y1={{
           renderer: Renderer.stackedBar,
           formatter: number.forcedCompact,
@@ -70,7 +71,7 @@ function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granu
   metrics.push('incidents');
   colors.push(theme.lib.colors.orange800);
   metricsConfiguration.incidents = {
-    query: `event.type:incident ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('incident', query),
     granularity
   };
 }
@@ -80,11 +81,11 @@ function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granular
   metrics.push('critical', 'warning');
   colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
   metricsConfiguration.critical = {
-    query: `event.type:critical ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('critical', query),
     granularity
   };
   metricsConfiguration.warning = {
-    query: `event.type:warning ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('warning', query),
     granularity
   };
 }
@@ -94,15 +95,22 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
   metrics.push('offline', 'online', 'changes');
   colors.push('#9aa5a9', '#99e1e1', '#cdbcf0');
   metricsConfiguration.offline = {
-    query: `event.type:offline ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('offline', query),
     granularity
   };
   metricsConfiguration.online = {
-    query: `event.type:online ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('online', query),
     granularity
   };
   metricsConfiguration.changes = {
-    query: `event.type:change ${query || ''}`.trim(),
+    query: getQueryWithEventTypeFilter('change', query),
     granularity
   };
+}
+
+function getQueryWithEventTypeFilter(eventType, query) {
+  if (!query || query.trim() === '') {
+    return `event.type:${eventType}`;
+  }
+  return `event.type:${eventType} (${query.trim()})`;
 }

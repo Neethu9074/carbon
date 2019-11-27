@@ -17,10 +17,7 @@ module.exports = {
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
-  unmonitoredHostsEnabled: true,
   pcfEnabled: true,
-  humioEnabled: true,
-  splunkEnabled: true,
   logDnaEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
@@ -29,5 +26,6 @@ module.exports = {
   eumAlertingEnabled: true,
   googleAnalyticsDisabled: false,
   vsphereEnabled: true,
+  profilingEnabled: true,
   mobileAppMonitoringEnabled: true
 };

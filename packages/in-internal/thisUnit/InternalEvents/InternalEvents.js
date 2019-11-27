@@ -89,7 +89,7 @@ function Event({ event }) {
   );
 
   return (
-    <ExpandableCard title={cardPreview} framed={true} openByDefault={false}>
+    <ExpandableCard title={cardPreview} framed openByDefault={false}>
       <Row verticallyStretchColumns>
         <Col lg={1}>
           <span className={locals.title}>Issue link:</span>

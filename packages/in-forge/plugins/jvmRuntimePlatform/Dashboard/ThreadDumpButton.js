@@ -25,7 +25,7 @@ export default connectTo(
     }
 
     return (
-      <Tooltip content="Thread dumps can only be retrieved for entities which are still under monitoring by Instana.">
+      <Tooltip content="Thread dumps can only be retrieved for entities that are still under monitoring by Instana.">
         {button}
       </Tooltip>
     );

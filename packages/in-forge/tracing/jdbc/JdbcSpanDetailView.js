@@ -21,7 +21,7 @@ export default function JdbcSpanDetailView({ span }) {
 
         <p />
         <Di title="Connection" verticalDisplay>
-          <Code softWrap={true} code={span.getIn(['data', 'jdbc', 'connection'])} />
+          <Code softWrap code={span.getIn(['data', 'jdbc', 'connection'])} />
         </Di>
         <Di title="User">{span.getIn(['data', 'jdbc', 'user'])}</Di>
         <Di title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</Di>

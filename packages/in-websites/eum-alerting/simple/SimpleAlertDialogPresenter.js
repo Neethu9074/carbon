@@ -18,13 +18,14 @@ const steps = {
 };
 
 export default function SimpleAlertDialogPresenter({
+  editMode,
   form,
-  timeConfig,
+  granularity,
   onChange,
   onClose,
   onCreate,
-  websiteLabel,
-  editMode
+  timeConfig,
+  websiteLabel
 }) {
   const [step, setStep] = useState(steps.selectAlert);
   const [slideInConfig, setSlideInConfig] = useState(null);
@@ -50,6 +51,7 @@ export default function SimpleAlertDialogPresenter({
               onChange={onChange}
               timeConfig={timeConfig}
               setJsErrorsListVisible={setSliderState(setSlideInConfig, setSlideInViewVisible)}
+              granularity={granularity}
             />
           )}
           {step === steps.confirmDomain && (
@@ -58,6 +60,7 @@ export default function SimpleAlertDialogPresenter({
               timeConfig={timeConfig}
               websiteLabel={websiteLabel}
               onChange={onChange}
+              granularity={granularity}
             />
           )}
           {step === steps.selectAlertingChannel && (
@@ -91,13 +94,14 @@ export default function SimpleAlertDialogPresenter({
 }
 
 SimpleAlertDialogPresenter.propTypes = {
+  editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
-  editMode: PropTypes.bool
+  timeConfig: PropTypes.object.isRequired,
+  websiteLabel: PropTypes.string.isRequired
 };
 
 function setSliderState(setSlideInConfig, setSlideInViewVisible) {

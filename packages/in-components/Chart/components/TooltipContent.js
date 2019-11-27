@@ -7,7 +7,13 @@ import { aggregationLabels } from 'in-stores/metric/metric';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({ timestamp, chart, reverseTooltipOrder, hoveredEvent }) {
+export default function TooltipContent({
+  timestamp,
+  chart,
+  reverseTooltipOrder,
+  hoveredEvent,
+  excludedLabelsFromTooltip
+}) {
   const dataPointsAtTime = chart.collectAllDataPointsAtTime(timestamp);
 
   return (
@@ -24,18 +30,20 @@ export default function TooltipContent({ timestamp, chart, reverseTooltipOrder, 
         axisName="y1"
         dataPointsAtTime={dataPointsAtTime}
         reverseTooltipOrder={reverseTooltipOrder}
+        excludedLabelsFromTooltip={excludedLabelsFromTooltip}
       />
       <MetricSeries
         config={chart.config}
         axisName="y2"
         dataPointsAtTime={dataPointsAtTime}
         reverseTooltipOrder={reverseTooltipOrder}
+        excludedLabelsFromTooltip={excludedLabelsFromTooltip}
       />
     </div>
   );
 }
 
-function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder }) {
+function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder, excludedLabelsFromTooltip = [] }) {
   const axis = config[axisName];
   if (!axis) {
     return null;
@@ -49,7 +57,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder 
 
   const items = labels
     .map((label, i) => {
-      if (config.isLabelFiltered(label)) {
+      if (config.isLabelFiltered(label) || excludedLabelsFromTooltip.includes(label)) {
         return null;
       }
       const dataPointsForAxis = dataPointsAtTime[axisName];

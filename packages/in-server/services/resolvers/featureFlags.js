@@ -85,12 +85,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'unmonitoredHostsEnabled',
-    instanaCtlKey: 'feature.unmonitored.hosts.enabled',
-    consulKey: `settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'customDashboardsEnabled',
     instanaCtlKey: 'feature.custom.dashboards.enabled',
     consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
@@ -101,18 +95,6 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.pcf.enabled',
     consulKey: `settings/${tenant}-${unit}/PCF_ENABLED`,
     defaultValue: false
-  },
-  {
-    uiClientKey: 'humioEnabled',
-    instanaCtlKey: 'feature.humio.enabled',
-    consulKey: `settings/${tenant}-${unit}/HUMIO_ENABLED`,
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'splunkEnabled',
-    instanaCtlKey: 'feature.splunk.enabled',
-    consulKey: `settings/${tenant}-${unit}/SPLUNK_ENABLED`,
-    defaultValue: true
   },
   {
     uiClientKey: 'logDnaEnabled',
@@ -160,6 +142,12 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'vsphereEnabled',
     instanaCtlKey: 'feature.vsphere.enabled',
     consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'profilingEnabled',
+    instanaCtlKey: 'feature.profiling.enabled',
+    consulKey: `settings/${tenant}-${unit}/PROFILING_ENABLED`,
     defaultValue: false
   }
 ];

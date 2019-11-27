@@ -1,9 +1,21 @@
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
+import {
+  pcfEnabled,
+  customDashboardsEnabled,
+  vsphereEnabled,
+  profilingEnabled,
+  mobileAppMonitoringEnabled
+} from 'in-services/featureFlags';
+import {
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess
+} from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, customDashboardsEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
@@ -11,6 +23,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import Map from 'promise-loader?global,infrastructure!in-map/index';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
@@ -19,6 +32,7 @@ import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
+import profilingRoutes from 'in-profiling/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
@@ -47,8 +61,11 @@ export default (
     {pcfEnabled && cloudfoundryRoutes}
     {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
+    {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
     {integrationRoutes}
+
+    {profilingEnabled && profilingRoutes}
 
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
     {/* landing page */}

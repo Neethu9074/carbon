@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TraceValidationResult.mless';
 
-const issueMessages = {
+export const issueMessages = {
   multiple_root_spans: 'The trace is malformed and contains multiple root calls',
   missing_root_span: 'The root call of the trace is missing or has not yet arrived in the processing pipeline.',
   duplicated_spans: 'The trace contains duplicated calls with the same id.',

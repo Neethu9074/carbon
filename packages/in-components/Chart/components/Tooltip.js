@@ -180,6 +180,7 @@ function TooltipLineAndContent({
   hoveredEvent,
   ...props
 }) {
+  const { excludedLabelsFromTooltip } = props.metrics.y1;
   return (
     <div
       className={locals.line}
@@ -198,6 +199,7 @@ function TooltipLineAndContent({
           timestamp={nearestTimeInMetrics}
           chart={props.chart}
           reverseTooltipOrder={props.reverseTooltipOrder}
+          excludedLabelsFromTooltip={excludedLabelsFromTooltip}
         />
       </div>
     </div>

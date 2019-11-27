@@ -7,14 +7,17 @@ import Applications, {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Applications';
 import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sNamespaces';
 import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sClusters';
+import MobileApps from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/MobileApps';
 import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Websites';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getK8sNamespaces, getK8sClusters } from 'in-api/permissionSets';
+import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { productAreaPermissions } from 'in-stores/permission';
+import { getMobileApps } from 'in-mobile-apps/api/mobileApps';
 import FormGroup from 'in-settings/components/FormGroup';
 import { getWebsites } from 'in-websites/api/websites';
 import Toggle from 'in-components/form/Toggle';
@@ -28,6 +31,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
     ? form.get('kubernetesNamespaceUIDs').value.toJS()
     : [];
   const selectedWebsites = form.get('websiteIds') ? form.get('websiteIds').value.toJS() : [];
+  const selectedMobileApps = form.get('mobileAppIds') ? form.get('mobileAppIds').value.toJS() : [];
 
   return (
     <fieldset>
@@ -156,6 +160,32 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
         }
       />
       <TouchedMessages field={form.get('websiteIds')} />
+
+      {mobileAppMonitoringEnabled && <>
+        <MobileApps
+        setTitle={false}
+        loadEntities={() => getSelectedMobileApps(selectedMobileApps)}
+        hasRowNavigation={false}
+        noDataMessage="No Mobile App Selected"
+        tableActions={mobileAppSelectionTableActions(form, setForm)}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitMobileAppSelection(form, setForm, selectedIds)}
+            title="Add Mobile App"
+            label="Add Mobile App"
+            listComponent={MobileApps}
+            listComponentRightHeader={noRightHeader}
+            hiddenIds={selectedMobileApps}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Mobile App${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
+            requiresAtLeastOneMessage="Please select at least one mobile app."
+          />
+        }
+      />
+      <TouchedMessages field={form.get('mobileAppIds')} />
+      </>}
     </fieldset>
   );
 }
@@ -188,6 +218,14 @@ function getSelectedWebsites(selectedWebsites = []) {
   return getWebsites().map(website =>
     filter(website, function(web) {
       return selectedWebsites.indexOf(web.id) >= 0;
+    })
+  );
+}
+
+function getSelectedMobileApps(selectedMobileApps = []) {
+  return getMobileApps().map(mobileApp =>
+    filter(mobileApp, function(app) {
+      return selectedMobileApps.indexOf(app.id) >= 0;
     })
   );
 }
@@ -264,6 +302,24 @@ function websiteSelectionTableActions(form, setForm) {
   };
 }
 
+function mobileAppSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          setForm(
+            form.updateIn(['mobileAppIds'], field => {
+              return field
+                .setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id))
+                .setTouched(true);
+            })
+          );
+        }
+      }
+    }
+  };
+}
+
 function submitApplicationSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['applicationIds'], field => {
@@ -291,6 +347,14 @@ function submitK8sNamespaceSelection(form, setForm, selectedIds) {
 function submitWebsiteSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['websiteIds'], field => {
+      return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
+    })
+  );
+}
+
+function submitMobileAppSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['mobileAppIds'], field => {
       return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
     })
   );

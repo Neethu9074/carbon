@@ -115,12 +115,13 @@ export default class Config {
     // we need to round the pixels to full values because some browser APIs cannot handle floats here.
     // because rounding manipulates the calculation we need to add the error created by the rounding to the animation time
     // to avoid chart hoppings
-    const bufferOffsetInPx = this.width * (animationDuration / fullDomain);
-    const bufferOffsetInPxRounded = Math.ceil(this.width * (animationDuration / fullDomain));
+    const adaptedAnimationDuration = this.timeConfig.autoRefresh ? animationDuration : 0;
+    const bufferOffsetInPx = this.width * (adaptedAnimationDuration / fullDomain);
+    const bufferOffsetInPxRounded = Math.ceil(this.width * (adaptedAnimationDuration / fullDomain));
     const differenceInPx = bufferOffsetInPxRounded - bufferOffsetInPx || 0;
     const differenceInTime = (fullDomain / this.width) * differenceInPx || 0;
 
-    this.animationDuration = animationDuration + differenceInTime;
+    this.animationDuration = adaptedAnimationDuration + differenceInTime;
 
     this.bufferOffsetInPx = bufferOffsetInPxRounded;
 

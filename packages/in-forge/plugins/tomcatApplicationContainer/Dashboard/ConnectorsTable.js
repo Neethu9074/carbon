@@ -17,7 +17,7 @@ const colsWithoutConnections = [
     }
   },
   {
-    title: 'Thread Count',
+    title: 'Threads',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -139,7 +139,7 @@ function createDetailsWithConnections(row) {
           'connectors.' + row.key + '.threadsBusy',
           'connectors.' + row.key + '.connections'
         ],
-        labels: [row.key + ' Threads', row.key + ' Threads Busy', row.key + ' Connections'],
+        labels: [row.key + ' Threads', row.key + ' Busy Threads', row.key + ' Connections'],
         type: 'line'
       }}
     />
@@ -153,7 +153,7 @@ function createDetailsWithoutConnections(row) {
       timeConfig={row.timeConfig}
       y1={{
         metrics: ['connectors.' + row.key + '.threads', 'connectors.' + row.key + '.threadsBusy'],
-        labels: [row.key + ' Threads', row.key + ' Threads Busy'],
+        labels: [row.key + ' Threads', row.key + ' Busy Threads'],
         type: 'line'
       }}
     />

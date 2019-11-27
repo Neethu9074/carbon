@@ -102,5 +102,11 @@ function createForm(permissionSet) {
       createField({
         value: permissionSet.get('websiteIds', List())
       })
+    )
+    .put(
+      'mobileAppIds',
+      createField({
+        value: permissionSet.get('mobileAppIds', List())
+      })
     );
 }

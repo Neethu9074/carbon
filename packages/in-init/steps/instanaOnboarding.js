@@ -11,7 +11,7 @@ import { isOnboardingGuideEnabled } from 'in-services/featureFlags';
 
 export function init() {
   const reportingData = window.instana.reportingData;
-  // the onboarding dialog is skipped when ther are reporting hosts right now
+  // the onboarding dialog is skipped when there are reporting hosts right now.
   if (!isOnboardingGuideEnabled || (reportingData && reportingData.hostCount > 0)) {
     return just(true);
   }
