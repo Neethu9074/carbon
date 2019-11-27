@@ -15,7 +15,7 @@ registerSpanDefinition({
   getLabel(span) {
     const template = span.getIn(['data', 'twig', 'template']);
     if (template) {
-      return 'Render Twig template: ' + template;
+      return 'Render Twig template: ' + template.split("/").pop();
     }
     return 'Render Twig template';
   }
