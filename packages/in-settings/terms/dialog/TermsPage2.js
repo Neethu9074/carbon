@@ -75,11 +75,7 @@ export default function TermsPage2({
             <p>Knowing how Instana is used in real life is vital for us to fine-tune and improve the product.</p>
             {form.get('allAnalyticsServices').map(({ value }) => (
               <CheckboxFancy
-                label={
-                  googleAnalyticsDisabled
-                    ? 'Allow Mixpanel Analytics'
-                    : 'Allow all Analytics (Google Analytics & Mixpanel)'
-                }
+                label={googleAnalyticsDisabled ? 'Allow Mixpanel Analytics' : 'Allow all Analytics (Mixpanel)'}
                 checked={value}
                 onChange={() => onChange(form, 'allAnalyticsServices', !value)}
                 size="large"

@@ -9,11 +9,13 @@ import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
 import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
 import Root from '../_helpers/Root';
 
-storiesOf('Terms', module).add('ProgressIndicator', () => <ProgessIndicator />);
-storiesOf('Terms', module).add('Page 1', () => <Page1 />);
-storiesOf('Terms', module).add('Page 2', () => <Page2 />);
-storiesOf('Terms', module).add('Dialog', () => <Dialog />);
-storiesOf('Terms', module).add('Running on OnPrem', () => <DialogOnPrem />);
+storiesOf('Terms', module)
+  .add('ProgressIndicator', () => <ProgessIndicator />)
+  .add('Page 1', () => <Page1 />)
+  .add('Page 2', () => <Page2 />)
+  .add('Dialog', () => <Dialog />)
+  .add('Full Dialog', () => <FullDialog />)
+  .add('Running on OnPrem', () => <DialogOnPrem />);
 
 const userSettings = {
   allAnalyticsServices: true,
@@ -96,6 +98,23 @@ function DialogOnPrem() {
         onChange={onChange(setForm)}
         form={form}
         fullTermsConfigEnabled={false}
+      />
+    </Root>
+  );
+}
+
+function FullDialog() {
+  const [form, setForm] = useState(termsFormDefinition(userSettings));
+  return (
+    <Root>
+      <TermsDialogPresenter
+        userSettings={userSettings}
+        onSave={action('onSwitchMetricPosition')}
+        saveError={false}
+        unsetSaveError={() => action('unsetSaveError')}
+        onChange={onChange(setForm)}
+        form={form}
+        fullTermsConfigEnabled
       />
     </Root>
   );
