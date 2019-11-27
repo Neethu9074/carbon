@@ -18,7 +18,7 @@ export function init() {
 
   const observable = create();
   const Component = createAsyncViewComponent(InstanaOnboardingComponent);
-  ReactDOM.render(<Component observable={observable} />, document.getElementById('main'));
+  ReactDOM.render(<Component onDialogSkip={() => observable.emit(true)} />, document.getElementById('main'));
 
   // Force stop the UI init process at this step. The onboarding dialog will
   // force a page reload once completed.

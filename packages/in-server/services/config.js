@@ -11,6 +11,7 @@ exports.getClientConfig = (tenant, unit) => {
     activeResolver.getConfiguration(tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration]) => ({
     butlerDomain,
+    agentEndpoint: resolveAgentEndpoint(serverConfig.clientConfig),
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     tenant: tenant,
@@ -20,3 +21,14 @@ exports.getClientConfig = (tenant, unit) => {
     zendeskKey: serverConfig.zendeskKey
   }));
 };
+
+function resolveAgentEndpoint(clientConfig, tenant, unit) {
+  // can be used for onprem and fullstack environments, GC and maybe others in the future
+  if (clientConfig.agentEndpoint) {
+    return clientConfig.agentEndpoint.replace('$TENANT', tenant).replace('$UNIT', unit);
+  }
+  // saas
+  if (clientConfig.region) {
+    return `saas-${clientConfig.region}.instana.io`;
+  }
+}

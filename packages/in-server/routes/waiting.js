@@ -39,6 +39,7 @@ router.get('/waiting', (req, res) => {
         tenantUnit: req.unit,
         agentKey: req.query.agentkey,
         tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
+        agentEndpoint: serverConfig.clientConfig.agentEndpoint,
         region: serverConfig.clientConfig.region,
         butlerDomain: serverConfig.clientConfig.butlerDomain
       }),
