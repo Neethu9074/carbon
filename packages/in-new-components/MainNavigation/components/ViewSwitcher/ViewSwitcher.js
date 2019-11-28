@@ -9,16 +9,34 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
+import {
+  mobileAppMonitoringPath,
+  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  isAnalyzeView as isMobileAppAnalyzeView
+} from 'in-mobile-apps/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
+import {
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess
+} from 'in-stores/permission';
+import {
+  pcfEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled
+} from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-profiling/navigation/paths';
+import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -94,7 +112,7 @@ export default function ViewSwitcher({
       {vsphereEnabled && (
         <View
           id="main-nav-vsphere"
-          label="VSphere"
+          label="vSphere"
           icon="lib_vsphere_inverted"
           href$={getView(datacenterListFullyQualified)}
           isActive$={isView(vsphere)}
@@ -126,22 +144,42 @@ export default function ViewSwitcher({
         />
       )}
 
+      {mobileAppMonitoringEnabled &&
+        hasMobileAppsAccess && (
+          <View
+            id="main-nav-mobile-apps"
+            label="Mobile Apps"
+            icon="lib_website_inverted"
+            href$={getView(mobileAppMonitoringPath)}
+            isActive$={all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v))}
+            {...commonProps}
+          />
+        )}
+
       {hasAnalyzeAccess && (
         <View
           id="main-nav-analyze"
           label="Analytics"
           icon="lib_analyze_inverted"
-          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isProfileAnalyzeView)}
+          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView)}
           href$={
-            hasApplicationsAccess
-              ? getLinkToAnalyze({
+            [
+              hasApplicationsAccess &&
+                getLinkToAnalyze({
                   dataSource: 'traces',
                   groupByTag: getConfigByDataSource('traces').defaultGrouping
-                })
-              : getLinkToWebsiteAnalyze({
+                }),
+              hasWebsitesAccess &&
+                getLinkToWebsiteAnalyze({
                   beaconType: 'pageLoad',
                   group: defaultWebsiteGroupings.pageLoad
+                }),
+              hasMobileAppsAccess &&
+                getLinkToMobileAppAnalyze({
+                  beaconType: 'sessions',
+                  group: defaultMobileAppGroupings.sessions
                 })
+            ].filter(Boolean)[0]
           }
           {...commonProps}
         />
