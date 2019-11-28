@@ -16,6 +16,7 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Stan from 'in-internal/monitoringUnit/unit/Stan';
+import Eum from 'in-internal/monitoringUnit/unit/Eum';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
@@ -88,6 +89,10 @@ export default connectTo(({ location }) => {
                 )}
               />
               <Route
+                path="/internal/monitoringUnit/unit/eum"
+                render={() => <Eum timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
+              />
+              <Route
                 path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
                 render={() => (
                   <InfrastructureDataStatistics
@@ -130,6 +135,10 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label="Application"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+      />
+      <LinkListItem
+        label="End-User Monitoring"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/eum'))}
       />
       <LinkListItem
         label="Entity Statistics"
