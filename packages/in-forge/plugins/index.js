@@ -136,7 +136,6 @@ import './statsd';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
 import './varnish';
-import './vsphereDatacenter';
 import './vsphereHost';
 import './vsphereVm';
 import './webLogicApplicationContainer';
