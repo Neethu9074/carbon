@@ -1,6 +1,6 @@
 import { sortedIndexBy } from 'lodash';
 
-import { dynamicRollupPredefinitions } from 'in-stores/metric/metric';
+import { sensibleGranularities } from 'in-stores/metric/metric';
 
 export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }) {
   rollup = rollup || 1000;
@@ -19,8 +19,8 @@ export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBloc
 
 export function getPredefinedBlockSizeMillisForBlockSize(blockSizeMillis) {
   const i = Math.min(
-    dynamicRollupPredefinitions.length - 1,
-    sortedIndexBy(dynamicRollupPredefinitions, blockSizeMillis, column => column)
+    sensibleGranularities.length - 1,
+    sortedIndexBy(sensibleGranularities, blockSizeMillis, column => column)
   );
-  return dynamicRollupPredefinitions[i];
+  return sensibleGranularities[i];
 }

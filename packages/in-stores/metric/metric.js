@@ -26,24 +26,23 @@ export const aggregationLabels = {
   SUM: 'sum'
 };
 
-export const dynamicRollupPredefinitions = [
-  1000,
-  1000 * 5,
-  1000 * 10,
-  1000 * 20,
-  1000 * 30,
-  1000 * 60,
-  1000 * 60 * 5,
-  1000 * 60 * 10,
-  1000 * 60 * 20,
-  1000 * 60 * 30,
-  1000 * 60 * 60,
-  1000 * 60 * 90,
-  1000 * 60 * 60 * 2,
-  1000 * 60 * 60 * 6,
-  1000 * 60 * 60 * 12,
-  1000 * 60 * 60 * 24,
-  1000 * 60 * 60 * 24 * 7
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
+const day = 24 * hour;
+export const sensibleGranularities = [
+  second,
+  5 * second,
+  10 * second,
+  minute,
+  5 * minute,
+  10 * minute,
+  hour,
+  5 * hour,
+  10 * hour,
+  day,
+  5 * day,
+  10 * day
 ];
 
 const rollupDurationThresholds = [
