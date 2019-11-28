@@ -22,7 +22,13 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled, vsphereEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import {
+  pcfEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled
+} from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
@@ -106,7 +112,7 @@ export default function ViewSwitcher({
       {vsphereEnabled && (
         <View
           id="main-nav-vsphere"
-          label="VSphere"
+          label="vSphere"
           icon="lib_vsphere_inverted"
           href$={getView(datacenterListFullyQualified)}
           isActive$={isView(vsphere)}
@@ -138,16 +144,17 @@ export default function ViewSwitcher({
         />
       )}
 
-      {mobileAppMonitoringEnabled && hasMobileAppsAccess && (
-        <View
-          id="main-nav-mobile-apps"
-          label="Mobile Apps"
-          icon="lib_website_inverted"
-          href$={getView(mobileAppMonitoringPath)}
-          isActive$={all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v))}
-          {...commonProps}
-        />
-      )}
+      {mobileAppMonitoringEnabled &&
+        hasMobileAppsAccess && (
+          <View
+            id="main-nav-mobile-apps"
+            label="Mobile Apps"
+            icon="lib_website_inverted"
+            href$={getView(mobileAppMonitoringPath)}
+            isActive$={all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v))}
+            {...commonProps}
+          />
+        )}
 
       {hasAnalyzeAccess && (
         <View
