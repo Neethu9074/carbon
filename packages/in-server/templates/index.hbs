@@ -54,12 +54,12 @@
     b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
     a.src=k,a.setAttribute('crossorigin', 'anonymous'),d=e.getElementsByTagName(f)[0],
     d.parentNode.insertBefore(a,d))})(window,document,'script',
-    '//{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
+    'https://{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('beaconBatchingTime', 3000);
     ineum('traceId', '{{backendTraceId}}');
-    ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api\.mixpanel\.com\/track.*/i]);
+    ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api(-js)?\.mixpanel\.com\/track.*/i]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
     ineum('meta', 'build.tag', window.instana.build.tag);
     ineum('meta', 'build.revision', window.instana.build.revision);
