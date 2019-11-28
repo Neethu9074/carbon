@@ -312,9 +312,9 @@ export const fullyQualifiedPlugins = {
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
-  vsphereDatacenter: 'com.instana.forge.infrastructure.paas.vsphere.VsphereDatacenter',
-  vsphereHost: 'com.instana.forge.infrastructure.paas.vsphere.VsphereHost',
-  vsphereVm: 'com.instana.forge.infrastructure.paas.vsphere.VsphereVM',
+  vsphereDatacenter: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.datacenter.VsphereDatacenter',
+  vsphereHost: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.host.VsphereHost',
+  vsphereVm: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.vm.VsphereVM',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer:
