@@ -13,6 +13,7 @@ import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
 import { MemoryTotal } from './MemoryTotal';
+import { get } from 'lodash';
 
 const pathSegment = '/vms';
 const matrixPrefix = 'vm.';
@@ -22,11 +23,11 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon="lib_linux" />;
+      return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
     }
   },
   {
-    id: 'cpu.usage.percent.maximum',
+    id: 'cpu.usage.maximum.percent',
     label: 'CPU Usage',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
@@ -123,4 +124,9 @@ function getTableData({
     },
     granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   });
+}
+
+function resolveIcon(props) {
+  const guestFullName = get(props, ['guestFullName'], 'linux');
+  return guestFullName && guestFullName.toLowerCase().includes('windows') ? 'lib_windows' : 'lib_linux';
 }
