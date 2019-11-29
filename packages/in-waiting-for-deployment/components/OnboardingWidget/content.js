@@ -484,7 +484,7 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
             '   --handler instana-aws-lambda-auto-wrap.handler',
             `   --environment "Variables={${
               lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
-            }INSTANA_ENDPOINT_URL=https://serverless-${endpoint}.instana.io/,INSTANA_AGENT_KEY=${agentKey} }"`
+            }INSTANA_ENDPOINT_URL=https://serverless-${endpoint}.instana.io/, INSTANA_AGENT_KEY=${agentKey} }"`
           ]}
         />
       </Fragment>
