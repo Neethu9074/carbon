@@ -2,9 +2,27 @@ import { assign, merge } from 'lodash';
 
 import { animationDuration as globalAnimationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
-import { sensibleGranularities } from 'in-stores/metric/metric';
 
 const maximumNumberOfUsefulDataPoints = 80;
+
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
+const day = 24 * hour;
+const sensibleGranularities = [
+  second,
+  5 * second,
+  10 * second,
+  minute,
+  5 * minute,
+  10 * minute,
+  hour,
+  5 * hour,
+  10 * hour,
+  day,
+  5 * day,
+  10 * day
+];
 
 export function getChartGranularity({ windowSize }) {
   const granularity = sensibleGranularities.find(

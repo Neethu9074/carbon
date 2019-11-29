@@ -52,6 +52,6 @@ describe('in-services/util/dynamicAggregation', () => {
     expect(getPredefinedBlockSizeMillisForBlockSize(999)).to.equal(1000);
     expect(getPredefinedBlockSizeMillisForBlockSize(1000)).to.equal(1000);
     expect(getPredefinedBlockSizeMillisForBlockSize(1001)).to.equal(1000 * 5);
-    expect(getPredefinedBlockSizeMillisForBlockSize(Number.MAX_VALUE)).to.equal(1000 * 60 * 60 * 24 * 10);
+    expect(getPredefinedBlockSizeMillisForBlockSize(Number.MAX_VALUE)).to.equal(1000 * 60 * 60 * 24 * 7);
   });
 });
