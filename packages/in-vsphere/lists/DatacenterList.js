@@ -31,7 +31,7 @@ const columnDefinitions = [
   },
   {
     id: 'hosts',
-    label: 'vSphere Hosts',
+    label: 'ESXi Hosts',
     getContent(item) {
       return <EntityCounter icon="lib_linux" count={item.hosts} />;
     }
@@ -80,7 +80,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           timeConfig={timeConfig}
           formatter={kbPerSecondFormatter}
-          metric="net.received.kiloBytesPerSecond.average.*"
+          metric="net.received.average.bytesPerSecond"
         />
       );
     }

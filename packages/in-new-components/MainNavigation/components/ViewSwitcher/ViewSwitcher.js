@@ -9,7 +9,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled, vsphereEnabled } from 'in-services/featureFlags';
@@ -19,6 +18,7 @@ import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwi
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-profiling/navigation/paths';
+import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -94,7 +94,7 @@ export default function ViewSwitcher({
       {vsphereEnabled && (
         <View
           id="main-nav-vsphere"
-          label="VSphere"
+          label="vSphere"
           icon="lib_vsphere_inverted"
           href$={getView(datacenterListFullyQualified)}
           isActive$={isView(vsphere)}

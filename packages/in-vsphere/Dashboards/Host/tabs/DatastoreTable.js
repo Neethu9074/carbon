@@ -107,9 +107,10 @@ function getDetails(row) {
             tooltipFormatter: number.compact,
             metrics: [
               'datastore.datastoreReadIops.number.latest.' + row.filesystem.id,
-              'datastore.datastoreWriteIops.number.latest.' + row.filesystem.id
+              'datastore.datastoreWriteIops.number.latest.' + row.filesystem.id,
+              'datastore.datastoreTotalIops.number.latest.' + row.filesystem.id
             ],
-            labels: ['IOPS Read', 'IOPS Write'],
+            labels: ['IOPS Read', 'IOPS Write', 'IOPS Total'],
             type: 'line'
           }}
         />
@@ -150,9 +151,10 @@ function getDetails(row) {
             tooltipFormatter: number.compact,
             metrics: [
               'datastore.datastoreNormalReadLatency.number.latest.' + row.filesystem.id,
-              'datastore.datastoreNormalWriteLatency.number.latest.' + row.filesystem.id
+              'datastore.datastoreNormalWriteLatency.number.latest.' + row.filesystem.id,
+              'datastore.datastoreNormalTotalLatency.number.latest.' + row.filesystem.id
             ],
-            labels: ['Latency Read', 'Latency Write'],
+            labels: ['Latency Read', 'Latency Write', 'Latency Total'],
             type: 'line'
           }}
         />

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { number, kiloBytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -84,15 +84,23 @@ export default function Summary({ timeConfig, data: host }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: kiloBytesZeroDecimalPlaces,
-                metrics: ['net.received.kiloBytesPerSecond.average.*', 'net.transmitted.kiloBytesPerSecond.average.*'],
-                labels: ['Bytes received', 'Bytes transmitted'],
+                formatter: bytesZeroDecimalPlaces,
+                metrics: [
+                  'net.received.average.bytesPerSecond',
+                  'net.transmitted.average.bytesPerSecond',
+                  'net.total.average.bytesPerSecond'
+                ],
+                labels: ['Bytes Received', 'Bytes Transmitted', 'Bytes Total'],
                 type: 'line'
               }}
               y2={{
                 formatter: number.compact,
-                metrics: ['net.packetsRx.summation.number', 'net.packetsTx.summation.number'],
-                labels: ['Packets received', 'Packets transmitted'],
+                metrics: [
+                  'net.packetsRx.summation.number',
+                  'net.packetsTx.summation.number',
+                  'net.packetsTotal.summation.number'
+                ],
+                labels: ['Packets Received', 'Packets Transmitted', 'Packets Total'],
                 type: 'line'
               }}
             />
