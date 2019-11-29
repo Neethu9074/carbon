@@ -57,6 +57,16 @@ export default function VMDashboard({ location }) {
 
 function Header(props) {
   return (
-    <BasicDashboardHeader title="VM" icon="lib_linux" {...props} getLabel={result => get(result, ['data', 'label'])} />
+    <BasicDashboardHeader
+      title="VM"
+      icon={resolveIcon(props)}
+      {...props}
+      getLabel={result => get(result, ['data', 'label'])}
+    />
   );
+}
+
+export function resolveIcon(props) {
+  const guestFullName = get(props, ['result', 'data', 'guestFullName'], 'linux');
+  return guestFullName && guestFullName.toLowerCase().includes('windows') ? 'lib_windows' : 'lib_linux';
 }

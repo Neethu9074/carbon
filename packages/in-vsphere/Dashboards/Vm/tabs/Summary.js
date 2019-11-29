@@ -41,6 +41,20 @@ export default function Summary({ timeConfig, data: vm }) {
           borderless
         />
       </KpiGridRow>
+      <KpiGridRow sizes={[6, 6]}>
+        <KpiCard
+          title="Guest OS"
+          value={<Capitalize>{vm.guestFullName || valueMissingPlaceholder}</Capitalize>}
+          raw
+          borderless
+        />
+        <KpiCard
+          title="State"
+          value={<Capitalize>{vm.guestState || valueMissingPlaceholder}</Capitalize>}
+          raw
+          borderless
+        />
+      </KpiGridRow>
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
