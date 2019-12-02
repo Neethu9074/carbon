@@ -152,7 +152,7 @@ function Header(props) {
 function MessageBar({ title, message, link }) {
   return (
     <div className={locals.messageWrapper}>
-      <Message>
+      <Message small>
         <span>
           <strong>{title} </strong>
           {message}

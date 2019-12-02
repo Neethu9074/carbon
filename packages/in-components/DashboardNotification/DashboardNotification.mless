@@ -1,0 +1,31 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    margin: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: @lib__shapes__radius_medium;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .info {
+    color: @lib__colors__black72;
+    background-color: @lib__colors__primary240;
+    border-color: @lib__colors__primary2;
+  }
+
+  .warning {
+    color: @lib__colors__black72;
+    background-color: @lib__colors__warning40;
+    border-color: @lib__colors__warning;
+  }
+
+  .danger {
+    color: @lib__colors__black72;
+    background-color: @lib__colors__failure40;
+    border-color: @lib__colors__failure;
+  }
+}

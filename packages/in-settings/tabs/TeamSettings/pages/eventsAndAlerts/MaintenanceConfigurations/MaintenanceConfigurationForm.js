@@ -26,13 +26,10 @@ import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './MaintenanceConfigurationForm.mless';
-
-const IconErrorOutline = <SvgIcon type={'lib_help_error_error_outline'} size="s" color="#40535b" />;
 
 export default function MaintenanceConfigurationForm(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;
@@ -223,7 +220,7 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
         : texts.timezone + ' ' + texts.utcOffset + ' ' + texts.changeToUtc) + ' ';
 
     return (
-      <Message className={locals.messageWrapper} icon={IconErrorOutline}>
+      <Message className={locals.messageWrapper} withIcon small>
         <div>
           {message}
           <Link href={href}>User Settings &gt; General User Interface Settings</Link>
@@ -301,7 +298,7 @@ const DateWithTime = connectTo(
           </Col>
           {message && (
             <Col cols={10}>
-              <Message className={locals.submessageWrapper} icon={IconErrorOutline}>
+              <Message className={locals.submessageWrapper} withIcon small>
                 <div>{message}</div>
               </Message>
             </Col>

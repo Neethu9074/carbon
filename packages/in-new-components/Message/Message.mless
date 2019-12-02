@@ -2,33 +2,37 @@
 
 :local {
   .message {
-    min-height: 2.5rem;
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 0.625rem;
     background: @lib__colors__N200;
-    border-top-left-radius: 0.125rem;
-    border-top-right-radius: 0.125rem;
-    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+    border: 1px solid @lib__colors__N400;
     box-sizing: border-box;
+    min-height: 2.5rem;
+    padding: 0.625rem;
+    color: @lib__colors__N600Light;
   }
 
   .icon {
-    align-self: baseline;
+    align-self: flex-start;
     margin-right: 0.5rem;
-  }
+    line-height: 1.5rem;
 
-  .topPaddingIcons {
-    padding-top: 0.25rem;
+    &.smallSize {
+      line-height: 1.25rem;
+    }
   }
 
   .content {
-    .topPaddingIcons;
     width: 100%;
-  }
+    font-size: 1rem;
+    line-height: 1.5rem;
 
-  .dismissContainer {
-    .topPaddingIcons;
+    &.smallSize {
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+    }
   }
 
   .dismiss {

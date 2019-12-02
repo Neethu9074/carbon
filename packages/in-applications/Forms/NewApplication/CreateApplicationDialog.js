@@ -259,7 +259,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                           </FormGroup>
                         ))}
 
-                        <Message>
+                        <Message small>
                           Soon you will be able to configure whether the default behavior of this Application
                           Perspective is <b>Inbound calls</b> or <b>All calls</b>. The current default behavior is{' '}
                           <b>Inbound calls</b>.

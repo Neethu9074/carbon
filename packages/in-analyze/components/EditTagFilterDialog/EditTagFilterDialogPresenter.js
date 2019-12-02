@@ -47,7 +47,7 @@ export default function EditTagFilterDialogPresenter({
   return (
     <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
-        <Message className={locals.help}>
+        <Message small className={locals.help}>
           Select a tag by which your data should be filtered. Tags are case-sensitive.
         </Message>
 

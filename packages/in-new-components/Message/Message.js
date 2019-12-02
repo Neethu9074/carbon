@@ -1,43 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from './Message.mless';
 
-export default class Message extends React.Component {
-  static displayName = 'Message';
+const iconTypes = {
+  neutral: 'lib_help_error_error_outline',
+  warning: 'lib_help_error_warning_outline'
+};
 
-  constructor(props) {
-    super(props);
+export default function Message({
+  children,
+  className,
+  dismissible,
+  type = 'neutral',
+  withIcon,
+  iconColor = theme.lib.colors.N600Light,
+  small
+}) {
+  const [dismiss, setDismiss] = useState(false);
 
-    this.state = {
-      dismiss: false
-    };
-  }
-
-  render() {
-    const { children, className, dismissible, icon } = this.props;
-    const { dismiss } = this.state;
-
-    if (dismiss) {
-      return null;
-    }
-
-    return (
-      <div className={joinClassNames(locals.message, className)}>
-        {icon && <span className={locals.icon}>{icon}</span>}
-        <span className={locals.content}>{children}</span>
-        {dismissible && (
-          <span className={locals.dismissContainer}>
-            <SvgIcon type="lib_openclose_cancel" size="s" className={locals.dismiss} onClick={this.onDismiss} />
-          </span>
-        )}
-      </div>
-    );
-  }
-
-  onDismiss() {
-    this.setState({ dismiss: true });
-  }
+  return dismiss ? null : (
+    <div className={joinClassNames(locals.message, className)}>
+      {withIcon && (
+        <SvgIcon
+          type={iconTypes[type]}
+          className={evaluateClassNames({
+            [locals.icon]: true,
+            [locals.smallSize]: small
+          })}
+          color={iconColor}
+          size={small && 's'}
+        />
+      )}
+      <span
+        className={evaluateClassNames({
+          [locals.content]: true,
+          [locals.smallSize]: small
+        })}
+      >
+        {children}
+      </span>
+      {dismissible && (
+        <span className={locals.dismissContainer}>
+          <SvgIcon
+            type="lib_openclose_cancel"
+            className={evaluateClassNames({
+              [locals.dismiss]: true,
+              [locals.smallSize]: small
+            })}
+            onClick={() => setDismiss(true)}
+            size={small && 's'}
+          />
+        </span>
+      )}
+    </div>
+  );
 }
+
+Message.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  dismissible: PropTypes.bool,
+  iconColor: PropTypes.string,
+  small: PropTypes.bool,
+  type: PropTypes.oneOf(Object.keys(iconTypes)),
+  withIcon: PropTypes.bool
+};

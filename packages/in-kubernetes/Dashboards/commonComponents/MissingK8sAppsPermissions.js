@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import getKubernetesClusterByRelation$ from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
@@ -22,7 +21,7 @@ function WarningMessage(props) {
     return (
       <Row>
         <Col lg={12}>
-          <Message icon={<SvgIcon type="lib_help_error_warning" color={theme.lib.colors.warning} />}>
+          <Message withIcon small type="warning" iconColor={theme.lib.colors.warning}>
             The Instana Agent does not have sufficient permissions. Please update to the latest version of the Instana
             Agent DaemonSet or Helm chart to ensure it has the right permissions. See our{' '}
             <Link href="https://docs.instana.io/ecosystem/kubernetes/#supported-versions" external>

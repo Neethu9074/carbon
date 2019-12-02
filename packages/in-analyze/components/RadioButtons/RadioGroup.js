@@ -8,9 +8,9 @@ import locals from './RadioGroup.mless';
 
 const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => {
   if (!sourceEntityAvailability) {
-    return <Message>Filtering and grouping on source is not available for the selected timeframe</Message>;
+    return <Message small>Filtering and grouping on source is not available for the selected timeframe</Message>;
   } else if (disabled) {
-    return <Message>This tag is independent of source and destination</Message>;
+    return <Message small>This tag is independent of source and destination</Message>;
   }
   return (
     <Fragment>
