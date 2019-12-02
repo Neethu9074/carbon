@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build number',
+    title: 'Last build #',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -43,7 +43,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build status',
+    title: 'Status',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,23 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Recent builds health',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `jobs.${row.key}.healthScore`;
-      },
-      getContent: percentagePlain.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Last build duration',
+    title: 'Duration',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build estimated duration',
+    title: 'Estimated Duration',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -109,7 +93,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build started at',
+    title: 'Started',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -119,6 +103,22 @@ const cols = [
         return `jobs.${row.key}.lastBuildTimestamp`;
       },
       getContent: formatDateTime,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Health Score',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `jobs.${row.key}.healthScore`;
+      },
+      getContent: percentagePlain.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -136,19 +136,20 @@ export default function JobsTable({ snapshot, timeConfig }) {
       return {
         key: job.get('name'),
         type: job.get('type'),
-        description: job.get('description'),
-        snapshot,
         snapshotId,
         timeConfig
       };
     });
 
-  if (rows.length === 0) {
-    return null;
-  }
-
   return (
-    <Table withoutPadding cardTitle={`Jobs (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={`Jobs (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      maxItemsPerPage={15}
+      getRowDetails={getDetails}
+    />
   );
 }
 
