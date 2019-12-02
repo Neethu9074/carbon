@@ -30,19 +30,33 @@ export default connectTo(
 );
 
 function DashboardLinkItem({ tenant, unit, componentName, components }) {
-  const component =
-    components && components.filter(({ docker }) => docker.get('label') === `${tenant}-${unit}-${componentName}`)[0];
+  components =
+    components && components.filter(({ docker }) => docker.get('label') === `${tenant}-${unit}-${componentName}`);
+
+  if (!components || components.length < 1) {
+    return <LinkListItem label={componentName} />;
+  }
 
   return (
-    <LinkListItem
-      label={componentName}
-      href$={
-        component &&
-        getModifiedUrlStream(params => {
-          params.pathname = '/physical/dashboard';
-          params.query.snapshotId = component.dropwizardApplicationContainer.get('id');
-        })
-      }
-    />
+    <>
+      {components.map(({ dropwizardApplicationContainer, docker, process }, i) => (
+        <LinkListItem
+          key={i}
+          label={
+            components.length === 1
+              ? componentName
+              : `${componentName} (allocation ${process.getIn([
+                  'data',
+                  'env',
+                  'NOMAD_ALLOC_INDEX'
+                ])}, allocId ${docker.getIn(['data', 'Nomad', 'allocId'])})`
+          }
+          href$={getModifiedUrlStream(params => {
+            params.pathname = '/physical/dashboard';
+            params.query.snapshotId = dropwizardApplicationContainer.get('id');
+          })}
+        />
+      ))}
+    </>
   );
 }
