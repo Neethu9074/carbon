@@ -8,7 +8,20 @@ import theme from 'in-themes';
 export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) {
   return (
     <Fragment>
-      <DashboardSection title={`Backend Span Dropping`}>
+      <DashboardSection title={`AppData-Processor Instances`}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: [`appdata-processor.instances`],
+            labels: ['AppData-Processor Processor Instances'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={`Backend Span Dropping (sum across instances)`}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
@@ -46,7 +59,7 @@ export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) 
         />
       </DashboardSection>
 
-      <DashboardSection title={`Span latency`}>
+      <DashboardSection title={`Span latency (mean across instances)`}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
