@@ -95,7 +95,7 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title="Application Mapping">
+      <DashboardSection title="Service Mapping">
         <Table
           cols={getCols('com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier')}
           rows={rows}
@@ -105,7 +105,7 @@ export default connectTo({
           }
         />
       </DashboardSection>
-      <DashboardSection title="Service Mapping">
+      <DashboardSection title="Application Mapping">
         <Table
           cols={getCols('com.instana.spanprocessing.stream.applicationextraction.ApplicationClassifier')}
           rows={rows}
