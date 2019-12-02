@@ -1,8 +1,8 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import KubernetesInfo from 'in-components/Dashboard/components/KubernetesInfo';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import KubernetesInfo from 'in-forge/plugins/docker/KubernetesInfo';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
@@ -39,7 +39,7 @@ export default function DockerSidebar({ snapshot }) {
 
       <NomadInfo snapshot={snapshot} />
 
-      <KubernetesInfo snapshot={snapshot} />
+      <KubernetesInfo snapshot={snapshot} labels={labels} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

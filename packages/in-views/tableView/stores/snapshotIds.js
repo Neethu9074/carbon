@@ -22,6 +22,7 @@ const entityTypeToFullyQualifiedPlugin = {
   ping: fullyQualifiedPlugins.ping,
   clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase,
   containerd: fullyQualifiedPlugins.containerd,
+  crio: fullyQualifiedPlugins.crio,
   garden: fullyQualifiedPlugins.garden,
   lxc: fullyQualifiedPlugins.lxc
 };

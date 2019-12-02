@@ -13,6 +13,7 @@ const physicalDomains = {
   jvm: 'JVMs',
   nodejs: 'Node.js Apps',
   containerd: 'Containerd Containers',
+  crio: 'CRI-O Containers',
   docker: 'Docker Containers',
   garden: 'Garden Containers',
   lxc: 'LXC Containers',

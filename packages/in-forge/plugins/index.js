@@ -43,6 +43,7 @@ import './consul';
 import './consulCluster';
 import './couchbaseCluster';
 import './couchbaseNode';
+import './crio';
 import './crystalRuntimePlatform';
 import './defaultEntity20';
 import './docker';

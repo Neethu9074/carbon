@@ -32,6 +32,7 @@ const helpTexts = {
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
   'entity.containerd': 'Containerd container',
+  'entity.crio': 'CRI-O container',
   'entity.docker': 'Docker container',
   'entity.garden': 'Garden container',
   'entity.lxc': 'LXC container',

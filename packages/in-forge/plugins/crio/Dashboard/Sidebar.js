@@ -2,23 +2,18 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KubernetesInfo from 'in-components/Dashboard/components/KubernetesInfo';
-import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/containerd/Info';
+import Info from 'in-forge/plugins/crio/Info';
 
-export default function ContainerdSidebar({ snapshot }) {
-  const labels = snapshot.getIn(['data', 'labels']);
-
+export default function CrioSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Containerd Container</Collapsible.Header>
+        <Collapsible.Header>CRI-O Container</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      <KeyValueOverlay header="Container Labels" data={labels} />
 
       <KubernetesInfo snapshot={snapshot} labels={snapshot.getIn(['data', 'labels'])} />
 

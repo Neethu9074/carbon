@@ -44,14 +44,13 @@ export default connectTo(
   },
 
   function KubernetesInfo({
-    snapshot,
     podSnapshot,
     deploymentSnapshot,
     nodeSnapshot,
     clusterSnapshot,
-    namespaceSnapshot
+    namespaceSnapshot,
+    labels
   }) {
-    const labels = snapshot.getIn(['data', 'Labels']);
     if (!labels || labels.size === 0) {
       return null;
     }
@@ -148,15 +147,19 @@ export default connectTo(
 function getPodForContainer(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getPodForContainerSubscription({ snapshotId, timeConfig }));
 }
+
 function getDeploymentForPod(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getDeploymentForPodSubscription({ snapshotId, timeConfig }));
 }
+
 function getNodeForContainer(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getNodeForContainerSubscription({ snapshotId, timeConfig }));
 }
+
 function getClusterForContainer(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getClusterForPodSubscription({ snapshotId, timeConfig }));
 }
+
 function getNamespaceForPod(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getNamespaceForPodSubscription({ snapshotId, timeConfig }));
 }
