@@ -2,10 +2,8 @@
 
 import { registerTracker } from 'in-services/tracking/trackers';
 
-const mixpanel = window.mixpanel;
-
 export function init() {
-  if (mixpanel) {
+  if (window.mixpanel) {
     initMixpanel();
     registerTracker(track);
   }
@@ -16,5 +14,5 @@ function initMixpanel() {
 }
 
 function track(event, props) {
-  mixpanel.track(event, props);
+  window.mixpanel.track(event, props);
 }
