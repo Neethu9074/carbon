@@ -10,10 +10,8 @@ import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import config from 'in-services/config';
 
-const mixpanel = window.mixpanel;
-
 export function init(callback) {
-  if (mixpanel) {
+  if (window.mixpanel) {
     initMixpanel(callback);
   } else {
     callback(false);
@@ -24,13 +22,13 @@ export function init(callback) {
 function initMixpanel(callback) {
   // We send the GK user ID , which avoids GDPR issues and does not require explicit consent because
   // we do not send personal information (like email adress or the user's name) to third parties.
-  mixpanel.identify(user.id);
-  mixpanel.people.set({
+  window.mixpanel.identify(user.id);
+  window.mixpanel.people.set({
     $id: user.id,
     last_page_load: new Date()
   });
 
-  mixpanel.register({
+  window.mixpanel.register({
     tenant: tenant.name,
     tenantId: tenant.id,
     tenantUnit: config.tenantUnit
@@ -43,7 +41,7 @@ function initMixpanel(callback) {
       .map(result => (result && result.data ? result.data : null))
       .filter(Boolean)
   ]).once(([tenantWithUnits, usageInfo, companyInfo]) => {
-    mixpanel.register({
+    window.mixpanel.register({
       companyName: companyInfo.companyName,
       licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
     });
@@ -56,7 +54,7 @@ function initMixpanel(callback) {
     if (!currentUnit) {
       return callback(true);
     }
-    mixpanel.register({
+    window.mixpanel.register({
       tenantUnitId: currentUnit.id
     });
     return callback(true);
@@ -64,13 +62,13 @@ function initMixpanel(callback) {
 }
 
 function track(event, props) {
-  if (mixpanel) {
-    mixpanel.track(event, props);
+  if (window.mixpanel) {
+    window.mixpanel.track(event, props);
   }
 }
 
 export function createDurationTracker(event, defaultProperties = {}) {
-  if (!mixpanel) {
+  if (!window.mixpanel) {
     return {
       start: noop,
       stop: noop
@@ -78,7 +76,7 @@ export function createDurationTracker(event, defaultProperties = {}) {
   }
 
   return {
-    start: () => mixpanel.time_event(event),
-    stop: props => mixpanel.track(event, assign({}, props, defaultProperties))
+    start: () => window.mixpanel.time_event(event),
+    stop: props => window.mixpanel.track(event, assign({}, props, defaultProperties))
   };
 }
