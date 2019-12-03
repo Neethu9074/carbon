@@ -21,7 +21,7 @@
   .number {
     color: @lib__colors__N700Medium;
     font-size: 1rem;
-    margin-right: 0.75rem;
+    margin-right: .5rem;
   }
 
   .withMaxWidth {

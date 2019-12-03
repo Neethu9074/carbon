@@ -46,23 +46,23 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
         {hasApplicationsAccess && (
           <SecondLevelNavigationItem
             href$={getLinkToAnalyze({
-              dataSource: 'traces',
-              groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-            })}
-            icon={getIconByType('traces')}
-            label="Traces"
-            isActive={dataSource === 'traces'}
-          />
-        )}
-        {hasApplicationsAccess && (
-          <SecondLevelNavigationItem
-            href$={getLinkToAnalyze({
               dataSource: 'calls',
               groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
             })}
             icon={getIconByType('calls')}
             label="Calls"
             isActive={dataSource === 'calls'}
+          />
+        )}
+        {hasApplicationsAccess && (
+          <SecondLevelNavigationItem
+            href$={getLinkToAnalyze({
+              dataSource: 'traces',
+              groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+            })}
+            icon={getIconByType('traces')}
+            label="Traces"
+            isActive={dataSource === 'traces'}
           />
         )}
         {hasWebsitesAccess && (

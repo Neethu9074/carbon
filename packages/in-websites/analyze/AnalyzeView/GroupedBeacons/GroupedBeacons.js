@@ -13,7 +13,6 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -113,7 +112,6 @@ function GroupedBeacons(props) {
       >
         <MaxWidthFullscreenContainer>
           <TagFilterList {...props} />
-          <GroupingInfo {...props} />
           <GroupingTableHeader itemType="Group" {...props} />
           {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
           <GroupedBeaconsTable {...props} groupColors={groupColors} />

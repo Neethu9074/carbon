@@ -3,16 +3,29 @@
 :local {
   .wrapper {
     padding: 0.75rem 0.7rem;
+    box-shadow: @lib__shadows__strong;
   }
 
   .backgroundColor {
-    background: @lib__colors__N300;
+    background: @lib__colors__N050;
   }
 
   .bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    font-size: @lib__typography__body__font-size;
+    color: @lib__colors__N600Light;
+  }
+
+  .icon {
+    margin-right: .5rem;
+    fill: @lib__colors__N600Light;
   }
 
   .removePadding {

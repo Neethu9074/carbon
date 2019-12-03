@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './GroupingInfo.mless';
 
-export default function GroupingInfo({ group, disableGrouping, openEditGroupDialog }) {
+export default function GroupingInfo({ group, disableGrouping }) {
   let groupedBy = null;
+  let groupedByEntity = null;
+
   if (group && isNotBlank(group.groupbyTag)) {
     // website monitoring
     groupedBy = group.groupbyTag;
@@ -22,19 +22,19 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
   } else if (group && isNotBlank(group.name)) {
     // analyze calls/traces
     groupedBy = group.name;
+    groupedByEntity = group.entity ? group.entity : null;
 
     if (isNotBlank(group.value)) {
       groupedBy = `${groupedBy}.${group.value}`;
     }
   }
-  const groupedByEntity = group.entity;
 
   return (
     <div className={locals.wrapper}>
       <span className={locals.label}>Grouped by</span>
 
       {(groupedByEntity === entityTypes.SOURCE || groupedByEntity === entityTypes.DESTINATION) && (
-        <EntityIndicator groupedByEntity={groupedByEntity} blueColor />
+        <EntityIndicator groupedByEntity={groupedByEntity} />
       )}
       {isNotBlank(groupedBy) && (
         <Fragment>
@@ -44,23 +44,13 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
             <SvgIcon
               className={locals.removeGrouping}
               aria-label="Remove grouping"
-              type="lib_openclose_cancel"
+              type="lib_openclose_circle_outline"
               onClick={disableGrouping}
               size="s"
             />
           </Tooltip>
         </Fragment>
       )}
-
-      <Button
-        kind="primaryv2"
-        onClick={e => {
-          stopPropagationAndPreventDefault(e);
-          openEditGroupDialog();
-        }}
-      >
-        {isNotBlank(groupedBy) ? 'Change Group' : 'Add Group'}
-      </Button>
     </div>
   );
 }

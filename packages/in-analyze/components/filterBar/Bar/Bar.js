@@ -3,6 +3,7 @@ import React from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import evaluateClassNames from 'in-services/util/classnames';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Bar.mless';
 
@@ -26,6 +27,10 @@ export default function Bar({
           [locals.removePadding]: removePadding
         })}
       >
+        <span className={locals.filter}>
+          <SvgIcon className={locals.icon} type="lib_actions_filter" />
+          Filters
+        </span>
         <div>{children}</div>
 
         {showClearFilters && (

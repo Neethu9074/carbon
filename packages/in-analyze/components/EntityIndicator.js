@@ -1,19 +1,13 @@
 import React from 'react';
 
 import { getEntityLabelLUT, entityTypes } from 'in-analyze/applicationFilter';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityIndicator.mless';
 
-const EntityIndicator = ({ type, groupedByEntity, blueColor }) => {
+const EntityIndicator = ({ type, groupedByEntity }) => {
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.entity]: !blueColor,
-        [locals.entityBlue]: blueColor
-      })}
-    >
+    <div className={locals.entity}>
       <SvgIcon type={getIconByName(type, groupedByEntity)} />
       <span>{getEntityLabelLUT(groupedByEntity)}</span>
     </div>

@@ -166,8 +166,8 @@ export default function ViewSwitcher({
             [
               hasApplicationsAccess &&
                 getLinkToAnalyze({
-                  dataSource: 'traces',
-                  groupByTag: getConfigByDataSource('traces').defaultGrouping
+                  dataSource: 'calls',
+                  groupByTag: getConfigByDataSource('calls').defaultGrouping
                 }),
               hasWebsitesAccess &&
                 getLinkToWebsiteAnalyze({

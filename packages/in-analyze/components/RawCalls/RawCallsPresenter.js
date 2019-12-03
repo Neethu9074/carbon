@@ -13,6 +13,7 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -23,6 +24,7 @@ import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
+import Button from 'in-new-components/Button';
 
 import locals from './RawCallsPresenter.mless';
 
@@ -42,7 +44,19 @@ export default function RawCallsPresenter(props) {
 
   return (
     <AnalyzeCallsWorkspace {...props}>
-      <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
+      <div className={locals.headerWrapper}>
+        <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
+        <Button
+          kind="secondary"
+          icon="lib_views_folder"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            props.openEditGroupDialog();
+          }}
+        >
+          Group by
+        </Button>
+      </div>
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

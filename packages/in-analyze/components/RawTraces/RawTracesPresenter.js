@@ -12,6 +12,7 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -22,6 +23,7 @@ import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Th } from 'in-components/tables/sharedComponents';
 import { traceClickedTracker } from 'in-analyze/tracker';
+import Button from 'in-new-components/Button';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -41,7 +43,19 @@ export default function RawTracesPresenter(props) {
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
+      <div className={locals.headerWrapper}>
+        <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
+        <Button
+          kind="secondary"
+          icon="lib_views_folder"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            props.openEditGroupDialog();
+          }}
+        >
+          Group by
+        </Button>
+      </div>
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

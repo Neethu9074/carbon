@@ -12,10 +12,13 @@ import {
   getTagFilterFromUrlString,
   getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
+import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
@@ -107,7 +110,36 @@ function AnalyzeView(props) {
       type={dataSource}
     >
       {activeDialog && <DisabledBodyScroll />}
-      {<View {...props} />}
+      {
+        <View
+          {...props}
+          openEditGroupDialog={() =>
+            setActiveDialog(
+              <EditGroupDialog
+                {...props}
+                tagFilters={props.tagFilters}
+                timeConfig={props.timeConfig}
+                group={props.group}
+                setGroup={_group => {
+                  if (!props.group || !props.group.name) {
+                    groupAddedTracker({ group: _group.groupbyTag });
+                  } else {
+                    groupChangedTracker({ before: props.group.name, after: _group.groupbyTag });
+                  }
+                  const newState = {};
+                  newState[groupByMatrixParameter] = {
+                    name: _group.groupbyTag,
+                    value: _group.groupbyTagSecondLevelKey,
+                    entity: _group.entity
+                  };
+                  props.onChangeAnalyzeConfig(newState);
+                }}
+                forAnalyzeCalls
+              />
+            )
+          }
+        />
+      }
 
       <Footer />
     </WithEmptyStateFallback>

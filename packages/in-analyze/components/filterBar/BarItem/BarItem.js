@@ -12,6 +12,7 @@ export default function BarItem({
   active,
   isOpen,
   showArrow,
+  showMore,
   notAvailable,
   onClick,
   refSetter
@@ -36,6 +37,7 @@ export default function BarItem({
       {showArrow && (
         <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="xs" />
       )}
+      {showMore && <SvgIcon className={locals.icon} type="lib_menu_more_horizontal" size="s" />}
     </a>
   );
 }

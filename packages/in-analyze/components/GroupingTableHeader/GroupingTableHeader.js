@@ -1,5 +1,8 @@
 import React from 'react';
 
+import AnalyzeGroupingInfo from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupingInfo';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Button from 'in-new-components/Button';
 
@@ -8,15 +11,38 @@ import locals from './GroupingTableHeader.mless';
 export default function GroupingTableHeader(props) {
   return (
     <div className={locals.wrapper}>
-      <ResultHeader
-        {...props}
-        itemType="Row"
-        nbRows={props.totalHits}
-        nbItems={props.totalRepresentedItemCount}
-        withoutMargin
-      />
+      <div className={locals.leftSide}>
+        <ResultHeader
+          {...props}
+          itemType="Row"
+          nbRows={props.totalHits}
+          nbItems={props.totalRepresentedItemCount}
+          withoutMargin
+        />
+
+        {props.forAnalyzeCalls ? (
+          <AnalyzeGroupingInfo
+            {...props}
+            group={props.groupBy}
+            timeConfig={props.timeConfig}
+            tagFilters={props.tagFilters}
+          />
+        ) : (
+          <GroupingInfo {...props} />
+        )}
+      </div>
 
       <div>
+        <Button
+          kind="secondary"
+          icon="lib_views_folder"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            props.openEditGroupDialog();
+          }}
+        >
+          Group by
+        </Button>
         {props.openMetricSelector && (
           <Button kind="secondary" onClick={props.openMetricSelector} icon="lib_actions_settings">
             Select Metrics

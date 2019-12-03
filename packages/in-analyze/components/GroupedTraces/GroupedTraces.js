@@ -143,10 +143,9 @@ function GroupedTraces(props) {
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
-
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <GroupingTableHeader itemType="Group" {...props} />
+      <GroupingTableHeader itemType="Group" {...props} forAnalyzeCalls />
       {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>
