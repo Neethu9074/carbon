@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ProfiledProcessesPresenter from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcessesPresenter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import ProfilesView from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import getProfiledProcesses from 'in-profiling/subscriptions/getProfiledProcesses';
 import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
@@ -33,7 +34,7 @@ const ProfiledProcessesComponent = compose(
         filter: {
           timeConfig
         },
-        tagFilters: tagFilters
+        tagFilters: getTagFilterListForBackendSubscription(tagFilters)
       })
   })
 )(ProfiledProcessesPresenter);

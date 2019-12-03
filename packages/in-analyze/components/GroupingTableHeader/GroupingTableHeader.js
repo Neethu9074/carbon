@@ -14,7 +14,7 @@ export default function GroupingTableHeader(props) {
       <div className={locals.leftSide}>
         <ResultHeader
           {...props}
-          itemType="Row"
+          itemType={props.itemType || 'Row'}
           nbRows={props.totalHits}
           nbItems={props.totalRepresentedItemCount}
           withoutMargin

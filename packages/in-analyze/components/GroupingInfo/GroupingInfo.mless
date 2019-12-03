@@ -8,7 +8,7 @@
   }
 
   .label {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     color: @lib__colors__N600Light;
     font-size: 0.75rem;
   }
@@ -16,7 +16,7 @@
   .grouping {
     font-weight: bold;
     font-size: 0.75rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   .removeGrouping {

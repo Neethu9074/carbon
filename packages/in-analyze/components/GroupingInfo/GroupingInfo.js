@@ -9,6 +9,10 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './GroupingInfo.mless';
 
 export default function GroupingInfo({ group, disableGrouping }) {
+  if (!group || !isNotBlank(group.groupbyTag)) {
+    return null;
+  }
+
   let groupedBy = null;
   let groupedByEntity = null;
 

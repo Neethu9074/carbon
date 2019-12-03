@@ -5,7 +5,6 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import ProfileTagFilterList from 'in-profiling/analyze/AnalyzeView/ProfileTagFilterList';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
-import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -24,7 +23,6 @@ export default function ProfiledProcessesPresenter(props) {
       >
         <MaxWidthFullscreenContainer>
           <ProfileTagFilterList {...props} />
-          <GroupingInfo {...props} />
           <GroupingTableHeader {...props} />
           <ProfiledProcessesTable {...props} />
         </MaxWidthFullscreenContainer>
