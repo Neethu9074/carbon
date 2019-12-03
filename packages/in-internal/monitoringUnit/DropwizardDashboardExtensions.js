@@ -108,8 +108,8 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
             autoFocus
           >
             <option value="">Resilient mapping (select one)</option>
-            <option value={`${adminUrl}/admin/appClassifications?size=50&minLabels=0`}>Application Mapping</option>
-            <option value={`${adminUrl}/admin/serviceClassifications?size=50&minLabels=0`}>Service Mapping</option>
+            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minLabels=0`}>Application Mapping</option>
+            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minLabels=0`}>Service Mapping</option>
           </Select>
         )}
       </DashboardSection>

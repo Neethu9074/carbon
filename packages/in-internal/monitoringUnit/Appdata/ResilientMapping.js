@@ -32,14 +32,14 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Successful predictions',
+      title: 'Cache Hits',
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
           return row.dropwizard.get('id');
         },
         getMetricName() {
-          return `metrics.meters.${fqn}.successful-predictions`;
+          return `metrics.meters.${fqn}.cache-hits`;
         },
         getContent: number.compact,
         forceTimeWindowAggregation: true,
@@ -49,14 +49,14 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Failed predictions (multi-labels)',
+      title: 'Cache misses (multi-labels)',
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
           return row.dropwizard.get('id');
         },
         getMetricName() {
-          return `metrics.meters.${fqn}.failed-predictions-caused-by-multiple-labels`;
+          return `metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`;
         },
         getContent: number.compact,
         forceTimeWindowAggregation: true,
@@ -97,22 +97,20 @@ export default connectTo({
     <div>
       <DashboardSection title="Application Mapping">
         <Table
-          cols={getCols('com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier')}
+          cols={getCols('com.instana.spanprocessing.stream.mapping.application.ApplicationCache')}
           rows={rows}
           maxItemsPerPage={20}
           getRowDetails={row =>
-            getRowDetails(row, 'com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier')
+            getRowDetails(row, 'com.instana.spanprocessing.stream.mapping.application.ApplicationCache')
           }
         />
       </DashboardSection>
       <DashboardSection title="Service Mapping">
         <Table
-          cols={getCols('com.instana.spanprocessing.stream.applicationextraction.ApplicationClassifier')}
+          cols={getCols('com.instana.spanprocessing.stream.mapping.service.ServiceCache')}
           rows={rows}
           maxItemsPerPage={20}
-          getRowDetails={row =>
-            getRowDetails(row, 'com.instana.spanprocessing.stream.applicationextraction.ApplicationClassifier')
-          }
+          getRowDetails={row => getRowDetails(row, 'com.instana.spanprocessing.stream.mapping.service.ServiceCache')}
         />
       </DashboardSection>
     </div>
@@ -130,10 +128,10 @@ function getRowDetails(row, fqn) {
           min: 0,
           formatter: number.detailed,
           metrics: [
-            `metrics.meters.${fqn}.successful-predictions`,
-            `metrics.meters.${fqn}.failed-predictions-caused-by-multiple-labels`
+            `metrics.meters.${fqn}.cache-hits`,
+            `metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
           ],
-          labels: ['Sucessful predictions', 'Failed predictions caused by multiple labels'],
+          labels: ['Cache Hits', 'Cache misses caused by multiple entities'],
           type: 'line'
         }}
       />
@@ -156,7 +154,7 @@ function getRowDetails(row, fqn) {
         y1={{
           min: 0,
           formatter: number.detailed,
-          metrics: [`metrics.meters.${fqn}.expired-classifications-because-cache-full`],
+          metrics: [`metrics.meters.${fqn}.expired-entries-because-cache-full`],
           labels: ['Evictions because of cache full'],
           type: 'line'
         }}
