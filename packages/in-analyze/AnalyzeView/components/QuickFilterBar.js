@@ -5,6 +5,7 @@ import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/Analyze
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
+import CheckboxBarItem from 'in-analyze/components/filterBar/CheckboxBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
@@ -96,13 +97,14 @@ export default function QuickFilterBar(props) {
         tag={dataSourceConfig.errorneousTagPreset}
         singularLabel="Erroneous"
       />
-      <BooleanBarItem
+      <CheckboxBarItem
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
-        tag={dataSourceConfig.isSyntheticTagPreset}
-        singularLabel="Synthetic"
+        tag={{ synthetic: 'include_synthetic', hidden: 'include_internal' }}
+        singularLabel="Hidden Calls"
       />
+
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
     </Bar>
   );
