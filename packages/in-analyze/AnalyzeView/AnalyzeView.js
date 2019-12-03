@@ -117,7 +117,7 @@ function AnalyzeView(props) {
             setActiveDialog(
               <EditGroupDialog
                 {...props}
-                tagFilters={props.tagFilters}
+                tagFilters={props.tagFilter}
                 timeConfig={props.timeConfig}
                 group={props.group}
                 setGroup={_group => {
