@@ -1,3 +1,4 @@
+import { find } from 'lodash';
 import React from 'react';
 
 import CheckboxBarItemBehavior from 'in-analyze/components/filterBar/CheckboxBarItem/CheckboxBarItemBehavior';
@@ -12,13 +13,22 @@ export default function CheckboxBarItem(props) {
   );
 }
 
-function Content({ singularLabel, toggle, isOpen, refSetter, withoutTextTransform }) {
+function Content({ singularLabel, toggle, isOpen, refSetter, withoutTextTransform, tagFilters, tag }) {
+  const existingSyntheticFilter = find(
+    tagFilters,
+    f => f.name === tag.synthetic && f.operator === 'EQUALS' && f.value === 'true'
+  );
+  const existingHiddenFilter = find(
+    tagFilters,
+    f => f.name === tag.hidden && f.operator === 'EQUALS' && f.value === 'true'
+  );
+
   return (
     <BarItem
       showArrow
       withoutTextTransform={withoutTextTransform}
       isOpen={isOpen}
-      active={isOpen}
+      active={isOpen || existingSyntheticFilter || existingHiddenFilter}
       onClick={toggle}
       refSetter={refSetter}
     >
