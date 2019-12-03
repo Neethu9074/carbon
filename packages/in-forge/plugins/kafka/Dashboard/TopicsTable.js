@@ -28,7 +28,7 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesInPerSec`;
@@ -44,7 +44,7 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesOutPerSec`;
@@ -60,7 +60,7 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesRejectedPerSec`;
@@ -76,7 +76,7 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return `broker.topicData.${row.key}.messagesInPerSec`;
@@ -92,7 +92,7 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
       getMetricName(row) {
         return `broker.topicData.${row.key}.inSyncReplicasCount`;
@@ -117,11 +117,11 @@ const cols = [
 
 export default function TopicsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-
   const rows = snapshot
     .getIn(['data', 'partitions'], emptyList)
     .map((partitionCount, topic) => {
       return {
+        snapshot,
         snapshotId,
         timeConfig,
         key: topic,
@@ -177,19 +177,6 @@ function getDetails(row) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Lags">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: bytesZeroDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces,
-              metrics: [`broker.topicData.${key}.lags`],
-              labels: ['Lags'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
         <DashboardSection title="In-Sync Replicas">
           <Chart
             snapshotId={row.snapshotId}

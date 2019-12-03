@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -18,23 +18,14 @@ const cols = [
     }
   },
   {
-    title: 'Version',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.node.getIn(['data', 'version']);
-      }
-    }
-  },
-  {
-    title: 'Controller',
-    type: 'metric',
+    title: 'Partitions',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'broker.activeControllerCount';
+        return 'broker.partitionCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -43,14 +34,14 @@ const cols = [
     }
   },
   {
-    title: 'Messages In',
+    title: 'Offline Partitions',
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'broker.messagesIn';
+        return 'broker.offlinePartitionsCount';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -59,59 +50,18 @@ const cols = [
     }
   },
   {
-    title: 'Bytes In',
+    title: 'Under-replicated Partitions',
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'broker.bytesIn';
+        return 'broker.underReplicatedPartitions';
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Bytes Out',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'broker.bytesOut';
-      },
-      getContent: bytesZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Average Response Time',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'broker.totalTimeProduce';
-      },
-      getContent: ms.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
       }
     }
   }
@@ -125,7 +75,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function ClusterNodesTable({ clusterNodes, timeConfig }) {
+  function ClusterNodesPartitionsTable({ clusterNodes, timeConfig }) {
     if (clusterNodes == null || clusterNodes.length === 0) {
       return null;
     }
@@ -138,6 +88,6 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Cluster Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Cluster Nodes (${rows.length}) - Partitions`} cols={cols} rows={rows} />;
   }
 );
