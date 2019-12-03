@@ -8,7 +8,7 @@ import locals from './CheckboxBarOverlay.mless';
 export default function CheckboxOverlay({
   tag,
   existingSyntheticFilter,
-  existingHiddenFilter,
+  existingInternalFilter,
   onChangeSynthetic,
   onChangeHidden
 }) {
@@ -23,8 +23,8 @@ export default function CheckboxOverlay({
         />
         <CheckboxFancy
           label="Show Internal calls"
-          checked={!!existingHiddenFilter}
-          onChange={() => onChangeHidden(tag.hidden)}
+          checked={!!existingInternalFilter}
+          onChange={() => onChangeHidden(tag.internal)}
           size="large"
         />
       </div>

@@ -101,7 +101,7 @@ export default function QuickFilterBar(props) {
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
-        tag={{ synthetic: 'include_synthetic', hidden: 'include_internal' }}
+        tag={{ synthetic: 'include_synthetic', internal: 'include_internal' }}
         singularLabel="Hidden Calls"
       />
 

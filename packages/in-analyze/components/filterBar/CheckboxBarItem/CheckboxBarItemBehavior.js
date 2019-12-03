@@ -8,15 +8,15 @@ export default function CheckboxBarItemBehavior({ tagFilters, tag, removeTagFilt
     tagFilters,
     f => f.name === tag.synthetic && f.operator === 'EQUALS' && f.value === 'true'
   );
-  const existingHiddenFilter = find(
+  const existingInternalFilter = find(
     tagFilters,
-    f => f.name === tag.hidden && f.operator === 'EQUALS' && f.value === 'true'
+    f => f.name === tag.internal && f.operator === 'EQUALS' && f.value === 'true'
   );
 
   return (
     <CheckboxBarOverlay
       existingSyntheticFilter={existingSyntheticFilter}
-      existingHiddenFilter={existingHiddenFilter}
+      existingInternalFilter={existingInternalFilter}
       tag={tag}
       onChangeSynthetic={newItem => {
         if (!existingSyntheticFilter) {
@@ -31,14 +31,14 @@ export default function CheckboxBarItemBehavior({ tagFilters, tag, removeTagFilt
         }
       }}
       onChangeHidden={newItem => {
-        if (!existingHiddenFilter) {
+        if (!existingInternalFilter) {
           upsertTagFilter({
             name: newItem,
             stringValue: 'true',
             operator: 'EQUALS',
             entity: 'DESTINATION'
           });
-        } else if (newItem === existingHiddenFilter.name) {
+        } else if (newItem === existingInternalFilter.name) {
           removeTagFilter(newItem, 'EQUALS');
         }
       }}

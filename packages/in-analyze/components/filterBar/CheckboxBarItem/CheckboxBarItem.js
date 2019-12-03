@@ -18,9 +18,9 @@ function Content({ singularLabel, toggle, isOpen, refSetter, withoutTextTransfor
     tagFilters,
     f => f.name === tag.synthetic && f.operator === 'EQUALS' && f.value === 'true'
   );
-  const existingHiddenFilter = find(
+  const existingInternalFilter = find(
     tagFilters,
-    f => f.name === tag.hidden && f.operator === 'EQUALS' && f.value === 'true'
+    f => f.name === tag.internal && f.operator === 'EQUALS' && f.value === 'true'
   );
 
   return (
@@ -28,7 +28,7 @@ function Content({ singularLabel, toggle, isOpen, refSetter, withoutTextTransfor
       showArrow
       withoutTextTransform={withoutTextTransform}
       isOpen={isOpen}
-      active={isOpen || existingSyntheticFilter || existingHiddenFilter}
+      active={isOpen || existingSyntheticFilter || existingInternalFilter}
       onClick={toggle}
       refSetter={refSetter}
     >
