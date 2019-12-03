@@ -1,4 +1,4 @@
-import { number, millis, bytes } from 'in-services/formatters/number';
+import { number, seconds, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -6,7 +6,7 @@ export default [
     label: 'Age of oldest messages',
     category: ['Messages'],
     min: 0,
-    formatter: millis
+    formatter: seconds
   },
   {
     metric: 'num_of_msg_delayed',
