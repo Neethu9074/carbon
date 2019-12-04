@@ -97,6 +97,7 @@ import './oncrpc.client';
 import './oncrpc.server';
 import './okhttp';
 import './pdo';
+import './php.compile';
 import './php.error';
 import './php';
 import './play2.ws';
