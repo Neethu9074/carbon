@@ -12,6 +12,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import { boundaryScopes } from 'in-applications/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import BackButton from 'in-new-components/BackButton';
@@ -65,6 +66,7 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
+    applicationBoundaryScope: boundaryScopes.all,
     service: serviceId,
     databaseStatementId: statement.id
   };
