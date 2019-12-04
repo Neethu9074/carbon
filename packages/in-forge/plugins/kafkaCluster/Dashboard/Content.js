@@ -61,7 +61,7 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['broker.messagesIn'],
-            labels: ['#'],
+            labels: ['Count'],
             type: 'line'
           }}
         />

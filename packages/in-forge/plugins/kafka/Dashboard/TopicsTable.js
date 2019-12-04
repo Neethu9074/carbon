@@ -5,13 +5,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import {
-  bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  number,
-  twoDecimalPlaces,
-  zeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 const cols = [
   {
@@ -33,7 +27,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesInPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -49,7 +43,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesOutPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -65,7 +59,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesRejectedPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -81,7 +75,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.messagesInPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -97,7 +91,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.inSyncReplicasCount`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -110,7 +104,7 @@ const cols = [
       getValue(row) {
         return row.partitionCount;
       },
-      getContent: number.compact
+      getContent: zeroDecimalPlaces
     }
   }
 ];
@@ -150,7 +144,7 @@ function getDetails(row) {
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
-              formatter: bytesZeroDecimalPlaces,
+              formatter: bytesTwoDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: [
                 `broker.topicData.${key}.bytesInPerSec`,
@@ -168,7 +162,7 @@ function getDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              tooltipFormatter: zeroDecimalPlaces,
               metrics: [`broker.topicData.${key}.messagesInPerSec`],
               labels: ['Count'],
               type: 'line'
@@ -183,7 +177,7 @@ function getDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              tooltipFormatter: zeroDecimalPlaces,
               metrics: [`broker.topicData.${key}.inSyncReplicasCount`],
               labels: ['Count'],
               type: 'line'
