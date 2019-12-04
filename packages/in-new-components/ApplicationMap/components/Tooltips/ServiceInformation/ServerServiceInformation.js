@@ -5,6 +5,7 @@ import ApplicationMapTootlip from 'in-new-components/ApplicationMap/components/T
 import Header from 'in-new-components/ApplicationMap/components/Tooltips/ServiceInformation/Header';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import getMetrics from 'in-subscription/application/getMetrics';
+import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,6 +21,7 @@ export default connectTo(
         return getMetrics({
           filter: {
             application: props.applicationId,
+            applicationBoundaryScope: boundaryScopes.all,
             service: props.serviceId,
             timeConfig
           },
