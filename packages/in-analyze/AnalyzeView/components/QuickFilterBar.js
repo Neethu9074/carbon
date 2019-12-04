@@ -4,8 +4,8 @@ import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior
 import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
-import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
 import CheckboxBarItem from 'in-analyze/components/filterBar/CheckboxBarItem';
+import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
