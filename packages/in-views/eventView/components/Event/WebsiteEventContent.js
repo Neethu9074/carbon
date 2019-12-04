@@ -15,6 +15,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './WebsiteEventContent.mless';
 
+const tenMins = 10 * 1000 * 60;
 const twelveHours = 1000 * 60 * 60 * 12;
 
 export default connectTo(
@@ -36,6 +37,8 @@ export default connectTo(
     const websiteLabel = metadata.get('entityLabel');
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...alertConfig.tagFilters];
     const thresholdValue = alertConfig.threshold.value;
+    const metricName = alertConfig.rule.metricName || 'errors';
+
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = twelveHours;
 
@@ -67,6 +70,8 @@ export default connectTo(
               timeConfig={timeConfig}
               tagFilters={tagFiltersWithWebsiteId}
               errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
+              granularity={tenMins}
+              metricName={metricName}
             />
           </Card>
 
