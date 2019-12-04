@@ -12,7 +12,7 @@ registerSpanDefinition({
 
   detailView: 'PhpCompileSpanDetailView',
 
-  getLabel(span) {
+  getLabel() {
     return 'Total Compile Time';
   }
 });
