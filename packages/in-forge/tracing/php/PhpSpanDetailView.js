@@ -3,7 +3,7 @@ import React from 'react';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function HttpSpanDetailView({ span }) {
   const params = span.getIn(['data', 'http', 'params']);
@@ -26,7 +26,7 @@ export default function HttpSpanDetailView({ span }) {
         <Di title="Wordpress Cache Hits">{span.getIn(['data', 'wp', 'cache_hits'])}</Di>
         <Di title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
         <Di title="Wordpress Current User">{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
-        <Di title="Peak Memory Usage">{bytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
+        <Di title="Peak Memory Usage">{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
         {getCustomHeaders(span)}
       </Dl>
     </div>
