@@ -1,11 +1,11 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces, bitReadableString } from 'in-services/formatters/number';
 
 const cols = [
   {
@@ -36,7 +36,7 @@ const cols = [
       getMetricName() {
         return 'broker.activeControllerCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: bitReadableString,
       getTimeWindowAggregation() {
         return 'mean';
       }

@@ -34,6 +34,22 @@ const cols = [
     }
   },
   {
+    title: 'Leaders',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'broker.leaderCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'Offline Partitions',
     type: 'sparkChart',
     typeArgs: {

@@ -245,6 +245,8 @@ export const nanos = {
   detailed: timeNs
 };
 
+export const bitReadableString = v => (v > 0 ? 'Yes' : 'No');
+
 export const health = {
   compact(v) {
     if (v === 1) {

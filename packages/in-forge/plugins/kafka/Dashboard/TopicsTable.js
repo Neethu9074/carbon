@@ -18,6 +18,16 @@ const cols = [
     }
   },
   {
+    title: 'Partitions',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.partitionCount;
+      },
+      getContent: zeroDecimalPlaces
+    }
+  },
+  {
     title: 'Bytes In',
     type: 'sparkChart',
     typeArgs: {
@@ -96,16 +106,6 @@ const cols = [
         return 'mean';
       }
     }
-  },
-  {
-    title: 'Partition Count',
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.partitionCount;
-      },
-      getContent: zeroDecimalPlaces
-    }
   }
 ];
 
@@ -139,23 +139,6 @@ function getDetails(row) {
   return (
     <Fragment>
       <Columize>
-        <DashboardSection title="Broker Traffic">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: bytesTwoDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces,
-              metrics: [
-                `broker.topicData.${key}.bytesInPerSec`,
-                `broker.topicData.${key}.bytesOutPerSec`,
-                `broker.topicData.${key}.bytesRejectedPerSec`
-              ],
-              labels: ['In', 'Out', 'Rejected'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
         <DashboardSection title="Broker Messages In">
           <Chart
             snapshotId={row.snapshotId}
@@ -169,8 +152,6 @@ function getDetails(row) {
             }}
           />
         </DashboardSection>
-      </Columize>
-      <Columize>
         <DashboardSection title="In-Sync Replicas">
           <Chart
             snapshotId={row.snapshotId}
@@ -180,6 +161,25 @@ function getDetails(row) {
               tooltipFormatter: zeroDecimalPlaces,
               metrics: [`broker.topicData.${key}.inSyncReplicasCount`],
               labels: ['Count'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Broker Traffic">
+          <Chart
+            snapshotId={row.snapshotId}
+            timeConfig={row.timeConfig}
+            y1={{
+              formatter: bytesTwoDecimalPlaces,
+              tooltipFormatter: bytesTwoDecimalPlaces,
+              metrics: [
+                `broker.topicData.${key}.bytesInPerSec`,
+                `broker.topicData.${key}.bytesOutPerSec`,
+                `broker.topicData.${key}.bytesRejectedPerSec`
+              ],
+              labels: ['In', 'Out', 'Rejected'],
               type: 'line'
             }}
           />
