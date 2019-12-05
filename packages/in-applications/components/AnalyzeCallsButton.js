@@ -39,7 +39,9 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         endpointName: endpointLabel,
         boundaryScope,
         dataSource: 'calls',
-        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }, ...filters] : filters,
+        filters: isSynthetic
+          ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
+          : filters,
         groupByTag: groupByTag ? groupByTag : {}
       })}
     >
