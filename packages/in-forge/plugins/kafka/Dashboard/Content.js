@@ -221,7 +221,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <TopicsTable snapshot={snapshot} />
+      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

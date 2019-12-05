@@ -9,10 +9,11 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import ClusterNodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesPartitionsTable.js';
+import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.js';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
-import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.js';
 
 export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
   return (
@@ -60,7 +61,7 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['broker.messagesIn'],
-            labels: ['#'],
+            labels: ['Count'],
             type: 'line'
           }}
         />
@@ -142,6 +143,7 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ClusterNodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </div>
   );
 }
