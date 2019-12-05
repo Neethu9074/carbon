@@ -15,14 +15,14 @@ registerSpanDefinition({
   getLabel(span) {
     const template_name = span.getIn(['data', 'twig', 'name']);
     if (template_name) {
-      return 'Render Twig template: ' + template_name;
+      return template_name;
     }
 
     const template_path = span.getIn(['data', 'twig', 'path']);
     if (template_path) {
-      return 'Render Twig template: ' + template_path.split('/').pop();
+      return template_path.split('/').pop();
     }
     
-    return 'Render Twig template';
+    return 'Twig';
   }
 });
