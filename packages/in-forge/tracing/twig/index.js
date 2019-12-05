@@ -13,10 +13,16 @@ registerSpanDefinition({
   detailView: 'TwigSpanDetailView',
 
   getLabel(span) {
-    const template = span.getIn(['data', 'twig', 'template']);
-    if (template) {
-      return 'Render Twig template: ' + template.split('/').pop();
+    const template_name = span.getIn(['data', 'twig', 'name']);
+    if (template_name) {
+      return 'Render Twig template: ' + template_name;
     }
+
+    const template_path = span.getIn(['data', 'twig', 'path']);
+    if (template_path) {
+      return 'Render Twig template: ' + template_path.split('/').pop();
+    }
+    
     return 'Render Twig template';
   }
 });

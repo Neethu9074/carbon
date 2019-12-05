@@ -6,7 +6,8 @@ export default function SymfonySpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Template">{span.getIn(['data', 'twig', 'template'])}</Di>
+        <Di title="Template Name">{span.getIn(['data', 'twig', 'name'])}</Di>
+        <Di title="Template Path">{span.getIn(['data', 'twig', 'path'])}</Di>
         <Di title="Subtemplate Count">{span.getIn(['data', 'twig', 'subtemplate_count'])}</Di>
       </Dl>
     </div>
