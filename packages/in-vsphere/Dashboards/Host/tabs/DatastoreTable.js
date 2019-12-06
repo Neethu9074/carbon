@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
 import { number, bytesTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const deviceColumn = {
   title: 'Device',

@@ -7,9 +7,11 @@ import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
+import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
+import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
+import { VmBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { vmDashboard } from 'in-vsphere/navigation/paths';
 import tabs from 'in-vsphere/Dashboards/Vm/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -18,6 +20,8 @@ import { plugins } from 'in-forge/constants';
 
 export default function VMDashboard({ location }) {
   const props = {
+    datacenterId: getMatrixParameter(location, vmDashboard, matrixDatacenterId),
+    hostId: getMatrixParameter(location, vmDashboard, matrixHostId),
     vmId: getMatrixParameter(location, vmDashboard, matrixVmId),
     viewPath: vmDashboard,
     timeConfig: getTimeConfig(location)
@@ -25,7 +29,7 @@ export default function VMDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs items={DatacenterBreadcrumbs(props)} />
+      <Breadcrumbs items={VmBreadcrumbs(props)} />
 
       <TabView
         result$={getVsphereVm({

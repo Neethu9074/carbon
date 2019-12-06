@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
 import connectTo from 'in-hoc/connectTo';
@@ -16,9 +17,17 @@ export default connectTo(
   }),
   function DatacenterBreadcrumb({ datacenter }) {
     return (
-      <Breadcrumb label="vSphere Cluster" icon="lib_vsphere_cluster">
-        {datacenter && datacenter.label}
-      </Breadcrumb>
+      <>
+        {datacenter && (
+          <Breadcrumb
+            href$={getVsphereDatacenterDashboard(datacenter.id)}
+            label="vSphere Cluster"
+            icon="lib_vsphere_cluster"
+          >
+            {datacenter.label}
+          </Breadcrumb>
+        )}
+      </>
     );
   }
 );

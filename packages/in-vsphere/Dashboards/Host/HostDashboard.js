@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -9,15 +10,16 @@ import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { hostDashboard } from 'in-vsphere/navigation/paths';
+import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Host/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 
-export default function DatacenterDashboard({ location }) {
+export default function HostDashboard({ location }) {
   const props = {
+    datacenterId: getMatrixParameter(location, hostDashboard, matrixDatacenterId),
     hostId: getMatrixParameter(location, hostDashboard, matrixHostId),
     viewPath: hostDashboard,
     timeConfig: getTimeConfig(location)
@@ -25,7 +27,7 @@ export default function DatacenterDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs items={DatacenterBreadcrumbs(props)} />
+      <Breadcrumbs items={HostBreadcrumbs(props)} />
 
       <TabView
         result$={getVsphereHost({

@@ -53,7 +53,7 @@ export default connectTo(
     };
   },
   function NodeAndClusterInformation({ vm, host, datacenter }) {
-    if (!datacenter) {
+    if (!vm || !host || !datacenter) {
       return null;
     }
 

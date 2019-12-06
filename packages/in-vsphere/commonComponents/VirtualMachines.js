@@ -23,7 +23,15 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
+      const hostId = item.hostId;
+      const datacenterId = item.datacenterId;
+      return (
+        <EntityLink
+          label={item.label}
+          href$={getVsphereVmDashboard(item.id, { hostId, datacenterId })}
+          icon={resolveIcon(item)}
+        />
+      );
     }
   },
   {

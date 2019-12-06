@@ -7,17 +7,17 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    datacenter: getVsphereVm({
+    virtualMachine: getVsphereVm({
       filter: {
-        hostId: props.vmId,
+        vmId: props.vmId,
         timeConfig: props.timeConfig
       }
     }).map(result => result.data)
   }),
-  function VmBreadcrumb({ vm }) {
+  function VmBreadcrumb({ virtualMachine }) {
     return (
       <Breadcrumb label="vSphere VM" icon="lib_vsphere_vm">
-        {vm && vm.label}
+        {virtualMachine && virtualMachine.label}
       </Breadcrumb>
     );
   }

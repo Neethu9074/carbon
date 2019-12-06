@@ -1,8 +1,8 @@
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
-import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
-import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -29,7 +29,7 @@ export function getVsphereDatacenterDashboard(datacenterId, { tab, tabMatrix, ti
   });
 }
 
-export function getVsphereHostDashboard(hostId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getVsphereHostDashboard(hostId, { tab, tabMatrix, timeConfig, datacenterId } = emptyObject) {
   return getDashboard({
     base: hostDashboardFullyQualified,
     tab,
@@ -37,11 +37,14 @@ export function getVsphereHostDashboard(hostId, { tab, tabMatrix, timeConfig } =
     timeConfig,
     matrixSegment: hostDashboard,
     matrixParam: matrixHostId,
-    id: hostId
+    id: hostId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, hostDashboard, matrixDatacenterId, datacenterId);
+    }
   });
 }
 
-export function getVsphereVmDashboard(vmId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getVsphereVmDashboard(vmId, { tab, tabMatrix, timeConfig, datacenterId, hostId } = emptyObject) {
   return getDashboard({
     base: vmDashboardFullyQualified,
     tab,
@@ -49,7 +52,11 @@ export function getVsphereVmDashboard(vmId, { tab, tabMatrix, timeConfig } = emp
     timeConfig,
     matrixSegment: vmDashboard,
     matrixParam: matrixVmId,
-    id: vmId
+    id: vmId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, vmDashboard, matrixDatacenterId, datacenterId);
+      setOrDeleteMatrixKey(params, vmDashboard, matrixHostId, hostId);
+    }
   });
 }
 
