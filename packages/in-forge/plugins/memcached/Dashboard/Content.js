@@ -24,7 +24,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Sets">
           <MetricValue snapshotId={snapshotId} metric="cmd_set" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Get hit ratio">
+        <KpiKeyValue label="Get Hit Ratio">
           <MetricValue snapshotId={snapshotId} metric="get_hit_rate" formatter={hitRateZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
@@ -47,7 +47,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['bytes_read', 'bytes_write'],
-            labels: ['Bytes reads', 'Bytes writes'],
+            labels: ['Reads', 'Writes'],
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
@@ -59,7 +59,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['get_hits', 'get_misses'],
-            labels: ['Get hits', 'Get misses'],
+            labels: ['Get Hits', 'Get Misses'],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
@@ -67,7 +67,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             min: 0,
             max: 1,
             metrics: ['get_hit_rate'],
-            labels: ['Get hit ratio'],
+            labels: ['Get Hit Ratio'],
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
@@ -79,7 +79,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['delete_hits', 'delete_misses'],
-            labels: ['Delete hits', 'Delete misses'],
+            labels: ['Delete Hits', 'Delete Misses'],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
@@ -87,13 +87,13 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             min: 0,
             max: 1,
             metrics: ['delete_hit_rate'],
-            labels: ['Delete hit ratio'],
+            labels: ['Delete Hit Ratio'],
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Flush command">
+      <DashboardSection title="Flush Command">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -117,14 +117,14 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Used bytes">
+      <DashboardSection title="Used Bytes">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             max: maxBytes,
             metrics: ['bytes'],
-            labels: ['Used bytes'],
+            labels: ['Used Bytes'],
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}

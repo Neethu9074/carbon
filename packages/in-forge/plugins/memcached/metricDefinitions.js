@@ -10,19 +10,19 @@ export default [
   },
   {
     metrics: ['bytes_read', 'bytes_write'],
-    labels: ['Bytes reads', 'Bytes writes'],
+    labels: ['Reads (bytes)', 'Writes (bytes)'],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['get_hits', 'get_misses', 'delete_hits', 'delete_misses', 'cmd_flush', 'evictions', 'bytes'],
-    labels: ['Get hits', 'Get misses', 'Delete hits', 'Delete misses', 'Flush', 'Evictions', 'Used bytes'],
+    labels: ['Get Hits', 'Get Misses', 'Delete Hits', 'Delete Misses', 'Flush', 'Evictions', 'Used Bytes'],
     min: 0,
     formatter: number
   },
   {
     metrics: ['get_hit_rate', 'delete_hit_rate'],
-    labels: ['Get hit ratio', 'Delete hit ratio'],
+    labels: ['Get Hit Ratio', 'Delete Hit Ratio'],
     min: 0,
     formatter: hitRate
   },
