@@ -8,7 +8,7 @@ import {
   getPodDashboard,
   getServiceDashboard
 } from 'in-kubernetes/navigation/paths';
-import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
+import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -192,9 +192,13 @@ function Infrastructure({
   timeConfig,
   boundaryScope,
   onBoundaryStateChange,
+  defaultBoundaryScope,
   selectedType,
   setType
 }) {
+  if (!entity) {
+    return null;
+  }
   const buttonPropsList = [];
 
   // in the application infra view, show all tabs, because we do not know the type of all entities
@@ -232,10 +236,13 @@ function Infrastructure({
 
   return (
     <Fragment>
-      {boundaryScope &&
-        onBoundaryStateChange && (
-          <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
-        )}
+      {onBoundaryStateChange && (
+        <InboundOrAllCallsChoiceHorizontal
+          boundaryScope={boundaryScope}
+          onBoundaryStateChange={onBoundaryStateChange}
+          defaultBoundaryScope={defaultBoundaryScope}
+        />
+      )}
       <Table
         get={getTableData}
         type={selectedType}

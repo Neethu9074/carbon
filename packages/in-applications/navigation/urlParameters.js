@@ -5,7 +5,6 @@ import {
 } from 'in-applications/navigation/paths';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
-import { boundaryScopes } from 'in-applications/constants';
 
 export const applicationDashboardUrlParameters = createApplicationServiceEndpointParameters(applicationDashboardPath);
 export const serviceDashboardUrlParameters = createApplicationServiceEndpointParameters(serviceDashboardPth);
@@ -49,8 +48,7 @@ function createApplicationServiceEndpointParameters(path) {
     },
     boundaryScope: {
       path,
-      name: boundaryScope,
-      initialState: boundaryScopes.default
+      name: boundaryScope
     }
   };
 }

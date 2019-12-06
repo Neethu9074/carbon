@@ -2,13 +2,13 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import DatabaseStatementDetail from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementDetail';
-import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 
-export default function PerformanceTab({ boundaryScope, onBoundaryStateChange, ...props }) {
+export default function PerformanceTab({ boundaryScope, onBoundaryStateChange, defaultBoundaryScope, ...props }) {
   return (
     <Switch>
       <Route
@@ -22,13 +22,13 @@ export default function PerformanceTab({ boundaryScope, onBoundaryStateChange, .
         render={() => {
           return (
             <div>
-              {boundaryScope &&
-                onBoundaryStateChange && (
-                  <InboundOrAllCallsChoice
-                    boundaryScope={boundaryScope}
-                    onBoundaryStateChange={onBoundaryStateChange}
-                  />
-                )}
+              {onBoundaryStateChange && (
+                <InboundOrAllCallsChoiceHorizontal
+                  boundaryScope={boundaryScope}
+                  onBoundaryStateChange={onBoundaryStateChange}
+                  defaultBoundaryScope={defaultBoundaryScope}
+                />
+              )}
               <CommonPerformanceSections boundaryScope={boundaryScope} {...props} />
               <DatabaseSections boundaryScope={boundaryScope} {...props} />
               <HttpSections boundaryScope={boundaryScope} {...props} />

@@ -7,9 +7,9 @@ import {
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
+import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -198,6 +198,7 @@ function ServiceList(props) {
     endpointId,
     boundaryScope,
     onBoundaryStateChange,
+    defaultBoundaryScope,
     endpointTypes,
     technologies,
     setFilter
@@ -207,7 +208,11 @@ function ServiceList(props) {
 
   return (
     <Fragment>
-      <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
+      <InboundOrAllCallsChoiceHorizontal
+        boundaryScope={boundaryScope}
+        onBoundaryStateChange={onBoundaryStateChange}
+        defaultBoundaryScope={defaultBoundaryScope}
+      />
       <ServerTableWithUrlState
         get={getTableData}
         timeConfig={timeConfig}

@@ -19,6 +19,7 @@ import getApplications from 'in-subscription/application/getApplications';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
@@ -40,7 +41,8 @@ const columnDefinitions = [
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_application"
+          icon={boundaryScopes.info[item.application.boundaryScope].icon}
+          tooltip={boundaryScopes.info[item.application.boundaryScope].dashboard}
           label={item.application.label}
           href$={getApplicationDashboard(item.application.id)}
         />
@@ -58,7 +60,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Inbound Calls',
+    label: 'Calls',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

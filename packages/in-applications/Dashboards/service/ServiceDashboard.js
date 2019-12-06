@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
+import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsNotification';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import InstanaServiceToKubernetesServicesButton from 'in-kubernetes/components/InstanaServiceToKubernetesServicesButton';
-import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsNotification';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';

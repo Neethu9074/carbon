@@ -1,0 +1,61 @@
+import React from 'react';
+import { Fragment } from 'react';
+
+import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsOptionBox';
+import ExpandableCard from 'in-new-components/ExpandableCard';
+import { boundaryScopes } from 'in-applications/constants';
+import { Col, Row } from 'in-new-components/layout/Grid';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
+
+import locals from './InboundOrAllCallsChoiceHorizontal.mless';
+
+export default function InboundOrAllCallsChoiceHorizontal({
+  boundaryScope,
+  onBoundaryStateChange,
+  defaultBoundaryScope
+}) {
+  const overrideInfo = (
+    <Tooltip content={boundaryScopes.info[defaultBoundaryScope].overrideDefault} align="rightMiddle">
+      <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
+    </Tooltip>
+  );
+
+  const cardPreview = (
+    <Fragment>
+      <SvgIcon type={boundaryScopes.info[boundaryScope].icon} className={locals.headerIcon} />
+      <span className={locals.headerPreview}>
+        {boundaryScopes.info[boundaryScope].text}
+        {boundaryScope != defaultBoundaryScope ? overrideInfo : ''}
+      </span>
+    </Fragment>
+  );
+
+  return (
+    <ExpandableCard
+      className={locals.card}
+      bodyWithoutPadding
+      preview={cardPreview}
+      titleSubText={'Select only inbound calls or all calls'}
+      framed
+      openByDefault={false}
+    >
+      <Row>
+        <Col lg={6}>
+          <InboundOrAllCallsOptionBox
+            boundaryScope={boundaryScope}
+            onBoundaryStateChange={onBoundaryStateChange}
+            scope={boundaryScopes.inbound}
+          />
+        </Col>
+        <Col lg={6}>
+          <InboundOrAllCallsOptionBox
+            boundaryScope={boundaryScope}
+            onBoundaryStateChange={onBoundaryStateChange}
+            scope={boundaryScopes.all}
+          />
+        </Col>
+      </Row>
+    </ExpandableCard>
+  );
+}

@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React, { Fragment } from 'react';
 
+import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
-import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -14,13 +14,14 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null,
     endpointName: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : null
   }),
-  function LogMessages({ boundaryScope, onBoundaryStateChange, ...props }) {
+  function LogMessages({ boundaryScope, onBoundaryStateChange, defaultBoundaryScope, ...props }) {
     return (
       <Fragment>
-        {boundaryScope &&
-          onBoundaryStateChange && (
-            <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
-          )}
+        <InboundOrAllCallsChoiceHorizontal
+          boundaryScope={boundaryScope}
+          onBoundaryStateChange={onBoundaryStateChange}
+          defaultBoundaryScope={defaultBoundaryScope}
+        />
         <LogMessagesTable boundaryScope={boundaryScope} {...props} />
       </Fragment>
     );

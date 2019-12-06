@@ -1,4 +1,5 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { boundaryScopes } from 'in-applications/constants';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
@@ -56,7 +57,8 @@ export function createNewApplicationConfig() {
   return {
     label: '',
     matchSpecification: [],
-    scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
+    scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
+    boundaryScope: boundaryScopes.inbound
   };
 }
 
@@ -94,6 +96,9 @@ function mapFromServerResponse(config) {
       matchSpecification.key = name;
     }
   }
+  config.data.boundaryScope =
+    (config.data.boundaryScope != 'DEFAULT' && config.data.boundaryScope) || boundaryScopes.inbound;
+
   return config;
 }
 

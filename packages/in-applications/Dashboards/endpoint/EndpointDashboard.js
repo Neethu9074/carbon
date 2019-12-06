@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsNotification';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsNotification';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { configureSyntheticEndpointsView, configureEndpointsView } from 'in-applications/navigation/paths';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import InboundOrAllCallsChoice from 'in-applications/Dashboards/commonComponents/InboundOrAllCallsChoice';
+import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
@@ -17,7 +17,8 @@ export default function Summary({
   endpointId,
   serviceId,
   boundaryScope,
-  onBoundaryStateChange
+  onBoundaryStateChange,
+  defaultBoundaryScope
 }) {
   const filter = {
     timeConfig,
@@ -29,7 +30,11 @@ export default function Summary({
 
   return (
     <Fragment>
-      <InboundOrAllCallsChoice boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
+      <InboundOrAllCallsChoiceHorizontal
+        boundaryScope={boundaryScope}
+        onBoundaryStateChange={onBoundaryStateChange}
+        defaultBoundaryScope={defaultBoundaryScope}
+      />
       <Row>
         <Col xs>
           <AppDataKpiCard
@@ -77,7 +82,6 @@ export default function Summary({
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <CallsErrors
@@ -110,7 +114,6 @@ export default function Summary({
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />

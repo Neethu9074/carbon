@@ -13,6 +13,7 @@ import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
 } from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
+import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
@@ -29,7 +30,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
-import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -110,7 +110,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       </FormGroup>
                     ))
                   },
-
                   {
                     stepTitle: 'Define the application perspective using one or more tags.',
                     content: (
@@ -165,7 +164,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             Add Tag
                           </Button>
                         </div>
-
                         <TagFilterList
                           filterConnectionOperators={['OR', 'AND']}
                           onOperatorChanged={(i, operator) => {
@@ -221,51 +219,60 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
                           }))}
                         />
-
-                        {form.get('scope').map(field => (
-                          <FormGroup className={locals.scopeForm}>
-                            <Label htmlFor="scope" hasError={!field.valid && field.touched}>
-                              By checking this box you are including all downstream services to this application.
-                            </Label>
-                            <OptionBox
-                              icon="lib_application_downstream"
-                              title="Include All Downstream Services"
-                              description={
-                                <Fragment>
-                                  By checking the box to the left, you are including in the application all services
-                                  that transitively fall downstream of those matched by the tags specified above,
-                                  instead of only the immediate
-                                  <Pill color={getColor('DATABASE')} kind="light">
-                                    DATABASE
-                                  </Pill>
-                                  and
-                                  <Pill color={getColor('MESSAGING')} kind="light">
-                                    MESSAGING
-                                  </Pill>
-                                  ones.
-                                </Fragment>
-                              }
-                              checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
-                              onChange={checked =>
-                                setValue(
-                                  ['scope'],
-                                  checked
-                                    ? 'INCLUDE_ALL_DOWNSTREAM'
-                                    : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
-                                  form
-                                )
-                              }
-                            />
-                          </FormGroup>
-                        ))}
-
-                        <Message small>
-                          Soon you will be able to configure whether the default behavior of this Application
-                          Perspective is <b>Inbound calls</b> or <b>All calls</b>. The current default behavior is{' '}
-                          <b>Inbound calls</b>.
-                        </Message>
                       </Fragment>
                     )
+                  },
+                  {
+                    stepTitle: 'Downstream services.',
+                    content: form.get('scope').map(field => (
+                      <FormGroup>
+                        <Label htmlFor="scope" hasError={!field.valid && field.touched}>
+                          By checking this box you are including all downstream services to this application.
+                        </Label>
+                        <OptionBox
+                          icon="lib_application_downstream"
+                          title="Include All Downstream Services"
+                          description={
+                            <Fragment>
+                              By checking the box to the left, you are including in the application all services that
+                              transitively fall downstream of those matched by the tags specified above, instead of only
+                              the immediate
+                              <Pill color={getColor('DATABASE')} kind="light">
+                                DATABASE
+                              </Pill>
+                              and
+                              <Pill color={getColor('MESSAGING')} kind="light">
+                                MESSAGING
+                              </Pill>
+                              ones.
+                            </Fragment>
+                          }
+                          checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
+                          onChange={checked =>
+                            setValue(
+                              ['scope'],
+                              checked
+                                ? 'INCLUDE_ALL_DOWNSTREAM'
+                                : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
+                              form
+                            )
+                          }
+                        />
+                      </FormGroup>
+                    ))
+                  },
+                  {
+                    stepTitle: 'Application scope.',
+                    content: form.get('boundaryScope').map(field => {
+                      return (
+                        <FormGroup>
+                          <InboundOrAllCallsChoiceVertical
+                            boundaryScope={field.value}
+                            onBoundaryStateChange={value => setValue(['boundaryScope'], value.boundaryScope, form)}
+                          />
+                        </FormGroup>
+                      );
+                    })
                   }
                 ]}
               />
@@ -309,6 +316,12 @@ function getInitialForm(application) {
       'scope',
       createField({
         value: application.scope
+      })
+    )
+    .put(
+      'boundaryScope',
+      createField({
+        value: application.boundaryScope
       })
     );
 }
