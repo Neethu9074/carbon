@@ -6,9 +6,9 @@ import './SnapshotLink.less';
 
 const block = 'in-snapshot-link';
 
-export default function VsphereSnapshotLink({ getVsphereViewEntityDashboard, snapshotId, children }) {
+export default function VsphereSnapshotLink({ getVsphereViewEntityDashboard, snapshotId, children, parameters }) {
   return (
-    <Link href$={getVsphereViewEntityDashboard(snapshotId)} className={block}>
+    <Link href$={getVsphereViewEntityDashboard(snapshotId, parameters)} className={block}>
       {children}
     </Link>
   );

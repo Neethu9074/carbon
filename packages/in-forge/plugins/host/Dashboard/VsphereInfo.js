@@ -56,6 +56,8 @@ export default connectTo(
     if (!vm || !host || !datacenter) {
       return null;
     }
+    const datacenterId = datacenter.id;
+    const hostId = host.id;
 
     return (
       <Collapsible>
@@ -64,14 +66,22 @@ export default connectTo(
           <DescriptionList>
             {vm && (
               <DescriptionItem title="VM">
-                <VsphereSnapshotLink getVsphereViewEntityDashboard={getVsphereVmDashboard} snapshotId={vm.id}>
+                <VsphereSnapshotLink
+                  getVsphereViewEntityDashboard={getVsphereVmDashboard}
+                  snapshotId={vm.id}
+                  parameters={{ datacenterId, hostId }}
+                >
                   {vm.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
             )}
             {host && (
               <DescriptionItem title="ESXi Host">
-                <VsphereSnapshotLink getVsphereViewEntityDashboard={getVsphereHostDashboard} snapshotId={host.id}>
+                <VsphereSnapshotLink
+                  getVsphereViewEntityDashboard={getVsphereHostDashboard}
+                  snapshotId={host.id}
+                  parameters={{ datacenterId }}
+                >
                   {host.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
