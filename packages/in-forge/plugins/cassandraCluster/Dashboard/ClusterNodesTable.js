@@ -101,6 +101,6 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Live Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Available Nodes (${rows.length})`} cols={cols} rows={rows} />;
   }
 );
