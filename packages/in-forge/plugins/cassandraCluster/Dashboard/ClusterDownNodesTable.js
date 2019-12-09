@@ -5,7 +5,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'HostId',
+    title: 'Host ID',
     type: 'string',
     typeArgs: {
       getValue(row) {

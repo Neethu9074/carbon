@@ -18,17 +18,14 @@ export default connectTo(
 
     return (
       <DescriptionList>
-        {zoneSnapshot ? (
+        {zoneSnapshot && (
           <DescriptionItem title="Cluster">
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
-        ) : null}
-
+        )}
         <DescriptionItem title="Datacenter">{data.get('datacenter')}</DescriptionItem>
-
         <DescriptionItem title="Rack">{data.get('rack')}</DescriptionItem>
-
-        <DescriptionItem title="Host-Id">{data.get('hostId')}</DescriptionItem>
+        <DescriptionItem title="Host ID">{data.get('hostId')}</DescriptionItem>
       </DescriptionList>
     );
   }
