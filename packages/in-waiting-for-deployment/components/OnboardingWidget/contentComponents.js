@@ -13,6 +13,7 @@ import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { region } from 'in-services/config';
 import Link from 'in-components/Link';
 
 import locals from './content.mless';
@@ -24,7 +25,7 @@ export function toURLstring(str) {
 export function getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain) {
   return `https://${butlerDomain}/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
     agentKey
-  )}&type=${toURLstring(option)}`;
+  )}&type=${toURLstring(option)}${region ? `&region=${toURLstring(region)}` : ''}`;
 }
 
 function renderValueLines(lines) {
