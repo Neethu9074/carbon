@@ -1,37 +1,20 @@
 import React from 'react';
 
-import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
-export default function EntityLink({
-  label,
-  plugin,
-  snapshot,
-  icon,
-  tooltip,
-  href$,
-  specialIndicator,
-  subscriptComponent
-}) {
-  const iconColor = href$ && theme.lib.colors.blue800;
-
-  const innerContent = (
-    <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
-      {tooltip ? (
-        <Tooltip content={tooltip}>
-          <Link href$={href$}>{label}</Link>
-        </Tooltip>
-      ) : (
-        <>
-          <Link href$={href$}>{label}</Link>
-          {subscriptComponent}
-        </>
-      )}
-    </WithIcon>
+export default function EntityLink({ label, tooltip, href$, specialIndicator, subscriptComponent }) {
+  const innerContent = tooltip ? (
+    <Tooltip content={tooltip}>
+      <Link href$={href$}>{label}</Link>
+    </Tooltip>
+  ) : (
+    <>
+      <Link href$={href$}>{label}</Link>
+      {subscriptComponent}
+    </>
   );
 
   if (!specialIndicator) {
