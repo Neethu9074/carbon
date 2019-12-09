@@ -30,7 +30,6 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
             defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
             clearable={false}
             searchable
-            autoFocus
           />
           <TouchedMessages field={field} />
         </FormGroup>

@@ -20,13 +20,13 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
-import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { scrollIntoView } from 'in-services/util/dom';
 import Button from 'in-new-components/Button';
 import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
@@ -267,7 +267,7 @@ class Summary extends React.Component {
     const domElement = document.getElementById(`call-${call.id}`);
     if (domElement) {
       domElement.focus();
-      scrollIntoViewIfNeeded(domElement);
+      scrollIntoView(domElement);
     }
     callDetailClickedTracker();
   };

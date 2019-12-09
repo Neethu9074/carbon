@@ -4,12 +4,11 @@
 :local {
   .container {
     margin: 0.5rem;
-    width: 25rem;
   }
 
   .placeholder {
-    min-width: 400px;
-    min-height: 220px;
+    min-width: 25rem;
+    min-height: 13.75rem;
   }
 
   .message {
@@ -38,8 +37,8 @@
   }
 
   .controls {
-    padding-left: 60px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, min-content);
+    column-gap: 0.5rem;
   }
 }

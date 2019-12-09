@@ -23,6 +23,23 @@
   .framed {
     border: 1px solid @lib__colors__N200;
     border-radius: @lib__shapes__radius_small;
+
+    &.darkFrame {
+      border: 1px solid @lib__colors__N300;
+    }
+  }
+
+  .twoLineTitleLabel {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
+    .ellipsis();
+    margin-bottom: 0.25rem;
+  }
+
+  .twoLineTitle {
+    font-size: 0.875rem;
+    color: @lib__colors__N900Primary;
+    .ellipsis();
   }
 
   .title {

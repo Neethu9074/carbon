@@ -40,7 +40,7 @@
     }
   }
 
-  .rightSeperator {
+  .rightSeparator {
     border-right: 1px solid @lib__colors__N300;
     padding-right: 1rem;
   }

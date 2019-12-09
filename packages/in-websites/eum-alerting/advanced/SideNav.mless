@@ -1,0 +1,43 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    padding: 0.5rem 0 0 1rem;
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .icon {
+    background-color: @lib__colors__N400;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    fill: @lib__colors__white;
+
+    &.checked {
+      background-color: @lib__colors__teal800;
+      color: @lib__colors__teal800;
+    }
+  }
+
+  .item {
+    margin: 1.25rem 0;
+    font-size: @lib__typography__body__font-size;
+    line-height: 1.25rem;
+    color: @lib__colors__N700Medium;
+    &:hover {
+      cursor: pointer;
+    }
+    &.selected {
+      color: @lib__colors__teal800;
+    }
+  }
+
+  .label {
+    .flexbox();
+  }
+}

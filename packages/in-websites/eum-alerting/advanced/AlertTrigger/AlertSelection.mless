@@ -1,0 +1,14 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .spanTwoColumns {
+    grid-column: 2 / span 2;
+  }
+}

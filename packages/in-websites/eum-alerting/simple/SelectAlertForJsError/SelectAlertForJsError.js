@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ProvideManualPattern } from './ProvideManualPattern';
+import { ProvideManualPattern } from 'in-websites/eum-alerting/components/ProvideManualPattern';
 
 import locals from './SelectAlertForJsError.mless';
 

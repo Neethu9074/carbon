@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
-import SimpleAlertDialogPresenter from 'in-websites/eum-alerting/simple/SimpleAlertDialogPresenter';
+import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
 storiesOf('websites/eum-alerting/simple-dialog', module)
@@ -21,7 +21,7 @@ function SimpleDialog() {
   const [form, setForm] = useState(alertFormDefinition(getFormData()));
 
   return (
-    <SimpleAlertDialogPresenter
+    <AlertConfigDialogPresenter
       form={form}
       onChange={onChange(setForm)}
       onClose={action('close')}
@@ -38,7 +38,7 @@ function SimpleDialogEditMode() {
   const [form, setForm] = useState(alertFormDefinition(getFormData()));
 
   return (
-    <SimpleAlertDialogPresenter
+    <AlertConfigDialogPresenter
       form={form}
       onChange={onChange(setForm)}
       onClose={action('close')}

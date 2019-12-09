@@ -16,7 +16,9 @@ export default function ExpandableCard({
   bodyWithoutPadding,
   openByDefault = false,
   className,
-  framed
+  framed,
+  label,
+  darkFrame
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -45,12 +47,14 @@ export default function ExpandableCard({
   return (
     <Card
       title={title}
+      label={label}
       titleSubText={expanded ? titleSubText : preview}
       header={rightSide}
       withoutPadding={!expanded || bodyWithoutPadding}
       framed={framed}
       onHeaderBackgroundClicked={() => setExpanded(!expanded)}
       className={className}
+      darkFrame={darkFrame}
     >
       {expanded && children}
     </Card>

@@ -9,10 +9,8 @@ export function applyTransform(ele, transform) {
   }
 }
 
-export function scrollIntoViewIfNeeded(element) {
-  if (element.scrollIntoViewIfNeeded) {
-    element.scrollIntoViewIfNeeded();
-  }
+export function scrollIntoView(element, options = {}) {
+  if (element) element.scrollIntoView(options);
 }
 
 export function scrollToTopSmoothly() {

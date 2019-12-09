@@ -39,12 +39,18 @@ export default function EumAlertingBarChart({
           theme.lib.colors.lightBlue800
         ],
         icons: {
-          types: ['lib_actions_stop', 'lib_actions_stop', 'lib_menu_more_horizontal']
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          colors: [
+            theme.lib.colors.blue800,
+            theme.lib.colors.red800,
+            theme.lib.colors.pink800,
+            theme.lib.colors.lightBlue800
+          ]
         },
         renderer: Renderer.errorsBarWithBaseline,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: ['Historical data', 'Threshold', 'Violations'],
-        excludedLabelsFromTooltip: ['Violations'],
+        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
