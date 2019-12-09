@@ -68,7 +68,8 @@ function ApplicationDashboard({
     timeConfig,
     defaultBoundaryScope: application.boundaryScope,
     boundaryScope: urlBoundaryScope || application.boundaryScope,
-    data: application
+    data: application,
+    application: application
   };
   return (
     <Fragment>
