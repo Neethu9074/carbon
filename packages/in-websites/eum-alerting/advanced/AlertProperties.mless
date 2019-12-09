@@ -1,0 +1,141 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    border: 1px solid @lib__colors__N300;
+  }
+
+  .alertPropsContainer {
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .alertProps {
+    border: 1px solid @lib__colors__N300;
+  }
+
+  .headline {
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h300__font-size;
+    font-weight: 500;
+    line-height: 2rem;
+    margin-left: 0.5rem;
+  }
+
+  .propContainer {
+    .flexbox();
+    border-bottom: 1px solid @lib__colors__N300;
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
+    height: 5.625rem;
+    padding: 0.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .leftContent {
+    .flexbox();
+    line-height: 1.5rem;
+    flex-basis: 30%;
+  }
+
+  .rightContent {
+    .flexbox();
+    flex-grow: 1;
+  }
+
+  .iconWrapper {
+    .flexbox();
+    width: 30%;
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .textArea {
+    width: 100%;
+    resize: none;
+    background-color: @lib__colors__N100;
+  }
+
+  .previewArea {
+    border-left: 1px solid @lib__colors__N300;
+    background-color: @lib__colors__N100;
+    padding: 1rem;
+  }
+
+  .alertPreview {
+    background-color: @lib__colors__white;
+    border-left: 6px solid;
+    border-radius: @lib__shapes__radius_small;
+    box-shadow: @lib__shadows__strong;
+    color: @lib__colors__N600Light;
+    min-height: 12.5rem;
+    padding: 0.5rem;
+    max-width: 246px;
+    overflow: hidden;
+    .breakWord();
+
+    display: flex;
+
+    &.severityLow {
+      border-color: @lib__colors__warning;
+    }
+
+    &.severityHigh {
+      border-color: @lib__colors__failure;
+    }
+
+    p {
+      padding-left: 0.5rem;
+    }
+  }
+
+  .alertPreviewContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .alertPreviewHeadline {
+    .headline();
+    line-height: 1.5rem;
+  }
+
+  .alertLevelIcon {
+    &.severityLow {
+      fill: @lib__colors__warning;
+    }
+
+    &.severityHigh {
+      fill: @lib__colors__failure;
+    }
+  }
+
+  .space {
+    margin-right: 1rem;
+  }
+
+  .divider:after {
+    content: '/';
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .centred {
+    .flexbox();
+  }
+
+  .siteAndPageNames {
+    display: flex;
+  }
+
+  .filterIcon {
+    fill: currentColor;
+  }
+}

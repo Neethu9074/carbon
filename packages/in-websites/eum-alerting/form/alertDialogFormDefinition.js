@@ -1,6 +1,9 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { operators } from 'in-analyze/applicationFilter';
 
+const severityWarning = 5;
+const severityCritical = 10;
+
 export const fieldNames = Object.freeze({
   ruleAlertType: 'ruleAlertType',
   ruleOperator: 'ruleOperator',
@@ -31,6 +34,14 @@ export const selectOptions = {
   [fieldNames.ruleMetricName]: Object.freeze([
     { value: 'errors', label: 'Errors count' },
     { value: 'specificJsErrorRate', label: 'Errors rate' }
+  ]),
+  [fieldNames.thresholdOperator]: Object.freeze([
+    { value: '>=', label: '≥ (recommended)' },
+    { value: '<=', label: '≤' }
+  ]),
+  [fieldNames.severity]: Object.freeze([
+    { value: severityWarning, label: 'Warning' },
+    { value: severityCritical, label: 'Critical' }
   ])
 };
 
@@ -41,7 +52,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     alertChannelIds = [],
     enabled = true,
     triggering = false,
-    severity = 5,
+    severity = severityWarning,
     description = '',
     name = '',
     websiteId = '',
@@ -75,7 +86,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleMetricName,
       createField({
-        value: (rule && rule.metricName) || selectOptions[fieldNames.ruleMetricName][0].value,
+        value: (rule && rule.metricName) || selectOptions[fieldNames.ruleMetricName][1].value,
         validator: notBlankValidator
       })
     )
@@ -151,7 +162,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.thresholdOperator,
       createField({
-        value: (threshold && threshold.operator) || '>=',
+        value: (threshold && threshold.operator) || selectOptions[fieldNames.thresholdOperator][0].value,
         validator: notBlankValidator
       })
     )

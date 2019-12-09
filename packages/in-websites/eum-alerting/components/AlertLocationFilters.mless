@@ -2,11 +2,6 @@
 
 :local {
   .container {
-    margin: 1rem 0.5rem 0 0;
-    width: 36rem;
-  }
-
-  .wrapper {
     border: 1px solid @lib__colors__N300;
   }
 

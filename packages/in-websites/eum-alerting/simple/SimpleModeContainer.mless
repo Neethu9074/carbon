@@ -1,13 +1,9 @@
 @import '~in-themes/active.less';
 
 :local {
-  .dialog {
-    width: 60vw;
-  }
-
   .form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
+    grid-template-columns: 1fr 2fr 2fr;
     grid-template-rows: min-content auto;
     grid-column-gap: 0.5rem;
     grid-row-gap: 0.5rem;
@@ -24,9 +20,5 @@
 
   .button {
     width: 4.375rem;
-  }
-
-  .slideInContainer {
-    padding: 0 1.375rem;
   }
 }

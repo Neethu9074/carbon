@@ -8,24 +8,25 @@ import alertFormDefinition, {
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import getWebsiteSpecificJsErrorRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
-import SimpleAlertDialogPresenter from 'in-websites/eum-alerting/simple/SimpleAlertDialogPresenter';
+import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { operators } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
 
 const tenMins = 10 * 1000 * 60;
 const twentyFourHrs = 1000 * 60 * 60 * 24;
-const logger = createLogger('in-websites/eum-alerting/simple/SimpleAlertDialog');
+const logger = createLogger('in-websites/eum-alerting/AlertDialog');
+const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
+const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
+
 const operatorDescriptionValues = {
   [operators.EQUALS]: 'equal',
   [operators.CONTAINS]: 'contain',
   [operators.STARTS_WITH]: 'start with',
   [operators.ENDS_WITH]: 'end with'
 };
-const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
-const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 
-export default function SimpleAlertDialog({ onClose, formData, websiteLabel, editMode }) {
+export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
 
@@ -47,7 +48,7 @@ export default function SimpleAlertDialog({ onClose, formData, websiteLabel, edi
   );
 }
 
-SimpleAlertDialog.propTypes = {
+AlertConfigDialog.propTypes = {
   formData: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   websiteLabel: PropTypes.string.isRequired,
@@ -93,8 +94,8 @@ function toAlertConfigObject(form) {
   return Object.freeze({
     rule: {
       alertType: form.get(fieldNames.ruleAlertType).value,
-      operator: form.get(fieldNames.ruleOperator).value,
-      value: form.get(fieldNames.ruleValue).value,
+      operator: form.get(fieldNames.ruleOperator).value, // only error rate
+      value: form.get(fieldNames.ruleValue).value, // only error rate
       metricName: form.get(fieldNames.ruleMetricName).value
     },
     tagFilters: form.get(fieldNames.tagFilters).value,
@@ -102,10 +103,8 @@ function toAlertConfigObject(form) {
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
     severity: form.get(fieldNames.severity).value,
-    description: `JS Errors which ${operatorDescriptionValues[form.get(fieldNames.ruleOperator).value]} "${
-      form.get(fieldNames.ruleValue).value
-    }" have been detected.`,
-    name: `JS Error(s): ${form.get(fieldNames.ruleValue).value}`,
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
+    name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
       type: form.get(fieldNames.thresholdType).value,
@@ -153,7 +152,7 @@ const AlertConfigDialogWithThreshold = connectTo(
     granularity
   }) {
     return (
-      <SimpleAlertDialogPresenter
+      <AlertConfigDialogPresenter
         form={form}
         onChange={onChange}
         onClose={onClose}
@@ -190,4 +189,14 @@ function getMetricConfiguration(aggregation, metric, stringValue, operator, tagF
       }
     }
   };
+}
+
+export function getTitlePlaceholder(form) {
+  return `JS Error(s): ${form.get(fieldNames.ruleValue).value}`;
+}
+
+export function getDescriptionPlaceholder(form) {
+  return `JS Errors which ${operatorDescriptionValues[form.get(fieldNames.ruleOperator).value]} "${
+    form.get(fieldNames.ruleValue).value
+  }" have been detected.`;
 }

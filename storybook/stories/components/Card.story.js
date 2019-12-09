@@ -13,12 +13,34 @@ const exampleCard = <Card title="A Card">{lorem}</Card>;
 
 storiesOf('Components/Card', module)
   .add('Single Card', () => <SingleCard />)
+  .add('Single Card - with dark frame', () => <SingleCardWithDarkFrame />)
+  .add('Single Card, two line title', () => <SingleCardTwolineTitle />)
   .add('With additional header content', () => <WithAdditionalHeaderContent />)
   .add('Cards in a Grid', () => <GridCard />)
   .add('Learn More', () => <LearnMoreCardStory />);
 
 function SingleCard() {
   return <Root>{exampleCard}</Root>;
+}
+
+function SingleCardWithDarkFrame() {
+  return (
+    <Root>
+      <Card title="DOM Rendering Time - with dark frame" darkFrame>
+        {lorem}
+      </Card>
+    </Root>
+  );
+}
+
+function SingleCardTwolineTitle() {
+  return (
+    <Root>
+      <Card label="Selected Condition" title="DOM Rendering Time">
+        {lorem}
+      </Card>
+    </Root>
+  );
 }
 
 function WithAdditionalHeaderContent() {

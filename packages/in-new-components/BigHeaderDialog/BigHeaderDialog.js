@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -26,6 +26,7 @@ export default function BigHeaderDialog({
   slideInViewComponent,
   slideInViewVisible
 }) {
+  const [scrollshadow, setScrollshadow] = useState(false);
   return (
     <div
       className={evaluateClassNames({
@@ -34,14 +35,19 @@ export default function BigHeaderDialog({
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
-      <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
+      <section
+        className={joinClassNames(locals.dialog, className)}
+        onClick={stopPropagation}
+        onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
+      >
         <SlideInView
           onTitleIconClick={onSlideInViewTitleClick}
           title={slideInViewTitle}
           sliderContent={slideInViewComponent}
           slideIn={slideInViewVisible}
         >
-          {!headless && Header(titleIconType, onTitleIconClick, title, renderCustomCloseBehaviour, onClose)}
+          {!headless &&
+            Header(titleIconType, onTitleIconClick, title, renderCustomCloseBehaviour, onClose, scrollshadow)}
           <div
             className={evaluateClassNames({
               [locals.body]: true,
@@ -75,9 +81,14 @@ BigHeaderDialog.propTypes = {
   slideInViewVisible: PropTypes.bool
 };
 
-function Header(titleIconType, onTitleIconClick, title, renderCustomCloseBehaviour, onClose) {
+function Header(titleIconType, onTitleIconClick, title, renderCustomCloseBehaviour, onClose, scrollShadow) {
   return (
-    <div className={locals.header}>
+    <div
+      className={evaluateClassNames({
+        [locals.header]: true,
+        [locals.scrollShadow]: scrollShadow
+      })}
+    >
       {titleIconType ? (
         <div className={locals.customTitle}>
           {onTitleIconClick ? (
@@ -90,13 +101,12 @@ function Header(titleIconType, onTitleIconClick, title, renderCustomCloseBehavio
       ) : (
         <h1 className={locals.title}>{title}</h1>
       )}
-      {renderCustomCloseBehaviour ? (
+      {renderCustomCloseBehaviour && (
         <Fragment>
           <span className={locals.customCloseBehaviour}>{renderCustomCloseBehaviour()}</span>
         </Fragment>
-      ) : (
-        onClose && <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" rightAligned />
       )}
+      {onClose && <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" rightAligned />}
     </div>
   );
 }

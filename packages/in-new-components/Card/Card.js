@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -15,8 +16,10 @@ export default function Card({
   onHeaderBackgroundClicked,
   className,
   bodyClassName,
+  darkFrame,
   framed = true,
-  useMaxAvailableHeight
+  useMaxAvailableHeight,
+  label
 }) {
   const isInteractiveCard = !!onHeaderBackgroundClicked;
   const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
@@ -31,6 +34,7 @@ export default function Card({
       className={evaluateClassNames({
         [className]: true,
         [locals.framed]: framed,
+        [locals.darkFrame]: darkFrame,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
@@ -41,10 +45,18 @@ export default function Card({
         })}
         {...headerProps}
       >
-        <div className={locals.title}>
-          {title}
-          {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
-        </div>
+        {label ? (
+          <div>
+            {<div className={locals.twoLineTitleLabel}>{label}</div>}
+            {<div className={locals.twoLineTitle}>{title}</div>}
+          </div>
+        ) : (
+          <div className={locals.title}>
+            {title}
+            {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
+          </div>
+        )}
+
         <div
           className={evaluateClassNames({
             [locals.nonClickable]: isInteractiveCard
@@ -67,3 +79,18 @@ export default function Card({
     </div>
   );
 }
+
+Card.propTypes = {
+  bodyClassName: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  darkFrame: PropTypes.bool,
+  framed: PropTypes.bool,
+  header: PropTypes.node,
+  label: PropTypes.string,
+  onHeaderBackgroundClicked: PropTypes.func,
+  title: PropTypes.string,
+  titleSubText: PropTypes.string,
+  useMaxAvailableHeight: PropTypes.bool,
+  withoutPadding: PropTypes.bool
+};

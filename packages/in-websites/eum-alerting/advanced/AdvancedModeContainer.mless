@@ -1,0 +1,36 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: grid;
+    grid-column-gap: 1rem;
+    grid-template-areas: 'content sideNav';
+    grid-template-columns: 5fr 1fr;
+    height: 100%;
+  }
+
+  .scrollWrapper {
+    overflow: auto;
+    grid-area: content;
+  }
+
+  .content {
+    border-right: 1px solid @lib__colors__N300;
+    padding-right: 0.875rem;
+    margin-bottom: 65vh;
+  }
+
+  .sideNav {
+    grid-area: sideNav;
+  }
+
+  .controls {
+    margin-top: 3.75rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    width: 4.375rem;
+  }
+}

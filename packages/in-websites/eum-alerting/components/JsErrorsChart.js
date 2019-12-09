@@ -5,7 +5,6 @@ import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDi
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import EumAlertingBarChart from '../chart/EumAlertingBarChart';
 import ComboBox from 'in-components/ComboBox/ComboBox';
-import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -18,24 +17,9 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
     <div className={locals.container}>
       {hasJsErrorSelected(form) ? (
         <>
-          <div className={locals.placeholder}>
-            <EumAlertingBarChart
-              threshold={form.get(fieldNames.thresholdValue).value || 0}
-              timeConfig={timeConfig}
-              tagFilters={form.get(fieldNames.tagFilters).value}
-              errorFilter={{
-                name: 'beacon.error.message',
-                operator: form.get(fieldNames.ruleOperator).value,
-                stringValue: form.get(fieldNames.ruleValue).value
-              }}
-              metricName={form.get(fieldNames.ruleMetricName).value}
-              granularity={granularity}
-            />
-          </div>
           {onChange && (
             <div className={locals.controls}>
               <FormGroup>
-                <Label htmlFor={fieldNames.ruleMetricName}>Metric</Label>
                 <ComboBox
                   className={locals.metricSelect}
                   name={fieldNames.ruleMetricName}
@@ -51,9 +35,21 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                 />
               </FormGroup>
               <FormGroup>
-                <Label htmlFor={fieldNames.thresholdValue}>
-                  Threshold ({form.get(fieldNames.thresholdOperator).value})
-                </Label>
+                <ComboBox
+                  className={locals.metricSelect}
+                  name={fieldNames.thresholdOperator}
+                  value={form.get(fieldNames.thresholdOperator).value}
+                  options={selectOptions[fieldNames.thresholdOperator]}
+                  onChange={e => {
+                    const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', resetThresholdField);
+                  }}
+                  defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
+                  clearable={false}
+                  searchable
+                />
+              </FormGroup>
+              <FormGroup>
                 <Input
                   type="number"
                   min="0"
@@ -69,6 +65,20 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
               </FormGroup>
             </div>
           )}
+          <div className={locals.placeholder}>
+            <EumAlertingBarChart
+              threshold={form.get(fieldNames.thresholdValue).value || 0}
+              timeConfig={timeConfig}
+              tagFilters={form.get(fieldNames.tagFilters).value}
+              errorFilter={{
+                name: 'beacon.error.message',
+                operator: form.get(fieldNames.ruleOperator).value,
+                stringValue: form.get(fieldNames.ruleValue).value
+              }}
+              metricName={form.get(fieldNames.ruleMetricName).value}
+              granularity={granularity}
+            />
+          </div>
         </>
       ) : (
         <div className={locals.message}>

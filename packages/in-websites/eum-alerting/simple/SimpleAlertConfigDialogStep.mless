@@ -16,7 +16,9 @@
     overflow: auto;
   }
 
-  .alertChannelsList {
-    height: 26.875rem;
+  .alertLocationFiltersWrapper {
+    grid-column: 1 / span 2;
+    padding: 0 0.5rem;
+    margin-top: 0.5rem;
   }
 }

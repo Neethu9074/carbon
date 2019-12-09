@@ -8,8 +8,8 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import List, { reload } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -42,7 +42,7 @@ export default function Alerts({ websiteLabel, websiteId }) {
         onRowClick={config => setConfig(config)}
       />
       {config && (
-        <SimpleAlertDialog
+        <AlertConfigDialog
           onClose={() => {
             setConfig(null);
             reload();

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
-import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
+import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { eumAlertingEnabled } from 'in-services/featureFlags';
@@ -60,7 +60,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
         Create Alert
       </FloatingActionButton>
       {dialogOpen && (
-        <SimpleAlertDialog
+        <AlertConfigDialog
           onClose={() => setDialogOpen(false)}
           formData={generateFormData(error, tagFilters, websiteId)}
           websiteLabel={websiteLabel}

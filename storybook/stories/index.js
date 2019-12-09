@@ -42,7 +42,8 @@ import './website/StackTraceTranslationConfiguration.story';
 import './website/eum-alerting/componets/Menu.story';
 import './website/eum-alerting/componets/TabSwitch.story';
 import './website/eum-alerting/componets/CreateAlertButton.story';
-import './website/eum-alerting/SimpleAlertDialog.story';
+import './website/eum-alerting/componets/ScrollStep.story';
+import './website/eum-alerting/AlertConfigDialog.story';
 
 import './components/Axis.story';
 import './components/Badge.story';

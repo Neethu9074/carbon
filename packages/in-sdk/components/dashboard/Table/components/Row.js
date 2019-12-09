@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
+import { scrollIntoView } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -97,7 +97,7 @@ export default class Row extends React.Component {
       Math.max(0, elements.indexOf(this.domElement) + direction)
     );
     elements[newActiveElementIndex].focus();
-    scrollIntoViewIfNeeded(elements[newActiveElementIndex]);
+    scrollIntoView(elements[newActiveElementIndex]);
   }
 
   setDomRef = domElement => {

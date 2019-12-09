@@ -75,6 +75,8 @@
 
   .customCloseBehaviour {
     font-size: @lib__typography__body__font-size;
+    margin-left: auto;
+    padding-right: 0.5rem;
   }
 
   .customTitle {
@@ -93,5 +95,9 @@
 
   .cursorDefault {
     cursor: default;
+  }
+
+  .scrollShadow {
+    box-shadow: @lib__shadows__subtle;
   }
 }
