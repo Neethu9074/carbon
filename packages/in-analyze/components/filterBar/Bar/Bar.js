@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -12,13 +13,16 @@ export default function Bar({
   showClearFilters = true,
   onClearFilters,
   removePadding,
-  removeBackgroundColor
+  removeBackgroundColor,
+  removeShadow,
+  removeFiltersIcon
 }) {
   return (
     <div
       className={evaluateClassNames({
         [locals.wrapper]: true,
-        [locals.backgroundColor]: !removeBackgroundColor
+        [locals.backgroundColor]: !removeBackgroundColor,
+        [locals.shadow]: !removeShadow
       })}
     >
       <MaxWidthFullscreenContainer
@@ -27,10 +31,12 @@ export default function Bar({
           [locals.removePadding]: removePadding
         })}
       >
-        <span className={locals.filter}>
-          <SvgIcon className={locals.icon} type="lib_actions_filter" />
-          Filters
-        </span>
+        {!removeFiltersIcon && (
+          <span className={locals.filter}>
+            <SvgIcon className={locals.icon} type="lib_actions_filter" />
+            Filters
+          </span>
+        )}
         <div>{children}</div>
 
         {showClearFilters && (
@@ -42,3 +48,13 @@ export default function Bar({
     </div>
   );
 }
+
+Bar.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClearFilters: PropTypes.func,
+  removeBackgroundColor: PropTypes.bool,
+  removePadding: PropTypes.bool,
+  removeShadow: PropTypes.bool,
+  removeFiltersIcon: PropTypes.bool,
+  showClearFilters: PropTypes.bool
+};

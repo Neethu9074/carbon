@@ -19,6 +19,7 @@ export default function QuickFilterBar(props) {
     showWindowWidthSelector,
     removeBarPadding,
     removeBarBackgroundColor,
+    removeFiltersIcon,
     hideClearFiltersButton
   } = props;
 
@@ -28,6 +29,8 @@ export default function QuickFilterBar(props) {
       onClearFilters={clearTagFilters}
       removePadding={removeBarPadding}
       removeBackgroundColor={removeBarBackgroundColor}
+      removeFiltersIcon={removeFiltersIcon}
+      removeShadow
     >
       {showWebsiteSelector && (
         <SelectBarItem
