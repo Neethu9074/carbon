@@ -19,7 +19,7 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
     it('should update the internal scales according to the given metric values', () => {
       expect(lineMetricRenderer.yScale.getRangeFrom()).to.equal(0);
       expect(lineMetricRenderer.yScale.getRangeTo()).to.equal(getCanvasMock().height);
-      expect(lineMetricRenderer.yScale.getDomainFrom()).to.equal(10);
+      expect(lineMetricRenderer.yScale.getDomainFrom()).to.be.above(10);
       expect(lineMetricRenderer.yScale.getDomainTo()).to.equal(0);
     });
 
@@ -31,8 +31,8 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
 
     it('should generate proper y pixel values for given timestamps', () => {
       expect(lineMetricRenderer.getY([0, 0])).to.equal(50);
-      expect(lineMetricRenderer.getY([0, 10])).to.equal(0);
-      expect(lineMetricRenderer.getY([0, 5])).to.equal(25);
+      expect(lineMetricRenderer.getY([0, 10])).to.be.above(0);
+      expect(lineMetricRenderer.getY([0, 5])).to.be.above(25);
     });
   });
 
@@ -40,21 +40,23 @@ describe('in-components/SparkChart/LineMetricRenderer', () => {
     it('should extract the maximum metric value', () => {
       expect(
         lineMetricRenderer.calculateMetricStatistics([[42, 0], [1000, 1], [6000, 0], [3000, 10], [2000, 5], [5000, 9]])
-          .maxMetricValue
-      ).to.equal(10);
+          .upperBound
+      ).to.be.above(10);
 
-      expect(lineMetricRenderer.calculateMetricStatistics([]).maxMetricValue).to.equal(0);
+      expect(lineMetricRenderer.calculateMetricStatistics([]).upperBound).to.equal(0);
 
-      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).maxMetricValue).to.equal(1);
+      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).upperBound).to.be.above(1);
     });
 
     it('should extract the minimum metric value', () => {
       expect(
         lineMetricRenderer.calculateMetricStatistics([[42, 0], [1000, 1], [6000, 0], [3000, 10], [2000, 5], [5000, 9]])
-          .minMetricValue
+          .lowerBound
       ).to.equal(0);
 
-      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).minMetricValue).to.equal(-1);
+      expect(lineMetricRenderer.calculateMetricStatistics([]).lowerBound).to.equal(0);
+
+      expect(lineMetricRenderer.calculateMetricStatistics([[42, 1], [1000, -1]]).lowerBound).to.equal(-1);
     });
 
     it('should extract blocks according to the given rollup', () => {

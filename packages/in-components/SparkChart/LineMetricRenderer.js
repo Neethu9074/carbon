@@ -32,21 +32,86 @@ export default class LineMetricRenderer {
     this.xScale.setDomainTo(to);
 
     // inverse this since canvas has y direction from top(0) to bottom(100%)
-    const { minMetricValue, maxMetricValue } = this.calculateMetricStatistics(metrics);
-    this.yScale.setDomainFrom(maxMetricValue);
-    this.yScale.setDomainTo(minMetricValue);
+    const { lowerBound, upperBound } = this.calculateMetricStatistics(metrics);
+    this.yScale.setDomainFrom(upperBound);
+    this.yScale.setDomainTo(lowerBound);
 
     this.blocks = this.calculateBlocks(metrics, rollup);
   }
 
   calculateMetricStatistics(metrics) {
+    let sumMetricValues = 0;
     let maxMetricValue = 0;
-    let minMetricValue = Number.MAX_VALUE;
+    let minMetricValue = 0;
     for (let i = 0; i < metrics.length; i++) {
-      minMetricValue = Math.min(minMetricValue, metrics[i][1]);
-      maxMetricValue = Math.max(maxMetricValue, metrics[i][1]);
+      let value = metrics[i][1];
+      if (value) {
+        // Skip undefined datapoints
+        sumMetricValues += value;
+        minMetricValue = Math.min(minMetricValue, value);
+        maxMetricValue = Math.max(maxMetricValue, value);
+      }
     }
-    return { minMetricValue, maxMetricValue };
+
+    /*
+     * We have all datapoints in the metrics, and we wanna provide
+     * a Y value based on the standard deviation. Assuming that up
+     * we will often encounter up to 4 standard deviations normally,
+     * and that changes within that range should not cause a panic,
+     * we will extend the max value of the scale to extend to 4
+     * standard deviations above the average of the chart. If there
+     * are datapoints above four standard deviations, use their values
+     * as max range, so that they will appear on the top of the sparkchart
+     * and that will indicate "there is a big jump there."
+     *
+     * Below the chart we plot always from 0: all the data points we
+     * need to show have positive values, and the Y axis starting from
+     * zero avoids misrepresenting a sharp drop with "the value is
+     * exactly zero", which causes unnecessary panic with respect to
+     * call counts. Also, when the datapoints we plot are averagely
+     * large and similar to one another, plotting from zero has the
+     * very nice side-effect of smoothing the curve, giving the
+     * perspective that, in the big scheme of things, nothing has changes
+     * "that much."
+     */
+
+    let upperBoundValue = maxMetricValue;
+    let standardDeviation = 0;
+
+    if (metrics.length) {
+      const valuesAverage = sumMetricValues / metrics.length;
+
+      const squareDiffsSum = metrics
+        // Filter out datapoints with undefined values
+        .filter(dataPoint => !!dataPoint[1])
+        .map(dataPoint => Math.pow(dataPoint[1] - valuesAverage, 2))
+        .reduce((squareDiff1, squareDiff2) => squareDiff1 + squareDiff2, 0);
+
+      const squareDiffsAverage = squareDiffsSum / metrics.length;
+
+      standardDeviation = Math.sqrt(squareDiffsAverage);
+
+      upperBoundValue = valuesAverage + standardDeviation * 4;
+    }
+
+    const lowerBound = Math.min(minMetricValue, 0);
+
+    /*
+     * In case of very large variability, where the maximum value is higher
+     * than average plus four standard deviations, we need to allow the chart
+     * to paint the full range.
+     */
+    let upperBound = Math.max(maxMetricValue, upperBoundValue);
+    if (upperBound > 0 && upperBound < 5 && standardDeviation > 0 && standardDeviation < 1) {
+      /*
+       * Let's put in perspective those pesky 1%~3% error rate spikes.
+       * With spikes over 5%, the headroom built based on standard deviation
+       * should provide enough perspective.
+       */
+      upperBound = 5;
+    }
+
+    return { lowerBound, upperBound };
   }
 
   calculateBlocks(metrics, rollup) {
@@ -130,25 +195,105 @@ export default class LineMetricRenderer {
   }
 
   drawBlock(block) {
-    if (block.length <= 1) {
-      return;
+    /*
+     * Create paths that represent areas under sequences
+     * that have no consecuritve zeros inside, because in
+     * those cases we would pain area highlight under the
+     * line connecting two zeros and it is wrong.
+     */
+    let dataPoints = Array.from(block);
+
+    while (dataPoints.length) {
+      let firstDataPoint = dataPoints.shift();
+
+      if (!dataPoints.length || !dataPoints[0].value) {
+        /*
+         * The next item is undefined or a zero
+         */
+        if (firstDataPoint.value) {
+          /*
+           * This is a single, non-zero data point.
+           * Paint a small area under it.
+           */
+          const halfWidthArea = 2;
+
+          this.ctx.beginPath();
+
+          this.ctx.moveTo(firstDataPoint.x - halfWidthArea, firstDataPoint.y);
+          this.ctx.lineTo(firstDataPoint.x + halfWidthArea, firstDataPoint.y);
+          this.ctx.lineTo(firstDataPoint.x + halfWidthArea, this.height);
+          this.ctx.lineTo(firstDataPoint.x - halfWidthArea, this.height);
+          this.ctx.fill();
+
+          this.ctx.closePath();
+        }
+
+        continue;
+      }
+
+      /*
+       * "Peek" if the next data point is also zero and,
+       * if so, skippity-skip.
+       */
+      let nextDataPoint = dataPoints[0];
+
+      if (!firstDataPoint.value && !nextDataPoint.value) {
+        /*
+         * We are in a zero "plateu".
+         */
+        continue;
+      }
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(firstDataPoint.x, firstDataPoint.y);
+
+      /*
+       * Consume all the points until the "next plateu" or
+       * the end of the series.
+       */
+      do {
+        nextDataPoint = dataPoints.shift();
+        this.ctx.lineTo(nextDataPoint.x, nextDataPoint.y);
+      } while (dataPoints.length && nextDataPoint.value);
+
+      /*
+       * Put the last item back in the dataPoints array, so that
+       * we process it in the next block.
+       */
+      if (!nextDataPoint.value) {
+        dataPoints.unshift(nextDataPoint);
+      }
+
+      this.ctx.lineTo(nextDataPoint.x, this.height);
+      this.ctx.lineTo(firstDataPoint.x, this.height);
+      this.ctx.fill();
+
+      this.ctx.closePath();
     }
-    const firstDataPoint = block[0];
-    const lastDataPoint = block[block.length - 1];
 
-    this.ctx.beginPath();
-    this.ctx.moveTo(firstDataPoint.x, firstDataPoint.y);
+    {
+      if (block.length < 2) {
+        // Only one item in the block, no lines need to be painted
+        return;
+      }
 
-    for (let i = 1; i < block.length; i++) {
-      const dataPoint = block[i];
-      this.ctx.lineTo(dataPoint.x, dataPoint.y);
+      // Scoping to avoid issues with firstDataPoint already being defined
+      const firstDataPoint = block[0];
+      const lastDataPoint = block[block.length - 1];
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(firstDataPoint.x, firstDataPoint.y);
+
+      for (let i = 1; i < block.length; i++) {
+        const dataPoint = block[i];
+        this.ctx.lineTo(dataPoint.x, dataPoint.y);
+      }
+
+      this.ctx.stroke();
+      this.ctx.lineTo(lastDataPoint.x, this.height);
+      this.ctx.lineTo(firstDataPoint.x, this.height);
+      this.ctx.closePath();
     }
-
-    this.ctx.stroke();
-    this.ctx.lineTo(lastDataPoint.x, this.height);
-    this.ctx.lineTo(firstDataPoint.x, this.height);
-    this.ctx.closePath();
-    this.ctx.fill();
   }
 
   renderDataPoints() {
@@ -165,10 +310,20 @@ export default class LineMetricRenderer {
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
       for (let iB = 0; iB < block.length; iB++) {
+        this.ctx.fillStyle = fillStyle;
         const dataPoint = block[iB];
         this.ctx.beginPath();
         this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
         this.ctx.fill();
+        if (dataPoint.value == 0) {
+          /*
+           * To help differentiate zero from some other value,
+           * paint the dot representing zero as a thin blue halo
+           */
+          this.ctx.arc(dataPoint.x, dataPoint.y, radius / 2, 0, 2 * Math.PI, false);
+          this.ctx.fillStyle = 'white';
+          this.ctx.fill();
+        }
       }
     }
   }

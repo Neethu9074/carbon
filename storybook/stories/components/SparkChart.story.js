@@ -40,6 +40,54 @@ function SparkChartStory() {
         <SparkChart rollup={5000} timeConfig={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />
       </Section>
 
+      <Section title="With mostly zero data points and a small spike">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 0], [10000, 0], [20000, 1], [30000, 0], [40000, 0], [50000, 0], [60000, 0]]}
+        />
+      </Section>
+
+      <Section title="With mostly similar data points">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 200], [10000, 192], [20000, 197], [30000, 220], [40000, 197], [50000, 200], [60000, 198]]}
+        />
+      </Section>
+
+      <Section title="With mostly similar data points and a drop to zero">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 200], [10000, 192], [20000, 197], [30000, 220], [40000, 197], [50000, 0], [60000, 198]]}
+        />
+      </Section>
+
+      <Section title="With mostly similar data points and a sharp spike">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 200], [10000, 192], [20000, 197], [30000, 220], [40000, 197], [50000, 800], [60000, 198]]}
+        />
+      </Section>
+
+      <Section title="With mostly similar data points, a drop to zero and a sharp spike">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 200], [10000, 192], [20000, 0], [30000, 220], [40000, 197], [50000, 800], [60000, 198]]}
+        />
+      </Section>
+
+      <Section title="With mostly similar data points, a sharp drop (not to zero) and a sharp spike">
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 200], [10000, 192], [20000, 20], [30000, 220], [40000, 197], [50000, 800], [60000, 198]]}
+        />
+      </Section>
+
       <Section title="Missing Datapoints">
         <SparkChart
           rollup={1000}
