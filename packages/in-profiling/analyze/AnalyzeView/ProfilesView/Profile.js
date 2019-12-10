@@ -13,6 +13,10 @@ import Sticky from 'in-components/Sticky';
 import locals from './Profile.mless';
 
 export default function Profile({ viewType, setViewType, profile, isOnline, processSnapshot }) {
+  if (!profile) {
+    return null;
+  }
+
   let totalNumSamples = 0;
   for (let i = 0; i < profile.profileGraph.length; i++) {
     totalNumSamples += countSamples(profile.profileGraph[i]);
