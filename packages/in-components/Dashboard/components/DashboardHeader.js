@@ -9,7 +9,6 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
-import { contextGuideEnabled } from 'in-services/featureFlags';
 import StackButton from 'in-new-components/Stack/StackButton';
 import PluginIcon from 'in-components/PluginIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -50,9 +49,7 @@ function renderButtonLine({ snapshot, timeConfig }) {
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
-      {contextGuideEnabled && (
-        <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
-      )}
+      <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </>
