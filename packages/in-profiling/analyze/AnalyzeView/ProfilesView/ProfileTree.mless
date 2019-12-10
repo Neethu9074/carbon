@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .profile {
+    padding: 0.5rem 0;
+
+    &:nth-child(odd) {
+      background: @lib__colors__N050;
+      border-top: 1px dashed @lib__colors__N300;
+      border-bottom: 1px dashed @lib__colors__N300;
+    }
+  }
+}

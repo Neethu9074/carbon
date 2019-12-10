@@ -3,22 +3,23 @@
 
 :local {
   .header {
-    .flexbox();
+    padding: 1rem 1rem 0;
+    background: @lib__colors__white;
     border-bottom: 1px solid @lib__colors__N300;
-    padding-bottom: 0.5rem;
+  }
+
+  .flexWrapper {
+    .spaceBetweenFlexbox();
+
+    width: 100%;
+    padding: 0.5rem 0;
   }
 
   .icon {
     fill: @lib__colors__N500;
   }
 
-  .profile {
-    padding: 0.5rem 0;
-
-    &:nth-child(odd) {
-      background: @lib__colors__N050;
-      border-top: 1px dashed @lib__colors__N300;
-      border-bottom: 1px dashed @lib__colors__N300;
-    }
+  .content {
+    padding: 0 1rem;
   }
 }

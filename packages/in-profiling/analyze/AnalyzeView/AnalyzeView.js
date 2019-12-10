@@ -1,4 +1,5 @@
 import { compose, withProps } from 'recompose';
+import { get } from 'lodash';
 import React from 'react';
 
 import {
@@ -91,7 +92,12 @@ export default compose(
         />
       );
     },
-    getGroupAsFilterUrl: params => getGroupAsFilterUrl({ ...props, ...params })
+    getGroupAsFilterUrl: params =>
+      getGroupAsFilterUrl({
+        ...props,
+        ...params,
+        keepGroup: shouldKeepGrouping(get(props, ['group', 'groupbyTag']), get(params, ['newGroup', 'groupbyTag']))
+      })
   })),
   tagFilterManipulators
 )(props => (
@@ -131,18 +137,38 @@ function getHasDataToRender({ timeConfig }) {
   }).map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getGroupAsFilterUrl({ getChangeAsUrl, tagFilters, group, orderBy, orderDirection, name }) {
+function getGroupAsFilterUrl({
+  getChangeAsUrl,
+  tagFilters,
+  group,
+  newGroup,
+  orderBy,
+  orderDirection,
+  name,
+  keepGroup = false
+}) {
+  newGroup = newGroup || group;
   return getChangeAsUrl({
     tagFilters: tagFilters.concat(
       createFilter({
-        name: group.groupbyTag,
+        name: newGroup.groupbyTag,
         value: name,
         operator: operators.EQUALS,
-        entity: entityTypes.SOURCE
+        entity: entityTypes.DESTINATION
       })
     ),
-    group: {},
+    group: keepGroup ? group : {},
     orderBy: orderBy,
     orderDirection: orderDirection
   });
+}
+
+// Multiple links in the tables can provide filters (group by application.name will show you the group and technologies for instance).
+// When clicking the group, you want to set the group as a filter, removing the current grouping.
+// When clicking the technology, the group should stick, but only a filter is added
+function shouldKeepGrouping(currentGroup, newGroup) {
+  if (!currentGroup || !newGroup) {
+    return false;
+  }
+  return currentGroup !== newGroup;
 }

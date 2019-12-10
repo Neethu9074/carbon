@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .link:hover {
+    color: @lib__colors__N600Light;
+  }
+}

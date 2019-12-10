@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 
@@ -26,26 +25,14 @@ export default [
   }
 ];
 
-function CpuProfile({ data, processSnapshot, isOnline }) {
-  return (
-    <ContentWrapper>
-      <Profile profile={data.cpuProfile} processSnapshot={processSnapshot} isOnline={isOnline} />
-    </ContentWrapper>
-  );
+function CpuProfile(props) {
+  return <Profile profile={props.data.cpuProfile} {...props} />;
 }
 
-function MemoryProfile({ data, processSnapshot, isOnline }) {
-  return (
-    <ContentWrapper>
-      <Profile profile={data.memoryProfile} processSnapshot={processSnapshot} isOnline={isOnline} />
-    </ContentWrapper>
-  );
+function MemoryProfile(props) {
+  return <Profile profile={props.data.memoryProfile} {...props} />;
 }
 
-function TimeProfile({ data, processSnapshot, isOnline }) {
-  return (
-    <ContentWrapper>
-      <Profile profile={data.timeProfile} processSnapshot={processSnapshot} isOnline={isOnline} />
-    </ContentWrapper>
-  );
+function TimeProfile(props) {
+  return <Profile profile={props.data.timeProfile} {...props} />;
 }

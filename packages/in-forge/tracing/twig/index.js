@@ -22,7 +22,7 @@ registerSpanDefinition({
     if (template_path) {
       return template_path.split('/').pop();
     }
-    
+
     return 'Twig';
   }
 });
