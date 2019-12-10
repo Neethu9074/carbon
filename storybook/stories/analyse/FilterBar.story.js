@@ -15,7 +15,6 @@ import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 storiesOf('Analyse/FilterBar', module)
   .addDecorator(withKnobs)
   .add('Default', () => <Default />)
-  .add('Without shadow/filters icon', () => <WithoutShadow />)
   .add('Overlay', () => <Overlay />)
   .add('SelectOverlay', () => <SelectBarOverlayStory />)
   .add('NumberOverlay', () => <NumberBarOverlayStory />)
@@ -24,23 +23,6 @@ storiesOf('Analyse/FilterBar', module)
 function Default() {
   return (
     <Bar onClearFilters={action('onClearFilters')}>
-      <BarItem showArrow onClick={action('onBarItemClick')}>
-        By Duration
-      </BarItem>
-      <BarItem showArrow active isOpen onClick={action('onBarItemClick')}>
-        By Meta
-      </BarItem>
-      <BarItem onClick={action('onBarItemClick')}>Erroneous</BarItem>
-      <BarItem active onClick={action('onBarItemClick')}>
-        Synthetic
-      </BarItem>
-    </Bar>
-  );
-}
-
-function WithoutShadow() {
-  return (
-    <Bar onClearFilters={action('onClearFilters')} removeShadow removeFiltersIcon>
       <BarItem showArrow onClick={action('onBarItemClick')}>
         By Duration
       </BarItem>

@@ -55,7 +55,6 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
           showWebsiteSelector={advancedMode}
           removeBarPadding
           removeBarBackgroundColor
-          removeFiltersIcon
           hideClearFiltersButton
         />
         <div className={locals.filterList}>

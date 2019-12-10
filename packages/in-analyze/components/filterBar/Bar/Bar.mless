@@ -3,9 +3,6 @@
 :local {
   .wrapper {
     padding: 0.75rem 0.7rem;
-  }
-
-  .shadow {
     box-shadow: @lib__shadows__strong;
   }
 
@@ -27,7 +24,7 @@
   }
 
   .icon {
-    margin-right: 0.5rem;
+    margin-right: .5rem;
     fill: @lib__colors__N600Light;
   }
 
