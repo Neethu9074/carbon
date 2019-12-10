@@ -3,6 +3,7 @@ import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matri
 // dashboards
 export const mobileAppId = 'mobileAppId';
 export const viewId = 'viewId';
+export const httpRequestId = 'httpRequestId';
 
 // analyze
 export const tagFilters = 'tagFilters';

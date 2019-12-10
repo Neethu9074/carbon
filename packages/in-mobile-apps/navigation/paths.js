@@ -11,7 +11,8 @@ import {
   beaconType as beaconTypeMatrixParameter,
   sessionId as sessionIdMatrixParameter,
   beaconId as beaconIdMatrixParameter,
-  beaconTimestamp as beaconTimestampMatrixParameter
+  beaconTimestamp as beaconTimestampMatrixParameter,
+  httpRequestId as httpRequestIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -42,6 +43,8 @@ export const mobileAppPath = '/mobileApp';
 export const mobileAppPathFullyQualified = `${mobileAppMonitoringPath}${mobileAppPath}`;
 export const usersTab = '/users';
 export const usersTabFullyQualified = `${mobileAppPathFullyQualified}${usersTab}`;
+export const httpRequestsTab = '/httpRequests';
+export const httpRequestsTabFullyQualified = `${mobileAppPathFullyQualified}${httpRequestsTab}`;
 
 export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${mobileAppPathFullyQualified}${configurationTab}`;
@@ -56,13 +59,16 @@ export const linkToNewMobileApp$ = getModifiedUrlStream(params => {
   params.pathname = newMobileAppPathFullyQualified;
 });
 
-export function getLinkToMobileApp(mobileAppId, { tabPath = '/summary', tabParameters, pageId, timeConfig } = emptyObject) {
+export function getLinkToMobileApp(
+  mobileAppId,
+  { tabPath = '/summary', tabParameters, viewId, timeConfig } = emptyObject
+) {
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
 
-    if (pageId !== undefined) {
-      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, pageId);
+    if (viewId !== undefined) {
+      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
     }
 
     if (tabPath && tabParameters) {
@@ -121,5 +127,18 @@ export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
 
     // make sure that there is no grouping as otherwise the page load cannot be loaded.
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
+  });
+}
+
+export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${mobileAppPathFullyQualified}/httpRequests/details`;
+    setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+    if (viewId !== undefined) {
+      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
+    }
+
+    setOrDeleteMatrixKey(params, '/details', httpRequestIdMatrixParameter, httpRequestId);
   });
 }

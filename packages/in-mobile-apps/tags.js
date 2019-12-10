@@ -33,12 +33,16 @@ function getMobileAppLabelTagFilter(mobileAppLabel) {
 
 export const dataSourceTitles = {
   sessionStart: 'Session Start',
+  httpRequest: 'HTTP Request',
   custom: 'Custom Event'
 };
 
 export const defaultGroupings = {
   sessionStart: {
     groupbyTag: 'mobileBeacon.view.name'
+  },
+  httpRequest: {
+    groupbyTag: 'mobileBeacon.http.origin'
   },
   custom: {
     groupbyTag: 'mobileBeacon.customEvent.name'
@@ -76,6 +80,14 @@ const commonGroupingTags = [
 
 export const availableGroupingTags = {
   sessionStart: [...commonGroupingTags].sort(),
+  httpRequest: [
+    ...commonGroupingTags,
+    'mobileBeacon.http.url',
+    'mobileBeacon.http.origin',
+    'mobileBeacon.http.method',
+    'mobileBeacon.http.path',
+    'mobileBeacon.http.status'
+  ].sort(),
   custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name'].sort()
 };
 
@@ -83,5 +95,6 @@ const commonFilterTags = [];
 
 export const availableFilterTags = {
   sessionStart: [...availableGroupingTags.sessionStart, ...commonFilterTags].sort(),
+  httpRequest: [...availableGroupingTags.httpRequest, ...commonFilterTags].sort(),
   custom: [...availableGroupingTags.custom, ...commonFilterTags].sort()
 };
