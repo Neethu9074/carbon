@@ -16,7 +16,7 @@ export default connectTo(
       action: 'crio.containerInfo',
       target: snapshot.get('volatileId'),
       args: {
-        containerId: 'fc0737cacb89ae2cab83b6680bd29cbe6deef48fb57192a452781ac17039c72a'
+        containerId: snapshot.getIn(['data', 'id'])
       }
     })
   }),
