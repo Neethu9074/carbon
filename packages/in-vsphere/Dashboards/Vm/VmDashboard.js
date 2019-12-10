@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { vmId as matrixVmId, hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
+import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
-import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
-import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
-import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { VmBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { vmDashboard } from 'in-vsphere/navigation/paths';
 import tabs from 'in-vsphere/Dashboards/Vm/tabs/index';
@@ -61,12 +60,7 @@ export default function VMDashboard({ location }) {
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
-      title="VM"
-      icon={resolveIcon(props)}
-      {...props}
-      getLabel={result => get(result, ['data', 'label'])}
-    />
+    <DashboardHeader {...props} title="VM" icon={resolveIcon(props)} label={get(props.result, ['data', 'label'])} />
   );
 }
 

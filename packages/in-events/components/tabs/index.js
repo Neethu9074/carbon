@@ -6,7 +6,6 @@ export default [
     label: 'Summary',
     path: eventsPath,
     component: Summary,
-    hideTabLabelWhenAlone: true,
-    isFullWidth: true
+    hideTabLabelWhenAlone: true
   }
 ];

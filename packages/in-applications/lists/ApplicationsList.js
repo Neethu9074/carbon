@@ -6,7 +6,6 @@ import { getApplicationDashboard, newApplicationView, applicationsList } from 'i
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -19,6 +18,7 @@ import getApplications from 'in-subscription/application/getApplications';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -156,7 +156,7 @@ export default connectTo(
   function ApplicationsList({ timeConfig }) {
     return (
       <Sticky header={<ViewSwitcher />}>
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <Title title="Applications" />
 
           <WithEmptyStateFallback
@@ -165,7 +165,7 @@ export default connectTo(
           >
             <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
           </WithEmptyStateFallback>
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
 
         <Footer />
       </Sticky>

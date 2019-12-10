@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -18,7 +18,7 @@ export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth, automaticActiveState = true }) {
+  function BreadcrumbHeader({ breadcrumbs, automaticActiveState = true }) {
     if (breadcrumbs == null || breadcrumbs.length === 0) {
       return null;
     }
@@ -39,7 +39,6 @@ export default connectTo(
     crumbs.unshift({
       className: evaluateClassNames({
         [locals.container]: true,
-        [locals.useFullAvailableWidth]: useFullAvailableWidth,
         [locals.highlightLastChild]: automaticActiveState
       })
     });
@@ -47,7 +46,9 @@ export default connectTo(
     const crumbsElement = React.createElement.apply(React, crumbs);
 
     return (
-      <HeaderWithTimeSelection useFullAvailableWidth={useFullAvailableWidth}>{crumbsElement}</HeaderWithTimeSelection>
+      <DashboardHeaderModule withTopBorder={false} withBottomBorder>
+        <div className={locals.wrapper}>{crumbsElement}</div>
+      </DashboardHeaderModule>
     );
   }
 );

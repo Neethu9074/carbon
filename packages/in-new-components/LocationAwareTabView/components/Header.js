@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import TabList from 'in-new-components/LocationAwareTabView/components/TabList';
 import Tab from 'in-new-components/LocationAwareTabView/components/Tab';
@@ -11,20 +11,12 @@ import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({
-  tabs,
-  result,
-  HeaderComponent,
-  location,
-  props,
-  useFullAvailableWidth,
-  tabChangeTracker
-}) {
-  const Wrapper = useFullAvailableWidth ? UseFullAvailableWidth : MaxWidthFullscreenContainer;
+export default function Header({ tabs, result, HeaderComponent, location, props, tabChangeTracker }) {
   return (
     <div className={locals.header}>
-      <Wrapper>
-        <HeaderComponent result={result} {...props} />
+      <HeaderComponent result={result} {...props} />
+
+      <DashboardHeaderModule theme={themes.light}>
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
           <TabList>
             {tabs.map(tab => (
@@ -39,14 +31,10 @@ export default function Header({
             ))}
           </TabList>
         )}
-      </Wrapper>
-      {result && <HorizontalIndicator progress={result.progress} />}
+        {result && <HorizontalIndicator progress={result.progress} />}
+      </DashboardHeaderModule>
     </div>
   );
-}
-
-function UseFullAvailableWidth({ children }) {
-  return <div className={locals.fullWidthWrapper}>{children}</div>;
 }
 
 function TabComponent({ tab, result, location, props, tabChangeTracker }) {

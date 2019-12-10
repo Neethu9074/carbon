@@ -1,28 +1,29 @@
 import { compose, withProps } from 'recompose';
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
-import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import { eumAlertingEnabled } from 'in-services/featureFlags';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { eumAlertingEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
@@ -102,40 +103,24 @@ function WebsiteDashboard({
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
-  const tabView = (
-    <TabView
-      result$={getWebsite({
-        id: props.websiteId,
-        timeConfig: props.timeConfig
-      })}
-      HeaderComponent={Header}
-      location={location}
-      tabs={props.pageId ? pageTabs : websiteTabs}
-      tabChangeTracker={tabChange}
-      props={props}
-      withoutBreadcrumb
-      withProps={({ result }) => ({
-        websiteLabel: get(result, ['data', 'label'])
-      })}
-    />
-  );
-
-  let content = (
-    <StickyQuickFilterBar
-      {...props}
-      tagFilters={tagFilters}
-      showClearFilters={customTagFilters.length > 0}
-      showSubdivisionSelector
-      showWindowWidthSelector
-    >
-      {tabView}
-    </StickyQuickFilterBar>
-  );
-
   return (
-    <Fragment>
+    <Sticky header={<BreadcrumbHeader />}>
       <Breadcrumbs items={getBreadcrumbs(props)} />
-      <Sticky header={<BreadcrumbHeader />}>{content}</Sticky>
+      <TabView
+        result$={getWebsite({
+          id: props.websiteId,
+          timeConfig: props.timeConfig
+        })}
+        HeaderComponent={Header}
+        location={location}
+        tabs={props.pageId ? pageTabs : websiteTabs}
+        tabChangeTracker={tabChange}
+        props={{ ...props, tagFilters, customTagFilters }}
+        withoutBreadcrumb
+        withProps={({ result }) => ({
+          websiteLabel: get(result, ['data', 'label'])
+        })}
+      />
       <CreateAlert
         websiteId={props.websiteId}
         tagFilters={tagFilters}
@@ -146,25 +131,33 @@ function WebsiteDashboard({
         timeConfig={props.timeConfig}
         location={location}
       />
+
       <Footer />
-    </Fragment>
+    </Sticky>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
-      title={props.pageId ? 'Page' : 'Website'}
-      icon="lib_website"
-      renderActions={Actions}
-      getLabel={getLabel}
-      {...props}
-    />
+    <>
+      <DashboardHeader
+        {...props}
+        icon="lib_website"
+        label={props.pageId || (props.result.data && props.result.data.label)}
+        title={props.pageId ? 'Page' : 'Website'}
+        renderButtonLine={renderButtonLine}
+      />
+      <DashboardHeaderModule>
+        <QuickFilterBar
+          {...props}
+          tagFilters={props.tagFilters}
+          showClearFilters={props.customTagFilters.length > 0}
+          showSubdivisionSelector
+          showWindowWidthSelector
+        />
+      </DashboardHeaderModule>
+    </>
   );
-}
-
-function getLabel(result, { pageId }) {
-  return pageId || result.data.label;
 }
 
 function getBreadcrumbs(props) {
@@ -175,9 +168,17 @@ function getBreadcrumbs(props) {
   ].filter(Boolean);
 }
 
-function Actions({ tagFilters, websiteLabel, websiteId, timeConfig }) {
+function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
   return (
-    <Fragment>
+    <>
+      {eumAlertingEnabled && (
+        <WebsiteHealthIndicatorBehavior
+          showOkayOnNoIssues={false}
+          IndicatorPresenter={HealthIndicatorButtonPresenter}
+          websiteId={websiteId}
+          timeConfig={timeConfig}
+        />
+      )}
       <Button
         kind="primary"
         icon="lib_website_page_load"
@@ -189,14 +190,6 @@ function Actions({ tagFilters, websiteLabel, websiteId, timeConfig }) {
       >
         Analyze Page Loads
       </Button>
-      {eumAlertingEnabled && (
-        <WebsiteHealthIndicatorBehavior
-          showOkayOnNoIssues={false}
-          IndicatorPresenter={HealthIndicatorButtonPresenter}
-          websiteId={websiteId}
-          timeConfig={timeConfig}
-        />
-      )}
-    </Fragment>
+    </>
   );
 }

@@ -35,7 +35,7 @@
   .icon {
     margin-left: 0;
     margin-right: 0.25rem;
-    fill: @lib__colors__N800Dark;
+    fill: @lib__colors__N600Light;
   }
 
   .iconLight {
@@ -44,7 +44,7 @@
 
   .onDark,
   .offDark {
-    background: @lib__colors__N900Primary;
+    background: @lib__colors__N800Dark;
   }
 
   .onDark {

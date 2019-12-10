@@ -5,10 +5,10 @@ import React from 'react';
 import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import Card from 'in-new-components/Card';
@@ -47,14 +47,14 @@ export default connectTo(
 
     if (hostIsUnmonitored) {
       return (
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <NoDataAvailable
             icon="lib_infrastructure"
             title="Unmonitored Host"
             text="The host is unmonitored on a Kubernetes master node"
             height={140}
           />
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
       );
     }
 

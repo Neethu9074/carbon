@@ -36,7 +36,6 @@ function TabView({
   location,
   props,
   withoutBreadcrumb = false,
-  useFullAvailableWidth = false,
   tabChangeTracker
 }) {
   const filteredTabs = tabs.filter(filterTabByResult(result));
@@ -46,7 +45,7 @@ function TabView({
       <Sticky
         header={
           <div>
-            {!withoutBreadcrumb && <BreadcrumbHeader useFullAvailableWidth={useFullAvailableWidth} />}
+            {!withoutBreadcrumb && <BreadcrumbHeader />}
             {(!hasErrors || renderHeaderOnErrors) && (
               <Header
                 location={location}
@@ -54,7 +53,6 @@ function TabView({
                 result={result}
                 props={props}
                 HeaderComponent={HeaderComponent}
-                useFullAvailableWidth={useFullAvailableWidth}
                 tabChangeTracker={tabChangeTracker}
               />
             )}

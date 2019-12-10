@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -11,11 +11,11 @@ import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import { capitalize } from 'in-services/formatters/string';
@@ -36,7 +36,7 @@ export default function ClusterDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <Breadcrumbs items={ClusterBreadcrumbs(props)} />
 
       <TabView
@@ -68,55 +68,54 @@ export default function ClusterDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
-  const clusterIcon = `lib_${clusterDistribution}`;
 
   return (
-    <BasicDashboardHeader
-      title="Cluster"
-      icon={clusterIcon}
+    <DashboardHeader
       {...props}
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'label'])}
+      title="Cluster"
+      icon={`lib_${clusterDistribution}`}
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
-function Actions({ clusterId, timeConfig, result }) {
+function renderButtonLine({ clusterId, timeConfig, result }) {
   return (
-    <Fragment>
-      <AnalyzeCallsButton
-        clusterName={get(result, ['data', 'label'])}
-        groupByTag={{ name: 'kubernetes.namespace' }}
-        timeConfig={timeConfig}
-      />
+    <>
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         snapshotId={clusterId}
         timeConfig={timeConfig}
       />
-    </Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'label'], '')}
+        groupByTag={{ name: 'kubernetes.namespace' }}
+        timeConfig={timeConfig}
+      />
+    </>
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagedBy = get(result, ['data', 'clusterManagedBy']);
 
   return (
-    <Fragment>
+    <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type={`${clusterBadgeName(clusterDistribution)} Cluster`} />
       <ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />
-    </Fragment>
+    </>
   );
 }
 

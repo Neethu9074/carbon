@@ -11,7 +11,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
+import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
@@ -42,7 +42,7 @@ export default function RawTracesPresenter(props) {
   } = props;
 
   return (
-    <AnalyzeTracesWorkspace {...props}>
+    <AnalyzeWorkspace {...props} title="Trace Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
         <Button
@@ -112,6 +112,6 @@ export default function RawTracesPresenter(props) {
         </Tbody>
       </Table>
       <LoadingStates progress={progress} errors={errors} />
-    </AnalyzeTracesWorkspace>
+    </AnalyzeWorkspace>
   );
 }

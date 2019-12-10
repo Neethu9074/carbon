@@ -13,7 +13,6 @@ import ServicesNoDataNotification from 'in-applications/lists/components/Service
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
@@ -24,6 +23,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
@@ -216,7 +216,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
 
   return (
     <Sticky header={<ViewSwitcher />}>
-      <MaxWidthFullscreenContainer>
+      <LeftRightPadding>
         <Title title="Services" />
         <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
           <ServerTableWithUrlState
@@ -227,7 +227,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
             rightHeader={rightHeader}
           />
         </WithEmptyStateFallback>
-      </MaxWidthFullscreenContainer>
+      </LeftRightPadding>
 
       <Footer />
     </Sticky>

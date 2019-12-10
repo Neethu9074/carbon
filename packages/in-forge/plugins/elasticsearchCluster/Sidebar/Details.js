@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { siPrefix, bytes } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { siPrefix, bytes } from 'in-services/formatters/number';
 
 import Info from '../Info';
 

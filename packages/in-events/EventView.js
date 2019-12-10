@@ -4,10 +4,12 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import EventsChart from 'in-events/components/EventsChart';
@@ -21,7 +23,6 @@ import SearchBar from 'in-components/SearchBar';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 
 export default function LegacyEventViewMigration(props) {
@@ -122,26 +123,35 @@ function EventViewComponent(props) {
   const { eventType, query, eventId, timeConfig } = props;
 
   return (
-    <Sticky header={<SearchBar />}>
-      <Title title="Events" />
-      <Sticky header={<ViewSwitcher selectedEventType={eventType} darkTheme />}>
-        {eventId ? (
-          <EventTable {...props} eventType={eventType} selectedEventId={eventId} />
-        ) : (
-          <MaxWidthFullscreenContainer>
-            <Row>
-              <Col lg={12}>
-                <EventsChart eventType={eventType} query={query} timeConfig={timeConfig} />
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
-                <EventTable {...props} eventType={eventType} />
-              </Col>
-            </Row>
-          </MaxWidthFullscreenContainer>
-        )}
-      </Sticky>
+    <Sticky
+      header={
+        <>
+          <DashboardHeader theme={themes.dark} icon="lib_infrastructure" label="Events" title="Events" />
+          <DashboardHeaderModule theme={themes.dark}>
+            <SearchBar theme="dark" />
+          </DashboardHeaderModule>
+          <DashboardHeaderModule theme={themes.dark} withBottomBorder>
+            <ViewSwitcher selectedEventType={eventType} darkTheme />
+          </DashboardHeaderModule>
+        </>
+      }
+    >
+      {eventId ? (
+        <EventTable {...props} eventType={eventType} selectedEventId={eventId} />
+      ) : (
+        <LeftRightPadding>
+          <Row>
+            <Col lg={12}>
+              <EventsChart eventType={eventType} query={query} timeConfig={timeConfig} />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12}>
+              <EventTable {...props} eventType={eventType} />
+            </Col>
+          </Row>
+        </LeftRightPadding>
+      )}
     </Sticky>
   );
 }

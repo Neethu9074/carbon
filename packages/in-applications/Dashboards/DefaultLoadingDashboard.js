@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -8,7 +8,7 @@ import locals from './DefaultLoadingDashboard.mless';
 
 export default function DefaultLoadingDashboard() {
   return (
-    <MaxWidthFullscreenContainer>
+    <LeftRightPadding>
       <Row className={locals.firstRow}>
         <Col lg={4}>
           <Skeleton className={locals.skeletonKpi} />
@@ -29,6 +29,6 @@ export default function DefaultLoadingDashboard() {
           <Skeleton className={locals.skeletonChart} />
         </Col>
       </Row>
-    </MaxWidthFullscreenContainer>
+    </LeftRightPadding>
   );
 }

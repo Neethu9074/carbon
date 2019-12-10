@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -9,11 +9,11 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
@@ -32,7 +32,7 @@ export default function NodeDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         nodeId={props.nodeId}
@@ -69,43 +69,42 @@ export default function NodeDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title="Node"
       icon="lib_kubernetes_node"
-      {...props}
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
+      label={get(props.result, ['data', 'name'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
-function Actions({ nodeId, timeConfig }) {
+function renderButtonLine({ nodeId, timeConfig }) {
   return (
-    <Fragment>
-      <EntityHealthIndicator
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        snapshotId={nodeId}
-        timeConfig={timeConfig}
-      />
-    </Fragment>
+    <EntityHealthIndicator
+      showOkayOnNoIssues={false}
+      IndicatorPresenter={HealthIndicatorButtonPresenter}
+      snapshotId={nodeId}
+      timeConfig={timeConfig}
+    />
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
 
   return (
-    <Fragment>
+    <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type="K8s Node" />
       <KubernetesIndicator result={result} />
-    </Fragment>
+    </>
   );
 }

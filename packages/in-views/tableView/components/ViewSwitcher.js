@@ -13,21 +13,21 @@ export default connectTo(
     isMapActive: any(isView(physicalPath), isView(containerPath)),
     isTableActive: isTableView('physical')
   },
-  function InfrastructureViewSwitcher({ isMapActive, isTableActive, darkTheme }) {
+  function InfrastructureViewSwitcher({ isMapActive, isTableActive }) {
     return (
       <div className={locals.wrapper}>
-        <SecondLevelNavigation darkTheme={darkTheme}>
+        <SecondLevelNavigation darkTheme>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = physicalPath))}
             label="Map"
             isActive={isMapActive}
-            darkTheme={darkTheme}
+            darkTheme
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = physicalTablePath))}
             label="Comparison Table"
             isActive={isTableActive}
-            darkTheme={darkTheme}
+            darkTheme
           />
         </SecondLevelNavigation>
       </div>

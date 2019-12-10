@@ -1,13 +1,10 @@
 import { Route, Redirect } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Landing from 'in-internal/components/Landing';
 
 // features available on customer units
@@ -49,81 +46,76 @@ import Region from 'in-internal/monitoringUnit/Region';
 
 export default function Internal() {
   return (
-    <Fragment>
-      <Breadcrumbs
-        items={[<Breadcrumb href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}>Internal</Breadcrumb>]}
-      />
-      <Switch>
-        {internalMonitoringUnit && (
-          <Fragment>
-            <Route path="/internal/monitoringUnit/units" component={UnitList} />
-            <Route path="/internal/monitoringUnit/unit" component={Unit} />
-            <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />
+    <Switch>
+      {internalMonitoringUnit && (
+        <>
+          <Route path="/internal/monitoringUnit/units" component={UnitList} />
+          <Route path="/internal/monitoringUnit/unit" component={Unit} />
+          <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />
 
-            <Route path="/internal/monitoringUnit/region" component={wrapIninternalView(Region)} />
-            <Route path="/internal/monitoringUnit/tuStatistics" component={wrapIninternalView(TuStatistics)} />
-            <Route path="/internal/monitoringUnit/sloViolations" component={wrapIninternalView(SloViolations)} />
-            <Route path="/internal/monitoringUnit/eum/eum-acceptor" component={wrapIninternalView(EumAcceptor)} />
-            <Route path="/internal/monitoringUnit/eum/eum-processor" component={wrapIninternalView(EumProcessor)} />
-            <Route
-              path="/internal/monitoringUnit/eum/appdata-writer"
-              component={wrapIninternalView(AppDataWriterForEum)}
-            />
-            <Route path="/internal/monitoringUnit/eum/errorSimulator" component={wrapIninternalView(ErrorSimulator)} />
-            <Route
-              path="/internal/monitoringUnit/eum/jsStackTraceTranslator"
-              component={wrapIninternalView(JsStackTraceTranslator)}
-            />
-            <Route
-              path="/internal/monitoringUnit/eum/eumHealthProcessor"
-              component={wrapIninternalView(EumHealthProcessor)}
-            />
-            <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
-            <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />
-            <Route
-              path="/internal/monitoringUnit/appdataBatchingInsights"
-              component={wrapIninternalView(BatchingInsights)}
-            />
-            <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
-            <Route
-              path="/internal/monitoringUnit/appdataProcessing"
-              component={wrapIninternalView(AppDataProcessorStatistics)}
-            />
-            <Route path="/internal/monitoringUnit/callExtraction" component={wrapIninternalView(CallExtraction)} />
-            <Route
-              path="/internal/monitoringUnit/appDataQueryPerformance"
-              component={wrapIninternalView(AppDataQueryPerformance)}
-            />
-            <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
-            <Route path="/internal/monitoringUnit/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
-            <Route
-              path="/internal/monitoringUnit/sre/selfserviceWorkerStats"
-              component={wrapIninternalView(SelfserviceWorkerStats)}
-            />
-            <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
-            <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
-            <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
-            <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
-            <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
-            <Route
-              path="/internal/monitoringUnit/serverless/serverlessacceptors"
-              component={wrapIninternalView(ServerlessAcceptors)}
-            />
-          </Fragment>
-        )}
+          <Route path="/internal/monitoringUnit/region" component={wrapIninternalView(Region)} />
+          <Route path="/internal/monitoringUnit/tuStatistics" component={wrapIninternalView(TuStatistics)} />
+          <Route path="/internal/monitoringUnit/sloViolations" component={wrapIninternalView(SloViolations)} />
+          <Route path="/internal/monitoringUnit/eum/eum-acceptor" component={wrapIninternalView(EumAcceptor)} />
+          <Route path="/internal/monitoringUnit/eum/eum-processor" component={wrapIninternalView(EumProcessor)} />
+          <Route
+            path="/internal/monitoringUnit/eum/appdata-writer"
+            component={wrapIninternalView(AppDataWriterForEum)}
+          />
+          <Route path="/internal/monitoringUnit/eum/errorSimulator" component={wrapIninternalView(ErrorSimulator)} />
+          <Route
+            path="/internal/monitoringUnit/eum/jsStackTraceTranslator"
+            component={wrapIninternalView(JsStackTraceTranslator)}
+          />
+          <Route
+            path="/internal/monitoringUnit/eum/eumHealthProcessor"
+            component={wrapIninternalView(EumHealthProcessor)}
+          />
+          <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
+          <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />
+          <Route
+            path="/internal/monitoringUnit/appdataBatchingInsights"
+            component={wrapIninternalView(BatchingInsights)}
+          />
+          <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
+          <Route
+            path="/internal/monitoringUnit/appdataProcessing"
+            component={wrapIninternalView(AppDataProcessorStatistics)}
+          />
+          <Route path="/internal/monitoringUnit/callExtraction" component={wrapIninternalView(CallExtraction)} />
+          <Route
+            path="/internal/monitoringUnit/appDataQueryPerformance"
+            component={wrapIninternalView(AppDataQueryPerformance)}
+          />
+          <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
+          <Route path="/internal/monitoringUnit/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
+          <Route
+            path="/internal/monitoringUnit/sre/selfserviceWorkerStats"
+            component={wrapIninternalView(SelfserviceWorkerStats)}
+          />
+          <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
+          <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
+          <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
+          <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
+          <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
+          <Route
+            path="/internal/monitoringUnit/serverless/serverlessacceptors"
+            component={wrapIninternalView(ServerlessAcceptors)}
+          />
+        </>
+      )}
 
-        <Fragment>
-          <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />
-          <Route path="/internal/thisUnit/graphExplorer" component={wrapIninternalView(GraphExplorer)} />
-          <Route path="/internal/thisUnit/snapshotVersions" component={wrapIninternalView(SnapshotVersions)} />
-          <Route path="/internal/thisUnit/internalEvents" component={wrapIninternalView(InternalEvents)} />
-          <Route path="/internal/thisUnit/agents" component={Agents} />
-        </Fragment>
+      <>
+        <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />
+        <Route path="/internal/thisUnit/graphExplorer" component={wrapIninternalView(GraphExplorer)} />
+        <Route path="/internal/thisUnit/snapshotVersions" component={wrapIninternalView(SnapshotVersions)} />
+        <Route path="/internal/thisUnit/internalEvents" component={wrapIninternalView(InternalEvents)} />
+        <Route path="/internal/thisUnit/agents" component={Agents} />
+      </>
 
-        <Route path="/internal" component={wrapIninternalView(Landing)} />
-        <Redirect to="/internal" />
-      </Switch>
-    </Fragment>
+      <Route path="/internal" component={wrapIninternalView(Landing)} />
+      <Redirect to="/internal" />
+    </Switch>
   );
 }
 

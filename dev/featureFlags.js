@@ -22,7 +22,7 @@ module.exports = {
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   isOnboardingGuideEnabled: true,
-  contextGuideEnabled: false,
+  contextGuideEnabled: true,
   eumAlertingEnabled: true,
   googleAnalyticsDisabled: false,
   vsphereEnabled: true,

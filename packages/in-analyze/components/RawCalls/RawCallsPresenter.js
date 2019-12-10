@@ -12,12 +12,12 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
@@ -43,7 +43,7 @@ export default function RawCallsPresenter(props) {
   } = props;
 
   return (
-    <AnalyzeCallsWorkspace {...props}>
+    <AnalyzeWorkspace {...props} title="Call Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
         <Button
@@ -120,6 +120,6 @@ export default function RawCallsPresenter(props) {
         </Tbody>
       </Table>
       <LoadingStates progress={progress} errors={errors} />
-    </AnalyzeCallsWorkspace>
+    </AnalyzeWorkspace>
   );
 }

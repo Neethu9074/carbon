@@ -1,0 +1,81 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    padding: 1rem 0;
+
+    background: @lib__colors__N050;
+  }
+
+  .wrapperdark {
+    background: @lib__colors__N800Dark;
+  }
+
+  .helpIcon {
+    cursor: pointer;
+    margin-right: 0.5rem;
+
+    fill: @lib__colors__N700Medium;
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .helpIcondark {
+    fill: @lib__colors__white;
+    &:hover {
+      fill: @lib__colors__N200;
+    }
+  }
+
+  .inputWrapper {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 1.875rem;
+
+    background: @lib__colors__N500;
+    border: 1px solid @lib__colors__N400;
+    border-right: 0;
+  }
+
+  .inputWrapperdark {
+    background: @lib__colors__N900Primary;
+    border: 1px solid @lib__colors__N600Light;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 1.875rem;
+    padding: 0 0.625rem;
+
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__N300;
+    color: @lib__colors__N700Medium;
+    cursor: pointer;
+  }
+
+  .buttondark {
+    background: @lib__colors__N900Primary;
+    border: 1px solid @lib__colors__N700Medium;
+    color: @lib__colors__N050;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+  }
+
+  .icondark {
+    fill: @lib__colors__white;
+  }
+}

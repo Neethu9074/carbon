@@ -2,7 +2,6 @@ import React from 'react';
 
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -10,6 +9,7 @@ import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import getWebsites from 'in-websites/subscriptions/getWebsites';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
@@ -95,7 +95,7 @@ export default connectTo(
   function WebsitesList({ timeConfig }) {
     return (
       <Sticky header={<ViewSwitcher />}>
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <Title title="Websites" />
           <WithEmptyStateFallback
             getHasDataToRender={getHasDataToRender}
@@ -103,7 +103,7 @@ export default connectTo(
           >
             <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
           </WithEmptyStateFallback>
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
         <Footer />
       </Sticky>
     );

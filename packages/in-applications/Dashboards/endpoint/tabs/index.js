@@ -1,3 +1,6 @@
+import React from 'react';
+
+import EndpointDashboardNotifications from 'in-applications/Dashboards/endpoint/components/EndpointDashboardNotifications';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
@@ -10,7 +13,7 @@ export default [
   {
     label: 'Summary',
     path: `${endpointDashboard}/summary`,
-    component: Summary
+    component: wrapWithMessage(Summary)
   },
   {
     label: 'Flow',
@@ -23,21 +26,30 @@ export default [
   {
     label: 'Performance',
     path: `${endpointDashboard}/performance`,
-    component: PerformanceTab
+    component: wrapWithMessage(PerformanceTab)
   },
   {
     label: 'Error Messages',
     path: `${endpointDashboard}/errorMessages`,
-    component: ErrorMessagesTab
+    component: wrapWithMessage(ErrorMessagesTab)
   },
   {
     label: 'Log Messages',
     path: `${endpointDashboard}/logMessages`,
-    component: LogMessagesTab
+    component: wrapWithMessage(LogMessagesTab)
   },
   {
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
-    component: Infrastructure
+    component: wrapWithMessage(Infrastructure)
   }
 ].filter(v => !!v);
+
+function wrapWithMessage(Component) {
+  return props => (
+    <>
+      <EndpointDashboardNotifications {...props} />
+      <Component {...props} />
+    </>
+  );
+}

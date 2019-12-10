@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { find } from 'lodash';
+import React from 'react';
 
 import {
   Table,
@@ -12,12 +12,12 @@ import {
   ErrorRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { buildOrderByCriteria } from 'in-websites/analyze/AnalyzeView/metrics';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { dataSourceTitles } from 'in-websites/tags';
@@ -45,23 +45,26 @@ export default function BeaconsPresenter(props) {
   const columnCount = perTypeColumnCount + metrics.length;
 
   return (
-    <Fragment>
+    <>
       <Title title={`Analyze ${dataSourceTitles[beaconType]}s`} />
       <Sticky
         header={
-          <Fragment>
-            <AnalyzeHeader />
-            <QuickFilterBar
-              showWebsiteSelector
-              showPageSelector
-              showSubdivisionSelector
-              showWindowWidthSelector
-              {...props}
+          <>
+            <AnalyzeHeader
+              renderQuickFilterBar={() => (
+                <QuickFilterBar
+                  showWebsiteSelector
+                  showPageSelector
+                  showSubdivisionSelector
+                  showWindowWidthSelector
+                  {...props}
+                />
+              )}
             />
-          </Fragment>
+          </>
         }
       >
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <TagFilterList {...props} />
           <GroupingInfo {...props} />
           <GroupingTableHeader itemType={dataSourceTitles[beaconType]} nbItems={props.totalHits} {...props} />
@@ -109,8 +112,8 @@ export default function BeaconsPresenter(props) {
               {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
             </Tbody>
           </Table>
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
       </Sticky>
-    </Fragment>
+    </>
   );
 }

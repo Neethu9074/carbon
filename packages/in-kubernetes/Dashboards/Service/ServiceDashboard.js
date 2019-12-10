@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
 import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
@@ -11,12 +11,12 @@ import getKubernetesService from 'in-subscription/kubernetes/getKubernetesServic
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';
@@ -32,7 +32,7 @@ export default function ServiceDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         serviceId={props.serviceId}
@@ -76,42 +76,36 @@ export default function ServiceDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title="Service"
       icon="lib_kubernetes_service"
-      {...props}
-      renderSubTypes={SubTypes}
-      renderActions={Actions}
+      label={get(props.result, ['data', 'name'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   return (
-    <Fragment>
+    <>
       <TypesBadgeList type="K8s Service" />
       <KubernetesIndicator result={result} />
-    </Fragment>
+    </>
   );
 }
 
-function Actions(props) {
+function renderButtonLine(props) {
   const k8sServiceUid = get(props.result, ['data', 'uid']);
   return (
-    <Fragment>
-      <AnalyzeCallsButton
-        clusterName={get(props.result, ['data', 'clusterName'])}
-        namespaceName={get(props.result, ['data', 'namespace'])}
-        serviceName={get(props.result, ['data', 'name'])}
-        groupByTag={{ name: 'kubernetes.pod.name' }}
-        timeConfig={props.timeConfig}
-      />
+    <>
       {k8sServiceUid && (
         <EntityToInstanaServiceButton
           {...props}
@@ -145,6 +139,13 @@ function Actions(props) {
           }
         />
       )}
-    </Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(props.result, ['data', 'clusterName'])}
+        namespaceName={get(props.result, ['data', 'namespace'])}
+        serviceName={get(props.result, ['data', 'name'])}
+        groupByTag={{ name: 'kubernetes.pod.name' }}
+        timeConfig={props.timeConfig}
+      />
+    </>
   );
 }

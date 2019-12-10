@@ -1,0 +1,78 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import DashboardLoadingHeader from 'in-new-components/DashboardHeader/DashboardLoadingHeader';
+import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
+import Title from 'in-components/Title';
+
+import locals from './DashboardHeader.mless';
+
+export const themes = {
+  light: 'light',
+  dark: 'dark',
+  default: 'default'
+};
+
+export default function DashboardHeader(props) {
+  const {
+    theme = themes.default,
+    icon,
+    renderIcon,
+    label,
+    title,
+    contextIcon,
+    renderContext,
+    renderMetaInformation,
+    renderButtonLine,
+    renderTimeSelection,
+    result
+  } = props;
+
+  if (result && result.data == null) {
+    return <DashboardLoadingHeader {...props} />;
+  }
+
+  return (
+    <header
+      className={evaluateClassNames({
+        [locals.dashboardHeader]: true,
+        [locals[theme]]: true
+      })}
+    >
+      <Title title={title} />
+      <div className={locals.firstLine}>
+        <div className={locals.leftContent}>
+          {renderContext && (
+            <>
+              <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
+              <span className={locals.context}>{renderContext(props)}</span>
+              {(icon || renderIcon) &&
+                label && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+            </>
+          )}
+          {renderIcon ? renderIcon() : <SvgIcon className={locals.icon} type={icon} size="l" />}
+          <span className={locals.label}>{label}</span>
+          {renderMetaInformation && renderMetaInformation(props)}
+        </div>
+        {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+      </div>
+      {renderButtonLine && <div className={locals.buttonLine}>{renderButtonLine(props)}</div>}
+    </header>
+  );
+}
+
+DashboardHeader.propTypes = {
+  theme: PropTypes.oneOf([themes.dark, themes.lightWithGrey, themes.default]),
+  result: PropTypes.any,
+  icon: PropTypes.string,
+  renderIcon: PropTypes.func,
+  title: PropTypes.string,
+  renderTimeSelection: PropTypes.func,
+  label: PropTypes.string,
+  renderMetaInformation: PropTypes.func,
+  renderButtonLine: PropTypes.func,
+  contextIcon: PropTypes.string,
+  renderContext: PropTypes.func
+};

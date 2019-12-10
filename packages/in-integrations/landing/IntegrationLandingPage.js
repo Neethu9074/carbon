@@ -3,10 +3,10 @@ import { compose } from 'recompose';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import IntegrationDashboardList from 'in-integrations/landing/IntegrationDashboardList';
 import { landingConfigUrlParameter } from 'in-integrations/navigation/matrix';
 import getReferences from 'in-integrations/subscriptions/getReferences';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
@@ -40,9 +40,9 @@ function IntegrationLandingPage({ config, references }) {
           <SecondLevelNavigationItem isActive icon="lib_actions_search" label="Results" />
         </SecondLevelNavigation>
       </HeaderWithTimeSelection>
-      <MaxWidthFullscreenContainer>
+      <LeftRightPadding>
         <IntegrationDashboardList entities={infrastructureSnapshots} query={parseQueryConfig(config)} />
-      </MaxWidthFullscreenContainer>
+      </LeftRightPadding>
     </Fragment>
   );
 }

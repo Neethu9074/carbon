@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
@@ -10,7 +10,9 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeConfig, endpointId, applicationId, serviceId, boundaryScope }) {
+export default function Summary(props) {
+  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope } = props;
+
   const filter = {
     timeConfig,
     endpoint: endpointId,
@@ -20,7 +22,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
   };
 
   return (
-    <Fragment>
+    <>
       <Row>
         <Col xs>
           <AppDataKpiCard
@@ -124,6 +126,6 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
           <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

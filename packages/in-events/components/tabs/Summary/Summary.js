@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
-import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
@@ -31,10 +30,10 @@ export default function Summary({ selectedEventId, data: event }) {
   return (
     <HeightRestrictedView
       render={() => (
-        <ContentWrapper>
+        <>
           <EventDetailsKPIs event={event} isIncident={isIncident} />
           {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
-        </ContentWrapper>
+        </>
       )}
     />
   );

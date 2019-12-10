@@ -1,9 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
@@ -14,14 +14,10 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
   const isLoading = result && result.progress.loading;
 
   if (hasErrors) {
-    return (
-      <MaxWidthFullscreenContainer>
-        {renderErrors ? (
-          renderErrors(result.errors)
-        ) : (
-          <ErroneousResultPresenter errors={result.errors} className={locals.error} />
-        )}
-      </MaxWidthFullscreenContainer>
+    return renderErrors ? (
+      renderErrors(result.errors)
+    ) : (
+      <ErroneousResultPresenter errors={result.errors} className={locals.error} />
     );
   } else if (isLoading) {
     return <DefaultLoadingDashboard />;
@@ -54,7 +50,7 @@ function ViewWrapper({ tab, data, location, props }) {
   );
 
   if (!tab.isFullWidth) {
-    content = <MaxWidthFullscreenContainer>{content}</MaxWidthFullscreenContainer>;
+    content = <LeftRightPadding>{content}</LeftRightPadding>;
   }
 
   return (

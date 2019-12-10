@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .content {
-    padding: 1rem 1.5rem;
+  .analyticsLink {
+    color: @lib__colors__N600Light;
   }
 }

@@ -51,7 +51,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <BreadcrumbHeader useFullAvailableWidth automaticActiveState={false} />
+        <BreadcrumbHeader automaticActiveState={false} />
         <Breadcrumbs items={items} />
       </Fragment>
     );

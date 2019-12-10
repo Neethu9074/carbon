@@ -5,11 +5,14 @@
     display: flex;
     align-items: center;
 
-    height: @header__height * 1px;
+    height: 3.5rem;
     margin-left: auto;
+
+    border: 1px solid @lib__colors__N300;
   }
 
   .darkTheme {
     background: @lib__colors__N900Primary;
+    border: 1px solid @lib__colors__N600Light;
   }
 }

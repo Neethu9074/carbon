@@ -3,10 +3,10 @@ import React from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import tabs from 'in-settings/tabs/index';
 
 export default function ConfigurationView(props) {
@@ -29,7 +29,7 @@ export default function ConfigurationView(props) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Settings" icon="lib_actions_settings" {...props} />;
+  return <DashboardHeader {...props} title="Settings" icon="lib_actions_settings" label="Settings" />;
 }
 
 function createLegacyRedirect(legacyRedirect, match, props) {

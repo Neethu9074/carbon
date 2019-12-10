@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -11,7 +11,6 @@ import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matri
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -19,6 +18,7 @@ import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -32,7 +32,7 @@ export default function NamespaceDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         namespaceId={props.namespaceId}
@@ -76,26 +76,26 @@ export default function NamespaceDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title="Namespace"
       icon="lib_kubernetes_namespace"
-      {...props}
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'label'])}
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
-function Actions({ namespaceId, timeConfig, result }) {
+function renderButtonLine({ namespaceId, timeConfig, result }) {
   return (
-    <Fragment>
+    <>
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterName'])}
         namespaceName={get(result, ['data', 'label'])}
@@ -108,15 +108,15 @@ function Actions({ namespaceId, timeConfig, result }) {
         snapshotId={namespaceId}
         timeConfig={timeConfig}
       />
-    </Fragment>
+    </>
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   return (
-    <Fragment>
+    <>
       <TypesBadgeList type="K8s Namespace" />
       <KubernetesIndicator result={result} />
-    </Fragment>
+    </>
   );
 }

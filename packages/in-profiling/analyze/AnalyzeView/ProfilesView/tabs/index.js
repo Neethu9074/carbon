@@ -8,21 +8,18 @@ export default [
   {
     label: 'CPU',
     path: `${analyzeProfilePathFullyQualified}/cpu`,
-    component: CpuProfile,
-    isFullWidth: true
+    component: CpuProfile
   },
   {
     label: 'Memory',
     path: `${analyzeProfilePathFullyQualified}/memory`,
     component: MemoryProfile,
-    isTabDisabled: result => !result.data || !result.data.memoryProfile,
-    isFullWidth: true
+    isTabDisabled: result => !result.data || !result.data.memoryProfile
   },
   {
     label: 'Wait time',
     path: `${analyzeProfilePathFullyQualified}/time`,
-    component: TimeProfile,
-    isFullWidth: true
+    component: TimeProfile
   }
 ];
 

@@ -10,11 +10,11 @@ import {
   addEndpointConfig,
   getEndpointConfig
 } from 'in-api/endpointConfiguration';
-import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';

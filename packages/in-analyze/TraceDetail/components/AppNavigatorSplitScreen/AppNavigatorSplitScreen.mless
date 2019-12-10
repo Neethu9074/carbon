@@ -4,13 +4,14 @@
 :local {
   .navigatorSplitScreen {
     display: flex;
+
+    border-top: 1px solid @lib__colors__N300;
   }
 
   .navigator {
     width: 20rem;
     flex-grow: 0;
     flex-shrink: 0;
-    border-right: 1px solid #d5dfe4;
   }
 
   .traceDetail {
@@ -23,12 +24,12 @@
 
   .header {
     background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    padding: 1.62rem 1.5rem;
+    padding: 1.375rem 1.5rem;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-right: 1px solid #d5dfe4;
   }
 
   .toggleBar {

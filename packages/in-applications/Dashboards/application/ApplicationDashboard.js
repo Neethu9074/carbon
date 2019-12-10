@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
@@ -9,11 +9,11 @@ import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationB
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
@@ -72,21 +72,28 @@ function ApplicationDashboard({
     application: application
   };
   return (
-    <Fragment>
+    <>
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
       <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Application" icon="lib_application" renderActions={Actions} {...props} />;
+  return (
+    <DashboardHeader
+      {...props}
+      icon="lib_application"
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+    />
+  );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
   return (
-    <Fragment>
+    <>
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
@@ -103,6 +110,6 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, boundarySco
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-    </Fragment>
+    </>
   );
 }

@@ -1,7 +1,9 @@
 import { Switch, Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
 import Table from 'in-views/tableView/components/Table';
 import LegacyView from 'in-components/LegacyView';
@@ -20,10 +22,15 @@ export default function TableView() {
         render={() => (
           <Sticky
             header={
-              <Fragment>
-                <SearchBar darkTheme />
-                <ViewSwitcher darkTheme />
-              </Fragment>
+              <>
+                <DashboardHeader theme={themes.dark} icon="lib_infrastructure" label="Infrastructure" />
+                <DashboardHeaderModule theme={themes.dark}>
+                  <SearchBar theme="dark" />
+                </DashboardHeaderModule>
+                <DashboardHeaderModule theme={themes.dark} withBottomBorder>
+                  <ViewSwitcher />
+                </DashboardHeaderModule>
+              </>
             }
           >
             <LegacyView />

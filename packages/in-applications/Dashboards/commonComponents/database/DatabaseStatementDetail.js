@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import AnalyzeStatementButton from 'in-applications/Dashboards/commonComponents/database/AnalyzeStatementButton';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import getDatabaseStatement from 'in-subscription/application/getDatabaseStatement';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { getChartGranularity } from 'in-applications/metrics';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
@@ -23,7 +24,6 @@ import Title from 'in-components/Title';
 import Code from 'in-components/Code';
 
 import locals from './DatabaseStatementDetail.mless';
-import AnalyzeStatementButton from 'in-applications/Dashboards/commonComponents/database/AnalyzeStatementButton';
 
 export default connectTo(
   props => ({
@@ -73,7 +73,7 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
   const queryResult = formatJsonOrSql(statement.statement);
 
   return (
-    <MaxWidthFullscreenContainer>
+    <LeftRightPadding>
       <Title title="Database Statement Details" dynamic={statement.statement} />
       <div className={locals.actions}>
         <BackButton
@@ -184,13 +184,13 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
           </Card>
         </Col>
       </Row>
-    </MaxWidthFullscreenContainer>
+    </LeftRightPadding>
   );
 }
 
 function DashboardSkeleton() {
   return (
-    <MaxWidthFullscreenContainer>
+    <LeftRightPadding>
       <Title title="Database Statement Details" />
       <BackButton
         label="Back"
@@ -200,7 +200,7 @@ function DashboardSkeleton() {
       />
 
       <DefaultLoadingDashboard />
-    </MaxWidthFullscreenContainer>
+    </LeftRightPadding>
   );
 }
 

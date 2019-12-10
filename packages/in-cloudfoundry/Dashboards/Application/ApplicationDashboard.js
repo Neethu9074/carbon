@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
 import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
@@ -9,13 +9,13 @@ import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { applicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { ApplicationBreadcrumbs } from 'in-cloudfoundry/breadcrumbs';
 import tabs from 'in-cloudfoundry/Dashboards/Application/tabs/index';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import locals from './ApplicationDashboard.mless';
 import WithIcon from 'in-new-components/WithIcon';
@@ -31,7 +31,7 @@ export default function ApplicationDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
 
       <TabView
@@ -58,26 +58,26 @@ export default function ApplicationDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title="Application"
       icon="lib_cloudfoundry_application"
-      {...props}
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'label'])}
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
-function Actions(props) {
+function renderButtonLine(props) {
   const appGuid = get(props.result, ['data', 'guid']);
   return (
-    <Fragment>
+    <>
       <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
       {appGuid && (
         <EntityToInstanaServiceButton
@@ -112,16 +112,16 @@ function Actions(props) {
           }
         />
       )}
-    </Fragment>
+    </>
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   const space = get(result, ['data', 'space']);
   const organization = get(result, ['data', 'organization']);
 
   return (
-    <Fragment>
+    <>
       {space && (
         <Tooltip themeStyle="light" content={`Space: ${space}`}>
           <WithIcon className={locals.icon} icon="lib_cloudfoundry_space">
@@ -137,6 +137,6 @@ function SubTypes({ result }) {
         </Tooltip>
       )}
       <TechPreviewBadge />
-    </Fragment>
+    </>
   );
 }

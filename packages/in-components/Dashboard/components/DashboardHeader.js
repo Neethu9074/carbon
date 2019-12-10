@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
@@ -6,11 +6,12 @@ import EntityVersionButton from 'in-components/Dashboard/components/EntityVersio
 import { getShowZoneInSidebarHeader, getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
+import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
 import { contextGuideEnabled } from 'in-services/featureFlags';
 import StackButton from 'in-new-components/Stack/StackButton';
+import PluginIcon from 'in-components/PluginIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
@@ -22,47 +23,47 @@ export default connectTo(
   function DashboardHeader(props) {
     const { snapshot, title, snapshotId } = props;
     return (
-      <Fragment>
-        <div className={locals.header}>
-          <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
-        </div>
+      <>
+        <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
         <div className={locals.dashboardHeader}>
-          <BasicDashboardHeader
-            title={title}
-            pluginIcon={snapshot}
-            renderActions={Actions}
-            renderSubTypes={SubTypes}
+          <DashboardHeaderComponent
             {...props}
+            title={title}
+            snapshot={snapshot}
+            renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="s" />}
+            label={snapshot.get('label')}
+            renderButtonLine={renderButtonLine}
+            renderMetaInformation={renderMetaInformation}
           />
         </div>
-      </Fragment>
+      </>
     );
   }
 );
 
-function Actions({ snapshot, timeConfig }) {
+function renderButtonLine({ snapshot, timeConfig }) {
   return (
-    <Fragment>
-      <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      {contextGuideEnabled && (
-        <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
-      )}
-      {getDashboardHeaderActions(snapshot, timeConfig)}
+    <>
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
-    </Fragment>
+      {contextGuideEnabled && (
+        <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
+      )}
+      {getDashboardHeaderActions(snapshot, timeConfig)}
+      <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+    </>
   );
 }
 
-function SubTypes({ snapshot, plugin }) {
+function renderMetaInformation({ snapshot, plugin }) {
   return (
-    <Fragment>
+    <>
       <PluginBadge plugin={plugin} />
       {getShowZoneInSidebarHeader(plugin) && <ZoneTag snapshotId={snapshot.get('id')} />}
-    </Fragment>
+    </>
   );
 }

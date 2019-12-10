@@ -1,8 +1,0 @@
-:local {
-  .badgeWrapper {
-    display: flex;
-    align-items: center;
-
-    height: 3.75rem;
-  }
-}

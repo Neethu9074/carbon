@@ -1,14 +1,18 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 
 export default function KubernetesViewSwitcher() {
   return (
-    <HeaderWithTimeSelection>
-      <SecondLevelNavigation>
-        <SecondLevelNavigationItem icon="lib_website" label="Websites" isActive />
-      </SecondLevelNavigation>
-    </HeaderWithTimeSelection>
+    <>
+      <DashboardHeader icon="lib_website_inverted" label="Websites" title="Websites" />
+      <DashboardHeaderModule withBottomBorder>
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem icon="lib_website" label="Websites" isActive />
+        </SecondLevelNavigation>
+      </DashboardHeaderModule>
+    </>
   );
 }

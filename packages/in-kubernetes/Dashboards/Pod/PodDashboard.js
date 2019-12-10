@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -11,11 +11,11 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -32,7 +32,7 @@ export default function PodDashboard({ location }) {
   };
 
   return (
-    <Fragment>
+    <>
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
@@ -71,49 +71,49 @@ export default function PodDashboard({ location }) {
       />
 
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title="Pod"
       icon="lib_kubernetes_pod"
-      {...props}
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'label'])}
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
-function Actions({ podId, timeConfig, result }) {
+function renderButtonLine({ podId, timeConfig, result }) {
   const podName = get(result, ['data', 'label']);
   return (
-    <Fragment>
-      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
-      <AnalyzeCallsButton
-        clusterName={get(result, ['data', 'clusterId'])}
-        namespaceName={get(result, ['data', 'namespace'])}
-        podName={podName}
-        timeConfig={timeConfig}
-      />
+    <>
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         timeConfig={timeConfig}
         snapshotId={podId}
       />
-    </Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'clusterId'])}
+        namespaceName={get(result, ['data', 'namespace'])}
+        podName={podName}
+        timeConfig={timeConfig}
+      />
+      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
+    </>
   );
 }
 
-function SubTypes({ result }) {
+function renderMetaInformation({ result }) {
   return (
-    <Fragment>
+    <>
       <TypesBadgeList type="K8s Pod" />
       <KubernetesIndicator result={result} />
-    </Fragment>
+    </>
   );
 }

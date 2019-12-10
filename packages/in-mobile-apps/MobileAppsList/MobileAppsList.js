@@ -2,14 +2,14 @@ import React from 'react';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ViewSwitcher from 'in-mobile-apps/MobileAppsList/components/ViewSwitcher';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { number } from 'in-services/formatters/number';
@@ -78,7 +78,7 @@ export default connectTo(
   function MobileAppsList({ timeConfig }) {
     return (
       <Sticky header={<ViewSwitcher />}>
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <Title title="Mobile Apps" />
           <WithEmptyStateFallback
             getHasDataToRender={getHasDataToRender}
@@ -86,7 +86,7 @@ export default connectTo(
           >
             <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
           </WithEmptyStateFallback>
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
         <Footer />
       </Sticky>
     );

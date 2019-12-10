@@ -1,16 +1,16 @@
-import React, { Fragment } from 'react';
+import { get } from 'lodash';
+import React from 'react';
 
 import AppNavigatorSplitScreen from 'in-analyze/TraceDetail/components/AppNavigatorSplitScreen/AppNavigatorSplitScreen';
+import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
@@ -54,7 +54,7 @@ export default withUrlDependingState({
   })
 })(TraceDetail);
 
-function TraceDetail({ location, colorCode: getColor, navigator, filters, setColorCodeMechanism }) {
+function TraceDetail({ location, colorCode: getColor, navigator, filters, setColorCodeMechanism, dataSource }) {
   const traceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const props = {
     traceId,
@@ -70,8 +70,19 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
   };
 
   return (
-    <Fragment>
-      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
+    <>
+      <Sticky
+        header={
+          <DashboardHeader
+            {...props}
+            icon={getIconByType(dataSource)}
+            contextIcon="lib_analyze_inverted"
+            renderContext={renderContext}
+            label={getLabelByType(dataSource)}
+            title="Analytics"
+          />
+        }
+      >
         <AppNavigatorSplitScreen
           navigator={navigator}
           dataSource={filters.dataSource}
@@ -83,19 +94,18 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
               result$={getTraceSummary({ id: traceId })}
               props={props}
               withoutBreadcrumb
-              useFullAvailableWidth
               withoutPadding
             />
           }
         />
       </Sticky>
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <Fragment>
+    <>
       <Breadcrumbs
         items={[
           <Breadcrumb
@@ -105,21 +115,22 @@ function Header(props) {
           <TraceDetailBreadcrumb traceId={props.traceId} isActive />
         ]}
       />
-      <BasicDashboardHeader
+      <DashboardHeader
+        {...props}
         title="Trace"
         icon="lib_application_trace"
-        renderActions={Actions}
-        renderSubTypes={renderTraceId}
-        {...props}
+        label={get(props.result, ['data', 'label'])}
+        renderButtonLine={renderButtonLine}
+        renderMetaInformation={renderMetaInformation}
+        renderTimeSelection={renderTimeSelection}
       />
-      <div className={locals.tabViewPlaceholder} />
-    </Fragment>
+    </>
   );
 }
 
-function Actions({ traceId, filters }) {
+function renderButtonLine({ traceId }) {
   return (
-    <Fragment>
+    <>
       <Button
         icon="lib_actions_download"
         kind="secondary"
@@ -128,21 +139,33 @@ function Actions({ traceId, filters }) {
       >
         Download
       </Button>
-
-      <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
-        <Tooltip content="Close trace detail">
-          <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
-        </Tooltip>
-      </Link>
-    </Fragment>
+    </>
   );
 }
 
-function renderTraceId({ result }) {
+function renderMetaInformation({ result }) {
   return (
     <div>
       <span className={locals.traceIdLabel}>Trace ID: </span>
       <code className={locals.traceId}>{result.data.id}</code>
     </div>
+  );
+}
+
+function renderContext({ filters }) {
+  return (
+    <Link className={locals.analyticsLink} href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
+      Analytics
+    </Link>
+  );
+}
+
+function renderTimeSelection({ filters }) {
+  return (
+    <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
+      <Tooltip content="Close trace detail">
+        <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
+      </Tooltip>
+    </Link>
   );
 }

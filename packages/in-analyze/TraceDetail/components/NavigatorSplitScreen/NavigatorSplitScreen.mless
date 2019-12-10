@@ -23,8 +23,7 @@
 
   .header {
     background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    padding: 1.62rem 1.5rem;
+    padding: 1.375rem 1.5rem;
 
     display: flex;
     align-items: center;

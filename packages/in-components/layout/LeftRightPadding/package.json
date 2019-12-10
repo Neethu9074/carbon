@@ -1,0 +1,6 @@
+{
+  "name": "LeftRightPadding",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LeftRightPadding.js"
+}

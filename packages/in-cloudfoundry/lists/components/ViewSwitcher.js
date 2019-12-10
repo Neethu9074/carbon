@@ -1,20 +1,28 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
-
-import locals from './ViewSwitcher.mless';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 
 export default function CloudfoundryViewSwitcher() {
   return (
-    <HeaderWithTimeSelection>
-      <SecondLevelNavigation>
-        <SecondLevelNavigationItem icon="lib_cloudfoundry_application" label="Cloud Foundry Applications" isActive />
-        <div className={locals.badgeWrapper}>
-          <TechPreviewBadge />
-        </div>
-      </SecondLevelNavigation>
-    </HeaderWithTimeSelection>
+    <>
+      <DashboardHeader
+        icon="lib_cloudfoundry_inverted"
+        label="Cloud Foundry"
+        title="Applications"
+        renderMetaInformation={renderMetaInformation}
+      />
+      <DashboardHeaderModule withBottomBorder>
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem icon="lib_cloudfoundry_application" label="Cloud Foundry Applications" isActive />
+        </SecondLevelNavigation>
+      </DashboardHeaderModule>
+    </>
   );
+}
+
+function renderMetaInformation() {
+  return <TechPreviewBadge />;
 }

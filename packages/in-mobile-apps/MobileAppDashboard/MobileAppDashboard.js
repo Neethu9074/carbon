@@ -12,10 +12,10 @@ import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/
 import MobileAppsBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppsBreadcrumb';
 import MobileAppBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewBreadcrumb from 'in-mobile-apps/breadcrumbs/ViewBreadcrumb';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 // TODO quick filter bar
 // import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
@@ -139,18 +139,14 @@ function MobileAppDashboard({
 
 function Header(props) {
   return (
-    <BasicDashboardHeader
+    <DashboardHeader
+      {...props}
       title={props.viewId ? 'View' : 'Mobile App'}
       icon="lib_website"
-      renderActions={Actions}
-      getLabel={getLabel}
-      {...props}
+      label={props.viewId || get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
     />
   );
-}
-
-function getLabel(result, { viewId }) {
-  return viewId || result.data.label;
 }
 
 function getBreadcrumbs(props) {
@@ -161,7 +157,7 @@ function getBreadcrumbs(props) {
   ].filter(Boolean);
 }
 
-function Actions({ tagFilters, mobileAppLabel }) {
+function renderButtonLine({ tagFilters, mobileAppLabel }) {
   return (
     <Fragment>
       <Button

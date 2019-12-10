@@ -4,12 +4,12 @@ import React from 'react';
 import { processIdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { isEntityOnline } from 'in-stores/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -39,7 +39,7 @@ function ProfilesView(props) {
 
   return (
     <>
-      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
+      <Sticky header={<BreadcrumbHeader />}>
         <TabView
           // Discard all state when the process ID changes
           key={processId}
@@ -54,7 +54,6 @@ function ProfilesView(props) {
           })}
           props={props}
           withoutBreadcrumb
-          useFullAvailableWidth
           withoutPadding
         />
       </Sticky>
@@ -73,19 +72,18 @@ function Header(props) {
           props.result.data && <Breadcrumb label={label} />
         ].filter(Boolean)}
       />
-      <BasicDashboardHeader
-        title="Profiles of Process"
-        icon="lib_actions_share"
-        renderActions={Actions}
-        getLabel={() => label}
+      <DashboardHeader
         {...props}
+        title="Profiles of Process"
+        label={label}
+        icon="lib_actions_share"
+        renderButtonLine={renderButtonLine}
       />
-      <div className={locals.tabViewPlaceholder} />
     </>
   );
 }
 
-function Actions({ processId }) {
+function renderButtonLine({ processId }) {
   return (
     <>
       <Button kind="secondary" href$={getDashboardLink(processId, { pathname: '/physical/dashboard' })}>

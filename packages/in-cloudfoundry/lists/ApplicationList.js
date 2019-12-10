@@ -1,23 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import CloudfoundryNoDataNotification from 'in-cloudfoundry/lists/components/CloudfoundryNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getCloudfoundryApplications from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import { applicationList, getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import Tooltip from 'in-components/Tooltip';
-
 import { timeConfig$ } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
 import locals from './ApplicationList.mless';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 
 const pathSegment = applicationList;
 const matrixPrefix = 'cfApplication.';
@@ -102,7 +101,7 @@ export default connectTo(
   },
   function ApplicationList({ timeConfig }) {
     return (
-      <Fragment>
+      <>
         <Title title="Cloud Foundry Applications" />
 
         <WithEmptyStateFallback
@@ -111,7 +110,7 @@ export default connectTo(
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
-      </Fragment>
+      </>
     );
   }
 );

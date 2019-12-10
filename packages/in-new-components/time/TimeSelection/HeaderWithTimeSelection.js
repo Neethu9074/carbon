@@ -4,10 +4,7 @@ import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 
 import locals from './HeaderWithTimeSelection.mless';
 
-export default function HeaderWithTimeSelection({ useFullAvailableWidth, darkTheme, children }) {
-  if (useFullAvailableWidth) {
-    return <FullWidthHeader darkTheme={darkTheme}>{children}</FullWidthHeader>;
-  }
+export default function HeaderWithTimeSelection({ darkTheme, children }) {
   return <MaxViewRestrictedHeader darkTheme={darkTheme}>{children}</MaxViewRestrictedHeader>;
 }
 
@@ -20,15 +17,6 @@ function MaxViewRestrictedHeader({ darkTheme, children }) {
         </div>
         <div className={locals.left}>{children || <div />}</div>
       </div>
-    </div>
-  );
-}
-
-function FullWidthHeader({ darkTheme, children }) {
-  return (
-    <div className={locals.fullWidthBreadcrumbHeader}>
-      <TimeSelection darkTheme={darkTheme} />
-      {children}
     </div>
   );
 }

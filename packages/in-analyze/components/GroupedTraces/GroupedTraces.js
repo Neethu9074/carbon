@@ -5,17 +5,17 @@ import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import { availableMetrics, defaultMetrics } from 'in-applications/analyze/metrics';
-import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getCallGroups from 'in-subscription/application/getCallGroups';
+import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import theme from 'in-themes';
 
@@ -144,11 +144,11 @@ function GroupedTraces(props) {
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
   return (
-    <AnalyzeTracesWorkspace {...props}>
+    <AnalyzeWorkspace {...props} title="Trace Analytics">
       <GroupingTableHeader itemType="Group" {...props} forAnalyzeCalls />
       {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
-    </AnalyzeTracesWorkspace>
+    </AnalyzeWorkspace>
   );
 }
 

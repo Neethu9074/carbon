@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get, findIndex } from 'lodash';
+import React from 'react';
 
 import {
   pageLoadIdUrlParameter,
@@ -12,10 +12,10 @@ import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNav
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-websites/analyze/PageLoadView/tabs';
@@ -39,8 +39,8 @@ function PageLoadView(props) {
   const { pageLoadId, items, beaconType, onChange, beaconTimestamp } = props;
   const beaconId = props.beaconId || pageLoadId;
   return (
-    <Fragment>
-      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
+    <>
+      <Sticky header={<BreadcrumbHeader />}>
         <NavigatorSplitScreen
           {...props}
           navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
@@ -67,33 +67,32 @@ function PageLoadView(props) {
             })}
             props={props}
             withoutBreadcrumb
-            useFullAvailableWidth
             withoutPadding
           />
         </NavigatorSplitScreen>
       </Sticky>
-    </Fragment>
+    </>
   );
 }
 
 function Header(props) {
   return (
-    <Fragment>
+    <>
       <Breadcrumbs
         items={[
           <Breadcrumb label={`${dataSourceTitles[props.beaconType]} Analytics`} href$={closePageLoadViewLink} />,
           props.pageLoadLabel && <Breadcrumb label="Page Load">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
         ].filter(Boolean)}
       />
-      <BasicDashboardHeader
+      <DashboardHeader
+        {...props}
         title="Page Load"
         icon="lib_website"
-        renderActions={Actions}
-        getLabel={getLabelForHeader}
-        {...props}
+        label={props.pageLoadLabel}
+        renderButtonLine={renderButtonLine}
       />
       <div className={locals.tabViewPlaceholder} />
-    </Fragment>
+    </>
   );
 }
 
@@ -114,13 +113,9 @@ function calculateLabel(result) {
   }
 }
 
-function getLabelForHeader(result, { pageLoadLabel }) {
-  return pageLoadLabel;
-}
-
-function Actions({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
+function renderButtonLine({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
   return (
-    <Fragment>
+    <>
       {pageLoadLabel && (
         <Button
           icon="lib_actions_download"
@@ -139,6 +134,6 @@ function Actions({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
           <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
         </Tooltip>
       </Link>
-    </Fragment>
+    </>
   );
 }

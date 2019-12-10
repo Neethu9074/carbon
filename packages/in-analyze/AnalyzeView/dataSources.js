@@ -1,4 +1,5 @@
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
+import { dataSourceTitles as websiteDataSourceTitles } from 'in-websites/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 
 let configs;
@@ -79,6 +80,28 @@ export function getEntityNameByType(type) {
     return 'custom events';
   } else if (type === 'profiles') {
     return 'profiles';
+  }
+
+  return type;
+}
+
+export function getLabelByType(type) {
+  if (type === 'pageLoad') {
+    return `${websiteDataSourceTitles.pageLoad}s`;
+  } else if (type === 'resourceLoad') {
+    return `${websiteDataSourceTitles.resourceLoad}s`;
+  } else if (type === 'httpRequest') {
+    return `${websiteDataSourceTitles.httpRequest}s`;
+  } else if (type === 'error') {
+    return `${websiteDataSourceTitles.error}s`;
+  } else if (type === 'custom') {
+    return `${websiteDataSourceTitles.custom}s`;
+  } else if (type === 'profiles') {
+    return 'Profiles';
+  } else if (type === 'traces') {
+    return 'Traces';
+  } else if (type === 'calls') {
+    return 'Calls';
   }
 
   return type;

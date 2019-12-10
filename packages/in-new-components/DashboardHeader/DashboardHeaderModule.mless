@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .default {
+    background: @lib__colors__N050;
+  }
+  .light {
+    background: @lib__colors__white;
+  }
+  .dark {
+    background: @lib__colors__N800Dark;
+  }
+
+  .defaultWithTopBorder,
+  .lightWithTopBorder {
+    border-top: 1px solid @lib__colors__N300;
+  }
+
+  .defaultWithBottomBorder,
+  .lightWithBottomBorder {
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .darkWithTopBorder {
+    border-top: 1px solid @lib__colors__N600Light;
+  }
+
+  .darkWithBottomBorder {
+    border-bottom: 1px solid @lib__colors__N600Light;
+  }
+
+  .dropShadow {
+    box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.2);
+  }
+}

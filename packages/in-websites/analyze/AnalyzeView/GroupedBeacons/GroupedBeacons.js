@@ -1,5 +1,5 @@
 import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   timestampMetricName,
@@ -9,10 +9,10 @@ import {
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -94,29 +94,33 @@ function GroupedBeacons(props) {
   );
 
   return (
-    <Fragment>
+    <>
       <Title title={`Analyze ${dataSourceTitles[beaconType]} Groups`} />
       <Sticky
         header={
-          <Fragment>
-            <AnalyzeHeader isGrouped />
-            <QuickFilterBar
-              showWebsiteSelector
-              showPageSelector
-              showSubdivisionSelector
-              showWindowWidthSelector
-              {...props}
+          <>
+            <AnalyzeHeader
+              isGrouped
+              renderQuickFilterBar={() => (
+                <QuickFilterBar
+                  showWebsiteSelector
+                  showPageSelector
+                  showSubdivisionSelector
+                  showWindowWidthSelector
+                  {...props}
+                />
+              )}
             />
-          </Fragment>
+          </>
         }
       >
-        <MaxWidthFullscreenContainer>
+        <LeftRightPadding>
           <TagFilterList {...props} />
           <GroupingTableHeader itemType="Group" {...props} />
           {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
           <GroupedBeaconsTable {...props} groupColors={groupColors} />
-        </MaxWidthFullscreenContainer>
+        </LeftRightPadding>
       </Sticky>
-    </Fragment>
+    </>
   );
 }

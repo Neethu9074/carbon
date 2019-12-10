@@ -3,10 +3,10 @@ import { findIndex } from 'lodash';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
@@ -106,40 +106,39 @@ function EventTable(props) {
         }))}
         props={props}
         withoutBreadcrumb
-        useFullAvailableWidth
-        withoutPadding
       />
     </NavigatorSplitScreen>
   );
 }
 
 function Header(props) {
+  if (!props.result) {
+    return <DashboardHeader title="Event" icon="" result={{ data: null }} renderTimeSelection={renderTimeSelection} />;
+  }
+
   return (
-    <div className={locals.header}>
-      {!props.result ? (
-        <BasicDashboardHeader title="Event" result={{ data: null }} />
-      ) : (
-        <BasicDashboardHeader
-          title="Event"
-          renderIcon={() => renderIcon(props.result.data)}
-          getLabel={() => props.result.data.getIn(['problem', 'problemText'], '')}
-          renderActions={() => renderActions(props.result.data)}
-        />
-      )}
-    </div>
+    <DashboardHeader
+      event={props.result.data}
+      title="Event"
+      renderIcon={() => renderIcon(props.result.data)}
+      label={props.result.data.getIn(['problem', 'problemText'], '')}
+      renderMetaInformation={renderMetaInformation}
+      renderTimeSelection={renderTimeSelection}
+    />
   );
 }
 
-function renderActions(event) {
+function renderMetaInformation({ event }) {
+  return <TriggeredMarker event={event} />;
+}
+
+function renderTimeSelection() {
   return (
-    <>
-      <TriggeredMarker event={event} />
-      <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
-        <Tooltip content="Close event detail">
-          <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
-        </Tooltip>
-      </Link>
-    </>
+    <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
+      <Tooltip content="Close event detail">
+        <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
+      </Tooltip>
+    </Link>
   );
 }
 
@@ -155,5 +154,5 @@ function hasServiceImpact(event) {
 }
 
 function renderIcon(event) {
-  return <EventIcon className={locals.icon} event={event} size="s" />;
+  return <EventIcon className={locals.icon} event={event} size="l" />;
 }

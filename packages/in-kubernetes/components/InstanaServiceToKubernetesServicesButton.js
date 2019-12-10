@@ -30,7 +30,7 @@ export function InstanaServiceToKubernetesServicesButton({ kubernetesServices })
   }
 
   return (
-    <Overlay align="bottomRight" content={ServiceList} props={{ kubernetesServices }} withoutWrapper>
+    <Overlay align="bottomLeft" content={ServiceList} props={{ kubernetesServices }} withoutWrapper>
       {({ toggle, isOpen, refSetter }) => (
         <Button
           className={locals.button}

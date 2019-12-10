@@ -1,0 +1,80 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .dashboardHeader {
+    padding: 0 1.5rem;
+  }
+  .default {
+    background: @lib__colors__N050;
+  }
+  .light {
+    background: @lib__colors__white;
+  }
+  .dark {
+    background: @lib__colors__N800Dark;
+    .label {
+      color: @lib__colors__white;
+    }
+    .icon {
+      fill: @lib__colors__white;
+    }
+    .contextIcon,
+    .contextEndIcon {
+      fill: @lib__colors__N400;
+    }
+    .context {
+      color: @lib__colors__N400;
+    }
+  }
+
+  .firstLine,
+  .leftContent,
+  .buttonLine {
+    .flexbox();
+  }
+
+  .firstLine {
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .contextIcon,
+  .contextEndIcon,
+  .icon {
+    margin-right: 0.5rem;
+  }
+
+  .contextIcon,
+  .contextEndIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .contextEndIcon {
+    margin-left: 0.5rem;
+  }
+
+  .icon {
+    fill: @lib__colors__N900Primary;
+  }
+
+  .context,
+  .label {
+    font-size: 1.375rem;
+    line-height: 2rem;
+    font-weight: 500;
+  }
+
+  .context {
+    color: @lib__colors__N600Light;
+  }
+
+  .label {
+    color: @lib__colors__N900Primary;
+    margin-right: 0.75rem;
+  }
+
+  .buttonLine {
+    padding-bottom: 1rem;
+  }
+}

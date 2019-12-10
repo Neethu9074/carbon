@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sticky from 'in-components/Sticky';
+import Title from 'in-components/Title';
 
-export default function QueryBuilderWorkspace(props) {
-  const { filters, removeTagFilter } = props;
+export default function AnalyzeWorkspace(props) {
+  const { title, removeTagFilter, filters, children } = props;
   const tagFilters = filters.tagFilter;
+
   return (
-    <Sticky
-      header={
-        <div>
-          <QuickFilterBar {...props} />
-        </div>
-      }
-    >
-      <MaxWidthFullscreenContainer>
+    <Fragment>
+      <Title title={title} />
+      <Sticky
+        header={
+          <AnalyzeHeader
+            isGrouped={filters.group && !!filters.group.name}
+            renderQuickFilterBar={() => <QuickFilterBar {...props} />}
+          />
+        }
+      />
+      <LeftRightPadding>
         <TagFilterList
           tagFilters={tagFilters.map(tagFilter => ({
             tag: tagFilter,
@@ -30,7 +35,8 @@ export default function QueryBuilderWorkspace(props) {
           }))}
           defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
         />
-      </MaxWidthFullscreenContainer>
-    </Sticky>
+        {children}
+      </LeftRightPadding>
+    </Fragment>
   );
 }

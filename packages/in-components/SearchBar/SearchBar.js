@@ -1,6 +1,5 @@
 import React from 'react';
 
-import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
@@ -15,9 +14,7 @@ import { showHelp } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
-import './SearchBar.less';
-
-const block = 'in-searchbar';
+import locals from './SearchBar.mless';
 
 export default connectTo(
   {
@@ -32,62 +29,71 @@ export default connectTo(
     }
 
     render() {
-      const { query, presetsVisible, keywordsVisible } = this.props;
+      const { theme, query, presetsVisible } = this.props;
       const hasContent = query.length > 0;
-      const collapseClass = `${block}__expand-collapse-wrapper`;
+
+      const buttonClass = evaluateClassNames({
+        [locals.button]: true,
+        [locals[`button${theme}`]]: theme
+      });
 
       return (
-        <HeaderWithTimeSelection useFullAvailableWidth darkTheme>
-          <div className={`${block}__wrapper`}>
-            {presetsVisible ? <FilterPresets /> : null}
+        <div
+          className={evaluateClassNames({
+            ['in-searchbar']: true,
+            [locals.wrapper]: true,
+            [locals[`wrapper${theme}`]]: theme
+          })}
+        >
+          {presetsVisible ? <FilterPresets /> : null}
 
-            <div className={block}>
-              <div
-                className={evaluateClassNames({
-                  [`${collapseClass}`]: true,
-                  [`${collapseClass}--menu-visible`]: keywordsVisible
-                })}
-                onClick={onShowKeywordHelp}
-              >
-                ?
-              </div>
+          <SvgIcon
+            className={evaluateClassNames({
+              [locals.helpIcon]: true,
+              [locals[`helpIcon${theme}`]]: theme
+            })}
+            onClick={onShowKeywordHelp}
+            type="lib_help_error_help_outline"
+            size="s"
+          />
 
-              <div className={`${block}__input-wrapper`}>
-                <Input />
-              </div>
-
-              <ClearQueryButton />
-
-              {hasContent ? (
-                <div
-                  className={`${block}__save-button`}
-                  onClick={e => {
-                    e.preventDefault();
-                    save(query);
-                  }}
-                >
-                  Save
-                </div>
-              ) : null}
-
-              <div
-                className={evaluateClassNames({
-                  [`${block}__filter-menu-button`]: true,
-                  [`${collapseClass}--menu-visible`]: presetsVisible
-                })}
-                onClick={togglePresets}
-              >
-                Filters
-                <SvgIcon
-                  className={`${block}__icon`}
-                  type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-                  size="s"
-                />
-              </div>
-              <ErrorIndicator />
-            </div>
+          <div
+            className={evaluateClassNames({
+              [locals.inputWrapper]: true,
+              [locals[`inputWrapper${theme}`]]: theme
+            })}
+          >
+            <Input />
           </div>
-        </HeaderWithTimeSelection>
+
+          <ClearQueryButton buttonClass={buttonClass} />
+
+          {hasContent ? (
+            <div
+              className={buttonClass}
+              onClick={e => {
+                e.preventDefault();
+                save(query);
+              }}
+            >
+              Save
+            </div>
+          ) : null}
+
+          <div className={buttonClass} onClick={togglePresets}>
+            Filters
+            <SvgIcon
+              className={evaluateClassNames({
+                [locals.icon]: true,
+                [locals[`icon${theme}`]]: theme
+              })}
+              type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+              size="s"
+            />
+          </div>
+
+          <ErrorIndicator />
+        </div>
       );
     }
   }
@@ -107,12 +113,12 @@ const ClearQueryButton = connectTo(
   {
     query: unvalidatedQuery$
   },
-  function ClearQueryButton({ query }) {
+  function ClearQueryButton({ query, buttonClass }) {
     if (!query || !query.query || query.query.length === 0) {
       return null;
     }
     return (
-      <div className={`${block}__delete-query-button`} onClick={() => setQueryInput('', query.searchContext)}>
+      <div className={buttonClass} onClick={() => setQueryInput('', query.searchContext)}>
         <SvgIcon type="lib_openclose_cancel" size="s" color="#6b8088" />
       </div>
     );
