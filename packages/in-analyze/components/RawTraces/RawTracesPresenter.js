@@ -11,11 +11,11 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';

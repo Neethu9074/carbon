@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
@@ -15,7 +15,7 @@ export default function AnalyzeWorkspace(props) {
   const tagFilters = filters.tagFilter;
 
   return (
-    <Fragment>
+    <>
       <Title title={title} />
       <Sticky
         header={
@@ -37,6 +37,6 @@ export default function AnalyzeWorkspace(props) {
         />
         {children}
       </LeftRightPadding>
-    </Fragment>
+    </>
   );
 }

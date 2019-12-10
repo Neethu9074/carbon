@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -26,12 +26,7 @@ export default function DashboardLoadingHeader(props) {
   } = props;
 
   return (
-    <header
-      className={evaluateClassNames({
-        [locals.dashboardHeader]: true,
-        [locals[themes[theme]]]: true
-      })}
-    >
+    <header className={joinClassNames(locals.dashboardHeader, locals[themes[theme]])}>
       <div className={locals.firstLine}>
         {renderContext && (
           <>
