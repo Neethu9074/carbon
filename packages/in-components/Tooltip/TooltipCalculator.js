@@ -235,15 +235,22 @@ const TooltipCalculator = {
     }
   },
 
-  // Checks if the tooltip leaves the bounds and shrinks it accordingly
   bindToBounds(data, bounds, tooltip) {
     const lowerBounds = ['left', 'top'];
     const upperBounds = ['right', 'bottom'];
 
-    if (width(tooltip) > width(bounds)) {
+    const tooltipWidth = width(tooltip);
+
+    if (tooltipWidth > width(bounds)) {
       data.left = bounds.left;
       data.right = bounds.right;
     }
+
+    const overflow = data.left + width(tooltip) - bounds.right;
+    if (overflow > 0) {
+      data.left -= overflow;
+    }
+
     if (height(tooltip) > height(bounds)) {
       data.top = bounds.top;
       data.bottom = bounds.bottom;
