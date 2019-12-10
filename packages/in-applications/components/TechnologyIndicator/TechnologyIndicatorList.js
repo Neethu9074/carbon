@@ -30,7 +30,7 @@ export default getElementDimensions(
     }
 
     render() {
-      const { technologies } = this.props;
+      const { technologies, getHref$ } = this.props;
       if (!technologies || technologies.length === 0) {
         // always return a valid dom element, the getClientDimension hoc can attach to
         return <div />;
@@ -43,6 +43,7 @@ export default getElementDimensions(
             .sort()
             .map(pluginOrGroupType => (
               <TechnologyIndicator
+                getHref$={getHref$}
                 key={pluginOrGroupType}
                 pluginOrGroupType={pluginOrGroupType}
                 showTechnologyLabel={this.state.showTechnologyLabel}

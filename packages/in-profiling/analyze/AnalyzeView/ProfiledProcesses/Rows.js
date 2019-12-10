@@ -9,7 +9,7 @@ export default function ProfiledProcessesTable(props) {
   return (
     <>
       {items.map((item, i) => (
-        <Row key={i} item={item.profiledProcess} cols={cols} />
+        <Row key={i} {...props} item={item.profiledProcess} />
       ))}
 
       <HorizontalIndicatorRow cols={cols} progress={progress} />

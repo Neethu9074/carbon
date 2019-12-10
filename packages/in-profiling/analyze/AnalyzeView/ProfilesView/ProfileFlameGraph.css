@@ -1,0 +1,16 @@
+.d3-flame-graph-label {
+  margin: 0 0.25rem;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #031f29;
+  cursor: pointer;
+}
+
+.d3-flame-graph rect {
+  stroke: #eeeeee;
+}

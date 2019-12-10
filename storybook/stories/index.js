@@ -27,6 +27,8 @@ import './analyse/StackTrace.story';
 import './analyse/TagFilterList.story';
 import './analyse/TraceDetail/ErroneousTraceIndicator.story';
 
+import './profiling/FlameGraph.story';
+
 import './application/ApplicationMap.story';
 import './application/CreatingNewApplicationWaiter.story';
 import './application/EmptyAppList.story';

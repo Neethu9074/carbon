@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TechnologyListing from 'in-profiling/analyze/AnalyzeView/commonComponents/TechnologyListing';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
@@ -8,7 +8,7 @@ import { getLinkToProfiles } from 'in-profiling/navigation/paths';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import Link from 'in-components/Link';
 
-export default function Row({ item }) {
+export default function Row({ item, getGroupAsFilterUrl }) {
   const { processName, technologies, hostSnapshotPreview } = item;
 
   return (
@@ -24,7 +24,10 @@ export default function Row({ item }) {
       </Td>
 
       <Td noWrap>
-        <TechnologyListing technologies={technologies} />
+        <TechnologyIndicatorList
+          technologies={technologies}
+          getHref$={technology => getGroupAsFilterUrl({ newGroup: { groupbyTag: 'runtime' }, name: technology })}
+        />
       </Td>
 
       <Td noWrap>

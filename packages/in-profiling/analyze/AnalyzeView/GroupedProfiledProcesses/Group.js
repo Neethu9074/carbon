@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import TechnologyListing from 'in-profiling/analyze/AnalyzeView/commonComponents/TechnologyListing';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { number } from 'in-services/formatters/number';
@@ -25,7 +25,10 @@ export default function Group({ item, getGroupAsFilterUrl }) {
         </Link>
       </Td>
       <Td noWrap>
-        <TechnologyListing technologies={technologies} getHref={getGroupAsFilterUrl} />
+        <TechnologyIndicatorList
+          technologies={technologies}
+          getHref$={technology => getGroupAsFilterUrl({ newGroup: { groupbyTag: 'runtime' }, name: technology })}
+        />
       </Td>
 
       <Td noWrap>{numProcesses ? number.compact(numProcesses) : valueMissingPlaceholder}</Td>
