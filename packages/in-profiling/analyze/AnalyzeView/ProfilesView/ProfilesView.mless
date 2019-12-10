@@ -15,4 +15,8 @@
       fill: @lib__colors__N700Medium;
     }
   }
+
+  .contextLink {
+    color: @lib__colors__N600Light;
+  }
 }
