@@ -11,7 +11,7 @@ export default function ExpandableCard({
   preview,
   children,
   header,
-  titleSubText,
+  titleSubContent,
   expansionTracker,
   bodyWithoutPadding,
   openByDefault = false,
@@ -48,7 +48,7 @@ export default function ExpandableCard({
     <Card
       title={title}
       label={label}
-      titleSubText={expanded ? titleSubText : preview}
+      titleSubContent={expanded ? titleSubContent : preview}
       header={rightSide}
       withoutPadding={!expanded || bodyWithoutPadding}
       framed={framed}

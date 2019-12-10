@@ -9,7 +9,7 @@ import locals from './Card.mless';
 
 export default function Card({
   title,
-  titleSubText,
+  titleSubContent,
   children,
   withoutPadding,
   header,
@@ -53,7 +53,7 @@ export default function Card({
         ) : (
           <div className={locals.title}>
             {title}
-            {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
+            {titleSubContent && <span className={locals.titleSubContent}>{titleSubContent}</span>}
           </div>
         )}
 
@@ -89,8 +89,8 @@ Card.propTypes = {
   header: PropTypes.node,
   label: PropTypes.string,
   onHeaderBackgroundClicked: PropTypes.func,
-  title: PropTypes.string,
-  titleSubText: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   useMaxAvailableHeight: PropTypes.bool,
   withoutPadding: PropTypes.bool
 };

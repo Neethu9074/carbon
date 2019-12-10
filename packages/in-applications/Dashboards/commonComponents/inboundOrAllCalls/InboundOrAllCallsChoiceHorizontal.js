@@ -36,7 +36,7 @@ export default function InboundOrAllCallsChoiceHorizontal({
       className={locals.card}
       bodyWithoutPadding
       preview={cardPreview}
-      titleSubText={'Select only inbound calls or all calls'}
+      titleSubContent="Select only inbound calls or all calls"
       framed
       openByDefault={false}
     >

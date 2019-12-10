@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from 'in-new-components/Card';
 import Select from 'in-components/form/Select';
+import Card from 'in-new-components/Card';
 
 import locals from './EntryContent.mless';
 
@@ -16,7 +16,7 @@ export default function EntryContent(props) {
       framed={false}
       openByDefault
       title={<span className={locals.title}>{entry.fullLabel || entry.label}</span>}
-      titleSubText={
+      titleSubContent={
         entry.subTechnologies && (
           <SubTechnologiesDropdown
             subTechnologies={entry.subTechnologies}
