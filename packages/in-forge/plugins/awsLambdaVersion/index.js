@@ -13,8 +13,5 @@ registerSnapshotDefinition({
     singular: 'AWS Lambda Version',
     plural: 'AWS Lambda Versions'
   },
-  technologyDescriptor: {
-    label: 'AWS Lambda'
-  },
   infrastructureTabSubscript: InfrastructureTabSubscript
 });
