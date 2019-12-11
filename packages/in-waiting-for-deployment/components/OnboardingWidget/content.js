@@ -82,21 +82,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       ]
     },
     {
-      label: 'Cloud Foundry and BOSH',
-      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
-      icon: 'lib_cloudfoundry',
-      category: 'Platform',
-      keyWords: 'cloudfoundryboshcf',
-      Content: CfAndBoshContent
-    },
-    {
-      label: 'Docker',
-      icon: 'lib_container_docker',
-      category: 'Platform',
-      keyWords: 'dockercontainer',
-      Content: DockerContent
-    },
-    {
       label: 'Google Cloud',
       icon: 'lib_google_cloud',
       fullLabel: 'Google Cloud Platform',
@@ -115,7 +100,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       ]
     },
     {
-      label: 'Kubernetes (vanilla and managed)',
+      label: 'Docker',
+      icon: 'lib_container_docker',
+      category: 'Platform',
+      keyWords: 'dockercontainer',
+      Content: DockerContent
+    },
+    {
+      label: 'Kubernetes',
       icon: 'lib_kubernetes',
       category: 'Platform',
       subTechnologies: [
@@ -145,6 +137,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: K8sGoogleKubernetesEngineContent
         }
       ]
+    },
+    {
+      label: 'Cloud Foundry and BOSH',
+      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
+      icon: 'lib_cloudfoundry',
+      category: 'Platform',
+      keyWords: 'cloudfoundryboshcf',
+      Content: CfAndBoshContent
     },
     {
       label: 'Pivotal Platform',
