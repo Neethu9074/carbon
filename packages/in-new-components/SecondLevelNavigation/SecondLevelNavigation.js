@@ -6,12 +6,13 @@ import Link from 'in-components/Link';
 
 import locals from './SecondLevelNavigation.mless';
 
-export function SecondLevelNavigation({ children, darkTheme = false }) {
+export function SecondLevelNavigation({ children, darkTheme = false, hasGroups = false }) {
   let content = (
     <div
       className={evaluateClassNames({
         [locals.tabList]: true,
-        [locals.tabListLight]: darkTheme
+        [locals.tabListLight]: darkTheme,
+        [locals.tabListWithGroups]: hasGroups
       })}
     >
       {children}
@@ -29,12 +30,22 @@ export function SecondLevelNavigation({ children, darkTheme = false }) {
   );
 }
 
-export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon, label, addSeparator }) {
+export function SecondLevelNavigationItem({
+  isActive,
+  href$,
+  href,
+  onClick,
+  icon,
+  label,
+  addSeparator,
+  addGroupSeparator
+}) {
   return (
     <Link
       className={evaluateClassNames({
         [locals.link]: true,
-        [locals.addSeparator]: addSeparator
+        [locals.addSeparator]: addSeparator,
+        [locals.addGroupSeparator]: addGroupSeparator
       })}
       href$={href$}
       href={href}
@@ -50,5 +61,26 @@ export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon
         {label}
       </div>
     </Link>
+  );
+}
+
+export function SecondLevelNavigationGroup({ label, children, withSeparator, isActive }) {
+  if (!children) {
+    return null;
+  }
+
+  return (
+    <div className={locals.group}>
+      <div
+        className={evaluateClassNames({
+          [locals.groupLabel]: true,
+          [locals.groupSelected]: isActive,
+          [locals.groupLabelExtraMargin]: withSeparator
+        })}
+      >
+        {label}
+      </div>
+      <div className={locals.groupTabsWrapper}>{children}</div>
+    </div>
   );
 }

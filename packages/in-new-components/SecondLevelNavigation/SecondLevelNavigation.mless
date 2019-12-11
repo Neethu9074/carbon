@@ -19,6 +19,10 @@
     height: 4rem;
   }
 
+  .tabListWithGroups {
+    height: 5rem;
+  }
+
   .tabListLight {
     .tab {
       color: @lib__colors__N300;
@@ -92,5 +96,46 @@
       background: @lib__colors__N300;
       content: '';
     }
+  }
+
+  .addGroupSeparator {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: -2.125rem;
+      left: 0;
+      bottom: 0.375rem;
+      width: 1px;
+      background: @lib__colors__N300;
+      content: '';
+    }
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .groupLabel {
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: @lib__colors__N500;
+  }
+
+  .groupSelected {
+    font-weight: 500;
+    color: @lib__colors__N800Dark;
+  }
+
+  .groupLabelExtraMargin {
+    margin-left: 2rem;
+  }
+
+  .groupTabsWrapper {
+    display: flex;
   }
 }

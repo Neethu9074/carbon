@@ -16,7 +16,7 @@ export default function Bar({ children, showClearFilters = true, onClearFilters 
       <div>{children}</div>
 
       {showClearFilters && (
-        <Button icon="lib_actions_cached" kind="subtle" size="compact" onClick={onClearFilters}>
+        <Button icon="lib_openclose_cancel" kind="subtle" size="compact" onClick={onClearFilters}>
           Clear filters
         </Button>
       )}

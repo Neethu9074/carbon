@@ -1,6 +1,11 @@
 import React from 'react';
 
 import {
+  SecondLevelNavigation,
+  SecondLevelNavigationItem,
+  SecondLevelNavigationGroup
+} from 'in-new-components/SecondLevelNavigation';
+import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   analyzePath as websiteAnalyzePath
 } from 'in-websites/navigation/paths';
@@ -8,7 +13,6 @@ import {
   getLinkToAnalyze as getLinkToProfilesAnalyze,
   analyzePath as profilingAnalyzePath
 } from 'in-profiling/navigation/paths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { customEventsInWebsiteMonitoringEnabled, profilingEnabled } from 'in-services/featureFlags';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-profiling/navigation/matrix';
@@ -48,81 +52,91 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
         title="Analytics"
       />
       <DashboardHeaderModule withBottomBorder>
-        <SecondLevelNavigation>
-          {hasApplicationsAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToAnalyze({
-                dataSource: 'calls',
-                groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
-              })}
-              {...getProps('calls', dataSource)}
-            />
-          )}
-          {hasApplicationsAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToAnalyze({
-                dataSource: 'traces',
-                groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-              })}
-              {...getProps('traces', dataSource)}
-            />
-          )}
-          {hasWebsitesAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToWebsiteAnalyze({
-                group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
-                beaconType: 'pageLoad'
-              })}
-              {...getProps('pageLoad', dataSource)}
-              addSeparator={hasApplicationsAccess}
-            />
-          )}
-          {hasWebsitesAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToWebsiteAnalyze({
-                group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
-                beaconType: 'resourceLoad'
-              })}
-              {...getProps('resourceLoad', dataSource)}
-            />
-          )}
-          {hasWebsitesAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToWebsiteAnalyze({
-                group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
-                beaconType: 'httpRequest'
-              })}
-              {...getProps('httpRequest', dataSource)}
-            />
-          )}
-          {hasWebsitesAccess && (
-            <SecondLevelNavigationItem
-              href$={getLinkToWebsiteAnalyze({
-                group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
-                beaconType: 'error'
-              })}
-              {...getProps('error', dataSource)}
-            />
-          )}
-          {customEventsInWebsiteMonitoringEnabled &&
-            hasWebsitesAccess && (
+        <SecondLevelNavigation hasGroups>
+          <SecondLevelNavigationGroup label="Applications" {...secondLevelActive(['calls', 'traces'], dataSource)}>
+            {hasApplicationsAccess && (
               <SecondLevelNavigationItem
-                href$={getLinkToWebsiteAnalyze({
-                  group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
-                  beaconType: 'custom'
+                href$={getLinkToAnalyze({
+                  dataSource: 'calls',
+                  groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
                 })}
-                {...getProps('custom', dataSource)}
+                {...getProps('calls', dataSource)}
               />
             )}
-          {profilingEnabled && (
-            <SecondLevelNavigationItem
-              href$={getLinkToProfilesAnalyze({
-                group: defaultProfilesGrouping
-              })}
-              {...getProps('profiles', dataSource)}
-              addSeparator
-            />
-          )}
+            {hasApplicationsAccess && (
+              <SecondLevelNavigationItem
+                href$={getLinkToAnalyze({
+                  dataSource: 'traces',
+                  groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+                })}
+                {...getProps('traces', dataSource)}
+              />
+            )}
+          </SecondLevelNavigationGroup>
+          <SecondLevelNavigationGroup
+            label="Websites"
+            withSeparator
+            {...secondLevelActive(['pageLoad', 'resourceLoad', 'httpRequest', 'error', 'custom'], dataSource)}
+          >
+            {hasWebsitesAccess && (
+              <SecondLevelNavigationItem
+                href$={getLinkToWebsiteAnalyze({
+                  group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+                  beaconType: 'pageLoad'
+                })}
+                {...getProps('pageLoad', dataSource)}
+                addGroupSeparator={hasApplicationsAccess}
+              />
+            )}
+            {hasWebsitesAccess && (
+              <SecondLevelNavigationItem
+                href$={getLinkToWebsiteAnalyze({
+                  group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+                  beaconType: 'resourceLoad'
+                })}
+                {...getProps('resourceLoad', dataSource)}
+              />
+            )}
+            {hasWebsitesAccess && (
+              <SecondLevelNavigationItem
+                href$={getLinkToWebsiteAnalyze({
+                  group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+                  beaconType: 'httpRequest'
+                })}
+                {...getProps('httpRequest', dataSource)}
+              />
+            )}
+            {hasWebsitesAccess && (
+              <SecondLevelNavigationItem
+                href$={getLinkToWebsiteAnalyze({
+                  group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+                  beaconType: 'error'
+                })}
+                {...getProps('error', dataSource)}
+              />
+            )}
+            {customEventsInWebsiteMonitoringEnabled &&
+              hasWebsitesAccess && (
+                <SecondLevelNavigationItem
+                  href$={getLinkToWebsiteAnalyze({
+                    group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+                    beaconType: 'custom'
+                  })}
+                  {...getProps('custom', dataSource)}
+                />
+              )}
+          </SecondLevelNavigationGroup>
+          <SecondLevelNavigationGroup label="Profiles" withSeparator {...secondLevelActive(['profiles'], dataSource)}>
+            {profilingEnabled && (
+              <SecondLevelNavigationItem
+                href$={getLinkToProfilesAnalyze({
+                  group: defaultProfilesGrouping
+                })}
+                {...getProps('profiles', dataSource)}
+                addGroupSeparator
+              />
+            )}
+          </SecondLevelNavigationGroup>
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       {renderQuickFilterBar && (
@@ -140,4 +154,10 @@ function getProps(type, dataSource) {
     label: getLabelByType(type),
     isActive: dataSource === type
   };
+}
+
+function secondLevelActive(types, dataSource) {
+  if (types.includes(dataSource)) {
+    return { isActive: true };
+  }
 }
