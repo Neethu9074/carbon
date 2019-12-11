@@ -9,7 +9,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './GroupingInfo.mless';
 
 export default function GroupingInfo({ group, disableGrouping }) {
-  if (!group) {
+  if (!group || Object.keys(group).length === 0) {
     return null;
   }
 
