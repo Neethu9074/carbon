@@ -21,12 +21,15 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
+import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
+import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
 
 import locals from './ApplicationsList.mless';
 
@@ -42,10 +45,23 @@ const columnDefinitions = [
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           icon={boundaryScopes.info[item.application.boundaryScope].icon}
-          tooltip={boundaryScopes.info[item.application.boundaryScope].dashboard}
           label={item.application.label}
           href$={getApplicationDashboard(item.application.id)}
         />
+      );
+    }
+  },
+  {
+    id: 'boundaryScope',
+    label: 'Scope',
+    sortable: false,
+    getContent(item) {
+      const href$ = getApplicationDashboard(item.application.id);
+      const iconColor = href$ && theme.lib.colors.blue800;
+      return (
+        <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
+          <WithIcon icon={boundaryScopes.info[item.application.boundaryScope].icon} iconColor={iconColor} />
+        </Tooltip>
       );
     }
   },
