@@ -11,7 +11,7 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Messages (Average)">
+      <DashboardSection title="Messages">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -44,7 +44,7 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Sent Messages Size (Average)">
+      <DashboardSection title="Sent Messages Size">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
