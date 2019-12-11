@@ -16,7 +16,6 @@ import { buildOrderByCriteria } from 'in-websites/analyze/AnalyzeView/metrics';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -66,7 +65,6 @@ export default function BeaconsPresenter(props) {
       >
         <LeftRightPadding>
           <TagFilterList {...props} />
-          <GroupingInfo {...props} />
           <GroupingTableHeader itemType={dataSourceTitles[beaconType]} nbItems={props.totalHits} {...props} />
 
           <Table tableInCard>
