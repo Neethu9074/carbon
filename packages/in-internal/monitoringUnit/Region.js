@@ -49,7 +49,7 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title="Spans">
+        <DashboardSection title="Application Perspectives">
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -63,7 +63,7 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title="Beacons">
+        <DashboardSection title="Website Monitoring">
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -71,6 +71,20 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['acceptedBeacons', 'processedBeacons'],
+              labels: ['Accepted Beacons', 'Processed Beacons'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Mobile App Monitoring">
+          <Chart
+            snapshotId={ID_OF_REGION}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['acceptedMobileBeacons', 'processedMobileBeacons'],
               labels: ['Accepted Beacons', 'Processed Beacons'],
               type: 'line'
             }}

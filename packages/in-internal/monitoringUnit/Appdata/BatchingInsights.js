@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { number, percentagePlain, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import ExpandableCard from 'in-new-components/ExpandableCard';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { compare } from 'in-services/util/number';
 import connectTo from 'in-hoc/connectTo';
@@ -18,11 +20,22 @@ const types = [
     incomingKpi: 'KPI.incoming.calls'
   },
   {
+    title: 'Website Beacons (short term)',
     type: 'beacons.shortTerm',
     incomingKpi: 'KPI.incoming.website_monitoring_processed_beacons'
   },
   {
+    title: 'Website Beacons (long term)',
     type: 'beacons.longTerm'
+  },
+  {
+    title: 'Mobile App Beacons (short term)',
+    type: 'mobileBeacons.shortTerm',
+    incomingKpi: 'KPI.incoming.mobile_app_monitoring_processed_beacons'
+  },
+  {
+    title: 'Mobile App Beacons (long term)',
+    type: 'mobileBeacons.longTerm'
   },
   {
     type: 'chains',
@@ -82,123 +95,125 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        {types.map(({ type, incomingKpi }) => (
-          <Fragment key={type}>
-            <h1>Pipeline behavior for: {type}</h1>
+        {types.map(({ title, type, incomingKpi }) => (
+          <Row key={type}>
+            <Col lg={12}>
+              <ExpandableCard title={`Pipeline behavior for: ${title || type}`}>
+                {incomingKpi && (
+                  <Columize>
+                    <DashboardSection title={`Kafka Reads`}>
+                      <Chart
+                        snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                        timeConfig={timeConfig}
+                        customHeight={150}
+                        y1={{
+                          min: 0,
+                          formatter: number.perSecond.compact,
+                          metrics: rows.map(() => `metrics.meters.${incomingKpi}.calls`),
+                          labels,
+                          type: 'stackedArea'
+                        }}
+                      />
+                    </DashboardSection>
 
-            {incomingKpi && (
-              <Columize>
-                <DashboardSection title={`Kafka Reads`}>
+                    <DashboardSection title={`Dropped`}>
+                      <Chart
+                        snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                        timeConfig={timeConfig}
+                        customHeight={150}
+                        y1={{
+                          min: 0,
+                          formatter: number.perSecond.compact,
+                          metrics: rows.map(() => `metrics.meters.${incomingKpi}.errors`),
+                          labels,
+                          type: 'stackedArea'
+                        }}
+                      />
+                    </DashboardSection>
+                  </Columize>
+                )}
+
+                <Columize>
+                  <DashboardSection title={`Batch Additions`}>
+                    <Chart
+                      snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                      timeConfig={timeConfig}
+                      customHeight={150}
+                      y1={{
+                        min: 0,
+                        formatter: number.perSecond.compact,
+                        metrics: rows.map(() => `metrics.meters.batching.${type}.additionsToBatch.calls`),
+                        labels,
+                        type: 'stackedArea'
+                      }}
+                    />
+                  </DashboardSection>
+
+                  <DashboardSection title={`Batch Addition Failures`}>
+                    <Chart
+                      snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                      timeConfig={timeConfig}
+                      customHeight={150}
+                      y1={{
+                        min: 0,
+                        formatter: number.perSecond.compact,
+                        metrics: rows.map(() => `metrics.meters.batching.${type}.additionsToBatch.errors`),
+                        labels,
+                        type: 'stackedArea'
+                      }}
+                    />
+                  </DashboardSection>
+                </Columize>
+
+                <DashboardSection title={`Usage of Maximum Allowed Batch Size`}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
                     customHeight={150}
                     y1={{
                       min: 0,
-                      formatter: number.perSecond.compact,
-                      metrics: rows.map(() => `metrics.meters.${incomingKpi}.calls`),
+                      formatter: percentagePlain.compact,
+                      metrics: rows.map(() => `metrics.histograms.batching.${type}.batched.bytes.%.mean`),
                       labels,
-                      type: 'stackedArea'
+                      type: 'line'
                     }}
                   />
                 </DashboardSection>
 
-                <DashboardSection title={`Dropped`}>
-                  <Chart
-                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                    timeConfig={timeConfig}
-                    customHeight={150}
-                    y1={{
-                      min: 0,
-                      formatter: number.perSecond.compact,
-                      metrics: rows.map(() => `metrics.meters.${incomingKpi}.errors`),
-                      labels,
-                      type: 'stackedArea'
-                    }}
-                  />
-                </DashboardSection>
-              </Columize>
-            )}
+                <Columize>
+                  <DashboardSection title={`Batch Transmissions`}>
+                    <Chart
+                      snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                      timeConfig={timeConfig}
+                      customHeight={150}
+                      y1={{
+                        min: 0,
+                        formatter: number.perSecond.compact,
+                        metrics: rows.map(() => `metrics.meters.batching.${type}.transmissions.calls`),
+                        labels,
+                        type: 'stackedArea'
+                      }}
+                    />
+                  </DashboardSection>
 
-            <Columize>
-              <DashboardSection title={`Batch Additions`}>
-                <Chart
-                  snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                  timeConfig={timeConfig}
-                  customHeight={150}
-                  y1={{
-                    min: 0,
-                    formatter: number.perSecond.compact,
-                    metrics: rows.map(() => `metrics.meters.batching.${type}.additionsToBatch.calls`),
-                    labels,
-                    type: 'stackedArea'
-                  }}
-                />
-              </DashboardSection>
-
-              <DashboardSection title={`Batch Addition Failures`}>
-                <Chart
-                  snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                  timeConfig={timeConfig}
-                  customHeight={150}
-                  y1={{
-                    min: 0,
-                    formatter: number.perSecond.compact,
-                    metrics: rows.map(() => `metrics.meters.batching.${type}.additionsToBatch.errors`),
-                    labels,
-                    type: 'stackedArea'
-                  }}
-                />
-              </DashboardSection>
-            </Columize>
-
-            <DashboardSection title={`Usage of Maximum Allowed Batch Size`}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                customHeight={150}
-                y1={{
-                  min: 0,
-                  formatter: percentagePlain.compact,
-                  metrics: rows.map(() => `metrics.histograms.batching.${type}.batched.bytes.%.mean`),
-                  labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-
-            <Columize>
-              <DashboardSection title={`Batch Transmissions`}>
-                <Chart
-                  snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                  timeConfig={timeConfig}
-                  customHeight={150}
-                  y1={{
-                    min: 0,
-                    formatter: number.perSecond.compact,
-                    metrics: rows.map(() => `metrics.meters.batching.${type}.transmissions.calls`),
-                    labels,
-                    type: 'stackedArea'
-                  }}
-                />
-              </DashboardSection>
-
-              <DashboardSection title={`Batch Transmission Failures`}>
-                <Chart
-                  snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                  timeConfig={timeConfig}
-                  customHeight={150}
-                  y1={{
-                    min: 0,
-                    formatter: number.perSecond.compact,
-                    metrics: rows.map(() => `metrics.meters.batching.${type}.transmissions.errors`),
-                    labels,
-                    type: 'stackedArea'
-                  }}
-                />
-              </DashboardSection>
-            </Columize>
-          </Fragment>
+                  <DashboardSection title={`Batch Transmission Failures`}>
+                    <Chart
+                      snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                      timeConfig={timeConfig}
+                      customHeight={150}
+                      y1={{
+                        min: 0,
+                        formatter: number.perSecond.compact,
+                        metrics: rows.map(() => `metrics.meters.batching.${type}.transmissions.errors`),
+                        labels,
+                        type: 'stackedArea'
+                      }}
+                    />
+                  </DashboardSection>
+                </Columize>
+              </ExpandableCard>
+            </Col>
+          </Row>
         ))}
       </div>
     );
