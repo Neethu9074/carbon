@@ -10,7 +10,7 @@ import locals from './InternalViewWrapper.mless';
 export default function InternalViewWrapper({ children }) {
   return (
     <Sticky header={<DashboardHeader contextIcon="lib_flame" renderContext={renderContext} title="Internal" />}>
-      {children}
+      <div className={locals.body}>{children}</div>
     </Sticky>
   );
 }
