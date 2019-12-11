@@ -12,6 +12,7 @@ import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
+import kpiDefinitions from 'in-forge/plugins/host/kpiDefinitions';
 
 const linuxPlugin = plugins.host + '_linux';
 const zosPlugin = plugins.host + '_zos';
@@ -28,6 +29,7 @@ registerSnapshotDefinition({
   },
   showZoneInSidebarHeader: true,
   tableDefinition,
+  kpiDefinitions,
   metricDefinitions,
 
   icons: {

@@ -1,4 +1,5 @@
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
+import kpiDefinitions from 'in-forge/plugins/sparkStandalone';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -8,6 +9,7 @@ import iconSvgPath from './iconPath';
 registerSnapshotDefinition({
   plugin: plugins.sparkStandalone,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   supportsCodeView,
   getCodeView,

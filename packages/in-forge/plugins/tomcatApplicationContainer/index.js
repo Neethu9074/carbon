@@ -1,3 +1,4 @@
+import kpiDefinitions from 'in-forge/plugins/tomcatApplicationContainer';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -10,6 +11,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   supportsCodeView,
   getCodeView,
+  kpiDefinitions,
   metricDefinitions,
   pluginName: {
     singular: 'Tomcat',

@@ -2,10 +2,12 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 import iconSvgPath from './iconPath';
+import kpiDefinitions from 'in-forge/plugins/awsMq/kpiDefinitions';
 
 registerSnapshotDefinition({
   plugin: plugins.awsMq,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   pluginName: {
     singular: 'Amazon MQ',

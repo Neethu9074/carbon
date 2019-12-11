@@ -1,5 +1,6 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import kpiDefinitions from 'in-forge/plugins/kafkaCluster/kpiDefinitions';
 
 import iconSvgPath from 'in-forge/plugins/kafka/iconPath';
 
@@ -8,6 +9,7 @@ import metricDefinitions from './metricDefinitions';
 registerSnapshotDefinition({
   plugin: plugins.kafkaCluster,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   pluginName: {
     singular: 'Kafka Cluster',

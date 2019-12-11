@@ -3,6 +3,7 @@ import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import tableDefinition from 'in-forge/plugins/garden/tableDefinition';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import kpiDefinitions from 'in-forge/plugins/garden/kpiDefinitions';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
@@ -10,6 +11,7 @@ import iconSvgPath from './iconPath';
 registerSnapshotDefinition({
   plugin: plugins.garden,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   tableDefinition,
 

@@ -1,3 +1,4 @@
+import kpiDefinitions from 'in-forge/plugins/nomadScheduler/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -11,5 +12,6 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Nomad Client',
     plural: 'Nomad Clients'
-  }
+  },
+  kpiDefinitions
 });

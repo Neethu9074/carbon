@@ -11,6 +11,7 @@ import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { hasRestrictedAccess } from 'in-stores/permission';
 import { plugins } from 'in-forge/constants';
+import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
@@ -18,6 +19,7 @@ import iconSvgPath from './iconPath';
 registerSnapshotDefinition({
   plugin: plugins.docker,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   tableDefinition,
 

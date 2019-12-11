@@ -1,4 +1,5 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import kpiDefinitions from 'in-forge/plugins/nova';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
@@ -11,5 +12,6 @@ registerSnapshotDefinition({
     plural: 'OpenStack Compute Instances'
   },
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions
 });

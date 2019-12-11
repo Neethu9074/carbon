@@ -7,6 +7,7 @@ import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { hasRestrictedAccess } from 'in-stores/permission';
 import { plugins } from 'in-forge/constants';
+import kpiDefinitions from 'in-forge/plugins/crio/kpiDefinitions';
 
 import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
@@ -14,6 +15,7 @@ import iconSvgPath from './iconPath';
 registerSnapshotDefinition({
   plugin: plugins.crio,
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions,
   tableDefinition,
 
