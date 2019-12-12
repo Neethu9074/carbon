@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DashboardLoadingHeader from 'in-new-components/DashboardHeader/DashboardLoadingHeader';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { joinClassNames } from 'in-services/util/classnames';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 
@@ -16,31 +16,27 @@ export const themes = {
 };
 
 export default function DashboardHeader(props) {
-  const {
-    theme = themes.default,
-    icon,
-    renderIcon,
-    label,
-    title,
-    contextIcon,
-    renderContext,
-    renderMetaInformation,
-    renderButtonLine,
-    renderTimeSelection,
-    result
-  } = props;
+  const { theme = themes.default, icon, title, contextIcon, renderContext, renderTimeSelection, result } = props;
+  let { label, renderIcon, renderMetaInformation, renderButtonLine } = props;
 
-  if (result && result.data == null) {
-    return <DashboardLoadingHeader {...props} />;
+  const isLoading = result && result.data == null;
+
+  if (isLoading) {
+    label = getSkeletonLabel();
+
+    if (renderButtonLine) {
+      renderButtonLine = getSkeletonButton;
+    }
+    if (renderMetaInformation) {
+      renderMetaInformation = getSkeletonButton;
+    }
+    if (!icon || renderIcon) {
+      renderIcon = getSkeletonIcon;
+    }
   }
 
   return (
-    <header
-      className={evaluateClassNames({
-        [locals.dashboardHeader]: true,
-        [locals[theme]]: true
-      })}
-    >
+    <header className={joinClassNames(locals.dashboardHeader, locals[theme])}>
       <Title title={title} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
@@ -61,6 +57,18 @@ export default function DashboardHeader(props) {
       {renderButtonLine && <div className={locals.buttonLine}>{renderButtonLine(props)}</div>}
     </header>
   );
+}
+
+function getSkeletonButton() {
+  return <Skeleton className={locals.buttonSkeleton} />;
+}
+
+function getSkeletonLabel() {
+  return <Skeleton className={locals.labelSkeleton} />;
+}
+
+function getSkeletonIcon() {
+  return <Skeleton className={locals.iconSkeleton} />;
 }
 
 DashboardHeader.propTypes = {

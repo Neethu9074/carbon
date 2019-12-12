@@ -16,22 +16,46 @@ export default {
 
 storiesOf('Components/Dashboard Header', module)
   .addParameters({ component: DashboardHeader })
-  .add('default', () => <Default />);
+  .add('default', () => <Default />)
+  .add('loading', () => <Loading />);
 
 function Default() {
+  return <Headers />;
+}
+
+function Loading() {
+  return <Headers additionalProps={{ result: {} }} />;
+}
+
+function Headers({ additionalProps }) {
   return (
     <div style={{ background: '#e0e0e0', padding: '0 3rem' }}>
       <Section title="Raw">
-        <DashboardHeader icon="lib_application" label="Instana Demo - Discount Application 0.0.1" />
+        <DashboardHeader
+          {...additionalProps}
+          icon="lib_application"
+          label="Instana Demo - Discount Application 0.0.1"
+        />
       </Section>
       <Section title="With meta information">
-        <DashboardHeader icon="lib_website" label="Robot Shop" renderMetaInformation={renderMetaInformation} />
+        <DashboardHeader
+          {...additionalProps}
+          icon="lib_website"
+          label="Robot Shop"
+          renderMetaInformation={renderMetaInformation}
+        />
       </Section>
       <Section title="With buttons">
-        <DashboardHeader icon="lib_kubernetes" label="k8s-demo" renderButtonLine={renderButtonLine} />
+        <DashboardHeader
+          {...additionalProps}
+          icon="lib_kubernetes"
+          label="k8s-demo"
+          renderButtonLine={renderButtonLine}
+        />
       </Section>
       <Section title="With context">
         <DashboardHeader
+          {...additionalProps}
           icon="lib_application_trace"
           contextIcon="lib_analyze_inverted"
           label="42 Traces"
@@ -39,6 +63,7 @@ function Default() {
         />
         <Spacer />
         <DashboardHeader
+          {...additionalProps}
           icon="lib_application_trace"
           contextIcon="lib_analyze_inverted"
           label="42 Traces"
@@ -48,6 +73,7 @@ function Default() {
       <Section title="Themes">
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <DashboardHeader
+            {...additionalProps}
             theme={themes.default}
             icon="lib_website"
             label="Robot Shop"
@@ -55,6 +81,7 @@ function Default() {
           />
           <Spacer />
           <DashboardHeader
+            {...additionalProps}
             theme={themes.light}
             icon="lib_website"
             label="Robot Shop"
@@ -62,6 +89,7 @@ function Default() {
           />
           <Spacer />
           <DashboardHeader
+            {...additionalProps}
             theme={themes.dark}
             icon="lib_infrastructure"
             label="instana-mc-demo"
@@ -73,6 +101,7 @@ function Default() {
       </Section>
       <Section title="Full example">
         <DashboardHeader
+          {...additionalProps}
           icon="lib_infrastructure"
           label="instana-mc-demo"
           contextIcon="lib_infrastructure_inverted"
