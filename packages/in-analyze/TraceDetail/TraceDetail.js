@@ -75,7 +75,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
         header={
           <DashboardHeader
             {...props}
-            icon={getIconByType(dataSource)}
+            icon={getIconByType(dataSource, 'application')}
             contextIcon="lib_analyze_inverted"
             renderContext={renderContext}
             label={getLabelByType(dataSource)}

@@ -5,18 +5,18 @@ import {
   timestampMetricName,
   groupNameMetricName,
   groupCountMetricName
-} from 'in-websites/analyze/AnalyzeView/metrics';
-import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
-import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
-import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+} from 'in-mobile-apps/analyze/AnalyzeView/metrics';
+import GroupedBeaconsTable from 'in-mobile-apps/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
+import MobileAppGroupMetricsChart from 'in-mobile-apps/analyze/AnalyzeView/MobileAppGroupMetricsChart';
+import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
-import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import { dataSourceTitles } from 'in-websites/tags';
+import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
@@ -67,7 +67,7 @@ export default compose(
         orderBy = 'beaconCount_SUM_Agg';
       }
 
-      return getWebsiteBeaconGroups({
+      return getMobileAppBeaconGroups({
         pagination: {
           cursor,
           retrievalSize: 20
@@ -103,7 +103,7 @@ function GroupedBeacons(props) {
               isGrouped
               renderQuickFilterBar={() => (
                 <QuickFilterBar
-                  showWebsiteSelector
+                  showMobileAppSelector
                   showPageSelector
                   showSubdivisionSelector
                   showWindowWidthSelector
@@ -117,7 +117,7 @@ function GroupedBeacons(props) {
         <LeftRightPadding>
           <TagFilterList {...props} />
           <GroupingTableHeader itemType="Group" {...props} />
-          {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
+          {isChartSectionExpanded && <MobileAppGroupMetricsChart {...props} groupColors={groupColors} />}
           <GroupedBeaconsTable {...props} groupColors={groupColors} />
         </LeftRightPadding>
       </Sticky>

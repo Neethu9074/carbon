@@ -12,7 +12,7 @@ export default function EmptyAnalyzeView({ type }) {
     <Sticky header={<AnalyzeHeader />}>
       <CenterAlignmentColumn>
         <EntityPageMainNotification
-          icon={getIconByType(type)}
+          icon={getIconByType(type, 'profiling')}
           explanation="No profiles are available for the selected time range."
           title={`No ${entityName} found`}
         />

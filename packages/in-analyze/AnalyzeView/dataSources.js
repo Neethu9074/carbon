@@ -1,4 +1,7 @@
+import { get } from 'lodash';
+
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
+import { dataSourceTitles as mobileAppDataSourceTitles } from 'in-mobile-apps/tags';
 import { dataSourceTitles as websiteDataSourceTitles } from 'in-websites/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 
@@ -47,24 +50,30 @@ export default function getByDataSource(dataSource) {
   return configs[dataSource] || {};
 }
 
-export function getIconByType(type) {
-  if (type === 'traces') {
-    return 'lib_application_trace';
-  } else if (type === 'calls') {
-    return 'lib_application_call';
-  } else if (type === 'pageLoad') {
-    return 'lib_website_page_load';
-  } else if (type === 'resourceLoad') {
-    return 'lib_website_resource';
-  } else if (type === 'httpRequest') {
-    return 'lib_website_ajax';
-  } else if (type === 'error') {
-    return 'lib_website_error';
-  } else if (type === 'custom') {
-    return 'lib_website_custom';
-  } else if (type === 'profiles') {
-    return 'lib_profiling';
+const icons = {
+  application: {
+    traces: 'lib_application_trace',
+    calls: 'lib_application_call'
+  },
+  website: {
+    pageLoad: 'lib_website_page_load',
+    resourceLoad: 'lib_website_resource',
+    httpRequest: 'lib_website_ajax',
+    error: 'lib_website_error',
+    custom: 'lib_website_custom'
+  },
+  mobileApp: {
+    sessionStart: 'lib_website_page_load',
+    httpRequest: 'lib_website_ajax',
+    custom: 'lib_website_custom'
+  },
+  profiling: {
+    profiles: 'lib_profiling'
   }
+};
+
+export function getIconByType(type, productArea) {
+  return get(icons, [productArea, type]);
 }
 
 export function getEntityNameByType(type) {
@@ -77,9 +86,11 @@ export function getEntityNameByType(type) {
   } else if (type === 'error') {
     return 'JavaScript errors';
   } else if (type === 'custom') {
-    return 'custom events';
+    return 'Custom events';
   } else if (type === 'profiles') {
-    return 'profiles';
+    return 'Profiles';
+  } else if (type === 'sessionStart') {
+    return 'Session Start';
   }
 
   return type;
@@ -96,6 +107,8 @@ export function getLabelByType(type) {
     return `${websiteDataSourceTitles.error}s`;
   } else if (type === 'custom') {
     return `${websiteDataSourceTitles.custom}s`;
+  } else if (type === 'sessionStart') {
+    return `${mobileAppDataSourceTitles.sessionStart}s`;
   } else if (type === 'profiles') {
     return 'Profiles';
   } else if (type === 'traces') {

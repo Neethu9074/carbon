@@ -1,12 +1,12 @@
 import { withProps } from 'recompose';
 
-import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
 
 export default withProps({
   help: 'Select a tag by which your beacons should be grouped.',
   getKeySuggestions: ({ timeConfig, tagFilters, tag, key }) => {
-    return getWebsiteBeaconGroups({
+    return getMobileAppBeaconGroups({
       timeConfig: timeConfig,
       tagFilters: tagFilters,
       metrics: {

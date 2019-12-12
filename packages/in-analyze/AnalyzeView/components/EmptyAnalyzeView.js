@@ -13,7 +13,7 @@ export default function EmptyAnalyzeView({ type }) {
     <Sticky header={<AnalyzeHeader />}>
       <CenterAlignmentColumn>
         <EntityPageMainNotification
-          icon={getIconByType(type)}
+          icon={getIconByType(type, 'application')}
           explanation={() => <ArticleContent id="analyzeNoData" />}
           title={`No ${entityName} found`}
         />

@@ -4,12 +4,12 @@ import {
   timestampMetricName,
   groupNameMetricName,
   groupCountMetricName
-} from 'in-websites/analyze/AnalyzeView/metrics';
+} from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumnHeaders';
-import Group from 'in-websites/analyze/AnalyzeView/GroupedBeacons/Group';
+import Group from 'in-mobile-apps/analyze/AnalyzeView/GroupedBeacons/Group';
 import SortableColumn from 'in-analyze/components/SortableColumn';
-import Groups from 'in-websites/analyze/AnalyzeView/Groups';
+import Groups from 'in-mobile-apps/analyze/AnalyzeView/Groups';
 
 export default function GroupedBeaconsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;

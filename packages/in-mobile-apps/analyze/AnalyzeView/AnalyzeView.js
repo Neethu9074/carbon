@@ -9,29 +9,29 @@ import {
   analyzeTagFiltersUrlParameter,
   analyzeGroupingUrlParameter,
   analyzeBeaconTypeUrlParameter
-} from 'in-websites/navigation/urlParameters';
+} from 'in-mobile-apps/navigation/urlParameters';
 import {
   availableMetrics as allAvailableMetrics,
   defaultMetrics,
   timestampMetricName,
   groupCountMetricName,
   buildOrderByCriteria
-} from 'in-websites/analyze/AnalyzeView/metrics';
+} from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import {
   changeAnalyzeMetrics,
   analyzeTagFilters as tagFiltersTrackers,
   analyzeGrouping as groupingTrackers
-} from 'in-websites/tracker';
-import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
-import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
-import EmptyAnalyzeView from 'in-websites/analyze/AnalyzeView/EmptyAnalyzeView';
+} from 'in-mobile-apps/tracker';
+import MobileAppEditGroupDialog from 'in-mobile-apps/analyze/AnalyzeView/MobileAppEditGroupDialog';
+import GroupedBeacons from 'in-mobile-apps/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import EmptyAnalyzeView from 'in-mobile-apps/analyze/AnalyzeView/EmptyAnalyzeView';
+import { availableGroupingTags, availableFilterTags } from 'in-mobile-apps/tags';
+import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
-import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
+// import Beacons from 'in-mobile-apps/analyze/AnalyzeView/Beacons/Beacons';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import MetricSelector from 'in-analyze/components/MetricSelector';
-import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
 import { getTag } from 'in-analyze/metricDefinitionHelpers';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -62,7 +62,7 @@ export default compose(
     const isGroupedView = group && !!group.groupbyTag;
     const implicitTagFilters = [
       {
-        name: 'beacon.type',
+        name: 'mobileBeacon.type',
         operator: 'EQUALS',
         stringValue: beaconType
       }
@@ -177,7 +177,7 @@ export default compose(
     }) => ({
       openEditGroupDialog() {
         setActiveDialog(
-          <WebsiteEditGroupDialog
+          <MobileAppEditGroupDialog
             setGroup={setGroup}
             group={group}
             tagSuggestions={groupableTags}
@@ -219,7 +219,10 @@ export default compose(
 function AnalyzeView(props) {
   return (
     <Fragment>
-      {props.group.groupbyTag ? <GroupedBeacons {...props} /> : <Beacons key={props.beaconType} {...props} /> // key defined to force a complete state reset
+      {
+        /* TODO props.group.groupbyTag ? */ <GroupedBeacons
+          {...props}
+        /> /* :  TODO <Beacons key={props.beaconType} {...props} /> */ // key defined to force a complete state reset
       }
       <Footer />
     </Fragment>
@@ -231,13 +234,13 @@ function isOrderCriteriaSupportedForUngroupedView(orderBy, metrics) {
 }
 
 function getHasDataToRender({ timeConfig }) {
-  return getWebsiteBeacons({
+  return getMobileAppBeacons({
     pagination: {
       cursor: null,
       retrievalSize: 1
     },
     order: {
-      by: 'beacon.timestamp',
+      by: 'mobileBeacon.timestamp',
       direction: 'DESC'
     },
     timeConfig,
