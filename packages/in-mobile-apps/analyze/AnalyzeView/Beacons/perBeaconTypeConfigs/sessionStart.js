@@ -1,12 +1,9 @@
 import React, { Fragment } from 'react';
 
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
-import { getHighlighterId } from 'in-mobile-apps/analyze/PageLoadView/tabs/Summary/Beacon';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
-import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import { Th, Td } from 'in-components/tables/sharedComponents';
@@ -17,7 +14,7 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>Event Name</Th>
+      <Th>View</Th>
       <Th>Mobile App</Th>
       <SortableColumn
         orderBy={orderBy}
@@ -37,19 +34,10 @@ export function TableRowColumns({ item }) {
       <Td>
         <TableLinkWithIcon
           isPrimary
-          href$={getLinkToSession({
-            sessionId: item.beacon.sessionId,
-            beaconId: item.beacon.beaconId,
-            beaconTimestamp: item.beacon.timestamp
-          })}
-          onClick={() => triggerHighlight(getHighlighterId(item.beacon.beaconId))}
+          href$={getLinkToSession({ sessionId: item.beacon.sessionId, beaconTimestamp: item.beacon.timestamp })}
         >
-          <EllipsisCell>{item.beacon.customEventName}</EllipsisCell>
+          <EllipsisCell>{item.beacon.view}</EllipsisCell>
         </TableLinkWithIcon>
-        <BatchingIndicator
-          batchCount={item.beacon.batchSize}
-          tooltipContent={`This event was batched and represents ${item.beacon.batchSize} individual events.`}
-        />
       </Td>
 
       <Td>
@@ -65,20 +53,16 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Event Name';
+export const ListItemHeader = 'View';
 
 export function ListItem({ item, active }) {
   return (
     <ListItemPresenter
       active={active}
-      label={item.beacon.customEventName}
-      href$={getLinkToSession({
-        sessionId: item.beacon.sessionId,
-        beaconId: item.beacon.beaconId,
-        beaconTimestamp: item.beacon.timestamp
-      })}
-      onClick={() => triggerHighlight(getHighlighterId(item.beacon.beaconId))}
+      label={item.beacon.view}
+      href$={getLinkToSession({ sessionId: item.beacon.sessionId, beaconTimestamp: item.beacon.timestamp })}
       time={item.beacon.timestamp}
+      duration={item.beacon.duration}
     />
   );
 }

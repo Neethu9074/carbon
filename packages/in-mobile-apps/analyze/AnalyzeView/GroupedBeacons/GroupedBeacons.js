@@ -104,7 +104,7 @@ function GroupedBeacons(props) {
               renderQuickFilterBar={() => (
                 <QuickFilterBar
                   showMobileAppSelector
-                  showPageSelector
+                  showViewSelector
                   showSubdivisionSelector
                   showWindowWidthSelector
                   {...props}

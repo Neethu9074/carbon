@@ -28,7 +28,7 @@ import EmptyAnalyzeView from 'in-mobile-apps/analyze/AnalyzeView/EmptyAnalyzeVie
 import { availableGroupingTags, availableFilterTags } from 'in-mobile-apps/tags';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-// import Beacons from 'in-mobile-apps/analyze/AnalyzeView/Beacons/Beacons';
+import Beacons from 'in-mobile-apps/analyze/AnalyzeView/Beacons/Beacons';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import MetricSelector from 'in-analyze/components/MetricSelector';
@@ -219,10 +219,7 @@ export default compose(
 function AnalyzeView(props) {
   return (
     <Fragment>
-      {
-        /* TODO props.group.groupbyTag ? */ <GroupedBeacons
-          {...props}
-        /> /* :  TODO <Beacons key={props.beaconType} {...props} /> */ // key defined to force a complete state reset
+      {props.group.groupbyTag ? <GroupedBeacons {...props} /> : <Beacons key={props.beaconType} {...props} /> // key defined to force a complete state reset
       }
       <Footer />
     </Fragment>

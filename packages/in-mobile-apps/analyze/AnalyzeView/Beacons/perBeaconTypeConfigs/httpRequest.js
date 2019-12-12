@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
-import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
-import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
+import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
+import { getHighlighterId } from 'in-mobile-apps/analyze/PageLoadView/tabs/Summary/Beacon';
+import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
+import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
@@ -19,7 +19,7 @@ export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
     <Fragment>
       <ErroneousRowTh />
       <Th>Access</Th>
-      <Th>Website</Th>
+      <Th>Mobile App</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
@@ -40,8 +40,8 @@ export function TableRowColumns({ item }) {
       <Td>
         <TableLinkWithIcon
           isPrimary
-          href$={getLinkToPageLoad({
-            pageLoadId: item.beacon.pageLoadId,
+          href$={getLinkToSession({
+            sessionId: item.beacon.sessionId,
             beaconId: item.beacon.beaconId,
             beaconTimestamp: item.beacon.timestamp
           })}
@@ -60,8 +60,8 @@ export function TableRowColumns({ item }) {
       </Td>
 
       <Td>
-        <TableLinkWithIcon icon="lib_website" href$={getLinkToWebsite(item.beacon.websiteId)}>
-          {item.beacon.websiteLabel}
+        <TableLinkWithIcon icon="lib_website" href$={getLinkToMobileApp(item.beacon.mobileAppId)}>
+          {item.beacon.mobileAppLabel}
         </TableLinkWithIcon>
       </Td>
 
@@ -79,8 +79,8 @@ export function ListItem({ item, active }) {
     <ListItemPresenter
       active={active}
       label={`${item.beacon.httpCallMethod} ${item.beacon.httpCallUrl}`}
-      href$={getLinkToPageLoad({
-        pageLoadId: item.beacon.pageLoadId,
+      href$={getLinkToSession({
+        sessionId: item.beacon.sessionId,
         beaconId: item.beacon.beaconId,
         beaconTimestamp: item.beacon.timestamp
       })}

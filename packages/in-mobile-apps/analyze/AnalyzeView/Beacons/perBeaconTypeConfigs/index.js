@@ -1,13 +1,9 @@
-import * as resourceLoad from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/resourceLoad';
-import * as httpRequest from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/httpRequest';
-import * as pageLoad from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/pageLoad';
-import * as custom from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/custom';
-import * as error from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/error';
+import * as httpRequest from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/httpRequest';
+import * as sessionStart from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/sessionStart';
+import * as custom from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs/custom';
 
 export default {
-  pageLoad,
-  resourceLoad,
+  sessionStart,
   httpRequest,
-  error,
   custom
 };

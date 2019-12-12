@@ -12,14 +12,14 @@ import {
   ErrorRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import { buildOrderByCriteria } from 'in-websites/analyze/AnalyzeView/metrics';
+import { buildOrderByCriteria } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
+import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
-import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import { dataSourceTitles } from 'in-websites/tags';
+import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
@@ -51,13 +51,7 @@ export default function BeaconsPresenter(props) {
           <>
             <AnalyzeHeader
               renderQuickFilterBar={() => (
-                <QuickFilterBar
-                  showWebsiteSelector
-                  showPageSelector
-                  showSubdivisionSelector
-                  showWindowWidthSelector
-                  {...props}
-                />
+                <QuickFilterBar showMobileAppSelector showViewSelector showSubdivisionSelector {...props} />
               )}
             />
           </>

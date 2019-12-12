@@ -3,12 +3,14 @@ import { compose, withProps } from 'recompose';
 import { find } from 'lodash';
 import React from 'react';
 
-import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
-import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
-import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
-import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
-import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
+import perBeaconTypeConfigs from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
+import BeaconsPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/BeaconsPresenter';
+// TODO
+// import { pageLoadViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
+import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+// TODO
+// import PageLoadView from 'in-mobile-apps/analyze/PageLoadView/PageLoadView';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 const defaultOrderBy = 'beacon.timestamp';
@@ -28,7 +30,7 @@ export default compose(
         }
       }
 
-      return getWebsiteBeacons({
+      return getMobileAppBeacons({
         pagination: {
           cursor,
           retrievalSize: 50
@@ -48,7 +50,7 @@ export default compose(
 function RawCalls(props) {
   return (
     <Switch>
-      <Route path={pageLoadViewPathFullyQualified} render={() => <PageLoadView {...props} />} />
+      {/*TODO <Route path={pageLoadViewPathFullyQualified} render={() => <PageLoadView {...props} />} />*/}
       <Route path="*" render={() => <BeaconsPresenter {...props} />} />
     </Switch>
   );
