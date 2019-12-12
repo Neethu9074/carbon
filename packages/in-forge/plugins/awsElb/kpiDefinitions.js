@@ -1,1 +1,14 @@
-export default [];
+import { bytes } from 'in-services/formatters/number';
+
+export default [
+  {
+    label: 'Processed Bytes',
+    metric: 'processed_bytes',
+    formatter: bytes.compact
+  },
+  {
+    label: 'New Flow Count',
+    metric: 'new_flow_count',
+    formatter: bytes.compact
+  }
+];

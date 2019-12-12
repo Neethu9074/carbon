@@ -1,1 +1,15 @@
-export default [];
+import { healthFormatter } from 'in-forge/plugins/ceph/Dashboard/Content';
+import { bytes } from 'in-services/formatters/number';
+
+export default [
+  {
+    label: 'Overall Status',
+    metric: 'overall_status',
+    formatter: healthFormatter
+  },
+  {
+    label: 'Active Monitors',
+    metric: 'num_active_mons',
+    formatter: bytes.compact
+  }
+];
