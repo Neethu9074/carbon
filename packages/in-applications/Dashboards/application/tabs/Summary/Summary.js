@@ -16,10 +16,13 @@ export default function Summary({
   applicationId,
   endpointId,
   serviceId,
-  boundaryScope,
   onBoundaryStateChange,
-  defaultBoundaryScope
+  data: application,
+  urlBoundaryScope
 }) {
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const defaultBoundaryScope = boundaryScope;
+
   const filter = {
     timeConfig,
     endpoint: endpointId,

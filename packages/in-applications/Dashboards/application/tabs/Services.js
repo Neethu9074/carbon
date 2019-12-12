@@ -196,13 +196,16 @@ function ServiceList(props) {
     applicationId,
     serviceId,
     endpointId,
-    boundaryScope,
     onBoundaryStateChange,
-    defaultBoundaryScope,
     endpointTypes,
     technologies,
-    setFilter
+    setFilter,
+    data: application,
+    urlBoundaryScope
   } = props;
+
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const defaultBoundaryScope = boundaryScope;
 
   const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
 

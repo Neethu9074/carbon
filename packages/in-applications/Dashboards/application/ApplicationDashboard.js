@@ -3,10 +3,8 @@ import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
@@ -31,10 +29,9 @@ export default compose(
     ],
     reducerName: 'onBoundaryStateChange'
   }),
-  connectTo(({ appId }) => ({
-    timeConfig: timeConfig$,
-    result: getApplication({ id: appId })
-  }))
+  connectTo({
+    timeConfig: timeConfig$
+  })
 )(ApplicationDashboard);
 function ApplicationDashboard({
   onBoundaryStateChange,
@@ -43,38 +40,28 @@ function ApplicationDashboard({
   serviceId,
   endpointId,
   location,
-  timeConfig,
-  result
+  timeConfig
 }) {
-  const isLoading = get(result, ['progress', 'loading']);
-
-  if (isLoading) {
-    return <LoadingCallDetails progress={result.progress} />;
-  }
-
-  const hasErrors = get(result, ['errors', 'length'], 0) > 0;
-  if (hasErrors) {
-    return <ErroneousResultPresenter errors={result.errors} />;
-  }
-
-  const application = result.data;
   const props = {
     applicationId: appId,
-    result,
     serviceId,
     endpointId,
     viewPath: applicationDashboard,
     onBoundaryStateChange,
     timeConfig,
-    defaultBoundaryScope: application.boundaryScope,
-    boundaryScope: urlBoundaryScope || application.boundaryScope,
-    data: application,
-    application: application
+    urlBoundaryScope
   };
+
   return (
     <>
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
-      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
+      <TabView
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={props}
+        result$={getApplication({ id: appId })}
+      />
       <Footer />
     </>
   );

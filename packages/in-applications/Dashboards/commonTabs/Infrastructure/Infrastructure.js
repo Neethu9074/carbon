@@ -190,15 +190,18 @@ function Infrastructure({
   serviceId,
   endpointId,
   timeConfig,
-  boundaryScope,
   onBoundaryStateChange,
-  defaultBoundaryScope,
   selectedType,
-  setType
+  setType,
+  urlBoundaryScope,
+  data: application
 }) {
   if (!entity) {
     return null;
   }
+
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const defaultBoundaryScope = boundaryScope;
   const buttonPropsList = [];
 
   // in the application infra view, show all tabs, because we do not know the type of all entities

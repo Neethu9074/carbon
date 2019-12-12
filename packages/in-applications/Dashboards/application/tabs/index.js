@@ -1,5 +1,5 @@
-import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
+import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';

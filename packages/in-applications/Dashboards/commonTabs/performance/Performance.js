@@ -8,7 +8,10 @@ import DatabaseSections from 'in-applications/Dashboards/commonComponents/databa
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 
-export default function PerformanceTab({ boundaryScope, onBoundaryStateChange, defaultBoundaryScope, ...props }) {
+export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const defaultBoundaryScope = boundaryScope;
+
   return (
     <Switch>
       <Route

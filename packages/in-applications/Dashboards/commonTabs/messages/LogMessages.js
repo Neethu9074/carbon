@@ -14,7 +14,10 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null,
     endpointName: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : null
   }),
-  function LogMessages({ boundaryScope, onBoundaryStateChange, defaultBoundaryScope, ...props }) {
+  function LogMessages({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
+    const boundaryScope = urlBoundaryScope || application.boundaryScope;
+    const defaultBoundaryScope = boundaryScope;
+
     return (
       <Fragment>
         <InboundOrAllCallsChoiceHorizontal
