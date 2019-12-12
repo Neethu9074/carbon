@@ -1,0 +1,50 @@
+@import '~in-themes/active.less';
+
+:local {
+  .summary {
+    color: @lib__colors__N600Light;
+  }
+
+  pre.meta {
+    max-height: 100%;
+    padding: 1rem;
+  }
+
+  .address {
+    padding: 1rem 1rem 0;
+  }
+
+  .city {
+    display: block;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .countryAndContinent {
+    font-size: .875rem;
+    padding: 0.3rem 0 0;
+    display: block;
+  }
+
+  .metaCard {
+    max-height: 16.8rem;
+    height: 100%;
+  }
+
+  .browserItem {
+    position: relative;
+  }
+
+  .browserIcon {
+    width: 1.25rem;
+    position: absolute;
+    left: -1.65rem;
+    top: -0.2rem;
+    filter: saturate(0.3);
+    transition: filter 0.4s ease-in-out;
+
+    &:hover {
+      filter: saturate(1);
+    }
+  }
+}

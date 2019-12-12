@@ -1,0 +1,19 @@
+import { withProps } from 'recompose';
+
+import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/GroupMetricsChart';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import { number } from 'in-services/formatters/number';
+
+const countChartDefinition = {
+  label: 'Count',
+  key: 'beaconCount_SUM',
+  renderer: Renderer.stackedBar,
+  aggregation: 'SUM',
+  formatter: number.forcedCompact,
+  min: 0
+};
+
+export default withProps(({ metrics, availableMetrics }) => ({
+  groupNameProcessor: v => JSON.parse(v),
+  chartDefinitions: [countChartDefinition].concat(metricsChartDefinitions(metrics, availableMetrics))
+}))(GroupMetricsChart);

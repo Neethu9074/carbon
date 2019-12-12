@@ -5,21 +5,21 @@ import { get } from 'lodash';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
-// TODO quick filter bar
-// import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
+import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
 import MobileAppsBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppsBreadcrumb';
 import MobileAppBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppBreadcrumb';
+import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import ViewBreadcrumb from 'in-mobile-apps/breadcrumbs/ViewBreadcrumb';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import DashboardHeader from 'in-new-components/DashboardHeader';
-// TODO quick filter bar
-// import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
+import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
@@ -61,9 +61,8 @@ export default compose(
       });
     },
     timeConfig: getTimeConfig(location)
-  }))
-  // TODO quick filter abr
-  // tagFilterManipulators({ tagFiltersTrackers })
+  })),
+  tagFilterManipulators({ tagFiltersTrackers })
 )(MobileAppDashboard);
 
 function MobileAppDashboard({
@@ -102,36 +101,28 @@ function MobileAppDashboard({
     });
   }
 
-  // TODO quick filters
-  // const tagFilters =
-  props.tagFilters = customTagFilters.concat(implicitTagFilters);
-
-  const tabView = (
-    <TabView
-      result$={getMobileApp({
-        id: props.mobileAppId,
-        timeConfig: props.timeConfig
-      })}
-      HeaderComponent={Header}
-      location={location}
-      tabs={props.viewId ? viewTabs : mobileAppTabs}
-      tabChangeTracker={tabChange}
-      props={props}
-      withoutBreadcrumb
-      withProps={({ result }) => ({
-        mobileAppLabel: get(result, ['data', 'label'])
-      })}
-    />
-  );
-
-  let content =
-    // TODO quick filter
-    tabView;
+  const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   return (
     <Fragment>
       <Breadcrumbs items={getBreadcrumbs(props)} />
-      <Sticky header={<BreadcrumbHeader />}>{content}</Sticky>
+      <Sticky header={<BreadcrumbHeader />}>
+        <TabView
+          result$={getMobileApp({
+            id: props.mobileAppId,
+            timeConfig: props.timeConfig
+          })}
+          HeaderComponent={Header}
+          location={location}
+          tabs={props.viewId ? viewTabs : mobileAppTabs}
+          tabChangeTracker={tabChange}
+          props={{ ...props, tagFilters, customTagFilters }}
+          withoutBreadcrumb
+          withProps={({ result }) => ({
+            mobileAppLabel: get(result, ['data', 'label'])
+          })}
+        />
+      </Sticky>
       <Footer />
     </Fragment>
   );
@@ -139,13 +130,23 @@ function MobileAppDashboard({
 
 function Header(props) {
   return (
-    <DashboardHeader
-      {...props}
-      title={props.viewId ? 'View' : 'Mobile App'}
-      icon="lib_website"
-      label={props.viewId || get(props.result, ['data', 'label'])}
-      renderButtonLine={renderButtonLine}
-    />
+    <>
+      <DashboardHeader
+        {...props}
+        title={props.viewId ? 'View' : 'Mobile App'}
+        icon="lib_website"
+        label={props.viewId || get(props.result, ['data', 'label'])}
+        renderButtonLine={renderButtonLine}
+      />
+      <DashboardHeaderModule>
+        <QuickFilterBar
+          {...props}
+          tagFilters={props.tagFilters}
+          showClearFilters={props.customTagFilters.length > 0}
+          showSubdivisionSelector
+        />
+      </DashboardHeaderModule>
+    </>
   );
 }
 

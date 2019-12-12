@@ -1,0 +1,38 @@
+@import '~in-themes/active.less';
+
+:local {
+  .group {
+    padding: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
+
+  .pageName {
+    font-size: .875rem;
+    font-weight: 500;
+    color: @lib__colors__N600Light;
+    margin: 0 0 0 0.5rem;
+  }
+
+  .beacons {
+    margin: 1rem 0.5rem 0;
+  }
+
+  .pageIcon path {
+    fill: #A6A6A6;
+  }
+
+  .learnHow {
+    margin: 0 0 0 1rem;
+  }
+}

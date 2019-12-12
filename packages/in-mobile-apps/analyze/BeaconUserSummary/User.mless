@@ -1,0 +1,52 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .user {
+    display: flex;
+    display: flex;
+    align-items: center;
+    margin: 0 0 1.4rem;
+    border-bottom: 1px solid #D8D8D8;
+    padding: 0 0 1rem;
+  }
+
+  .avatar {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+  }
+
+  .info {
+    margin: 0 0 0 1.3rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .first {
+    font-weight: semibold;
+    font-size: 1.125rem;
+    max-width: 100%;
+    .ellipsis();
+  }
+
+  .second {
+    font-size: .875rem;
+    margin: 0.2rem 0 0;
+    max-width: 100%;
+    .ellipsis();
+  }
+
+  .third {
+    font-size: 0.675rem;
+    margin: 0.3rem 0 0;
+    max-width: 100%;
+    .ellipsis();
+  }
+
+  .noUserData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
