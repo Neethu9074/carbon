@@ -5,7 +5,7 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
@@ -28,6 +28,7 @@ import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 
@@ -42,12 +43,9 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon={boundaryScopes.info[item.application.boundaryScope].icon}
-          label={item.application.label}
-          href$={getApplicationDashboard(item.application.id)}
-        />
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },
