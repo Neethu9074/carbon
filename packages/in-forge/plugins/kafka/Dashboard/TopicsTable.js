@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 const cols = [
   {
@@ -37,7 +37,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesInPerSec`;
       },
-      getContent: bytesTwoDecimalPlaces,
+      getContent: bytesZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -53,7 +53,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesOutPerSec`;
       },
-      getContent: bytesTwoDecimalPlaces,
+      getContent: bytesZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -69,7 +69,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesRejectedPerSec`;
       },
-      getContent: bytesTwoDecimalPlaces,
+      getContent: bytesZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
