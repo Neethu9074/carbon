@@ -127,7 +127,7 @@ function EventViewComponent(props) {
     <Sticky
       header={
         <>
-          <DashboardHeader icon="lib_infrastructure" label="Events" title="Events" />
+          <DashboardHeader icon="lib_events_inverted" label="Events" title="Events" />
           <DashboardHeaderModule>
             <SearchBar />
           </DashboardHeaderModule>
