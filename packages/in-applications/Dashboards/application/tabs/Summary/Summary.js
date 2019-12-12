@@ -21,7 +21,7 @@ export default function Summary({
   urlBoundaryScope
 }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const defaultBoundaryScope = boundaryScope;
+  const defaultBoundaryScope = application.boundaryScope;
 
   const filter = {
     timeConfig,
