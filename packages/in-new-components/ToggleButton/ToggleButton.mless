@@ -7,16 +7,19 @@
   }
 
   .toggleButton {
-    height: 100%;
-    line-height: 1rem;
-    padding: 0 1.4rem 0 1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
+    height: 100%;
+    padding: 0 1.4rem 0 1rem;
+
+    background: @lib__colors__white;
+
     font-family: @font-family-sans-serif;
     font-weight: 600;
     font-size: 1rem;
+    line-height: 1rem;
     text-decoration: none;
 
     cursor: pointer;

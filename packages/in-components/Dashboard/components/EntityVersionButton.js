@@ -26,7 +26,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Ent
 
   return (
     <Button
-      kind="subtle"
+      kind="secondary"
       onClick={() => setActiveDialog(<VersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)}
     >
       Show snapshot versions

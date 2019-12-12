@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
@@ -126,13 +127,14 @@ function EventViewComponent(props) {
     <Sticky
       header={
         <>
-          <DashboardHeader theme={themes.dark} icon="lib_infrastructure" label="Events" title="Events" />
-          <DashboardHeaderModule theme={themes.dark}>
-            <SearchBar theme="dark" />
+          <DashboardHeader icon="lib_infrastructure" label="Events" title="Events" />
+          <DashboardHeaderModule>
+            <SearchBar />
           </DashboardHeaderModule>
-          <DashboardHeaderModule theme={themes.dark} withBottomBorder>
-            <ViewSwitcher selectedEventType={eventType} darkTheme />
+          <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>
+            <ViewSwitcher selectedEventType={eventType} />
           </DashboardHeaderModule>
+          {!eventId && <DashboardHeaderShadowModule />}
         </>
       }
     >

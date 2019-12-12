@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .wrapper {
-    background: @lib__colors__N800Dark;
-  }
-}

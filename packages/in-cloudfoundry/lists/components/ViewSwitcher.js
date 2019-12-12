@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 
@@ -14,11 +15,12 @@ export default function CloudfoundryViewSwitcher() {
         title="Applications"
         renderMetaInformation={renderMetaInformation}
       />
-      <DashboardHeaderModule withBottomBorder>
+      <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem icon="lib_cloudfoundry_application" label="Cloud Foundry Applications" isActive />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
+      <DashboardHeaderShadowModule />
     </>
   );
 }

@@ -14,6 +14,7 @@ import {
   analyzePath as profilingAnalyzePath
 } from 'in-profiling/navigation/paths';
 import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { customEventsInWebsiteMonitoringEnabled, profilingEnabled } from 'in-services/featureFlags';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-profiling/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
@@ -140,10 +141,9 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       {renderQuickFilterBar && (
-        <DashboardHeaderModule dropShadow withTopBorder={false}>
-          {renderQuickFilterBar()}
-        </DashboardHeaderModule>
+        <DashboardHeaderModule withTopBorder={false}>{renderQuickFilterBar()}</DashboardHeaderModule>
       )}
+      <DashboardHeaderShadowModule />
     </>
   );
 }

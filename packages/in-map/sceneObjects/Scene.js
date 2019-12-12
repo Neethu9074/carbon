@@ -14,7 +14,6 @@ import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { setDimensions } from 'in-map/stores/indexStore';
 import { debouncedResize$ } from 'in-services/browser';
-import theme from 'in-themes';
 
 export default class MainScene extends SceneObject {
   constructor(params) {
@@ -124,7 +123,7 @@ export default class MainScene extends SceneObject {
 
   onResize() {
     const canvas = this.canvas;
-    const height = window.innerHeight - theme.header.height * 2;
+    const height = window.innerHeight - 217;
     const width = document.body.clientWidth - 72;
 
     this.renderer.setSize(width, height);

@@ -3,7 +3,7 @@
 
 :local {
   .item {
-    max-width: 17rem;
+    max-width: 13.5625rem;
     display: block;
     font-weight: 400;
     font-size: 0.8rem;
@@ -18,8 +18,8 @@
     }
 
     &.active {
-     .label {
-      font-weight: bold;
+      .label {
+        font-weight: bold;
       }
     }
   }
@@ -33,7 +33,7 @@
   .secondRow {
     display: flex;
     justify-content: space-between;
-    margin: .3rem 0 0;
+    margin: 0.3rem 0 0;
     color: @lib__colors__N700Medium;
   }
 }
