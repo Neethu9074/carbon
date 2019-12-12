@@ -201,7 +201,6 @@ function Infrastructure({
   }
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const defaultBoundaryScope = boundaryScope;
   const buttonPropsList = [];
 
   // in the application infra view, show all tabs, because we do not know the type of all entities
@@ -243,7 +242,7 @@ function Infrastructure({
         <InboundOrAllCallsChoiceHorizontal
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={defaultBoundaryScope}
+          defaultBoundaryScope={application.boundaryScope}
         />
       )}
       <Table

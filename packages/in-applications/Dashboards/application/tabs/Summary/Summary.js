@@ -21,7 +21,6 @@ export default function Summary({
   urlBoundaryScope
 }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const defaultBoundaryScope = application.boundaryScope;
 
   const filter = {
     timeConfig,
@@ -36,7 +35,7 @@ export default function Summary({
       <InboundOrAllCallsChoiceHorizontal
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        defaultBoundaryScope={defaultBoundaryScope}
+        defaultBoundaryScope={application.boundaryScope}
       />
       <Row>
         <Col xs>

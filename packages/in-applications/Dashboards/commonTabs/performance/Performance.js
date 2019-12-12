@@ -10,7 +10,6 @@ import CommonPerformanceSections from './common/CommonPerformanceSections';
 
 export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-  const defaultBoundaryScope = boundaryScope;
 
   return (
     <Switch>
@@ -29,7 +28,7 @@ export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope
                 <InboundOrAllCallsChoiceHorizontal
                   boundaryScope={boundaryScope}
                   onBoundaryStateChange={onBoundaryStateChange}
-                  defaultBoundaryScope={defaultBoundaryScope}
+                  defaultBoundaryScope={application.boundaryScope}
                 />
               )}
               <CommonPerformanceSections boundaryScope={boundaryScope} {...props} />

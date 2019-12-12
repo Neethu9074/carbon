@@ -16,14 +16,13 @@ export default connectTo(
   }),
   function ErrorMessages({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
-    const defaultBoundaryScope = boundaryScope;
 
     return (
       <Fragment>
         <InboundOrAllCallsChoiceHorizontal
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={defaultBoundaryScope}
+          defaultBoundaryScope={application.boundaryScope}
         />
         <ErrorMessagesTable boundaryScope={boundaryScope} {...props} />
       </Fragment>
