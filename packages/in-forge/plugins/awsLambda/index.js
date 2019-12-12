@@ -1,8 +1,8 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from './metricDefinitions';
-import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
+import metricDefinitions from 'in-forge/plugins/awsLambda/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/awsLambda/iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
 
 // The legacy AWS Lambda plug-in, replaced by awsLambdaVersion. This plug-in was removed in release 166. We need to keep
 // it until the last entity with plugin ID com.instana.forge.hardware.virtual.aws.lambda.AwsLambda has been removed due
@@ -14,18 +14,18 @@ import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
 // technology tag).
 registerSnapshotDefinition({
   plugin: plugins.awsLambda,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-
   pluginName: {
     singular: 'AWS Lambda',
     plural: 'AWS Lambdas'
   },
-  getLabel(snapshot) {
-    return snapshot.getIn(['data', 'name'], '');
-  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'AWS Lambda'
+  },
+
+  getLabel(snapshot) {
+    return snapshot.getIn(['data', 'name'], '');
   }
 });

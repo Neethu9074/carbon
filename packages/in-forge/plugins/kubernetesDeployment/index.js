@@ -1,17 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/kubernetesDeployment/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/kubernetesDeployment/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/kubernetesDeployment/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import kpiDefinitions from 'in-forge/plugins/kubernetesDeployment/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesDeployment,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'Kubernetes Deployment',
     plural: 'Kubernetes Deployments'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

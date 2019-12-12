@@ -1,22 +1,21 @@
+import metricDefinitions from 'in-forge/plugins/prometheus/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/prometheus/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
+import iconSvgPath from 'in-forge/plugins/prometheus/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/prometheus';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.prometheus,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-  supportsCodeView,
-  getCodeView,
   pluginName: {
     singular: 'Prometheus App',
     plural: 'Prometheus Apps'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  getCodeView,
+  supportsCodeView,
   technologyDescriptor: {
     label: 'Prometheus'
   }

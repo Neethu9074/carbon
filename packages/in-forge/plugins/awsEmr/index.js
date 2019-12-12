@@ -1,18 +1,16 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import metricDefinitions from 'in-forge/plugins/awsEmr/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsEmr/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/awsEmr/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEmr,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-
   pluginName: {
     singular: 'AWS EMR',
     plural: 'AWS EMRs'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

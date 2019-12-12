@@ -1,19 +1,18 @@
-import kpiDefinitions from 'in-forge/plugins/postgreSqlDatabase';
+import metricDefinitions from 'in-forge/plugins/postgreSqlDatabase/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/postgreSqlDatabase/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/postgreSqlDatabase/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.postgreSqlDatabase,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'PostgreSQL DB',
     plural: 'PostgreSQL DBs'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'PostgreSQL'
   }

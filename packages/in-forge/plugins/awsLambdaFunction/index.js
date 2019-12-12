@@ -1,7 +1,7 @@
+import kpiDefinitions from 'in-forge/plugins/awsLambdaFunction/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/awsLambdaFunction/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
-import kpiDefinitions from 'in-forge/plugins/awsLambdaFunction/kpiDefinitions';
 
 /**
  * A Lambda function is mostly a container for individual versions of that function. The actual meat (metrics, chart and
@@ -9,11 +9,10 @@ import kpiDefinitions from 'in-forge/plugins/awsLambdaFunction/kpiDefinitions';
  */
 registerSnapshotDefinition({
   plugin: plugins.awsLambdaFunction,
-  iconSvgPath,
-  kpiDefinitions,
-
   pluginName: {
     singular: 'AWS Lambda Function',
     plural: 'AWS Lambda Functions'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions
 });

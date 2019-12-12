@@ -1,17 +1,16 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
 import kpiDefinitions from 'in-forge/plugins/nats/kpiDefinitions';
-
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/nats/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nats,
-  iconSvgPath,
-  kpiDefinitions,
   pluginName: {
     singular: 'NATS',
     plural: 'NATS'
   },
+  iconSvgPath,
+  kpiDefinitions,
   technologyDescriptor: {
     label: 'NATS'
   }

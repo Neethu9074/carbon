@@ -1,24 +1,22 @@
 import { Map } from 'immutable';
 
+import metricDefinitions from 'in-forge/plugins/containerd/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/containerd/kpiDefinitions';
 import tableDefinition from 'in-forge/plugins/containerd/tableDefinition';
+import iconSvgPath from 'in-forge/plugins/containerd/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import kpiDefinitions from 'in-forge/plugins/containerd/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.containerd,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-  tableDefinition,
-
   pluginName: {
     singular: 'Containerd Container',
     plural: 'Containerd Containers'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  tableDefinition,
 
   getContext(snapshot) {
     return Map({

@@ -1,19 +1,18 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import metricDefinitions from 'in-forge/plugins/nginx/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/nginx/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/nginx/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nginx,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'Nginx Server',
     plural: 'Nginx Servers'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'Nginx'
   }

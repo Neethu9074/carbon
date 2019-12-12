@@ -1,20 +1,19 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import metricDefinitions from 'in-forge/plugins/awsEc/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsEc/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/awsEc/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEc,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-
   pluginName: {
     singular: 'AWS EC',
     plural: 'AWS ECs'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+
   getLabel(snapshot) {
     const clusterId = snapshot.getIn(['data', 'cache_cluster_id'], '');
     const engine = snapshot.getIn(['data', 'cache_engine'], '');

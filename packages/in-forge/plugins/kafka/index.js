@@ -1,20 +1,19 @@
+import metricDefinitions from 'in-forge/plugins/kafka/metricDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
 import kpiDefinitions from 'in-forge/plugins/kafka/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/kafka/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kafka,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-  supportsCodeView,
-  getCodeView,
   pluginName: {
     singular: 'Kafka Node',
     plural: 'Kafka Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  getCodeView,
+  supportsCodeView
 });

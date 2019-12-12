@@ -1,21 +1,19 @@
+import metricDefinitions from 'in-forge/plugins/mule/metricDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
 import kpiDefinitions from 'in-forge/plugins/mule/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/mule/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mule,
-
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-  supportsCodeView,
-  getCodeView,
   pluginName: {
     singular: 'Mule ESB',
     plural: 'Mule ESB'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  getCodeView,
+  supportsCodeView
 });

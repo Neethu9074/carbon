@@ -9,10 +9,10 @@ import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import zosIconSvgPath from 'in-forge/plugins/host/icons/zosIconPath';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition';
 import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
+import kpiDefinitions from 'in-forge/plugins/host/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
-import kpiDefinitions from 'in-forge/plugins/host/kpiDefinitions';
 
 const linuxPlugin = plugins.host + '_linux';
 const zosPlugin = plugins.host + '_zos';
@@ -31,7 +31,6 @@ registerSnapshotDefinition({
   tableDefinition,
   kpiDefinitions,
   metricDefinitions,
-
   icons: {
     [plugins.host]: linuxIconSvgPath,
     [linuxPlugin]: linuxIconSvgPath,

@@ -1,24 +1,22 @@
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
+import metricDefinitions from 'in-forge/plugins/garden/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/garden/tableDefinition';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
 import kpiDefinitions from 'in-forge/plugins/garden/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/garden/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.garden,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-  tableDefinition,
-
   pluginName: {
     singular: 'Garden Container',
     plural: 'Garden Containers'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  tableDefinition
 });
 
 addMaxValueLocator(/^memory\.usage/, snapshot => snapshot.getIn(['data', 'memory.limit']));

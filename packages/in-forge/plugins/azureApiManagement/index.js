@@ -1,9 +1,8 @@
+import metricDefinitions from 'in-forge/plugins/azureApiManagement/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/azureApiManagement/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/azureApiManagement/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import kpiDefinitions from 'in-forge/plugins/azureApiManagement/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.azureApiManagement,

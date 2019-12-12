@@ -1,17 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/varnish/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/varnish/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/varnish';
+import iconSvgPath from 'in-forge/plugins/varnish/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.varnish,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'Varnish Node',
     plural: 'Varnish Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

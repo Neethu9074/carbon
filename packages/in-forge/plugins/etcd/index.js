@@ -1,17 +1,16 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import metricDefinitions from 'in-forge/plugins/etcd/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/etcd/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/etcd/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.etcd,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'Etcd Node',
     plural: 'Etcd Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

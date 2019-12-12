@@ -1,22 +1,21 @@
-import kpiDefinitions from 'in-forge/plugins/tomcatApplicationContainer';
+import metricDefinitions from 'in-forge/plugins/tomcatApplicationContainer/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/tomcatApplicationContainer/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/tomcatApplicationContainer/iconPath';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.tomcatApplicationContainer,
-  iconSvgPath,
-  supportsCodeView,
-  getCodeView,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'Tomcat',
     plural: 'Tomcats'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  getCodeView,
+  supportsCodeView,
   technologyDescriptor: {
     label: 'Tomcat'
   }

@@ -1,18 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/statsd/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/statsd/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/statsd';
-import { plugins } from 'in-forge/constants';
-
 import iconSvgPath from 'in-sdk/unknownIconPath';
-
-import metricDefinitions from './metricDefinitions';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.statsd,
-  kpiDefinitions,
-  metricDefinitions,
-  iconSvgPath,
   pluginName: {
     singular: 'Statsd',
     plural: 'Statsd'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

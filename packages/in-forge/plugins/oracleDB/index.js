@@ -7,13 +7,13 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.oracleDB,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
   pluginName: {
     singular: 'OracleDB',
     plural: 'OracleDBs'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'OracleDB'
   }

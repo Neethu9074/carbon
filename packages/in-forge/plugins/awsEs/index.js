@@ -1,20 +1,19 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import metricDefinitions from 'in-forge/plugins/awsEs/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsEs/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/awsEs/iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEs,
-  iconSvgPath,
-  kpiDefinitions,
-  metricDefinitions,
-
   pluginName: {
     singular: 'AWS Elasticsearch',
     plural: 'AWS Elasticsearch'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'es_domain_name'], '');
   }

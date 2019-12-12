@@ -1,16 +1,16 @@
-import kpiDefinitions from 'in-forge/plugins/phpRuntimePlatform';
+import kpiDefinitions from 'in-forge/plugins/phpRuntimePlatform/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/phpRuntimePlatform/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.phpRuntimePlatform,
-  iconSvgPath,
-  kpiDefinitions,
   pluginName: {
     singular: 'PHP Runtime',
     plural: 'PHP Runtimes'
   },
+  iconSvgPath,
+  kpiDefinitions,
   technologyDescriptor: {
     label: 'PHP'
   }

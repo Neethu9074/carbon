@@ -1,9 +1,8 @@
+import metricDefinitions from 'in-forge/plugins/azureStorage/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/azureStorage/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/azureStorage/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-import kpiDefinitions from 'in-forge/plugins/azureStorage/kpiDefinitions';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.azureStorage,
