@@ -35,10 +35,7 @@ export const selectOptions = {
     { value: 'errors', label: 'Errors count' },
     { value: 'specificJsErrorRate', label: 'Errors rate' }
   ]),
-  [fieldNames.thresholdOperator]: Object.freeze([
-    { value: '>=', label: '≥ (recommended)' },
-    { value: '<=', label: '≤' }
-  ]),
+  [fieldNames.thresholdOperator]: Object.freeze([{ value: '>=', label: '≥' }]),
   [fieldNames.severity]: Object.freeze([
     { value: severityWarning, label: 'Warning' },
     { value: severityCritical, label: 'Critical' }
