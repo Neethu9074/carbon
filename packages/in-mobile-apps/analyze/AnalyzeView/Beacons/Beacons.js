@@ -11,7 +11,7 @@ import { sessionViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
-const defaultOrderBy = 'beacon.timestamp';
+const defaultOrderBy = 'mobileBeacon.timestamp';
 
 export default compose(
   cursorPaginated({
