@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-import { luceneEscapeString, requiresQuotes } from 'in-stores/search/manipulation';
 import { integrationKey } from 'in-integrations/logging/logdna/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { logDnaEnabled } from 'in-services/featureFlags';
@@ -38,31 +37,27 @@ export default connectTo({
 function constructLink(integration, props) {
   const { timeConfig } = props;
   const queryParameters = {
-    q: serializeQuery(props)
+    hosts: serializeHosts(props)
   };
 
-  if (!timeConfig.to) {
-    queryParameters.t = new Date(timeConfig.to).toUTCString();
+  if (timeConfig.to) {
+    queryParameters.t = new Date(timeConfig.to).toISOString();
   }
 
   return `https://app.logdna.com/${integration.accountId}/logs/view${toParams(queryParameters, '?', '&')}`;
 }
 
-function serializeQuery({ hostFqdn }) {
+function serializeHosts({ hostFqdn }) {
   let query = '';
 
   if (hostFqdn) {
-    if (requiresQuotes(hostFqdn)) {
-      query = ` host:"${luceneEscapeString(hostFqdn)}"`;
-    } else {
-      query = ` host:${luceneEscapeString(hostFqdn)}`;
-    }
+    query = hostFqdn;
   }
 
   return query.trim();
 }
 
 export function shouldShowButton(props) {
-  const query = serializeQuery(props);
+  const query = serializeHosts(props);
   return !isBlank(query);
 }

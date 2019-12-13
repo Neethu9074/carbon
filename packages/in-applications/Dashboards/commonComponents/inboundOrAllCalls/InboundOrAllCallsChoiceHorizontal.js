@@ -15,6 +15,10 @@ export default function InboundOrAllCallsChoiceHorizontal({
   onBoundaryStateChange,
   defaultBoundaryScope
 }) {
+  if (!boundaryScope || !defaultBoundaryScope) {
+    return null;
+  }
+
   const overrideInfo = (
     <Tooltip content={boundaryScopes.info[defaultBoundaryScope].overrideDefault} align="rightMiddle">
       <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />

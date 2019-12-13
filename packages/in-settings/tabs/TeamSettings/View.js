@@ -31,6 +31,7 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAuditLog,
+  teamSettingsLogManagementLogDna,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
@@ -52,6 +53,7 @@ import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alert
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
+import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
@@ -61,8 +63,8 @@ import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Ro
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
+import { isRbacEnabled, logDnaEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
@@ -251,13 +253,26 @@ function navigationTreeForRole(role): NavigationTree {
           path: teamSettingsLogManagementHumio,
           label: 'Humio',
           component: HumioPage
-        },
-        {
-          path: teamSettingsLogManagementSplunk,
-          label: 'Splunk',
-          component: SplunkPage
         }
       ]
+        .concat(
+          logDnaEnabled
+            ? [
+                {
+                  path: teamSettingsLogManagementLogDna,
+                  label: 'LogDNA',
+                  component: LogDnaPage
+                }
+              ]
+            : []
+        )
+        .concat([
+          {
+            path: teamSettingsLogManagementSplunk,
+            label: 'Splunk',
+            component: SplunkPage
+          }
+        ])
     });
   }
 
