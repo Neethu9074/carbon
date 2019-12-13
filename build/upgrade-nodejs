@@ -44,8 +44,8 @@ nvm alias default "$NEW_NODE_VERSION"
 rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
-# install yarn
-npm install -g yarn@1.10.1
+# install yarn and more current version of NPM
+npm install -g yarn@1.17.3 npm
 
 # install global tools
 yarn global add ec2c proxrox tldr diff-so-fancy
