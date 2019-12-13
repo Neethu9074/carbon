@@ -149,7 +149,7 @@ export default function ViewSwitcher({
           <View
             id="main-nav-mobile-apps"
             label="Mobile Apps"
-            icon="lib_website_inverted"
+            icon="lib_website_mobile_app"
             href$={getView(mobileAppMonitoringPath)}
             isActive$={all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v))}
             {...commonProps}

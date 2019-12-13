@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
-import User from 'in-websites/analyze/BeaconUserSummary/User';
+import User from 'in-mobile-apps/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
@@ -25,22 +24,23 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           <User beacon={beacon} beacons={beacons} />
 
           <Dl>
-            <Di title="Browser" ddClassName={locals.browserItem}>
-              {beacon.browserName &&
-                userAgentParserBrowserNameToIcon[beacon.browserName.toLowerCase()] && (
-                  <img
-                    src={userAgentParserBrowserNameToIcon[beacon.browserName.toLowerCase()]}
-                    alt={beacon.browserName}
-                    className={locals.browserIcon}
-                  />
-                )}
-              {[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}
-            </Di>
+            <Di title="Platform">{beacon.platform}</Di>
+            <Di title="Bundle">{beacon.bundleIdentifier}</Di>
+            <Di title="App">{[beacon.appBuild, beacon.appVersion].filter(Boolean).join(', ')}</Di>
             <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Screen Resolution">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
+            <Di title="Device">
+              {[beacon.deviceManufacturer, beacon.deviceModel, beacon.deviceHardware].filter(Boolean).join(', ')}
+            </Di>
+            <Di title="Viewport Resolution">
+              {[beacon.viewportWidth, beacon.viewportHeight].filter(Boolean).join('x')}
+            </Di>
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
             <Di title="IP Address">{beacon.userIp}</Di>
-            {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}
+            <Di title="Carrier">{beacon.carrier}</Di>
+            {beacon.connectionType && <Di title="Connection Type">{beacon.connectionType}</Di>}
+            {beacon.effectiveConnectionType && (
+              <Di title="Effective Connection Type">{beacon.effectiveConnectionType}</Di>
+            )}
           </Dl>
         </Card>
       </Col>

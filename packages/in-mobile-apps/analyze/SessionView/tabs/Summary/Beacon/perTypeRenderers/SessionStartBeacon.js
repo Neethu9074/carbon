@@ -1,0 +1,33 @@
+import React, { Fragment } from 'react';
+
+import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
+import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
+import Meta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Meta';
+import { Row, Col } from 'in-new-components/layout/Grid';
+
+export const getLabel = beacon => beacon.view;
+
+export const hideStartTimeTooltipField = true;
+
+export const getExtraTooltipFields = () => ({});
+
+export const LeftHeader = ({ beacon }) => (
+  <Fragment>
+    <KeyValueHeader label="Session Start" value={getLabel(beacon)} />
+  </Fragment>
+);
+
+export const Body = ({ beacon }) => {
+  return (
+    <Fragment>
+      <Row>
+        {Object.keys(beacon.meta).length > 0 && (
+          <Col lg={6}>
+            <BodyHeader>Meta</BodyHeader>
+            <Meta beacon={beacon} />
+          </Col>
+        )}
+      </Row>
+    </Fragment>
+  );
+};

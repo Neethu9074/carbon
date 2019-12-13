@@ -14,7 +14,7 @@ export default connectTo(
   }),
   function MobileAppBreadcrumb({ mobileApp, mobileAppId }) {
     return (
-      <Breadcrumb href$={getLinkToMobileApp(mobileAppId, { pageId: null })} label="Mobile App" icon="lib_website">
+      <Breadcrumb href$={getLinkToMobileApp(mobileAppId, { viewId: null })} label="Mobile App" icon="lib_mobile_app">
         {mobileApp.data && mobileApp.data.label}
       </Breadcrumb>
     );

@@ -41,7 +41,7 @@ export function TableRowColumns({ item }) {
       </Td>
 
       <Td>
-        <TableLinkWithIcon icon="lib_website" href$={getLinkToMobileApp(item.beacon.mobileAppId)}>
+        <TableLinkWithIcon icon="lib_mobile_app" href$={getLinkToMobileApp(item.beacon.mobileAppId)}>
           {item.beacon.mobileAppLabel}
         </TableLinkWithIcon>
       </Td>

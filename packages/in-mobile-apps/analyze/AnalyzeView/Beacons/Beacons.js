@@ -5,12 +5,10 @@ import React from 'react';
 
 import perBeaconTypeConfigs from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
 import BeaconsPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/BeaconsPresenter';
-// TODO
-// import { pageLoadViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-// TODO
-// import PageLoadView from 'in-mobile-apps/analyze/PageLoadView/PageLoadView';
+import { sessionViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 const defaultOrderBy = 'beacon.timestamp';
@@ -50,7 +48,7 @@ export default compose(
 function RawCalls(props) {
   return (
     <Switch>
-      {/*TODO <Route path={pageLoadViewPathFullyQualified} render={() => <PageLoadView {...props} />} />*/}
+      <Route path={sessionViewPathFullyQualified} render={() => <SessionView {...props} />} />
       <Route path="*" render={() => <BeaconsPresenter {...props} />} />
     </Switch>
   );

@@ -134,7 +134,7 @@ function Header(props) {
       <DashboardHeader
         {...props}
         title={props.viewId ? 'View' : 'Mobile App'}
-        icon="lib_website"
+        icon="lib_mobile_app"
         label={props.viewId || get(props.result, ['data', 'label'])}
         renderButtonLine={renderButtonLine}
       />

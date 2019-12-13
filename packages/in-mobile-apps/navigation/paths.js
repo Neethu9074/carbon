@@ -125,7 +125,7 @@ export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
     setOrDeleteMatrixKey(params, sessionViewPath, beaconIdMatrixParameter, beaconId);
     setOrDeleteMatrixKey(params, sessionViewPath, beaconTimestampMatrixParameter, beaconTimestamp);
 
-    // make sure that there is no grouping as otherwise the page load cannot be loaded.
+    // make sure that there is no grouping as otherwise the session cannot be loaded.
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
   });
 }

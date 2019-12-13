@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
-import { getHighlighterId } from 'in-mobile-apps/analyze/PageLoadView/tabs/Summary/Beacon';
+import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
@@ -60,7 +60,7 @@ export function TableRowColumns({ item }) {
       </Td>
 
       <Td>
-        <TableLinkWithIcon icon="lib_website" href$={getLinkToMobileApp(item.beacon.mobileAppId)}>
+        <TableLinkWithIcon icon="lib_mobile_app" href$={getLinkToMobileApp(item.beacon.mobileAppId)}>
           {item.beacon.mobileAppLabel}
         </TableLinkWithIcon>
       </Td>

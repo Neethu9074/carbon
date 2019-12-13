@@ -89,13 +89,15 @@ export const MOBILE_APPS_ANALYZE_FILTER_REMOVE = 'mobileApps.analyze.filter.remo
 export const MOBILE_APPS_ANALYZE_FILTER_SET = 'mobileApps.analyze.filter.set';
 export const MOBILE_APPS_ANALYZE_GROUP_REMOVE = 'mobileApps.analyze.group.remove';
 export const MOBILE_APPS_ANALYZE_GROUP_SET = 'mobileApps.analyze.group.set';
-export const MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW = 'mobileApps.analyze.hideMobileAppDetailsInTraceView';
-export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD =
-  'mobileApps.analyze.navigateToBackendTraceFromPageLoad';
-export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE =
-  'mobileApps.analyze.navigateToPageLoadFromBackendTrace';
-export const MOBILE_APPS_ANALYZE_OPEN_PAGE_LOAD = 'mobileApps.analyze.openPageLoad';
-export const MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW = 'mobileApps.analyze.showMobileAppDetailsInTraceView';
+export const MOBILE_APPS_ANALYZE_HIDE_MOBILE_APP_DETAILS_IN_TRACE_VIEW =
+  'mobileApps.analyze.hideMobileAppDetailsInTraceView';
+export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_SESSION =
+  'mobileApps.analyze.navigateToBackendTraceFromSession';
+export const MOBILE_APPS_ANALYZE_NAVIGATE_TO_SESSION_FROM_BACKEND_TRACE =
+  'mobileApps.analyze.navigateToSessionFromBackendTrace';
+export const MOBILE_APPS_ANALYZE_OPEN_SESSION = 'mobileApps.analyze.openSession';
+export const MOBILE_APPS_ANALYZE_SHOW_MOBILE_APP_DETAILS_IN_TRACE_VIEW =
+  'mobileApps.analyze.showMobileAppDetailsInTraceView';
 export const MOBILE_APPS_DASHBOARD_FILTER_ADD = 'mobileApps.dashboard.filter.add';
 export const MOBILE_APPS_DASHBOARD_FILTER_CHANGE = 'mobileApps.dashboard.filter.change';
 export const MOBILE_APPS_DASHBOARD_FILTER_CLEAR = 'mobileApps.dashboard.filter.clear';

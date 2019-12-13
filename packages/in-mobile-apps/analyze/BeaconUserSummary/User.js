@@ -26,7 +26,7 @@ export default function User({ beacon, beacons }) {
           target="_blank"
           size="compact"
         >
-          Learn how to add user data
+          TODO link Learn how to add user data
         </Button>
       </div>
     );
