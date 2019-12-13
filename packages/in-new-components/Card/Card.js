@@ -90,7 +90,7 @@ Card.propTypes = {
   label: PropTypes.string,
   onHeaderBackgroundClicked: PropTypes.func,
   title: PropTypes.string,
-  titleSubText: PropTypes.string,
+  titleSubText: PropTypes.any,
   useMaxAvailableHeight: PropTypes.bool,
   withoutPadding: PropTypes.bool
 };
