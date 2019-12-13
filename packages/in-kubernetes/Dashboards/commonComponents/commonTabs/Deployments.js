@@ -17,7 +17,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
@@ -64,6 +64,7 @@ const columnDefinitions = [
           metrics={['availableReplicas', 'desiredReplicas']}
           labels={['Available', 'Desired']}
           timeWindowAggregation={null}
+          formatter={number.compact}
         />
       );
     }
