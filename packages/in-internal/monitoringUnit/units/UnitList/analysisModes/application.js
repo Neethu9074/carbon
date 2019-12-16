@@ -4,6 +4,7 @@ import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisMo
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage, number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import theme from 'in-themes';
 
 export default {
   name: 'Application',
@@ -11,6 +12,24 @@ export default {
   initialSortDirection: 'desc',
   cols: [
     unitColumn,
+    {
+      id: 'Appdata-processor Instances',
+      title: 'Appdata-processor Instances',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'appdata-processor.instances';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
     {
       id: 'spanDropping',
       title: 'Backend Dropped Spans',
@@ -84,6 +103,24 @@ export default {
       }
     },
     {
+      id: 'droppedSpansDueToBackpressure',
+      title: 'Dropped Spans Due To Consistent Dropping',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'appdata-processor.droppedSpansDueToConsistentDropping';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
       id: 'spanLatencyMean',
       title: 'Span Latency (Mean)',
       type: 'metric',
@@ -93,24 +130,6 @@ export default {
         },
         getMetricName() {
           return 'appdata-processor.spanLatency.mean';
-        },
-        getContent: millis.compact,
-        getTimeWindowAggregation(row) {
-          return row.metricAggregation;
-        },
-        forceTimeWindowAggregation: true
-      }
-    },
-    {
-      id: 'spanLatency50th',
-      title: 'Span Latency (50th)',
-      type: 'metric',
-      typeArgs: {
-        getSnapshotId(row) {
-          return row.id;
-        },
-        getMetricName() {
-          return 'appdata-processor.spanLatency.50th';
         },
         getContent: millis.compact,
         getTimeWindowAggregation(row) {
@@ -150,34 +169,35 @@ export default {
               max: 1,
               formatter: percentage.detailed,
               metrics: [`appdata-processor.spanDropping`],
-              labels: ['Backend Dropped Spans'],
-              type: 'stackedArea'
+              labels: ['Dropping rate'],
+              type: 'line'
             }}
-          />
-          <Chart
-            snapshotId={id}
-            timeConfig={timeConfig}
-            y1={{
+            y2={{
               min: 0,
               formatter: number.compact,
-              metrics: [`appdata-processor.processedSpans`],
-              labels: ['Processed Spans'],
+              metrics: [
+                `appdata-processor.processedSpans`,
+                `appdata-processor.droppedSpansDueToConfiguration`,
+                `appdata-processor.droppedSpansDueToConsistentDropping`,
+                `appdata-processor.droppedSpansDueToBackpressure`
+              ],
+              labels: [
+                'Processed',
+                'Dropped due to throttler',
+                'Dropped due to consistent dropping',
+                'Dropped due to backpressure'
+              ],
+              colors: [
+                theme.lib.colors.success,
+                theme.lib.colors.red800,
+                theme.lib.colors.orange800,
+                theme.lib.colors.yellow800
+              ],
               type: 'stackedArea'
             }}
           />
         </Columize>
         <Columize>
-          <Chart
-            snapshotId={id}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: [`appdata-processor.droppedSpansDueToConfiguration`],
-              labels: ['Dropped Spans due to Configuration'],
-              type: 'stackedArea'
-            }}
-          />
           <Chart
             snapshotId={id}
             timeConfig={timeConfig}
