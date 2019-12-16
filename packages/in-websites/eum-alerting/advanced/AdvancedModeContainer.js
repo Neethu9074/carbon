@@ -68,7 +68,7 @@ export default function AdvancedModeContainer({
                 />
               )}
               SlownessComponent={() => (
-                <ChartContainer headline="DOM Rendering Time (ms)" withBorder>
+                <ChartContainer headline="onLoad Time (ms)" withBorder>
                   <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} onChange={onChange} />
                 </ChartContainer>
               )}
