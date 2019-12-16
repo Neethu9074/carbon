@@ -6,7 +6,8 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
   number,
-  siPrefix
+  siPrefix,
+  bytes
 } from 'in-services/formatters/number';
 import { isWindows, isZos, isLinux, supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
@@ -97,7 +98,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="Memory Used">
+      <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -110,6 +111,23 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             labels: ['Used'],
             type: 'stackedArea'
           }}
+          y2={
+            isLinux(snapshot)
+              ? {
+                  min: 0,
+                  formatter: bytes.detailed,
+                  metrics: [
+                    'memory.swapTotal',
+                    'memory.swapFree',
+                    'memory.buffers',
+                    'memory.cached',
+                    'memory.available'
+                  ],
+                  labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
+                  type: 'stackedArea'
+                }
+              : undefined
+          }
         />
       </DashboardSection>
 
