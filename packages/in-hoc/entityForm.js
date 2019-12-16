@@ -157,10 +157,12 @@ export default function entityForm(ComposedComponent) {
       });
     };
 
-    onChange = (fieldName, value, updateFormDefinition) => {
+    onChange = (fieldName, value, updateFormDefinition, forceSetValue) => {
       const { entity } = this.state;
       let updatedForm = this.state.form;
-      if (Array.isArray(fieldName)) {
+      if (forceSetValue) {
+        updatedForm = updatedForm.put([fieldName], value);
+      } else if (Array.isArray(fieldName)) {
         for (let i = 0, length = fieldName.length; i < length; i++) {
           updatedForm = updatedForm.updateIn([fieldName[i]], setFieldValue.bind(null, value[i]));
         }
