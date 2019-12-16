@@ -4,8 +4,11 @@ import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsE
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
+import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
+import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
+import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
 import { scrollIntoView, getCoords } from 'in-services/util/dom';
 import SideNav from 'in-websites/eum-alerting/advanced/SideNav';
@@ -53,12 +56,22 @@ export default function AdvancedModeContainer({
           </ScrollStep>
           <ScrollStep id={navItems[1].label} title="Trigger: What do you want to be alerted on?">
             <AlertSelection form={form} onChange={onChange} />
-            <JsErrorSelection
+            <ChartSwitch
               form={form}
-              timeConfig={timeConfig}
-              onChange={onChange}
-              setJsErrorsListVisible={setSliderState}
-              granularity={granularity}
+              JsErrorsComponent={() => (
+                <JsErrorSelection
+                  form={form}
+                  timeConfig={timeConfig}
+                  onChange={onChange}
+                  setJsErrorsListVisible={setSliderState}
+                  granularity={granularity}
+                />
+              )}
+              SlownessComponent={() => (
+                <ChartContainer headline="DOM Rendering Time (ms)" withBorder>
+                  <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} onChange={onChange} />
+                </ChartContainer>
+              )}
             />
           </ScrollStep>
           <ScrollStep id={navItems[2].label} title="Alert Channels: Who needs to be alerted?">

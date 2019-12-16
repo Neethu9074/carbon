@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
+import JsErrorsAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChartWrapper';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import theme from 'in-themes';
@@ -10,7 +10,7 @@ import theme from 'in-themes';
 const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
 const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 
-export default function EumAlertingBarChart({
+export default function JsErrorsAlertingBarChart({
   threshold,
   timeConfig,
   tagFilters,
@@ -19,7 +19,7 @@ export default function EumAlertingBarChart({
   granularity
 }) {
   return (
-    <EumAlertingBarChartWrapper
+    <JsErrorsAlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       metricName={metricName}
@@ -65,7 +65,7 @@ export default function EumAlertingBarChart({
   );
 }
 
-EumAlertingBarChart.propTypes = {
+JsErrorsAlertingBarChart.propTypes = {
   errorFilter: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.oneOf(selectOptions[fieldNames.ruleMetricName].map(({ value }) => value)).isRequired,

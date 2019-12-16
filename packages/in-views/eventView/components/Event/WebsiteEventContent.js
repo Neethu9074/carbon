@@ -2,9 +2,9 @@ import React from 'react';
 
 import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AnalyzeJsErrorsButton from 'in-events/components/legacy/AnalyzeJsErrorsButton';
-import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -65,7 +65,7 @@ export default connectTo(
                 websiteLabel={websiteLabel}
               />
             </div>
-            <EumAlertingBarChart
+            <JsErrorsAlertingBarChart
               threshold={thresholdValue}
               timeConfig={timeConfig}
               tagFilters={tagFiltersWithWebsiteId}

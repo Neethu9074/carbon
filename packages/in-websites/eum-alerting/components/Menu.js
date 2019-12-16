@@ -10,7 +10,6 @@ export default function Menu({ addRightSeparator = false, itemLabels, itemClickT
   validateinitialItemSelected(initialItemSelected, itemLabels);
 
   const [itemSelected, setItemSelected] = useState(() => {
-    itemClickTracker(initialItemSelected, itemLabels[initialItemSelected]);
     return initialItemSelected;
   });
 

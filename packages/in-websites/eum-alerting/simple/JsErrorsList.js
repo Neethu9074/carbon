@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { operators } from 'in-analyze/applicationFilter';

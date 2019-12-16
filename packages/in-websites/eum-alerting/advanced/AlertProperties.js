@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/AlertConfigDialog';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import evaluateClassNames from 'in-services/util/classnames';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';

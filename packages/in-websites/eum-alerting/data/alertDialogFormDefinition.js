@@ -5,6 +5,7 @@ const severityWarning = 5;
 const severityCritical = 10;
 
 export const fieldNames = Object.freeze({
+  ruleAggregation: 'ruleAggregation',
   ruleAlertType: 'ruleAlertType',
   ruleOperator: 'ruleOperator',
   ruleValue: 'ruleValue',
@@ -35,7 +36,22 @@ export const selectOptions = {
     { value: 'errors', label: 'Errors count' },
     { value: 'specificJsErrorRate', label: 'Errors rate' }
   ]),
-  [fieldNames.thresholdOperator]: Object.freeze([{ value: '>=', label: '≥' }]),
+  [fieldNames.ruleAggregation]: Object.freeze([
+    { value: 'MEAN', label: 'MEAN' },
+    { value: 'MIN', label: 'MIN' },
+    { value: 'P25', label: 'P25' },
+    { value: 'P50', label: 'P50' },
+    { value: 'P75', label: 'P75' },
+    { value: 'P90', label: 'P90' },
+    { value: 'P95', label: 'P95' },
+    { value: 'P98', label: 'P98' },
+    { value: 'P99', label: 'P99' },
+    { value: 'MAX', label: 'MAX' }
+  ]),
+  [fieldNames.thresholdOperator]: Object.freeze([
+    { value: '>=', label: '≥ (recommended)' },
+    { value: '<=', label: '≤' }
+  ]),
   [fieldNames.severity]: Object.freeze([
     { value: severityWarning, label: 'Warning' },
     { value: severityCritical, label: 'Critical' }
@@ -59,6 +75,13 @@ export default function alertFormDefinition(alertFormValues = {}) {
   } = alertFormValues;
 
   let form = createMapForm()
+    .put(
+      fieldNames.ruleAggregation,
+      createField({
+        value: (rule && rule.aggregation) || selectOptions[fieldNames.ruleAggregation][0].value,
+        validator: notBlankValidator
+      })
+    )
     .put(
       fieldNames.ruleAlertType,
       createField({

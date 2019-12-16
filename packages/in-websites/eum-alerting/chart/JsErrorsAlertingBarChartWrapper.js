@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getWebsiteSpecificJsErrorRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetric';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -26,7 +26,7 @@ export default connectTo(
       result: websiteMetrics$.map(result => mergeResult(result, props.y1.threshold))
     };
   },
-  function EumAlertingBarChartWrapper(props) {
+  function JsErrorsAlertingBarChartWrapper(props) {
     enrichChartMetrics(props);
     return <ChartWrapper {...props} />;
   }
