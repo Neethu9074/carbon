@@ -11,7 +11,7 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';

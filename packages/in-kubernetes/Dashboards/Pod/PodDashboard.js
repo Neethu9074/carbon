@@ -8,7 +8,6 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
@@ -16,6 +15,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';

@@ -2,8 +2,8 @@ import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
@@ -12,7 +12,6 @@ import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracke
 import MobileAppsBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppsBreadcrumb';
 import MobileAppBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppBreadcrumb';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import ViewBreadcrumb from 'in-mobile-apps/breadcrumbs/ViewBreadcrumb';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -20,6 +19,7 @@ import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';

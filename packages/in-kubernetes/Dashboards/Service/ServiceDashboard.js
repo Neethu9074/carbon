@@ -10,13 +10,13 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';

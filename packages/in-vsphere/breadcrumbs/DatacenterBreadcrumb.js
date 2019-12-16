@@ -2,7 +2,7 @@ import React from 'react';
 
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 import connectTo from 'in-hoc/connectTo';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 export default function WebsiteBreadcrumb({ message }) {
   return (

@@ -6,12 +6,12 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';

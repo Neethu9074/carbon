@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

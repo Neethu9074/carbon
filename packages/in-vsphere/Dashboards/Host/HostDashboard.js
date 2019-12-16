@@ -3,13 +3,13 @@ import { get } from 'lodash';
 
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { hostDashboard } from 'in-vsphere/navigation/paths';
 import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Host/tabs/index';

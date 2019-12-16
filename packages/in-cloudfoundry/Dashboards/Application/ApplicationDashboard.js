@@ -8,7 +8,6 @@ import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfo
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { applicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { ApplicationBreadcrumbs } from 'in-cloudfoundry/breadcrumbs';
@@ -16,12 +15,14 @@ import tabs from 'in-cloudfoundry/Dashboards/Application/tabs/index';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
-import locals from './ApplicationDashboard.mless';
 import WithIcon from 'in-new-components/WithIcon';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
+
+import locals from './ApplicationDashboard.mless';
 
 export default function ApplicationDashboard({ location }) {
   const props = {

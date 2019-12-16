@@ -4,9 +4,9 @@ import React from 'react';
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationSwitcher from 'in-applications/breadcrumbs/ApplicationSwitcher';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import getApplications from 'in-subscription/application/getApplications';
 import getApplication from 'in-subscription/application/getApplication';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
 import connect from 'in-hoc/connectTo';
@@ -70,7 +70,6 @@ function ApplicationBreadcrumbWithSwitcher(props) {
         <Breadcrumb
           className={locals.wrapper}
           href$={getApplicationDashboard(applicationId, { boundaryScope })}
-          label={`Application (${applications.data.items.length})`}
           icon="lib_application"
           healthInfo={healthInfo}
         >

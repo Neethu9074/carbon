@@ -9,7 +9,6 @@ import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesName
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
@@ -19,6 +18,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';

@@ -1,9 +1,9 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper {
+  .collapsedBreadcrumb {
     &:hover {
-      .toggleIcon {
+      .expandIcon {
         fill: @lib__colors__N050;
       }
     }
@@ -14,13 +14,16 @@
     align-items: center;
   }
 
-  .appName {
-    margin-right: 0.25rem;
-    font-size: 0.875rem;
-    line-height: 0.875rem;
+  .expandIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N500;
   }
 
-  .toggleIcon {
-    fill: @lib__colors__N500;
+  .light {
+    opacity: 0.6;
+  }
+
+  .listBreadcrumb {
+    width: 100%;
   }
 }

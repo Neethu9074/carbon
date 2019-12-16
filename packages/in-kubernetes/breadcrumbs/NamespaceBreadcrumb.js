@@ -2,7 +2,7 @@ import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 import connectTo from 'in-hoc/connectTo';
 

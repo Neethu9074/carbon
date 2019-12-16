@@ -11,11 +11,11 @@ import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobil
 import BeaconsNavigator from 'in-mobile-apps/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-mobile-apps/analyze/SessionView/tabs';

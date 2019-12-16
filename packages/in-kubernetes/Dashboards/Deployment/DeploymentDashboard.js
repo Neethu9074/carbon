@@ -9,7 +9,6 @@ import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDep
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
@@ -18,6 +17,7 @@ import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { deploymentTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';

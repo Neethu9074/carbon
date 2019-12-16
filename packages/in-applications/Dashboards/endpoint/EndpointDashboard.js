@@ -8,13 +8,13 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';

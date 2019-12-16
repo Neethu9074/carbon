@@ -8,11 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './BreadcrumbHeader.mless';
 
-const separator = (
-  <span className={locals.chevron}>
-    <SvgIcon className={locals.chevronIcon} type="lib_arrow_expand_right" />
-  </span>
-);
+const separator = <SvgIcon className={locals.chevronIcon} type="lib_arrow_expand_right" size="s" />;
 
 export default connectTo(
   {
