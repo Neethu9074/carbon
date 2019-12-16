@@ -49,6 +49,7 @@ export default connectTo({
 })(AnalyzeHeader);
 
 function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
+  dataSource = dataSource || {};
   return (
     <>
       <DashboardHeader
@@ -193,7 +194,6 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
 
 function getProps(type, expectedProductArea, { dataSource, productArea }) {
   return {
-    icon: getIconByType(type, expectedProductArea),
     label: getLabelByType(type, expectedProductArea),
     isActive: dataSource === type && expectedProductArea === productArea
   };
