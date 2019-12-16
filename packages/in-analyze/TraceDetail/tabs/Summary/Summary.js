@@ -3,6 +3,7 @@ import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
+import MobileAppMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/MobileAppMonitoringData';
 import ErroneousTraceIndicator from 'in-analyze/TraceDetail/components/ErroneousTraceIndicator';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -161,6 +162,7 @@ class Summary extends React.Component {
           </Row>
 
           <WebsiteMonitoringData traceId={traceId} startTime={trace.startTime} />
+          <MobileAppMonitoringData traceId={traceId} startTime={trace.startTime} />
 
           {!isLargeTrace && (
             <Row>

@@ -1,41 +1,27 @@
 import React, { Fragment } from 'react';
 
-import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
-import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
-import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
-import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
+import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
+import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
+import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
+import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import { explanations } from 'in-websites/cacheInteractionTypes';
-import { getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
 
-export default function BeaconDetails({ beacon }) {
+export default function MobileAppBeaconDetails({ beacon }) {
   const type = getType(beacon);
   const typeDefinition = types[type];
 
   const hasTransferSize = beacon.transferSize >= 0;
   const hasEncodedBodySize = beacon.encodedBodySize >= 0;
   const hasDencodedBodySize = beacon.decodedBodySize >= 0;
-  const hasCacheInteraction = !!explanations[beacon.cacheInteraction];
-  const hasNetworkInsights = hasTransferSize || hasEncodedBodySize || hasDencodedBodySize || hasCacheInteraction;
+  const hasNetworkInsights = hasTransferSize || hasEncodedBodySize || hasDencodedBodySize;
 
   return (
     <Fragment>
       <Dl>
-        <Di title="Window Location">
-          <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
-            {beacon.locationUrl}
-          </a>
-        </Di>
-        {beacon.type === 'resourceLoad' && (
-          <Di title="Resource URI">
-            <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
-              {beacon.httpCallUrl}
-            </a>
-          </Di>
-        )}
         {beacon.type === 'httpRequest' && (
           <Di title="HTTP Call URI">
             <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
@@ -52,7 +38,6 @@ export default function BeaconDetails({ beacon }) {
         <Fragment>
           <BodyHeader>Network Insights</BodyHeader>
           <Dl>
-            <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
             {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
             {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
             {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
@@ -61,8 +46,8 @@ export default function BeaconDetails({ beacon }) {
       )}
       <Button
         onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
-        href$={getLinkToPageLoad({
-          pageLoadId: beacon.pageLoadId,
+        href$={getLinkToSession({
+          sessionId: beacon.sessionId,
           beaconTimestamp: beacon.timestamp
         })}
         kind="primary"
