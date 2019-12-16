@@ -146,8 +146,10 @@ export default function ServiceComponent({ call, beacon }) {
                 {sourceService.id === 'ROOT' &&
                   !beacon && (
                     <ExpandableGroup title="Details" defaultExpanded>
-                      <p>Instana is not tracing the source of this call.</p>
-                      <p>The first data about this trace are collected from the destination.</p>
+                      <p>
+                        The source of this call has not been traced and as a result no information can be provided about
+                        the source. All information shown about this call is provided by the destination.
+                      </p>
                     </ExpandableGroup>
                   )}
                 {exitSpan &&
