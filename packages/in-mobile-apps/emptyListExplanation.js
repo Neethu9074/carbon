@@ -1,3 +1,3 @@
-import changeExplanation from 'in-mobile-apps/emptyListExplanation';
+import changeExplanation from 'in-websites/emptyListExplanation';
 
 export default changeExplanation;
