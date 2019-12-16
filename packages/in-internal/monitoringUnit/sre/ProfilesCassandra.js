@@ -21,31 +21,31 @@ import {
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    metricsNodes: getCassandraWithContext('entity.host.name:"cassandra-*" OR entity.host.name:"metrics-cassandra-*"')
+    profilesNodes: getCassandraWithContext('entity.host.name:"profiles-cassandra-*"')
   },
-  function Overview({ metricsNodes, timeConfig }) {
-    if (metricsNodes.length === 0) {
+  function Overview({ profilesNodes, timeConfig }) {
+    if (profilesNodes.length === 0) {
       return <LoadingIndicator type="dark" />;
     }
 
-    metricsNodes = sort(metricsNodes);
-    const metricsNodeLabels = getLabels(metricsNodes, /^((cassandra|metrics-cassandra)-\d+).*$/i);
+    profilesNodes = sort(profilesNodes);
+    const profilesNodeLabels = getLabels(profilesNodes, /^((profiles-cassandra)-\d+).*$/i);
 
     return (
       <Row>
         <Col xs={12}>
-          <h2>Metrics Cassandra ({metricsNodes.length} nodes)</h2>
+          <h2>Profiles Cassandra ({profilesNodes.length} nodes)</h2>
 
           <DashboardSection title={`Writes`}>
             <Chart
-              snapshotIds={metricsNodes.map(r => r.cassandra.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
               minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: metricsNodes.map(() => `clientrequests.write.count`),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => `clientrequests.write.count`),
+                labels: profilesNodeLabels,
                 type: 'stackedArea'
               }}
             />
@@ -53,14 +53,14 @@ export default connectTo(
 
           <DashboardSection title={`Reads`}>
             <Chart
-              snapshotIds={metricsNodes.map(r => r.cassandra.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
               minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: metricsNodes.map(() => `clientrequests.read.count`),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => `clientrequests.read.count`),
+                labels: profilesNodeLabels,
                 type: 'stackedArea'
               }}
             />
@@ -68,13 +68,13 @@ export default connectTo(
 
           <DashboardSection title="Pending Compactions">
             <Chart
-              snapshotIds={metricsNodes.map(r => r.cassandra.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
               minRollup={5000}
               y1={{
                 min: 0,
-                metrics: metricsNodes.map(() => `compaction.pending`),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => `compaction.pending`),
+                labels: profilesNodeLabels,
                 type: 'line'
               }}
             />
@@ -82,13 +82,13 @@ export default connectTo(
 
           <DashboardSection title={`Network - data received`}>
             <Chart
-              snapshotIds={metricsNodes.map(r => r.host.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: bytesZeroDecimalPlaces,
-                metrics: metricsNodes.map(() => `ifs.eth0.rx.bytes`),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => `ifs.eth0.rx.bytes`),
+                labels: profilesNodeLabels,
                 type: 'line'
               }}
             />
@@ -96,13 +96,13 @@ export default connectTo(
 
           <DashboardSection title={`Network - data transmitted`}>
             <Chart
-              snapshotIds={metricsNodes.map(r => r.host.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: bytesZeroDecimalPlaces,
-                metrics: metricsNodes.map(() => `ifs.eth0.tx.bytes`),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => `ifs.eth0.tx.bytes`),
+                labels: profilesNodeLabels,
                 type: 'line'
               }}
             />
@@ -110,28 +110,28 @@ export default connectTo(
 
           <DashboardSection title={`CPU load`}>
             <Chart
-              snapshotIds={metricsNodes.map(r => r.host.get('id'))}
+              snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
               minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.detailed,
                 tooltipFormatter: number.detailed,
-                metrics: metricsNodes.map(() => 'load.1min'),
-                labels: metricsNodeLabels,
+                metrics: profilesNodes.map(() => 'load.1min'),
+                labels: profilesNodeLabels,
                 type: 'line'
               }}
             />
           </DashboardSection>
 
           <DashboardSection title={`CPU Usage`}>
-            <Table cols={hostTableCols} rows={metricsNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
+            <Table cols={hostTableCols} rows={profilesNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
           </DashboardSection>
 
           <DashboardSection title="Data mounts">
             <Table
               cols={volumeTableCols}
-              rows={getDataMountRows(metricsNodes, timeConfig)}
+              rows={getDataMountRows(profilesNodes, timeConfig)}
               getRowDetails={getFsDetails}
               maxItemsPerPage={15}
             />

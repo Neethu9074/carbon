@@ -115,7 +115,7 @@ const necessaryLoaders = [
     test: /\.js$/,
     loader: require.resolve('@storybook/source-loader'),
     exclude: [/node_modules/],
-    enforce: 'pre',
+    enforce: 'pre'
   }
 ];
 

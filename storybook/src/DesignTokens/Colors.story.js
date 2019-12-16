@@ -15,24 +15,15 @@ export const Colors = () => {
   return (
     <Root>
       <Palette title="Primary">
-        {[
-          ['primary1', theme.lib.colors.primary1],
-          ['primary2', theme.lib.colors.primary2]
-        ].map(mapToRect)}
+        {[['primary1', theme.lib.colors.primary1], ['primary2', theme.lib.colors.primary2]].map(mapToRect)}
       </Palette>
 
       <Palette title="Black & White">
-        {[
-          ['white', theme.lib.colors.white],
-          ['black', theme.lib.colors.black]
-        ].map(mapToRect)}
+        {[['white', theme.lib.colors.white], ['black', theme.lib.colors.black]].map(mapToRect)}
       </Palette>
 
       <Palette title="Success & Failure">
-        {[
-          ['success', theme.lib.colors.success],
-          ['failure', theme.lib.colors.failure]
-        ].map(mapToRect)}
+        {[['success', theme.lib.colors.success], ['failure', theme.lib.colors.failure]].map(mapToRect)}
       </Palette>
 
       <Palette title="Neutral">
@@ -81,10 +72,7 @@ export const Colors = () => {
       </Palette>
 
       <Palette title="Navy">
-        {[
-          ['navy800', theme.lib.colors.navy800],
-          ['navy900', theme.lib.colors.navy900]
-        ].map(mapToRect)}
+        {[['navy800', theme.lib.colors.navy800], ['navy900', theme.lib.colors.navy900]].map(mapToRect)}
       </Palette>
 
       <Palette title="Endpoint Type">

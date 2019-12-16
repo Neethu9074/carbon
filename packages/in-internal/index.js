@@ -24,9 +24,12 @@ import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcesso
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
 import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsights';
+import ProfilesCassandra from 'in-internal/monitoringUnit/sre/ProfilesCassandra';
+import MetricsCassandra from 'in-internal/monitoringUnit/sre/MetricsCassandra';
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
+import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
@@ -39,7 +42,6 @@ import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
-import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
@@ -94,7 +96,15 @@ export default function Internal() {
             component={wrapIninternalView(SelfserviceWorkerStats)}
           />
           <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
-          <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
+          <Route
+            path="/internal/monitoringUnit/sre/metricscassandra"
+            component={wrapIninternalView(MetricsCassandra)}
+          />
+          <Route path="/internal/monitoringUnit/sre/spanscassandra" component={wrapIninternalView(SpansCassandra)} />
+          <Route
+            path="/internal/monitoringUnit/sre/profilescassandra"
+            component={wrapIninternalView(ProfilesCassandra)}
+          />
           <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
           <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
           <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />

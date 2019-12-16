@@ -126,28 +126,29 @@ export default class Overlay extends React.Component {
 
     return (
       <Fragment>
-        {isOpen && this.wrapper && (
-          <OverlayMounter
-            id={id}
-            content={OverlayContent}
-            props={{
-              ...props,
-              close: this.close
-            }}
-            relativeTo={this.wrapper}
-            parentOverlay={this.parentOverlay}
-            kind={kind}
-            close={this.close}
-            delayedOpen={this.delayedOpen}
-            delayedClose={this.delayedClose}
-            autoOpen={autoOpen}
-            autoClose={autoClose}
-            withoutArrow={withoutArrow}
-            inContentArea={inContentArea}
-            align={align}
-            forceConfiguredAlignment={forceConfiguredAlignment}
-          />
-        )}
+        {isOpen &&
+          this.wrapper && (
+            <OverlayMounter
+              id={id}
+              content={OverlayContent}
+              props={{
+                ...props,
+                close: this.close
+              }}
+              relativeTo={this.wrapper}
+              parentOverlay={this.parentOverlay}
+              kind={kind}
+              close={this.close}
+              delayedOpen={this.delayedOpen}
+              delayedClose={this.delayedClose}
+              autoOpen={autoOpen}
+              autoClose={autoClose}
+              withoutArrow={withoutArrow}
+              inContentArea={inContentArea}
+              align={align}
+              forceConfiguredAlignment={forceConfiguredAlignment}
+            />
+          )}
         {content}
       </Fragment>
     );

@@ -13,8 +13,8 @@ export default function WaitStep({ mobileAppName }) {
       <Header>Working…</Header>
 
       <Paragraph>
-        We are preparing everything to monitor your mobile app <strong>{mobileAppName}</strong>. While we do this, add the
-        tracking script to your mobile app.
+        We are preparing everything to monitor your mobile app <strong>{mobileAppName}</strong>. While we do this, add
+        the tracking script to your mobile app.
       </Paragraph>
 
       <Actions>
