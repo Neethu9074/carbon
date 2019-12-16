@@ -91,5 +91,6 @@ function alertChannelSelectionTableActions(form, onChange) {
 
 SelectAlertChannel.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  setAlertChannelsVisible: PropTypes.func.isRequired
 };

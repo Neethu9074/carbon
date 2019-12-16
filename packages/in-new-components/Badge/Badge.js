@@ -26,8 +26,9 @@ function Badge({ children, className, color, kind = 'bold' }) {
 Badge.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  /** Color is background color */
   color: PropTypes.string,
-  kind: PropTypes.oneOf(['bold', 'light', 'inverted'])
+  kind: PropTypes.oneOf(['bold', 'inverted'])
 };
 
 Badge.defaultProps = {

@@ -68,7 +68,8 @@ SimpleAlertConfigDialogStep1.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  setJsErrorsListVisible: PropTypes.func.isRequired
 };
 
 function getIndexSelectedConf(form) {

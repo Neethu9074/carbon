@@ -1,27 +1,38 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
 import theme from 'in-themes';
 
-import Section from '../_helpers/Section';
-import Root from '../_helpers/Root';
+import Section from '../../stories/_helpers/Section';
+import Root from '../../stories/_helpers/Root';
 
-storiesOf('Utilities/Colors', module).add('colors', () => <Colors />);
+export default {
+  title: 'DesignTokens|Colors',
+  component: Colors
+};
 
-function Colors() {
+export const Colors = () => {
   return (
     <Root>
       <Palette title="Primary">
-        {[['primary1', theme.lib.colors.primary1], ['primary2', theme.lib.colors.primary2]].map(mapToRect)}
+        {[
+          ['primary1', theme.lib.colors.primary1],
+          ['primary2', theme.lib.colors.primary2]
+        ].map(mapToRect)}
       </Palette>
 
       <Palette title="Black & White">
-        {[['white', theme.lib.colors.white], ['black', theme.lib.colors.black]].map(mapToRect)}
+        {[
+          ['white', theme.lib.colors.white],
+          ['black', theme.lib.colors.black]
+        ].map(mapToRect)}
       </Palette>
 
       <Palette title="Success & Failure">
-        {[['success', theme.lib.colors.success], ['failure', theme.lib.colors.failure]].map(mapToRect)}
+        {[
+          ['success', theme.lib.colors.success],
+          ['failure', theme.lib.colors.failure]
+        ].map(mapToRect)}
       </Palette>
 
       <Palette title="Neutral">
@@ -70,7 +81,10 @@ function Colors() {
       </Palette>
 
       <Palette title="Navy">
-        {[['navy800', theme.lib.colors.navy800], ['navy900', theme.lib.colors.navy900]].map(mapToRect)}
+        {[
+          ['navy800', theme.lib.colors.navy800],
+          ['navy900', theme.lib.colors.navy900]
+        ].map(mapToRect)}
       </Palette>
 
       <Palette title="Endpoint Type">
@@ -80,7 +94,8 @@ function Colors() {
       </Palette>
     </Root>
   );
-}
+};
+
 function mapToRect(config) {
   return <Rect key={`${config[0]}_${config[1]}`} config={config} />;
 }

@@ -1,4 +1,3 @@
-/* global __HOT_RELOAD__: false */
 import { combineLatest } from 'reactive-observables';
 import { assign } from 'lodash';
 

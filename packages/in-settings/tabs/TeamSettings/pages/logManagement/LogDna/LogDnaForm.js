@@ -35,7 +35,7 @@ export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank })
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">Test your LogDNA link</Label>
-          <a href={logdnaUrl} target={'_blank'}>
+          <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
             {logdnaUrl}
           </a>
         </FormGroup>

@@ -49,6 +49,7 @@ module.exports = {
     path.join(__dirname, 'packages', '**', '*.js'),
     // Storybook
     path.join(__dirname, 'storybook', '**', '*.js'),
+    path.join(__dirname, 'storybook', '**', '*.mdx'),
     // as well as Micromustache library that doesn't expose commonjs browser distribution
     path.join(__dirname, 'node_modules', 'micromustache', '**', '*.js'),
     // Note that we deliberately do not transpile anything under node_modules. This is not

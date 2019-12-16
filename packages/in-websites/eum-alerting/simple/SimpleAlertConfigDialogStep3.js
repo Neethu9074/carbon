@@ -18,5 +18,6 @@ export default function SimpleAlertConfigDialogStep3({ form, onChange, setAlertC
 
 SimpleAlertConfigDialogStep3.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  setAlertChannelsVisible: PropTypes.func.isRequired
 };
