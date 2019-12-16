@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -7,7 +8,7 @@ import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 
-export default function Summary({ tagFilters, timeConfig }) {
+export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -56,6 +57,14 @@ export default function Summary({ tagFilters, timeConfig }) {
           />
         </Col>
       </Row>
+
+      {viewId == null && (
+        <Row>
+          <Col lg={12}>
+            <ViewsTopList tagFilters={tagFilters} timeConfig={timeConfig} mobileAppId={mobileAppId} />
+          </Col>
+        </Row>
+      )}
     </Fragment>
   );
 }
