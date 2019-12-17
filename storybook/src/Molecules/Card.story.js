@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from 'in-new-components/Card';
 import Button from 'in-new-components/Button/ButtonPresenter';
+import Card from 'in-new-components/Card';
 
 export default {
   title: 'Molecules|Cards/Card',
