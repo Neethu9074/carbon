@@ -65,6 +65,7 @@ const columnDefinitions = [
           labels={['Available', 'Desired']}
           timeWindowAggregation={null}
           formatter={number.compact}
+          transformer={number.compact}
         />
       );
     }
