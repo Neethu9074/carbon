@@ -18,13 +18,13 @@ import Effects from 'in-websites/WebsiteDashboard/components/GlobeView/component
 import { loadImage } from 'in-map/services/imageLoader';
 
 export default class GlobeScene {
-  constructor(globeView, getData$, overlay) {
+  constructor(globeView, getData$, getValue, overlay) {
     this.globeView = globeView;
-    this.initScene(getData$);
+    this.initScene(getData$, getValue);
     this.initControls(overlay);
   }
 
-  initScene(getData$) {
+  initScene(getData$, getValue) {
     const poi = (this.poi = new Object3D());
     const camera = (this.camera = new PerspectiveCamera(55, 1, 0.1, 10));
     camera.projection = new Matrix4();
@@ -62,7 +62,7 @@ export default class GlobeScene {
     });
 
     this.effects = new Effects(poi);
-    this.heatMapGlobe = new HeatMapGlobe(scene, getData$);
+    this.heatMapGlobe = new HeatMapGlobe(scene, getData$, getValue);
 
     const pointLight = new PointLight(0xffffff, 0.5, 8);
     pointLight.position.set(0, 0, 5);

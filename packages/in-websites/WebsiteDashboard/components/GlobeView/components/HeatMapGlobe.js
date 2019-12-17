@@ -9,7 +9,7 @@ import { rgbToHex } from 'in-services/formatters/color';
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 
 export default class HeatMapGlobe {
-  constructor(scene, getData$) {
+  constructor(scene, getData$, getValue) {
     this.scene = scene;
     this.properties$ = create();
 
@@ -38,7 +38,7 @@ export default class HeatMapGlobe {
           let min = null;
           let max = null;
           data.items.forEach(item => {
-            const value = item.pageLoads;
+            const value = getValue(item);
 
             if (min == null) {
               min = value;
@@ -54,13 +54,14 @@ export default class HeatMapGlobe {
           });
 
           for (let i = 0; i < data.items.length; i++) {
-            const { country, pageLoads } = data.items[i];
+            const { country } = data.items[i];
+            const value = getValue(data.items[i]);
             const countryDefinition = findCountryConfigByLabel(country);
             if (!countryDefinition) {
               continue;
             }
 
-            const intensity = Math.max(1, pageLoads - min) / Math.max(1, max - min);
+            const intensity = Math.max(1, value - min) / Math.max(1, max - min);
             const color = getHeatMapColor(intensity, lightGreenToDarkGreenRgb);
             this.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
 

@@ -2,12 +2,12 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
-import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
+import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobileAppCountryBreakdown';
+import TwoDMobileAppGeoMap from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/2DMobileAppGeoMap';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { websitePathFullyQualified } from 'in-websites/navigation/paths';
+import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import Button from 'in-new-components/MapControls/Button';
@@ -24,8 +24,8 @@ export default function Geography(props) {
   return (
     <WithEmptyStateFallback
       getHasDataToRender={() => getHasDataToRender(props)}
-      title="No page loads available"
-      explanation={`There were no page loads found in the selected time range${
+      title="No sessions available"
+      explanation={`There were no sessions found in the selected time range${
         tagFilters && tagFilters.length > 1 ? ` matching your filters` : ''
       }.`}
     >
@@ -34,7 +34,7 @@ export default function Geography(props) {
           render={height => (
             <Switch>
               <Route
-                path={`${websitePathFullyQualified}/geography/globe`}
+                path={`${mobileAppPathFullyQualified}/geography/globe`}
                 render={() => (
                   <div>
                     <GlobeView
@@ -42,12 +42,12 @@ export default function Geography(props) {
                       tagFilters={tagFilters}
                       timeConfig={timeConfig}
                       getData$={getData$}
-                      getValue={v => v.pageLoads}
+                      getValue={v => v.sessions}
                     />
                     <Link
                       className={locals.link}
                       href$={getModifiedUrlStream(
-                        params => (params.pathname = `${websitePathFullyQualified}/geography`)
+                        params => (params.pathname = `${mobileAppPathFullyQualified}/geography`)
                       )}
                     >
                       <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
@@ -57,10 +57,10 @@ export default function Geography(props) {
               />
 
               <Route
-                path={`${websitePathFullyQualified}/geography`}
+                path={`${mobileAppPathFullyQualified}/geography`}
                 render={() => (
                   <div>
-                    <TwoDWebsiteGeoMap
+                    <TwoDMobileAppGeoMap
                       tagFilters={tagFilters}
                       timeConfig={timeConfig}
                       height={height}
@@ -69,7 +69,7 @@ export default function Geography(props) {
                     <Tooltip content="Switch to 3D globe" align="leftMiddle">
                       <Button
                         href$={getModifiedUrlStream(
-                          params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
+                          params => (params.pathname = `${mobileAppPathFullyQualified}/geography/globe`)
                         )}
                         className={locals.to3D}
                         renderContent={() => <span>3D</span>}
@@ -89,15 +89,15 @@ export default function Geography(props) {
 }
 
 function getData$({ timeConfig, tagFilters }) {
-  const tagFiltersInclPageLoadFilter = tagFilters.concat({
-    name: 'beacon.type',
+  const tagFiltersInclSessionStartFilter = tagFilters.concat({
+    name: 'mobileBeacon.type',
     operator: 'EQUALS',
-    stringValue: 'pageLoad'
+    stringValue: 'sessionStart'
   });
 
-  return getWebsiteCountryBreakdown({
+  return getMobileAppCountryBreakdown({
     timeConfig,
-    tagFilters: tagFiltersInclPageLoadFilter,
+    tagFilters: tagFiltersInclSessionStartFilter,
     pagination: {
       page: 1,
       pageSize: 200

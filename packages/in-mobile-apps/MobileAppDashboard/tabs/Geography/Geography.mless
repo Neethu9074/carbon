@@ -1,0 +1,31 @@
+@import '~in-themes/active.less';
+
+:local {
+  @right: 1.5rem;
+
+  .wrapper {
+    position: relative;
+  }
+
+  .controlWrapperClassName {
+    position: absolute;
+    right: @right;
+    bottom: ~'calc((100% - 16px)/2)';
+  }
+
+  .to3D {
+    position: absolute;
+    bottom: ~'calc((100% - 95px)/2)';
+    right: @right;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: @lib__colors__N600Light;
+
+    &:hover {
+      color: @lib__colors__N800Dark;
+    }
+  }
+}
