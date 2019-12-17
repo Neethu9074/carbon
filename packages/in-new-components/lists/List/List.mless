@@ -15,15 +15,21 @@
     display: flex;
     flex-direction: column;
     list-style: none;
-
     transition: background 0.2s ease-in-out;
     background: @lib__colors__white;
+
     &:nth-child(even) {
       background: @lib__colors__N050;
     }
 
     &:nth-child(n + 2) {
       border-top: 1px solid @lib__colors__N400;
+    }
+  }
+
+  .link {
+    &:hover {
+      text-decoration: none;
     }
   }
 
