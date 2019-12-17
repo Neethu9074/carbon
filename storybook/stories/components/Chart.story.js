@@ -19,6 +19,7 @@ import Root from '../_helpers/Root';
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
+const oneDay = oneHour * 24;
 const now = Date.now();
 
 storiesOf('Components/Chart', module)
@@ -31,7 +32,8 @@ storiesOf('Components/Chart', module)
   .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
   .add('Gaps', () => <Gaps />)
   .add('Bar', () => <Bar />)
-  .add('Bar width baseline/threshold', () => <BarWithBaseline />)
+  .add('Bar with baseline/threshold', () => <BarWithBaseline />)
+  .add('Line with baseline', () => <LineWithBaseline />)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
   .add('StackedBar', () => <StackedBar />)
@@ -254,6 +256,9 @@ function BarWithBaseline() {
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             threshold,
+            getMax: metricsMaxValue => {
+              return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, threshold * 1.2) : metricsMaxValue;
+            },
             colors: [
               theme.lib.colors.blue800,
               theme.lib.colors.pink800,
@@ -274,6 +279,50 @@ function BarWithBaseline() {
           name="threshold"
           value={threshold}
           onChange={e => setThreshold(Number(e && e.target.value))}
+        />
+      </FormGroup>
+    </Root>
+  );
+}
+
+const metricsLineWithBaseline = [generateMetrics(144, 100, oneDay)];
+const baselineLineWithBaseline = generateBaselineForMetric(metricsLineWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
+function LineWithBaseline() {
+  const [sensitivity, setSensitivity] = useState(1.0);
+  return (
+    <Root>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneDay),
+          granularity: 10 * oneMinute,
+          y1: {
+            sensitivity,
+            getMax: metricsMaxValue => {
+              return metricsMaxValue; // TODO include sensitivity and baseline as well, not just the max-metric-value
+            },
+            colors: [
+              theme.lib.colors.blue800,
+              theme.lib.colors.pink800,
+              theme.lib.colors.red800,
+              theme.lib.colors.lightBlue800
+            ],
+            renderer: Renderer.lineWithBaseline,
+            metrics: metricsLineWithBaseline,
+            baseline: baselineLineWithBaseline,
+            labels: ['Data']
+          }
+        }}
+      />
+      <FormGroup>
+        <Label>Sensitivity</Label>
+        <Input
+          type="number"
+          min={0}
+          step={0.01}
+          name="sensitivity"
+          value={sensitivity}
+          onChange={e => setSensitivity(Number(e && e.target.value))}
         />
       </FormGroup>
     </Root>
@@ -769,12 +818,33 @@ function generateMetricsWithGaps(numMetrics, maxValue, windowSize) {
 }
 
 function generateMetrics(numMetrics, maxValue, windowSize) {
+  const granularity = windowSize / numMetrics;
   const metrics = [];
-  for (let i = numMetrics; i >= 0; i--) {
-    metrics[i] = [now - i * (windowSize / numMetrics), ((Math.random() * maxValue * 100) | 0) / 100];
+  for (let i = numMetrics - 1; i >= 0; i--) {
+    let timestamp = Math.floor((now - (i + 1) * (windowSize / numMetrics)) / granularity) * granularity;
+    metrics[i] = [timestamp, ((Math.random() * maxValue * 100) | 0) / 100];
   }
   metrics.sort((a, b) => compare(a[0], b[0]));
   return metrics;
+}
+
+function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviation, maxDeviationNoise) {
+  const to = metric[metric.length - 1][0];
+  const windowSize = to - metric[0][0];
+  const from = to - windowSize;
+  const baselineLength = windowSize / granularity + 1;
+  const baseline = [];
+  const startIdx = Math.floor(from / granularity) % baselineLength;
+  let idx = startIdx;
+  for (let i = 0; i < baselineLength; ++i) {
+    baseline[idx] = [
+      idx * granularity,
+      metric[i][1] + Math.random() * maxBaselineNoise,
+      deviation + Math.random() * maxDeviationNoise
+    ];
+    idx = (idx + 1) % baselineLength;
+  }
+  return baseline;
 }
 
 function generateTimeframe(windowSize) {
