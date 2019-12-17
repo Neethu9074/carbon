@@ -31,7 +31,7 @@ export const Li = connectTo(
     };
   },
   function Li(props) {
-    const { renderActions, children, onClick, size, renderNestedContent, href } = props;
+    const { renderActions, children, onClick, size, renderNestedContent, href, style } = props;
 
     const [open, setOpen] = useState(false);
 
@@ -65,13 +65,12 @@ export const Li = connectTo(
 
     return (
       <li
-        style={props.style ? props.style : null}
+        style={style ? style : null}
         className={evaluateClassNames({
           [locals.listItem]: true,
           [locals.clickable]: onClick || href,
           [locals.expanded]: open
         })}
-        href={href}
         onClick={onClick}
         onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
         tabIndex="0"
