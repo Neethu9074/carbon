@@ -3,6 +3,7 @@ import React from 'react';
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
+import SearchBar from 'in-components/SearchBar';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
@@ -30,6 +31,8 @@ export default connectTo(
             darkTheme
           />
         </SecondLevelNavigation>
+
+        <SearchBar theme="dark" />
       </div>
     );
   }

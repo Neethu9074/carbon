@@ -20,7 +20,6 @@ import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { timeConfig$ } from 'in-stores/time/config';
-import SearchBar from 'in-components/SearchBar';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
@@ -128,9 +127,6 @@ function EventViewComponent(props) {
       header={
         <>
           <DashboardHeader icon="lib_events_inverted" label="Events" title="Events" />
-          <DashboardHeaderModule>
-            <SearchBar />
-          </DashboardHeaderModule>
           <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>
             <ViewSwitcher selectedEventType={eventType} />
           </DashboardHeaderModule>
