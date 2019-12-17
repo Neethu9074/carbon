@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardNotification from 'in-components/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import getAgentResponse from 'in-subscription/agentResponse';
-import { number } from 'in-services/formatters/number';
+import { number, bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 
@@ -34,6 +34,16 @@ const cols = [
         return parseInt(row.activeParts, 10);
       },
       getContent: number.compact
+    }
+  },
+  {
+    title: 'Bytes on Disk',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return parseInt(row.bytesOnDisk, 10);
+      },
+      getContent: bytes.detailed
     }
   }
 ];
