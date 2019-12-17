@@ -57,7 +57,7 @@ export default function AdvancedModeContainer({
           <ScrollStep id={navItems[1].label} title="Trigger: What do you want to be alerted on?">
             <AlertSelection form={form} onChange={onChange} />
             <ChartSwitch
-              form={form}
+              alertType={form.get(fieldNames.ruleAlertType).value}
               JsErrorsComponent={() => (
                 <JsErrorSelection
                   form={form}
