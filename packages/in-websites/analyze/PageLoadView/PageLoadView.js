@@ -47,7 +47,9 @@ function PageLoadView(props) {
           typeLabel={dataSourceTitles[beaconType]}
           openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
           openItem={e => {
-            triggerHighlight(getHighlighterId(e.beacon.beaconId));
+            if (e.beacon.type !== 'pageLoad') {
+              triggerHighlight(getHighlighterId(e.beacon.beaconId));
+            }
             onChange({
               pageLoadId: e.beacon.pageLoadId,
               beaconId: e.beacon.beaconId

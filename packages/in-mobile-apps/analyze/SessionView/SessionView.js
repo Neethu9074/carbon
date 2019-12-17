@@ -47,7 +47,9 @@ function SessionView(props) {
           typeLabel={dataSourceTitles[beaconType]}
           openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
           openItem={e => {
-            triggerHighlight(getHighlighterId(e.beacon.beaconId));
+            if (e.beacon.type !== 'sessionStart') {
+              triggerHighlight(getHighlighterId(e.beacon.beaconId));
+            }
             onChange({
               sessionId: e.beacon.sessionId,
               beaconId: e.beacon.beaconId
