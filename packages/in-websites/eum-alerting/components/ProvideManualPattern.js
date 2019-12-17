@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList.js';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -12,7 +12,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
 
-const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
 export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (
@@ -26,7 +26,7 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
             name={fieldNames.ruleOperator}
             value={field.value}
             options={selectOptions[fieldNames.ruleOperator]}
-            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '', resetThresholdField)}
+            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '', doCalculateTresholdOnBackend)}
             defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
             clearable={false}
             searchable
@@ -44,7 +44,9 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
               name={fieldNames.ruleValue}
               rows="3"
               value={field.value}
-              onChange={e => onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', resetThresholdField)}
+              onChange={e =>
+                onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', doCalculateTresholdOnBackend)
+              }
               hasError={!field.valid && field.touched}
               maxLength={65536}
             />
@@ -57,7 +59,7 @@ export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsErr
                         form={form}
                         timeConfig={timeConfig}
                         onChange={(updatedForm, fieldName, message) =>
-                          onChange(updatedForm, fieldName, message, resetThresholdField)
+                          onChange(updatedForm, fieldName, message, doCalculateTresholdOnBackend)
                         }
                         slideOut={() => onSelectJsError({ isVisible: false })}
                       />

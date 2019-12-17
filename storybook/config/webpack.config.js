@@ -64,6 +64,20 @@ const necessaryLoaders = [
     ]
   },
   {
+    test: /\.md$/,
+    use: [
+      {
+        loader: 'html-loader'
+      },
+      {
+        loader: 'markdown-loader',
+        options: {
+          /* your options here */
+        }
+      }
+    ]
+  },
+  {
     test: /\.mmd$/,
     use: [
       {
@@ -86,11 +100,7 @@ const necessaryLoaders = [
     test: /\.mdx$/i,
     use: [
       {
-        loader: 'babel-loader',
-        // may or may not need this line depending on your app's setup
-        options: {
-          plugins: ['@babel/plugin-transform-react-jsx']
-        }
+        loader: 'babel-loader'
       },
       {
         loader: '@mdx-js/loader',
@@ -101,7 +111,8 @@ const necessaryLoaders = [
     ]
   },
   {
-    test: /\.story.js?$/,
+    // For the code view in the CSF (component story format)
+    test: /\.js$/,
     loader: require.resolve('@storybook/source-loader'),
     exclude: [/node_modules/],
     enforce: 'pre'

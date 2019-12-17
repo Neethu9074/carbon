@@ -5,7 +5,6 @@ import bar from 'in-components/Chart/renderer/bar';
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
     validateProps(config, colors);
-
     const xScale = config.scales.xBackBuffer;
     const yScale = config.scales.y1;
     const chartHeight = scale.getRangeFrom();

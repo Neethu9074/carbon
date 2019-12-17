@@ -2,19 +2,9 @@
 
 :local {
   .wrapper {
-    padding: 0.25rem 0.5rem;
-    border: 1px solid transparent;
-    border-radius: @lib__shapes__radius_medium;
-
     &:hover {
-      border: 1px solid @lib__colors__N700Medium;
-
       .toggleIcon {
-        fill: @lib__colors__N700Medium;
-      }
-
-      .appName {
-        color: @lib__colors__N700Medium;
+        fill: @lib__colors__N050;
       }
     }
   }
@@ -25,7 +15,6 @@
   }
 
   .appName {
-    color: @lib__colors__N500;
     margin-right: 0.25rem;
     font-size: 0.875rem;
     line-height: 0.875rem;

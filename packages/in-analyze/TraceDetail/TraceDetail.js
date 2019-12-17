@@ -2,10 +2,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AppNavigatorSplitScreen from 'in-analyze/TraceDetail/components/AppNavigatorSplitScreen/AppNavigatorSplitScreen';
-import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
-import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
+import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -13,7 +11,6 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
@@ -75,7 +72,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
         header={
           <DashboardHeader
             {...props}
-            icon={getIconByType(dataSource)}
+            icon={getIconByType(dataSource, 'application')}
             contextIcon="lib_analyze_inverted"
             renderContext={renderContext}
             label={getLabelByType(dataSource)}
@@ -105,26 +102,15 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
 
 function Header(props) {
   return (
-    <>
-      <Breadcrumbs
-        items={[
-          <Breadcrumb
-            label={getConfigByDataSource(props.filters.dataSource).breadcrumbLabel}
-            href$={getLinkToAnalyze()}
-          />,
-          <TraceDetailBreadcrumb traceId={props.traceId} isActive />
-        ]}
-      />
-      <DashboardHeader
-        {...props}
-        title="Trace"
-        icon="lib_application_trace"
-        label={get(props.result, ['data', 'label'])}
-        renderButtonLine={renderButtonLine}
-        renderMetaInformation={renderMetaInformation}
-        renderTimeSelection={renderTimeSelection}
-      />
-    </>
+    <DashboardHeader
+      {...props}
+      title="Trace"
+      icon="lib_application_trace"
+      label={get(props.result, ['data', 'label'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
+      renderTimeSelection={renderTimeSelection}
+    />
   );
 }
 

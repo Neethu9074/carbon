@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import connectTo from 'in-hoc/connectTo';
@@ -16,7 +17,7 @@ export default connectTo(
     return (
       <>
         <DashboardHeader icon="lib_kubernetes_inverted" label="Kubernetes" title="Kubernetes" />
-        <DashboardHeaderModule withBottomBorder>
+        <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = clusterListFullyQualified))}
@@ -32,6 +33,7 @@ export default connectTo(
             />
           </SecondLevelNavigation>
         </DashboardHeaderModule>
+        <DashboardHeaderShadowModule />
       </>
     );
   }

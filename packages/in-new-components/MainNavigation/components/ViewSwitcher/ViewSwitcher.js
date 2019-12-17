@@ -133,28 +133,7 @@ export default function ViewSwitcher({
         />
       )}
 
-      {hasWebsitesAccess && (
-        <View
-          id="main-nav-websites"
-          label="Websites"
-          icon="lib_website_inverted"
-          href$={getView(websiteMonitoringPath)}
-          isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
-          {...commonProps}
-        />
-      )}
-
-      {mobileAppMonitoringEnabled &&
-        hasMobileAppsAccess && (
-          <View
-            id="main-nav-mobile-apps"
-            label="Mobile Apps"
-            icon="lib_website_inverted"
-            href$={getView(mobileAppMonitoringPath)}
-            isActive$={all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v))}
-            {...commonProps}
-          />
-        )}
+      <WebsiteMobileAppView {...commonProps} />
 
       {hasAnalyzeAccess && (
         <View
@@ -339,6 +318,55 @@ function SignOut() {
       />
     </form>
   );
+}
+
+function WebsiteMobileAppView(props) {
+  const showWebNavigationItem = hasWebsitesAccess;
+  const showMobileAppNavigationItem = mobileAppMonitoringEnabled && hasMobileAppsAccess;
+
+  const isWebsiteView$ = all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v));
+  const isMobileAppView$ = all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v));
+
+  if (showWebNavigationItem && showMobileAppNavigationItem) {
+    return (
+      <View
+        id="main-nav-websites"
+        label="Websites & Mobile Apps"
+        icon="lib_website_mobile_app_inverted"
+        href$={getView(websiteMonitoringPath)}
+        isActive$={any(isWebsiteView$, isMobileAppView$)}
+        {...props}
+      />
+    );
+  }
+
+  if (showWebNavigationItem) {
+    return (
+      <View
+        id="main-nav-websites"
+        label="Websites"
+        icon="lib_website_inverted"
+        href$={getView(websiteMonitoringPath)}
+        isActive$={isWebsiteView$}
+        {...props}
+      />
+    );
+  }
+
+  if (showMobileAppNavigationItem) {
+    return (
+      <View
+        id="main-nav-mobile-apps"
+        label="Mobile Apps"
+        icon="lib_mobile_app_inverted"
+        href$={getView(mobileAppMonitoringPath)}
+        isActive$={isMobileAppView$}
+        {...props}
+      />
+    );
+  }
+
+  return null;
 }
 
 function Spacer() {

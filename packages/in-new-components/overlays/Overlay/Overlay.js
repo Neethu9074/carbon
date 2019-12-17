@@ -183,5 +183,8 @@ Overlay.propTypes = {
   withoutArrow: PropTypes.bool,
   withoutWrapper: PropTypes.bool,
   wrapperClassName: PropTypes.string,
-  wrapperStyle: PropTypes.object
+  wrapperStyle: PropTypes.object,
+  children: PropTypes.any,
+  props: PropTypes.any,
+  content: PropTypes.any
 };

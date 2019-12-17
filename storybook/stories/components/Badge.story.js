@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import Badge from 'in-new-components/Badge/Badge';
@@ -8,8 +7,6 @@ export default {
   component: Badge
 };
 
-storiesOf('Components/Badge', module)
-  .addParameters({ component: Badge })
-  .add('default', () => <Badge>bold</Badge>)
-  .add('light', () => <Badge kind="light">light</Badge>)
-  .add('inverted', () => <Badge kind="inverted">inverted</Badge>);
+export const bold = () => <Badge>bold</Badge>;
+export const light = () => <Badge kind="light">light</Badge>;
+export const inverted = () => <Badge kind="inverted">inverted</Badge>;

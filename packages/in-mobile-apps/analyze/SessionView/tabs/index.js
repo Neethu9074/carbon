@@ -1,0 +1,12 @@
+import { sessionViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+
+import Summary from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Summary';
+
+export default [
+  {
+    label: 'Summary',
+    path: `${sessionViewPathFullyQualified}/summary`,
+    component: Summary,
+    hideTabLabelWhenAlone: true
+  }
+];

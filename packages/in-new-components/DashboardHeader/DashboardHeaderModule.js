@@ -13,7 +13,6 @@ export default function DashboardHeaderModule({
   theme = themes.default,
   withTopBorder = true,
   withBottomBorder = false,
-  dropShadow = false,
   children
 }) {
   return (
@@ -22,7 +21,6 @@ export default function DashboardHeaderModule({
         [locals[theme]]: true,
         [locals[`${theme}WithTopBorder`]]: withTopBorder,
         [locals[`${theme}WithBottomBorder`]]: withBottomBorder,
-        [locals.dropShadow]: dropShadow,
         [className]: className
       })}
     >

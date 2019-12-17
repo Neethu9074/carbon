@@ -9,6 +9,7 @@ import IsSynthetic from 'in-analyze/TraceDetail/components/CallDetails/component
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
+import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { pendingResult } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
@@ -16,15 +17,22 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './CallDetails.mless';
 
 export default compose(
-  connectTo(props => ({
-    callResult: getTraceActivityTreeNodeDetails({
-      traceId: props.traceId,
-      nodeId: props.callId
-    }).startWith(pendingResult)
-  })),
-  connectTo(({ traceId, startTime }) => {
+  connectTo(({ rootCall, callId, traceId, startTime }) => {
+    const observables = {
+      callResult: getTraceActivityTreeNodeDetails({
+        traceId: traceId,
+        nodeId: callId
+      }).startWith(pendingResult)
+    };
+
+    if (!rootCall || (rootCall.id !== callId && callId !== 'ROOT')) {
+      // No need to attempt to load mobile app / website correlation data for non root calls.
+      return observables;
+    }
+
     return {
-      beaconResult: getWebsiteBeacons({
+      ...observables,
+      websiteBeaconResult: getWebsiteBeacons({
         tagFilters: [{ name: 'beacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
         timeConfig: {
           windowSize: 1000 * 60 * 60,
@@ -38,15 +46,31 @@ export default compose(
         pagination: {
           retrievalSize: 1
         }
+      }),
+      mobileAppBeaconResult: getMobileAppBeacons({
+        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
+        timeConfig: {
+          windowSize: 1000 * 60 * 60,
+          to: startTime + 1000 * 60 * 30,
+          focusedMoment: startTime + 1000 * 60 * 30
+        },
+        order: {
+          by: 'mobileBeacon.timestamp',
+          direction: 'DESC'
+        },
+        pagination: {
+          retrievalSize: 1
+        }
       })
     };
   })
 )(CallDetails);
 
 function CallDetails(props) {
-  const { callResult, getColor, onClose, beaconResult } = props;
+  const { callResult, getColor, onClose, websiteBeaconResult, mobileAppBeaconResult } = props;
 
-  const beacon = beaconResult.data && beaconResult.data.items.length > 0 ? beaconResult.data.items[0].beacon : null;
+  const websiteBeacon = get(websiteBeaconResult, ['data', 'items', 0, 'beacon'], null);
+  const mobileAppBeacon = get(mobileAppBeaconResult, ['data', 'items', 0, 'beacon'], null);
   const isLoading = get(callResult, ['progress', 'loading']);
 
   if (isLoading) {
@@ -72,7 +96,7 @@ function CallDetails(props) {
     <aside className={locals.callDetails}>
       <Header call={call} getColor={getColor} onClose={onClose} />
       <Seperator />
-      <ServiceComponent call={call} beacon={beacon} />
+      <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
       <IsSynthetic call={call} />
     </aside>
   );

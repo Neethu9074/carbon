@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
-
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

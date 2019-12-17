@@ -1,9 +1,9 @@
 import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

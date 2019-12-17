@@ -4,6 +4,7 @@ import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
 import locals from './Breadcrumb.mless';
@@ -40,12 +41,16 @@ export default function Breadcrumb({
   let crumbContent = (
     <div className={locals.twoRowWrapper} ref={refSetter}>
       {(icon || iconPath) && iconCompontent}
-      <div className={locals.breadcrumbContent}>
-        {label && <div className={locals.label}>{label}</div>}
-        {children}
-      </div>
+      <div className={locals.breadcrumbContent}>{children}</div>
     </div>
   );
+  if (label) {
+    crumbContent = (
+      <Tooltip themeStyle="light" content={label}>
+        {crumbContent}
+      </Tooltip>
+    );
+  }
   if (href || href$) {
     return (
       <Link href={href} href$={href$} className={breadcrumbClassName} onClick={() => track(NAVIGATION_BREADCRUMB)}>

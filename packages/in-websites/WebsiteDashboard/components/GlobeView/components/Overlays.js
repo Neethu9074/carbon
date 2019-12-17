@@ -20,7 +20,7 @@ const maxDot = -0.7;
 const countries = Object.keys(countryMap).map(key => countryMap[key]);
 
 export default class OverlaysReactComponentMounter {
-  constructor(globeView, nodesReactComponentWrapper, getData$) {
+  constructor(globeView, nodesReactComponentWrapper, getData$, getValue) {
     this.update$ = create();
     this.properties$ = create();
 
@@ -29,6 +29,7 @@ export default class OverlaysReactComponentMounter {
         globeView={globeView}
         update$={this.update$}
         data$={this.properties$.flatMap(getData$)}
+        getValue={getValue}
       />,
       nodesReactComponentWrapper
     );
@@ -62,11 +63,12 @@ function OverlaysReactComponentFn({
   globeView,
   data$,
   autoRotate,
-  setAutoRotate
+  setAutoRotate,
+  getValue
 }) {
   return (
     <Fragment>
-      {showHeatMap && <CountryList data$={data$} />}
+      {showHeatMap && <CountryList data$={data$} getValue={getValue} />}
 
       <div className={locals.buttons}>
         <div className={locals.buttonRow}>

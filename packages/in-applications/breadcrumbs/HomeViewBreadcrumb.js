@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { applicationsList, servicesList } from 'in-applications/navigation/paths';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { getView } from 'in-stores/navigation';
 
 export default function HomeViewBreadcrumb({ inApplicationContext }) {

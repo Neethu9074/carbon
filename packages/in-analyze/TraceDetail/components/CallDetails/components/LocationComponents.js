@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
@@ -63,7 +64,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
   );
 };
 
-export const EumSourceLocation = ({ location, beacon }) => {
+export const WebsiteSourceLocation = ({ location, beacon }) => {
   return (
     <div
       className={evaluateClassNames({
@@ -86,6 +87,35 @@ export const EumSourceLocation = ({ location, beacon }) => {
         <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
           <SvgIcon className={locals.entityIcon} type="lib_website" />
           {beacon.websiteLabel}
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export const MobileAppSourceLocation = ({ location, beacon }) => {
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals.serviceLine]: true
+      })}
+    >
+      <div className={locals.serviceLineInfo}>
+        <span className={locals.locationText}>{location}</span>
+        {beacon.view ? (
+          <Fragment>
+            <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId, { viewId: beacon.view })}>
+              <SvgIcon type="lib_mobile_app_view" size="s" className={locals.icon} />
+              {beacon.view}
+            </Link>
+            <span className={locals.text}>on</span>
+          </Fragment>
+        ) : (
+          ''
+        )}
+        <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
+          <SvgIcon className={locals.entityIcon} type="lib_mobile_app" />
+          {beacon.mobileAppLabel}
         </Link>
       </div>
     </div>

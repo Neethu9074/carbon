@@ -9,8 +9,6 @@ import { number } from 'in-services/formatters/number';
 import { MINIMUM_ROLLUP } from 'in-stores/metric';
 import theme from 'in-themes';
 
-import locals from './EventsChart.mless';
-
 export default getElementDimensions(function EventsChart({ width, timeConfig, query, eventType }) {
   if (!width) {
     return <div />;
@@ -42,27 +40,24 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
   }
 
   return (
-    <>
-      <div className={locals.spacer} />
-      <OpenEventsCountChartWrapper
-        cardTitle="Open events"
-        timeConfig={timeConfig}
-        granularity={granularity}
-        snapHighlightingToMetricBars
-        includeFirstDataPoint
-        y1={{
-          renderer: Renderer.stackedBar,
-          formatter: number.forcedCompact,
-          labels,
-          metricIds,
-          colors
-        }}
-        metricsConfiguration={{
-          timeConfig: timeConfig,
-          metrics: metricsConfiguration
-        }}
-      />
-    </>
+    <OpenEventsCountChartWrapper
+      cardTitle="Open events"
+      timeConfig={timeConfig}
+      granularity={granularity}
+      snapHighlightingToMetricBars
+      includeFirstDataPoint
+      y1={{
+        renderer: Renderer.stackedBar,
+        formatter: number.forcedCompact,
+        labels,
+        metricIds,
+        colors
+      }}
+      metricsConfiguration={{
+        timeConfig: timeConfig,
+        metrics: metricsConfiguration
+      }}
+    />
   );
 });
 

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import EumAlertingBarChart from '../chart/EumAlertingBarChart';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -26,12 +26,11 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   value={form.get(fieldNames.ruleMetricName).value}
                   options={selectOptions[fieldNames.ruleMetricName]}
                   onChange={e => {
-                    const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', resetThresholdField);
+                    const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateTresholdOnBackend);
                   }}
                   defaultValue={selectOptions[fieldNames.ruleMetricName][0].value}
                   clearable={false}
-                  searchable
                 />
               </FormGroup>
               <FormGroup>
@@ -41,12 +40,11 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   value={form.get(fieldNames.thresholdOperator).value}
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
-                    const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', resetThresholdField);
+                    const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
                   clearable={false}
-                  searchable
                 />
               </FormGroup>
               <FormGroup>
@@ -66,7 +64,7 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
             </div>
           )}
           <div className={locals.placeholder}>
-            <EumAlertingBarChart
+            <JsErrorsAlertingBarChart
               threshold={form.get(fieldNames.thresholdValue).value || 0}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}

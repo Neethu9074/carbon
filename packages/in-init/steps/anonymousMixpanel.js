@@ -1,5 +1,3 @@
-/* global __HOT_RELOAD__: false */
-
 import { registerTracker } from 'in-services/tracking/trackers';
 
 export function init() {

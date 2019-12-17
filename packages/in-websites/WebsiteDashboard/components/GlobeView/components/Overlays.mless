@@ -9,7 +9,6 @@
 
   .buttonRow {
     display: flex;
-    align-items: center;
   }
 
   .buttonColumn {

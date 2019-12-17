@@ -54,19 +54,6 @@ module.exports = {
     gutter: 24,
     columns: 12
   },
-  footer: {
-    height: 36,
-    heightExpanded: 97,
-    heightOpen: 171
-  },
-  footerTimelineEvents20: {
-    height: 36,
-    heightExpanded: 73,
-    heightOpen: 147
-  },
-  header: {
-    height: 56
-  },
   map: {
     colors: {
       cubeColorFalloffValues: {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 export default function WebsiteBreadcrumb({ pageId, websiteId }) {
   return (

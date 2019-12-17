@@ -1,0 +1,45 @@
+import React from 'react';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import FormGroup from 'in-settings/components/FormGroup';
+import HelpText from 'in-components/form/HelpText';
+import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
+
+export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank }) {
+  const logdnaUrl = 'https://app.logdna.com/' + form.get('accountId').value + '/logs';
+
+  return (
+    <fieldset>
+      {form.get('accountId').map(field => (
+        <FormGroup>
+          <Label htmlFor="logdna-account-id" hasError={!disabled && !field.valid && field.touched}>
+            LogDNA Account ID
+          </Label>
+          <Input
+            id="logdna-account-id"
+            value={field.value}
+            onChange={e => onChange('accountId', e.target.value)}
+            hasError={!disabled && !field.valid && field.touched}
+            disabled={disabled}
+            autoFocus
+          />
+          {!disabled && <TouchedMessages field={field} />}
+          <HelpText className={locals.subTextFormField}>
+            Can be found from the URL: <b>https://app.logdna.com/account_id/</b>.
+          </HelpText>
+        </FormGroup>
+      ))}
+
+      {!areFieldsBlank && (
+        <FormGroup>
+          <Label htmlFor="logdna-test-link">Test your LogDNA link</Label>
+          <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
+            {logdnaUrl}
+          </a>
+        </FormGroup>
+      )}
+    </fieldset>
+  );
+}

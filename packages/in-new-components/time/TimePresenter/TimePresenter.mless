@@ -6,6 +6,7 @@
     align-items: center;
     height: 100%;
     border-right: 1px solid @lib__colors__N300;
+    background: @lib__colors__white;
 
     &:hover {
       .timeSettingTop {

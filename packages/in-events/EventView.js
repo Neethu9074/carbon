@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
@@ -19,7 +20,6 @@ import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { timeConfig$ } from 'in-stores/time/config';
-import SearchBar from 'in-components/SearchBar';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
@@ -126,13 +126,11 @@ function EventViewComponent(props) {
     <Sticky
       header={
         <>
-          <DashboardHeader theme={themes.dark} icon="lib_infrastructure" label="Events" title="Events" />
-          <DashboardHeaderModule theme={themes.dark}>
-            <SearchBar theme="dark" />
+          <DashboardHeader icon="lib_events_inverted" label="Events" title="Events" />
+          <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>
+            <ViewSwitcher selectedEventType={eventType} />
           </DashboardHeaderModule>
-          <DashboardHeaderModule theme={themes.dark} withBottomBorder>
-            <ViewSwitcher selectedEventType={eventType} darkTheme />
-          </DashboardHeaderModule>
+          {!eventId && <DashboardHeaderShadowModule />}
         </>
       }
     >

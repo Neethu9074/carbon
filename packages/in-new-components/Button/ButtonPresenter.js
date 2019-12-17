@@ -89,6 +89,7 @@ export default function ButtonPresenter({
 }
 
 ButtonPresenter.propTypes = {
+  /** Icon here */
   icon: rpt.string,
   iconSpinning: rpt.bool,
   iconSize: rpt.oneOf(['m', 'l']),

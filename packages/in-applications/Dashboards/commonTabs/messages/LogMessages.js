@@ -14,13 +14,15 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null,
     endpointName: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : null
   }),
-  function LogMessages({ boundaryScope, onBoundaryStateChange, defaultBoundaryScope, ...props }) {
+  function LogMessages({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
+    const boundaryScope = urlBoundaryScope || application.boundaryScope;
+
     return (
       <Fragment>
         <InboundOrAllCallsChoiceHorizontal
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={defaultBoundaryScope}
+          defaultBoundaryScope={application.boundaryScope}
         />
         <LogMessagesTable boundaryScope={boundaryScope} {...props} />
       </Fragment>

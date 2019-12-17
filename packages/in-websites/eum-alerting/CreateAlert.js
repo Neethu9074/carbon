@@ -78,7 +78,8 @@ CreateAlert.propTypes = {
   tagFilters: PropTypes.array.isRequired,
   websiteId: PropTypes.string.isRequired,
   websiteLabel: PropTypes.string,
-  websiteResult$: PropTypes.object
+  websiteResult: PropTypes.object,
+  websiteErrorResult: PropTypes.object
 };
 
 function generateFormData(error, tagFilters, websiteId) {

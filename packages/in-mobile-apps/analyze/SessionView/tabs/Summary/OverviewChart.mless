@@ -1,0 +1,18 @@
+:local {
+
+  .beacons {
+    height: 200px;
+    position: relative;
+  }
+
+  .beacon {
+    position: absolute;
+    height: 5px;
+    min-width: 1px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.75;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';

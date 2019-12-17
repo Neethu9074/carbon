@@ -196,13 +196,15 @@ function ServiceList(props) {
     applicationId,
     serviceId,
     endpointId,
-    boundaryScope,
     onBoundaryStateChange,
-    defaultBoundaryScope,
     endpointTypes,
     technologies,
-    setFilter
+    setFilter,
+    data: application,
+    urlBoundaryScope
   } = props;
+
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
   const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
 
@@ -211,7 +213,7 @@ function ServiceList(props) {
       <InboundOrAllCallsChoiceHorizontal
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        defaultBoundaryScope={defaultBoundaryScope}
+        defaultBoundaryScope={application.boundaryScope}
       />
       <ServerTableWithUrlState
         get={getTableData}

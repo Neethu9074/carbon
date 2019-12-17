@@ -16,10 +16,12 @@ export default function Summary({
   applicationId,
   endpointId,
   serviceId,
-  boundaryScope,
   onBoundaryStateChange,
-  defaultBoundaryScope
+  data: application,
+  urlBoundaryScope
 }) {
+  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+
   const filter = {
     timeConfig,
     endpoint: endpointId,
@@ -33,7 +35,7 @@ export default function Summary({
       <InboundOrAllCallsChoiceHorizontal
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        defaultBoundaryScope={defaultBoundaryScope}
+        defaultBoundaryScope={application.boundaryScope}
       />
       <Row>
         <Col xs>

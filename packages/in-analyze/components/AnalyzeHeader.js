@@ -7,19 +7,32 @@ import {
 } from 'in-new-components/SecondLevelNavigation';
 import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
-  analyzePath as websiteAnalyzePath
+  analyzePath as websiteAnalyzePath,
+  websiteMonitoringPath
 } from 'in-websites/navigation/paths';
+import {
+  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  analyzePath as mobileAppAnalyzePath,
+  mobileAppMonitoringPath
+} from 'in-mobile-apps/navigation/paths';
 import {
   getLinkToAnalyze as getLinkToProfilesAnalyze,
   analyzePath as profilingAnalyzePath
 } from 'in-profiling/navigation/paths';
+import {
+  customEventsInWebsiteMonitoringEnabled,
+  profilingEnabled,
+  mobileAppMonitoringEnabled
+} from 'in-services/featureFlags';
 import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
-import { customEventsInWebsiteMonitoringEnabled, profilingEnabled } from 'in-services/featureFlags';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { beaconType as mobileAppBeaconTypeMatrixParameter } from 'in-mobile-apps/navigation/matrix';
+import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-profiling/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import { hasApplicationsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { defaultGrouping as defaultProfilesGrouping } from 'in-profiling/tags';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
@@ -28,17 +41,11 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
+import { isNotBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
-  dataSource: navigationParameters$
-    .map(
-      location =>
-        getMatrixParameter(location, appAnalyzePath, `callList.${dataSourceMatrixParameter}`) ||
-        getMatrixParameter(location, websiteAnalyzePath, beaconTypeMatrixParameter) ||
-        getMatrixParameter(location, profilingAnalyzePath, dataSourceTypeMatrixParameter)
-    )
-    .distinct()
+  dataSource: navigationParameters$.map(getDataSource)
 })(AnalyzeHeader);
 
 function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
@@ -48,19 +55,22 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
         icon={getIconByType(dataSource)}
         contextIcon="lib_analyze_inverted"
         renderContext={() => 'Analytics'}
-        label={getLabelByType(dataSource)}
+        label={getLabelByType(dataSource.dataSource, dataSource.productArea)}
         title="Analytics"
       />
       <DashboardHeaderModule withBottomBorder>
         <SecondLevelNavigation hasGroups>
-          <SecondLevelNavigationGroup label="Applications" {...secondLevelActive(['calls', 'traces'], dataSource)}>
+          <SecondLevelNavigationGroup
+            label="Applications"
+            {...secondLevelActive(['calls', 'traces'], 'application', dataSource)}
+          >
             {hasApplicationsAccess && (
               <SecondLevelNavigationItem
                 href$={getLinkToAnalyze({
                   dataSource: 'calls',
                   groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
                 })}
-                {...getProps('calls', dataSource)}
+                {...getProps('calls', 'application', dataSource)}
               />
             )}
             {hasApplicationsAccess && (
@@ -69,95 +79,174 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
                   dataSource: 'traces',
                   groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
                 })}
-                {...getProps('traces', dataSource)}
+                {...getProps('traces', 'application', dataSource)}
               />
             )}
           </SecondLevelNavigationGroup>
-          <SecondLevelNavigationGroup
-            label="Websites"
-            withSeparator
-            {...secondLevelActive(['pageLoad', 'resourceLoad', 'httpRequest', 'error', 'custom'], dataSource)}
-          >
-            {hasWebsitesAccess && (
+          {hasWebsitesAccess && (
+            <SecondLevelNavigationGroup
+              label="Websites"
+              withSeparator
+              {...secondLevelActive(
+                ['pageLoad', 'resourceLoad', 'httpRequest', 'error', 'custom'],
+                'website',
+                dataSource
+              )}
+            >
               <SecondLevelNavigationItem
                 href$={getLinkToWebsiteAnalyze({
                   group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
                   beaconType: 'pageLoad'
                 })}
-                {...getProps('pageLoad', dataSource)}
+                {...getProps('pageLoad', 'website', dataSource)}
                 addGroupSeparator={hasApplicationsAccess}
               />
-            )}
-            {hasWebsitesAccess && (
               <SecondLevelNavigationItem
                 href$={getLinkToWebsiteAnalyze({
                   group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
                   beaconType: 'resourceLoad'
                 })}
-                {...getProps('resourceLoad', dataSource)}
+                {...getProps('resourceLoad', 'website', dataSource)}
               />
-            )}
-            {hasWebsitesAccess && (
               <SecondLevelNavigationItem
                 href$={getLinkToWebsiteAnalyze({
                   group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
                   beaconType: 'httpRequest'
                 })}
-                {...getProps('httpRequest', dataSource)}
+                {...getProps('httpRequest', 'website', dataSource)}
               />
-            )}
-            {hasWebsitesAccess && (
               <SecondLevelNavigationItem
                 href$={getLinkToWebsiteAnalyze({
                   group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
                   beaconType: 'error'
                 })}
-                {...getProps('error', dataSource)}
+                {...getProps('error', 'website', dataSource)}
               />
-            )}
-            {customEventsInWebsiteMonitoringEnabled &&
-              hasWebsitesAccess && (
+              {customEventsInWebsiteMonitoringEnabled && (
                 <SecondLevelNavigationItem
                   href$={getLinkToWebsiteAnalyze({
                     group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
                     beaconType: 'custom'
                   })}
-                  {...getProps('custom', dataSource)}
+                  {...getProps('custom', 'website', dataSource)}
                 />
               )}
-          </SecondLevelNavigationGroup>
-          <SecondLevelNavigationGroup label="Profiles" withSeparator {...secondLevelActive(['profiles'], dataSource)}>
-            {profilingEnabled && (
+            </SecondLevelNavigationGroup>
+          )}
+          {hasMobileAppsAccess &&
+            mobileAppMonitoringEnabled && (
+              <SecondLevelNavigationGroup
+                label="Mobile Apps"
+                withSeparator
+                {...secondLevelActive(['sessionStart', 'httpRequest', 'custom'], 'mobileApp', dataSource)}
+              >
+                <SecondLevelNavigationItem
+                  href$={getLinkToMobileAppAnalyze({
+                    group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+                    beaconType: 'sessionStart'
+                  })}
+                  {...getProps('sessionStart', 'mobileApp', dataSource)}
+                  addGroupSeparator={hasApplicationsAccess || hasWebsitesAccess}
+                />
+                <SecondLevelNavigationItem
+                  href$={getLinkToMobileAppAnalyze({
+                    group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+                    beaconType: 'httpRequest'
+                  })}
+                  {...getProps('httpRequest', 'mobileApp', dataSource)}
+                />
+                {customEventsInWebsiteMonitoringEnabled && (
+                  <SecondLevelNavigationItem
+                    href$={getLinkToMobileAppAnalyze({
+                      group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+                      beaconType: 'custom'
+                    })}
+                    {...getProps('custom', 'mobileApp', dataSource)}
+                  />
+                )}
+              </SecondLevelNavigationGroup>
+            )}
+          {profilingEnabled && (
+            <SecondLevelNavigationGroup
+              label="Profiles"
+              withSeparator
+              {...secondLevelActive(['profiles'], 'profiling', dataSource)}
+            >
               <SecondLevelNavigationItem
                 href$={getLinkToProfilesAnalyze({
                   group: defaultProfilesGrouping
                 })}
-                {...getProps('profiles', dataSource)}
+                {...getProps('profiles', 'profiling', dataSource)}
                 addGroupSeparator
               />
-            )}
-          </SecondLevelNavigationGroup>
+            </SecondLevelNavigationGroup>
+          )}
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       {renderQuickFilterBar && (
-        <DashboardHeaderModule dropShadow withTopBorder={false}>
-          {renderQuickFilterBar()}
-        </DashboardHeaderModule>
+        <DashboardHeaderModule withTopBorder={false}>{renderQuickFilterBar()}</DashboardHeaderModule>
       )}
+      <DashboardHeaderShadowModule />
     </>
   );
 }
 
-function getProps(type, dataSource) {
+function getProps(type, expectedProductArea, { dataSource, productArea }) {
   return {
-    icon: getIconByType(type),
-    label: getLabelByType(type),
-    isActive: dataSource === type
+    icon: getIconByType(type, expectedProductArea),
+    label: getLabelByType(type, expectedProductArea),
+    isActive: dataSource === type && expectedProductArea === productArea
   };
 }
 
-function secondLevelActive(types, dataSource) {
-  if (types.includes(dataSource)) {
+function secondLevelActive(types, expectedProductArea, { dataSource, productArea }) {
+  if (expectedProductArea === productArea && types.includes(dataSource)) {
     return { isActive: true };
   }
+}
+
+const dataSourceSources = [
+  {
+    matrixPath: appAnalyzePath,
+    matrixParam: `callList.${dataSourceMatrixParameter}`,
+    productArea: 'application'
+  },
+  {
+    pathPrefix: websiteMonitoringPath,
+    matrixPath: websiteAnalyzePath,
+    matrixParam: websiteBeaconTypeMatrixParameter,
+    productArea: 'website'
+  },
+  {
+    matrixPath: profilingAnalyzePath,
+    matrixParam: dataSourceTypeMatrixParameter,
+    productArea: 'profiling'
+  },
+  {
+    pathPrefix: mobileAppMonitoringPath,
+    matrixPath: mobileAppAnalyzePath,
+    matrixParam: mobileAppBeaconTypeMatrixParameter,
+    productArea: 'mobileApp'
+  }
+];
+
+function getDataSource(location) {
+  for (let i = 0; i < dataSourceSources.length; i++) {
+    const { matrixPath, matrixParam, productArea, pathPrefix } = dataSourceSources[i];
+    if (pathPrefix && !location.pathname.startsWith(pathPrefix)) {
+      continue;
+    }
+
+    const dataSource = getMatrixParameter(location, matrixPath, matrixParam);
+    if (isNotBlank(dataSource)) {
+      return {
+        productArea,
+        dataSource
+      };
+    }
+  }
+  return {
+    productArea: 'application',
+    dataSource: 'calls'
+  };
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import ServiceDashboardNotifications from 'in-applications/Dashboards/service/components/ServiceDashboardNotifications';

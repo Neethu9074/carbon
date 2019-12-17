@@ -52,7 +52,7 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="splunk-test-link">Test your Splunk link</Label>
-          <a href={splunkUrl} target={'_blank'}>
+          <a href={splunkUrl} target={'_blank'} rel="noopener noreferrer">
             {splunkUrl}
           </a>
         </FormGroup>

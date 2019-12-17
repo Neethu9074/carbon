@@ -64,7 +64,7 @@ export const analyzeBeaconTypeUrlParameter = {
   path: analyzePath,
   name: beaconType,
   as: 'beaconType',
-  initialState: 'pageLoad'
+  initialState: 'sessionStart'
 };
 
 export const analyzeMetricsUrlParameter = {
@@ -88,7 +88,7 @@ export const analyzeOrderDirectionUrlParameter = {
 };
 
 // ###################################
-// page load view
+// session view
 // ###################################
 export const sessionIdUrlParameter = {
   path: sessionViewPath,

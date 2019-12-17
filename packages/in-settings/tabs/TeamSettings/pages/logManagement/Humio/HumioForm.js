@@ -54,7 +54,7 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="humio-test-link">Test your Humio link</Label>
-          <a href={humioUrl} target={'_blank'}>
+          <a href={humioUrl} target={'_blank'} rel="noopener noreferrer">
             {humioUrl}
           </a>
         </FormGroup>

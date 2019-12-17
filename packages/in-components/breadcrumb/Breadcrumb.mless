@@ -2,27 +2,13 @@
 @import '~in-themes/active.less';
 
 :local {
-  .twoRowWrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  .label {
-    display: flex;
-    align-items: center;
-
-    font-size: 0.75rem;
-    line-height: 0.75rem;
-  }
-
-  .icon {
-    margin-right: 0.5rem;
-    fill: @lib__colors__N500;
-  }
-
   .breadcrumb {
-    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: @lib__shapes__radius_medium;
+
     color: @lib__colors__N500;
+    text-decoration: none;
+    cursor: pointer;
     .ellipsis();
 
     .breadcrumbContent {
@@ -30,12 +16,28 @@
     }
 
     &:hover {
-      color: @lib__colors__N700Medium;
+      background: @lib__colors__N700Medium;
+      color: @lib__colors__N050;
+
       text-decoration: none;
+
+      .icon {
+        fill: @lib__colors__N050;
+      }
     }
   }
 
   .activeBreadcrumb {
-    font-weight: 500;
+    font-weight: bold;
+  }
+
+  .twoRowWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N500;
   }
 }

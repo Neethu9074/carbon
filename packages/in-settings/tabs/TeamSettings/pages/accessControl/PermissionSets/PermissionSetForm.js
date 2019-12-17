@@ -161,31 +161,33 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
       />
       <TouchedMessages field={form.get('websiteIds')} />
 
-      {mobileAppMonitoringEnabled && <>
-        <MobileApps
-        setTitle={false}
-        loadEntities={() => getSelectedMobileApps(selectedMobileApps)}
-        hasRowNavigation={false}
-        noDataMessage="No Mobile App Selected"
-        tableActions={mobileAppSelectionTableActions(form, setForm)}
-        rightHeader={
-          <SelectListDialogButton
-            form={form}
-            onSubmit={selectedIds => submitMobileAppSelection(form, setForm, selectedIds)}
-            title="Add Mobile App"
-            label="Add Mobile App"
-            listComponent={MobileApps}
-            listComponentRightHeader={noRightHeader}
-            hiddenIds={selectedMobileApps}
-            createSubmitLabel={numberOfItems =>
-              numberOfItems > 0 ? `Add ${numberOfItems} Mobile App${numberOfItems > 1 ? 's' : ''}` : 'Add'
+      {mobileAppMonitoringEnabled && (
+        <>
+          <MobileApps
+            setTitle={false}
+            loadEntities={() => getSelectedMobileApps(selectedMobileApps)}
+            hasRowNavigation={false}
+            noDataMessage="No Mobile App Selected"
+            tableActions={mobileAppSelectionTableActions(form, setForm)}
+            rightHeader={
+              <SelectListDialogButton
+                form={form}
+                onSubmit={selectedIds => submitMobileAppSelection(form, setForm, selectedIds)}
+                title="Add Mobile App"
+                label="Add Mobile App"
+                listComponent={MobileApps}
+                listComponentRightHeader={noRightHeader}
+                hiddenIds={selectedMobileApps}
+                createSubmitLabel={numberOfItems =>
+                  numberOfItems > 0 ? `Add ${numberOfItems} Mobile App${numberOfItems > 1 ? 's' : ''}` : 'Add'
+                }
+                requiresAtLeastOneMessage="Please select at least one mobile app."
+              />
             }
-            requiresAtLeastOneMessage="Please select at least one mobile app."
           />
-        }
-      />
-      <TouchedMessages field={form.get('mobileAppIds')} />
-      </>}
+          <TouchedMessages field={form.get('mobileAppIds')} />
+        </>
+      )}
     </fieldset>
   );
 }

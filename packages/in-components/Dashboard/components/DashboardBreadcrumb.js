@@ -1,18 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import PhysicalHierarchyBreadcrumb from 'in-components/Dashboard/components/PhysicalHierarchyBreadcrumb';
+import CollapsedEntitiesBreadcrumb from 'in-components/Dashboard/components/CollapsedEntitiesBreadcrumb';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { selectedSnapshotId$, getPhysicalHierarchy } from 'in-stores/snapshot';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
-import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardBreadcrumb.mless';
@@ -24,66 +22,43 @@ export default connectTo(
       _physicalHierarchy.reverse();
       return _physicalHierarchy;
     }),
+    selectedSnapshotId: selectedSnapshotId$,
     closeDashboardLink: getCloseDashboardLink(),
     agent: isInternalVisible$
       .flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
       // get snapshot to ensure that the agent snapshot can be found
       .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
   }),
-  function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink, agent }) {
-    if (!physicalHierarchy) {
-      return null;
-    }
-
-    if (physicalHierarchy.length === 0) {
-      physicalHierarchy.unshift(snapshotId);
-    }
-
-    const items = physicalHierarchy.map(id => <PhysicalHierarchyBreadCrumb key={id} snapshotId={id} />);
-    if (agent) {
-      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent.get('id')} />);
-    }
-    items.unshift(
+  function DashboardBreadcrumb({ physicalHierarchy, selectedSnapshotId, snapshotId, closeDashboardLink, agent }) {
+    const homeBreadcrumb = (
       <Breadcrumb className={locals.homeBreadcrumb} href={closeDashboardLink}>
         {getHomeBreadcrumb(closeDashboardLink)}
       </Breadcrumb>
     );
 
-    return (
-      <Fragment>
-        <BreadcrumbHeader automaticActiveState={false} />
-        <Breadcrumbs items={items} />
-      </Fragment>
-    );
-  }
-);
-
-const PhysicalHierarchyBreadCrumb = connectTo(
-  props => ({
-    snapshot: getSnapshot(props.snapshotId),
-    isActive: selectedSnapshotId$.map(id => id === props.snapshotId)
-  }),
-  function PhysicalHierarchyBreadCrumb({ snapshot, snapshotId, isActive }) {
-    if (!snapshot) {
-      return null;
+    if (!physicalHierarchy) {
+      return (
+        <>
+          <BreadcrumbHeader automaticActiveState={false} />
+          <Breadcrumbs items={[homeBreadcrumb]} />
+        </>
+      );
     }
 
-    const plugin = snapshot.get('plugin');
+    physicalHierarchy = physicalHierarchy.slice();
+    if (physicalHierarchy.length === 0) {
+      physicalHierarchy.unshift(snapshotId);
+    }
+
+    if (agent) {
+      physicalHierarchy.unshift(agent.get('id'));
+    }
+
     return (
-      <WithInfrastructureHealthIndicationBehaviour
-        snapshotId={snapshotId}
-        render={healthInfo => (
-          <Breadcrumb
-            href$={getDashboardLink(snapshotId)}
-            label={getSingular(plugin)}
-            iconPath={getIconSvgPath(snapshot)}
-            isActive={isActive}
-            healthInfo={healthInfo}
-          >
-            {getLabel(snapshot)}
-          </Breadcrumb>
-        )}
-      />
+      <>
+        <BreadcrumbHeader automaticActiveState={false} />
+        <Breadcrumbs items={[homeBreadcrumb, ...collapseIds(physicalHierarchy, selectedSnapshotId)]} />
+      </>
     );
   }
 );
@@ -95,4 +70,22 @@ function getHomeBreadcrumb(closeDashboardLink) {
     return 'Agents';
   }
   return 'Map';
+}
+
+function collapseIds(ids, selectedId) {
+  // cut all ids which are populated to the right of the selected id
+  const indexOfSelectedId = ids.indexOf(selectedId);
+  const itemsBeforeSelected = ids.slice(0, indexOfSelectedId);
+  const itemsAfterSelected = ids.slice(indexOfSelectedId + 1);
+
+  const collapsedBreadcrumbs = [<PhysicalHierarchyBreadcrumb snapshotId={selectedId} isActive />];
+
+  if (itemsBeforeSelected.length > 0) {
+    collapsedBreadcrumbs.unshift(<CollapsedEntitiesBreadcrumb ids={itemsBeforeSelected} />);
+  }
+  if (itemsAfterSelected.length > 0) {
+    collapsedBreadcrumbs.push(<CollapsedEntitiesBreadcrumb ids={itemsAfterSelected} light />);
+  }
+
+  return collapsedBreadcrumbs;
 }

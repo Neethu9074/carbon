@@ -5,6 +5,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -30,96 +31,147 @@ export default connectTo(
     spansNodes = sort(spansNodes);
     const spansNodeLabels = getLabels(spansNodes, /^(spans-cassandra-\d+).*$/i);
 
-    return (
-      <div>
-        <h2>Spans Cassandra ({spansNodes.length} nodes)</h2>
+    let maxNodesPerBucket = 5;
+    let spansNodesBuckets = Math.ceil(spansNodes.length / maxNodesPerBucket);
 
-        <DashboardSection title={`Writes`}>
+    let clientrequestsWriteCount = [];
+    let clientrequestsReadCount = [];
+    let pendingCompations = [];
+    let networkDataReceived = [];
+    let networkDataTransmitted = [];
+    let cpuLoad = [];
+
+    for (let i = 0; i < spansNodesBuckets; i++) {
+      let itemsList = spansNodes.slice(i * maxNodesPerBucket, (i + 1) * maxNodesPerBucket);
+      let itemsLabelList = spansNodeLabels.slice(i * maxNodesPerBucket, (i + 1) * maxNodesPerBucket);
+
+      clientrequestsWriteCount.push(
+        <Col xs={6} key={'clientrequests.write.count' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.cassandra.get('id'))}
+            snapshotIds={itemsList.map(r => r.cassandra.get('id'))}
             timeConfig={timeConfig}
             minRollup={5000}
             y1={{
               min: 0,
               formatter: number.perSecond.compact,
-              metrics: spansNodes.map(() => `clientrequests.write.count`),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => `clientrequests.write.count`),
+              labels: itemsLabelList,
               type: 'stackedArea'
             }}
           />
-        </DashboardSection>
+        </Col>
+      );
 
-        <DashboardSection title={`Reads`}>
+      clientrequestsReadCount.push(
+        <Col xs={6} key={'clientrequests.read.count' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.cassandra.get('id'))}
+            snapshotIds={itemsList.map(r => r.cassandra.get('id'))}
             timeConfig={timeConfig}
             minRollup={5000}
             y1={{
               min: 0,
               formatter: number.perSecond.compact,
-              metrics: spansNodes.map(() => `clientrequests.read.count`),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => `clientrequests.read.count`),
+              labels: itemsLabelList,
               type: 'stackedArea'
             }}
           />
-        </DashboardSection>
+        </Col>
+      );
 
-        <DashboardSection title="Pending Compactions">
+      pendingCompations.push(
+        <Col xs={6} key={'compaction.pending' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.cassandra.get('id'))}
+            snapshotIds={itemsList.map(r => r.cassandra.get('id'))}
             timeConfig={timeConfig}
             minRollup={5000}
             y1={{
               min: 0,
-              metrics: spansNodes.map(() => `compaction.pending`),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => `compaction.pending`),
+              labels: itemsLabelList,
               type: 'line'
             }}
           />
-        </DashboardSection>
+        </Col>
+      );
 
-        <DashboardSection title={`Network - data received`}>
+      networkDataReceived.push(
+        <Col xs={6} key={'ifs.eth0.rx.bytes' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.host.get('id'))}
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesZeroDecimalPlaces,
-              metrics: spansNodes.map(() => `ifs.eth0.rx.bytes`),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => `ifs.eth0.rx.bytes`),
+              labels: itemsLabelList,
               type: 'line'
             }}
           />
-        </DashboardSection>
+        </Col>
+      );
 
-        <DashboardSection title={`Network - data transmitted`}>
+      networkDataTransmitted.push(
+        <Col xs={6} key={'ifs.eth0.tx.bytes' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.host.get('id'))}
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesZeroDecimalPlaces,
-              metrics: spansNodes.map(() => `ifs.eth0.tx.bytes`),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => `ifs.eth0.tx.bytes`),
+              labels: itemsLabelList,
               type: 'line'
             }}
           />
-        </DashboardSection>
+        </Col>
+      );
 
-        <DashboardSection title={`CPU load`}>
+      cpuLoad.push(
+        <Col xs={6} key={'load.1min' + i}>
           <Chart
-            snapshotIds={spansNodes.map(r => r.host.get('id'))}
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
             timeConfig={timeConfig}
             minRollup={5000}
             y1={{
               min: 0,
               formatter: number.detailed,
               tooltipFormatter: number.detailed,
-              metrics: spansNodes.map(() => 'load.1min'),
-              labels: spansNodeLabels,
+              metrics: itemsList.map(() => 'load.1min'),
+              labels: itemsLabelList,
               type: 'line'
             }}
           />
+        </Col>
+      );
+    }
+
+    return (
+      <div>
+        <h2>Spans Cassandra ({spansNodes.length} nodes)</h2>
+
+        <DashboardSection title={`Writes`}>
+          <Row>{clientrequestsWriteCount}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Reads`}>
+          <Row>{clientrequestsReadCount}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Pending Compactions`}>
+          <Row>{pendingCompations}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data received`}>
+          <Row>{networkDataReceived}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data transmitted`}>
+          <Row>{networkDataTransmitted}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`CPU load`}>
+          <Row>{cpuLoad}</Row>
         </DashboardSection>
 
         <DashboardSection title={`CPU usage`}>

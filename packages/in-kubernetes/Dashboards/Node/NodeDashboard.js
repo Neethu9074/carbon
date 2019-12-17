@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -6,7 +7,6 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
@@ -14,6 +14,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
@@ -22,7 +23,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
 
 export default function NodeDashboard({ location }) {
   const props = {

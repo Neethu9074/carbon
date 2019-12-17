@@ -42,6 +42,7 @@ export default function Geography(props) {
                       tagFilters={tagFilters}
                       timeConfig={timeConfig}
                       getData$={getData$}
+                      getValue={v => v.pageLoads}
                     />
                     <Link
                       className={locals.link}

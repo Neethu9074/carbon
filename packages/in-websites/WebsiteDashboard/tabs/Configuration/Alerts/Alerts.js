@@ -9,6 +9,7 @@ import {
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import List, { reload } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -77,6 +78,8 @@ function getColumnDefinitions(websiteLabel) {
 }
 
 function getNameContent(config) {
+  const alertType = config.rule.alertType;
+
   return (
     <div className={joinClassNames(locals.centered, locals.fullWidth)}>
       <SvgIcon
@@ -89,10 +92,13 @@ function getNameContent(config) {
         type="lib_alerts_alert"
       />
       <div className={joinClassNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={config.name} align="topMiddle">
+        <Tooltip themeStyle="light" content={config.description} align="topMiddle">
           <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
-        <div className={locals.nameSubtext}>Specific JS Error, string pattern</div>
+        <div className={locals.nameSubtext}>
+          {alertType === alertTypes.specificJsError && 'Specific JS Error, string pattern'}
+          {alertType === alertTypes.slowness && 'Slowness - onLoad Time'}
+        </div>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const deserializeTagFilters = buildJsonParser([]);
 export const serializeMetrics = buildJsonSerializer();
 export const deserializeMetrics = buildJsonParser(null);
 
-// page load view
+// session view
 export const sessionId = 'sessionId';
 export const beaconId = 'beaconId';
 export const beaconTimestamp = 'beaconTimestamp';

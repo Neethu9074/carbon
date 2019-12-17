@@ -3,7 +3,7 @@ import React from 'react';
 
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { availableFilterTags } from 'in-websites/tags';
@@ -12,7 +12,7 @@ import locals from './AlertLocationFilters.mless';
 
 const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
-const resetThresholdField = { name: fieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
 export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel }) {
   return (
@@ -25,7 +25,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
           upsertTagFilter={newTagFilter => {
             const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
             newTagFilters.push(newTagFilter);
-            onChange(form, fieldNames.tagFilters, newTagFilters, resetThresholdField);
+            onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
           }}
           removeTagFilter={name => {
             if (name !== BEACON_WEBSITE_NAME) {
@@ -33,7 +33,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 form,
                 fieldNames.tagFilters,
                 withoutTagFilterForName(getTagFilters(form), name),
-                resetThresholdField
+                doCalculateTresholdOnBackend
               );
             }
           }}
@@ -42,7 +42,9 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
               <WebsiteEditTagFilterDialog
                 tagFilter={tagFilter}
                 tagFilters={getTagFilters(form)}
-                setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters, resetThresholdField)}
+                setTagFilters={tagFilters =>
+                  onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
+                }
                 tagSuggestions={availableFilterTags.error.filter(
                   name => name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
                 )}
@@ -64,7 +66,9 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 <WebsiteEditTagFilterDialog
                   tagFilter={tagFilter}
                   tagFilters={getTagFilters(form)}
-                  setTagFilters={tagFilters => onChange(form, fieldNames.tagFilters, tagFilters, resetThresholdField)}
+                  setTagFilters={tagFilters =>
+                    onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
+                  }
                   tagSuggestions={availableFilterTags.error}
                   timeConfig={timeConfig}
                 />
@@ -75,7 +79,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 form,
                 fieldNames.tagFilters,
                 withoutTagFilterForName(getTagFilters(form), name),
-                resetThresholdField
+                doCalculateTresholdOnBackend
               )
             }
             tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}

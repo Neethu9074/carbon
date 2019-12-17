@@ -28,8 +28,4 @@
   .darkWithBottomBorder {
     border-bottom: 1px solid @lib__colors__N600Light;
   }
-
-  .dropShadow {
-    box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.2);
-  }
 }

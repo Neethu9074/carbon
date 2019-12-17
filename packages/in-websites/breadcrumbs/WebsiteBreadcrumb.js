@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

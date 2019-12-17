@@ -7,7 +7,7 @@ import AlertChannels, {
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -91,5 +91,6 @@ function alertChannelSelectionTableActions(form, onChange) {
 
 SelectAlertChannel.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  setAlertChannelsVisible: PropTypes.func.isRequired
 };

@@ -15,7 +15,8 @@ export default class GlobeViewReactComponent extends React.Component {
         overlay: this.overlay,
         container: this.container,
         canvas: this.canvas,
-        getData$: this.props.getData$
+        getData$: this.props.getData$,
+        getValue: this.props.getValue
       });
       this.globeView.updateData(this.props);
     }

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { applicationsList, servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -15,7 +16,7 @@ export default connectTo(
     return (
       <>
         <DashboardHeader icon="lib_application_invert" label="Applications" title="Applications" />
-        <DashboardHeaderModule withBottomBorder>
+        <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
@@ -31,6 +32,7 @@ export default connectTo(
             />
           </SecondLevelNavigation>
         </DashboardHeaderModule>
+        <DashboardHeaderShadowModule />
       </>
     );
   }

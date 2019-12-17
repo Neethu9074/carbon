@@ -21,9 +21,6 @@ const deltaColors = {
 };
 
 export default getElementDimensions(function WidthWrapper(props) {
-  if (!props.width) {
-    return <div />;
-  }
   return <QueryToQueryStreamWrapper {...props} />;
 });
 

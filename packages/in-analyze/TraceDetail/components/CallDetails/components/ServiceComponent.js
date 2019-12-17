@@ -4,12 +4,14 @@ import { get } from 'lodash';
 import {
   SourceLocation,
   DestinationLocation,
-  EumSourceLocation
+  WebsiteSourceLocation,
+  MobileAppSourceLocation
 } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
 import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
-import BeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/BeaconDetails';
+import MobileAppBeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/MobileAppBeaconDetails';
+import WebsiteBeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/WebsiteBeaconDetails';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -20,7 +22,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call, beacon }) {
+export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
@@ -113,23 +115,32 @@ export default function ServiceComponent({ call, beacon }) {
                   <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
                 </svg>
               </div>
-              {beacon && sourceService.id === 'ROOT' ? (
-                <EumSourceLocation location={'source'} beacon={beacon} />
-              ) : (
-                <SourceLocation
-                  location={'source'}
-                  service={sourceService}
-                  snapshotId={sourceSnapshotId}
-                  entity={sourceEntity}
-                  span={exitSpan}
-                  physicalContext={sourcePhysicalContext}
-                />
-              )}
+              {websiteBeacon &&
+                sourceService.id === 'ROOT' && <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />}
+              {mobileAppBeacon &&
+                sourceService.id === 'ROOT' && <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />}
+              {(!websiteBeacon && !mobileAppBeacon) ||
+                (sourceService.id !== 'ROOT' && (
+                  <SourceLocation
+                    location={'source'}
+                    service={sourceService}
+                    snapshotId={sourceSnapshotId}
+                    entity={sourceEntity}
+                    span={exitSpan}
+                    physicalContext={sourcePhysicalContext}
+                  />
+                ))}
               <div className={locals.sourceChildren}>
-                {beacon &&
+                {websiteBeacon &&
                   sourceService.id === 'ROOT' && (
                     <ExpandableGroup title="Details" defaultExpanded>
-                      <BeaconDetails beacon={beacon} />
+                      <WebsiteBeaconDetails beacon={websiteBeacon} />
+                    </ExpandableGroup>
+                  )}
+                {mobileAppBeacon &&
+                  sourceService.id === 'ROOT' && (
+                    <ExpandableGroup title="Details" defaultExpanded>
+                      <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                     </ExpandableGroup>
                   )}
                 {exitSpan && (
@@ -144,10 +155,13 @@ export default function ServiceComponent({ call, beacon }) {
                   </ExpandableGroup>
                 )}
                 {sourceService.id === 'ROOT' &&
-                  !beacon && (
+                  !websiteBeacon &&
+                  !mobileAppBeacon && (
                     <ExpandableGroup title="Details" defaultExpanded>
-                      <p>Instana is not tracing the source of this call.</p>
-                      <p>The first data about this trace are collected from the destination.</p>
+                      <p>
+                        The source of this call has not been traced and as a result no information can be provided about
+                        the source. All information shown about this call is provided by the destination.
+                      </p>
                     </ExpandableGroup>
                   )}
                 {exitSpan &&

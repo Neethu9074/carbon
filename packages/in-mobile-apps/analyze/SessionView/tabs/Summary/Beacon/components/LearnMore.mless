@@ -1,0 +1,13 @@
+:local {
+  .explanation {
+    max-width: 40rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 0;
+  }
+}

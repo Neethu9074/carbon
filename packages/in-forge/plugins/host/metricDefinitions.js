@@ -42,6 +42,13 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['memory.swapTotal', 'memory.swapFree', 'memory.buffers', 'memory.cached', 'memory.available'],
+    labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
+    category: ['Memory'],
+    min: 0,
+    formatter: bytes
+  },
+  {
     metric: 'load.1min',
     label: 'Load',
     category: ['CPU'],

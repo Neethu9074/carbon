@@ -4,13 +4,14 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-compone
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
+import SearchBar from 'in-components/SearchBar';
 
 import locals from './ViewSwitcher.mless';
 
-export default function InfrastructureViewSwitcher({ selectedEventType }) {
+export default function ViewSwitcher({ selectedEventType }) {
   return (
     <div className={locals.wrapper}>
-      <SecondLevelNavigation darkTheme>
+      <SecondLevelNavigation>
         <SecondLevelNavigationItem
           href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, 'view', null))}
           label="All"
@@ -36,6 +37,8 @@ export default function InfrastructureViewSwitcher({ selectedEventType }) {
           darkTheme
         />
       </SecondLevelNavigation>
+
+      <SearchBar />
     </div>
   );
 }
