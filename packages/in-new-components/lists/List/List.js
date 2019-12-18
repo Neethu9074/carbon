@@ -4,6 +4,7 @@ import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibili
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import locals from './List.mless';
 
@@ -76,9 +77,9 @@ export const Li = connectTo(
         tabIndex="0"
       >
         {href ? (
-          <a className={locals.link} href={href}>
+          <Link className={locals.link} href={href}>
             <ItemContent />
-          </a>
+          </Link>
         ) : (
           <ItemContent />
         )}
