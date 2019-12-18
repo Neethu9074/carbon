@@ -63,7 +63,7 @@ function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainer
   } else if (dockerContainerId) {
     query['docker.container_id'] = dockerContainerId;
   } else if (hostFqdn || hostName) {
-    const hostParam = hostName ? hostName : hostFqdn;
+    const hostParam = `*${hostName ? hostName : hostFqdn}*`;
     if (isWithinKubernetes) {
       query['kubernetes.host'] = hostParam;
     } else {
