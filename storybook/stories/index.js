@@ -34,7 +34,6 @@ import './application/CreatingNewApplicationWaiter.story';
 import './application/EmptyAppList.story';
 import './application/ServiceListPopup.story';
 
-import './website/BeaconUserSummary.story';
 import './website/BrowserIcons.story';
 import './website/Deprecations.story';
 import './website/NewWebsite.story';

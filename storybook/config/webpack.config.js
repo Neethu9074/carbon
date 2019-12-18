@@ -112,7 +112,8 @@ const necessaryLoaders = [
   },
   {
     // For the code view in the CSF (component story format)
-    test: /\.js$/,
+    // Only apply to stories. See https://github.com/storybookjs/storybook/pull/8773 for context
+    test: /\.story\.js$/,
     loader: require.resolve('@storybook/source-loader'),
     exclude: [/node_modules/],
     enforce: 'pre'

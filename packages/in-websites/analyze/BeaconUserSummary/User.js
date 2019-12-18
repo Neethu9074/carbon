@@ -1,9 +1,12 @@
 import { uniq, find } from 'lodash';
 import React from 'react';
 
-import { isNotBlank } from 'in-services/util/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
+import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './User.mless';
 
@@ -32,11 +35,26 @@ export default function User({ beacon, beacons }) {
     );
   }
 
+  const firstBeaconIsMissingUserData = isBlank(beacon.userId) || isBlank(beacon.userName) || isBlank(beacon.userEmail);
+
   return (
     <div className={locals.user}>
-      <Gravatar email={beacon.email} className={locals.avatar} />
+      <Gravatar email={beacon.userEmail} className={locals.avatar} />
       <div className={locals.info}>
-        {first && <div className={locals.first}>{first}</div>}
+        <div className={locals.first}>
+          <span className={locals.firstText}>{first}</span>{' '}
+          {firstBeaconIsMissingUserData && (
+            <Tooltip content="Only a subset of the beacons of this page load have associated user data. This can result in surprising statistics and analyze results.">
+              <Link
+                external
+                href="https://docs.instana.io/products/website_monitoring/api/#identifying-users"
+                className={locals.firstBeaconIsMissingUserDataLink}
+              >
+                <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />
+              </Link>
+            </Tooltip>
+          )}
+        </div>
         {second && <div className={locals.second}>{second}</div>}
         {third && <div className={locals.third}>{third}</div>}
       </div>
