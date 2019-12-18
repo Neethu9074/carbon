@@ -163,7 +163,7 @@ function renderButtonLine({ tagFilters, mobileAppLabel }) {
     <Fragment>
       <Button
         kind="primary"
-        icon="lib_website_page_load"
+        icon="lib_mobile_app_session"
         href$={getLinkToAnalyze({
           beaconType: 'sessionStart',
           tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }),
