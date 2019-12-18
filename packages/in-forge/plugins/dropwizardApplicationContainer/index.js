@@ -1,22 +1,23 @@
+import metricDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/metricDefinitions';
+import tableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/tableDefinition';
+import kpiDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/dropwizardApplicationContainer/iconPath';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import tableDefinition from './tableDefinition';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.dropwizardApplicationContainer,
-  iconSvgPath,
-  metricDefinitions,
-  tableDefinition,
-  supportsCodeView,
-  getCodeView,
   pluginName: {
     singular: 'Dropwizard App',
     plural: 'Dropwizard Apps'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  tableDefinition,
+  getCodeView,
+  supportsCodeView,
   technologyDescriptor: {
     label: 'Dropwizard'
   }

@@ -1,17 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/activeMQArtemis/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/activeMQArtemis/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/activeMQArtemis/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.activeMQArtemis,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'ActiveMQ Artemis',
     plural: 'ActiveMQ Artemis'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'ActiveMQArtemis'
   }

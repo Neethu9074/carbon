@@ -1,18 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/kafkaCluster/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/kafkaCluster/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
-
 import iconSvgPath from 'in-forge/plugins/kafka/iconPath';
-
-import metricDefinitions from './metricDefinitions';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kafkaCluster,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Kafka Cluster',
     plural: 'Kafka Cluster'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'Kafka'
   }

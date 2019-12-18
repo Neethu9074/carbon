@@ -1,16 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/awsMq/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/awsMq/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from './metricDefinitions';
+import iconSvgPath from 'in-forge/plugins/awsMq/iconPath';
 import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.awsMq,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Amazon MQ',
     plural: 'Amazon MQs'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'broker_name'], '');
   }

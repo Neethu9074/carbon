@@ -1,15 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/sapHana/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/sapHana/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/sapHana/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.sapHana,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'SAP HANA',
     plural: 'SAP HANA'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

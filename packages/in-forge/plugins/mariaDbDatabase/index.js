@@ -1,17 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/mariaDbDatabase/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/mariaDbDatabase/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/mariaDbDatabase/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.mariaDbDatabase,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'MariaDB',
     plural: 'MariaDBs'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'MariaDB'
   }

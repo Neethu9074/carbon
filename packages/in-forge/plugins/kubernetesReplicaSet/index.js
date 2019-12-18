@@ -1,3 +1,4 @@
+import kpiDefinitions from 'in-forge/plugins/kubernetesReplicaSet/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -6,5 +7,6 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Kubernetes Replica Set',
     plural: 'Kubernetes Replica Sets'
-  }
+  },
+  kpiDefinitions
 });

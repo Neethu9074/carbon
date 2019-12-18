@@ -1,17 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/openLDAP/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/openLDAP/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/openLDAP/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.openLDAP,
-
-  iconSvgPath,
-  metricDefinitions,
-
   pluginName: {
     singular: 'OpenLDAP Node',
     plural: 'OpenLDAP Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

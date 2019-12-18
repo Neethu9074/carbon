@@ -5,26 +5,26 @@ import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/f
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import ContainerInfoButton from 'in-forge/plugins/docker/ContainerInfoButton';
+import metricDefinitions from 'in-forge/plugins/docker/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
+import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
 import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/docker/iconPath';
 import { hasRestrictedAccess } from 'in-stores/permission';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.docker,
-  iconSvgPath,
-  metricDefinitions,
-  tableDefinition,
-
   pluginName: {
     singular: 'Docker Container',
     plural: 'Docker Containers'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  tableDefinition,
 
   getContext(snapshot) {
     return Map({

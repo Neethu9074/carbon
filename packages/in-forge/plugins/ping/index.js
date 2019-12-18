@@ -1,18 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/ping/metricDefinitions';
+import tableDefinition from 'in-forge/plugins/ping/tableDefinition';
+import kpiDefinitions from 'in-forge/plugins/ping/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/ping/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import tableDefinition from './tableDefinition';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.ping,
-  metricDefinitions,
-  tableDefinition,
-  iconSvgPath,
-
   pluginName: {
     singular: 'Ping',
     plural: 'Ping'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  tableDefinition
 });

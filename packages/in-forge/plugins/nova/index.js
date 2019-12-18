@@ -1,8 +1,8 @@
+import metricDefinitions from 'in-forge/plugins/nova/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/nova/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/nova/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.nova,
@@ -11,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'OpenStack Compute Instances'
   },
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions
 });
