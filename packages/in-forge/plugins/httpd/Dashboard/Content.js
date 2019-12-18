@@ -12,7 +12,7 @@ import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services
 
 export default function HttpdDashboard({ snapshot, timeConfig }) {
   const status = snapshot.getIn(['data', 'server-status']);
-  const ver = snapshot.getIn(['data', 'version']).replace(/[^\d.]/g, '');
+  const ver = (snapshot.getIn(['data', 'version']) || '').replace(/[^\d.]/g, '');
   const snapshotId = snapshot.get('id');
 
   if (status !== 'OK' && status !== 'EXTENDED_INFO_DISABLED') {
@@ -62,7 +62,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(semver.coerce(ver), '>=2.3.0') ? (
+      {snapshot.getIn(['data', 'mpm']) === 'event' && ver && semver.satisfies(semver.coerce(ver), '>=2.3.0') ? (
         <DashboardSection title="Connections">
           <Chart
             snapshotId={snapshot.get('id')}
@@ -171,11 +171,11 @@ function extendedStatusInfo(status, ver) {
 }
 
 function getModStatusDoc(v) {
-  if (semver.satisfies(v, '>=2.4.0')) {
+  if (v && semver.satisfies(v, '>=2.4.0')) {
     return 'https://httpd.apache.org/docs/2.4/mod/core.html#extendedstatus';
-  } else if (semver.satisfies(v, '>=2.2.0')) {
+  } else if (v && semver.satisfies(v, '>=2.2.0')) {
     return 'https://httpd.apache.org/docs/2.2/mod/core.html#extendedstatus';
-  } else if (semver.satisfies(v, '>=2.0.0')) {
+  } else if (v && semver.satisfies(v, '>=2.0.0')) {
     return 'https://httpd.apache.org/docs/2.0/mod/core.html#extendedstatus';
   }
   return 'http://httpd.apache.org/docs/current/mod/mod_status.html#extendedstatus';
