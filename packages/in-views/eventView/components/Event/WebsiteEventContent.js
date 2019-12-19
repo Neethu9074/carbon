@@ -38,7 +38,8 @@ export default connectTo(
     const entityType = event.get('entityType');
     const metadata = event.get('metadata');
     const websiteLabel = metadata.get('entityLabel');
-    const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...alertConfig.tagFilters];
+    const tagFilters = alertConfig.tagFilters;
+    const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
     const thresholdValue = alertConfig.threshold.value;
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
@@ -75,9 +76,10 @@ export default connectTo(
               alertType={alertType}
               JsErrorsComponent={() => (
                 <JsErrorsAlertingBarChart
+                  websiteId={entityId}
                   threshold={thresholdValue}
                   timeConfig={timeConfig}
-                  tagFilters={tagFiltersWithWebsiteId}
+                  tagFilters={tagFilters}
                   errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
                   granularity={tenMins}
                   metricName={metricName}

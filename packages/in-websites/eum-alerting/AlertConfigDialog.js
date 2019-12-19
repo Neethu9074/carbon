@@ -162,14 +162,14 @@ function createAlert(form, setForm, onClose, editMode) {
     updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
       () => onClose(),
       error => {
-        logger.error(`failed to update alertConfing: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to update alertConfig: ${websiteAlertConfig} ${error.message}`, error);
       }
     );
   } else {
     createAlertConfig(websiteAlertConfig).once(
       () => onClose(),
       error => {
-        logger.error(`failed to save alertConfing: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to save alertConfig: ${websiteAlertConfig} ${error.message}`, error);
       }
     );
   }
@@ -222,11 +222,21 @@ function addThresholdToForm(form, onChange, threshold) {
   }
 }
 
-function getMetricConfiguration(aggregation, metric, stringValue, operator, tagFilters, timeConfig, granularity) {
+function getMetricConfiguration(
+  websiteId,
+  aggregation,
+  metric,
+  stringValue,
+  operator,
+  tagFilters,
+  timeConfig,
+  granularity
+) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const errorFilter = { name: 'beacon.error.message', operator, stringValue };
   return {
     timeConfig,
-    tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
+    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
     metrics: {
       threshold: {
         metric,
@@ -235,6 +245,14 @@ function getMetricConfiguration(aggregation, metric, stringValue, operator, tagF
         numeratorFilter: errorFilter
       }
     }
+  };
+}
+
+function getWebsiteIdTagFilter(websiteId) {
+  return {
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: websiteId
   };
 }
 

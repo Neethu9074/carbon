@@ -1,5 +1,5 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/oracleDB';
+import kpiDefinitions from 'in-forge/plugins/oracleDB/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
