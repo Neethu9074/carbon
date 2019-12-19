@@ -93,7 +93,7 @@ export default connectTo(
 
 function getDetails(row) {
   return (
-    <DashboardSection title="Consumer Group/Topic Lag">
+    <DashboardSection title="Lag">
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
@@ -101,7 +101,7 @@ function getDetails(row) {
           formatter: zeroDecimalPlaces,
           tooltipFormatter: zeroDecimalPlaces,
           metrics: [`broker.lagData.data.${row.key}.lag`],
-          labels: ['Lag'],
+          labels: ['Messages Count'],
           type: 'line'
         }}
       />
