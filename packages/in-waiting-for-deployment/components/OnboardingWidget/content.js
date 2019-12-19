@@ -1144,7 +1144,6 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              mountPath: /root/configuration.yaml\n' +
     '          livenessProbe:\n' +
     '            httpGet: # Agent liveness is published on localhost:42699/status\n' +
-    '              host: 127.0.0.1\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
     '            initialDelaySeconds: 75\n' +
@@ -1176,7 +1175,6 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              memory: "64Mi"\n' +
     '          livenessProbe:\n' +
     '            httpGet: # Leader elector liveness is tied to Agent, published on localhost:42699/status\n' +
-    '              host: 127.0.0.1\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
     '            initialDelaySeconds: 75\n' +
