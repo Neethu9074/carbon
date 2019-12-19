@@ -93,7 +93,6 @@ function Header(props) {
         label={props.sessionLabel}
         renderButtonLine={renderButtonLine}
       />
-      <div className={locals.tabViewPlaceholder} />
     </>
   );
 }

@@ -1,20 +1,20 @@
 import React from 'react';
 
 import {
-  SecondLevelNavigation,
-  SecondLevelNavigationItem,
-  SecondLevelNavigationGroup
-} from 'in-new-components/SecondLevelNavigation';
+  getLinkToAnalyze as getLinkToMobileAppAnalyze,
+  analyzePath as mobileAppAnalyzePath,
+  mobileAppMonitoringPath
+} from 'in-mobile-apps/navigation/paths';
 import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   analyzePath as websiteAnalyzePath,
   websiteMonitoringPath
 } from 'in-websites/navigation/paths';
 import {
-  getLinkToAnalyze as getLinkToMobileAppAnalyze,
-  analyzePath as mobileAppAnalyzePath,
-  mobileAppMonitoringPath
-} from 'in-mobile-apps/navigation/paths';
+  SecondLevelNavigation,
+  SecondLevelNavigationItem,
+  SecondLevelNavigationGroup
+} from 'in-new-components/SecondLevelNavigation';
 import {
   getLinkToAnalyze as getLinkToProfilesAnalyze,
   analyzePath as profilingAnalyzePath
@@ -35,10 +35,10 @@ import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/m
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { defaultGrouping as defaultProfilesGrouping } from 'in-profiling/tags';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
@@ -58,7 +58,7 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
         label={getLabelByType(dataSource.dataSource, dataSource.productArea)}
         title="Analytics"
       />
-      <DashboardHeaderModule withBottomBorder>
+      <DashboardHeaderModule withBottomBorder theme={themes.light}>
         <SecondLevelNavigation hasGroups>
           <SecondLevelNavigationGroup
             label="Applications"
