@@ -85,7 +85,7 @@ function getDashboard({
   endpointId,
   boundaryScope,
   tab = '/summary',
-  tabMatrix = emptyObject,
+  tabMatrix = {},
   timeConfig
 }) {
   return getModifiedUrlStream(params => {
