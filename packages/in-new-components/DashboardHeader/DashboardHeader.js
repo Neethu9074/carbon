@@ -34,7 +34,6 @@ export default function DashboardHeader(props) {
       renderIcon = getSkeletonIcon;
     }
   }
-
   return (
     <header className={joinClassNames(locals.dashboardHeader, locals[theme])}>
       <Title title={title} />
@@ -44,8 +43,7 @@ export default function DashboardHeader(props) {
             <>
               <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
               <span className={locals.context}>{renderContext(props)}</span>
-              {(icon || renderIcon) &&
-                label && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+              {icon && label && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
             </>
           )}
           {renderIcon ? renderIcon() : <SvgIcon className={locals.icon} type={icon} size="l" />}
