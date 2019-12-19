@@ -77,14 +77,14 @@ function createAlert(form, setForm, onClose, editMode) {
     updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
       () => onClose(),
       error => {
-        logger.error(`failed to update alertConfing: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to update alertConfig: ${websiteAlertConfig} ${error.message}`, error);
       }
     );
   } else {
     createAlertConfig(websiteAlertConfig).once(
       () => onClose(),
       error => {
-        logger.error(`failed to save alertConfing: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to save alertConfig: ${websiteAlertConfig} ${error.message}`, error);
       }
     );
   }
