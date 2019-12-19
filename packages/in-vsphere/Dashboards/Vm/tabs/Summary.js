@@ -112,7 +112,7 @@ export default function Summary({ timeConfig, data: vm }) {
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="Netowork" useMaxAvailableHeight>
+          <Card title="Network" useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

@@ -5,7 +5,6 @@ import StackPane from 'in-new-components/Stack/components/StackPane';
 
 export default function StackPresenter({ stack }) {
   const [activeTabIndex, setTabIndex] = useState(0);
-
   const onTabSelect = i => setTabIndex(i);
   const { key } = tabList[activeTabIndex];
 

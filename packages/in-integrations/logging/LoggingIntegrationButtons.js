@@ -7,7 +7,6 @@ import { integrationKey as logdnaIntegrationKey } from 'in-integrations/logging/
 import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 

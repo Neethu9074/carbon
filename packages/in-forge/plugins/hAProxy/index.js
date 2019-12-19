@@ -1,15 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/hAProxy/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/hAProxy/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/hAProxy/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.hAProxy,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'HAProxy',
     plural: 'HAProxy'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

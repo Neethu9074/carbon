@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getSingular } from 'in-sdk/pluginName';
 import Link from 'in-components/Link';
 
 import locals from './EntityWithType.mless';
@@ -7,7 +8,7 @@ import locals from './EntityWithType.mless';
 export default function EntityWithType({ label, type, href$ }) {
   return (
     <div className={locals.wrapper}>
-      <div className={locals.type}>{type}</div>
+      <div className={locals.type}>{getSingular(type)}</div>
       {href$ ? (
         <Link className={locals.link} href$={href$}>
           {label}

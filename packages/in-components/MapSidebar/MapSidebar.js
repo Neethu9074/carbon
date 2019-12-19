@@ -30,7 +30,7 @@ export default connectTo(
       <div
         className={locals.mapSidebar}
         style={{
-          maxHeight: toPx(windowHeight - 250)
+          maxHeight: toPx(windowHeight - 150)
         }}
       >
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
@@ -39,7 +39,7 @@ export default connectTo(
         <div
           className={locals.scrollWrapper}
           style={{
-            maxHeight: toPx(windowHeight - 410)
+            maxHeight: toPx(windowHeight - 350)
           }}
         >
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />

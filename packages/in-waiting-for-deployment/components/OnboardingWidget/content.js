@@ -356,7 +356,7 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '15';
+  const layerVersion = '18';
 
   let steps;
 
@@ -1077,18 +1077,21 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '  configuration.yaml: |\n' +
     '\n' +
     '---\n' +
-    'apiVersion: extensions/v1beta1\n' +
+    'apiVersion: apps/v1\n' +
     'kind: DaemonSet\n' +
     'metadata:\n' +
     '  name: instana-agent\n' +
     '  namespace: instana-agent\n' +
     'spec:\n' +
+    '  selector:\n' +
+    '    matchLabels:\n' +
+    '      app: instana-agent\n' +
     '  template:\n' +
     '    metadata:\n' +
     '      labels:\n' +
     '        app: instana-agent\n' +
     '    spec:\n' +
-    '      serviceAccount: instana-agent\n' +
+    '      serviceAccountName: instana-agent\n' +
     '      hostIPC: true\n' +
     '      hostNetwork: true\n' +
     '      hostPID: true\n' +
@@ -1132,6 +1135,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              mountPath: /sys\n' +
     '            - name: log\n' +
     '              mountPath: /var/log\n' +
+    '            - name: var-lib\n' +
+    '              mountPath: /var/lib/containers/storage\n' +
     '            - name: machine-id\n' +
     '              mountPath: /etc/machine-id\n' +
     '            - name: configuration\n' +
@@ -1139,6 +1144,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              mountPath: /root/configuration.yaml\n' +
     '          livenessProbe:\n' +
     '            httpGet: # Agent liveness is published on localhost:42699/status\n' +
+    '              host: 127.0.0.1\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
     '            initialDelaySeconds: 75\n' +
@@ -1170,6 +1176,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              memory: "64Mi"\n' +
     '          livenessProbe:\n' +
     '            httpGet: # Leader elector liveness is tied to Agent, published on localhost:42699/status\n' +
+    '              host: 127.0.0.1\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
     '            initialDelaySeconds: 75\n' +
@@ -1192,6 +1199,9 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '        - name: log\n' +
     '          hostPath:\n' +
     '            path: /var/log\n' +
+    '        - name: var-lib\n' +
+    '          hostPath:\n' +
+    '            path: /var/lib/containers/storage\n' +
     '        - name: machine-id\n' +
     '          hostPath:\n' +
     '            path: /etc/machine-id\n' +

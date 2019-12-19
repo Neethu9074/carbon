@@ -1,17 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/golangRuntimePlatform/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/golangRuntimePlatform/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/golangRuntimePlatform/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.golangRuntimePlatform,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Go App',
     plural: 'Go Apps'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'Go'
   }

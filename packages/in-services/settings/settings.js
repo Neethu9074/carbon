@@ -3,6 +3,7 @@ import { createLogger } from 'instalog';
 import { get } from 'lodash';
 
 import { saveSettings, saveSetting } from 'in-api/settings';
+
 const logger = createLogger('SearchBar/stores/filers');
 
 export const settingsStore = create({ emitLatestOnSubscribe: true });

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
@@ -16,7 +17,7 @@ export default function SimpleAlertConfigDialogStep2({ form, granularity, onChan
         <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} onChange={onChange} />
       </div>
       <ChartSwitch
-        form={form}
+        alertType={form.get(fieldNames.ruleAlertType).value}
         JsErrorsComponent={() => <JsErrorsChart form={form} timeConfig={timeConfig} granularity={granularity} />}
         SlownessComponent={() => <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} />}
       />

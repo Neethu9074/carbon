@@ -120,7 +120,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                 >
                   {key === 'kind'
                     ? getConfig(entity).label
-                    : entity.get(key).join
+                    : entity.get(key) && entity.get(key).join
                       ? entity.get(key).join(', ')
                       : entity.get(key)}
                 </Di>

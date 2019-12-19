@@ -20,7 +20,10 @@ export default [
     category: ['Connections'],
     formatter: number,
     isAvailable(snapshot) {
-      const ver = snapshot.getIn(['data', 'version']).replace(/[^\d.]/g, '');
+      const ver = (snapshot.getIn(['data', 'version']) || '').replace(/[^\d.]/g, '');
+      if (!ver) {
+        return false;
+      }
       return snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0');
     }
   },

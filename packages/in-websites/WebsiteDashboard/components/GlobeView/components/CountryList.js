@@ -8,18 +8,18 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './CountryList.mless';
 
 export default connectTo(
-  props => ({
-    items: props.data$.map(result => {
+  ({ data$, getValue }) => ({
+    items: data$.map(result => {
       if (!result || !result.data) {
         return null;
       }
       return result.data.items
         .slice()
-        .sort((a, b) => b.pageLoads - a.pageLoads)
+        .sort((a, b) => getValue(b) - getValue(a))
         .slice(0, 10);
     })
   }),
-  function CountryList({ items }) {
+  function CountryList({ items, getValue }) {
     if (!items) {
       return null;
     }
@@ -27,7 +27,7 @@ export default connectTo(
     let min = null;
     let max = null;
     items.forEach(item => {
-      const value = item.pageLoads;
+      const value = getValue(item);
 
       if (min == null) {
         min = value;
@@ -46,12 +46,12 @@ export default connectTo(
       <div className={locals.wrapper}>
         <ul className={locals.list}>
           {items.map(item => {
-            const intensity = Math.max(1, item.pageLoads - min) / Math.max(1, max - min);
+            const intensity = Math.max(1, getValue(item) - min) / Math.max(1, max - min);
             const color = getHeatMapColor(intensity, lightGreenToDarkGreenRgb);
             return (
               <li key={item.country} className={locals.listItem}>
-                <span className={locals.countryName}>{item.country}:</span> {number.compact(item.pageLoads)}
-                <div style={{ width: (item.pageLoads / max) * 300 }} className={locals.barWrapper}>
+                <span className={locals.countryName}>{item.country}:</span> {number.compact(getValue(item))}
+                <div style={{ width: (getValue(item) / max) * 300 }} className={locals.barWrapper}>
                   <div
                     style={{ background: rgbToHex(color.r * 255, color.g * 255, color.b * 255) }}
                     className={locals.bar}

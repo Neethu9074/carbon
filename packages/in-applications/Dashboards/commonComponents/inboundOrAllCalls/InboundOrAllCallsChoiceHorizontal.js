@@ -20,16 +20,16 @@ export default function InboundOrAllCallsChoiceHorizontal({
   }
 
   const overrideInfo = (
-    <Tooltip content={boundaryScopes.info[defaultBoundaryScope].overrideDefault} align="rightMiddle">
+    <Tooltip content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault} align="rightMiddle">
       <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
     </Tooltip>
   );
 
   const cardPreview = (
     <Fragment>
-      <SvgIcon type={boundaryScopes.info[boundaryScope].icon} className={locals.headerIcon} />
+      <SvgIcon type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} className={locals.headerIcon} />
       <span className={locals.headerPreview}>
-        {boundaryScopes.info[boundaryScope].text}
+        {boundaryScopes.info[boundaryScope.toUpperCase()].text}
         {boundaryScope != defaultBoundaryScope ? overrideInfo : ''}
       </span>
     </Fragment>

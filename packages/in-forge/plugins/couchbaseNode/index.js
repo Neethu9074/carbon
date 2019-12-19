@@ -1,15 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/couchbaseNode/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/couchbaseNode/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/couchbaseNode/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
   plugin: plugins.couchbaseNode,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Couchbase Node',
     plural: 'Couchbase Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

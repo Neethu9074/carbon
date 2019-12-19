@@ -1,17 +1,18 @@
+import metricDefinitions from 'in-forge/plugins/redis/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/redis/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/redis/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.redis,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Redis Node',
     plural: 'Redis Nodes'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
   technologyDescriptor: {
     label: 'Redis'
   }

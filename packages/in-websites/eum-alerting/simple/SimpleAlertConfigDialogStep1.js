@@ -56,7 +56,7 @@ export default function SimpleAlertConfigDialogStep1({
         />
       )}
       <ChartSwitch
-        form={form}
+        alertType={form.get(fieldNames.ruleAlertType).value}
         JsErrorsComponent={() => <JsErrorsChart form={form} timeConfig={timeConfig} granularity={granularity} />}
         SlownessComponent={() => <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} />}
       />

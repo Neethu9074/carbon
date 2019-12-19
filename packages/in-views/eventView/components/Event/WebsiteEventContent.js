@@ -4,10 +4,13 @@ import AlertingConfigurationButton from 'in-events/components/legacy/AlertingCon
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import AnalyzeJsErrorsButton from 'in-events/components/legacy/AnalyzeJsErrorsButton';
+import EumAlertingLineChart from 'in-websites/eum-alerting/chart/EumAlertingLineChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
+import EumAlertButton from 'in-events/components/legacy/EumAlertButton';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
@@ -38,6 +41,8 @@ export default connectTo(
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...alertConfig.tagFilters];
     const thresholdValue = alertConfig.threshold.value;
     const metricName = alertConfig.rule.metricName || 'errors';
+    const alertType = alertConfig.rule.alertType;
+    const aggregation = alertConfig.rule.aggregation || null;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = twelveHours;
@@ -57,21 +62,36 @@ export default connectTo(
             <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
           </Card>
 
-          <Card title="# of JS Errors">
+          <Card title={getChartTitle(alertType)}>
             <div className={locals.analyzeButtonWrapper}>
-              <AnalyzeJsErrorsButton
+              <EumAlertButton
                 timeConfigFromEvent={timeConfigFromEvent}
                 tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
                 websiteLabel={websiteLabel}
+                alertType={alertType}
               />
             </div>
-            <JsErrorsAlertingBarChart
-              threshold={thresholdValue}
-              timeConfig={timeConfig}
-              tagFilters={tagFiltersWithWebsiteId}
-              errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-              granularity={tenMins}
-              metricName={metricName}
+            <ChartSwitch
+              alertType={alertType}
+              JsErrorsComponent={() => (
+                <JsErrorsAlertingBarChart
+                  threshold={thresholdValue}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFiltersWithWebsiteId}
+                  errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
+                  granularity={tenMins}
+                  metricName={metricName}
+                />
+              )}
+              SlownessComponent={() => (
+                <EumAlertingLineChart
+                  threshold={thresholdValue}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFiltersWithWebsiteId}
+                  aggregation={aggregation}
+                  granularity={tenMins}
+                />
+              )}
             />
           </Card>
 
@@ -106,4 +126,11 @@ function getErrorMessageTagFilter(alertRule) {
     operator: alertRule.operator,
     stringValue: alertRule.value
   };
+}
+
+function getChartTitle(alertType) {
+  if (alertType === alertTypes.specificJsError) {
+    return '# of JS Errors';
+  }
+  return 'On Load time';
 }

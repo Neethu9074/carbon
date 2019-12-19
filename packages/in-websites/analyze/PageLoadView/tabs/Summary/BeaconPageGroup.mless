@@ -2,7 +2,6 @@
 
 :local {
   .group {
-    padding: 1rem;
     border-top: 1px solid @lib__colors__N400;
   }
 
@@ -10,6 +9,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem;
+
+    &:hover, &:focus {
+      outline: 0;
+      background: @lib__colors__N300;
+      cursor: pointer;
+    }
   }
 
   .left {
@@ -25,7 +31,7 @@
   }
 
   .beacons {
-    margin: 1rem 0.5rem 0;
+    margin: 1rem 1.5rem 1rem;
   }
 
   .pageIcon path {

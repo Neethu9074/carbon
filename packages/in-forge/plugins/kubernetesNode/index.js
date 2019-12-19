@@ -1,15 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/kubernetesNode/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/kubernetesNode/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/kubernetesNode/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
-
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesNode,
-  iconSvgPath,
-  metricDefinitions,
   pluginName: {
     singular: 'Kubernetes Node',
     plural: 'Kubernetes Nodes'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

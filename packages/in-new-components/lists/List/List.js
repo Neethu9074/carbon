@@ -3,6 +3,8 @@ import React, { Fragment, useState } from 'react';
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import locals from './List.mless';
 
@@ -19,24 +21,23 @@ export function Ul({ framed = true, children }) {
   );
 }
 
-export function Li(props) {
-  const { renderActions, children, onClick, size, renderNestedContent } = props;
+export const Li = connectTo(
+  ({ href, href$ }) => {
+    if (href) {
+      return {};
+    }
 
-  const [open, setOpen] = useState(false);
+    return {
+      href: href$
+    };
+  },
+  function Li(props) {
+    const { renderActions, children, onClick, size, renderNestedContent, href, style } = props;
 
-  return (
-    <Fragment>
-      <li
-        style={props.style ? props.style : null}
-        className={evaluateClassNames({
-          [locals.listItem]: true,
-          [locals.clickable]: onClick,
-          [locals.expanded]: open
-        })}
-        onClick={onClick}
-        onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
-        tabIndex="0"
-      >
+    const [open, setOpen] = useState(false);
+
+    const ItemContent = () => (
+      <Fragment>
         <div
           className={evaluateClassNames({
             [locals.itemContent]: true,
@@ -60,7 +61,29 @@ export function Li(props) {
           </div>
         </div>
         {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
+      </Fragment>
+    );
+
+    return (
+      <li
+        style={style ? style : null}
+        className={evaluateClassNames({
+          [locals.listItem]: true,
+          [locals.clickable]: onClick || href,
+          [locals.expanded]: open
+        })}
+        onClick={onClick}
+        onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
+        tabIndex="0"
+      >
+        {href ? (
+          <Link className={locals.link} href={href}>
+            <ItemContent />
+          </Link>
+        ) : (
+          <ItemContent />
+        )}
       </li>
-    </Fragment>
-  );
-}
+    );
+  }
+);

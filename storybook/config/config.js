@@ -1,16 +1,32 @@
 /* eslint-env node */
 import React from 'react';
 
+// ################################################
+// Start: Initialize Instana specific globals
+import 'in-themes/foundation.less';
+import './globals';
+import './globalTagDefinition';
+import 'in-forge';
+// End: Initialize Instana specific globals
+// ################################################
+
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import { configure, addDecorator } from '@storybook/react';
 import { addParameters } from '@storybook/react';
 import { create } from '@storybook/theming';
 
-import 'in-themes/foundation.less';
+import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
+import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 
 import locals from './config.mless';
 
-addDecorator(story => <div className={locals.root}>{story()}</div>);
+addDecorator(story => (
+  <>
+    <TooltipPresenter />
+    <OverlayPresenter />
+    <div className={locals.root}>{story()}</div>
+  </>
+));
 
 addParameters({
   options: {
@@ -25,10 +41,3 @@ addParameters({
 });
 
 configure(require.context('../src', true, /\.story\.(js|mdx)$/), module);
-
-// function loadStories() {
-//   require('../stories/index.js');
-//   require.context('../src', true, /\.story\.js$/);
-// }
-
-// configure(loadStories, module);

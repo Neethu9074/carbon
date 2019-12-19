@@ -1,8 +1,8 @@
+import iconSvgPath from 'in-forge/plugins/azureSqlElasticPool/Icons/ElasticPoolIconPath';
+import metricDefinitions from 'in-forge/plugins/azureSqlElasticPool/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/azureSqlElasticPool/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './Icons/ElasticPoolIconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.azureSqlElasticPool,
@@ -11,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'Azure SQL Elastic Pools'
   },
   iconSvgPath,
+  kpiDefinitions,
   metricDefinitions
 });

@@ -1,16 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/awsSqs/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/awsSqs/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/awsSqs/iconPath';
 import { plugins } from 'in-forge/constants';
-
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.awsSqs,
-  iconSvgPath,
-  metricDefinitions,
-
   pluginName: {
     singular: 'AWS SQS',
     plural: 'AWS SQSs'
-  }
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
 });

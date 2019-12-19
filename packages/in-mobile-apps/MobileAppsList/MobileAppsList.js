@@ -5,9 +5,9 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
 import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import ViewSwitcher from 'in-mobile-apps/MobileAppsList/components/ViewSwitcher';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';

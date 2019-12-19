@@ -7,10 +7,10 @@
     display: flex;
     align-items: center;
 
-    width: 100%;
-    padding: 1rem 0;
+    flex-grow: 1;
+    padding: 1rem 0 1rem 2rem;
 
-    background: @lib__colors__N050;
+    background: @lib__colors__white;
   }
 
   .wrapperdark {

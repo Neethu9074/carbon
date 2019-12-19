@@ -184,7 +184,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
   );
 }
 
-function healthFormatter(value) {
+export function healthFormatter(value) {
   if (value === 0) {
     return 'HEALTH_OK';
   } else if (value === 1) {

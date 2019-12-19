@@ -1,21 +1,21 @@
+import metricDefinitions from 'in-forge/plugins/jBossAsApplicationContainer/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/jBossAsApplicationContainer/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
+import iconSvgPath from 'in-forge/plugins/jbossDataGrid/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
-import iconSvgPath from 'in-forge/plugins/jbossDataGrid/iconPath';
-
-import metricDefinitions from './metricDefinitions';
-
 registerSnapshotDefinition({
   plugin: plugins.jBossAsApplicationContainer,
-  iconSvgPath,
-  metricDefinitions,
-  supportsCodeView,
-  getCodeView,
   pluginName: {
     singular: 'JBoss',
     plural: 'JBoss'
   },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions,
+  getCodeView,
+  supportsCodeView,
   technologyDescriptor: {
     label: 'JBoss'
   }

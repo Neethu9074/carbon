@@ -60,7 +60,11 @@ export function ListItem({ item, active }) {
     <ListItemPresenter
       active={active}
       label={item.beacon.view}
-      href$={getLinkToSession({ sessionId: item.beacon.sessionId, beaconTimestamp: item.beacon.timestamp })}
+      href$={getLinkToSession({
+        sessionId: item.beacon.sessionId,
+        beaconId: item.beacon.beaconId,
+        beaconTimestamp: item.beacon.timestamp
+      })}
       time={item.beacon.timestamp}
       duration={item.beacon.duration}
     />

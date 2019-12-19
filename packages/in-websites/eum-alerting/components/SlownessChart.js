@@ -12,50 +12,53 @@ import locals from './JsErrorsChart.mless';
 export default function SlownessChart({ form, timeConfig, onChange, granularity }) {
   return (
     <div className={locals.container}>
-      {onChange && (
-        <div className={locals.controls}>
-          <FormGroup>
-            <ComboBox
-              className={locals.metricSelect}
-              name={fieldNames.ruleAggregation}
-              value={form.get(fieldNames.ruleAggregation).value}
-              options={selectOptions[fieldNames.ruleAggregation]}
-              onChange={e => {
-                const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateTresholdOnBackend);
-              }}
-              defaultValue={selectOptions[fieldNames.ruleAggregation][0].value}
-              clearable={false}
-            />
-          </FormGroup>
-          <FormGroup>
-            <ComboBox
-              className={locals.metricSelect}
-              name={fieldNames.thresholdOperator}
-              value={form.get(fieldNames.thresholdOperator).value}
-              options={selectOptions[fieldNames.thresholdOperator]}
-              onChange={e => {
-                const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
-              }}
-              defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
-              clearable={false}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="number"
-              min="0"
-              name={fieldNames.thresholdValue}
-              value={form.get(fieldNames.thresholdValue).value == null ? '' : form.get(fieldNames.thresholdValue).value}
-              step="1"
-              onChange={e =>
-                onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
-              }
-            />
-          </FormGroup>
-        </div>
-      )}
+      {onChange &&
+        form && (
+          <div className={locals.controls}>
+            <FormGroup>
+              <ComboBox
+                className={locals.metricSelect}
+                name={fieldNames.ruleAggregation}
+                value={form.get(fieldNames.ruleAggregation).value}
+                options={selectOptions[fieldNames.ruleAggregation]}
+                onChange={e => {
+                  const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateTresholdOnBackend);
+                }}
+                defaultValue={selectOptions[fieldNames.ruleAggregation][0].value}
+                clearable={false}
+              />
+            </FormGroup>
+            <FormGroup>
+              <ComboBox
+                className={locals.metricSelect}
+                name={fieldNames.thresholdOperator}
+                value={form.get(fieldNames.thresholdOperator).value}
+                options={selectOptions[fieldNames.thresholdOperator]}
+                onChange={e => {
+                  const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
+                }}
+                defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
+                clearable={false}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="number"
+                min="0"
+                name={fieldNames.thresholdValue}
+                value={
+                  form.get(fieldNames.thresholdValue).value == null ? '' : form.get(fieldNames.thresholdValue).value
+                }
+                step="1"
+                onChange={e =>
+                  onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
+                }
+              />
+            </FormGroup>
+          </div>
+        )}
       <div className={locals.placeholder}>
         <EumAlertingLineChart
           threshold={form.get(fieldNames.thresholdValue).value || 0}
@@ -70,7 +73,7 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity 
 }
 
 SlownessChart.propTypes = {
-  form: PropTypes.object.isRequired,
+  form: PropTypes.object,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired

@@ -3,6 +3,7 @@ import { clone } from 'lodash';
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
+import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
 
@@ -16,6 +17,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   enrichTableDefinition(snapshotDefinition);
   registerLegacySdkHooks(snapshotDefinition);
   registerMetricDefinitions(snapshotDefinition);
+  registerKpiDefinitions(snapshotDefinition);
   registerIconPath(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
 }
@@ -73,6 +75,14 @@ function registerMetricDefinitions(snapshotDefinition) {
   snapshotDefinition.metricDefinitions.forEach(metricDefinition =>
     registerMetricDefinition(snapshotDefinition.plugin, metricDefinition)
   );
+}
+
+function registerKpiDefinitions(snapshotDefinition) {
+  if (!snapshotDefinition.kpiDefinitions) {
+    return;
+  }
+
+  registerKpiDefinition(snapshotDefinition.plugin, snapshotDefinition.kpiDefinitions);
 }
 
 function registerIconPath(snapshotDefinition) {

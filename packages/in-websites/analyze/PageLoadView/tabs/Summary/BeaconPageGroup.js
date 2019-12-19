@@ -2,6 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Beacon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
@@ -13,7 +14,13 @@ export default withState('expanded', 'setExpanded', true)(BeaconPageGroup);
 function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded, setExpanded }) {
   return (
     <div className={locals.group}>
-      <div className={locals.header}>
+      <div
+        className={locals.header}
+        {...toInteractiveElement({
+          ariaLabel: expanded ? 'Show less' : 'Show more',
+          onDefaultInteraction: () => setExpanded(!expanded)
+        })}
+      >
         <div className={locals.left}>
           <SvgIcon type="lib_document" size="s" className={locals.pageIcon} />
           <span className={locals.pageName}>{page || 'Page name not set'}</span>

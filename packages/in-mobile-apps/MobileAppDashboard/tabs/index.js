@@ -1,8 +1,9 @@
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
+import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
-import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
+import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
 
 export const mobileAppTabs = [
   {
@@ -14,6 +15,11 @@ export const mobileAppTabs = [
     label: 'HTTP Requests',
     path: `${mobileAppPathFullyQualified}/httpRequests`,
     component: HttpRequests
+  },
+  {
+    label: 'Geography',
+    path: `${mobileAppPathFullyQualified}/geography`,
+    component: Geography
   },
   {
     label: 'Views',

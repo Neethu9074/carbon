@@ -7,7 +7,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 
 export default function JenkinsInfo({ snapshot }) {
   const data = snapshot.get('data');
-  const jobs = data.getIn('jobNames', emptyList);
+  const totalJobs = data.get('jobNames', emptyList).toArray().length;
   const mode = data.get('mode');
 
   return (
@@ -19,7 +19,7 @@ export default function JenkinsInfo({ snapshot }) {
       {mode && <DescriptionItem title="Mode">{mode.toLowerCase()}</DescriptionItem>}
       <DescriptionItem title="Executors">{data.get('executors')}</DescriptionItem>
       <DescriptionItem title="Secure Mode">{yesOrNo(data.get('useSecurity'))}</DescriptionItem>
-      <DescriptionItem title="Total Jobs">{jobs.size}</DescriptionItem>
+      <DescriptionItem title="Total Jobs">{totalJobs}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
