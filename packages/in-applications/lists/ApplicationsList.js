@@ -56,11 +56,14 @@ const columnDefinitions = [
     getContent(item) {
       const href$ = getApplicationDashboard(item.application.id);
       const iconColor = href$ && theme.lib.colors.blue800;
-      return (
-        <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-          <WithIcon icon={boundaryScopes.info[item.application.boundaryScope].icon} iconColor={iconColor} />
-        </Tooltip>
-      );
+      if (item.application.boundaryScope) {
+        return (
+          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
+            <WithIcon icon={boundaryScopes.info[item.application.boundaryScope].icon} iconColor={iconColor} />
+          </Tooltip>
+        );
+      }
+      return null;
     }
   },
   {
