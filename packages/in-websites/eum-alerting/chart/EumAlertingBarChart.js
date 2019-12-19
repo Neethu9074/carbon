@@ -11,6 +11,7 @@ const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
 const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 
 export default function EumAlertingBarChart({
+  websiteId,
   threshold,
   timeConfig,
   tagFilters,
@@ -54,18 +55,20 @@ export default function EumAlertingBarChart({
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
-      metricsConfiguration={{
+      metricsConfiguration={getMetricConfiguration(
+        websiteId,
+        metricName,
+        errorFilter,
+        tagFilters,
         timeConfig,
-        tagFilters: metricName === errorCount ? [...tagFilters, errorFilter] : tagFilters,
-        metrics: {
-          errors: getMetricConfig(metricName, granularity, errorFilter)
-        }
-      }}
+        granularity
+      )}
     />
   );
 }
 
 EumAlertingBarChart.propTypes = {
+  websiteId: PropTypes.string.isRequired,
   errorFilter: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.oneOf(selectOptions[fieldNames.ruleMetricName].map(({ value }) => value)).isRequired,
@@ -73,6 +76,18 @@ EumAlertingBarChart.propTypes = {
   threshold: PropTypes.number.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
+
+function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, timeConfig, granularity) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+
+  return {
+    timeConfig,
+    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
+    metrics: {
+      errors: getMetricConfig(metric, granularity, errorFilter)
+    }
+  };
+}
 
 function getMetricConfig(metricName, granularity, errorFilter = null) {
   const metricConfigs = {
@@ -89,4 +104,12 @@ function getMetricConfig(metricName, granularity, errorFilter = null) {
     }
   };
   return metricConfigs[metricName];
+}
+
+function getWebsiteIdTagFilter(websiteId) {
+  return {
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: websiteId
+  };
 }

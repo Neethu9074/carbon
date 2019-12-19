@@ -67,6 +67,7 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
           )}
           <div className={locals.placeholder}>
             <EumAlertingBarChart
+              websiteId={form.get(fieldNames.websiteId).value}
               threshold={form.get(fieldNames.thresholdValue).value || 0}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}

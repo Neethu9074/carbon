@@ -117,13 +117,14 @@ function toAlertConfigObject(form) {
 const AlertConfigDialogWithThreshold = connectTo(
   props => {
     const { form, timeConfig, granularity, onChange } = props;
+    const websiteId = form.get(fieldNames.websiteId).value;
     const stringValue = form.get(fieldNames.ruleValue).value;
     const operator = form.get(fieldNames.ruleOperator).value;
     const tagFilters = form.get(fieldNames.tagFilters).value;
 
     return {
       errorCountThreshold: getWebsiteMetricsHistoricThreshold(
-        getMetricConfiguration('SUM', errorCount, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfiguration(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(
@@ -132,7 +133,7 @@ const AlertConfigDialogWithThreshold = connectTo(
         ),
 
       errorRateThreshold: getWebsiteSpecificJsErrorRateMetricHistoricThreshold(
-        getMetricConfiguration('MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfiguration(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(
@@ -175,11 +176,21 @@ function addThresholdToForm(form, onChange, threshold) {
   }
 }
 
-function getMetricConfiguration(aggregation, metric, stringValue, operator, tagFilters, timeConfig, granularity) {
+function getMetricConfiguration(
+  websiteId,
+  aggregation,
+  metric,
+  stringValue,
+  operator,
+  tagFilters,
+  timeConfig,
+  granularity
+) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const errorFilter = { name: 'beacon.error.message', operator, stringValue };
   return {
     timeConfig,
-    tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
+    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
     metrics: {
       threshold: {
         metric,
@@ -188,6 +199,14 @@ function getMetricConfiguration(aggregation, metric, stringValue, operator, tagF
         numeratorFilter: errorFilter
       }
     }
+  };
+}
+
+function getWebsiteIdTagFilter(websiteId) {
+  return {
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: websiteId
   };
 }
 
