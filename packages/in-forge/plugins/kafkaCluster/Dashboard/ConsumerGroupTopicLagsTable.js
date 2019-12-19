@@ -7,6 +7,8 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 const cols = [
   {
@@ -32,10 +34,10 @@ const cols = [
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
-        return row.key;
+        return row.snapshotId;
       },
-      getMetricName() {
-        return '';
+      getMetricName(row) {
+        return `broker.lagData.data.${row.key}.lag`;
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -66,17 +68,43 @@ export default connectTo(
     });
 
     rows = rows.map(row => {
-      let key = row.name;
-      let consumerGroupTopicPair = key.split('#');
+      let [consumerGroup, topic] = row.name.split('#');
       return {
-        key,
-        consumerGroup: consumerGroupTopicPair[0],
-        topic: consumerGroupTopicPair[1],
+        key: row.name,
+        snapshotId: row.node.get('id'),
         node: row.node,
+        consumerGroup,
+        topic,
         timeConfig
       };
     });
 
-    return <Table withoutPadding cardTitle={`Consumer Group/Topic Lags`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={`Consumer Group/Topic Lags`}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+      />
+    );
   }
 );
+
+function getDetails(row) {
+  return (
+    <DashboardSection title="Consumer Group/Topic Lag">
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          formatter: zeroDecimalPlaces,
+          tooltipFormatter: zeroDecimalPlaces,
+          metrics: [`broker.lagData.data.${row.key}.lag`],
+          labels: ['Lag'],
+          type: 'line'
+        }}
+      />
+    </DashboardSection>
+  );
+}
