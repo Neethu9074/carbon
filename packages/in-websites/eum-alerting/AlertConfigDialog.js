@@ -19,6 +19,12 @@ const twentyFourHrs = 1000 * 60 * 60 * 24;
 const logger = createLogger('in-websites/eum-alerting/AlertDialog');
 const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
 const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
+const timeConfig = {
+  to: null,
+  focusedMoment: null,
+  windowSize: twentyFourHrs,
+  autoRefresh: false
+};
 
 const operatorDescriptionValues = {
   [operators.EQUALS]: 'equal',
@@ -37,9 +43,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       onChange={onChange(setForm)}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode)}
-      timeConfig={{
-        windowSize: twentyFourHrs
-      }}
+      timeConfig={timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
       granularity={tenMins}
@@ -63,10 +67,11 @@ const AlertConfigDialogWithThreshold = connectTo(
     const operator = form.get(fieldNames.ruleOperator).value;
     const tagFilters = form.get(fieldNames.tagFilters).value;
     const metricName = form.get(fieldNames.ruleMetricName).value;
+    const websiteId = form.get(fieldNames.websiteId).value;
 
     return {
       errorCountThreshold: getWebsiteMetricsHistoricThreshold(
-        getMetricConfiguration('SUM', errorCount, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfiguration(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(threshold => {
@@ -76,13 +81,14 @@ const AlertConfigDialogWithThreshold = connectTo(
         }),
 
       errorRateThreshold: getWebsiteSpecificJsErrorRateMetricHistoricThreshold(
-        getMetricConfiguration('MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfiguration(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(threshold => metricName === errorRate && addThresholdToForm(form, onChange, threshold)),
 
       slownessThreshold: getWebsiteMetricsHistoricThreshold(
         getMetricConfiguration(
+          websiteId,
           form.get(fieldNames.ruleAggregation).value,
           'onLoadTime',
           stringValue,
