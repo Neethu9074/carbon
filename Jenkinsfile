@@ -175,6 +175,7 @@ def runNodeBuild(gitCommitId, buildCommands) {
 def runNodeScriptInCurrentWorkDir(buildCommands) {
   sh '''
     source $HOME/.nvm/nvm.sh
+    nvm install 10.18.0
     nvm use
     if [ -z "$(which yarn)" ]; then
       npm install -g yarn@1.21.1
