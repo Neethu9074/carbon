@@ -32,8 +32,8 @@ storiesOf('Components/Chart', module)
   .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
   .add('Gaps', () => <Gaps />)
   .add('Bar', () => <Bar />)
-  .add('Bar with baseline/threshold', () => <BarWithBaseline />)
-  .add('Line with baseline', () => <LineWithBaseline />)
+  .add('Bar with threshold', () => <BarWithThreshold />)
+  .add('Bar with baseline', () => <BarWithBaseline />)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
   .add('StackedBar', () => <StackedBar />)
@@ -245,8 +245,8 @@ function Bar() {
   );
 }
 
-const metricsBarWithBaseline = [generateMetrics(12, 100, oneMinute)];
-function BarWithBaseline() {
+const metricsBarWithThreshold = [generateMetrics(12, 100, oneMinute)];
+function BarWithThreshold() {
   const [threshold, setThreshold] = useState(32);
   return (
     <Root>
@@ -265,8 +265,8 @@ function BarWithBaseline() {
               theme.lib.colors.red800,
               theme.lib.colors.lightBlue800
             ],
-            renderer: Renderer.errorsBarWithBaseline,
-            metrics: metricsBarWithBaseline,
+            renderer: Renderer.barWithThreshold,
+            metrics: metricsBarWithThreshold,
             labels: ['Data']
           }
         }}
@@ -285,9 +285,9 @@ function BarWithBaseline() {
   );
 }
 
-const metricsLineWithBaseline = [generateMetrics(144, 100, oneDay)];
-const baselineLineWithBaseline = generateBaselineForMetric(metricsLineWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
-function LineWithBaseline() {
+const metricsBarWithBaseline = [generateMetrics(144, 100, oneDay)];
+const baselineBarWithBaseline = generateBaselineForMetric(metricsBarWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
+function BarWithBaseline() {
   const [sensitivity, setSensitivity] = useState(1.0);
   return (
     <Root>
@@ -307,9 +307,9 @@ function LineWithBaseline() {
               theme.lib.colors.red800,
               theme.lib.colors.lightBlue800
             ],
-            renderer: Renderer.lineWithBaseline,
-            metrics: metricsLineWithBaseline,
-            baseline: baselineLineWithBaseline,
+            renderer: Renderer.barWithBaseline,
+            metrics: metricsBarWithBaseline,
+            baseline: baselineBarWithBaseline,
             labels: ['Data']
           }
         }}

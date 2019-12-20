@@ -48,7 +48,7 @@ export default function JsErrorsAlertingBarChart({
             theme.lib.colors.lightBlue800
           ]
         },
-        renderer: Renderer.errorsBarWithBaseline,
+        renderer: Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
         labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],

@@ -5,6 +5,7 @@ import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocat
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { getFormValueOrDefault } from 'in-websites/eum-alerting/AlertConfigDialog';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
@@ -13,6 +14,7 @@ import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
 import { scrollIntoView, getCoords } from 'in-services/util/dom';
 import SideNav from 'in-websites/eum-alerting/advanced/SideNav';
 import Button from 'in-new-components/Button/Button';
+import Message from 'in-new-components/Message';
 
 import locals from './AdvancedModeContainer.mless';
 
@@ -29,7 +31,10 @@ export default function AdvancedModeContainer({
 }) {
   const navItems = [
     { label: 'Domain', checked: true },
-    { label: 'Trigger', checked: !!(form.get(fieldNames.ruleAlertType).value && form.get(fieldNames.ruleValue).value) },
+    {
+      label: 'Trigger',
+      checked: validateTrigger(form)
+    },
     { label: 'Alert Channels', checked: form.get(fieldNames.alertChannelIds).value.length > 0 },
     {
       label: 'Properties (optional)',
@@ -67,11 +72,28 @@ export default function AdvancedModeContainer({
                   granularity={granularity}
                 />
               )}
-              SlownessComponent={() => (
-                <ChartContainer headline="onLoad Time (ms)" withBorder>
-                  <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} onChange={onChange} />
-                </ChartContainer>
-              )}
+              SlownessComponent={() => {
+                const baseline = form.get(fieldNames.thresholdBaseline).value;
+                return (
+                  <ChartContainer headline="onLoad Time (ms)" withBorder>
+                    <>
+                      <SlownessChart
+                        form={form}
+                        timeConfig={timeConfig}
+                        granularity={granularity}
+                        onChange={onChange}
+                      />
+                      {baseline &&
+                        baseline.length === 0 &&
+                        form.get(fieldNames.thresholdType).value !== 'staticThreshold' && (
+                          <Message withIcon small>
+                            Insufficient data to compute a baseline for the selected configuration.
+                          </Message>
+                        )}
+                    </>
+                  </ChartContainer>
+                );
+              }}
             />
           </ScrollStep>
           <ScrollStep id={navItems[2].label} title="Alert Channels: Who needs to be alerted?">
@@ -110,5 +132,15 @@ function setIndexIfElementOnTop(label, setIndexItemSelected, index) {
   if (element) {
     const { top } = getCoords(element);
     if (top < 130 && top > 70) setIndexItemSelected(index);
+  }
+}
+
+function validateTrigger(form) {
+  const alertType = form.get(fieldNames.ruleAlertType).value;
+
+  if (alertType === 'specificJsError') {
+    return Boolean(form.get(fieldNames.ruleAlertType).value && getFormValueOrDefault(form, fieldNames.ruleValue));
+  } else {
+    return true;
   }
 }

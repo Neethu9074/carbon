@@ -1,5 +1,5 @@
-import errorsBarWithBaseline from 'in-components/Chart/renderer/errorsBarWithBaseline';
-import lineWithBaseline from 'in-components/Chart/renderer/lineWithBaseline';
+import barWithThreshold from 'in-components/Chart/renderer/barWithThreshold';
+import barWithBaseline from 'in-components/Chart/renderer/barWithBaseline';
 import countErrorBar from 'in-components/Chart/renderer/countErrorBar';
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
 import stackedBar from 'in-components/Chart/renderer/stackedBar';
@@ -20,6 +20,6 @@ export default {
   stackedArea,
   stackedBar,
   timeLine,
-  errorsBarWithBaseline,
-  lineWithBaseline
+  barWithThreshold,
+  barWithBaseline
 };

@@ -4,7 +4,7 @@ import AlertingConfigurationButton from 'in-events/components/legacy/AlertingCon
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import EumAlertingLineChart from 'in-websites/eum-alerting/chart/EumAlertingLineChart';
+import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -40,7 +40,10 @@ export default connectTo(
     const websiteLabel = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
+    const sensitivity = alertConfig.threshold.deviationFactor;
+    const baseline = alertConfig.threshold.baseline;
     const thresholdValue = alertConfig.threshold.value;
+    const thresholdType = alertConfig.threshold.type;
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
@@ -86,8 +89,11 @@ export default connectTo(
                 />
               )}
               SlownessComponent={() => (
-                <EumAlertingLineChart
+                <EumAlertingBarChart
+                  thresholdType={thresholdType}
                   threshold={thresholdValue}
+                  sensitivity={sensitivity}
+                  baseline={baseline}
                   timeConfig={timeConfig}
                   tagFilters={tagFiltersWithWebsiteId}
                   aggregation={aggregation}

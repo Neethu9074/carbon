@@ -2,23 +2,23 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import alertFormDefinition, {
-  fieldNames,
-  selectOptions
-} from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteSpecificJsErrorRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
+import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
 
+const logger = createLogger('in-websites/eum-alerting/AlertDialog');
+
 const tenMins = 10 * 1000 * 60;
 const twentyFourHrs = 1000 * 60 * 60 * 24;
-const logger = createLogger('in-websites/eum-alerting/AlertDialog');
-const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
-const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
+
+const errorRate = 'specificJsErrorRate';
+const errorCount = 'errors';
 const timeConfig = {
   to: null,
   focusedMoment: null,
@@ -63,15 +63,26 @@ AlertConfigDialog.propTypes = {
 const AlertConfigDialogWithThreshold = connectTo(
   props => {
     const { form, timeConfig, granularity, onChange } = props;
-    const stringValue = form.get(fieldNames.ruleValue).value;
-    const operator = form.get(fieldNames.ruleOperator).value;
+    const websiteId = form.get(fieldNames.websiteId).value;
+    const stringValue = getFormValueOrDefault(form, fieldNames.ruleValue);
+    const operator = getFormValueOrDefault(form, fieldNames.ruleOperator);
     const tagFilters = form.get(fieldNames.tagFilters).value;
     const metricName = form.get(fieldNames.ruleMetricName).value;
-    const websiteId = form.get(fieldNames.websiteId).value;
+    const aggregation = getFormValueOrDefault(form, fieldNames.ruleAggregation);
+    const seasonality = getFormValueOrDefault(form, fieldNames.thresholdSeasonality);
 
     return {
       errorCountThreshold: getWebsiteMetricsHistoricThreshold(
-        getMetricConfiguration(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfigurationForErrors(
+          websiteId,
+          'SUM',
+          errorCount,
+          stringValue,
+          operator,
+          tagFilters,
+          timeConfig,
+          granularity
+        )
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(threshold => {
@@ -87,21 +98,23 @@ const AlertConfigDialogWithThreshold = connectTo(
         .tap(threshold => metricName === errorRate && addThresholdToForm(form, onChange, threshold)),
 
       slownessThreshold: getWebsiteMetricsHistoricThreshold(
-        getMetricConfiguration(
-          websiteId,
-          form.get(fieldNames.ruleAggregation).value,
-          'onLoadTime',
-          stringValue,
-          operator,
-          tagFilters,
-          timeConfig,
-          granularity
-        )
+        getMetricConfiguration(websiteId, aggregation, 'onLoadTime', tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(threshold => {
-          if (metricName === 'onLoadTime') {
+          if (metricName === 'onLoadTime' && form.get(fieldNames.thresholdType).value === 'staticThreshold') {
             addThresholdToForm(form, onChange, threshold);
+          }
+        }),
+
+      baseline: getWebsiteMetricsBaseline(
+        getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality)
+      )
+        .filter(resp => resp && !resp.progress.loading)
+        .map(resp => (resp && resp.data && resp.data.baseline) || [])
+        .tap(baseline => {
+          if (metricName === 'onLoadTime' && form.get(fieldNames.thresholdType).value !== 'staticThreshold') {
+            addBaselineToForm(form, onChange, baseline);
           }
         })
     };
@@ -155,6 +168,17 @@ function createAlert(form, setForm, onClose, editMode) {
   if (alertType === alertTypes.slowness) {
     updatedForm = updatedForm.remove(fieldNames.ruleOperator);
     updatedForm = updatedForm.remove(fieldNames.ruleValue);
+
+    const thresholdType = form.get(fieldNames.thresholdType).value;
+
+    if (thresholdType === 'staticThreshold') {
+      updatedForm = updatedForm.remove(fieldNames.thresholdTo);
+      updatedForm = updatedForm.remove(fieldNames.thresholdSeasonality);
+      updatedForm = updatedForm.remove(fieldNames.thresholdBaseline);
+      updatedForm = updatedForm.remove(fieldNames.thresholdDeviationFactor);
+    } else {
+      updatedForm = updatedForm.remove(fieldNames.thresholdValue);
+    }
   }
 
   if (!updatedForm.hierarchyValid) {
@@ -197,6 +221,25 @@ function toAlertConfigObject(form) {
     }
   }
 
+  function enhanceThresholdValuesByThresholdType(form) {
+    const thresholdType = form.get(fieldNames.thresholdType).value;
+
+    if (thresholdType === 'staticThreshold') {
+      return {
+        type: 'staticThreshold',
+        value: form.get(fieldNames.thresholdValue).value
+      };
+    } else {
+      return {
+        type: 'historicBaseline',
+        to: form.get(fieldNames.thresholdTo).value,
+        seasonality: form.get(fieldNames.thresholdSeasonality).value,
+        baseline: form.get(fieldNames.thresholdBaseline).value,
+        deviationFactor: form.get(fieldNames.thresholdDeviationFactor).value
+      };
+    }
+  }
+
   return Object.freeze({
     rule: {
       alertType: form.get(fieldNames.ruleAlertType).value,
@@ -212,9 +255,8 @@ function toAlertConfigObject(form) {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
-      type: form.get(fieldNames.thresholdType).value,
-      value: form.get(fieldNames.thresholdValue).value,
-      operator: form.get(fieldNames.thresholdOperator).value
+      operator: form.get(fieldNames.thresholdOperator).value,
+      ...enhanceThresholdValuesByThresholdType(form)
     }
   });
 }
@@ -228,7 +270,16 @@ function addThresholdToForm(form, onChange, threshold) {
   }
 }
 
-function getMetricConfiguration(
+function addBaselineToForm(form, onChange, baseline) {
+  if (form.get(fieldNames.calculateThresholdOnBackend).value) {
+    onChange(form, fieldNames.thresholdBaseline, baseline, {
+      name: fieldNames.calculateThresholdOnBackend,
+      value: false
+    });
+  }
+}
+
+function getMetricConfigurationForErrors(
   websiteId,
   aggregation,
   metric,
@@ -254,6 +305,37 @@ function getMetricConfiguration(
   };
 }
 
+function getMetricConfiguration(websiteId, aggregation, metric, tagFilters, timeConfig, granularity) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  return {
+    timeConfig,
+    tagFilters: tagFiltersWithWebsiteId,
+    metrics: {
+      threshold: {
+        metric,
+        granularity,
+        aggregation
+      }
+    }
+  };
+}
+
+function getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  return {
+    to: Date.now(),
+    metrics: {
+      baseline: {
+        metric: 'onLoadTime',
+        granularity,
+        aggregation
+      }
+    },
+    tagFilters: tagFiltersWithWebsiteId,
+    seasonality
+  };
+}
+
 function getWebsiteIdTagFilter(websiteId) {
   return {
     name: 'beacon.website.id',
@@ -268,7 +350,8 @@ export function getTitlePlaceholder(form) {
     return `JS Error(s): ${form.get(fieldNames.ruleValue).value}`;
   }
   if (alertType === alertTypes.slowness) {
-    return `onLoad Time is above ${form.get(fieldNames.thresholdValue).value}ms`;
+    // return `onLoad Time is above ${form.get(fieldNames.thresholdValue).value}ms`;
+    return `onLoad Time to high`;
   }
 }
 
@@ -280,6 +363,10 @@ export function getDescriptionPlaceholder(form) {
     }" have been detected.`;
   }
   if (alertType === alertTypes.slowness) {
-    return `Load times above threshold ${form.get(fieldNames.thresholdValue).value}ms detected.`;
+    return `Load times above specified threshold detected.`;
   }
+}
+
+export function getFormValueOrDefault(form, key, defaultValue = null) {
+  return form.containsKey(key) ? form.get(key).value : defaultValue;
 }

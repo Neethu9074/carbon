@@ -21,7 +21,11 @@ export const fieldNames = Object.freeze({
   id: 'id',
   thresholdValue: 'thresholdValue',
   thresholdType: 'thresholdType',
+  thresholdTo: 'thresholdTo',
   thresholdOperator: 'thresholdOperator',
+  thresholdSeasonality: 'thresholdSeasonality',
+  thresholdBaseline: 'thresholdBaseline',
+  thresholdDeviationFactor: 'thresholdDeviationFactor',
   calculateThresholdOnBackend: 'calculateThresholdOnBackend'
 });
 
@@ -55,6 +59,11 @@ export const selectOptions = {
   [fieldNames.severity]: Object.freeze([
     { value: severityWarning, label: 'Warning' },
     { value: severityCritical, label: 'Critical' }
+  ]),
+  [fieldNames.thresholdType]: Object.freeze([
+    { value: 'staticThreshold', label: 'Static Threshold' },
+    { value: 'historicBaseline.DAILY', label: 'Baseline (Daily)' },
+    { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly)' }
   ])
 };
 
@@ -78,7 +87,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleAggregation,
       createField({
-        value: (rule && rule.aggregation) || selectOptions[fieldNames.ruleAggregation][0].value,
+        value: (rule && rule.aggregation) || 'MEAN',
         validator: notBlankValidator
       })
     )
@@ -106,7 +115,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleMetricName,
       createField({
-        value: (rule && rule.metricName) || selectOptions[fieldNames.ruleMetricName][1].value,
+        value: (rule && rule.metricName) || 'errors',
         validator: notBlankValidator
       })
     )
@@ -175,15 +184,43 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.thresholdType,
       createField({
-        value: (threshold && threshold.type) || 'staticThreshold',
+        value:
+          threshold && threshold.type && threshold.type === 'historicBaseline'
+            ? `${threshold.type}.${threshold.seasonality}`
+            : 'staticThreshold',
         validator: notBlankValidator
       })
     )
     .put(
       fieldNames.thresholdOperator,
       createField({
-        value: (threshold && threshold.operator) || selectOptions[fieldNames.thresholdOperator][0].value,
+        value: (threshold && threshold.operator) || '>=',
         validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdTo,
+      createField({
+        value: threshold && threshold.to
+      })
+    )
+    .put(
+      fieldNames.thresholdSeasonality,
+      createField({
+        value: (threshold && threshold.seasonality) || 'WEEKLY',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdBaseline,
+      createField({
+        value: threshold && threshold.baseline
+      })
+    )
+    .put(
+      fieldNames.thresholdDeviationFactor,
+      createField({
+        value: (threshold && threshold.deviationFactor) || 1
       })
     )
     .put(
