@@ -35,7 +35,10 @@ export default function AgentView() {
             <Sticky
               header={
                 <>
-                  <DashboardHeader contextIcon="lib_actions_settings" renderContext={() => 'Agents'} title="Agents" />
+                  <DashboardHeader
+                    title="Agents"
+                    contextConfigurations={[{ renderContext: () => 'Agents', contextIcon: 'lib_actions_settings' }]}
+                  />
                   <DashboardHeaderModule withBottomBorder>
                     <SearchBar />
                   </DashboardHeaderModule>

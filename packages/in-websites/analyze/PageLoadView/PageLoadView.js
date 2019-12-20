@@ -45,8 +45,7 @@ function PageLoadView(props) {
             title="Analytics"
             icon="lib_website"
             label={dataSourceTitles[beaconType]}
-            contextIcon="lib_analyze_inverted"
-            renderContext={renderContext}
+            contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
           />
         }
       >

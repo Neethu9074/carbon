@@ -3,19 +3,19 @@ import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import InstanaServiceToKubernetesServicesButton from 'in-kubernetes/components/InstanaServiceToKubernetesServicesButton';
+import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import { serviceDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -35,7 +35,6 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 
   return (
     <>
-      <Breadcrumbs items={ServiceBreadcrumbs(props)} />
       <TabView
         HeaderComponent={Header}
         location={location}
@@ -58,6 +57,14 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 });
 
 function Header(props) {
+  const contextConfigurations = [];
+  if (props.applicationId) {
+    contextConfigurations.push({
+      renderContext: renderApplicationContext,
+      renderContextIcon: ApplicationContextIcon
+    });
+  }
+
   return (
     <DashboardHeader
       {...props}
@@ -65,6 +72,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
+      contextConfigurations={contextConfigurations}
     />
   );
 }
@@ -80,7 +88,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-
       {hasKubernetesAccess && (
         <InstanaServiceToKubernetesServicesButton
           applicationId={applicationId}
@@ -107,4 +114,8 @@ function renderMetaInformation({ result }) {
       <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
     </>
   );
+}
+
+function renderApplicationContext(props) {
+  return <ApplicationSwitcherContext {...props} />;
 }

@@ -2,19 +2,21 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
+import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import ServiceContext from 'in-applications/components/ServiceContext';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -36,7 +38,6 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 
   return (
     <>
-      <Breadcrumbs items={EndpointBreadcrumbs(props)} />
       <TabView
         result$={getEndpoint({
           id: props.endpointId,
@@ -60,6 +61,20 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 });
 
 function Header(props) {
+  const contextConfigurations = [];
+  if (props.applicationId) {
+    contextConfigurations.push({
+      renderContext: renderApplicationContext,
+      renderContextIcon: ApplicationContextIcon
+    });
+  }
+  if (props.serviceId) {
+    contextConfigurations.push({
+      renderContext: renderServiceContext,
+      renderContextIcon: ServiceContextIcon
+    });
+  }
+
   return (
     <DashboardHeader
       {...props}
@@ -67,6 +82,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
+      contextConfigurations={contextConfigurations}
     />
   );
 }
@@ -103,4 +119,12 @@ function renderMetaInformation({ result }) {
       <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
     </>
   );
+}
+
+function renderApplicationContext(props) {
+  return <ApplicationSwitcherContext {...props} />;
+}
+
+function renderServiceContext(props) {
+  return <ServiceContext {...props} />;
 }

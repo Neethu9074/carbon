@@ -53,8 +53,7 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
     <>
       <DashboardHeader
         icon={getIconByType(dataSource.dataSource, dataSource.productArea)}
-        contextIcon="lib_analyze_inverted"
-        renderContext={() => 'Analytics'}
+        contextConfigurations={[{ renderContext: () => 'Analytics', contextIcon: 'lib_analyze_inverted' }]}
         label={getLabelByType(dataSource.dataSource, dataSource.productArea)}
         title="Analytics"
       />

@@ -77,8 +77,7 @@ function Header(props) {
       icon="lib_profiling"
       label={label}
       renderButtonLine={renderButtonLine}
-      contextIcon="lib_profiling"
-      renderContext={renderContext}
+      contextConfigurations={[{ renderContext, contextIcon: 'lib_profiling' }]}
     />
   );
 }
