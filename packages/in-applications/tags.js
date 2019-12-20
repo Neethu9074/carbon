@@ -51,8 +51,7 @@ export const callAnalysisBlacklistedTags = [
   'trace.endpoint.name',
   'trace.service.name',
   'trace.latency',
-  'trace.erroneous',
-  'call.inbound_of_application'
+  'trace.erroneous'
 ];
 
 const blacklists = {
