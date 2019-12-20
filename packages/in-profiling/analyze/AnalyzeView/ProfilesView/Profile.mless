@@ -19,8 +19,16 @@
     fill: @lib__colors__N500;
   }
 
-  .content {
-    width: max-content;
+  .treeContent,
+  .flameGraphContent {
     padding: 0 1rem;
+  }
+
+  .flameGraphContent {
+    width: 100%;
+  }
+
+  .treeContent {
+    width: max-content;
   }
 }

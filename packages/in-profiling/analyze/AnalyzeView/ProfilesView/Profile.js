@@ -67,13 +67,15 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
             )}
         </div>
       </div>
-      <div className={locals.content}>
-        {viewType === 'table' ? (
+      {viewType === 'table' ? (
+        <div className={locals.treeContent}>
           <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />
-        ) : (
+        </div>
+      ) : (
+        <div className={locals.flameGraphContent}>
           <ProfileFlameGraph profile={profile} query={query} />
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }
