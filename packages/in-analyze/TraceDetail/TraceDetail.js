@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -19,7 +20,6 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './TraceDetail.mless';
 

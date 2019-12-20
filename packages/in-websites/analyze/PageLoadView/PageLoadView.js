@@ -11,13 +11,10 @@ import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBe
 import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { shorten, isNotBlank } from 'in-services/util/string';
-import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';
@@ -40,7 +37,19 @@ function PageLoadView(props) {
   const beaconId = props.beaconId || pageLoadId;
   return (
     <>
-      <Sticky header={<BreadcrumbHeader />}>
+      <Sticky
+        header={
+          <DashboardHeader
+            {...props}
+            className={locals.header}
+            title="Analytics"
+            icon="lib_website"
+            label={dataSourceTitles[beaconType]}
+            contextIcon="lib_analyze_inverted"
+            renderContext={renderContext}
+          />
+        }
+      >
         <NavigatorSplitScreen
           {...props}
           navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
@@ -79,21 +88,14 @@ function PageLoadView(props) {
 
 function Header(props) {
   return (
-    <>
-      <Breadcrumbs
-        items={[
-          <Breadcrumb label={`${dataSourceTitles[props.beaconType]} Analytics`} href$={closePageLoadViewLink} />,
-          props.pageLoadLabel && <Breadcrumb label="Page Load">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
-        ].filter(Boolean)}
-      />
-      <DashboardHeader
-        {...props}
-        title="Page Load"
-        icon="lib_website"
-        label={props.pageLoadLabel}
-        renderButtonLine={renderButtonLine}
-      />
-    </>
+    <DashboardHeader
+      {...props}
+      title="Page Load"
+      icon="lib_website"
+      label={props.pageLoadLabel}
+      renderButtonLine={renderButtonLine}
+      renderTimeSelection={renderTimeSelection}
+    />
   );
 }
 
@@ -115,26 +117,38 @@ function calculateLabel(result) {
 }
 
 function renderButtonLine({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
-  return (
-    <>
-      {pageLoadLabel && (
-        <Button
-          icon="lib_actions_download"
-          kind="secondary"
-          target="_blank"
-          href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)};timestamp=${encodeURIComponent(
-            beaconTimestamp
-          )}?pretty`}
-        >
-          Download
-        </Button>
-      )}
+  if (!pageLoadLabel) {
+    return null;
+  }
 
-      <Link href$={closePageLoadViewLink}>
-        <Tooltip content="Close page load details">
-          <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
-        </Tooltip>
-      </Link>
-    </>
+  return (
+    <Button
+      icon="lib_actions_download"
+      kind="secondary"
+      target="_blank"
+      href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)};timestamp=${encodeURIComponent(
+        beaconTimestamp
+      )}?pretty`}
+    >
+      Download
+    </Button>
+  );
+}
+
+function renderContext() {
+  return (
+    <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
+      Analytics
+    </Link>
+  );
+}
+
+function renderTimeSelection() {
+  return (
+    <Link href$={closePageLoadViewLink}>
+      <Tooltip content="Close page load details">
+        <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
+      </Tooltip>
+    </Link>
   );
 }

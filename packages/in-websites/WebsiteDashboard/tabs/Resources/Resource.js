@@ -15,15 +15,15 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import ResourceBreadcrumb from 'in-websites/breadcrumbs/ResourceBreadcrumb';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';

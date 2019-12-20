@@ -16,7 +16,16 @@ export const themes = {
 };
 
 export default function DashboardHeader(props) {
-  const { theme = themes.default, icon, title, contextIcon, renderContext, renderTimeSelection, result } = props;
+  const {
+    theme = themes.default,
+    icon,
+    title,
+    className,
+    contextIcon,
+    renderContext,
+    renderTimeSelection,
+    result
+  } = props;
   let { label, renderIcon, renderMetaInformation, renderButtonLine } = props;
 
   const isLoading = result && result.data == null;
@@ -35,7 +44,7 @@ export default function DashboardHeader(props) {
     }
   }
   return (
-    <header className={joinClassNames(locals.dashboardHeader, locals[theme])}>
+    <header className={joinClassNames(locals.dashboardHeader, locals[theme], className)}>
       <Title title={title} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
@@ -80,5 +89,6 @@ DashboardHeader.propTypes = {
   renderMetaInformation: PropTypes.func,
   renderButtonLine: PropTypes.func,
   contextIcon: PropTypes.string,
-  renderContext: PropTypes.func
+  renderContext: PropTypes.func,
+  className: PropTypes.string
 };
