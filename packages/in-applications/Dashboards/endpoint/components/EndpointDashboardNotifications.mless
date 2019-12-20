@@ -6,7 +6,6 @@
   }
 
   .messageWrapper {
-    padding-top: 1rem;
     line-height: 1.1rem;
   }
 
