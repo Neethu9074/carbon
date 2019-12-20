@@ -20,6 +20,7 @@
   }
 
   .content {
+    width: max-content;
     padding: 0 1rem;
   }
 }
