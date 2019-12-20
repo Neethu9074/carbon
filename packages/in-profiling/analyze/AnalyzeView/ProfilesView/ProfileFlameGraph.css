@@ -14,3 +14,10 @@
 .d3-flame-graph rect {
   stroke: #eeeeee;
 }
+
+.d3-flame-graph-tip {
+  background: white;
+  border: 1px solid #d4d8db;
+  padding: 0.25rem;
+  border-radius: 0.125rem;
+}
