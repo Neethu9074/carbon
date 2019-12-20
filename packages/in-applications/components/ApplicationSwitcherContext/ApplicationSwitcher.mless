@@ -20,7 +20,10 @@
   }
 
   .content {
+    max-height: 30rem;
     padding: 1rem;
+
+    overflow-y: auto;
   }
 
   .selectedItem {
