@@ -1,6 +1,4 @@
 import {
-  serializeTagFilters,
-  deserializeTagFilters,
   tagFilters as tagFiltersMatrixParameter,
   group as groupMatrixParameter,
   serializeGroup,
@@ -8,8 +6,7 @@ import {
   processId as processIdMatrixParameter
 } from 'in-profiling/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
-import { callAnalysisBlacklistedTags } from 'in-applications/tags';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 export const profilingPath = '/profiles';
 
@@ -24,7 +21,7 @@ export const isAnalyzeView = navigationParameters$.map(
 
 export const closeProfilesViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
 
-export function getLinkToAnalyze({ tagFilters, group }) {
+export function getLinkToAnalyze({ group }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
 
@@ -35,7 +32,7 @@ export function getLinkToAnalyze({ tagFilters, group }) {
     setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
     setOrDeleteMatrixKey(params, analyzePath, 'orderDirection');
 
-    addTagFilterToURL(params, tagFilters);
+    setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter);
   });
 }
 
@@ -47,15 +44,4 @@ export function getLinkToProfiles({ processSnapshotId }) {
     // make sure that there is no grouping as otherwise the page load cannot be loaded.
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
   });
-}
-
-function addTagFilterToURL(params, tagFilters) {
-  if (tagFilters != null) {
-    setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(tagFilters));
-  } else {
-    // remove blacklisted filters
-    let existingTagFilters = deserializeTagFilters(getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter));
-    existingTagFilters = existingTagFilters.filter(t => callAnalysisBlacklistedTags.indexOf(t.name) === -1);
-    setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(existingTagFilters));
-  }
 }
