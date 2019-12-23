@@ -104,6 +104,7 @@ export default compose(
               >
                 <option value="mean">mean</option>
                 <option value="max">max</option>
+                <option value="sum">sum</option>
               </Select>
             </Fragment>
           }
