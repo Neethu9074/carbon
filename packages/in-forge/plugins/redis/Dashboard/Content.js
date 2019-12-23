@@ -10,6 +10,7 @@ import {
   kiloBytesTwoDecimalPlaces,
   hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import PubSubChannelsTable from 'in-forge/plugins/redis/Dashboard/PubSubChannelsTable';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -47,10 +48,6 @@ function dbKeysLabels(dbNames) {
   labels.push(dbNames.map(name => name + ' Keys Count')[0]);
   labels.push(dbNames.map(name => name + ' Keys Expires')[0]);
   return labels;
-}
-
-function pubSubMetrics(channelNames) {
-  return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
 
 export default function RedisDashboard({ snapshot, timeConfig }) {
@@ -132,6 +129,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Key Expired/Evicted">
         <Chart
           snapshotId={snapshotId}
@@ -145,6 +143,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
       {dbNames && dbNames.length > 0 ? (
         <DashboardSection title="Database">
           <Chart
@@ -158,6 +157,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
+
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}
@@ -179,6 +179,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
@@ -191,24 +192,24 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      {channelNames && channelNames.length > 0 ? (
-        <DashboardSection title="Pub/Sub">
+
+      <PubSubChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      {channelNames && (
+        <DashboardSection title="Pub / Sub Subscribed patterns">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: pubSubMetrics(channelNames),
-              labels: channelNames,
-              type: 'line'
-            }}
-            y2={{
+              min: 0,
               metrics: ['pubsub_subscribed_patterns'],
               labels: ['Subscribed patterns'],
               type: 'line'
             }}
           />
         </DashboardSection>
-      ) : null}
+      )}
+
       <DashboardSection title="Persistence">
         <Chart
           snapshotId={snapshotId}

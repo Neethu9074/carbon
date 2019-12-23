@@ -1,0 +1,75 @@
+import React from 'react';
+
+import { withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Channel',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.channelName;
+      }
+    }
+  },
+  {
+    title: 'Subscriber Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'pubsub_subscribers.' + row.channelName;
+      },
+      getContent: withSiPrefixThreeDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function PubSubChannelsTable({ snapshot, timeConfig }) {
+  const channels = snapshot.getIn(['data', 'channels'], emptyList);
+  if (channels.size === 0) {
+    return null;
+  }
+
+  const rows = channels.toArray().map(name => {
+    return {
+      key: name,
+      timeConfig,
+      channelName: name,
+      snapshotId: snapshot.get('id')
+    };
+  });
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={`Pub / Sub Channels (${channels.size})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
+  );
+}
+
+function getRowDetails(row) {
+  return (
+    <Chart
+      snapshotId={row.snapshotId}
+      timeConfig={row.timeConfig}
+      y1={{
+        formatter: withSiPrefixThreeDecimalPlaces,
+        metrics: ['pubsub_subscribers.' + row.channelName],
+        labels: ['Subscriber Count'],
+        type: 'line'
+      }}
+    />
+  );
+}
