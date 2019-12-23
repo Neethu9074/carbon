@@ -6,6 +6,7 @@ import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
+import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
@@ -146,6 +147,7 @@ export default class Humio extends React.Component {
     });
 
     this.responseSubscription = result$.once(() => {
+      refresh();
       this.setState({
         loading: false
       });
