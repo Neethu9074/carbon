@@ -14,7 +14,7 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>View</Th>
+      <Th>Session ID</Th>
       <Th>Mobile App</Th>
       <SortableColumn
         orderBy={orderBy}
@@ -36,7 +36,7 @@ export function TableRowColumns({ item }) {
           isPrimary
           href$={getLinkToSession({ sessionId: item.beacon.sessionId, beaconTimestamp: item.beacon.timestamp })}
         >
-          <EllipsisCell>{item.beacon.view}</EllipsisCell>
+          <EllipsisCell>{item.beacon.sessionId}</EllipsisCell>
         </TableLinkWithIcon>
       </Td>
 
@@ -53,13 +53,13 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'View';
+export const ListItemHeader = 'Session ID';
 
 export function ListItem({ item, active }) {
   return (
     <ListItemPresenter
       active={active}
-      label={item.beacon.view}
+      label={item.beacon.sessionId}
       href$={getLinkToSession({
         sessionId: item.beacon.sessionId,
         beaconId: item.beacon.beaconId,

@@ -34,8 +34,8 @@
     margin: 1rem 1.5rem 1rem;
   }
 
-  .viewIcon path {
-    fill: #A6A6A6;
+  .viewIcon {
+    fill: @lib__colors__N900Primary;
   }
 
   .learnHow {

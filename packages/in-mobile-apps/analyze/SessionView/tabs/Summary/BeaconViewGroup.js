@@ -22,7 +22,7 @@ function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expan
         })}
       >
         <div className={locals.left}>
-          <SvgIcon type="lib_document" size="s" className={locals.viewIcon} />
+          <SvgIcon type="lib_mobile_app_view" size="s" className={locals.viewIcon} />
           <span className={locals.viewName}>{view || 'View name not set'}</span>
 
           {!view && (
