@@ -5,7 +5,7 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 export default function WebsiteBreadcrumb({ pageId, websiteId }) {
   return (
-    <Breadcrumb href$={getLinkToWebsite(websiteId, { pageId })} label="Page" icon="lib_website_page_load">
+    <Breadcrumb href$={getLinkToWebsite(websiteId, { pageId })} label="Page" icon="lib_document">
       {pageId}
     </Breadcrumb>
   );
