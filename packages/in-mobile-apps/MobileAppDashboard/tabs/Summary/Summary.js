@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
@@ -18,7 +19,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
       <Row>
         <Col xs>
           <MobileAppMetricsKpiCard
-            title={'Sessions'}
+            title={'Session Starts'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -32,18 +33,34 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
             }}
           />
         </Col>
+        <Col xs>
+          <MobileAppMetricsKpiCard
+            title={'View Changes'}
+            formatter={number.compact}
+            metricsConfig={{
+              tagFilters,
+              timeConfig,
+              metrics: {
+                sessions: {
+                  metric: 'views',
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+        </Col>
       </Row>
 
       <Row>
         <Col lg={12}>
           <MobileAppChartWrapper
-            cardTitle="Sessions"
+            cardTitle="Activity"
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Sessions'],
-              metricIds: ['sessions']
+              labels: ['Session Starts', 'View Changes'],
+              metricIds: ['sessions', 'views']
             }}
             metricsConfiguration={{
               timeConfig,
@@ -51,6 +68,11 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
               metrics: {
                 sessions: {
                   metric: 'sessions',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                views: {
+                  metric: 'views',
                   granularity,
                   aggregation: 'SUM'
                 }
@@ -61,13 +83,16 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
       </Row>
 
       <Row>
-        <Col lg={viewId == null ? 6 : 12}>
+        <Col lg={viewId == null ? 4 : 6}>
           <Card title="Geography" withoutPadding>
             <MobileAppGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>
+        <Col lg={viewId == null ? 4 : 6}>
+          <HttpRequestOriginTopList tagFilters={tagFilters} timeConfig={timeConfig} mobileAppId={mobileAppId} />
+        </Col>
         {viewId == null && (
-          <Col lg={6}>
+          <Col lg={4}>
             <ViewsTopList tagFilters={tagFilters} timeConfig={timeConfig} mobileAppId={mobileAppId} />
           </Col>
         )}

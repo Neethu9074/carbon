@@ -5,13 +5,13 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import { number } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
-const metrics = ['beaconCount', 'beaconErrorCount'];
+const metrics = ['beaconCount', 'beaconErrorRate'];
 const labels = ['Calls', 'Errors'];
-const aggregations = ['SUM', 'SUM'];
-const formatters = [number.compact, number.compact];
+const aggregations = ['SUM', 'MEAN'];
+const formatters = [number.compact, percentage.detailed];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (

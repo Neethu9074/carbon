@@ -6,7 +6,7 @@ import getMobileAppSubdivisions from 'in-mobile-apps/subscriptions/getMobileAppS
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
-const valueFormatter = v => `${number.compact(v)} sessions`;
+const valueFormatter = v => `${number.compact(v)} session starts`;
 
 export default function MobileAppGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
   return (
