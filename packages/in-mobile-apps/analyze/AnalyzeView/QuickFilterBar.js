@@ -42,7 +42,9 @@ export default function QuickFilterBar(props) {
         />
       )}
       <SelectBarItem {...props} tag="mobileBeacon.platform" singularLabel="Platform" pluralLabel="Platforms" />
+      <SelectBarItem {...props} tag="mobileBeacon.os.name" singularLabel="OS" pluralLabel="OS" />
       <SelectBarItem {...props} tag="mobileBeacon.app.bundleIdentifier" singularLabel="Bundle" pluralLabel="Bundles" />
+      <SelectBarItem {...props} tag="mobileBeacon.app.version" singularLabel="Version" pluralLabel="Versions" />
       <SelectBarItem {...props} tag="mobileBeacon.geo.country" singularLabel="country" pluralLabel="countries" />
       {showSubdivisionSelector && (
         <SelectBarItem
