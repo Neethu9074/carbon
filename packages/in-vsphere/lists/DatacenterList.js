@@ -3,12 +3,12 @@ import React, { Fragment } from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
+import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -16,8 +16,6 @@ import Title from 'in-components/Title';
 
 const pathSegment = datacenterList;
 const matrixPrefix = 'datacenter.';
-
-const kbPerSecondFormatter = v => zeroDecimalPlaces(v) + ' KB/s';
 
 const columnDefinitions = [
   {
@@ -79,7 +77,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={kbPerSecondFormatter}
+          formatter={bytesPerSecondZeroDecimalPlaces}
           metric="net.received.average.bytesPerSecond"
         />
       );
