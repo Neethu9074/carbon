@@ -1122,6 +1122,10 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              valueFrom:\n' +
     '                fieldRef:\n' +
     '                  fieldPath: metadata.name\n' +
+    '            - name: POD_IP\n' +
+    '              valueFrom:\n' +
+    '                fieldRef:\n' +
+    '                  fieldPath: status.podIP\n' +
     '          securityContext:\n' +
     '            privileged: true\n' +
     '          volumeMounts:\n' +
