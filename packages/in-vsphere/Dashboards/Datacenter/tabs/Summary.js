@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import {
   timeBySecondsTwoDecimalPlaces,
-  zeroDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   msZeroDecimalPlaces,
   percentage
@@ -16,8 +16,6 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
-
-const kbPerSecondFormatter = v => zeroDecimalPlaces(v) + ' KB/s';
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
@@ -101,12 +99,12 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Net usage" useMaxAvailableHeight>
+          <Card title="Network" useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: kbPerSecondFormatter,
+                formatter: bytesPerSecondZeroDecimalPlaces,
                 metrics: ['net.usage.average.bytesPerSecond'],
                 labels: ['Net usage'],
                 type: 'line',
