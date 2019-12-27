@@ -12,6 +12,7 @@ import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
+import { plugins } from 'in-forge/constants';
 import { MemoryTotal } from './MemoryTotal';
 import { get } from 'lodash';
 
@@ -84,7 +85,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'vms'
+    plugin: plugins.vsphereVm,
+    entityName: 'vSphere VMs'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,

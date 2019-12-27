@@ -13,6 +13,7 @@ import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
+import { plugins } from 'in-forge/constants';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
@@ -86,7 +87,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'vhosts'
+    plugin: plugins.vsphereHost,
+    entityName: 'vSphere hosts'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,
