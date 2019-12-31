@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
+import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorSelection';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/AlertConfigDialog';
-import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
@@ -100,7 +100,7 @@ export default function AdvancedModeContainer({
             <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
           </ScrollStep>
           <ScrollStep id={navItems[3].label} title="Additional Alert Properties (optional)" hideDevider>
-            <AlertProperties form={form} onChange={onChange} websiteLabel={websiteLabel} />
+            <AlertPropertiesContainer form={form} onChange={onChange} websiteLabel={websiteLabel} />
           </ScrollStep>
           <nav className={locals.controls}>
             <Button className={locals.button} kind="secondary" onClick={() => onClose()}>

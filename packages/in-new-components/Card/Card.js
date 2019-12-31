@@ -15,6 +15,7 @@ export default function Card({
   header,
   onHeaderBackgroundClicked,
   className,
+  headerClassName,
   bodyClassName,
   darkFrame,
   framed = true,
@@ -32,7 +33,7 @@ export default function Card({
   return (
     <div
       className={evaluateClassNames({
-        [className]: true,
+        [className]: className,
         [locals.framed]: framed,
         [locals.darkFrame]: darkFrame,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
@@ -41,14 +42,15 @@ export default function Card({
       <div
         className={evaluateClassNames({
           [locals.header]: true,
-          [locals.clickableHeader]: isInteractiveCard
+          [locals.clickableHeader]: isInteractiveCard,
+          [headerClassName]: headerClassName
         })}
         {...headerProps}
       >
         {label ? (
           <div>
-            {<div className={locals.twoLineTitleLabel}>{label}</div>}
             {<div className={locals.twoLineTitle}>{title}</div>}
+            {<div className={locals.twoLineTitleLabel}>{label}</div>}
           </div>
         ) : (
           <div className={locals.title}>

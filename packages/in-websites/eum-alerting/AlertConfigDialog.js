@@ -2,9 +2,9 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteSpecificJsErrorRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
+import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';

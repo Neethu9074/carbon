@@ -10,10 +10,11 @@ import Input from 'in-components/form/Input';
 
 import locals from './JsErrorsChart.mless';
 
-export default function SlownessChart({ form, timeConfig, onChange, granularity }) {
+export default function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly }) {
   return (
     <div className={locals.container}>
       {onChange &&
+        !isReadOnly &&
         form && (
           <div className={locals.controls}>
             <FormGroup>
@@ -122,5 +123,6 @@ SlownessChart.propTypes = {
   form: PropTypes.object,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  isReadOnly: PropTypes.bool
 };

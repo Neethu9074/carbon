@@ -35,6 +35,9 @@ export default class TemporaryPresenter extends React.PureComponent {
     this.setState({
       showChildren: false
     });
+    if (this.props.onHide) {
+      this.props.onHide();
+    }
   };
 
   componentWillUnmount() {

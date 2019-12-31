@@ -1,0 +1,6 @@
+{
+  "name": "LoadingSkeletonLi",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LoadingSkeletonLi.js"
+}

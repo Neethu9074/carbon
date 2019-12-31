@@ -33,10 +33,10 @@
     font-size: 0.75rem;
     color: @lib__colors__N600Light;
     .ellipsis();
-    margin-bottom: 0.25rem;
   }
 
   .twoLineTitle {
+    margin-bottom: 0.25rem;
     font-size: 0.875rem;
     color: @lib__colors__N900Primary;
     .ellipsis();

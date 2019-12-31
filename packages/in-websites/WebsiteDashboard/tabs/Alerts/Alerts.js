@@ -9,58 +9,16 @@ import {
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import { alertTab, alertTabFullyQualified } from 'in-websites/navigation/paths';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
-import List, { reload } from 'in-settings/components/List';
+import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import List from 'in-settings/components/List';
 
 import locals from './Alerts.mless';
-
-export default function Alerts({ websiteLabel, websiteId }) {
-  const [alertsSize, setAlertsSize] = useState('');
-  const [config, setConfig] = useState(null);
-
-  return (
-    <>
-      <List
-        getHeader={() => `Configured Alerts (${alertsSize})`}
-        getEntityName={config => config.name}
-        columnDefinitions={getColumnDefinitions(websiteLabel)}
-        tableActions={{
-          delete: {
-            deleteEntity: config => deleteAlertConfig(config.id)
-          },
-          toggleEnabled: {
-            get: config => config.enabled,
-            toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
-          }
-        }}
-        loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
-        pageSize={15}
-        searchAttributes={[entity => entity.name]}
-        noDataMessage="No alert configured."
-        onRowClick={config => setConfig(config)}
-      />
-      {config && (
-        <AlertConfigDialog
-          onClose={() => {
-            setConfig(null);
-            reload();
-          }}
-          formData={config}
-          websiteLabel={websiteLabel}
-          editMode
-        />
-      )}
-    </>
-  );
-}
-
-Alerts.propTypes = {
-  websiteLabel: PropTypes.string.isRequired,
-  websiteId: PropTypes.string.isRequired
-};
 
 function getColumnDefinitions(websiteLabel) {
   return [
@@ -76,6 +34,42 @@ function getColumnDefinitions(websiteLabel) {
     }
   ];
 }
+
+export default function Alerts({ websiteLabel, websiteId }) {
+  const [alertsSize, setAlertsSize] = useState('');
+
+  return (
+    <List
+      getHeader={() => `Configured Alerts (${alertsSize})`}
+      getEntityName={config => config.name}
+      columnDefinitions={getColumnDefinitions(websiteLabel)}
+      tableActions={{
+        delete: {
+          deleteEntity: config => deleteAlertConfig(config.id)
+        },
+        toggleEnabled: {
+          get: config => config.enabled,
+          toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
+        }
+      }}
+      loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
+      pageSize={15}
+      searchAttributes={[entity => entity.name]}
+      noDataMessage="No alert configured."
+      onRowClick={config =>
+        mutateUrl(location => {
+          location.pathname = alertTabFullyQualified;
+          setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, config.id);
+        })
+      }
+    />
+  );
+}
+
+Alerts.propTypes = {
+  websiteLabel: PropTypes.string.isRequired,
+  websiteId: PropTypes.string.isRequired
+};
 
 function getNameContent(config) {
   const alertType = config.rule.alertType;

@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from 'react';
 
+import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
+import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
+import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -8,12 +11,17 @@ import Link from 'in-components/Link';
 
 import locals from './List.mless';
 
-export function Ul({ framed = true, children }) {
+export const LoadMoreLi = LoadMoreLiComponent;
+export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
+export const LoadingSkeletonLi = LoadingSkeletonLiComponent;
+
+export function Ul({ framed = true, className, children }) {
   return (
     <ul
       className={evaluateClassNames({
         [locals.list]: true,
-        [locals.framed]: framed
+        [locals.framed]: framed,
+        [className]: className
       })}
     >
       {children}

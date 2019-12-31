@@ -1,8 +1,10 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
+import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
+import theme from 'in-themes';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -14,13 +16,11 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
-import { create } from 'reactive-observables';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './List.mless';
 

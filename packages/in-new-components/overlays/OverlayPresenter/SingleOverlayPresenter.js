@@ -4,12 +4,11 @@ import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import toPx from 'in-services/formatters/toPx';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './SingleOverlayPresenter.mless';
 
 export const overlayClassName = locals.overlay;
-
-import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {

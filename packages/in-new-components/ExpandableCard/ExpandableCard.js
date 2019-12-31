@@ -13,6 +13,7 @@ export default function ExpandableCard({
   header,
   titleSubContent,
   expansionTracker,
+  headerClassName,
   bodyWithoutPadding,
   openByDefault = false,
   className,
@@ -54,6 +55,7 @@ export default function ExpandableCard({
       framed={framed}
       onHeaderBackgroundClicked={() => setExpanded(!expanded)}
       className={className}
+      headerClassName={headerClassName}
       darkFrame={darkFrame}
     >
       {expanded && children}

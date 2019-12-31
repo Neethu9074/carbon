@@ -1,5 +1,6 @@
 import { on } from 'reactive-observables';
 import { findIndex } from 'lodash';
+import theme from 'in-themes';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
@@ -19,7 +20,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import { getEvent } from 'in-stores/events';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './EventTable.mless';
 
