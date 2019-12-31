@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import getWebsiteSpecificJsErrorRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetricHistoricThreshold';
+import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
@@ -91,7 +91,7 @@ const AlertConfigDialogWithThreshold = connectTo(
           }
         }),
 
-      errorRateThreshold: getWebsiteSpecificJsErrorRateMetricHistoricThreshold(
+      errorRateThreshold: getWebsiteRateMetricHistoricThreshold(
         getMetricConfiguration(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
       )
         .map(resp => resp && resp.data && resp.data.threshold)
