@@ -63,7 +63,7 @@ import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Ro
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
-import { isRbacEnabled, logDnaEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -253,26 +253,18 @@ function navigationTreeForRole(role): NavigationTree {
           path: teamSettingsLogManagementHumio,
           label: 'Humio',
           component: HumioPage
+        },
+        {
+          path: teamSettingsLogManagementLogDna,
+          label: 'LogDNA',
+          component: LogDnaPage
+        },
+        {
+          path: teamSettingsLogManagementSplunk,
+          label: 'Splunk',
+          component: SplunkPage
         }
       ]
-        .concat(
-          logDnaEnabled
-            ? [
-                {
-                  path: teamSettingsLogManagementLogDna,
-                  label: 'LogDNA',
-                  component: LogDnaPage
-                }
-              ]
-            : []
-        )
-        .concat([
-          {
-            path: teamSettingsLogManagementSplunk,
-            label: 'Splunk',
-            component: SplunkPage
-          }
-        ])
     });
   }
 
