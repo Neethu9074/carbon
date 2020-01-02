@@ -15,13 +15,16 @@ export default function TwoValueBar({
   renderLabels = true,
   formatter,
   fullDomain,
-  rightToLeft = false
+  rightToLeft = false,
+  transformer
 }) {
   if (v1 == null || v1 < 0) {
     return null;
   }
   fullDomain = fullDomain || v1 + v2;
-  const v1BarWidth = v1 == null ? '0%' : `${((v1 / fullDomain) * 100) | 0}%`;
+
+  const widthEquation = transformer ? ((transformer(v1) / fullDomain) * 100) | 0 : ((v1 / fullDomain) * 100) | 0;
+  const v1BarWidth = v1 == null ? '0%' : `${widthEquation}%`;
 
   return (
     <div className={locals.wrapper}>
