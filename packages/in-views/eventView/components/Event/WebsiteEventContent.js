@@ -13,7 +13,6 @@ import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarCh
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import EumAlertButton from 'in-events/components/legacy/EumAlertButton';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -24,6 +23,14 @@ import locals from './WebsiteEventContent.mless';
 
 const tenMins = 10 * 1000 * 60;
 const twelveHours = 1000 * 60 * 60 * 12;
+
+const chartTitleByMetric = {
+  errors: '# of JS Errors',
+  specificJsErrorRate: 'Rate of JS Errors',
+  specificStatusCodeCount: '# of HTTP Status Codes',
+  specificStatusCodeRate: 'Rate of HTTP Status Codes',
+  onLoadTime: 'onLoad Time'
+};
 
 export default connectTo(
   ({ event }) => {
@@ -70,7 +77,7 @@ export default connectTo(
             <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
           </Card>
 
-          <Card title={getChartTitle(alertType)}>
+          <Card title={getChartTitle(metricName)}>
             <div className={locals.analyzeButtonWrapper}>
               <EumAlertButton
                 timeConfig={getTimeConfigFromEvent(event)}
@@ -142,9 +149,9 @@ function getErrorMessageTagFilter(alertRule) {
   };
 }
 
-function getChartTitle(alertType) {
-  if (alertType === alertTypes.specificJsError) {
-    return '# of JS Errors';
+function getChartTitle(metricName) {
+  if (metricName in chartTitleByMetric) {
+    return chartTitleByMetric[metricName];
   }
-  return 'On Load time';
+  return '';
 }

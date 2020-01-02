@@ -46,9 +46,9 @@ function renderBaseline(axis, metric, config, scale, colors) {
   const chartFrom = timeConfig.to - (timeConfig.windowSize / granularity) * granularity;
   const chartTo = chartFrom + baselineWindowSize;
   const chartHeight = scale.getRangeFrom();
-  const violationColor = colors[1];
-  const thresholdColor = colors[2];
-  const alrightColor = colors[3];
+  const thresholdColor = colors[1];
+  const alrightColor = colors[2];
+  const violationColor = colors[3];
   const isGreaterOp = isGreaterOperator(config.y1.operator);
 
   const upperThresholdInTimeframe = [];

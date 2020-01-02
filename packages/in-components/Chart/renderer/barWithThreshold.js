@@ -10,9 +10,9 @@ export default {
     const chartHeight = scale.getRangeFrom();
     const chartWidth = xScale.getRangeTo();
     const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
-    const violationColor = colors[1];
-    const thresholdColor = colors[2];
-    const alrightColor = colors[3];
+    const thresholdColor = colors[1];
+    const alrightColor = colors[2];
+    const violationColor = colors[3];
     const isGreaterOp = isGreaterOperator(config.y1.operator);
 
     // historical data

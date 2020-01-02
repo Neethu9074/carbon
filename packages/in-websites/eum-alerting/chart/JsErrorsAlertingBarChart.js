@@ -37,17 +37,17 @@ export default function JsErrorsAlertingBarChart({
         },
         colors: [
           theme.lib.colors.blue800,
-          theme.lib.colors.pink800,
           theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800
+          theme.lib.colors.lightBlue800,
+          theme.lib.colors.pink800
         ],
         icons: {
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: [
             theme.lib.colors.blue800,
             theme.lib.colors.red800,
-            theme.lib.colors.pink800,
-            theme.lib.colors.lightBlue800
+            theme.lib.colors.lightBlue800,
+            theme.lib.colors.pink800
           ]
         },
         renderer: Renderer.barWithThreshold,

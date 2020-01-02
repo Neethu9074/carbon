@@ -262,9 +262,9 @@ function BarWithThreshold() {
             },
             colors: [
               theme.lib.colors.blue800,
-              theme.lib.colors.pink800,
               theme.lib.colors.red800,
-              theme.lib.colors.lightBlue800
+              theme.lib.colors.lightBlue800,
+              theme.lib.colors.pink800
             ],
             renderer: Renderer.barWithThreshold,
             metrics: metricsBarWithThreshold,
@@ -304,9 +304,9 @@ function BarWithBaseline() {
             },
             colors: [
               theme.lib.colors.blue800,
-              theme.lib.colors.pink800,
               theme.lib.colors.red800,
-              theme.lib.colors.lightBlue800
+              theme.lib.colors.lightBlue800,
+              theme.lib.colors.pink800
             ],
             renderer: Renderer.barWithBaseline,
             metrics: metricsBarWithBaseline,
