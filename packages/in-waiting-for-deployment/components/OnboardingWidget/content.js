@@ -1117,7 +1117,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     `              value: '${zoneName}'\n` +
     '            - name: JAVA_OPTS\n' +
     '              # Approximately 1/3 of container memory limits to allow for direct-buffer memory usage and JVM overhead\n' +
-    '              value: "-Xmx170M -XX:+ExitOnOutOfMemoryError"\n' +
+    '              value: "-Xmx213M -XX:+ExitOnOutOfMemoryError"\n' +
     '            - name: INSTANA_AGENT_POD_NAME\n' +
     '              valueFrom:\n' +
     '                fieldRef:\n' +
@@ -1154,10 +1154,10 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '            periodSeconds: 5\n' +
     '          resources:\n' +
     '            requests:\n' +
-    '              memory: "512Mi"\n' +
+    '              memory: "640Mi"\n' +
     '              cpu: "0.5"\n' +
     '            limits:\n' +
-    '              memory: "512Mi"\n' +
+    '              memory: "640Mi"\n' +
     '              cpu: "1.5"\n' +
     '          ports:\n' +
     '            - containerPort: 42699\n' +
