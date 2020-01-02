@@ -9,8 +9,9 @@ import theme from 'in-themes';
 export default function EumAlertingBarChart({
   websiteId,
   aggregation,
-  threshold = 0,
-  sensitivity = 1,
+  threshold,
+  operator,
+  sensitivity,
   baseline,
   timeConfig,
   tagFilters,
@@ -27,6 +28,7 @@ export default function EumAlertingBarChart({
         sensitivity,
         baseline,
         threshold,
+        operator,
         getMax: metricsMaxValue => {
           let maxBaselineVal = 0;
           if (baseline) {
@@ -72,6 +74,7 @@ EumAlertingBarChart.propTypes = {
   aggregation: PropTypes.string.isRequired,
   baseline: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   threshold: PropTypes.number,
+  operator: PropTypes.string.isRequired,
   thresholdType: PropTypes.oneOf(['staticThreshold', 'historicBaseline.DAILY', 'historicBaseline.WEEKLY']),
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,

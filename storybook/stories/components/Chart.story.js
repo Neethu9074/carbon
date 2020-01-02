@@ -254,6 +254,7 @@ function BarWithThreshold() {
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
+          operator: '>=',
           y1: {
             threshold,
             getMax: metricsMaxValue => {
@@ -310,6 +311,7 @@ function BarWithBaseline() {
             renderer: Renderer.barWithBaseline,
             metrics: metricsBarWithBaseline,
             baseline: baselineBarWithBaseline,
+            operator: '>=',
             labels: ['Data']
           }
         }}

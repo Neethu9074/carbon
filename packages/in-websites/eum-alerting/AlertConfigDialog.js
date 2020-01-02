@@ -92,7 +92,16 @@ const AlertConfigDialogWithThreshold = connectTo(
         }),
 
       errorRateThreshold: getWebsiteSpecificJsErrorRateMetricHistoricThreshold(
-        getMetricConfiguration(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, timeConfig, granularity)
+        getMetricConfigurationForErrors(
+          websiteId,
+          'MEAN',
+          errorRate,
+          stringValue,
+          operator,
+          tagFilters,
+          timeConfig,
+          granularity
+        )
       )
         .map(resp => resp && resp.data && resp.data.threshold)
         .tap(threshold => metricName === errorRate && addThresholdToForm(form, onChange, threshold)),

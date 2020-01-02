@@ -24,10 +24,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 value={form.get(fieldNames.ruleAggregation).value}
                 options={selectOptions[fieldNames.ruleAggregation]}
                 onChange={e => {
-                  const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                  onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateTresholdOnBackend);
+                  const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateThresholdOnBackend);
                 }}
-                defaultValue="MEAN"
+                defaultValue="P90"
                 clearable={false}
               />
             </FormGroup>
@@ -38,8 +38,8 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 value={form.get(fieldNames.thresholdOperator).value}
                 options={selectOptions[fieldNames.thresholdOperator]}
                 onChange={e => {
-                  const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                  onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
+                  const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
                 }}
                 defaultValue=">="
                 clearable={false}
@@ -107,6 +107,7 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
           websiteId={form.get(fieldNames.websiteId).value}
           thresholdType={form.get(fieldNames.thresholdType).value}
           threshold={getFormValueOrDefault(form, fieldNames.thresholdValue)}
+          operator={form.get(fieldNames.thresholdOperator).value}
           sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor)}
           baseline={getFormValueOrDefault(form, fieldNames.thresholdBaseline, [])}
           timeConfig={timeConfig}

@@ -13,6 +13,7 @@ const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 export default function JsErrorsAlertingBarChart({
   websiteId,
   threshold,
+  operator,
   timeConfig,
   tagFilters,
   errorFilter,
@@ -28,6 +29,7 @@ export default function JsErrorsAlertingBarChart({
       granularity={granularity}
       y1={{
         threshold,
+        operator,
         getMax: metricsMaxValue => {
           return threshold >= metricsMaxValue
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(threshold) : threshold) * 1.2)
@@ -74,6 +76,7 @@ JsErrorsAlertingBarChart.propTypes = {
   metricName: PropTypes.oneOf(selectOptions[fieldNames.ruleMetricName].map(({ value }) => value)).isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.number.isRequired,
+  operator: PropTypes.string.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
 
