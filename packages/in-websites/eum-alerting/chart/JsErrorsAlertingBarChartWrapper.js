@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getWebsiteSpecificJsErrorRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteSpecificJsErrorRateMetric';
+import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
@@ -19,7 +19,7 @@ export default connectTo(
     }
 
     if (props.metricName === errorRate) {
-      websiteMetrics$ = getWebsiteSpecificJsErrorRateMetric(props.metricsConfiguration);
+      websiteMetrics$ = getWebsiteRateMetric(props.metricsConfiguration);
     }
 
     return {
