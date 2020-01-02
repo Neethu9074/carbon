@@ -6,12 +6,12 @@ import React from 'react';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 
-export default function EumAlertButton({ websiteLabel, tagFilters, timeConfigFromEvent, alertType }) {
+export default function EumAlertButton({ websiteLabel, tagFilters, timeConfig, alertType }) {
   return alertType === alertTypes.specificJsError ? (
     <GoToAnalyzeButton
       websiteLabel={websiteLabel}
       tagFilters={tagFilters}
-      timeConfigFromEvent={timeConfigFromEvent}
+      timeConfig={timeConfig}
       icon={'lib_website_error'}
       group={defaultGroupings.error}
       beaconType={'error'}
@@ -21,7 +21,7 @@ export default function EumAlertButton({ websiteLabel, tagFilters, timeConfigFro
     <GoToAnalyzeButton
       websiteLabel={websiteLabel}
       tagFilters={tagFilters}
-      timeConfigFromEvent={timeConfigFromEvent}
+      timeConfig={timeConfig}
       icon={'lib_website_page_load'}
       group={defaultGroupings.pageLoad}
       beaconType={'pageLoad'}
@@ -33,11 +33,11 @@ export default function EumAlertButton({ websiteLabel, tagFilters, timeConfigFro
 EumAlertButton.propTypes = {
   alertType: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  timeConfigFromEvent: PropTypes.object.isRequired,
+  timeConfig: PropTypes.object.isRequired,
   websiteLabel: PropTypes.string.isRequired
 };
 
-function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfigFromEvent, icon, group, beaconType, title }) {
+function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfig, icon, group, beaconType, title }) {
   return (
     <Button
       kind="primary"
@@ -45,9 +45,9 @@ function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfigFromEvent, icon
       href$={getLinkToAnalyze({
         beaconType,
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        group
+        group,
+        timeConfig
       })}
-      timeConfig={timeConfigFromEvent}
     >
       {title}
     </Button>

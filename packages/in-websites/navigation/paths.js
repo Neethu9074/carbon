@@ -133,7 +133,7 @@ export function getLinkToXhrRequest(websiteId, { xhrId, pageId } = emptyObject) 
   });
 }
 
-export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
+export function getLinkToAnalyze({ tagFilters, group, beaconType, timeConfig }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -166,6 +166,10 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
           serializeTagFilters(onlyAllowedTagFilters)
         );
       }
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
     }
   });
 }

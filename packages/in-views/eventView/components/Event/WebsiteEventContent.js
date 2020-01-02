@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+  getTimeConfigFromEvent,
+  getChartTimeConfigByEvent,
+  getTimeConfigFromEventForSnapshotRetrieval
+} from 'in-events/timeframe';
 import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
@@ -11,7 +16,6 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import EumAlertButton from 'in-events/components/legacy/EumAlertButton';
-import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -29,7 +33,7 @@ export default connectTo(
     observables.alertConfig = getAlertConfigByIdAndTimestamp(configId, configTimestamp);
     return observables;
   },
-  function WebsiteEventContent({ event, timeConfigFromEvent, alertConfig }) {
+  function WebsiteEventContent({ event, alertConfig }) {
     if (!event || !alertConfig) {
       return null;
     }
@@ -60,7 +64,7 @@ export default connectTo(
               entityId={entityId}
               entityType={entityType}
               metadata={metadata}
-              timeConfig={timeConfigFromEvent}
+              timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
@@ -70,7 +74,7 @@ export default connectTo(
           <Card title={getChartTitle(alertType)}>
             <div className={locals.analyzeButtonWrapper}>
               <EumAlertButton
-                timeConfigFromEvent={timeConfigFromEvent}
+                timeConfig={getTimeConfigFromEvent(event)}
                 tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
                 websiteLabel={websiteLabel}
                 alertType={alertType}
