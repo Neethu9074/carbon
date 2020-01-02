@@ -26,7 +26,7 @@ export default connectTo(
 
     return observables;
   },
-  function MetricBasedTwoValueBar({ value1, value2, labels, renderLabels = true, formatter }) {
+  function MetricBasedTwoValueBar({ value1, value2, labels, renderLabels = true, formatter, transformer }) {
     if (value1 == undefined || value2 == undefined) {
       return null;
     }
@@ -42,6 +42,7 @@ export default connectTo(
         v1Label={labels && labels[0]}
         v2Label={labels && labels[1]}
         renderLabels={renderLabels}
+        transformer={transformer}
       />
     );
   }
