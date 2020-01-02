@@ -8,11 +8,12 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-new-components/EntityWithType';
-import locals from './EntityToInstanaServiceButton.mless';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './EntityToInstanaServiceButton.mless';
 
 export default connectTo(
   ({ getServices }) => ({
