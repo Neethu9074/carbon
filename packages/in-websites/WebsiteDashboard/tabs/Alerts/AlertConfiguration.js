@@ -14,14 +14,20 @@ import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
 
-export default function AlertConfiguration({ alertConfig, timeConfig, websiteLabel }) {
+const oneMinute = 60 * 1000;
+const oneDay = 24 * 60 * oneMinute;
+
+export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
   const [, setSlideInViewVisible] = useState(false);
   const [, setSlideInConfig] = useState(null);
 
   const onChange = createOnChange(setForm);
-  const granularity = 10 * 1000 * 60;
+  const granularity = 10 * oneMinute;
   const setSliderState = createSetSliderState(setSlideInConfig, setSlideInViewVisible);
+  const timeConfig = {
+    windowSize: oneDay
+  };
 
   const props = {
     form,

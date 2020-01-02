@@ -35,20 +35,13 @@ export default compose(
   })
 )(Alert);
 
-function Alert({
-  alertConfig,
-  alertConfigError,
-  alertConfigVersions,
-  alertConfigVersionsError,
-  setRevision,
-  timeConfig
-}) {
+function Alert({ alertConfig, alertConfigError, alertConfigVersions, alertConfigVersionsError, setRevision }) {
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
   } else if (!alertConfig || !alertConfigVersions) {
     return <DefaultLoadingDashboard />;
   }
-  
+
   const websiteLabel = 'foobar website label';
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -67,7 +60,7 @@ function Alert({
 
         <Row>
           <Col xs={6}>
-            <AlertConfiguration alertConfig={alertConfig} timeConfig={timeConfig} websiteLabel={websiteLabel} />
+            <AlertConfiguration alertConfig={alertConfig} websiteLabel={websiteLabel} />
           </Col>
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
