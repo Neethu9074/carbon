@@ -97,12 +97,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'logDnaEnabled',
-    instanaCtlKey: 'feature.logDna.enabled',
-    consulKey: `settings/${tenant}-${unit}/LOG_DNA_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteUserBreakdownEnabled',
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,

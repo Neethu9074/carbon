@@ -10,17 +10,21 @@ export default {
     const chartHeight = scale.getRangeFrom();
     const chartWidth = xScale.getRangeTo();
     const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
+    const violationColor = colors[1];
+    const thresholdColor = colors[2];
+    const alrightColor = colors[3];
+    const isGreaterOp = isGreaterOperator(config.y1.operator);
 
     // historical data
     bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
 
     // Background above line
-    config.backBufferCtx.fillStyle = colors[1];
+    config.backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
     config.backBufferCtx.globalAlpha = 0.25;
     config.backBufferCtx.fillRect(0, 0, chartWidth, chartHeight - threshold);
 
     // Background below line
-    config.backBufferCtx.fillStyle = colors[3];
+    config.backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
     config.backBufferCtx.globalAlpha = 0.25;
     config.backBufferCtx.fillRect(0, chartHeight - threshold, chartWidth, threshold);
 
@@ -30,7 +34,7 @@ export default {
     config.backBufferCtx.moveTo(0, chartHeight - threshold);
     config.backBufferCtx.setLineDash([8, 2]);
     config.backBufferCtx.lineWidth = 1.5;
-    config.backBufferCtx.strokeStyle = colors[2];
+    config.backBufferCtx.strokeStyle = thresholdColor;
     config.backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
     config.backBufferCtx.stroke();
 
@@ -40,6 +44,10 @@ export default {
     axis.valuesDependOnEachOther = true;
   }
 };
+
+function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
+}
 
 function validateProps(config, colors) {
   if (__DEV__) {

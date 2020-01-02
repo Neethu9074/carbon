@@ -47,6 +47,7 @@ export default connectTo(
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
+    const operator = alertConfig.rule.operator;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = twelveHours;
@@ -81,6 +82,7 @@ export default connectTo(
                 <JsErrorsAlertingBarChart
                   websiteId={entityId}
                   threshold={thresholdValue}
+                  operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   errorFilter={getErrorMessageTagFilter(alertConfig.rule)}

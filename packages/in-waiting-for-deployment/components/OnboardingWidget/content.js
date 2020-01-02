@@ -112,7 +112,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'Daemon set',
+          label: 'DaemonSet',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
