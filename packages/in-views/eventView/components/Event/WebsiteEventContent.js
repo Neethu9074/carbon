@@ -48,14 +48,13 @@ export default connectTo(
     const baseline = alertConfig.threshold.baseline;
     const thresholdValue = alertConfig.threshold.value;
     const thresholdType = alertConfig.threshold.type;
+    const operator = alertConfig.threshold.operator;
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
-    const operator = alertConfig.rule.operator;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = twelveHours;
-
     return (
       <Row>
         <Col xs>
@@ -98,6 +97,7 @@ export default connectTo(
                 <EumAlertingBarChart
                   thresholdType={thresholdType}
                   threshold={thresholdValue}
+                  operator={operator}
                   sensitivity={sensitivity}
                   baseline={baseline}
                   timeConfig={timeConfig}
