@@ -16,7 +16,7 @@ export default compose(
   getResultFromApiPing({
     url: `/api/infrastructure-monitoring/monitoring-state`,
     // users who ever had something monitoring can skip the dialog. Also engineers
-    checkResult: result => result.firstKnownReportingTime > 0 || isInstanaEngineer
+    checkResult: result => result.firstKnownReportingTime > 0
   }),
   connect({ agentKey: getAgentKey() })
 )(InstanaOnboardingComponent);
@@ -40,8 +40,8 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         agentEndpoint={config.agentEndpoint}
         butlerDomain={config.butlerDomain}
         getRedirectButtonProperties={() => ({
-          disabled: !apiCallSatisfied,
-          children: 'Go to Instana!',
+          disabled: !apiCallSatisfied && !isInstanaEngineer,
+          children: !apiCallSatisfied && isInstanaEngineer ? 'Engs can always pass' : 'Go to Instana!',
           onClick: onDialogSkip
         })}
       />
