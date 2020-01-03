@@ -14,9 +14,9 @@ export default function MultiButton(props) {
 
 function MultiButtonDropdown({ label, icon, buttons }) {
   return (
-    <Overlay content={ButtonList} props={{ buttons }} withoutWrapper>
+    <Overlay content={ButtonList} props={{ buttons }}>
       {({ toggle, isOpen, refSetter }) => (
-        <Button kind="primary" icon={icon} onClick={toggle} refSetter={refSetter}>
+        <Button className={locals.button} kind="primary" icon={icon} onClick={toggle} refSetter={refSetter}>
           {label}
           <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>

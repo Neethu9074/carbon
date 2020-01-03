@@ -72,6 +72,7 @@ export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
 const logManagement = `${teamSettings}/logManagement`;
+export const teamSettingsLogManagementCoralogix = `${logManagement}/coralogixConfiguration`;
 export const teamSettingsLogManagementLogDna = `${logManagement}/logdnaConfiguration`;
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfiguration`;

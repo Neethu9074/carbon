@@ -36,6 +36,7 @@ export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', t
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
+export const coralogixEnabled = isFeatureFlagEnabled('coralogixEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);

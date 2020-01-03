@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-import { integrationKey } from 'in-integrations/logging/logdna/consts';
+import { integrationKey } from 'in-integrations/logging/coralogix/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -9,9 +9,8 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
   integration: getIntegrationConfiguration(integrationKey)
-})(function LogDnaButton(props) {
+})(function CoralogixButton(props) {
   const { integration } = props;
-
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
@@ -20,39 +19,44 @@ export default connectTo({
     <Button
       className={props.className}
       kind="secondary"
-      icon="lib_logdna"
+      icon="lib_coralogix"
       target="_blank"
-      href={constructLink(integration, props)}
+      href={constructCoralogixLink(integration, props)}
     >
-      Go to LogDNA
+      Go to Coralogix
     </Button>
   );
 });
 
-function constructLink(integration, props) {
+function constructCoralogixLink(integration, props) {
   const { timeConfig } = props;
   const queryParameters = {
-    hosts: serializeHosts(props)
+    query: serializeHosts(props)
   };
-
   if (timeConfig.to) {
-    queryParameters.t = new Date(timeConfig.to).toISOString();
+    if (timeConfig.windowSize) {
+      queryParameters.startTime = timeConfig.to - timeConfig.windowSize;
+    }
+    queryParameters.endTime = timeConfig.to;
+  } else {
+    if (timeConfig.windowSize) {
+      queryParameters.startTime = Date.now() - timeConfig.windowSize;
+    }
   }
-
-  return `https://app.logdna.com/${integration.accountId}/logs/view${toParams(queryParameters, '?', '&')}`;
+  return `https://${integration.team}.coralogix.com/#/query/logs${toParams(queryParameters, '?', '&')}`;
 }
 
 function serializeHosts({ hostFqdn }) {
   let query = '';
 
   if (hostFqdn) {
-    query = hostFqdn;
+    query = 'hostname:' + hostFqdn;
   }
 
   return query.trim();
 }
 
-export function shouldShowButton(props) {
+function shouldShowButton(props) {
   const query = serializeHosts(props);
   return !isBlank(query);
 }
