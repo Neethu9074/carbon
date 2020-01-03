@@ -13,7 +13,7 @@ export default [
     label: 'Memory',
     path: `${analyzeProfilePathFullyQualified}/memory`,
     component: MemoryProfile,
-    isTabDisabled: result => !result.data || !result.data.memoryProfile
+    isDisabled: result => !result.data || !result.data.memoryProfile
   },
   {
     label: 'Wait time',

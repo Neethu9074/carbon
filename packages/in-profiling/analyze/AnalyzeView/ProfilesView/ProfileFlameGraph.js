@@ -99,7 +99,7 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       })
       .differential(false)
       .selfValue(false)
-      .setColorMapper(colorMapper);
+      .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
       .datum(data)
@@ -143,7 +143,9 @@ function getName(node) {
   return `<${node.methodName}> at ${node.fileName}:${node.fileLine}`;
 }
 
-function colorMapper(node) {
+function colorMapper(component, node) {
+  const query = component.props.query;
+
   let hex;
   if (node.data.name === 'root') {
     hex = theme.lib.colors.N300;
@@ -158,7 +160,7 @@ function colorMapper(node) {
     );
   }
 
-  if (node.data.fade) {
+  if (node.data.fade || (query && !node.highlight)) {
     return hex + '40';
   }
 

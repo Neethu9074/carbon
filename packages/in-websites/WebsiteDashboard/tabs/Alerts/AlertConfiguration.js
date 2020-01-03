@@ -53,14 +53,14 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         />
       </Card>
 
-      <ExpandableCard title="Domain" openByDefault={true} bodyWithoutPadding darkFrame>
+      <ExpandableCard title="Domain" openByDefault bodyWithoutPadding darkFrame>
         <div className={locals.wrapper}>
           <AlertLocationFilters {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
           <div className={locals.overlay} />
         </div>
       </ExpandableCard>
 
-      <ExpandableCard title="Alert Channels" darkFrame openByDefault={true} bodyWithoutPadding>
+      <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
         <div className={locals.alertChannelsWrapper}>
           <SelectAlertChannelPresenter
             isSearchable={false}
@@ -72,7 +72,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         </div>
       </ExpandableCard>
 
-      <ExpandableCard title="Alert Properties" openByDefault={true} bodyWithoutPadding darkFrame>
+      <ExpandableCard title="Alert Properties" openByDefault bodyWithoutPadding darkFrame>
         <AlertProperties {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
       </ExpandableCard>
     </>
