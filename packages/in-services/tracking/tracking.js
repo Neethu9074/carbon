@@ -128,8 +128,9 @@ export const PROFILES_ANALYZE_FILTER_SET = 'profiles.analyze.filter.set';
 export const PROFILES_ANALYZE_GROUP_REMOVE = 'profiles.analyze.group.remove';
 export const PROFILES_ANALYZE_GROUP_SET = 'profiles.analyze.group.set';
 
-export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboarding.instana.beginner.videos.clicked';
-export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboarding.help.and.support.clicked';
-export const ONBOARDING_MAIN_TOPIC_CHANGED = 'onboarding.main.topic.changed';
-export const ONBOARDING_SUB_TOPIC_CHANGED = 'onboarding.sub.topic.changed';
-export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboarding.search.query.changed';
+export const ONBOARDING_OPENED = 'dialog.opened';
+export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'instanaBeginnerVideos.clicked';
+export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'helpAndSupport.clicked';
+export const ONBOARDING_MAIN_TOPIC_CHANGED = 'mainTopic.changed';
+export const ONBOARDING_SUB_TOPIC_CHANGED = 'subTopic.changed';
+export const ONBOARDING_SEARCH_QUERY_CHANGED = 'searchQuery.changed';

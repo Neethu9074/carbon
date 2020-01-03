@@ -3,6 +3,7 @@ import React from 'react';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 
@@ -35,23 +36,26 @@ function OnboardingWidget(props) {
   const trackingService = createTracker(props.trackingIdPrefix);
 
   return (
-    <Renderer
-      {...props}
-      trackingService={trackingService}
-      selectedSubEntryIndex={props.selectedSubEntry}
-      selectedEntryIndex={props.selectedEntry}
-      onEntrySelected={(index, entryLabel) => {
-        props.onChange({ selectedEntry: index, selectedSubEntry: null });
-        trackingService.mainTopicChanged({ topic: entryLabel });
-      }}
-      onSubEntrySelected={(index, subEntryLabel) => {
-        props.onChange({ selectedSubEntry: index });
-        trackingService.subTopicChanged({ subTopic: subEntryLabel });
-      }}
-      onQueryChange={query => {
-        props.onChange({ query, selectedEntry: 0, selectedSubEntry: null });
-        trackingService.searchQueryChanged({ query });
-      }}
-    />
+    <>
+      <LifecycleObserver onWillMount={trackingService.dialogOpened} />
+      <Renderer
+        {...props}
+        trackingService={trackingService}
+        selectedSubEntryIndex={props.selectedSubEntry}
+        selectedEntryIndex={props.selectedEntry}
+        onEntrySelected={(index, entryLabel) => {
+          props.onChange({ selectedEntry: index, selectedSubEntry: null });
+          trackingService.mainTopicChanged({ topic: entryLabel });
+        }}
+        onSubEntrySelected={(index, subEntryLabel) => {
+          props.onChange({ selectedSubEntry: index });
+          trackingService.subTopicChanged({ subTopic: subEntryLabel });
+        }}
+        onQueryChange={query => {
+          props.onChange({ query, selectedEntry: 0, selectedSubEntry: null });
+          trackingService.searchQueryChanged({ query });
+        }}
+      />
+    </>
   );
 }

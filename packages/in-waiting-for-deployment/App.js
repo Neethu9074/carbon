@@ -35,6 +35,7 @@ function App({ apiCallSatisfied }) {
         tenantUnit={config.tenantUnit}
         agentEndpoint={config.agentEndpoint}
         butlerDomain={config.butlerDomain}
+        trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied,
           href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,

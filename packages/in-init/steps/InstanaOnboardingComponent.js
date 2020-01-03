@@ -39,6 +39,7 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         tenantUnit={config.tenantUnit}
         agentEndpoint={config.agentEndpoint}
         butlerDomain={config.butlerDomain}
+        trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
           disabled: !apiCallSatisfied && !isInstanaEngineer,
           children: !apiCallSatisfied && isInstanaEngineer ? 'Engs can always pass' : 'Go to Instana!',
