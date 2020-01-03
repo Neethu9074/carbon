@@ -4,6 +4,7 @@ import React from 'react';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/AlertConfigDialog';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import ComboBox from 'in-components/ComboBox/ComboBox';
+import Toggle from 'in-components/form/Toggle/Toggle';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
@@ -16,7 +17,7 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
   return (
     <>
       <PropContainer
-        left={'Title'}
+        left="Title"
         right={
           isReadOnly ? (
             <Label className={locals.staticTitle}>{form.get(fieldNames.name).value}</Label>
@@ -36,7 +37,7 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
       />
       <PropContainer
         icon={severity <= 5 ? 'lib_events_warning' : 'lib_events_critical'}
-        left={'Alert Level'}
+        left="Alert Level"
         right={
           isReadOnly ? (
             <Label className={locals.staticSeverity}>{selectOptions[fieldNames.severity][0].label}</Label>
@@ -54,8 +55,19 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
         }
       />
       <PropContainer
-        icon={'lib_help_error_error_outline'}
-        left={'Description'}
+        icon="lib_events_incident"
+        left="Triggers Incident"
+        right={
+          <Toggle
+            checked={form.get(fieldNames.triggering).value}
+            onChange={e => onChange(form, fieldNames.triggering, (e && e.target.checked) || false)}
+            disabled={isReadOnly}
+          />
+        }
+      />
+      <PropContainer
+        icon="lib_help_error_error_outline"
+        left="Description"
         right={
           isReadOnly ? (
             <Label className={locals.staticDescription}>{form.get(fieldNames.description).value}</Label>

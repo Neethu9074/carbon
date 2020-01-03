@@ -54,7 +54,6 @@ export default connectTo(
     const sensitivity = alertConfig.threshold.deviationFactor;
     const baseline = alertConfig.threshold.baseline;
     const thresholdValue = alertConfig.threshold.value;
-    const thresholdType = alertConfig.threshold.type;
     const operator = alertConfig.threshold.operator;
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
@@ -102,7 +101,8 @@ export default connectTo(
               )}
               SlownessComponent={() => (
                 <EumAlertingBarChart
-                  thresholdType={thresholdType}
+                  websiteId={entityId}
+                  thresholdType={getThresholdTypeWithSeasonality(alertConfig.threshold)}
                   threshold={thresholdValue}
                   operator={operator}
                   sensitivity={sensitivity}
@@ -154,4 +154,11 @@ function getChartTitle(metricName) {
     return chartTitleByMetric[metricName];
   }
   return '';
+}
+
+function getThresholdTypeWithSeasonality(thresholdRule) {
+  if (thresholdRule.type === 'historicBaseline') {
+    return `${thresholdRule.type}.${thresholdRule.seasonality.toUpperCase()}`;
+  }
+  return thresholdRule.type;
 }
