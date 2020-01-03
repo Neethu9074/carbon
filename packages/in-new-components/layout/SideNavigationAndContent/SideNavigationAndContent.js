@@ -1,5 +1,6 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+import { combineLatest } from 'reactive-observables';
 import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
@@ -8,7 +9,6 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/Redirect
 import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
-import { combineLatest } from 'reactive-observables';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 

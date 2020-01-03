@@ -4,6 +4,7 @@ import EntityPageMainNotification from 'in-new-components/EntityPageMainNotifica
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import ArticleContent from 'in-new-components/ArticleContent';
+import Controls from 'in-components/MapOverlayControls';
 import { isMonitoring$ } from 'in-stores/isMonitoring';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -27,7 +28,12 @@ export default connectTo(
       <FullHeightWrapper
         className={locals.wrapper}
         render={() => {
-          return <CenterAlignmentColumn>{content}</CenterAlignmentColumn>;
+          return (
+            <>
+              <CenterAlignmentColumn>{content}</CenterAlignmentColumn>
+              <Controls />
+            </>
+          );
         }}
       />
     );
