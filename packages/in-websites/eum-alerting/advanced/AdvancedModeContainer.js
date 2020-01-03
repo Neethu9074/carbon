@@ -73,7 +73,6 @@ export default function AdvancedModeContainer({
                 />
               )}
               SlownessComponent={() => {
-                const baseline = form.get(fieldNames.thresholdBaseline).value;
                 return (
                   <ChartContainer headline="onLoad Time (ms)" withBorder>
                     <>
@@ -83,13 +82,11 @@ export default function AdvancedModeContainer({
                         granularity={granularity}
                         onChange={onChange}
                       />
-                      {baseline &&
-                        baseline.length === 0 &&
-                        form.get(fieldNames.thresholdType).value !== 'staticThreshold' && (
-                          <Message withIcon small>
-                            Insufficient data to compute a baseline for the selected configuration.
-                          </Message>
-                        )}
+                      {showInsufficientBaselineDataMessage(form) && (
+                        <Message withIcon small>
+                          Insufficient data to compute a baseline for the selected configuration.
+                        </Message>
+                      )}
                     </>
                   </ChartContainer>
                 );
@@ -143,4 +140,13 @@ function validateTrigger(form) {
   } else {
     return true;
   }
+}
+
+function showInsufficientBaselineDataMessage(form) {
+  if (form.get(fieldNames.thresholdType).value === 'staticThreshold') {
+    return false;
+  }
+
+  const baseline = form.get(fieldNames.thresholdBaseline).value;
+  return baseline && baseline.length === 0;
 }
