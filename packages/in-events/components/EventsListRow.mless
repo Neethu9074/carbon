@@ -31,7 +31,7 @@
 
   @media @min-medium-screen {
     .title {
-      max-width: 22rem;
+      max-width: 40rem;
     }
   }
 
