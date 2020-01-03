@@ -31,6 +31,8 @@ export default function Collaboration({ isRestricted, agentKey }) {
     setForm(updatedForm);
   };
 
+  const [isInvitingUser, setIsInvitingUser] = useState(false);
+
   return (
     <ExpandableCard
       className={locals.card}
@@ -41,7 +43,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
       <form
         onSubmit={e => {
           e.preventDefault();
-          onSubmit(form, setForm, form.get('email').value);
+          onSubmit(form, setForm, form.get('email').value, setIsInvitingUser);
         }}
       >
         <div className={locals.flexWrapper}>
@@ -64,8 +66,15 @@ export default function Collaboration({ isRestricted, agentKey }) {
                     value={field.value}
                     hasError={!field.valid && field.touched}
                   />
-                  <Button kind="secondary" type="submit" disabled={isRestricted}>
-                    Invite
+                  <Button
+                    className={locals.inviteButton}
+                    icon={isInvitingUser ? 'lib_actions_loading' : undefined}
+                    iconSpinning={isInvitingUser}
+                    kind="secondary"
+                    type="submit"
+                    disabled={isRestricted || isInvitingUser}
+                  >
+                    {isInvitingUser ? '' : 'Invite'}
                   </Button>
                 </div>
                 <TouchedMessages field={field} />
@@ -86,12 +95,17 @@ export default function Collaboration({ isRestricted, agentKey }) {
   );
 }
 
-function onSubmit(form, setForm, email) {
+function onSubmit(form, setForm, email, setIsInvitingUser) {
   if (!form.hierarchyValid) {
     return setForm(form.setTouched(true, { recurse: true }));
   }
 
+  setIsInvitingUser(true);
   const invitationResult$ = sendInvitation(email, defaultRoleId);
-  invitationResult$.once(() => {});
-  invitationResult$.errors().once(() => {});
+  invitationResult$.once(() => {
+    setIsInvitingUser(false);
+  });
+  invitationResult$.errors().once(() => {
+    setIsInvitingUser(false);
+  });
 }
