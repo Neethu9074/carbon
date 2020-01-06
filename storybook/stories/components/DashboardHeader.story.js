@@ -6,7 +6,6 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-
 import Section from '../_helpers/Section';
 
 export default {
@@ -57,17 +56,15 @@ function Headers({ additionalProps }) {
         <DashboardHeader
           {...additionalProps}
           icon="lib_application_trace"
-          contextIcon="lib_analyze_inverted"
           label="42 Traces"
-          renderContext={() => 'Analyze'}
+          contextConfigurations={[{ renderContext: () => 'Analyze', contextIcon: 'lib_analyze_inverted' }]}
         />
         <Spacer />
         <DashboardHeader
           {...additionalProps}
           icon="lib_application_trace"
-          contextIcon="lib_analyze_inverted"
           label="42 Traces"
-          renderContext={renderContext}
+          contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
         />
       </Section>
       <Section title="Themes">
@@ -93,8 +90,12 @@ function Headers({ additionalProps }) {
             theme={themes.dark}
             icon="lib_infrastructure"
             label="instana-mc-demo"
-            contextIcon="lib_infrastructure_inverted"
-            renderContext={() => 'Infrastructure Map'}
+            contextConfigurations={[
+              {
+                renderContext: () => 'Infrastructure Map',
+                contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+              }
+            ]}
             renderButtonLine={renderButtonLine}
           />
         </div>
@@ -104,8 +105,12 @@ function Headers({ additionalProps }) {
           {...additionalProps}
           icon="lib_infrastructure"
           label="instana-mc-demo"
-          contextIcon="lib_infrastructure_inverted"
-          renderContext={() => 'Infrastructure Map'}
+          contextConfigurations={[
+            {
+              renderContext: () => 'Infrastructure Map',
+              contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+            }
+          ]}
           renderMetaInformation={renderMetaInformation}
           renderButtonLine={renderButtonLine}
         />

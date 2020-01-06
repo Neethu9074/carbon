@@ -58,6 +58,14 @@
     fill: @lib__colors__N900Primary;
   }
 
+  .contextWrapper {
+    .flexbox();
+
+    & + .contextWrapper {
+      margin-left: 0.5rem;
+    }
+  }
+
   .context,
   .label {
     font-size: 1.375rem;

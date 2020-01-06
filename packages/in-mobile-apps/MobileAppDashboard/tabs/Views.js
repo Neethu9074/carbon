@@ -43,7 +43,7 @@ const columnDefinitions = [
   },
   {
     id: 'sessionsAgg',
-    label: 'Sessions',
+    label: 'Session Starts',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -53,6 +53,23 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={item.metrics.sessions}
           metric={item.metrics.sessionsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'viewsAgg',
+    label: 'View Changes',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.views}
+          metric={item.metrics.viewsAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -73,7 +90,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     viewIdUrlParameter
   ],
   columnDefinitions,
-  defaultOrderBy: 'sessionsAgg',
+  defaultOrderBy: 'viewsAgg',
   defaultOrderDirection: 'DESC',
   pathSegment: '/views'
 });
@@ -93,7 +110,7 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'sessionsAgg',
+  orderBy = 'viewsAgg',
   orderDirection = 'DESC',
   timeConfig,
   tagFilters
@@ -123,6 +140,15 @@ function getTableData({
       },
       sessions: {
         metric: 'sessions',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      viewsAgg: {
+        metric: 'views',
+        aggregation: 'SUM'
+      },
+      views: {
+        metric: 'views',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }

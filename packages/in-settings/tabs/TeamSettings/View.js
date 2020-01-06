@@ -31,6 +31,7 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAuditLog,
+  teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementSplunk
@@ -38,13 +39,14 @@ import {
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
-import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
+import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import PermissionSetPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSet';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
+import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
@@ -52,8 +54,8 @@ import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Aler
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
-import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
+import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
@@ -61,9 +63,9 @@ import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/T
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
+import { isRbacEnabled, coralogixEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
-import { isRbacEnabled, logDnaEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -248,25 +250,29 @@ function navigationTreeForRole(role): NavigationTree {
   if (role.canConfigureLogManagement) {
     navigationTree.push({
       title: 'Log Management',
-      pages: [
-        {
-          path: teamSettingsLogManagementHumio,
-          label: 'Humio',
-          component: HumioPage
-        }
-      ]
+      pages: []
         .concat(
-          logDnaEnabled
+          coralogixEnabled
             ? [
                 {
-                  path: teamSettingsLogManagementLogDna,
-                  label: 'LogDNA',
-                  component: LogDnaPage
+                  path: teamSettingsLogManagementCoralogix,
+                  label: 'Coralogix',
+                  component: CoralogixPage
                 }
               ]
             : []
         )
         .concat([
+          {
+            path: teamSettingsLogManagementHumio,
+            label: 'Humio',
+            component: HumioPage
+          },
+          {
+            path: teamSettingsLogManagementLogDna,
+            label: 'LogDNA',
+            component: LogDnaPage
+          },
           {
             path: teamSettingsLogManagementSplunk,
             label: 'Splunk',

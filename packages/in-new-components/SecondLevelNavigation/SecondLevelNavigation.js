@@ -29,7 +29,16 @@ export function SecondLevelNavigation({ children, darkTheme = false, hasGroups =
   );
 }
 
-export function SecondLevelNavigationItem({ isActive, href$, href, onClick, label, addSeparator, addGroupSeparator }) {
+export function SecondLevelNavigationItem({
+  isActive,
+  href$,
+  href,
+  onClick,
+  isDisabled,
+  label,
+  addSeparator,
+  addGroupSeparator
+}) {
   return (
     <Link
       className={evaluateClassNames({
@@ -44,7 +53,8 @@ export function SecondLevelNavigationItem({ isActive, href$, href, onClick, labe
       <div
         className={evaluateClassNames({
           [locals.tab]: true,
-          [locals.tabSelected]: isActive
+          [locals.tabSelected]: isActive,
+          [locals.tabDisabled]: isDisabled
         })}
       >
         {label}

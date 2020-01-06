@@ -44,7 +44,7 @@ export function getAllVersionsOfAlertConfig(id) {
   }).map(response => response.body);
 }
 
-export function getCurrentAlertConfig(id) {
+export function getLatestAlertConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,

@@ -94,7 +94,7 @@ export default connectTo(
   },
   function WebsitesList({ timeConfig }) {
     return (
-      <Sticky header={<ViewSwitcher />}>
+      <Sticky header={<ViewSwitcher isWebsites />}>
         <LeftRightPadding>
           <Title title="Websites" />
           <WithEmptyStateFallback

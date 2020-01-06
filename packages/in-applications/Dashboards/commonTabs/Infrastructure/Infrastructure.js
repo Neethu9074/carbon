@@ -21,12 +21,12 @@ import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
+import withUrlState from 'in-hoc/withUrlState';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -34,6 +34,12 @@ import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
+
+const selectedTypeUrlParameter = {
+  path: '/infrastructure',
+  name: 'selectedType',
+  initialState: null
+};
 
 const tablesByType = {
   CLUSTER: getTable('CLUSTER'),
@@ -48,12 +54,7 @@ function getTable(type) {
     Renderer: withEmptyTableState({
       columnDefinitions
     }),
-    paginationResettingUrlParameters: [
-      {
-        path: '/infrastructure',
-        name: 'selectedType'
-      }
-    ],
+    paginationResettingUrlParameters: [selectedTypeUrlParameter],
     columnDefinitions,
     defaultOrderBy: 'callsAgg',
     defaultOrderDirection: 'DESC',
@@ -171,13 +172,8 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
 }
 
 export default compose(
-  withUrlDependingState({
-    getPathSegment: () => '/infrastructure',
-    getMatrixPrefix: () => '',
-    boundKeys: ['selectedType'],
-    getInitialState: () => ({
-      selectedType: null
-    }),
+  withUrlState({
+    bind: [selectedTypeUrlParameter],
     reducerName: 'setType',
     reducer: (_, selectedType) => ({ selectedType }),
     replaceHistory: true

@@ -28,7 +28,7 @@ pipeline {
               sh '''
                 source $HOME/.nvm/nvm.sh
                 nvm use
-                npm install yarn@1.17.3
+                npm install yarn@1.21.1
                 ./node_modules/.bin/yarn audit
               '''
               slackNotification('Security Audit', 'ui-client', gitCommitId, 'SUCCESS', 'develop')

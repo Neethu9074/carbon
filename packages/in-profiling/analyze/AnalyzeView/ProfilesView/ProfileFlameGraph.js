@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { create } from 'reactive-observables';
 import { flamegraph } from 'd3-flame-graph';
 import { select } from 'd3-selection';
+import theme from 'in-themes';
 import tip from 'd3-tip';
 
+import 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph.css';
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
-
-import 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph.css';
 
 const fromRgb = hexToRGB(theme.lib.colors.yellow800);
 const toRgb = hexToRGB(theme.lib.colors.red800);
@@ -89,7 +88,7 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
     this.tooltip = tip()
       .attr('class', 'd3-flame-graph-tip')
       .html(function(node) {
-        return `${node.data.name} (${node.data.value}%)`;
+        return `${node.data.name} (${((node.data.value * 100) | 0) / 100}%)`;
       });
 
     this.flamegraphObject = flamegraph()
@@ -100,7 +99,7 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       })
       .differential(false)
       .selfValue(false)
-      .setColorMapper(colorMapper);
+      .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
       .datum(data)
@@ -144,9 +143,13 @@ function getName(node) {
   return `<${node.methodName}> at ${node.fileName}:${node.fileLine}`;
 }
 
-function colorMapper(node) {
+function colorMapper(component, node) {
+  const query = component.props.query;
+
   let hex;
-  if (node.highlight) {
+  if (node.data.name === 'root') {
+    hex = theme.lib.colors.N300;
+  } else if (node.highlight) {
     hex = theme.lib.colors.cyan800;
   } else {
     const normalizedPercent = node.data.value / 100;
@@ -157,7 +160,7 @@ function colorMapper(node) {
     );
   }
 
-  if (node.data.fade) {
+  if (node.data.fade || (query && !node.highlight)) {
     return hex + '40';
   }
 

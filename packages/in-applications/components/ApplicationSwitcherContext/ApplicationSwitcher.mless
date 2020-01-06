@@ -1,0 +1,79 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    padding: 1.5rem;
+    background: @lib__colors__teal800;
+    color: white;
+    font-size: 1rem;
+    font-weight: 100;
+    line-height: 1.125rem;
+  }
+
+  .headingIcon {
+    margin-right: 0.5rem;
+    fill: #fff;
+  }
+
+  .content {
+    max-height: 30rem;
+    padding: 1rem;
+
+    overflow-y: auto;
+  }
+
+  .selectedItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0 0 1.5rem 0.5rem;
+  }
+
+  .selectedItemLabelWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: @lib__colors__N900Primary;
+  }
+
+  .checkIcon {
+    fill: @lib__colors__teal800;
+    margin-left: 0.5rem;
+  }
+
+  .subSectionHeading {
+    margin: 0 0 1rem 0.75rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .menu {
+    width: 25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+  }
+
+  .row + .row {
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  .button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N900Primary;
+  }
+}

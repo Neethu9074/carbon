@@ -3,15 +3,15 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { ms, number, percentage } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { ms, number } from 'in-services/formatters/number';
 import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
-const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];
+const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorRate'];
 const labels = ['Calls', 'Latency', 'Errors'];
-const aggregations = ['SUM', 'MEAN', 'SUM'];
-const formatters = [number.compact, ms.compact, number.compact];
+const aggregations = ['SUM', 'MEAN', 'MEAN'];
+const formatters = [number.compact, ms.compact, percentage.detailed];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (

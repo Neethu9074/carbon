@@ -14,51 +14,56 @@ const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
 const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
-export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel }) {
+export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel, isReadOnly }) {
   return (
     form && (
-      <div className={locals.container}>
-        <QuickFilterBar
-          className={locals.bar}
-          timeConfig={timeConfig}
-          tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-          upsertTagFilter={newTagFilter => {
-            const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
-            newTagFilters.push(newTagFilter);
-            onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
-          }}
-          removeTagFilter={name => {
-            if (name !== BEACON_WEBSITE_NAME) {
-              onChange(
-                form,
-                fieldNames.tagFilters,
-                withoutTagFilterForName(getTagFilters(form), name),
-                doCalculateTresholdOnBackend
-              );
-            }
-          }}
-          onMoreClick={tagFilter => {
-            setActiveDialog(
-              <WebsiteEditTagFilterDialog
-                tagFilter={tagFilter}
-                tagFilters={getTagFilters(form)}
-                setTagFilters={tagFilters =>
-                  onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
+      <>
+        {!isReadOnly && (
+          <div className={locals.quickFilterBarWrapper}>
+            <QuickFilterBar
+              className={locals.bar}
+              timeConfig={timeConfig}
+              tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
+              upsertTagFilter={newTagFilter => {
+                const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
+                newTagFilters.push(newTagFilter);
+                onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
+              }}
+              removeTagFilter={name => {
+                if (name !== BEACON_WEBSITE_NAME) {
+                  onChange(
+                    form,
+                    fieldNames.tagFilters,
+                    withoutTagFilterForName(getTagFilters(form), name),
+                    doCalculateTresholdOnBackend
+                  );
                 }
-                tagSuggestions={availableFilterTags.error.filter(
-                  name => name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
-                )}
-                timeConfig={timeConfig}
-              />
-            );
-          }}
-          align="bottomMiddle"
-          showPageSelector
-          showWebsiteSelector={advancedMode}
-          removeBarPadding
-          removeBarBackgroundColor
-          hideClearFiltersButton
-        />
+              }}
+              onMoreClick={tagFilter => {
+                setActiveDialog(
+                  <WebsiteEditTagFilterDialog
+                    tagFilter={tagFilter}
+                    tagFilters={getTagFilters(form)}
+                    setTagFilters={tagFilters =>
+                      onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
+                    }
+                    tagSuggestions={availableFilterTags.error.filter(
+                      name =>
+                        name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
+                    )}
+                    timeConfig={timeConfig}
+                  />
+                );
+              }}
+              align="bottomMiddle"
+              showPageSelector
+              showWebsiteSelector={advancedMode}
+              removeBarPadding
+              removeBarBackgroundColor
+              hideClearFiltersButton
+            />
+          </div>
+        )}
         <div className={locals.filterList}>
           <TagFilterListPresenter
             onTagFilterClick={tagFilter => {
@@ -87,7 +92,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
             undeleteableFilterNames={[BEACON_WEBSITE_NAME]}
           />
         </div>
-      </div>
+      </>
     )
   );
 }
@@ -97,7 +102,8 @@ AlertLocationFilters.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  websiteLabel: PropTypes.string.isRequired
+  websiteLabel: PropTypes.string.isRequired,
+  isReadOnly: PropTypes.bool
 };
 
 function withoutTagFilterForName(tagFilters, name) {

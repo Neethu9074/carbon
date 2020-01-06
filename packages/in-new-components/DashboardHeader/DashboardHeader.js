@@ -16,7 +16,7 @@ export const themes = {
 };
 
 export default function DashboardHeader(props) {
-  const { theme = themes.default, icon, title, contextIcon, renderContext, renderTimeSelection, result } = props;
+  const { theme = themes.default, icon, title, className, contextConfigurations, renderTimeSelection, result } = props;
   let { label, renderIcon, renderMetaInformation, renderButtonLine } = props;
 
   const isLoading = result && result.data == null;
@@ -34,20 +34,20 @@ export default function DashboardHeader(props) {
       renderIcon = getSkeletonIcon;
     }
   }
-
   return (
-    <header className={joinClassNames(locals.dashboardHeader, locals[theme])}>
+    <header className={joinClassNames(locals.dashboardHeader, locals[theme], className)}>
       <Title title={title} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
-          {renderContext && (
-            <>
-              <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
-              <span className={locals.context}>{renderContext(props)}</span>
-              {(icon || renderIcon) &&
-                label && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
-            </>
-          )}
+          {contextConfigurations &&
+            contextConfigurations.map((config, i) => (
+              <Context
+                key={i}
+                {...config}
+                {...props}
+                renderLastIconDelimiter={i < contextConfigurations.length - 1 || (label || icon || renderIcon)}
+              />
+            ))}
           {renderIcon ? renderIcon() : <SvgIcon className={locals.icon} type={icon} size="l" />}
           <span className={locals.label}>{label}</span>
           {renderMetaInformation && renderMetaInformation(props)}
@@ -71,6 +71,22 @@ function getSkeletonIcon() {
   return <Skeleton className={locals.iconSkeleton} />;
 }
 
+function Context(props) {
+  const { renderContext, contextIcon, renderContextIcon, renderLastIconDelimiter } = props;
+
+  return (
+    <div className={locals.contextWrapper}>
+      {renderContextIcon ? (
+        renderContextIcon({ ...props, className: locals.contextIcon })
+      ) : (
+        <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
+      )}
+      <span className={locals.context}>{renderContext(props)}</span>
+      {renderLastIconDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+    </div>
+  );
+}
+
 DashboardHeader.propTypes = {
   theme: PropTypes.oneOf([themes.dark, themes.lightWithGrey, themes.default]),
   result: PropTypes.any,
@@ -81,6 +97,12 @@ DashboardHeader.propTypes = {
   label: PropTypes.string,
   renderMetaInformation: PropTypes.func,
   renderButtonLine: PropTypes.func,
-  contextIcon: PropTypes.string,
-  renderContext: PropTypes.func
+  contextConfigurations: PropTypes.arrayOf(
+    PropTypes.shape({
+      renderContext: PropTypes.func.isRequired,
+      renderContextIcon: PropTypes.func,
+      contextIcon: PropTypes.string
+    })
+  ),
+  className: PropTypes.string
 };

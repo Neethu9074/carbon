@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .sectionWrapper {
+    margin-top: 3rem;
+  }
+
+  .domainContentWrapper {
+      margin-top: 0.25rem;
+  }
+}

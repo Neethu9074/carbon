@@ -16,7 +16,7 @@ const formatters = [number.compact];
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (
     <TopList
-      title="Errors"
+      title="Error Types"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -70,7 +70,7 @@ function ViewAll({ tagFilters, websiteLabel }, className) {
         }
       })}
     >
-      View all errors
+      View all error types
     </Link>
   );
 }

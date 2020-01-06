@@ -5,7 +5,7 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 export default function ViewBreadcrumb({ viewId, mobileAppId }) {
   return (
-    <Breadcrumb href$={getLinkToMobileApp(mobileAppId, { viewId })} label="View" icon="lib_website_page_load">
+    <Breadcrumb href$={getLinkToMobileApp(mobileAppId, { viewId })} label="View" icon="lib_mobile_app_view">
       {viewId}
     </Breadcrumb>
   );

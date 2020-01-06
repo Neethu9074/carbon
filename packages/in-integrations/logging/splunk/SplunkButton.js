@@ -12,11 +12,7 @@ export default connectTo({
 })(function SplunkButton(props) {
   const { integration } = props;
 
-  if (!integration || !integration.enabled) {
-    return null;
-  }
-
-  if (!shouldShowButton(props)) {
+  if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
 
@@ -28,7 +24,7 @@ export default connectTo({
       target="_blank"
       href={constructSplunkLink(integration, props)}
     >
-      Go to Splunk
+      Splunk
     </Button>
   );
 });
@@ -77,7 +73,7 @@ function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainer
     .trim();
 }
 
-export function shouldShowButton(props) {
+function shouldShowButton(props) {
   const query = serializeQuery(props);
   return !isBlank(query);
 }

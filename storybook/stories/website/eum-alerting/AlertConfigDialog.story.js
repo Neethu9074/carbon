@@ -9,7 +9,13 @@ storiesOf('websites/eum-alerting/simple-dialog', module)
   .add('Simple Dialog', () => <SimpleDialog />)
   .add('Simple Dialog: Edit Mode', () => <SimpleDialogEditMode />);
 
-const twelfHours = 1000 * 60 * 60 * 12;
+const twelveHours = 1000 * 60 * 60 * 12;
+const timeConfig = {
+  to: null,
+  focusedMoment: null,
+  windowSize: twelveHours,
+  autoRefresh: false
+};
 
 function onChange(setForm) {
   return (form, fieldName, fieldValue) => {
@@ -26,9 +32,7 @@ function SimpleDialog() {
       onChange={onChange(setForm)}
       onClose={action('close')}
       onCreate={action('create')}
-      timeConfig={{
-        windowSize: twelfHours
-      }}
+      timeConfig={timeConfig}
       websiteLabel={'shop'}
     />
   );
@@ -43,9 +47,7 @@ function SimpleDialogEditMode() {
       onChange={onChange(setForm)}
       onClose={action('close')}
       onCreate={action('create')}
-      timeConfig={{
-        windowSize: twelfHours
-      }}
+      timeConfig={timeConfig}
       websiteLabel={'shop'}
       editMode
     />

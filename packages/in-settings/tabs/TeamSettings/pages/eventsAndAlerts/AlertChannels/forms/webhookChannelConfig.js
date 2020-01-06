@@ -74,8 +74,7 @@ export default {
   },
 
   createForm(alertChannel) {
-    const headers = alertChannel
-      .get('headers', emptyList)
+    const headers = (alertChannel.get('headers') || emptyList)
       .toArray()
       .map(s => {
         const [key, value] = s.split(':', 2);

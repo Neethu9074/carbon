@@ -11,7 +11,6 @@ import locals from './Breadcrumb.mless';
 
 export default function Breadcrumb({
   className,
-  children,
   href,
   href$,
   label,
@@ -19,7 +18,8 @@ export default function Breadcrumb({
   icon,
   iconPath,
   isActive,
-  healthInfo
+  healthInfo,
+  children
 }) {
   const breadcrumbClassName = evaluateClassNames({
     [locals.breadcrumb]: true,
@@ -41,7 +41,7 @@ export default function Breadcrumb({
   let crumbContent = (
     <div className={locals.twoRowWrapper} ref={refSetter}>
       {(icon || iconPath) && iconCompontent}
-      <div className={locals.breadcrumbContent}>{children}</div>
+      <div className={locals.breadcrumbContent}>{children ? children : label}</div>
     </div>
   );
   if (label) {

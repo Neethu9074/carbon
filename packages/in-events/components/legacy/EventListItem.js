@@ -3,18 +3,15 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
-import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
-import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
-import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import Marker, { hasServiceImpact } from 'in-events/components/legacy/Marker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
-import EventChart from 'in-events/components/EventChart';
 import { formatTime } from 'in-services/formatters/date';
-import Spacer from 'in-events/components/legacy/Spacer';
 import EventIcon from 'in-events/components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -59,7 +56,6 @@ export default connectTo(
       }
 
       const isTriggeringEvent = triggeringProblemId === event.getIn(['problem', 'id']);
-      const isOfflineEvent = event => event.hasIn(['metadata', 'entityVerificationSnapshotId']);
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
@@ -89,10 +85,11 @@ export default connectTo(
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
               {isExpanded ? (
                 <div className={`${block}__expanded-details`}>
-                  <ProblemDescription event={event} />
-                  <EventSpecificationLink event={event} />
-                  <Spacer />
-                  {isOfflineEvent(event) ? <OfflineEventDescription event={event} /> : <EventChart event={event} />}
+                  {isWebsiteEvent(event) ? (
+                    <WebsiteEventListItemContent event={event} />
+                  ) : (
+                    <EventListItemContent event={event} />
+                  )}
                 </div>
               ) : null}
             </div>
@@ -148,4 +145,8 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
       <SvgIcon type={iconType} size="xs" color="#7b8e96" />
     </div>
   );
+}
+
+function isWebsiteEvent(event) {
+  return event.hasIn(['metadata', 'websiteId']);
 }

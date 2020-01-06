@@ -1,0 +1,6 @@
+{
+  "name": "ApplicationSwitcherContext",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ApplicationSwitcherContext.js"
+}

@@ -63,9 +63,9 @@ const icons = {
     custom: 'lib_website_custom'
   },
   mobileApp: {
-    sessionStart: 'lib_website_page_load',
-    httpRequest: 'lib_website_ajax',
-    custom: 'lib_website_custom'
+    sessionStart: 'lib_mobile_app_session',
+    httpRequest: 'lib_mobile_app_request',
+    custom: 'lib_mobile_app_custom_event'
   },
   profiling: {
     profiles: 'lib_profiling'

@@ -7,9 +7,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TemporaryMessage.mless';
 
-export default function TemporaryMessage({ type = 'success', duration = 5000, message }) {
+export default function TemporaryMessage({ type = 'success', duration = 5000, id, onHide, message }) {
   return (
-    <TemporaryPresenter duration={duration}>
+    <TemporaryPresenter duration={duration} id={id || message} onHide={onHide}>
       <Fragment>
         <Spacer type="light" />
         <div className={locals.temporyMessageWrapper}>

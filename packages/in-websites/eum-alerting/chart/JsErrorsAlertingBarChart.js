@@ -11,7 +11,9 @@ const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
 const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 
 export default function JsErrorsAlertingBarChart({
+  websiteId,
   threshold,
+  operator,
   timeConfig,
   tagFilters,
   errorFilter,
@@ -27,6 +29,7 @@ export default function JsErrorsAlertingBarChart({
       granularity={granularity}
       y1={{
         threshold,
+        operator,
         getMax: metricsMaxValue => {
           return threshold >= metricsMaxValue
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(threshold) : threshold) * 1.2)
@@ -34,45 +37,60 @@ export default function JsErrorsAlertingBarChart({
         },
         colors: [
           theme.lib.colors.blue800,
-          theme.lib.colors.pink800,
           theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800
+          theme.lib.colors.lightBlue800,
+          theme.lib.colors.pink800
         ],
         icons: {
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: [
             theme.lib.colors.blue800,
             theme.lib.colors.red800,
-            theme.lib.colors.pink800,
-            theme.lib.colors.lightBlue800
+            theme.lib.colors.lightBlue800,
+            theme.lib.colors.pink800
           ]
         },
-        renderer: Renderer.errorsBarWithBaseline,
+        renderer: Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
         labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
-      metricsConfiguration={{
+      metricsConfiguration={getMetricConfiguration(
+        websiteId,
+        metricName,
+        errorFilter,
+        tagFilters,
         timeConfig,
-        tagFilters: metricName === errorCount ? [...tagFilters, errorFilter] : tagFilters,
-        metrics: {
-          errors: getMetricConfig(metricName, granularity, errorFilter)
-        }
-      }}
+        granularity
+      )}
     />
   );
 }
 
 JsErrorsAlertingBarChart.propTypes = {
+  websiteId: PropTypes.string.isRequired,
   errorFilter: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.oneOf(selectOptions[fieldNames.ruleMetricName].map(({ value }) => value)).isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.number.isRequired,
+  operator: PropTypes.string.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
+
+function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, timeConfig, granularity) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+
+  return {
+    timeConfig,
+    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
+    metrics: {
+      errors: getMetricConfig(metric, granularity, errorFilter)
+    }
+  };
+}
 
 function getMetricConfig(metricName, granularity, errorFilter = null) {
   const metricConfigs = {
@@ -89,4 +107,12 @@ function getMetricConfig(metricName, granularity, errorFilter = null) {
     }
   };
   return metricConfigs[metricName];
+}
+
+function getWebsiteIdTagFilter(websiteId) {
+  return {
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: websiteId
+  };
 }

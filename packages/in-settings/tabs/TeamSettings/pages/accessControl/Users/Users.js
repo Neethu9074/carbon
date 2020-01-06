@@ -73,7 +73,7 @@ function columnDefinitions(sortedRoles, setMessage) {
       }
     },
     {
-      id: 'role',
+      id: 'roleId',
       label: 'Role',
       getContent(user) {
         return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;

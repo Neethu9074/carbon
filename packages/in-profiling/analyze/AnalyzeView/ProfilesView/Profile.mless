@@ -3,23 +3,34 @@
 
 :local {
   .header {
-    padding: 1rem 1rem 0;
     background: @lib__colors__white;
     border-bottom: 1px solid @lib__colors__N300;
   }
 
-  .flexWrapper {
+  .firstRow {
     .spaceBetweenFlexbox();
+    margin-bottom: 1rem;
+  }
 
-    width: 100%;
-    padding: 0.5rem 0;
+  .secondRow {
+    .flexbox();
+    margin-bottom: 0.5rem;
   }
 
   .icon {
     fill: @lib__colors__N500;
   }
 
-  .content {
+  .treeContent,
+  .flameGraphContent {
     padding: 0 1rem;
+  }
+
+  .flameGraphContent {
+    width: 100%;
+  }
+
+  .treeContent {
+    width: max-content;
   }
 }

@@ -16,10 +16,10 @@ import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { shorten, isNotBlank } from 'in-services/util/string';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-mobile-apps/analyze/SessionView/tabs';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
+import { shorten } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -89,26 +89,16 @@ function Header(props) {
       <DashboardHeader
         {...props}
         title="Session"
-        icon="lib_mobile_app"
+        icon="lib_mobile_app_session"
         label={props.sessionLabel}
         renderButtonLine={renderButtonLine}
       />
-      <div className={locals.tabViewPlaceholder} />
     </>
   );
 }
 
 function calculateLabel(result) {
-  if (!result || !result.data || result.data.length === 0) {
-    return null;
-  }
-
-  const view = get(result, ['data', 0, 'view']);
-  if (isNotBlank(view)) {
-    return view;
-  } else {
-    return get(result, ['data', 0, 'platform']);
-  }
+  return get(result, ['data', 0, 'sessionId'], null);
 }
 
 function renderButtonLine({ sessionId, beaconTimestamp, beacons }) {

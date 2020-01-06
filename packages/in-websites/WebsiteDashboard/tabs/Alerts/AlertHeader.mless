@@ -1,0 +1,42 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .labelWrapper {
+    .spaceBetweenFlexbox();
+
+    margin: 1rem 0 1.5rem;
+  }
+
+  .left {
+    margin-right: 2rem;
+  }
+
+  .left,
+  .right {
+    .flexbox();
+  }
+
+  .alertIcon {
+    margin-right: 0.5rem;
+  }
+
+  .actionIcon {
+    margin-left: 2rem;
+
+    & + .actionIcon {
+      margin-left: 0.5rem;
+    }
+
+    fill: @lib__colors__primary2;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .badge {
+    margin-right: 1rem;
+  }
+}

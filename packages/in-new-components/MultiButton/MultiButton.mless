@@ -2,7 +2,7 @@
 
 :local {
   .button {
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 
   .icon {
@@ -16,12 +16,12 @@
   }
 
   .integrationButton {
-    width: 100%;
+    padding-right: 2rem;
     border-radius: 0;
+    justify-content: flex-start;
 
     & + .integrationButton {
       margin-left: 0;
     }
   }
 }
-

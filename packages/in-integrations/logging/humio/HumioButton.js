@@ -13,11 +13,7 @@ export default connectTo({
 })(function HumioButton(props) {
   const { integration } = props;
 
-  if (!integration || !integration.enabled) {
-    return null;
-  }
-
-  if (!shouldShowButton(props)) {
+  if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
 
@@ -29,7 +25,7 @@ export default connectTo({
       target="_blank"
       href={constructHumioLink(integration, props)}
     >
-      Go to Humio
+      Humio
     </Button>
   );
 });
@@ -69,7 +65,7 @@ function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainer
   return query.trim();
 }
 
-export function shouldShowButton(props) {
+function shouldShowButton(props) {
   const query = serializeQuery(props);
   return !isBlank(query);
 }

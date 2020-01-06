@@ -5,5 +5,5 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import locals from './DashboardHeaderShadowModule.mless';
 
 export default function DashboardHeaderShadowModule() {
-  return <DashboardHeaderModule className={locals.module} />;
+  return <DashboardHeaderModule className={locals.shadowModule} withBottomBorder={false} />;
 }

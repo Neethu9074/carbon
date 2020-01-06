@@ -34,16 +34,16 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
 
 function TabComponent({ tab, result, location, tabChangeTracker }) {
   const isActive = location && location.pathname.indexOf(tab.path) === 0;
-  const isTabDisabled = !!(tab.isTabDisabled && tab.isTabDisabled(result));
+  const isDisabled = !!(tab.isDisabled && tab.isDisabled(result));
 
   return (
     <SecondLevelNavigationItem
       key={tab.label}
       label={tab.label}
       isActive={isActive}
-      isDisabled={isTabDisabled}
+      isDisabled={isDisabled}
       href$={
-        !isTabDisabled &&
+        !isDisabled &&
         getModifiedUrlStream(params => {
           params.pathname = tab.path;
         })

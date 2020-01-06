@@ -6,6 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import Ticks from 'in-new-components/Axis/components/Ticks';
 import getTickPositions from 'in-services/ticks/vertical';
 import { number } from 'in-services/formatters/number';
+import { uniq } from 'in-services/arrayUtils';
 import createScale from 'in-services/scale';
 
 import locals from './Axis.mless';
@@ -84,8 +85,9 @@ function calculateTickPositions(_scale, formatter, height) {
   return getTickPositions(scale, formatter.detailed);
 }
 
-function mapNormalizedTicks(scale, tickPositions, roundTickPositions, length) {
-  return tickPositions.map(tick => {
+// export for test
+export function mapNormalizedTicks(scale, tickPositions, roundTickPositions, length) {
+  const mappedTickPosition = tickPositions.map(tick => {
     const domain = scale.from + tick * (scale.to - scale.from);
     if (roundTickPositions) {
       const roundedDomain = Math.round(domain);
@@ -94,11 +96,12 @@ function mapNormalizedTicks(scale, tickPositions, roundTickPositions, length) {
         range: newTick * length,
         domain: roundedDomain
       };
-    } else {
-      return {
-        range: tick * length,
-        domain: domain
-      };
     }
+    return {
+      range: tick * length,
+      domain: domain
+    };
   });
+
+  return uniq(mappedTickPosition, item => item.domain);
 }

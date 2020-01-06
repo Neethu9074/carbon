@@ -1,5 +1,7 @@
 :local {
-  .button {
+  .list {
+    max-height: 23rem;
+    overflow-y: auto;
   }
 
   .expandIcon {

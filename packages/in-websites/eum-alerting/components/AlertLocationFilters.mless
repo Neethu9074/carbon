@@ -1,12 +1,13 @@
 @import '~in-themes/active.less';
 
 :local {
-  .container {
+  .quickFilterBarWrapper {
+    padding: 0 1rem;
     border: 1px solid @lib__colors__N300;
   }
 
   .filterList {
-    padding: 0 1rem;
+    padding: 1rem;
     border-top: 1px solid @lib__colors__N300;
   }
 }

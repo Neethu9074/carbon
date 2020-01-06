@@ -142,7 +142,7 @@ function Header(props) {
     <>
       <DashboardHeader
         {...props}
-        icon="lib_website"
+        icon={props.pageId ? 'lib_document' : 'lib_website'}
         label={props.pageId || (props.result.data && props.result.data.label)}
         title={props.pageId ? 'Page' : 'Website'}
         renderButtonLine={renderButtonLine}

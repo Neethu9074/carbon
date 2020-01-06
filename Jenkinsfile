@@ -177,7 +177,10 @@ def runNodeScriptInCurrentWorkDir(buildCommands) {
     source $HOME/.nvm/nvm.sh
     nvm use
     if [ -z "$(which yarn)" ]; then
-      npm install -g yarn@1.9.4
+      npm install -g yarn@1.21.1
+    fi
+    if [ "$(yarn --version)" != "1.21.1" ]; then
+      npm install -g yarn@1.21.1
     fi
   '''
   sh 'source $HOME/.nvm/nvm.sh && nvm use && ' + buildCommands

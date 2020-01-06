@@ -3,7 +3,10 @@
 :local {
   .errorsChart {
     border-top: 1px solid @lib__colors__N300;
-    margin-top: 1rem;
     padding-top: 0.5rem;
+  }
+
+  .cardHeader {
+    background: @lib__colors__white;
   }
 }

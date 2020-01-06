@@ -5,9 +5,9 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
 import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import ViewSwitcher from 'in-mobile-apps/MobileAppsList/components/ViewSwitcher';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -34,7 +34,7 @@ const columnDefinitions = [
   },
   {
     id: 'sessionsAgg',
-    label: 'Sessions',
+    label: 'Session Starts',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -44,6 +44,23 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={item.metrics.sessions}
           metric={item.metrics.sessionsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'viewsAgg',
+    label: 'View Changes',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.views}
+          metric={item.metrics.viewsAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -127,6 +144,15 @@ function getMobileAppsSubscribeEvent({
       },
       sessions: {
         metric: 'sessions',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      viewsAgg: {
+        metric: 'views',
+        aggregation: 'SUM'
+      },
+      views: {
+        metric: 'views',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }

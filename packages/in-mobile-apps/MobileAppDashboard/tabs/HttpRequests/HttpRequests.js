@@ -78,7 +78,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'errorRateAgg',
+    id: 'beaconErrorRateAgg',
     label: 'Errors',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
@@ -87,8 +87,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
-          metrics={item.metrics.errorRate}
-          metric={item.metrics.errorRateAgg}
+          metrics={item.metrics.beaconErrorRate}
+          metric={item.metrics.beaconErrorRateAgg}
           tooltipFormatter={percentage.detailed}
         />
       );
@@ -188,11 +188,11 @@ function getTableData({
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
       },
-      errorRateAgg: {
+      beaconErrorRateAgg: {
         metric: 'beaconErrorRate',
         aggregation: 'MEAN'
       },
-      errorRate: {
+      beaconErrorRate: {
         metric: 'beaconErrorRate',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)

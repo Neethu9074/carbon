@@ -50,6 +50,8 @@ export const ajaxTab = '/ajax';
 export const ajaxTabFullyQualified = `${websitePathFullyQualified}${ajaxTab}`;
 export const usersTab = '/users';
 export const usersTabFullyQualified = `${websitePathFullyQualified}${usersTab}`;
+export const alertTab = '/alerts';
+export const alertTabFullyQualified = `${websitePathFullyQualified}${alertTab}/details`;
 
 export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${websitePathFullyQualified}${configurationTab}`;
@@ -58,7 +60,12 @@ export const configurationOptionsFullyQualified = `${configurationTabFullyQualif
 export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
-export const configurationAlertsFullyQualified = `${configurationTabFullyQualified}${configurationAlerts}`;
+
+export function getLinkToAlerts() {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${websitePathFullyQualified}${alertTab}`;
+  });
+}
 
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;
@@ -126,7 +133,7 @@ export function getLinkToXhrRequest(websiteId, { xhrId, pageId } = emptyObject) 
   });
 }
 
-export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
+export function getLinkToAnalyze({ tagFilters, group, beaconType, timeConfig }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -159,6 +166,10 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
           serializeTagFilters(onlyAllowedTagFilters)
         );
       }
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
     }
   });
 }

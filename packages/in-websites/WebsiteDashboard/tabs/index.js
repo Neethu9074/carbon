@@ -5,9 +5,11 @@ import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import { websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Resources from 'in-websites/WebsiteDashboard/tabs/Resources';
 import User from 'in-websites/WebsiteDashboard/tabs/User/User';
+import { eumAlertingEnabled } from 'in-services/featureFlags';
 import Errors from 'in-websites/WebsiteDashboard/tabs/Errors';
-import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
+import Alerts from 'in-websites/WebsiteDashboard/tabs/Alerts';
 import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
+import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 import Ajax from 'in-websites/WebsiteDashboard/tabs/Ajax';
 
 export const websiteTabs = [
@@ -54,6 +56,11 @@ export const websiteTabs = [
     path: `${websitePathFullyQualified}/pages`,
     component: Pages,
     websiteOnly: true
+  },
+  eumAlertingEnabled && {
+    label: 'Alerts',
+    path: `${websitePathFullyQualified}/alerts`,
+    component: Alerts
   },
   {
     label: 'Configuration',

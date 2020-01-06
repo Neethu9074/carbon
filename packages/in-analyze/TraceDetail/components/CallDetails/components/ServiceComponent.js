@@ -119,17 +119,16 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 sourceService.id === 'ROOT' && <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />}
               {mobileAppBeacon &&
                 sourceService.id === 'ROOT' && <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />}
-              {(!websiteBeacon && !mobileAppBeacon) ||
-                (sourceService.id !== 'ROOT' && (
-                  <SourceLocation
-                    location={'source'}
-                    service={sourceService}
-                    snapshotId={sourceSnapshotId}
-                    entity={sourceEntity}
-                    span={exitSpan}
-                    physicalContext={sourcePhysicalContext}
-                  />
-                ))}
+              {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
+                <SourceLocation
+                  location={'source'}
+                  service={sourceService}
+                  snapshotId={sourceSnapshotId}
+                  entity={sourceEntity}
+                  span={exitSpan}
+                  physicalContext={sourcePhysicalContext}
+                />
+              )}
               <div className={locals.sourceChildren}>
                 {websiteBeacon &&
                   sourceService.id === 'ROOT' && (

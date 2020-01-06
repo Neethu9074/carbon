@@ -14,7 +14,7 @@ import locals from './ProvideManualPattern.mless';
 
 const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
-export function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
+export default function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (
     <div className={locals.container}>
       {form.get(fieldNames.ruleOperator).map(field => (

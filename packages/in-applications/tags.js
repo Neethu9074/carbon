@@ -15,6 +15,14 @@ export const customServiceMappingTagKeys = [
   'cloudfoundry.organization.name',
   'cloudfoundry.space.id',
   'cloudfoundry.space.name',
+  'container.name',
+  'container.image.name',
+  'container.label',
+  'containerd.image.name',
+  'containerd.label',
+  'crio.container.name',
+  'crio.image.name',
+  'crio.label',
   'docker.container.name',
   'docker.image.name',
   'docker.label',
@@ -36,6 +44,7 @@ export const customServiceMappingTagKeys = [
   'kubernetes.namespace',
   'kubernetes.label',
   'kubernetes.pod.label',
+  'lxc.name',
   'marathon.app.id',
   'nodejs.app.name',
   'nomad.job.name',
@@ -51,8 +60,7 @@ export const callAnalysisBlacklistedTags = [
   'trace.endpoint.name',
   'trace.service.name',
   'trace.latency',
-  'trace.erroneous',
-  'call.inbound_of_application'
+  'trace.erroneous'
 ];
 
 const blacklists = {
@@ -64,6 +72,9 @@ const blacklists = {
       'endpoint.id': !isInstanaEngineer,
       'process.id': true,
       'docker.container.id': true,
+      'containerd.container.id': true,
+      'garden.container.id': true,
+      'crio.container.id': true,
       'host.snapshotId': !isInstanaEngineer,
       'container.snapshotId': !isInstanaEngineer,
       'process.snapshotId': !isInstanaEngineer,
@@ -111,6 +122,7 @@ export function getApplicationCreationTagKeys() {
   const applicationCreationBlacklist = {
     'host.mac': true,
     'docker.container.name': true,
+    'crio.container.name': true,
     'aws.service.type': true,
     'application.id': true,
     'application.name': true,

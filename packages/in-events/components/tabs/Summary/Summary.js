@@ -40,10 +40,8 @@ export default function Summary({ selectedEventId, data: event }) {
 }
 
 function EventContent({ event }) {
-  const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
-
   if (isWebsiteEvent(event)) {
-    return <WebsiteEventContent event={event} timeConfigFromEvent={timeConfigFromEvent} />;
+    return <WebsiteEventContent event={event} />;
   }
 
   return (
@@ -55,7 +53,7 @@ function EventContent({ event }) {
               entityId={event.get('entityId')}
               entityType={event.get('entityType')}
               metadata={event.get('metadata')}
-              timeConfig={timeConfigFromEvent}
+              timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />

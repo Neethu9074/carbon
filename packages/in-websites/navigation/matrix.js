@@ -25,3 +25,6 @@ export const deserializeMetrics = buildJsonParser(null);
 export const pageLoadId = 'pageLoadId';
 export const beaconId = 'beaconId';
 export const beaconTimestamp = 'beaconTimestamp';
+
+// alert view
+export const alertId = 'alertId';

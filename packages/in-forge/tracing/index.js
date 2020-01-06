@@ -50,6 +50,7 @@ import './graphql.server';
 import './gwt';
 import './grizzly';
 import './hangfire';
+import './hbase';
 import './hc';
 import './hc.nio';
 import './hibernate';

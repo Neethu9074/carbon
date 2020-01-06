@@ -27,7 +27,7 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
   return (
     <>
       <div className={locals.header}>
-        <div className={locals.flexWrapper}>
+        <div className={locals.firstRow}>
           <ButtonSegmentedControl
             buttonPropsList={[
               {
@@ -49,7 +49,7 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
             <SearchInput onChange={setQuery} query={query} autoFocus maxWidth={200} />
           )}
         </div>
-        <div className={locals.flexWrapper}>
+        <div className={locals.secondRow}>
           <ResultHeader
             withoutMargin
             itemType="Profile"
@@ -67,13 +67,15 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
             )}
         </div>
       </div>
-      <div className={locals.content}>
-        {viewType === 'table' ? (
+      {viewType === 'table' ? (
+        <div className={locals.treeContent}>
           <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />
-        ) : (
+        </div>
+      ) : (
+        <div className={locals.flameGraphContent}>
           <ProfileFlameGraph profile={profile} query={query} />
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }

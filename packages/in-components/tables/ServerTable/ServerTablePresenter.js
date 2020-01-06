@@ -134,19 +134,22 @@ export default function ServerTablePresenter(props) {
     tableElement
   );
 
-  const header = (
-    <div className={locals.rightHeader}>
-      {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
-      {isSearchable && (
-        <SearchInput
-          maxWidth={searchMaxWidth ? searchMaxWidth : 140}
-          query={query}
-          placeholder={searchPlaceholder}
-          onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-        />
-      )}
-    </div>
-  );
+  let header;
+  if (isSearchable || rightHeader) {
+    header = (
+      <div className={locals.rightHeader}>
+        {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
+        {isSearchable && (
+          <SearchInput
+            maxWidth={searchMaxWidth ? searchMaxWidth : 140}
+            query={query}
+            placeholder={searchPlaceholder}
+            onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+          />
+        )}
+      </div>
+    );
+  }
 
   const pagination = result.data &&
     result.data.totalHits > result.data.pageSize && (
@@ -176,13 +179,14 @@ export default function ServerTablePresenter(props) {
       </Card>
     );
   }
-
   return (
     <Fragment>
-      <div className={joinClassNames(locals.header, headerClassName)}>
-        {leftHeader || <span>&nbsp;</span>}
-        {header}
-      </div>
+      {header && (
+        <div className={joinClassNames(locals.header, headerClassName)}>
+          {leftHeader || <span>&nbsp;</span>}
+          {header}
+        </div>
+      )}
       {content}
       {pagination}
     </Fragment>

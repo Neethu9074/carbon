@@ -4,7 +4,7 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 
 export default function HttpRequestBreadcrumb({ httpRequestId }) {
   return (
-    <Breadcrumb label="HTTP Request Details" icon="lib_website_ajax">
+    <Breadcrumb label="HTTP Request Details" icon="lib_mobile_app_request">
       {httpRequestId}
     </Breadcrumb>
   );

@@ -65,7 +65,9 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
           )}
           <div className={locals.placeholder}>
             <JsErrorsAlertingBarChart
+              websiteId={form.get(fieldNames.websiteId).value}
               threshold={form.get(fieldNames.thresholdValue).value || 0}
+              operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
               errorFilter={{

@@ -185,7 +185,7 @@
   .subtle {
     .buttonStyle(
         // bg
-          @lib__colors__white,
+          @lib__colors__transparent,
         // hover bg
           @lib__colors__N300,
         // font

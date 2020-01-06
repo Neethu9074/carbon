@@ -26,6 +26,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -144,6 +145,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                   addTagFilter={_tag => {
                                     const additionalSubForm = getEnrichedMatchSpecificationForm({
                                       key: _tag.name,
+                                      entity: _tag.entity,
                                       secondLevelName: _tag.secondLevelName || '',
                                       value: _tag.value || '',
                                       operator: _tag.operator
@@ -155,7 +157,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                     );
                                   }}
                                   forAnalyzeCalls
-                                  hiddenSourceDestination
                                 />
                               )
                             }
@@ -176,6 +177,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                           tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
                             tag: {
                               name: matchSpecification.get('key').value,
+                              entity: matchSpecification.get('entity').value,
                               value: matchSpecification.get('value').value,
                               operator: matchSpecification.get('operator').value,
                               secondLevelName: matchSpecification.get('secondLevelName').value,
@@ -186,6 +188,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                 <EditTagFilterDialog
                                   tagFilter={{
                                     name: matchSpecification.get('key').value,
+                                    entity: matchSpecification.get('entity').value,
                                     value: matchSpecification.get('value').value,
                                     operator: matchSpecification.get('operator').value,
                                     secondLevelName: matchSpecification.get('secondLevelName').value
@@ -202,6 +205,9 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                     form = form.updateIn(['matchSpecification', i, 'key'], field =>
                                       field.setValue(_tag.name).setTouched(true)
                                     );
+                                    form = form.updateIn(['matchSpecification', i, 'entity'], field =>
+                                      field.setValue(_tag.entity).setTouched(true)
+                                    );
                                     form = form.updateIn(['matchSpecification', i, 'operator'], field =>
                                       field.setValue(_tag.operator).setTouched(true)
                                     );
@@ -213,7 +219,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                   }}
                                   removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
                                   forAnalyzeCalls
-                                  hiddenSourceDestination
                                 />
                               ),
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
@@ -332,6 +337,13 @@ function getMatchSpecificationForm(matchSpecification = {}) {
       'key',
       createField({
         value: get(matchSpecification, 'key', ''),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'entity',
+      createField({
+        value: get(matchSpecification, 'entity', entityTypes.NOT_APPLICABLE),
         validator: notBlankValidator
       })
     )

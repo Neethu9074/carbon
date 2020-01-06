@@ -112,7 +112,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'Daemon set',
+          label: 'DaemonSet',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
@@ -356,7 +356,7 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '18';
+  const layerVersion = '19';
 
   let steps;
 
@@ -1077,18 +1077,21 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '  configuration.yaml: |\n' +
     '\n' +
     '---\n' +
-    'apiVersion: extensions/v1beta1\n' +
+    'apiVersion: apps/v1\n' +
     'kind: DaemonSet\n' +
     'metadata:\n' +
     '  name: instana-agent\n' +
     '  namespace: instana-agent\n' +
     'spec:\n' +
+    '  selector:\n' +
+    '    matchLabels:\n' +
+    '      app: instana-agent\n' +
     '  template:\n' +
     '    metadata:\n' +
     '      labels:\n' +
     '        app: instana-agent\n' +
     '    spec:\n' +
-    '      serviceAccount: instana-agent\n' +
+    '      serviceAccountName: instana-agent\n' +
     '      hostIPC: true\n' +
     '      hostNetwork: true\n' +
     '      hostPID: true\n' +
@@ -1119,6 +1122,10 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              valueFrom:\n' +
     '                fieldRef:\n' +
     '                  fieldPath: metadata.name\n' +
+    '            - name: POD_IP\n' +
+    '              valueFrom:\n' +
+    '                fieldRef:\n' +
+    '                  fieldPath: status.podIP\n' +
     '          securityContext:\n' +
     '            privileged: true\n' +
     '          volumeMounts:\n' +
@@ -1132,6 +1139,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '              mountPath: /sys\n' +
     '            - name: log\n' +
     '              mountPath: /var/log\n' +
+    '            - name: var-lib\n' +
+    '              mountPath: /var/lib/containers/storage\n' +
     '            - name: machine-id\n' +
     '              mountPath: /etc/machine-id\n' +
     '            - name: configuration\n' +
@@ -1192,6 +1201,9 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '        - name: log\n' +
     '          hostPath:\n' +
     '            path: /var/log\n' +
+    '        - name: var-lib\n' +
+    '          hostPath:\n' +
+    '            path: /var/lib/containers/storage\n' +
     '        - name: machine-id\n' +
     '          hostPath:\n' +
     '            path: /etc/machine-id\n' +

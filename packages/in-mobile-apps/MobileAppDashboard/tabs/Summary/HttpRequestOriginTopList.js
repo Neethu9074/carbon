@@ -1,0 +1,103 @@
+import React from 'react';
+
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { getLinkToMobileApp, getLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import { number, percentage } from 'in-services/formatters/number';
+import Link from 'in-components/Link';
+
+const metrics = ['beaconCount', 'beaconErrorRate'];
+const labels = ['Calls', 'Errors'];
+const aggregations = ['SUM', 'MEAN'];
+const formatters = [number.compact, percentage.detailed];
+
+export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
+  return (
+    <TopList
+      title="Top HTTP Request Origins"
+      metrics={metrics}
+      labels={labels}
+      aggregations={aggregations}
+      formatters={formatters}
+      getList={getList}
+      render={TopListCardPresenter}
+      renderViewAll={ViewAll}
+      renderLabel={Label}
+      renderMetric={Metric}
+      mobileAppId={mobileAppId}
+      timeConfig={timeConfig}
+      tagFilters={tagFilters}
+    />
+  );
+}
+
+function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }) {
+  return getMobileAppPaginatedBeaconGroups({
+    tagFilters: tagFilters.concat([
+      {
+        name: 'mobileBeacon.type',
+        stringValue: 'httpRequest',
+        operator: 'EQUALS'
+      }
+    ]),
+    timeConfig,
+    pagination: {
+      page: 1,
+      pageSize: 5
+    },
+    order: {
+      by: selectedMetric,
+      direction: 'DESC'
+    },
+    group: {
+      groupbyTag: 'mobileBeacon.http.origin'
+    },
+    metrics: {
+      [selectedMetric]: {
+        metric: selectedMetric,
+        aggregation: selectedMetricAggregation
+      }
+    }
+  });
+}
+
+function ViewAll({ mobileAppId, selectedMetric }, className) {
+  return (
+    <Link
+      className={className}
+      href$={getLinkToMobileApp(mobileAppId, {
+        tabPath: '/httpRequests',
+        tabParameters: {
+          orderBy: `${selectedMetric}Agg`
+        }
+      })}
+    >
+      View all origins
+    </Link>
+  );
+}
+
+function Label({ item, mobileAppId }) {
+  let label = item.name;
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    // ignore
+  }
+
+  return (
+    <Link
+      onClick={() => trackTopListNavigation()}
+      href$={getLinkToHttpRequest(mobileAppId, {
+        httpRequestId: label
+      })}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function Metric({ formattedMetricValue }) {
+  return formattedMetricValue;
+}

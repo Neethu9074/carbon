@@ -21,7 +21,11 @@ export const fieldNames = Object.freeze({
   id: 'id',
   thresholdValue: 'thresholdValue',
   thresholdType: 'thresholdType',
+  thresholdTo: 'thresholdTo',
   thresholdOperator: 'thresholdOperator',
+  thresholdSeasonality: 'thresholdSeasonality',
+  thresholdBaseline: 'thresholdBaseline',
+  thresholdDeviationFactor: 'thresholdDeviationFactor',
   calculateThresholdOnBackend: 'calculateThresholdOnBackend'
 });
 
@@ -37,24 +41,31 @@ export const selectOptions = {
     { value: 'specificJsErrorRate', label: 'Errors rate' }
   ]),
   [fieldNames.ruleAggregation]: Object.freeze([
-    { value: 'MEAN', label: 'MEAN' },
-    { value: 'MIN', label: 'MIN' },
-    { value: 'P25', label: 'P25' },
-    { value: 'P50', label: 'P50' },
-    { value: 'P75', label: 'P75' },
-    { value: 'P90', label: 'P90' },
-    { value: 'P95', label: 'P95' },
-    { value: 'P98', label: 'P98' },
-    { value: 'P99', label: 'P99' },
-    { value: 'MAX', label: 'MAX' }
+    { value: 'MEAN', label: 'mean' },
+    { value: 'MIN', label: 'min' },
+    { value: 'P25', label: '25th' },
+    { value: 'P50', label: '50th' },
+    { value: 'P75', label: '75th' },
+    { value: 'P90', label: '90th (recommended)' },
+    { value: 'P95', label: '95th' },
+    { value: 'P98', label: '98th' },
+    { value: 'P99', label: '99th' },
+    { value: 'MAX', label: 'max' }
   ]),
   [fieldNames.thresholdOperator]: Object.freeze([
     { value: '>=', label: '≥ (recommended)' },
-    { value: '<=', label: '≤' }
+    { value: '>', label: '>' },
+    { value: '<=', label: '≤' },
+    { value: '<', label: '<' }
   ]),
   [fieldNames.severity]: Object.freeze([
     { value: severityWarning, label: 'Warning' },
     { value: severityCritical, label: 'Critical' }
+  ]),
+  [fieldNames.thresholdType]: Object.freeze([
+    { value: 'staticThreshold', label: 'Static Threshold' },
+    { value: 'historicBaseline.DAILY', label: 'Baseline (Daily Seasonality)' },
+    { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
   ])
 };
 
@@ -78,7 +89,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleAggregation,
       createField({
-        value: (rule && rule.aggregation) || selectOptions[fieldNames.ruleAggregation][0].value,
+        value: (rule && rule.aggregation) || 'P90',
         validator: notBlankValidator
       })
     )
@@ -106,7 +117,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.ruleMetricName,
       createField({
-        value: (rule && rule.metricName) || selectOptions[fieldNames.ruleMetricName][1].value,
+        value: (rule && rule.metricName) || 'errors',
         validator: notBlankValidator
       })
     )
@@ -175,15 +186,43 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.thresholdType,
       createField({
-        value: (threshold && threshold.type) || 'staticThreshold',
+        value:
+          threshold && threshold.type && threshold.type === 'historicBaseline'
+            ? `${threshold.type}.${threshold.seasonality}`
+            : 'staticThreshold',
         validator: notBlankValidator
       })
     )
     .put(
       fieldNames.thresholdOperator,
       createField({
-        value: (threshold && threshold.operator) || selectOptions[fieldNames.thresholdOperator][0].value,
+        value: (threshold && threshold.operator) || '>=',
         validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdTo,
+      createField({
+        value: threshold && threshold.to
+      })
+    )
+    .put(
+      fieldNames.thresholdSeasonality,
+      createField({
+        value: (threshold && threshold.seasonality) || 'WEEKLY',
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdBaseline,
+      createField({
+        value: threshold && threshold.baseline
+      })
+    )
+    .put(
+      fieldNames.thresholdDeviationFactor,
+      createField({
+        value: (threshold && threshold.deviationFactor) || 2
       })
     )
     .put(

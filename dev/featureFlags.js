@@ -18,7 +18,7 @@ module.exports = {
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
   pcfEnabled: true,
-  logDnaEnabled: true,
+  coralogixEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   isOnboardingGuideEnabled: true,

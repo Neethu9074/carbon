@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
+import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorSelection';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
-import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
+import { getFormValueOrDefault } from 'in-websites/eum-alerting/AlertConfigDialog';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
@@ -13,6 +14,7 @@ import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
 import { scrollIntoView, getCoords } from 'in-services/util/dom';
 import SideNav from 'in-websites/eum-alerting/advanced/SideNav';
 import Button from 'in-new-components/Button/Button';
+import Message from 'in-new-components/Message';
 
 import locals from './AdvancedModeContainer.mless';
 
@@ -29,7 +31,10 @@ export default function AdvancedModeContainer({
 }) {
   const navItems = [
     { label: 'Domain', checked: true },
-    { label: 'Trigger', checked: !!(form.get(fieldNames.ruleAlertType).value && form.get(fieldNames.ruleValue).value) },
+    {
+      label: 'Trigger',
+      checked: validateTrigger(form)
+    },
     { label: 'Alert Channels', checked: form.get(fieldNames.alertChannelIds).value.length > 0 },
     {
       label: 'Properties (optional)',
@@ -67,18 +72,32 @@ export default function AdvancedModeContainer({
                   granularity={granularity}
                 />
               )}
-              SlownessComponent={() => (
-                <ChartContainer headline="onLoad Time (ms)" withBorder>
-                  <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} onChange={onChange} />
-                </ChartContainer>
-              )}
+              SlownessComponent={() => {
+                return (
+                  <ChartContainer headline="onLoad Time (ms)" withBorder>
+                    <>
+                      <SlownessChart
+                        form={form}
+                        timeConfig={timeConfig}
+                        granularity={granularity}
+                        onChange={onChange}
+                      />
+                      {showInsufficientBaselineDataMessage(form) && (
+                        <Message withIcon small>
+                          Insufficient data to compute a baseline for the selected configuration.
+                        </Message>
+                      )}
+                    </>
+                  </ChartContainer>
+                );
+              }}
             />
           </ScrollStep>
           <ScrollStep id={navItems[2].label} title="Alert Channels: Who needs to be alerted?">
             <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
           </ScrollStep>
           <ScrollStep id={navItems[3].label} title="Additional Alert Properties (optional)" hideDevider>
-            <AlertProperties form={form} onChange={onChange} websiteLabel={websiteLabel} />
+            <AlertPropertiesContainer form={form} onChange={onChange} websiteLabel={websiteLabel} />
           </ScrollStep>
           <nav className={locals.controls}>
             <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
@@ -111,4 +130,23 @@ function setIndexIfElementOnTop(label, setIndexItemSelected, index) {
     const { top } = getCoords(element);
     if (top < 130 && top > 70) setIndexItemSelected(index);
   }
+}
+
+function validateTrigger(form) {
+  const alertType = form.get(fieldNames.ruleAlertType).value;
+
+  if (alertType === 'specificJsError') {
+    return Boolean(form.get(fieldNames.ruleAlertType).value && getFormValueOrDefault(form, fieldNames.ruleValue));
+  } else {
+    return true;
+  }
+}
+
+function showInsufficientBaselineDataMessage(form) {
+  if (form.get(fieldNames.thresholdType).value === 'staticThreshold') {
+    return false;
+  }
+
+  const baseline = form.get(fieldNames.thresholdBaseline).value;
+  return baseline && baseline.length === 0;
 }

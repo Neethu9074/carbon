@@ -1,0 +1,7 @@
+:local {
+  .skeleton {
+    display: block;
+    height: 1rem;
+    border-radius: 2px;
+  }
+}
