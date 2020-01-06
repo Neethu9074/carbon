@@ -4,11 +4,11 @@ export default [
   {
     label: 'Inbound Calls per Second',
     metric: 'inbound_count',
-    formatter: number
+    formatter: number.compact
   },
   {
     label: 'Inbound Calls Avg. Latency',
     metric: 'inbound_duration.mean',
-    formatter: ms
+    formatter: ms.compact
   }
 ];

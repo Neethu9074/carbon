@@ -4,7 +4,7 @@ export default [
   {
     label: 'All Queues Messages Count',
     metric: 'totalMessageCount',
-    formatter: number
+    formatter: number.compact
   },
   {
     label: 'Address Memory Usage',

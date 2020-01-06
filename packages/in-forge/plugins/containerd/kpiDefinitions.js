@@ -9,6 +9,6 @@ export default [
   {
     label: 'CPU Throttling Count',
     metric: 'cpu.throttling_count',
-    formatter: number
+    formatter: number.compact
   }
 ];

@@ -9,6 +9,6 @@ export default [
   {
     label: 'Evicted Keys',
     metric: 'evictedKeys',
-    formatters: number
+    formatters: number.compact
   }
 ];
