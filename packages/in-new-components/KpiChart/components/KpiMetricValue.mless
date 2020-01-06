@@ -1,0 +1,9 @@
+@import '~in-themes/active.less';
+
+:local {
+  .value {
+    color: @lib__colors__light-blue800;
+    display: block;
+    font-weight: 500;
+  }
+}
