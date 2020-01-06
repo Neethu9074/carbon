@@ -163,10 +163,6 @@ export default getElementDimensions(
         });
 
         editor.on('blur', () => {
-          if (this.editor) {
-            this.updateQuery(trim(this.editor.getValue()));
-          }
-          this.isFocused = false;
           this.state.eventEmitter.emit('blur', true);
         });
 
@@ -174,9 +170,11 @@ export default getElementDimensions(
           .on('blur')
           .throttle(200, { leading: false })
           .subscribe(() => {
-            if (!this.isFocused) {
-              this.hide();
+            if (this.editor) {
+              this.updateQuery(trim(this.editor.getValue()));
             }
+            this.isFocused = false;
+            this.hide();
           });
 
         editor.on('change', (editor, change) => {
