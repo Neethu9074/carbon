@@ -3,11 +3,13 @@ import React from 'react';
 
 import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
 import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
 import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import { applicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { ApplicationBreadcrumbs } from 'in-cloudfoundry/breadcrumbs';
@@ -79,6 +81,12 @@ function renderButtonLine(props) {
   const appGuid = get(props.result, ['data', 'guid']);
   return (
     <>
+      <EntityHealthIndicator
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        timeConfig={props.timeConfig}
+        snapshotId={props.applicationId}
+      />
       <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
       {appGuid && (
         <EntityToInstanaServiceButton
