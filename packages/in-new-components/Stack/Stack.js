@@ -6,7 +6,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ id, productArea, timeConfig }) => ({ stackResult: getStack({ id, productArea, timeConfig }) }),
-  function Stack({ stackResult }) {
+  function Stack({ stackResult, activeTabIndex, onTabSelect }) {
     if (!stackResult.data) {
       if (stackResult.errors.length > 0) {
         return <div>Error: {stackResult.errors[0]}</div>;
@@ -15,6 +15,6 @@ export default connectTo(
       return null;
     }
 
-    return <StackPresenter stack={stackResult.data} />;
+    return <StackPresenter stack={stackResult.data} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />;
   }
 );

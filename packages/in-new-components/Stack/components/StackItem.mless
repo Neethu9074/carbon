@@ -1,0 +1,18 @@
+:local {
+  .itemWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .chartWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > div {
+      padding-left: 1rem;
+    }
+  }
+}
