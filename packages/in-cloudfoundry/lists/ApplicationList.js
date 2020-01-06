@@ -3,7 +3,9 @@ import React from 'react';
 import CloudfoundryNoDataNotification from 'in-cloudfoundry/lists/components/CloudfoundryNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getCloudfoundryApplications from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import { applicationList, getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
@@ -81,6 +83,21 @@ const columnDefinitions = [
         <Tooltip themeStyle="light" content={joinedRoutes}>
           <div className={locals.longLabel}>{joinedRoutes}</div>
         </Tooltip>
+      );
+    }
+  },
+  {
+    id: 'health',
+    label: 'Health',
+    getContent(item, { timeConfig }) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.id}
+        />
       );
     }
   }
