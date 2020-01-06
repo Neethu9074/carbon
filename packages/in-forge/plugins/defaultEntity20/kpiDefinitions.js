@@ -9,6 +9,6 @@ export default [
   {
     label: 'All Calls Avg. Latency',
     metric: 'duration.mean',
-    formatter: ms
+    formatter: ms.compact
   }
 ];
