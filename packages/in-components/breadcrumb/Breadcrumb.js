@@ -17,6 +17,7 @@ export default function Breadcrumb({
   refSetter,
   icon,
   iconPath,
+  onClick,
   isActive,
   healthInfo,
   children
@@ -58,5 +59,9 @@ export default function Breadcrumb({
       </Link>
     );
   }
-  return <div className={breadcrumbClassName}>{crumbContent}</div>;
+  return (
+    <div className={breadcrumbClassName} onClick={onClick}>
+      {crumbContent}
+    </div>
+  );
 }

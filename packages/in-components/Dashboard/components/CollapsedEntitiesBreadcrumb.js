@@ -22,9 +22,9 @@ export default function CollapsedEntitiesBreadcrumb({ ids, light }) {
   }
 
   return (
-    <Breadcrumb className={locals.collapsedBreadcrumb}>
-      <Overlay content={ApplicationSwitcher} props={{ ids }} autoOpen>
-        {() => (
+    <Overlay content={ApplicationSwitcher} props={{ ids }}>
+      {({ toggle }) => (
+        <Breadcrumb className={locals.collapsedBreadcrumb} onClick={toggle}>
           <div
             className={evaluateClassNames({
               [locals.flexWrapper]: true,
@@ -33,9 +33,9 @@ export default function CollapsedEntitiesBreadcrumb({ ids, light }) {
           >
             <SvgIcon className={locals.expandIcon} type="lib_menu_more_horizontal" size="s" />({ids.length})
           </div>
-        )}
-      </Overlay>
-    </Breadcrumb>
+        </Breadcrumb>
+      )}
+    </Overlay>
   );
 }
 
