@@ -21,7 +21,7 @@ export default [
     formatter: bytes
   },
   {
-    metric: 'mem.time_in_gc',
+    metric: 'mem.time_in_gcn',
     label: 'GC time',
     formatter: percentagePlain
   }
