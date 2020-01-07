@@ -4,4 +4,8 @@
   .dashboardHeader {
     box-shadow: 0px 10px 16px -13px rgba(0, 0, 0, 0.3);
   }
+
+  .icon {
+    margin-right: 0.5rem;
+  }
 }
