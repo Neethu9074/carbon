@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { contextGuideEnabled } from 'in-services/featureFlags';
@@ -14,9 +14,21 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function StackButton({ id, timeConfig, isInternalVisible }) {
+    const [activeTabIndex, onTabSelect] = useState(0);
+
     if (isInternalVisible || contextGuideEnabled) {
       return (
-        <Overlay content={() => <Stack id={id} productArea="INFRASTRUCTURE" timeConfig={timeConfig} />}>
+        <Overlay
+          content={() => (
+            <Stack
+              id={id}
+              productArea="INFRASTRUCTURE"
+              timeConfig={timeConfig}
+              activeTabIndex={activeTabIndex}
+              onTabSelect={onTabSelect}
+            />
+          )}
+        >
           {({ toggle }) => (
             <Button className={locals.button} kind="info" icon="lib_context_guide_stack" onClick={toggle}>
               Stack

@@ -9,6 +9,6 @@ export default [
   {
     label: 'Is Cluster Safe',
     metric: 'isClusterSafe',
-    formatters: siPrefix
+    formatters: siPrefix.compact
   }
 ];

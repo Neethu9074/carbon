@@ -5,7 +5,7 @@ import ScrollHints from 'in-components/ScrollHints';
 
 import locals from './StackPane.mless';
 
-export default function StackPane({ groups }) {
+export default function StackPane({ groups, area }) {
   if (!groups.length) {
     return <div style={{ padding: '1.5em' }}>No Data to Display</div>;
   }
@@ -13,7 +13,7 @@ export default function StackPane({ groups }) {
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={groups.length}>
       {groups.map(group => (
-        <StackGroup key={group.relationship} group={group} />
+        <StackGroup key={group.relationship} group={group} area={area} />
       ))}
     </ScrollHints>
   );

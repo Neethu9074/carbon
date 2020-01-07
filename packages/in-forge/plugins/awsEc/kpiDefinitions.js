@@ -4,11 +4,11 @@ export default [
   {
     label: 'CPU Utilization',
     metric: 'cpu_utilization',
-    formatter: percentage
+    formatter: percentage.compact
   },
   {
     label: 'Freeable Memory',
     metric: 'freeable_memory',
-    formatter: bytes
+    formatter: bytes.compact
   }
 ];

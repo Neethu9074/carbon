@@ -1,0 +1,6 @@
+{
+  "name": "KpiChart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./KpiChart.js"
+}

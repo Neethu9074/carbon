@@ -4,6 +4,6 @@ export default [
   {
     label: 'Nodes',
     metric: 'nodeCount',
-    formatter: siPrefix
+    formatter: siPrefix.compact
   }
 ];

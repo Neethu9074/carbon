@@ -1,0 +1,5 @@
+:local {
+  .chart {
+    width: 10rem;
+  }
+}

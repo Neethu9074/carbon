@@ -4,7 +4,7 @@ export default [
   {
     label: 'Client Read Requests',
     metric: 'clientrequests.read.count',
-    formatter: number
+    formatter: number.compact
   },
   {
     label: 'Mean Read Requests',
