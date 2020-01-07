@@ -14,8 +14,7 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function StackButton({ id, timeConfig, isInternalVisible }) {
-    const [activeTabIndex, setTabIndex] = useState(0);
-    const onTabSelect = i => setTabIndex(i);
+    const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
       return (
