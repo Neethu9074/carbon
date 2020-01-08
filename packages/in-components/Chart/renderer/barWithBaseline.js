@@ -1,13 +1,8 @@
 import invariant from 'invariant';
 
+import { getBaselineValue, baselineGranularity } from 'in-websites/eum-alerting/chart/baselineUtils';
 import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
-
-/**
- * Compensate that Unix timestamp zero is on a Thursday, not on a Monday.
- */
-const fromMondayToThursdayMillis = 3 * 24 * 60 * 60 * 1000;
-const granularity = 10 * 60 * 1000;
 
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
@@ -42,8 +37,8 @@ function renderBaseline(axis, metric, config, scale, colors) {
 
   const sensitivity = config.y1.sensitivity;
   const timeConfig = config.timeConfig;
-  const baselineWindowSize = baseline.length * granularity;
-  const chartFrom = timeConfig.to - (timeConfig.windowSize / granularity) * granularity;
+  const baselineWindowSize = baseline.length * baselineGranularity;
+  const chartFrom = timeConfig.to - (timeConfig.windowSize / baselineGranularity) * baselineGranularity;
   const chartTo = chartFrom + baselineWindowSize;
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors[1];
@@ -53,14 +48,9 @@ function renderBaseline(axis, metric, config, scale, colors) {
 
   const upperThresholdInTimeframe = [];
   let i = 0;
-  for (let t = chartFrom; t <= chartTo; t += granularity) {
-    const baselineIdx = Math.floor(((t + fromMondayToThursdayMillis) % baselineWindowSize) / granularity);
-    const baselineValue = baseline[baselineIdx][1];
-    const deviationValue = baseline[baselineIdx][2];
-    const thresholdValue = isGreaterOp
-      ? baselineValue + sensitivity * deviationValue
-      : baselineValue - sensitivity * deviationValue;
-    upperThresholdInTimeframe[i++] = [t, thresholdValue];
+  for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
+    const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
+    upperThresholdInTimeframe[i++] = [timestamp, thresholdValue];
   }
 
   // Backgrounds
