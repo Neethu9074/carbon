@@ -9,23 +9,17 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
-import MobileAppsBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppsBreadcrumb';
-import MobileAppBreadcrumb from 'in-mobile-apps/breadcrumbs/MobileAppBreadcrumb';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import ViewBreadcrumb from 'in-mobile-apps/breadcrumbs/ViewBreadcrumb';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
-import Sticky from 'in-components/Sticky';
 
 export default compose(
   withUrlState({
@@ -104,27 +98,23 @@ function MobileAppDashboard({
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   return (
-    <Fragment>
-      <Breadcrumbs items={getBreadcrumbs(props)} />
-      <Sticky header={<BreadcrumbHeader />}>
-        <TabView
-          result$={getMobileApp({
-            id: props.mobileAppId,
-            timeConfig: props.timeConfig
-          })}
-          HeaderComponent={Header}
-          location={location}
-          tabs={props.viewId ? viewTabs : mobileAppTabs}
-          tabChangeTracker={tabChange}
-          props={{ ...props, tagFilters, customTagFilters }}
-          withoutBreadcrumb
-          withProps={({ result }) => ({
-            mobileAppLabel: get(result, ['data', 'label'])
-          })}
-        />
-      </Sticky>
+    <>
+      <TabView
+        result$={getMobileApp({
+          id: props.mobileAppId,
+          timeConfig: props.timeConfig
+        })}
+        HeaderComponent={Header}
+        location={location}
+        tabs={props.viewId ? viewTabs : mobileAppTabs}
+        tabChangeTracker={tabChange}
+        props={{ ...props, tagFilters, customTagFilters }}
+        withProps={({ result }) => ({
+          mobileAppLabel: get(result, ['data', 'label'])
+        })}
+      />
       <Footer />
-    </Fragment>
+    </>
   );
 }
 
@@ -148,14 +138,6 @@ function Header(props) {
       </DashboardHeaderModule>
     </>
   );
-}
-
-function getBreadcrumbs(props) {
-  return [
-    <MobileAppsBreadcrumb />,
-    <MobileAppBreadcrumb {...props} />,
-    props.viewId && <ViewBreadcrumb {...props} />
-  ].filter(Boolean);
 }
 
 function renderButtonLine({ tagFilters, mobileAppLabel }) {

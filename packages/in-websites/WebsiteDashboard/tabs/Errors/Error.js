@@ -1,5 +1,6 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
@@ -10,17 +11,15 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
-import { shorten, isNotBlank, removeBlankLines } from 'in-services/util/string';
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
-import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
+import { isNotBlank, removeBlankLines } from 'in-services/util/string';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -31,7 +30,6 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';
-import theme from 'in-themes';
 
 import locals from './Error.mless';
 
@@ -271,7 +269,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
 
   return (
     <Fragment>
-      <Breadcrumbs items={[<ErrorBreadcrumb message={result && result.data && shorten(result.data.message, 32)} />]} />
       <Title title="Error Details" dynamic={result && result.data && result.data.message} />
 
       <div className={locals.actions}>
