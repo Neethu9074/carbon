@@ -3,12 +3,12 @@ import React, { Fragment } from 'react';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import { number } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 function getCols(fqn) {
   return [
