@@ -161,6 +161,20 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                     </LinkListItem>
 
                     <LinkListItem
+                      label="Infrastructure Metrics"
+                      description="Information about our infrastructure metric pipeline."
+                    >
+                      <LinkList>
+                        <LinkListItem
+                          label="Filler (metric extraction)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/infrastructureMetrics/filler')
+                          )}
+                        />
+                      </LinkList>
+                    </LinkListItem>
+
+                    <LinkListItem
                       label="End-User Monitoring (EUM)"
                       description="Information about our website monitoring processing pipeline. This includes acceptance of end-user requests as well as processing and writing of the received beacons."
                     >
