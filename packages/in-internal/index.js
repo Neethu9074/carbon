@@ -16,6 +16,7 @@ import Agents from 'in-internal/thisUnit/Agents';
 
 // features for monitoring units
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
+import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
@@ -111,6 +112,10 @@ export default function Internal() {
           <Route
             path="/internal/monitoringUnit/serverless/serverlessacceptors"
             component={wrapIninternalView(ServerlessAcceptors)}
+          />
+          <Route
+            path="/internal/monitoringUnit/infrastructureMetrics/filler"
+            component={wrapIninternalView(FillerInfrastructureMetrics)}
           />
         </>
       )}

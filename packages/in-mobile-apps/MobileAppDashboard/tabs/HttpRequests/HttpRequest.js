@@ -1,5 +1,6 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import MobileAppBeaconGroupsChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBeaconGroupsChartWrapper';
 import { getLinkToMobileApp, httpRequestsTabFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -9,11 +10,9 @@ import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequest
 import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
-import HttpRequestBreadcrumb from 'in-mobile-apps/breadcrumbs/HttpRequestBreadcrumb';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { millis, number } from 'in-services/formatters/number';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -22,7 +21,6 @@ import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './HttpRequest.mless';
 
@@ -268,7 +266,6 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
   return (
     <Fragment>
-      <Breadcrumbs items={[<HttpRequestBreadcrumb httpRequestId={httpRequestId} />]} />
       <Title title="HTTP Request Details" dynamic={httpRequestId} />
 
       <div className={locals.actions}>

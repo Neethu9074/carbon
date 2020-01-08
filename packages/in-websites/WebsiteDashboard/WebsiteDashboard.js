@@ -7,17 +7,14 @@ import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
+import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
-import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -29,7 +26,6 @@ import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
-import Sticky from 'in-components/Sticky';
 
 export default compose(
   withUrlState({
@@ -104,8 +100,7 @@ function WebsiteDashboard({
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   return (
-    <Sticky header={<BreadcrumbHeader />}>
-      <Breadcrumbs items={getBreadcrumbs(props)} />
+    <>
       <TabView
         result$={getWebsite({
           id: props.websiteId,
@@ -133,11 +128,19 @@ function WebsiteDashboard({
       />
 
       <Footer />
-    </Sticky>
+    </>
   );
 }
 
 function Header(props) {
+  const contextConfigurations = [];
+  if (props.pageId) {
+    contextConfigurations.push({
+      renderContext: renderWebsiteContext,
+      renderContextIcon: WebsiteContextIcon
+    });
+  }
+
   return (
     <>
       <DashboardHeader
@@ -146,6 +149,7 @@ function Header(props) {
         label={props.pageId || (props.result.data && props.result.data.label)}
         title={props.pageId ? 'Page' : 'Website'}
         renderButtonLine={renderButtonLine}
+        contextConfigurations={contextConfigurations}
       />
       <DashboardHeaderModule>
         <QuickFilterBar
@@ -158,14 +162,6 @@ function Header(props) {
       </DashboardHeaderModule>
     </>
   );
-}
-
-function getBreadcrumbs(props) {
-  return [
-    <WebsitesBreadcrumb />,
-    <WebsiteBreadcrumb {...props} />,
-    props.pageId && <PageBreadcrumb {...props} />
-  ].filter(Boolean);
 }
 
 function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
@@ -192,4 +188,8 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
       </Button>
     </>
   );
+}
+
+function renderWebsiteContext(props) {
+  return <WebsiteContext {...props} />;
 }

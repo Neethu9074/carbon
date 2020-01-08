@@ -1,5 +1,6 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
@@ -9,16 +10,14 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import { millis, number, bytes } from 'in-services/formatters/number';
-import AjaxBreadcrumb from 'in-websites/breadcrumbs/AjaxBreadcrumb';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -27,7 +26,6 @@ import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './XhrRequest.mless';
 
@@ -435,7 +433,6 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
   return (
     <Fragment>
-      <Breadcrumbs items={[<AjaxBreadcrumb xhrId={xhrId} />]} />
       <Title title="HTTP Request Details" dynamic={xhrId} />
 
       <div className={locals.actions}>
