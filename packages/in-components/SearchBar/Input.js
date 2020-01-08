@@ -1,5 +1,7 @@
 /* eslint-disable react/no-find-dom-node */
 import CodeMirror from 'codemirror/lib/codemirror.js';
+// the order is important here
+import 'codemirror/lib/codemirror.css';
 import RoEmitter from 'roemitter';
 import ReactDOM from 'react-dom';
 import React from 'react';
@@ -13,15 +15,12 @@ import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { applyTransform } from 'in-services/util/dom';
+import 'in-components/SearchBar/misc/codeMirrorModes';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-components/SearchBar/misc/codeMirrorModes';
-
-// the order is important here
-import 'codemirror/lib/codemirror.css';
-import './Input.less';
 import 'in-components/SearchBar/searchTokenDefinitions.less';
+import './Input.less';
 
 const blockEndClass = 'cm-custom-block--end';
 const blockHighlightedClass = 'cm-custom-block--end--highlighted';

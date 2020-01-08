@@ -29,7 +29,7 @@ export default connectTo(
             {...props}
             title={title}
             snapshot={snapshot}
-            renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="s" />}
+            renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="l" />}
             label={snapshot.get('label')}
             renderButtonLine={renderButtonLine}
             renderMetaInformation={renderMetaInformation}
