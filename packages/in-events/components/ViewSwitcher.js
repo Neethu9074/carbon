@@ -38,7 +38,7 @@ export default function ViewSwitcher({ selectedEventType }) {
         />
       </SecondLevelNavigation>
 
-      <SearchBar />
+      <SearchBar theme="light" />
     </div>
   );
 }

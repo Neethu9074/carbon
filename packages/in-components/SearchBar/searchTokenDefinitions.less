@@ -9,7 +9,9 @@
     background: transparent;
     color: white;
   }
+}
 
+.in-searchbar-dark {
   .CodeMirror-cursor {
     border-left: 1px solid white;
   }
@@ -106,6 +108,119 @@
         color: #8c969a;
         line-height: 1.5rem;
         border-left: 1px solid #2d4048;
+        padding-left: 6px;
+        border-radius: 0 0.125rem 0.125rem 0;
+
+        transition: background 0.15s ease-in-out, color 0.15s ease-in-out;
+      }
+
+      &--highlighted::after {
+        background: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.in-searchbar-light {
+  .CodeMirror-cursor {
+    border-left: 1px solid black;
+  }
+
+  .CodeMirror-scroll {
+    overflow: hidden !important;
+  }
+
+  .CodeMirror-lines {
+    padding: 0;
+  }
+
+  .CodeMirror-line {
+    margin: 2px 0 0;
+  }
+
+  .CodeMirror-code {
+    font-family: @font-family-monospace;
+  }
+
+  .cm-term {
+    color: #47525d;
+  }
+
+  .cm-fieldSeparator {
+    font-weight: bold;
+    color: #8257d9;
+  }
+
+  .cm-regex {
+    color: #68b0e3;
+  }
+
+  .cm-operator {
+    color: #00b3b3;
+  }
+
+  .cm-grouping {
+    color: #ff57a8;
+  }
+
+  .cm-phrase {
+    color: #4d4dbf;
+  }
+
+  .cm-fuzzy {
+    color: cyan;
+  }
+
+  .cm-boost {
+    color: red;
+  }
+
+  .cm-unknown {
+    color: grey;
+  }
+
+  .cm-field {
+    color: #2483b3;
+  }
+
+  .cm-character {
+    padding: 0.313rem 0 0.375rem;
+  }
+
+  .cm-error {
+    color: #ff4229;
+    text-decoration: underline;
+  }
+
+  .cm-custom-block {
+    background: @lib__colors__N300;
+
+    &--start {
+      padding-left: 0.25rem;
+      border-radius: 0.125rem 0 0 0.125rem;
+    }
+
+    &--end {
+      position: relative;
+
+      padding-right: 0.25rem;
+      margin-right: 1.313rem;
+
+      &::after {
+        content: 'x';
+        width: 1.25rem;
+        height: 1.5rem;
+        position: absolute;
+        top: 0;
+        right: -1.25rem;
+        font-weight: bold;
+        color: #8c969a;
+        line-height: 1.5rem;
+
+        background: @lib__colors__N300;
+        border-left: 1px solid @lib__colors__white;
+
         padding-left: 6px;
         border-radius: 0 0.125rem 0.125rem 0;
 

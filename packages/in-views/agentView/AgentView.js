@@ -40,7 +40,7 @@ export default function AgentView() {
                     contextConfigurations={[{ renderContext: () => 'Agents', contextIcon: 'lib_actions_settings' }]}
                   />
                   <DashboardHeaderModule withBottomBorder>
-                    <SearchBar />
+                    <SearchBar theme="light" />
                   </DashboardHeaderModule>
                 </>
               }
