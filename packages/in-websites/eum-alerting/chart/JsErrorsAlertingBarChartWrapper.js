@@ -1,14 +1,13 @@
 import React from 'react';
 
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
-const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
-const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
+const errorCount = 'errors';
+const errorRate = 'specificJsErrorRate';
 
 export default connectTo(
   props => {
@@ -39,7 +38,7 @@ function enrichChartMetrics(props) {
 }
 
 function mergeResult(result, thresholdValue) {
-  const merged = {
+  const mergedResult = {
     time: 0,
     progress: finishedProgress,
     errors: emptyArray,
@@ -53,8 +52,8 @@ function mergeResult(result, thresholdValue) {
   const errors = result.data.errors;
   const threshold = errors.map(([time]) => [time, thresholdValue]);
 
-  merged.time = Math.max(merged.time, result.time);
-  merged.data = { errors, threshold };
+  mergedResult.time = Math.max(mergedResult.time, result.time);
+  mergedResult.data = { errors, threshold };
 
-  return merged;
+  return mergedResult;
 }

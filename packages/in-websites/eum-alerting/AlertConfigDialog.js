@@ -359,8 +359,9 @@ export function getTitlePlaceholder(form) {
     return `JS Error(s): ${form.get(fieldNames.ruleValue).value}`;
   }
   if (alertType === alertTypes.slowness) {
-    // return `onLoad Time is above ${form.get(fieldNames.thresholdValue).value}ms`;
-    return `onLoad Time to high`;
+    const aggregation = form.get(fieldNames.ruleAggregation).value;
+    const operator = form.get(fieldNames.thresholdOperator).value;
+    return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
   }
 }
 
@@ -372,10 +373,59 @@ export function getDescriptionPlaceholder(form) {
     }" have been detected.`;
   }
   if (alertType === alertTypes.slowness) {
-    return `Load times above specified threshold detected.`;
+    const aggregation = form.get(fieldNames.ruleAggregation).value;
+    const operator = form.get(fieldNames.thresholdOperator).value;
+    const thresholdType = form.get(fieldNames.thresholdType).value;
+    if (thresholdType === 'staticThreshold') {
+      const thresholdValue = form.get(fieldNames.thresholdValue).value;
+      return `The onLoad Time (${getAggregationText(aggregation)}) is ${getOperatorText(
+        operator
+      )} ${thresholdValue} ms.`;
+    }
+    return `The onLoad Time (${getAggregationText(aggregation)}) is ${getOperatorText(operator)} the expectation.`;
   }
 }
 
 export function getFormValueOrDefault(form, key, defaultValue = null) {
   return form.containsKey(key) ? form.get(key).value : defaultValue;
+}
+
+function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
+}
+
+function getOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return 'greater than';
+    case '>=':
+      return 'greater or equal to';
+    case '<':
+      return 'less than';
+    case '<=':
+      return 'less or equal to';
+    default:
+      return operator;
+  }
+}
+
+function getAggregationText(aggregation) {
+  switch (aggregation.toUpperCase()) {
+    case 'P25':
+      return '25th';
+    case 'P50':
+      return '50th';
+    case 'P75':
+      return '75th';
+    case 'P90':
+      return '90th';
+    case 'P95':
+      return '95th';
+    case 'P98':
+      return '98th';
+    case 'P99':
+      return '99th';
+    default:
+      return aggregation.toLowerCase();
+  }
 }
