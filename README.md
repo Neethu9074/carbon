@@ -39,7 +39,7 @@ Our development practices are collected within [Notion](https://www.notion.so/in
 ### Installation of required software
 
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
-[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
+[Node Version Manager](https://github.com/nvm-sh/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
 
 #### Node.js and Yarn
 
@@ -53,7 +53,7 @@ sudo apt-get install build-essential
 xcode-select --install
 
 # download and install NVM
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 
 # reload bash
 bash
