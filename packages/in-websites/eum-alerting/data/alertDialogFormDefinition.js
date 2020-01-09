@@ -1,4 +1,11 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+
+import {
+  withSlownessFormStaticThreshold,
+  withSlownessFormHistoricBaseline
+} from 'in-websites/eum-alerting/data/slownessForm';
+import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/data/jsErrorsForm';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 
 const severityWarning = 5;
@@ -87,30 +94,9 @@ export default function alertFormDefinition(alertFormValues = {}) {
 
   let form = createMapForm()
     .put(
-      fieldNames.ruleAggregation,
-      createField({
-        value: (rule && rule.aggregation) || 'P90',
-        validator: notBlankValidator
-      })
-    )
-    .put(
       fieldNames.ruleAlertType,
       createField({
         value: rule && rule.alertType,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      fieldNames.ruleOperator,
-      createField({
-        value: rule && rule.operator,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      fieldNames.ruleValue,
-      createField({
-        value: rule && rule.value,
         validator: notBlankValidator
       })
     )
@@ -131,7 +117,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
       fieldNames.alertChannelIds,
       createField({
         value: alertChannelIds,
-        validator: alertChannelsNotEmptyValiadator
+        validator: alertChannelsNotEmptyValidator
       })
     )
     .put(
@@ -177,13 +163,6 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.thresholdValue,
-      createField({
-        value: (threshold && threshold.value) || 0,
-        validator: positiveNumberValidator
-      })
-    )
-    .put(
       fieldNames.thresholdType,
       createField({
         value:
@@ -201,28 +180,10 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.thresholdTo,
+      fieldNames.thresholdValue,
       createField({
-        value: threshold && threshold.to
-      })
-    )
-    .put(
-      fieldNames.thresholdSeasonality,
-      createField({
-        value: (threshold && threshold.seasonality) || 'WEEKLY',
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      fieldNames.thresholdBaseline,
-      createField({
-        value: threshold && threshold.baseline
-      })
-    )
-    .put(
-      fieldNames.thresholdDeviationFactor,
-      createField({
-        value: (threshold && threshold.deviationFactor) || 2
+        value: (threshold && threshold.value) || 0,
+        validator: positiveNumberValidator
       })
     )
     .put(
@@ -232,7 +193,36 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     );
 
+  const alertType = form.get(fieldNames.ruleAlertType).value;
+
+  if (alertType === alertTypes.slowness) {
+    const thresholdType = form.get(fieldNames.thresholdType).value;
+
+    if (thresholdType === 'staticThreshold') {
+      form = withSlownessFormStaticThreshold(form, threshold, rule);
+    }
+
+    if (thresholdType.includes('historicBaseline.')) {
+      form = withSlownessFormHistoricBaseline(form, threshold, rule);
+    }
+  }
+
+  if (alertType === alertTypes.specificJsError) {
+    form = withJsErrorsFormSpecificError(form, rule);
+  }
+
   return form;
+}
+
+function alertChannelsNotEmptyValidator(array) {
+  if (!array || array.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please select at least one Alert Channel'
+      }
+    ];
+  }
 }
 
 function positiveNumberValidator(num) {
@@ -241,17 +231,6 @@ function positiveNumberValidator(num) {
       {
         severity: 'error',
         message: 'Please provide a number >= 0'
-      }
-    ];
-  }
-}
-
-function alertChannelsNotEmptyValiadator(array) {
-  if (!array || array.length === 0) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please select at least one Alert Channel'
       }
     ];
   }

@@ -48,7 +48,12 @@ function Alert({ alertConfig, alertConfigError, alertConfigVersions, alertConfig
   return (
     <>
       {dialogOpen && (
-        <AlertConfigDialog onClose={() => setDialogOpen(false)} formData={alertConfig} websiteLabel={websiteLabel} />
+        <AlertConfigDialog
+          onClose={() => setDialogOpen(false)}
+          formData={alertConfig}
+          websiteLabel={websiteLabel}
+          editMode
+        />
       )}
       <div>
         <AlertHeader

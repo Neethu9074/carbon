@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  withSlownessFormStaticThreshold,
+  withSlownessFormHistoricBaseline
+} from 'in-websites/eum-alerting/data/slownessForm';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/AlertConfigDialog';
@@ -52,15 +56,26 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 value={form.get(fieldNames.thresholdType).value}
                 options={selectOptions[fieldNames.thresholdType]}
                 onChange={e => {
+                  const thresholdType = e.value || '';
                   const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
                   const seasonality = {
                     name: fieldNames.thresholdSeasonality,
-                    value: e.value === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY'
+                    value: thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY'
                   };
+
+                  let updatedForm = form;
+                  if (thresholdType === 'staticThreshold') {
+                    updatedForm = withSlownessFormStaticThreshold(form);
+                  }
+
+                  if (thresholdType.includes('historicBaseline.')) {
+                    updatedForm = withSlownessFormHistoricBaseline(form);
+                  }
+
                   onChange(
-                    form,
+                    updatedForm,
                     fieldNames.thresholdType,
-                    (e && e.value) || '',
+                    thresholdType,
                     doCalculateThresholdOnBackend,
                     seasonality
                   );
