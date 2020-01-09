@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
-import alertFormDefinition from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
 storiesOf('websites/eum-alerting/simple-dialog', module)
   .add('Simple Dialog', () => <SimpleDialog />)

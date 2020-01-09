@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  withSlownessFormHistoricBaseline,
+  withSlownessFormStaticThreshold
+} from 'in-websites/eum-alerting/form/slownessForm';
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
-import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
-import { alertTypeConfig } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
@@ -27,13 +32,32 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         itemLabels={alertTypeConfig.map(({ name }) => name)}
         itemClickTracker={selectedItemIndex => {
+          const alertType = alertTypeConfig[selectedItemIndex].type;
+
+          let updatedForm = form;
+          if (alertType === alertTypes.specificJsError) {
+            updatedForm = withJsErrorsFormSpecificError(form);
+          }
+
+          if (alertType === alertTypes.slowness) {
+            const thresholdType = form.get(fieldNames.thresholdType).value;
+
+            if (thresholdType === 'staticThreshold') {
+              updatedForm = withSlownessFormStaticThreshold(form);
+            }
+
+            if (thresholdType.includes('historicBaseline.')) {
+              updatedForm = withSlownessFormHistoricBaseline(form);
+            }
+          }
+
           // addMetricForOnLoadTime will only be added this way as long as we have not the secondary menu to select alert types
           const addMetricForOnLoadTime = { name: fieldNames.ruleMetricName, value: 'onLoadTime' };
           // addMetricForJsErrors will only be added this way as long as we have not the secondary menu to select alert types
           const addMetricForJsErrors = { name: fieldNames.ruleMetricName, value: 'errors' };
           const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
           onChange(
-            form,
+            updatedForm,
             fieldNames.ruleAlertType,
             alertTypeConfig[selectedItemIndex].type,
             selectedItemIndex === 1 ? addMetricForOnLoadTime : addMetricForJsErrors,
