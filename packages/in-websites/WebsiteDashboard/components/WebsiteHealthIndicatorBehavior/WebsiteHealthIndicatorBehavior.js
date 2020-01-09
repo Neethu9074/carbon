@@ -19,13 +19,19 @@ export default connectTo(
     }).filter(healthInfo => healthInfo.data != null);
 
     return {
+      healthInfo: healthInfo$.map(result => result.data),
       openIssues: healthInfo$.map(result => result.data.openIssues.length),
       maxSeverity: healthInfo$.map(result => result.data.maxSeverity),
       timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
     };
   },
   function WebsiteHealthIndicatorBehavior(props) {
-    const { openIssues, showOkayOnNoIssues = true } = props;
+    const { render, healthInfo, openIssues, showOkayOnNoIssues = true } = props;
+
+    if (render) {
+      return render(healthInfo);
+    }
+
     if (openIssues == null || openIssues < 0) {
       return null;
     }
