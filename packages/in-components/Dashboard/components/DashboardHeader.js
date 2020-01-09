@@ -49,7 +49,7 @@ function renderButtonLine({ snapshot, timeConfig }) {
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
-      <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
+      <StackButton id={snapshot.get('id')} timeConfig={timeConfig} />
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </>

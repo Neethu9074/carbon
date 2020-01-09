@@ -1,15 +1,14 @@
-import { millis, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Average Requests',
-    metric: getMetricMatch('core_stats', 'avg_requests'),
+    label: 'Solr Hit Ratio',
+    metric: 'hitratio',
     formatter: number.compact
   },
   {
-    label: 'Average Request Time',
-    metric: getMetricMatch('core_stats', 'avg_time_request'),
-    formatter: millis.detailed
+    label: 'Solr Evictions',
+    metric: 'evictions',
+    formatter: number.compact
   }
 ];

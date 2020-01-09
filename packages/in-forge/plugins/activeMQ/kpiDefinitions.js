@@ -4,11 +4,11 @@ export default [
   {
     label: 'All Queues Messages Enqueue',
     metric: 'totalQueuesEnqueueCount',
-    formatter: number
+    formatter: number.compact
   },
   {
     label: 'All Topics Messages Enqueue',
     metric: 'totalTopicsEnqueueCount',
-    formatters: number
+    formatters: number.compact
   }
 ];
