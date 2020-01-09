@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  getTimeConfigFromEvent,
-  getChartTimeConfigByEvent,
-  getTimeConfigFromEventForSnapshotRetrieval
-} from 'in-events/timeframe';
+import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
@@ -14,7 +10,7 @@ import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConf
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
-import EumAlertButton from 'in-events/components/legacy/EumAlertButton';
+import AnalyzeEumButton from 'in-events/components/legacy/AnalyzeEumButton';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -78,12 +74,7 @@ export default connectTo(
 
           <Card title={getChartTitle(metricName)}>
             <div className={locals.analyzeButtonWrapper}>
-              <EumAlertButton
-                timeConfig={getTimeConfigFromEvent(event)}
-                tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
-                websiteLabel={websiteLabel}
-                alertType={alertType}
-              />
+              <AnalyzeEumButton event={event} alertConfig={alertConfig} />
             </div>
             <ChartSwitch
               alertType={alertType}
