@@ -25,7 +25,7 @@ export default connectTo({
       target="_blank"
       href={constructHumioLink(integration, props)}
     >
-      Humio
+      Go to Humio
     </Button>
   );
 });

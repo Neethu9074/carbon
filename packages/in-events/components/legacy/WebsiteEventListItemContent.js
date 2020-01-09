@@ -4,12 +4,12 @@ import AlertingConfigurationButton from 'in-events/components/legacy/AlertingCon
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
-import AnalyzeEumButton from 'in-events/components/legacy/AnalyzeEumButton';
-import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import EumAlertButton from 'in-events/components/legacy/EumAlertButton';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
 
@@ -53,7 +53,12 @@ export default connectTo(
         <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
         <div className={locals.sectionWrapper}>
           <div className={locals.analyzeButtonWrapper}>
-            <AnalyzeEumButton event={event} alertConfig={alertConfig} />
+            <EumAlertButton
+              timeConfig={getTimeConfigFromEvent(event)}
+              tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
+              websiteLabel={websiteLabel}
+              alertType={alertType}
+            />
           </div>
           <ChartSwitch
             alertType={alertType}

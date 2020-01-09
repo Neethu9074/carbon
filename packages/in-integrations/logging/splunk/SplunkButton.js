@@ -24,7 +24,7 @@ export default connectTo({
       target="_blank"
       href={constructSplunkLink(integration, props)}
     >
-      Splunk
+      Go to Splunk
     </Button>
   );
 });

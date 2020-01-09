@@ -4,9 +4,9 @@ import React from 'react';
 import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
-} from 'in-websites/eum-alerting/form/slownessForm';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+} from 'in-websites/eum-alerting/data/slownessForm';
+import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/data/jsErrorsForm';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { alertTypes } from '../data/alertTypeConfigData';
 import Button from 'in-new-components/Button/Button';
