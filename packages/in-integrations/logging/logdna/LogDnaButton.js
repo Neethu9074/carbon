@@ -1,16 +1,11 @@
 import React from 'react';
 
-import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-import { integrationKey } from 'in-integrations/logging/logdna/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  integration: getIntegrationConfiguration(integrationKey)
-})(function LogDnaButton(props) {
-  const { integration } = props;
+export default function LogDnaButton(props) {
+  const { logdnaIntegration: integration } = props;
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -27,7 +22,7 @@ export default connectTo({
       LogDNA
     </Button>
   );
-});
+}
 
 function constructLink(integration, props) {
   const { timeConfig } = props;

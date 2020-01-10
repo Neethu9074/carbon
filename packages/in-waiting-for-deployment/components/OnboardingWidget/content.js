@@ -240,7 +240,7 @@ function AwsSensorContent({ agentKey, agentEndpoint }) {
         lines={[
           'curl -o setup_agent.sh https://setup.instana.io/agent',
           'chmod 700 ./setup_agent.sh',
-          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint} -s`
+          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:443 -s`
         ]}
       />
       <Spacer />
@@ -530,7 +530,7 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint }) {
       <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint} -s -y`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:443 -s -y`
         ]}
       />
       <Spacer />
@@ -600,7 +600,7 @@ function OneLinerContent({ agentKey, agentEndpoint }) {
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
             jvmMode === jvmModeOptions[0] ? 'dynamic' : 'static'
-          } -e ${agentEndpoint} ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
+          } -e ${agentEndpoint}:443 ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
         ]}
       />
       <Spacer />
@@ -626,7 +626,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint }) {
       <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:443 -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
         ]}
       />
       <Spacer />
