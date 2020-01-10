@@ -23,7 +23,7 @@ export default connectTo({
       target="_blank"
       href={constructCoralogixLink(integration, props)}
     >
-      Coralogix
+      Go to Coralogix
     </Button>
   );
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import { alertTypeConfig } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import evaluateClassNames from 'in-services/util/classnames';

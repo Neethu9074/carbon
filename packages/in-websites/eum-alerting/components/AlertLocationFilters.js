@@ -3,7 +3,7 @@ import React from 'react';
 
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { availableFilterTags } from 'in-websites/tags';
