@@ -11,7 +11,6 @@ import {
   getSourceEntityAvailability
 } from 'in-applications/tags';
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
-import { applicationSourceOrDestinationTracker } from 'in-applications/tracker';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
@@ -105,10 +104,7 @@ export default compose(
         setForm(updatedForm);
       },
       onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
-      onEntityChange: entity => {
-        applicationSourceOrDestinationTracker({ before: form.get('entity').value, after: entity });
-        setForm(form.updateIn(['entity'], f => f.setValue(entity).setTouched(true)));
-      },
+      onEntityChange: entity => setForm(form.updateIn(['entity'], f => f.setValue(entity).setTouched(true))),
       onSubmit: e => {
         stopPropagationAndPreventDefault(e);
         if (!form.hierarchyValid) {

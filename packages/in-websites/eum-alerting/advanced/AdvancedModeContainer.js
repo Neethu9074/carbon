@@ -5,10 +5,10 @@ import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsE
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { getFormValueOrDefault } from 'in-websites/eum-alerting/AlertConfigDialog';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
-import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
 import { scrollIntoView, getCoords } from 'in-services/util/dom';

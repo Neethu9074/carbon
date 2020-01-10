@@ -2,7 +2,6 @@ import { just } from 'reactive-observables';
 import invariant from 'invariant';
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import PercentageCell from 'in-components/Table/components/PercentageCell';
 import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
@@ -76,7 +75,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 function refreshContent(row, column) {
   if (column.value == null) {
     const getFallbackContent = column.columnDefinition.typeArgs.getFallbackContent;
-    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : valueMissingPlaceholder;
+    const fallback = getFallbackContent ? getFallbackContent(row.rowConfig) : null;
     column.content = fallback;
     return;
   }

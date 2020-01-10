@@ -50,11 +50,3 @@ export function intersperse(array, interspersed) {
   const interspersee = typeof interspersed === 'function' ? interspersed : () => interspersed;
   return flatMap(array, (element, idx) => (idx ? [interspersee(idx), element] : [element]));
 }
-
-export function uniq(array, extractKey) {
-  const seen = new Set();
-  return array.filter(item => {
-    const key = extractKey(item);
-    return seen.has(key) ? false : seen.add(key);
-  });
-}

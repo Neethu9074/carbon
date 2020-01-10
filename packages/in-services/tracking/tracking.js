@@ -19,7 +19,6 @@ export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
-export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 
 export const CONNECTION_LOST = 'connection.lost';
 export const CONNECTION_ESTABLISHED = 'connection.established';

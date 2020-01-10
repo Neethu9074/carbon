@@ -2,10 +2,12 @@ import React from 'react';
 
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
+
+const errorCount = 'errors';
+const errorRate = 'specificJsErrorRate';
 
 export default connectTo(
   props => {

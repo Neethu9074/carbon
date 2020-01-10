@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-websites/eum-alerting/formHelpers';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/AlertConfigDialog';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle/Toggle';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';

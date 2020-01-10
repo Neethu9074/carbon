@@ -32,7 +32,7 @@ export default connectTo(
   },
   function InfrastructureTabSubscript({ snapshot, awsLambdaFunctionSnapshotId, regionSnapshotId }) {
     if (snapshot) {
-      const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
+      const versionLabel = snapshot.getIn(['data', 'version'], '?');
       const functionName = snapshot.getIn(['data', 'name'], '?');
       const region = snapshot.getIn(['data', 'aws_grouping_zone'], '?');
       const versionComponent = linkIfPossible(snapshot.get('id'), versionLabel);
