@@ -1,10 +1,5 @@
 import React, { Fragment } from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { isWindows } from 'in-forge/plugins/host/hostUtils';
-import { emptyMap } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
-import { getMaxValue } from 'in-sdk/metrics';
 import {
   percentage,
   bytesTwoDecimalPlaces,
@@ -15,7 +10,12 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
+import { getMaxValue } from 'in-sdk/metrics';
 
 const deviceColumn = {
   title: 'Device',

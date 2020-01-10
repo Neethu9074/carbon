@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/AlertConfigDialog';
-import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-websites/eum-alerting/formHelpers';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';

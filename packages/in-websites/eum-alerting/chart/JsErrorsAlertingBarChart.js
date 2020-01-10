@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import JsErrorsAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChartWrapper';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import theme from 'in-themes';
-
-const errorCount = selectOptions[fieldNames.ruleMetricName][0].value;
-const errorRate = selectOptions[fieldNames.ruleMetricName][1].value;
 
 export default function JsErrorsAlertingBarChart({
   websiteId,
@@ -95,13 +93,13 @@ function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, time
 function getMetricConfig(metricName, granularity, errorFilter = null) {
   const metricConfigs = {
     [errorRate]: {
-      metric: 'specificJsErrorRate',
+      metric: errorRate,
       granularity: granularity,
       aggregation: 'MEAN',
       numeratorFilter: errorFilter
     },
     [errorCount]: {
-      metric: 'errors',
+      metric: errorCount,
       granularity: granularity,
       aggregation: 'SUM'
     }

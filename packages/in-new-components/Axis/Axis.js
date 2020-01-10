@@ -6,6 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import Ticks from 'in-new-components/Axis/components/Ticks';
 import getTickPositions from 'in-services/ticks/vertical';
 import { number } from 'in-services/formatters/number';
+import { uniq } from 'in-services/arrayUtils';
 import createScale from 'in-services/scale';
 
 import locals from './Axis.mless';
@@ -102,10 +103,5 @@ export function mapNormalizedTicks(scale, tickPositions, roundTickPositions, len
     };
   });
 
-  return uniq(mappedTickPosition);
-}
-
-function uniq(array) {
-  const seen = new Set();
-  return array.filter(item => (seen.has(item.domain) ? false : seen.add(item.domain)));
+  return uniq(mappedTickPosition, item => item.domain);
 }

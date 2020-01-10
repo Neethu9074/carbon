@@ -3,8 +3,8 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
-} from 'in-websites/eum-alerting/data/slownessForm';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/data/jsErrorsForm';
+} from 'in-websites/eum-alerting/form/slownessForm';
+import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 

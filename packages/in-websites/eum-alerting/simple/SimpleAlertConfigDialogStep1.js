@@ -4,12 +4,12 @@ import React from 'react';
 import {
   withSlownessFormHistoricBaseline,
   withSlownessFormStaticThreshold
-} from 'in-websites/eum-alerting/data/slownessForm';
+} from 'in-websites/eum-alerting/form/slownessForm';
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/data/jsErrorsForm';
-import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';

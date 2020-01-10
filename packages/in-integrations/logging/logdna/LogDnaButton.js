@@ -24,7 +24,7 @@ export default connectTo({
       target="_blank"
       href={constructLink(integration, props)}
     >
-      Go to LogDNA
+      LogDNA
     </Button>
   );
 });
