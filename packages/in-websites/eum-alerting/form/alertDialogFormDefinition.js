@@ -3,13 +3,8 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
-<<<<<<< HEAD:packages/in-websites/eum-alerting/form/alertDialogFormDefinition.js
 } from 'in-websites/eum-alerting/form/slownessForm';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-=======
-} from 'in-websites/eum-alerting/data/slownessForm';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/data/jsErrorsForm';
->>>>>>> 483fcbe09... Fix deleted form fields (#2449):packages/in-websites/eum-alerting/data/alertDialogFormDefinition.js
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -219,11 +214,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
   return form;
 }
 
-<<<<<<< HEAD:packages/in-websites/eum-alerting/form/alertDialogFormDefinition.js
-function alertChannelsNotEmptyValiadator(array) {
-=======
 function alertChannelsNotEmptyValidator(array) {
->>>>>>> 483fcbe09... Fix deleted form fields (#2449):packages/in-websites/eum-alerting/data/alertDialogFormDefinition.js
   if (!array || array.length === 0) {
     return [
       {

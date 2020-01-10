@@ -4,13 +4,8 @@ import React from 'react';
 import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
-<<<<<<< HEAD
 } from 'in-websites/eum-alerting/form/slownessForm';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-=======
-} from 'in-websites/eum-alerting/data/slownessForm';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
->>>>>>> 483fcbe09... Fix deleted form fields (#2449)
 import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
