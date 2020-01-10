@@ -1,16 +1,11 @@
 import React from 'react';
 
-import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-import { integrationKey } from 'in-integrations/logging/coralogix/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  integration: getIntegrationConfiguration(integrationKey)
-})(function CoralogixButton(props) {
-  const { integration } = props;
+export default function CoralogixButton(props) {
+  const { coralogixIntegration: integration } = props;
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
@@ -26,7 +21,7 @@ export default connectTo({
       Go to Coralogix
     </Button>
   );
-});
+}
 
 function constructCoralogixLink(integration, props) {
   const { timeConfig } = props;
@@ -56,7 +51,7 @@ function serializeHosts({ hostFqdn }) {
   return query.trim();
 }
 
-function shouldShowButton(props) {
+export function shouldShowButton(props) {
   const query = serializeHosts(props);
   return !isBlank(query);
 }

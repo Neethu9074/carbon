@@ -1,17 +1,12 @@
 import React from 'react';
 
-import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  integration: getIntegrationConfiguration(integrationKey)
-})(function HumioButton(props) {
-  const { integration } = props;
+export default function HumioButton(props) {
+  const { humioIntegration: integration } = props;
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -28,7 +23,7 @@ export default connectTo({
       Go to Humio
     </Button>
   );
-});
+}
 
 function constructHumioLink(integration, props) {
   const { timeConfig } = props;
@@ -65,7 +60,7 @@ function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainer
   return query.trim();
 }
 
-function shouldShowButton(props) {
+export function shouldShowButton(props) {
   const query = serializeQuery(props);
   return !isBlank(query);
 }

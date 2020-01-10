@@ -1,16 +1,11 @@
 import React from 'react';
 
-import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
-import { integrationKey } from 'in-integrations/logging/splunk/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  integration: getIntegrationConfiguration(integrationKey)
-})(function SplunkButton(props) {
-  const { integration } = props;
+export default function SplunkButton(props) {
+  const { splunkIntegration: integration } = props;
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -27,7 +22,7 @@ export default connectTo({
       Go to Splunk
     </Button>
   );
-});
+}
 
 function constructSplunkLink(integration, props) {
   const queryParameters = {
@@ -72,8 +67,7 @@ function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainer
     .reduce((agg, key) => `${agg} ${key}="${query[key]}"`, '')
     .trim();
 }
-
-function shouldShowButton(props) {
+export function shouldShowButton(props) {
   const query = serializeQuery(props);
   return !isBlank(query);
 }
