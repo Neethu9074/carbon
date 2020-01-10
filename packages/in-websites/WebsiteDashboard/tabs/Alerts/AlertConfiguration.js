@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
-import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorSelection';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';

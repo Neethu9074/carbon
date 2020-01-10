@@ -18,6 +18,7 @@ export default function JdbcSpanDetailView({ span }) {
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
+        <Di title="Result-Size">{span.getIn(['data', 'ado', 'resultsize'])}</Di>
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>

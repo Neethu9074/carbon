@@ -47,10 +47,9 @@ function renderBaseline(axis, metric, config, scale, colors) {
   const isGreaterOp = isGreaterOperator(config.y1.operator);
 
   const upperThresholdInTimeframe = [];
-  let i = 0;
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
-    upperThresholdInTimeframe[i++] = [timestamp, thresholdValue];
+    upperThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
 
   // Backgrounds

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList.js';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';

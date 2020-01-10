@@ -1,0 +1,14 @@
+:local {
+  .key,
+  .value {
+    width: 50%;
+  }
+
+  .key {
+    text-align: left;
+  }
+
+  .value {
+    text-align: right;
+  }
+}

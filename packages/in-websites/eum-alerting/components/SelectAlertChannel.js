@@ -4,7 +4,7 @@ import React from 'react';
 import SelectAlertChannelPresenter, {
   SelectListDialogContent
 } from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/data/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import Button from 'in-new-components/Button/Button';
 
 export default function SelectAlertChannel(props) {
