@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
+import { fromJS, Map } from 'immutable';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function GraphQLSpanDetailView({ span }) {
@@ -17,13 +18,14 @@ export default function GraphQLSpanDetailView({ span }) {
 }
 
 function getObjectTypeDetails(span) {
-  const allFields = span.getIn(['data', 'graphql', 'fields'], emptyMap);
-  const allArgs = span.getIn(['data', 'graphql', 'args'], emptyMap);
+  const allFields = deserializeJsonIfNecessary(span.getIn(['data', 'graphql', 'fields'], emptyMap));
+  const allArgs = deserializeJsonIfNecessary(span.getIn(['data', 'graphql', 'args'], emptyMap));
   const objectTypes = allFields
     .keySeq()
     .concat(allArgs.keySeq())
     .sort()
     .toSet();
+
   return objectTypes
     .map(objectType => {
       const fieldsPerObjectType = allFields.get(objectType);
@@ -60,4 +62,21 @@ function getObjectTypeDetails(span) {
     })
     .valueSeq()
     .toArray();
+}
+
+function deserializeJsonIfNecessary(value) {
+  if (Map.isMap(value)) {
+    return value;
+  } else if (typeof value === 'string') {
+    // The Java tracer sends these values as a serialized JSON string instead of a proper JSON object structure.
+    try {
+      return fromJS(JSON.parse(value));
+    } catch (e) {
+      // ignore silently
+      return emptyMap;
+    }
+  } else {
+    // only objects and strings are supported
+    return emptyMap;
+  }
 }
