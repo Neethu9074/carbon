@@ -1,6 +1,7 @@
 import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import AnalyzeProfilesButton from 'in-components/Dashboard/components/AnalyzeProfilesButton';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
 import EntityVersionButton from 'in-components/Dashboard/components/EntityVersionButton';
 import { getShowZoneInSidebarHeader, getDashboardHeaderActions } from 'in-sdk/snapshot';
@@ -10,7 +11,9 @@ import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
 import StackButton from 'in-new-components/Stack/StackButton';
+import { profilingEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
+import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
@@ -52,6 +55,10 @@ function renderButtonLine({ snapshot, timeConfig }) {
       <StackButton id={snapshot.get('id')} timeConfig={timeConfig} />
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      {profilingEnabled &&
+        snapshot.get('plugin') === plugins.process && (
+          <AnalyzeProfilesButton processSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+        )}
     </>
   );
 }

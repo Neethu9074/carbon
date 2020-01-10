@@ -5,10 +5,10 @@ import Link from 'in-components/Link';
 
 import locals from './EntityWithType.mless';
 
-export default function EntityWithType({ label, type, href$ }) {
+export default function EntityWithType({ label, type, renderType, href$ }) {
   return (
     <div className={locals.wrapper}>
-      <div className={locals.type}>{getSingular(type)}</div>
+      <div className={locals.type}>{renderType ? renderType(getSingular(type)) : getSingular(type)}</div>
       {href$ ? (
         <Link className={locals.link} href$={href$}>
           {label}

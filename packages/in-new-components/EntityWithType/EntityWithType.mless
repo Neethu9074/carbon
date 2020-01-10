@@ -10,11 +10,13 @@
   }
 
   .type {
-    margin-bottom: 0.25rem;
-    color: @lib__colors__N600Light;
-    font-size: 0.75rem;
     display: flex;
     align-items: center;
+
+    margin-bottom: 0.25rem;
+
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
   }
 
   .label {

@@ -1,4 +1,11 @@
+@import '~in-themes/active.less';
+
 :local {
+  .icon {
+    margin-left: 0.25rem;
+    fill: @lib__colors__N600Light;
+  }
+
   .itemWrapper {
     display: flex;
     flex-direction: row;
