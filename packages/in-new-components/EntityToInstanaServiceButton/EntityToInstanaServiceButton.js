@@ -28,7 +28,7 @@ export function EntityToInstanaServicesButton({ instanaServices }) {
   }
 
   return (
-    <Overlay align="bottomRight" content={ServiceList} props={{ instanaServices }}>
+    <Overlay align="bottomLeft" content={ServiceList} props={{ instanaServices }}>
       {({ toggle, isOpen }) => (
         <Button className={locals.button} kind="primaryv2" icon="lib_application_service" onClick={toggle}>
           Services ({instanaServices.length})
