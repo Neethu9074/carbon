@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -13,7 +14,6 @@ import WithIcon from 'in-new-components/WithIcon';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 export default function MaintenanceWindows() {
   const getStartAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'start');
@@ -67,6 +67,9 @@ const columnDefinitions = [
     id: 'starts',
     label: 'Start time',
     ellipsis: true,
+    getValue(entity) {
+      return getDateTimeFromFirstWindow('start', entity);
+    },
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('start', entity);
     }
@@ -75,6 +78,9 @@ const columnDefinitions = [
     id: 'ends',
     label: 'End time',
     ellipsis: true,
+    getValue(entity) {
+      return getDateTimeFromFirstWindow('end', entity);
+    },
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('end', entity);
     }
@@ -98,6 +104,16 @@ const tableActions = {
 function getFormattedDateTimeFromFirstWindow(key, entity) {
   if (entity.windows && entity.windows.length === 1) {
     return formatDateTime(entity.windows[0][key]);
+  } else if (entity.windows && entity.windows.length > 1) {
+    return 'multiple';
+  } else {
+    return null;
+  }
+}
+
+function getDateTimeFromFirstWindow(key, entity) {
+  if (entity.windows && entity.windows.length === 1) {
+    return entity.windows[0][key];
   } else if (entity.windows && entity.windows.length > 1) {
     return 'multiple';
   } else {
