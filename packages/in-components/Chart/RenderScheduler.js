@@ -127,7 +127,7 @@ export default class RenderScheduler {
       return;
     }
 
-    const filteredIndices = this.chart.getFilteredMetricIndices(axis);
+    const filteredIndices = this.getFilteredMetricIndices(axis, config);
 
     // all metrics are filtered, so don't try to paint anything
     if (filteredIndices.length === axis.metrics.length) {
@@ -165,6 +165,16 @@ export default class RenderScheduler {
         });
       }
     }
+  }
+
+  getFilteredMetricIndices(axis, config) {
+    const filteredIndices = [];
+    for (let i = 0; i < axis.metrics.length; i++) {
+      if (config.isLabelFiltered(axis.labels[i])) {
+        filteredIndices.push(i);
+      }
+    }
+    return filteredIndices;
   }
 
   clearOverdraw(config) {

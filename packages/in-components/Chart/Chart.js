@@ -40,79 +40,6 @@ export default class Chart {
     this.isLive = isLive;
   }
 
-  getNearestDataPointDomainForTimestamp(timestamp, floor = false) {
-    if (this.timeIsNotDefined(timestamp)) {
-      return null;
-    }
-
-    const allDomainValues = this.config.getAllDomainValues();
-    let domainValues = allDomainValues;
-    if (floor) {
-      domainValues = allDomainValues.filter(domain => domain <= timestamp);
-    }
-    let distanceToNearestDataPoint = Number.MAX_VALUE;
-    let nearestDomain = null;
-
-    for (let i = 0; i < domainValues.length; i++) {
-      const domain = domainValues[i];
-      const distanceToDataPoint = Math.abs(timestamp - domain);
-      if (distanceToDataPoint < distanceToNearestDataPoint) {
-        nearestDomain = domain;
-        distanceToNearestDataPoint = distanceToDataPoint;
-      }
-    }
-
-    return nearestDomain;
-  }
-
-  collectAllDataPointsAtTime(timestamp) {
-    if (this.timeIsNotDefined(timestamp)) {
-      return null;
-    }
-
-    const dataPointsCollection = {};
-    this.collectAllDataPointsAtTimeForAxis(timestamp, 'y1', dataPointsCollection);
-    this.collectAllDataPointsAtTimeForAxis(timestamp, 'y2', dataPointsCollection);
-    return dataPointsCollection;
-  }
-
-  collectAllDataPointsAtTimeForAxis(timestamp, axisName, dataPointsCollection) {
-    const axis = this.config[axisName];
-    if (!axis) {
-      return;
-    }
-
-    for (let i = 0; i < axis.metrics.length; i++) {
-      const dataSeries = axis.metrics[i];
-      const dataPointAtTime = this.getDataPointAtTimeForDataSeries(timestamp, dataSeries);
-      if (dataPointAtTime) {
-        if (!dataPointsCollection[axisName]) {
-          dataPointsCollection[axisName] = {};
-        }
-        dataPointsCollection[axisName][axis.labels[i]] = dataPointAtTime;
-      }
-    }
-  }
-
-  getDataPointAtTimeForDataSeries(timestamp, dataSeries) {
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      if (dataPoint && dataPoint[0] === timestamp) {
-        return dataPoint;
-      }
-    }
-  }
-
-  getFilteredMetricIndices(axis) {
-    const filteredIndices = [];
-    for (let i = 0; i < axis.metrics.length; i++) {
-      if (this.isLabelFiltered(axis.labels[i])) {
-        filteredIndices.push(i);
-      }
-    }
-    return filteredIndices;
-  }
-
   requestRender() {
     this.forceUpdateRendering();
   }
@@ -130,14 +57,6 @@ export default class Chart {
       }
       this.renderScheduler.intermediateRenderDuringAnimation();
     }
-  }
-
-  isLabelFiltered(label) {
-    return this.config.isLabelFiltered(label);
-  }
-
-  timeIsNotDefined(timestamp) {
-    return timestamp == null || timestamp == undefined;
   }
 
   dispose() {

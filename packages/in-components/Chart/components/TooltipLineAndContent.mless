@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    margin-left: -1px;
+    border-left: 1px solid rgba(0, 0, 0, 0.24);
+  }
+
+  .right {
+    position: absolute;
+    left: 1rem;
+  }
+
+  .left {
+    position: absolute;
+    right: ~'calc(100% + 1rem)';
+  }
+}

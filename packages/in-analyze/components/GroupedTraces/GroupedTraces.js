@@ -32,7 +32,7 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
-    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
+    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection', 'showGraph'],
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
       orderBy: defaultOrder,
@@ -41,7 +41,8 @@ export default compose(
     getParsedUrlValues: urlValues => ({
       [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
       orderBy: urlValues.orderBy,
-      orderDirection: urlValues.orderDirection
+      orderDirection: urlValues.orderDirection,
+      showGraph: Boolean(urlValues.showGraph)
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
@@ -50,9 +51,10 @@ export default compose(
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph }) => ({
     availableMetrics: availableMetrics,
     onChangeOrder: onChange,
+    showGraph: showGraph,
     openMetricSelector: () => {
       setActiveDialog(
         <MetricSelector
@@ -78,7 +80,7 @@ export default compose(
       );
     }
   })),
-  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
+  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', props => props.showGraph),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded', 'metrics'],
     get: ({

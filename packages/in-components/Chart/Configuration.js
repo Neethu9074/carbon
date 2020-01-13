@@ -1,11 +1,13 @@
 import { create } from 'reactive-observables';
 import { assign } from 'lodash';
+import theme from 'in-themes';
 
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
@@ -13,7 +15,6 @@ import { createCanvas } from 'in-components/Chart/canvasHelper';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
-import theme from 'in-themes';
 
 export const animationDuration = 2000;
 export const wiggleRoom = 5000;
@@ -253,32 +254,9 @@ export default class Config {
 
   getAllDomainValues() {
     if (!this.allDomainValues) {
-      this.collectAllDomainValues();
+      this.allDomainValues = collectAllDomainValues(this);
     }
     return this.allDomainValues;
-  }
-
-  collectAllDomainValues() {
-    this.allDomainValues = {};
-    this.collectAllDomainValuesForAxis(this.y1);
-    this.collectAllDomainValuesForAxis(this.y2);
-    this.allDomainValues = Object.keys(this.allDomainValues).map(n => Number(n));
-  }
-
-  collectAllDomainValuesForAxis(axis) {
-    if (!axis) {
-      return;
-    }
-
-    for (let iM = 0; iM < axis.metrics.length; iM++) {
-      const dataSeries = axis.metrics[iM];
-      for (let i = 0; i < dataSeries.length; i++) {
-        const dataPoint = dataSeries[i];
-        if (dataPoint) {
-          this.allDomainValues[dataPoint[0]] = true;
-        }
-      }
-    }
   }
 
   calculateBlocks(dataSeries) {

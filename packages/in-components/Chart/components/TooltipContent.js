@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -14,7 +15,7 @@ export default function TooltipContent({
   hoveredEvent,
   excludedLabelsFromTooltip
 }) {
-  const dataPointsAtTime = chart.collectAllDataPointsAtTime(timestamp);
+  const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
 
   return (
     <div className={locals.tooltipContent}>

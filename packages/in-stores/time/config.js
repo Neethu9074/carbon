@@ -108,4 +108,8 @@ export function setTimeConfig(location, timeConfig) {
   if (timeConfig.autoRefresh !== undefined) {
     location.query[urlQueryKeys.autoRefresh] = String(Boolean(timeConfig.autoRefresh));
   }
+
+  if (timeConfig.clearHighlightedTimeframe) {
+    delete location.query['tl.tf'];
+  }
 }

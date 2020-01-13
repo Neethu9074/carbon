@@ -9,6 +9,7 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({
@@ -93,6 +94,15 @@ export default function Summary({
             endpointId={endpointId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
+            groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            metrics={[
+              { metric: 'errors', aggregation: 'MEAN' },
+              {
+                metric: 'latency',
+                aggregation: 'MEAN'
+              }
+            ]}
+            showGraph
           />
         </Col>
         <Col lg={4}>

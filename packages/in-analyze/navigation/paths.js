@@ -7,6 +7,7 @@ import {
   orderBy as orderByMatrixParameter,
   orderDirection as orderDirectionMatrixParameter,
   metrics as metricsMatrixParameter,
+  showGraph as showGraphMatrixParameter,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
@@ -39,7 +40,8 @@ export function getLinkToAnalyze({
   orderBy,
   orderDirection,
   timeConfig,
-  metrics
+  metrics,
+  showGraph
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -140,6 +142,10 @@ export function getLinkToAnalyze({
 
     if (timeConfig) {
       setTimeConfig(params, timeConfig);
+    }
+
+    if (showGraph) {
+      setOrDeleteMatrixKey(params, analyze, `groups.${showGraphMatrixParameter}`, showGraph);
     }
   });
 }

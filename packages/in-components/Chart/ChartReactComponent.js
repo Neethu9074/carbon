@@ -3,8 +3,8 @@ import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
+import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import Tooltip from 'in-components/Chart/components/Tooltip';
 import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend';
 import { getSetting$ } from 'in-services/settings';
@@ -74,7 +74,7 @@ const ChartReactWrapper = compose(
             <Fragment>
               {chart &&
                 width && (
-                  <Tooltip
+                  <ChartOverlay
                     width={width}
                     timeConfig={timeConfig}
                     chart={chart}

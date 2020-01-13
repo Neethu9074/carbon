@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .overlay {
+    position: absolute;
+    top: 22px;
+    bottom: 30px;
+    left: 60px;
+    right: 0;
+
+    // above remaining chart content
+    z-index: 1;
+
+    font-size: 0.875rem;
+  }
+
+  .hasY2Axis {
+    right: 60px;
+  }
+
+  .glassPane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
