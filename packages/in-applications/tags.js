@@ -44,6 +44,7 @@ export const customServiceMappingTagKeys = [
   'kubernetes.namespace',
   'kubernetes.label',
   'kubernetes.pod.label',
+  'kubernetes.service.name',
   'lxc.name',
   'marathon.app.id',
   'nodejs.app.name',
