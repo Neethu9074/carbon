@@ -22,12 +22,14 @@
   "RUNS_IN": "Runs in",
   "RUNS_ON": "Runs on",
   "RUNS_WITHIN": "Runs within",
-  "SERVES_WITHIN": "Serves within",
   "SCHEDULED": "Scheduled",
   "SCHEDULED_BY": "Scheduled by",
   "SCHEDULED_WITHIN": "Scheduled within",
   "SCHEDULES": "Schedules",
   "SCHEDULING_IN": "Scheduling in",
   "SCHEDULING_ON": "Scheduling on",
+  "SERVED_THROUGH": "Served through",
+  "SERVES": "Serves",
+  "SERVES_WITHIN": "Serves within",
   "WITHIN": "Within"
 }
