@@ -38,6 +38,7 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         agentEndpoint={config.agentEndpoint}
+        agentEndpointPort={config.agentEndpointPort}
         butlerDomain={config.butlerDomain}
         trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
