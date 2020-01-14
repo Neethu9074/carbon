@@ -38,4 +38,4 @@
 
   prevScriptTag = doc.getElementsByTagName(scriptTagName)[0];
   prevScriptTag.parentNode.insertBefore(scriptTag, prevScriptTag);
-})(window, document, 'script', '//eum.instana.io/eum.min.js', 'InstanaEumObject', 'ineum');
+})(window, document, 'script', 'https://eum.instana.io/eum.min.js', 'InstanaEumObject', 'ineum');

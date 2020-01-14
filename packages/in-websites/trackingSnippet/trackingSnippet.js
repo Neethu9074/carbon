@@ -26,7 +26,7 @@ export function getTrackingSnippet({ key, additionalScript = null }) {
       `  ineum('reportingUrl', '<trackingBaseUrl>');`
     );
   } else {
-    lines.push(`  "//eum.instana.io/eum.min.js","InstanaEumObject","ineum");`);
+    lines.push(`  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");`);
 
     if (region) {
       lines.push(`  ineum('reportingUrl', 'https://eum-${region}.instana.io');`);

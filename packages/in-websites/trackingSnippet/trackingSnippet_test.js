@@ -28,7 +28,7 @@ describe('in-websites/trackingSnippet', () => {
   b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
   a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
   d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "//eum.instana.io/eum.min.js","InstanaEumObject","ineum");
+  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");
   ineum('key', '123');
 </script>
 `.trim()
@@ -44,7 +44,7 @@ describe('in-websites/trackingSnippet', () => {
   b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
   a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
   d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "//eum.instana.io/eum.min.js","InstanaEumObject","ineum");
+  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");
   ineum('key', '123');
   ineum(true);
   ineum(false);
