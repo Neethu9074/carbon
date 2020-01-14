@@ -27,5 +27,6 @@ module.exports = {
   googleAnalyticsDisabled: false,
   vsphereEnabled: true,
   profilingEnabled: true,
-  mobileAppMonitoringEnabled: true
+  mobileAppMonitoringEnabled: true,
+  apDashboardEventsEnabled: false
 };

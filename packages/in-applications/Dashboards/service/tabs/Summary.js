@@ -1,13 +1,15 @@
 import React from 'react';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
-import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary(props) {
@@ -104,28 +106,47 @@ export default function Summary(props) {
         </Col>
       </Row>
 
-      <Row>
-        <Col lg={4}>
-          <EndpointTopList
-            applicationId={applicationId}
-            serviceId={serviceId}
-            boundaryScope={boundaryScope}
-            timeConfig={timeConfig}
-          />
-        </Col>
-        <Col lg={4}>
-          <TraceTopList
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            applicationBoundaryScope={boundaryScope}
-            timeConfig={timeConfig}
-          />
-        </Col>
-        <Col lg={4}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-        </Col>
-      </Row>
+      {apDashboardEventsEnabled ? (
+        <Row>
+          <Col lg={4}>
+            <IssuesAndEvents applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <EndpointTopList
+              applicationId={applicationId}
+              serviceId={serviceId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+          <Col lg={4}>
+            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col lg={4}>
+            <EndpointTopList
+              applicationId={applicationId}
+              serviceId={serviceId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+          <Col lg={4}>
+            <TraceTopList
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              applicationBoundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+          <Col lg={4}>
+            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          </Col>
+        </Row>
+      )}
     </>
   );
 }

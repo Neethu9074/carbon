@@ -3,12 +3,14 @@ import React, { Fragment } from 'react';
 import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -126,22 +128,41 @@ export default function Summary({
           />
         </Col>
       </Row>
-      <Row>
-        <Col lg={4}>
-          <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />
-        </Col>
-        <Col lg={4}>
-          <TraceTopList applicationId={applicationId} timeConfig={timeConfig} />
-        </Col>
-        <Col lg={4}>
-          <TechnologyBreakdown
-            applicationId={applicationId}
-            serviceId={serviceId}
-            boundaryScope={boundaryScope}
-            timeConfig={timeConfig}
-          />
-        </Col>
-      </Row>
+      {apDashboardEventsEnabled ? (
+        <Row>
+          <Col lg={4}>
+            <IssuesAndEvents applicationId={applicationId} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <TechnologyBreakdown
+              applicationId={applicationId}
+              serviceId={serviceId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col lg={4}>
+            <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <TraceTopList applicationId={applicationId} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <TechnologyBreakdown
+              applicationId={applicationId}
+              serviceId={serviceId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+        </Row>
+      )}
     </Fragment>
   );
 }

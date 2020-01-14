@@ -2,12 +2,14 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
@@ -107,14 +109,25 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
       {!includeSyntheticCalls && (
         <Fragment>
           <Row>
-            <Col lg={6}>
-              <TraceTopList
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                timeConfig={timeConfig}
-              />
-            </Col>
+            {apDashboardEventsEnabled ? (
+              <Col lg={6}>
+                <IssuesAndEvents
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  endpointId={endpointId}
+                  timeConfig={timeConfig}
+                />
+              </Col>
+            ) : (
+              <Col lg={6}>
+                <TraceTopList
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  endpointId={endpointId}
+                  timeConfig={timeConfig}
+                />
+              </Col>
+            )}
             <Col lg={6}>
               <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
             </Col>

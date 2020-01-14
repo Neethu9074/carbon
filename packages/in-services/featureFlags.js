@@ -46,6 +46,7 @@ export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisa
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
+export const apDashboardEventsEnabled = isInstanaEngineer || isFeatureFlagEnabled('apDashboardEventsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

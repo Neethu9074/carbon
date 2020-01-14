@@ -149,5 +149,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.profiling.enabled',
     consulKey: `settings/${tenant}-${unit}/PROFILING_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'apDashboardEventsEnabled',
+    instanaCtlKey: 'feature.ap.dashboard.events.enabled',
+    consulKey: `settings/${tenant}-${unit}/AP_DASHBOARD_EVENTS_ENABLED`,
+    defaultValue: false
   }
 ];
