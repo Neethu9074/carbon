@@ -36,6 +36,10 @@ const parameters = [
   {
     key: 'region',
     label: 'Region'
+  },
+  {
+    key: 'alias',
+    label: 'Alias'
   }
 ];
 
@@ -51,6 +55,7 @@ export default {
     alertChannel.apiKey = '';
     alertChannel.tags = '';
     alertChannel.region = '';
+    alertChannel.alias = '';
   },
 
   createDetails(alertChannel) {
@@ -59,6 +64,7 @@ export default {
         <DescriptionItem title="Api Key">{alertChannel.get('apiKey')}</DescriptionItem>
         <DescriptionItem title="Tags">{alertChannel.get('tags')}</DescriptionItem>
         <DescriptionItem title="Region">{alertChannel.get('region')}</DescriptionItem>
+        <DescriptionItem title="Alias">{alertChannel.get('alias')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -98,6 +104,12 @@ export default {
           value: alertChannel ? alertChannel.get('region') : '',
           validator: notBlankValidator
         })
+      )
+      .put(
+        'alias',
+        createField({
+          value: alertChannel ? alertChannel.get('alias') : ''
+        })
       );
   },
 
@@ -108,7 +120,8 @@ export default {
       name: form.get('name').value,
       apiKey: form.get('apiKey').value,
       tags: form.get('tags').value,
-      region: form.get('region').value
+      region: form.get('region').value,
+      alias: form.get('alias').value
     };
   },
 
@@ -186,6 +199,23 @@ function Form({ form, onChange }) {
             <option value="US">US</option>
             <option value="EU">EU</option>
           </Select>
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('alias').map(field => (
+        <FormGroup>
+          <Label htmlFor="alias" hasError={!field.valid && field.touched}>
+            Alias
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="alias"
+            type="text"
+            placeholder="Alias"
+            value={field.value}
+            onChange={e => onChange('alias', e.target.value)}
+          />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}

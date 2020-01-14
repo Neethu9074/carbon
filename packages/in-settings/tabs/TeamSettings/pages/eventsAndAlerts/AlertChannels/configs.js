@@ -7,6 +7,7 @@ import webhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndA
 import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
+import prometheusWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/prometheusWebhookChannelConfig';
 
 export const configs = {
   email: emailChannelConfig,
@@ -17,7 +18,8 @@ export const configs = {
   webhook: webhookChannelConfig,
   splunk: splunkChannelConfig,
   googleChat: googleChatChannelConfig,
-  victorOps: victorOpsChannelConfig
+  victorOps: victorOpsChannelConfig,
+  prometheusWebhook: prometheusWebhookChannelConfig
 };
 
 export const fullyQualified = {};
@@ -30,5 +32,6 @@ fullyQualified[configs.webhook.name] = configs.webhook;
 fullyQualified[configs.splunk.name] = configs.splunk;
 fullyQualified[configs.googleChat.name] = configs.googleChat;
 fullyQualified[configs.victorOps.name] = configs.victorOps;
+fullyQualified[configs.prometheusWebhook.name] = configs.prometheusWebhook;
 
 export default configs;

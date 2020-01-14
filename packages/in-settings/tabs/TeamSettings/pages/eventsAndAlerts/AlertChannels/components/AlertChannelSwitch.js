@@ -24,6 +24,9 @@ export default function AlertChannelSwitch({ onClick, selectedType }) {
         <AlertChannelButton type="googleChat" selectedType={selectedType} onClick={onClick} />
         <AlertChannelButton type="victorOps" selectedType={selectedType} onClick={onClick} />
       </Row>
+      <Row>
+        <AlertChannelButton type="prometheusWebhook" selectedType={selectedType} onClick={onClick} />
+      </Row>
     </div>
   );
 }
