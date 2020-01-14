@@ -36,7 +36,6 @@ module.exports = {
           'transform-exponentiation-operator',
           'transform-async-to-generator',
           'proposal-async-generator-functions',
-          'proposal-object-rest-spread',
           'proposal-unicode-property-regex',
           'proposal-optional-catch-binding',
           'transform-named-capturing-groups-regex'
