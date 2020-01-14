@@ -1,0 +1,59 @@
+version: 0.2
+
+env:
+  variables:
+    CODEBUILD_PROJECT_NAME: "ui-client"
+    VERSIONING_ARTIFACT_NAME: "ui-client"
+  parameter-store:
+    EFS_DATA_DIR: "efs.data.dir"
+    EFS_DNS: "efs.data.dns"
+    GITHUB_READ_USER: "github.read.user"
+    GITHUB_READ_PASSWORD: "github.read.password"
+    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
+    CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
+    ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
+    ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      # Set up the correct Node.js version
+      - n `cat .nvmrc`
+      # git configuration to check out git submodules
+      - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
+      - git config --global credential.helper store
+      # download git submodules so that our shared CI tools are available
+      - git submodule update --init --recursive
+      # Set up the shared tooling
+      - ./build/ci-shared-tools/scripts/setup.bash
+      - ./build/ci-shared-tools/scripts/codebuild/setup.bash
+      # Define the standard build env vars
+      - export GIT_COMMIT="$(./build/ci-shared-tools/scripts/git/getCommitId.js)"
+      - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
+      - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
+      - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
+      - export INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)"
+      # Alias the value for the Node.js build process
+      - export COM_INSTANA_IMAGE_TAG="$INSTANA_CONTAINER_TAG"
+  pre_build:
+    commands:
+      # Install project dependencies
+      - npm install -g yarn
+      - yarn
+  build:
+    commands:
+      # Test
+      - yarn run test
+      # Build static files
+      - yarn run build
+      # Verify that CSS files are compressed in build artifacts
+      - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || yarn run test:compression'
+      # Build Docker image
+      - j2 ./deployment/Dockerfile.j2 > Dockerfile
+      - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/docker/containerBuild.js ui-client $GIT_BRANCH $INSTANA_CONTAINER_TAG'
+      # Upload artifacts to Maven repository
+      - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/uploadReleaseArtifact.bash "ui-client-$GIT_BRANCH-$INSTANA_CONTAINER_TAG.tar.gz" "target/*" "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
+      # Mark as stable in Instana's own versioning system
+      - './build/ci-shared-tools/scripts/markStableVersion.bash "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'

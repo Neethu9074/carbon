@@ -44,66 +44,28 @@ stage('Checkout') {
   }
 }
 
-stage('Unit Test') {
-  node {
-    try {
-      runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
-    } catch (e) {
-      setBuildStatus('Unit test failure', 'FAILURE')
-      slackNotification('Unit test failure', 'ui-client', gitCommitId, 'FAILURE')
-      throw e
-    }
-  }
-}
-
-stage('Linting') {
-  node {
-    try {
-      runNodeBuild(gitCommitId, 'yarn && yarn run test:lint')
-    } catch (e) {
-      setBuildStatus('Linting failure', 'FAILURE')
-      slackNotification('Linting failure', 'ui-client', gitCommitId, 'FAILURE')
-      throw e
-    }
-  }
-}
-
 stage('Build') {
   node {
     try {
-      runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
+      awsCodeBuild credentialsType: 'jenkins',
+        credentialsId: 'codebuild',
+        projectName:
+        'ui-client',
+        region: 'us-west-2',
+        sourceControlType: 'project',
+        sourceVersion: gitCommitId,
+        envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '} ]'
+
+      if ( currentBuild.currentResult == 'SUCCESS' ) {
+        slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
+        setBuildStatus('Build successful', 'SUCCESS')
+      }
     } catch (e) {
-      setBuildStatus('Build failure', 'FAILURE')
-      slackNotification('Build failure', 'ui-client', gitCommitId, 'FAILURE')
+      setBuildStatus('Build Failure', 'FAILURE')
+      slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
       throw e
     }
-
-    if ( currentBuild.currentResult == 'SUCCESS' ) {
-      if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-        runNodeScriptInCurrentWorkDir('yarn run test:compression')
-      }
-      if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-        uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
-      }
-      markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
-      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
-      slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
-      setBuildStatus('Build successful', 'SUCCESS')
-    }
   }
-}
-
-stage ('Container Build') {
-  if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-    containerBuild {
-      component    = 'ui-client'
-      commitId     = gitCommitId
-      commitAuthor = gitCommitAuthor
-      version      = instanaVersion
-    }
-  }
-
-  slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
 stage('Deployment') {
@@ -146,7 +108,7 @@ stage('Deployment') {
 }
 
 stage('Storybook build') {
-  if (env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH_NAME == 'develop') {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run storybookBuild')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
@@ -158,7 +120,7 @@ stage('Storybook build') {
 }
 
 stage('Deploy Storybook to S3') {
-  if (env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH_NAME == 'develop') {
     node {
       sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
     }
