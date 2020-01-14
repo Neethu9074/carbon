@@ -8,6 +8,7 @@ const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
+const agentEndpoint = require('../services/agentEndpoint');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
@@ -39,10 +40,10 @@ router.get('/waiting', (req, res) => {
         tenantUnit: req.unit,
         agentKey: req.query.agentkey,
         tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
-        agentEndpoint: serverConfig.clientConfig.agentEndpoint,
-        agentEndpointPort: serverConfig.clientConfig.agentEndpointPort,
         region: serverConfig.clientConfig.region,
-        butlerDomain: serverConfig.clientConfig.butlerDomain
+        butlerDomain: serverConfig.clientConfig.butlerDomain,
+        agentEndpoint: agentEndpoint.resolveAgentEndpoint(req.tenant, req.unit),
+        agentEndpointPort: agentEndpoint.resolveAgentEndpointPort()
       }),
       mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,

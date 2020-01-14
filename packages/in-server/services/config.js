@@ -1,5 +1,6 @@
 const { activeResolver } = require('./resolvers/index');
 const serverConfig = require('../serverConfig.js');
+const agentEndpoint = require('./agentEndpoint');
 
 exports.getBaseUrl = activeResolver.getBaseUrl;
 exports.getUiBackendBaseUrl = activeResolver.getUiBackendBaseUrl;
@@ -11,8 +12,8 @@ exports.getClientConfig = (tenant, unit) => {
     activeResolver.getConfiguration(tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration]) => ({
     butlerDomain,
-    agentEndpoint: resolveAgentEndpoint(serverConfig.clientConfig, tenant, unit),
-    agentEndpointPort: resolveAgentEndpointPort(serverConfig.clientConfig),
+    agentEndpoint: agentEndpoint.resolveAgentEndpoint(tenant, unit),
+    agentEndpointPort: agentEndpoint.resolveAgentEndpointPort(),
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     tenant: tenant,
@@ -22,22 +23,3 @@ exports.getClientConfig = (tenant, unit) => {
     zendeskKey: serverConfig.zendeskKey
   }));
 };
-
-function resolveAgentEndpoint(clientConfig, tenant, unit) {
-  // can be used for onprem and fullstack environments, GC and maybe others in the future
-  if (clientConfig.agentEndpoint) {
-    return clientConfig.agentEndpoint.replace('$TENANT', tenant).replace('$UNIT', unit);
-  }
-  // saas
-  if (clientConfig.region) {
-    return `saas-${clientConfig.region}.instana.io`;
-  }
-}
-
-function resolveAgentEndpointPort(clientConfig) {
-  // can be configured, e.g. for onprem
-  if (clientConfig.agentEndpointPort) {
-    return clientConfig.agentEndpointPort;
-  }
-  return '443';
-}
