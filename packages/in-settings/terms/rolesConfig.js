@@ -1,9 +1,12 @@
 export const roles = Object.freeze([
-  { value: 'developer', label: 'Developer' },
-  { value: 'devOps', label: 'DevOps' },
-  { value: 'siteReliability', label: 'Site Reliability' },
-  { value: 'sysadmin', label: 'Sysadmin' },
+  { value: 'frontendDeveloper', label: 'Frontend Developer' },
+  { value: 'backendDeveloper', label: 'Backend Developer' },
+  { value: 'businessManager', label: 'Business Manager' },
+  { value: 'devOps', label: 'DevOps Engineer' },
+  { value: 'siteReliability', label: 'Site Reliability Engineer' },
+  { value: 'productManager', label: 'Product Manager' },
+  { value: 'itOperations', label: 'IT Operations' },
+  { value: 'itDecisionMaker', label: 'IT Decision Maker' },
   { value: 'support', label: 'Support' },
-  { value: 'nonTechnical', label: 'Non-technical' },
-  { value: 'other', label: 'Another role not listed' }
+  { value: 'other', label: 'Prefer not to say' }
 ]);
