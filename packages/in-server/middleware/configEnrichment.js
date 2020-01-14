@@ -56,7 +56,11 @@ function handleUiBackendNotFound(tenant, unit, req, res) {
       } else if (info.hasLicense) {
         errorPages.sendMaintenance(req, res);
       } else {
-        console.log(`Received request for tenant %s / unit %s without an active license (and no running ui-backend).`, tenant, unit);
+        console.log(
+          `Received request for tenant %s / unit %s without an active license (and no running ui-backend).`,
+          tenant,
+          unit
+        );
         errorPages.send404(req, res);
       }
     },
