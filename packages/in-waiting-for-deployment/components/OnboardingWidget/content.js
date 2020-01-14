@@ -220,7 +220,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
   ];
 }
 
-function AwsSensorContent({ agentKey, agentEndpoint }) {
+function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <HelpBox>
@@ -240,7 +240,7 @@ function AwsSensorContent({ agentKey, agentEndpoint }) {
         lines={[
           'curl -o setup_agent.sh https://setup.instana.io/agent',
           'chmod 700 ./setup_agent.sh',
-          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:443 -s`
+          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
         ]}
       />
       <Spacer />
@@ -524,13 +524,13 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function ElasticComputingLinuxContent({ agentKey, agentEndpoint }) {
+function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:443 -s -y`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
         ]}
       />
       <Spacer />
@@ -545,7 +545,7 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function DockerContent({ agentKey, agentEndpoint }) {
+function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -566,7 +566,7 @@ function DockerContent({ agentKey, agentEndpoint }) {
           '--pid=host \\',
           '--ipc=host \\',
           `--env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
-          '--env="INSTANA_AGENT_ENDPOINT_PORT=443" \\',
+          `--env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
           `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
           `--env="INSTANA_AGENT_ZONE='${zoneName}'" \\`,
           'instana/agent'
@@ -576,7 +576,7 @@ function DockerContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function OneLinerContent({ agentKey, agentEndpoint }) {
+function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   const jvmModeOptions = ['Dynamic agent with Zulu JVM', 'Static agent with Zulu JVM'];
   const [jvmMode, setMode] = useState(jvmModeOptions[0]);
 
@@ -600,7 +600,9 @@ function OneLinerContent({ agentKey, agentEndpoint }) {
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
             jvmMode === jvmModeOptions[0] ? 'dynamic' : 'static'
-          } -e ${agentEndpoint}:443 ${installMode === installModeOptions[0] ? '' : '-y'} ${isService ? '-s' : ''}`
+          } -e ${agentEndpoint}:${agentEndpointPort} ${installMode === installModeOptions[0] ? '' : '-y'} ${
+            isService ? '-s' : ''
+          }`
         ]}
       />
       <Spacer />
@@ -620,13 +622,13 @@ function OneLinerContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function GoogleComputeEngineContent({ agentKey, agentEndpoint }) {
+function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:443 -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
         ]}
       />
       <Spacer />
@@ -641,7 +643,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint }) {
+function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
@@ -663,7 +665,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint }) {
         </Col>
         <Col xs={4}>
           <Description lines={['Instana Service port']} />
-          <Script lines={[`443`]} />
+          <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
           <Description lines={['Instana Application Key']} />
@@ -682,7 +684,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function K8sHelmChartContent({ agentKey, agentEndpoint }) {
+function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -706,7 +708,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint }) {
               'helm install --name instana-agent --namespace instana-agent \\',
               `--set agent.key=${agentKey} \\`,
               `--set agent.endpointHost=${agentEndpoint} \\`,
-              '--set agent.endpointPort=443 \\',
+              `--set agent.endpointPort=${agentEndpointPort} \\`,
               `--set cluster.name='${clusterName}' \\`,
               `--set zone.name='${zoneName}' \\`,
               'stable/instana-agent'
@@ -844,7 +846,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
   );
 }
 
-function PcfContent({ agentKey, agentEndpoint }) {
+function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
@@ -871,7 +873,7 @@ function PcfContent({ agentKey, agentEndpoint }) {
         </Col>
         <Col xs={4}>
           <Description lines={['Endpoint port']} />
-          <Script lines={[`443`]} />
+          <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
           <Description lines={['Agent key']} />
@@ -1046,7 +1048,7 @@ function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   );
 }
 
-function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName) {
+function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName) {
   return (
     'apiVersion: v1\n' +
     'kind: Namespace\n' +
@@ -1107,7 +1109,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)
     '            - name: INSTANA_AGENT_ENDPOINT\n' +
     `              value: ${agentEndpoint}\n` +
     '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
-    '              value: "443"\n' +
+    `              value: ${agentEndpointPort}\n` +
     '            - name: INSTANA_AGENT_KEY\n' +
     '              valueFrom:\n' +
     '                secretKeyRef:\n' +

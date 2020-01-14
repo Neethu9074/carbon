@@ -11,7 +11,8 @@ exports.getClientConfig = (tenant, unit) => {
     activeResolver.getConfiguration(tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration]) => ({
     butlerDomain,
-    agentEndpoint: resolveAgentEndpoint(serverConfig.clientConfig),
+    agentEndpoint: resolveAgentEndpoint(serverConfig.clientConfig, tenant, unit),
+    agentEndpointPort: resolveAgentEndpointPort(serverConfig.clientConfig),
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     tenant: tenant,
@@ -31,4 +32,12 @@ function resolveAgentEndpoint(clientConfig, tenant, unit) {
   if (clientConfig.region) {
     return `saas-${clientConfig.region}.instana.io`;
   }
+}
+
+function resolveAgentEndpointPort(clientConfig) {
+  // can be configured, e.g. for onprem
+  if (clientConfig.agentEndpointPort) {
+    return clientConfig.agentEndpointPort;
+  }
+  return '443';
 }

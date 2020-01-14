@@ -34,6 +34,7 @@ function App({ apiCallSatisfied }) {
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         agentEndpoint={config.agentEndpoint}
+        agentEndpointPort={config.agentEndpointPort}
         butlerDomain={config.butlerDomain}
         trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
