@@ -75,14 +75,14 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, urlBoundaryScope, data: application }) {
   return (
     <>
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        boundaryScope={boundaryScope}
+        boundaryScope={urlBoundaryScope || application.boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
       />
