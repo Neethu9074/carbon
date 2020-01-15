@@ -1,6 +1,5 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { boundaryScopes } from 'in-applications/constants';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
@@ -95,12 +94,6 @@ function mapFromServerResponse(config) {
         matchSpecification.secondLevelName = secondLevelName;
       }
       matchSpecification.key = name;
-    }
-    // rel-169: this is needed only temporarily for compatibility with previous ui-backend release
-    if (typeof matchSpecification.entity === 'undefined') {
-      matchSpecification.entity = matchSpecification.key.startsWith('call.')
-        ? entityTypes.NOT_APPLICABLE
-        : entityTypes.DESTINATION;
     }
   }
   config.data.boundaryScope =
