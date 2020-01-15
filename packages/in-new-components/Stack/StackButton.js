@@ -7,8 +7,6 @@ import Button from 'in-new-components/Button';
 import Stack from 'in-new-components/Stack';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './StackButton.mless';
-
 export default connectTo(
   {
     isInternalVisible: isInternalVisible$
@@ -28,9 +26,10 @@ export default connectTo(
               onTabSelect={onTabSelect}
             />
           )}
+          withoutWrapper
         >
-          {({ toggle }) => (
-            <Button className={locals.button} kind="info" icon="lib_context_guide_stack" onClick={toggle}>
+          {({ toggle, refSetter }) => (
+            <Button kind="info" icon="lib_context_guide_stack" onClick={toggle} refSetter={refSetter}>
               Stack
             </Button>
           )}

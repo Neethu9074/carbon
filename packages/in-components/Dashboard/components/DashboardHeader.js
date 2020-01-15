@@ -5,7 +5,6 @@ import AnalyzeProfilesButton from 'in-components/Dashboard/components/AnalyzePro
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
 import EntityVersionButton from 'in-components/Dashboard/components/EntityVersionButton';
 import { getShowZoneInSidebarHeader, getDashboardHeaderActions } from 'in-sdk/snapshot';
-import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
@@ -14,34 +13,28 @@ import StackButton from 'in-new-components/Stack/StackButton';
 import { profilingEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
 
-export default connectTo(
-  {
-    closeDashboardLink: getCloseDashboardLink()
-  },
-  function DashboardHeader(props) {
-    const { snapshot, title, snapshotId } = props;
-    return (
-      <>
-        <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
-        <div className={locals.dashboardHeader}>
-          <DashboardHeaderComponent
-            {...props}
-            title={title}
-            snapshot={snapshot}
-            renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="l" />}
-            label={snapshot.get('label')}
-            renderButtonLine={renderButtonLine}
-            renderMetaInformation={renderMetaInformation}
-          />
-        </div>
-      </>
-    );
-  }
-);
+export default function DashboardHeader(props) {
+  const { snapshot, title, snapshotId } = props;
+  return (
+    <>
+      <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
+      <div className={locals.dashboardHeader}>
+        <DashboardHeaderComponent
+          {...props}
+          title={title}
+          snapshot={snapshot}
+          renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="l" />}
+          label={snapshot.get('label')}
+          renderButtonLine={renderButtonLine}
+          renderMetaInformation={renderMetaInformation}
+        />
+      </div>
+    </>
+  );
+}
 
 function renderButtonLine({ snapshot, timeConfig }) {
   return (

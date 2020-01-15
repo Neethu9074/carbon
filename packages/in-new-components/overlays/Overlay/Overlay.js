@@ -16,7 +16,9 @@ import { emptyObject } from 'in-services/fixedObjects';
 export default class Overlay extends React.Component {
   state = {
     isOpen: false,
-    id: generateUniqueShortId()
+    id: generateUniqueShortId(),
+    wrapper: null,
+    parentOverlay: null
   };
 
   toggle = () => this.setOpen(!this.state.isOpen);
@@ -55,10 +57,10 @@ export default class Overlay extends React.Component {
   delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
 
   refSetter = r => {
-    this.wrapper = r;
+    this.setState({ wrapper: r });
     const parentOverlayDomNode = identifyOverlay(r);
     if (parentOverlayDomNode) {
-      this.parentOverlay = parentOverlayDomNode.dataset.overlayId;
+      this.setState({ parentOverlay: parentOverlayDomNode.dataset.overlayId });
     }
   };
 
@@ -126,7 +128,7 @@ export default class Overlay extends React.Component {
     return (
       <Fragment>
         {isOpen &&
-          this.wrapper && (
+          this.state.wrapper && (
             <OverlayMounter
               id={id}
               content={OverlayContent}
@@ -134,8 +136,8 @@ export default class Overlay extends React.Component {
                 ...props,
                 close: this.close
               }}
-              relativeTo={this.wrapper}
-              parentOverlay={this.parentOverlay}
+              relativeTo={this.state.wrapper}
+              parentOverlay={this.state.parentOverlay}
               kind={kind}
               close={this.close}
               delayedOpen={this.delayedOpen}
