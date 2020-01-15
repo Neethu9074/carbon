@@ -19,10 +19,13 @@ export default function User({ beacon, beacons }) {
       .filter(isNotBlank)
   );
 
+  const firstBeaconIsMissingUserData =
+    first && (isBlank(beacon.userId) || isBlank(beacon.userName) || isBlank(beacon.userEmail));
+
   if (!first) {
     first = (
       <div className={locals.noUserData}>
-        No user data defined
+        No user data defined&nbsp;
         <Button
           href="https://docs.instana.io/products/website_monitoring/api/#identifying-users"
           kind="primaryv2"
@@ -34,8 +37,6 @@ export default function User({ beacon, beacons }) {
       </div>
     );
   }
-
-  const firstBeaconIsMissingUserData = isBlank(beacon.userId) || isBlank(beacon.userName) || isBlank(beacon.userEmail);
 
   return (
     <div className={locals.user}>
