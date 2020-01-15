@@ -12,6 +12,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};
   if (applicationId) {
     observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
+    observables.applicationBoundaryScope = getApplication({ id: applicationId }).map(getBoundaryScope);
   }
   if (serviceId) {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
@@ -22,6 +23,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   return observables;
 })(function AnalyzeCallsButton({
   applicationLabel,
+  applicationBoundaryScope,
   serviceLabel,
   endpointLabel,
   boundaryScope,
@@ -37,7 +39,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointLabel,
-        boundaryScope,
+        boundaryScope: boundaryScope || applicationBoundaryScope,
         dataSource: 'calls',
         filters: isSynthetic
           ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
@@ -52,4 +54,8 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
 
 function getLabel(result) {
   return get(result, ['data', 'label'], null);
+}
+
+function getBoundaryScope(result) {
+  return get(result, ['data', 'boundaryScope'], null);
 }
