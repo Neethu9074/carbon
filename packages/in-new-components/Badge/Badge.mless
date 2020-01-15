@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .badge {
+    font-size: @lib__typography__body-small__font-size;
+    border-radius: @lib__typography__body-small__font-size;
+    padding: 0.0625rem 0.3125rem;
+  }
+
+  .bold {
+    background: @lib__colors__primary1;
+    color: @lib__colors__white;
+  }
+
+  .light {
+    color: @lib__colors__N900Primary;
+    background: @lib__colors__N300;
+    font-weight: 600;
+  }
+
+  .inverted {
+    background: @lib__colors__white;
+  }
+}
