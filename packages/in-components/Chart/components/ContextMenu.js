@@ -88,13 +88,16 @@ export default connectTo(
                   icon={buttonConfig.icon}
                   href$={
                     buttonConfig.getHref$
-                      ? buttonConfig.getHref$(getHighlightedTimeConfig(highlightedTimeframe, originalTimeConfig))
+                      ? buttonConfig.getHref$(
+                          getHighlightedTimeConfig(highlightedTimeframe, originalTimeConfig),
+                          this.getStrippedConfig()
+                        )
                       : undefined
                   }
                   onClick={() => {
                     this.closeContextMenu();
                     if (buttonConfig.onClick) {
-                      buttonConfig.onClick();
+                      buttonConfig.onClick(this.getStrippedConfig());
                     }
                   }}
                 >
@@ -180,6 +183,17 @@ export default connectTo(
         a.click();
       };
 
+      getStrippedConfig = () => {
+        const config = this.props.chart.config;
+        return {
+          renderedMetrics: [
+            ...getNonFilteredMetricsForaxis(config.y1, config.filteredDataSeries),
+            ...getNonFilteredMetricsForaxis(config.y2, config.filteredDataSeries)
+          ]
+          // add more properties, depending on the use case
+        };
+      };
+
       disposeSubscriptions = () => {
         if (this.onContextMenuSubscription) {
           this.onContextMenuSubscription.dispose();
@@ -189,6 +203,17 @@ export default connectTo(
     }
   )
 );
+
+function getNonFilteredMetricsForaxis(axis, filteredDataSeries) {
+  if (!axis) {
+    return [];
+  }
+
+  return axis.labels
+    .filter(label => !filteredDataSeries.has(label))
+    .map(label => axis.labels.indexOf(label))
+    .map(i => axis.metricIds[i]);
+}
 
 function filterOnHighlightedTimeframe(highlightedTimeframe, metrics) {
   if (!highlightedTimeframe) {
