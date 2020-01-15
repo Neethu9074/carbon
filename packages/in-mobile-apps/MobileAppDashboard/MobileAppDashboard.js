@@ -5,6 +5,8 @@ import { get } from 'lodash';
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
+import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
+import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
@@ -119,6 +121,14 @@ function MobileAppDashboard({
 }
 
 function Header(props) {
+  const contextConfigurations = [];
+  if (props.viewId) {
+    contextConfigurations.push({
+      renderContext: renderMobileAppContext,
+      renderContextIcon: MobileAppContextIcon
+    });
+  }
+
   return (
     <>
       <DashboardHeader
@@ -127,6 +137,7 @@ function Header(props) {
         title={props.viewId ? 'View' : 'Mobile App'}
         label={props.viewId || get(props.result, ['data', 'label'])}
         renderButtonLine={renderButtonLine}
+        contextConfigurations={contextConfigurations}
       />
       <DashboardHeaderModule>
         <QuickFilterBar
@@ -138,6 +149,10 @@ function Header(props) {
       </DashboardHeaderModule>
     </>
   );
+}
+
+function renderMobileAppContext(props) {
+  return <MobileAppContext {...props} />;
 }
 
 function renderButtonLine({ tagFilters, mobileAppLabel }) {
