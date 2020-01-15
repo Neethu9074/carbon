@@ -103,7 +103,25 @@ export default {
       }
     },
     {
-      id: 'droppedSpansDueToBackpressure',
+      id: 'droppedSpansDueToHardBackpressure',
+      title: 'Dropped Spans Due To Backpressure (lag hard drop)',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'appdata-processor.droppedSpansDueToHardBackpressure';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
+      id: 'droppedSpansDueToConsistentDropping',
       title: 'Dropped Spans Due To Consistent Dropping',
       type: 'metric',
       typeArgs: {
@@ -179,7 +197,8 @@ export default {
                 `appdata-processor.processedSpans`,
                 `appdata-processor.droppedSpansDueToConfiguration`,
                 `appdata-processor.droppedSpansDueToConsistentDropping`,
-                `appdata-processor.droppedSpansDueToBackpressure`
+                `appdata-processor.droppedSpansDueToBackpressure`,
+                `appdata-processor.droppedSpansDueToHardBackpressure`
               ],
               labels: [
                 'Processed',

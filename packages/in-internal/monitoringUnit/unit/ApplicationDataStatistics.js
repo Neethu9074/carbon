@@ -40,7 +40,8 @@ export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) 
               `appdata-processor.processedSpans`,
               `appdata-processor.droppedSpansDueToConfiguration`,
               `appdata-processor.droppedSpansDueToConsistentDropping`,
-              `appdata-processor.droppedSpansDueToBackpressure`
+              `appdata-processor.droppedSpansDueToBackpressure`,
+              `appdata-processor.droppedSpansDueToHardBackpressure`
             ],
             labels: [
               'Processed',
