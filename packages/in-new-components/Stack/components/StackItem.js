@@ -23,7 +23,7 @@ export default function StackItem({ item: { id, type, label }, area }) {
   const isInfra = area === 'infrastructure';
 
   return (
-    <Li href$={dashboardLink(id, area, type)}>
+    <Li href$={dashboardLink(id, type)}>
       <div className={locals.itemWrapper}>
         <EntityWithTypeAndIcon
           type={type}
