@@ -5,7 +5,6 @@ import { createDurationTracker, init as initMixpanelCore } from 'in-services/tra
 import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
-import { trackUrlPathChanges } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { combineLatest, just } from 'reactive-observables';
 import { defaultWindowSize } from 'in-stores/time/config';
@@ -223,10 +222,6 @@ function initViewTrackers() {
 }
 
 function trackPathChanges() {
-  if (!trackUrlPathChanges) {
-    return;
-  }
-
   let prevPath = null;
   let prevWindowSize = null;
   navigationParameters$.subscribe(location => {

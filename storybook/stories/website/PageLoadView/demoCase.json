@@ -1098,7 +1098,6 @@
       "featureFlag.customEventsInWebsiteMonitoringEnabled": "false",
       "tenant": "instana",
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
-      "featureFlag.trackUrlPathChanges": "true",
       "featureFlag.containerInfoEnabled": "true",
       "unit": "test",
       "featureFlag.ruleDeprecationValidationChecksEnabled": "true",

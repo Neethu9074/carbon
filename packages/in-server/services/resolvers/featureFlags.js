@@ -73,12 +73,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: true
   },
   {
-    uiClientKey: 'trackUrlPathChanges',
-    instanaCtlKey: 'feature.track.url.path.changes',
-    consulKey: `settings/TRACK_URL_PATH_CHANGES`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'samplingIndicatorEnabled',
     instanaCtlKey: 'feature.sampling.indicator.enabled',
     consulKey: `settings/SAMPLING_INDICATOR_ENABLED`,

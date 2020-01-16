@@ -11,7 +11,6 @@ module.exports = {
   customEventsInWebsiteMonitoringEnabled: true,
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
-  trackUrlPathChanges: true,
   internalMonitoringUnit: true,
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
