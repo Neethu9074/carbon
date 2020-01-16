@@ -31,7 +31,6 @@ export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUn
 export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetricAggregationEnabled');
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
-export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');

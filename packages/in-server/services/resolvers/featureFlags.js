@@ -79,12 +79,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'customDashboardsEnabled',
-    instanaCtlKey: 'feature.custom.dashboards.enabled',
-    consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'pcfEnabled',
     instanaCtlKey: 'feature.pcf.enabled',
     consulKey: `settings/${tenant}-${unit}/PCF_ENABLED`,

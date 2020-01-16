@@ -1093,7 +1093,6 @@
       "build.revision": "05c51133dc650466e1c7e7e555487bb4ead51798",
       "featureFlag.maintenanceNotesEnabled": "true",
       "build.date": "2019-07-17T18:41:18.510Z",
-      "featureFlag.customDashboardsEnabled": "true",
       "featureFlag.onPremLicenseInformationEnabled": "false",
       "featureFlag.customEventsInWebsiteMonitoringEnabled": "false",
       "tenant": "instana",

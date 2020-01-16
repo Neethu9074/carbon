@@ -1,13 +1,7 @@
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import {
-  pcfEnabled,
-  customDashboardsEnabled,
-  vsphereEnabled,
-  profilingEnabled,
-  mobileAppMonitoringEnabled
-} from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled, profilingEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
@@ -21,7 +15,6 @@ import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/A
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
-import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import InternalViews from 'promise-loader?global,internal!in-internal';
@@ -62,7 +55,6 @@ export default (
     {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
-    {customDashboardsEnabled && customDashboardRoutes}
     {integrationRoutes}
 
     {profilingEnabled && profilingRoutes}

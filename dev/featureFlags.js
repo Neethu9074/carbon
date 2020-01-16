@@ -15,7 +15,6 @@ module.exports = {
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
-  customDashboardsEnabled: true,
   pcfEnabled: true,
   coralogixEnabled: true,
   websiteUserBreakdownEnabled: true,
