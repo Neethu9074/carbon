@@ -78,13 +78,13 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
-              metrics: ['pendingMessageCount'],
+              metrics: ['pendingMessagesCount'],
               labels: ['Count'],
               type: 'line'
             }}
             y2={{
               formatter: bytesTwoDecimalPlaces,
-              metrics: ['pendingMessageSize'],
+              metrics: ['pendingMessagesSize'],
               labels: ['Size'],
               type: 'line'
             }}
