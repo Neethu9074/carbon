@@ -159,7 +159,6 @@ export function noRightHeader() {
 
 function createFilters(hiddenIds) {
   const filters = [];
-
   if (hiddenIds) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }

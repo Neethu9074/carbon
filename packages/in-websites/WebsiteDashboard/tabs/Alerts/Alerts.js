@@ -8,6 +8,7 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { alertTab, alertTabFullyQualified } from 'in-websites/navigation/paths';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
@@ -19,6 +20,12 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
 
 import locals from './Alerts.mless';
+
+const useCaseByAlertType = {
+  [alertTypes.specificJsError]: 'JS Errors',
+  [alertTypes.specificStatusCode]: 'HTTP Status Codes',
+  [alertTypes.slowness]: 'Slowness'
+};
 
 function getColumnDefinitions(websiteLabel) {
   return [
@@ -72,8 +79,6 @@ Alerts.propTypes = {
 };
 
 function getNameContent(config) {
-  const alertType = config.rule.alertType;
-
   return (
     <div className={joinClassNames(locals.centered, locals.fullWidth)}>
       <SvgIcon
@@ -89,13 +94,16 @@ function getNameContent(config) {
         <Tooltip themeStyle="light" content={config.description} align="topMiddle">
           <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
-        <div className={locals.nameSubtext}>
-          {alertType === alertTypes.specificJsError && 'Specific JS Error, string pattern'}
-          {alertType === alertTypes.slowness && 'Slowness - onLoad Time'}
-        </div>
+        <div className={locals.nameSubtext}>{getSubtitle(config)}</div>
       </div>
     </div>
   );
+}
+
+function getSubtitle(config) {
+  const alertType = config.rule.alertType;
+  const useCaseTitle = useCaseByAlertType[alertType];
+  return `${useCaseTitle}, ${getMetricLabel(alertType, config.rule.metricName)}`;
 }
 
 function getFiltersContent(config, websiteLabel) {

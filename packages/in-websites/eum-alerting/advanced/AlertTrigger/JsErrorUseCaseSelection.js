@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProvideManualPatternReadOnly from 'in-websites/eum-alerting/components/ProvideManualPatternReadOnly';
+import { fieldNames, getRuleOperatorLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
+
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+import locals from './UseCaseSelection.mless';
 
-import locals from './JsErrorSelection.mless';
-
-export default function JsErrorSelection({
+export default function JsErrorUseCaseSelection({
   form,
   timeConfig,
   onChange,
@@ -41,7 +42,13 @@ export default function JsErrorSelection({
       headerClassName={isReadOnly && locals.cardHeader}
     >
       {isReadOnly ? (
-        <ProvideManualPatternReadOnly form={form} />
+        <SelectedAlertTypeInfo
+          title={`Error Message`}
+          description={`${getRuleOperatorLabel(form.get(fieldNames.ruleOperator).value)}: "${
+            form.get(fieldNames.ruleValue).value
+          }"`}
+          svgIconType="lib_help_error_warning"
+        />
       ) : (
         <ProvideManualPattern
           form={form}
@@ -50,12 +57,12 @@ export default function JsErrorSelection({
           onSelectJsError={setJsErrorsListVisible}
         />
       )}
-      <div className={locals.errorsChart}>{chart}</div>
+      <div className={locals.chartContainer}>{chart}</div>
     </ExpandableCard>
   );
 }
 
-JsErrorSelection.propTypes = {
+JsErrorUseCaseSelection.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   isReadOnly: PropTypes.bool,

@@ -5,10 +5,11 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
+import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { alertTypes } from '../data/alertTypeConfigData';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertTypeDescription.mless';
@@ -26,12 +27,14 @@ export function AlertTypeDescription({ form, config, onChange }) {
         <Button
           className={locals.button}
           onClick={() => {
+            let metricToSelect;
             let updatedForm = form;
 
             if (config.type === alertTypes.specificJsError) {
+              metricToSelect = { name: fieldNames.ruleMetricName, value: 'errors' };
               updatedForm = withJsErrorsFormSpecificError(form);
-            }
-            if (config.type === alertTypes.slowness) {
+            } else if (config.type === alertTypes.slowness) {
+              metricToSelect = { name: fieldNames.ruleMetricName, value: 'onLoadTime' };
               const thresholdType = form.get(fieldNames.thresholdType).value;
 
               if (thresholdType === 'staticThreshold') {
@@ -40,21 +43,13 @@ export function AlertTypeDescription({ form, config, onChange }) {
               if (thresholdType.includes('historicBaseline.')) {
                 updatedForm = withSlownessFormHistoricBaseline(form);
               }
+            } else if (config.type === alertTypes.specificStatusCode) {
+              metricToSelect = { name: fieldNames.ruleMetricName, value: 'httpxxx' };
+              updatedForm = withStatusCodesFormSpecificStatusCode(form);
             }
 
-            // addMetricForOnLoadTime will onle be added this way as long as we have not the secondary menu to select alert types
-            const addMetricForOnLoadTime = { name: fieldNames.ruleMetricName, value: 'onLoadTime' };
-            // addMetricForJsErrors will onle be added this way as long as we have not the secondary menu to select alert types
-            const addMetricForJsErrors = { name: fieldNames.ruleMetricName, value: 'errors' };
-
-            const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-            onChange(
-              updatedForm,
-              fieldNames.ruleAlertType,
-              config.type,
-              config.type === 'slowness' ? addMetricForOnLoadTime : addMetricForJsErrors,
-              doCalculateTresholdOnBackend
-            );
+            const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+            onChange(updatedForm, fieldNames.ruleAlertType, config.type, metricToSelect, doCalculateThresholdOnBackend);
           }}
         >
           Select

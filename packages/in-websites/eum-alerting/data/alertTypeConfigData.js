@@ -1,6 +1,7 @@
 export const alertTypes = {
   specificJsError: 'specificJsError',
-  slowness: 'slowness'
+  slowness: 'slowness',
+  specificStatusCode: 'statusCode'
 };
 
 export const alertTypeConfig = Object.freeze([
@@ -26,5 +27,11 @@ export const alertTypeConfig = Object.freeze([
         <li>Running all scripts that need to run on page load</li>
       <ul>
     `
+  },
+  {
+    type: alertTypes.specificStatusCode,
+    name: 'HTTP Status Codes',
+    headline: 'Specific HTTP Status Codes (Selection)',
+    text: 'Alert on known HTTP Status Codes by selecting one or multiple Status Codes that have been monitored before.'
   }
 ]);

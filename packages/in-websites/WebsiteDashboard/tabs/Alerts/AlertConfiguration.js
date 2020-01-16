@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
+import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/StatusCodeUseCaseSelection';
+import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorUseCaseSelection';
 import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
 import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorSelection';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
@@ -43,7 +44,20 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         <ChartSwitch
           alertType={form.get(fieldNames.ruleAlertType).value}
           JsErrorsComponent={() => (
-            <JsErrorSelection {...props} granularity={granularity} isReadOnly setJsErrorsListVisible={setSliderState} />
+            <JsErrorsUseCaseSelection
+              {...props}
+              granularity={granularity}
+              isReadOnly
+              setJsErrorsListVisible={setSliderState}
+            />
+          )}
+          StatusCodeComponent={() => (
+            <StatusCodeUseCaseSelection
+              {...props}
+              granularity={granularity}
+              isReadOnly
+              setJsErrorsListVisible={setSliderState}
+            />
           )}
           SlownessComponent={() => (
             <ChartContainer headline="onLoad Time (ms)" withBorder={false}>

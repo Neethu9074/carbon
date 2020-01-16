@@ -1,4 +1,4 @@
-import { errorCount } from 'in-websites/eum-alerting/constants';
+import { errorCount, statusCodeCount } from 'in-websites/eum-alerting/constants';
 
 export function getMetricConfiguration(websiteId, aggregation, metric, tagFilters, timeConfig, granularity) {
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
@@ -52,6 +52,32 @@ export function getMetricConfigurationForErrors(
         granularity,
         aggregation,
         numeratorFilter: errorFilter
+      }
+    }
+  });
+}
+
+export function getMetricConfigurationForStatusCode(
+  websiteId,
+  aggregation,
+  metric,
+  stringValue,
+  operator,
+  tagFilters,
+  timeConfig,
+  granularity
+) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  const statusCodeFilter = { name: 'beacon.http.status', operator, stringValue };
+  return Object.freeze({
+    timeConfig,
+    tagFilters: metric === statusCodeCount ? [...tagFiltersWithWebsiteId, statusCodeFilter] : tagFiltersWithWebsiteId,
+    metrics: {
+      threshold: {
+        metric,
+        granularity,
+        aggregation,
+        numeratorFilter: statusCodeFilter
       }
     }
   });

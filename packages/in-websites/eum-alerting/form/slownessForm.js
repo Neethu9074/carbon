@@ -69,5 +69,6 @@ function addFieldsContainedInBoth(form, rule, threshold) {
 function removeCommonFields(updatedForm) {
   updatedForm = updatedForm.remove(fieldNames.ruleOperator);
   updatedForm = updatedForm.remove(fieldNames.ruleValue);
+  updatedForm = updatedForm.remove(fieldNames.ruleValue);
   return updatedForm;
 }

@@ -12,7 +12,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
 
-const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
 
 export default function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (
@@ -26,7 +26,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
             name={fieldNames.ruleOperator}
             value={field.value}
             options={selectOptions[fieldNames.ruleOperator]}
-            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '', doCalculateTresholdOnBackend)}
+            onChange={e => onChange(form, fieldNames.ruleOperator, (e && e.value) || '', doCalculateThresholdOnBackend)}
             defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
             clearable={false}
             searchable
@@ -45,7 +45,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
               rows="3"
               value={field.value}
               onChange={e =>
-                onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', doCalculateTresholdOnBackend)
+                onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', doCalculateThresholdOnBackend)
               }
               hasError={!field.valid && field.touched}
               maxLength={65536}
@@ -59,7 +59,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
                         form={form}
                         timeConfig={timeConfig}
                         onChange={(updatedForm, fieldName, message) =>
-                          onChange(updatedForm, fieldName, message, doCalculateTresholdOnBackend)
+                          onChange(updatedForm, fieldName, message, doCalculateThresholdOnBackend)
                         }
                         slideOut={() => onSelectJsError({ isVisible: false })}
                       />

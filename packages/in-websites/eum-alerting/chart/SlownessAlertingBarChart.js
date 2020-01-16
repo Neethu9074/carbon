@@ -6,7 +6,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
-export default function EumAlertingBarChart({
+export default function SlownessAlertingBarChart({
   websiteId,
   aggregation,
   threshold,
@@ -22,6 +22,7 @@ export default function EumAlertingBarChart({
     <EumAlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
+      isCatalogMetric={true}
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
@@ -69,7 +70,7 @@ export default function EumAlertingBarChart({
   );
 }
 
-EumAlertingBarChart.propTypes = {
+SlownessAlertingBarChart.propTypes = {
   websiteId: PropTypes.string.isRequired,
   aggregation: PropTypes.string.isRequired,
   baseline: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),

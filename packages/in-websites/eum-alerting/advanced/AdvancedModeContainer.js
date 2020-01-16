@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
+import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/StatusCodeUseCaseSelection';
+import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorUseCaseSelection';
 import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
-import JsErrorSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorSelection';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
@@ -64,7 +65,16 @@ export default function AdvancedModeContainer({
             <ChartSwitch
               alertType={form.get(fieldNames.ruleAlertType).value}
               JsErrorsComponent={() => (
-                <JsErrorSelection
+                <JsErrorsUseCaseSelection
+                  form={form}
+                  timeConfig={timeConfig}
+                  onChange={onChange}
+                  setJsErrorsListVisible={setSliderState}
+                  granularity={granularity}
+                />
+              )}
+              StatusCodeComponent={() => (
+                <StatusCodeUseCaseSelection
                   form={form}
                   timeConfig={timeConfig}
                   onChange={onChange}

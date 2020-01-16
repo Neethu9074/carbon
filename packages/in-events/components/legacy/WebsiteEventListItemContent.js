@@ -1,10 +1,11 @@
 import React from 'react';
 
+import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
+import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
@@ -69,8 +70,20 @@ export default connectTo(
                 metricName={metricName}
               />
             )}
+            StatusCodeComponent={() => (
+              <StatusCodeAlertingBarChart
+                websiteId={entityId}
+                threshold={thresholdValue}
+                operator={operator}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
+                granularity={tenMins}
+                metricName={metricName}
+              />
+            )}
             SlownessComponent={() => (
-              <EumAlertingBarChart
+              <SlownessAlertingBarChart
                 websiteId={entityId}
                 thresholdType={getThresholdTypeWithSeasonality(alertConfig.threshold)}
                 threshold={thresholdValue}
@@ -114,6 +127,14 @@ function getWebsiteIdTagFilter(websiteId) {
 function getErrorMessageTagFilter(alertRule) {
   return {
     name: 'beacon.error.message',
+    operator: alertRule.operator,
+    stringValue: alertRule.value
+  };
+}
+
+function getStatusCodeTagFilter(alertRule) {
+  return {
+    name: 'beacon.http.status',
     operator: alertRule.operator,
     stringValue: alertRule.value
   };

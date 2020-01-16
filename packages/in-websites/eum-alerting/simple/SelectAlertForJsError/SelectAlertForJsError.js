@@ -9,7 +9,7 @@ export default function SelectAlertForJsError(props) {
     <div className={locals.container}>
       <h2 className={locals.headline}>Automatic Alert for Specific JS Error(s)</h2>
       <p className={locals.description}>
-        You will be alerted every time specific JS Error messages occur more often than normal.
+        You will be alerted every time matching JS Error messages occur more often than normal.
       </p>
       <ProvideManualPattern {...props} />
     </div>

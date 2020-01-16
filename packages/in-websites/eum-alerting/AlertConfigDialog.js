@@ -91,12 +91,17 @@ function toAlertConfigObject(form) {
         operator: form.get(fieldNames.ruleOperator).value,
         value: form.get(fieldNames.ruleValue).value
       };
-    }
-    if (alertType === alertTypes.slowness) {
+    } else if (alertType === alertTypes.specificStatusCode) {
+      return {
+        operator: form.get(fieldNames.ruleOperator).value,
+        value: form.get(fieldNames.ruleValue).value
+      };
+    } else if (alertType === alertTypes.slowness) {
       return {
         aggregation: form.get(fieldNames.ruleAggregation).value
       };
     }
+    return null;
   }
 
   function enhanceThresholdValuesByThresholdType(form) {

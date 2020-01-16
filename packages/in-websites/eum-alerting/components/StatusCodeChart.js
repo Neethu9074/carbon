@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
+import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { statusCodeCount } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -11,12 +12,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EumChart.mless';
 
-const errorCountMetricName = 'errors';
-
-export default function JsErrorsChart({ form, timeConfig, onChange, granularity }) {
+export default function StatusCodeChart({ form, timeConfig, onChange, granularity }) {
   return (
     <div className={locals.container}>
-      {hasJsErrorSelected(form) ? (
+      {hasStatusCodeSelected(form) ? (
         <>
           {onChange && (
             <div className={locals.controls}>
@@ -25,12 +24,12 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   className={locals.metricSelect}
                   name={fieldNames.ruleMetricName}
                   value={form.get(fieldNames.ruleMetricName).value}
-                  options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificJsError]}
+                  options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificStatusCode]}
                   onChange={e => {
                     const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
                     onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateThresholdOnBackend);
                   }}
-                  defaultValue={errorCountMetricName}
+                  defaultValue={statusCodeCount}
                   clearable={false}
                 />
               </FormGroup>
@@ -56,7 +55,7 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   value={
                     form.get(fieldNames.thresholdValue).value == null ? '' : form.get(fieldNames.thresholdValue).value
                   }
-                  step={form.get(fieldNames.ruleMetricName).value === errorCountMetricName ? 1 : 0.01}
+                  step={form.get(fieldNames.ruleMetricName).value === statusCodeCount ? 1 : 0.01}
                   onChange={e =>
                     onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
                   }
@@ -65,14 +64,14 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
             </div>
           )}
           <div className={locals.placeholder}>
-            <JsErrorsAlertingBarChart
+            <StatusCodeAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
               threshold={form.get(fieldNames.thresholdValue).value || 0}
               operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
-              errorFilter={{
-                name: 'beacon.error.message',
+              numeratorFilter={{
+                name: 'beacon.http.status',
                 operator: form.get(fieldNames.ruleOperator).value,
                 stringValue: form.get(fieldNames.ruleValue).value
               }}
@@ -84,20 +83,20 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
       ) : (
         <div className={locals.message}>
           <SvgIcon type="lib_help_error_error_outline" size="xs" />
-          <span>Please select a JS Error to see when this alert triggers</span>
+          <span>Please select a HTTP Status Code to see when this alert triggers</span>
         </div>
       )}
     </div>
   );
 }
 
-JsErrorsChart.propTypes = {
+StatusCodeChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired
 };
 
-function hasJsErrorSelected(form) {
+function hasStatusCodeSelected(form) {
   return !!(form && form.get(fieldNames.ruleValue).value);
 }

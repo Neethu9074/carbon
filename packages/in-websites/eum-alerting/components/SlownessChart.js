@@ -6,13 +6,13 @@ import {
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
+import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 
-import locals from './JsErrorsChart.mless';
+import locals from './EumChart.mless';
 
 export default function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly }) {
   return (
@@ -118,7 +118,7 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
           </div>
         )}
       <div className={locals.placeholder}>
-        <EumAlertingBarChart
+        <SlownessAlertingBarChart
           websiteId={form.get(fieldNames.websiteId).value}
           thresholdType={form.get(fieldNames.thresholdType).value}
           threshold={getFormValueOrDefault(form, fieldNames.thresholdValue)}
