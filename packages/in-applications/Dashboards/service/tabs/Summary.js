@@ -10,6 +10,7 @@ import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary(props) {
@@ -82,6 +83,7 @@ export default function Summary(props) {
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
         <Col lg={4}>
@@ -92,6 +94,7 @@ export default function Summary(props) {
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
         <Col lg={4}>
@@ -102,6 +105,7 @@ export default function Summary(props) {
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
       </Row>
@@ -130,6 +134,7 @@ export default function Summary(props) {
               applicationId={applicationId}
               serviceId={serviceId}
               boundaryScope={boundaryScope}
+              groupByTag={{ name: 'call.type', entity: entityTypes.NOT_APPLICABLE }}
               timeConfig={timeConfig}
             />
           </Col>
@@ -139,6 +144,7 @@ export default function Summary(props) {
               serviceId={serviceId}
               endpointId={endpointId}
               applicationBoundaryScope={boundaryScope}
+              groupByTag={{ name: 'call.type', entity: entityTypes.NOT_APPLICABLE }}
               timeConfig={timeConfig}
             />
           </Col>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { millis, latencyFixed, meanLatencyFixed } from 'in-services/formatters/number';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -12,7 +13,9 @@ export default function Latency({
   serviceId,
   includeSyntheticCalls,
   boundaryScope,
-  cardTitle
+  cardTitle,
+  isSynthetic,
+  groupByTag
 }) {
   const granularity = getChartGranularity(timeConfig);
 
@@ -81,6 +84,50 @@ export default function Latency({
           }
         }
       }}
+      additionalContextMenuButtons={[
+        {
+          icon: 'lib_analyze',
+          label: 'View in Analytics',
+          getHref$: (highlightedTime, metricsToAdd) =>
+            getJumpToAnalyzeHref$(
+              { applicationId, serviceId, endpointId },
+              {
+                timeConfig: highlightedTime,
+                boundaryScope,
+                groupByTag,
+                filters: isSynthetic
+                  ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
+                  : [],
+                metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics)
+              }
+            )
+        }
+      ]}
     />
   );
+}
+
+function mapMetricsToAdd(metrics) {
+  const metricsForLink = [];
+  metrics.map(metric => {
+    metricsForLink.push({ metric: 'latency', aggregation: aggregation(metric) });
+  });
+  return metricsForLink;
+}
+
+function aggregation(metric) {
+  switch (metric) {
+    case 'duration50th':
+      return 'P50';
+    case 'duration90th':
+      return 'P90';
+    case 'duration95th':
+      return 'P95';
+    case 'duration99th':
+      return 'P99';
+    case 'durationMax':
+      return 'MAX';
+    case 'durationAvg':
+      return 'MEAN';
+  }
 }

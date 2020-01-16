@@ -4,6 +4,7 @@ import React from 'react';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -24,7 +25,15 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
     observables.endpointName = getEndpointInfo({ id: endpointId }).map(getLabel);
   }
   return observables;
-})(function EventsChart({ timeConfig, applicationName, serviceName, endpointName }) {
+})(function EventsChart({
+  timeConfig,
+  applicationName,
+  serviceName,
+  endpointName,
+  applicationId,
+  serviceId,
+  endpointId
+}) {
   const entityFilter = createEntityFilter(applicationName, serviceName, endpointName);
 
   // For consistency's sake with other charts in AP dashboards different granularity values
@@ -75,6 +84,19 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
         timeConfig: timeConfig,
         metrics: metricsConfiguration
       }}
+      additionalContextMenuButtons={[
+        {
+          icon: 'lib_analyze',
+          label: 'View Events',
+          getHref$: highlightedTime =>
+            getEventsViewFilteredBy({
+              applicationId,
+              serviceId,
+              endpointId,
+              timeConfig: highlightedTime
+            })
+        }
+      ]}
     />
   );
 });

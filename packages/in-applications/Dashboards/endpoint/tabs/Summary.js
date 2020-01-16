@@ -10,6 +10,7 @@ import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
@@ -78,30 +79,36 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <CallsErrors
             cardTitle="Calls"
             applicationId={applicationId}
+            serviceId={serviceId}
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
           />
         </Col>
         <Col lg={4}>
           <Errors
             cardTitle="Errors"
             applicationId={applicationId}
+            serviceId={serviceId}
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
           />
         </Col>
         <Col lg={4}>
           <Latency
             cardTitle="Latency"
             applicationId={applicationId}
+            serviceId={serviceId}
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
+            groupByTag={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
           />
         </Col>
       </Row>

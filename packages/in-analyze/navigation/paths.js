@@ -41,7 +41,8 @@ export function getLinkToAnalyze({
   orderDirection,
   timeConfig,
   metrics,
-  showGraph
+  showGraph,
+  jumpToSource
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -59,7 +60,6 @@ export function getLinkToAnalyze({
     let tagFilter = null;
     if (applicationName != null) {
       tagFilter = tagFilter || [];
-
       if (boundaryScope === boundaryScopes.all) {
         tagFilter.push({
           name: APPLICATION.name,
@@ -93,6 +93,38 @@ export function getLinkToAnalyze({
         entity: entityTypes.DESTINATION
       });
     }
+
+    if (jumpToSource) {
+      if (jumpToSource === 'application') {
+        tagFilter = [];
+        tagFilter.push({
+          name: APPLICATION.name,
+          value: applicationName,
+          operator: operators.EQUALS,
+          entity: entityTypes.SOURCE
+        });
+      }
+
+      if (jumpToSource === 'service') {
+        tagFilter = [];
+        tagFilter.push({
+          name: SERVICE.name,
+          value: serviceName,
+          operator: operators.EQUALS,
+          entity: entityTypes.SOURCE
+        });
+      }
+      if (jumpToSource === 'endpoint') {
+        tagFilter = [];
+        tagFilter.push({
+          name: ENDPOINT.name,
+          value: endpointName,
+          operator: operators.EQUALS,
+          entity: entityTypes.SOURCE
+        });
+      }
+    }
+
     if (filters) {
       tagFilter = tagFilter || [];
       tagFilter.push(...filters);

@@ -2,6 +2,7 @@ import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export function focusEvent(eventId) {
   mutateUrl(params => {
@@ -53,7 +54,8 @@ export function getEventsViewFilteredBy({
   resolvedEndpointId = null,
   snapshotId = null,
   eventId = null,
-  eventTypeFilter = null
+  eventTypeFilter = null,
+  timeConfig = null
 }) {
   endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
   if (endpointId) {
@@ -75,6 +77,10 @@ export function getEventsViewFilteredBy({
 
     setOrDeleteMatrixKey(params, eventsPath, eventIdMatricParam, eventId || params.query.eventId);
     delete params.query.eventId;
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
+    }
 
     if (eventTypeFilter) {
       setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);

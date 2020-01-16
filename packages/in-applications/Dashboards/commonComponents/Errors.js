@@ -1,10 +1,11 @@
+import theme from 'in-themes';
 import React from 'react';
 
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function Errors({
   timeConfig,
@@ -13,7 +14,9 @@ export default function Errors({
   serviceId,
   includeSyntheticCalls,
   boundaryScope,
-  cardTitle
+  cardTitle,
+  isSynthetic,
+  groupByTag
 }) {
   const granularity = getChartGranularity(timeConfig);
 
@@ -47,6 +50,35 @@ export default function Errors({
             }
           }
         }}
+        additionalContextMenuButtons={[
+          {
+            icon: 'lib_analyze',
+            label: 'View in Analytics',
+            getHref$: highlightedTime =>
+              getJumpToAnalyzeHref$(
+                { applicationId, serviceId, endpointId },
+                {
+                  timeConfig: highlightedTime,
+                  boundaryScope,
+                  groupByTag,
+                  filters: isSynthetic
+                    ? [
+                        { name: 'call.is_synthetic', value: 'true' },
+                        { name: 'include_synthetic', value: 'true' },
+                        { name: 'call.erroneous', value: 'true' }
+                      ]
+                    : [{ name: 'call.erroneous', value: 'true' }],
+                  metrics: [
+                    { metric: 'errors', aggregation: 'MEAN' },
+                    {
+                      metric: 'latency',
+                      aggregation: 'MEAN'
+                    }
+                  ]
+                }
+              )
+          }
+        ]}
       />
     </div>
   );

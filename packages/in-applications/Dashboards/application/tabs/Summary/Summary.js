@@ -97,14 +97,6 @@ export default function Summary({
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
             groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-            metrics={[
-              { metric: 'errors', aggregation: 'MEAN' },
-              {
-                metric: 'latency',
-                aggregation: 'MEAN'
-              }
-            ]}
-            showGraph
           />
         </Col>
         <Col lg={4}>
@@ -115,6 +107,7 @@ export default function Summary({
             endpointId={endpointId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
+            groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
         <Col lg={4}>
@@ -125,6 +118,7 @@ export default function Summary({
             endpointId={endpointId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
+            groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
       </Row>

@@ -1,15 +1,17 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) => ({
@@ -25,7 +27,15 @@ export default connectTo(
       granularity: getChartGranularity(timeConfig)
     })
   }),
-  function TechnologyBreakdownPresenter({ timeConfig, result }) {
+  function TechnologyBreakdownPresenter({
+    applicationId,
+    serviceId,
+    endpointId,
+    timeConfig,
+    result,
+    boundaryScope,
+    isSynthetic
+  }) {
     let config = {
       cardTitle: 'Processing Time'
     };
@@ -40,6 +50,7 @@ export default connectTo(
         return compareIgnoreCase(a, b);
       });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
+      const metricIds = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
       const colors = endpointTypes.map(
         (type, i) => (type === 'SELF' ? theme.lib.colors.chart.self25 : theme.lib.colors.chart.strokeColors25[i])
@@ -54,13 +65,47 @@ export default connectTo(
           labels,
           metrics,
           colors,
+          metricIds,
           formatter: millis.forcedFixedCompact,
           tooltipFormatter: meanLatencyFixed.compact,
           min: 0
-        }
+        },
+        additionalContextMenuButtons: [
+          {
+            icon: 'lib_analyze',
+            label: 'View in Analytics',
+            getHref$: (highlightedTime, metricsToFilter) =>
+              getJumpToAnalyzeHref$(
+                { applicationId, serviceId, endpointId },
+                {
+                  boundaryScope,
+                  timeConfig: highlightedTime,
+                  showGraph: false,
+                  jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
+                  filters: isSynthetic
+                    ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
+                    : filtersBasedOnMetrics(labels, metricsToFilter),
+                  groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE }
+                }
+              )
+          }
+        ]
       };
     }
 
     return <ResultAwareChart result={result} config={config} />;
   }
 );
+
+function filtersBasedOnMetrics(labels, filteredMetrics) {
+  return labels
+    .filter(metric => filteredMetrics.renderedMetrics.indexOf(metric) == -1)
+    .filter(metric => metric != 'Self')
+    .map(metric => ({
+      name: 'call.type',
+      secondLevelName: false,
+      value: metric.toUpperCase(),
+      operator: 'NOT_EQUAL',
+      entity: 'NOT_APPLICABLE'
+    }));
+}

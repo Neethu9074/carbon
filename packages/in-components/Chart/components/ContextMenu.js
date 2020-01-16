@@ -208,11 +208,10 @@ function getNonFilteredMetricsForaxis(axis, filteredDataSeries) {
   if (!axis) {
     return [];
   }
-
   return axis.labels
     .filter(label => !filteredDataSeries.has(label))
     .map(label => axis.labels.indexOf(label))
-    .map(i => axis.metricIds[i]);
+    .map(i => (axis.metricIds || axis.labels)[i]);
 }
 
 function filterOnHighlightedTimeframe(highlightedTimeframe, metrics) {
