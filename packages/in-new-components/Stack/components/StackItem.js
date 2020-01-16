@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -22,7 +23,7 @@ export default function StackItem({ item: { id, type, label }, area }) {
   const isInfra = area === 'infrastructure';
 
   return (
-    <Li href$={getDashboardLink(id, { pathname: physicalDashboardPath })}>
+    <Li href$={dashboardLink(id, area, type)}>
       <div className={locals.itemWrapper}>
         <EntityWithTypeAndIcon
           type={type}
@@ -40,6 +41,15 @@ export default function StackItem({ item: { id, type, label }, area }) {
       </div>
     </Li>
   );
+}
+
+function dashboardLink(id, type) {
+  if (type === 'application') {
+    return getApplicationDashboard(id);
+  } else if (type === 'service') {
+    return getServiceDashboard(id);
+  }
+  return getDashboardLink(id, { pathname: physicalDashboardPath });
 }
 
 function renderType(id, label) {
