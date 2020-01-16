@@ -134,6 +134,7 @@ import './sparkApplication';
 import './sparkStandalone';
 import './springbootApplicationContainer';
 import './statsd';
+import './tibcoEMS';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
 import './varnish';
