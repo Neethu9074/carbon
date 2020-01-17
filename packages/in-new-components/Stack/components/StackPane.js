@@ -13,7 +13,7 @@ export default function StackPane({ groups, area }) {
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={groups.length}>
       {groups.map(group => (
-        <StackGroup key={group.relationship} group={group} area={area} />
+        <StackGroup key={`${group.relationship}.${group.type}`} group={group} area={area} />
       ))}
     </ScrollHints>
   );
