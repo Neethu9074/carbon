@@ -63,7 +63,7 @@ import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/T
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
-import { isRbacEnabled, coralogixEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
@@ -250,35 +250,28 @@ function navigationTreeForRole(role): NavigationTree {
   if (role.canConfigureLogManagement) {
     navigationTree.push({
       title: 'Log Management',
-      pages: []
-        .concat(
-          coralogixEnabled
-            ? [
-                {
-                  path: teamSettingsLogManagementCoralogix,
-                  label: 'Coralogix',
-                  component: CoralogixPage
-                }
-              ]
-            : []
-        )
-        .concat([
-          {
-            path: teamSettingsLogManagementHumio,
-            label: 'Humio',
-            component: HumioPage
-          },
-          {
-            path: teamSettingsLogManagementLogDna,
-            label: 'LogDNA',
-            component: LogDnaPage
-          },
-          {
-            path: teamSettingsLogManagementSplunk,
-            label: 'Splunk',
-            component: SplunkPage
-          }
-        ])
+      pages: [
+        {
+          path: teamSettingsLogManagementCoralogix,
+          label: 'Coralogix',
+          component: CoralogixPage
+        },
+        {
+          path: teamSettingsLogManagementHumio,
+          label: 'Humio',
+          component: HumioPage
+        },
+        {
+          path: teamSettingsLogManagementLogDna,
+          label: 'LogDNA',
+          component: LogDnaPage
+        },
+        {
+          path: teamSettingsLogManagementSplunk,
+          label: 'Splunk',
+          component: SplunkPage
+        }
+      ]
     });
   }
 

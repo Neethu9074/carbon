@@ -16,7 +16,6 @@ module.exports = {
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   pcfEnabled: true,
-  coralogixEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   isOnboardingGuideEnabled: true,

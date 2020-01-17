@@ -85,12 +85,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'coralogixEnabled',
-    instanaCtlKey: 'feature.coralogix.enabled',
-    consulKey: `settings/${tenant}-${unit}/CORALOGIX_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteUserBreakdownEnabled',
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,
