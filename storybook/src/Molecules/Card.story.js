@@ -4,7 +4,7 @@ import Button from 'in-new-components/Button/ButtonPresenter';
 import Card from 'in-new-components/Card';
 
 export default {
-  title: 'Molecules|Cards/Card',
+  title: 'Atoms|Cards/Card',
   component: Card
 };
 
@@ -32,6 +32,14 @@ export const withHeaderAction = () => (
 
 export const notFramed = () => (
   <Card title="Card Title" framed={false}>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit minima dolore, veritatis quia possimus accusamus
+    expedita obcaecati eveniet voluptates soluta beatae repellendus libero aliquid fugit maxime, reiciendis laudantium.
+    Maxime, officia.
+  </Card>
+);
+
+export const withDarkFrame = () => (
+  <Card title="Dark Frame" darkFrame>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit minima dolore, veritatis quia possimus accusamus
     expedita obcaecati eveniet voluptates soluta beatae repellendus libero aliquid fugit maxime, reiciendis laudantium.
     Maxime, officia.

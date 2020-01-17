@@ -2,10 +2,13 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import EntityWithType from 'in-new-components/EntityWithType';
+import SvgIcon from 'in-components/SvgIcon';
 
 export default {
-  title: 'Atoms|EntityWithTypeAndIcon',
-  component: EntityWithTypeAndIcon
+  title: 'Molecules|EntityWithTypeAndIcon',
+  component: EntityWithTypeAndIcon,
+  subComponent: { EntityWithType, SvgIcon }
 };
 
 export const Default = () => {

@@ -20,83 +20,57 @@ Buttons can optionally display a tooltip when hovered to display additional info
 ### Props
 <Props of={Button} />
 
-## Types
+## Button Kinds
 
 **Colour**
 
 Buttons have colours to add context - they should still be usable without colour (some users have colour blindness), but the colour should be used to enhance the information conveyed to the user - not the source of all information.
 
+<Story name="All Kinds">
+  <div>
+  <Button kind="primary">Primary</Button>
+  <Button kind="primaryv2">PrimaryV2</Button>
+  <Button kind="secondary">Secondary</Button>
+  <Button kind="action">Action</Button>
+  <Button kind="action--danger">Action--Danger</Button>
+  <Button kind="subtle">Subtle</Button>
+  <Button kind="create">create</Button>
+  <Button kind="danger">Danger</Button>
+  <Button kind="warning">Warning</Button>
+  <Button kind="info">Info</Button>
+  </div>
+</Story>
+
 **Primary**
 Green - the primary action on a page, there should only be 1 on a view
-
-<Story name="Primary">
-  <Button kind="primary">Primary</Button>
-</Story>
 
 **PrimaryV2**
 Blue - the primary action on a page, there should only be 1 on a view
 
-<Story name="PrimaryV2">
-  <Button kind="primaryv2">PrimaryV2</Button>
-</Story>
-
 **Secondary**
 Grey - there can be many secondary actions on a view
-
-<Story name="Secondary">
-  <Button kind="secondary">Secondary</Button>
-</Story>
 
 **Action**
 A subtle action button
 
-<Story name="Action">
-  <Button kind="action">Action</Button>
-</Story>
-
 **Action--Danger**
 A red action button for destructive functions (like delete)
-
-<Story name="Action--Danger">
-  <Button kind="action--danger">Action--Danger</Button>
-</Story>
 
 **Subtle**
 A more subtle button with no outline
 
-<Story name="Subtle">
-  <Button kind="subtle">Subtle</Button>
-</Story>
-
 **Create**
 A green action button to create an entity
-
-<Story name="Create">
-  <Button kind="create">create</Button>
-</Story>
 
 **Danger**
 A ref action button to delete, remove or destroy an entity
 
-<Story name="Danger">
-  <Button kind="danger">Danger</Button>
-</Story>
 
 **Warning**
 An orange button which may have important or unsafe actions associated
 
-<Story name="Warning">
-  <Button kind="warning">Warning</Button>
-</Story>
-
 **Info**
 A dark grey button which may be used for help, support or further information about the view
-
-<Story name="Info">
-  <Button kind="info">Info</Button>
-</Story>
-
-
 
 
 ### Hover states
@@ -113,8 +87,16 @@ All buttons have a disabled state with reduced opacity to indicate they cannot b
 
 ### **With Icon**
 
+<Story name="With Icon">
+  <Button kind="primary" icon="lib_help_error_warning">With Icon</Button>
+</Story>
+
 All buttons can have an icon added to them - icons are used to add additional context beyond the text label and to enable faster recall and learning by the user
 
 ### **Compact**
+
+<Story name="Compact">
+  <Button kind="primary" size="compact">Compact</Button>
+</Story>
 
 All buttons have a compact mode (which can be combined with icon, shown above) which reduces the vertical padding of the button.

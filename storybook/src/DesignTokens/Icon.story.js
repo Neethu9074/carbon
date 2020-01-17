@@ -1,4 +1,4 @@
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
 import { getAllSvgIconPaths } from 'in-sdk/iconRegistry';
@@ -11,13 +11,10 @@ export default {
   decorators: [withKnobs]
 };
 
+const sizes = ['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl'];
+
 function sizeGetter() {
-  return number('Size', 24, {
-    range: true,
-    min: 1,
-    max: 56,
-    step: 1
-  });
+  return select('Size', sizes, 'regular');
 }
 
 export const SvgIconList = () => {

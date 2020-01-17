@@ -11,7 +11,8 @@ module.exports = {
         throwIfClosureRequired: true
       }
     ],
-    ['transform-class-properties', { spec: false }]
+    ['transform-class-properties', { spec: false }],
+    ['react-docgen']
   ],
   presets: [
     '@babel/preset-flow',

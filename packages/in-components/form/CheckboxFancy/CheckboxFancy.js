@@ -62,7 +62,7 @@ CheckboxFancy.propTypes = {
   checked: PropTypes.bool.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   onChange: PropTypes.func.isRequired,
   size: PropTypes.string,
   style: PropTypes.object,

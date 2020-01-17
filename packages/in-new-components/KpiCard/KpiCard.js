@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -13,7 +14,7 @@ export default function KpiCard({
   renderValue,
   valuesClassName,
   borderless = false,
-  color = false
+  color
 }) {
   if (raw || renderValue) {
     return (
@@ -45,7 +46,12 @@ export default function KpiCard({
   }
 
   return (
-    <div className={locals.wrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.wrapper]: true,
+        [locals.borderless]: borderless
+      })}
+    >
       <div className={locals.title}>{title}</div>
       <span className={locals.major} style={{ color: color }}>
         {major}
@@ -54,3 +60,13 @@ export default function KpiCard({
     </div>
   );
 }
+
+KpiCard.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.string,
+  raw: PropTypes.bool,
+  renderValue: PropTypes.func,
+  valuesClassName: PropTypes.string,
+  borderless: PropTypes.bool,
+  color: PropTypes.string
+};

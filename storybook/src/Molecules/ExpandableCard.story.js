@@ -4,7 +4,7 @@ import ExpandableCard from 'in-new-components/ExpandableCard';
 import Button from 'in-new-components/Button/ButtonPresenter';
 
 export default {
-  title: 'Molecules|Cards/ExpandableCard',
+  title: 'Atoms|Cards/ExpandableCard',
   component: ExpandableCard
 };
 

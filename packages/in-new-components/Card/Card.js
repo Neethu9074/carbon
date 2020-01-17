@@ -17,7 +17,7 @@ export default function Card({
   className,
   headerClassName,
   bodyClassName,
-  darkFrame,
+  darkFrame = false,
   framed = true,
   useMaxAvailableHeight,
   label

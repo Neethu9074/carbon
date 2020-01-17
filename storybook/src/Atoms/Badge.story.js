@@ -1,6 +1,6 @@
+import { withKnobs, text, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import { withKnobs, text, select } from '@storybook/addon-knobs';
 import Badge from 'in-new-components/Badge/Badge';
 
 const options = {

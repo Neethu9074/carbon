@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
@@ -102,3 +103,22 @@ export function getPixelsBySize(size) {
 export function getPath(type) {
   return icons[type].path;
 }
+
+SvgIcon.propTypes = {
+  'aria-label': PropTypes.string,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  customIcon: PropTypes.object,
+  iconPath: PropTypes.string,
+  id: PropTypes.number,
+  onBlur: PropTypes.func,
+  onClick: PropTypes.func,
+  onFocus: PropTypes.func,
+  refSetter: PropTypes.string,
+  role: PropTypes.string,
+  size: PropTypes.oneOf(['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']),
+  spinning: PropTypes.bool,
+  style: PropTypes.object,
+  tabIndex: PropTypes.number,
+  type: PropTypes.string
+};
