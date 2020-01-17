@@ -11,6 +11,7 @@ import { integrationKey as logdnaIntegrationKey } from 'in-integrations/logging/
 import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
+import { coralogixEnabled } from 'in-services/featureFlags';
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 
@@ -23,7 +24,8 @@ export default connectTo({
   const { coralogixIntegration, logdnaIntegration, splunkIntegration, humioIntegration } = props;
 
   const integrations = [
-    showCoralogixButton(props) &&
+    coralogixEnabled &&
+      showCoralogixButton(props) &&
       coralogixIntegration &&
       coralogixIntegration.enabled && <CoralogixButton {...props} />,
     showHumioButton(props) && humioIntegration && humioIntegration.enabled && <HumioButton {...props} />,
