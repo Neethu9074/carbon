@@ -32,7 +32,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   return (
     <Button
       kind="primary"
-      icon="lib_application_trace"
+      icon="lib_application_call"
       href$={getLinkToAnalyze({
         applicationName: applicationLabel,
         serviceName: serviceLabel,
