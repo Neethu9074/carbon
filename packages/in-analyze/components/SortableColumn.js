@@ -8,6 +8,7 @@ export default function SortableColumn(props) {
   return (
     <SortableTh
       {...props}
+      sortDirection={orderDirection}
       isSortedByThisColumn={orderBy === technicalName}
       onClick={e => {
         e.preventDefault();
