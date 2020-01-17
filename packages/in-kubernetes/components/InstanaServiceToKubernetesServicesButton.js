@@ -39,7 +39,7 @@ export function InstanaServiceToKubernetesServicesButton({ kubernetesServices })
           onClick={toggle}
           refSetter={refSetter}
         >
-          Services ({kubernetesServices.length})
+          K8s Services ({kubernetesServices.length})
           <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}
