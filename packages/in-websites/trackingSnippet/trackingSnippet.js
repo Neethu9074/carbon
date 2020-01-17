@@ -1,7 +1,7 @@
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { region } from 'in-services/config';
 
-export function getTrackingSnippet({ key, additionalScript = null }) {
+export function getTrackingSnippet({ key, additionalScript = null, trackSessions = false }) {
   const lines = [`<script>`];
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
@@ -34,6 +34,9 @@ export function getTrackingSnippet({ key, additionalScript = null }) {
   }
 
   lines.push(`  ineum('key', '${key}');`);
+  if (trackSessions) {
+    lines.push(`  ineum('trackSessions');`);
+  }
 
   if (additionalScript) {
     additionalScript.split('\n').forEach(line => {

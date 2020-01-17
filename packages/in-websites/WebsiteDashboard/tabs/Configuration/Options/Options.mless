@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .row {
+    max-width: 56.25rem;
+    margin-top: @grid__gutter * 1px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}

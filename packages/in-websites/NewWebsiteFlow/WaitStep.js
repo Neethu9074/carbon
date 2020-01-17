@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -7,10 +8,9 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import Button from 'in-new-components/Button';
-import Code from 'in-components/Code';
 
-export default function WaitStep({ websiteId, websiteName }) {
-  const eumSnippet = getTrackingSnippet({ key: websiteId });
+export default function WaitStep({ websiteId, websiteName, trackSessions, setTrackSessions }) {
+  const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
     <Frame>
@@ -21,7 +21,11 @@ export default function WaitStep({ websiteId, websiteName }) {
         tracking script to your website.
       </Paragraph>
 
-      <Code code={eumSnippet} lang="html" showLineNumbers={false} />
+      <TrackingSnippetPresenter
+        websiteId={websiteId}
+        trackSessions={trackSessions}
+        setTrackSessions={setTrackSessions}
+      />
 
       <Actions>
         <CopyToClipboard getText={() => eumSnippet}>

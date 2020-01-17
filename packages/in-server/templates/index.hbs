@@ -56,6 +56,7 @@
     d.parentNode.insertBefore(a,d))})(window,document,'script',
     'https://{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
     ineum('key', '{{eumTrackingApiKey}}');
+    ineum('trackSessions');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('beaconBatchingTime', 3000);
     ineum('traceId', '{{backendTraceId}}');

@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .snippetWrapper {
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+  }
+
+  .snippet {
+    flex-grow: 1;
+    margin: 0 1rem 0 0;
+    border-right: 1px solid @lib__colors__N400;
+  }
+
+  .options {
+    width: 11rem;
+  }
+
+  .option {
+    max-width: 15rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .label {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .helpWrapper {
+    display: flex;
+    align-items: center;
+
+    &:active .help, &:hover .help {
+      fill: @links__hover__decoration;
+    }
+  }
+
+  .help {
+    fill: @lib__colors__blue800;
+  }
+}

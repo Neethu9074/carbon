@@ -20,7 +20,8 @@ export default class NewWebsiteFlow extends React.PureComponent {
       field: createField({ value: '', validator: notBlankValidator }),
       saveError: null,
       saveResult: null,
-      loading: false
+      loading: false,
+      trackSessions: false
     };
   }
 
@@ -81,6 +82,8 @@ export default class NewWebsiteFlow extends React.PureComponent {
     });
   };
 
+  setTrackSessions = trackSessions => this.setState({ trackSessions });
+
   componentWillUnmount() {
     if (this.saveSubscription) {
       this.saveSubscription.dispose();
@@ -97,12 +100,13 @@ export default class NewWebsiteFlow extends React.PureComponent {
     }
 
     if (!website) {
-      return <WaitStep {...this.state} />;
+      return <WaitStep {...this.state} setTrackSessions={this.setTrackSessions} />;
     }
 
     return (
       <ReadyStep
         {...this.state}
+        setTrackSessions={this.setTrackSessions}
         websiteLink$={getLinkToWebsite(websiteId, {
           timeConfig: getWaitForEntityCreationTimeConfig()
         })}
