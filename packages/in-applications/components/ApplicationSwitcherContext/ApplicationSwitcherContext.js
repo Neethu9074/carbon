@@ -47,7 +47,7 @@ function ApplicationSwitcherContext(props) {
   ) {
     return (
       <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
-        Applcation
+        Application
       </Link>
     );
   }
