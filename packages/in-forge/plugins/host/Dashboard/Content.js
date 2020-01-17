@@ -39,11 +39,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
-        {!(isWindows(snapshot) || isZos(snapshot)) ? (
+        {!(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label="CPU Load">
             <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
           </KpiKeyValue>
-        ) : null}
+        )}
       </KpiSection>
 
       <Columize>
@@ -62,7 +62,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        {isLinux(snapshot) ? (
+        {isLinux(snapshot) && (
           <DashboardSection title="Context Switches">
             <Chart
               snapshotId={snapshot.get('id')}
@@ -75,9 +75,9 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-        ) : null}
+        )}
 
-        {!(isWindows(snapshot) || isZos(snapshot)) ? (
+        {!(isWindows(snapshot) || isZos(snapshot)) && (
           <DashboardSection title="CPU Load">
             <Chart
               snapshotId={snapshot.get('id')}
@@ -93,7 +93,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-        ) : null}
+        )}
       </Columize>
 
       <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
@@ -111,27 +111,23 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             labels: ['Used'],
             type: 'stackedArea'
           }}
-          y2={
-            isLinux(snapshot)
-              ? {
-                  min: 0,
-                  formatter: bytes.detailed,
-                  metrics: [
-                    'memory.swapTotal',
-                    'memory.swapFree',
-                    'memory.buffers',
-                    'memory.cached',
-                    'memory.available'
-                  ],
-                  labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
-                  type: 'stackedArea'
-                }
-              : undefined
-          }
         />
+        {isLinux(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.swapTotal', 'memory.swapFree', 'memory.buffers', 'memory.cached', 'memory.available'],
+              labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
+              type: 'stackedArea'
+            }}
+          />
+        )}
       </DashboardSection>
 
-      {supportsOpenFiles(snapshot) ? (
+      {supportsOpenFiles(snapshot) && (
         <DashboardSection title="Open Files">
           <Chart
             snapshotId={snapshot.get('id')}
@@ -155,7 +151,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             }}
           />
         </DashboardSection>
-      ) : null}
+      )}
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
 
