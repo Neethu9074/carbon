@@ -39,7 +39,6 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
-export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');

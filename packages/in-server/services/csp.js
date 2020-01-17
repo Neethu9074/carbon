@@ -2,7 +2,7 @@ exports.getCsp = nonces => {
   return (
     "script-src 'self' " +
     nonces.map(n => "'nonce-" + n + "'").join(' ') +
-    ' https://www.google-analytics.com https://cdn.mxpnl.com https://static.zdassets.com https://ekr.zdassets.com https://instana.zendesk.com wss://instana.zendesk.com https://fast.appcues.com *.instana.io'
+    ' https://cdn.mxpnl.com https://static.zdassets.com https://ekr.zdassets.com https://instana.zendesk.com wss://instana.zendesk.com https://fast.appcues.com *.instana.io'
   );
 };
 

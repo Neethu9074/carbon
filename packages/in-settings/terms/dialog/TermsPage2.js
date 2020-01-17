@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { googleAnalyticsDisabled } from 'in-services/featureFlags';
 import TermsProgressIndicator from './TermsProgressIndicator';
 import evaluateClassNames from 'in-services/util/classnames';
 import Button from 'in-new-components/Button/Button';
@@ -75,7 +74,7 @@ export default function TermsPage2({
             <p>Knowing how Instana is used in real life is vital for us to fine-tune and improve the product.</p>
             {form.get('allAnalyticsServices').map(({ value }) => (
               <CheckboxFancy
-                label={googleAnalyticsDisabled ? 'Allow Mixpanel Analytics' : 'Allow all Analytics (Mixpanel)'}
+                label="Allow all Analytics (Mixpanel)"
                 checked={value}
                 onChange={() => onChange(form, 'allAnalyticsServices', !value)}
                 size="large"
