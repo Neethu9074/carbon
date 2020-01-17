@@ -68,7 +68,6 @@ export default connectTo(
           !xPos ||
           (!highlightedTimeframe && !allowDownloadMetricsFromCharts && !chart.config.additionalContextMenuButtons)
         ) {
-          this.closeContextMenu();
           return null;
         }
 
