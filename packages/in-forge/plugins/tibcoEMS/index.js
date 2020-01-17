@@ -10,7 +10,7 @@ registerSnapshotDefinition({
   metricDefinitions,
   pluginName: {
     singular: 'Tibco EMS',
-    plural: 'Tibco EMSes'
+    plural: 'Tibco EMS'
   },
   technologyDescriptor: {
     label: 'Tibco EMS'
