@@ -1,21 +1,27 @@
 import React from 'react';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
+import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({
+export default connectTo({ highlightedTimeframe: highlightedTimeframe$ }, function TooltipContent({
   timestamp,
   chart,
   reverseTooltipOrder,
   hoveredEvent,
+  highlightedTimeframe,
   excludedLabelsFromTooltip
 }) {
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
+  const isHighlightedTimeframeHovered = isInsideHighlightedTimeframe(timestamp, highlightedTimeframe);
 
   return (
     <div className={locals.tooltipContent}>
@@ -40,9 +46,11 @@ export default function TooltipContent({
         reverseTooltipOrder={reverseTooltipOrder}
         excludedLabelsFromTooltip={excludedLabelsFromTooltip}
       />
+
+      {isHighlightedTimeframeHovered && <InteractionNotification />}
     </div>
   );
-}
+});
 
 function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder, excludedLabelsFromTooltip = [] }) {
   const axis = config[axisName];
@@ -101,5 +109,14 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
       {items}
       {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
     </ul>
+  );
+}
+
+function InteractionNotification() {
+  return (
+    <div className={locals.infoSection}>
+      <SvgIcon className={locals.infoIcon} type="lib_help_error_info_outline" size="xs" />
+      You can right click for more options
+    </div>
   );
 }

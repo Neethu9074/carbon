@@ -81,4 +81,19 @@
     font-weight: bold;
     color: @lib__colors__N900Primary;
   }
+
+  .infoSection {
+    .flexbox();
+    white-space: nowrap;
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    border-top: 1px solid @lib__colors__N300;
+    padding-top: 0.25rem;
+  }
+
+  .infoIcon {
+    margin-right: 0.25rem;
+    margin-left: -0.125rem;
+    fill: @lib__colors__N600Light;
+  }
 }

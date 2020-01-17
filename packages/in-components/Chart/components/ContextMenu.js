@@ -3,6 +3,7 @@ import { on } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -149,21 +150,14 @@ export default connectTo(
         return;
       }
       this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(this.onContextMenu.bind(this));
-      this.onClickSubscription = on(glassPane, 'click').subscribe(this.onClickOutside.bind(this));
+      this.onClickSubscription = on(window, 'click').subscribe(this.onClickOutside.bind(this));
     };
 
     onContextMenu(e) {
-      const highlightedTimeframe = this.props.highlightedTimeframe;
       e.preventDefault();
 
-      if (!highlightedTimeframe) {
-        return;
-      }
-
-      const from = highlightedTimeframe[0];
-      let to = highlightedTimeframe[1];
       const clickedDomain = this.props.xScale.getDomain(e.offsetX);
-      if (clickedDomain >= from && clickedDomain <= to) {
+      if (isInsideHighlightedTimeframe(clickedDomain, this.props.highlightedTimeframe)) {
         this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10) });
       }
     }
