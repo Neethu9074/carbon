@@ -12,7 +12,8 @@ export const endpointNameTranslations = {
   GRAPHQL: 'GraphQL',
   INTERNAL: 'Internal',
   UNDEFINED: 'Undefined',
-  SELF: 'Self'
+  SELF: 'Self',
+  SDK: 'SDK'
 };
 
 export const colorTranslation = {
@@ -26,7 +27,8 @@ export const colorTranslation = {
   GRAPHQL: theme.lib.colors.lime800,
   INTERNAL: theme.lib.colors.N400,
   UNDEFINED: theme.lib.colors.N400,
-  SELF: theme.lib.colors.N400
+  SELF: theme.lib.colors.N400,
+  SDK: theme.lib.colors.N400
 };
 
 export function getColor(type) {
