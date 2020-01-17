@@ -1,19 +1,19 @@
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { twentyFourHrs, tenMins } from 'in-websites/eum-alerting/constants';
 
-storiesOf('websites/eum-alerting/simple-dialog', module)
-  .add('Simple Dialog', () => <SimpleDialog />)
-  .add('Simple Dialog: Edit Mode', () => <SimpleDialogEditMode />);
+export default {
+  title: 'Templates|website/eum-alerting/AlertConfigDialog',
+  component: AlertConfigDialogPresenter
+};
 
-const twelveHours = 1000 * 60 * 60 * 12;
 const timeConfig = {
   to: null,
   focusedMoment: null,
-  windowSize: twelveHours,
+  windowSize: twentyFourHrs,
   autoRefresh: false
 };
 
@@ -23,7 +23,7 @@ function onChange(setForm) {
   };
 }
 
-function SimpleDialog() {
+export const AlertConfigDialog = () => {
   const [form, setForm] = useState(alertFormDefinition(getFormData()));
 
   return (
@@ -34,11 +34,12 @@ function SimpleDialog() {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
+      granularity={tenMins}
     />
   );
-}
+};
 
-function SimpleDialogEditMode() {
+export const SimpleDialogEditMode = () => {
   const [form, setForm] = useState(alertFormDefinition(getFormData()));
 
   return (
@@ -52,7 +53,7 @@ function SimpleDialogEditMode() {
       editMode
     />
   );
-}
+};
 
 function getFormData() {
   return {

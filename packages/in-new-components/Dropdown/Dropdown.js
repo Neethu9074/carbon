@@ -1,6 +1,7 @@
-import { string, array, func } from 'prop-types';
+import { string, array, func, bool } from 'prop-types';
 import React from 'react';
 
+import evaluateClassNames from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
@@ -8,13 +9,28 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Dropdown.mless';
 
-export default function Dropdown({ icon, align = 'bottomMiddle', label, items, renderItemContent, onClick }) {
+export default function Dropdown({
+  icon,
+  align = 'bottomMiddle',
+  label,
+  items,
+  renderItemContent,
+  onClick,
+  asSimpleDropdown
+}) {
   return (
     <Overlay align={align} content={ItemList} props={{ items, renderItemContent, onClick }}>
       {({ toggle, isOpen }) => (
-        <Button kind="primaryv2" icon={icon} onClick={toggle}>
+        <Button
+          className={evaluateClassNames({
+            [locals.simpleDropdown]: asSimpleDropdown
+          })}
+          kind={asSimpleDropdown ? 'subtle' : 'primaryv2'}
+          icon={icon}
+          onClick={toggle}
+        >
           {label}
-          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
+          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}
     </Overlay>
@@ -27,7 +43,8 @@ Dropdown.propTypes = {
   label: string.isRequired,
   items: array.isRequired,
   onClick: func.isRequired,
-  renderItemContent: func
+  renderItemContent: func,
+  asSimpleDropdown: bool
 };
 
 export function ItemList({ renderItemContent, items, onClick, close }) {

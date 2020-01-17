@@ -11,12 +11,4 @@
   .slideInContainer {
     padding: 0 1.375rem;
   }
-
-  .switchModeControl {
-    color: @lib__colors__teal800;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
 }

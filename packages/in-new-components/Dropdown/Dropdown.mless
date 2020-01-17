@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .list {
     max-height: 23rem;
@@ -6,5 +8,13 @@
 
   .expandIcon {
     margin-left: 0.25rem;
+  }
+
+  .simpleDropdown {
+    color: @lib__colors__N700Medium;
+    font-weight: normal;
+    &:hover {
+      background-color: transparent;
+    }
   }
 }

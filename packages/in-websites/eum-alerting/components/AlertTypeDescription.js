@@ -5,9 +5,9 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
+import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Button from 'in-new-components/Button/Button';
@@ -48,7 +48,10 @@ export function AlertTypeDescription({ form, config, onChange }) {
               updatedForm = withStatusCodesFormSpecificStatusCode(form);
             }
 
-            const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+            const doCalculateThresholdOnBackend = {
+              name: hiddenFieldNames.calculateThresholdOnBackend,
+              value: true
+            };
             onChange(updatedForm, fieldNames.ruleAlertType, config.type, metricToSelect, doCalculateThresholdOnBackend);
           }}
         >

@@ -7,11 +7,11 @@ import {
 } from 'in-websites/eum-alerting/form/slownessForm';
 import SelectAlertForStatusCode from 'in-websites/eum-alerting/simple/SelectAlertForStatusCode/SelectAlertForStatusCode';
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
+import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
@@ -55,7 +55,7 @@ export default function SimpleAlertConfigDialogStep1({
             }
           }
 
-          const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+          const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
           onChange(
             updatedForm,
             fieldNames.ruleAlertType,

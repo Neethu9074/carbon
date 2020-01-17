@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/StatusCodeUseCaseSelection';
 import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorUseCaseSelection';
+import TimeThresholdConfig from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/TimeThresholdConfig';
 import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/AlertSelection';
@@ -36,6 +37,7 @@ export default function AdvancedModeContainer({
       label: 'Trigger',
       checked: validateTrigger(form)
     },
+    { label: 'Time Threshold', checked: true },
     { label: 'Alert Channels', checked: form.get(fieldNames.alertChannelIds).value.length > 0 },
     {
       label: 'Properties (optional)',
@@ -54,6 +56,7 @@ export default function AdvancedModeContainer({
           setIndexIfElementOnTop(navItems[1].label, setIndexItemSelected, 1);
           setIndexIfElementOnTop(navItems[2].label, setIndexItemSelected, 2);
           setIndexIfElementOnTop(navItems[3].label, setIndexItemSelected, 3);
+          setIndexIfElementOnTop(navItems[4].label, setIndexItemSelected, 4);
         }}
       >
         <div className={locals.content}>
@@ -103,10 +106,13 @@ export default function AdvancedModeContainer({
               }}
             />
           </ScrollStep>
-          <ScrollStep id={navItems[2].label} title="Alert Channels: Who needs to be alerted?">
+          <ScrollStep id={navItems[2].label} title="Time Threshold: When do you want to be alerted?">
+            <TimeThresholdConfig form={form} onChange={onChange} />
+          </ScrollStep>
+          <ScrollStep id={navItems[3].label} title="Alert Channels: Who needs to be alerted?">
             <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
           </ScrollStep>
-          <ScrollStep id={navItems[3].label} title="Additional Alert Properties (optional)" hideDevider>
+          <ScrollStep id={navItems[4].label} title="Additional Alert Properties (optional)" hideDevider>
             <AlertPropertiesContainer form={form} onChange={onChange} websiteLabel={websiteLabel} />
           </ScrollStep>
           <nav className={locals.controls}>

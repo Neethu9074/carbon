@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { availableFilterTags } from 'in-websites/tags';
@@ -12,7 +12,7 @@ import locals from './AlertLocationFilters.mless';
 
 const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
-const doCalculateTresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateTresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
 
 export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel, isReadOnly }) {
   return (

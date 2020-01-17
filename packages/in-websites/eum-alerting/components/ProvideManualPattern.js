@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList.js';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -12,7 +12,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
 
-const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
 
 export default function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError }) {
   return (

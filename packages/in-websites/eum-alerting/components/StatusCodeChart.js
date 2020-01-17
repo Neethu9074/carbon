@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { statusCodeCount } from 'in-websites/eum-alerting/constants';
@@ -26,7 +26,10 @@ export default function StatusCodeChart({ form, timeConfig, onChange, granularit
                   value={form.get(fieldNames.ruleMetricName).value}
                   options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificStatusCode]}
                   onChange={e => {
-                    const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                    const doCalculateThresholdOnBackend = {
+                      name: hiddenFieldNames.calculateThresholdOnBackend,
+                      value: true
+                    };
                     onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateThresholdOnBackend);
                   }}
                   defaultValue={statusCodeCount}
@@ -40,7 +43,10 @@ export default function StatusCodeChart({ form, timeConfig, onChange, granularit
                   value={form.get(fieldNames.thresholdOperator).value}
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
-                    const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                    const doCalculateThresholdOnBackend = {
+                      name: hiddenFieldNames.calculateThresholdOnBackend,
+                      value: true
+                    };
                     onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}

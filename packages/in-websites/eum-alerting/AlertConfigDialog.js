@@ -2,8 +2,12 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import alertFormDefinition, {
+  fieldNames,
+  radioOptions,
+  hiddenFieldNames
+} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { AlertConfigDialogWithThreshold } from 'in-websites/eum-alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
-import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/formHelpers';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
@@ -53,7 +57,6 @@ function onChange(setForm) {
         ({ name, value }) => (updatedForm = updatedForm.updateIn([name], field => field.setValue(value)))
       );
     }
-
     setForm(updatedForm);
   };
 }
@@ -84,7 +87,7 @@ function createAlert(form, setForm, onClose, editMode) {
 }
 
 function toAlertConfigObject(form) {
-  function enhanceRuleValuesByAlertType(form) {
+  function enhanceByAlertType(form) {
     const alertType = form.get(fieldNames.ruleAlertType).value;
     if (alertType === alertTypes.specificJsError) {
       return {
@@ -104,7 +107,7 @@ function toAlertConfigObject(form) {
     return null;
   }
 
-  function enhanceThresholdValuesByThresholdType(form) {
+  function enhanceByThresholdType(form) {
     const thresholdType = form.get(fieldNames.thresholdType).value;
 
     if (thresholdType === 'staticThreshold') {
@@ -123,11 +126,31 @@ function toAlertConfigObject(form) {
     }
   }
 
+  function enhanceByTimeThresholdType(form) {
+    const { violationsInPeriod, userImpactOfViolationsInSequence } = radioOptions.timeThresholdType;
+    const timeThresholdType = form.get(fieldNames.timeThresholdType).value;
+
+    if (timeThresholdType === violationsInPeriod) {
+      return { evaluations: form.get(fieldNames.timeThresholdEvaluations).value };
+    }
+
+    if (timeThresholdType === userImpactOfViolationsInSequence) {
+      return {
+        users: form.get(hiddenFieldNames.alertByNumberOfImpactedUsersEnabled).value
+          ? form.get(fieldNames.timeThresholdUsers).value
+          : null,
+        userPercentage: form.get(hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled).value
+          ? form.get(fieldNames.timeThresholdUserPercentage).value / 100
+          : null
+      };
+    }
+  }
+
   return Object.freeze({
     rule: {
       alertType: form.get(fieldNames.ruleAlertType).value,
       metricName: form.get(fieldNames.ruleMetricName).value,
-      ...enhanceRuleValuesByAlertType(form)
+      ...enhanceByAlertType(form)
     },
     tagFilters: form.get(fieldNames.tagFilters).value,
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
@@ -139,7 +162,12 @@ function toAlertConfigObject(form) {
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
       operator: form.get(fieldNames.thresholdOperator).value,
-      ...enhanceThresholdValuesByThresholdType(form)
+      ...enhanceByThresholdType(form)
+    },
+    timeThreshold: {
+      violations: form.get(fieldNames.timeThresholdViolations).value,
+      type: form.get(fieldNames.timeThresholdType).value,
+      ...enhanceByTimeThresholdType(form)
     }
   });
 }

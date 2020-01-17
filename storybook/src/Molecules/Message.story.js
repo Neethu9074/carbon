@@ -1,8 +1,8 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import Message from 'in-new-components/Message';
 
-import theme from 'in-themes';
 export default {
   title: 'Molecules|Message',
   component: Message
@@ -10,6 +10,10 @@ export default {
 
 export const DefaultMessage = () => {
   return <Message>This is a message.</Message>;
+};
+
+export const MessageTransparent = () => {
+  return <Message transparent>This is a message without background and borders.</Message>;
 };
 
 export const DismissibleMessage = () => {

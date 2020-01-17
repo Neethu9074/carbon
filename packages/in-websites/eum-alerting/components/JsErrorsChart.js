@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -27,8 +27,11 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   value={form.get(fieldNames.ruleMetricName).value}
                   options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificJsError]}
                   onChange={e => {
-                    const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateThresholdOnBackend);
+                    const doCalculateTresholdOnBackend = {
+                      name: hiddenFieldNames.calculateThresholdOnBackend,
+                      value: true
+                    };
+                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateTresholdOnBackend);
                   }}
                   defaultValue={errorCountMetricName}
                   clearable={false}
@@ -41,8 +44,11 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                   value={form.get(fieldNames.thresholdOperator).value}
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
-                    const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
-                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
+                    const doCalculateTresholdOnBackend = {
+                      name: hiddenFieldNames.calculateThresholdOnBackend,
+                      value: true
+                    };
+                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
                   clearable={false}

@@ -5,13 +5,16 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    background: @lib__colors__N200;
-    border-radius: @lib__shapes__radius_small;
-    border: 1px solid @lib__colors__N400;
     box-sizing: border-box;
     min-height: 2.5rem;
     padding: 0.625rem;
     color: @lib__colors__N600Light;
+  }
+
+  .messageBg {
+    background: @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
+    border: 1px solid @lib__colors__N400;
   }
 
   .icon {

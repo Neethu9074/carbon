@@ -1,0 +1,61 @@
+@import '~in-themes/active.less';
+
+:local {
+  .alertConfigItemContainer {
+    display: grid;
+    grid-template-columns: 10% repeat(3, auto);
+    align-items: center;
+    justify-items: start;
+    height: 5.3125rem;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .icon {
+    justify-self: center;
+    fill: @lib__colors__N600Light;
+  }
+
+  .alertThresholdConfigContainer {
+    div:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .formGroup {
+    padding: 0.5rem;
+  }
+
+  .toggle {
+    justify-self: end;
+  }
+
+  .operatorLabel {
+    color: @lib__colors__N700Medium;
+    font-size: 0.875rem;
+    font-weight: normal;
+    margin-left: 0.625rem;
+  }
+
+  .thresholdTypeSelection {
+    border-bottom: 1px solid @lib__colors__N300;
+    color: @lib__colors__N700Medium;
+    padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+  }
+
+  .errorMessage {
+    padding-left: 0.5rem;
+  }
+
+  .input {
+    width: 5.625rem;
+  }
+
+  .checkbox {
+    &:hover {
+      cursor: pointer;
+    }
+    &.checked {
+      font-weight: bold;
+    }
+  }
+}

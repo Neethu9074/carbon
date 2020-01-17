@@ -1,57 +1,48 @@
 import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
+import theme from 'in-themes';
 
 import BigHeaderDialog from 'in-new-components/BigHeaderDialog';
 import Button from 'in-new-components/Button/Button';
-import DialogRoot from '../_helpers/DialogRoot';
 
-import theme from 'in-themes';
+export default {
+  title: 'Molecules|Dialogs/BigHeaderDialog',
+  component: BigHeaderDialog,
+  decorator: { text, action }
+};
 
-storiesOf('Components/BigHeaderDialog', module)
-  .addParameters({ component: BigHeaderDialog })
-  .add('default', () => <Default />)
-  .add('custom', () => <Custom />)
-  .add('slideIn', () => <SlideIn />);
+export const BigHeaderDialogDefault = () => (
+  <div>
+    <BigHeaderDialog title={text('Title', 'Some title')} onClose={action('onClose')}>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </BigHeaderDialog>
+  </div>
+);
 
-function Default() {
-  return (
-    <DialogRoot>
-      <BigHeaderDialog title={text('Title', 'Some title')} onClose={action('onClose')}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </BigHeaderDialog>
-    </DialogRoot>
-  );
-}
+export const BigHeaderDialogCustom = () => (
+  <div>
+    <BigHeaderDialog
+      onClose={action('onClose')}
+      renderCustomCloseBehaviour={() => (
+        <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
+          Custom close
+        </span>
+      )}
+      title="Title with icon"
+      titleIconType="lib_flame"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </BigHeaderDialog>
+  </div>
+);
 
-function Custom() {
-  return (
-    <DialogRoot>
-      <BigHeaderDialog
-        onClose={action('onClose')}
-        renderCustomCloseBehaviour={() => (
-          <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
-            Custom close
-          </span>
-        )}
-        title="Title with icon"
-        titleIconType="lib_flame"
-      >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </BigHeaderDialog>
-    </DialogRoot>
-  );
-}
-
-function SlideIn() {
+export const BigHeaderDialogSlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
-    <DialogRoot>
+    <div>
       <BigHeaderDialog
         title={'Some title'}
         slideInViewTitle={'SlideIn Title'}
@@ -77,6 +68,6 @@ function SlideIn() {
           <Button onClick={() => setSlideInVisible(true)}>SlideIn</Button>
         </div>
       </BigHeaderDialog>
-    </DialogRoot>
+    </div>
   );
-}
+};

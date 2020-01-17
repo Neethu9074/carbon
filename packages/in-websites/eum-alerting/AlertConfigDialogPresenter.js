@@ -5,6 +5,7 @@ import AdvancedModeContainer from 'in-websites/eum-alerting/advanced/AdvancedMod
 import SimpleModeContainer from 'in-websites/eum-alerting/simple/SimpleModeContainer';
 import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
 import evaluateClassNames from 'in-services/util/classnames';
+import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertConfigDialogPresenter.mless';
 
@@ -33,9 +34,9 @@ export default function SimpleAlertDialogPresenter({
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
       renderCustomCloseBehaviour={() => (
-        <span onClick={() => setSimpleMode(!simpleMode)} className={locals.switchModeControl}>
+        <Button onClick={() => setSimpleMode(!simpleMode)} kind="action">
           {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
-        </span>
+        </Button>
       )}
     >
       <div

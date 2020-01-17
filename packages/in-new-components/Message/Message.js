@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 import locals from './Message.mless';
 
@@ -19,12 +19,21 @@ export default function Message({
   type = 'neutral',
   withIcon,
   iconColor = theme.lib.colors.N600Light,
-  small
+  small,
+  transparent
 }) {
   const [dismiss, setDismiss] = useState(false);
 
   return dismiss ? null : (
-    <div className={joinClassNames(locals.message, className)}>
+    <div
+      className={joinClassNames(
+        evaluateClassNames({
+          [locals.message]: true,
+          [locals.messageBg]: !transparent
+        }),
+        className
+      )}
+    >
       {withIcon && (
         <SvgIcon
           type={iconTypes[type]}
@@ -68,5 +77,6 @@ Message.propTypes = {
   iconColor: PropTypes.string,
   small: PropTypes.bool,
   type: PropTypes.oneOf(Object.keys(iconTypes)),
-  withIcon: PropTypes.bool
+  withIcon: PropTypes.bool,
+  transparent: PropTypes.bool
 };

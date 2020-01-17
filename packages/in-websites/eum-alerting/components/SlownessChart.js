@@ -5,7 +5,7 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -28,7 +28,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 value={form.get(fieldNames.ruleAggregation).value}
                 options={selectOptions[fieldNames.ruleAggregation]}
                 onChange={e => {
-                  const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  const doCalculateThresholdOnBackend = {
+                    name: hiddenFieldNames.calculateThresholdOnBackend,
+                    value: true
+                  };
                   onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateThresholdOnBackend);
                 }}
                 defaultValue="P90"
@@ -42,7 +45,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 value={form.get(fieldNames.thresholdOperator).value}
                 options={selectOptions[fieldNames.thresholdOperator]}
                 onChange={e => {
-                  const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  const doCalculateThresholdOnBackend = {
+                    name: hiddenFieldNames.calculateThresholdOnBackend,
+                    value: true
+                  };
                   onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
                 }}
                 defaultValue=">="
@@ -57,7 +63,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                 options={selectOptions[fieldNames.thresholdType]}
                 onChange={e => {
                   const thresholdType = e.value || '';
-                  const doCalculateThresholdOnBackend = { name: fieldNames.calculateThresholdOnBackend, value: true };
+                  const doCalculateThresholdOnBackend = {
+                    name: hiddenFieldNames.calculateThresholdOnBackend,
+                    value: true
+                  };
                   const seasonality = {
                     name: fieldNames.thresholdSeasonality,
                     value: thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY'

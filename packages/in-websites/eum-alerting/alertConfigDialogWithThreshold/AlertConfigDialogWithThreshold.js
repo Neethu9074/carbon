@@ -1,5 +1,5 @@
-import React from 'react';
 import { empty } from 'reactive-observables';
+import React from 'react';
 
 import {
   getMetricConfigurationForStatusCode,
@@ -10,9 +10,9 @@ import {
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/eum-alerting/constants';
+import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import connectTo from 'in-hoc/connectTo';
 
@@ -148,18 +148,18 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
 }
 
 function addThresholdToForm(form, onChange, threshold) {
-  if (form.get(fieldNames.calculateThresholdOnBackend).value) {
+  if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
     onChange(form, fieldNames.thresholdValue, threshold, {
-      name: fieldNames.calculateThresholdOnBackend,
+      name: hiddenFieldNames.calculateThresholdOnBackend,
       value: false
     });
   }
 }
 
 function addBaselineToForm(form, onChange, baseline) {
-  if (form.get(fieldNames.calculateThresholdOnBackend).value) {
+  if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
     onChange(form, fieldNames.thresholdBaseline, baseline, {
-      name: fieldNames.calculateThresholdOnBackend,
+      name: hiddenFieldNames.calculateThresholdOnBackend,
       value: false
     });
   }

@@ -2,28 +2,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    border: 1px solid @lib__colors__N300;
-  }
-
-  .alertPropsContainer {
-    padding: 1rem 0.5rem 0.5rem 0.5rem;
-  }
-
-  .alertProps {
-    border: 1px solid @lib__colors__N300;
-  }
-
-  .headline {
-    color: @lib__colors__N900Primary;
-    font-size: @lib__typography__h300__font-size;
-    font-weight: 500;
-    line-height: 2rem;
-    margin-left: 0.5rem;
-  }
-
   .propContainer {
     .flexbox();
     border-bottom: 1px solid @lib__colors__N300;
@@ -102,7 +80,10 @@
   }
 
   .alertPreviewHeadline {
-    .headline();
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h300__font-size;
+    font-weight: 500;
+    margin-left: 0.5rem;
     line-height: 1.5rem;
   }
 

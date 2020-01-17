@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
@@ -55,6 +56,18 @@ export default function CheckboxFancy({
     input
   );
 }
+
+CheckboxFancy.propTypes = {
+  asRadioButton: PropTypes.bool,
+  checked: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  label: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  size: PropTypes.string,
+  style: PropTypes.object,
+  wrapperClassName: PropTypes.string
+};
 
 function Input({ checked, onChange, asRadioButton, className, size = 'default', style, disabled }) {
   return (

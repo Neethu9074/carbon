@@ -1,0 +1,48 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: grid;
+    grid-template-areas: 'main secondary';
+    grid-template-columns: 2fr 1fr;
+    border: 1px solid @lib__colors__N300;
+  }
+
+  .headline {
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h300__font-size;
+    font-weight: 500;
+    line-height: 2rem;
+    margin-left: 0.5rem;
+  }
+
+  .mainAreaLeft {
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 'secondary main';
+  }
+
+  .mainArea {
+    grid-area: main;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .mainAreaContent {
+    border: 1px solid @lib__colors__N300;
+  }
+
+  .secondaryArea {
+    grid-area: secondary;
+    border-left: 1px solid @lib__colors__N300;
+    background-color: @lib__colors__N100;
+    padding: 0.5rem;
+
+    &.borderRight {
+      border-left: none;
+      border-right: 1px solid @lib__colors__N300;
+    }
+  }
+
+  .removePadding {
+    padding: 0;
+  }
+}

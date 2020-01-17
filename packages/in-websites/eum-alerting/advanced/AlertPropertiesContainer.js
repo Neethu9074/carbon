@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-websites/eum-alerting/formHelpers';
+import TwoColumnContainer from 'in-websites/eum-alerting/advanced/components/TwoColumnContainer';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -13,22 +14,20 @@ export default function AlertPropertiesContainer({ form, onChange, websiteLabel,
   const severity = +form.get(fieldNames.severity).value;
 
   return (
-    <div className={locals.container}>
-      <div className={locals.alertPropsContainer}>
-        <h3 className={locals.headline}>Alert Properties</h3>
-        <div className={locals.alertProps}>
-          <AlertProperties form={form} onChange={onChange} isReadOnly={isReadOnly} websiteLabel={websiteLabel} />
-        </div>
-      </div>
-      <div className={locals.previewArea}>
+    <TwoColumnContainer
+      mainContentHeadline="Alert Properties"
+      mainContent={
+        <AlertProperties form={form} onChange={onChange} isReadOnly={isReadOnly} websiteLabel={websiteLabel} />
+      }
+      secondaryContent={
         <AlertPreview
           form={form}
           websiteLabel={websiteLabel}
           tagFilters={form.get(fieldNames.tagFilters).value}
           severity={severity}
         />
-      </div>
-    </div>
+      }
+    />
   );
 }
 

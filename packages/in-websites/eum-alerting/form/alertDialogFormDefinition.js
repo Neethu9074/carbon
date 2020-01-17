@@ -34,8 +34,20 @@ export const fieldNames = Object.freeze({
   thresholdSeasonality: 'thresholdSeasonality',
   thresholdBaseline: 'thresholdBaseline',
   thresholdDeviationFactor: 'thresholdDeviationFactor',
-  calculateThresholdOnBackend: 'calculateThresholdOnBackend'
+  timeThresholdViolations: 'timeThresholdViolations',
+  timeThresholdEvaluations: 'timeThresholdEvaluations',
+  timeThresholdType: 'timeThresholdType',
+  timeThresholdUsers: 'timeThresholdUsers',
+  timeThresholdUserPercentage: 'timeThresholdUserPercentage'
 });
+
+// We don't sent this fields to the api
+export const hiddenFieldNames = Object.freeze({
+  calculateThresholdOnBackend: 'calculateThresholdOnBackend',
+  alertByNumberOfImpactedUsersEnabled: 'alertByNumberOfImpactedUsersEnabled',
+  alertByPercentageOfImpactedUsersEnabled: 'alertByPercentageOfImpactedUsersEnabled'
+});
+
 export const selectOptions = {
   [fieldNames.ruleOperator]: Object.freeze([
     { value: operators.EQUALS, label: 'Equals' },
@@ -152,7 +164,23 @@ export const selectOptions = {
     { value: 'staticThreshold', label: 'Static Threshold' },
     { value: 'historicBaseline.DAILY', label: 'Baseline (Daily Seasonality)' },
     { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
+  ]),
+  conditionPersistenceTime: Object.freeze([
+    { value: 1, label: '10 min' },
+    { value: 2, label: '20 min' },
+    { value: 3, label: '30 min' },
+    { value: 6, label: '60 min' },
+    { value: 9, label: '90 min' },
+    { value: 12, label: '120 min' }
   ])
+};
+
+export const radioOptions = {
+  timeThresholdType: {
+    violationsInSequence: 'violationsInSequence',
+    violationsInPeriod: 'violationsInPeriod',
+    userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence'
+  }
 };
 
 export default function alertFormDefinition(alertFormValues = {}) {
@@ -168,7 +196,8 @@ export default function alertFormDefinition(alertFormValues = {}) {
     websiteId = '',
     id = '',
     threshold = '',
-    calculateThresholdOnBackend = false
+    calculateThresholdOnBackend = false,
+    timeThreshold = ''
   } = alertFormValues;
 
   let form = createMapForm()
@@ -266,7 +295,51 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.calculateThresholdOnBackend,
+      fieldNames.timeThresholdViolations,
+      createField({
+        value: (timeThreshold && timeThreshold.violations) || 1
+      })
+    )
+    .put(
+      fieldNames.timeThresholdEvaluations,
+      createField({
+        value: (timeThreshold && timeThreshold.evaluations) || 1
+      })
+    )
+    .put(
+      fieldNames.timeThresholdType,
+      createField({
+        value: (timeThreshold && timeThreshold.type) || radioOptions.timeThresholdType.violationsInSequence
+      })
+    )
+    .put(
+      fieldNames.timeThresholdUsers,
+      createField({
+        validator: numAffectedUsersValidator,
+        value: (timeThreshold && timeThreshold.users) || 20
+      })
+    )
+    .put(
+      fieldNames.timeThresholdUserPercentage,
+      createField({
+        validator: numAffectedUsersPercentageValidator,
+        value: (timeThreshold && timeThreshold.userPercentage * 100) || 20
+      })
+    )
+    .put(
+      hiddenFieldNames.alertByNumberOfImpactedUsersEnabled,
+      createField({
+        value: timeThreshold && timeThreshold.users !== null
+      })
+    )
+    .put(
+      hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled,
+      createField({
+        value: timeThreshold && timeThreshold.userPercentage !== null
+      })
+    )
+    .put(
+      hiddenFieldNames.calculateThresholdOnBackend,
       createField({
         value: calculateThresholdOnBackend
       })
@@ -303,9 +376,11 @@ export function getRuleOperatorLabel(value) {
 
 export function getMetricLabel(alertType, value) {
   const metricList = selectOptions[fieldNames.ruleMetricName][alertType];
+
   if (!metricList) {
     return '';
   }
+
   return metricList.filter(entry => entry.value === value)[0].label;
 }
 
@@ -326,6 +401,28 @@ function positiveNumberValidator(num) {
       {
         severity: 'error',
         message: 'Please provide a number >= 0'
+      }
+    ];
+  }
+}
+
+function numAffectedUsersValidator(num) {
+  if (num === '' || num < 1) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please provide a number >= 1'
+      }
+    ];
+  }
+}
+
+function numAffectedUsersPercentageValidator(num) {
+  if (num === '' || num < 1 || num > 100) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please provide a number between 1 and 100'
       }
     ];
   }
