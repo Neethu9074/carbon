@@ -101,7 +101,7 @@ export default function VsphereHosts(props) {
     <ServerTableWithUrlState
       get={getTableData}
       timeConfig={props.timeConfig}
-      datacenterId={props.datacenterId}
+      datacenterId={isWithinDatacenter(props) ? props.datacenterId : undefined}
       hostId={props.hostId}
     />
   );
@@ -139,4 +139,9 @@ function getTableData({
 function resolveIcon(props) {
   const guestFullName = get(props, ['guestFullName'], 'linux');
   return guestFullName && guestFullName.toLowerCase().includes('windows') ? 'lib_windows' : 'lib_linux';
+}
+
+function isWithinDatacenter(props) {
+  const pathname = get(props, ['location', 'pathname'], '/vsphere/datacenter/vms');
+  return pathname && pathname.toLowerCase().includes('datacenter');
 }
