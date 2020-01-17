@@ -1,5 +1,4 @@
 import { combineLatest } from 'reactive-observables';
-import onClickOutside from 'react-onclickoutside';
 import { on } from 'reactive-observables';
 import React from 'react';
 
@@ -19,188 +18,194 @@ export default connectTo(
   {
     highlightedTimeframe: highlightedTimeframe$
   },
-  onClickOutside(
-    class extends React.Component {
-      static displayName = 'ContextMenu';
 
-      state = {
-        xPos: null,
-        yPos: null
-      };
+  class extends React.Component {
+    static displayName = 'ContextMenu';
 
-      componentDidMount() {
+    state = {
+      xPos: null,
+      yPos: null
+    };
+
+    componentDidMount() {
+      this.setupSubscriptions();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      return (
+        this.props.glassPane !== nextProps.glassPane ||
+        this.props.xScale !== nextProps.xScale ||
+        this.props.highlightedTimeframe !== nextProps.highlightedTimeframe ||
+        this.state.xPos !== nextState.xPos
+      );
+    }
+
+    componentDidUpdate(nextProps) {
+      if (this.props.glassPane !== nextProps.glassPane) {
+        this.disposeSubscriptions();
         this.setupSubscriptions();
       }
+    }
 
-      shouldComponentUpdate(nextProps, nextState) {
-        return (
-          this.props.glassPane !== nextProps.glassPane ||
-          this.props.xScale !== nextProps.xScale ||
-          this.props.highlightedTimeframe !== nextProps.highlightedTimeframe ||
-          this.state.xPos !== nextState.xPos
-        );
-      }
+    componentWillUnmount() {
+      this.disposeSubscriptions();
+    }
 
-      componentDidUpdate(nextProps) {
-        if (this.props.glassPane !== nextProps.glassPane) {
-          this.disposeSubscriptions();
-          this.setupSubscriptions();
-        }
-      }
-
-      componentWillUnmount() {
-        this.disposeSubscriptions();
-      }
-
-      handleClickOutside = () => {
+    onClickOutside = e => {
+      if (e.target.className !== locals.contextMenu) {
         this.closeContextMenu();
+      }
+    };
+
+    closeContextMenu = () => {
+      this.setState({ xPos: null, yPos: null });
+    };
+
+    render() {
+      const { highlightedTimeframe, chart } = this.props;
+      const { xPos, yPos } = this.state;
+      if (
+        !highlightedTimeframe ||
+        !xPos ||
+        (!highlightedTimeframe && !allowDownloadMetricsFromCharts && !chart.config.additionalContextMenuButtons)
+      ) {
+        return null;
+      }
+
+      const buttonProps = {
+        className: locals.button,
+        kind: 'secondary',
+        size: 'compact'
       };
 
-      closeContextMenu = () => {
-        this.setState({ xPos: null, yPos: null });
-      };
-
-      render() {
-        const { highlightedTimeframe, chart } = this.props;
-        const { xPos, yPos } = this.state;
-        if (
-          !highlightedTimeframe ||
-          !xPos ||
-          (!highlightedTimeframe && !allowDownloadMetricsFromCharts && !chart.config.additionalContextMenuButtons)
-        ) {
-          return null;
-        }
-
-        const buttonProps = {
-          className: locals.button,
-          kind: 'secondary',
-          size: 'compact'
-        };
-
-        return (
-          <div className={locals.contextMenu} style={{ left: xPos, top: yPos }}>
-            {(chart.config.additionalContextMenuButtons || []).map((buttonConfig, index, originalTimeConfig) => {
-              return (
-                <Button
-                  key={index}
-                  {...buttonProps}
-                  icon={buttonConfig.icon}
-                  href$={
-                    buttonConfig.getHref$
-                      ? buttonConfig.getHref$(
-                          getHighlightedTimeConfig(highlightedTimeframe, originalTimeConfig),
-                          this.getStrippedConfig()
-                        )
-                      : undefined
-                  }
-                  onClick={() => {
-                    this.closeContextMenu();
-                    if (buttonConfig.onClick) {
-                      buttonConfig.onClick(this.getStrippedConfig());
-                    }
-                  }}
-                >
-                  {buttonConfig.label}
-                </Button>
-              );
-            })}
-            {highlightedTimeframe && (
+      return (
+        <div className={locals.contextMenu} style={{ left: xPos, top: yPos }}>
+          {(chart.config.additionalContextMenuButtons || []).map((buttonConfig, index, originalTimeConfig) => {
+            return (
               <Button
+                key={index}
                 {...buttonProps}
-                icon="lib_datetime_time"
-                href$={getHighlightedTimeframeUrl$()}
-                onClick={this.closeContextMenu}
-              >
-                Zoom to time range
-              </Button>
-            )}
-            {allowDownloadMetricsFromCharts && (
-              <Button
-                {...buttonProps}
-                icon="lib_actions_download"
-                onClick={e => {
-                  this.closeContextMenu();
-                  this.download(e);
-                }}
-              >
-                Download JSON
-              </Button>
-            )}
-            {highlightedTimeframe && (
-              <Button
-                {...buttonProps}
-                icon="lib_openclose_circle_outline"
+                icon={buttonConfig.icon}
+                href$={
+                  buttonConfig.getHref$
+                    ? buttonConfig.getHref$(
+                        getHighlightedTimeConfig(highlightedTimeframe, originalTimeConfig),
+                        this.getStrippedConfig()
+                      )
+                    : undefined
+                }
                 onClick={() => {
                   this.closeContextMenu();
-                  clearHighlightedTimeframe();
+                  if (buttonConfig.onClick) {
+                    buttonConfig.onClick(this.getStrippedConfig());
+                  }
                 }}
               >
-                Clear selection
+                {buttonConfig.label}
               </Button>
-            )}
-          </div>
-        );
-      }
-
-      setupSubscriptions = () => {
-        const glassPane = this.props.glassPane;
-        if (!glassPane) {
-          return;
-        }
-        this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(this.onContextMenu.bind(this));
-      };
-
-      onContextMenu(e) {
-        const highlightedTimeframe = this.props.highlightedTimeframe;
-        e.preventDefault();
-
-        if (!highlightedTimeframe) {
-          return;
-        }
-
-        const from = highlightedTimeframe[0];
-        let to = highlightedTimeframe[1];
-        const clickedDomain = this.props.xScale.getDomain(e.offsetX);
-        if (clickedDomain >= from && clickedDomain <= to) {
-          this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10) });
-        }
-      }
-
-      download = e => {
-        const metrics = this.props.metrics;
-        metrics.y1._metricValuesForDownload = metrics['y1'].metrics;
-
-        e.preventDefault();
-        const data = filterOnHighlightedTimeframe(this.props.highlightedTimeframe, mapMetricsToDownloadFormat(metrics));
-        let fileName = metrics.cardTitle;
-        if (!fileName) {
-          fileName = 'metrics';
-        }
-        const a = document.body.appendChild(document.createElement('a'));
-        a.download = fileName + '.json';
-        a.href = `data:text/json;charset=utf-8,${encodeURIComponent(getJsonData(data))}`;
-        a.click();
-      };
-
-      getStrippedConfig = () => {
-        const config = this.props.chart.config;
-        return {
-          renderedMetrics: [
-            ...getNonFilteredMetricsForaxis(config.y1, config.filteredDataSeries),
-            ...getNonFilteredMetricsForaxis(config.y2, config.filteredDataSeries)
-          ]
-          // add more properties, depending on the use case
-        };
-      };
-
-      disposeSubscriptions = () => {
-        if (this.onContextMenuSubscription) {
-          this.onContextMenuSubscription.dispose();
-          this.onContextMenuSubscription = null;
-        }
-      };
+            );
+          })}
+          {highlightedTimeframe && (
+            <Button
+              {...buttonProps}
+              icon="lib_datetime_time"
+              href$={getHighlightedTimeframeUrl$()}
+              onClick={this.closeContextMenu}
+            >
+              Zoom to time range
+            </Button>
+          )}
+          {allowDownloadMetricsFromCharts && (
+            <Button
+              {...buttonProps}
+              icon="lib_actions_download"
+              onClick={e => {
+                this.closeContextMenu();
+                this.download(e);
+              }}
+            >
+              Download JSON
+            </Button>
+          )}
+          {highlightedTimeframe && (
+            <Button
+              {...buttonProps}
+              icon="lib_openclose_circle_outline"
+              onClick={() => {
+                this.closeContextMenu();
+                clearHighlightedTimeframe();
+              }}
+            >
+              Clear selection
+            </Button>
+          )}
+        </div>
+      );
     }
-  )
+
+    setupSubscriptions = () => {
+      const glassPane = this.props.glassPane;
+      if (!glassPane) {
+        return;
+      }
+      this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(this.onContextMenu.bind(this));
+      this.onClickSubscription = on(glassPane, 'click').subscribe(this.onClickOutside.bind(this));
+    };
+
+    onContextMenu(e) {
+      const highlightedTimeframe = this.props.highlightedTimeframe;
+      e.preventDefault();
+
+      if (!highlightedTimeframe) {
+        return;
+      }
+
+      const from = highlightedTimeframe[0];
+      let to = highlightedTimeframe[1];
+      const clickedDomain = this.props.xScale.getDomain(e.offsetX);
+      if (clickedDomain >= from && clickedDomain <= to) {
+        this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10) });
+      }
+    }
+
+    download = e => {
+      const metrics = this.props.metrics;
+      metrics.y1._metricValuesForDownload = metrics['y1'].metrics;
+
+      e.preventDefault();
+      const data = filterOnHighlightedTimeframe(this.props.highlightedTimeframe, mapMetricsToDownloadFormat(metrics));
+      let fileName = metrics.cardTitle;
+      if (!fileName) {
+        fileName = 'metrics';
+      }
+      const a = document.body.appendChild(document.createElement('a'));
+      a.download = fileName + '.json';
+      a.href = `data:text/json;charset=utf-8,${encodeURIComponent(getJsonData(data))}`;
+      a.click();
+    };
+
+    getStrippedConfig = () => {
+      const config = this.props.chart.config;
+      return {
+        renderedMetrics: [
+          ...getNonFilteredMetricsForaxis(config.y1, config.filteredDataSeries),
+          ...getNonFilteredMetricsForaxis(config.y2, config.filteredDataSeries)
+        ]
+        // add more properties, depending on the use case
+      };
+    };
+
+    disposeSubscriptions = () => {
+      if (this.onContextMenuSubscription) {
+        this.onContextMenuSubscription.dispose();
+        this.onContextMenuSubscription = null;
+      }
+      if (this.onClickSubscription) {
+        this.onClickSubscription.dispose();
+        this.onClickSubscription = null;
+      }
+    };
+  }
 );
 
 function getNonFilteredMetricsForaxis(axis, filteredDataSeries) {
