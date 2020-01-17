@@ -1,40 +1,14 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import getApplication from 'in-subscription/application/getApplication';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
-import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
-export default connect(({ applicationId, serviceId, endpointId }) => {
-  const observables = {};
-  if (applicationId) {
-    observables.applicationName = getApplication({ id: applicationId }).map(getLabel);
-  }
-  if (serviceId) {
-    observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
-  }
-  if (endpointId) {
-    observables.endpointName = getEndpointInfo({ id: endpointId }).map(getLabel);
-  }
-  return observables;
-})(function EventsChart({
-  timeConfig,
-  applicationName,
-  serviceName,
-  endpointName,
-  applicationId,
-  serviceId,
-  endpointId
-}) {
-  const entityFilter = createEntityFilter(applicationName, serviceName, endpointName);
+export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId }) {
+  const entityFilter = createEntityFilter(applicationId, serviceId, endpointId);
 
   // For consistency's sake with other charts in AP dashboards different granularity values
   // are being used here than for similar charts in the Events area.
@@ -99,23 +73,19 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       ]}
     />
   );
-});
+}
 
-function createEntityFilter(applicationName, serviceName, endpointName) {
+function createEntityFilter(applicationId, serviceId, endpointId) {
   const entityFilters = [];
-  if (applicationName) {
-    entityFilters.push(`entity.application.name:"${luceneEscapeString(applicationName)}"`);
+  if (applicationId) {
+    entityFilters.push(`entity.application.id:"${applicationId}"`);
   }
-  if (serviceName) {
-    entityFilters.push(`entity.service.name:"${luceneEscapeString(serviceName)}"`);
+  if (serviceId) {
+    entityFilters.push(`entity.service.id:"${serviceId}"`);
   }
-  if (endpointName) {
-    entityFilters.push(`entity.endpoint.name:"${luceneEscapeString(endpointName)}"`);
+  if (endpointId) {
+    entityFilters.push(`entity.endpoint.id:"${endpointId}"`);
   }
   const entityFilter = entityFilters.join(' AND ');
   return entityFilter;
-}
-
-function getLabel(result) {
-  return get(result, ['data', 'label'], null);
 }
