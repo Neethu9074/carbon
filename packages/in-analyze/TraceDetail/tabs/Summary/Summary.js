@@ -19,6 +19,7 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
+import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
@@ -28,6 +29,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
+import { isInstanaEngineer } from 'in-stores/user';
 import Button from 'in-new-components/Button';
 import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
@@ -119,6 +121,17 @@ class Summary extends React.Component {
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <TraceValidationResult issues={trace.issues} />
         <div className={locals.left}>
+          {isInstanaEngineer && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
+            <Row>
+              <Col lg={12}>
+                <ProblemIndicator kind="warning" title="Batched Ingestion">
+                  This trace got processed in {trace.ingestionBatchesCount} batches.
+                  That may cause irregularities such as spans not getting merged to a single Call, partial Service
+                  mapping or other incomplete data showing.
+                </ProblemIndicator>
+              </Col>
+            </Row>
+          ) : null}
           {rootCall && rootCall.errorCount ? (
             <Row>
               <Col lg={12}>
