@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 
-import CrossRegionForwarding from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CrossRegionForwarding';
 import CustomPages from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CustomPages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 const presenterMapping = {
-  xrf: CrossRegionForwarding,
   eh: CustomPages
 };
 
