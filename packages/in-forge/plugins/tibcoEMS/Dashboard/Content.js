@@ -12,9 +12,12 @@ import QueuesTable from './QueuesTable';
 
 export default function TibcoDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-  if (sensorConnectionStatus !== 'OK') {
+  if (sensorConnectionStatus === 'STATISTICS_DISABLED') {
+    return <DashboardNotification type="info">Please enable statistics for Tibco EMS.</DashboardNotification>;
+  } else if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">Please provide proper drivers for Tibco EMS.</DashboardNotification>;
   }
+
   const snapshotId = snapshot.get('id');
 
   return (
