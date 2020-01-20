@@ -80,7 +80,7 @@ export default connectTo(
                 {
                   boundaryScope,
                   timeConfig: highlightedTime,
-                  showGraph: false,
+                  showGraph: true,
                   jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
                   filters: isSynthetic
                     ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]

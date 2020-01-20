@@ -60,7 +60,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
       }}
       additionalContextMenuButtons={[
         {
-          icon: 'lib_analyze',
+          icon: 'lib_events_inverted',
           label: 'View Events',
           getHref$: highlightedTime =>
             getEventsViewFilteredBy({
