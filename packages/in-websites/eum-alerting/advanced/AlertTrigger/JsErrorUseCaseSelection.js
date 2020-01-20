@@ -32,33 +32,35 @@ export default function JsErrorUseCaseSelection({
   }
 
   return (
-    <ExpandableCard
-      title="Selected JS Error"
-      label="Error rate"
-      bodyWithoutPadding
-      openByDefault
-      darkFrame={!isReadOnly}
-      framed={isReadOnly}
-      headerClassName={isReadOnly && locals.cardHeader}
-    >
-      {isReadOnly ? (
-        <SelectedAlertTypeInfo
-          title={`Error Message`}
-          description={`${getRuleOperatorLabel(form.get(fieldNames.ruleOperator).value)}: "${
-            form.get(fieldNames.ruleValue).value
-          }"`}
-          svgIconType="lib_help_error_warning"
-        />
-      ) : (
-        <ProvideManualPattern
-          form={form}
-          timeConfig={timeConfig}
-          onChange={onChange}
-          onSelectJsError={setJsErrorsListVisible}
-        />
-      )}
+    <>
+      <ExpandableCard
+        title="Selected JS Error"
+        label="Error rate"
+        bodyWithoutPadding
+        openByDefault
+        darkFrame={!isReadOnly}
+        framed={isReadOnly}
+        headerClassName={isReadOnly && locals.cardHeader}
+      >
+        {isReadOnly ? (
+          <SelectedAlertTypeInfo
+            title="Error Message"
+            description={`${getRuleOperatorLabel(form.get(fieldNames.ruleOperator).value)}: "${
+              form.get(fieldNames.ruleValue).value
+            }"`}
+            svgIconType="lib_help_error_warning"
+          />
+        ) : (
+          <ProvideManualPattern
+            form={form}
+            timeConfig={timeConfig}
+            onChange={onChange}
+            onSelectJsError={setJsErrorsListVisible}
+          />
+        )}
+      </ExpandableCard>
       <div className={locals.chartContainer}>{chart}</div>
-    </ExpandableCard>
+    </>
   );
 }
 

@@ -22,7 +22,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title={'Page Loads'}
+            title="Page Loads"
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -38,7 +38,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title={'Page Transitions'}
+            title="Page Transitions"
             formatter={number.compact}
             metricsConfig={{
               tagFilters,

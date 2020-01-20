@@ -87,7 +87,6 @@ function getNameContent(config) {
           [locals.alertIconSeverityLow]: config.severity <= 5,
           [locals.alertIconSeverityHigh]: config.severity > 5
         })}
-        size="xxxs"
         type="lib_alerts_alert"
       />
       <div className={joinClassNames(locals.column, locals.fullWidth)}>
@@ -119,14 +118,14 @@ function getFiltersContent(config, websiteLabel) {
             [locals.devider]: pages.length > 0
           })}
         >
-          <SvgIcon className={locals.filterIcon} size="xxxs" type="lib_website" />
+          <SvgIcon className={locals.filterIcon} type="lib_website" />
           {websiteLabel}
         </span>
       )}
       {pages &&
         pages.map((page, i) => (
           <span className={joinClassNames(locals.centered, locals.space)} key={i}>
-            <SvgIcon className={locals.filterIcon} size="xxxs" type="lib_website_page_load" />
+            <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
             {page.stringValue}
           </span>
         ))}
@@ -142,7 +141,7 @@ function getFiltersContent(config, websiteLabel) {
           align="topMiddle"
         >
           <span className={locals.centered}>
-            <SvgIcon className={locals.filterIcon} size="xxxs" type="lib_actions_filter" />
+            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
             {config.tagFilters.length - pages.length} filter(s)
           </span>
         </Tooltip>

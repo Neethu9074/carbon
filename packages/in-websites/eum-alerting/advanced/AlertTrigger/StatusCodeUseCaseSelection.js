@@ -30,25 +30,27 @@ export default function StatusCodeUseCaseSelection({ form, timeConfig, onChange,
     chart = <ChartContainer headline="Specific HTTP Status Codes">{chart}</ChartContainer>;
   }
   return (
-    <ExpandableCard
-      title="Specific HTTP Status Codes"
-      label={getMetricLabel(alertTypes.specificStatusCode, metricName)}
-      bodyWithoutPadding
-      openByDefault
-      darkFrame={!isReadOnly}
-      framed={isReadOnly}
-      headerClassName={isReadOnly && locals.cardHeader}
-    >
-      {isReadOnly ? (
-        <SelectedAlertTypeInfo
-          title="HTTP Status Code"
-          description={getStatusCodeLabel(form.get(fieldNames.ruleValue).value)}
-        />
-      ) : (
-        <ProvideStatusCode form={form} onChange={onChange} />
-      )}
+    <>
+      <ExpandableCard
+        title="Specific HTTP Status Codes"
+        label={getMetricLabel(alertTypes.specificStatusCode, metricName)}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame={!isReadOnly}
+        framed={isReadOnly}
+        headerClassName={isReadOnly && locals.cardHeader}
+      >
+        {isReadOnly ? (
+          <SelectedAlertTypeInfo
+            title="HTTP Status Code"
+            description={getStatusCodeLabel(form.get(fieldNames.ruleValue).value)}
+          />
+        ) : (
+          <ProvideStatusCode form={form} onChange={onChange} />
+        )}
+      </ExpandableCard>
       <div className={locals.chartContainer}>{chart}</div>
-    </ExpandableCard>
+    </>
   );
 }
 

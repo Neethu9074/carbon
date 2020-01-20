@@ -9,7 +9,7 @@ import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertConfigDialogPresenter.mless';
 
-export default function SimpleAlertDialogPresenter({
+export default function AlertConfigDialogPresenter({
   editMode,
   form,
   granularity,
@@ -21,7 +21,7 @@ export default function SimpleAlertDialogPresenter({
 }) {
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideInConfig] = useState(null);
-  const [simpleMode, setSimpleMode] = useState(true);
+  const [simpleMode, setSimpleMode] = useState(!editMode);
 
   return (
     <BigHeaderDialog
@@ -33,11 +33,13 @@ export default function SimpleAlertDialogPresenter({
       doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
-      renderCustomCloseBehaviour={() => (
-        <Button onClick={() => setSimpleMode(!simpleMode)} kind="action">
-          {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
-        </Button>
-      )}
+      renderCustomCloseBehaviour={() =>
+        !editMode && (
+          <Button onClick={() => setSimpleMode(!simpleMode)} kind="action">
+            {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
+          </Button>
+        )
+      }
     >
       <div
         className={evaluateClassNames({
@@ -76,7 +78,7 @@ export default function SimpleAlertDialogPresenter({
   );
 }
 
-SimpleAlertDialogPresenter.propTypes = {
+AlertConfigDialogPresenter.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,

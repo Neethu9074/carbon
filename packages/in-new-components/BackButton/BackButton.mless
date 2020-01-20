@@ -2,7 +2,7 @@
 
 :local {
   .link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     margin: 0 0 1.3rem;
     font-size: 0.9rem;

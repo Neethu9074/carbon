@@ -2,6 +2,12 @@
 @import '~in-themes/mixins.less';
 
 :local {
+
+  .latestButton {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .labelWrapper {
     .spaceBetweenFlexbox();
 
