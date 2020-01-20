@@ -77,6 +77,32 @@ export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) 
           }}
         />
       </DashboardSection>
+
+      <DashboardSection title={`Acceptor Rate-Limited Span Messages`}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: [`acceptor.droppedSpanMessagesRateLimited`],
+            labels: ['Acceptor Dropped Span Messages'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={`Serverless Acceptor Rate-Limited Span Messages`}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: [`serverless-acceptor.droppedSpanMessagesRateLimited`],
+            labels: ['Serverless Acceptor Dropped Span Messages'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
     </Fragment>
   );
 }
