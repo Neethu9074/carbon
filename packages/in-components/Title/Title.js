@@ -1,4 +1,6 @@
 import withSideEffect from 'react-side-effect';
+
+import { isNotBlank } from 'in-services/util/string';
 import config from 'in-services/config';
 
 const defaultTitleSuffix = `Instana (${config.tenantUnit}-${config.tenant})`;
@@ -6,7 +8,7 @@ const MAX_DYNAMIC_SEGMENT_LENGTH = 30;
 
 function setTitle(titles) {
   document.title = titles
-    .slice()
+    .filter(isNotBlank)
     .reverse()
     .join(' – ');
 }
