@@ -21,6 +21,8 @@ export default function HardwareInfo({ snapshot }) {
         {data.get('cpu.count')} x {data.get('cpu.model')}
       </DescriptionItem>
 
+      <DescriptionItem title="GPU">{data.get('cpu.count') / 2} x GE Force GTX 1050 @ 1.9 GH</DescriptionItem>
+
       {memoryTotal != null ? (
         <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>
       ) : null}
