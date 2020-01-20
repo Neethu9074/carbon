@@ -728,7 +728,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   );
 }
 
-function K8sDaemonSetContent({ agentKey, agentEndpoint }) {
+function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -749,7 +749,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint }) {
           <YAML
             title="daemonset.yaml"
             disabledErrorMessage={clusterNameValidationMessage}
-            content={getKubernetesYamlConfig(agentKey, agentEndpoint, clusterName, zoneName)}
+            content={getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName)}
           />
           <HelpBox>
             <TextWithLink
