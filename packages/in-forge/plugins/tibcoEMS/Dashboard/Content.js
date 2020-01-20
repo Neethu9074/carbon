@@ -13,9 +13,25 @@ import QueuesTable from './QueuesTable';
 export default function TibcoDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus === 'STATISTICS_DISABLED') {
-    return <DashboardNotification type="info">Please enable statistics for Tibco EMS.</DashboardNotification>;
+    return (
+      <DashboardNotification type="info">
+        Please enable statistics for Tibco EMS to enable metric collection. Add `statistics = enabled` to{' '}
+        <strong>tibemsd.conf</strong> file and restart the server or run `set server statistics=enabled` using{' '}
+        <strong>tibemsadmin</strong>.
+      </DashboardNotification>
+    );
   } else if (sensorConnectionStatus !== 'OK') {
-    return <DashboardNotification type="info">Please provide proper drivers for Tibco EMS.</DashboardNotification>;
+    return (
+      <DashboardNotification type="info">
+        To enable metric collection, please add `tibjms-8.5.1.jar` and `tibjmsadmin-8.5.1.jar` to {'<'}
+        agent_install_dir
+        {'>'}
+        /system/com/tibco/tibjms/tibjms/8.5.1 and {'<'}
+        agent_install_dir
+        {'>'}
+        /system/com/tibco/tibjms/tibjmsadmin/8.5.1 respetively.
+      </DashboardNotification>
+    );
   }
 
   const snapshotId = snapshot.get('id');
