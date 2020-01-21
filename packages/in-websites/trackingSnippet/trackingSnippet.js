@@ -29,7 +29,13 @@ export function getTrackingSnippet({ key, additionalScript = null }) {
     lines.push(`  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");`);
 
     if (region) {
-      lines.push(`  ineum('reportingUrl', 'https://eum-${region}.instana.io');`);
+      if (region === 'eu-west-1') {
+        lines.push(`  ineum('reportingUrl', 'https://eum-blue-saas.instana.io');`);
+      } else if (region === 'us-west-2') {
+        lines.push(`  ineum('reportingUrl', 'https://eum-red-saas.instana.io');`);
+      } else {
+        lines.push(`  ineum('reportingUrl', 'https://eum-${region}-saas.instana.io');`);
+      }
     }
   }
 
