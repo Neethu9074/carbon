@@ -18,13 +18,7 @@ export default connectTo(
       return (
         <Overlay
           content={() => (
-            <Stack
-              id={id}
-              productArea="INFRASTRUCTURE"
-              timeConfig={timeConfig}
-              activeTabIndex={activeTabIndex}
-              onTabSelect={onTabSelect}
-            />
+            <Stack id={id} timeConfig={timeConfig} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
           )}
           withoutWrapper
         >
