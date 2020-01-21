@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { positiveNumber } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function Info({ snapshot }) {
@@ -20,7 +21,7 @@ export default function Info({ snapshot }) {
           .join(', ')}
       </DescriptionItem>
       <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
-      <DescriptionItem title="Max Connections">{data.get('maxConnections')}</DescriptionItem>
+      <DescriptionItem title="Max Connections">{positiveNumber(data.get('maxConnections'))}</DescriptionItem>
       <DescriptionItem title="Topics">{data.get('topicNames', emptyList).size}</DescriptionItem>
       <DescriptionItem title="Queues">{data.get('queueNames', emptyList).size}</DescriptionItem>
     </DescriptionList>

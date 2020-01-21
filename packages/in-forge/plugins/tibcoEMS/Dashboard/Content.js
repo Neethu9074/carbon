@@ -47,7 +47,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="sessionCount" />
         </KpiKeyValue>
         <KpiKeyValue label="UpTime">
-          <MetricValue snapshotId={snapshotId} metric="uptime" formatter={millis.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="uptime" formatter={millis.compact} />
         </KpiKeyValue>
       </KpiSection>
 
