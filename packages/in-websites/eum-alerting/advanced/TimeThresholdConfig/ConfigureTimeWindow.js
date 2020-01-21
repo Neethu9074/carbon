@@ -5,16 +5,16 @@ import AlertThresholdConfigItemContainer from 'in-websites/eum-alerting/advanced
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
 
-export default function ConfigureViolationsInSequence({ items, onChange, form }) {
-  const timeThresholdEvaluations = form.get(fieldNames.timeThresholdEvaluations).value;
+export default function ConfigureTimeWindow({ onChange, form }) {
+  const timeThresholdTimeWindow = form.get(fieldNames.timeThresholdTimeWindow).value;
   return (
     <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
       <DropdownWithTopLabel
-        label={selectOptions.conditionPersistenceTime.find(({ value }) => value === timeThresholdEvaluations).label}
+        label={selectOptions.conditionPersistenceTime.find(({ value }) => value === timeThresholdTimeWindow).label}
         align="bottomLeft"
-        items={items}
+        items={selectOptions.conditionPersistenceTime}
         onClick={item => {
-          onChange(form, fieldNames.timeThresholdEvaluations, item.value, {
+          onChange(form, fieldNames.timeThresholdTimeWindow, item.value, {
             name: fieldNames.timeThresholdViolations,
             value: 1
           });
@@ -25,8 +25,7 @@ export default function ConfigureViolationsInSequence({ items, onChange, form })
   );
 }
 
-ConfigureViolationsInSequence.propTypes = {
-  items: PropTypes.array.isRequired,
+ConfigureTimeWindow.propTypes = {
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 };

@@ -87,7 +87,7 @@ function createAlert(form, setForm, onClose, editMode) {
 }
 
 function toAlertConfigObject(form) {
-  function enhanceByAlertType(form) {
+  function enrichByAlertType(form) {
     const alertType = form.get(fieldNames.ruleAlertType).value;
     if (alertType === alertTypes.specificJsError) {
       return {
@@ -107,7 +107,7 @@ function toAlertConfigObject(form) {
     return null;
   }
 
-  function enhanceByThresholdType(form) {
+  function enrichByThresholdType(form) {
     const thresholdType = form.get(fieldNames.thresholdType).value;
 
     if (thresholdType === 'staticThreshold') {
@@ -126,12 +126,12 @@ function toAlertConfigObject(form) {
     }
   }
 
-  function enhanceByTimeThresholdType(form) {
+  function enrichByTimeThresholdType(form) {
     const { violationsInPeriod, userImpactOfViolationsInSequence } = radioOptions.timeThresholdType;
     const timeThresholdType = form.get(fieldNames.timeThresholdType).value;
 
     if (timeThresholdType === violationsInPeriod) {
-      return { evaluations: form.get(fieldNames.timeThresholdEvaluations).value };
+      return { violations: form.get(fieldNames.timeThresholdViolations).value };
     }
 
     if (timeThresholdType === userImpactOfViolationsInSequence) {
@@ -150,7 +150,7 @@ function toAlertConfigObject(form) {
     rule: {
       alertType: form.get(fieldNames.ruleAlertType).value,
       metricName: form.get(fieldNames.ruleMetricName).value,
-      ...enhanceByAlertType(form)
+      ...enrichByAlertType(form)
     },
     tagFilters: form.get(fieldNames.tagFilters).value,
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
@@ -162,12 +162,12 @@ function toAlertConfigObject(form) {
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
       operator: form.get(fieldNames.thresholdOperator).value,
-      ...enhanceByThresholdType(form)
+      ...enrichByThresholdType(form)
     },
     timeThreshold: {
-      violations: form.get(fieldNames.timeThresholdViolations).value,
+      timeWindow: form.get(fieldNames.timeThresholdTimeWindow).value,
       type: form.get(fieldNames.timeThresholdType).value,
-      ...enhanceByTimeThresholdType(form)
+      ...enrichByTimeThresholdType(form)
     }
   });
 }

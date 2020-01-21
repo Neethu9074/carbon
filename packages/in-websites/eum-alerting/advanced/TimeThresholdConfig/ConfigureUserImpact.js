@@ -11,7 +11,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './TimeThresholdConfig.mless';
 
-export default function ConfigureUserImpactOfViolationsInSequence({ form, onChange }) {
+export default function ConfigureUserImpact({ form, onChange }) {
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted">
@@ -109,7 +109,7 @@ export default function ConfigureUserImpactOfViolationsInSequence({ form, onChan
   );
 }
 
-ConfigureUserImpactOfViolationsInSequence.propTypes = {
+ConfigureUserImpact.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 };
