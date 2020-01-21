@@ -2,7 +2,7 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
@@ -10,7 +10,6 @@ import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistribution
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
@@ -89,12 +88,7 @@ function Header(props) {
 function renderButtonLine({ clusterId, timeConfig, result }) {
   return (
     <>
-      <EntityHealthIndicator
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        snapshotId={clusterId}
-        timeConfig={timeConfig}
-      />
+      <DashboardButtonLine snapshotId={clusterId} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
         groupByTag={{ name: 'kubernetes.namespace' }}

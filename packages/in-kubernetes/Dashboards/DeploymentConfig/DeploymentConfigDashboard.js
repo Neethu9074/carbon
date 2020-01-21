@@ -1,15 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import getOpenShiftDeploymentConfig$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import { deploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
 import { DeploymentConfigBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -89,12 +88,7 @@ function Header(props) {
 function renderButtonLine({ deploymentConfigId, timeConfig, result }) {
   return (
     <>
-      <EntityHealthIndicator
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        snapshotId={deploymentConfigId}
-        timeConfig={timeConfig}
-      />
+      <DashboardButtonLine snapshotId={deploymentConfigId} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterId'])}
         namespaceName={get(result, ['data', 'namespace'])}
