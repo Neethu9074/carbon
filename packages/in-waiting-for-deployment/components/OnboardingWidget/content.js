@@ -20,7 +20,6 @@ import {
   YAML
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
-import { region } from 'in-services/config';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
 
