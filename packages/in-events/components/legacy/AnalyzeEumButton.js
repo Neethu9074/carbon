@@ -25,10 +25,10 @@ export default function AnalyzeEumButton({ event, alertConfig }) {
         websiteLabel={websiteLabel}
         tagFilters={[...tagFiltersWithWebsiteId, getErrorMessageTagFilter(alertConfig.rule)]}
         timeConfig={timeConfig}
-        icon={'lib_website_error'}
+        icon="lib_website_error"
         group={defaultGroupings.error}
-        beaconType={'error'}
-        title={'Analyze JS Errors'}
+        beaconType="error"
+        title="Analyze JS Errors"
       />
     );
   }
@@ -45,10 +45,10 @@ export default function AnalyzeEumButton({ event, alertConfig }) {
         websiteLabel={websiteLabel}
         tagFilters={analyzeTagFilters}
         timeConfig={timeConfig}
-        icon={'lib_website_page_load'}
+        icon="lib_website_page_load"
         group={defaultGroupings.pageLoad}
-        beaconType={'pageLoad'}
-        title={'Analyze Load Time'}
+        beaconType="pageLoad"
+        title="Analyze Load Time"
       />
     );
   }

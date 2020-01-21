@@ -1,22 +1,22 @@
 import React from 'react';
 
-import ConfigureViolationsInSequence from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/ConfigureViolationsInSequence';
-import ConfigureViolationsInPeriod from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/ConfigureViolationsInPeriod';
-import { selectOptions, fieldNames, radioOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import ConfigureUserImpactOfViolationsInSequence from './ConfigureUserImpactOfViolationsInSequence';
+import ConfigureTimeWindow from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/ConfigureTimeWindow';
+import ConfigureViolations from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/ConfigureViolations';
+import ConfigureUserImpact from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/ConfigureUserImpact';
+import { fieldNames, radioOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
 import locals from './TimeThresholdConfig.mless';
 
 export default function ConfigureAlertingThreshold({ form, onChange }) {
-  const { userImpactOfViolationsInSequence, violationsInPeriod } = radioOptions.timeThresholdType;
+  const { violationsInPeriod, userImpactOfViolationsInSequence } = radioOptions.timeThresholdType;
   const timeThresholdType = form.get(fieldNames.timeThresholdType).value;
 
   return (
     <div className={locals.alertThresholdConfigContainer}>
-      <ConfigureViolationsInSequence items={selectOptions.conditionPersistenceTime} onChange={onChange} form={form} />
-      {timeThresholdType === violationsInPeriod && <ConfigureViolationsInPeriod onChange={onChange} form={form} />}
+      <ConfigureTimeWindow onChange={onChange} form={form} />
+      {timeThresholdType === violationsInPeriod && <ConfigureViolations onChange={onChange} form={form} />}
       {timeThresholdType === userImpactOfViolationsInSequence && (
-        <ConfigureUserImpactOfViolationsInSequence form={form} onChange={onChange} />
+        <ConfigureUserImpact form={form} onChange={onChange} />
       )}
     </div>
   );

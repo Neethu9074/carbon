@@ -13,6 +13,7 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import Message from 'in-new-components/Message/Message';
 import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Button from 'in-new-components/Button';
 import Pill from 'in-new-components/Pill';
 
 import alertsLocals from './Alerts.mless';
@@ -20,7 +21,7 @@ import locals from './AlertHeader.mless';
 
 export default function AlertHeader({ alertConfig, alertConfigVersions, setRevision, openDialog }) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
-  const isCurrentRevision = alertConfigVersions.length === 0 ? true : alertRevision === alertConfigVersions.length;
+  const isNotLatestRevision = alertConfig.readOnly;
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isToggling, setIsToggling] = useState(false);
@@ -108,13 +109,15 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
           )}
         </div>
       </div>
-      <Message withIcon type="neutral">
-        You are looking at
-        {` `}
-        {isCurrentRevision ? `current version (revision ${alertRevision})` : `revision ${alertRevision}`}
-        {` `}
-        of this alert configuration.
-      </Message>
+      {isNotLatestRevision && (
+        <Message withIcon type="neutral">
+          You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the
+          <Button className={locals.latestButton} kind="action" onClick={() => setRevision({ id: alertConfig.id })}>
+            latest revision
+          </Button>
+          if you want to make changes.
+        </Message>
+      )}
     </div>
   );
 }

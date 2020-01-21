@@ -35,7 +35,7 @@ export const fieldNames = Object.freeze({
   thresholdBaseline: 'thresholdBaseline',
   thresholdDeviationFactor: 'thresholdDeviationFactor',
   timeThresholdViolations: 'timeThresholdViolations',
-  timeThresholdEvaluations: 'timeThresholdEvaluations',
+  timeThresholdTimeWindow: 'timeThresholdTimeWindow',
   timeThresholdType: 'timeThresholdType',
   timeThresholdUsers: 'timeThresholdUsers',
   timeThresholdUserPercentage: 'timeThresholdUserPercentage'
@@ -166,12 +166,12 @@ export const selectOptions = {
     { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
   ]),
   conditionPersistenceTime: Object.freeze([
-    { value: 1, label: '10 min' },
-    { value: 2, label: '20 min' },
-    { value: 3, label: '30 min' },
-    { value: 6, label: '60 min' },
-    { value: 9, label: '90 min' },
-    { value: 12, label: '120 min' }
+    { value: 600000, label: '10 min' },
+    { value: 1200000, label: '20 min' },
+    { value: 1800000, label: '30 min' },
+    { value: 3600000, label: '60 min' },
+    { value: 5400000, label: '90 min' },
+    { value: 7200000, label: '120 min' }
   ])
 };
 
@@ -301,9 +301,9 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.timeThresholdEvaluations,
+      fieldNames.timeThresholdTimeWindow,
       createField({
-        value: (timeThreshold && timeThreshold.evaluations) || 1
+        value: (timeThreshold && timeThreshold.timeWindow) || 600000
       })
     )
     .put(

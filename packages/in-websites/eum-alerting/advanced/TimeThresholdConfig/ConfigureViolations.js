@@ -5,8 +5,10 @@ import AlertThresholdConfigItemContainer from 'in-websites/eum-alerting/advanced
 import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
-export default function ConfigureViolationsInPeriod({ onChange, form }) {
-  const timeThresholdEvaluations = form.get(fieldNames.timeThresholdEvaluations).value;
+const violationGranularity = 10 * 60 * 1000;
+
+export default function ConfigureViolations({ onChange, form }) {
+  const timeThresholdTimeWindow = form.get(fieldNames.timeThresholdTimeWindow).value;
   const timeThresholdViolations = form.get(fieldNames.timeThresholdViolations).value;
 
   return (
@@ -14,7 +16,7 @@ export default function ConfigureViolationsInPeriod({ onChange, form }) {
       <DropdownWithTopLabel
         label={`${timeThresholdViolations}`}
         align="bottomLeft"
-        items={Array.from(Array(+timeThresholdEvaluations).fill(0), (x, i) => ({
+        items={Array.from(Array(+timeThresholdTimeWindow / violationGranularity).fill(0), (x, i) => ({
           value: i + 1,
           label: `${i + 1}`
         }))}
@@ -27,7 +29,7 @@ export default function ConfigureViolationsInPeriod({ onChange, form }) {
   );
 }
 
-ConfigureViolationsInPeriod.propTypes = {
+ConfigureViolations.propTypes = {
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired
 };
