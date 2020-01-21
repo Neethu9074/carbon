@@ -7,9 +7,15 @@ exports.resolveAgentEndpoint = (tenant, unit) => {
   if (clientConfig.agentEndpoint) {
     return clientConfig.agentEndpoint.replace('$TENANT', tenant).replace('$UNIT', unit);
   }
+
   // saas
   if (clientConfig.region) {
-    return `saas-${clientConfig.region}.instana.io`;
+    if (clientConfig.region === 'eu-west-1') {
+      return 'ingress-blue-saas.instana.io';
+    } else if (clientConfig.region === 'us-west-2') {
+      return 'ingress-red-saas.instana.io';
+    }
+    return `ingress-${clientConfig.region}-saas.instana.io'`;
   }
 };
 
