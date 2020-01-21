@@ -3,7 +3,6 @@ import { on } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -156,9 +155,10 @@ export default connectTo(
     onContextMenu(e) {
       e.preventDefault();
 
-      const clickedDomain = this.props.xScale.getDomain(e.offsetX);
-      if (isInsideHighlightedTimeframe(clickedDomain, this.props.highlightedTimeframe)) {
+      if (this.props.isHighlightedTimeframeHovered) {
         this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10) });
+      } else {
+        this.closeContextMenu();
       }
     }
 
