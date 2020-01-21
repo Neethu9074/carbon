@@ -6,6 +6,8 @@ import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRe
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
+import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import ContextMenu from 'in-components/Chart/components/ContextMenu';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-services/scale';
@@ -18,6 +20,7 @@ const userInteractionThrottlingMillis = 50;
 export default connectTo(
   ({ chart, timeConfig }) => {
     const observables = {
+      highlightedTimeframe: highlightedTimeframe$,
       highlightedMoment: highlightedMoment$,
       events: chart.chartEventsManager.events$
     };
@@ -44,11 +47,14 @@ export default connectTo(
     }
 
     render() {
-      const { chart, highlightedMoment } = this.props;
+      const { chart, highlightedMoment, highlightedTimeframe } = this.props;
       const xScale = this.updateScale(chart);
 
+      let isHighlightedTimeframeHovered = false;
       let tooltipContent = null;
       if (highlightedMoment > xScale.getDomainFrom() && highlightedMoment < xScale.getDomainTo()) {
+        isHighlightedTimeframeHovered = isInsideHighlightedTimeframe(highlightedMoment, highlightedTimeframe);
+
         const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(chart.config, highlightedMoment);
         if (nearestTimeInMetrics) {
           const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
@@ -58,6 +64,7 @@ export default connectTo(
               {...this.props}
               timestamp={nearestTimeInMetrics}
               cursorXPosition={cursorXPosition}
+              isHighlightedTimeframeHovered={isHighlightedTimeframeHovered}
               hoveredEvent={this.getHoveredEvent(highlightedMoment)}
               align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
             />
@@ -78,7 +85,12 @@ export default connectTo(
 
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
 
-          <ContextMenu {...this.props} glassPane={this.glassPane} xScale={xScale} />
+          <ContextMenu
+            {...this.props}
+            glassPane={this.glassPane}
+            xScale={xScale}
+            isHighlightedTimeframeHovered={isHighlightedTimeframeHovered}
+          />
         </div>
       );
     }

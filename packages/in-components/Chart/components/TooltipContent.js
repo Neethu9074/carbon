@@ -1,27 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { create } from 'reactive-observables';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
-import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './TooltipContent.mless';
 
-export default connectTo({ highlightedTimeframe: highlightedTimeframe$ }, function TooltipContent({
+export default function TooltipContent({
   timestamp,
   chart,
   reverseTooltipOrder,
   hoveredEvent,
-  highlightedTimeframe,
+  isHighlightedTimeframeHovered,
   excludedLabelsFromTooltip
 }) {
+  const [isHighlightedTimeframeHovered$] = useState(create());
+  useEffect(
+    () => {
+      isHighlightedTimeframeHovered$.emit(isHighlightedTimeframeHovered);
+    },
+    [isHighlightedTimeframeHovered]
+  );
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
-  const isHighlightedTimeframeHovered = isInsideHighlightedTimeframe(timestamp, highlightedTimeframe);
 
   return (
     <div className={locals.tooltipContent}>
@@ -47,10 +51,10 @@ export default connectTo({ highlightedTimeframe: highlightedTimeframe$ }, functi
         excludedLabelsFromTooltip={excludedLabelsFromTooltip}
       />
 
-      {isHighlightedTimeframeHovered && <InteractionNotification />}
+      <InteractionNotification isHighlightedTimeframeHovered$={isHighlightedTimeframeHovered$} />
     </div>
   );
-});
+}
 
 function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder, excludedLabelsFromTooltip = [] }) {
   const axis = config[axisName];
@@ -112,11 +116,39 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
   );
 }
 
-function InteractionNotification() {
-  return (
-    <div className={locals.infoSection}>
-      <SvgIcon className={locals.infoIcon} type="lib_help_error_info_outline" size="xs" />
-      You can right click for more options
-    </div>
-  );
+class InteractionNotification extends React.Component {
+  displayName = 'InteractionNotification';
+
+  state = {};
+
+  constructor(props) {
+    super(props);
+    this.isHighlightedTimeframeHoveredSubscription = props.isHighlightedTimeframeHovered$
+      .debounce(100)
+      .subscribe(isHovered => this.setState({ isHovered }));
+  }
+
+  componentWillUnmount() {
+    if (this.isHighlightedTimeframeHoveredSubscription) {
+      this.isHighlightedTimeframeHoveredSubscription.dispose();
+      this.isHighlightedTimeframeHoveredSubscription = null;
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.isHovered !== this.state.isHovered;
+  }
+
+  render() {
+    if (!this.state.isHovered) {
+      return null;
+    }
+
+    return (
+      <div className={locals.infoSection}>
+        <SvgIcon className={locals.infoIcon} type="lib_help_error_info_outline" size="xs" />
+        You can right click for more options
+      </div>
+    );
+  }
 }
