@@ -99,13 +99,12 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       })
       .differential(false)
       .selfValue(false)
+      .inverted(true)
       .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
       .datum(data)
       .call(this.flamegraphObject);
-
-    window.scrollTo(0, document.body.scrollHeight);
   };
 
   render() {
