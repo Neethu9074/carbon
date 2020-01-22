@@ -1,7 +1,6 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { text, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import NumberBarOverlayPresenter from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
@@ -12,18 +11,16 @@ import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import { numericValidator } from 'in-services/validators/number';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
-storiesOf('Analyse/FilterBar', module)
-  .addDecorator(withKnobs)
-  .add('Default', () => <Default />)
-  .add('Overlay', () => <Overlay />)
-  .add('SelectOverlay', () => <SelectBarOverlayStory />)
-  .add('NumberOverlay', () => <NumberBarOverlayStory />)
-  .add('KeyValueOverlay', () => <KeyValueOverlayStory />);
+export default {
+  title: 'Molecules|FilterBar',
+  component: Bar,
+  decorator: { action, text, boolean }
+};
 
-function Default() {
+export const Default = () => {
   return (
     <Bar onClearFilters={action('onClearFilters')}>
-      <BarItem showArrow onClick={action('onBarItemClick')}>
+      <BarItem showArrow onCfunctionlick={action('onBarItemClick')}>
         By Duration
       </BarItem>
       <BarItem showArrow active isOpen onClick={action('onBarItemClick')}>
@@ -35,9 +32,26 @@ function Default() {
       </BarItem>
     </Bar>
   );
-}
+};
 
-function Overlay() {
+export const WithoutFiltersLabel = () => {
+  return (
+    <Bar onClearFilters={action('onClearFilters')} withoutFiltersLabel>
+      <BarItem showArrow onCfunctionlick={action('onBarItemClick')}>
+        By Duration
+      </BarItem>
+      <BarItem showArrow active isOpen onClick={action('onBarItemClick')}>
+        By Meta
+      </BarItem>
+      <BarItem onClick={action('onBarItemClick')}>Erroneous</BarItem>
+      <BarItem active onClick={action('onBarItemClick')}>
+        Synthetic
+      </BarItem>
+    </Bar>
+  );
+};
+
+export const Overlay = () => {
   return (
     <OverlayWrapper>
       <BarOverlay>
@@ -51,7 +65,7 @@ function Overlay() {
       </BarOverlay>
     </OverlayWrapper>
   );
-}
+};
 
 function OverlayWrapper({ children }) {
   return (
@@ -66,7 +80,7 @@ function OverlayWrapper({ children }) {
   );
 }
 
-function SelectBarOverlayStory() {
+export const SelectBarOverlayStory = () => {
   return (
     <OverlayWrapper>
       <SelectBarOverlay
@@ -96,9 +110,9 @@ function SelectBarOverlayStory() {
       />
     </OverlayWrapper>
   );
-}
+};
 
-function NumberBarOverlayStory() {
+export const NumberBarOverlayStory = () => {
   const showEquality = boolean('Equality?', true);
   const showRange = boolean('Range?', true);
   let form = createMapForm();
@@ -152,9 +166,9 @@ function NumberBarOverlayStory() {
       />
     </OverlayWrapper>
   );
-}
+};
 
-function KeyValueOverlayStory() {
+export const KeyValueOverlayStory = () => {
   let form = createMapForm()
     .put(
       'key',
@@ -222,4 +236,4 @@ function KeyValueOverlayStory() {
       />
     </OverlayWrapper>
   );
-}
+};

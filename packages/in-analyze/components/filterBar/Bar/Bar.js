@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
@@ -26,3 +27,10 @@ export default function Bar({ children, showClearFilters = true, onClearFilters,
     </div>
   );
 }
+
+Bar.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClearFilters: PropTypes.func,
+  showClearFilters: PropTypes.bool,
+  withoutFiltersLabel: PropTypes.bool
+};
