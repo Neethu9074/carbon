@@ -6,6 +6,7 @@
     grid-template-columns: min-content auto;
     align-items: center;
     line-height: 1.25rem;
+    font-size: 14px;
   }
 
   .control {
@@ -14,8 +15,8 @@
     appearance: none;
     width: 24px;
     height: 24px;
-    margin-top: -0.125rem;
     align-self: baseline;
+    line-height: 1.25rem;
   }
 
   .sizeDefault {
@@ -67,5 +68,9 @@
 
   .radiobutton:checked:disabled {
     background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGZpbGw9IiNERkU0RTgiIGQ9Ik0xMiwyNCBDNS4zNzI1ODMsMjQgMCwxOC42Mjc0MTcgMCwxMiBDMCw1LjM3MjU4MyA1LjM3MjU4MywwIDEyLDAgQzE4LjYyNzQxNywwIDI0LDUuMzcyNTgzIDI0LDEyIEMyNCwxOC42Mjc0MTcgMTguNjI3NDE3LDI0IDEyLDI0IFogTTEyLDE2LjUgQzE0LjQ4NTI4MTQsMTYuNSAxNi41LDE0LjQ4NTI4MTQgMTYuNSwxMiBDMTYuNSw5LjUxNDcxODYzIDE0LjQ4NTI4MTQsNy41IDEyLDcuNSBDOS41MTQ3MTg2Myw3LjUgNy41LDkuNTE0NzE4NjMgNy41LDEyIEM3LjUsMTQuNDg1MjgxNCA5LjUxNDcxODYzLDE2LjUgMTIsMTYuNSBaIi8+PC9zdmc+');
+  }
+
+  .withControlsGrayscale {
+    filter: grayscale(1);
   }
 }

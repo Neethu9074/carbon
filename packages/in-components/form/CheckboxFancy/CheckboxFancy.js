@@ -29,7 +29,8 @@ export default function CheckboxFancy({
   wrapperClassName,
   size,
   style,
-  disabled
+  disabled,
+  withControlsGrayscale
 }) {
   const input = (
     <Input
@@ -40,6 +41,7 @@ export default function CheckboxFancy({
       size={size}
       style={style}
       disabled={disabled}
+      withControlsGrayscale={withControlsGrayscale}
     />
   );
   return label ? (
@@ -66,10 +68,20 @@ CheckboxFancy.propTypes = {
   onChange: PropTypes.func.isRequired,
   size: PropTypes.string,
   style: PropTypes.object,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  withControlsGrayscale: PropTypes.bool
 };
 
-function Input({ checked, onChange, asRadioButton, className, size = 'default', style, disabled }) {
+function Input({
+  checked,
+  onChange,
+  asRadioButton,
+  className,
+  size = 'default',
+  style,
+  disabled,
+  withControlsGrayscale
+}) {
   return (
     <input
       type={asRadioButton ? 'radio' : 'checkbox'}
@@ -80,7 +92,10 @@ function Input({ checked, onChange, asRadioButton, className, size = 'default', 
         locals.control,
         asRadioButton ? locals.radiobutton : locals.checkbox,
         sizes[size].className,
-        className
+        className,
+        evaluateClassNames({
+          [locals.withControlsGrayscale]: withControlsGrayscale
+        })
       )}
       style={{ style }}
     />

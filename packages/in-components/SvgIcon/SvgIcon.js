@@ -4,9 +4,8 @@ import React from 'react';
 
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getFactor } from 'in-services/util/dom';
-
 import icons from 'in-components/SvgIcon/registry.json';
+import { getFactor } from 'in-services/util/dom';
 
 import locals from './SvgIcon.mless';
 
@@ -103,6 +102,10 @@ export function getPixelsBySize(size) {
 export function getPath(type) {
   return icons[type].path;
 }
+
+SvgIcon.defaultProps = {
+  size: 'regular'
+};
 
 SvgIcon.propTypes = {
   'aria-label': PropTypes.string,
