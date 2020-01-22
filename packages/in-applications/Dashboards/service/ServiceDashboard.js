@@ -89,7 +89,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-      <StackButton id={serviceId} timeConfig={timeConfig} productArea={'service'} />
+      <StackButton id={serviceId} timeConfig={timeConfig} productArea="service" />
       {hasKubernetesAccess && (
         <InstanaServiceToKubernetesServicesButton
           applicationId={applicationId}

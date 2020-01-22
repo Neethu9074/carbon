@@ -79,7 +79,7 @@ function Header(props) {
 function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, urlBoundaryScope }) {
   return (
     <>
-      <StackButton id={applicationId} timeConfig={timeConfig} productArea={'application'} />
+      <StackButton id={applicationId} timeConfig={timeConfig} productArea="application" />
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
