@@ -335,7 +335,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled,
       createField({
-        value: timeThreshold && timeThreshold.userPercentage !== null
+        value: typeof timeThreshold.userPercentage === 'undefined' ? true : timeThreshold.userPercentage
       })
     )
     .put(

@@ -59,6 +59,16 @@ export const asRadioButton = () => {
           disabled
         />
       </p>
+      <p>
+        <CheckboxFancy
+          label="This is a fancy radio button with gray controls."
+          checked={value}
+          onChange={() => setValue(!value)}
+          size={size}
+          asRadioButton
+          withControlsGrayscale
+        />
+      </p>
     </Fragment>
   ));
 };

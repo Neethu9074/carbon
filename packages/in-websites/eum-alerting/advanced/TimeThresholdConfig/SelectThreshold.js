@@ -39,6 +39,7 @@ export default function SelectThreshold({ form, onChange }) {
             checked={checked}
             onChange={onChange}
             asRadioButton
+            withControlsGrayscale
           />
         </div>
       ))}

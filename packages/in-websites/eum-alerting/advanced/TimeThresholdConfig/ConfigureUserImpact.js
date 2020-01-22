@@ -37,6 +37,7 @@ export default function ConfigureUserImpact({ form, onChange }) {
         </div>
         {form.get(hiddenFieldNames.alertByNumberOfImpactedUsersEnabled).map(({ value }) => (
           <Toggle
+            name={hiddenFieldNames.alertByNumberOfImpactedUsersEnabled}
             className={locals.toggle}
             checked={value}
             onChange={() => {
@@ -84,6 +85,7 @@ export default function ConfigureUserImpact({ form, onChange }) {
         </div>
         {form.get(hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled).map(({ value }) => (
           <Toggle
+            name={hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled}
             className={locals.toggle}
             checked={value}
             onChange={() => {

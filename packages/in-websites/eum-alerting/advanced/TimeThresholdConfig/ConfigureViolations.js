@@ -12,7 +12,7 @@ export default function ConfigureViolations({ onChange, form }) {
   const timeThresholdViolations = form.get(fieldNames.timeThresholdViolations).value;
 
   return (
-    <AlertThresholdConfigItemContainer iconType="lib_events_inverted">
+    <AlertThresholdConfigItemContainer iconType="lib_alerting_threshold_icon">
       <DropdownWithTopLabel
         label={`${timeThresholdViolations}`}
         align="bottomLeft"
