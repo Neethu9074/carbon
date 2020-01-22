@@ -22,13 +22,14 @@ const columnDefinitions = [
   {
     id: 'errorMessage',
     label: 'Error Message',
-    getContent(item, { applicationName, serviceName, endpointName }) {
+    getContent(item, { applicationName, serviceName, endpointName, boundaryScope }) {
       return (
         <Message
           message={item.message}
           applicationName={applicationName}
           serviceName={serviceName}
           endpointName={endpointName}
+          boundaryScope={boundaryScope}
         />
       );
     },
@@ -101,6 +102,7 @@ export default function ErrorMessagesTable({
           serviceName={serviceName}
           endpointName={endpointName}
           className={locals.analyzeButton}
+          boundaryScope={boundaryScope}
         />
       }
     />
@@ -150,7 +152,7 @@ function getTableData({
   });
 }
 
-function Message({ message, applicationName, serviceName, endpointName }) {
+function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
   let displayedMessage;
   let errorMessageFilter;
   const erroneousFilter = { name: 'call.erroneous', value: 'true' };
@@ -171,7 +173,8 @@ function Message({ message, applicationName, serviceName, endpointName }) {
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [erroneousFilter, errorMessageFilter]
+        filters: [erroneousFilter, errorMessageFilter],
+        boundaryScope
       })}
     >
       {displayedMessage}
