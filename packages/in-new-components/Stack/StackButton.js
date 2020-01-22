@@ -17,6 +17,7 @@ export default connectTo(
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
+          align="bottomLeft"
           content={() => (
             <Stack id={id} timeConfig={timeConfig} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
           )}
