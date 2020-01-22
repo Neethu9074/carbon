@@ -22,13 +22,14 @@ const columnDefinitions = [
   {
     id: 'logMessage',
     label: 'Log Message',
-    getContent(item, { applicationName, serviceName, endpointName }) {
+    getContent(item, { applicationName, serviceName, endpointName, boundaryScope }) {
       return (
         <Message
           message={item.message}
           applicationName={applicationName}
           serviceName={serviceName}
           endpointName={endpointName}
+          boundaryScope={boundaryScope}
         />
       );
     },
@@ -108,6 +109,7 @@ export default function LogMessagesTable({
           serviceName={serviceName}
           endpointName={endpointName}
           className={locals.analyzeButton}
+          boundaryScope={boundaryScope}
         />
       }
     />
@@ -157,7 +159,7 @@ function getTableData({
   });
 }
 
-function Message({ message, applicationName, serviceName, endpointName }) {
+function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
   const logMessageFilter = message
     ? { name: 'log.message', value: message }
     : { name: 'log.message', operator: 'IS_EMPTY' };
@@ -170,7 +172,8 @@ function Message({ message, applicationName, serviceName, endpointName }) {
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [logMessageFilter]
+        filters: [logMessageFilter],
+        boundaryScope
       })}
     >
       {message ? message : <div className={locals.italic}>No log message available</div>}
