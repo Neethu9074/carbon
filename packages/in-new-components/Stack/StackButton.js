@@ -11,14 +11,20 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function StackButton({ id, timeConfig, isInternalVisible }) {
+  function StackButton({ id, timeConfig, isInternalVisible, productArea }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
           content={() => (
-            <Stack id={id} timeConfig={timeConfig} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
+            <Stack
+              id={id}
+              timeConfig={timeConfig}
+              productArea={productArea}
+              activeTabIndex={activeTabIndex}
+              onTabSelect={onTabSelect}
+            />
           )}
           withoutWrapper
         >
