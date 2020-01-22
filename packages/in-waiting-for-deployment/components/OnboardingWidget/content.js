@@ -343,6 +343,12 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
   const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
+    'ap-northeast-1',
+    'ap-northeast-2',
+    'ap-south-1',
+    'ap-southeast-1',
+    'ap-southeast-2',
+    'ca-central-1',
     'eu-central-1',
     'eu-north-1',
     'eu-west-1',
