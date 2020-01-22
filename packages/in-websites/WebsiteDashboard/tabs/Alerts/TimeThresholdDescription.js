@@ -8,7 +8,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimeThresholdPresenter.mless';
 
-export default function TimeThresholdPresenter({ config }) {
+export default function TimeThresholdDescription({ config }) {
   const timeThreshold = config.timeThreshold;
   return (
     <div className={locals.container}>
@@ -21,7 +21,7 @@ export default function TimeThresholdPresenter({ config }) {
   );
 }
 
-TimeThresholdPresenter.propTypes = {
+TimeThresholdDescription.propTypes = {
   config: PropTypes.object.isRequired
 };
 

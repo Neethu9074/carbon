@@ -61,6 +61,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
               removeBarPadding
               removeBarBackgroundColor
               hideClearFiltersButton
+              withoutFiltersLabel
             />
           </div>
         )}
