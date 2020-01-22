@@ -7,24 +7,18 @@ import evaluateClassNames from 'in-services/util/classnames';
 
 import locals from './TimeThresholdConfig.mless';
 
+export const timeThresholdLabels = Object.freeze({
+  violationsInSequence: 'When the condition persists over a specified amount of time',
+  violationsInPeriod: 'Every time the condition triggers a specified amount of times in a defined time frame',
+  userImpactOfViolationsInSequence: 'When a certain amount of my users are impacted'
+});
+
 export default function SelectThreshold({ form, onChange }) {
   const { violationsInSequence, violationsInPeriod, userImpactOfViolationsInSequence } = radioOptions.timeThresholdType;
   const checkboxes = [
-    {
-      label: 'When the condition persists over a specified amount of time',
-      checked: form.get(fieldNames.timeThresholdType).value === violationsInSequence,
-      onChange: () => onChange(form, fieldNames.timeThresholdType, violationsInSequence)
-    },
-    {
-      label: 'Every time the condition triggers a specified amount of times in a defined time frame',
-      checked: form.get(fieldNames.timeThresholdType).value === violationsInPeriod,
-      onChange: () => onChange(form, fieldNames.timeThresholdType, violationsInPeriod)
-    },
-    {
-      label: 'When a certain amount of my users are impacted',
-      checked: form.get(fieldNames.timeThresholdType).value === userImpactOfViolationsInSequence,
-      onChange: () => onChange(form, fieldNames.timeThresholdType, userImpactOfViolationsInSequence)
-    }
+    createOption(form, onChange, violationsInSequence),
+    createOption(form, onChange, violationsInPeriod),
+    createOption(form, onChange, userImpactOfViolationsInSequence)
   ];
   return (
     <>
@@ -44,6 +38,14 @@ export default function SelectThreshold({ form, onChange }) {
       ))}
     </>
   );
+}
+
+function createOption(form, onChange, thresholdType) {
+  return {
+    label: timeThresholdLabels[thresholdType],
+    checked: form.get(fieldNames.timeThresholdType).value === thresholdType,
+    onChange: () => onChange(form, fieldNames.timeThresholdType, thresholdType)
+  };
 }
 
 SelectThreshold.propTypes = {
