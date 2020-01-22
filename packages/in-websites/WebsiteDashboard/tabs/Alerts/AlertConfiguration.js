@@ -4,6 +4,7 @@ import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertT
 import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorUseCaseSelection';
 import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
 import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
 import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
@@ -72,6 +73,10 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           <AlertLocationFilters {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
           <div className={locals.overlay} />
         </div>
+      </ExpandableCard>
+
+      <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
+        <TimeThresholdDescription config={alertConfig} />
       </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>

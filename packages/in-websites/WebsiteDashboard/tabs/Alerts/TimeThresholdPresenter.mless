@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: flex;
+    align-items: center;
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__body__font-size;
+    line-height: 1.25rem;
+
+    padding: 1rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .label {
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+}

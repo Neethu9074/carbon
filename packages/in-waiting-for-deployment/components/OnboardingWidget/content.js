@@ -338,7 +338,8 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function AWSLambdaContent({ agentKey, agentEndpoint }) {
-  const endpoint = agentEndpoint.includes('-eu-') ? 'eu-west-1' : 'us-west-2';
+  const endpoint = agentEndpoint.replace('ingress-', 'serverless-');
+
   const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
@@ -431,7 +432,7 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
                 <GridRow>
                   <Col xs={4}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
-                    <Script lines={[`https://serverless-${endpoint}.instana.io/`]} />
+                    <Script lines={[`https://${endpoint}/`]} />
                   </Col>
                   <Col xs={4}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
@@ -484,7 +485,7 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
             '   --handler instana-aws-lambda-auto-wrap.handler',
             `   --environment "Variables={${
               lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
-            }INSTANA_ENDPOINT_URL=https://serverless-${endpoint}.instana.io/, INSTANA_AGENT_KEY=${agentKey} }"`
+            }INSTANA_ENDPOINT_URL=https://${endpoint}/, INSTANA_AGENT_KEY=${agentKey} }"`
           ]}
         />
       </Fragment>
