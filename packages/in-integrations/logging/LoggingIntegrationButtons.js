@@ -27,8 +27,8 @@ export default connectTo({
       coralogixIntegration &&
       coralogixIntegration.enabled && <CoralogixButton {...props} />,
     showHumioButton(props) && humioIntegration && humioIntegration.enabled && <HumioButton {...props} />,
-    showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />,
-    showLogDnaButton(props) && logdnaIntegration && logdnaIntegration.enabled && <LogDnaButton {...props} />
+    showLogDnaButton(props) && logdnaIntegration && logdnaIntegration.enabled && <LogDnaButton {...props} />,
+    showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
   return <MultiButton label="Go To Logs" icon="lib_application_logging" buttons={integrations} />;
