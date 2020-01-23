@@ -27,10 +27,22 @@ function initMixpanel(callback) {
     last_page_load: new Date()
   });
 
+  const tenants = [];
+  const roles = [];
+
+  const tenantList = user.tenants || [];
+  for (let i = 0; i < tenantList.length; i++) {
+    const tenant = tenantList[i];
+    tenants[i] = tenant.name;
+    roles[i] = tenant.role.name;
+  }
+
   window.mixpanel.register({
     tenant: tenant.name,
     tenantId: tenant.id,
-    tenantUnit: config.tenantUnit
+    tenantUnit: config.tenantUnit,
+    tenants,
+    roles
   });
 
   combineLatest([
