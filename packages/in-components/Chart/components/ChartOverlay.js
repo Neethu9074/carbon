@@ -64,7 +64,6 @@ export default connectTo(
               {...this.props}
               timestamp={nearestTimeInMetrics}
               cursorXPosition={cursorXPosition}
-              isHighlightedTimeframeHovered={isHighlightedTimeframeHovered}
               hoveredEvent={this.getHoveredEvent(highlightedMoment)}
               align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
             />
