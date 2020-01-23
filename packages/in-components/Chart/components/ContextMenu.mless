@@ -37,4 +37,12 @@
       border: none;
     }
   }
+
+  .contextMenuOpenButton {
+    position: absolute;
+  }
+
+  .contextMenuOpenButtonIcon {
+    margin: -0.5rem;
+  }
 }

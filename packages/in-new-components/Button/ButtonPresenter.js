@@ -60,7 +60,7 @@ export default function ButtonPresenter({
   let iconElement;
   if (icon) {
     iconElement = (
-      <SvgIcon type={icon} spinning={iconSpinning} size={iconSize || iconDimensions[size]} className={locals.icon} />
+      <SvgIcon className={locals.icon} type={icon} spinning={iconSpinning} size={iconSize || iconDimensions[size]} />
     );
   }
 
@@ -95,7 +95,7 @@ ButtonPresenter.propTypes = {
   iconSize: rpt.oneOf(['m', 'l']),
   className: rpt.string,
   style: rpt.object,
-  children: rpt.node.isRequired,
+  children: rpt.node,
   kind: rpt.oneOf(kinds),
   size: rpt.oneOf(sizes),
   type: rpt.string,

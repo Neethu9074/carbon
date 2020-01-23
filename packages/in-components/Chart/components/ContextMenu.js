@@ -3,11 +3,13 @@ import { on } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ContextMenu.mless';
@@ -24,20 +26,12 @@ export default connectTo(
 
     state = {
       xPos: null,
-      yPos: null
+      yPos: null,
+      openendByClick: false
     };
 
     componentDidMount() {
       this.setupSubscriptions();
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      return (
-        this.props.glassPane !== nextProps.glassPane ||
-        this.props.xScale !== nextProps.xScale ||
-        this.props.highlightedTimeframe !== nextProps.highlightedTimeframe ||
-        this.state.xPos !== nextState.xPos
-      );
     }
 
     componentDidUpdate(nextProps) {
@@ -52,25 +46,34 @@ export default connectTo(
     }
 
     onClickOutside = e => {
-      if (e.target.className !== locals.contextMenu) {
+      const targetClassName = e.target.className;
+      if (
+        typeof targetClassName === 'string' &&
+        (targetClassName !== locals.contextMenu &&
+          targetClassName !== locals.contextMenuOpenButton &&
+          targetClassName !== locals.button)
+      ) {
         this.closeContextMenu();
       }
     };
 
     closeContextMenu = () => {
-      this.setState({ xPos: null, yPos: null });
+      this.setState({ xPos: null, yPos: null, openendByClick: false });
     };
 
     render() {
-      const { highlightedTimeframe, chart } = this.props;
+      const { highlightedTimeframe, xScale, chart } = this.props;
       const { xPos, yPos } = this.state;
-      if (
-        !highlightedTimeframe ||
-        !xPos ||
-        (!highlightedTimeframe && !allowDownloadMetricsFromCharts && !chart.config.additionalContextMenuButtons)
-      ) {
+
+      const isContextMenuAvailable =
+        highlightedTimeframe &&
+        highlightedTimeframe[1] > xScale.getDomainFrom() &&
+        highlightedTimeframe[0] < xScale.getDomainTo();
+      if (!isContextMenuAvailable) {
         return null;
       }
+
+      const isContextMenuRendered = xPos > 0;
 
       const buttonProps = {
         className: locals.button,
@@ -78,7 +81,7 @@ export default connectTo(
         size: 'compact'
       };
 
-      return (
+      const contextMenu = (
         <div className={locals.contextMenu} style={{ left: xPos, top: yPos }}>
           {(chart.config.additionalContextMenuButtons || []).map((buttonConfig, index, originalTimeConfig) => {
             return (
@@ -141,6 +144,24 @@ export default connectTo(
           )}
         </div>
       );
+
+      const buttonXPos = this.props.xScale.getRange(highlightedTimeframe[1]);
+      return (
+        <>
+          <Button
+            className={locals.contextMenuOpenButton}
+            style={{
+              left: Math.max(0, buttonXPos - 30) // 30 is the buttonsize in px
+            }}
+            onClick={e => this.onOpenContextMenuClicked(e, buttonXPos)}
+            kind="secondary"
+          >
+            <SvgIcon className={locals.contextMenuOpenButtonIcon} type="lib_menu_more_horizontal" />
+          </Button>
+
+          {isContextMenuRendered && contextMenu}
+        </>
+      );
     }
 
     setupSubscriptions = () => {
@@ -149,6 +170,7 @@ export default connectTo(
         return;
       }
       this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(this.onContextMenu.bind(this));
+      this.onMoueDownSubscription = on(glassPane, 'mousedown').subscribe(this.onClickOutside.bind(this));
       this.onClickSubscription = on(window, 'click').subscribe(this.onClickOutside.bind(this));
     };
 
@@ -156,11 +178,21 @@ export default connectTo(
       e.preventDefault();
 
       if (this.props.isHighlightedTimeframeHovered) {
-        this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10) });
+        this.setState({ xPos: Math.max(0, e.offsetX - 10), yPos: Math.max(0, e.offsetY - 10), openendByClick: false });
       } else {
         this.closeContextMenu();
       }
     }
+
+    onOpenContextMenuClicked = (e, buttonXPos) => {
+      stopPropagationAndPreventDefault(e);
+
+      if (this.state.openendByClick) {
+        this.closeContextMenu();
+      } else {
+        this.setState({ xPos: Math.max(0, buttonXPos - 10), yPos: 26, openendByClick: true });
+      }
+    };
 
     download = e => {
       const metrics = this.props.metrics;
@@ -197,6 +229,10 @@ export default connectTo(
       if (this.onClickSubscription) {
         this.onClickSubscription.dispose();
         this.onClickSubscription = null;
+      }
+      if (this.onMoueDownSubscription) {
+        this.onMoueDownSubscription.dispose();
+        this.onMoueDownSubscription = null;
       }
     };
   }

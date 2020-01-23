@@ -9,7 +9,6 @@ export default function TooltipLineAndContent({
   align,
   timestamp,
   hoveredEvent,
-  isHighlightedTimeframeHovered,
   chart,
   reverseTooltipOrder,
   metrics
@@ -26,7 +25,6 @@ export default function TooltipLineAndContent({
         <TooltipContent
           hoveredEvent={hoveredEvent}
           timestamp={timestamp}
-          isHighlightedTimeframeHovered={isHighlightedTimeframeHovered}
           chart={chart}
           reverseTooltipOrder={reverseTooltipOrder}
           excludedLabelsFromTooltip={excludedLabelsFromTooltip}

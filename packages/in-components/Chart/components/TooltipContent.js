@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { create } from 'reactive-observables';
+import React from 'react';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TooltipContent.mless';
 
@@ -15,16 +13,8 @@ export default function TooltipContent({
   chart,
   reverseTooltipOrder,
   hoveredEvent,
-  isHighlightedTimeframeHovered,
   excludedLabelsFromTooltip
 }) {
-  const [isHighlightedTimeframeHovered$] = useState(create());
-  useEffect(
-    () => {
-      isHighlightedTimeframeHovered$.emit(isHighlightedTimeframeHovered);
-    },
-    [isHighlightedTimeframeHovered]
-  );
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
 
   return (
@@ -50,8 +40,6 @@ export default function TooltipContent({
         reverseTooltipOrder={reverseTooltipOrder}
         excludedLabelsFromTooltip={excludedLabelsFromTooltip}
       />
-
-      <InteractionNotification isHighlightedTimeframeHovered$={isHighlightedTimeframeHovered$} />
     </div>
   );
 }
@@ -114,41 +102,4 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
       {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
     </ul>
   );
-}
-
-class InteractionNotification extends React.Component {
-  displayName = 'InteractionNotification';
-
-  state = {};
-
-  constructor(props) {
-    super(props);
-    this.isHighlightedTimeframeHoveredSubscription = props.isHighlightedTimeframeHovered$
-      .debounce(100)
-      .subscribe(isHovered => this.setState({ isHovered }));
-  }
-
-  componentWillUnmount() {
-    if (this.isHighlightedTimeframeHoveredSubscription) {
-      this.isHighlightedTimeframeHoveredSubscription.dispose();
-      this.isHighlightedTimeframeHoveredSubscription = null;
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.isHovered !== this.state.isHovered;
-  }
-
-  render() {
-    if (!this.state.isHovered) {
-      return null;
-    }
-
-    return (
-      <div className={locals.infoSection}>
-        <SvgIcon className={locals.infoIcon} type="lib_help_error_info_outline" size="xs" />
-        You can right click for more options
-      </div>
-    );
-  }
 }
