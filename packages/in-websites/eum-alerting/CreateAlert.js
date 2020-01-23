@@ -8,6 +8,7 @@ import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { eumAlertingEnabled } from 'in-services/featureFlags';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { reload } from 'in-settings/components/List';
 import connectTo from 'in-hoc/connectTo';
 
 const implicitTagFilters = ['beacon.website.id'];
@@ -35,10 +36,6 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
     return null;
   }
 
-  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
-    return null;
-  }
-
   const [dialogOpen, setDialogOpen] = useState(false);
 
   if (!error && websiteErrorResult) {
@@ -61,7 +58,12 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
       </FloatingActionButton>
       {dialogOpen && (
         <AlertConfigDialog
-          onClose={() => setDialogOpen(false)}
+          onClose={() => {
+            setDialogOpen(false);
+            if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
+              reload();
+            }
+          }}
           formData={generateFormData(error, tagFilters, websiteId)}
           websiteLabel={websiteLabel}
         />
