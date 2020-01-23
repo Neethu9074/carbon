@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import { millis, number } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -26,6 +26,70 @@ const cols = [
     }
   },
   {
+    title: 'Processed Events',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `applications.${row.key}.processedEvents`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Execution Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `applications.${row.key}.executionErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Fatal Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `applications.${row.key}.fatalErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Processing time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `applications.${row.key}.avgProcessingTime`;
+      },
+      getContent: millis.fixedCompact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'Shutdown Timeout',
     type: 'number',
     typeArgs: {
@@ -38,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Synchronous Event Timeout',
+    title: 'Sync Event Timeout',
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -106,8 +170,8 @@ function getDetails(row) {
           'applications.' + row.key + '.fatalErrors'
         ],
         labels: ['Processed events', 'Execution errors', 'Fatal errors'],
-        formatter: zeroDecimalPlaces,
-        tooltipFormatter: zeroDecimalPlaces,
+        formatter: number.compact,
+        tooltipFormatter: number.compact,
         type: 'line'
       }}
       y2={{
