@@ -19,6 +19,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default compose(
   withState('revision', 'setRevision', undefined),
+  withState('reload', 'triggerReload', undefined),
   connectTo(({ revision, location }) => {
     const alertConfigId = getMatrixParameter(location, alertTab, alertIdMatrixParam);
     const alertConfig$ =
@@ -35,7 +36,14 @@ export default compose(
   })
 )(Alert);
 
-function Alert({ alertConfig, alertConfigError, alertConfigVersions, alertConfigVersionsError, setRevision }) {
+function Alert({
+  alertConfig,
+  alertConfigError,
+  alertConfigVersions,
+  alertConfigVersionsError,
+  setRevision,
+  triggerReload
+}) {
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
   } else if (!alertConfig || !alertConfigVersions) {
@@ -49,7 +57,10 @@ function Alert({ alertConfig, alertConfigError, alertConfigVersions, alertConfig
     <>
       {dialogOpen && (
         <AlertConfigDialog
-          onClose={() => setDialogOpen(false)}
+          onClose={() => {
+            setDialogOpen(false);
+            triggerReload(Math.random());
+          }}
           formData={alertConfig}
           websiteLabel={websiteLabel}
           editMode
@@ -60,7 +71,9 @@ function Alert({ alertConfig, alertConfigError, alertConfigVersions, alertConfig
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
-          openDialog={() => setDialogOpen(true)}
+          openDialog={() => {
+            setDialogOpen(true);
+          }}
         />
 
         <Row>
