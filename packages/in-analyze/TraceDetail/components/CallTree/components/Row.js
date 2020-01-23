@@ -57,7 +57,8 @@ function Row(props) {
           [locals.rootRow]: depth === 0,
           [locals.row]: true,
           [locals.selectedRow]: isSelected,
-          [locals.openedRow]: isOpened
+          [locals.openedRow]: isOpened,
+          [locals.erroneousCall]: call.errorCount > 0
         })}
       >
         <CallInformation
