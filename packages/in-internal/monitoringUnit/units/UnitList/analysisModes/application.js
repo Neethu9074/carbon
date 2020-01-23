@@ -173,6 +173,42 @@ export default {
         },
         forceTimeWindowAggregation: true
       }
+    },
+    {
+      id: 'acceptorDroppedSpanMessagesRateLimited',
+      title: 'Acceptor Dropped Span Messages (Rate Limit)',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'acceptor.droppedSpanMessagesRateLimited';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
+      id: 'serverlessAcceptorDroppedSpanMessagesRateLimited',
+      title: 'Serverless-Acceptor Dropped Span Messages (Rate Limit)',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'serverless-acceptor.droppedSpanMessagesRateLimited';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
     }
   ],
   getRowDetails({ timeConfig, id }) {
@@ -230,6 +266,26 @@ export default {
               ],
               labels: ['Span Latency (mean)', 'Span Latency (50th)', 'Span Latency (99th)'],
               type: 'lines'
+            }}
+          />
+        </Columize>
+        <Columize>
+          <Chart
+            snapshotId={id}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [
+                `acceptor.droppedSpanMessagesRateLimited`,
+                `serverless-acceptor.droppedSpanMessagesRateLimited`
+              ],
+              labels: [
+                'Acceptor Dropped Span Messages (Rate Limit)',
+                'Serverless-Acceptor Dropped Span Messages (Rate Limit)'
+              ],
+              colors: [theme.lib.colors.red800, theme.lib.colors.orange800],
+              type: 'stackedArea'
             }}
           />
         </Columize>
