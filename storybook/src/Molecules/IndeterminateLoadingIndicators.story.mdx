@@ -1,0 +1,58 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+
+import { IndeterminateLoadingIndicator} from 'in-new-components/LoadingIndicators';
+import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
+import THEME from 'in-themes';
+
+<Meta
+  title="Molecules|LoadingIndicators/Indeterminate"
+  component={IndeterminateLoadingIndicator} />
+
+
+# Indeterminate Loading Indicator
+
+```js
+import { IndeterminateLoadingIndicator} from 'in-new-components/LoadingIndicators';
+```
+
+<Preview>
+  <Story name="default">
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <IndeterminateLoadingIndicator />
+    </div>
+  </Story>
+</Preview>
+
+## Props
+
+| Name                             | Type             | Required | Description                                                      | Default            |
+| -------------------------------- | ---------------- | -------- | ---------------------------------------------------------------- | ------------------ |
+| size                             | string OR number | optional | Size of the loading indicator. Must be a valid CSS value         | `ICON_SIZES.xxl`   |
+| customStyle                      | Object           | optional | Object of style overrides                                        | `{}`               |
+| customStyle.strokeWidth          | string OR number | optional | Overall stroke width                                             | 1.5                |
+| customStyle.fillColor            | string           | optional | Overall fill color, can be overriden by specific fill colors     | 'transparent'      |
+| customStyle.strokeColor          | string           | optional | Overall stroke color, can be overriden by specific stroke colors | `COLORS.N600Light` |
+| customStyle.pillTopFillColor     | string           | optional |                                                                  |                    |
+| customStyle.pillTopStrokeColor   | string           | optional |                                                                  |                    |
+| customStyle.pillBodyFillColor    | string           | optional |                                                                  |                    |
+| customStyle.pillBodyStrokeColor  | string           | optional |                                                                  |                    |
+| customStyle.hexagonFillColor     | string           | optional |                                                                  |                    |
+| customStyle.hexagonStrokeColor   | string           | optional |                                                                  |                    |
+| customStyle.connectorStrokeColor | string           | optional |                                                                  |                    |
+
+
+## Examples
+
+<Preview>
+  <Story name="custom styles">
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <IndeterminateLoadingIndicator
+        customStyle={{
+            strokeWidth: 1.75,
+            pillTopFillColor: THEME.lib.colors.lightBlue800,
+            hexagonFillColor: THEME.lib.colors.N300,
+        }}
+        size={ICON_SIZES.xl} />
+    </div>
+  </Story>
+</Preview>
