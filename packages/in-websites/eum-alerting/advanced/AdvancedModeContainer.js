@@ -13,12 +13,15 @@ import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
-import { scrollIntoView, getCoords } from 'in-services/util/dom';
 import SideNav from 'in-websites/eum-alerting/advanced/SideNav';
+import { scrollIntoView } from 'in-services/util/dom';
 import Button from 'in-new-components/Button/Button';
 import Message from 'in-new-components/Message';
 
 import locals from './AdvancedModeContainer.mless';
+
+const idScrollContainer = 'eum-advanced-scroll-container';
+let scrollContainerRef = React.createRef();
 
 export default function AdvancedModeContainer({
   form,
@@ -51,12 +54,9 @@ export default function AdvancedModeContainer({
     <div className={locals.container}>
       <div
         className={locals.scrollWrapper}
-        onScroll={() => {
-          setIndexIfElementOnTop(navItems[0].label, setIndexItemSelected, 0);
-          setIndexIfElementOnTop(navItems[1].label, setIndexItemSelected, 1);
-          setIndexIfElementOnTop(navItems[2].label, setIndexItemSelected, 2);
-          setIndexIfElementOnTop(navItems[3].label, setIndexItemSelected, 3);
-          setIndexIfElementOnTop(navItems[4].label, setIndexItemSelected, 4);
+        ref={scrollContainerRef}
+        onWheel={() => {
+          highlightCurrentItemOnManualScroll(setIndexItemSelected, navItems);
         }}
       >
         <div className={locals.content}>
@@ -115,7 +115,7 @@ export default function AdvancedModeContainer({
           <ScrollStep id={navItems[4].label} title="Additional Alert Properties (optional)" hideDevider>
             <AlertPropertiesContainer form={form} onChange={onChange} websiteLabel={websiteLabel} />
           </ScrollStep>
-          <nav className={locals.controls}>
+          <nav className={locals.controls} id={idScrollContainer}>
             <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
               Cancel
             </Button>
@@ -140,14 +140,6 @@ export default function AdvancedModeContainer({
   );
 }
 
-function setIndexIfElementOnTop(label, setIndexItemSelected, index) {
-  const element = document.getElementById(label);
-  if (element) {
-    const { top } = getCoords(element);
-    if (top < 130 && top > 70) setIndexItemSelected(index);
-  }
-}
-
 function validateTrigger(form) {
   const alertType = form.get(fieldNames.ruleAlertType).value;
 
@@ -165,4 +157,26 @@ function showInsufficientBaselineDataMessage(form) {
 
   const baseline = form.get(fieldNames.thresholdBaseline).value;
   return baseline && baseline.length === 0;
+}
+
+function highlightCurrentItemOnManualScroll(setIndexItemSelected, navItems) {
+  for (const [i, { label }] of navItems.entries()) {
+    const element = document.getElementById(label);
+    const { top, height } = element.getBoundingClientRect();
+
+    if (top + height > scrollContainerRef.current.offsetTop) {
+      setIndexItemSelected(i);
+      break;
+    }
+  }
+
+  // highlight last item because now the item before and the last one are shown in the scroll container
+  const controls = document.getElementById(idScrollContainer);
+  const containerBottomPos =
+    scrollContainerRef.current.offsetHeight + scrollContainerRef.current.getBoundingClientRect().top;
+  const controlsContainerHeight = controls.getBoundingClientRect().height;
+  const controlsContainerTopPos = controls.getBoundingClientRect().top;
+  if (Math.trunc(containerBottomPos - controlsContainerHeight) === Math.trunc(controlsContainerTopPos)) {
+    setIndexItemSelected(navItems.length - 1);
+  }
 }

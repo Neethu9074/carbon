@@ -5,7 +5,6 @@ import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinit
 import { alertTypeConfig } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import evaluateClassNames from 'in-services/util/classnames';
-
 import Menu from 'in-websites/eum-alerting/components/Menu';
 
 import locals from './AlertSelection.mless';
@@ -14,6 +13,7 @@ const subMenuLabels = [];
 
 export default function AlertSelection({ form, onChange }) {
   const [config, setConfig] = useState(getConfigByType(form));
+  const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
 
   return (
     <ExpandableCard
@@ -26,7 +26,10 @@ export default function AlertSelection({ form, onChange }) {
       <div className={locals.container}>
         <Menu
           itemLabels={alertTypeConfig.map(({ name }) => name)}
-          itemClickTracker={index => setConfig(alertTypeConfig[index])}
+          itemClickTracker={index => {
+            setSelectButtonDisabled(false);
+            setConfig(alertTypeConfig[index]);
+          }}
           initialItemSelected={alertTypeConfig.findIndex(
             ({ type }) => form.get(fieldNames.ruleAlertType).value === type
           )}
@@ -37,7 +40,13 @@ export default function AlertSelection({ form, onChange }) {
             [locals.spanTwoColumns]: subMenuLabels.length === 0
           })}
         >
-          <AlertTypeDescription form={form} onChange={onChange} config={config} />
+          <AlertTypeDescription
+            form={form}
+            onChange={onChange}
+            config={config}
+            selectButtonDisabled={selectButtonDisabled}
+            setSelectButtonDisabled={setSelectButtonDisabled}
+          />
         </div>
       </div>
     </ExpandableCard>

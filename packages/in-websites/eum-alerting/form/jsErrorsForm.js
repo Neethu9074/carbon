@@ -21,7 +21,7 @@ export function withJsErrorsFormSpecificError(form, rule = null) {
     .put(
       fieldNames.ruleValue,
       createField({
-        value: rule && rule.value,
+        value: (rule && rule.value) || '',
         validator: notBlankValidator
       })
     );
