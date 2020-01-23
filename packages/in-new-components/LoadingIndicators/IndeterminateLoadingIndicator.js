@@ -1,12 +1,13 @@
 import React, { Component, createElement } from 'react';
 import { shallowEqual } from 'recompose';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import theme from 'in-themes';
 
-import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from './SvgPaths.json';
 import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from './SvgLineCoordinates.json';
+import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from './SvgPaths.json';
 import stylesheet from './IndeterminateLoadingIndicator.mless';
 
 const {
@@ -25,6 +26,33 @@ export default class IndeterminateLoadingIndicator extends Component {
   static defaultProps = {
     size: ICON_SIZES.xxl,
     customStyle: {}
+  };
+
+  static propTypes = {
+    /** Size of the loading indicator as a valid CSS value` */
+    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Object of style overrides */
+    customStyle: PropTypes.shape({
+      connectorStrokeColor: PropTypes.string,
+      /** Overall fill color, can be overriden by specific fill colors */
+      fillColor: PropTypes.string,
+      /** Fill color of hexagons, overrides fillColor */
+      hexagonFillColor: PropTypes.string,
+      /** Stroke color of hexagons, overrides strokeColor */
+      hexagonStrokeColor: PropTypes.string,
+      /** Fill color of pill body, overrides fillColor */
+      pillBodyFillColor: PropTypes.string,
+      /** Stroke color of pill body, overrides strokeColor */
+      pillBodyStrokeColor: PropTypes.string,
+      /** Fill color of pill top, overrides fillColor */
+      pillTopFillColor: PropTypes.string,
+      /** Stroke color of pill top, overrides strokeColor */
+      pillTopStrokeColor: PropTypes.string,
+      /** Overall stroke color, can be overriden by specific stroke colors */
+      strokeColor: PropTypes.string,
+      /** Overall stroke width */
+      strokeWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    })
   };
 
   state = {}; // contains svg path lengths for animation
@@ -63,7 +91,7 @@ export default class IndeterminateLoadingIndicator extends Component {
       key,
       ref: this.calculatePathLength(key),
       fillRule: 'nonzero',
-      strokeWidth: this.props.customStyle.strokeWidth || DEFAULT_STYLES.stroke,
+      strokeWidth: this.props.customStyle.strokeWidth || DEFAULT_STYLES.strokeWidth,
       ...props
     });
 
