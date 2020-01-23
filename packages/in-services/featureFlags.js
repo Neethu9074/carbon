@@ -42,7 +42,7 @@ export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', f
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
-export const apDashboardEventsEnabled = isInstanaEngineer || isFeatureFlagEnabled('apDashboardEventsEnabled');
+export const apDashboardEventsEnabled = isInstanaEmail || isFeatureFlagEnabled('apDashboardEventsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
