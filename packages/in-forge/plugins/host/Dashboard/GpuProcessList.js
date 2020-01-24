@@ -49,7 +49,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return 'GPU 1';
+        return 'GPU ' + row.process.get('gpu');
       }
     }
   },
@@ -68,7 +68,7 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'gpuProcesses')
     };
   },
   function ProcessTopList({ snapshot, data }) {
