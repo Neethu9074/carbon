@@ -13,10 +13,10 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.cpuNumber;
+        return row.gpuNumber;
       },
-      getContent(cpuNumber) {
-        return `GPU ${cpuNumber}`;
+      getContent(gpuNumber) {
+        return `GPU ${gpuNumber}`;
       }
     }
   },
@@ -29,7 +29,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.user`;
+        return `gpus.${row.gpuNumber}.usage`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -46,7 +46,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.sys`;
+        return `gpus.${row.gpuNumber}.memoryUsed`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -63,7 +63,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.wait`;
+        return `gpus.${row.gpuNumber}.encoder`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -80,7 +80,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.nice`;
+        return `gpus.${row.gpuNumber}.decoder`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -97,7 +97,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `load.1min`;
+        return `gpus.${row.gpuNumber}.temperature`;
       },
       getContent: temperature.compact,
       getTimeWindowAggregation() {
@@ -107,25 +107,23 @@ const cols = [
   }
 ];
 
-export default function CpuTable({ snapshot, timeConfig }) {
-  const cpuCount = snapshot.getIn(['data', 'cpu.count'], 1);
-  if (cpuCount < 2) {
+export default function GpuTable({ snapshot, timeConfig }) {
+  const gpuCount = snapshot.getIn(['data', 'gpu.count'], 0);
+  if (gpuCount < 1) {
     return null;
   }
 
-  const rows = Range(1, 3)
+  const rows = Range(1, gpuCount + 1)
     .toArray()
-    .map(cpuNumber => {
+    .map(gpuNumber => {
       return {
-        key: String(cpuNumber),
-        cpuNumber,
+        key: String(gpuNumber),
+        gpuNumber: gpuNumber,
         timeConfig,
         snapshotId: snapshot.get('id')
       };
     });
 
-  // typical CPU counts are 2, 4, 8, 16, 32, 64
-  // to have evenly filled pages, we use 8 as maxItems instead of default 10
   return (
     <Table
       cardTitle="Individual GPU Usage"
@@ -149,14 +147,14 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['cpus.' + row.cpuNumber + '.user'],
-            labels: ['Used'],
+            metrics: ['gpus.${gpuNumber}.gpuUsage'],
+            labels: ['Usage'],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: temperature.compact,
-            metrics: ['load.1min'],
+            metrics: ['gpus.' + row.gpuNumber + '.temperature'],
             labels: ['Temperature'],
             type: 'stackedArea'
           }}
@@ -168,7 +166,7 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['cpus.' + row.cpuNumber + '.user', 'cpus.' + row.cpuNumber + '.sys'],
+            metrics: ['gpus.' + row.gpuNumber + '.encoder', 'gpus.' + row.gpuNumber + '.decoder'],
             labels: ['Encoder', 'Decoder'],
             type: 'stackedArea'
           }}
@@ -182,15 +180,15 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['cpus.' + row.cpuNumber + '.user'],
-            labels: ['Used'],
+            metrics: ['gpus.' + row.gpuNumber + '.memoryUsed'],
+            labels: ['Memory Used'],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: bytes.detailed,
-            metrics: ['ctxt'],
-            labels: ['Total'],
+            metrics: ['gpus.' + row.gpuNumber + '.memoryTotal'],
+            labels: ['Memory Total'],
             type: 'stackedArea'
           }}
         />
@@ -201,8 +199,8 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: number.detailed,
-            metrics: ['cpus.' + row.cpuNumber + '.steal', 'cpus.' + row.cpuNumber + '.sys'],
-            labels: ['Tx', 'Rx'],
+            metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
+            labels: ['Transmitted', 'Received'],
             type: 'stackedArea'
           }}
         />
