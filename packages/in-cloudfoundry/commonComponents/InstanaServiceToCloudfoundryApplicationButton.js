@@ -28,18 +28,24 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
     return null;
   }
 
-  const pcfAppsPruned = Array.from(new Set(pcfApplications.map(app => app.snapshotId))).map(snapId => {
-    const pcfAppDistinctSnapshotId = pcfApplications.find(app => app.snapshotId === snapId);
+  const relevantPCFApps = pcfApplications.filter(app => app.guid !== '' && app.name !== '');
+  const uniquePCFApps = Array.from(new Set(relevantPCFApps.map(app => app.snapshotId))).map(snapshotId => {
+    const pcfAppDistinctSnapshotId = relevantPCFApps.find(app => app.snapshotId === snapshotId);
 
     return {
-      snapshotId: snapId,
+      snapshotId: snapshotId,
       guid: pcfAppDistinctSnapshotId.guid,
       name: pcfAppDistinctSnapshotId.name,
       space: pcfAppDistinctSnapshotId.space,
       organization: pcfAppDistinctSnapshotId.organization
     };
   });
-  pcfApplications = pcfAppsPruned;
+
+  if (!uniquePCFApps || uniquePCFApps.length === 0) {
+    return null;
+  }
+
+  pcfApplications = uniquePCFApps;
 
   return (
     <Overlay align="bottomLeft" content={ServiceList} props={{ pcfApplications }} withoutWrapper>
