@@ -1,5 +1,5 @@
+import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
@@ -15,14 +15,17 @@ export default compose(
   withUrlState({
     bind: [landingConfigUrlParameter]
   }),
-  connectTo(({ config }) => ({
-    references: getReferences({ config: ensureAllValuesAreStrings(config) })
+  withProps(({ config }) => ({
+    flattenedConfig: ensureAllValuesAreStrings(config)
+  })),
+  connectTo(({ flattenedConfig }) => ({
+    references: getReferences({ config: flattenedConfig })
       .filter(result => result.data)
       .map(result => result.data)
   }))
 )(IntegrationLandingPage);
 
-function IntegrationLandingPage({ config, references }) {
+function IntegrationLandingPage({ flattenedConfig, references }) {
   let infrastructureSnapshots = null;
   if (references) {
     if (references.timeConfig && references.timeConfig.size > 0) {
@@ -41,16 +44,16 @@ function IntegrationLandingPage({ config, references }) {
         </SecondLevelNavigation>
       </HeaderWithTimeSelection>
       <LeftRightPadding>
-        <IntegrationDashboardList entities={infrastructureSnapshots} query={parseQueryConfig(config)} />
+        <IntegrationDashboardList entities={infrastructureSnapshots} query={parseQueryConfig(flattenedConfig)} />
       </LeftRightPadding>
     </Fragment>
   );
 }
 
-function parseQueryConfig(config) {
-  return Object.keys(config)
-    .filter(key => key !== 'timestamp')
-    .map(key => key + '=' + config[key])
+function parseQueryConfig(flattenedConfig) {
+  return Object.keys(flattenedConfig)
+    .filter(key => key !== 'timestamp' && key !== '@timestamp' && key !== 'time')
+    .map(key => key + '=' + flattenedConfig[key])
     .join(' and ');
 }
 
