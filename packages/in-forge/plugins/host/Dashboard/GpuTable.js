@@ -1,7 +1,7 @@
 import { Range } from 'immutable';
 import React from 'react';
 
-import { percentage, number, bytes, temperature } from 'in-services/formatters/number';
+import { percentage, bytesPerSecondTwoDecimalPlaces, bytes, temperature } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -198,7 +198,7 @@ function getRowDetails(row) {
           y1={{
             min: 0,
             max: 1,
-            formatter: number.detailed,
+            formatter: bytesPerSecondTwoDecimalPlaces,
             metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
             labels: ['Transmitted', 'Received'],
             type: 'stackedArea'
