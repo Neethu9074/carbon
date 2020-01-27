@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import InstanaServiceToKubernetesServicesButton from 'in-kubernetes/components/InstanaServiceToKubernetesServicesButton';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
@@ -90,6 +91,11 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         timeConfig={timeConfig}
       />
       <StackButton id={serviceId} timeConfig={timeConfig} productArea="service" />
+      <InstanaServiceToCloudfoundryApplicationButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        timeConfig={timeConfig}
+      />
       {hasKubernetesAccess && (
         <InstanaServiceToKubernetesServicesButton
           applicationId={applicationId}

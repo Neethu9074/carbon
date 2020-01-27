@@ -314,7 +314,12 @@ function sendIndex(
       indexCssChecksum,
       nonces,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-      mixpanelToken: user && user.email && !user.email.endsWith('@instana.com') && termsAndPrivacy.allAnalyticsServices && serverConfig.mixpanelToken,
+      mixpanelToken:
+        user &&
+        user.email &&
+        !user.email.endsWith('@instana.com') &&
+        termsAndPrivacy.allAnalyticsServices &&
+        serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
