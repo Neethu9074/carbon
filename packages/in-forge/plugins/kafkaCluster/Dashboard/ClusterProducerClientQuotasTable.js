@@ -72,7 +72,7 @@ export default function ClusterProducerClientQuotasTable({ snapshot, timeConfig 
   return (
     <Table
       withoutPadding
-      cardTitle={`Producer Byte Rate/Throttling`}
+      cardTitle={`Producers (` + rows.length + `)`}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -82,7 +82,7 @@ export default function ClusterProducerClientQuotasTable({ snapshot, timeConfig 
 
 function getDetails(row) {
   return (
-    <DashboardSection title="Lag">
+    <DashboardSection>
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
