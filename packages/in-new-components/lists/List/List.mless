@@ -11,6 +11,11 @@
     border: 1px solid @lib__colors__N400;
   }
 
+  .framedTopBottom {
+    border-top: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+
   .listItem {
     display: flex;
     flex-direction: column;
