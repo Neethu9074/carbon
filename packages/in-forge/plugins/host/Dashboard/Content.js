@@ -30,7 +30,7 @@ import { role } from 'in-stores/user';
 import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
-  const gpuInfoAvailable = true; // TODO implement getting this info
+  const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
 
   return (
     <div>

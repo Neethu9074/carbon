@@ -29,7 +29,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `gpus.${row.gpuNumber}.usage`;
+        return `gpus.${row.gpuNumber}.gpuUtilization`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -46,7 +46,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `gpus.${row.gpuNumber}.memoryUsed`;
+        return `gpus.${row.gpuNumber}.memoryUtilization`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -63,7 +63,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `gpus.${row.gpuNumber}.encoder`;
+        return `gpus.${row.gpuNumber}.encoderUtilization`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -80,7 +80,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `gpus.${row.gpuNumber}.decoder`;
+        return `gpus.${row.gpuNumber}.decoderUtilization`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {

@@ -210,7 +210,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metrics: [getMetricMatch('gpus', 'gpuUsage'), getMetricMatch('gpus', 'temperature')],
+    metrics: [getMetricMatch('gpus', 'gpuUtilization'), getMetricMatch('gpus', 'temperature')],
     labels: ['GPU Usage', 'Temperature'],
     category: ['GPU'],
     min: 0,
@@ -218,21 +218,14 @@ export default [
   },
   {
     metrics: [
-      getMetricMatch('gpus', 'encoder'),
-      getMetricMatch('gpus', 'decoder'),
-      getMetricMatch('gpus', 'memoryUsed')
+      getMetricMatch('gpus', 'encoderUtilization'),
+      getMetricMatch('gpus', 'decoderUtilization'),
+      getMetricMatch('gpus', 'memoryUtilization')
     ],
     labels: ['Encoder', 'Decoder', 'Memory Used'],
     category: ['GPU'],
     min: 0,
     formatter: percentage
-  },
-  {
-    metric: getMetricMatch('gpuc', 'memoryTotal'),
-    label: 'Memory Total',
-    category: ['GPU'],
-    min: 0,
-    formatter: bytes
   },
   {
     metrics: [getMetricMatch('gpus', 'transmitted'), getMetricMatch('gpus', 'received')],
