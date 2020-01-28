@@ -24,7 +24,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.consumer.${row.key}.consumerOutgoingByteRate`;
+        return `kafkaClient.consumer.${row.key}.consumedByteRate`;
       },
       getContent: bytesZeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -89,7 +89,7 @@ function getDetails(row) {
         y1={{
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesZeroDecimalPlaces,
-          metrics: [`kafkaClient.consumer.${row.key}.consumerOutgoingByteRate`],
+          metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
           labels: ['Byte Rate'],
           type: 'line'
         }}
