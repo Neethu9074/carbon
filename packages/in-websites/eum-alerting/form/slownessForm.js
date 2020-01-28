@@ -7,7 +7,6 @@ export function withSlownessFormStaticThreshold(form, threshold, rule) {
 
   updatedForm = removeCommonFields(updatedForm);
 
-  updatedForm = updatedForm.remove(fieldNames.thresholdTo);
   updatedForm = updatedForm.remove(fieldNames.thresholdBaseline);
   updatedForm = updatedForm.remove(fieldNames.thresholdDeviationFactor);
 
@@ -26,12 +25,6 @@ export function withSlownessFormHistoricBaseline(form, threshold, rule) {
   updatedForm = addFieldsContainedInBoth(updatedForm, rule, threshold);
 
   updatedForm = updatedForm
-    .put(
-      fieldNames.thresholdTo,
-      createField({
-        value: threshold && threshold.to
-      })
-    )
     .put(
       fieldNames.thresholdBaseline,
       createField({
@@ -68,7 +61,6 @@ function addFieldsContainedInBoth(form, rule, threshold) {
 
 function removeCommonFields(updatedForm) {
   updatedForm = updatedForm.remove(fieldNames.ruleOperator);
-  updatedForm = updatedForm.remove(fieldNames.ruleValue);
   updatedForm = updatedForm.remove(fieldNames.ruleValue);
   return updatedForm;
 }

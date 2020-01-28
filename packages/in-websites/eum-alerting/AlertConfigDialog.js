@@ -118,7 +118,6 @@ function toAlertConfigObject(form) {
     } else {
       return {
         type: 'historicBaseline',
-        to: form.get(fieldNames.thresholdTo).value,
         seasonality: form.get(fieldNames.thresholdSeasonality).value,
         baseline: form.get(fieldNames.thresholdBaseline).value,
         deviationFactor: form.get(fieldNames.thresholdDeviationFactor).value
@@ -162,6 +161,7 @@ function toAlertConfigObject(form) {
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: {
       operator: form.get(fieldNames.thresholdOperator).value,
+      lastUpdated: form.get(fieldNames.thresholdLastUpdated).value,
       ...enrichByThresholdType(form)
     },
     timeThreshold: {

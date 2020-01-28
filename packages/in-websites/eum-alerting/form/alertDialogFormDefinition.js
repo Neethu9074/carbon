@@ -29,7 +29,7 @@ export const fieldNames = Object.freeze({
   id: 'id',
   thresholdValue: 'thresholdValue',
   thresholdType: 'thresholdType',
-  thresholdTo: 'thresholdTo',
+  thresholdLastUpdated: 'thresholdLastUpdated',
   thresholdOperator: 'thresholdOperator',
   thresholdSeasonality: 'thresholdSeasonality',
   thresholdBaseline: 'thresholdBaseline',
@@ -285,6 +285,12 @@ export default function alertFormDefinition(alertFormValues = {}) {
       createField({
         value: (threshold && threshold.operator) || '>=',
         validator: notBlankValidator
+      })
+    )
+    .put(
+      fieldNames.thresholdLastUpdated,
+      createField({
+        value: (threshold && threshold.lastUpdated) || 0
       })
     )
     .put(
