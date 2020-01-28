@@ -34,6 +34,9 @@ const cols = [
       getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getFallbackContent() {
+        return 'N/A';
       }
     }
   },
@@ -51,6 +54,9 @@ const cols = [
       getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getFallbackContent() {
+        return 'N/A';
       }
     }
   },
@@ -68,6 +74,9 @@ const cols = [
       getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getFallbackContent() {
+        return 'N/A';
       }
     }
   },
@@ -85,6 +94,9 @@ const cols = [
       getContent: percentage.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getFallbackContent() {
+        return 'N/A';
       }
     }
   },
@@ -102,6 +114,9 @@ const cols = [
       getContent: temperature.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getFallbackContent() {
+        return 'N/A';
       }
     }
   }
