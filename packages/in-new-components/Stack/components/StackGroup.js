@@ -13,7 +13,7 @@ export default function StackGroup({ group: { relationship, type, items }, area 
       <div className={locals.groupHead}>
         {RELATIONSHIP_MAP[relationship]} {items.length} {items.length > 1 ? getPlural(type) : getSingular(type)}
       </div>
-      <Ul>
+      <Ul framed="topBottom">
         {items.map(item => (
           <StackItem key={item.id} item={item} area={area} />
         ))}
