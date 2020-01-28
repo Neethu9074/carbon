@@ -6,11 +6,27 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityWithTypeAndIcon.mless';
 
-export default function EntityWithTypeAndIcon({ label, type, renderType, iconType, iconPath, href$ }) {
+export default function EntityWithTypeAndIcon({
+  label,
+  type,
+  renderType,
+  iconType,
+  iconPath,
+  href$,
+  addEllipsis,
+  addTooltip
+}) {
   return (
     <div className={locals.wrapper}>
       {(iconType || iconPath) && <SvgIcon className={locals.entityIcon} type={iconType} iconPath={iconPath} />}
-      <EntityWithType label={label} type={type} renderType={renderType} href$={href$} />
+      <EntityWithType
+        label={label}
+        type={type}
+        renderType={renderType}
+        href$={href$}
+        addEllipsis={addEllipsis}
+        addTooltip={addTooltip}
+      />
     </div>
   );
 }
@@ -21,5 +37,7 @@ EntityWithTypeAndIcon.propTypes = {
   iconType: PropTypes.string,
   label: PropTypes.string,
   renderType: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  addEllipsis: PropTypes.bool,
+  addTooltip: PropTypes.bool
 };
