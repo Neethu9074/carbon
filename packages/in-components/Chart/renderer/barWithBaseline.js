@@ -16,6 +16,7 @@ export default {
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
+    bar.enrich(config, axis);
   }
 };
 
