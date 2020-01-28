@@ -938,6 +938,7 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
     { key: 'linuxarm32', label: 'Linux (32Bit - ARM)' },
     { key: 'linuxppc64', label: 'Linux (64Bit - PowerPC)' },
     { key: 'linuxppc32', label: 'Linux (32Bit - PowerPC)' },
+    { key: 'linuxppcle64', label: 'Linux (64Bit - PowerPC Little Endian)' },
     { key: 'linuxs390x', label: 'Linux (s390x)' }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
