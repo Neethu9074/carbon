@@ -30,4 +30,11 @@
   .minor {
     font-size: 1.5rem;
   }
+
+  .companion {
+    color: @lib__colors__N700Medium;
+    font-size: 1rem;
+    font-weight: 200;
+    padding-left: 1rem;
+  }
 }

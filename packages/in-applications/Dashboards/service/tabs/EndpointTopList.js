@@ -2,15 +2,22 @@ import React from 'react';
 
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { meanLatencyFixed, percentage, number } from 'in-services/formatters/number';
+import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
-const metrics = ['latency', 'calls', 'errors'];
-const labels = ['Latency', 'Calls', 'Errors'];
-const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [meanLatencyFixed.compact, number.compact, percentage.detailed];
+import locals from './EndpointTopList.mless';
+
+const metrics = ['latency', 'calls', 'erroneousCalls'];
+const labels = ['Latency', 'Calls', 'Erroneous Calls'];
+const aggregations = ['MEAN', 'SUM', 'SUM'];
+const formatters = [meanLatencyFixed.compact, number.compact, number.compact];
+const companionMetrics = [null, null, 'errors'];
+const companionAggregations = [null, null, 'MEAN'];
+const companionFormatters = [null, null, percentage.detailed];
+const colors = [null, null, theme.lib.colors.failure];
 
 export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig }) {
   return (
@@ -20,20 +27,46 @@ export default function EndpointTopList({ applicationId, serviceId, boundaryScop
       labels={labels}
       aggregations={aggregations}
       formatters={formatters}
+      companionMetrics={companionMetrics}
+      companionAggregations={companionAggregations}
+      companionFormatters={companionFormatters}
       getList={getList}
       render={TopListCardPresenter}
       renderViewAll={ViewAll}
       renderLabel={Label}
       renderMetric={Metric}
+      renderCompanionMetric={RenderCompanionMetric}
       timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
       boundaryScope={boundaryScope}
+      colors={colors}
     />
   );
 }
 
-function getList({ applicationId, serviceId, boundaryScope, timeConfig, selectedMetric, selectedMetricAggregation }) {
+function getList({
+  applicationId,
+  serviceId,
+  boundaryScope,
+  timeConfig,
+  selectedMetric,
+  selectedMetricAggregation,
+  selectedCompanionMetric,
+  selectedCompanionMetricAggregation
+}) {
+  const metrics = {
+    [selectedMetric]: {
+      metric: selectedMetric,
+      aggregation: selectedMetricAggregation
+    }
+  };
+  if (selectedCompanionMetric) {
+    metrics[selectedCompanionMetric] = {
+      metric: selectedCompanionMetric,
+      aggregation: selectedCompanionMetricAggregation
+    };
+  }
   return getEndpoints({
     pagination: {
       page: 1,
@@ -43,12 +76,7 @@ function getList({ applicationId, serviceId, boundaryScope, timeConfig, selected
       by: selectedMetric,
       direction: 'DESC'
     },
-    metrics: {
-      [selectedMetric]: {
-        metric: selectedMetric,
-        aggregation: selectedMetricAggregation
-      }
-    },
+    metrics: metrics,
     filter: {
       application: applicationId,
       service: serviceId,
@@ -92,4 +120,8 @@ function Label({ item, applicationId, serviceId, boundaryScope }, _item, classNa
 
 function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
+}
+
+function RenderCompanionMetric({ formattedCompanionMetric }) {
+  return <span className={locals.companion}>({formattedCompanionMetric})</span>;
 }

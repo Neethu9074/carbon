@@ -45,7 +45,7 @@ function DefaultServiceInformation({ service, timeConfig, metricsResult }) {
             tooltipFormatter={number.compact}
           />
           <SparkChartWithMetric
-            title="Error Rate"
+            title="Erroneous Calls"
             rollup={rollup}
             timeConfig={resolvedTimeConfig}
             aggregation="MEAN"

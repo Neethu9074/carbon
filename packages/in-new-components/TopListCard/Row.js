@@ -13,23 +13,30 @@ export default function TopListRow(props) {
     metricValue,
     maxValue,
     renderedMetric,
-    renderedContributedItem
+    renderedCompanionMetric,
+    renderedContributedItem,
+    color
   } = props;
   const percent = Math.min(metricValue / maxValue, 1);
   const positionPercent = `${percent * 100}%`;
-  const color = theme.lib.colors.chart.strokeColors100[0];
+  const barColor = color || theme.lib.colors.chart.strokeColors100[0];
 
   return (
     <li className={locals.topListRow}>
       <div className={locals.titles}>
         {wrapLabel(<span className={locals.label}>{props.label}</span>)}
-        {wrapMetric(<span className={locals.metric}>{renderedMetric}</span>)}
+        {wrapMetric(
+          <div>
+            <span className={locals.metric}>{renderedMetric}</span>
+            {renderedCompanionMetric && <span className={locals.companion}>{renderedCompanionMetric}</span>}
+          </div>
+        )}
       </div>
 
       <div className={locals.bar}>
-        <div className={locals.barInner} style={{ width: positionPercent, background: color }} />
+        <div className={locals.barInner} style={{ width: positionPercent, background: barColor }} />
         {renderedContributedItem && (
-          <div className={locals.hairLine} style={{ marginLeft: positionPercent, background: color }}>
+          <div className={locals.hairLine} style={{ marginLeft: positionPercent, background: barColor }}>
             {wrapContributedItem(
               <div
                 className={evaluateClassNames({

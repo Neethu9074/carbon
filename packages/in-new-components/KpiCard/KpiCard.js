@@ -10,6 +10,7 @@ import locals from './KpiCard.mless';
 export default function KpiCard({
   title,
   value,
+  companionValue,
   raw = false,
   renderValue,
   valuesClassName,
@@ -28,6 +29,7 @@ export default function KpiCard({
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}
         </span>
+        {companionValue && <span className={locals.companion}>{companionValue}</span>}
       </div>
     );
   }
@@ -57,6 +59,7 @@ export default function KpiCard({
         {major}
       </span>
       {minor && <span className={locals.minor}>{minor}</span>}
+      {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </div>
   );
 }
@@ -64,6 +67,7 @@ export default function KpiCard({
 KpiCard.propTypes = {
   title: PropTypes.string,
   value: PropTypes.string,
+  companionValue: PropTypes.string,
   raw: PropTypes.bool,
   renderValue: PropTypes.func,
   valuesClassName: PropTypes.string,

@@ -69,7 +69,7 @@ function renderContent(data) {
   return (
     <div className={locals.metrics}>
       <MetricValue title="Total Calls" metric={data.calls} tooltipFormatter={number.compact} />
-      <MetricValue title="Error Rate" metric={data.errorRate} tooltipFormatter={percentage.compact} />
+      <MetricValue title="Erroneous Calls" metric={data.errorRate} tooltipFormatter={percentage.compact} />
       <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={meanLatency.detailed} />
     </div>
   );

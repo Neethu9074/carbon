@@ -44,11 +44,16 @@ export default function Summary(props) {
         </Col>
         <Col xs>
           <AppDataKpiCard
-            title="Error Rate"
-            formatter={percentage.detailed}
+            title="Erroneous Calls"
+            formatter={number.compact}
+            companionFormatter={v => `${percentage.detailed(v)} of all Calls`}
             metricsConfig={{
               filter,
               metrics: {
+                erroneousCalls: {
+                  metric: 'erroneousCalls',
+                  aggregation: 'SUM'
+                },
                 errors: {
                   metric: 'errors',
                   aggregation: 'MEAN'
@@ -88,7 +93,7 @@ export default function Summary(props) {
         </Col>
         <Col lg={4}>
           <Errors
-            cardTitle="Errors"
+            cardTitle="Erroneous Call Rate"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}

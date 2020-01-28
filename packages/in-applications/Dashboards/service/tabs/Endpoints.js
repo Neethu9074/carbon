@@ -101,6 +101,40 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'erroneousCallsAgg',
+    label: 'Erroneous Calls',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.erroneousCalls}
+          metric={item.metrics.erroneousCallsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'errorsAgg',
+    label: 'Erroneous Call Rate',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.errors}
+          metric={item.metrics.errorsAgg}
+          tooltipFormatter={percentage.detailed}
+        />
+      );
+    }
+  },
+  {
     id: 'latencyAgg',
     label: 'Latency',
     defaultOrderDirection: 'DESC',
@@ -113,23 +147,6 @@ const columnDefinitions = [
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
           tooltipFormatter={meanLatencyFixed.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'errorsAgg',
-    label: 'Errors',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.detailed}
         />
       );
     }
@@ -278,6 +295,15 @@ function getTableData({
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      erroneousCallsAgg: {
+        metric: 'erroneousCalls',
+        aggregation: 'SUM'
+      },
+      erroneousCalls: {
+        metric: 'erroneousCalls',
+        aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       },
       errorsAgg: {

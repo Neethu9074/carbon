@@ -22,6 +22,7 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';
+import theme from 'in-themes';
 
 import locals from './DatabaseStatementDetail.mless';
 
@@ -124,11 +125,16 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Error Rate"
-            formatter={percentage.detailed}
+            title="Erroneous Calls"
+            formatter={number.compact}
+            companionFormatter={v => `${percentage.detailed(v)} of all Calls`}
             metricsConfig={{
               filter,
               metrics: {
+                erroneousCalls: {
+                  metric: 'erroneousCalls',
+                  aggregation: 'SUM'
+                },
                 errors: {
                   metric: 'errors',
                   aggregation: 'MEAN'
@@ -144,9 +150,10 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
             cardTitle="Total Calls vs Mean Latency"
             timeConfig={timeConfig}
             y1={{
-              renderer: Renderer.countErrorBar,
-              labels: ['Calls', 'Errors'],
-              metricIds: ['calls', 'errors']
+              renderer: Renderer.bar,
+              labels: ['Calls', 'Erroneous Calls'],
+              metricIds: ['calls', 'erroneousCalls'],
+              colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
             }}
             y2={{
               renderer: Renderer.line,
@@ -162,10 +169,10 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
                   granularity,
                   aggregation: 'SUM'
                 },
-                errors: {
-                  metric: 'errors',
+                erroneousCalls: {
+                  metric: 'erroneousCalls',
                   granularity,
-                  aggregation: 'MEAN'
+                  aggregation: 'SUM'
                 },
                 latency: {
                   metric: 'latency',

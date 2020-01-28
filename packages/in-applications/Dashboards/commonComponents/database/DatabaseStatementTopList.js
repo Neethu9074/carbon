@@ -3,15 +3,17 @@ import React, { Fragment } from 'react';
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { millis, number } from 'in-services/formatters/number';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { shorten } from 'in-services/util/string';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 const metrics = ['latency', 'calls', 'errors'];
-const labels = ['Latency', 'Calls', 'Error Rate'];
-const aggregations = ['MEAN', 'MEAN', 'MEAN'];
+const labels = ['Latency', 'Calls', 'Erroneous Calls'];
+const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
+const colors = [null, null, theme.lib.colors.failure];
 
 export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) {
   return (
@@ -32,6 +34,7 @@ export default function DatabaseStatementTopList({ applicationId, serviceId, end
       serviceId={serviceId}
       endpointId={endpointId}
       boundaryScope={boundaryScope}
+      colors={colors}
     />
   );
 }

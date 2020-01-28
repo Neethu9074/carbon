@@ -9,25 +9,32 @@ export default connectTo(
   props => ({
     result: getMetrics(props.metricsConfig)
   }),
-  function AppDataKpiCard({ title, result, metricsConfig, formatter }) {
+  function AppDataKpiCard({ title, result, metricsConfig, formatter, companionFormatter }) {
     return (
       <ResultAwareKpiCard
         title={title}
         result={result}
         renderKpiCard={result => {
-          const metricName = Object.keys(metricsConfig.metrics)[0];
-          let value = null;
-          if (result.data[metricName] && result.data[metricName].length === 1) {
-            value = result.data[metricName][0][1];
-          }
-
-          if (value != null) {
-            value = formatter(value);
-          }
-
-          return <KpiCard title={title} value={value} />;
+          const value = getMetricValue(result, metricsConfig, 0, formatter);
+          const companionValue = getMetricValue(result, metricsConfig, 1, companionFormatter);
+          return <KpiCard title={title} value={value} companionValue={companionValue} />;
         }}
       />
     );
   }
 );
+
+function getMetricValue(result, metricsConfig, metricNum, formatter) {
+  const metrics = Object.keys(metricsConfig.metrics);
+  let value = null;
+  if (metricNum < metrics.length) {
+    const metricName = metrics[metricNum];
+    if (result.data[metricName] && result.data[metricName].length === 1) {
+      value = result.data[metricName][0][1];
+    }
+    if (value != null) {
+      value = formatter(value);
+    }
+  }
+  return value;
+}
