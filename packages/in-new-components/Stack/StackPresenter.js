@@ -9,7 +9,7 @@ export default function StackPresenter({ stack, activeTabIndex, onTabSelect }) {
   return (
     <>
       <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
-      <StackPane groups={stack[key].groups} area={key} />
+      <StackPane groups={stack[key].groups} area={key} activeTabIndex={activeTabIndex} />
     </>
   );
 }
