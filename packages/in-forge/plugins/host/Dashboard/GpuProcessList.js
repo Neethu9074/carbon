@@ -16,13 +16,13 @@ const cols = [
     typeArgs: {
       getSnapshotId$(row) {
         return getProcessSnapshotIdForPid({
-          pid: row.process.get('pid'),
-          hostSnapshot: row.host
+          pid: row.key,
+          hostSnapshot: row.hostSnapshot
         });
       },
       withHierarchy: true,
       getFallbackContent(row) {
-        return <span className={locals.label}>{row.process.get('name')}</span>;
+        return <span className={locals.label}>{row.key}</span>;
       },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
@@ -37,7 +37,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.process.get('pid');
+        return row.key;
       },
       getContent(value) {
         return value;
@@ -49,7 +49,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return 'GPU ' + row.process.get('gpu');
+        return 'GPU ' + row.gpuProcess.get('gpu');
       }
     }
   },
@@ -58,7 +58,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.process.get('memory');
+        return row.gpuProcess.get('memory');
       },
       getContent: bytesTwoDecimalPlaces
     }
@@ -68,45 +68,47 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'gpuProcesses')
+      rawPayloadWithTimestamp: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'gpuProcesses')
     };
   },
-  function GpuProcessList({ snapshot, data }) {
-    if (!data || !data.get('raw_payload')) {
+  function GpuProcessList({ snapshot, timeConfig, rawPayloadWithTimestamp }) {
+    if (!rawPayloadWithTimestamp || !rawPayloadWithTimestamp.get('raw_payload')) {
       return null;
     }
 
-    const gpuProcesses = data.get('raw_payload');
+    const gpuProcesses = rawPayloadWithTimestamp.get('raw_payload');
     if (gpuProcesses.size === 0) {
       return null;
     }
 
-    const timeConfig = data.get('timestamp');
-    const rows = gpuProcesses.toArray().map(process => {
-      return {
-        key: String(process.get('pid')),
-        process,
-        timeConfig,
-        host: snapshot
-      };
-    });
+    const rows = gpuProcesses
+      .keySeq()
+      .toArray()
+      .map(pid => {
+        const gpuProcess = gpuProcesses.get(pid);
+        return {
+          key: String(pid),
+          gpuProcess,
+          timeConfig,
+          hostSnapshot: snapshot,
+          hostSnapshotId: snapshot.get('id')
+        };
+      });
 
-    return (
-      <Table cardTitle={'GPU Memory/Process'} withoutPadding cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    );
+    return <Table cardTitle={'GPU Memory/Process'} withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
   }
 );
 
-function getRowDetails(row) {
+function getDetails(row) {
   return (
     <Chart
-      snapshotId={row.snapshotId}
+      snapshotId={row.hostSnapshotId}
       timeConfig={row.timeConfig}
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
-        metric: 'memory',
-        label: 'Memory',
+        metrics: ['gpuProcesses.' + row.key + '.memory'],
+        labels: ['Memory'],
         type: 'line'
       }}
     />
