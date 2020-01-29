@@ -26,7 +26,7 @@ export default function TopListRow(props) {
       <div className={locals.titles}>
         {wrapLabel(<span className={locals.label}>{props.label}</span>)}
         {wrapMetric(
-          <div>
+          <div className={locals.metricWrapper}>
             <span className={locals.metric}>{renderedMetric}</span>
             {renderedCompanionMetric && <span className={locals.companion}>{renderedCompanionMetric}</span>}
           </div>

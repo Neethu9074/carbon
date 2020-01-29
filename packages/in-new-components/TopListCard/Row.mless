@@ -64,6 +64,10 @@
     color: @lib__colors__N700Medium;
   }
 
+  .metricWrapper {
+    white-space: nowrap;
+  }
+
   .metric {
     font-size: 0.875rem;
     font-weight: 600;
