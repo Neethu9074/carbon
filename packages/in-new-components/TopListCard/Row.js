@@ -17,7 +17,7 @@ export default function TopListRow(props) {
     renderedContributedItem,
     color
   } = props;
-  const percent = Math.min(metricValue / maxValue, 1);
+  const percent = maxValue != 0 ? Math.min(metricValue / maxValue, 1) : 0;
   const positionPercent = `${percent * 100}%`;
   const barColor = color || theme.lib.colors.chart.strokeColors100[0];
 
