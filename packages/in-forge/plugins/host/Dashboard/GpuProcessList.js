@@ -34,7 +34,7 @@ const cols = [
   },
   {
     title: 'PID',
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.process.get('pid');
@@ -76,15 +76,17 @@ export default connectTo(
       return null;
     }
 
-    const processes = data.get('raw_payload');
-    if (processes.size === 0) {
+    const gpuProcesses = data.get('raw_payload');
+    if (gpuProcesses.size === 0) {
       return null;
     }
 
-    const rows = processes.toArray().map(process => {
+    const timeConfig = data.get('timestamp');
+    const rows = gpuProcesses.toArray().map(process => {
       return {
         key: String(process.get('pid')),
         process,
+        timeConfig,
         host: snapshot
       };
     });
@@ -103,8 +105,8 @@ function getRowDetails(row) {
       y1={{
         min: 0,
         formatter: bytesTwoDecimalPlaces,
-        metrics: row.process.get('memory'),
-        labels: ['Memory'],
+        metric: 'memory',
+        label: 'Memory',
         type: 'line'
       }}
     />
