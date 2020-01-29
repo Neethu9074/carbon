@@ -4,12 +4,12 @@ import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullH
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import ApplicationMap from 'in-new-components/ApplicationMap';
 
-export default function _Map({ applicationId, boundaryScope }) {
+export default function _Map({ applicationId, urlBoundaryScope }) {
   return (
     <Fragment>
       <FullHeightWrapper
         render={height => (
-          <ApplicationMap applicationId={applicationId} boundaryScope={boundaryScope} customHeight={height} />
+          <ApplicationMap applicationId={applicationId} boundaryScope={urlBoundaryScope} customHeight={height} />
         )}
       />
       <DisabledBodyScroll />
