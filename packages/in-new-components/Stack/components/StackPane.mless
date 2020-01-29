@@ -2,7 +2,7 @@
   .pane {
     height: 60vh;
     overflow-y: scroll;
-    width: 50vw;
+    width: 50rem;
   }
 
   .emptyPane {
