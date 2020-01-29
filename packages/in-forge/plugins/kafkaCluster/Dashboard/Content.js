@@ -9,6 +9,8 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
+import ClusterConsumerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterConsumerClientQuotasTable';
+import ClusterProducerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterProducerClientQuotasTable';
 import ConsumerGroupTopicLagsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupTopicLagsTable.js';
 import ClusterNodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesPartitionsTable.js';
 import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.js';
@@ -146,6 +148,8 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ClusterNodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ConsumerGroupTopicLagsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ClusterConsumerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ClusterProducerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
