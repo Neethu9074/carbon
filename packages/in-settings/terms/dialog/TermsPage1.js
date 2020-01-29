@@ -30,7 +30,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
             name="role"
             value={value}
             options={roles}
-            onChange={e => onChange(form, 'role', e.value || '')}
+            onChange={e => onChange(form, 'role', (e && e.value) || '')}
             searchable
           />
         ))}
