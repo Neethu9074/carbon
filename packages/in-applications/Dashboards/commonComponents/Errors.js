@@ -29,7 +29,7 @@ export default function Errors({
           renderer: Renderer.bar,
           formatter: percentage,
           detailedFormatting: true,
-          labels: ['Erroneous Calls'],
+          labels: ['Erroneous Call Rate'],
           colors: [theme.lib.colors.failure],
           metricIds: ['errors']
         }}
