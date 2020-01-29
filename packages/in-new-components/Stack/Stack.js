@@ -18,14 +18,19 @@ function getStackResult({ id, timeConfig, productArea }) {
 export default connectTo(
   ({ id, timeConfig, productArea }) => ({ stackResult: getStackResult({ id, timeConfig, productArea }) }),
   function Stack({ stackResult, activeTabIndex, onTabSelect }) {
-    if (!stackResult.data) {
-      if (stackResult.errors.length > 0) {
-        return <div>Error: {stackResult.errors[0]}</div>;
-      }
+    const isLoading = stackResult.progress && stackResult.progress.loading;
 
-      return null;
+    if (stackResult.errors.length > 0) {
+      return <div>Error: {stackResult.errors[0]}</div>;
     }
 
-    return <StackPresenter stack={stackResult.data} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />;
+    return (
+      <StackPresenter
+        stack={stackResult.data}
+        activeTabIndex={activeTabIndex}
+        onTabSelect={onTabSelect}
+        isLoading={isLoading}
+      />
+    );
   }
 );
