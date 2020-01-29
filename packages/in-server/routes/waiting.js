@@ -4,6 +4,7 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
+const { activeResolver } = require('../services/resolvers/index');
 const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
@@ -30,28 +31,30 @@ router.get('/waiting', (req, res) => {
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
   res.set('Content-Security-Policy', getCsp(nonces));
 
-  res.send(
-    compiledTemplate({
-      waitingJsChecksum,
-      waitingCssChecksum,
-      nonces,
-      config: JSON.stringify({
-        tenant: req.tenant,
-        tenantUnit: req.unit,
-        agentKey: req.query.agentkey,
-        tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
-        region: serverConfig.clientConfig.region,
-        butlerDomain: serverConfig.clientConfig.butlerDomain,
-        agentEndpoint: agentEndpoint.resolveAgentEndpoint(req.tenant, req.unit),
-        agentEndpointPort: agentEndpoint.resolveAgentEndpointPort()
-      }),
-      mixpanelToken: serverConfig.mixpanelToken,
-      eumTrackingDomain: serverConfig.eum.domain,
-      eumTrackingApiKey: serverConfig.eum.apiKey,
-      eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
-      backendTraceId: req.get('x-instana-t') || '',
-      build: stringifiedBuildInformation,
-      numberLocale: getNumberLocaleDefinition(req)
-    })
+  return activeResolver.getButlerDomain(req.tenant, req.unit).then(butlerDomain =>
+    res.send(
+      compiledTemplate({
+        waitingJsChecksum,
+        waitingCssChecksum,
+        nonces,
+        config: JSON.stringify({
+          tenant: req.tenant,
+          tenantUnit: req.unit,
+          agentKey: req.query.agentkey,
+          tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
+          region: serverConfig.clientConfig.region,
+          butlerDomain: butlerDomain,
+          agentEndpoint: agentEndpoint.resolveAgentEndpoint(req.tenant, req.unit),
+          agentEndpointPort: agentEndpoint.resolveAgentEndpointPort()
+        }),
+        mixpanelToken: serverConfig.mixpanelToken,
+        eumTrackingDomain: serverConfig.eum.domain,
+        eumTrackingApiKey: serverConfig.eum.apiKey,
+        eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+        backendTraceId: req.get('x-instana-t') || '',
+        build: stringifiedBuildInformation,
+        numberLocale: getNumberLocaleDefinition(req)
+      })
+    )
   );
 });
