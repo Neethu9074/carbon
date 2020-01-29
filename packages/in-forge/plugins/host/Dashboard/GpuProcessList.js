@@ -71,7 +71,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'gpuProcesses')
     };
   },
-  function ProcessTopList({ snapshot, data }) {
+  function GpuProcessList({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
