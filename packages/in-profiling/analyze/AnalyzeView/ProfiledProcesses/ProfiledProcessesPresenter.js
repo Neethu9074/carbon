@@ -11,13 +11,7 @@ export default function ProfiledProcessesPresenter(props) {
   return (
     <>
       <Title title="Analyze profiles" />
-      <Sticky
-        header={
-          <>
-            <AnalyzeHeader renderQuickFilterBar={() => <SearchBar theme="light" />} />
-          </>
-        }
-      >
+      <Sticky header={<AnalyzeHeader renderQuickFilterBar={() => <SearchBar theme="light" />} />}>
         <LeftRightPadding>
           <ProfiledProcessesTable {...props} />
         </LeftRightPadding>

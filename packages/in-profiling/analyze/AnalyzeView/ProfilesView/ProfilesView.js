@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { compose } from 'recompose';
 
-import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { processIdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
@@ -10,6 +9,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { generateUniqueShortId } from 'in-services/util/id';
+import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { isEntityOnline } from 'in-stores/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import withUrlState from 'in-hoc/withUrlState';
@@ -30,6 +30,9 @@ export default compose(
     bind: [processIdUrlParameter]
   }),
   connect(({ processId, timeConfig }) => ({
+    deepestTechSnapshot: getPhysicalHierarchy({ snapshotId: processId, timeConfig }).flatMap(hierachy =>
+      getSnapshot(hierachy.get(0), timeConfig)
+    ),
     processSnapshot: getSnapshot(processId, timeConfig),
     isOnline: isEntityOnline(processId)
   }))
@@ -39,7 +42,7 @@ function ProfilesView(props) {
   // will be mounted in the header as soon as they are refactored
   const [viewType, setViewType] = useState(viewTypes.flameGraph);
 
-  const { processSnapshot, isOnline, processId, timeConfig, tagFilters, location } = props;
+  const { processSnapshot, deepestTechSnapshot, isOnline, processId, timeConfig, location } = props;
 
   return (
     <TabView
@@ -50,7 +53,6 @@ function ProfilesView(props) {
       location={location}
       result$={getProfiles({
         processSnapshotId: processId,
-        tagFilters: getTagFilterListForBackendSubscription(tagFilters),
         filter: { timeConfig }
       }).map(addUniqueIdToProfilesIfPresent)}
       withProps={({ result }) => ({
@@ -58,6 +60,7 @@ function ProfilesView(props) {
         setViewType,
         profiles: result.data,
         processSnapshot,
+        deepestTechSnapshot,
         isOnline
       })}
       props={props}
@@ -68,7 +71,7 @@ function ProfilesView(props) {
 }
 
 function Header(props) {
-  const label = `Profiles of Process ${props.processSnapshot ? getLabel(props.processSnapshot) : ''}`;
+  const label = `Profiles of Process ${props.deepestTechSnapshot ? getLabel(props.deepestTechSnapshot) : ''}`;
 
   return (
     <DashboardHeader

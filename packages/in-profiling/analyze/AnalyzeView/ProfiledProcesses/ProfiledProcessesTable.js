@@ -13,9 +13,8 @@ export default function ProfiledProcessesTable(props) {
     <Table>
       <Thead>
         <Tr size="compact">
-          <Th label="Process" noWrap />
-          <Th label="Technology" noWrap />
-          <Th label="Host" noWrap />
+          <Th noWrap>Process</Th>
+          <Th noWrap>Host</Th>
         </Tr>
       </Thead>
       <Tbody>
