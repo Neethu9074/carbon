@@ -215,7 +215,7 @@ function getRowDetails(row) {
             max: 1,
             formatter: bytesPerSecondTwoDecimalPlaces,
             metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
-            labels: ['Transmitted', 'Received'],
+            labels: ['Transmitted/s', 'Received/s'],
             type: 'stackedArea'
           }}
         />

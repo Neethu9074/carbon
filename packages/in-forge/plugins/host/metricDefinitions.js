@@ -229,7 +229,7 @@ export default [
   },
   {
     metrics: [getMetricMatch('gpus', 'transmitted'), getMetricMatch('gpus', 'received')],
-    labels: ['Transmitted', 'Received'],
+    labels: ['Transmitted/s', 'Received/s'],
     category: ['GPU'],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
