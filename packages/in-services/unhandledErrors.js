@@ -15,7 +15,6 @@ export function init() {
     }
 
     ineum('reportError', e);
-
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
   });
 

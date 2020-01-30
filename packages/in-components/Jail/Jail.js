@@ -2,6 +2,8 @@ import { createLogger } from 'instalog';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { ineum } from 'in-services/tracking/ineum';
+
 import './Jail.less';
 
 const logger = createLogger('in-component.Jail');
@@ -24,6 +26,9 @@ class Jail extends React.Component {
   }
 
   componentDidCatch(error, info) {
+    ineum('reportError', error, {
+      componentStack: info.componentStack
+    });
     logger.error(
       'Failed to render component',
       this.props.component.displayName || this.props.component.name,
