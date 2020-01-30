@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, ms } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -82,27 +81,23 @@ export default function ClusterConsumerClientQuotasTable({ snapshot, timeConfig 
 
 function getDetails(row) {
   return (
-    <Fragment>
-      <Columize>
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            formatter: bytesPerSecondTwoDecimalPlaces,
-            tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-            metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
-            labels: ['Byte Rate'],
-            type: 'line'
-          }}
-          y2={{
-            formatter: ms.compact,
-            tooltipFormatter: ms.compact,
-            metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
-            labels: ['Throttling'],
-            type: 'line'
-          }}
-        />
-      </Columize>
-    </Fragment>
+    <Chart
+      snapshotId={row.snapshotId}
+      timeConfig={row.timeConfig}
+      y1={{
+        formatter: bytesPerSecondTwoDecimalPlaces,
+        tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+        metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
+        labels: ['Byte Rate'],
+        type: 'line'
+      }}
+      y2={{
+        formatter: ms.compact,
+        tooltipFormatter: ms.compact,
+        metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
+        labels: ['Throttling'],
+        type: 'line'
+      }}
+    />
   );
 }
