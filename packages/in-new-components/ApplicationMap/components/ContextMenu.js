@@ -8,6 +8,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getButtonKindBySeverity } from 'in-stores/events';
+import { boundaryScopes } from 'in-applications/constants';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -59,7 +60,9 @@ export function ContextMenuContent({ applicationId, application, boundaryScope, 
         href$={getLinkToAnalyze({
           applicationName: !application || isTrafficEnabled ? null : application.label,
           serviceName: node.data.label,
-          boundaryScope
+          // the dependency map shows services using all calls of the application
+          // so link to Analyze should always use boundaryScopes.all
+          boundaryScope: boundaryScopes.all
         })}
       >
         Go to Analyze

@@ -97,6 +97,15 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             )}
           </ExpandableGroup>
+          {logs.length > 0 && (
+            <ExpandableGroup
+              title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
+                warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
+              } )`}
+            >
+              <CallLogs call={call} />
+            </ExpandableGroup>
+          )}
         </Fragment>
       )
     );
