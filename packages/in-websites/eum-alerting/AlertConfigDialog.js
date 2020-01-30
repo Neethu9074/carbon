@@ -139,7 +139,7 @@ function toAlertConfigObject(form) {
           ? form.get(fieldNames.timeThresholdUsers).value
           : null,
         userPercentage: form.get(hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled).value
-          ? form.get(fieldNames.timeThresholdUserPercentage).value / 100
+          ? form.get(fieldNames.timeThresholdUserPercentage).value
           : null
       };
     }

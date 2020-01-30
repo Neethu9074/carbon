@@ -69,12 +69,12 @@ export default function ConfigureUserImpact({ form, onChange }) {
                 min="1"
                 max="100"
                 name={fieldNames.timeThresholdUserPercentage}
-                value={value}
+                value={value * 100}
                 onChange={e =>
                   onChange(
                     form,
                     fieldNames.timeThresholdUserPercentage,
-                    e.target.value !== '' ? Math.abs(e.target.value) : ''
+                    e.target.value !== '' ? Math.abs(e.target.value) / 100 : ''
                   )
                 }
                 step="1"

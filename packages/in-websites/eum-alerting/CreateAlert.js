@@ -54,7 +54,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
         position={positions.bottomRight}
         withBoxShadow
       >
-        Create Alert
+        Add Alert
       </FloatingActionButton>
       {dialogOpen && (
         <AlertConfigDialog

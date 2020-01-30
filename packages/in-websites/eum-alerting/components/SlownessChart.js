@@ -6,11 +6,12 @@ import {
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
-import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 
 import locals from './EumChart.mless';
 
@@ -22,8 +23,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
         form && (
           <div className={locals.controls}>
             <FormGroup>
+              <Label htmlFor={fieldNames.ruleAggregation}>Aggregation</Label>
               <ComboBox
-                className={locals.metricSelect}
+                id={fieldNames.ruleAggregation}
+                className={locals.wideControl}
                 name={fieldNames.ruleAggregation}
                 value={form.get(fieldNames.ruleAggregation).value}
                 options={selectOptions[fieldNames.ruleAggregation]}
@@ -39,8 +42,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
               />
             </FormGroup>
             <FormGroup>
+              <Label htmlFor={fieldNames.thresholdOperator}>Operator</Label>
               <ComboBox
-                className={locals.metricSelect}
+                id={fieldNames.thresholdOperator}
+                className={locals.narrowControl}
                 name={fieldNames.thresholdOperator}
                 value={form.get(fieldNames.thresholdOperator).value}
                 options={selectOptions[fieldNames.thresholdOperator]}
@@ -56,8 +61,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
               />
             </FormGroup>
             <FormGroup>
+              <Label htmlFor={fieldNames.thresholdType}>Threshold Type</Label>
               <ComboBox
-                className={locals.metricSelect}
+                id={fieldNames.thresholdType}
+                className={locals.wideControl}
                 name={fieldNames.thresholdType}
                 value={form.get(fieldNames.thresholdType).value}
                 options={selectOptions[fieldNames.thresholdType]}
@@ -77,7 +84,7 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                     updatedForm = withSlownessFormStaticThreshold(form);
                   }
 
-                  if (thresholdType.includes('historicBaseline.')) {
+                  if (thresholdType.startsWith('historicBaseline.')) {
                     updatedForm = withSlownessFormHistoricBaseline(form);
                   }
 
@@ -95,7 +102,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
             </FormGroup>
             {form.get(fieldNames.thresholdType).value === 'staticThreshold' ? (
               <FormGroup>
+                <Label htmlFor={fieldNames.thresholdValue}>{getThresholdLabel(form)}</Label>
                 <Input
+                  id={fieldNames.thresholdValue}
+                  className={locals.narrowControl}
                   type="number"
                   min="0"
                   name={fieldNames.thresholdValue}
@@ -108,7 +118,10 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
               </FormGroup>
             ) : (
               <FormGroup>
+                <Label htmlFor={fieldNames.thresholdDeviationFactor}>Sensitivity</Label>
                 <Input
+                  id={fieldNames.thresholdDeviationFactor}
+                  className={locals.narrowControl}
                   type="number"
                   min="0"
                   name={fieldNames.thresholdDeviationFactor}

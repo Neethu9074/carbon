@@ -32,8 +32,12 @@
     }
   }
 
-  .metricSelect {
-    width: 148px;
+  .wideControl {
+    width: 12.25rem;
+  }
+
+  .narrowControl {
+    width: 6rem;
   }
 
   .controls {

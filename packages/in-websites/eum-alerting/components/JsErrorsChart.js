@@ -3,10 +3,12 @@ import React from 'react';
 
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
+import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EumChart.mless';
@@ -14,6 +16,10 @@ import locals from './EumChart.mless';
 const errorCountMetricName = 'errors';
 
 export default function JsErrorsChart({ form, timeConfig, onChange, granularity }) {
+  const metricName = form.get(fieldNames.ruleMetricName).value;
+  const thresholdValue = form.get(fieldNames.thresholdValue).value;
+  const percentageMetric = isPercentageMetric(metricName);
+
   return (
     <div className={locals.container}>
       {hasJsErrorSelected(form) ? (
@@ -21,51 +27,60 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
           {onChange && (
             <div className={locals.controls}>
               <FormGroup>
+                <Label htmlFor={fieldNames.ruleMetricName}>Metric</Label>
                 <ComboBox
-                  className={locals.metricSelect}
+                  id={fieldNames.ruleMetricName}
+                  className={locals.wideControl}
                   name={fieldNames.ruleMetricName}
-                  value={form.get(fieldNames.ruleMetricName).value}
+                  value={metricName}
                   options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificJsError]}
                   onChange={e => {
-                    const doCalculateTresholdOnBackend = {
+                    const doCalculateThresholdOnBackend = {
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateTresholdOnBackend);
+                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateThresholdOnBackend);
                   }}
                   defaultValue={errorCountMetricName}
                   clearable={false}
                 />
               </FormGroup>
               <FormGroup>
+                <Label htmlFor={fieldNames.thresholdOperator}>Operator</Label>
                 <ComboBox
-                  className={locals.metricSelect}
+                  id={fieldNames.thresholdOperator}
+                  className={locals.narrowControl}
                   name={fieldNames.thresholdOperator}
                   value={form.get(fieldNames.thresholdOperator).value}
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
-                    const doCalculateTresholdOnBackend = {
+                    const doCalculateThresholdOnBackend = {
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateTresholdOnBackend);
+                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
                   clearable={false}
                 />
               </FormGroup>
               <FormGroup>
+                <Label htmlFor={fieldNames.thresholdValue}>{getThresholdLabel(form)}</Label>
                 <Input
+                  id={fieldNames.thresholdValue}
+                  className={locals.narrowControl}
                   type="number"
                   min="0"
                   name={fieldNames.thresholdValue}
-                  value={
-                    form.get(fieldNames.thresholdValue).value == null ? '' : form.get(fieldNames.thresholdValue).value
-                  }
-                  step={form.get(fieldNames.ruleMetricName).value === errorCountMetricName ? 1 : 0.01}
-                  onChange={e =>
-                    onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
-                  }
+                  value={thresholdValue == null ? '' : percentageMetric ? thresholdValue * 100 : thresholdValue}
+                  step="1"
+                  onChange={e => {
+                    let value = '';
+                    if (e.target.value !== '') {
+                      value = percentageMetric ? Math.abs(e.target.value) / 100 : Math.abs(e.target.value);
+                    }
+                    onChange(form, fieldNames.thresholdValue, value);
+                  }}
                 />
               </FormGroup>
             </div>
@@ -73,7 +88,7 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
           <div className={locals.placeholder}>
             <JsErrorsAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={form.get(fieldNames.thresholdValue).value || 0}
+              threshold={thresholdValue || 0}
               operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
@@ -82,7 +97,7 @@ export default function JsErrorsChart({ form, timeConfig, onChange, granularity 
                 operator: form.get(fieldNames.ruleOperator).value,
                 stringValue: form.get(fieldNames.ruleValue).value
               }}
-              metricName={form.get(fieldNames.ruleMetricName).value}
+              metricName={metricName}
               granularity={granularity}
             />
           </div>
