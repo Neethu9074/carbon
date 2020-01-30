@@ -145,13 +145,13 @@ export default function GpuTable({ snapshot, timeConfig }) {
       withoutPadding
       cols={cols}
       rows={rows}
-      getRowDetails={getRowDetails}
+      getRowDetails={getDetails}
       maxItemsPerPage={8}
     />
   );
 }
 
-function getRowDetails(row) {
+function getDetails(row) {
   return (
     <div>
       <Columize>
@@ -162,7 +162,7 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['gpus.${gpuNumber}.gpuUsage'],
+            metrics: ['gpus.' + row.gpuNumber + '.gpuUtilization'],
             labels: ['Usage'],
             type: 'line'
           }}
@@ -171,7 +171,7 @@ function getRowDetails(row) {
             formatter: temperature.compact,
             metrics: ['gpus.' + row.gpuNumber + '.temperature'],
             labels: ['Temperature'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
         <Chart
@@ -181,9 +181,9 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['gpus.' + row.gpuNumber + '.encoder', 'gpus.' + row.gpuNumber + '.decoder'],
+            metrics: ['gpus.' + row.gpuNumber + '.encoderUtilization', 'gpus.' + row.gpuNumber + '.decoderUtilization'],
             labels: ['Encoder', 'Decoder'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
       </Columize>
@@ -195,7 +195,7 @@ function getRowDetails(row) {
             min: 0,
             max: 1,
             formatter: percentage.compact,
-            metrics: ['gpus.' + row.gpuNumber + '.memoryUsed'],
+            metrics: ['gpus.' + row.gpuNumber + '.memoryUtilization'],
             labels: ['Memory Used'],
             type: 'line'
           }}
@@ -204,7 +204,7 @@ function getRowDetails(row) {
             formatter: bytes.detailed,
             metrics: ['gpus.' + row.gpuNumber + '.memoryTotal'],
             labels: ['Memory Total'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
         <Chart
@@ -216,7 +216,7 @@ function getRowDetails(row) {
             formatter: bytesPerSecondTwoDecimalPlaces,
             metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
             labels: ['Transmitted/s', 'Received/s'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
       </Columize>
