@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -121,41 +120,37 @@ export default function ClusterTopicsTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   const key = row.key;
   return (
-    <Fragment>
-      <Columize>
-        <DashboardSection title="Messages In">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`broker.topicData.${key}.messagesInPerSec`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title="Traffic">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: bytesPerSecondTwoDecimalPlaces,
-              tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-              metrics: [
-                `broker.topicData.${key}.bytesInPerSec`,
-                `broker.topicData.${key}.bytesOutPerSec`,
-                `broker.topicData.${key}.bytesRejectedPerSec`
-              ],
-              labels: ['In', 'Out', 'Rejected'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-    </Fragment>
+    <div>
+      <DashboardSection title="Messages In">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`broker.topicData.${key}.messagesInPerSec`],
+            labels: ['Count'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Traffic">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: bytesPerSecondTwoDecimalPlaces,
+            tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+            metrics: [
+              `broker.topicData.${key}.bytesInPerSec`,
+              `broker.topicData.${key}.bytesOutPerSec`,
+              `broker.topicData.${key}.bytesRejectedPerSec`
+            ],
+            labels: ['In', 'Out', 'Rejected'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+    </div>
   );
 }

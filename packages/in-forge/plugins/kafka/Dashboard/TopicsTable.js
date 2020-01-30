@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { bytesTwoDecimalPlaces, zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -37,7 +37,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesInPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -53,7 +53,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesOutPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -69,7 +69,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.bytesRejectedPerSec`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -172,8 +172,8 @@ function getDetails(row) {
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
-              formatter: bytesTwoDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces,
+              formatter: bytesPerSecondTwoDecimalPlaces,
+              tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
               metrics: [
                 `broker.topicData.${key}.bytesInPerSec`,
                 `broker.topicData.${key}.bytesOutPerSec`,
