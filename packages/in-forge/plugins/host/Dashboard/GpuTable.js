@@ -212,7 +212,6 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            max: 1,
             formatter: bytesPerSecondTwoDecimalPlaces,
             metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
             labels: ['Transmitted/s', 'Received/s'],
