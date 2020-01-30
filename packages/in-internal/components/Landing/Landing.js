@@ -376,70 +376,6 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                       <LinkList>
                         <LinkListItem
                           label="Test"
-                          href="https://test-instana.instana.io"
-                          external
-                          description="Auto-deployed on every commit to the develop branches. This is the unit on which most of the engineering work is integrated first. Notoriously unstable due to the deployment frequency. Choose a different unit if possible."
-                        />
-                        <LinkListItem
-                          label="Release"
-                          href="https://release-instana.instana.io"
-                          external
-                          description="Auto-deployed from the release-XYZ branch on every commit. Mainly used as part of the release preparation, but also for hot-fixes."
-                        />
-                        <LinkListItem
-                          label="Load"
-                          href="https://load-instana.instana.io"
-                          external
-                          description="Used to execute load tests and other experiments. Typically used as part of the release preparation."
-                        />
-                        <LinkListItem
-                          label="Internal"
-                          href="https://internal-instanaops.instana.io"
-                          external
-                          description="A SaaS unit monitoring the internal development units."
-                        />
-                        <LinkListItem
-                          label="Dev"
-                          href="https://dev-instanaops.instana.io"
-                          external
-                          description="Tools we are using for development purposes, e.g. Jenkins, are reporting to this unit."
-                        />
-                      </LinkList>
-                    </LinkListItem>
-
-                    <LinkListItem
-                      label="Demo Units"
-                      description="These units are frequently used by the whole company for demo / presentation purposes."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="current"
-                          href="https://current-instana.instana.io"
-                          external
-                          description="A SaaS demo unit running within the US."
-                        />
-                        <LinkListItem
-                          label="current2"
-                          href="https://current2-instana.instana.io"
-                          external
-                          description="A SaaS demo unit running within EU. This one is typically only used when 'current' is unavailable."
-                        />
-                        <LinkListItem
-                          label="demo"
-                          href="https://demo-demo.instana.io"
-                          external
-                          description="This unit will replace the 'current' and 'current2' unit once the demo setup is finished. The RobotShop is deployed here."
-                        />
-                      </LinkList>
-                    </LinkListItem>
-
-                    <LinkListItem
-                      label="Kubernetes Based Units"
-                      description="Kubernetes based environments are currently being build. They aren't yet ready to replace our day-to-day environments, but will be in the near future. Once they are ready they will replace the similarly named non-Kubernetes based units."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="Test"
                           href="https://test-instana.pink.instana.rocks"
                           external
                           description="Auto-deployed from the develop branches every hour."
@@ -479,6 +415,38 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                           href="https://sre-instana.melon.instana.rocks"
                           external
                           description="Manually deployed from any branch on demand. Used by SRE to develop instanactl."
+                        />
+                        <LinkListItem
+                          label="Internal"
+                          href="https://internal-instanaops.instana.io"
+                          external
+                          description="A SaaS unit monitoring the internal development units."
+                        />
+                        <LinkListItem
+                          label="Dev"
+                          href="https://dev-instanaops.instana.io"
+                          external
+                          description="Tools we are using for development purposes, e.g. Jenkins, are reporting to this unit."
+                        />
+                      </LinkList>
+                    </LinkListItem>
+
+                    <LinkListItem
+                      label="Demo Units"
+                      description="These units are frequently used by the whole company for demo / presentation purposes."
+                    >
+                      <LinkList>
+                        <LinkListItem
+                          label="demous"
+                          href="https://demous-demo.instana.io"
+                          external
+                          description="A SaaS demo unit running within the US."
+                        />
+                        <LinkListItem
+                          label="demous"
+                          href="https://demoeu-demo.instana.io"
+                          external
+                          description="A SaaS demo unit running within the EU."
                         />
                       </LinkList>
                     </LinkListItem>
