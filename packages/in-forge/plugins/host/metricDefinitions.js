@@ -1,4 +1,11 @@
-import { percentage, number, bytes, kiloBytes, siMultiplyPrefix } from 'in-services/formatters/number';
+import {
+  percentage,
+  number,
+  bytes,
+  kiloBytes,
+  siMultiplyPrefix,
+  bytesPerSecondTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 
@@ -201,5 +208,30 @@ export default [
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
+  },
+  {
+    metrics: [getMetricMatch('gpus', 'gpuUtilization'), getMetricMatch('gpus', 'temperature')],
+    labels: ['GPU Usage', 'Temperature'],
+    category: ['GPU'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getMetricMatch('gpus', 'encoderUtilization'),
+      getMetricMatch('gpus', 'decoderUtilization'),
+      getMetricMatch('gpus', 'memoryUtilization')
+    ],
+    labels: ['Encoder', 'Decoder', 'Memory Used'],
+    category: ['GPU'],
+    min: 0,
+    formatter: percentage
+  },
+  {
+    metrics: [getMetricMatch('gpus', 'transmitted'), getMetricMatch('gpus', 'received')],
+    labels: ['Transmitted', 'Received'],
+    category: ['GPU'],
+    min: 0,
+    formatter: bytesPerSecondTwoDecimalPlaces
   }
 ];

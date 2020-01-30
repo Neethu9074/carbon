@@ -247,6 +247,13 @@ export const nanos = {
 
 export const bitReadableString = v => (v > 0 ? 'Yes' : 'No');
 
+export const temperatureZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'C';
+export const temperatureTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'C';
+export const temperature = {
+  compact: temperatureZeroDecimalPlaces,
+  detailed: temperatureTwoDecimalPlaces
+};
+
 export const health = {
   compact(v) {
     if (v === 1) {
