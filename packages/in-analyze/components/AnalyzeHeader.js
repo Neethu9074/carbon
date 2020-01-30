@@ -34,7 +34,6 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { defaultGrouping as defaultProfilesGrouping } from 'in-profiling/tags';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -172,9 +171,7 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
               {...secondLevelActive(['profiles'], 'profiling', dataSource)}
             >
               <SecondLevelNavigationItem
-                href$={getLinkToProfilesAnalyze({
-                  group: defaultProfilesGrouping
-                })}
+                href$={getLinkToProfilesAnalyze()}
                 {...getProps('profiles', 'profiling', dataSource)}
                 addGroupSeparator
               />

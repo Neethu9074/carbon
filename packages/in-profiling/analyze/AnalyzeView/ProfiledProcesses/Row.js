@@ -3,12 +3,12 @@ import React from 'react';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getLinkToProfiles } from 'in-profiling/navigation/paths';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import Link from 'in-components/Link';
 
-export default function Row({ item, getGroupAsFilterUrl }) {
+export default function Row({ item }) {
   const { processName, technologies, hostSnapshotPreview } = item;
 
   return (
@@ -24,10 +24,7 @@ export default function Row({ item, getGroupAsFilterUrl }) {
       </Td>
 
       <Td noWrap>
-        <TechnologyIndicatorList
-          technologies={technologies}
-          getHref$={technology => getGroupAsFilterUrl({ newGroup: { groupbyTag: 'runtime' }, name: technology })}
-        />
+        <TechnologyIndicatorList technologies={technologies} />
       </Td>
 
       <Td noWrap>
