@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 1rem 1rem 0 1rem;
+
+    background: @lib__colors__N100;
+    border: 1px solid @lib__colors__N300;
+  }
+}

@@ -89,21 +89,28 @@
     margin: 0 0.5rem;
   }
 
-  .percentWrapper {
+  .percentWrapper,
+  .percent {
     .flexbox();
-    flex-direction: row-reverse;
 
-    height: 1rem;
-    min-width: 2.25rem;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+  }
 
-    margin-right: 1rem;
+  .percentWrapper {
+    width: 6.25rem;
+
+    margin-right: 0.5rem;
+
+    background: @lib__colors__N300;
   }
 
   .percent {
-    .flexbox();
-    flex-direction: row-reverse;
+    background: @lib__colors__blue800;
+  }
 
-    padding: 0.125rem;
-    background: @lib__colors__faded-blue800;
+  .percentLabel {
+    margin-right: 1.5rem;
+    color: @lib__colors__N700Medium;
   }
 }

@@ -2,16 +2,26 @@ import React, { useState, useEffect } from 'react';
 
 import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
+import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
 import ButtonSegmentedControl from 'in-new-components/ButtonSegmentedControl';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
 
-export default function Profile({ viewType, setViewType, profile, isOnline, processSnapshot }) {
+export default function Profile({
+  renderChart,
+  viewType,
+  setViewType,
+  profile,
+  isOnline,
+  timeConfig,
+  processId,
+  processSnapshot
+}) {
   if (!profile) {
     return null;
   }
@@ -21,41 +31,40 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
     totalNumSamples += countSamples(profile.profileGraph[i]);
   }
 
+  const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
   useEffect(() => setQuery(''), [viewType]);
 
   return (
     <>
       <div className={locals.header}>
-        <div className={locals.firstRow}>
+        <div className={locals.leftSide}>
           <ButtonSegmentedControl
             buttonPropsList={[
+              {
+                text: 'Tree view',
+                icon: 'lib_application_trace',
+                key: viewTypes.tree,
+                onClick: () => setViewType(viewTypes.tree)
+              },
               {
                 text: 'Flame graph',
                 icon: 'lib_flame',
                 key: viewTypes.flameGraph,
                 onClick: () => setViewType(viewTypes.flameGraph)
-              },
-              {
-                text: 'Tree',
-                icon: 'lib_application_trace',
-                key: viewTypes.table,
-                onClick: () => setViewType(viewTypes.table)
               }
             ]}
             activeKey={viewType}
           />
-          {viewType === viewTypes.flameGraph && (
-            <SearchInput onChange={setQuery} query={query} autoFocus maxWidth={200} />
-          )}
-        </div>
-        <div className={locals.secondRow}>
-          <ResultHeader
-            withoutMargin
-            itemType="Profile"
-            nbRows={profile.profileGraph.length}
-            nbItems={profile.profileGraph.length}
-          />
+          <Button
+            className={locals.graphButton}
+            kind="secondary"
+            icon="lib_views_stats"
+            onClick={() => setShowGraph(!showGraph)}
+          >
+            {showGraph ? 'Hide ' : 'Show '} CPU graph
+          </Button>
+          <span className={locals.numProfilesLabel}>{profile.profileGraph.length} Profiles</span>
           {totalNumSamples > 0 &&
             totalNumSamples < 100 && (
               <Tooltip
@@ -66,15 +75,17 @@ export default function Profile({ viewType, setViewType, profile, isOnline, proc
               </Tooltip>
             )}
         </div>
+        {viewType === viewTypes.flameGraph && (
+          <SearchInput onChange={setQuery} query={query} autoFocus maxWidth={200} />
+        )}
       </div>
-      {viewType === 'table' ? (
-        <div className={locals.treeContent}>
-          <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />
-        </div>
+
+      {showGraph && renderChart && <ProfileChart profile={profile} timeConfig={timeConfig} processId={processId} />}
+
+      {viewType === viewTypes.tree ? (
+        <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />
       ) : (
-        <div className={locals.flameGraphContent}>
-          <ProfileFlameGraph profile={profile} query={query} />
-        </div>
+        <ProfileFlameGraph profile={profile} query={query} />
       )}
     </>
   );

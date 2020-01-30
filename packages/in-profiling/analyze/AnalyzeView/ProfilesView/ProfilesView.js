@@ -8,12 +8,13 @@ import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { isEntityOnline } from 'in-stores/snapshot';
-import { getSnapshot } from 'in-stores/snapshot';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
+import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -22,27 +23,36 @@ import locals from './ProfilesView.mless';
 
 export const viewTypes = {
   flameGraph: 'flameGraph',
-  table: 'table'
+  tree: 'tree'
 };
 
 export default compose(
   withUrlState({
     bind: [processIdUrlParameter]
   }),
-  connect(({ processId, timeConfig }) => ({
-    deepestTechSnapshot: getPhysicalHierarchy({ snapshotId: processId, timeConfig }).flatMap(hierachy =>
-      getSnapshot(hierachy.get(0), timeConfig)
-    ),
-    processSnapshot: getSnapshot(processId, timeConfig),
-    isOnline: isEntityOnline(processId)
-  }))
+  connect(({ processId, timeConfig }) => {
+    const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfig });
+    return {
+      deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfig)),
+      jvmSnapshotId: hierachy$
+        .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfig))
+        .map(
+          hierarchySnapshots =>
+            hierarchySnapshots
+              .filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)
+              .map(snapshot => snapshot.get('id'))[0]
+        ),
+      processSnapshot: getSnapshot(processId, timeConfig),
+      isOnline: isEntityOnline(processId)
+    };
+  })
 )(ProfilesView);
 
 function ProfilesView(props) {
   // will be mounted in the header as soon as they are refactored
-  const [viewType, setViewType] = useState(viewTypes.flameGraph);
+  const [viewType, setViewType] = useState(viewTypes.tree);
 
-  const { processSnapshot, deepestTechSnapshot, isOnline, processId, timeConfig, location } = props;
+  const { processSnapshot, deepestTechSnapshot, jvmSnapshotId, isOnline, processId, timeConfig, location } = props;
 
   return (
     <TabView
@@ -61,6 +71,7 @@ function ProfilesView(props) {
         profiles: result.data,
         processSnapshot,
         deepestTechSnapshot,
+        jvmSnapshotId,
         isOnline
       })}
       props={props}

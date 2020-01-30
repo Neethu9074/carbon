@@ -11,6 +11,8 @@ import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './ProfileFlameGraph.mless';
+
 const fromRgb = hexToRGB(theme.lib.colors.yellow800);
 const toRgb = hexToRGB(theme.lib.colors.red800);
 const deltaColors = {
@@ -92,7 +94,7 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       });
 
     this.flamegraphObject = flamegraph()
-      .width(width)
+      .width(Math.max(0, width - 32))
       .tooltip(this.tooltip)
       .setSearchMatch(function(d, term) {
         return term && containsIgnoreCase(d.data.name, term);
@@ -108,7 +110,11 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
   };
 
   render() {
-    return <div id="chart" />;
+    return (
+      <div className={locals.wrapper}>
+        <div id="chart" />
+      </div>
+    );
   }
 }
 

@@ -23,7 +23,7 @@ export default [
 ];
 
 function CpuProfile(props) {
-  return <Profile profile={props.data.cpuProfile} {...props} />;
+  return <Profile profile={props.data.cpuProfile} renderChart {...props} />;
 }
 
 function MemoryProfile(props) {

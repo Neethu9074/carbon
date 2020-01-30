@@ -5,8 +5,8 @@ import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNo
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 
-import locals from './ProfileTree.mless';
 import nodeLocals from './ProfileNode.mless';
+import locals from './ProfileTree.mless';
 
 export default function ProfileTree({ profile, isOnline, processSnapshot }) {
   if (!profile) {

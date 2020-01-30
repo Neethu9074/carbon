@@ -1,0 +1,35 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .chartWrapper {
+    margin-bottom: 1rem;
+    padding: 1rem 0 0 1rem;
+
+    border: 1px solid @lib__colors__N300;
+    background: @lib__colors__N100;
+  }
+
+  .profilesIndicatorWrapper {
+    .flexbox();
+    margin-bottom: 0.75rem;
+  }
+
+  .profilesLabel {
+    // must be in px because of alignment with the chart axis width which is always 60px
+    min-width: 56px;
+    max-width: 56px;
+    margin-right: 4px;
+
+    color: @lib__colors__N700Medium;
+    font-size: 0.75rem;
+    text-align: end;
+  }
+  .profilesIndicators {
+    width: 100%;
+    height: 1rem;
+
+    border-top: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+}
