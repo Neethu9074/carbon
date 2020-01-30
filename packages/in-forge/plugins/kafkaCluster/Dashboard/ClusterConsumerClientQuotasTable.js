@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { bytesZeroDecimalPlaces, ms } from 'in-services/formatters/number';
+import { bytesPerSecondTwoDecimalPlaces, ms } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -26,7 +26,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.consumer.${row.key}.consumedByteRate`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -82,25 +82,27 @@ export default function ClusterConsumerClientQuotasTable({ snapshot, timeConfig 
 
 function getDetails(row) {
   return (
-    <DashboardSection>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          formatter: bytesZeroDecimalPlaces,
-          tooltipFormatter: bytesZeroDecimalPlaces,
-          metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
-          labels: ['Byte Rate'],
-          type: 'line'
-        }}
-        y2={{
-          formatter: ms.compact,
-          tooltipFormatter: ms.compact,
-          metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
-          labels: ['Throttling'],
-          type: 'line'
-        }}
-      />
-    </DashboardSection>
+    <Fragment>
+      <Columize>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: bytesPerSecondTwoDecimalPlaces,
+            tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+            metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
+            labels: ['Byte Rate'],
+            type: 'line'
+          }}
+          y2={{
+            formatter: ms.compact,
+            tooltipFormatter: ms.compact,
+            metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
+            labels: ['Throttling'],
+            type: 'line'
+          }}
+        />
+      </Columize>
+    </Fragment>
   );
 }
