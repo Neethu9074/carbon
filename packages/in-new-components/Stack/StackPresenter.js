@@ -7,6 +7,7 @@ import StackPane from 'in-new-components/Stack/components/StackPane';
 import tabList from 'in-new-components/Stack/tabs';
 
 import locals from './StackPresenter.mless';
+
 export default function StackPresenter({ stack, activeTabIndex, onTabSelect, isLoading }) {
   const { key } = tabList[activeTabIndex];
 

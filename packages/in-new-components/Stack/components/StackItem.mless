@@ -13,6 +13,11 @@
     width: 100%;
   }
 
+  .label {
+    display: flex;
+    align-items: center;
+  }
+
   .chartWrapper {
     display: flex;
     flex-direction: row;
@@ -21,5 +26,10 @@
     & > div {
       padding-left: 1rem;
     }
+  }
+
+  .profileIcon {
+    margin-left: 0.25rem;
+    fill: @lib__colors__N600Light;
   }
 }
