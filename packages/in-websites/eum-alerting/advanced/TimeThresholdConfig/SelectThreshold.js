@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fieldNames, radioOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import CheckboxFancy from 'in-websites/eum-alerting/advanced/components/CheckboxFancy';
 import evaluateClassNames from 'in-services/util/classnames';
 
 import locals from './TimeThresholdConfig.mless';
