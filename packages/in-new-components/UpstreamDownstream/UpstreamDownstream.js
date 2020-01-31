@@ -8,9 +8,15 @@ import getServices from 'in-subscription/application/getServices';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ serviceId, timeConfig }) => ({
-    upstream: getStreamData({ timeConfig, serviceId, contextScope: relationships.UPSTREAM }),
-    downstream: getStreamData({ timeConfig, serviceId, contextScope: relationships.DOWNSTREAM })
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
+    upstream: getStreamData({ timeConfig, applicationId, serviceId, endpointId, contextScope: relationships.UPSTREAM }),
+    downstream: getStreamData({
+      timeConfig,
+      applicationId,
+      serviceId,
+      endpointId,
+      contextScope: relationships.DOWNSTREAM
+    })
   }),
   function UpstreamDownstream({
     activeTabIndex,
