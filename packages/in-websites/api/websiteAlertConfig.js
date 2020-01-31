@@ -54,15 +54,17 @@ export function getLatestAlertConfig(id) {
 }
 
 export function getAlertConfigByIdAndTimestamp(id, timestamp) {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${baseUrl}/${id}`,
-    queryParams: {
-      validOn: timestamp
-    }
-  }).map(response => response.body);
+  return timestamp
+    ? http({
+        method: 'GET',
+        maxRetries: 3,
+        headers: getCsrfHeader(),
+        url: `${baseUrl}/${id}`,
+        queryParams: {
+          validOn: timestamp
+        }
+      }).map(response => response.body)
+    : getLatestAlertConfig(id);
 }
 
 export function enableAlertConfig(id) {

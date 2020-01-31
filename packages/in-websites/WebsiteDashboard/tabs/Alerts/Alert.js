@@ -1,16 +1,13 @@
 import { compose, withState } from 'recompose';
 import React, { useState } from 'react';
 
-import {
-  getLatestAlertConfig,
-  getAlertConfigByIdAndTimestamp,
-  getAllVersionsOfAlertConfig
-} from 'in-websites/api/websiteAlertConfig';
+import { getAlertConfigByIdAndTimestamp, getAllVersionsOfAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import AlertHeader from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertHeader';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -22,10 +19,11 @@ export default compose(
   withState('reload', 'triggerReload', undefined),
   connectTo(({ revision, location }) => {
     const alertConfigId = getMatrixParameter(location, alertTab, alertIdMatrixParam);
+    const alertConfigCreated = getMatrixParameter(location, alertTab, alertCreatedMatrixParam);
     const alertConfig$ =
       revision && revision.created
         ? getAlertConfigByIdAndTimestamp(revision.id, revision.created)
-        : getLatestAlertConfig(alertConfigId);
+        : getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated);
     const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
     return {
       alertConfig: alertConfig$.startWith(null),
