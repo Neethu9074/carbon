@@ -17,7 +17,7 @@ export default function ProfileChart({ timeConfig, jvmSnapshot, processId }) {
   };
   if (jvmSnapshot) {
     const collectors = jvmSnapshot.getIn(['data', 'jvm.collectors']).toArray();
-    if (collectors.indexOf('ParNew') >= 0) {
+    if (collectors.length > 0) {
       chart = (
         <Chart
           key={1}
@@ -26,8 +26,8 @@ export default function ProfileChart({ timeConfig, jvmSnapshot, processId }) {
           y1={y1}
           y2={{
             snapshotId: jvmSnapshot.get('id'),
-            metrics: ['gc.ParNew.time'],
-            labels: ['GC: ParNew Time'],
+            metrics: collectors.map(name => 'gc.' + name + '.time'),
+            labels: collectors.map(name => name + ' Time'),
             formatter: time,
             type: 'line'
           }}
