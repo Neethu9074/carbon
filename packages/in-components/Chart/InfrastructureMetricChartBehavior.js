@@ -122,7 +122,7 @@ export default getElementDimensions(
       const rollup = getDefaultMetricRollupDuration(this.props.timeConfig, this.props.minRollup);
 
       for (let i = 0, len = metrics.length; i < len; i++) {
-        const snapshotId = this.props.snapshotId || this.props.snapshotIds[i];
+        const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
 
         const isDynamicAggregated = !!(axis.maxDataPoints || axis.aggregation);
         let blockSizeMillis;

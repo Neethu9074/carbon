@@ -20,6 +20,7 @@ export default function Profile({
   isOnline,
   timeConfig,
   processId,
+  jvmSnapshot,
   processSnapshot
 }) {
   if (!profile) {
@@ -82,7 +83,10 @@ export default function Profile({
         )}
       </div>
 
-      {showGraph && renderChart && <ProfileChart profile={profile} timeConfig={timeConfig} processId={processId} />}
+      {showGraph &&
+        renderChart && (
+          <ProfileChart profile={profile} timeConfig={timeConfig} processId={processId} jvmSnapshot={jvmSnapshot} />
+        )}
 
       {viewType === viewTypes.tree ? (
         <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />

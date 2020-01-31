@@ -34,13 +34,11 @@ export default compose(
     const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfig });
     return {
       deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfig)),
-      jvmSnapshotId: hierachy$
+      jvmSnapshot: hierachy$
         .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfig))
         .map(
           hierarchySnapshots =>
-            hierarchySnapshots
-              .filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)
-              .map(snapshot => snapshot.get('id'))[0]
+            hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]
         ),
       processSnapshot: getSnapshot(processId, timeConfig),
       isOnline: isEntityOnline(processId)
@@ -52,7 +50,7 @@ function ProfilesView(props) {
   // will be mounted in the header as soon as they are refactored
   const [viewType, setViewType] = useState(viewTypes.tree);
 
-  const { processSnapshot, deepestTechSnapshot, jvmSnapshotId, isOnline, processId, timeConfig, location } = props;
+  const { processSnapshot, deepestTechSnapshot, jvmSnapshot, isOnline, processId, timeConfig, location } = props;
 
   return (
     <TabView
@@ -71,7 +69,7 @@ function ProfilesView(props) {
         profiles: result.data,
         processSnapshot,
         deepestTechSnapshot,
-        jvmSnapshotId,
+        jvmSnapshot,
         isOnline
       })}
       props={props}
