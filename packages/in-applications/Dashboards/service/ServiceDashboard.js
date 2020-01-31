@@ -9,6 +9,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -91,6 +92,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         timeConfig={timeConfig}
       />
       <StackButton id={serviceId} timeConfig={timeConfig} productArea="service" />
+      <UpstreamDownstreamButton applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
       <InstanaServiceToCloudfoundryApplicationButton
         applicationId={applicationId}
         serviceId={serviceId}

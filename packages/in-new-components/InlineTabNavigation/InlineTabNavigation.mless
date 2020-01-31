@@ -1,12 +1,17 @@
 @import '~in-themes/active.less';
 
 :local {
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
   .banner {
     display: flex;
     align-items: flex-end;
     list-style: none;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid @lib__colors__N300;
   }
 }

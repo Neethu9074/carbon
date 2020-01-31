@@ -1,0 +1,6 @@
+{
+  "name": "UpstreamDownstream",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./UpstreamDownstream.js"
+}
