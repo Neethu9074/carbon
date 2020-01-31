@@ -20,10 +20,10 @@ export default function ProfileChart({ timeConfig, processId }) {
           type: 'line'
         }}
       />
-      <div className={locals.profilesIndicatorWrapper}>
+      {/* <div className={locals.profilesIndicatorWrapper}>
         <span className={locals.profilesLabel}>Profiles</span>
         <div className={locals.profilesIndicators} />
-      </div>
+      </div> */}
     </div>
   );
 }

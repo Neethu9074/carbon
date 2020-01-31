@@ -56,14 +56,16 @@ export default function Profile({
             ]}
             activeKey={viewType}
           />
-          <Button
-            className={locals.graphButton}
-            kind="secondary"
-            icon="lib_views_stats"
-            onClick={() => setShowGraph(!showGraph)}
-          >
-            {showGraph ? 'Hide ' : 'Show '} CPU graph
-          </Button>
+          {renderChart && (
+            <Button
+              className={locals.graphButton}
+              kind="secondary"
+              icon="lib_views_stats"
+              onClick={() => setShowGraph(!showGraph)}
+            >
+              {showGraph ? 'Hide ' : 'Show '} CPU graph
+            </Button>
+          )}
           <span className={locals.numProfilesLabel}>{profile.profileGraph.length} Profiles</span>
           {totalNumSamples > 0 &&
             totalNumSamples < 100 && (
