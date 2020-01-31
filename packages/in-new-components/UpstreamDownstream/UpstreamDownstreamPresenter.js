@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import UpstreamDownstreamLoading from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamLoading';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import UpstreamDownstreamPane from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamPane';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import tabList from 'in-new-components/UpstreamDownstream/tabs';
 import Link from 'in-components/Link/Link';
 
@@ -17,7 +17,9 @@ export default function UpstreamDownstreamPresenter({
   timeConfig,
   result,
   serviceId,
-  applicationId
+  applicationId,
+  endpointId,
+  productArea
 }) {
   const isLoading = result.progress && result.progress.loading;
   const { key } = tabList[activeTabIndex];
@@ -56,13 +58,22 @@ export default function UpstreamDownstreamPresenter({
           />
           {result.data.totalHits > 5 && (
             <div className={locals.seeAll}>
-              <Link href$={getServiceDashboard(serviceId, { tab: '/flowMap' })}>
-                See all {result.data.totalHits} Services
-              </Link>
+              {getSeeAllLink(result, productArea, applicationId, serviceId, endpointId)}
             </div>
           )}
         </>
       )}
     </div>
   );
+}
+
+function getSeeAllLink(result, productArea, applicationId, serviceId, endpointId) {
+  if (productArea === 'application') {
+    return <Link href$={getApplicationDashboard(applicationId, { tab: '/map' })}>See all dependencies</Link>;
+  } else if (productArea === 'service') {
+    return (
+      <Link href$={getServiceDashboard(serviceId, { tab: '/flowMap' })}>See all {result.data.totalHits} Services</Link>
+    );
+  }
+  return <Link href$={getEndpointDashboard(endpointId, { tab: '/flowMap' })}>See all Services and Endpoints</Link>;
 }

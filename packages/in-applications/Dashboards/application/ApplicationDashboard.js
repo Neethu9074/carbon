@@ -81,7 +81,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, ur
   return (
     <>
       <StackButton id={applicationId} timeConfig={timeConfig} productArea="application" />
-      <UpstreamDownstreamButton applicationId={applicationId} timeConfig={timeConfig} />
+      <UpstreamDownstreamButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        productArea="application"
+      />
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}

@@ -11,7 +11,14 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function UpstreamDownstreamButton({ timeConfig, isInternalVisible, serviceId, applicationId }) {
+  function UpstreamDownstreamButton({
+    timeConfig,
+    isInternalVisible,
+    endpointId,
+    serviceId,
+    applicationId,
+    productArea
+  }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
@@ -24,6 +31,8 @@ export default connectTo(
               onTabSelect={onTabSelect}
               serviceId={serviceId}
               applicationId={applicationId}
+              endpointId={endpointId}
+              productArea={productArea}
             />
           )}
           withoutWrapper

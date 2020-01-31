@@ -24,8 +24,10 @@ export default connectTo(
     timeConfig,
     serviceId,
     applicationId,
+    endpointId,
     upstream,
-    downstream
+    downstream,
+    productArea
   }) {
     const stream = activeTabIndex === 0 ? upstream : downstream;
     return (
@@ -37,6 +39,8 @@ export default connectTo(
         timeConfig={timeConfig}
         serviceId={serviceId}
         applicationId={applicationId}
+        endpointId={endpointId}
+        productArea={productArea}
       />
     );
   }
