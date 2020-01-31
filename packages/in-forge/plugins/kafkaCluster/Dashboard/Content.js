@@ -13,6 +13,7 @@ import ClusterConsumerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dash
 import ClusterProducerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterProducerClientQuotasTable';
 import ConsumerGroupTopicLagsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupTopicLagsTable.js';
 import ClusterNodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesPartitionsTable.js';
+import ClusterTopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterTopicsTable.js';
 import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.js';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -147,6 +148,7 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
 
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ClusterNodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ClusterTopicsTable snapshot={snapshot} timeConfig={timeConfig} />
       <ConsumerGroupTopicLagsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ClusterConsumerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />
       <ClusterProducerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />

@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { zeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
+import { bytesPerSecondTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -18,7 +17,7 @@ const cols = [
     }
   },
   {
-    title: 'Partition Count',
+    title: 'Partitions',
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -90,26 +89,10 @@ const cols = [
         return 'mean';
       }
     }
-  },
-  {
-    title: 'In-Sync Replicas',
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `broker.topicData.${row.key}.inSyncReplicasCount`;
-      },
-      getContent: zeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
   }
 ];
 
-export default function TopicsTable({ snapshot, timeConfig }) {
+export default function ClusterTopicsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'partitions'], emptyList)
@@ -137,54 +120,37 @@ export default function TopicsTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   const key = row.key;
   return (
-    <Fragment>
-      <Columize>
-        <DashboardSection title="Broker Messages In">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`broker.topicData.${key}.messagesInPerSec`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="In-Sync Replicas">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`broker.topicData.${key}.inSyncReplicasCount`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title="Broker Traffic">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: bytesPerSecondTwoDecimalPlaces,
-              tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-              metrics: [
-                `broker.topicData.${key}.bytesInPerSec`,
-                `broker.topicData.${key}.bytesOutPerSec`,
-                `broker.topicData.${key}.bytesRejectedPerSec`
-              ],
-              labels: ['In', 'Out', 'Rejected'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-    </Fragment>
+    <div>
+      <DashboardSection title="Messages In">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`broker.topicData.${key}.messagesInPerSec`],
+            labels: ['Count'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Traffic">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: bytesPerSecondTwoDecimalPlaces,
+            tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+            metrics: [
+              `broker.topicData.${key}.bytesInPerSec`,
+              `broker.topicData.${key}.bytesOutPerSec`,
+              `broker.topicData.${key}.bytesRejectedPerSec`
+            ],
+            labels: ['In', 'Out', 'Rejected'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+    </div>
   );
 }
