@@ -6,6 +6,7 @@ import ApplicationContextIcon from 'in-applications/components/ApplicationSwitch
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
@@ -97,6 +98,12 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         serviceId={serviceId}
         endpointId={endpointId}
         resolvedEndpointId={get(result, ['data', 'id'])}
+        timeConfig={timeConfig}
+      />
+      <UpstreamDownstreamButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
         timeConfig={timeConfig}
       />
       <AnalyzeCallsButton
