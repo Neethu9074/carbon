@@ -46,7 +46,7 @@ export default function Summary(props) {
           <AppDataKpiCard
             title="Erroneous Calls"
             formatter={number.compact}
-            companionFormatter={v => `${percentage.detailed(v)} of all Calls`}
+            companionFormatter={v => `${percentage.detailed(v)} of all calls`}
             metricsConfig={{
               filter,
               metrics: {
