@@ -131,14 +131,6 @@ export function getLinkToAnalyze({
     }
 
     if (tagFilter != null) {
-      const values = {
-        'application.name': applicationName,
-        'service.name': serviceName,
-        'endpoint.name': endpointName
-      };
-      tagFilter = tagFilter.map(
-        filter => (values[filter.name] && Object.assign(filter, { value: values[filter.name] })) || filter
-      );
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
     } else if (dataSource === 'calls') {
       // remove blacklisted filters

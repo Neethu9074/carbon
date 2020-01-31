@@ -1,0 +1,29 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+  }
+
+  .entityIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .label {
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    .ellipsis();
+  }
+
+  .rootOrUnknown {
+    font-style: italic;
+    color: @lib__colors__N600Light;
+  }
+}
