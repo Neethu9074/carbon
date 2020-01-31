@@ -27,7 +27,7 @@ export default function ProfileChart({ timeConfig, jvmSnapshot, processId }) {
           y2={{
             snapshotId: jvmSnapshot.get('id'),
             metrics: ['gc.ParNew.time'],
-            labels: ['ParNew Time'],
+            labels: ['GC: ParNew Time'],
             formatter: time,
             type: 'line'
           }}

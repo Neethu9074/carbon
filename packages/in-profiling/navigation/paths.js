@@ -1,6 +1,7 @@
 import {
   dataSource as dataSourceMatrixParameter,
-  processId as processIdMatrixParameter
+  processId as processIdMatrixParameter,
+  time as timeMatrixParameter
 } from 'in-profiling/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -26,9 +27,12 @@ export function getLinkToAnalyze() {
   });
 }
 
-export function getLinkToProfiles({ processSnapshotId }) {
+export function getLinkToProfiles({ processSnapshotId, time }) {
   return getModifiedUrlStream(params => {
     params.pathname = `${analyzeProfilePathFullyQualified}/cpu`;
     setOrDeleteMatrixKey(params, profilingPath, processIdMatrixParameter, processSnapshotId);
+    if (time) {
+      setOrDeleteMatrixKey(params, profilingPath, timeMatrixParameter, time);
+    }
   });
 }

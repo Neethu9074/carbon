@@ -1,7 +1,7 @@
+import { compose, withPropsOnChange } from 'recompose';
 import React, { useState } from 'react';
-import { compose } from 'recompose';
 
-import { processIdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { processIdUrlParameter, timeUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
@@ -28,14 +28,22 @@ export const viewTypes = {
 
 export default compose(
   withUrlState({
-    bind: [processIdUrlParameter]
+    bind: [processIdUrlParameter, timeUrlParameter]
   }),
-  connect(({ processId, timeConfig }) => {
-    const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfig });
+  withPropsOnChange(['timeConfig', 'time'], ({ timeConfig, time }) => ({
+    timeConfigForSnapshots: {
+      to: time ? time : timeConfig.to,
+      focusedMoment: time ? time : timeConfig.focusedMoment,
+      autoRefresh: timeConfig.autoRefresh,
+      windowSize: timeConfig.windowSize
+    }
+  })),
+  connect(({ processId, timeConfigForSnapshots, timeConfig }) => {
+    const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots });
     return {
-      deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfig)),
+      deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
       jvmSnapshot: hierachy$
-        .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfig))
+        .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots))
         .map(
           hierarchySnapshots =>
             hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]

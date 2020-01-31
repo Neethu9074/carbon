@@ -1,5 +1,5 @@
+import { dataSource, processId, time } from 'in-profiling/navigation/matrix';
 import { analyzePath, profilingPath } from 'in-profiling/navigation/paths';
-import { dataSource, processId } from 'in-profiling/navigation/matrix';
 
 export const analyzeDataSourceUrlParameter = {
   path: analyzePath,
@@ -10,4 +10,9 @@ export const analyzeDataSourceUrlParameter = {
 export const processIdUrlParameter = {
   path: profilingPath,
   name: processId
+};
+
+export const timeUrlParameter = {
+  path: profilingPath,
+  name: time
 };

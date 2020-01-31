@@ -7,12 +7,12 @@ import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 
 export default function Row({ item }) {
-  const { processSnapshotId, entityLabel, entityPlugin, hostSnapshotPreview } = item;
+  const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;
 
   return (
     <Tr size="compact">
       <Td ellipsis="50vw">
-        <EntityLink href$={getLinkToProfiles({ processSnapshotId })} plugin={entityPlugin} label={entityLabel} />
+        <EntityLink href$={getLinkToProfiles({ processSnapshotId, time })} plugin={entityPlugin} label={entityLabel} />
       </Td>
 
       <Td noWrap>

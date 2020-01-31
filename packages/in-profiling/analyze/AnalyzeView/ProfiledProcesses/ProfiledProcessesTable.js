@@ -6,8 +6,7 @@ import { Th } from 'in-components/tables/sharedComponents/Table';
 
 export default function ProfiledProcessesTable(props) {
   const { loadMore, canLoadMore } = props;
-
-  const columnCount = 3;
+  const columnCount = 2;
 
   return (
     <Table>
