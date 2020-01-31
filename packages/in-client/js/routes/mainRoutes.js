@@ -1,7 +1,11 @@
+import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
+import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
+import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
+import InternalViews from 'promise-loader?global,internal!in-internal';
+import Map from 'promise-loader?global,infrastructure!in-map/index';
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import { pcfEnabled, vsphereEnabled, profilingEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
@@ -10,15 +14,11 @@ import {
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
-import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
-import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
+import { pcfEnabled, vsphereEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
-import InternalViews from 'promise-loader?global,internal!in-internal';
-import Map from 'promise-loader?global,infrastructure!in-map/index';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
@@ -57,7 +57,7 @@ export default (
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
 
-    {profilingEnabled && profilingRoutes}
+    {profilingRoutes}
 
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
     {/* landing page */}

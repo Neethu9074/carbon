@@ -10,7 +10,6 @@ import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
 import StackButton from 'in-new-components/Stack/StackButton';
-import { profilingEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 
@@ -48,10 +47,9 @@ function renderButtonLine({ snapshot, timeConfig }) {
       <StackButton id={snapshot.get('id')} timeConfig={timeConfig} />
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      {profilingEnabled &&
-        snapshot.get('plugin') === plugins.process && (
-          <AnalyzeProfilesButton processSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-        )}
+      {snapshot.get('plugin') === plugins.process && (
+        <AnalyzeProfilesButton processSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      )}
     </>
   );
 }
