@@ -1,6 +1,8 @@
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import { getNewCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
+import { setDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Button from 'in-new-components/Button';
@@ -16,7 +18,8 @@ export default function CustomDashboardPresenter({
   onEditWidget,
   onDeleteCustomDashboard,
   onSaveConfiguration,
-  onCancel
+  onCancel,
+  showDuplicateDashboard = true
 }) {
   return (
     <>
@@ -67,7 +70,15 @@ export default function CustomDashboardPresenter({
           <Button kind="primaryv2" onClick={() => setEditing(true)}>
             Edit Dashboard
           </Button>
-          <Button kind="secondary">Duplicate Dashboard</Button>
+          {showDuplicateDashboard && (
+            <Button
+              kind="secondary"
+              href$={getNewCustomDashboardLink(config.id)}
+              onClick={() => setDuplicationSource(config)}
+            >
+              Duplicate Dashboard
+            </Button>
+          )}
           <Button kind="secondary">Share</Button>
         </div>
 

@@ -15,6 +15,10 @@ export const dashboardIdUrlParameter = {
 
 export const newPath = '/new';
 export const newPathFullyQualified = `${customDashboardsPath}${newPath}`;
+export const duplicationSourceIdUrlParameter = {
+  path: newPath,
+  name: 'sourceId'
+};
 
 export function goToCustomDashboard(customDashboardId) {
   mutateUrl(params => {
@@ -30,8 +34,9 @@ export function getCustomDashboardLink(customDashboardId) {
   });
 }
 
-export function getNewCustomDashboardLink() {
+export function getNewCustomDashboardLink(sourceId) {
   return getModifiedUrlStream(params => {
     params.pathname = newPathFullyQualified;
+    setOrDeleteMatrixKey(params, duplicationSourceIdUrlParameter.path, duplicationSourceIdUrlParameter.name, sourceId);
   });
 }

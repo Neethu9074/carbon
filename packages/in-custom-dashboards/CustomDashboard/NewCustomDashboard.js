@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 
-import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onAddNewWidget, onEditWidget } from 'in-custom-dashboards/CustomDashboard/editor';
-import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { goToCustomDashboard, duplicationSourceIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
+import { getDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
+import withUrlState from 'in-hoc/withUrlState';
 import { user } from 'in-stores/user';
 
-export default function NewCustomDashboard() {
+export default withUrlState({
+  bind: [duplicationSourceIdUrlParameter]
+})(NewCustomDashboard);
+
+function NewCustomDashboard({ sourceId }) {
+  const duplicationSource = sourceId && getDuplicationSource(sourceId);
   const [config, setConfig] = useState({
-    title: 'New dashboard',
+    title: duplicationSource ? `Copy of ${duplicationSource.title}` : 'New dashboard',
     accessRules: [
       {
         accessType: 'READ_WRITE',
@@ -16,7 +23,7 @@ export default function NewCustomDashboard() {
         relatedId: user.id
       }
     ],
-    widgets: []
+    widgets: duplicationSource ? duplicationSource.widgets : []
   });
 
   return (
@@ -27,6 +34,7 @@ export default function NewCustomDashboard() {
       onAddNewWidget={() => onAddNewWidget(config, setConfig)}
       onEditWidget={widget => onEditWidget(config, setConfig, widget)}
       onSaveConfiguration={() => onSaveConfiguration(config)}
+      showDuplicateDashboard={false}
     />
   );
 }
