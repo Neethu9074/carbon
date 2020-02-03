@@ -1,0 +1,52 @@
+# Custom Dashboard Widgets
+
+Custom dashboards revolve around widgets. Widgets are small pieces of configurable
+presentation logic that are placed in user defined locations on a grid. The custom
+dashboard mechanism has several expectations towards widgets that are outlined in
+this document. It is essentially a how-to for Widget developers.
+
+## Definition
+
+Widgets are defined in their own directory at `in-custom-dashboards/widgets/{WIDGET_NAME}`. It follows that each widget name must be unique. The custom dashboard mechanism does not attempt to auto discover / scan for widgets. Instead widgets must be registered within the file `in-custom-dashboards/widgets/index.js`.
+
+## Expected Exports
+
+Each widget needs to define the following exports.
+
+ - `type`: A unique key for the widget type that must never change. This value is
+           used to identify what widget logic to execute for what saved state.
+           This value must be unique across all widget types.
+ - `Widget`: This must be a React component that is used to render the widget within
+             a custom dashboard. It gets passed two properties:
+   - `title`: This title must be used to render a `Card` as a wrapper around the
+              widget. The responsibility to render cards falls to the widget because
+              widgets might want to influence the presentation of cards.
+   - `config`: All the saved configuration options for this widget. This data is
+               whatever was stored in the form created by `createForm`.
+ - `demo`: This is a demonstation/sample configuration for the widget that shows
+           a common usage scenario.
+ - `createForm`: Creates a [formalistic](https://github.com/bripkens/formalistic)
+                 form to configure a new or edit a previously saved widget
+                 configuration. It receives the saved configuration (if any) as its
+                 only parameter.
+ - `Form`: A React component used to render a visual representation for the
+           formalistic form.
+   - `form`: A formalistic form which holds the configuration state as created via
+             `createForm(…)`.
+   - `onChange`: Used to change values within `form`. The signature of `onChange` is
+                 `onChange(['path', 'to', 'update'], formElement => …);`
+ - `minimumWidth`: The minimum number of horizontal grid cells necessary in order to
+                   render this widget. Users cannot configure the widget to use
+                   fewer than these number of vertical cells.
+ - `minimumHeight`: The minimum number of vertical grid cells necessary in order to
+                    render this widget. Users cannot configure the widget to use
+                    fewer than these number of vertical cells.
+
+## Configuration Lifecycle
+
+ - Creation of new configuration form: `form = createForm(null)`.
+ - Editing of the new form for users: `<Form form={form} onChange={…} />`.
+ - Configuration storage: `config = form.toJS()`.
+ - Editing of saved configuration: `<Form form={createForm(config)} onChange={…} />`.
+ - Presentation of saved configuration to users: `<Widget title="…" config={config} />`.
+ - Presentation of demo case to users: `<Widget title="…" config={demo} />`.

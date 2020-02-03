@@ -63,7 +63,7 @@ export default function Card({
           className={evaluateClassNames({
             [locals.nonClickable]: isInteractiveCard
           })}
-          onClick={onClickPrevented}
+          onClick={isInteractiveCard ? onClickPrevented : undefined}
         >
           {header}
         </div>

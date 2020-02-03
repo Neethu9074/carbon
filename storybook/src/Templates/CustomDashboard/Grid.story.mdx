@@ -1,0 +1,15 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+
+import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
+import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+
+<Meta title="Templates|CustomDashboard/Grid" component={Grid} />
+
+<Preview>
+  <Story name="default">
+    <Grid config={sampleConfiguration} />
+  </Story>
+</Preview>
+
+### Props
+<Props of={Grid} />

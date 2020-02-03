@@ -101,6 +101,7 @@
     "react-codemirror2": "^6.0.0",
     "react-day-picker": "^7.0.3",
     "react-dom": "^16.8.6",
+    "react-grid-layout": "^0.17.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-motion": "^0.4.4",
     "react-on-screen": "^2.1.0",

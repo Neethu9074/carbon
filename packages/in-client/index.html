@@ -42,7 +42,7 @@
 }
 if (!window.instana.user) {
   setTimeout(() => {
-    document.querySelector('.in-index-centered-content').textContent = 'Not signed in / backend unavailable. Will retry in 3s';
+    document.querySelector('.in-index-centered-content').textContent = 'Not signed in / backend unavailable. Will retry in 3s. Are you using the right URL for local development, e.g. pink.instana.rocks vs instana.io?';
     document.querySelector('.in-index-centered-content').style = 'color: #fff; font-size: 2rem; text-align: center';
   }, 500);
   setTimeout(() => {

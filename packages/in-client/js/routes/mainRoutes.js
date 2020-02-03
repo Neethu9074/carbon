@@ -13,10 +13,11 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
+import { pcfEnabled, vsphereEnabled, mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, vsphereEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
+import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
@@ -56,6 +57,7 @@ export default (
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
+    {customDashboardsEnabled && customDashboardsRoutes}
 
     {profilingRoutes}
 

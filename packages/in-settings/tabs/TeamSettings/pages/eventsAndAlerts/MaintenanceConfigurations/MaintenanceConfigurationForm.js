@@ -1,4 +1,3 @@
-import moment from 'moment-timezone/builds/moment-timezone-with-data-10-year-range';
 import React from 'react';
 
 import Applications, {
@@ -20,6 +19,7 @@ import { getSetting$ } from 'in-services/settings/settings';
 import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
+import moment from 'in-services/moment-timezone';
 import Message from 'in-new-components/Message';
 import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';

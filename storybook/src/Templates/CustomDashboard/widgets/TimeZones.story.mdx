@@ -1,0 +1,34 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { action } from '@storybook/addon-actions';
+
+import {Widget, demo, createForm, Form} from 'in-custom-dashboards/widgets/TimeZones';
+
+import DemoDataStructure from './DemoDataStructure';
+
+<Meta title="Templates|CustomDashboard/widgets/TimeZones" component={Widget} />
+
+# Introduction
+
+It is often the case that a few time zones are used when communicating or when checking the logs. The ability
+to put custom zone listings on a dashboard comes in handy to facilitate communication or to have a quick
+reference to know when fellow colleagues are going to be available.
+
+<Preview>
+  <Story name="Widget with demo config">
+    <Widget title="Some Time Zones" config={demo} />
+  </Story>
+</Preview>
+
+# Form
+
+<Preview>
+  <Story name="Form based on demo config">
+    <Form form={createForm(demo)} onChange={action('onChange')} />
+  </Story>
+</Preview>
+
+# Configuration Data
+
+The following is based on the `demo` data.
+
+<DemoDataStructure config={demo} />
