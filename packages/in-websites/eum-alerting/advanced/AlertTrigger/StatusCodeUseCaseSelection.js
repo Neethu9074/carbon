@@ -6,6 +6,7 @@ import {
   getStatusCodeLabel,
   getMetricLabel
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
 import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
@@ -17,13 +18,23 @@ import locals from './UseCaseSelection.mless';
 
 export default function StatusCodeUseCaseSelection({ form, timeConfig, onChange, granularity, isReadOnly }) {
   const metricName = form.get(fieldNames.ruleMetricName).value;
-  let chart = (
-    <StatusCodeChart
-      form={form}
-      onChange={!isReadOnly ? onChange : undefined}
+  let chart = isReadOnly ? (
+    <StatusCodeAlertingBarChart
+      websiteId={form.get(fieldNames.websiteId).value}
+      threshold={form.get(fieldNames.thresholdValue).value || 0}
+      operator={form.get(fieldNames.thresholdOperator).value}
       timeConfig={timeConfig}
+      tagFilters={form.get(fieldNames.tagFilters).value}
+      numeratorFilter={{
+        name: 'beacon.http.status',
+        operator: form.get(fieldNames.ruleOperator).value,
+        stringValue: form.get(fieldNames.ruleValue).value
+      }}
+      metricName={form.get(fieldNames.ruleMetricName).value}
       granularity={granularity}
     />
+  ) : (
+    <StatusCodeChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
   );
 
   if (!isReadOnly) {

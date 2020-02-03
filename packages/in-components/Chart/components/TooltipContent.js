@@ -13,13 +13,14 @@ export default function TooltipContent({
   chart,
   reverseTooltipOrder,
   hoveredEvent,
-  excludedLabelsFromTooltip
+  excludedLabelsFromTooltip,
+  customEventSection
 }) {
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
 
   return (
     <div className={locals.tooltipContent}>
-      <EventSection event={hoveredEvent} />
+      {customEventSection ? customEventSection({ event: hoveredEvent }) : <EventSection event={hoveredEvent} />}
 
       <div className={locals.heading}>
         {formatDateTime(timestamp)}

@@ -1,5 +1,7 @@
+import { withState, compose } from 'recompose';
+import { create } from 'reactive-observables';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
@@ -11,12 +13,22 @@ import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './EumChart.mless';
 
-export default function StatusCodeChart({ form, timeConfig, onChange, granularity }) {
+export default compose(
+  withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
+  connectTo(({ debounceOnChange$ }) => ({
+    debounce: debounceOnChange$.debounce(300).tap(callback => callback())
+  }))
+)(StatusCodeChart);
+
+function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+  const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
+  const [doDebounce, setDoDebounce] = useState(false);
+
   const metricName = form.get(fieldNames.ruleMetricName).value;
-  const thresholdValue = form.get(fieldNames.thresholdValue).value;
   const percentageMetric = isPercentageMetric(metricName);
 
   return (
@@ -71,14 +83,27 @@ export default function StatusCodeChart({ form, timeConfig, onChange, granularit
                   type="number"
                   min="0"
                   name={fieldNames.thresholdValue}
-                  value={thresholdValue == null ? '' : percentageMetric ? thresholdValue * 100 : thresholdValue}
                   step="1"
+                  value={
+                    (doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value) *
+                    (percentageMetric ? 100 : 1)
+                  }
                   onChange={e => {
-                    let value = '';
+                    let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+
                     if (e.target.value !== '') {
                       value = percentageMetric ? Math.abs(e.target.value) / 100 : Math.abs(e.target.value);
                     }
-                    onChange(form, fieldNames.thresholdValue, value);
+
+                    setDoDebounce(true);
+                    setTempThreshold(value);
+
+                    const onChangCallback = () => {
+                      onChange(form, fieldNames.thresholdValue, value);
+                      setDoDebounce(false);
+                    };
+
+                    debounceOnChange$.emit(onChangCallback.bind(this));
                   }}
                 />
               </FormGroup>
@@ -87,7 +112,7 @@ export default function StatusCodeChart({ form, timeConfig, onChange, granularit
           <div className={locals.placeholder}>
             <StatusCodeAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={thresholdValue || 0}
+              threshold={doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value || 0}
               operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
@@ -98,6 +123,7 @@ export default function StatusCodeChart({ form, timeConfig, onChange, granularit
               }}
               metricName={metricName}
               granularity={granularity}
+              form={form}
             />
           </div>
         </>
@@ -115,7 +141,8 @@ StatusCodeChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  debounceOnChange$: PropTypes.object
 };
 
 function hasStatusCodeSelected(form) {

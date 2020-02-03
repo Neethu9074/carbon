@@ -30,8 +30,10 @@ export function AlertTypeDescription({ form, config, onChange, selectButtonDisab
           className={locals.button}
           disabled={selectButtonDisabled}
           onClick={() => {
-            setSelectButtonDisabled(true);
-            updateFormAndCallOnChange(form, config, onChange);
+            if (form && onChange) {
+              setSelectButtonDisabled(true);
+              updateFormAndCallOnChange(form, config, onChange);
+            }
           }}
         >
           Select
@@ -43,10 +45,10 @@ export function AlertTypeDescription({ form, config, onChange, selectButtonDisab
 
 AlertTypeDescription.propTypes = {
   config: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  selectButtonDisabled: PropTypes.bool.isRequired,
-  setSelectButtonDisabled: PropTypes.func.isRequired
+  form: PropTypes.object,
+  onChange: PropTypes.func,
+  selectButtonDisabled: PropTypes.bool,
+  setSelectButtonDisabled: PropTypes.func
 };
 
 function updateFormAndCallOnChange(form, config, onChange) {

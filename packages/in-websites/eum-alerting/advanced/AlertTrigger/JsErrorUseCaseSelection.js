@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fieldNames, getRuleOperatorLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
-
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+
 import locals from './UseCaseSelection.mless';
 
 export default function JsErrorUseCaseSelection({
@@ -18,13 +19,23 @@ export default function JsErrorUseCaseSelection({
   granularity,
   isReadOnly
 }) {
-  let chart = (
-    <JsErrorsChart
-      form={form}
-      onChange={!isReadOnly ? onChange : undefined}
+  let chart = isReadOnly ? (
+    <JsErrorsAlertingBarChart
+      websiteId={form.get(fieldNames.websiteId).value}
+      threshold={form.get(fieldNames.thresholdValue).value}
+      operator={form.get(fieldNames.thresholdOperator).value}
       timeConfig={timeConfig}
+      tagFilters={form.get(fieldNames.tagFilters).value}
+      errorFilter={{
+        name: 'beacon.error.message',
+        operator: form.get(fieldNames.ruleOperator).value,
+        stringValue: form.get(fieldNames.ruleValue).value
+      }}
+      metricName={form.get(fieldNames.ruleMetricName).value}
       granularity={granularity}
     />
+  ) : (
+    <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
   );
 
   if (!isReadOnly) {

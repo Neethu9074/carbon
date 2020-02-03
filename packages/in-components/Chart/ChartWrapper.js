@@ -1,9 +1,9 @@
+import invariant from 'invariant';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { deepCopy } from 'in-services/util/object';
-import invariant from 'invariant';
 
 // Sample Usage
 /*
@@ -101,6 +101,8 @@ function wrapProps(result, props) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id] || []);
     propsClone.y2.aggregations = propsClone.y2.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
   }
+
+  propsClone.customChartComponent = props.customChartComponent;
 
   return propsClone;
 }

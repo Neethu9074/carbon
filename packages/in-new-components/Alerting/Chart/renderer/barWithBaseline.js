@@ -6,7 +6,7 @@ import bar from 'in-components/Chart/renderer/bar';
 
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
-    validateProps(config, colors);
+    validateProps(config);
     const metric = metrics[0];
 
     // historical data
@@ -95,12 +95,11 @@ function isGreaterOperator(operator) {
   return operator === '>=' || operator === '>';
 }
 
-function validateProps(config, colors) {
+function validateProps(config) {
   if (__DEV__) {
     invariant(
       Number(config.y1.sensitivity) >= 0,
       'Property "sensitivity" is missing in config. Example: y1={{ sensitivity, colors:[], ... }}'
     );
-    invariant(colors.length === 4, `The chart need 4 colors. You provided only #${colors.length} colors.`);
   }
 }

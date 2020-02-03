@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { getBaselineValue } from 'in-websites/eum-alerting/chart/baselineUtils';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
@@ -10,6 +11,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     let websiteMetrics$;
+
     if (props.isCatalogMetric) {
       websiteMetrics$ = getWebsiteMetrics(props.metricsConfiguration);
     } else {
@@ -17,27 +19,30 @@ export default connectTo(
     }
 
     return {
-      result: websiteMetrics$.map(result =>
-        mergeResult(
+      result: websiteMetrics$.map(result => {
+        return mergeResult(
           result,
           props.y1.metricIds[0],
           props.y1.threshold,
           props.y1.baseline,
           props.y1.sensitivity,
           props.y1.operator
-        )
-      )
+        );
+      })
     };
   },
   function EumAlertingBarChartWrapper(props) {
     enrichChartMetrics(props);
-    return <ChartWrapper {...props} />;
+    return <ChartWrapper customChartComponent={AlertingChartReactComponent} {...props} />;
   }
 );
 
 function enrichChartMetrics(props) {
   props.metricsConfiguration.metrics['threshold'] = {
     metric: 'threshold'
+  };
+  props.metricsConfiguration.metrics['alerts'] = {
+    metric: 'alerts'
   };
 }
 

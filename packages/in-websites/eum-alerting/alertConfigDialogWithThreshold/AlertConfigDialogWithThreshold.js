@@ -14,6 +14,7 @@ import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/ge
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = connectTo(
@@ -144,7 +145,8 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
       getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality)
     );
   }
-  return empty();
+  // return empty();
+  return alwaysEmptyArray;
 }
 
 function addThresholdToForm(form, onChange, threshold, time) {
