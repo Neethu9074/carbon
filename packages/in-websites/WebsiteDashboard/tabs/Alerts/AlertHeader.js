@@ -111,7 +111,7 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
         </div>
       </div>
       {isDeletedConfig && (
-        <Message iconColor={theme.lib.colors.failure} withIcon type="neutral">
+        <Message iconColor={theme.lib.colors.warning} withIcon type="neutral">
           You are looking at a deleted alert configuration. Modifications are not possible.
         </Message>
       )}

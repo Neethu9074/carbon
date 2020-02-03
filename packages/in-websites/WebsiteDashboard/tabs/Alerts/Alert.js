@@ -20,10 +20,9 @@ export default compose(
   connectTo(({ revision, location }) => {
     const alertConfigId = getMatrixParameter(location, alertTab, alertIdMatrixParam);
     const alertConfigCreated = getMatrixParameter(location, alertTab, alertCreatedMatrixParam);
-    const alertConfig$ =
-      revision && revision.created
-        ? getAlertConfigByIdAndTimestamp(revision.id, revision.created)
-        : getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated);
+    const alertConfig$ = revision
+      ? getAlertConfigByIdAndTimestamp(revision.id, revision.created)
+      : getAlertConfigByIdAndTimestamp(alertConfigId, alertConfigCreated);
     const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
     return {
       alertConfig: alertConfig$.startWith(null),
