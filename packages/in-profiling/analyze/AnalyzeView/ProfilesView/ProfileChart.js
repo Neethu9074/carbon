@@ -1,18 +1,17 @@
 import React from 'react';
 
-import { percentageZeroDecimalPlaces, time } from 'in-services/formatters/number';
+import ProfilesInTimeIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesInTimeIndicator';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { percentage, time } from 'in-services/formatters/number';
 
 import locals from './ProfileChart.mless';
 
-export default function ProfileChart({ timeConfig, jvmSnapshot, processId }) {
-  // const profileTimestamps = profile.profileGraph.map(childNode => childNode.timestamp);
-
+export default function ProfileChart({ profile, timeConfig, jvmSnapshot, processId }) {
   let chart;
   const y1 = {
     metrics: ['cpu.user', 'cpu.sys'],
     labels: ['User', 'System'],
-    formatter: percentageZeroDecimalPlaces,
+    formatter: percentage,
     type: 'line'
   };
   if (jvmSnapshot) {
@@ -42,10 +41,7 @@ export default function ProfileChart({ timeConfig, jvmSnapshot, processId }) {
   return (
     <div className={locals.chartWrapper}>
       {chart}
-      {/* <div className={locals.profilesIndicatorWrapper}>
-        <span className={locals.profilesLabel}>Profiles</span>
-        <div className={locals.profilesIndicators} />
-      </div> */}
+      <ProfilesInTimeIndicator timeConfig={timeConfig} profile={profile} />
     </div>
   );
 }

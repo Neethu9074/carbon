@@ -4,7 +4,7 @@
 :local {
   .row {
     .flexbox();
-    padding: 0.25rem 0;
+    padding: 0.3125rem 0 0.25rem;
   }
 
   .expandedRow {
@@ -103,6 +103,7 @@
     margin-right: 0.5rem;
 
     background: @lib__colors__N300;
+    overflow: hidden;
   }
 
   .percent {
@@ -110,7 +111,7 @@
   }
 
   .percentLabel {
-    margin-right: 1.5rem;
+    width: 3.75rem;
     color: @lib__colors__N700Medium;
   }
 }
