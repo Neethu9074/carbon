@@ -145,7 +145,7 @@ function getChildren(profileNode) {
 }
 
 function getName(node) {
-  return `<${node.methodName}> at ${node.fileName}:${node.fileLine}`;
+  return `${node.fileName}#${node.methodName}:${node.fileLine}`;
 }
 
 function colorMapper(component, node) {
