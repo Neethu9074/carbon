@@ -40,12 +40,16 @@ export default function CustomDashboardPresenter({
             <Button kind="primaryv2" onClick={onSaveConfiguration}>
               Save Configuration
             </Button>
-            <Button kind="danger" onClick={onDeleteCustomDashboard}>
-              Delete Dashboard
-            </Button>
-            <Button kind="secondary" onClick={onCancel}>
-              Cancel
-            </Button>
+            {onDeleteCustomDashboard && (
+              <Button kind="danger" onClick={onDeleteCustomDashboard}>
+                Delete Dashboard
+              </Button>
+            )}
+            {onCancel && (
+              <Button kind="secondary" onClick={onCancel}>
+                Cancel
+              </Button>
+            )}
             <Button kind="secondary">Share</Button>
           </div>
 

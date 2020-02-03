@@ -1,42 +1,48 @@
 import React, { useState } from 'react';
-import { find } from 'lodash';
 
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
-import AddNewWidgetDialog from 'in-custom-dashboards/CustomDashboard/dialog/AddNewWidgetDialog';
-import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { deepCopy } from 'in-services/util/object';
+import { onLayoutChange, onAddNewWidget, onEditWidget } from 'in-custom-dashboards/CustomDashboard/editor';
+import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { addCustomDashboard } from 'in-custom-dashboards/api';
+import { user } from 'in-stores/user';
 
 export default function NewCustomDashboard() {
-  // TODO default value
-  const [config, setConfig] = useState();
+  const [config, setConfig] = useState({
+    title: 'New dashboard',
+    accessRules: [
+      {
+        accessType: 'READ_WRITE',
+        relationType: 'USER',
+        relatedId: user.id
+      }
+    ],
+    widgets: []
+  });
 
   return (
     <CustomDashboardPresenter
       config={config}
       isEditing
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
-      onAddNewWidget={onAddNewWidget}
-      onEditWidget={onEditWidget}
+      onAddNewWidget={() => onAddNewWidget(config, setConfig)}
+      onEditWidget={widget => onEditWidget(config, setConfig, widget)}
+      onSaveConfiguration={() => onSaveConfiguration(config)}
     />
   );
+}
 
-  function onAddNewWidget() {
-    setActiveDialog(<AddNewWidgetDialog />);
-  }
+function onSaveConfiguration(config) {
+  addCustomDashboard(config).subscribe(result => {
+    if (result.progress.loading) {
+      return;
+    }
 
-  function onEditWidget(id) {
-    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-    setActiveDialog(
-      <AddNewWidgetDialog
-        widget={widget}
-        onSave={widget => {
-          const newConfig = deepCopy(config);
-          newConfig.widgets = newConfig.widgets.filter(w => w.id !== id);
-          newConfig.widgets.push(widget);
-          setConfig(newConfig);
-        }}
-      />
-    );
-  }
+    if (result.errors.length > 0) {
+      // TODO improve error case
+      alert('Saving failed');
+      return;
+    }
+
+    goToCustomDashboard(result.data.id);
+  });
 }

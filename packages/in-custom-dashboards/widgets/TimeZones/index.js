@@ -4,5 +4,6 @@ export { createForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 export { demo } from 'in-custom-dashboards/widgets/TimeZones/demo';
 
 export const type = 'timeZones';
+export const label = 'Time Zones';
 export const minimumWidth = 1;
 export const minimumHeight = 1;
