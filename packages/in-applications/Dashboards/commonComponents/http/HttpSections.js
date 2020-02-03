@@ -54,20 +54,20 @@ export default connectTo(
       <Row>
         <Col lg={12}>
           <AppdataChartWrapper
-            cardTitle="Http Status Code Breakdown"
+            cardTitle="HTTP Status Code Breakdown"
             timeConfig={timeConfig}
             y1={{
-              renderer: Renderer.stackedArea,
+              renderer: Renderer.stackedBar,
               labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
               formatter: number,
               tooltipFormatter: number.compact,
               metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'],
               colors: [
-                theme.lib.colors.chart.strokeColors25[0],
+                theme.lib.colors.chart.strokeColors25[8],
                 theme.lib.colors.chart.strokeColors25[1],
                 theme.lib.colors.chart.strokeColors25[4],
-                theme.lib.colors.chart.strokeColors25[2],
-                theme.lib.colors.chart.strokeColors25[6]
+                theme.lib.colors.warning,
+                theme.lib.colors.failure
               ]
             }}
             metricsConfiguration={{
