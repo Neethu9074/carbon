@@ -6,6 +6,7 @@ import theme from 'in-themes';
 import tip from 'd3-tip';
 
 import 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph.css';
+import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
@@ -83,6 +84,10 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
 
   setupFlameGraph = () => {
     const { width, profile } = this.props;
+    if (width <= 0) {
+      return;
+    }
+
     const data = mapData(profile);
 
     this.destroyFlameGraphIfPresent();
@@ -145,7 +150,7 @@ function getChildren(profileNode) {
 }
 
 function getName(node) {
-  return `${node.fileName}#${node.methodName}:${node.fileLine}`;
+  return serializeLine(node.fileName, node.methodName, node.fileLine);
 }
 
 function colorMapper(component, node) {
