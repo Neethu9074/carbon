@@ -31,7 +31,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
           if (e.destination) {
             onChange([], form => {
               const timeZone = form.get(e.source.index);
-              return form.remove(e.source.index).set(e.destination.index, timeZone);
+              return form.remove(e.source.index).insert(e.destination.index, timeZone);
             });
           }
         }}
