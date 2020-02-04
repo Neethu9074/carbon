@@ -112,7 +112,7 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'eumAlertingEnabled',
     instanaCtlKey: 'feature.eum.alerting.enabled',
     consulKey: `settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`,
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'vsphereEnabled',

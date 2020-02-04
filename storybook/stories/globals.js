@@ -10,10 +10,7 @@ window.instana = {
   config: {
     tenant: 'instana',
     tenantUnit: 'test',
-    environment: 'internal',
-    featureFlags: {
-      eumAlertingEnabled: true
-    }
+    environment: 'internal'
   },
   build: {
     revision: '85373525d145604cda61cf7544d376436c5c49d5',
