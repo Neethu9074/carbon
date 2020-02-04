@@ -20,12 +20,12 @@ export default function StackPane({ groups, area, activeTabIndex }) {
 }
 
 const EmptyPane = ({ activeTabIndex }) => {
-  const { icon, text } = tabList[activeTabIndex];
+  const { icon, emptyMessage } = tabList[activeTabIndex];
 
   return (
     <div className={locals.emptyPane}>
       <SvgIcon type={icon} size="xxl" />
-      <span className={locals.emptyMessage}>There are no related {text} entities.</span>
+      <span className={locals.emptyMessage}>{emptyMessage}</span>
     </div>
   );
 };
