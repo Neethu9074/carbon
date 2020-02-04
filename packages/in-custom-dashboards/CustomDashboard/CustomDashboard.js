@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { compose } from 'recompose';
 import { isEqual } from 'lodash';
 
-import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
+import { getCustomDashboard, updateCustomDashboard } from 'in-custom-dashboards/api';
+import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getCustomDashboard } from 'in-custom-dashboards/api';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 
@@ -56,20 +56,36 @@ function CustomDashboard({ config: originalConfiguration = sampleConfiguration }
   function onDeleteCustomDashboard() {
     setActiveDialog(
       <ConfirmationDialog
-        header="Confirm Dashboard Deletion"
+        header="Confirm deletion"
         description={
           <span>
-            Are you sure that you want to delete the dashboard <strong>{config.title}</strong>?
+            Are you sure you want to delete the dashboard <strong>{config.title}</strong>?
           </span>
         }
         bButtonLabel="Delete Dashboard"
-        onB={() => alert('Not Implemented 😅!')}
+        onB={() => {
+          setEditing(false);
+          setConfig(originalConfiguration);
+          close();
+        }}
       />
     );
   }
 
   function onSaveConfiguration() {
-    setEditing(false);
+    updateCustomDashboard(config).subscribe(result => {
+      if (result.progress.loading) {
+        return;
+      }
+
+      if (result.errors.length > 0) {
+        // TODO improve error case
+        alert('Saving failed');
+        return;
+      }
+
+      setEditing(false);
+    });
   }
 
   function onCancel() {
@@ -88,6 +104,7 @@ function CustomDashboard({ config: originalConfiguration = sampleConfiguration }
           bButtonLabel="Leave edit mode and discard changes"
           onB={() => {
             setEditing(false);
+            setConfig(originalConfiguration);
             close();
           }}
         />
