@@ -61,8 +61,11 @@ function AddNewWidgetDialog({ onSubmit, step, setStep, form, setForm, editMode, 
     <BigHeaderDialog title="Widget Configuration" titleIconType="lib_views_grid" onClose={close}>
       <form onSubmit={onSubmit} className={locals.dialog}>
         <StepProgressBar step={step} stepTitles={['Step 1: Select Widget Type', 'Step 2: Configure Widget']} />
-        {step === 0 && <WidgetSelectorPresenter form={form} setForm={setForm} onChange={onChange} />}
-        {step === 1 && <WidgetConfiguratorPresenter form={form} onChange={onChange} widget={widget} />}
+
+        <div className={locals.steps}>
+          {step === 0 && <WidgetSelectorPresenter form={form} setForm={setForm} onChange={onChange} />}
+          {step === 1 && <WidgetConfiguratorPresenter form={form} onChange={onChange} widget={widget} />}
+        </div>
 
         <nav className={locals.controls}>
           <Button className={locals.button} kind="secondary" onClick={() => (step === 0 ? close() : setStep(step - 1))}>

@@ -5,6 +5,7 @@ import { getNewCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { setDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import SlideInView from 'in-new-components/SlideInView';
 import Button from 'in-new-components/Button';
 
 import locals from './CustomDashboardPresenter.mless';
@@ -23,14 +24,21 @@ export default function CustomDashboardPresenter({
 }) {
   return (
     <>
-      <DashboardHeader
-        icon="lib_views_grid"
-        label={config.title}
-        title={config.title}
-        renderButtonLine={renderButtonLine}
-      />
-      <DashboardHeaderShadowModule />
-      <Grid config={config} onLayoutChange={onLayoutChange} onEditWidget={onEditWidget} isEditing={isEditing} />
+      <SlideInView
+        sliderContent="sliderContent"
+        slideIn={isEditing}
+        title="Widget editor"
+        onTitleIconClick={() => setEditing(!isEditing)}
+      >
+        <DashboardHeader
+          icon="lib_views_grid"
+          label={config.title}
+          title={config.title}
+          renderButtonLine={renderButtonLine}
+        />
+        <DashboardHeaderShadowModule />
+        <Grid config={config} onLayoutChange={onLayoutChange} onEditWidget={onEditWidget} isEditing={isEditing} />
+      </SlideInView>
     </>
   );
 

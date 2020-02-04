@@ -10,6 +10,14 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
   const [scrollshadow, setScrollshadow] = useState(false);
   return (
     <div className={locals.container}>
+      {children}
+      <div
+        className={evaluateClassNames({
+          [locals.inputBlocker]: true,
+          [locals.slideIn]: slideIn
+        })}
+      />
+
       <div
         onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
         className={evaluateClassNames({
@@ -19,6 +27,7 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       >
         {sliderContent}
       </div>
+
       <div
         className={evaluateClassNames({
           [locals.header]: true,
@@ -30,18 +39,6 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
           <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} leftAligned />
           <h1 className={locals.title}>{title}</h1>
         </span>
-      </div>
-      <div className={locals.mainContentWrapper}>
-        <div className={locals.mainContentInner}>
-          <section
-            className={evaluateClassNames({
-              [locals.mainContent]: true,
-              [locals.slideIn]: slideIn
-            })}
-          >
-            {children}
-          </section>
-        </div>
       </div>
     </div>
   );
