@@ -22,7 +22,7 @@ const cols = [
       },
       withHierarchy: true,
       getFallbackContent(row) {
-        return <span className={locals.label}>{row.key}</span>;
+        return <span className={locals.label}>{row.gpuProcess.get('name')}</span>;
       },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
