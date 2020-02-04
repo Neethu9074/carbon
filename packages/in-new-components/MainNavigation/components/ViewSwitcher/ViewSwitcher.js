@@ -27,7 +27,8 @@ import {
   releaseNotesEnabled,
   tenantSwitcherEnabled,
   vsphereEnabled,
-  mobileAppMonitoringEnabled
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled
 } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
@@ -42,6 +43,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -77,6 +79,16 @@ export default function ViewSwitcher({
 
   return (
     <ul className={locals.list}>
+      {customDashboardsEnabled &&
+        <View
+          id="main-nav-custom-dashboards"
+          label="Dashboards"
+          icon="lib_views_grid"
+          isActive$={isView(customDashboardsPath)}
+          href$={getView(customDashboardsPath)}
+          {...commonProps}
+        />
+      }
       <View
         id="main-nav-infrastructure"
         label="Infrastructure"
