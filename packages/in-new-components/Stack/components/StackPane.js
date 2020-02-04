@@ -20,12 +20,23 @@ export default function StackPane({ groups, area, activeTabIndex }) {
 }
 
 const EmptyPane = ({ activeTabIndex }) => {
-  const { icon, text } = tabList[activeTabIndex];
+  const { icon, key } = tabList[activeTabIndex];
 
   return (
     <div className={locals.emptyPane}>
       <SvgIcon type={icon} size="xxl" />
-      <span className={locals.emptyMessage}>There are no related {text} entities.</span>
+      <span className={locals.emptyMessage}>{emptyMessage(key)}</span>
     </div>
   );
 };
+
+function emptyMessage(activeTabKey) {
+  switch (activeTabKey) {
+    case 'application':
+      return 'There are no related Applications or Services';
+    case 'infrastructure':
+      return 'There is no related Infrastructure';
+    case 'kubernetes':
+      return 'There are no related Kubernetes resources';
+  }
+}
