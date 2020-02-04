@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import { ID_OF_REGION } from 'in-forge/constants';
@@ -28,28 +29,47 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title="Entities">
-          <Chart
-            snapshotId={ID_OF_REGION}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['entities'],
-              labels: ['Entities'],
-              type: 'stackedArea'
-            }}
-            y2={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['hosts', 'processes'],
-              labels: ['Hosts', 'Processes'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Row>
+          <Col lg={6}>
+            <DashboardSection title="Infrastructure Entity Monitoring">
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['entities'],
+                  labels: ['Entities'],
+                  type: 'stackedArea'
+                }}
+                y2={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['hosts', 'processes', 'containers'],
+                  labels: ['Hosts', 'Processes', 'Containers'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+          <Col lg={6}>
+            <DashboardSection title="Infrastructure Metric Monitoring">
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['metrics'],
+                  labels: ['Metrics'],
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+        </Row>
 
-        <DashboardSection title="Application Perspectives">
+        <DashboardSection title="Application Monitoring">
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -63,33 +83,38 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title="Website Monitoring">
-          <Chart
-            snapshotId={ID_OF_REGION}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['acceptedBeacons', 'processedBeacons'],
-              labels: ['Accepted Beacons', 'Processed Beacons'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Mobile App Monitoring">
-          <Chart
-            snapshotId={ID_OF_REGION}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['acceptedMobileBeacons', 'processedMobileBeacons'],
-              labels: ['Accepted Beacons', 'Processed Beacons'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Row>
+          <Col lg={6}>
+            <DashboardSection title="Website Monitoring">
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['acceptedBeacons', 'processedBeacons'],
+                  labels: ['Accepted Beacons', 'Processed Beacons'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+          <Col lg={6}>
+            <DashboardSection title="Mobile App Monitoring">
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['acceptedMobileBeacons', 'processedMobileBeacons'],
+                  labels: ['Accepted Beacons', 'Processed Beacons'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+        </Row>
       </Fragment>
     );
   }
