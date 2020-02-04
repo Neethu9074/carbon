@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { compose } from 'recompose';
 import { isEqual } from 'lodash';
 
+import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
+import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
-import { getCustomDashboard, updateCustomDashboard } from 'in-custom-dashboards/api';
-import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withUrlState from 'in-hoc/withUrlState';
@@ -64,9 +64,20 @@ function CustomDashboard({ config: originalConfiguration = sampleConfiguration }
         }
         bButtonLabel="Delete Dashboard"
         onB={() => {
-          setEditing(false);
-          setConfig(originalConfiguration);
           close();
+          removeCustomDashboard(config.id).subscribe(result => {
+            if (result.progress.loading) {
+              return;
+            }
+
+            if (result.errors.length > 0) {
+              // TODO improve error case
+              alert('Removal failed');
+              return;
+            }
+
+            goToCustomDashboardList();
+          });
         }}
       />
     );

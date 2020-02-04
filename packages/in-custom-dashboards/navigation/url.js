@@ -20,6 +20,12 @@ export const duplicationSourceIdUrlParameter = {
   name: 'sourceId'
 };
 
+export function goToCustomDashboardList() {
+  mutateUrl(params => {
+    params.pathname = listPathFullyQualified;
+  });
+}
+
 export function goToCustomDashboard(customDashboardId) {
   mutateUrl(params => {
     params.pathname = viewPathFullyQualified;
