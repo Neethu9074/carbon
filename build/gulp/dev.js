@@ -82,8 +82,6 @@ gulp.task('startDevProxy', function startDevProxy() {
   const integrationUrl = envConfig.integrationUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  console.log({ butlerUrl });
-
   const httpProxy = {
     '/': 'http://127.0.0.1:3000',
     '/waiting/': 'http://127.0.0.1:3000/waiting/',
