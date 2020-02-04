@@ -71,7 +71,6 @@
     right: -100%;
     white-space: nowrap;
     width: 100%;
-    z-index: @z-index__dialog;
     .useTransition();
     transition-property: box-shadow 0.1s 0.5s, transform;
     overflow-y: auto;
