@@ -41,5 +41,5 @@ function getCsrfToken() {
     method: 'GET',
     url: `/csrf/token`,
     maxRetries: 5
-  }).map(response => response.body);
+  }).map(response => response.getHeader('X-CSRF-TOKEN'));
 }
