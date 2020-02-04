@@ -19,6 +19,7 @@ const productRoutes = require('./routes/product');
 const waitingRoutes = require('./routes/waiting');
 const assetRoutes = require('./routes/assets');
 const errorPages = require('./errorPages.js');
+const csrfRoutes = require('./routes/csrf');
 const pingRoutes = require('./routes/ping');
 
 require('./admin');
@@ -43,6 +44,8 @@ app.use(maximumCookies);
 
 // Allow retrieval of assets without valid unit identification.
 app.use(unitCoordinates);
+
+app.use(csrfRoutes);
 
 // we need to place the waiting resource middleware before we enrich the config because
 // we don't have a deployed backend for now. Therefore the config cannot work correctly

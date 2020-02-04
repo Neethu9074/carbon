@@ -22,6 +22,9 @@ initialiseSteps([
   // end-user monitoring for internal purposes
   'ineum',
 
+  // accept terms and privacy settings
+  'waitingTermsAndPrivacy',
+
   // for anonymus tracking during the onboarding process
   'anonymousMixpanel',
 

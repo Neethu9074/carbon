@@ -27,6 +27,8 @@ exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://${tenant
 
 exports.getGroundskeeperBaseUrl = () => Promise.resolve('http://groundskeeper:8600');
 
+exports.getButlerBaseUrl = () => Promise.resolve('http://butler:8600');
+
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 

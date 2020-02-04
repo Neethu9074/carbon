@@ -5,6 +5,7 @@ const agentEndpoint = require('./agentEndpoint');
 exports.getBaseUrl = activeResolver.getBaseUrl;
 exports.getUiBackendBaseUrl = activeResolver.getUiBackendBaseUrl;
 exports.getGroundskeeperBaseUrl = activeResolver.getGroundskeeperBaseUrl;
+exports.getButlerBaseUrl = activeResolver.getButlerBaseUrl;
 exports.getClientConfig = (tenant, unit) => {
   return Promise.all([
     activeResolver.getButlerDomain(tenant, unit),

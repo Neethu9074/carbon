@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import TermsProgressIndicator from './TermsProgressIndicator';
 import evaluateClassNames from 'in-services/util/classnames';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { roles } from 'in-settings/terms/rolesConfig';

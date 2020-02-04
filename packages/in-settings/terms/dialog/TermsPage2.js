@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import TermsProgressIndicator from './TermsProgressIndicator';
@@ -74,7 +74,7 @@ export default function TermsPage2({
             <p>Knowing how Instana is used in real life is vital for us to fine-tune and improve the product.</p>
             {form.get('allAnalyticsServices').map(({ value }) => (
               <CheckboxFancy
-                label="Allow all Analytics (Mixpanel)"
+                label="Allow Mixpanel Analytics"
                 checked={value}
                 onChange={() => onChange(form, 'allAnalyticsServices', !value)}
                 size="large"

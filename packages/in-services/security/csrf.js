@@ -1,7 +1,7 @@
 import { interval } from 'reactive-observables';
+import { createLogger } from 'instalog';
 import { get, set } from 'lodash';
 
-import { createLogger } from 'instalog';
 import http from 'in-services/http';
 
 const logger = createLogger('csrf');
@@ -23,7 +23,7 @@ export function getHeader() {
 export function init() {
   interval(1000 * 60)
     .nextFrame()
-    .flatMap(getCsrfToken)
+    .flatMap(() => getCsrfToken())
     .merge(getCsrfToken())
     .subscribe(
       _token => (token = _token),
@@ -39,7 +39,7 @@ export function init() {
 function getCsrfToken() {
   return http({
     method: 'GET',
-    url: '/api/csrf/token',
+    url: `/csrf/token`,
     maxRetries: 5
-  }).map(response => response.getHeader('X-CSRF-TOKEN'));
+  }).map(response => response.body);
 }

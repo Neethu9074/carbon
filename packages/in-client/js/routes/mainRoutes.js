@@ -13,7 +13,12 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import { pcfEnabled, vsphereEnabled, mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled
+} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';

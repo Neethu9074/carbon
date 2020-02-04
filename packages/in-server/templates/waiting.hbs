@@ -18,8 +18,13 @@
     window.instana = {
       build: {{{build}}},
       config: {{{config}}},
-      numberLocale: {{{numberLocale}}}
+      numberLocale: {{{numberLocale}}},
+      termsAndPrivacyAccepted: {{{termsAndPrivacyAccepted}}},
+      csrf: {{{csrf}}}
     };
+    {{#if user}}
+      window.instana.user = {{{user}}};
+    {{/if}}
   </script>
 
   {{#if eumTrackingApiKey}}

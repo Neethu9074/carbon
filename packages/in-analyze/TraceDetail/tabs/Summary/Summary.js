@@ -125,9 +125,9 @@ class Summary extends React.Component {
             <Row>
               <Col lg={12}>
                 <ProblemIndicator kind="warning" title="Batched Ingestion">
-                  This trace got processed in {trace.ingestionBatchesCount} batches.
-                  That may cause irregularities such as spans not getting merged to a single Call, partial Service
-                  mapping or other incomplete data showing.
+                  This trace got processed in {trace.ingestionBatchesCount} batches. That may cause irregularities such
+                  as spans not getting merged to a single Call, partial Service mapping or other incomplete data
+                  showing.
                 </ProblemIndicator>
               </Col>
             </Row>

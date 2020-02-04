@@ -121,6 +121,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
     baseUrl: 'https://local-instana.instana.io:4000',
     uiBackendBaseUrl: 'http://127.0.0.1:8080',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',
+    butlerBaseUrl: 'http://127.0.0.1:8480',
     port: 3131,
     adminPort: 3132,
     bindAddress: '0.0.0.0',
@@ -168,7 +169,8 @@ gulp.task('startTryBuildProxy', () => {
       '/ump': 'https://test-instana.instana.io/ump',
       '/assets/': 'https://test-instana.instana.io/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-      '/integrations/': 'https://test-instana.instana.io/integrations/'
+      '/integrations/': 'https://test-instana.instana.io/integrations/',
+      '/tos-privacy-agreement/storeUserAcceptance': 'http://127.0.0.1:8480/tos-privacy-agreement/storeUserAcceptance'
     },
     websocketProxy: {
       '/api/data/': 'https://test-instana.instana.io'

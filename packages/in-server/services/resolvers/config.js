@@ -6,3 +6,4 @@ exports.getButlerDomain = () => Promise.resolve(serverConfig.clientConfig.butler
 exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.configuration);
 exports.getUiBackendBaseUrl = () => Promise.resolve(serverConfig.uiBackendBaseUrl);
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
+exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);

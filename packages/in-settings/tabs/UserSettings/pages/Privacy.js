@@ -37,7 +37,7 @@ function Privacy({ termsAndPrivacySettings }) {
       <form className={locals.form}>
         {form.get('allAnalyticsServices').map(({ value }) => (
           <CheckboxFancy
-            label="Allow all Analytics (Mixpanel)"
+            label="Allow Mixpanel Analytics"
             checked={value}
             onChange={() => onChange('allAnalyticsServices', !value)}
             size="large"

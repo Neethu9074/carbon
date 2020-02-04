@@ -1,8 +1,11 @@
 import { just, create } from 'reactive-observables';
+import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
 import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
+import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 
 export function init() {
@@ -13,7 +16,7 @@ export function init() {
 
   ReactDOM.render(
     <ErrorBoundary name="terms-and-privacy-dialog">
-      <TermsDialog />
+      <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
     </ErrorBoundary>,
     document.getElementById('main')
   );
@@ -21,4 +24,15 @@ export function init() {
   // Force stop the UI init process at this step. The TermsDialog will
   // force a page reload once completed.
   return create();
+}
+
+function onSave(tosPrivacyAgreement, setIsError) {
+  saveTosPrivacyAgreement(tosPrivacyAgreement).once(
+    response => response.status === 204 && window.location.reload(),
+    error => {
+      const logger = createLogger('in-init/steps/termsAndPrivacy');
+      logger.error(`failed to save TosPrivacyAgreement: ${tosPrivacyAgreement} ${error.message}`, error);
+      setIsError(true);
+    }
+  );
 }
