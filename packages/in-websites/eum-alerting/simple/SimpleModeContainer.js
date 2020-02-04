@@ -11,11 +11,11 @@ import locals from './SimpleModeContainer.mless';
 
 const steps = {
   selectAlert: 0,
-  confirmDomain: 1,
+  selectScope: 1,
   selectAlertingChannel: 2
 };
 
-const stepTitles = ['Step 1: Select Alert', 'Step 2: Confirm Domain', 'Step 3: Select Alerting Channels'];
+const stepTitles = ['Step 1: Select Alert', 'Step 2: Select Scope', 'Step 3: Select Alerting Channels'];
 
 export default function SimpleModeContainer({
   editMode,
@@ -42,7 +42,7 @@ export default function SimpleModeContainer({
             granularity={granularity}
           />
         )}
-        {step === steps.confirmDomain && (
+        {step === steps.selectScope && (
           <SimpleAlertConfigDialogStep2
             form={form}
             timeConfig={timeConfig}
