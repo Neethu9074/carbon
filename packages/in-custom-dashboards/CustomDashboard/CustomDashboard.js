@@ -1,13 +1,40 @@
 import React, { useState } from 'react';
+import { compose } from 'recompose';
 import { isEqual } from 'lodash';
 
+import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { getCustomDashboard } from 'in-custom-dashboards/api';
+import withUrlState from 'in-hoc/withUrlState';
+import connectTo from 'in-hoc/connectTo';
 
-export default function CustomDashboard({ config: originalConfiguration = sampleConfiguration }) {
+export default compose(
+  withUrlState({
+    bind: [dashboardIdUrlParameter]
+  }),
+  connectTo(({ dashboardId }) => ({
+    config: getCustomDashboard(dashboardId)
+  }))
+)(CustomDashboardLoader);
+
+function CustomDashboardLoader({ dashboardId, config }) {
+  if (!dashboardId || !config || !config.data || config.data.id !== dashboardId) {
+    return null;
+  }
+  return (
+    <CustomDashboard
+      // Reset state when the config changes
+      key={config.data.id}
+      config={config.data}
+    />
+  );
+}
+
+function CustomDashboard({ config: originalConfiguration = sampleConfiguration }) {
   const [isEditing, setEditing] = useState(false);
   const [config, setConfig] = useState(originalConfiguration);
 
@@ -17,6 +44,7 @@ export default function CustomDashboard({ config: originalConfiguration = sample
       setConfig={setConfig}
       isEditing={isEditing}
       setEditing={setEditing}
+      editable={config.writable}
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}

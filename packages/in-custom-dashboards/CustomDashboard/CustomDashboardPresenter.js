@@ -30,9 +30,11 @@ export default function CustomDashboardPresenter(props) {
                   )}
                   renderMetaInformation={() => (
                     <>
-                      {isEditing && <Button size="compact" kind="subtle" onClick={onRenameDashboard}>
-                        Rename
-                      </Button>}
+                      {isEditing && (
+                        <Button size="compact" kind="subtle" onClick={onRenameDashboard}>
+                          Rename
+                        </Button>
+                      )}
                     </>
                   )}
                 />
@@ -62,7 +64,8 @@ function ButtonLine({
   onDeleteCustomDashboard,
   onSaveConfiguration,
   onCancel,
-  showDuplicateDashboard = true
+  showDuplicateDashboard = true,
+  editable
 }) {
   if (isEditing) {
     return (
@@ -96,9 +99,11 @@ function ButtonLine({
     <div className={locals.buttonGroups}>
       {/* div is used to build a flexgroup element group */}
       <div>
-        <Button kind="primaryv2" onClick={() => setEditing(true)}>
-          Edit Dashboard
-        </Button>
+        {editable && (
+          <Button kind="primaryv2" onClick={() => setEditing(true)}>
+            Edit Dashboard
+          </Button>
+        )}
         {showDuplicateDashboard && (
           <Button
             kind="secondary"
@@ -108,7 +113,7 @@ function ButtonLine({
             Duplicate Dashboard
           </Button>
         )}
-        <Button kind="secondary">Share</Button>
+        {editable && <Button kind="secondary">Share</Button>}
       </div>
 
       {/* div is used to build a flexgroup element group */}

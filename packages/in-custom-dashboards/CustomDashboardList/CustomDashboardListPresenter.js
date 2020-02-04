@@ -6,6 +6,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 
@@ -26,11 +27,14 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
   } else {
     content = (
       <Ul className={locals.list}>
-        {customDashboards.data.map(({ id, title }) => (
-          <Li key={id} href$={getCustomDashboardLink(id)}>
-            {title}
-          </Li>
-        ))}
+        {customDashboards.data
+          .slice()
+          .sort((a, b) => compareIgnoreCase(a.title, b.title))
+          .map(({ id, title }) => (
+            <Li key={id} href$={getCustomDashboardLink(id)}>
+              {title}
+            </Li>
+          ))}
       </Ul>
     );
   }
