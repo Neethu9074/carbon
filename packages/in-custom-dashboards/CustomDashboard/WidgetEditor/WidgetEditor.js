@@ -22,6 +22,7 @@ export default function WidgetEditor({ children, config, setConfig }) {
           /* Force a complete state reset whenever the user interacts with one of the add/edit buttons */
           key={version}
           widget={widget}
+          onClose={stopEditing}
           onSave={widget => {
             const newConfig = deepCopy(config);
             if (widget != null) {

@@ -25,7 +25,7 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
     content = <NoDataAvailable title="No custom dashboards configured." height={100} />;
   } else {
     content = (
-      <Ul>
+      <Ul className={locals.list}>
         {customDashboards.data.map(({ id, title }) => (
           <Li key={id} href$={getCustomDashboardLink(id)}>
             {title}

@@ -55,7 +55,7 @@ export default compose(
   })
 )(Wizard);
 
-function Wizard({ onSubmit, step, setStep, form, setForm, editMode, onChange, widget, stepValid }) {
+function Wizard({ onSubmit, step, setStep, form, setForm, editMode, onChange, widget, stepValid, onClose }) {
   return (
     <form onSubmit={onSubmit}>
       <StepProgressBar step={step} stepTitles={['Step 1: Select Widget Type', 'Step 2: Configure Widget']} />
@@ -66,7 +66,7 @@ function Wizard({ onSubmit, step, setStep, form, setForm, editMode, onChange, wi
       </div>
 
       <nav className={locals.controls}>
-        <Button className={locals.button} kind="secondary" onClick={() => (step === 0 ? close() : setStep(step - 1))}>
+        <Button className={locals.button} kind="secondary" onClick={() => (step === 0 ? onClose() : setStep(step - 1))}>
           {step === 0 ? 'Cancel' : 'Back'}
         </Button>
         <Button type="submit" kind="primaryv2" className={locals.button} disabled={form.touched && !stepValid}>
