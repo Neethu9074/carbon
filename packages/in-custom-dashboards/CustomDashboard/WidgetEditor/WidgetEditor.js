@@ -14,6 +14,9 @@ export default function WidgetEditor({ children, config, setConfig }) {
 
   return (
     <SlideInView
+      slideIn={editing}
+      title="Widget Editor"
+      onTitleIconClick={stopEditing}
       sliderContent={
         <AddNewWidgetDialog
           /* Force a complete state reset whenever the user interacts with one of the add/edit buttons */
@@ -30,9 +33,6 @@ export default function WidgetEditor({ children, config, setConfig }) {
           }}
         />
       }
-      slideIn={editing}
-      title="Widget Editor"
-      onTitleIconClick={stopEditing}
     >
       {children({
         onAddWidget: () => setState({ editing: true, widget: null, version: Date.now() }),
