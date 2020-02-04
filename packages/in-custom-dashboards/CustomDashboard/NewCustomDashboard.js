@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { onLayoutChange, onAddNewWidget, onEditWidget } from 'in-custom-dashboards/CustomDashboard/editor';
 import { goToCustomDashboard, duplicationSourceIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { getDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
+import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import withUrlState from 'in-hoc/withUrlState';
 import { user } from 'in-stores/user';
@@ -31,8 +31,6 @@ function NewCustomDashboard({ sourceId }) {
       config={config}
       isEditing
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
-      onAddNewWidget={() => onAddNewWidget(config, setConfig)}
-      onEditWidget={widget => onEditWidget(config, setConfig, widget)}
       onSaveConfiguration={() => onSaveConfiguration(config)}
       showDuplicateDashboard={false}
     />

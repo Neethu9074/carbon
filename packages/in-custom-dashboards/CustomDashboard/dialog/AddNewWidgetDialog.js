@@ -5,7 +5,6 @@ import React from 'react';
 import WidgetConfiguratorPresenter from 'in-custom-dashboards/CustomDashboard/dialog/steps/WidgetConfiguratorPresenter';
 import WidgetSelectorPresenter from 'in-custom-dashboards/CustomDashboard/dialog/steps/WidgetSelectorPresenter';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { close } from 'in-components/DialogPresenter/store';
 import Button from 'in-new-components/Button/Button';
@@ -58,25 +57,23 @@ export default compose(
 
 function AddNewWidgetDialog({ onSubmit, step, setStep, form, setForm, editMode, onChange, widget, stepValid }) {
   return (
-    <BigHeaderDialog title="Widget Configuration" titleIconType="lib_views_grid" onClose={close}>
-      <form onSubmit={onSubmit} className={locals.dialog}>
-        <StepProgressBar step={step} stepTitles={['Step 1: Select Widget Type', 'Step 2: Configure Widget']} />
+    <form onSubmit={onSubmit}>
+      <StepProgressBar step={step} stepTitles={['Step 1: Select Widget Type', 'Step 2: Configure Widget']} />
 
-        <div className={locals.steps}>
-          {step === 0 && <WidgetSelectorPresenter form={form} setForm={setForm} onChange={onChange} />}
-          {step === 1 && <WidgetConfiguratorPresenter form={form} onChange={onChange} widget={widget} />}
-        </div>
+      <div className={locals.steps}>
+        {step === 0 && <WidgetSelectorPresenter form={form} setForm={setForm} onChange={onChange} />}
+        {step === 1 && <WidgetConfiguratorPresenter form={form} onChange={onChange} widget={widget} />}
+      </div>
 
-        <nav className={locals.controls}>
-          <Button className={locals.button} kind="secondary" onClick={() => (step === 0 ? close() : setStep(step - 1))}>
-            {step === 0 ? 'Cancel' : 'Back'}
-          </Button>
-          <Button type="submit" kind="primaryv2" className={locals.button} disabled={form.touched && !stepValid}>
-            {step === 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
-          </Button>
-        </nav>
-      </form>
-    </BigHeaderDialog>
+      <nav className={locals.controls}>
+        <Button className={locals.button} kind="secondary" onClick={() => (step === 0 ? close() : setStep(step - 1))}>
+          {step === 0 ? 'Cancel' : 'Back'}
+        </Button>
+        <Button type="submit" kind="primaryv2" className={locals.button} disabled={form.touched && !stepValid}>
+          {step === 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
+        </Button>
+      </nav>
+    </form>
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 
-import { onLayoutChange, onAddNewWidget, onEditWidget } from 'in-custom-dashboards/CustomDashboard/editor';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default function CustomDashboard({ config: originalConfiguration = sampleConfiguration }) {
@@ -14,11 +14,10 @@ export default function CustomDashboard({ config: originalConfiguration = sample
   return (
     <CustomDashboardPresenter
       config={config}
+      setConfig={setConfig}
       isEditing={isEditing}
       setEditing={setEditing}
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
-      onAddNewWidget={() => onAddNewWidget(config, setConfig)}
-      onEditWidget={widget => onEditWidget(config, setConfig, widget)}
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onCancel={onCancel}

@@ -1,9 +1,4 @@
 :local {
-  .dialog {
-    width: 80vw;
-    max-width: 105rem;
-  }
-
   .steps {
     max-height: 80vh;
     overflow-y: auto;

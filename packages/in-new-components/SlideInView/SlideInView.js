@@ -11,6 +11,7 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
   return (
     <div className={locals.container}>
       {children}
+
       <div
         className={evaluateClassNames({
           [locals.inputBlocker]: true,
