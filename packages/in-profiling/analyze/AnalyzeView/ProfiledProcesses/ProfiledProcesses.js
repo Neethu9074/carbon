@@ -33,7 +33,7 @@ const ProfiledProcessesComponent = compose(
           cursor,
           retrievalSize: 20
         },
-        query: query ? `entity.selfType:process AND (${query})` : 'entity.selfType:process',
+        query,
         timeConfig
       })
   })

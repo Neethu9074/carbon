@@ -38,7 +38,7 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
     getBlockSizeMillis({
       windowSize: timeConfig.windowSize,
-      minPixelsPerBlock: 5,
+      minPixelsPerBlock: 10,
       width,
       rollup: rollup.rollup
     })
@@ -59,7 +59,7 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
             style={{
               height: Math.max(1, 14 * (bucket.items.length / bucketResult.maxItemsPerBucket)),
               left: scale.getRange(bucket.from),
-              width: bucketSizeInPx
+              width: Math.ceil(bucketSizeInPx)
             }}
             className={locals.profilesIndicator}
           />

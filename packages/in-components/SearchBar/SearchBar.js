@@ -29,7 +29,7 @@ export default connectTo(
     }
 
     render() {
-      const { theme = 'dark', query, presetsVisible } = this.props;
+      const { theme = 'dark', showFilters = true, query, presetsVisible } = this.props;
       const hasContent = query.length > 0;
 
       const buttonClass = evaluateClassNames({
@@ -69,7 +69,7 @@ export default connectTo(
 
           <ClearQueryButton buttonClass={buttonClass} />
 
-          {hasContent ? (
+          {hasContent && showFilters ? (
             <div
               className={buttonClass}
               onClick={e => {
@@ -81,17 +81,21 @@ export default connectTo(
             </div>
           ) : null}
 
-          <div className={buttonClass} onClick={togglePresets}>
-            Filters
-            <SvgIcon
-              className={evaluateClassNames({
-                [locals.icon]: true,
-                [locals[`icon${theme}`]]: theme
-              })}
-              type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-              size="s"
-            />
-          </div>
+          {showFilters ? (
+            <div className={buttonClass} onClick={togglePresets}>
+              Filters
+              <SvgIcon
+                className={evaluateClassNames({
+                  [locals.icon]: true,
+                  [locals[`icon${theme}`]]: theme
+                })}
+                type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+                size="s"
+              />
+            </div>
+          ) : (
+            <div className={locals.filtersSpaceholder} />
+          )}
 
           <ErrorIndicator />
         </div>

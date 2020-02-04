@@ -76,4 +76,9 @@
   .icondark {
     fill: @lib__colors__white;
   }
+
+  .filtersSpaceholder {
+    border-right: 1px solid @lib__colors__N300;
+    height: 1.875rem;
+  }
 }

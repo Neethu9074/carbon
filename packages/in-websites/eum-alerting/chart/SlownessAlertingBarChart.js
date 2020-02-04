@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
-import Renderer from 'in-components/Chart/renderer/Renderer';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil.js';
+import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function SlownessAlertingBarChart({
   websiteId,
@@ -16,13 +17,14 @@ export default function SlownessAlertingBarChart({
   timeConfig,
   tagFilters,
   thresholdType,
-  granularity
+  granularity,
+  form
 }) {
   return (
     <EumAlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
-      isCatalogMetric={true}
+      isCatalogMetric
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
@@ -63,9 +65,33 @@ export default function SlownessAlertingBarChart({
         metricIds: ['onLoadTime', 'threshold'],
         labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        nonToggleableSeries: new Map([['onLoadTime', null], ['threshold', null]])
+        nonToggleableSeries: new Map([['onLoadTime', null], ['threshold', null], ['alerts', null]]),
+        alertMetricConfiguration: getAlertsConfiguration(
+          timeConfig,
+          [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+          aggregation,
+          granularity,
+          form
+        )
       }}
-      metricsConfiguration={getMetricConfiguration(websiteId, tagFilters, timeConfig, granularity, aggregation)}
+      metricsConfiguration={{
+        timeConfig,
+        tagFilters: [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        metrics: {
+          onLoadTime: {
+            metric: 'onLoadTime',
+            granularity,
+            aggregation
+          }
+        }
+      }}
+      alertMetricConfiguration={getAlertsConfiguration(
+        timeConfig,
+        [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        aggregation,
+        granularity,
+        form
+      )}
     />
   );
 }
@@ -80,23 +106,9 @@ SlownessAlertingBarChart.propTypes = {
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  form: PropTypes.object
 };
-
-function getMetricConfiguration(websiteId, tagFilters, timeConfig, granularity, aggregation) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-  return {
-    timeConfig,
-    tagFilters: tagFiltersWithWebsiteId,
-    metrics: {
-      onLoadTime: {
-        metric: 'onLoadTime',
-        granularity,
-        aggregation
-      }
-    }
-  };
-}
 
 function getWebsiteIdTagFilter(websiteId) {
   return {
@@ -104,4 +116,29 @@ function getWebsiteIdTagFilter(websiteId) {
     operator: 'EQUALS',
     stringValue: websiteId
   };
+}
+
+function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, form) {
+  if (!form) return null;
+
+  const threshold = getThreshold(form);
+
+  if (threshold.baseline || typeof threshold.value === 'number') {
+    return {
+      timeConfig,
+      tagFilters,
+      timeThreshold: getTimeThreshold(form),
+      threshold,
+      granularity, // local alerts/chart granularity
+      metrics: {
+        alerts: {
+          metric: 'onLoadTime',
+          aggregation,
+          granularity // global metric granularity
+        }
+      }
+    };
+  } else {
+    return null;
+  }
 }

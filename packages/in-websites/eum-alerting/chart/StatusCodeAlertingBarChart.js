@@ -3,10 +3,10 @@ import theme from 'in-themes';
 import React from 'react';
 
 import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil.js';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
+import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { percentage, number } from 'in-services/formatters/number';
-
-import Renderer from 'in-components/Chart/renderer/Renderer';
 
 export default function StatusCodeAlertingBarChart({
   websiteId,
@@ -16,7 +16,8 @@ export default function StatusCodeAlertingBarChart({
   tagFilters,
   numeratorFilter,
   metricName,
-  granularity
+  granularity,
+  form
 }) {
   return (
     <EumAlertingBarChartWrapper
@@ -63,6 +64,14 @@ export default function StatusCodeAlertingBarChart({
         timeConfig,
         granularity
       )}
+      alertMetricConfiguration={getAlertsConfiguration(
+        timeConfig,
+        [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        metricName,
+        granularity,
+        numeratorFilter,
+        form
+      )}
     />
   );
 }
@@ -75,7 +84,8 @@ StatusCodeAlertingBarChart.propTypes = {
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.number.isRequired,
   operator: PropTypes.string.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  form: PropTypes.object
 };
 
 function getMetricConfiguration(websiteId, metric, numeratorFilter, tagFilters, timeConfig, granularity) {
@@ -95,7 +105,7 @@ function getMetricConfig(metricName, granularity, numeratorFilter = null) {
       metric: statusCodeRate,
       granularity: granularity,
       aggregation: 'MEAN',
-      numeratorFilter: numeratorFilter
+      numeratorFilter
     },
     [statusCodeCount]: {
       metric: statusCodeCount,
@@ -112,4 +122,36 @@ function getWebsiteIdTagFilter(websiteId) {
     operator: 'EQUALS',
     stringValue: websiteId
   };
+}
+
+function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, numeratorFilter, form) {
+  //TODO: Refactor this method
+  if (!form) return null;
+
+  const threshold = getThreshold(form);
+
+  const alertsConfig = {
+    metric,
+    aggregation: metric === statusCodeCount ? 'SUM' : 'MEAN',
+    granularity // global metric granularity
+  };
+
+  if (metric === statusCodeRate) {
+    alertsConfig.numeratorFilter = numeratorFilter;
+  }
+
+  if (threshold.baseline || typeof threshold.value === 'number') {
+    return {
+      timeConfig,
+      tagFilters: metric === statusCodeCount ? [...tagFilters, numeratorFilter] : tagFilters,
+      timeThreshold: getTimeThreshold(form),
+      threshold,
+      granularity, // local alerts/chart granularity
+      metrics: {
+        alerts: alertsConfig
+      }
+    };
+  } else {
+    return null;
+  }
 }

@@ -1,5 +1,8 @@
+import { create } from 'reactive-observables';
+import React, { useState } from 'react';
+import compose from 'recompose/compose';
+import { withState } from 'recompose';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import {
   withSlownessFormStaticThreshold,
@@ -12,10 +15,25 @@ import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './EumChart.mless';
 
-export default function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly }) {
+export default compose(
+  withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
+  connectTo(({ debounceOnChange$ }) => ({
+    debounce: debounceOnChange$.debounce(300).tap(callback => callback())
+  }))
+)(SlownessChart);
+
+function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, debounceOnChange$ }) {
+  const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form, fieldNames.thresholdValue));
+  const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
+    getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor)
+  );
+  const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
+  const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
+
   return (
     <div className={locals.container}>
       {onChange &&
@@ -109,11 +127,23 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                   type="number"
                   min="0"
                   name={fieldNames.thresholdValue}
-                  value={getFormValueOrDefault(form, fieldNames.thresholdValue, '')}
-                  step="1"
-                  onChange={e =>
-                    onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Math.abs(e.target.value) : '')
+                  value={
+                    doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue, '')
                   }
+                  step="1"
+                  onChange={e => {
+                    const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+
+                    setDoDebounceThreshold(true);
+                    setTempThreshold(value);
+
+                    const onChangCallback = () => {
+                      onChange(form, fieldNames.thresholdValue, value);
+                      setDoDebounceThreshold(false);
+                    };
+
+                    debounceOnChange$.emit(onChangCallback.bind(this));
+                  }}
                 />
               </FormGroup>
             ) : (
@@ -125,15 +155,25 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
                   type="number"
                   min="0"
                   name={fieldNames.thresholdDeviationFactor}
-                  value={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 1)}
-                  step="0.1"
-                  onChange={e =>
-                    onChange(
-                      form,
-                      fieldNames.thresholdDeviationFactor,
-                      e.target.value !== '' ? Math.abs(e.target.value) : ''
-                    )
+                  value={
+                    doDebounceDeviationFactor
+                      ? tempThresholdDeviationFactor
+                      : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, '')
                   }
+                  step="0.1"
+                  onChange={e => {
+                    const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+
+                    setDoDebounceDeviationFactor(true);
+                    setTempThresholdDeviationFactor(value);
+
+                    const onChangCallback = () => {
+                      onChange(form, fieldNames.thresholdDeviationFactor, value);
+                      setDoDebounceDeviationFactor(false);
+                    };
+
+                    debounceOnChange$.emit(onChangCallback.bind(this));
+                  }}
                 />
               </FormGroup>
             )}
@@ -143,14 +183,19 @@ export default function SlownessChart({ form, timeConfig, onChange, granularity,
         <SlownessAlertingBarChart
           websiteId={form.get(fieldNames.websiteId).value}
           thresholdType={form.get(fieldNames.thresholdType).value}
-          threshold={getFormValueOrDefault(form, fieldNames.thresholdValue)}
+          threshold={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue, 0)}
           operator={form.get(fieldNames.thresholdOperator).value}
-          sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor)}
+          sensitivity={
+            doDebounceDeviationFactor
+              ? tempThresholdDeviationFactor
+              : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
+          }
           baseline={getFormValueOrDefault(form, fieldNames.thresholdBaseline, [])}
           timeConfig={timeConfig}
           tagFilters={form.get(fieldNames.tagFilters).value}
           aggregation={form.get(fieldNames.ruleAggregation).value}
           granularity={granularity}
+          form={isReadOnly ? null : form}
         />
       </div>
     </div>
@@ -162,5 +207,6 @@ SlownessChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
-  isReadOnly: PropTypes.bool
+  isReadOnly: PropTypes.bool,
+  debounceOnChange$: PropTypes.object
 };

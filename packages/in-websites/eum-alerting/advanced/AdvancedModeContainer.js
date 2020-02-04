@@ -19,6 +19,7 @@ import Button from 'in-new-components/Button/Button';
 import Message from 'in-new-components/Message';
 
 import locals from './AdvancedModeContainer.mless';
+import theme from 'in-themes';
 
 const idScrollContainer = 'eum-advanced-scroll-container';
 let scrollContainerRef = React.createRef();
@@ -96,8 +97,8 @@ export default function AdvancedModeContainer({
                         onChange={onChange}
                       />
                       {showInsufficientBaselineDataMessage(form) && (
-                        <Message withIcon small>
-                          Insufficient data to compute a baseline for the selected configuration.
+                        <Message type="warning" iconColor={theme.lib.colors.failure} withIcon small>
+                          Insufficient data to compute the selected Baseline. Please select Static Threshold instead.
                         </Message>
                       )}
                     </>

@@ -113,7 +113,7 @@ SvgIcon.propTypes = {
   color: PropTypes.string,
   customIcon: PropTypes.object,
   iconPath: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onBlur: PropTypes.func,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
