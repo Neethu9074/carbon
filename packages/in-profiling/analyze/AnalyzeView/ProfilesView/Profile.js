@@ -67,7 +67,9 @@ export default function Profile({
               {showGraph ? 'Hide ' : 'Show '} CPU graph
             </Button>
           )}
-          <span className={locals.numProfilesLabel}>{profile.profileGraph.length} Profiles</span>
+          {profile.rawProfileTimestamps && (
+            <span className={locals.numProfilesLabel}>{profile.rawProfileTimestamps.length} Profiles</span>
+          )}
           {totalNumSamples > 0 &&
             totalNumSamples < 100 && (
               <Tooltip
