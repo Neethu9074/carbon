@@ -21,7 +21,7 @@ export default function CustomDashboard({ config: originalConfiguration = sample
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onCancel={onCancel}
-      onRenameDashboard={onRenameDashboard}
+      onRenameDashboard={() => onRenameDashboard(config, setConfig)}
     />
   );
 

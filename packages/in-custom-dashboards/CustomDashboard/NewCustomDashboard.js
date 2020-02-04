@@ -34,7 +34,7 @@ function NewCustomDashboard({ sourceId }) {
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onSaveConfiguration={() => onSaveConfiguration(config)}
       showDuplicateDashboard={false}
-      onRenameDashboard={onRenameDashboard}
+      onRenameDashboard={() => onRenameDashboard(config, setConfig)}
     />
   );
 }
