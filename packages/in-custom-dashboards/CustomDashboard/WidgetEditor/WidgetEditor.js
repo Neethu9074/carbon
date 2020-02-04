@@ -39,6 +39,11 @@ export default function WidgetEditor({ children, config, setConfig }) {
         onEditWidget: id => {
           const widget = find(config.widgets, eachWidget => id === eachWidget.id);
           setState({ editing: true, widget, version: Date.now() });
+        },
+        onRemoveWidget: id => {
+          const newConfig = deepCopy(config);
+          newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
+          setConfig(newConfig);
         }
       })}
     </SlideInView>

@@ -12,7 +12,7 @@ import locals from './Grid.mless';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-export default function Grid({ config, onLayoutChange, isEditing, onEditWidget }) {
+export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, onRemoveWidget }) {
   return (
     <ResponsiveReactGridLayout
       className="layout"
@@ -46,6 +46,14 @@ export default function Grid({ config, onLayoutChange, isEditing, onEditWidget }
                 size="xs"
                 className={locals.edit}
                 onClick={() => onEditWidget(widget.id)}
+              />
+            )}
+            {isEditing && (
+              <SvgIcon
+                type="lib_actions_delete"
+                size="xs"
+                className={locals.remove}
+                onClick={() => onRemoveWidget(widget.id)}
               />
             )}
           </div>

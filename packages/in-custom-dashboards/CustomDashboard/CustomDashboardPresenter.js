@@ -16,7 +16,7 @@ export default function CustomDashboardPresenter(props) {
   return (
     <>
       <WidgetEditor config={config} setConfig={setConfig}>
-        {({ onEditWidget, onAddWidget }) => (
+        {({ onAddWidget, onEditWidget, onRemoveWidget }) => (
           <Sticky
             header={
               <>
@@ -32,7 +32,13 @@ export default function CustomDashboardPresenter(props) {
               </>
             }
           >
-            <Grid config={config} onLayoutChange={onLayoutChange} onEditWidget={onEditWidget} isEditing={isEditing} />
+            <Grid
+              config={config}
+              onLayoutChange={onLayoutChange}
+              onEditWidget={onEditWidget}
+              onRemoveWidget={onRemoveWidget}
+              isEditing={isEditing}
+            />
           </Sticky>
         )}
       </WidgetEditor>
