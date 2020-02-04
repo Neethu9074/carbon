@@ -11,44 +11,20 @@
   }
 
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     position: absolute;
     top: 0;
     width: 100%;
 
     background: @lib__colors__white;
-    border-radius: @lib__shapes__radius_small @lib__shapes__radius_small 0 0;
-    height: 5rem;
-    padding: 1.5rem;
     z-index: @z-index__dialog;
 
     visibility: hidden;
     transition: visibility 0.1s 0.3s;
   }
 
-  .scrollShadow {
-    box-shadow: @lib__shadows__subtle;
-  }
-
   .slideIn.header {
     visibility: visible;
     transition: unset;
-  }
-
-  .titleContainer {
-    display: flex;
-    align-items: center;
-  }
-
-  .title {
-    color: @lib__colors__N800Dark;
-    font-size: 1.375rem;
-    font-weight: 500;
-    line-height: 2rem;
-    margin-bottom: 0;
   }
 
   .inputBlocker {

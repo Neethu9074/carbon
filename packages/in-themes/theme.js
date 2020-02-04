@@ -18,6 +18,7 @@ module.exports = {
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
+    slideInView: ++zIndex,
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
     dialog: ++zIndex,
@@ -50,6 +51,7 @@ module.exports = {
     ]
   },
   maxWidth: 1500,
+  mainNavigationWidth: '4.5rem',
   grid: {
     gutter: 24,
     columns: 12

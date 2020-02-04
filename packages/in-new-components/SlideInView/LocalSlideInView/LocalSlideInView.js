@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from 'in-new-components/IconButton/IconButton';
+import Header from 'in-new-components/SlideInView/internalComponents/Header';
 import evaluateClassNames from 'in-services/util/classnames';
 
-import locals from './SlideInView.mless';
+import locals from './LocalSlideInView.mless';
 
-export default function SlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
-  const [scrollshadow, setScrollshadow] = useState(false);
+export default function LocalSlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
+  const [scrollShadow, setScrollShadow] = useState(false);
   return (
     <div className={locals.container}>
       {children}
@@ -20,7 +20,7 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       />
 
       <div
-        onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
+        onScroll={e => setScrollShadow(e.target.scrollTop > 0)}
         className={evaluateClassNames({
           [locals.slider]: true,
           [locals.slideIn]: slideIn
@@ -32,20 +32,16 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       <div
         className={evaluateClassNames({
           [locals.header]: true,
-          [locals.scrollShadow]: scrollshadow,
           [locals.slideIn]: slideIn
         })}
       >
-        <span className={locals.titleContainer}>
-          <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} leftAligned />
-          <h1 className={locals.title}>{title}</h1>
-        </span>
+        <Header scrollShadow={scrollShadow} title={title} onTitleIconClick={onTitleIconClick} />
       </div>
     </div>
   );
 }
 
-SlideInView.propTypes = {
+LocalSlideInView.propTypes = {
   children: PropTypes.node.isRequired,
   sliderContent: PropTypes.node,
   slideIn: PropTypes.bool,

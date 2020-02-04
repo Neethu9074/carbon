@@ -2,8 +2,8 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
 import React from 'react';
 
-import WidgetConfiguratorPresenter from 'in-custom-dashboards/CustomDashboard/dialog/steps/WidgetConfiguratorPresenter';
-import WidgetSelectorPresenter from 'in-custom-dashboards/CustomDashboard/dialog/steps/WidgetSelectorPresenter';
+import WidgetConfiguratorPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditor/steps/WidgetConfiguratorPresenter';
+import WidgetSelectorPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditor/steps/WidgetSelectorPresenter';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { close } from 'in-components/DialogPresenter/store';
@@ -11,7 +11,7 @@ import Button from 'in-new-components/Button/Button';
 import widgets from 'in-custom-dashboards/widgets';
 import { isBlank } from 'in-services/util/string';
 
-import locals from './AddNewWidgetDialog.mless';
+import locals from './Wizard.mless';
 
 export default compose(
   withProps(({ widget }) => ({
@@ -53,9 +53,9 @@ export default compose(
       onChange: (path, fn) => setForm(form.updateIn(path, fn))
     };
   })
-)(AddNewWidgetDialog);
+)(Wizard);
 
-function AddNewWidgetDialog({ onSubmit, step, setStep, form, setForm, editMode, onChange, widget, stepValid }) {
+function Wizard({ onSubmit, step, setStep, form, setForm, editMode, onChange, widget, stepValid }) {
   return (
     <form onSubmit={onSubmit}>
       <StepProgressBar step={step} stepTitles={['Step 1: Select Widget Type', 'Step 2: Configure Widget']} />

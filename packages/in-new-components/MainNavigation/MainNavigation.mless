@@ -18,7 +18,7 @@
   }
 
   .navigation {
-    width: 4.5rem;
+    width: @main-navigation-width;
     transition: width 0.2s ease-in-out;
 
     padding: 0.75rem 0 4rem 0;

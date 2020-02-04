@@ -12,7 +12,8 @@ import Sticky from 'in-components/Sticky';
 import locals from './CustomDashboardPresenter.mless';
 
 export default function CustomDashboardPresenter(props) {
-  const { config, setConfig, isEditing, onLayoutChange } = props;
+  const { config, setConfig, isEditing, onLayoutChange, onRenameDashboard } = props;
+
   return (
     <>
       <WidgetEditor config={config} setConfig={setConfig}>
@@ -26,6 +27,13 @@ export default function CustomDashboardPresenter(props) {
                   title={config.title}
                   renderButtonLine={() => (
                     <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
+                  )}
+                  renderMetaInformation={() => (
+                    <>
+                      {isEditing && <Button size="compact" kind="subtle" onClick={onRenameDashboard}>
+                        Rename
+                      </Button>}
+                    </>
                   )}
                 />
                 <DashboardHeaderShadowModule />

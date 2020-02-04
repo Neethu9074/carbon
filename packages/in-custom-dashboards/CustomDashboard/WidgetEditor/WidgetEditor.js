@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { find } from 'lodash';
 
-import AddNewWidgetDialog from 'in-custom-dashboards/CustomDashboard/dialog/AddNewWidgetDialog';
-import SlideInView from 'in-new-components/SlideInView';
+import Wizard from 'in-custom-dashboards/CustomDashboard/WidgetEditor/Wizard';
+import SlideInView from 'in-new-components/SlideInView/GlobalSlideInView';
 import { deepCopy } from 'in-services/util/object';
 
 export default function WidgetEditor({ children, config, setConfig }) {
@@ -18,7 +18,7 @@ export default function WidgetEditor({ children, config, setConfig }) {
       title="Widget Editor"
       onTitleIconClick={stopEditing}
       sliderContent={
-        <AddNewWidgetDialog
+        <Wizard
           /* Force a complete state reset whenever the user interacts with one of the add/edit buttons */
           key={version}
           widget={widget}

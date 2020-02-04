@@ -14,3 +14,7 @@ export function onLayoutChange(config, setConfig, changes) {
 
   setConfig(newConfig);
 }
+
+export function onRenameDashboard(config, setConfig) {
+  console.log('Rename!');
+}

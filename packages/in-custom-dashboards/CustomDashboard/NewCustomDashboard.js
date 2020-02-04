@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { goToCustomDashboard, duplicationSourceIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { getDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
-import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
+import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import withUrlState from 'in-hoc/withUrlState';
 import { user } from 'in-stores/user';
@@ -29,10 +29,12 @@ function NewCustomDashboard({ sourceId }) {
   return (
     <CustomDashboardPresenter
       config={config}
+      setConfig={setConfig}
       isEditing
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onSaveConfiguration={() => onSaveConfiguration(config)}
       showDuplicateDashboard={false}
+      onRenameDashboard={onRenameDashboard}
     />
   );
 }

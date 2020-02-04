@@ -1,0 +1,6 @@
+{
+  "name": "LocalSlideInView",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LocalSlideInView.js"
+}

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
+import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default function CustomDashboard({ config: originalConfiguration = sampleConfiguration }) {
@@ -21,6 +21,7 @@ export default function CustomDashboard({ config: originalConfiguration = sample
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onCancel={onCancel}
+      onRenameDashboard={onRenameDashboard}
     />
   );
 
