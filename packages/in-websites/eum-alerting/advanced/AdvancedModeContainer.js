@@ -36,7 +36,7 @@ export default function AdvancedModeContainer({
   editMode
 }) {
   const navItems = [
-    { label: 'Domain', checked: true },
+    { label: 'Scope', checked: true },
     {
       label: 'Trigger',
       checked: validateTrigger(form)
@@ -61,7 +61,7 @@ export default function AdvancedModeContainer({
         }}
       >
         <div className={locals.content}>
-          <ScrollStep id={navItems[0].label} title="Domain: Where is the condition happening?">
+          <ScrollStep id={navItems[0].label} title="Scope: Where is the condition happening?">
             <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} onChange={onChange} />
           </ScrollStep>
           <ScrollStep id={navItems[1].label} title="Trigger: What do you want to be alerted on?">
