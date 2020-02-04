@@ -23,7 +23,7 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
   } else if (customDashboards.errors.length > 0) {
     content = <ErroneousResultPresenter errors={customDashboards.errors} />;
   } else if (customDashboards.data.length === 0) {
-    content = <NoDataAvailable title="No custom dashboards configured." height={100} />;
+    content = <NoDataAvailable title="No dashboards configured." height={100} />;
   } else {
     content = (
       <Ul className={locals.list}>
@@ -43,8 +43,8 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
     <>
       <DashboardHeader
         icon="lib_views_grid"
-        label="Custom Dashboards"
-        title="Custom Dashboards"
+        label="Dashboards"
+        title="Dashboards"
         renderButtonLine={renderButtonLine}
       />
       <DashboardHeaderShadowModule />
