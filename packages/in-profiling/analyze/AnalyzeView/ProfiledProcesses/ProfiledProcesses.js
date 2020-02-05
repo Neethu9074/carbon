@@ -12,7 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    query: query$.debounce(2000)
+    query: query$
   },
   function ProfiledProcesses(props) {
     return (
@@ -27,14 +27,16 @@ export default connectTo(
 const ProfiledProcessesComponent = compose(
   cursorPaginated({
     getResettingProps: () => ['query', 'timeConfig'],
-    get: ({ query, timeConfig, cursor }) =>
-      getProfiledProcesses({
-        pagination: {
-          cursor,
-          retrievalSize: 20
-        },
-        query,
-        timeConfig
-      })
+    get: ({ timeConfig, cursor }) =>
+      query$.debounce(1000).flatMap(query =>
+        getProfiledProcesses({
+          pagination: {
+            cursor,
+            retrievalSize: 20
+          },
+          query,
+          timeConfig
+        })
+      )
   })
 )(ProfiledProcessesPresenter);
