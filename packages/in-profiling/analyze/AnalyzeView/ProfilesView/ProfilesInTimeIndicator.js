@@ -40,7 +40,7 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
       windowSize: timeConfig.windowSize,
       minPixelsPerBlock: 10,
       width,
-      rollup: rollup.rollup
+      rollup
     })
   );
   const bucketSizeInPx = (blockSizeMillis / timeConfig.windowSize) * width - 2;
