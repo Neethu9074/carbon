@@ -25,9 +25,10 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
               timeConfig={timeConfig}
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
               upsertTagFilter={newTagFilter => {
-                const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
-                newTagFilters.push(newTagFilter);
-                onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
+                addFilter(form, newTagFilter, onChange);
+              }}
+              addTagFilter={newTagFilter => {
+                addFilter(form, newTagFilter, onChange);
               }}
               removeTagFilter={name => {
                 if (name !== BEACON_WEBSITE_NAME) {
@@ -90,7 +91,6 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
             }
             tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
             readonlyFilterNames={[BEACON_WEBSITE_NAME]}
-            undeleteableFilterNames={[BEACON_WEBSITE_NAME]}
           />
         </div>
       </>
@@ -106,6 +106,12 @@ AlertLocationFilters.propTypes = {
   websiteLabel: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool
 };
+
+function addFilter(form, newTagFilter, onChange) {
+  const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
+  newTagFilters.push(newTagFilter);
+  onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
+}
 
 function withoutTagFilterForName(tagFilters, name) {
   return tagFilters.filter(tf => tf.name !== name);
