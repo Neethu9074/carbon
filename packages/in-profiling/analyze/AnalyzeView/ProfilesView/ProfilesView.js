@@ -39,7 +39,9 @@ export default compose(
     }
   })),
   connect(({ processId, timeConfigForSnapshots, timeConfig }) => {
-    const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots });
+    const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
+      hierarchy => hierarchy && hierarchy.size > 0
+    );
     return {
       deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
       jvmSnapshot: hierachy$
@@ -76,7 +78,7 @@ function ProfilesView(props) {
         setViewType,
         profiles: result.data,
         processSnapshot,
-        deepestTechSnapshot,
+        deepestTechSnapshot: deepestTechSnapshot || processSnapshot,
         jvmSnapshot,
         isOnline
       })}
