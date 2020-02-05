@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
@@ -15,6 +16,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
   const includeSyntheticCalls = get(data, 'synthetic', false);
+  const type = data.type;
 
   const filter = {
     timeConfig,
@@ -81,16 +83,29 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
 
       <Row>
         <Col lg={4}>
-          <CallsErrors
-            cardTitle="Calls"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            includeSyntheticCalls={includeSyntheticCalls}
-            timeConfig={timeConfig}
-            groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-          />
+          {type.includes('HTTP') ? (
+            <CallsAndHttp
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              includeSyntheticCalls={includeSyntheticCalls}
+              timeConfig={timeConfig}
+              callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+            />
+          ) : (
+            <CallsErrors
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              includeSyntheticCalls={includeSyntheticCalls}
+              timeConfig={timeConfig}
+              groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+            />
+          )}
         </Col>
         <Col lg={4}>
           <Errors

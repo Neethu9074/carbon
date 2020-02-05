@@ -4,6 +4,7 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
@@ -14,7 +15,8 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary(props) {
-  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope } = props;
+  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope, data } = props;
+  const types = data.types;
 
   const filter = {
     timeConfig,
@@ -81,15 +83,27 @@ export default function Summary(props) {
 
       <Row>
         <Col lg={4}>
-          <CallsErrors
-            cardTitle="Calls"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-          />
+          {types.includes('HTTP') ? (
+            <CallsAndHttp
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+              callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            />
+          ) : (
+            <CallsErrors
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+              groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            />
+          )}
         </Col>
         <Col lg={4}>
           <Errors
