@@ -34,7 +34,8 @@ import {
   teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementHumio,
-  teamSettingsLogManagementSplunk
+  teamSettingsLogManagementSplunk,
+  teamSettingsLogManagementElk
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -62,6 +63,7 @@ import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/R
 import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
+import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
@@ -270,6 +272,11 @@ function navigationTreeForRole(role): NavigationTree {
           path: teamSettingsLogManagementSplunk,
           label: 'Splunk',
           component: SplunkPage
+        },
+        {
+          path: teamSettingsLogManagementElk,
+          label: 'ELK',
+          component: ElkPage
         }
       ]
     });
