@@ -10,7 +10,7 @@ router.get('/csrf/token', (req, res) => {
 
   getCsrfToken(req)
     .then(csrfToken => {
-      res.send(csrfToken);
+      res.set('x-csrf-token', csrfToken).send();
     })
     .catch(err => {
       console.error(err);
