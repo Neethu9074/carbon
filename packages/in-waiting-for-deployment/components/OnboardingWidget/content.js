@@ -1117,7 +1117,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     '            - name: INSTANA_AGENT_ENDPOINT\n' +
     `              value: ${agentEndpoint}\n` +
     '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
-    `              value: ${agentEndpointPort}\n` +
+    `              value: "${agentEndpointPort}"\n` +
     '            - name: INSTANA_AGENT_KEY\n' +
     '              valueFrom:\n' +
     '                secretKeyRef:\n' +

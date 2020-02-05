@@ -13,8 +13,9 @@ export default function useTimeConfigUpdatingScale(timeConfig, width = 100) {
 }
 
 function updateScale(scale, timeConfig, width) {
-  scale.setDomainFrom(timeConfig.to - timeConfig.windowSize);
-  scale.setDomainTo(timeConfig.to);
+  const to = timeConfig.to || Date.now();
+  scale.setDomainFrom(to - timeConfig.windowSize);
+  scale.setDomainTo(to);
   scale.setRangeFrom(0);
   scale.setRangeTo(width);
 }
