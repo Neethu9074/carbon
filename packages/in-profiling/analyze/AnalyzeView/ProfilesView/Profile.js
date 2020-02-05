@@ -23,13 +23,18 @@ export default function Profile({
   jvmSnapshot,
   processSnapshot
 }) {
-  if (!profile) {
-    return null;
-  }
-
   let totalNumSamples = 0;
-  for (let i = 0; i < profile.profileGraph.length; i++) {
-    totalNumSamples += countSamples(profile.profileGraph[i]);
+  let profilesVisualisation;
+  if (profile) {
+    for (let i = 0; i < profile.profileGraph.length; i++) {
+      totalNumSamples += countSamples(profile.profileGraph[i]);
+    }
+
+    if (viewType === viewTypes.tree) {
+      profilesVisualisation = <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />;
+    } else {
+      profilesVisualisation = <ProfileFlameGraph profile={profile} query={query} />;
+    }
   }
 
   const [showGraph, setShowGraph] = useState(true);
@@ -67,9 +72,11 @@ export default function Profile({
               {showGraph ? 'Hide ' : 'Show '} CPU graph
             </Button>
           )}
-          {profile.rawProfileTimestamps && (
-            <span className={locals.numProfilesLabel}>{profile.rawProfileTimestamps.length} Profiles</span>
-          )}
+          {profile &&
+            profile.rawProfileTimestamps && (
+              <span className={locals.numProfilesLabel}>{profile.rawProfileTimestamps.length} Profiles</span>
+            )}
+          {!profile && <span className={locals.numProfilesLabel}>0 Profiles</span>}
           {totalNumSamples > 0 &&
             totalNumSamples < 100 && (
               <Tooltip
@@ -90,11 +97,7 @@ export default function Profile({
           <ProfileChart profile={profile} timeConfig={timeConfig} processId={processId} jvmSnapshot={jvmSnapshot} />
         )}
 
-      {viewType === viewTypes.tree ? (
-        <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />
-      ) : (
-        <ProfileFlameGraph profile={profile} query={query} />
-      )}
+      {profilesVisualisation}
     </>
   );
 }

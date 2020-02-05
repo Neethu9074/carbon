@@ -12,7 +12,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './ProfilesInTimeIndicator.mless';
 
 export default function ProfilesInTimeIndicator(props) {
-  if (!props.profile.rawProfileTimestamps) {
+  if (!props.profile || !props.profile.rawProfileTimestamps) {
     return null;
   }
   return <WidthAwareProfilesInTimeIndicator {...props} />;
