@@ -17,9 +17,9 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './StackItem.mless';
 
-export default function StackItem({ item: { id, type, label }, area }) {
+export default function StackItem({ item: { id, type, label }, tab }) {
   const kpiDefinitions = getKpiDefinitions(type);
-  const isInfra = area === 'infrastructure';
+  const isInfra = tab === 'infrastructure';
 
   return (
     <Li href$={dashboardLink(id, type)}>

@@ -7,11 +7,11 @@ import tabList from 'in-new-components/Stack/tabs';
 
 import locals from './StackPane.mless';
 
-export default function StackPane({ groups, area, activeTabIndex }) {
+export default function StackPane({ groups, tab, activeTabIndex }) {
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={groups.length}>
       {groups.length ? (
-        groups.map(group => <StackGroup key={`${group.relationship}.${group.type}`} group={group} area={area} />)
+        groups.map(group => <StackGroup key={`${group.relationship}.${group.type}`} group={group} tab={tab} />)
       ) : (
         <EmptyPane activeTabIndex={activeTabIndex} />
       )}

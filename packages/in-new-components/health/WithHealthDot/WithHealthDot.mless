@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+    width: fit-content;
+  }
+
+  .dot {
+    position: absolute;
+    top: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 1px solid @lib__colors__N050;
+    border-radius: 50%;
+  }
+}
