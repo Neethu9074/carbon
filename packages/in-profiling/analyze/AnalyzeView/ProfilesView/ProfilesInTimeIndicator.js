@@ -12,7 +12,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './ProfilesInTimeIndicator.mless';
 
 export default function ProfilesInTimeIndicator(props) {
-  if (!props.profile.rawProfileTimestamps) {
+  if (!props.profile || !props.profile.rawProfileTimestamps) {
     return null;
   }
   return <WidthAwareProfilesInTimeIndicator {...props} />;
@@ -40,7 +40,7 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
       windowSize: timeConfig.windowSize,
       minPixelsPerBlock: 10,
       width,
-      rollup: rollup.rollup
+      rollup
     })
   );
   const bucketSizeInPx = (blockSizeMillis / timeConfig.windowSize) * width - 1;
