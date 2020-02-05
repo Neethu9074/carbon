@@ -4,5 +4,6 @@ export { createForm } from 'in-custom-dashboards/widgets/Markdown/form';
 export { demo } from 'in-custom-dashboards/widgets/Markdown/demo';
 
 export const type = 'markdown';
+export const label = 'Markdown';
 export const minimumWidth = 1;
 export const minimumHeight = 1;

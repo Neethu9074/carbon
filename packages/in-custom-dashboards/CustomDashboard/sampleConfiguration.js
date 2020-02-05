@@ -6,6 +6,7 @@ import { generateUniqueShortId } from 'in-services/util/id';
 // likely going to persist in our data store.
 
 export default {
+  id: '78932109dasdadas3123',
   title: 'My first custom dashboard',
 
   widgets: [

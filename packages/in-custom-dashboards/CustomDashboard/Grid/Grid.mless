@@ -4,4 +4,10 @@
     bottom: 0;
     right: 1rem;
   }
+
+  .remove {
+    position: absolute;
+    bottom: 0;
+    right: 3rem;
+  }
 }

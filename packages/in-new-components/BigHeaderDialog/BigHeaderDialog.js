@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import SlideInView from 'in-new-components/SlideInView/SlideInView';
+import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import SvgIcon from 'in-components/SvgIcon';
 

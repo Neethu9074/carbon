@@ -2,7 +2,7 @@ import { text } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
-import SlideInView from 'in-new-components/SlideInView/SlideInView';
+import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
 import Button from 'in-new-components/Button/Button';
 
 const styles = {

@@ -47,12 +47,12 @@ import history from 'in-stores/navigation/history';
 //
 //   reducer: (prev, change) => ({...prev, foo: change}),
 //
-//    // an optional side effect method which is called when something will change on the state
-//    onUpdate: (prevState, newState) => (...),
+//   // an optional side effect method which is called when something will change on the state
+//   onUpdate: (prevState, newState) => (...),
 //
-//    // whether or not the history should be replaced or not, i.e. whether new history entries
-//    // should be created for any call to the reducer.
-//    replaceHistory: true
+//   // whether or not the history should be replaced or not, i.e. whether new history entries
+//   // should be created for any call to the reducer.
+//   replaceHistory: true
 // })
 
 export default ({

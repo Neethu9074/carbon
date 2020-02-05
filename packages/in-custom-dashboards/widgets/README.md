@@ -16,6 +16,8 @@ Each widget needs to define the following exports.
  - `type`: A unique key for the widget type that must never change. This value is
            used to identify what widget logic to execute for what saved state.
            This value must be unique across all widget types.
+ - `label`: A human-readable and understandable label that describes this widget type.
+            This label will be used in configurators when presenting widget options.
  - `Widget`: This must be a React component that is used to render the widget within
              a custom dashboard. It gets passed two properties:
    - `title`: This title must be used to render a `Card` as a wrapper around the

@@ -15,7 +15,13 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './FormComponent.mless';
 
+let supportedTimeZones;
+
 export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onChange }) {
+  if (!supportedTimeZones) {
+    supportedTimeZones = moment.tz.names().filter(isSupportedTimeZone);
+  }
+
   return (
     <>
       <TouchedMessages field={timeZonesForm} />
@@ -25,7 +31,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
           if (e.destination) {
             onChange([], form => {
               const timeZone = form.get(e.source.index);
-              return form.remove(e.source.index).set(e.destination.index, timeZone);
+              return form.remove(e.source.index).insert(e.destination.index, timeZone);
             });
           }
         }}
@@ -60,7 +66,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                                 }
                                 hasError={!field.valid && field.touched}
                               >
-                                {moment.tz.names().map(name => (
+                                {supportedTimeZones.map(name => (
                                   <option key={name} value={name}>
                                     {name}
                                   </option>
@@ -117,4 +123,18 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
       </Button>
     </>
   );
+}
+
+function isSupportedTimeZone(timeZone) {
+  try {
+    new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hour12: false,
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
 }

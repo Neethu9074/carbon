@@ -42,7 +42,11 @@
 }
 if (!window.instana.user) {
   setTimeout(() => {
-    document.querySelector('.in-index-centered-content').textContent = 'Not signed in / backend unavailable. Will retry in 3s. Are you using the right URL for local development, e.g. pink.instana.rocks vs instana.io?';
+    document.querySelector('.in-index-centered-content').innerHTML = `
+Not signed in / backend unavailable. Will retry in 3s.
+<br /><br />
+Are you using the right URL for local development, e.g. local-instana.pink.instana.rocks vs local-instana.instana.io?
+`;
     document.querySelector('.in-index-centered-content').style = 'color: #fff; font-size: 2rem; text-align: center';
   }, 500);
   setTimeout(() => {

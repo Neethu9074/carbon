@@ -1,4 +1,5 @@
 import { deepCopy } from 'in-services/util/object';
+import { isNotBlank } from 'in-services/util/string';
 import { find } from 'lodash';
 
 export function onLayoutChange(config, setConfig, changes) {
@@ -13,4 +14,13 @@ export function onLayoutChange(config, setConfig, changes) {
   });
 
   setConfig(newConfig);
+}
+
+export function onRenameDashboard(config, setConfig) {
+  const newTitle = prompt('Please enter the new name for this dashboard', config.title);
+  if (isNotBlank(newTitle)) {
+    const newConfig = deepCopy(config);
+    newConfig.title = newTitle;
+    setConfig(newConfig);
+  }
 }

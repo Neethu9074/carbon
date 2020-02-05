@@ -1,0 +1,57 @@
+@import '~in-themes/active.less';
+
+:local {
+  .useTransition {
+    transition: 0.75s ease-in-out;
+  }
+
+  .inputBlocker {
+    position: fixed;
+    z-index: @z-index__slide-in-view;
+    top: 0;
+    left: @main-navigation-width;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0);
+    .useTransition();
+  }
+
+  .header {
+    position: fixed;
+    z-index: @z-index__slide-in-view;
+    top: 0;
+    left: @main-navigation-width;
+    right: 0;
+    background: #fff;
+    display: none;
+  }
+
+  .slider {
+    position: fixed;
+    z-index: @z-index__slide-in-view;
+    top: 5rem;
+    width: ~"calc(100% - @{main-navigation-width})";
+    bottom: 0;
+    right: -100%;
+    background: #fff;
+    padding: 0 1.5rem;
+    overflow: hidden auto;
+    .useTransition();
+  }
+
+  .slideIn {
+    &.header {
+      display: block;
+    }
+
+    &.inputBlocker {
+      background: rgba(0, 0, 0, .25);
+      pointer-events: all;
+    }
+
+    &.slider {
+      transform: translateX(~"calc(-100% - @{main-navigation-width})");
+    }
+  }
+}

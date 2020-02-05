@@ -6,6 +6,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 
@@ -22,15 +23,18 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
   } else if (customDashboards.errors.length > 0) {
     content = <ErroneousResultPresenter errors={customDashboards.errors} />;
   } else if (customDashboards.data.length === 0) {
-    content = <NoDataAvailable title="No custom dashboards configured." height={100} />;
+    content = <NoDataAvailable title="No dashboards configured." height={100} />;
   } else {
     content = (
-      <Ul>
-        {customDashboards.data.map(({ id, title }) => (
-          <Li key={id} href$={getCustomDashboardLink(id)}>
-            {title}
-          </Li>
-        ))}
+      <Ul className={locals.list}>
+        {customDashboards.data
+          .slice()
+          .sort((a, b) => compareIgnoreCase(a.title, b.title))
+          .map(({ id, title }) => (
+            <Li key={id} href$={getCustomDashboardLink(id)}>
+              {title}
+            </Li>
+          ))}
       </Ul>
     );
   }
@@ -39,8 +43,8 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
     <>
       <DashboardHeader
         icon="lib_views_grid"
-        label="Custom Dashboards"
-        title="Custom Dashboards"
+        label="Dashboards"
+        title="Dashboards"
         renderButtonLine={renderButtonLine}
       />
       <DashboardHeaderShadowModule />
