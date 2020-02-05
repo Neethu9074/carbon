@@ -5,6 +5,8 @@ import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailabl
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
@@ -17,14 +19,23 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './StackItem.mless';
 
-export default function StackItem({ item: { id, type, label }, tab }) {
+export default function StackItem({ item: { id, type, label, healthInfo }, tab }) {
   const kpiDefinitions = getKpiDefinitions(type);
   const isInfra = tab === 'infrastructure';
+  const hasHealthInfo = healthInfo && healthInfo.type;
 
   return (
     <Li href$={dashboardLink(id, type)}>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
+          {hasHealthInfo ? (
+            <HealthDot
+              className={locals.dot}
+              severity={SEVERITY_MAP[healthInfo.type]}
+              explanation={healthInfo.explanation}
+              iconSize={10}
+            />
+          ) : null}
           <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis={isInfra} addTooltip />
           {isInfra && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
         </div>
