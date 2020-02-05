@@ -43,7 +43,9 @@ export const operators = {
   NOT_BLANK: 'NOT_BLANK',
   IS_BLANK: 'IS_BLANK',
   STARTS_WITH: 'STARTS_WITH',
-  ENDS_WITH: 'ENDS_WITH'
+  ENDS_WITH: 'ENDS_WITH',
+  NOT_STARTS_WITH: 'NOT_STARTS_WITH',
+  NOT_ENDS_WITH: 'NOT_ENDS_WITH'
 };
 
 export const entityTypes = {
@@ -81,7 +83,9 @@ export const TAG_TYPES = {
       operators.NOT_EMPTY,
       operators.IS_EMPTY,
       operators.STARTS_WITH,
-      operators.ENDS_WITH
+      operators.ENDS_WITH,
+      operators.NOT_STARTS_WITH,
+      operators.NOT_ENDS_WITH
     ]
   },
   NUMBER: {
@@ -133,7 +137,9 @@ const operatorLabelLUT = {
     NOT_EMPTY: 'is present',
     IS_EMPTY: 'is not present',
     STARTS_WITH: 'starts with',
-    ENDS_WITH: 'ends with'
+    ENDS_WITH: 'ends with',
+    NOT_STARTS_WITH: 'does not start with',
+    NOT_ENDS_WITH: 'does not end with'
   },
   NUMBER: {
     EQUALS: '=',

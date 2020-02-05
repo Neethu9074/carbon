@@ -1,12 +1,8 @@
-import { get } from 'lodash';
 import React from 'react';
 
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
@@ -15,9 +11,6 @@ import theme from 'in-themes';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) => ({
-    applicationLabel: applicationId ? getApplication({ id: applicationId }).map(getLabel) : null,
-    serviceLabel: serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : null,
-    endpointLabel: endpointId ? getEndpointInfo({ id: endpointId }).map(getLabel) : null,
     types: getEndpointTypes({
       filter: {
         application: applicationId,
@@ -35,20 +28,17 @@ export default connectTo(
     serviceId,
     endpointId,
     boundaryScope,
-    applicationLabel,
-    serviceLabel,
-    endpointLabel,
     filters,
     isSynthetic,
     groupByTag,
-    metrics,
-    showGraph
+    metrics
   }) {
     if (!hasHttpEndpoints(types)) {
       return null;
     }
 
     const granularity = getChartGranularity(timeConfig);
+    const metricsIds = ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'];
     return (
       <AppdataChartWrapper
         timeConfig={timeConfig}
@@ -57,7 +47,7 @@ export default connectTo(
           labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
           formatter: number,
           tooltipFormatter: number.compact,
-          metricIds: ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'],
+          metricIds: metricsIds,
           colors: [
             theme.lib.colors.chart.strokeColors25[8],
             theme.lib.colors.chart.strokeColors25[1],
@@ -106,31 +96,65 @@ export default connectTo(
           {
             icon: 'lib_analyze',
             label: 'View in Analytics',
-            getHref$: highlightedTime =>
-              getLinkToAnalyze({
-                applicationName: applicationLabel,
-                serviceName: serviceLabel,
-                endpointName: endpointLabel,
-                boundaryScope,
-                dataSource: 'calls',
-                filters: isSynthetic
-                  ? [
-                      { name: 'call.is_synthetic', value: 'true' },
-                      { name: 'include_synthetic', value: 'true' },
-                      ...filters
-                    ]
-                  : filters,
-                groupByTag: groupByTag ? groupByTag : {},
-                timeConfig: highlightedTime,
-                metrics: metrics ? metrics : null,
-                showGraph: showGraph ? true : {}
-              })
+            getHref$: (highlightedTime, metricsToAdd) =>
+              getJumpToAnalyzeHref$(
+                {
+                  applicationId,
+                  serviceId,
+                  endpointId
+                },
+                {
+                  boundaryScope,
+                  dataSource: 'calls',
+                  filters: isSynthetic
+                    ? [
+                        { name: 'call.is_synthetic', value: 'true' },
+                        { name: 'include_synthetic', value: 'true' },
+                        ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsIds)
+                      ]
+                    : mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsIds),
+                  groupByTag: groupByTag ? groupByTag : {},
+                  timeConfig: highlightedTime,
+                  metrics: metrics ? metrics : null
+                }
+              )
           }
         ]}
       />
     );
   }
 );
+
+// Needs to add not rendered metrics to array
+function mapMetricsToAdd(filters, renderedMetrics, metricIds) {
+  const metricsForLink = filters ? [...filters] : [];
+  const filteredArr = metricIds.filter(metric => !renderedMetrics.includes(metric));
+  filteredArr.map(metric => {
+    metricsForLink.push({
+      name: 'call.http.status',
+      operator: 'NOT_STARTS_WITH',
+      value: correctValue(metric),
+      entity: 'NOT_APPLICABLE'
+    });
+  });
+
+  return metricsForLink;
+}
+
+function correctValue(metric) {
+  switch (metric) {
+    case 'http.1xx':
+      return '1';
+    case 'http.2xx':
+      return '2';
+    case 'http.3xx':
+      return '3';
+    case 'http.4xx':
+      return '4';
+    case 'http.5xx':
+      return '5';
+  }
+}
 
 function hasHttpEndpoints(types) {
   if (!types) {
@@ -141,8 +165,4 @@ function hasHttpEndpoints(types) {
 
 function hasType(type, types) {
   return types.indexOf(type) >= 0;
-}
-
-function getLabel(result) {
-  return get(result, ['data', 'label'], null);
 }
