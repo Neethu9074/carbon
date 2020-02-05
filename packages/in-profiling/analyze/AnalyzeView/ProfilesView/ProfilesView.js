@@ -50,6 +50,7 @@ export default compose(
           hierarchySnapshots =>
             hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]
         ),
+      historicalProcessSnapshot: getSnapshot(processId, timeConfigForSnapshots),
       processSnapshot: getSnapshot(processId, timeConfig),
       isOnline: isEntityOnline(processId)
     };
@@ -60,7 +61,16 @@ function ProfilesView(props) {
   // will be mounted in the header as soon as they are refactored
   const [viewType, setViewType] = useState(viewTypes.tree);
 
-  const { processSnapshot, deepestTechSnapshot, jvmSnapshot, isOnline, processId, timeConfig, location } = props;
+  const {
+    processSnapshot,
+    historicalProcessSnapshot,
+    deepestTechSnapshot,
+    jvmSnapshot,
+    isOnline,
+    processId,
+    timeConfig,
+    location
+  } = props;
 
   return (
     <TabView
@@ -78,7 +88,7 @@ function ProfilesView(props) {
         setViewType,
         profiles: result.data,
         processSnapshot,
-        deepestTechSnapshot: deepestTechSnapshot || processSnapshot,
+        deepestTechSnapshot: deepestTechSnapshot || processSnapshot || historicalProcessSnapshot,
         jvmSnapshot,
         isOnline
       })}
