@@ -3,8 +3,8 @@ import { create } from 'reactive-observables';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import alertMarkersRenderer from 'in-new-components/Alerting/Chart/renderer/alertMarkers';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { pendingResult } from 'in-services/fixedObjects';
-import { alwaysNull } from 'in-services/fixedStreams';
 
 export default class AlertingChartEventsManager {
   constructor() {
@@ -13,7 +13,7 @@ export default class AlertingChartEventsManager {
 
   getAlertsSubscription(props) {
     if (!props.alertMetricConfiguration) {
-      return alwaysNull;
+      return alwaysEmptyArray;
     }
 
     const alerts$ = props.isCatalogMetric

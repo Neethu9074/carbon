@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, getRuleOperatorLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import {
+  fieldNames,
+  getMetricLabel,
+  getRuleOperatorLabel
+} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
@@ -20,6 +25,7 @@ export default function JsErrorUseCaseSelection({
   granularity,
   isReadOnly
 }) {
+  const metricName = form.get(fieldNames.ruleMetricName).value;
   let chart = isReadOnly ? (
     <JsErrorsAlertingBarChart
       websiteId={form.get(fieldNames.websiteId).value}
@@ -47,7 +53,7 @@ export default function JsErrorUseCaseSelection({
     <>
       <ExpandableCard
         title="Selected JS Error"
-        label="Error rate"
+        label={getMetricLabel(alertTypes.specificJsError, metricName)}
         bodyWithoutPadding
         openByDefault
         darkFrame={!isReadOnly}

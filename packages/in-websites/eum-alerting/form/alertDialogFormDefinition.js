@@ -387,6 +387,10 @@ export function getMetricLabel(alertType, value) {
     return '';
   }
 
+  if (value === null && alertType === 'specificJsError') {
+    return 'Errors count';
+  }
+
   return metricList.filter(entry => entry.value === value)[0].label;
 }
 
