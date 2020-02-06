@@ -36,7 +36,6 @@ export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);

@@ -18,7 +18,6 @@ module.exports = {
   pcfEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
-  isOnboardingGuideEnabled: true,
   contextGuideEnabled: true,
   eumAlertingEnabled: true,
   vsphereEnabled: true,

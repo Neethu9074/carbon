@@ -90,12 +90,7 @@ module.exports = exports = (tenant, unit) => [
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,
     defaultValue: false
   },
-  {
-    uiClientKey: 'isOnboardingGuideEnabled',
-    instanaCtlKey: 'feature.onboarding.guide.enabled',
-    consulKey: `settings/${tenant}-${unit}/IS_ONBOARDING_GUIDE_ENABLED`,
-    defaultValue: true
-  },
+
   {
     uiClientKey: 'contextGuideEnabled',
     instanaCtlKey: 'feature.context.guide.enabled',

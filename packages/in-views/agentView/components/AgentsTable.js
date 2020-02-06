@@ -12,7 +12,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { compare as compareBoolean } from 'in-services/util/boolean';
-import { isOnboardingGuideEnabled } from 'in-services/featureFlags';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
@@ -197,17 +196,16 @@ export default connectTo(
                 </Button>
               </>
             )}
-            {role.canConfigureAgents &&
-              isOnboardingGuideEnabled && (
-                <Button
-                  kind="primary"
-                  href$={getModifiedUrlStream(params => {
-                    params.pathname = '/agents/installation';
-                  })}
-                >
-                  Instana agent installation
-                </Button>
-              )}
+            {role.canConfigureAgents && (
+              <Button
+                kind="primary"
+                href$={getModifiedUrlStream(params => {
+                  params.pathname = '/agents/installation';
+                })}
+              >
+                Instana agent installation
+              </Button>
+            )}
           </DashboardSection>
         )}
 
