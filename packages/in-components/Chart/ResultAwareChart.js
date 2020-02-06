@@ -27,7 +27,12 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
-      content = <Chart renderLegend={renderLegend} {...config} />;
+      const CustomChartComponent = config.customChartComponent;
+      content = CustomChartComponent ? (
+        <CustomChartComponent renderLegend={renderLegend} {...config} />
+      ) : (
+        <Chart renderLegend={renderLegend} {...config} />
+      );
     }
   }
 

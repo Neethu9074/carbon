@@ -343,6 +343,12 @@ function AWSLambdaContent({ agentKey, agentEndpoint }) {
   const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
+    'ap-northeast-1',
+    'ap-northeast-2',
+    'ap-south-1',
+    'ap-southeast-1',
+    'ap-southeast-2',
+    'ca-central-1',
     'eu-central-1',
     'eu-north-1',
     'eu-west-1',
@@ -932,6 +938,7 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
     { key: 'linuxarm32', label: 'Linux (32Bit - ARM)' },
     { key: 'linuxppc64', label: 'Linux (64Bit - PowerPC)' },
     { key: 'linuxppc32', label: 'Linux (32Bit - PowerPC)' },
+    { key: 'linuxppcle64', label: 'Linux (64Bit - PowerPC Little Endian)' },
     { key: 'linuxs390x', label: 'Linux (s390x)' }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
@@ -1110,7 +1117,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     '            - name: INSTANA_AGENT_ENDPOINT\n' +
     `              value: ${agentEndpoint}\n` +
     '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
-    `              value: ${agentEndpointPort}\n` +
+    `              value: "${agentEndpointPort}"\n` +
     '            - name: INSTANA_AGENT_KEY\n' +
     '              valueFrom:\n' +
     '                secretKeyRef:\n' +

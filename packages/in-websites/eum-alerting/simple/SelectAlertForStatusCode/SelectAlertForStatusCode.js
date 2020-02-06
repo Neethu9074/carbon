@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
+import { modeSimple } from '../../constants';
 
 import locals from '../SelectAlertForJsError/SelectAlertForJsError.mless';
 
@@ -11,7 +12,7 @@ export default function SelectAlertForStatusCode(props) {
       <p className={locals.description}>
         You will be alerted every time matching HTTP Status Codes occur more often than normal.
       </p>
-      <ProvideStatusCode {...props} />
+      <ProvideStatusCode {...props} mode={modeSimple} />
     </div>
   );
 }

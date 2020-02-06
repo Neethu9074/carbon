@@ -19,11 +19,7 @@ import {
   getLinkToAnalyze as getLinkToProfilesAnalyze,
   analyzePath as profilingAnalyzePath
 } from 'in-profiling/navigation/paths';
-import {
-  customEventsInWebsiteMonitoringEnabled,
-  profilingEnabled,
-  mobileAppMonitoringEnabled
-} from 'in-services/featureFlags';
+import { customEventsInWebsiteMonitoringEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
@@ -34,7 +30,6 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { defaultGrouping as defaultProfilesGrouping } from 'in-profiling/tags';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -165,21 +160,17 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
                 )}
               </SecondLevelNavigationGroup>
             )}
-          {profilingEnabled && (
-            <SecondLevelNavigationGroup
-              label="Profiles"
-              withSeparator
-              {...secondLevelActive(['profiles'], 'profiling', dataSource)}
-            >
-              <SecondLevelNavigationItem
-                href$={getLinkToProfilesAnalyze({
-                  group: defaultProfilesGrouping
-                })}
-                {...getProps('profiles', 'profiling', dataSource)}
-                addGroupSeparator
-              />
-            </SecondLevelNavigationGroup>
-          )}
+          <SecondLevelNavigationGroup
+            label="Profiles"
+            withSeparator
+            {...secondLevelActive(['profiles'], 'profiling', dataSource)}
+          >
+            <SecondLevelNavigationItem
+              href$={getLinkToProfilesAnalyze()}
+              {...getProps('profiles', 'profiling', dataSource)}
+              addGroupSeparator
+            />
+          </SecondLevelNavigationGroup>
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       {renderQuickFilterBar && (

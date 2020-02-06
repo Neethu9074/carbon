@@ -3,6 +3,7 @@
 <!-- toc -->
 
 - [Getting Started](#getting-started)
+  - [Git Configuration](#git-configuration)
   - [Installation of required software](#installation-of-required-software)
     - [Node.js and Yarn](#nodejs-and-yarn)
     - [Nginx](#nginx)
@@ -35,6 +36,17 @@
 
 This document lists the technical steps necessary in order to get a UI development setup running.
 Our development practices are collected within [Notion](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf).
+
+### Git Configuration
+
+This repository is using Git submodules. If you prefer to interact with GitHub via SSH, then we recommend
+that you add the following to `~/.git/.gitconfig` in order to always use SSH instead of HTTPS access for
+GitHub:
+
+```
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+```
 
 ### Installation of required software
 

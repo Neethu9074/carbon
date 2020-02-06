@@ -4,10 +4,10 @@
 'use strict';
 
 exports = module.exports = {
-  Test: {
+  'K8 Test': {
     tenant: 'instana',
     unit: 'test',
-    baseDomain: 'instana.io'
+    baseDomain: 'pink.instana.rocks'
   },
   Custom: {
     // special case: Handled in `devModeQuestions`
@@ -26,11 +26,6 @@ exports = module.exports = {
     tenant: 'instanaops',
     unit: 'us',
     baseDomain: 'instana.io'
-  },
-  'K8 Test': {
-    tenant: 'instana',
-    unit: 'test',
-    baseDomain: 'pink.instana.rocks'
   },
   'K8 Nightly': {
     tenant: 'instana',
@@ -51,5 +46,10 @@ exports = module.exports = {
     tenant: 'instana',
     unit: 'release',
     baseDomain: 'magenta.instana.rocks'
+  },
+  'Old Test Environment (deprecated)': {
+    tenant: 'instana',
+    unit: 'test',
+    baseDomain: 'instana.io'
   }
 };

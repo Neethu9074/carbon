@@ -11,7 +11,8 @@ export default function TooltipLineAndContent({
   hoveredEvent,
   chart,
   reverseTooltipOrder,
-  metrics
+  metrics,
+  customEventSection
 }) {
   const { excludedLabelsFromTooltip } = metrics.y1;
   return (
@@ -23,6 +24,7 @@ export default function TooltipLineAndContent({
     >
       <div className={[locals[align]]}>
         <TooltipContent
+          customEventSection={customEventSection}
           hoveredEvent={hoveredEvent}
           timestamp={timestamp}
           chart={chart}

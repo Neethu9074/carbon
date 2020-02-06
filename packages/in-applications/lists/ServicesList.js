@@ -126,7 +126,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Errors',
+    label: 'Erroneous Call Rate',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

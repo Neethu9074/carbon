@@ -19,6 +19,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import StackButton from 'in-new-components/Stack/StackButton';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -106,6 +107,7 @@ function renderButtonLine(props) {
   const k8sServiceUid = get(props.result, ['data', 'uid']);
   return (
     <>
+      <StackButton id={props.serviceId} timeConfig={props.timeConfig} />
       {k8sServiceUid && (
         <EntityToInstanaServiceButton
           {...props}

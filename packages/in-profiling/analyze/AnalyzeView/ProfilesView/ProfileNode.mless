@@ -4,7 +4,7 @@
 :local {
   .row {
     .flexbox();
-    padding: 0.25rem 0;
+    padding: 0.3125rem 0 0.25rem;
   }
 
   .expandedRow {
@@ -89,21 +89,29 @@
     margin: 0 0.5rem;
   }
 
-  .percentWrapper {
+  .percentWrapper,
+  .percent {
     .flexbox();
-    flex-direction: row-reverse;
 
-    height: 1rem;
-    min-width: 2.25rem;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+  }
 
-    margin-right: 1rem;
+  .percentWrapper {
+    width: 6.25rem;
+
+    margin-right: 0.5rem;
+
+    background: @lib__colors__N300;
+    overflow: hidden;
   }
 
   .percent {
-    .flexbox();
-    flex-direction: row-reverse;
+    background: @lib__colors__blue800;
+  }
 
-    padding: 0.125rem;
-    background: @lib__colors__faded-blue800;
+  .percentLabel {
+    width: 3.75rem;
+    color: @lib__colors__N700Medium;
   }
 }

@@ -1,3 +1,4 @@
+import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/eum-alerting/constants';
 import { fieldNames, getStatusCodeLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
@@ -56,6 +57,26 @@ export function getDescriptionPlaceholder(form) {
 
 export function getFormValueOrDefault(form, key, defaultValue = null) {
   return form.containsKey(key) ? form.get(key).value : defaultValue;
+}
+
+export function getThresholdLabel(form) {
+  const metricName = form.get(fieldNames.ruleMetricName).value;
+  switch (metricName) {
+    case onLoadTime:
+      return 'Milliseconds';
+    case errorRate:
+    case statusCodeRate:
+      return 'Percentage';
+    case errorCount:
+    case statusCodeCount:
+      return 'Count';
+    default:
+      return 'Value';
+  }
+}
+
+export function isPercentageMetric(metricName) {
+  return metricName === errorRate || metricName === statusCodeRate;
 }
 
 function fillStatusCodeValue(statusCode) {

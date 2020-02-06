@@ -1,5 +1,4 @@
 import { number, percentage } from 'in-services/formatters/number';
-import { lighten } from 'in-services/formatters/color';
 import bar from 'in-components/Chart/renderer/bar';
 import theme from 'in-themes';
 
@@ -34,7 +33,7 @@ export default {
     axis.valuesDependOnEachOther = true;
     config.addBlockSizeMillisForAxis(axis);
     axis.formatter = [number.forcedCompact, percentage];
-    axis.colors = [lighten(theme.lib.colors.chart.strokeColors100[0], 0.4), theme.lib.colors.failure];
+    axis.colors = [theme.lib.colors.lightPrimary240, theme.lib.colors.failure];
   }
 };
 

@@ -5,7 +5,6 @@ import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailabl
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
-import { profilingEnabled } from 'in-services/featureFlags';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
@@ -25,12 +24,10 @@ export default function StackItem({ item: { id, type, label }, area }) {
   return (
     <Li href$={dashboardLink(id, type)}>
       <div className={locals.itemWrapper}>
-        <EntityWithTypeAndIcon
-          type={type}
-          renderType={profilingEnabled && type === plugins.process ? label => renderType(id, label) : undefined}
-          label={label}
-          iconPath={getIconSvgPath(type)}
-        />
+        <div className={locals.label}>
+          <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis={isInfra} addTooltip />
+          {isInfra && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
+        </div>
         {isInfra ? (
           <div className={locals.chartWrapper}>
             {kpiDefinitions.map(props => (
@@ -52,28 +49,23 @@ function dashboardLink(id, type) {
   return getDashboardLink(id, { pathname: physicalDashboardPath });
 }
 
-function renderType(id, label) {
-  return <RenderType id={id} label={label} />;
-}
-
-const RenderType = connectTo(({ id }) => ({
-  profilesAvailable: timeConfig$
-    .flatMap(timeConfig =>
+const ProfileIndicator = connectTo(
+  ({ processSnapshotId }) => ({
+    profilesAvailable: timeConfig$.flatMap(timeConfig =>
       getProfilesAvailable({
-        processSnapshotId: id,
+        processSnapshotId,
         timeConfig
-      })
+      }).map(result => result.data && result.data.containsProfiles)
     )
-    .map(result => result.data && result.data.containsProfiles)
-}))(function RenderType({ label, profilesAvailable }) {
-  return (
-    <>
-      {label}
-      {profilesAvailable && (
-        <Tooltip content="Profiles available">
-          <SvgIcon className={locals.icon} type="lib_profiling" size="xxs" />
-        </Tooltip>
-      )}
-    </>
-  );
-});
+  }),
+  function ProfileIndicator({ profilesAvailable }) {
+    if (!profilesAvailable) {
+      return null;
+    }
+    return (
+      <Tooltip content="Profiles are available" align="rightMiddle">
+        <SvgIcon className={locals.profileIcon} type="lib_profiling" size="xs" />
+      </Tooltip>
+    );
+  }
+);

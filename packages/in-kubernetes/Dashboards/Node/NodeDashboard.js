@@ -2,13 +2,12 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
@@ -87,14 +86,7 @@ function Header(props) {
 }
 
 function renderButtonLine({ nodeId, timeConfig }) {
-  return (
-    <EntityHealthIndicator
-      showOkayOnNoIssues={false}
-      IndicatorPresenter={HealthIndicatorButtonPresenter}
-      snapshotId={nodeId}
-      timeConfig={timeConfig}
-    />
-  );
+  return <DashboardButtonLine snapshotId={nodeId} timeConfig={timeConfig} />;
 }
 
 function renderMetaInformation({ result }) {

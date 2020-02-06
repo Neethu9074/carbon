@@ -19,6 +19,7 @@ import Button from 'in-new-components/Button/Button';
 import Message from 'in-new-components/Message';
 
 import locals from './AdvancedModeContainer.mless';
+import theme from 'in-themes';
 
 const idScrollContainer = 'eum-advanced-scroll-container';
 let scrollContainerRef = React.createRef();
@@ -35,7 +36,7 @@ export default function AdvancedModeContainer({
   editMode
 }) {
   const navItems = [
-    { label: 'Domain', checked: true },
+    { label: 'Scope', checked: true },
     {
       label: 'Trigger',
       checked: validateTrigger(form)
@@ -60,7 +61,7 @@ export default function AdvancedModeContainer({
         }}
       >
         <div className={locals.content}>
-          <ScrollStep id={navItems[0].label} title="Domain: Where is the condition happening?">
+          <ScrollStep id={navItems[0].label} title="Scope: Where is the condition happening?">
             <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} onChange={onChange} />
           </ScrollStep>
           <ScrollStep id={navItems[1].label} title="Trigger: What do you want to be alerted on?">
@@ -81,7 +82,6 @@ export default function AdvancedModeContainer({
                   form={form}
                   timeConfig={timeConfig}
                   onChange={onChange}
-                  setJsErrorsListVisible={setSliderState}
                   granularity={granularity}
                 />
               )}
@@ -96,8 +96,8 @@ export default function AdvancedModeContainer({
                         onChange={onChange}
                       />
                       {showInsufficientBaselineDataMessage(form) && (
-                        <Message withIcon small>
-                          Insufficient data to compute a baseline for the selected configuration.
+                        <Message type="warning" iconColor={theme.lib.colors.failure} withIcon small>
+                          Insufficient data to compute the selected Baseline. Please select Static Threshold instead.
                         </Message>
                       )}
                     </>

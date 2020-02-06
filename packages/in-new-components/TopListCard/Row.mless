@@ -64,9 +64,21 @@
     color: @lib__colors__N700Medium;
   }
 
+  .metricWrapper {
+    white-space: nowrap;
+  }
+
   .metric {
     font-size: 0.875rem;
     font-weight: 600;
     color: @lib__colors__N900Primary;
+  }
+
+  .companion {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: @lib__colors__N600Light;
+    padding-left: 0.5rem;
+    text-align: right;
   }
 }

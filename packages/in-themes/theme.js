@@ -219,6 +219,7 @@ function buildLib() {
   lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05);
 
   lib.colors.primary240 = addTransparency(lib.colors.blue800, 0.4);
+  lib.colors.lightPrimary240 = addTransparency(lib.colors.lightBlue800, 0.4);
   lib.colors.success40 = addTransparency(lib.colors.success, 0.4);
   lib.colors.failure40 = addTransparency(lib.colors.failure, 0.4);
   lib.colors.warning40 = addTransparency(lib.colors.warning, 0.4);

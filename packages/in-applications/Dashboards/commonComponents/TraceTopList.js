@@ -2,21 +2,28 @@ import React from 'react';
 import { get } from 'lodash';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
-import { meanLatencyFixed, percentage, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
-import Link from 'in-components/Link';
 import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
+import theme from 'in-themes';
 
-const metrics = ['latency', 'traces', 'errors'];
-const labels = ['Latency', 'Count', 'Errors'];
-const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [meanLatencyFixed.compact, number.compact, percentage.detailed];
+import locals from './TraceTopList.mless';
+
+const metrics = ['latency', 'traces', 'erroneousCalls'];
+const labels = ['Latency', 'Count', 'Erroneous Calls'];
+const aggregations = ['MEAN', 'SUM', 'SUM'];
+const formatters = [meanLatencyFixed.compact, number.compact, number.compact];
+const companionMetrics = [null, null, 'errors'];
+const companionAggregations = [null, null, 'MEAN'];
+const companionFormatters = [null, null, percentage.detailed];
+const colors = [null, null, theme.lib.colors.failure];
 
 export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};
@@ -46,11 +53,15 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       labels={labels}
       aggregations={aggregations}
       formatters={formatters}
+      companionMetrics={companionMetrics}
+      companionAggregations={companionAggregations}
+      companionFormatters={companionFormatters}
       getList={getList}
       render={TopListCardPresenter}
       renderViewAll={ViewAll}
       renderLabel={Label}
       renderMetric={Metric}
+      renderCompanionMetric={RenderCompanionMetric}
       timeConfig={timeConfig}
       applicationId={applicationId}
       serviceId={serviceId}
@@ -58,6 +69,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       applicationName={applicationName}
       serviceName={serviceName}
       endpointName={endpointName}
+      colors={colors}
     />
   );
 });
@@ -72,7 +84,9 @@ function getList({
   endpointName,
   timeConfig,
   selectedMetric,
-  selectedMetricAggregation
+  selectedMetricAggregation,
+  selectedCompanionMetric,
+  selectedCompanionMetricAggregation
 }) {
   let tagFilters = [];
   if (applicationName != null) {
@@ -86,6 +100,19 @@ function getList({
   }
   tagFilters.push({ name: 'call.is_synthetic', operator: 'EQUALS', booleanValue: false });
 
+  const metrics = {
+    [selectedMetric]: {
+      metric: selectedMetric,
+      aggregation: selectedMetricAggregation
+    }
+  };
+  if (selectedCompanionMetric) {
+    metrics[selectedCompanionMetric] = {
+      metric: selectedCompanionMetric,
+      aggregation: selectedCompanionMetricAggregation
+    };
+  }
+
   return getTraceGroups({
     pagination: {
       retrievalSize: 5
@@ -94,12 +121,7 @@ function getList({
       by: selectedMetric,
       direction: 'DESC'
     },
-    metrics: {
-      [selectedMetric]: {
-        metric: selectedMetric,
-        aggregation: selectedMetricAggregation
-      }
-    },
+    metrics: metrics,
     filter: {
       timeConfig,
       useLongTermDataOnly: timeConfig.windowSize > 1000 * 60 * 60 // query long term data when window size > 1h
@@ -152,4 +174,8 @@ function Label({ item, applicationName, serviceName, endpointName }, className) 
 
 function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
+}
+
+function RenderCompanionMetric({ formattedCompanionMetric }) {
+  return <span className={locals.companion}>({formattedCompanionMetric})</span>;
 }

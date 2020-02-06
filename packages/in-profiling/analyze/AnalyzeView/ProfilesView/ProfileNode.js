@@ -4,10 +4,8 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { lighten } from 'in-services/formatters/color';
 import { getCodeView } from 'in-forge/codeView/java';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 import locals from './ProfileNode.mless';
 
@@ -188,16 +186,11 @@ function PercentIndicator({ percent }) {
   const percentLabel = ((percent * 100) | 0) / 100;
 
   return (
-    <div className={locals.percentWrapper}>
-      <div
-        style={{
-          width: percent,
-          background: lighten(theme.lib.colors.lightBlue800, Math.max(0.15, percent / 300))
-        }}
-        className={locals.percent}
-      >
-        {percentLabel}%
+    <>
+      <div className={locals.percentWrapper}>
+        <div className={locals.percent} style={{ width: percent }} />
       </div>
-    </div>
+      <span className={locals.percentLabel}>{percentLabel}%</span>
+    </>
   );
 }

@@ -13,7 +13,11 @@ export default connectTo(
   class extends React.Component {
     static displayName = 'HighlightedTimeframe';
 
-    timeframeHighlightDraggingStart = null;
+    mouseDownPos = null;
+    mouseDownDomainTime = null;
+    granularityHalf = null;
+    offset = 5;
+    minPxToMoveUntilDragStarts = 3;
 
     componentDidMount() {
       this.setupSubscriptions();
@@ -45,11 +49,13 @@ export default connectTo(
         return;
       }
       this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
+
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
+      this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseUp.bind(this));
+
       this.onMouseMoveSubscription = on(glassPane, 'mousemove')
         .throttle(50)
         .subscribe(this.onMouseMove.bind(this));
-      this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
     };
 
     onMouseDown(e) {
@@ -61,44 +67,85 @@ export default connectTo(
       }
 
       clearHighlightedTimeframe();
-      this.timeframeHighlightDraggingStart = this.snapLeft(this.props.xScale.getDomain(e.offsetX));
-    }
-
-    onMouseUp() {
-      this.timeframeHighlightDraggingStart = null;
+      this.mouseDownPos = e.offsetX;
     }
 
     onMouseMove = e => {
-      const { xScale } = this.props;
+      const { xScale, chart } = this.props;
+      const currentMousePos = e.offsetX;
+      const isSnappingEnabled = chart.config.snapHighlightingToMetrics;
 
-      if (this.timeframeHighlightDraggingStart != null) {
-        setHighlightedTimeframe(this.timeframeHighlightDraggingStart, this.snapRight(xScale.getDomain(e.offsetX)));
+      this.granularityHalf = this.props.chart.config.granularity / 2;
+
+      if (this.mouseDownPos != null) {
+        const diff = currentMousePos - this.mouseDownPos;
+
+        // calculate the starting point of the drag & drop
+        if (!this.mouseDownDomainTime && Math.abs(diff) > this.minPxToMoveUntilDragStarts) {
+          this.mouseDownDomainTime = xScale.getDomain(this.mouseDownPos);
+          if (isSnappingEnabled) {
+            this.mouseDownDomainTime = this.snapStart(this.mouseDownDomainTime, diff > 0);
+          }
+        }
       }
+
+      // if dragging has not started
+      if (!this.mouseDownDomainTime) {
+        return;
+      }
+
+      const currentMousePosInDomainTime = xScale.getDomain(currentMousePos);
+      if (isSnappingEnabled) {
+        return setHighlightedTimeframe(this.mouseDownDomainTime, this.snapWhileDrag(currentMousePosInDomainTime));
+      }
+      setHighlightedTimeframe(this.mouseDownDomainTime, currentMousePosInDomainTime);
     };
 
-    onMouseLeave = () => {
-      this.timeframeHighlightDraggingStart = null;
-    };
+    onMouseUp() {
+      this.mouseDownPos = null;
+      this.mouseDownDomainTime = null;
+    }
 
-    snapLeft = time => {
-      return this.snap(time, true);
-    };
-
-    snapRight = time => {
-      return this.snap(time, false);
-    };
-
-    snap = (time, floor) => {
+    snapStart = (time, leftToRight) => {
       const config = this.props.chart.config;
-      if (!config.snapHighlightingToMetrics && !config.snapHighlightingToMetricBars) {
+
+      const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(config, time);
+      const timeDiff = Math.abs(nearestTimeInMetrics - time);
+      const additionalSnapArea = this.getAdditionalSnapArea();
+
+      if (timeDiff > this.granularityHalf + additionalSnapArea) {
         return time;
       }
 
-      const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(this.props.chart.config, time, floor);
-      if (config.snapHighlightingToMetricBars) {
-        return floor ? nearestTimeInMetrics - config.granularity / 2 : nearestTimeInMetrics + config.granularity / 2;
+      // is inside bar
+      if (timeDiff < this.granularityHalf) {
+        return nearestTimeInMetrics + (leftToRight ? -this.granularityHalf : this.granularityHalf);
       }
-      return nearestTimeInMetrics;
+
+      const isLeftFromMetricPoint = nearestTimeInMetrics > time;
+      return nearestTimeInMetrics + (isLeftFromMetricPoint ? -this.granularityHalf : this.granularityHalf);
+    };
+
+    snapWhileDrag = currentMousePosInDomainTime => {
+      const config = this.props.chart.config;
+
+      const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(config, currentMousePosInDomainTime);
+      const distanceToNearestMetric = Math.abs(nearestTimeInMetrics - currentMousePosInDomainTime);
+      const additionalSnapArea = this.getAdditionalSnapArea();
+
+      if (distanceToNearestMetric > this.granularityHalf + additionalSnapArea) {
+        return currentMousePosInDomainTime;
+      }
+
+      if (currentMousePosInDomainTime < nearestTimeInMetrics) {
+        return nearestTimeInMetrics - this.granularityHalf;
+      }
+      return nearestTimeInMetrics + this.granularityHalf;
+    };
+
+    getAdditionalSnapArea = () => {
+      const { xScale } = this.props;
+      return Math.min(this.granularityHalf, xScale.getDomainTo() - xScale.getDomain(xScale.getRangeTo() - this.offset));
     };
 
     disposeSubscriptions = () => {

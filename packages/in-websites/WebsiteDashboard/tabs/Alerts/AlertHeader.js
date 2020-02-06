@@ -21,7 +21,8 @@ import locals from './AlertHeader.mless';
 
 export default function AlertHeader({ alertConfig, alertConfigVersions, setRevision, openDialog }) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
-  const isNotLatestRevision = alertConfig.readOnly;
+  const isDeletedConfig = alertConfig.readOnly && alertRevision === alertConfigVersions.length;
+  const isNotLatestRevision = alertRevision < alertConfigVersions.length;
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isToggling, setIsToggling] = useState(false);
@@ -109,6 +110,11 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
           )}
         </div>
       </div>
+      {isDeletedConfig && (
+        <Message iconColor={theme.lib.colors.warning} withIcon type="neutral">
+          You are looking at a deleted alert configuration. Modifications are not possible.
+        </Message>
+      )}
       {isNotLatestRevision && (
         <Message withIcon type="neutral">
           You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the

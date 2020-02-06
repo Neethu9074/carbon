@@ -107,18 +107,12 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'eumAlertingEnabled',
     instanaCtlKey: 'feature.eum.alerting.enabled',
     consulKey: `settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`,
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'vsphereEnabled',
     instanaCtlKey: 'feature.vsphere.enabled',
     consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'profilingEnabled',
-    instanaCtlKey: 'feature.profiling.enabled',
-    consulKey: `settings/${tenant}-${unit}/PROFILING_ENABLED`,
     defaultValue: false
   },
   {

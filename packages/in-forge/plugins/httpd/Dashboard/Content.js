@@ -1,14 +1,13 @@
 import semver from 'semver';
 import React from 'react';
 
+import { bytesZeroDecimalPlaces, number, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
 import Link from 'in-components/Link';
-
-import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default function HttpdDashboard({ snapshot, timeConfig }) {
   const status = snapshot.getIn(['data', 'server-status']);
@@ -28,7 +27,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
       <KpiSection>
         {status !== 'EXTENDED_INFO_DISABLED' ? (
           <KpiKeyValue label="Requests">
-            <MetricValue snapshotId={snapshotId} metric="requests" />
+            <MetricValue snapshotId={snapshotId} metric="requests" formatter={number.compact} />
           </KpiKeyValue>
         ) : null}
         {status !== 'EXTENDED_INFO_DISABLED' ? (
@@ -36,8 +35,8 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
             <MetricValue snapshotId={snapshotId} metric="kBytes" />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="Busy Worker">
-          <MetricValue snapshotId={snapshotId} metric="busy_workers" />
+        <KpiKeyValue label="Busy Workers">
+          <MetricValue snapshotId={snapshotId} metric="busy_workers" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 

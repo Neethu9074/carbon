@@ -44,7 +44,7 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
       cardTitle="Open events"
       timeConfig={timeConfig}
       granularity={granularity}
-      snapHighlightingToMetricBars
+      snapHighlightingToMetrics
       includeFirstDataPoint
       y1={{
         renderer: Renderer.stackedBar,

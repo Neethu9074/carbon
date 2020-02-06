@@ -45,7 +45,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
       cardTitle="Infrastructure Issues &amp; Changes"
       timeConfig={timeConfig}
       granularity={granularity}
-      snapHighlightingToMetricBars
+      snapHighlightingToMetrics
       includeFirstDataPoint
       y1={{
         renderer: Renderer.stackedBar,

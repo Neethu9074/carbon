@@ -39,6 +39,7 @@ function addZendeskSnippet() {
   zendeskScript.type = 'text/javascript';
   zendeskScript.id = 'ze-snippet';
   zendeskScript.src = `https://static.zdassets.com/ekr/snippet.js?key=${encodeURIComponent(config.zendeskKey)}`;
+  zendeskScript.setAttribute('crossorigin', 'anonymous');
   zendeskScript.addEventListener('load', onZendeskLoaded, false);
   document.body.appendChild(zendeskScript);
 }

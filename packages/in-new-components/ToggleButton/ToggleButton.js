@@ -1,4 +1,5 @@
 import { compose } from 'recompose';
+import theme from 'in-themes';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -8,7 +9,6 @@ import hover from 'in-new-components/ToggleButton/hover';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './ToggleButton.mless';
 
@@ -35,13 +35,9 @@ function ToggleButton({
   disabled,
   target,
   iconOff,
-  iconOffSpinning,
   iconOffHover,
-  iconOffHoverSpinning,
   iconOn,
-  iconOnSpinning,
   iconOnHover,
-  iconOnHoverSpinning,
   darkTheme
 }) {
   let classes;
@@ -72,7 +68,6 @@ function ToggleButton({
       <SvgIcon
         type={iconOff}
         color={theme.lib.colors.black}
-        spinning={iconOffSpinning}
         className={evaluateClassNames({
           [locals.icon]: true,
           [locals.iconLight]: darkTheme
@@ -81,25 +76,13 @@ function ToggleButton({
     );
   } else if (!checked && hovered && (iconOffHover || iconOff)) {
     iconElement = (
-      <SvgIcon
-        type={iconOffHover ? iconOffHover : iconOff}
-        color={theme.lib.colors.black}
-        spinning={iconOffHoverSpinning}
-        className={locals.icon}
-      />
+      <SvgIcon type={iconOffHover ? iconOffHover : iconOff} color={theme.lib.colors.black} className={locals.icon} />
     );
   } else if (checked && !hovered && iconOn) {
-    iconElement = (
-      <SvgIcon type={iconOn} color={theme.lib.colors.black} spinning={iconOnSpinning} className={locals.icon} />
-    );
+    iconElement = <SvgIcon type={iconOn} color={theme.lib.colors.black} spinning className={locals.icon} />;
   } else if (checked && hovered && (iconOnHover || iconOn)) {
     iconElement = (
-      <SvgIcon
-        type={iconOnHover ? iconOnHover : iconOn}
-        color={theme.lib.colors.black}
-        spinning={iconOnHoverSpinning}
-        className={locals.icon}
-      />
+      <SvgIcon type={iconOnHover ? iconOnHover : iconOn} color={theme.lib.colors.black} className={locals.icon} />
     );
   }
 
@@ -121,13 +104,9 @@ function ToggleButton({
 ToggleButton.propTypes = {
   hovered: rpt.bool,
   iconOff: rpt.string,
-  iconOffSpinning: rpt.string,
   iconOffHover: rpt.string,
-  iconOffHoverSpinning: rpt.string,
   iconOn: rpt.string,
-  iconOnSpinning: rpt.string,
   iconOnHover: rpt.string,
-  iconOnHoverSpinning: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

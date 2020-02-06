@@ -36,10 +36,9 @@ export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
+export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', true);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
-export const profilingEnabled = isFeatureFlagEnabled('profilingEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 export const apDashboardEventsEnabled = isInstanaEmail || isFeatureFlagEnabled('apDashboardEventsEnabled');
 

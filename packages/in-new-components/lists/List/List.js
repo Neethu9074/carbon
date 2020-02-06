@@ -20,7 +20,8 @@ export function Ul({ framed = true, className, children }) {
     <ul
       className={evaluateClassNames({
         [locals.list]: true,
-        [locals.framed]: framed,
+        [locals.framed]: framed === true,
+        [locals.framedTopBottom]: framed === 'topBottom',
         [className]: className
       })}
     >

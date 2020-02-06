@@ -112,7 +112,6 @@ function LiveModeToggle({ isLive, darkTheme }) {
       href$={href$}
       iconOff="lib_actions_play"
       iconOn="lib_actions_loading"
-      iconOnSpinning="clockwise"
       iconOnHover="lib_actions_stop"
       darkTheme={darkTheme}
     >

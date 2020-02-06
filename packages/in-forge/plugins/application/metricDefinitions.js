@@ -10,6 +10,13 @@ export default metricDefinitions.filter(definition => definition.metric !== 'ins
     formatter: number
   },
   {
+    metric: 'inbound_error_count',
+    label: 'Inbound Erroneous Calls/s',
+    category: ['Inbound Calls'],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['inbound_duration.mean', 'inbound_duration.min', 'inbound_duration.max'],
     labels: ['Inbound Calls Avg. Latency', 'Inbound Calls Min Latency', 'Inbound Calls Max Latency'],
     category: ['Inbound Calls Latency'],
@@ -40,7 +47,7 @@ export default metricDefinitions.filter(definition => definition.metric !== 'ins
   },
   {
     metric: 'inbound_error_rate',
-    label: 'Inbound Calls Error Rate',
+    label: 'Inbound Erroneous Call Rate',
     category: ['Inbound Calls'],
     min: 0,
     formatter: percentage

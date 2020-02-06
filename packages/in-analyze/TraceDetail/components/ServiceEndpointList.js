@@ -58,7 +58,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
 
     {
       id: 'errorCount',
-      label: 'Errors',
+      label: 'Erroneous Calls',
       getContent(item) {
         return <span>{item.errorCount ? item.errorCount : null}</span>;
       }

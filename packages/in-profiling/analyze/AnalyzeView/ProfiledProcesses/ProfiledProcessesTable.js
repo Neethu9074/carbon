@@ -2,44 +2,18 @@ import React from 'react';
 
 import { Table, Thead, Tbody, Tr, LoadMoreRow } from 'in-components/tables/sharedComponents';
 import Rows from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Rows';
-import SortableColumn from 'in-analyze/components/SortableColumn';
+import { Th } from 'in-components/tables/sharedComponents/Table';
 
 export default function ProfiledProcessesTable(props) {
-  const { loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
-
-  const columnCount = 3;
+  const { loadMore, canLoadMore } = props;
+  const columnCount = 2;
 
   return (
     <Table>
       <Thead>
         <Tr size="compact">
-          <SortableColumn
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            onChangeOrder={onChangeOrder}
-            defaultDirection="ASC"
-            technicalName="processName"
-            label="Process"
-            noWrap
-          />
-          <SortableColumn
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            onChangeOrder={onChangeOrder}
-            defaultDirection="DESC"
-            technicalName="technology"
-            label="Technology"
-            noWrap
-          />
-          <SortableColumn
-            orderBy={orderBy}
-            orderDirection={orderDirection}
-            onChangeOrder={onChangeOrder}
-            defaultDirection="DESC"
-            technicalName="host"
-            label="Host"
-            noWrap
-          />
+          <Th noWrap>Process</Th>
+          <Th noWrap>Host</Th>
         </Tr>
       </Thead>
       <Tbody>

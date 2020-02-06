@@ -21,7 +21,6 @@ module.exports = {
   contextGuideEnabled: true,
   eumAlertingEnabled: true,
   vsphereEnabled: true,
-  profilingEnabled: true,
   mobileAppMonitoringEnabled: true,
   apDashboardEventsEnabled: false
 };

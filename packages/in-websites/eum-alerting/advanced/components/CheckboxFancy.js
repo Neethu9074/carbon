@@ -51,8 +51,8 @@ export default function CheckboxFancy({
         [wrapperClassName]: wrapperClassName
       })}
     >
-      {input}
-      {label}
+      <span className={locals.controlWrapper}>{input}</span>
+      <span className={locals.labelText}>{label}</span>
     </label>
   ) : (
     input

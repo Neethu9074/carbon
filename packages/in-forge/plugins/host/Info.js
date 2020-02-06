@@ -21,26 +21,27 @@ export default function HardwareInfo({ snapshot }) {
         {data.get('cpu.count')} x {data.get('cpu.model')}
       </DescriptionItem>
 
-      {memoryTotal != null ? (
-        <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>
-      ) : null}
+      {data.get('gpu.count') && (
+        <DescriptionItem title="GPU">
+          {data.get('gpu.count')} x {data.get('gpu.model')}
+        </DescriptionItem>
+      )}
+
+      {memoryTotal && <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>}
 
       {!(isWindows(snapshot) || isZos(snapshot)) &&
-        openFilesMax != null && (
-          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
-        )}
+        openFilesMax && <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>}
 
       <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
-
       <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>
       <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
       <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
 
-      {start != null ? (
+      {start && (
         <DescriptionItem title="Started At">
           {formatDateTime(start)} ({fromNowAccurately(start)})
         </DescriptionItem>
-      ) : null}
+      )}
     </DescriptionList>
   );
 }

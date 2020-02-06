@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { millis, number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -21,6 +21,70 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.appName;
+      }
+    }
+  },
+  {
+    title: 'Processed Events',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `flows.${row.key}.processedEvents`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Execution Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `flows.${row.key}.executionErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Fatal Errors',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `flows.${row.key}.fatalErrors`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Processing Time',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `flows.${row.key}.avgProcessingTime`;
+      },
+      getContent: millis.fixedCompact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -63,8 +127,8 @@ function getDetails(row) {
           'flows.' + row.key + '.fatalErrors'
         ],
         labels: ['Processed events', 'Execution errors', 'Fatal errors'],
-        formatter: zeroDecimalPlaces,
-        tooltipFormatter: zeroDecimalPlaces,
+        formatter: number.compact,
+        tooltipFormatter: number.compact,
         type: 'line'
       }}
       y2={{

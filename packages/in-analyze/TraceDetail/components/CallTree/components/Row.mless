@@ -25,6 +25,11 @@
     border-radius: 4px;
   }
 
+  .openedRow.erroneousCall, 
+  .selectedRow.erroneousCall {
+    background: #fdf4f9
+  }
+
   .detailGroup {
     display: flex;
     align-items: center;

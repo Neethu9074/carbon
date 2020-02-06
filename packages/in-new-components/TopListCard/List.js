@@ -12,9 +12,13 @@ export default function TopListPresenter(props) {
     result,
     selectedMetric,
     selectedMetricFormatter,
+    selectedCompanionMetric,
+    selectedCompanionMetricFormatter,
+    selectedMetricColor,
     renderViewAll,
     renderLabel,
     renderMetric,
+    renderCompanionMetric,
     getItemsFromResult = getItemsFromPaginatedResult,
     getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
   } = props;
@@ -43,13 +47,24 @@ export default function TopListPresenter(props) {
             formattedMetricValue
           };
           const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
+
+          let renderedCompanionMetric;
+          if (selectedCompanionMetric) {
+            const companionValue = getMetricValueFromItem(selectedCompanionMetric, item);
+            const formattedCompanionMetric = selectedCompanionMetricFormatter(companionValue);
+            renderedCompanionMetric = renderCompanionMetric
+              ? renderCompanionMetric({ formattedCompanionMetric })
+              : formattedCompanionMetric;
+          }
           return (
             <Row
               key={i}
               renderedMetric={renderedMetric}
               metricValue={metricValue}
+              renderedCompanionMetric={renderedCompanionMetric}
               maxValue={maxValue}
               label={renderLabel(renderProps, item, locals.label)}
+              color={selectedMetricColor}
             />
           );
         })}

@@ -17,17 +17,21 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
+import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
+import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import Footer from 'in-new-components/Footer';
-import { role } from 'in-stores/user';
 
+import { role } from 'in-stores/user';
 import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
+  const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+
   return (
     <div>
       <KpiSection>
@@ -97,6 +101,9 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
+      {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
 
       <DashboardSection title="Memory">
         <Chart

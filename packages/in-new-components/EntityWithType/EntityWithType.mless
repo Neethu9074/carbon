@@ -31,4 +31,9 @@
     font-size: 0.875rem;
     .ellipsis();
   }
+
+  .withEllipsis {
+    .ellipsis();
+    max-width: 20rem;
+  }
 }

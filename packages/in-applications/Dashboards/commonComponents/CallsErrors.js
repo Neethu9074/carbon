@@ -4,6 +4,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import theme from 'in-themes';
 
 export default function CallsErrors({
   applicationId,
@@ -23,9 +24,10 @@ export default function CallsErrors({
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{
-        renderer: Renderer.countErrorBar,
-        labels: ['Calls', 'Errors'],
-        metricIds: ['calls', 'errors']
+        renderer: Renderer.bar,
+        labels: ['Calls', 'Erroneous Calls'],
+        metricIds: ['calls', 'erroneousCalls'],
+        colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
       }}
       metricsConfiguration={{
         filter: {
@@ -42,10 +44,10 @@ export default function CallsErrors({
             granularity,
             aggregation: 'SUM'
           },
-          errors: {
-            metric: 'errors',
+          erroneousCalls: {
+            metric: 'erroneousCalls',
             granularity,
-            aggregation: 'MEAN'
+            aggregation: 'SUM'
           }
         }
       }}
@@ -64,7 +66,7 @@ export default function CallsErrors({
                   ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
                   : [],
                 metrics: [
-                  { metric: 'errors', aggregation: 'MEAN' },
+                  { metric: 'erroneousCalls', aggregation: 'SUM' },
                   {
                     metric: 'latency',
                     aggregation: 'MEAN'

@@ -1,0 +1,10 @@
+:local {
+  .wrapper {
+    width: 54rem;
+  }
+  .seeAll {
+    padding: 1rem;
+    display: grid;
+    place-content: center;
+  }
+}

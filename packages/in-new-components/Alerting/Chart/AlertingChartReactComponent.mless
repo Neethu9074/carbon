@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .chart {
+    position: relative;
+    width: 100%;
+
+    margin: 0 0 1rem 0;
+  }
+
+  .chartAxisWrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  .alertsLabel {
+    top: 8px;
+    color: @lib__colors__N700Medium;
+    left: 18px;
+    position: absolute;
+  }
+}

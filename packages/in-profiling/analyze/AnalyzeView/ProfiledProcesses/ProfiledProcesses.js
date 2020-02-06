@@ -3,38 +3,40 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ProfiledProcessesPresenter from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcessesPresenter';
-import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import ProfilesView from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import getProfiledProcesses from 'in-profiling/subscriptions/getProfiledProcesses';
 import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
+import { query$ } from 'in-stores/search/query';
+import connectTo from 'in-hoc/connectTo';
 
-export default function ProfiledProcesses(props) {
-  return (
-    <Switch>
-      <Route path={analyzeProfilePathFullyQualified} render={() => <ProfilesView {...props} />} />
-      <Route path="*" render={() => <ProfiledProcessesComponent {...props} />} />
-    </Switch>
-  );
-}
+export default connectTo(
+  {
+    query: query$
+  },
+  function ProfiledProcesses(props) {
+    return (
+      <Switch>
+        <Route path={analyzeProfilePathFullyQualified} render={() => <ProfilesView {...props} />} />
+        <Route path="*" render={() => <ProfiledProcessesComponent {...props} />} />
+      </Switch>
+    );
+  }
+);
 
 const ProfiledProcessesComponent = compose(
   cursorPaginated({
-    getResettingProps: () => ['tagFilters', 'orderBy', 'orderDirection', 'timeConfig'],
-    get: ({ tagFilters, timeConfig, cursor, orderBy, defaultSorting, orderDirection }) =>
-      getProfiledProcesses({
-        pagination: {
-          cursor,
-          retrievalSize: 20
-        },
-        order: {
-          by: orderBy || defaultSorting,
-          direction: orderDirection
-        },
-        filter: {
+    getResettingProps: () => ['query', 'timeConfig'],
+    get: ({ timeConfig, cursor }) =>
+      query$.debounce(1000).flatMap(query =>
+        getProfiledProcesses({
+          pagination: {
+            cursor,
+            retrievalSize: 20
+          },
+          query,
           timeConfig
-        },
-        tagFilters: getTagFilterListForBackendSubscription(tagFilters)
-      })
+        })
+      )
   })
 )(ProfiledProcessesPresenter);

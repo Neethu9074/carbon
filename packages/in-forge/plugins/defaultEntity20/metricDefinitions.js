@@ -9,6 +9,13 @@ export default [
     formatter: number
   },
   {
+    metric: 'error_count',
+    label: 'All Erroneous Calls/s',
+    category: ['All Calls'],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['duration.mean', 'duration.min', 'duration.max'],
     labels: ['All Calls Avg. Latency', 'All Calls Min Latency', 'All Calls Max Latency'],
     category: ['All Calls Latency'],
@@ -32,7 +39,7 @@ export default [
   },
   {
     metric: 'error_rate',
-    label: 'All Calls Error Rate',
+    label: 'All Erroneous Call Rate',
     category: ['All Calls'],
     min: 0,
     formatter: percentage

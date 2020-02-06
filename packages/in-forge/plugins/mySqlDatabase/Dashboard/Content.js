@@ -36,7 +36,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
       {getPerformanceSchemaHint(snapshot)}
       <KpiSection>
         <KpiKeyValue label="Queries">
-          <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
+          <MetricValue snapshotId={snapshotId} metric="status.QUERIES" formatter={number.compact} />
         </KpiKeyValue>
         {performanceDataAvailable ? (
           <KpiKeyValue label="avg. Query Latency">
@@ -44,7 +44,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         ) : null}
         <KpiKeyValue label="Client Connections">
-          <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" />
+          <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 

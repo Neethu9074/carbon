@@ -63,6 +63,7 @@
     "@nivo/treemap": "^0.51.0",
     "ammap3": "^3.21.14",
     "ansi-to-html": "^0.6.2",
+    "classnames": "^2.2.6",
     "clipboard": "^1.7.1",
     "codemirror": "5.20.2",
     "core-js": "^3.1.4",

@@ -19,7 +19,6 @@ import './analyse/CallTree.story';
 import './analyse/DownshiftSearch.story';
 import './analyse/EditGroupDialog.story';
 import './analyse/EditTagFilterDialog.story';
-import './analyse/FilterBar.story';
 import './analyse/GroupingInfo.story';
 import './analyse/IcicleChart.story';
 import './analyse/RadioInput.story';

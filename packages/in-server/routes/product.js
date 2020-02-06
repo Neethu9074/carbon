@@ -306,6 +306,7 @@ function sendIndex(
   res.set('Content-Security-Policy', getCsp(nonces));
 
   const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
+  const user = getParsedUser(userStr);
 
   res.send(
     compiledTemplate({
@@ -313,7 +314,12 @@ function sendIndex(
       indexCssChecksum,
       nonces,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-      mixpanelToken: termsAndPrivacy.allAnalyticsServices && serverConfig.mixpanelToken,
+      mixpanelToken:
+        user &&
+        user.email &&
+        !user.email.endsWith('@instana.com') &&
+        termsAndPrivacy.allAnalyticsServices &&
+        serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
@@ -340,4 +346,14 @@ function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {
     delete clientConfig.zendeskKey;
   }
   return JSON.stringify(clientConfig);
+}
+
+function getParsedUser(userStr) {
+  let user;
+  try {
+    user = JSON.parse(userStr);
+  } catch (e) {
+    return null;
+  }
+  return user;
 }

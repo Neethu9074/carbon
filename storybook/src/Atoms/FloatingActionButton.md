@@ -1,6 +1,6 @@
 # Summary
 
-We use the Floating Action Button for primary actions that apply to a page / entity. A good example is “Create SLI” or “Create Alert”.
+We use the Floating Action Button for primary actions that apply to a page / entity. A good example is “Create SLI” or “Add Alert”.
 
 # Types
 

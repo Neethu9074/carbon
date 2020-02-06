@@ -23,7 +23,7 @@ function Default() {
             <KpiCard title="Latency" value="7.6ms" />
           </Col>
           <Col lg={4}>
-            <KpiCard title="Error Rate" value="2.0%" />
+            <KpiCard title="Erroneous Calls" value="2.0%" />
           </Col>
         </Row>
       </Section>

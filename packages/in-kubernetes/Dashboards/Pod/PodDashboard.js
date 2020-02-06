@@ -1,14 +1,13 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -92,12 +91,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
   const podName = get(result, ['data', 'label']);
   return (
     <>
-      <EntityHealthIndicator
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        timeConfig={timeConfig}
-        snapshotId={podId}
-      />
+      <DashboardButtonLine snapshotId={podId} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterId'])}
         namespaceName={get(result, ['data', 'namespace'])}

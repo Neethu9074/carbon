@@ -10,10 +10,11 @@ import {
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/eum-alerting/constants';
-import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
+import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = connectTo(
@@ -26,13 +27,13 @@ export const AlertConfigDialogWithThreshold = connectTo(
     if (thresholdType === 'staticThreshold') {
       observable.result = resolveThresholdRequest(form, timeConfig, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
-        .map(resp => resp.data.threshold)
-        .tap(threshold => addThresholdToForm(form, onChange, threshold));
+        .map(resp => resp.data)
+        .tap(({ threshold, time }) => addThresholdToForm(form, onChange, threshold, time));
     } else {
       observable.result = resolveBaselineRequest(form, timeConfig, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
-        .map(resp => resp.data.baseline || [])
-        .tap(baseline => addBaselineToForm(form, onChange, baseline));
+        .map(resp => resp.data)
+        .tap(({ baseline, time }) => addBaselineToForm(form, onChange, baseline || [], time));
     }
 
     return observable;
@@ -144,23 +145,42 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
       getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality)
     );
   }
-  return empty();
+  // return empty();
+  return alwaysEmptyArray;
 }
 
-function addThresholdToForm(form, onChange, threshold) {
+function addThresholdToForm(form, onChange, threshold, time) {
   if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
-    onChange(form, fieldNames.thresholdValue, threshold, {
-      name: hiddenFieldNames.calculateThresholdOnBackend,
-      value: false
-    });
+    onChange(
+      form,
+      fieldNames.thresholdValue,
+      threshold,
+      {
+        name: hiddenFieldNames.calculateThresholdOnBackend,
+        value: false
+      },
+      {
+        name: fieldNames.thresholdLastUpdated,
+        value: time
+      }
+    );
   }
 }
 
-function addBaselineToForm(form, onChange, baseline) {
+function addBaselineToForm(form, onChange, baseline, time) {
   if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
-    onChange(form, fieldNames.thresholdBaseline, baseline, {
-      name: hiddenFieldNames.calculateThresholdOnBackend,
-      value: false
-    });
+    onChange(
+      form,
+      fieldNames.thresholdBaseline,
+      baseline,
+      {
+        name: hiddenFieldNames.calculateThresholdOnBackend,
+        value: false
+      },
+      {
+        name: fieldNames.thresholdLastUpdated,
+        value: time
+      }
+    );
   }
 }

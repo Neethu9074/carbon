@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -9,7 +9,6 @@ import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesName
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -96,16 +95,11 @@ function Header(props) {
 function renderButtonLine({ namespaceId, timeConfig, result }) {
   return (
     <>
+      <DashboardButtonLine snapshotId={namespaceId} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterName'])}
         namespaceName={get(result, ['data', 'label'])}
         groupByTag={{ name: 'kubernetes.service.name' }}
-        timeConfig={timeConfig}
-      />
-      <EntityHealthIndicator
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        snapshotId={namespaceId}
         timeConfig={timeConfig}
       />
     </>

@@ -1,5 +1,6 @@
-import icons from 'in-components/SvgIcon/registry.json';
 import theme from 'in-themes';
+
+import icons from 'in-components/SvgIcon/registry.json';
 
 let path = null;
 

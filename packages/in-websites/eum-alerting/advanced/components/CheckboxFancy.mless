@@ -2,8 +2,7 @@
 
 :local {
   .label  {
-    display: grid;
-    grid-template-columns: min-content auto;
+    display: flex;
     align-items: center;
     line-height: 1.25rem;
     font-size: 14px;
@@ -15,8 +14,15 @@
     appearance: none;
     width: 24px;
     height: 24px;
-    align-self: baseline;
     line-height: 1.25rem;
+  }
+
+  .controlWrapper {
+    align-self: flex-start;
+  }
+
+  .labelText {
+    padding-top: 0.0938rem;
   }
 
   .sizeDefault {

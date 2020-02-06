@@ -4,6 +4,7 @@ import React from 'react';
 import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { websitesAlertingStatusCodeChanged } from '../tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Label from 'in-components/form/Label';
@@ -12,7 +13,7 @@ import locals from './ProvideManualPattern.mless';
 
 const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
 
-export default function ProvideStatusCode({ form, onChange }) {
+export default function ProvideStatusCode({ form, onChange, mode }) {
   return (
     <div className={locals.container}>
       {form.get(fieldNames.ruleValue).map(field => (
@@ -25,6 +26,7 @@ export default function ProvideStatusCode({ form, onChange }) {
             value={field.value}
             options={selectOptions[fieldNames.ruleValue]}
             onChange={e => {
+              websitesAlertingStatusCodeChanged({ mode });
               onChange(form, fieldNames.ruleValue, (e && e.value) || '', doCalculateThresholdOnBackend, {
                 name: fieldNames.ruleOperator,
                 value: getOperatorForStatusCode(e.value)
@@ -43,7 +45,8 @@ export default function ProvideStatusCode({ form, onChange }) {
 
 ProvideStatusCode.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired
 };
 
 function getOperatorForStatusCode(statusCode) {

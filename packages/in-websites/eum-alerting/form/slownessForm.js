@@ -2,12 +2,11 @@ import { createField, notBlankValidator } from 'formalistic';
 
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
-export function withSlownessFormStaticThreshold(form, threshold, rule) {
+export function withSlownessFormStaticThreshold(form, rule, threshold) {
   let updatedForm = form;
 
   updatedForm = removeCommonFields(updatedForm);
 
-  updatedForm = updatedForm.remove(fieldNames.thresholdTo);
   updatedForm = updatedForm.remove(fieldNames.thresholdBaseline);
   updatedForm = updatedForm.remove(fieldNames.thresholdDeviationFactor);
 
@@ -16,7 +15,7 @@ export function withSlownessFormStaticThreshold(form, threshold, rule) {
   return updatedForm;
 }
 
-export function withSlownessFormHistoricBaseline(form, threshold, rule) {
+export function withSlownessFormHistoricBaseline(form, rule, threshold) {
   let updatedForm = form;
 
   updatedForm = removeCommonFields(updatedForm);
@@ -26,12 +25,6 @@ export function withSlownessFormHistoricBaseline(form, threshold, rule) {
   updatedForm = addFieldsContainedInBoth(updatedForm, rule, threshold);
 
   updatedForm = updatedForm
-    .put(
-      fieldNames.thresholdTo,
-      createField({
-        value: threshold && threshold.to
-      })
-    )
     .put(
       fieldNames.thresholdBaseline,
       createField({
@@ -49,26 +42,31 @@ export function withSlownessFormHistoricBaseline(form, threshold, rule) {
 }
 
 function addFieldsContainedInBoth(form, rule, threshold) {
-  return form
-    .put(
+  if (!form.containsKey(fieldNames.ruleAggregation)) {
+    form = form.put(
       fieldNames.ruleAggregation,
       createField({
         value: (rule && rule.aggregation) || 'P90',
         validator: notBlankValidator
       })
-    )
-    .put(
+    );
+  }
+
+  if (!form.containsKey(fieldNames.thresholdSeasonality)) {
+    form = form.put(
       fieldNames.thresholdSeasonality,
       createField({
         value: (threshold && threshold.seasonality) || 'WEEKLY',
         validator: notBlankValidator
       })
     );
+  }
+
+  return form;
 }
 
 function removeCommonFields(updatedForm) {
   updatedForm = updatedForm.remove(fieldNames.ruleOperator);
-  updatedForm = updatedForm.remove(fieldNames.ruleValue);
   updatedForm = updatedForm.remove(fieldNames.ruleValue);
   return updatedForm;
 }

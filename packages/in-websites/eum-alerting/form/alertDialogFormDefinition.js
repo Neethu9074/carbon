@@ -29,7 +29,7 @@ export const fieldNames = Object.freeze({
   id: 'id',
   thresholdValue: 'thresholdValue',
   thresholdType: 'thresholdType',
-  thresholdTo: 'thresholdTo',
+  thresholdLastUpdated: 'thresholdLastUpdated',
   thresholdOperator: 'thresholdOperator',
   thresholdSeasonality: 'thresholdSeasonality',
   thresholdBaseline: 'thresholdBaseline',
@@ -151,7 +151,7 @@ export const selectOptions = {
     { value: 'MAX', label: 'max' }
   ]),
   [fieldNames.thresholdOperator]: Object.freeze([
-    { value: '>=', label: '≥ (recommended)' },
+    { value: '>=', label: '≥' },
     { value: '>', label: '>' },
     { value: '<=', label: '≤' },
     { value: '<', label: '<' }
@@ -288,6 +288,12 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
+      fieldNames.thresholdLastUpdated,
+      createField({
+        value: (threshold && threshold.lastUpdated) || 0
+      })
+    )
+    .put(
       fieldNames.thresholdValue,
       createField({
         value: (threshold && threshold.value) || 0,
@@ -322,8 +328,8 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.timeThresholdUserPercentage,
       createField({
-        validator: numAffectedUsersPercentageValidator,
-        value: (timeThreshold && timeThreshold.userPercentage * 100) || 20
+        validator: percentageAffectedUsersValidator,
+        value: (timeThreshold && timeThreshold.userPercentage) || 0.2
       })
     )
     .put(
@@ -351,11 +357,11 @@ export default function alertFormDefinition(alertFormValues = {}) {
     const thresholdType = form.get(fieldNames.thresholdType).value;
 
     if (thresholdType === 'staticThreshold') {
-      form = withSlownessFormStaticThreshold(form, threshold, rule);
+      form = withSlownessFormStaticThreshold(form, rule, threshold);
     }
 
     if (thresholdType.includes('historicBaseline.')) {
-      form = withSlownessFormHistoricBaseline(form, threshold, rule);
+      form = withSlownessFormHistoricBaseline(form, rule, threshold);
     }
   } else if (alertType === alertTypes.specificJsError) {
     form = withJsErrorsFormSpecificError(form, rule);
@@ -417,12 +423,12 @@ function numAffectedUsersValidator(num) {
   }
 }
 
-function numAffectedUsersPercentageValidator(num) {
-  if (num === '' || num < 1 || num > 100) {
+function percentageAffectedUsersValidator(num) {
+  if (num === '' || num < 0.01 || num > 1.0) {
     return [
       {
         severity: 'error',
-        message: 'Please provide a number between 1 and 100'
+        message: 'Please provide a number between 1% and 100%'
       }
     ];
   }

@@ -87,7 +87,6 @@ function renderButtonLine(props) {
         timeConfig={props.timeConfig}
         snapshotId={props.applicationId}
       />
-      <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
       {appGuid && (
         <EntityToInstanaServiceButton
           {...props}
@@ -121,6 +120,7 @@ function renderButtonLine(props) {
           }
         />
       )}
+      <AnalyzeTracesButton applicationId={props.applicationId} timeConfig={props.timeConfig} />
     </>
   );
 }

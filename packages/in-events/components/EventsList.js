@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import {
   Table,
@@ -14,11 +14,11 @@ import {
 import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingScale';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
-import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EventsList.mless';
@@ -48,12 +48,7 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
   const isDenseList = !!selectedEventId;
   const cols = isDenseList ? 2 : 6;
 
-  const [timeScale] = useState(() => {
-    const scale = createScale();
-    updateScale(scale, props.timeConfig);
-    return scale;
-  });
-  useEffect(() => updateScale(timeScale, props.timeConfig), [props.timeConfig]);
+  const timeScale = useTimeConfigUpdatingScale(props.timeConfig);
 
   if (!progress.loading && rawEventList.length === 0) {
     return (
@@ -173,11 +168,4 @@ function getHealthStream({ orderBy, items, timeConfig, query }) {
       timestamps: startTimeStamps
     }).map(({ data }) => data || null)
   };
-}
-
-function updateScale(scale, timeConfig) {
-  scale.setDomainFrom(timeConfig.to - timeConfig.windowSize);
-  scale.setDomainTo(timeConfig.to);
-  scale.setRangeFrom(0);
-  scale.setRangeTo(100);
 }

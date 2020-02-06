@@ -6,10 +6,13 @@ import theme from 'in-themes';
 import tip from 'd3-tip';
 
 import 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph.css';
+import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './ProfileFlameGraph.mless';
 
 const fromRgb = hexToRGB(theme.lib.colors.yellow800);
 const toRgb = hexToRGB(theme.lib.colors.red800);
@@ -81,6 +84,10 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
 
   setupFlameGraph = () => {
     const { width, profile } = this.props;
+    if (width <= 0) {
+      return;
+    }
+
     const data = mapData(profile);
 
     this.destroyFlameGraphIfPresent();
@@ -92,24 +99,27 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       });
 
     this.flamegraphObject = flamegraph()
-      .width(width)
+      .width(Math.max(0, width - 32))
       .tooltip(this.tooltip)
       .setSearchMatch(function(d, term) {
         return term && containsIgnoreCase(d.data.name, term);
       })
       .differential(false)
       .selfValue(false)
+      .inverted(true)
       .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
       .datum(data)
       .call(this.flamegraphObject);
-
-    window.scrollTo(0, document.body.scrollHeight);
   };
 
   render() {
-    return <div id="chart" />;
+    return (
+      <div className={locals.wrapper}>
+        <div id="chart" />
+      </div>
+    );
   }
 }
 
@@ -140,7 +150,7 @@ function getChildren(profileNode) {
 }
 
 function getName(node) {
-  return `<${node.methodName}> at ${node.fileName}:${node.fileLine}`;
+  return serializeLine(node.fileName, node.methodName, node.fileLine);
 }
 
 function colorMapper(component, node) {
