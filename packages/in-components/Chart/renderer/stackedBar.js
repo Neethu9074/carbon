@@ -1,3 +1,5 @@
+import { range, rangeRight } from 'lodash';
+
 import { MAX_BAR_MARGIN_IN_PX, MIN_BAR_HEIGHT_IN_PX, MIN_BAR_TO_MARGIN_RATION } from 'in-components/Chart/renderer/bar';
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 
@@ -14,10 +16,12 @@ export default {
     const barMargin = Math.min(MAX_BAR_MARGIN_IN_PX, width / (2 + MIN_BAR_TO_MARGIN_RATION));
     const barWidth = width - 2 * barMargin;
 
-    for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
+    const metricIndexes =
+      config.metricsConfiguration.reverseOrder === true ? range(metrics.length) : rangeRight(metrics.length - 1);
+    metricIndexes.map(iMetric => {
       const isLastSeries = iMetric === metrics.length - 1;
       renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric], isLastSeries);
-    }
+    });
   },
 
   enrich: (config, axis) => {

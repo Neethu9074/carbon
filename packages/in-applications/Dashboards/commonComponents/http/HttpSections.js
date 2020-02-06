@@ -90,7 +90,8 @@ export default connectTo(
               granularity,
               aggregation: 'SUM'
             }
-          }
+          },
+          reverseOrder: true
         }}
         additionalContextMenuButtons={[
           {
