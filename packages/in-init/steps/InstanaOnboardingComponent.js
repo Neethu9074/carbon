@@ -28,7 +28,7 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
 
       <DisabledBodyScroll />
 
-      <MessageFlyout filterRegularMessages />
+      <MessageFlyout />
 
       <FullViewOnboardingWidget
         isAgentDeployed={apiCallSatisfied}

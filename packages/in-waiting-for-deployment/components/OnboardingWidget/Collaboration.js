@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import WithRestrictedTooltip from 'in-waiting-for-deployment/components/OnboardingWidget/WithRestrictedTooltip';
 import CopyToClipboardButton from 'in-waiting-for-deployment/components/OnboardingWidget/CopyButton';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -103,9 +104,25 @@ function onSubmit(form, setForm, email, setIsInvitingUser) {
   setIsInvitingUser(true);
   const invitationResult$ = sendInvitation(email, defaultRoleId);
   invitationResult$.once(() => {
+    addMessage(
+      {
+        type: 'info',
+        timeout: 3000,
+        content: 'User invited.'
+      },
+      'userInvited'
+    );
     setIsInvitingUser(false);
   });
   invitationResult$.errors().once(() => {
+    addMessage(
+      {
+        type: 'danger',
+        timeout: 5000,
+        content: 'Failed to invite user.'
+      },
+      'userInvited'
+    );
     setIsInvitingUser(false);
   });
 }

@@ -6,6 +6,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
+import MessageFlyout from 'in-components/MessageFlyout';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import config from 'in-services/config';
 
@@ -43,6 +44,9 @@ function App({ apiCallSatisfied }) {
           children: 'Sign in to Instana'
         })}
       />
+
+      <MessageFlyout />
+
       <TooltipPresenter />
     </ErrorBoundary>
   );
