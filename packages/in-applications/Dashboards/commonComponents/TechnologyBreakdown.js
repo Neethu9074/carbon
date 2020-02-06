@@ -2,9 +2,9 @@ import theme from 'in-themes';
 import React from 'react';
 
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
+import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -52,9 +52,7 @@ export default connectTo(
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const metricIds = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
-      const colors = endpointTypes.map(
-        (type, i) => (type === 'SELF' ? theme.lib.colors.chart.self25 : theme.lib.colors.chart.strokeColors25[i])
-      );
+      const colors = endpointTypes.map(type => (type === 'SELF' ? theme.lib.colors.chart.self25 : getColorChart(type)));
 
       config = {
         cardTitle: config.cardTitle,

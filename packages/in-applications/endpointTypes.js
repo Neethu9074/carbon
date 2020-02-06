@@ -1,4 +1,6 @@
 import invariant from 'invariant';
+
+import { addTransparency } from 'in-themes/utils';
 import theme from 'in-themes';
 
 export const endpointNameTranslations = {
@@ -17,13 +19,13 @@ export const endpointNameTranslations = {
 };
 
 export const colorTranslation = {
-  BATCH: '#4fd3f8',
+  BATCH: theme.lib.colors.batch,
   SHELL: theme.lib.colors.yellow800,
-  DATABASE: '#ef914d',
-  HTTP: '#549ef8',
-  MESSAGING: '#69b116',
-  RPC: '#93bedc',
-  EVENT: '#69b116',
+  DATABASE: theme.lib.colors.database,
+  HTTP: theme.lib.colors.http,
+  MESSAGING: theme.lib.colors.messaging,
+  RPC: theme.lib.colors.rpc,
+  EVENT: theme.lib.colors.event,
   GRAPHQL: theme.lib.colors.lime800,
   INTERNAL: theme.lib.colors.N400,
   UNDEFINED: theme.lib.colors.N400,
@@ -36,6 +38,13 @@ export function getColor(type) {
     invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
   }
   return colorTranslation[type] || colorTranslation.sdk;
+}
+
+export function getColorChart(type) {
+  if (__DEV__) {
+    invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
+  }
+  return addTransparency(colorTranslation[type], 0.05) || colorTranslation.sdk;
 }
 
 export function getEndpointTypesComboBoxItems(restrict = null) {
