@@ -10,12 +10,14 @@ const errorRate = {
   formatter: percentage,
   supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
-  min: 0
+  min: 0,
+  category: 'Erroneous Calls'
 };
 
 const erroneousCalls = newNumberMetric({
   metric: 'erroneousCalls',
-  label: 'Erroneous Calls'
+  label: 'Erroneous Call Count',
+  category: 'Erroneous Calls'
 });
 
 const latency = newTimeMetric({ metric: 'latency', label: 'Latency' });
