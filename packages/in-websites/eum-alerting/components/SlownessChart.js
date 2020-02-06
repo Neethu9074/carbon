@@ -5,6 +5,16 @@ import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
+  getBlueprintObject,
+  debouncedThresholdValueChangedTracker,
+  debouncedThresholdDeviationFactorChangedTracker
+} from '../trackingHelpers';
+import {
+  websitesAlertingAggregationChanged,
+  websitesAlertingThresholdOperatorChanged,
+  websitesAlertingThresholdTypeChanged
+} from '../tracker';
+import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
@@ -49,11 +59,13 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                 value={form.get(fieldNames.ruleAggregation).value}
                 options={selectOptions[fieldNames.ruleAggregation]}
                 onChange={e => {
+                  const value = (e && e.value) || '';
                   const doCalculateThresholdOnBackend = {
                     name: hiddenFieldNames.calculateThresholdOnBackend,
                     value: true
                   };
-                  onChange(form, fieldNames.ruleAggregation, (e && e.value) || '', doCalculateThresholdOnBackend);
+                  onChange(form, fieldNames.ruleAggregation, value, doCalculateThresholdOnBackend);
+                  websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
                 }}
                 defaultValue="P90"
                 clearable={false}
@@ -68,11 +80,13 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                 value={form.get(fieldNames.thresholdOperator).value}
                 options={selectOptions[fieldNames.thresholdOperator]}
                 onChange={e => {
+                  const value = (e && e.value) || '';
                   const doCalculateThresholdOnBackend = {
                     name: hiddenFieldNames.calculateThresholdOnBackend,
                     value: true
                   };
-                  onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
+                  onChange(form, fieldNames.thresholdOperator, value, doCalculateThresholdOnBackend);
+                  websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
                 }}
                 defaultValue=">="
                 clearable={false}
@@ -113,6 +127,8 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     doCalculateThresholdOnBackend,
                     seasonality
                   );
+
+                  websitesAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
                 }}
                 defaultValue="staticThreshold"
                 clearable={false}
@@ -143,6 +159,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     };
 
                     debounceOnChange$.emit(onChangCallback.bind(this));
+                    debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
                   }}
                 />
               </FormGroup>
@@ -173,6 +190,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     };
 
                     debounceOnChange$.emit(onChangCallback.bind(this));
+                    debouncedThresholdDeviationFactorChangedTracker({ ...getBlueprintObject(form), value });
                   }}
                 />
               </FormGroup>

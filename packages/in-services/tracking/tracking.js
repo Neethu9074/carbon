@@ -80,6 +80,22 @@ export const WEBSITES_DASHBOARD_RENAME_WEBSITE = 'websites.dashboard.renameWebsi
 export const WEBSITES_DASHBOARD_TAB_CHANGE = 'websites.dashboard.tabChange';
 export const WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'websites.dashboard.viewDeprecationDetails';
 
+export const WEBSITES_ALERTING_ADD_ALERT = 'websites.alerting.addAlert';
+export const WEBSITES_ALERTING_CLOSE_DIALOG = 'websites.alerting.closeDialog';
+export const WEBSITES_ALERTING_SWITCH_MODE = 'websites.alerting.switchMode';
+export const WEBSITES_ALERTING_CREATE_ALERT = 'websites.alerting.createAlert';
+export const WEBSITES_ALERTING_JS_ERRORS_MSG_CHANGED = 'websites.alerting.jsErrorsMessageChanged';
+export const WEBSITES_ALERTING_JS_ERRORS_OPERATOR_CHANGED = 'websites.alerting.jsErrorsOperatorChanged';
+export const WEBSITES_ALERTING_JS_ERRORS_OPEN_ERROR_SELECT_VIEW = 'websites.alerting.jsErrorsOpenErrorSelectView';
+export const WEBSITES_ALERTING_JS_ERRORS_ERROR_SELECTED = 'websites.alerting.jsErrorsErrorSelected';
+export const WEBSITES_ALERTING_STATUS_CODE_CHANGED = 'websites.alerting.statusCodeChanged';
+export const WEBSITES_ALERTING_THRESHOLD_METRIC_CHANGED = 'websites.alerting.thresholdMetricChanged';
+export const WEBSITES_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'websites.alerting.thresholdMetricOperatorChanged';
+export const WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED = 'websites.alerting.thresholdMetricOperatorChanged';
+export const WEBSITES_ALERTING_AGGREGATION_CHANGED = 'websites.alerting.thresholdAggregationChanged';
+export const WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED = 'websites.alerting.thresholdTypeChanged';
+export const WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED = 'websites.alerting.thresholdDeviationFactorChanged';
+
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';
 export const MOBILE_APPS_ANALYZE_CHANGE_METRICS = 'mobileApps.analyze.changeMetrics';

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
+import { modeSimple } from 'in-websites/eum-alerting/constants';
 
 import locals from './SelectAlertForJsError.mless';
 
@@ -11,7 +12,7 @@ export default function SelectAlertForJsError(props) {
       <p className={locals.description}>
         You will be alerted every time matching JS Error messages occur more often than normal.
       </p>
-      <ProvideManualPattern {...props} />
+      <ProvideManualPattern {...props} mode={modeSimple} />
     </div>
   );
 }
