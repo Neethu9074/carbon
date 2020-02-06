@@ -94,7 +94,10 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                   min="0"
                   name={fieldNames.thresholdValue}
                   step="1"
-                  value={doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value}
+                  value={
+                    (doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value) *
+                    (percentageMetric ? 100 : 1)
+                  }
                   onChange={e => {
                     let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
