@@ -36,11 +36,8 @@ function ToggleButton({
   target,
   iconOff,
   iconOffHover,
-  iconOffHoverSpinning,
   iconOn,
-  iconOnSpinning,
   iconOnHover,
-  iconOnHoverSpinning,
   darkTheme
 }) {
   let classes;
@@ -79,25 +76,13 @@ function ToggleButton({
     );
   } else if (!checked && hovered && (iconOffHover || iconOff)) {
     iconElement = (
-      <SvgIcon
-        type={iconOffHover ? iconOffHover : iconOff}
-        color={theme.lib.colors.black}
-        spinning={iconOffHoverSpinning}
-        className={locals.icon}
-      />
+      <SvgIcon type={iconOffHover ? iconOffHover : iconOff} color={theme.lib.colors.black} className={locals.icon} />
     );
   } else if (checked && !hovered && iconOn) {
-    iconElement = (
-      <SvgIcon type={iconOn} color={theme.lib.colors.black} spinning={iconOnSpinning} className={locals.icon} />
-    );
+    iconElement = <SvgIcon type={iconOn} color={theme.lib.colors.black} spinning className={locals.icon} />;
   } else if (checked && hovered && (iconOnHover || iconOn)) {
     iconElement = (
-      <SvgIcon
-        type={iconOnHover ? iconOnHover : iconOn}
-        color={theme.lib.colors.black}
-        spinning={iconOnHoverSpinning}
-        className={locals.icon}
-      />
+      <SvgIcon type={iconOnHover ? iconOnHover : iconOn} color={theme.lib.colors.black} className={locals.icon} />
     );
   }
 
@@ -120,11 +105,8 @@ ToggleButton.propTypes = {
   hovered: rpt.bool,
   iconOff: rpt.string,
   iconOffHover: rpt.string,
-  iconOffHoverSpinning: rpt.string,
   iconOn: rpt.string,
-  iconOnSpinning: rpt.string,
   iconOnHover: rpt.string,
-  iconOnHoverSpinning: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,
