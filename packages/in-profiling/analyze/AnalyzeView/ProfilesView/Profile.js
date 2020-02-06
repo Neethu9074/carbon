@@ -23,6 +23,10 @@ export default function Profile({
   jvmSnapshot,
   processSnapshot
 }) {
+  const [showGraph, setShowGraph] = useState(true);
+  const [query, setQuery] = useState('');
+  useEffect(() => setQuery(''), [viewType]);
+
   let totalNumSamples = 0;
   let profilesVisualisation;
   if (profile) {
@@ -36,10 +40,6 @@ export default function Profile({
       profilesVisualisation = <ProfileFlameGraph profile={profile} query={query} />;
     }
   }
-
-  const [showGraph, setShowGraph] = useState(true);
-  const [query, setQuery] = useState('');
-  useEffect(() => setQuery(''), [viewType]);
 
   return (
     <>
