@@ -21,7 +21,6 @@ module.exports = {
   coralogixEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
-  isOnboardingGuideEnabled: true,
   contextGuideEnabled: true,
   eumAlertingEnabled: true,
   googleAnalyticsDisabled: false,

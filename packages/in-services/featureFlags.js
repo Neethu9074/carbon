@@ -39,7 +39,6 @@ export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabl
 export const coralogixEnabled = isFeatureFlagEnabled('coralogixEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const isOnboardingGuideEnabled = isFeatureFlagEnabled('isOnboardingGuideEnabled', false);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
