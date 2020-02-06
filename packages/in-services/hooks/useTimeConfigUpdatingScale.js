@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import createScale from 'in-services/scale';
 
 export default function useTimeConfigUpdatingScale(timeConfig, width = 100) {
-  const [scale] = useState(() => {
+  const [scale, setScale] = useState(() => {
     const scale = createScale();
     updateScale(scale, timeConfig, width);
     return scale;
   });
-  updateScale(scale, timeConfig, width);
+  useEffect(
+    () => {
+      updateScale(scale, timeConfig, width);
+      setScale(scale);
+    },
+    [timeConfig.to, timeConfig.windowSize, width]
+  );
   return scale;
 }
 

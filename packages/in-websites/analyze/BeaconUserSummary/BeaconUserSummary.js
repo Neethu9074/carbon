@@ -4,10 +4,12 @@ import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import Link from 'in-components/Link';
 import Code from 'in-components/Code';
 
 import locals from './BeaconUserSummary.mless';
@@ -41,6 +43,26 @@ export default function BeaconUserSummary({ beacon, beacons }) {
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
             <Di title="IP Address">{beacon.userIp}</Di>
             {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}
+            {beacon.sessionId && (
+              <Di title="Session ID">
+                <Link
+                  title="See all page loads having this session ID"
+                  href$={getLinkToAnalyze({
+                    group: {},
+                    tagFilters: [
+                      {
+                        name: 'beacon.sessionId',
+                        operator: 'EQUALS',
+                        stringValue: beacon.sessionId
+                      }
+                    ],
+                    beaconType: 'pageLoad'
+                  })}
+                >
+                  {beacon.sessionId}
+                </Link>
+              </Di>
+            )}
           </Dl>
         </Card>
       </Col>

@@ -3,7 +3,12 @@ import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  websitesAlertingThresholdMetricChanged,
+  websitesAlertingThresholdOperatorChanged
+} from 'in-websites/eum-alerting/tracker';
 import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
@@ -46,11 +51,13 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                   value={metricName}
                   options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificStatusCode]}
                   onChange={e => {
+                    const value = (e && e.value) || '';
                     const doCalculateThresholdOnBackend = {
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(form, fieldNames.ruleMetricName, (e && e.value) || '', doCalculateThresholdOnBackend);
+                    onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
+                    websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
                   }}
                   defaultValue={statusCodeCount}
                   clearable={false}
@@ -65,11 +72,13 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                   value={form.get(fieldNames.thresholdOperator).value}
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
+                    const value = (e && e.value) || '';
                     const doCalculateThresholdOnBackend = {
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(form, fieldNames.thresholdOperator, (e && e.value) || '', doCalculateThresholdOnBackend);
+                    onChange(form, fieldNames.thresholdOperator, value, doCalculateThresholdOnBackend);
+                    websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
                   clearable={false}
@@ -104,6 +113,7 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                     };
 
                     debounceOnChange$.emit(onChangCallback.bind(this));
+                    debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
                   }}
                 />
               </FormGroup>

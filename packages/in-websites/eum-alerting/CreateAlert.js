@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import { websitesAlertingAddAlert } from 'in-websites/eum-alerting/tracker';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -50,7 +51,10 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
     <>
       <FloatingActionButton
         iconType="lib_alerts_create"
-        onClick={() => setDialogOpen(true)}
+        onClick={() => {
+          setDialogOpen(true);
+          websitesAlertingAddAlert(location.pathname, websiteLabel);
+        }}
         position={positions.bottomRight}
         withBoxShadow
       >

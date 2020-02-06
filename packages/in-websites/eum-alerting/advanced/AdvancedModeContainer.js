@@ -82,7 +82,6 @@ export default function AdvancedModeContainer({
                   form={form}
                   timeConfig={timeConfig}
                   onChange={onChange}
-                  setJsErrorsListVisible={setSliderState}
                   granularity={granularity}
                 />
               )}

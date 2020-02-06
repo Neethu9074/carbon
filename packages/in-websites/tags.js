@@ -66,6 +66,7 @@ const commonGroupingTags = [
   'beacon.geo.subdivision',
   'beacon.geo.subdivisionCode',
   'beacon.id',
+  'beacon.sessionId',
   'beacon.initiator',
   'beacon.location.origin',
   'beacon.location.path',

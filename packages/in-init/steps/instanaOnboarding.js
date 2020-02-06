@@ -5,14 +5,12 @@ import React from 'react';
 // we want to split the codebase of the onboarding dialog from the main bundle.
 // so we don't have to load the bundle when it's not neededd.
 import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
-
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { isOnboardingGuideEnabled } from 'in-services/featureFlags';
 
 export function init() {
   const reportingData = window.instana.reportingData;
   // the onboarding dialog is skipped when there are reporting hosts right now.
-  if (!isOnboardingGuideEnabled || (reportingData && reportingData.hostCount > 0)) {
+  if (reportingData && reportingData.hostCount > 0) {
     return just(true);
   }
 

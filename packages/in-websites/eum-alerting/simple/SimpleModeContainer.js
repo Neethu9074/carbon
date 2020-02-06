@@ -26,7 +26,8 @@ export default function SimpleModeContainer({
   setSliderState,
   timeConfig,
   websiteLabel,
-  onCreate
+  onCreate,
+  setSimpleModeStep
 }) {
   const [step, setStep] = useState(0);
   return (
@@ -60,13 +61,13 @@ export default function SimpleModeContainer({
         <Button
           className={locals.button}
           kind="secondary"
-          onClick={() => (step === steps.selectAlert ? onClose() : handleBackClick(setStep, step))}
+          onClick={() => (step === steps.selectAlert ? onClose() : handleBackClick(setStep, step, setSimpleModeStep))}
         >
           {step === 0 ? 'Cancel' : 'Back'}
         </Button>
         <Button
           className={locals.button}
-          onClick={() => (isLastStep(step, steps) ? onCreate() : handleNextClick(setStep, step))}
+          onClick={() => (isLastStep(step, steps) ? onCreate() : handleNextClick(setStep, step, setSimpleModeStep))}
           disabled={isLastStep(step, steps) && form.touched && !form.hierarchyValid}
         >
           {isLastStep(step, steps) ? (editMode ? 'Save' : 'Create') : 'Next'}
@@ -92,10 +93,12 @@ function isLastStep(step, steps) {
   return step === Object.entries(steps).length - 1;
 }
 
-function handleNextClick(setStep, step) {
+function handleNextClick(setStep, step, setSimpleModeStep) {
   setStep(step + 1);
+  setSimpleModeStep(step + 1);
 }
 
-function handleBackClick(setStep, step) {
+function handleBackClick(setStep, step, setSimpleModeStep) {
   setStep(step - 1);
+  setSimpleModeStep(step - 1);
 }

@@ -8,6 +8,7 @@ import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideMan
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+import { modeAdvanced } from '../../constants';
 
 import locals from './UseCaseSelection.mless';
 
@@ -67,6 +68,7 @@ export default function JsErrorUseCaseSelection({
             timeConfig={timeConfig}
             onChange={onChange}
             onSelectJsError={setJsErrorsListVisible}
+            mode={modeAdvanced}
           />
         )}
       </ExpandableCard>
