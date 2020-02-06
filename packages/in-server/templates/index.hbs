@@ -47,7 +47,7 @@
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('beaconBatchingTime', 3000);
     ineum('traceId', '{{backendTraceId}}');
-    ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api(-js)?\.mixpanel\.com\/track.*/i]);
+    ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api(-js)?\.mixpanel\.com.*/i]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
     ineum('meta', 'build.tag', window.instana.build.tag);
     ineum('meta', 'build.revision', window.instana.build.revision);
