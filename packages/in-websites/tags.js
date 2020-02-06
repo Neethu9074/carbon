@@ -170,20 +170,14 @@ export const availableFilterTags = {
     'beacon.http.transferSize',
     'beacon.timing.app_cache',
     'beacon.timing.backend',
-    'beacon.timing.children',
     'beacon.timing.dns',
-    'beacon.timing.dom',
-    'beacon.timing.firstContentfulPaint',
-    'beacon.timing.firstPaint',
     'beacon.timing.frontend',
     'beacon.timing.onLoad',
-    'beacon.timing.processing',
     'beacon.timing.redirect',
     'beacon.timing.request',
     'beacon.timing.response',
     'beacon.timing.ssl',
-    'beacon.timing.tcp',
-    'beacon.timing.unload'
+    'beacon.timing.tcp'
   ].sort(),
   httpRequest: [
     ...availableGroupingTags.httpRequest,
