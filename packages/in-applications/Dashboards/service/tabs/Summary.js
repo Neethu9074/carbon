@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
@@ -143,7 +144,11 @@ export default function Summary(props) {
             />
           </Col>
           <Col lg={4}>
-            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            {types.includes('DATABASE') ? (
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+            ) : (
+              <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            )}
           </Col>
         </Row>
       ) : (
@@ -168,7 +173,11 @@ export default function Summary(props) {
             />
           </Col>
           <Col lg={4}>
-            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            {types.includes('DATABASE') ? (
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+            ) : (
+              <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            )}
           </Col>
         </Row>
       )}

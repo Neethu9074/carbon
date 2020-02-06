@@ -4,7 +4,6 @@ import React from 'react';
 
 import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import DatabaseStatementDetail from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementDetail';
-import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 
 export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
@@ -31,7 +30,6 @@ export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope
                 />
               )}
               <CommonPerformanceSections boundaryScope={boundaryScope} {...props} />
-              <DatabaseSections boundaryScope={boundaryScope} {...props} />
             </div>
           );
         }}

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
@@ -156,7 +157,17 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               </Col>
             )}
             <Col lg={6}>
-              <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+              {type.includes('DATABASE') ? (
+                <DatabaseSections
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  endpointId={endpointId}
+                  timeConfig={timeConfig}
+                />
+              ) : (
+                <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+              )}
             </Col>
           </Row>
         </Fragment>
