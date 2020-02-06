@@ -34,7 +34,7 @@ export function InstanaServiceToKubernetesServicesButton({ kubernetesServices })
       {({ toggle, isOpen, refSetter }) => (
         <Button
           className={locals.button}
-          kind="primaryv2"
+          kind="secondary"
           icon="lib_kubernetes_service"
           onClick={toggle}
           refSetter={refSetter}

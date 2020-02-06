@@ -90,7 +90,17 @@
   }
 
   .buttonLine {
+    min-height: 3.125rem;
     padding-bottom: 1rem;
+  }
+
+  .withSecondary {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .secondaryActions {
+    justify-self: flex-end;
   }
 }
 
