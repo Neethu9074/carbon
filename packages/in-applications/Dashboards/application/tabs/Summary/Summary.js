@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 
 import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
@@ -116,14 +116,14 @@ export default function Summary({
           />
         </Col>
         <Col lg={4}>
-          <Latency
+          <LatencyAndDistribution
             cardTitle="Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
-            groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
       </Row>

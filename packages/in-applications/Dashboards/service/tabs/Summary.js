@@ -1,5 +1,6 @@
 import React from 'react';
 
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
@@ -8,7 +9,6 @@ import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopLi
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
@@ -118,14 +118,14 @@ export default function Summary(props) {
           />
         </Col>
         <Col lg={4}>
-          <Latency
+          <LatencyAndDistribution
             cardTitle="Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
       </Row>

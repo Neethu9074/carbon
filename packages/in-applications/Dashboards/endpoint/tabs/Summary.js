@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
@@ -8,7 +9,6 @@ import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopLi
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
@@ -121,7 +121,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           />
         </Col>
         <Col lg={4}>
-          <Latency
+          <LatencyAndDistribution
             cardTitle="Latency"
             applicationId={applicationId}
             serviceId={serviceId}
@@ -129,7 +129,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
+            percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
           />
         </Col>
       </Row>
