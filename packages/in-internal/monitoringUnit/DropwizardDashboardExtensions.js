@@ -18,24 +18,19 @@ export default connect(({ snapshot, timeConfig }) => ({
     return null;
   }
 
-  const { host: hostSnapshot, container, jvm } = context;
+  const { host: hostSnapshot, container, jvm, pod } = context;
   const fqdn = hostSnapshot.getIn(['data', 'fqdn'], '');
   const jobName = container.getIn(['data', 'Nomad', 'jobName']);
-  const allocId = container.getIn(['data', 'Nomad', 'allocId']);
-  const componentName = jvm.getIn(['data', 'appInfo', 'title']);
 
-  const host = fqdn.replace('.instana.io', '');
-  const adminPort = container.getIn(['data', 'Nomad', 'ports', 'check']);
+  const host = extractHost(pod, fqdn);
+  const adminPort = extractPort(pod, container);
   const adminUrl = `http://${host}:${adminPort}`;
 
   const logUrl = `https://app.logdna.com/0b5bf8ca43/logs/view?apps=${encodeURIComponent(
     jobName
   )}&hosts=${encodeURIComponent(fqdn)}`;
 
-  const getLogsCommand = `
-# Get logs directly from machine. Remember to insert your user name
-ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
-`.trim();
+  const getLogsCommand = extractLogsCommand(pod, container, jvm, fqdn);
 
   return (
     <Fragment>
@@ -123,4 +118,47 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
 
 function containerLabelIncludes(container, includedString) {
   return container.get('label').indexOf(includedString) !== -1;
+}
+
+function extractHost(pod, fqdn) {
+  if (pod) {
+    const podIp = pod.getIn(['data', 'podIp']);
+    if (podIp) {
+      return podIp;
+    }
+  }
+  return fqdn.replace('.instana.io', '');
+}
+
+function extractPort(pod, container) {
+  if (pod) {
+    try {
+      const adminPortDefinition = JSON.parse(
+        container.getIn(['data', 'Labels', 'annotation.io.kubernetes.container.ports'])
+      ).find(l => l.name === 'admin');
+      if (adminPortDefinition) {
+        return adminPortDefinition.containerPort;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+  return container.getIn(['data', 'Nomad', 'ports', 'check']);
+}
+
+function extractLogsCommand(pod, container, jvm, fqdn) {
+  if (pod) {
+    const namespace = pod.getIn(['data', 'namespace']);
+    const name = pod.getIn(['data', 'name']);
+    return `
+# Get logs directly via kubectl. Remember to configure kubectl
+kubectl logs --namespace ${namespace} ${name} | less
+      `.trim();
+  }
+  const allocId = container.getIn(['data', 'Nomad', 'allocId']);
+  const componentName = jvm.getIn(['data', 'appInfo', 'title']);
+  return `
+# Get logs directly from machine. Remember to insert your user name
+    ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
+    `.trim();
 }
