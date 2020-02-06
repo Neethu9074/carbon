@@ -32,21 +32,40 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
         </FormGroup>
       ))}
 
-      {form.get('repository').map(field => (
+      {form.get('basePath').map(field => (
         <FormGroup>
-          <Label htmlFor="elk-repository" hasError={!disabled && !field.valid && field.touched}>
-            View or repository
+          <Label htmlFor="elk-basePath" hasError={!disabled && !field.valid && field.touched}>
+            Base Path
           </Label>
           <Input
-            id="elk-repository"
+            id="elk-basePath"
             value={field.value}
-            onChange={e => onChange('repository', e.target.value)}
+            onChange={e => onChange('basePath', e.target.value)}
             hasError={!disabled && !field.valid && field.touched}
             disabled={disabled}
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: the view or repo name you have configured in ELK for Instana.
+            Example: Base path you have configured in ELK for Instana.
+          </HelpText>
+        </FormGroup>
+      ))}
+
+      {form.get('dashboard').map(field => (
+        <FormGroup>
+          <Label htmlFor="elk-dashboard" hasError={!disabled && !field.valid && field.touched}>
+            Dashboard title
+          </Label>
+          <Input
+            id="elk-dashboard"
+            value={field.value}
+            onChange={e => onChange('dashboard', e.target.value)}
+            hasError={!disabled && !field.valid && field.touched}
+            disabled={disabled}
+          />
+          {!disabled && <TouchedMessages field={field} />}
+          <HelpText className={locals.subTextFormField}>
+            Example: dashboard title you have configured in ELK for Instana.
           </HelpText>
         </FormGroup>
       ))}

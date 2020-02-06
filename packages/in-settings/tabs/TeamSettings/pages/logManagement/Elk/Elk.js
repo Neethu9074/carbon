@@ -181,9 +181,15 @@ function createForm(integration) {
       })
     )
     .put(
-      'repository',
+      'basePath',
       createField({
-        value: integration ? integration['repository'] : ''
+        value: integration ? integration['basePath'] : ''
+      })
+    )
+    .put(
+      'dashboard',
+      createField({
+        value: integration ? integration['dashboard'] : ''
       })
     )
     .put(
@@ -203,5 +209,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('url').value) || isBlank(form.get('repository').value);
+  return isBlank(form.get('url').value) || isBlank(form.get('basePath').value) || isBlank(form.get('dashboard').value);
 }
