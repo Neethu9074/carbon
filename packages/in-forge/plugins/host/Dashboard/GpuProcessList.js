@@ -11,7 +11,19 @@ import locals from './ProcessTopList.mless';
 
 const cols = [
   {
-    title: 'Process',
+    title: 'PID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: 'Process Name',
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId$(row) {
@@ -29,18 +41,6 @@ const cols = [
           return hierarchy[0];
         }
         return snapshot;
-      }
-    }
-  },
-  {
-    title: 'PID',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.key;
-      },
-      getContent(value) {
-        return value;
       }
     }
   },
