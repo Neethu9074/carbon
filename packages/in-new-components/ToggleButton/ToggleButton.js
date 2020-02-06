@@ -1,4 +1,5 @@
 import { compose } from 'recompose';
+import theme from 'in-themes';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -8,7 +9,6 @@ import hover from 'in-new-components/ToggleButton/hover';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './ToggleButton.mless';
 
@@ -35,7 +35,6 @@ function ToggleButton({
   disabled,
   target,
   iconOff,
-  iconOffSpinning,
   iconOffHover,
   iconOffHoverSpinning,
   iconOn,
@@ -72,7 +71,6 @@ function ToggleButton({
       <SvgIcon
         type={iconOff}
         color={theme.lib.colors.black}
-        spinning={iconOffSpinning}
         className={evaluateClassNames({
           [locals.icon]: true,
           [locals.iconLight]: darkTheme
@@ -121,7 +119,6 @@ function ToggleButton({
 ToggleButton.propTypes = {
   hovered: rpt.bool,
   iconOff: rpt.string,
-  iconOffSpinning: rpt.string,
   iconOffHover: rpt.string,
   iconOffHoverSpinning: rpt.string,
   iconOn: rpt.string,

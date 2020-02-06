@@ -34,8 +34,12 @@ export default compose(
     timeConfigForSnapshots: {
       to: time ? time : timeConfig.to,
       focusedMoment: time ? time : timeConfig.focusedMoment,
-      autoRefresh: timeConfig.autoRefresh,
+      autoRefresh: false,
       windowSize: timeConfig.windowSize
+    },
+    timeConfig: {
+      ...timeConfig,
+      autoRefresh: false
     }
   })),
   connect(({ processId, timeConfigForSnapshots, timeConfig }) => {
