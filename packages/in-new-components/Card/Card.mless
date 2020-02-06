@@ -4,6 +4,7 @@
 :local {
   .header {
     display: flex;
+    max-height: 3.125rem;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
