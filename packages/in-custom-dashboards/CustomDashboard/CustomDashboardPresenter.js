@@ -9,8 +9,6 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 
-import locals from './CustomDashboardPresenter.mless';
-
 export default function CustomDashboardPresenter(props) {
   const { config, setConfig, isEditing, onLayoutChange, onRenameDashboard } = props;
 
@@ -27,6 +25,9 @@ export default function CustomDashboardPresenter(props) {
                   title={config.title}
                   renderButtonLine={() => (
                     <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
+                  )}
+                  renderButtonLineSecondary={() => (
+                    <SecondaryButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
                   )}
                   renderMetaInformation={() => (
                     <>
@@ -60,7 +61,6 @@ function ButtonLine({
   config,
   isEditing,
   setEditing,
-  onAddWidget,
   onDeleteCustomDashboard,
   onSaveConfiguration,
   onCancel,
@@ -69,62 +69,63 @@ function ButtonLine({
 }) {
   if (isEditing) {
     return (
-      <div className={locals.buttonGroups}>
-        {/* div is used to build a flexgroup element group */}
-        <div>
-          <Button kind="primaryv2" onClick={onSaveConfiguration}>
-            Save Configuration
-          </Button>
-          {onDeleteCustomDashboard && (
-            <Button kind="danger" onClick={onDeleteCustomDashboard}>
-              Delete Dashboard
-            </Button>
-          )}
-          {onCancel && (
-            <Button kind="secondary" onClick={onCancel}>
-              Cancel
-            </Button>
-          )}
-          <Button kind="secondary">Share</Button>
-        </div>
-
-        <Button kind="create" onClick={onAddWidget}>
-          Add Widget
+      <>
+        <Button kind="primaryv2" onClick={onSaveConfiguration}>
+          Save Configuration
         </Button>
-      </div>
+        {onDeleteCustomDashboard && (
+          <Button kind="danger" onClick={onDeleteCustomDashboard}>
+            Delete Dashboard
+          </Button>
+        )}
+        {onCancel && (
+          <Button kind="secondary" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Button kind="secondary">Share</Button>
+      </>
     );
   }
 
   return (
-    <div className={locals.buttonGroups}>
-      {/* div is used to build a flexgroup element group */}
-      <div>
-        {editable && (
-          <Button kind="primaryv2" onClick={() => setEditing(true)}>
-            Edit Dashboard
-          </Button>
-        )}
-        {showDuplicateDashboard && (
-          <Button
-            kind="secondary"
-            href$={getNewCustomDashboardLink(config.id)}
-            onClick={() => setDuplicationSource(config)}
-          >
-            Duplicate Dashboard
-          </Button>
-        )}
-        {editable && <Button kind="secondary">Share</Button>}
-      </div>
+    <>
+      {editable && (
+        <Button kind="primaryv2" onClick={() => setEditing(true)}>
+          Edit Dashboard
+        </Button>
+      )}
+      {showDuplicateDashboard && (
+        <Button
+          kind="secondary"
+          href$={getNewCustomDashboardLink(config.id)}
+          onClick={() => setDuplicationSource(config)}
+        >
+          Duplicate Dashboard
+        </Button>
+      )}
+      {editable && <Button kind="secondary">Share</Button>}
+    </>
+  );
+}
 
-      {/* div is used to build a flexgroup element group */}
-      <div>
-        <Button kind="secondary" icon="lib_actions_settings">
-          Deploy Agent
-        </Button>
-        <Button kind="secondary" icon="lib_alerts_user_impacted">
-          Add Users
-        </Button>
-      </div>
-    </div>
+function SecondaryButtonLine({ isEditing, onAddWidget }) {
+  if (isEditing) {
+    return (
+      <Button kind="create" onClick={onAddWidget}>
+        Add Widget
+      </Button>
+    );
+  }
+
+  return (
+    <>
+      <Button kind="secondary" icon="lib_actions_settings">
+        Deploy Agent
+      </Button>
+      <Button kind="secondary" icon="lib_alerts_user_impacted">
+        Add Users
+      </Button>
+    </>
   );
 }

@@ -1,4 +1,10 @@
+@import '~in-themes/active.less';
+
 :local {
+  .layout {
+    margin: 0 @grid__gutter * 1px @grid__gutter * 1px;
+  }
+
   .edit {
     position: absolute;
     bottom: 0;

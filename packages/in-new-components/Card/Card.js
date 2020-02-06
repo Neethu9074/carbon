@@ -33,6 +33,7 @@ export default function Card({
   return (
     <div
       className={evaluateClassNames({
+        [locals.card]: true,
         [className]: className,
         [locals.framed]: framed,
         [locals.darkFrame]: darkFrame,

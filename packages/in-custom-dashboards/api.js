@@ -8,7 +8,7 @@ import http from 'in-services/http';
 // dashboard is added, updated or removed.
 let mutationCounter = 0;
 
-export const getCustomDashboards = memoize(getCustomDashboardsInternal, () => String(mutationCounter), 3000);
+export const getCustomDashboards = memoize(getCustomDashboardsInternal, () => String(mutationCounter), 60000);
 function getCustomDashboardsInternal() {
   return createObservable(
     http({
@@ -37,7 +37,7 @@ export function addCustomDashboard(customDashboard) {
 export const getCustomDashboard = memoize(
   getCustomDashboardInternal,
   customDashboardId => customDashboardId + '$' + mutationCounter,
-  3000
+  60000
 );
 function getCustomDashboardInternal(customDashboardId) {
   return createObservable(

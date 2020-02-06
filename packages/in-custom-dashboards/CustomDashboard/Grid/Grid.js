@@ -4,7 +4,13 @@ import React from 'react';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { rowHeightPixels, cols, margin, breakpoints } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import {
+  rowHeightPixels,
+  cols,
+  margin,
+  breakpoints,
+  containerPadding
+} from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -15,10 +21,11 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, onRemoveWidget }) {
   return (
     <ResponsiveReactGridLayout
-      className="layout"
+      className={locals.layout}
       cols={cols}
       rowHeight={rowHeightPixels}
-      margin={[margin, margin]}
+      margin={margin}
+      containerPadding={containerPadding}
       breakpoints={breakpoints}
       isDraggable={isEditing}
       isResizable={isEditing}

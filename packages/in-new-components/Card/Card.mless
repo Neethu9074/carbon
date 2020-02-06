@@ -2,6 +2,12 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .card {
+    background: #fff;
+    border-top-left-radius: @lib__shapes__radius_small;
+    border-top-right-radius: @lib__shapes__radius_small;
+  }
+
   .header {
     display: flex;
     max-height: 3.125rem;
@@ -60,7 +66,6 @@
 
   .body {
     padding: 1rem;
-    background: #fff;
   }
 
   .bodyWithoutPadding {
