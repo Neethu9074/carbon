@@ -73,7 +73,7 @@ function getLabelShort(metric) {
     return 'Incoming calls';
   }
   if (metric === 'errorRate') {
-    return 'Max error rate';
+    return 'Max erroneous call rate';
   }
   if (metric === 'latency') {
     return 'Max latency';
