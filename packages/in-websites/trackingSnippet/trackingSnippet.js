@@ -1,6 +1,8 @@
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { region } from 'in-services/config';
 
+const undefinedTrackingUrlPlaceholder = '<trackingBaseUrl>';
+
 export function getTrackingSnippet({ key, additionalScript = null, trackSessions = false }) {
   const lines = [`<script>`];
 
@@ -22,21 +24,12 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
     lines.push(
-      `  "<trackingBaseUrl>/eum.min.js","InstanaEumObject","ineum");`,
-      `  ineum('reportingUrl', '<trackingBaseUrl>');`
+      `  "${undefinedTrackingUrlPlaceholder}/eum.min.js","InstanaEumObject","ineum");`,
+      `  ineum('reportingUrl', '${undefinedTrackingUrlPlaceholder}');`
     );
   } else {
     lines.push(`  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");`);
-
-    if (region) {
-      if (region === 'eu-west-1') {
-        lines.push(`  ineum('reportingUrl', 'https://eum-blue-saas.instana.io');`);
-      } else if (region === 'us-west-2') {
-        lines.push(`  ineum('reportingUrl', 'https://eum-red-saas.instana.io');`);
-      } else {
-        lines.push(`  ineum('reportingUrl', 'https://eum-${region}-saas.instana.io');`);
-      }
-    }
+    lines.push(`  ineum('reportingUrl', '${getEumAcceptorBaseUrl()}');`);
   }
 
   lines.push(`  ineum('key', '${key}');`);
@@ -52,4 +45,18 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
 
   lines.push(`</script>`);
   return lines.join('\n');
+}
+
+export function getEumAcceptorBaseUrl() {
+  if (useInstanaSaasEumTrackingUrlEnabled && region) {
+    if (region === 'eu-west-1') {
+      return 'https://eum-blue-saas.instana.io';
+    } else if (region === 'us-west-2') {
+      return 'https://eum-red-saas.instana.io';
+    } else {
+      return `https://eum-${region}-saas.instana.io`;
+    }
+  }
+
+  return '<trackingBaseUrl>';
 }

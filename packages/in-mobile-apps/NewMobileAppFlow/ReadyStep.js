@@ -1,13 +1,15 @@
 import React from 'react';
 
+import { getEumAcceptorBaseUrl } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
+import EntityWithType from 'in-new-components/EntityWithType';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
-import CopyToClipboard from 'in-components/CopyToClipboard';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
+import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 
-export default function ReadyStep({ mobileAppName, mobileAppLink$ }) {
+export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {
   return (
     <Frame>
       <Header>
@@ -20,15 +22,16 @@ export default function ReadyStep({ mobileAppName, mobileAppLink$ }) {
         mobile app to track real users or go to the dashboard.
       </Paragraph>
 
-      <Actions>
-        <CopyToClipboard getText={() => 'TODO'}>
-          {refSetter => (
-            <Button kind="secondary" refSetter={refSetter}>
-              Copy to clipboard
-            </Button>
-          )}
-        </CopyToClipboard>
+      <Ul>
+        <Li>
+          <EntityWithType label={mobileAppId} type="Key" />
+        </Li>
+        <Li>
+          <EntityWithType label={getEumAcceptorBaseUrl()} type="Reporting URL" />
+        </Li>
+      </Ul>
 
+      <Actions>
         <Button kind="primaryv2" href$={mobileAppLink$}>
           Go to mobile app dashboard
         </Button>
