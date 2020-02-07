@@ -17,6 +17,7 @@ export default connectTo(
     endpointId,
     serviceId,
     applicationId,
+    boundaryScope,
     dashboard
   }) {
     const [activeTabIndex, onTabSelect] = useState(0);
@@ -32,6 +33,7 @@ export default connectTo(
               serviceId={serviceId}
               applicationId={applicationId}
               endpointId={endpointId}
+              boundaryScope={boundaryScope}
               dashboard={dashboard}
               close={close}
             />

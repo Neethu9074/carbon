@@ -20,6 +20,7 @@ export default function UpstreamDownstreamPresenter({
   applicationId,
   endpointId,
   dashboard,
+  boundaryScope,
   close
 }) {
   const isLoading = result.progress && result.progress.loading;
@@ -58,7 +59,7 @@ export default function UpstreamDownstreamPresenter({
             totalHits={result.data.totalHits}
           />
           <div className={locals.seeAll}>
-            {getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, close)}
+            {getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close)}
           </div>
         </>
       )}
@@ -66,16 +67,16 @@ export default function UpstreamDownstreamPresenter({
   );
 }
 
-function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, close) {
+function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close) {
   if (dashboard === 'application') {
     return (
-      <Link href$={getApplicationDashboard(applicationId, { tab: '/map' })} onClick={close}>
+      <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
         See all dependencies
       </Link>
     );
   } else if (dashboard === 'service') {
     return (
-      <Link href$={getServiceDashboard(serviceId, { applicationId, tab: '/flowMap' })} onClick={close}>
+      <Link href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap' })} onClick={close}>
         See all {result.data.totalHits} Services
       </Link>
     );
@@ -85,6 +86,7 @@ function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, 
       href$={getEndpointDashboard(endpointId, {
         applicationId,
         serviceId,
+        boundaryScope,
         tab: '/flowMap'
       })}
       onClick={close}

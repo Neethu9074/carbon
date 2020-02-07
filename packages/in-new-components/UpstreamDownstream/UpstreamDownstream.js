@@ -25,6 +25,7 @@ export default connectTo(
     serviceId,
     applicationId,
     endpointId,
+    boundaryScope,
     upstream,
     downstream,
     dashboard,
@@ -42,6 +43,7 @@ export default connectTo(
         applicationId={applicationId}
         endpointId={endpointId}
         dashboard={dashboard}
+        boundaryScope={boundaryScope}
         close={close}
       />
     );
