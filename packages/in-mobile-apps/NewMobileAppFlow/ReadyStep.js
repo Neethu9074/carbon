@@ -8,6 +8,7 @@ import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
+import Link from 'in-components/Link';
 
 export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {
   return (
@@ -18,8 +19,11 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
       </Header>
 
       <Paragraph>
-        Everything is ready to monitor your mobile app <strong>{mobileAppName}</strong>. Add the tracking script to your
-        mobile app to track real users or go to the dashboard.
+        Everything is ready to monitor your mobile app <strong>{mobileAppName}</strong>.{' '}
+        <Link href="https://docs.instana.io/products/mobile_app_monitoring/#installation" target="_blank">
+          Add the agent to your mobile app
+        </Link>{' '}
+        to track real users or go to the dashboard.
       </Paragraph>
 
       <Ul>
@@ -32,6 +36,14 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
       </Ul>
 
       <Actions>
+        <Button
+          kind="secondary"
+          href="https://docs.instana.io/products/mobile_app_monitoring/#installation"
+          target="_blank"
+        >
+          Installation Instructions
+        </Button>
+
         <Button kind="primaryv2" href$={mobileAppLink$}>
           Go to mobile app dashboard
         </Button>
