@@ -34,7 +34,7 @@ export function withSlownessFormHistoricBaseline(form, rule, threshold) {
     .put(
       fieldNames.thresholdDeviationFactor,
       createField({
-        value: (threshold && threshold.deviationFactor) || 2
+        value: (threshold && threshold.deviationFactor) || 4
       })
     );
 
@@ -56,7 +56,7 @@ function addFieldsContainedInBoth(form, rule, threshold) {
     form = form.put(
       fieldNames.thresholdSeasonality,
       createField({
-        value: (threshold && threshold.seasonality) || 'WEEKLY',
+        value: (threshold && threshold.seasonality) || 'DAILY',
         validator: notBlankValidator
       })
     );

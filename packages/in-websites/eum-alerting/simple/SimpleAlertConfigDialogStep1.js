@@ -28,6 +28,23 @@ export default function SimpleAlertConfigDialogStep1({
   timeConfig
 }) {
   const alertType = alertTypeConfig[getIndexSelectedConf(form)].type;
+  const thresholdTypeValue = form.get(fieldNames.thresholdType).value;
+  const thresholdBaseline = form.get(fieldNames.thresholdBaseline);
+
+  // Fallback to static threshold for slowness when the historic baseline was not good enough.
+  if (
+    alertType === alertTypes.slowness &&
+    thresholdTypeValue.includes('historicBaseline.') &&
+    thresholdBaseline &&
+    thresholdBaseline.value &&
+    thresholdBaseline.value.length === 0
+  ) {
+    onChange(form, fieldNames.thresholdType, 'staticThreshold', {
+      name: hiddenFieldNames.calculateThresholdOnBackend,
+      value: true
+    });
+  }
+
   return (
     <>
       <h1 className={locals.headline}>What do you want to be alerted on?</h1>
@@ -38,6 +55,7 @@ export default function SimpleAlertConfigDialogStep1({
           const alertType = alertTypeConfig[selectedItemIndex].type;
 
           let updatedForm = form;
+          let thresholdTypeValue = 'staticThreshold';
           if (alertType === alertTypes.specificJsError) {
             metricToSelect = { name: fieldNames.ruleMetricName, value: 'errors' };
             updatedForm = withJsErrorsFormSpecificError(form);
@@ -46,22 +64,31 @@ export default function SimpleAlertConfigDialogStep1({
             updatedForm = withStatusCodesFormSpecificStatusCode(form);
           } else if (alertType === alertTypes.slowness) {
             metricToSelect = { name: fieldNames.ruleMetricName, value: 'onLoadTime' };
+            thresholdTypeValue = form.get(fieldNames.thresholdType).value;
+            const thresholdBaseline = form.get(fieldNames.thresholdBaseline);
 
-            const thresholdType = form.get(fieldNames.thresholdType).value;
-            if (thresholdType === 'staticThreshold') {
+            // On the first load or when the baseline is OK, use baseline
+            if (
+              !thresholdTypeValue.includes('historicBaseline.') &&
+              (!thresholdBaseline || (thresholdBaseline.value && thresholdBaseline.value.length > 0))
+            ) {
+              thresholdTypeValue = 'historicBaseline.DAILY';
+            }
+
+            if (thresholdTypeValue === 'staticThreshold') {
               updatedForm = withSlownessFormStaticThreshold(form);
-            } else if (thresholdType.includes('historicBaseline.')) {
+            } else if (thresholdTypeValue.includes('historicBaseline.')) {
               updatedForm = withSlownessFormHistoricBaseline(form);
             }
           }
 
-          const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
           onChange(
             updatedForm,
             fieldNames.ruleAlertType,
             alertTypeConfig[selectedItemIndex].type,
             metricToSelect,
-            doCalculateThresholdOnBackend
+            { name: fieldNames.thresholdType, value: thresholdTypeValue },
+            { name: hiddenFieldNames.calculateThresholdOnBackend, value: true }
           );
         }}
         initialItemSelected={getIndexSelectedConf(form)}

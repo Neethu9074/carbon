@@ -215,6 +215,94 @@ export default connectTo(
             </Col>
           </Row>
         ))}
+
+        <Row key={`raw-spans`}>
+          <Col lg={12}>
+            <ExpandableCard title={`Pipeline Behaviour for: Raw Spans`}>
+              <Columize>
+                <DashboardSection title={`Kafka Reads`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(() => `metrics.meters.KPI.incoming.raw_spans.calls`),
+                      labels,
+                      type: 'stackedArea'
+                    }}
+                  />
+                </DashboardSection>
+                <DashboardSection title={`Dropped`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(() => `metrics.meters.KPI.incoming.raw_spans.errors`),
+                      labels,
+                      type: 'stackedArea'
+                    }}
+                  />
+                </DashboardSection>
+              </Columize>
+
+              <Columize>
+                <DashboardSection title={`S3 Writes`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(() => `metrics.meters.KPI.raw_spans.s3.store.calls`),
+                      labels,
+                      type: 'stackedArea'
+                    }}
+                  />
+                </DashboardSection>
+                <DashboardSection title={`S3 Errors`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(() => `metrics.meters.KPI.raw_spans.s3.store.errors`),
+                      labels,
+                      type: 'stackedArea'
+                    }}
+                  />
+                </DashboardSection>
+              </Columize>
+
+              <Columize>
+                <DashboardSection title={`Avg File Size`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.bytesZeroDecimalPlaces,
+                      metrics: rows.map(
+                        () =>
+                          `metrics.histograms.com.instana.application.externalstorage.S3ExternalStorageClient.raw_spans.s3.file_size.mean`
+                      ),
+                      labels,
+                      type: 'line'
+                    }}
+                  />
+                </DashboardSection>
+              </Columize>
+            </ExpandableCard>
+          </Col>
+        </Row>
       </div>
     );
   }
