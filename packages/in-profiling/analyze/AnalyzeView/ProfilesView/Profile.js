@@ -74,7 +74,10 @@ export default function Profile({
           )}
           {profile &&
             profile.rawProfileTimestamps && (
-              <span className={locals.numProfilesLabel}>{profile.rawProfileTimestamps.length} Profiles</span>
+              <span className={locals.numProfilesLabel}>
+                {profile.rawProfileTimestamps.length} Profile
+                {profile.rawProfileTimestamps.length === 1 ? '' : 's'}
+              </span>
             )}
           {!profile && <span className={locals.numProfilesLabel}>0 Profiles</span>}
           {totalNumSamples > 0 &&

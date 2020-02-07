@@ -78,7 +78,8 @@ function TooltipContent({ bucket }) {
       </div>
       <span className={locals.numProfiles}>{bucket.items.length}</span>
       {` `}
-      profiles collected
+      profile
+      {bucket.items.length === 1 ? '' : 's'} collected
     </div>
   );
 }
