@@ -42,6 +42,7 @@ export default connectTo(
             </div>
           )}
           <Button
+            kind="primaryv2"
             className={locals.button}
             onClick={() => {
               goToPath(graphPath);
