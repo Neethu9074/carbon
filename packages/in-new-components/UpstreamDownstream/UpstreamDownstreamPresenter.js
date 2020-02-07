@@ -56,11 +56,9 @@ export default function UpstreamDownstreamPresenter({
             timeConfig={timeConfig}
             totalHits={result.data.totalHits}
           />
-          {result.data.totalHits > 5 && (
-            <div className={locals.seeAll}>
-              {getSeeAllLink(result, productArea, applicationId, serviceId, endpointId)}
-            </div>
-          )}
+          <div className={locals.seeAll}>
+            {getSeeAllLink(result, productArea, applicationId, serviceId, endpointId)}
+          </div>
         </>
       )}
     </div>
