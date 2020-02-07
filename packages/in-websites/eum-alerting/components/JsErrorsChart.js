@@ -10,11 +10,11 @@ import {
   getValueRoundedToDecimals,
   round
 } from 'in-websites/eum-alerting/formHelpers';
-import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
+import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
