@@ -27,12 +27,12 @@ export default function User({ beacon, beacons }) {
       <div className={locals.noUserData}>
         No user data defined&nbsp;
         <Button
-          href="https://docs.instana.io/products/mobile_app_monitoring/api/#identifying-users"
+          href="https://docs.instana.io/products/mobile_app_monitoring/ios_api/#identifying-users"
           kind="primaryv2"
           target="_blank"
           size="compact"
         >
-          TODO link Learn how to add user data
+          Learn how to add user data
         </Button>
       </div>
     );

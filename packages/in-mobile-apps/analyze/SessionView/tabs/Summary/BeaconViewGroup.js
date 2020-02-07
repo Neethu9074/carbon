@@ -28,10 +28,10 @@ function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expan
           {!view && (
             <Link
               external
-              href="https://docs.instana.io/products/website_monitoring/api/#view"
+              href="https://docs.instana.io/products/mobile_app_monitoring/ios_api/#views"
               className={locals.learnHow}
             >
-              TODO link Learn how to define views
+              Learn how to define views
             </Link>
           )}
         </div>

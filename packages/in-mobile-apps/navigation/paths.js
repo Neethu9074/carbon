@@ -17,7 +17,6 @@ import {
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
-// TODO change
 import { availableFilterTags } from 'in-mobile-apps/tags';
 import { setTimeConfig } from 'in-stores/time/config';
 
