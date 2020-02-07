@@ -24,7 +24,7 @@ export default connectTo(
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
-          content={() => (
+          content={({ close }) => (
             <UpstreamDownstream
               timeConfig={timeConfig}
               activeTabIndex={activeTabIndex}
@@ -33,6 +33,7 @@ export default connectTo(
               applicationId={applicationId}
               endpointId={endpointId}
               dashboard={dashboard}
+              close={close}
             />
           )}
           withoutWrapper
