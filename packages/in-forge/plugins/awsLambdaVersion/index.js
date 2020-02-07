@@ -14,8 +14,5 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
-  technologyDescriptor: {
-    label: 'AWS Lambda'
-  },
   infrastructureTabSubscript
 });
