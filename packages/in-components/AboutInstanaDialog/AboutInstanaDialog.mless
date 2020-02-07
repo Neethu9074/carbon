@@ -1,0 +1,59 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 0.25rem;
+    background: white;
+  }
+
+  .cancelIcon {
+    fill: @lib__colors__N500;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+      cursor: pointer;
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0 2rem 1rem;
+  }
+
+  .lettering {
+    width: 10rem;
+    height: 2rem;
+
+    margin-bottom: 1rem;
+
+    filter: brightness(0);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 16rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .key {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .value {
+    color: @lib__colors__N700Medium;
+  }
+
+  .button {
+    margin-top: 0.5rem;
+  }
+}

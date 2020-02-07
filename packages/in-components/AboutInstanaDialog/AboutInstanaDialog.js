@@ -1,18 +1,17 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
+import { close } from 'in-components/DialogPresenter/store';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
+import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import { build } from 'in-services/config';
 import Dialog from 'in-components/Dialog';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import './AboutInstanaDialog.less';
-
-const block = 'about-instana-dialog';
+import locals from './AboutInstanaDialog.mless';
 
 export default connectTo(
   {
@@ -20,22 +19,33 @@ export default connectTo(
   },
   function AboutInstanaDialog({ uiBackendVersion }) {
     return (
-      <Dialog header="About" onClose={() => setActiveDialog(null)}>
-        <div className={block}>
-          <Lettering className={`${block}__lettering`} />
-          <span>UI: {build.tag}</span>
-          <span className={`${block}__revision`}>{build.revision}</span>
+      <Dialog
+        title="About"
+        onClose={close}
+        customHeader={
+          <div className={locals.header}>
+            <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" size="l" onClick={close} />
+          </div>
+        }
+      >
+        <div className={locals.wrapper}>
+          <Lettering className={locals.lettering} />
+          <div className={locals.row}>
+            <span className={locals.key}>UI: {build.tag}</span>
+            <span className={locals.value}>{build.revision}</span>
+          </div>
+
           {uiBackendVersion && (
-            <Fragment>
-              <span style={{ marginTop: '1rem' }}>Back End: {uiBackendVersion.imageTag}</span>
-              <span className={`${block}__revision`}>{uiBackendVersion.commit}</span>
-            </Fragment>
+            <div className={locals.row}>
+              <span className={locals.key}>Back End: {uiBackendVersion.imageTag}</span>
+              <span className={locals.value}>{uiBackendVersion.commit}</span>
+            </div>
           )}
           <Button
-            className={`${block}__button`}
+            className={locals.button}
             onClick={() => {
               goToPath(graphPath);
-              setActiveDialog(null);
+              close();
             }}
           >
             Graph Showcase
