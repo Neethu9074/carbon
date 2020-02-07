@@ -68,7 +68,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         />
       </Card>
 
-      <ExpandableCard title="Domain" openByDefault bodyWithoutPadding darkFrame>
+      <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
         <div className={locals.wrapper}>
           <AlertLocationFilters {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
           <div className={locals.overlay} />

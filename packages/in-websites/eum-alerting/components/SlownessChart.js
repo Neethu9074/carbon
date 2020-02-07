@@ -221,7 +221,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
 }
 
 function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form, fieldNames.thresholdType, 'staticThreshold') === 'historicBaseline.WEEKLY') {
+  if (getFormValueOrDefault(form, fieldNames.thresholdType) === 'historicBaseline.WEEKLY') {
     return selectOptions.ruleAggregationForWeeklySeasonality;
   }
   return selectOptions[fieldNames.ruleAggregation];

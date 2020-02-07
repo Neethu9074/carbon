@@ -4,20 +4,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  getThresholdLabel,
+  isPercentageMetric,
   getThresholdValueForPercentageMetric,
   getValueRoundedToDecimals,
-  round,
-  fieldNames,
-  hiddenFieldNames,
-  selectOptions
-} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+  round
+} from 'in-websites/eum-alerting/formHelpers';
+import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
