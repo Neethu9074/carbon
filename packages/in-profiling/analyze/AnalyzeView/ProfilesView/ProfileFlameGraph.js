@@ -10,6 +10,7 @@ import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProfileFlameGraph.mless';
@@ -47,11 +48,16 @@ const ProfileFlameGraph = connectTo(({ query$ }) => ({ query: query$.throttle(30
 class ProfileFlameGraphWithReducedUpdates extends React.Component {
   flamegraphObject = null;
 
+  state = {
+    isNodeSelected: false
+  };
+
   shouldComponentUpdate(nextProps) {
     return (
       this.props.query !== nextProps.query ||
       this.props.width !== nextProps.width ||
-      this.props.profile !== nextProps.profile
+      this.props.profile !== nextProps.profile ||
+      this.state.isNodeSelected !== nextProps.isNodeSelected
     );
   }
 
@@ -107,6 +113,7 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       .differential(false)
       .selfValue(false)
       .inverted(true)
+      .onClick(node => this.setState({ isNodeSelected: node && node.data.name !== 'root' }))
       .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
@@ -115,9 +122,28 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
   };
 
   render() {
+    // console.log(this.state.isNodeSelected);
     return (
       <div className={locals.wrapper}>
-        <div id="chart" />
+        {this.state.isNodeSelected ? (
+          <Button
+            className={locals.resetButton}
+            size="compact"
+            kind="primaryv2"
+            onClick={() => {
+              if (this.flamegraphObject) {
+                this.flamegraphObject.resetZoom();
+              }
+            }}
+          >
+            Reset
+          </Button>
+        ) : (
+          <div className={locals.resetButtonPlaceholder} />
+        )}
+        <div className={locals.flameGraphWrapper}>
+          <div className={locals.chart} id="chart" />
+        </div>
       </div>
     );
   }
@@ -159,6 +185,9 @@ function colorMapper(component, node) {
   let hex;
   if (node.data.name === 'root') {
     hex = theme.lib.colors.N300;
+    if (node.data.fade) {
+      return theme.lib.colors.lightBlue800;
+    }
   } else if (node.highlight) {
     hex = theme.lib.colors.cyan800;
   } else {

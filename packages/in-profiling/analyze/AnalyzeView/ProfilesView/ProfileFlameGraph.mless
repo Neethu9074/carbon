@@ -7,4 +7,21 @@
     background: @lib__colors__N100;
     border: 1px solid @lib__colors__N300;
   }
+
+  .resetButton {
+    width: 100%;
+  }
+
+  .resetButtonPlaceholder {
+    height: 1.1875rem;
+  }
+
+  .flameGraphWrapper {
+    overflow: hidden;
+  }
+
+  .chart {
+    // must be in px
+    margin-top: -18px;
+  }
 }
