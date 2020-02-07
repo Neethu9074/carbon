@@ -51,7 +51,7 @@ export default connectTo(
       this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
 
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
-      this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseUp.bind(this));
+      this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
 
       this.onMouseMoveSubscription = on(glassPane, 'mousemove')
         .throttle(50)
@@ -101,7 +101,24 @@ export default connectTo(
       setHighlightedTimeframe(this.mouseDownDomainTime, currentMousePosInDomainTime);
     };
 
-    onMouseUp() {
+    onMouseUp(e) {
+      // the user has clicked but not dragged inside the chart
+      if (this.mouseDownPos && !this.mouseDownDomainTime) {
+        const config = this.props.chart.config;
+
+        const currentMousePos = e.offsetX;
+        const currentMousePosInDomainTime = this.props.xScale.getDomain(currentMousePos);
+        const nearestTimeInMetrics =
+          getNearestDataPointDomainForTimestamp(config, currentMousePosInDomainTime) || currentMousePosInDomainTime;
+        const granularityHalf = this.props.chart.config.granularity / 2;
+
+        setHighlightedTimeframe(nearestTimeInMetrics - granularityHalf, nearestTimeInMetrics + granularityHalf);
+      }
+
+      this.onMouseLeave();
+    }
+
+    onMouseLeave() {
       this.mouseDownPos = null;
       this.mouseDownDomainTime = null;
     }
