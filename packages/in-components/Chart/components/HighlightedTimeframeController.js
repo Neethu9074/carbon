@@ -73,7 +73,7 @@ export default connectTo(
     onMouseMove = e => {
       const { xScale, chart } = this.props;
       const currentMousePos = e.offsetX;
-      const isSnappingEnabled = chart.config.snapHighlightingToMetrics;
+      const isSnappingEnabled = !chart.config.snapHighlightingToMetricsDisabled;
 
       this.granularityHalf = this.props.chart.config.granularity / 2;
 

@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
@@ -5,7 +6,6 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId }) {
   const entityFilter = createEntityFilter(applicationId, serviceId, endpointId);
@@ -45,7 +45,6 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
       cardTitle="Infrastructure Issues &amp; Changes"
       timeConfig={timeConfig}
       granularity={granularity}
-      snapHighlightingToMetrics
       includeFirstDataPoint
       y1={{
         renderer: Renderer.stackedBar,
