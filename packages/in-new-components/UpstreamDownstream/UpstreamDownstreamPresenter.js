@@ -19,7 +19,7 @@ export default function UpstreamDownstreamPresenter({
   serviceId,
   applicationId,
   endpointId,
-  productArea
+  dashboard
 }) {
   const isLoading = result.progress && result.progress.loading;
   const { key } = tabList[activeTabIndex];
@@ -56,22 +56,26 @@ export default function UpstreamDownstreamPresenter({
             timeConfig={timeConfig}
             totalHits={result.data.totalHits}
           />
-          <div className={locals.seeAll}>
-            {getSeeAllLink(result, productArea, applicationId, serviceId, endpointId)}
-          </div>
+          <div className={locals.seeAll}>{getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId)}</div>
         </>
       )}
     </div>
   );
 }
 
-function getSeeAllLink(result, productArea, applicationId, serviceId, endpointId) {
-  if (productArea === 'application') {
+function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId) {
+  if (dashboard === 'application') {
     return <Link href$={getApplicationDashboard(applicationId, { tab: '/map' })}>See all dependencies</Link>;
-  } else if (productArea === 'service') {
+  } else if (dashboard === 'service') {
     return (
-      <Link href$={getServiceDashboard(serviceId, { tab: '/flowMap' })}>See all {result.data.totalHits} Services</Link>
+      <Link href$={getServiceDashboard(serviceId, { applicationId, tab: '/flowMap' })}>
+        See all {result.data.totalHits} Services
+      </Link>
     );
   }
-  return <Link href$={getEndpointDashboard(endpointId, { tab: '/flowMap' })}>See all Services and Endpoints</Link>;
+  return (
+    <Link href$={getEndpointDashboard(endpointId, { applicationId, serviceId, tab: '/flowMap' })}>
+      See all Services and Endpoints
+    </Link>
+  );
 }

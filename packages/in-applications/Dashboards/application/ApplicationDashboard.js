@@ -86,7 +86,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, ur
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        productArea="application"
+        dashboard="application"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}

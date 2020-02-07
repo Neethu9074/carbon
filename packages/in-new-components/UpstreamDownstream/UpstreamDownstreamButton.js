@@ -17,7 +17,7 @@ export default connectTo(
     endpointId,
     serviceId,
     applicationId,
-    productArea
+    dashboard
   }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
@@ -32,7 +32,7 @@ export default connectTo(
               serviceId={serviceId}
               applicationId={applicationId}
               endpointId={endpointId}
-              productArea={productArea}
+              dashboard={dashboard}
             />
           )}
           withoutWrapper
