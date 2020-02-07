@@ -150,6 +150,10 @@ export const selectOptions = {
     { value: 'P99', label: '99th' },
     { value: 'MAX', label: 'max' }
   ]),
+  ruleAggregationForWeeklySeasonality: Object.freeze([
+    { value: 'MEAN', label: 'mean' },
+    { value: 'P50', label: '50th' }
+  ]),
   [fieldNames.thresholdOperator]: Object.freeze([
     { value: '>=', label: '≥' },
     { value: '>', label: '>' },

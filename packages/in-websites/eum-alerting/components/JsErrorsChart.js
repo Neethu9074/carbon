@@ -4,13 +4,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  getThresholdLabel,
+  isPercentageMetric,
+  getThresholdValueForPercentageMetric,
+  getValueRoundedToDecimals,
+  round
+} from 'in-websites/eum-alerting/formHelpers';
+import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -95,18 +101,18 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                   name={fieldNames.thresholdValue}
                   step="1"
                   value={
-                    (doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value) *
-                    (percentageMetric ? 100 : 1)
+                    doDebounce
+                      ? tempThreshold
+                      : getValueRoundedToDecimals(form.get(fieldNames.thresholdValue).value, percentageMetric)
                   }
                   onChange={e => {
                     let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
                     if (value !== '') {
-                      value = percentageMetric ? Math.abs(e.target.value) / 100 : Math.abs(e.target.value);
+                      value = percentageMetric ? round(Math.abs(value) / 100, 3) : Math.abs(value);
                     }
-
                     setDoDebounce(true);
-                    setTempThreshold(value);
+                    setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
 
                     const onChangCallback = () => {
                       onChange(form, fieldNames.thresholdValue, value);
@@ -123,7 +129,11 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
           <div className={locals.placeholder}>
             <JsErrorsAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={(doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value) || 0}
+              threshold={
+                (doDebounce
+                  ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+                  : form.get(fieldNames.thresholdValue).value) || 0
+              }
               operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}

@@ -120,7 +120,7 @@ export default connectTo(
             />
           </Card>
 
-          <Card title="Domain">
+          <Card title="Scope">
             <div className={locals.filterList}>
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
