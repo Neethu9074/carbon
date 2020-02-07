@@ -57,7 +57,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                 className={locals.wideControl}
                 name={fieldNames.ruleAggregation}
                 value={form.get(fieldNames.ruleAggregation).value}
-                options={selectOptions[fieldNames.ruleAggregation]}
+                options={getAggregationOptions(form)}
                 onChange={e => {
                   const value = (e && e.value) || '';
                   const doCalculateThresholdOnBackend = {
@@ -218,6 +218,13 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
       </div>
     </div>
   );
+}
+
+function getAggregationOptions(form) {
+  if (getFormValueOrDefault(form, fieldNames.thresholdType, 'staticThreshold') === 'historicBaseline.WEEKLY') {
+    return selectOptions.ruleAggregationForWeeklySeasonality;
+  }
+  return selectOptions[fieldNames.ruleAggregation];
 }
 
 SlownessChart.propTypes = {

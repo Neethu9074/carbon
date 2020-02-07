@@ -4,10 +4,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  getThresholdValueForPercentageMetric,
+  getValueRoundedToDecimals,
+  round,
+  fieldNames,
+  hiddenFieldNames,
+  selectOptions
+} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
@@ -94,18 +101,19 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                   name={fieldNames.thresholdValue}
                   step="1"
                   value={
-                    (doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value) *
-                    (percentageMetric ? 100 : 1)
+                    doDebounce
+                      ? tempThreshold
+                      : getValueRoundedToDecimals(form.get(fieldNames.thresholdValue).value, percentageMetric)
                   }
                   onChange={e => {
                     let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
-                    if (e.target.value !== '') {
-                      value = percentageMetric ? Math.abs(e.target.value) / 100 : Math.abs(e.target.value);
+                    if (value !== '') {
+                      value = percentageMetric ? round(Math.abs(value) / 100, 3) : Math.abs(value);
                     }
 
                     setDoDebounce(true);
-                    setTempThreshold(value);
+                    setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
 
                     const onChangCallback = () => {
                       onChange(form, fieldNames.thresholdValue, value);
@@ -122,7 +130,11 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
           <div className={locals.placeholder}>
             <StatusCodeAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={doDebounce ? tempThreshold : form.get(fieldNames.thresholdValue).value || 0}
+              threshold={
+                doDebounce
+                  ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+                  : form.get(fieldNames.thresholdValue).value || 0
+              }
               operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}

@@ -150,6 +150,10 @@ export const selectOptions = {
     { value: 'P99', label: '99th' },
     { value: 'MAX', label: 'max' }
   ]),
+  ruleAggregationForWeeklySeasonality: Object.freeze([
+    { value: 'MEAN', label: 'mean' },
+    { value: 'P50', label: '50th' }
+  ]),
   [fieldNames.thresholdOperator]: Object.freeze([
     { value: '>=', label: '≥' },
     { value: '>', label: '>' },
@@ -436,4 +440,16 @@ function percentageAffectedUsersValidator(num) {
       }
     ];
   }
+}
+
+export function round(value, decimals) {
+  return parseFloat(Number.parseFloat(value).toPrecision(decimals));
+}
+
+export function getValueRoundedToDecimals(value, percentageMetric) {
+  return percentageMetric ? round(value * 100, 3) : value;
+}
+
+export function getThresholdValueForPercentageMetric(value, percentageMetric) {
+  return percentageMetric ? round(value / 100, 3) : value;
 }
