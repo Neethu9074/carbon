@@ -39,9 +39,6 @@ export default {
     backBufferCtx.strokeStyle = thresholdColor;
     backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
     backBufferCtx.stroke();
-
-    backBufferCtx.globalAlpha = 1;
-
     backBufferCtx.restore();
   },
   enrich: (config, axis) => {
