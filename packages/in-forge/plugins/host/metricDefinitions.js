@@ -6,8 +6,8 @@ import {
   siMultiplyPrefix,
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import { isWindows, isLinux } from 'in-forge/plugins/host/hostUtils';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { isWindows } from 'in-forge/plugins/host/hostUtils';
 
 const availableCpuMetricSuffixes = {
   user: 'User',
@@ -63,6 +63,16 @@ export default [
     formatter: number,
     isAvailable(snapshot) {
       return !isWindows(snapshot);
+    }
+  },
+  {
+    metric: 'ctxt',
+    label: 'Context Switches',
+    category: ['CPU'],
+    min: 0,
+    formatter: number,
+    isAvailable(snapshot) {
+      return isLinux(snapshot);
     }
   },
   {
