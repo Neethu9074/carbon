@@ -52,6 +52,7 @@ export const customServiceMappingTagKeys = [
   'nomad.task.name',
   'process.name',
   'ruby.name',
+  'service.default_name',
   'springboot.name'
 ];
 
