@@ -3,10 +3,11 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
+import Table from 'in-sdk/components/dashboard/Table';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Table from 'in-sdk/components/dashboard/Table';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -47,86 +48,128 @@ export default connectTo(
     metaEsNodes = sort(metaEsNodes);
     const metaEsNodeLabels = getLabels(metaEsNodes, /^(elastic-\d+).*$/i);
 
+    let maxNodesPerBucket = 5;
+    let esNodesBuckets = Math.ceil(metaEsNodes.length / maxNodesPerBucket);
+
+    let indicesQueryCount = [];
+    let addedDocuments = [];
+    let networkDataReceived = [];
+    let networkDataTransmitted = [];
+    let cpuLoad = [];
+
+    for (let i = 0; i < esNodesBuckets; i++) {
+      let itemsList = metaEsNodes.slice(i * maxNodesPerBucket, (i + 1) * maxNodesPerBucket);
+      let itemsLabelList = metaEsNodeLabels.slice(i * maxNodesPerBucket, (i + 1) * maxNodesPerBucket);
+
+      indicesQueryCount.push(
+        <Col xs={6} key={'indices.query_count' + i}>
+          <Chart
+            snapshotIds={itemsList.map(r => r.elastic.get('id'))}
+            timeConfig={timeConfig}
+            minRollup={5000}
+            y1={{
+              min: 0,
+              formatter: number.perSecond.compact,
+              metrics: itemsList.map(() => `indices.query_count`),
+              labels: itemsLabelList,
+              type: 'stackedArea'
+            }}
+          />
+        </Col>
+      );
+
+      addedDocuments.push(
+        <Col xs={6} key={'indices.index_count' + i}>
+          <Chart
+            snapshotIds={itemsList.map(r => r.elastic.get('id'))}
+            timeConfig={timeConfig}
+            minRollup={5000}
+            y1={{
+              min: 0,
+              formatter: number.perSecond.compact,
+              metrics: itemsList.map(() => `indices.index_count`),
+              labels: itemsLabelList,
+              type: 'stackedArea'
+            }}
+          />
+        </Col>
+      );
+
+      networkDataReceived.push(
+        <Col xs={6} key={'ifs.eth0.rx.bytes' + i}>
+          <Chart
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: itemsList.map(() => `ifs.eth0.rx.bytes`),
+              labels: itemsLabelList,
+              type: 'line'
+            }}
+          />
+        </Col>
+      );
+
+      networkDataTransmitted.push(
+        <Col xs={6} key={'ifs.eth0.tx.bytes' + i}>
+          <Chart
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: itemsList.map(() => `ifs.eth0.tx.bytes`),
+              labels: itemsLabelList,
+              type: 'line'
+            }}
+          />
+        </Col>
+      );
+
+      cpuLoad.push(
+        <Col xs={6} key={'load.1min' + i}>
+          <Chart
+            snapshotIds={itemsList.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            minRollup={5000}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              tooltipFormatter: number.detailed,
+              metrics: itemsList.map(() => 'load.1min'),
+              labels: itemsLabelList,
+              type: 'line'
+            }}
+          />
+        </Col>
+      );
+    }
+
     return (
       <div>
         <h2>Meta Elastic ({metaEsNodes.length} nodes)</h2>
-        <Columize>
-          <DashboardSection title={`# of queries`}>
-            <Chart
-              snapshotIds={metaEsNodes.map(r => r.elastic.get('id'))}
-              timeConfig={timeConfig}
-              minRollup={5000}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: metaEsNodes.map(() => `indices.query_count`),
-                labels: metaEsNodeLabels,
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
-          <DashboardSection title={`Added documents`}>
-            <Chart
-              snapshotIds={metaEsNodes.map(r => r.elastic.get('id'))}
-              timeConfig={timeConfig}
-              minRollup={5000}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: metaEsNodes.map(() => `indices.index_count`),
-                labels: metaEsNodeLabels,
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
+        <DashboardSection title={`# of queries`}>
+          <Row>{indicesQueryCount}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Added documents`}>
+          <Row>{addedDocuments}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data received`}>
+          <Row>{networkDataReceived}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data transmitted`}>
+          <Row>{networkDataTransmitted}</Row>
+        </DashboardSection>
+
+        <DashboardSection title={`CPU load`}>
+          <Row>{cpuLoad}</Row>
+        </DashboardSection>
 
         <Columize>
-          <DashboardSection title={`Network - data received`}>
-            <Chart
-              snapshotIds={metaEsNodes.map(r => r.host.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: bytesZeroDecimalPlaces,
-                metrics: metaEsNodes.map(() => `ifs.eth0.rx.bytes`),
-                labels: metaEsNodeLabels,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-
-          <DashboardSection title={`Network - data transmitted`}>
-            <Chart
-              snapshotIds={metaEsNodes.map(r => r.host.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: bytesZeroDecimalPlaces,
-                metrics: metaEsNodes.map(() => `ifs.eth0.tx.bytes`),
-                labels: metaEsNodeLabels,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
-
-        <Columize>
-          <DashboardSection title={`CPU load`}>
-            <Chart
-              snapshotIds={metaEsNodes.map(r => r.host.get('id'))}
-              timeConfig={timeConfig}
-              minRollup={5000}
-              y1={{
-                min: 0,
-                formatter: number.detailed,
-                tooltipFormatter: number.detailed,
-                metrics: metaEsNodes.map(() => 'load.1min'),
-                labels: metaEsNodeLabels,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
           <DashboardSection title="Suspension">
             <ChartExplanation>
               Suspension is an indication of how much application execution might have been delayed by the JVM, OS or

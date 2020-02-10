@@ -46,7 +46,7 @@ export default connectTo(
                 formatter: number.perSecond.compact,
                 metrics: metricsNodes.map(() => `clientrequests.write.count`),
                 labels: metricsNodeLabels,
-                type: 'stackedArea'
+                type: 'line'
               }}
             />
           </DashboardSection>
@@ -61,7 +61,7 @@ export default connectTo(
                 formatter: number.perSecond.compact,
                 metrics: metricsNodes.map(() => `clientrequests.read.count`),
                 labels: metricsNodeLabels,
-                type: 'stackedArea'
+                type: 'line'
               }}
             />
           </DashboardSection>
