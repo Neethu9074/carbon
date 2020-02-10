@@ -68,6 +68,7 @@ export default [
   {
     metric: 'ctxt',
     label: 'Context Switches',
+    category: ['CPU'],
     min: 0,
     formatter: number,
     isAvailable(snapshot) {
