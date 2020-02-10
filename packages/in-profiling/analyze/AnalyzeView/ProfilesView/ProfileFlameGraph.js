@@ -39,7 +39,7 @@ function QueryToQueryStreamWrapper({ profile, query, width = 0 }) {
   return <ProfileFlameGraph query$={query$} width={width} profile={profile} />;
 }
 
-const ProfileFlameGraph = connectTo(({ query$ }) => ({ query: query$.throttle(300) }), function ProfileFlameGraph(
+const ProfileFlameGraph = connectTo(({ query$ }) => ({ query: query$.debounce(300) }), function ProfileFlameGraph(
   props
 ) {
   return <ProfileFlameGraphWithReducedUpdates profile={props.profile} width={props.width} query={props.query} />;
@@ -122,7 +122,6 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
   };
 
   render() {
-    // console.log(this.state.isNodeSelected);
     return (
       <div className={locals.wrapper}>
         {this.state.isNodeSelected ? (
