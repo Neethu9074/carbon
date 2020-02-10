@@ -225,7 +225,10 @@ function getAggregationValueAndUpdateFormIfNeeded(form, onChange) {
   let aggregationValue = form.get(fieldNames.ruleAggregation).value;
   if (!aggregationOptions.find(e => e.value === aggregationValue)) {
     aggregationValue = aggregationOptions[0].value;
-    onChange(form, fieldNames.ruleAggregation, aggregationValue);
+    onChange(form, fieldNames.ruleAggregation, aggregationValue, {
+      name: hiddenFieldNames.calculateThresholdOnBackend,
+      value: true
+    });
   }
   return aggregationValue;
 }

@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  withSlownessFormStaticThreshold,
-  withSlownessFormHistoricBaseline
-} from 'in-websites/eum-alerting/form/slownessForm';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
+import { withSlownessFormHistoricBaseline } from 'in-websites/eum-alerting/form/slownessForm';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -52,30 +49,30 @@ AlertTypeDescription.propTypes = {
 };
 
 function updateFormAndCallOnChange(form, config, onChange) {
-  let metricToSelect;
-  let updatedForm = form;
+  let updatedForm;
+  let ruleMetricNameValue;
+  let thresholdTypeValue;
 
   if (config.type === alertTypes.specificJsError) {
-    metricToSelect = { name: fieldNames.ruleMetricName, value: constants.errorCount };
     updatedForm = withJsErrorsFormSpecificError(form);
+    ruleMetricNameValue = constants.errorCount;
+    thresholdTypeValue = 'staticThreshold';
   } else if (config.type === alertTypes.slowness) {
-    metricToSelect = { name: fieldNames.ruleMetricName, value: constants.onLoadTime };
-    const thresholdType = form.get(fieldNames.thresholdType).value;
-    if (thresholdType === 'staticThreshold') {
-      updatedForm = withSlownessFormStaticThreshold(form);
-    }
-    if (thresholdType.includes('historicBaseline.')) {
-      updatedForm = withSlownessFormHistoricBaseline(form);
-    }
+    updatedForm = withSlownessFormHistoricBaseline(form);
+    ruleMetricNameValue = constants.onLoadTime;
+    thresholdTypeValue = 'historicBaseline.DAILY';
   } else if (config.type === alertTypes.specificStatusCode) {
-    metricToSelect = { name: fieldNames.ruleMetricName, value: constants.statusCodeCount };
     updatedForm = withStatusCodesFormSpecificStatusCode(form);
+    ruleMetricNameValue = constants.statusCodeCount;
+    thresholdTypeValue = 'staticThreshold';
   }
 
-  const doCalculateThresholdOnBackend = {
-    name: hiddenFieldNames.calculateThresholdOnBackend,
-    value: true
-  };
-
-  onChange(updatedForm, fieldNames.ruleAlertType, config.type, metricToSelect, doCalculateThresholdOnBackend);
+  onChange(
+    updatedForm,
+    fieldNames.ruleAlertType,
+    config.type,
+    { name: fieldNames.ruleMetricName, value: ruleMetricNameValue },
+    { name: fieldNames.thresholdType, value: thresholdTypeValue },
+    { name: hiddenFieldNames.calculateThresholdOnBackend, value: true }
+  );
 }

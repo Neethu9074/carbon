@@ -9,6 +9,8 @@ export function withJsErrorsFormSpecificError(form, rule = null) {
   updatedForm = updatedForm.remove(fieldNames.ruleAggregation);
   updatedForm = updatedForm.remove(fieldNames.ruleOperator);
   updatedForm = updatedForm.remove(fieldNames.ruleValue);
+  updatedForm = updatedForm.remove(fieldNames.thresholdBaseline);
+  updatedForm = updatedForm.remove(fieldNames.thresholdDeviationFactor);
 
   updatedForm = updatedForm
     .put(
