@@ -17,8 +17,8 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import { statusCodeCount } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -97,6 +97,7 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                   className={locals.narrowControl}
                   type="number"
                   min="0"
+                  max={getMaxThresholdValue(metricName)}
                   name={fieldNames.thresholdValue}
                   step="1"
                   value={
@@ -168,4 +169,12 @@ StatusCodeChart.propTypes = {
 
 function hasStatusCodeSelected(form) {
   return !!(form && form.get(fieldNames.ruleValue).value);
+}
+
+function getMaxThresholdValue(metricName) {
+  return isRateMetric(metricName) ? 100 : undefined;
+}
+
+function isRateMetric(metricName) {
+  return metricName === statusCodeRate;
 }
