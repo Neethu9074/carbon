@@ -1,0 +1,6 @@
+{
+  "HEALTHY": 0,
+  "WARNING": 5,
+  "CRITICAL": 10,
+  "UNKNOWN": -1
+}
