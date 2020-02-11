@@ -25,7 +25,7 @@ export default function TwoColumnContainer({
       <div className={locals.mainArea}>
         <h3 className={locals.headline}>{mainContentHeadline}</h3>
         {warnMessage && (
-          <Message iconColor={theme.lib.colors.warning} withIcon type="neutral" small>
+          <Message iconColor={theme.lib.colors.warning} withIcon type="neutral">
             {warnMessage}
           </Message>
         )}
