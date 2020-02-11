@@ -1,4 +1,4 @@
-import { availableFilterTags } from 'in-websites/tags';
+import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
 
 export const alertTypes = {
   specificJsError: 'specificJsError',
@@ -39,7 +39,7 @@ export const alertTypeConfig = Object.freeze([
 ]);
 
 export const availableTagFiltersPerAlertType = {
-  [alertTypes.specificJsError]: availableFilterTags.error,
+  [alertTypes.specificJsError]: commonFilterTags,
   [alertTypes.slowness]: availableFilterTags.pageLoad,
   [alertTypes.specificStatusCode]: availableFilterTags.httpRequest
 };

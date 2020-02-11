@@ -134,7 +134,7 @@ export const availableGroupingTags = {
   ].sort()
 };
 
-const commonFilterTags = [
+const commonFilterTagsWithoutCommonGroupingTags = [
   'beacon.deprecations',
   'beacon.duration',
   'beacon.geo.accuracyRadius',
@@ -144,6 +144,8 @@ const commonFilterTags = [
   'beacon.timestamp',
   'beacon.website.id'
 ];
+
+export const commonFilterTags = [...commonGroupingTags, ...commonFilterTagsWithoutCommonGroupingTags];
 
 const translatedStackTraceFilterTags = [
   'beacon.stackTrace.parsingStatus',
@@ -159,13 +161,13 @@ const translatedStackTraceFilterTags = [
 export const availableFilterTags = {
   pageLoad: [
     ...availableGroupingTags.pageLoad,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
   resourceLoad: [
     ...availableGroupingTags.resourceLoad,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.http.decodedBodySize',
     'beacon.http.encodedBodySize',
     'beacon.http.transferSize',
@@ -182,20 +184,20 @@ export const availableFilterTags = {
   ].sort(),
   httpRequest: [
     ...availableGroupingTags.httpRequest,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
   error: [
     ...availableGroupingTags.error,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.batchSize',
     'beacon.error.id',
     ...translatedStackTraceFilterTags
   ].sort(),
   custom: [
     ...availableGroupingTags.custom,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.batchSize',
     ...translatedStackTraceFilterTags
   ].sort()
