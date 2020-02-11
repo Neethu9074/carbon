@@ -38,7 +38,7 @@ function BigNumber({ result, /*config, */ title }) {
         }
 
         if (value != null) {
-          const formatter = find(formatters, ({ id }) => id === demo.metriConfiguration.formatter) || defaultFormatter;
+          const formatter = find(formatters, ({ id }) => id === demo.formatter) || defaultFormatter;
           value = formatter.formatter(value);
         }
 
