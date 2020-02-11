@@ -40,6 +40,7 @@ export const customServiceMappingTagKeys = [
   'jvm.app.name',
   'kafka.cluster.name',
   'mongo.replicatSetName',
+  'kubernetes.cluster.name',
   'kubernetes.container.name',
   'kubernetes.namespace',
   'kubernetes.label',
