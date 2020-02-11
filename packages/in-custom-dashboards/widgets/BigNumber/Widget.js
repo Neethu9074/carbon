@@ -1,28 +1,32 @@
+import { find } from 'lodash';
 import React from 'react';
 
 import { defaultFormatter, formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { demo } from 'in-custom-dashboards/widgets/BigNumber/demo';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 const metricKey = 'bigNumber';
 
-export default connectTo(({ config }) => ({
+export default connectTo((/*{ config }*/) => ({
   result: timeConfig$.flatMap(timeConfig =>
     getUnifiedMetrics({
-      [metricKey]: {
-        ...config.metriConfiguration,
-        timeConfig,
-        granularity: null,
-        type: 'singleValue'
+      metrics: {
+        [metricKey]: {
+          ...demo.metriConfiguration,
+          timeConfig,
+          granularity: null,
+          resultType: 'SINGLE_NUMBER'
+        }
       }
     })
   )
 }))(BigNumber);
 
-function BigNumber({ result, config, title }) {
+function BigNumber({ result, /*config, */ title }) {
   return (
     <ResultAwareKpiCard
       title={title}
@@ -34,8 +38,8 @@ function BigNumber({ result, config, title }) {
         }
 
         if (value != null) {
-          const formatter = formatters[config.metriConfiguration.formatter] || formatters[defaultFormatter];
-          value = formatter(value);
+          const formatter = find(formatters, ({ id }) => id === demo.metriConfiguration.formatter) || defaultFormatter;
+          value = formatter.formatter(value);
         }
 
         return <KpiCard title={title} value={value} />;

@@ -38,8 +38,8 @@ export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, 
           <div
             key={widget.id}
             data-grid={{
-              w: widget.width,
-              h: widget.height,
+              w: Math.max(widget.width, minimumWidth),
+              h: Math.max(widget.height, minimumHeight),
               x: widget.x,
               y: widget.y,
               minW: minimumWidth,

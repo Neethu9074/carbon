@@ -1,6 +1,10 @@
 import { number, percentage, bytes, millis, siPrefix } from 'in-services/formatters/number';
 
-export const defaultFormatter = 'number.detailed';
+export const defaultFormatter = {
+  id: 'number.detailed',
+  label: `Number, e.g. ${number.detailed(42.15)}`,
+  formatter: number.detailed
+};
 
 export const formatters = [
   {
@@ -8,11 +12,7 @@ export const formatters = [
     label: `Number, e.g. ${number.compact(42.15)}`,
     formatter: number.compact
   },
-  {
-    id: defaultFormatter,
-    label: `Number, e.g. ${number.detailed(42.15)}`,
-    formatter: number.detailed
-  },
+  defaultFormatter,
   {
     id: 'percentage.compact',
     label: `Percentage, e.g. ${percentage.compact(0.4215)}`,
