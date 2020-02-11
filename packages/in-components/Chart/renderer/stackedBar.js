@@ -19,7 +19,7 @@ export default {
     const metricIndexes =
       config.metricsConfiguration && config.metricsConfiguration.reverseOrder === true
         ? range(metrics.length)
-        : rangeRight(metrics.length - 1);
+        : rangeRight(metrics.length);
     metricIndexes.map(iMetric => {
       const isLastSeries = iMetric === metrics.length - 1;
       renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric], isLastSeries);
