@@ -56,7 +56,7 @@ export default connectTo(
               formatter: number.perSecond.compact,
               metrics: itemsList.map(() => `clientrequests.write.count`),
               labels: itemsLabelList,
-              type: 'stackedArea'
+              type: 'line'
             }}
           />
         </Col>
@@ -73,7 +73,7 @@ export default connectTo(
               formatter: number.perSecond.compact,
               metrics: itemsList.map(() => `clientrequests.read.count`),
               labels: itemsLabelList,
-              type: 'stackedArea'
+              type: 'line'
             }}
           />
         </Col>

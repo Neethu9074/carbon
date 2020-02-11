@@ -56,7 +56,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                 id={fieldNames.ruleAggregation}
                 className={locals.wideControl}
                 name={fieldNames.ruleAggregation}
-                value={form.get(fieldNames.ruleAggregation).value}
+                value={getAggregationValueAndUpdateFormIfNeeded(form, onChange)}
                 options={getAggregationOptions(form)}
                 onChange={e => {
                   const value = (e && e.value) || '';
@@ -218,6 +218,19 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
       </div>
     </div>
   );
+}
+
+function getAggregationValueAndUpdateFormIfNeeded(form, onChange) {
+  const aggregationOptions = getAggregationOptions(form);
+  let aggregationValue = form.get(fieldNames.ruleAggregation).value;
+  if (!aggregationOptions.find(e => e.value === aggregationValue)) {
+    aggregationValue = aggregationOptions[0].value;
+    onChange(form, fieldNames.ruleAggregation, aggregationValue, {
+      name: hiddenFieldNames.calculateThresholdOnBackend,
+      value: true
+    });
+  }
+  return aggregationValue;
 }
 
 function getAggregationOptions(form) {

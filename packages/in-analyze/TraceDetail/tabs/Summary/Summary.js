@@ -121,6 +121,21 @@ class Summary extends React.Component {
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <TraceValidationResult issues={trace.issues} />
         <div className={locals.left}>
+          {isInstanaEngineer &&
+          trace.callRecordCount &&
+          trace.callCountIgnoringBatchSize &&
+          trace.callRecordCount !== trace.callCountIgnoringBatchSize ? (
+            <Row>
+              <Col lg={12}>
+                <ProblemIndicator kind="warning" title="Duplicate Calls">
+                  This trace consists of one or more duplicate calls (spans). Unique Calls:{' '}
+                  {trace.callCountIgnoringBatchSize} - Records: {trace.callRecordCount}. This leads to incorrect
+                  &apos;call count&apos; (with batches) and &apos;error count&apos; values, and perhaps other
+                  irregularities.
+                </ProblemIndicator>
+              </Col>
+            </Row>
+          ) : null}
           {isInstanaEngineer && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
             <Row>
               <Col lg={12}>

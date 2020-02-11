@@ -31,11 +31,9 @@ function drawLineGraph(len, config, upperThresholdInTimeframe, scale) {
 
 function renderBaseline(axis, metric, config, scale, colors) {
   const baseline = config.y1.baseline;
-
   if (!baseline || baseline.length === 0) {
     return;
   }
-
   const sensitivity = config.y1.sensitivity;
   const timeConfig = config.timeConfig;
   const baselineWindowSize = baseline.length * baselineGranularity;
@@ -46,43 +44,40 @@ function renderBaseline(axis, metric, config, scale, colors) {
   const alrightColor = colors[2];
   const violationColor = colors[3];
   const isGreaterOp = isGreaterOperator(config.y1.operator);
-
   const upperThresholdInTimeframe = [];
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
     upperThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
-
   // Backgrounds
   const len = upperThresholdInTimeframe.length;
-  const xPosStart = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
-  const yPosStart = scale.getRange(upperThresholdInTimeframe[len - 1][1]);
+  const xPosStart = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
+  const xPosEnd = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
+  const yPosStart = scale.getRange(upperThresholdInTimeframe[0][1]);
 
+  config.backBufferCtx.save();
   // Background below line
   config.backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
   config.backBufferCtx.globalAlpha = 0.25;
   config.backBufferCtx.beginPath();
-  config.backBufferCtx.moveTo(0, upperThresholdInTimeframe[0][0]);
+  config.backBufferCtx.moveTo(xPosStart, yPosStart);
 
   drawLineGraph(len, config, upperThresholdInTimeframe, scale);
+  config.backBufferCtx.lineTo(xPosEnd, chartHeight);
   config.backBufferCtx.lineTo(xPosStart, chartHeight);
-  config.backBufferCtx.lineTo(0, chartHeight);
-  config.backBufferCtx.lineTo(0, chartHeight - yPosStart);
-  config.backBufferCtx.lineTo(0, yPosStart);
+  config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
 
   // Background Above line
   config.backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
   config.backBufferCtx.beginPath();
-  config.backBufferCtx.moveTo(0, upperThresholdInTimeframe[0][0]);
-
+  config.backBufferCtx.moveTo(xPosStart, yPosStart);
   drawLineGraph(len, config, upperThresholdInTimeframe, scale);
+  config.backBufferCtx.lineTo(xPosEnd, 0);
   config.backBufferCtx.lineTo(xPosStart, 0);
-  config.backBufferCtx.lineTo(0, 0);
-  config.backBufferCtx.lineTo(0, yPosStart);
+  config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
-
-  config.backBufferCtx.globalAlpha = 1;
+  config.backBufferCtx.restore();
 
   // upper-baseline
   config.backBufferCtx.save();

@@ -18,6 +18,7 @@ import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-ale
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -26,8 +27,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EumChart.mless';
-
-const errorCountMetricName = 'errors';
 
 export default compose(
   withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
@@ -66,7 +65,7 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                     onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
                     websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
                   }}
-                  defaultValue={errorCountMetricName}
+                  defaultValue={errorCount}
                   clearable={false}
                 />
               </FormGroup>
@@ -98,6 +97,7 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                   className={locals.narrowControl}
                   type="number"
                   min="0"
+                  max={getMaxThresholdValue(metricName)}
                   name={fieldNames.thresholdValue}
                   step="1"
                   value={
@@ -168,4 +168,12 @@ JsErrorsChart.propTypes = {
 
 function hasJsErrorSelected(form) {
   return !!(form && form.get(fieldNames.ruleValue).value);
+}
+
+function getMaxThresholdValue(metricName) {
+  return isRateMetric(metricName) ? 100 : undefined;
+}
+
+function isRateMetric(metricName) {
+  return metricName === errorRate;
 }
