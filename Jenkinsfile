@@ -72,21 +72,6 @@ stage('Deployment') {
   milestone label: "deployment"
 
   def deployments = [:]
-  deployments['deploy-test'] = {
-    if ( env.BRANCH_NAME == 'develop' ) {
-      node {
-        echo "Deploying develop:${instanaVersion} to test.instana.io ..."
-
-        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'test'),
-          string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH', value: env.BRANCH_NAME)
-        ]
-
-        slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
-      }
-    }
-  }
 
   deployments['deploy-release'] = {
     if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployReleaseFullstack ) {
