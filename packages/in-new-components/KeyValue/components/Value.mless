@@ -1,0 +1,31 @@
+@import '~in-themes/active.less';
+
+:local {
+  .value {
+    display: block;
+
+    color: @lib__colors__N900Primary;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    font-weight: 500;
+  }
+
+  .default {
+    &.inverted {
+      color: @lib__colors__N600Light;
+      font-weight: 400;
+    }
+  }
+
+  .blue {
+    color: @lib__colors__light-blue800;
+
+    &.inverted {
+      color: @lib__colors__N900Primary;
+    }
+  }
+
+  .accentuated {
+    font-size: 0.875rem;
+  }
+}
