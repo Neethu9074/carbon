@@ -39,7 +39,7 @@ export default function MetricConfiguratorPresenter({form, onChange, onChangeSou
           hasError={!sourceField.valid && sourceField.touched}
         >
           <option value="">
-            Please Select
+            Please select
           </option>
           {Object.keys(sources)
             .sort((a, b) => compareIgnoreCase(sources[a].label, sources[b].label))

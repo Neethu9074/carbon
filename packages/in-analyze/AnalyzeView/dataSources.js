@@ -78,9 +78,9 @@ export function getIconByType(type, productArea) {
 
 export function getEntityNameByType(type) {
   if (type === 'pageLoad') {
-    return 'page loads';
+    return 'Page loads';
   } else if (type === 'resourceLoad') {
-    return 'resources';
+    return 'Resources';
   } else if (type === 'httpRequest') {
     return 'HTTP requests';
   } else if (type === 'error') {
