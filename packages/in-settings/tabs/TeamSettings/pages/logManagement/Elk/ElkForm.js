@@ -4,12 +4,13 @@ import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkFor
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
+import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
-  let basePath = form.get('basePath').value.trim();
-  basePath = basePath.length > 0 ? '/' + basePath : '';
+  let basePath = form.get('basePath').value;
+  basePath = isBlank(basePath) ? '' : '/' + basePath.trim();
 
   const elkUrl = form.get('url').value + basePath + '/app/kibana#/dashboards?title=' + form.get('dashboard').value;
 

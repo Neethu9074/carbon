@@ -41,19 +41,18 @@ function constructElkLink(integration, props) {
   return `${integration.url}/${integration.repository}/search${toParams(queryParameters, '?', '&')}`;
 }
 
-function serializeQuery({ hostFqdn, hostName, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
+function serializeQuery({ hostName, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
   let query = '';
 
   if (kubernetesPodName) {
     query = `kubernetes.pod_name=${kubernetesPodName}`;
   } else if (dockerContainerId) {
     query = `kubernetes.docker_id=${dockerContainerId} or docker.container_id=${dockerContainerId}`;
-  } else if (hostFqdn || hostName) {
-    const hostParam = hostFqdn ? hostFqdn : hostName;
+  } else if (hostName) {
     if (isWithinKubernetes) {
-      query = `kubernetes.host=${hostParam}`;
+      query = `kubernetes.host=${hostName}`;
     } else {
-      query = `host=${hostParam} or @host=${hostParam}`;
+      query = `host.hostname=${hostName} or host.name=${hostName}`;
     }
   }
 
