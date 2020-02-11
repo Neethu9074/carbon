@@ -50,6 +50,7 @@ export const hiddenFieldNames = Object.freeze({
 
 export const selectOptions = {
   [fieldNames.ruleOperator]: Object.freeze([
+    { value: operators.NOT_EMPTY, label: 'Any' },
     { value: operators.EQUALS, label: 'Equals' },
     { value: operators.CONTAINS, label: 'Contains' },
     { value: operators.STARTS_WITH, label: 'Starts with' },

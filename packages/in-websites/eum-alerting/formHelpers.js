@@ -13,6 +13,10 @@ const operatorDescriptionValues = {
 export function getTitlePlaceholder(form) {
   const alertType = form.get(fieldNames.ruleAlertType).value;
   if (alertType === alertTypes.specificJsError) {
+    const operator = form.get(fieldNames.ruleOperator).value;
+    if (operator === operators.NOT_EMPTY) {
+      return `Any JS Errors`;
+    }
     const errorMessage = form.get(fieldNames.ruleValue).value;
     return `JS Error(s): ${errorMessage}`;
   } else if (alertType === alertTypes.specificStatusCode) {
@@ -29,8 +33,11 @@ export function getTitlePlaceholder(form) {
 export function getDescriptionPlaceholder(form) {
   const alertType = form.get(fieldNames.ruleAlertType).value;
   if (alertType === alertTypes.specificJsError) {
-    const errorMessage = form.get(fieldNames.ruleValue).value;
-    return `JS Errors which ${operatorDescriptionValues[errorMessage]} "${
+    const operator = form.get(fieldNames.ruleOperator).value;
+    if (operator === operators.NOT_EMPTY) {
+      return `JS Errors have been detected.`;
+    }
+    return `JS Errors which ${operatorDescriptionValues[operator]} "${
       form.get(fieldNames.ruleValue).value
     }" have been detected.`;
   } else if (alertType === alertTypes.specificStatusCode) {

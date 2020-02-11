@@ -13,6 +13,7 @@ import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+import { operators } from 'in-analyze/applicationFilter';
 import { modeAdvanced } from '../../constants';
 
 import locals from './UseCaseSelection.mless';
@@ -63,9 +64,7 @@ export default function JsErrorUseCaseSelection({
         {isReadOnly ? (
           <SelectedAlertTypeInfo
             title="Error Message"
-            description={`${getRuleOperatorLabel(form.get(fieldNames.ruleOperator).value)}: "${
-              form.get(fieldNames.ruleValue).value
-            }"`}
+            description={getDescription(form)}
             svgIconType="lib_help_error_warning"
           />
         ) : (
@@ -81,6 +80,15 @@ export default function JsErrorUseCaseSelection({
       <div className={locals.chartContainer}>{chart}</div>
     </>
   );
+}
+
+function getDescription(form) {
+  const operator = form.get(fieldNames.ruleOperator).value;
+  let description = getRuleOperatorLabel(operator);
+  if (operator !== operators.NOT_EMPTY) {
+    description = `${description}: "${form.get(fieldNames.ruleValue).value}"`;
+  }
+  return description;
 }
 
 JsErrorUseCaseSelection.propTypes = {
