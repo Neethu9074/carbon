@@ -110,8 +110,7 @@ export const availableGroupingTags = {
     'beacon.asynchronous',
     'beacon.erroneous',
     'beacon.error.count',
-    'beacon.error.message',
-    'beacon.error.type'
+    'beacon.error.message'
   ].sort(),
   error: [
     ...commonGroupingTags,
