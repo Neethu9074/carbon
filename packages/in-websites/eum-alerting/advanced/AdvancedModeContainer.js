@@ -96,7 +96,7 @@ export default function AdvancedModeContainer({
                         onChange={onChange}
                       />
                       {showInsufficientBaselineDataMessage(form) && (
-                        <Message type="warning" iconColor={theme.lib.colors.failure} withIcon small>
+                        <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon small>
                           Insufficient data to compute the selected Baseline. Please select Static Threshold instead.
                         </Message>
                       )}
