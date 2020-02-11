@@ -1,0 +1,47 @@
+@import '~in-themes/active.less';
+
+:local {
+  .card {
+    background: @lib__colors__white;
+
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_large;
+    box-shadow: @lib__shadows__subtle;
+  }
+
+  .useMaxAvailableHeight {
+    height: 100%;
+  }
+
+  .title {
+    margin-right: 1rem;
+
+    font-size: 1.375rem;
+    color: @lib__colors__N900Primary;
+    font-weight: 500;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1rem 0.25rem 1.5rem;
+    min-height: 3.25rem;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+    margin-right: 0.5rem;
+  }
+
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .body {
+    padding: 0 1rem 1rem;
+  }
+}
