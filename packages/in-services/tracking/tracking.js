@@ -143,3 +143,10 @@ export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'helpAndSupport.clicked';
 export const ONBOARDING_MAIN_TOPIC_CHANGED = 'mainTopic.changed';
 export const ONBOARDING_SUB_TOPIC_CHANGED = 'subTopic.changed';
 export const ONBOARDING_SEARCH_QUERY_CHANGED = 'searchQuery.changed';
+
+export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';
+export const PROFILING_CPU_FLAMEGRAPH_OPENEND = 'profiling.cpu.flameGraph.openend';
+export const PROFILING_WAITTIME_TREEVIEW_OPENEND = 'profiling.waitTime.treeView.openend';
+export const PROFILING_WAITTIME_FLAMEGRAPH_OPENEND = 'profiling.waitTime.flameGraph.openend';
+export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
+export const PROFILING_FLAMEGRAPH_CLICKED = 'profiling.flameGraph.clicked';

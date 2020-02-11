@@ -10,6 +10,7 @@ import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { containsIgnoreCase } from 'in-services/util/string';
+import { flameGraphClicked } from 'in-profiling/tracker';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -113,7 +114,10 @@ class ProfileFlameGraphWithReducedUpdates extends React.Component {
       .differential(false)
       .selfValue(false)
       .inverted(true)
-      .onClick(node => this.setState({ isNodeSelected: node && node.data.name !== 'root' }))
+      .onClick(node => {
+        this.setState({ isNodeSelected: node.data.name !== 'root' });
+        flameGraphClicked(node.depth);
+      })
       .setColorMapper(colorMapper.bind(null, this));
 
     select('#chart')
