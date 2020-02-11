@@ -19,7 +19,7 @@ import { createLogger } from 'instalog';
 
 const block = 'in-ui-config';
 
-const logger = createLogger('humioConfig');
+const logger = createLogger('elkConfig');
 
 export default class Elk extends React.Component {
   static displayName = 'ELK';
@@ -209,5 +209,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('url').value) || isBlank(form.get('basePath').value) || isBlank(form.get('dashboard').value);
+  return isBlank(form.get('url').value) || isBlank(form.get('dashboard').value);
 }

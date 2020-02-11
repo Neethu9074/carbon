@@ -8,7 +8,10 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
-  const elkUrl = form.get('url').value + '/' + form.get('repository').value;
+  let basePath = form.get('basePath').value.trim();
+  basePath = basePath.length > 0 ? '/' + basePath : '';
+
+  const elkUrl = form.get('url').value + basePath + '/app/kibana#/dashboards?title=' + form.get('dashboard').value;
 
   return (
     <fieldset>
@@ -27,7 +30,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>https://cloud.kibana.com</b> or <b>http://192.168.1.128:443</b> for an internal instance.
+            Example: <b>http://localhost:5601</b> for an internal instance.
           </HelpText>
         </FormGroup>
       ))}
@@ -46,7 +49,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: Base path you have configured in ELK for Instana.
+            Example: Optional base path you have configured in ELK.
           </HelpText>
         </FormGroup>
       ))}
