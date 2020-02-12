@@ -1,6 +1,7 @@
-import { deepCopy } from 'in-services/util/object';
-import { isNotBlank } from 'in-services/util/string';
 import { find } from 'lodash';
+
+import { isNotBlank } from 'in-services/util/string';
+import { deepCopy } from 'in-services/util/object';
 
 export function onLayoutChange(config, setConfig, changes) {
   const newConfig = deepCopy(config);

@@ -44,6 +44,10 @@ function CustomDashboard({ config: originalConfiguration = sampleConfiguration }
       setConfig={setConfig}
       isEditing={isEditing}
       setEditing={setEditing}
+      isDeletable
+      isResizable
+      isConfigurable
+      isDraggable
       editable={config.writable}
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onDeleteCustomDashboard={onDeleteCustomDashboard}

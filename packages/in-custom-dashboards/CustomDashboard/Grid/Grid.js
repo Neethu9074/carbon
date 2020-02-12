@@ -1,8 +1,7 @@
 import { WidthProvider, Responsive } from 'react-grid-layout';
-import React from 'react';
-
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import React from 'react';
 
 import {
   rowHeightPixels,
@@ -18,7 +17,17 @@ import locals from './Grid.mless';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, onRemoveWidget }) {
+export default function Grid({
+  config,
+  onLayoutChange,
+  isEditing,
+  isDeletable,
+  isResizable,
+  isConfigurable,
+  isDraggable,
+  onEditWidget,
+  onRemoveWidget
+}) {
   return (
     <ResponsiveReactGridLayout
       className={locals.layout}
@@ -27,8 +36,8 @@ export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, 
       margin={margin}
       containerPadding={containerPadding}
       breakpoints={breakpoints}
-      isDraggable={isEditing}
-      isResizable={isEditing}
+      isDraggable={isEditing && isDraggable}
+      isResizable={isEditing && isResizable}
       onDragStop={forwardLayoutChange}
       onResizeStop={forwardLayoutChange}
     >
@@ -37,6 +46,7 @@ export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, 
         return (
           <div
             key={widget.id}
+            id={getId(widget)}
             data-grid={{
               w: Math.max(widget.width, minimumWidth),
               h: Math.max(widget.height, minimumHeight),
@@ -47,27 +57,33 @@ export default function Grid({ config, onLayoutChange, isEditing, onEditWidget, 
             }}
           >
             <Widget title={widget.title} config={widget.config} />
-            {isEditing && (
-              <SvgIcon
-                type="lib_actions_edit"
-                size="xs"
-                className={locals.edit}
-                onClick={() => onEditWidget(widget.id)}
-              />
-            )}
-            {isEditing && (
-              <SvgIcon
-                type="lib_actions_delete"
-                size="xs"
-                className={locals.remove}
-                onClick={() => onRemoveWidget(widget.id)}
-              />
-            )}
+            {isEditing &&
+              isConfigurable && (
+                <SvgIcon
+                  type="lib_actions_edit"
+                  size="xs"
+                  className={locals.edit}
+                  onClick={() => onEditWidget(widget.id)}
+                />
+              )}
+            {isEditing &&
+              isDeletable && (
+                <SvgIcon
+                  type="lib_actions_delete"
+                  size="xs"
+                  className={locals.remove}
+                  onClick={() => onRemoveWidget(widget.id)}
+                />
+              )}
           </div>
         );
       })}
     </ResponsiveReactGridLayout>
   );
+
+  function getId(widget) {
+    return `widget-${widget.id}`;
+  }
 
   function forwardLayoutChange(layout) {
     onLayoutChange(

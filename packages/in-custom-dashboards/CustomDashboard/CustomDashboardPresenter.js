@@ -10,7 +10,17 @@ import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 
 export default function CustomDashboardPresenter(props) {
-  const { config, setConfig, isEditing, onLayoutChange, onRenameDashboard } = props;
+  const {
+    config,
+    setConfig,
+    isEditing,
+    isDeletable,
+    isResizable,
+    isConfigurable,
+    isDraggable,
+    onLayoutChange,
+    onRenameDashboard
+  } = props;
 
   return (
     <>
@@ -49,6 +59,10 @@ export default function CustomDashboardPresenter(props) {
               onEditWidget={onEditWidget}
               onRemoveWidget={onRemoveWidget}
               isEditing={isEditing}
+              isDeletable={isDeletable}
+              isResizable={isResizable}
+              isConfigurable={isConfigurable}
+              isDraggable={isDraggable}
             />
           </Sticky>
         )}
