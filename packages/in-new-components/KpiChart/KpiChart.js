@@ -1,6 +1,6 @@
 import React from 'react';
 
-import KeyValue, { themes } from 'in-new-components/KeyValue/KeyValue';
+import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import MetricValue from 'in-components/MetricValue';
 
 import locals from './KpiChart.mless';

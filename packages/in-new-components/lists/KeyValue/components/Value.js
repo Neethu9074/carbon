@@ -2,19 +2,18 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 
-import locals from './Key.mless';
+import locals from './Value.mless';
 
-export default function Key({ label, theme, inverted, accentuated }) {
+export default function Value({ value, theme, accentuated }) {
   return (
     <span
       className={evaluateClassNames({
-        [locals.label]: true,
-        [locals.inverted]: inverted,
+        [locals.value]: true,
         [locals.accentuated]: accentuated,
         [locals[theme]]: true
       })}
     >
-      {label}
+      {value}
     </span>
   );
 }

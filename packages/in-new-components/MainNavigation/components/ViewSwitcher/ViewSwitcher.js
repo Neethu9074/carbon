@@ -79,7 +79,7 @@ export default function ViewSwitcher({
 
   return (
     <ul className={locals.list}>
-      {customDashboardsEnabled &&
+      {customDashboardsEnabled && (
         <View
           id="main-nav-custom-dashboards"
           label="Dashboards"
@@ -88,7 +88,7 @@ export default function ViewSwitcher({
           href$={getView(customDashboardsPath)}
           {...commonProps}
         />
-      }
+      )}
       <View
         id="main-nav-infrastructure"
         label="Infrastructure"

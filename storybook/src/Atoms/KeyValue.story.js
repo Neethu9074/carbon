@@ -1,7 +1,7 @@
 import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import KeyValue, { themes } from 'in-new-components/KeyValue/KeyValue';
+import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 
 export default {
   title: 'Atoms|Key Value',

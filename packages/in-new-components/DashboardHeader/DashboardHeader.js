@@ -49,7 +49,7 @@ export default function DashboardHeader(props) {
                 renderLastIconDelimiter={i < contextConfigurations.length - 1 || (label || icon || renderIcon)}
               />
             ))}
-          {renderIcon ? renderIcon() : <SvgIcon className={locals.icon} type={icon} size="l" />}
+          {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
           <span className={locals.label}>{label}</span>
           {renderMetaInformation && renderMetaInformation(props)}
         </div>

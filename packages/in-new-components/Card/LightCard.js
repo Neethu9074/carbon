@@ -12,6 +12,7 @@ export default function LightCard({
   children,
   leftHeaderContent,
   rightHeaderContent,
+  bodyClassName,
   useMaxAvailableHeight
 }) {
   return (
@@ -30,7 +31,14 @@ export default function LightCard({
         {rightHeaderContent && <div className={locals.right}>{rightHeaderContent}</div>}
       </div>
 
-      <div className={locals.body}>{children}</div>
+      <div
+        className={evaluateClassNames({
+          [locals.body]: true,
+          [bodyClassName]: bodyClassName
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -39,6 +47,7 @@ LightCard.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.string,
   children: PropTypes.node,
+  bodyClassName: PropTypes.string,
   leftHeaderContent: PropTypes.node,
   rightHeaderContent: PropTypes.node,
   useMaxAvailableHeight: PropTypes.bool

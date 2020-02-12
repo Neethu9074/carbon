@@ -1,9 +1,10 @@
-import createScale from 'in-services/scale';
+import theme from 'in-themes';
+
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
-import theme from 'in-themes';
+import createScale from 'in-services/scale';
 
 export default class LineMetricRenderer {
   constructor(canvas, props = {}) {

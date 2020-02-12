@@ -47,6 +47,7 @@ export default function ServerTablePresenter(props) {
     scrollWrapperClassName,
     rightHeader,
     leftHeader,
+    numSkeletonRows = 3,
     isSearchable = true,
     searchPlaceholder = '',
     searchMaxWidth,
@@ -78,7 +79,7 @@ export default function ServerTablePresenter(props) {
 
   let body = null;
   if (isLoading) {
-    body = getLoadingContent(filteredAndDisabledColumnDefinitions, result);
+    body = getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result);
   } else if (hasErrors) {
     body = <ErrorRows cols={filteredAndDisabledColumnDefinitions.length} errors={result.errors} size={size} />;
   } else if (result.data.items.length === 0) {
@@ -201,11 +202,11 @@ function onColumnChecked(onChange, disabledColumns, columnId, checked) {
   });
 }
 
-function getLoadingContent(filteredAndDisabledColumnDefinitions, result) {
+function getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result) {
   return (
     <Fragment>
       <HorizontalIndicatorRow cols={filteredAndDisabledColumnDefinitions.length} progress={result.progress} />
-      <LoadingSkeletonRows cols={filteredAndDisabledColumnDefinitions.length} />
+      <LoadingSkeletonRows cols={filteredAndDisabledColumnDefinitions.length} rows={numSkeletonRows} />
     </Fragment>
   );
 }

@@ -120,7 +120,7 @@ function getHasDataToRender() {
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getMobileAppsSubscribeEvent({
+export function getMobileAppsSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,

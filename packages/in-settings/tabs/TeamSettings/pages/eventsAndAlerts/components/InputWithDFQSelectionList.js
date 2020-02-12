@@ -53,7 +53,7 @@ function InputWithSelectionList({
         />
         <SvgIcon
           className={locals.icon}
-          type="lib_actions_star"
+          type="lib_actions_star_filled"
           size="s"
           onClick={() => onToggleFiltersList(listVisible)}
         />

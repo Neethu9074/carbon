@@ -10,19 +10,8 @@
     font-weight: 500;
   }
 
-  .default {
-    &.inverted {
-      color: @lib__colors__N600Light;
-      font-weight: 400;
-    }
-  }
-
   .blue {
     color: @lib__colors__light-blue800;
-
-    &.inverted {
-      color: @lib__colors__N900Primary;
-    }
   }
 
   .accentuated {

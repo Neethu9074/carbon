@@ -46,7 +46,7 @@ export default function Grid({
         return (
           <div
             key={widget.id}
-            id={getId(widget)}
+            id={getWidgetId(widget.id)}
             data-grid={{
               w: Math.max(widget.width, minimumWidth),
               h: Math.max(widget.height, minimumHeight),
@@ -81,10 +81,6 @@ export default function Grid({
     </ResponsiveReactGridLayout>
   );
 
-  function getId(widget) {
-    return `widget-${widget.id}`;
-  }
-
   function forwardLayoutChange(layout) {
     onLayoutChange(
       layout.map(widget => ({
@@ -96,4 +92,8 @@ export default function Grid({
       }))
     );
   }
+}
+
+export function getWidgetId(id) {
+  return `widget-${id}`;
 }

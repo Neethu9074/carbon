@@ -17,6 +17,7 @@ import {
   pcfEnabled,
   vsphereEnabled,
   mobileAppMonitoringEnabled,
+  cockpitEnabled,
   customDashboardsEnabled
 } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
@@ -32,8 +33,10 @@ import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
+import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
+import { cockpit } from 'in-cockpit/navigation/paths';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 
@@ -63,11 +66,13 @@ export default (
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsEnabled && customDashboardsRoutes}
+    {cockpitEnabled && cockpitRoutes}
 
     {profilingRoutes}
 
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
+
     {/* landing page */}
-    <RedirectWithHash from="/" to={physicalPath} />
+    <RedirectWithHash from="/" to={cockpitEnabled ? cockpit : physicalPath} />
   </FragmentSupportingSwitch>
 );

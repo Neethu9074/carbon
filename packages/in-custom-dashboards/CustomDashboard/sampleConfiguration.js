@@ -1,3 +1,6 @@
+import { demo as websitesAndMobileTopListDemo } from 'in-custom-dashboards/widgets/WebsitesAndMobileTopList';
+import { demo as infrastructureTopListDemo } from 'in-custom-dashboards/widgets/InfrastructureTopList';
+import { demo as applicationsTopListDemo } from 'in-custom-dashboards/widgets/ApplicationsTopList';
 import { demo as timeZonesDemo } from 'in-custom-dashboards/widgets/TimeZones';
 import { demo as markdownDemo } from 'in-custom-dashboards/widgets/Markdown';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -59,6 +62,36 @@ export default {
       type: 'markdown',
       title: 'Full Markdown Example',
       config: markdownDemo
+    },
+    {
+      id: generateUniqueShortId(),
+      width: 6,
+      height: 3,
+      x: 0,
+      y: 4,
+      type: 'applicationsTopList',
+      title: 'Applications Top List Example',
+      config: applicationsTopListDemo
+    },
+    {
+      id: generateUniqueShortId(),
+      width: 6,
+      height: 3,
+      x: 7,
+      y: 4,
+      type: 'infrastructureTopList',
+      title: 'Infrastructure Top List Example',
+      config: infrastructureTopListDemo
+    },
+    {
+      id: generateUniqueShortId(),
+      width: 6,
+      height: 3,
+      x: 7,
+      y: 4,
+      type: 'websitesAndMobileTopList',
+      title: 'Website & Mobile Apps Top List Example',
+      config: websitesAndMobileTopListDemo
     }
   ]
 };

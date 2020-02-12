@@ -23,5 +23,6 @@ module.exports = {
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
   apDashboardEventsEnabled: false,
-  customDashboardsEnabled: true
+  customDashboardsEnabled: true,
+  cockpitEnabled: true
 };

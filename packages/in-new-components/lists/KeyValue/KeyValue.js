@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Value from 'in-new-components/lists/KeyValue/components/Value';
+import Key from 'in-new-components/lists/KeyValue/components/Key';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import Value from 'in-new-components/KeyValue/components/Value';
-import Key from 'in-new-components/KeyValue/components/Key';
 
 import locals from './KeyValue.mless';
 
@@ -13,6 +13,9 @@ export const themes = {
 };
 
 export default function KeyValue({ className, label, value, theme = themes.d, inverted, accentuated }) {
+  const k = <Key label={label} />;
+  const v = <Value value={value} theme={theme} accentuated={accentuated} />;
+
   return (
     <div
       className={evaluateClassNames({
@@ -20,8 +23,17 @@ export default function KeyValue({ className, label, value, theme = themes.d, in
         [className]: className
       })}
     >
-      <Key label={label} theme={theme} inverted={inverted} accentuated={accentuated && inverted} />
-      <Value value={value} theme={theme} inverted={inverted} accentuated={!inverted && accentuated} />
+      {inverted ? (
+        <>
+          {v}
+          {k}
+        </>
+      ) : (
+        <>
+          {k}
+          {v}
+        </>
+      )}
     </div>
   );
 }
@@ -29,7 +41,7 @@ export default function KeyValue({ className, label, value, theme = themes.d, in
 KeyValue.propTypes = {
   label: PropTypes.string.isRequired,
   className: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   inverted: PropTypes.bool,
   accentuated: PropTypes.bool,
   theme: PropTypes.oneOf(Object.keys(themes))

@@ -1,0 +1,17 @@
+:local {
+  .wrapper {
+    display: flex;
+  }
+
+  .left {
+    flex-grow: 1;
+  }
+
+  .right {
+    width: 16rem;
+  }
+
+  .icon {
+    margin-right: 0.25rem;
+  }
+}

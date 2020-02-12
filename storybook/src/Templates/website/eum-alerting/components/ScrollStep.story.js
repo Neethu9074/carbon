@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
+import ScrollStep from 'in-new-components/ScrollStep';
 
 export default {
   title: 'Templates|website/eum-alerting/components/ScrollStep',
