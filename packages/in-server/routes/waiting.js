@@ -9,7 +9,6 @@ const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
-const agentEndpoint = require('../services/agentEndpoint');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
@@ -31,7 +30,10 @@ router.get('/waiting', (req, res) => {
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
   res.set('Content-Security-Policy', getCsp(nonces));
 
-  return activeResolver.getButlerDomain(req.tenant, req.unit).then(butlerDomain =>
+  return Promise.all([
+    activeResolver.getButlerDomain(req.tenant, req.unit),
+    activeResolver.getAgentEndpointConfiguration(req.tenant, req.unit)
+  ]).then(([butlerDomain, agentEndpointConfiguration]) =>
     res.send(
       compiledTemplate({
         waitingJsChecksum,
@@ -44,8 +46,8 @@ router.get('/waiting', (req, res) => {
           tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
           region: serverConfig.clientConfig.region,
           butlerDomain: butlerDomain,
-          agentEndpoint: agentEndpoint.resolveAgentEndpoint(req.tenant, req.unit),
-          agentEndpointPort: agentEndpoint.resolveAgentEndpointPort()
+          agentEndpoint: agentEndpointConfiguration.agentEndpoint,
+          agentEndpointPort: agentEndpointConfiguration.port
         }),
         mixpanelToken: serverConfig.mixpanelToken,
         eumTrackingDomain: serverConfig.eum.domain,
