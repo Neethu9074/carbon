@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
+const sendRequest = require('request');
 
+const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const cache = require('../loadingCache').createLoadingCache({
@@ -32,8 +34,7 @@ exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getButlerDomain = (tenant, unit) =>
-  Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tenant, unit));
 
 exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
@@ -67,6 +68,28 @@ exports.getConfiguration = (tenant, unit) =>
       })
     );
   });
+
+exports.getAgentEndpointConfiguration = (tenant, unit) => {
+  return new Promise(resolve => {
+    sendRequest(
+      {
+        url: `${getButlerDomain(tenant, unit)}/tenants/${tenant}/unit/${unit}/acceptors`,
+        timeout: 15000
+      },
+      (error, response, agentEndpointConfig) => {
+        if (error || response.status < 200 || response.status >= 300) {
+          resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
+        } else {
+          resolve({ agentEndpoint: agentEndpointConfig.acceptorHost, port: agentEndpointConfig.acceptorPort });
+        }
+      }
+    );
+  });
+};
+
+function getButlerDomain(tenant, unit) {
+  return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
+}
 
 function getBooleanSetting(tenant, unit, key, notDefinedFallback) {
   return getSetting({ tenant, unit, key, notDefinedFallback, valueParser: str => str === 'true' });

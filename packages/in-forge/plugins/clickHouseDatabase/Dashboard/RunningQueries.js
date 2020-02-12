@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
-import { number, millis, bytes } from 'in-services/formatters/number';
+import { number, seconds, bytes } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -33,7 +33,7 @@ const cols = [
       getValue(row) {
         return row.elapsed;
       },
-      getContent: millis.fixedDetailed
+      getContent: seconds.fixedDetailed
     }
   },
   {

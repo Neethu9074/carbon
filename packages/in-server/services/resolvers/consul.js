@@ -2,6 +2,7 @@ const rp = require('request-promise');
 
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
+const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
 const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
@@ -59,6 +60,9 @@ exports.getConfiguration = (tenant, unit) =>
       })
     );
   });
+
+exports.getAgentEndpointConfiguration = (tenant, unit) =>
+  Promise.resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
 
 function lookupServiceBaseUrl(serviceName) {
   return rp({

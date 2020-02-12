@@ -1,4 +1,5 @@
 const serverConfig = require('../../serverConfig.js');
+const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
 
 exports.getFeatureFlags = () => Promise.resolve(serverConfig.clientConfig.featureFlags);
 exports.getBaseUrl = () => Promise.resolve(serverConfig.baseUrl);
@@ -7,3 +8,5 @@ exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.confi
 exports.getUiBackendBaseUrl = () => Promise.resolve(serverConfig.uiBackendBaseUrl);
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
+exports.getAgentEndpointConfiguration = (tenant, unit) =>
+  Promise.resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });

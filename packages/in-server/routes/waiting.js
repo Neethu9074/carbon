@@ -10,7 +10,6 @@ const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
-const agentEndpoint = require('../services/agentEndpoint');
 const { getCsrfToken } = require('../services/csrf');
 const configResolver = require('../services/config');
 const paths = require('../services/paths');
@@ -36,8 +35,9 @@ router.get('/waiting', (req, res) => {
 
   return Promise.all([
     configResolver.getButlerBaseUrl(req.tenant, req.unit),
-    activeResolver.getButlerDomain(req.tenant, req.unit)
-  ]).then(([butlerBaseUrl, butlerDomain]) => {
+    activeResolver.getButlerDomain(req.tenant, req.unit),
+    activeResolver.getAgentEndpointConfiguration(req.tenant, req.unit)
+  ]).then(([butlerBaseUrl, butlerDomain, agentEndpointConfiguration]) => {
     return Promise.all([
       getLatestTermsAndPrivacyAcceptance(req, butlerBaseUrl),
       getCurrentUserFromButler(req, butlerBaseUrl),
@@ -45,19 +45,37 @@ router.get('/waiting', (req, res) => {
     ])
       .then(([termsAndPrivacyAccepted, [statusCode, userStr], csrfToken]) => {
         if (statusCode < 200 || statusCode > 299) {
-          sendWaitingIndex(req, res, nonces, butlerDomain);
+          sendWaitingIndex(req, res, nonces, butlerDomain, agentEndpointConfiguration);
         } else {
-          sendWaitingIndex(req, res, nonces, butlerDomain, csrfToken, userStr, termsAndPrivacyAccepted);
+          sendWaitingIndex(
+            req,
+            res,
+            nonces,
+            butlerDomain,
+            agentEndpointConfiguration,
+            csrfToken,
+            userStr,
+            termsAndPrivacyAccepted
+          );
         }
       })
       .catch(error => {
         console.log('Failed to fetch user and ToS-acceptance from butler: %s', error.message);
-        return sendWaitingIndex(req, res, nonces, butlerDomain);
+        return sendWaitingIndex(req, res, nonces, butlerDomain, agentEndpointConfiguration);
       });
   });
 });
 
-function sendWaitingIndex(req, res, nonces, butlerDomain, csrf, userStr, termsAndPrivacyAccepted) {
+function sendWaitingIndex(
+  req,
+  res,
+  nonces,
+  butlerDomain,
+  agentEndpointConfiguration,
+  csrf,
+  userStr,
+  termsAndPrivacyAccepted
+) {
   res.send(
     compiledTemplate({
       waitingJsChecksum,
@@ -70,8 +88,8 @@ function sendWaitingIndex(req, res, nonces, butlerDomain, csrf, userStr, termsAn
         tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
         region: serverConfig.clientConfig.region,
         butlerDomain: butlerDomain,
-        agentEndpoint: agentEndpoint.resolveAgentEndpoint(req.tenant, req.unit),
-        agentEndpointPort: agentEndpoint.resolveAgentEndpointPort()
+        agentEndpoint: agentEndpointConfiguration.agentEndpoint,
+        agentEndpointPort: agentEndpointConfiguration.port
       }),
       csrf: JSON.stringify({
         token: csrf
