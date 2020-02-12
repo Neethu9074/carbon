@@ -1,7 +1,7 @@
-import {find} from 'lodash';
+import { find } from 'lodash';
 import React from 'react';
 
-import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import QuickFilterForm from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website/QuickFilterForm';
 import { availableMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -11,7 +11,7 @@ import { dataSourceTitles } from 'in-websites/tags';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
-export default function FormComponent({form, onChange}) {
+export default function FormComponent({ form, onChange }) {
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
@@ -28,28 +28,28 @@ export default function FormComponent({form, onChange}) {
         <Select
           id="metic-configurator-website-beacon-type"
           value={beaconTypeField.value}
-          onChange={e => onChange([], form =>
-            form
-              .updateIn(['beaconType'], field => field.setValue(e.target.value).setTouched(true))
-              .updateIn(['metric'], field => field.setValue(''))
-              .updateIn(['aggregation'], field => field.setValue(''))
-              .updateIn(['tagFilters'], field => {
-                const tagFilters = [];
-                if (isNotBlank(e.target.value)) {
-                  tagFilters.push({
-                    name: 'beacon.type',
-                    operator: 'EQUALS',
-                    stringValue: e.target.value
-                  });
-                }
-                return field.setValue(tagFilters);
-              })
-          )}
+          onChange={e =>
+            onChange([], form =>
+              form
+                .updateIn(['beaconType'], field => field.setValue(e.target.value).setTouched(true))
+                .updateIn(['metric'], field => field.setValue(''))
+                .updateIn(['aggregation'], field => field.setValue(''))
+                .updateIn(['tagFilters'], field => {
+                  const tagFilters = [];
+                  if (isNotBlank(e.target.value)) {
+                    tagFilters.push({
+                      name: 'beacon.type',
+                      operator: 'EQUALS',
+                      stringValue: e.target.value
+                    });
+                  }
+                  return field.setValue(tagFilters);
+                })
+            )
+          }
           hasError={!beaconTypeField.valid && beaconTypeField.touched}
         >
-          <option value="">
-            Please select
-          </option>
+          <option value="">Please select</option>
           {Object.keys(dataSourceTitles)
             .sort((a, b) => compareIgnoreCase(dataSourceTitles[a], dataSourceTitles[b]))
             .map(key => (
@@ -62,34 +62,27 @@ export default function FormComponent({form, onChange}) {
       </FormGroup>
 
       <FormGroup>
-        <Label
-          htmlFor="metic-configurator-website-metric"
-          hasError={!metricField.valid && metricField.touched}
-        >
+        <Label htmlFor="metic-configurator-website-metric" hasError={!metricField.valid && metricField.touched}>
           Metric
         </Label>
         <Select
           id="metic-configurator-website-metric"
           value={metricField.value}
-          onChange={e => onChange([], form =>
-            form
-              .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
-              .updateIn(['aggregation'], field => field.setValue(''))
-          )}
+          onChange={e =>
+            onChange([], form =>
+              form
+                .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
+                .updateIn(['aggregation'], field => field.setValue(''))
+            )
+          }
           hasError={!metricField.valid && metricField.touched}
           disabled={!beaconTypeField.valid}
         >
-          {!beaconTypeField.valid && (
-            <option value="">
-              Please select a data source
-            </option>
-          )}
+          {!beaconTypeField.valid && <option value="">Please select a data source</option>}
           {beaconTypeField.valid && (
             <>
-              <option value="">
-                Please select
-              </option>
-              {availableMetrics[beaconTypeField.value].map(({metric, label}) => (
+              <option value="">Please select</option>
+              {availableMetrics[beaconTypeField.value].map(({ metric, label }) => (
                 <option key={metric} value={metric}>
                   {label}
                 </option>
@@ -114,16 +107,10 @@ export default function FormComponent({form, onChange}) {
           hasError={!aggregationField.valid && aggregationField.touched}
           disabled={!metricField.valid}
         >
-          {!metricField.valid && (
-            <option value="">
-              Please select a metric
-            </option>
-          )}
+          {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (
             <>
-              <option value="">
-                Please select
-              </option>
+              <option value="">Please select</option>
               {getAggregations(beaconTypeField.value, metricField.value).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
@@ -134,11 +121,13 @@ export default function FormComponent({form, onChange}) {
         </Select>
         <TouchedMessages field={aggregationField} />
       </FormGroup>
+
+      <QuickFilterForm form={form} onChange={onChange} />
     </>
   );
 }
 
 function getAggregations(beaconType, metric) {
-  const metricDefinition = find(availableMetrics[beaconType], ({metric: m}) => m === metric);
+  const metricDefinition = find(availableMetrics[beaconType], ({ metric: m }) => m === metric);
   return metricDefinition.supportedAggregations;
 }
