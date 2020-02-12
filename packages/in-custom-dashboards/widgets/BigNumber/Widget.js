@@ -33,8 +33,9 @@ function BigNumber({ result, /*config, */ title }) {
       result={result}
       renderKpiCard={result => {
         let value = null;
-        if (result.data[metricKey] && result.data[metricKey].length === 1) {
-          value = result.data[metricKey][0][1];
+        const dataPoint = find(result.data, ({id}) => id === metricKey);
+        if (dataPoint && dataPoint.values.length === 1) {
+          value = dataPoint.values[0][1];
         }
 
         if (value != null) {
