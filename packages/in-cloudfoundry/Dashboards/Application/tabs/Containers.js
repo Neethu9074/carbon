@@ -7,6 +7,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import getCloudfoundryContainers from 'in-cloudfoundry/subscriptions/getCloudfoundryContainers';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { applicationIdUrlParameter } from 'in-cloudfoundry/navigation/urlParameters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -32,6 +33,16 @@ const columnDefinitions = [
           severity={item.entityHealthInfo.maxSeverity}
         />
       );
+    }
+  },
+  {
+    id: 'cfInstanceIndex',
+    label: 'Instance Index',
+    sortable: true,
+    getContent(item) {
+      const cfInstanceIndex =
+        item.container.cfInstanceIndex !== null ? item.container.cfInstanceIndex : valueMissingPlaceholder;
+      return cfInstanceIndex;
     }
   },
   {
@@ -89,7 +100,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     entityName: 'containers'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, applicationIdUrlParameter],
-  defaultOrderBy: 'label',
+  defaultOrderBy: 'cfInstanceIndex',
   defaultOrderDirection: 'ASC',
   columnDefinitions,
   pathSegment,
@@ -112,7 +123,7 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'label',
+  orderBy = 'cfInstanceIndex',
   orderDirection = 'ASC',
   timeConfig,
   applicationId
