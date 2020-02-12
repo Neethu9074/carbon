@@ -12,6 +12,6 @@ export default {
   [applicationsToplist.type]: applicationsToplist,
   [infrastructureTopList.type]: infrastructureTopList,
   [websitesAndMobileTopList.type]: websitesAndMobileTopList,
-  [bigNumber.type]: bigNumber
+  [bigNumber.type]: bigNumber,
   [chart.type]: chart
 };
