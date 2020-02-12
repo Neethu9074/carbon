@@ -8,9 +8,9 @@ import { number, millis, meanLatency, latency } from 'in-services/formatters/num
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
