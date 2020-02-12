@@ -1,6 +1,6 @@
 export const demo = {
   formatter: 'number.compact',
-  metriConfiguration: {
+  metricConfiguration: {
     metric: 'pageLoads',
     source: 'WEBSITE',
     aggregation: 'SUM',

@@ -85,6 +85,7 @@ const errorRate = {
 
 export const availableMetrics = {
   pageLoad: [
+    newNumberMetric({ metric: 'pageLoads', label: 'Page Loads' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'onLoad Time' }), {
       rawDataField: 'duration',
       tag: 'beacon.duration'
