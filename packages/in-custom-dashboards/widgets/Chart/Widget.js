@@ -61,6 +61,7 @@ function ChartWidget({ result, config, title, timeConfig }) {
   return (
     <ChartWrapper
       cardTitle={title}
+      cardUseMaxAvailableHeight
       timeConfig={timeConfig}
       y1={toAxisConfiguration('y1', config.y1)}
       y2={toAxisConfiguration('y2', config.y2)}
