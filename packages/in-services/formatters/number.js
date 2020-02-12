@@ -91,6 +91,7 @@ export const millis = {
 };
 export const seconds = {
   fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',
+  fixedDetailed: t => number.detailed(t) + 's',
   fixedCompact: t => number.compact(t) + 's'
 };
 export const minutes = {
