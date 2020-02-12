@@ -4,6 +4,7 @@ export const demo = {
   y1: {
     formatter: 'number.compact',
     renderer: 'stackedBar',
+    min: 0,
     metrics: [
       {
         label: 'Page Loads',
@@ -20,6 +21,7 @@ export const demo = {
   y2: {
     formatter: 'millis.detailed',
     renderer: 'line',
+    min: 0,
     metrics: [
       {
         label: 'OnLoad Time',

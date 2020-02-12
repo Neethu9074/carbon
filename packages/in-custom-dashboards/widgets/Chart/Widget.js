@@ -80,7 +80,9 @@ function toAxisConfiguration(name, axis) {
     renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: (find(formatters, ({ id }) => id === axis.formatter) || defaultFormatter).formatter,
     labels: axis.metrics.map(({ label }) => label),
-    metricIds: axis.metrics.map((definition, i) => getMetricId(name, i))
+    metricIds: axis.metrics.map((definition, i) => getMetricId(name, i)),
+    min: axis.min,
+    max: axis.max
   };
 }
 
