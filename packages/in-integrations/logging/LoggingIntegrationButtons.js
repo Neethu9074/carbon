@@ -11,28 +11,31 @@ import { integrationKey as coralogixIntegrationKey } from 'in-integrations/loggi
 import { integrationKey as logdnaIntegrationKey } from 'in-integrations/logging/logdna/consts';
 import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
-import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
+import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
   coralogixIntegration: getIntegrationConfiguration(coralogixIntegrationKey),
-  logdnaIntegration: getIntegrationConfiguration(logdnaIntegrationKey),
-  splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey),
+  elkIntegration: getIntegrationConfiguration(elkIntegrationKey),
   humioIntegration: getIntegrationConfiguration(humioIntegrationKey),
-  elkIntegration: getIntegrationConfiguration(elkIntegrationKey)
+  logdnaIntegration: getIntegrationConfiguration(logdnaIntegrationKey),
+  splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey)
 })(function LoggingIntegrationButtons(props) {
-  const { coralogixIntegration, logdnaIntegration, splunkIntegration, humioIntegration, elkIntegration } = props;
+  /*
+    Keep the list sorted alphabetically
+   */
+  const { coralogixIntegration, elkIntegration, humioIntegration, logdnaIntegration, splunkIntegration } = props;
 
   const integrations = [
     showCoralogixButton(props) &&
       coralogixIntegration &&
       coralogixIntegration.enabled && <CoralogixButton {...props} />,
+    showElkButton(props) && elkIntegration && elkIntegration.enabled && <ElkButton {...props} />,
     showHumioButton(props) && humioIntegration && humioIntegration.enabled && <HumioButton {...props} />,
     showLogDnaButton(props) && logdnaIntegration && logdnaIntegration.enabled && <LogDnaButton {...props} />,
-    showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />,
-    showElkButton(props) && elkIntegration && elkIntegration.enabled && <ElkButton {...props} />
+    showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
   return <MultiButton label="Go To Logs" icon="lib_application_logging" buttons={integrations} />;

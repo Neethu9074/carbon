@@ -31,7 +31,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>http://localhost:5601</b> for an internal instance.
+            Example: <b>http://kibana.com:5601</b> or <b>http://192.168.1.128:5601</b> for an internal instance.
           </HelpText>
         </FormGroup>
       ))}

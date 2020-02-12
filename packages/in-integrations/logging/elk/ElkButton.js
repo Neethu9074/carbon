@@ -38,7 +38,14 @@ function constructElkLink(integration, props) {
     queryParameters.start = formatDurationAccurately(timeConfig.windowSize);
   }
 
-  return `${integration.url}/${integration.repository}/search${toParams(queryParameters, '?', '&')}`;
+  let basePath = integration.basePath;
+  basePath = isBlank(basePath) ? '' : '/' + basePath.trim();
+
+  return `${integration.url}${basePath}/app/kibana#/dashboards?title=${integration.dashboard}&search=${toParams(
+    queryParameters,
+    '?',
+    '&'
+  )}`;
 }
 
 function serializeQuery({ hostName, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
@@ -52,7 +59,7 @@ function serializeQuery({ hostName, kubernetesPodName, dockerContainerId, isWith
     if (isWithinKubernetes) {
       query = `kubernetes.host=${hostName}`;
     } else {
-      query = `host.hostname=${hostName} or host.name=${hostName}`;
+      query = `host.name=${hostName}`;
     }
   }
 
@@ -60,6 +67,5 @@ function serializeQuery({ hostName, kubernetesPodName, dockerContainerId, isWith
 }
 
 export function shouldShowButton(props) {
-  const query = serializeQuery(props);
-  return !isBlank(query);
+  return !isBlank(serializeQuery(props));
 }

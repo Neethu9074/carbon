@@ -32,10 +32,10 @@ import {
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAuditLog,
   teamSettingsLogManagementCoralogix,
-  teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
-  teamSettingsLogManagementSplunk,
-  teamSettingsLogManagementElk
+  teamSettingsLogManagementLogDna,
+  teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -65,10 +65,10 @@ import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Te
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
@@ -259,6 +259,11 @@ function navigationTreeForRole(role): NavigationTree {
           component: CoralogixPage
         },
         {
+          path: teamSettingsLogManagementElk,
+          label: 'ELK',
+          component: ElkPage
+        },
+        {
           path: teamSettingsLogManagementHumio,
           label: 'Humio',
           component: HumioPage
@@ -272,11 +277,6 @@ function navigationTreeForRole(role): NavigationTree {
           path: teamSettingsLogManagementSplunk,
           label: 'Splunk',
           component: SplunkPage
-        },
-        {
-          path: teamSettingsLogManagementElk,
-          label: 'ELK',
-          component: ElkPage
         }
       ]
     });
