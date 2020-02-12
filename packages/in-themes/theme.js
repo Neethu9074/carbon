@@ -22,6 +22,7 @@ module.exports = {
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
     dialog: ++zIndex,
+    tvMode: ++zIndex,
     overlays: ++zIndex,
     messageFlyout: ++zIndex,
     tooltips: ++zIndex

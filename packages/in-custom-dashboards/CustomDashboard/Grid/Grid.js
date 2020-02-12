@@ -10,6 +10,7 @@ import {
   breakpoints,
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -26,11 +27,15 @@ export default function Grid({
   isConfigurable,
   isDraggable,
   onEditWidget,
-  onRemoveWidget
+  onRemoveWidget,
+  tvMode
 }) {
   return (
     <ResponsiveReactGridLayout
-      className={locals.layout}
+      className={evaluateClassNames({
+        [locals.layout]: true,
+        [locals.tvMode]: tvMode
+      })}
       cols={cols}
       rowHeight={rowHeightPixels}
       margin={margin}

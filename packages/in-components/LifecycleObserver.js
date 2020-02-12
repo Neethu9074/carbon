@@ -19,6 +19,10 @@ export default class extends React.Component {
     this.call('onWillUpdate');
   }
 
+  componentDidUpdate() {
+    this.call('onDidUpdate');
+  }
+
   call = fnName => {
     if (this.props[fnName]) {
       this.props[fnName]();
