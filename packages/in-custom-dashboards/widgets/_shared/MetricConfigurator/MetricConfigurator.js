@@ -6,13 +6,7 @@ import {createForm, onChangeSource} from 'in-custom-dashboards/widgets/_shared/M
 export default compose(
   withState('form', 'setForm', ({ metricConfiguration }) => createForm(metricConfiguration)),
   withProps(({form, setForm}) => ({
-    onChange: (path, fn) => {
-      if (path.length === 0) {
-        setForm(fn(form));
-      } else {
-        setForm(form.updateIn(path, fn));
-      }
-    },
+    onChange: (path, fn) => setForm(form.updateIn(path, fn)),
     onChangeSource: newSource => onChangeSource(form, setForm, newSource),
     onSubmit(e) {
       e.preventDefault();

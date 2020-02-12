@@ -7584,10 +7584,10 @@ form-data@~2.3.2:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
-formalistic@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/formalistic/-/formalistic-1.9.0.tgz#a17b200ed02c4da18138779c7fdd7d19216b39f5"
-  integrity sha512-5xlZ/oGNkxPJThW/RrXG4WN+QorGL1IPIUTRZnSwRUItI8BbSOAxppC/h5IctEjYdMfCsKYoELOTiYh9SIsoHQ==
+formalistic@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/formalistic/-/formalistic-1.10.0.tgz#19f9adb8fd0d62e85d96ee81ef5caeb6fa398189"
+  integrity sha512-EhiMK1CWM/OOXLwxNCU7jQnQcvU93HjuEtfJ9BbmIFQiDZj1NHBV2xvOA9ElH3IQcSTQ61Gayl9BBX80FO0KiA==
 
 format@^0.2.2:
   version "0.2.2"
