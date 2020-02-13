@@ -62,16 +62,8 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
     .put('metrics', metricsForm);
 }
 
-function createMetricForm(savedState) {
-  return createMapForm()
-    .put(
-      'label',
-      createField({
-        value: (savedState && savedState.label) || '',
-        validator: notBlankValidator
-      })
-    )
-    .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration));
+export function createMetricForm(savedState) {
+  return createMetricConfigurationForm(savedState, { withLabelConfiguration: true });
 }
 
 function getOptNumber(v) {

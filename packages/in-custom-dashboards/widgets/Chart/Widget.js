@@ -5,22 +5,19 @@ import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashb
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import { formatters, defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import { demo } from 'in-custom-dashboards/widgets/Chart/demo';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo((/*{ config }*/) => ({
+export default connectTo(({ config }) => ({
   timeConfig: timeConfig$,
   result: timeConfig$.map(extendWindowSizeOnLiveMode).flatMap(timeConfig => {
-    // TODO remove once form is complete
-    const config = demo;
     const granularity = getChartGranularity(timeConfig);
 
     const metrics = {};
 
     config.y1.metrics.forEach(
-      ({ metricConfiguration }, i) =>
+      (metricConfiguration, i) =>
         (metrics[getMetricId('y1', i)] = {
           ...metricConfiguration,
           resultType: config.type,
@@ -30,7 +27,7 @@ export default connectTo((/*{ config }*/) => ({
     );
 
     config.y2.metrics.forEach(
-      ({ metricConfiguration }, i) =>
+      (metricConfiguration, i) =>
         (metrics[getMetricId('y2', i)] = {
           ...metricConfiguration,
           resultType: config.type,
@@ -44,9 +41,6 @@ export default connectTo((/*{ config }*/) => ({
 }))(ChartWidget);
 
 function ChartWidget({ result, config, title, timeConfig }) {
-  // TODO remove once form is complete
-  config = demo;
-
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -96,18 +90,18 @@ function toMetricsConfiguration(config) {
   };
 
   config.y1.metrics.forEach(
-    ({ metricConfiguration }, i) =>
+    ({ metric, aggregation }, i) =>
       (metricsConfiguration.metrics[getMetricId('y1', i)] = {
-        metric: metricConfiguration.metric,
-        aggregation: metricConfiguration.aggregation
+        metric,
+        aggregation
       })
   );
 
   config.y2.metrics.forEach(
-    ({ metricConfiguration }, i) =>
+    ({ metric, aggregation }, i) =>
       (metricsConfiguration.metrics[getMetricId('y2', i)] = {
-        metric: metricConfiguration.metric,
-        aggregation: metricConfiguration.aggregation
+        metric,
+        aggregation
       })
   );
 

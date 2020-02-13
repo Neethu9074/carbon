@@ -5,9 +5,10 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
+import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
-export default function MetricConfigurator({ form, onChange, onChangeSource }) {
+export default function MetricConfigurator({ form, onChange, onChangeSource, withLabelConfiguration }) {
   const sourceField = form.get('source');
 
   let sourceSpecificConfiguration;
@@ -18,6 +19,23 @@ export default function MetricConfigurator({ form, onChange, onChangeSource }) {
 
   return (
     <>
+      {withLabelConfiguration &&
+        form.get('label').map(field => (
+          <FormGroup>
+            <Label htmlFor="metic-configurator-label" hasError={!field.valid && field.touched}>
+              Label
+            </Label>
+            <Input
+              id="metic-configurator-label"
+              type="text"
+              value={field.value}
+              onChange={e => onChange(['label'], field => field.setValue(e.target.value).setTouched(true))}
+              hasError={!field.valid && field.touched}
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
+
       <FormGroup>
         <Label htmlFor="metic-configurator-source" hasError={!sourceField.valid && sourceField.touched}>
           Source

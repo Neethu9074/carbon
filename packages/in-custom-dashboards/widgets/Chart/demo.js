@@ -8,12 +8,10 @@ export const demo = {
     metrics: [
       {
         label: 'Page Loads',
-        metricConfiguration: {
-          metric: 'pageLoads',
-          source: 'WEBSITE',
-          aggregation: 'SUM',
-          tagFilters: []
-        }
+        metric: 'pageLoads',
+        source: 'WEBSITE',
+        aggregation: 'SUM',
+        tagFilters: []
       }
     ]
   },
@@ -25,12 +23,10 @@ export const demo = {
     metrics: [
       {
         label: 'OnLoad Time',
-        metricConfiguration: {
-          metric: 'onLoadTime',
-          source: 'WEBSITE',
-          aggregation: 'MEAN',
-          tagFilters: []
-        }
+        metric: 'onLoadTime',
+        source: 'WEBSITE',
+        aggregation: 'MEAN',
+        tagFilters: []
       }
     ]
   }

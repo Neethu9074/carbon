@@ -11,6 +11,7 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -61,7 +62,9 @@ export default function Grid({
               minH: minimumHeight
             }}
           >
-            <Widget title={widget.title} config={widget.config} />
+            <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>
+              <Widget title={widget.title} config={widget.config} />
+            </ErrorBoundary>
             {isEditing &&
               isConfigurable && (
                 <SvgIcon
