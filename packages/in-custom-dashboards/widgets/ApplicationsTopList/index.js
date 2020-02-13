@@ -4,5 +4,6 @@ export { createForm } from 'in-custom-dashboards/widgets/ApplicationsTopList/for
 export { demo } from 'in-custom-dashboards/widgets/ApplicationsTopList/demo';
 
 export const type = 'applicationsTopList';
+export const label = 'Applications Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;

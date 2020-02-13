@@ -2,8 +2,9 @@ import { find } from 'lodash';
 import React from 'react';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
+import { translateStoredValueToTimeShiftConfig } from 'in-custom-dashboards/widgets/_shared/timeShifting';
 import { formatters, defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -22,7 +23,8 @@ export default connectTo(({ config }) => ({
           ...metricConfiguration,
           resultType: config.type,
           granularity,
-          timeConfig
+          timeConfig,
+          timeShift: translateStoredValueToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
         })
     );
 
@@ -32,7 +34,8 @@ export default connectTo(({ config }) => ({
           ...metricConfiguration,
           resultType: config.type,
           granularity,
-          timeConfig
+          timeConfig,
+          timeShift: translateStoredValueToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
         })
     );
 

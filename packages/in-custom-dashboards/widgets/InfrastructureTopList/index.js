@@ -4,5 +4,6 @@ export { createForm } from 'in-custom-dashboards/widgets/InfrastructureTopList/f
 export { demo } from 'in-custom-dashboards/widgets/InfrastructureTopList/demo';
 
 export const type = 'infrastructureTopList';
+export const label = 'Infrastructure Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;

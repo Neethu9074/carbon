@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
 import widgets from 'in-custom-dashboards/widgets';
 import Select from 'in-components/form/Select';
@@ -21,11 +22,13 @@ export default function WidgetSelectorPresenter({ form, onChange }) {
         hasError={!field.valid && field.touched}
       >
         <option value="">Please select</option>
-        {Object.keys(widgets).map(type => (
-          <option key={type} value={type}>
-            {widgets[type].label}
-          </option>
-        ))}
+        {Object.keys(widgets)
+          .sort((a, b) => compareIgnoreCase(widgets[a].label, widgets[b].label))
+          .map(type => (
+            <option key={type} value={type}>
+              {widgets[type].label}
+            </option>
+          ))}
       </Select>
       <TouchedMessages field={field} />
     </FormGroup>

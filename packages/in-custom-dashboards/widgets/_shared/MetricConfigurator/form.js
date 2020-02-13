@@ -23,6 +23,13 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
         value: (savedState && savedState.aggregation) || '',
         validator: notBlankValidator
       })
+    )
+    .put(
+      'timeShift',
+      createField({
+        value: (savedState && savedState.timeShift) || 0,
+        validator: timeShiftValidator
+      })
     );
 
   if (withLabelConfiguration) {
@@ -46,12 +53,29 @@ export function onChangeSource(form, setForm, newSource) {
   const labelField = form.get('label');
   // We have to discard everything because the source is the first selection
   // option in the configuration dialog.
-  setForm(
-    createForm(
-      { source: newSource, label: labelField ? labelField.value : null },
-      { withLabelConfiguration: !!labelField }
-    )
-      .updateIn(['source'], field => field.setTouched(true))
-      .updateIn(['label'], field => field.setTouched(true))
-  );
+  let updatedForm = createForm(
+    { source: newSource, label: labelField ? labelField.value : null, timeShift: form.get('timeShift').value },
+    { withLabelConfiguration: !!labelField }
+  )
+    .updateIn(['source'], field => field.setTouched(true))
+    .updateIn(['timeShift'], field => field.setTouched(form.get('timeShift').touched));
+
+  if (labelField && labelField.touched) {
+    updatedForm = updatedForm.updateIn(['label'], field => field.setTouched(true));
+  }
+
+  setForm(updatedForm);
+}
+
+function timeShiftValidator(v) {
+  if (v == null || v === 'auto' || v === 0) {
+    return null;
+  }
+
+  return [
+    {
+      message: 'Please select a time shifting configuration',
+      severity: 'error'
+    }
+  ];
 }

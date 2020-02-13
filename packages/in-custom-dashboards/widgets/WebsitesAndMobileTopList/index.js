@@ -4,5 +4,6 @@ export { createForm } from 'in-custom-dashboards/widgets/WebsitesAndMobileTopLis
 export { demo } from 'in-custom-dashboards/widgets/WebsitesAndMobileTopList/demo';
 
 export const type = 'websitesAndMobileTopList';
+export const label = 'Website and Mobile Apps Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;
