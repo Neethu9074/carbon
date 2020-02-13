@@ -71,7 +71,7 @@ exports.getAgentEndpointConfiguration = (tenant, unit) => {
   return new Promise(resolve => {
     sendRequest(
       {
-        url: `${getButlerDomain(tenant, unit)}/tenants/${tenant}/unit/${unit}/acceptors`,
+        url: `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
         timeout: 15000
       },
       (error, response, agentEndpointConfig) => {
