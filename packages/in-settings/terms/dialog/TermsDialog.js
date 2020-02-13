@@ -1,42 +1,28 @@
-import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 
-import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter.js';
-import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
+import { formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
+import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { formUserSettingsObject } from '../termsAndPrivaySettings';
-import termsFormDefinition from '../termsFormDefinition';
-import { fullTermsConfigEnabled } from 'in-services/featureFlags';
-import connectTo from 'in-hoc/connectTo';
-import { createLogger } from 'instalog';
+import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 
-const logger = createLogger('in-settings/terms/dialog/TermsDialog');
-
-export default connectTo(() => {
-  const observables = {
-    termsAndPrivacySettings: create().emit(window.instana.termsAndPrivacySettings)
-  };
-  return observables;
-})(TermsDialog);
-
-function TermsDialog({ termsAndPrivacySettings }) {
+export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) {
   const [saveError, setSaveError] = useState(false);
-  const [form, setForm] = useState(termsFormDefinition(termsAndPrivacySettings));
+  const [form, setForm] = useState(termsFormDefinition(window.instana.termsAndPrivacySettings));
 
-  return termsAndPrivacySettings ? (
+  return (
     <TermsDialogPresenter
-      onSave={save(setSaveError)}
+      onSkip={onSkip || onSave}
+      onSave={save(onSave, setSaveError)}
       saveError={saveError}
       unsetSaveError={() => setSaveError(false)}
-      userSettings={termsAndPrivacySettings}
       onChange={onChange(setForm)}
       form={form}
       fullTermsConfigEnabled={fullTermsConfigEnabled}
     />
-  ) : null;
+  );
 }
 
-function save(setSaveError) {
+function save(onSave, setSaveError) {
   return (e, form, setForm) => {
     stopPropagationAndPreventDefault(e);
     if (!form.hierarchyValid) {
@@ -50,13 +36,7 @@ function save(setSaveError) {
       userSettings: formUserSettingsObject(form)
     });
 
-    saveTosPrivacyAgreement(tosPrivacyAgreement).once(
-      response => response.status === 204 && window.location.reload(),
-      error => {
-        logger.error(`failed to save TosPrivacyAgreement: ${tosPrivacyAgreement} ${error.message}`, error);
-        setSaveError(true);
-      }
-    );
+    onSave(tosPrivacyAgreement, setSaveError);
   };
 }
 

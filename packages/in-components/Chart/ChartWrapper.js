@@ -77,7 +77,8 @@ function wrapProps(result, props) {
 
   if (result.errors.length > 0 || result.progress.loading) {
     return {
-      cardTitle: props.cardTitle
+      cardTitle: props.cardTitle,
+      cardUseMaxAvailableHeight: props.cardUseMaxAvailableHeight
     };
   }
 

@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+
+:local {
+  .layout {
+    margin: 0 @grid__gutter * 1px @grid__gutter * 1px;
+  }
+
+  .tvMode {
+    margin: @grid__gutter * 1px;
+  }
+
+  .edit {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+  }
+
+  .remove {
+    position: absolute;
+    bottom: 0;
+    right: 3rem;
+  }
+}

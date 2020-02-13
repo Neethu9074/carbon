@@ -10,7 +10,7 @@ export default function ProfileChart({ profile, timeConfig, jvmSnapshot, process
   let chart;
   const y1 = {
     metrics: ['cpu.user', 'cpu.sys'],
-    labels: ['User', 'System'],
+    labels: ['CPU User', 'CPU System'],
     formatter: percentage,
     type: 'line'
   };

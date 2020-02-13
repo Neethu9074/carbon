@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .label {
+    display: block;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    font-weight: 400;
+  }
+}

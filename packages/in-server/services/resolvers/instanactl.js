@@ -27,7 +27,9 @@ const pool = new Pool({
 
 exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://${tenant}-${unit}-ui-backend:8600`);
 
-exports.getGroundskeeperBaseUrl = () => Promise.resolve('http://groundskeeper:8600');
+exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
+
+exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);

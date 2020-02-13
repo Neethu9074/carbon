@@ -33,6 +33,7 @@ export default function Card({
   return (
     <div
       className={evaluateClassNames({
+        [locals.card]: true,
         [className]: className,
         [locals.framed]: framed,
         [locals.darkFrame]: darkFrame,
@@ -63,7 +64,7 @@ export default function Card({
           className={evaluateClassNames({
             [locals.nonClickable]: isInteractiveCard
           })}
-          onClick={onClickPrevented}
+          onClick={isInteractiveCard ? onClickPrevented : undefined}
         >
           {header}
         </div>

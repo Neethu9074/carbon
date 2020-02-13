@@ -18,9 +18,11 @@ module.exports = {
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
+    slideInView: ++zIndex,
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
     dialog: ++zIndex,
+    tvMode: ++zIndex,
     overlays: ++zIndex,
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
@@ -50,6 +52,7 @@ module.exports = {
     ]
   },
   maxWidth: 1500,
+  mainNavigationWidth: '4.5rem',
   grid: {
     gutter: 24,
     columns: 12
@@ -101,6 +104,14 @@ function buildLib() {
       green800: '#39BF7C',
       lime800: '#ADCC14',
       slushGreen800: '#4596A4',
+
+      // Endpoint Colors
+      batch: '#4FD3F8',
+      database: '#EF914D',
+      http: '#549EF8',
+      messaging: '#69B116',
+      rpc: '#93BEDC',
+      event: '#69B116',
 
       // navy
       navy800: '#475E66',
@@ -208,7 +219,13 @@ function buildLib() {
     lib.colors.pink800,
     lib.colors.teal800,
     lib.colors.purple800,
-    lib.colors.indigo800
+    lib.colors.indigo800,
+    lib.colors.batch,
+    lib.colors.database,
+    lib.colors.http,
+    lib.colors.messaging,
+    lib.colors.rpc,
+    lib.colors.event
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));

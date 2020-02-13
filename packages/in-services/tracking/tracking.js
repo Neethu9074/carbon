@@ -137,17 +137,16 @@ export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
 
-export const PROFILES_ANALYZE_FILTER_ADD = 'profiles.analyze.filter.add';
-export const PROFILES_ANALYZE_FILTER_CHANGE = 'profiles.analyze.filter.change';
-export const PROFILES_ANALYZE_FILTER_CLEAR = 'profiles.analyze.filter.clear';
-export const PROFILES_ANALYZE_FILTER_REMOVE = 'profiles.analyze.filter.remove';
-export const PROFILES_ANALYZE_FILTER_SET = 'profiles.analyze.filter.set';
-export const PROFILES_ANALYZE_GROUP_REMOVE = 'profiles.analyze.group.remove';
-export const PROFILES_ANALYZE_GROUP_SET = 'profiles.analyze.group.set';
-
 export const ONBOARDING_OPENED = 'dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'instanaBeginnerVideos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'helpAndSupport.clicked';
 export const ONBOARDING_MAIN_TOPIC_CHANGED = 'mainTopic.changed';
 export const ONBOARDING_SUB_TOPIC_CHANGED = 'subTopic.changed';
 export const ONBOARDING_SEARCH_QUERY_CHANGED = 'searchQuery.changed';
+
+export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';
+export const PROFILING_CPU_FLAMEGRAPH_OPENEND = 'profiling.cpu.flameGraph.openend';
+export const PROFILING_WAITTIME_TREEVIEW_OPENEND = 'profiling.waitTime.treeView.openend';
+export const PROFILING_WAITTIME_FLAMEGRAPH_OPENEND = 'profiling.waitTime.flameGraph.openend';
+export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
+export const PROFILING_FLAMEGRAPH_CLICKED = 'profiling.flameGraph.clicked';

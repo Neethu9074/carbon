@@ -74,6 +74,7 @@ function Header(props) {
       icon="lib_application_service"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
     />
@@ -92,7 +93,29 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         timeConfig={timeConfig}
       />
       <StackButton id={serviceId} timeConfig={timeConfig} productArea="service" />
-      <UpstreamDownstreamButton applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+      <UpstreamDownstreamButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        boundaryScope={boundaryScope}
+        dashboard="service"
+      />
+      <AnalyzeCallsButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        boundaryScope={boundaryScope}
+        timeConfig={timeConfig}
+        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+      />
+    </>
+  );
+}
+
+function renderButtonLineSecondary({ applicationId, serviceId, timeConfig }) {
+  return (
+    <>
       <InstanaServiceToCloudfoundryApplicationButton
         applicationId={applicationId}
         serviceId={serviceId}
@@ -105,14 +128,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
           timeConfig={timeConfig}
         />
       )}
-      <AnalyzeCallsButton
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        boundaryScope={boundaryScope}
-        timeConfig={timeConfig}
-        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-      />
     </>
   );
 }

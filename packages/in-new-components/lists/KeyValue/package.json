@@ -1,0 +1,6 @@
+{
+  "name": "KeyValue",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./KeyValue.js"
+}

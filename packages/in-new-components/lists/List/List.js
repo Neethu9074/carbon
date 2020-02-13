@@ -82,8 +82,8 @@ export const Li = connectTo(
           [locals.expanded]: open
         })}
         onClick={onClick}
-        onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
-        tabIndex="0"
+        onKeyUp={onClick && getKeyboardActivatedOnClickHandler(onClick)}
+        tabIndex={onClick && 0}
       >
         {href ? (
           <Link className={locals.link} href={href}>

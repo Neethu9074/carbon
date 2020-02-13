@@ -1,0 +1,16 @@
+:local {
+  .steps {
+    max-height: 80vh;
+    overflow: hidden auto;
+    margin: 1rem 0 0;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    width: 4.375rem;
+  }
+}

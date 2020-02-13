@@ -11,6 +11,7 @@ export default function TermsDialogPresenter({
   form,
   onChange,
   onSave,
+  onSkip,
   saveError,
   unsetSaveError,
   fullTermsConfigEnabled
@@ -22,7 +23,7 @@ export default function TermsDialogPresenter({
       title="Preferences"
       renderCustomCloseBehaviour={() =>
         pageNumber === 2 ? (
-          <span className={locals.customDialogClose} onClick={e => onSave(e, form)}>
+          <span className={locals.customDialogClose} onClick={e => onSkip(e, form)}>
             Set up later
           </span>
         ) : null
@@ -46,19 +47,10 @@ export default function TermsDialogPresenter({
 }
 
 TermsDialogPresenter.propTypes = {
-  userSettings: PropTypes.shape({
-    allAnalyticsServices: PropTypes.bool.isRequired,
-    allSupportAndResearchServices: PropTypes.bool.isRequired,
-    lastUpdated: PropTypes.number.isRequired,
-    marketingMessages: PropTypes.bool.isRequired,
-    productTips: PropTypes.bool.isRequired,
-    role: PropTypes.string,
-    testingGroup: PropTypes.bool.isRequired,
-    userId: PropTypes.string
-  }).isRequired,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onSkip: PropTypes.func.isRequired,
   saveError: PropTypes.bool,
   unsetSaveError: PropTypes.func,
   fullTermsConfigEnabled: PropTypes.bool

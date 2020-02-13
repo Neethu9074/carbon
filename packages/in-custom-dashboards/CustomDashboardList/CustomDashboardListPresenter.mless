@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .list {
+    margin: 0 @grid__gutter * 1px;
+  }
+}

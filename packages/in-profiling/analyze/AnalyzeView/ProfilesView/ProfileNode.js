@@ -4,6 +4,7 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { treeViewExpanded } from 'in-profiling/tracker';
 import { getCodeView } from 'in-forge/codeView/java';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -34,7 +35,12 @@ export default function ProfileNode({
           isFocusedIcon={isSelectedRow}
           hasChildren={hasChildren}
           expanded={expanded}
-          setExpanded={setExpanded}
+          setExpanded={expand => {
+            setExpanded(expand);
+            if (expand) {
+              treeViewExpanded(depth);
+            }
+          }}
           depth={depth}
           select={() => setSelectedProfileNode(profileNode)}
           unselect={() => setSelectedProfileNode(null)}

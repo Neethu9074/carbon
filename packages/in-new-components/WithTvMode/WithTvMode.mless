@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tvMode {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: @z-index__tv-mode;
+  }
+}

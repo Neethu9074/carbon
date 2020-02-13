@@ -1,0 +1,128 @@
+import { combineLatest } from 'reactive-observables';
+import { get } from 'lodash';
+import React from 'react';
+
+import { getMobileAppsSubscribeEvent } from 'in-mobile-apps/MobileAppsList/MobileAppsList';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getWebsitesSubscribeEvent } from 'in-websites/WebsitesList/WebsitesList';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { number, meanLatencyFixed } from 'in-services/formatters/number';
+import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
+import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import { applicationsList } from 'in-applications/navigation/paths';
+import { getView } from 'in-stores/navigation/navigation';
+import KeyValue from 'in-new-components/lists/KeyValue';
+
+export default function WebsitesAndMobileTopList(props) {
+  if (!mobileAppMonitoringEnabled) {
+    return (
+      <TopListWidget
+        {...props}
+        icon="lib_website_inverted"
+        getData={getWebsitesSubscribeEvent}
+        columnDefinitions={columnDefinitions}
+        fullListView$={getView(applicationsList)}
+        fullListViewLinkTitle="All Websites"
+      />
+    );
+  }
+
+  return (
+    <TopListWidget
+      {...props}
+      icon="lib_website_mobile_app_inverted"
+      getData={getMergedData}
+      columnDefinitions={columnDefinitions}
+      fullListView$={getView(applicationsList)}
+      fullListViewLinkTitle="All Websites & Mobile Apps"
+    />
+  );
+}
+
+function getMergedData(params) {
+  return combineLatest([getWebsitesSubscribeEvent(params), getMobileAppsSubscribeEvent(params)]).map(
+    ([websiteResult, mobileAppsResult]) => {
+      const isWebsitesLoading = get(websiteResult, ['progress', 'loading']);
+      const hasWebsitesErrors = get(websiteResult, ['errors', 'length'], 0) > 0;
+      if (isWebsitesLoading || hasWebsitesErrors) {
+        return websiteResult;
+      }
+
+      const isMobileAppsLoading = get(mobileAppsResult, ['progress', 'loading']);
+      const hasMobileAppsErrors = get(mobileAppsResult, ['errors', 'length'], 0) > 0;
+      if (isMobileAppsLoading || hasMobileAppsErrors) {
+        return mobileAppsResult;
+      }
+
+      const mergedItems = [...websiteResult.data.items, ...mobileAppsResult.data.items].sort((a, b) => {
+        const mainKpiA = get(a, ['metrics', 'pageViewsAgg', 0, 1], get(a, ['metrics', 'sessionsAgg', 0, 1], 0));
+        const mainKpiB = get(b, ['metrics', 'pageViewsAgg', 0, 1], get(a, ['metrics', 'sessionsAgg', 0, 1], 0));
+        return mainKpiB - mainKpiA;
+      });
+      return {
+        progress: { loading: false },
+        errors: [],
+        time: websiteResult.time,
+        adjustedWindowSize: websiteResult.adjustedWindowSize,
+        data: {
+          items: mergedItems,
+          page: 1,
+          pageSize: 5,
+          totalHits: websiteResult.data.totalHits + mobileAppsResult.data.totalHits
+        }
+      };
+    }
+  );
+}
+
+const columnDefinitions = [
+  {
+    id: 'label',
+    label: 'Name',
+    getContent(item) {
+      return (
+        <KeyValue
+          label={item.website ? 'Website' : 'Mobile App'}
+          value={get(item, ['website', 'label'], get(item, ['mobileApp', 'label'], ''))}
+          inverted
+          accentuated
+        />
+      );
+    }
+  },
+  {
+    id: 'metric1',
+    label: 'Metric 1',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.sessions || item.metrics.pageViews}
+          metric={item.metrics.sessionsAgg || item.metrics.pageViewsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'metric2',
+    label: 'Metric 2',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      const isWebsite = !!item.website;
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation={isWebsite ? 'MEAN' : 'SUM'}
+          metrics={item.metrics.views || item.metrics.onLoadTime}
+          metric={item.metrics.viewsAgg || item.metrics.onLoadTimeAgg}
+          tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
+        />
+      );
+    }
+  }
+];

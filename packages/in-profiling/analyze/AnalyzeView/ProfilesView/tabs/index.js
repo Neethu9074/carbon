@@ -23,13 +23,13 @@ export default [
 ];
 
 function CpuProfile(props) {
-  return <Profile profile={props.data.cpuProfile} renderChart {...props} />;
+  return <Profile isCpuProfile profile={props.data.cpuProfile} renderChart {...props} />;
 }
 
 function MemoryProfile(props) {
-  return <Profile profile={props.data.memoryProfile} {...props} />;
+  return <Profile isMemoryProfile profile={props.data.memoryProfile} {...props} />;
 }
 
 function TimeProfile(props) {
-  return <Profile profile={props.data.timeProfile} {...props} />;
+  return <Profile isWaitTimeProfile profile={props.data.timeProfile} {...props} />;
 }

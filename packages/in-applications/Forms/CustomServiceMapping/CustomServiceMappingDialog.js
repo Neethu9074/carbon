@@ -26,13 +26,15 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
+import theme from 'in-themes';
 
 import locals from './CustomServiceMappingDialog.mless';
 
 export default function CustomServiceMappingDialog() {
   return (
     <BasicForm
-      title="Configure Custom Services"
+      title="Configure Custom Service Rule"
       saveButtonLabel="Save"
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
       getOnSavePath={() => servicesList}
@@ -79,8 +81,11 @@ export default function CustomServiceMappingDialog() {
                             Docs on Application and Service Management{' '}
                           </a>
                         </strong>{' '}
-                        to learn more on the predefined rules. To define a custom rule start below by selecting a set of
-                        tags. If all tags are present on a call, it will mapped to that service.
+                        to learn more on the predefined rules.
+                        <br />
+                        <br />
+                        Define a custom rule by selecting a series of tags below. If all tags are present on a call, it
+                        will be mapped to that service.
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>
@@ -94,83 +99,97 @@ export default function CustomServiceMappingDialog() {
                       </div>
 
                       {form.get('matchSpecification').map((matchSpecification, i) => (
-                        <div key={i} className={locals.matchSpecification}>
-                          {matchSpecification.get('key').map(field => (
-                            <FormGroup className={locals.matchSpecificationGroupKey}>
-                              <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                                Tag
-                              </Label>
-                              <Select
-                                id={`match-${i}-key`}
-                                value={field.value}
-                                onChange={e => {
-                                  let updatedForm = form.updateIn(['matchSpecification', i, 'key'], field =>
-                                    field.setValue(e.target.value).setTouched(true)
-                                  );
-                                  if (getTagType(e.target.value) === 'KEY_VALUE_PAIR') {
-                                    updatedForm = updatedForm.updateIn(['matchSpecification', i], matchSpecification =>
-                                      matchSpecification.put(
-                                        'secondLevelName',
-                                        createField({
-                                          value: '',
-                                          validator: notBlankValidator
-                                        })
-                                      )
+                        <div key={i}>
+                          <div>
+                            {i > 0 && (
+                              <div>
+                                <Pill className={locals.operatorPill} color={theme.lib.colors.N400}>
+                                  AND
+                                </Pill>
+                              </div>
+                            )}
+                          </div>
+                          <div className={locals.matchSpecification}>
+                            {matchSpecification.get('key').map(field => (
+                              <FormGroup className={locals.matchSpecificationGroupKey}>
+                                <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                                  Tag
+                                </Label>
+                                <Select
+                                  id={`match-${i}-key`}
+                                  value={field.value}
+                                  onChange={e => {
+                                    let updatedForm = form.updateIn(['matchSpecification', i, 'key'], field =>
+                                      field.setValue(e.target.value).setTouched(true)
                                     );
-                                  } else {
-                                    updatedForm = updatedForm.updateIn(['matchSpecification', i], matchSpecification =>
-                                      matchSpecification.remove('secondLevelName')
-                                    );
-                                  }
-                                  updateForm(updatedForm);
-                                }}
-                                autoComplete="off"
-                                hasError={!field.valid && field.touched}
-                              >
-                                {getCustomServiceMappingTagValuesAsOptions()}
-                              </Select>
-                              <TouchedMessages field={field} />
-                            </FormGroup>
-                          ))}
-
-                          {matchSpecification.get('secondLevelName') &&
-                            matchSpecification.get('secondLevelName').map(field => {
-                              const key = matchSpecification.get('key').value;
-                              if (getTagType(key) !== 'KEY_VALUE_PAIR') {
-                                return null;
-                              }
-
-                              return (
-                                <FormGroup className={locals.matchSpecificationGroupValue}>
-                                  <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                                    Key
-                                  </Label>
-                                  <Input
-                                    type="text"
-                                    id={`match-${i}-secondLevelName`}
-                                    value={field.value}
-                                    onChange={e =>
-                                      setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
+                                    if (getTagType(e.target.value) === 'KEY_VALUE_PAIR') {
+                                      updatedForm = updatedForm.updateIn(
+                                        ['matchSpecification', i],
+                                        matchSpecification =>
+                                          matchSpecification.put(
+                                            'secondLevelName',
+                                            createField({
+                                              value: '',
+                                              validator: notBlankValidator
+                                            })
+                                          )
+                                      );
+                                    } else {
+                                      updatedForm = updatedForm.updateIn(
+                                        ['matchSpecification', i],
+                                        matchSpecification => matchSpecification.remove('secondLevelName')
+                                      );
                                     }
-                                    autoComplete="off"
-                                    hasError={!field.valid && field.touched}
-                                  />
-                                  <TouchedMessages field={field} />
-                                </FormGroup>
-                              );
-                            })}
+                                    updateForm(updatedForm);
+                                  }}
+                                  autoComplete="off"
+                                  hasError={!field.valid && field.touched}
+                                >
+                                  {getCustomServiceMappingTagValuesAsOptions()}
+                                </Select>
+                                <TouchedMessages field={field} />
+                              </FormGroup>
+                            ))}
 
-                          {form.get('matchSpecification').size > 1 && (
-                            <Tooltip content="Remove this match condition">
-                              <SvgIcon
-                                className={locals.removeMatchRuleIcon}
-                                type="lib_openclose_cancel"
-                                onClick={() => removeMatchSpecification(i, form, updateForm)}
-                                tabIndex={0}
-                                aria-label="Remove this match condition"
-                              />
-                            </Tooltip>
-                          )}
+                            {matchSpecification.get('secondLevelName') &&
+                              matchSpecification.get('secondLevelName').map(field => {
+                                const key = matchSpecification.get('key').value;
+                                if (getTagType(key) !== 'KEY_VALUE_PAIR') {
+                                  return null;
+                                }
+
+                                return (
+                                  <FormGroup className={locals.matchSpecificationGroupValue}>
+                                    <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                                      Key
+                                    </Label>
+                                    <Input
+                                      type="text"
+                                      id={`match-${i}-secondLevelName`}
+                                      value={field.value}
+                                      onChange={e =>
+                                        setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
+                                      }
+                                      autoComplete="off"
+                                      hasError={!field.valid && field.touched}
+                                    />
+                                    <TouchedMessages field={field} />
+                                  </FormGroup>
+                                );
+                              })}
+
+                            {form.get('matchSpecification').size > 1 && (
+                              <Tooltip content="Remove this match condition">
+                                <SvgIcon
+                                  className={locals.removeMatchRuleIcon}
+                                  type="lib_openclose_cancel"
+                                  onClick={() => removeMatchSpecification(i, form, updateForm)}
+                                  tabIndex={0}
+                                  aria-label="Remove this match condition"
+                                />
+                              </Tooltip>
+                            )}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -178,12 +197,35 @@ export default function CustomServiceMappingDialog() {
                 }
               ]}
             />
+
+            {form.get('matchSpecification').size > 0 &&
+              form
+                .get('matchSpecification')
+                .get(0)
+                .get('key').value && (
+                <div>
+                  <div className={locals.previewLabel}>Preview</div>
+                  <div className={locals.previewValue}>{getPreview(form)}</div>
+                </div>
+              )}
             {serviceConfig.id && <RemoveSection serviceConfig={serviceConfig} />}
           </Fragment>
         );
       }}
     />
   );
+}
+
+function getPreview(form) {
+  return form
+    .get('matchSpecification')
+    .items.filter(matchSpecification => matchSpecification.get('key').value)
+    .map(matchSpecification => {
+      const key = matchSpecification.get('key').value;
+      const secondLevel = matchSpecification.get('secondLevelName');
+      return secondLevel && secondLevel.value ? `{${key}.${secondLevel.value}}` : `{${key}}`;
+    })
+    .join('-');
 }
 
 function getCustomServiceMappingTagValuesAsOptions() {

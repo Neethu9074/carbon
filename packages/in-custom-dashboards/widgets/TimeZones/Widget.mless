@@ -1,0 +1,33 @@
+:local {
+  .zones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .zone {
+    display: inline-block;
+    margin: 1rem 2rem;
+    flex-shrink: 0;
+  }
+
+  .sleepy {
+    opacity: 0.5;
+  }
+
+  .label {
+    font-weight: lighter;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  .time {
+    font-weight: normal;
+    font-size: 2rem;
+    // we do not want a monospace font. But at the same time we do not want
+    // the presentation to be jumpy on number / time changes
+    min-width: 6rem;
+    margin-bottom: 0;
+  }
+}

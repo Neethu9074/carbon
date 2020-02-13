@@ -4,10 +4,7 @@ import React from 'react';
 
 import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import DatabaseStatementDetail from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementDetail';
-import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
-import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
-import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
@@ -33,13 +30,6 @@ export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope
                 />
               )}
               <CommonPerformanceSections boundaryScope={boundaryScope} {...props} />
-              <DatabaseSections boundaryScope={boundaryScope} {...props} />
-              <HttpSections
-                boundaryScope={boundaryScope}
-                {...props}
-                groupByTag={{ name: 'call.http.status', entity: entityTypes.NOT_APPLICABLE }}
-                showGraph
-              />
             </div>
           );
         }}

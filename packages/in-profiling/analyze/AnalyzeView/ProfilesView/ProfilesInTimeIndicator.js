@@ -43,11 +43,11 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
       rollup
     })
   );
-  const bucketSizeInPx = (blockSizeMillis / timeConfig.windowSize) * width - 2;
-
+  const bucketSizeInPx = (blockSizeMillis / timeConfig.windowSize) * width - 1;
+  const minTimestamp = getSmallestTimestamp(profile.rawProfileTimestamps);
   const bucketResult = bucketize({
     items: profile.rawProfileTimestamps,
-    from: scale.getDomainFrom(),
+    from: minTimestamp || scale.getDomainFrom(),
     bucketSize: blockSizeMillis
   });
 
@@ -59,7 +59,7 @@ const Buckets = getElementDimensions(function Buckets({ profile, timeConfig, wid
             style={{
               height: Math.max(1, 14 * (bucket.items.length / bucketResult.maxItemsPerBucket)),
               left: scale.getRange(bucket.from),
-              width: Math.ceil(bucketSizeInPx)
+              width: bucketSizeInPx
             }}
             className={locals.profilesIndicator}
           />
@@ -78,7 +78,16 @@ function TooltipContent({ bucket }) {
       </div>
       <span className={locals.numProfiles}>{bucket.items.length}</span>
       {` `}
-      profiles collected
+      profile
+      {bucket.items.length === 1 ? '' : 's'} collected
     </div>
   );
+}
+
+function getSmallestTimestamp(timestamps) {
+  let minTimestamp = timestamps[0];
+  for (let i = 1; i < timestamps.length; i++) {
+    minTimestamp = Math.min(minTimestamp, timestamps[i]);
+  }
+  return minTimestamp;
 }

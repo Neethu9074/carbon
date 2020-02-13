@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
@@ -15,6 +17,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
   const includeSyntheticCalls = get(data, 'synthetic', false);
+  const type = data.type;
 
   const filter = {
     timeConfig,
@@ -81,16 +84,29 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
 
       <Row>
         <Col lg={4}>
-          <CallsErrors
-            cardTitle="Calls"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            includeSyntheticCalls={includeSyntheticCalls}
-            timeConfig={timeConfig}
-            groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-          />
+          {type.includes('HTTP') ? (
+            <CallsAndHttp
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              includeSyntheticCalls={includeSyntheticCalls}
+              timeConfig={timeConfig}
+              callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+            />
+          ) : (
+            <CallsErrors
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              includeSyntheticCalls={includeSyntheticCalls}
+              timeConfig={timeConfig}
+              groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+            />
+          )}
         </Col>
         <Col lg={4}>
           <Errors
@@ -105,7 +121,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           />
         </Col>
         <Col lg={4}>
-          <Latency
+          <LatencyAndDistribution
             cardTitle="Latency"
             applicationId={applicationId}
             serviceId={serviceId}
@@ -113,7 +129,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             boundaryScope={boundaryScope}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
+            percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
           />
         </Col>
       </Row>
@@ -141,7 +157,17 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               </Col>
             )}
             <Col lg={6}>
-              <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+              {type.includes('DATABASE') ? (
+                <DatabaseSections
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  endpointId={endpointId}
+                  timeConfig={timeConfig}
+                />
+              ) : (
+                <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+              )}
             </Col>
           </Row>
         </Fragment>

@@ -76,6 +76,7 @@ export default connectTo(({ applicationId, serviceId, itemServiceId, endpointId 
                 onClick={toggle}
                 refSetter={refSetter}
                 rootOrUnknown={itemServiceId === 'ROOT' || itemServiceId === 'UNKNOWN'}
+                length={25}
               />
             </div>
             <div>

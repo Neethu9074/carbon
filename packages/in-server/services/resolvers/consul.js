@@ -17,6 +17,11 @@ exports.getGroundskeeperBaseUrl = () =>
     return lookupServiceBaseUrl(`groundskeeper`);
   });
 
+exports.getButlerBaseUrl = () =>
+  cache(`butler`, () => {
+    return lookupServiceBaseUrl(`butler`);
+  });
+
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 

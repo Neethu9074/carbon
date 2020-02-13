@@ -1,12 +1,15 @@
 import { goToRootOfView, navigationParameters$, closeCurrentHelpIfOpen } from 'in-stores/navigation';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { activeDialog$, close } from 'in-components/DialogPresenter/store';
+import { disableTvMode } from 'in-new-components/WithTvMode';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
 
 let navigationParameters;
 navigationParameters$.subscribe(_navigationParameters => (navigationParameters = _navigationParameters));
 
 export default function onPressed() {
+  disableTvMode();
+
   if (!navigationParameters) {
     return;
   }

@@ -120,7 +120,7 @@ function getHasDataToRender() {
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getWebsitesSubscribeEvent({
+export function getWebsitesSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,

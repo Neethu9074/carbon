@@ -43,11 +43,16 @@ function getColumnDefinitions(websiteLabel) {
 }
 
 export default function Alerts({ websiteLabel, websiteId }) {
-  const [alertsSize, setAlertsSize] = useState('');
+  const [alertsSize, setAlertsSize] = useState(null);
+
+  let header = 'Configured Alerts';
+  if (alertsSize != null) {
+    header = `${header} (${alertsSize})`;
+  }
 
   return (
     <List
-      getHeader={() => `Configured Alerts (${alertsSize})`}
+      getHeader={() => header}
       getEntityName={config => config.name}
       columnDefinitions={getColumnDefinitions(websiteLabel)}
       tableActions={{

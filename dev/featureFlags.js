@@ -22,5 +22,7 @@ module.exports = {
   eumAlertingEnabled: true,
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
-  apDashboardEventsEnabled: false
+  apDashboardEventsEnabled: false,
+  customDashboardsEnabled: true,
+  cockpitEnabled: true
 };

@@ -4,8 +4,7 @@
 :local {
 
   .latestButton {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0rem 0.25rem;
   }
 
   .labelWrapper {

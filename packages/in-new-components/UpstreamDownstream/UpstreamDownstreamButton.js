@@ -11,19 +11,31 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function UpstreamDownstreamButton({ timeConfig, isInternalVisible, serviceId, applicationId }) {
+  function UpstreamDownstreamButton({
+    timeConfig,
+    isInternalVisible,
+    endpointId,
+    serviceId,
+    applicationId,
+    boundaryScope,
+    dashboard
+  }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
-          content={() => (
+          content={({ close }) => (
             <UpstreamDownstream
               timeConfig={timeConfig}
               activeTabIndex={activeTabIndex}
               onTabSelect={onTabSelect}
               serviceId={serviceId}
               applicationId={applicationId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              dashboard={dashboard}
+              close={close}
             />
           )}
           withoutWrapper

@@ -41,6 +41,8 @@ export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', f
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 export const apDashboardEventsEnabled = isInstanaEmail || isFeatureFlagEnabled('apDashboardEventsEnabled');
+export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
+export const cockpitEnabled = isFeatureFlagEnabled('cockpitEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

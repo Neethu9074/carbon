@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
+import {
+  cpuTreeViewOpened,
+  cpuFlameGraphOpened,
+  waitTimeTreeViewOpened,
+  waitTimeFlameGraphOpened
+} from 'in-profiling/tracker';
 import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
@@ -21,11 +27,22 @@ export default function Profile({
   timeConfig,
   processId,
   jvmSnapshot,
-  processSnapshot
+  processSnapshot,
+  isCpuProfile,
+  isWaitTimeProfile
 }) {
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
   useEffect(() => setQuery(''), [viewType]);
+  useEffect(
+    () => {
+      if (isCpuProfile && viewType === 'tree') cpuTreeViewOpened();
+      if (isCpuProfile && viewType === 'flameGraph') cpuFlameGraphOpened();
+      if (isWaitTimeProfile && viewType === 'tree') waitTimeTreeViewOpened();
+      if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened();
+    },
+    [viewType]
+  );
 
   let totalNumSamples = 0;
   let profilesVisualisation;
@@ -74,7 +91,10 @@ export default function Profile({
           )}
           {profile &&
             profile.rawProfileTimestamps && (
-              <span className={locals.numProfilesLabel}>{profile.rawProfileTimestamps.length} Profiles</span>
+              <span className={locals.numProfilesLabel}>
+                {profile.rawProfileTimestamps.length} Profile
+                {profile.rawProfileTimestamps.length === 1 ? '' : 's'}
+              </span>
             )}
           {!profile && <span className={locals.numProfilesLabel}>0 Profiles</span>}
           {totalNumSamples > 0 &&

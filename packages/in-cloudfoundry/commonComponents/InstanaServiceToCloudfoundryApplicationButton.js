@@ -52,7 +52,7 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
       {({ toggle, isOpen, refSetter }) => (
         <Button
           className={locals.button}
-          kind="primaryv2"
+          kind="secondary"
           icon="lib_cloudfoundry_application"
           onClick={toggle}
           refSetter={refSetter}

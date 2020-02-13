@@ -41,7 +41,12 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   }
 
   return (
-    <Card title={config.cardTitle} withoutPadding={withoutPadding} header={config.cardHeader}>
+    <Card
+      title={config.cardTitle}
+      useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
+      withoutPadding={withoutPadding}
+      header={config.cardHeader}
+    >
       {content}
     </Card>
   );

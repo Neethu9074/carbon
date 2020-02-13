@@ -40,6 +40,7 @@ export const customServiceMappingTagKeys = [
   'jvm.app.name',
   'kafka.cluster.name',
   'mongo.replicatSetName',
+  'kubernetes.cluster.name',
   'kubernetes.container.name',
   'kubernetes.namespace',
   'kubernetes.label',
@@ -52,6 +53,7 @@ export const customServiceMappingTagKeys = [
   'nomad.task.name',
   'process.name',
   'ruby.name',
+  'service.default_name',
   'springboot.name'
 ];
 

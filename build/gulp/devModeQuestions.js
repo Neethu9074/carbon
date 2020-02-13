@@ -73,8 +73,8 @@ function selectTarget(devModeOptions, targetConfig) {
     devModeOptions.target.tenant = 'instana';
     devModeOptions.target.tenantUnit = 'local';
     devModeOptions.target.environment = 'local';
-    devModeOptions.target.butlerDomain = 'local-instana.instana.io:4000';
-    devModeOptions.target.baseDomain = 'instana.io';
+    devModeOptions.target.butlerDomain = 'local-instana.pink.instana.rocks:4000';
+    devModeOptions.target.baseDomain = 'pink.instana.rocks';
   } else {
     const localDomain = `${targetConfig.unit}-${targetConfig.tenant}.${targetConfig.baseDomain}`;
     const localUrl = `https://${localDomain}`;

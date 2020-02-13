@@ -11,7 +11,7 @@ import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
 
 // TODO: Read this mapping from backend
-const entityTypeToFullyQualifiedPlugin = {
+export const entityTypeToFullyQualifiedPlugin = {
   host: fullyQualifiedPlugins.host,
   docker: fullyQualifiedPlugins.docker,
   jvm: fullyQualifiedPlugins.jvmRuntimePlatform,

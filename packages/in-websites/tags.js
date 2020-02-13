@@ -110,8 +110,7 @@ export const availableGroupingTags = {
     'beacon.asynchronous',
     'beacon.erroneous',
     'beacon.error.count',
-    'beacon.error.message',
-    'beacon.error.type'
+    'beacon.error.message'
   ].sort(),
   error: [
     ...commonGroupingTags,
@@ -134,7 +133,7 @@ export const availableGroupingTags = {
   ].sort()
 };
 
-const commonFilterTags = [
+const commonFilterTagsWithoutCommonGroupingTags = [
   'beacon.deprecations',
   'beacon.duration',
   'beacon.geo.accuracyRadius',
@@ -144,6 +143,8 @@ const commonFilterTags = [
   'beacon.timestamp',
   'beacon.website.id'
 ];
+
+export const commonFilterTags = [...commonGroupingTags, ...commonFilterTagsWithoutCommonGroupingTags];
 
 const translatedStackTraceFilterTags = [
   'beacon.stackTrace.parsingStatus',
@@ -159,49 +160,43 @@ const translatedStackTraceFilterTags = [
 export const availableFilterTags = {
   pageLoad: [
     ...availableGroupingTags.pageLoad,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
   resourceLoad: [
     ...availableGroupingTags.resourceLoad,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.http.decodedBodySize',
     'beacon.http.encodedBodySize',
     'beacon.http.transferSize',
     'beacon.timing.app_cache',
     'beacon.timing.backend',
-    'beacon.timing.children',
     'beacon.timing.dns',
-    'beacon.timing.dom',
-    'beacon.timing.firstContentfulPaint',
-    'beacon.timing.firstPaint',
     'beacon.timing.frontend',
     'beacon.timing.onLoad',
-    'beacon.timing.processing',
     'beacon.timing.redirect',
     'beacon.timing.request',
     'beacon.timing.response',
     'beacon.timing.ssl',
-    'beacon.timing.tcp',
-    'beacon.timing.unload'
+    'beacon.timing.tcp'
   ].sort(),
   httpRequest: [
     ...availableGroupingTags.httpRequest,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
   error: [
     ...availableGroupingTags.error,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.batchSize',
     'beacon.error.id',
     ...translatedStackTraceFilterTags
   ].sort(),
   custom: [
     ...availableGroupingTags.custom,
-    ...commonFilterTags,
+    ...commonFilterTagsWithoutCommonGroupingTags,
     'beacon.batchSize',
     ...translatedStackTraceFilterTags
   ].sort()

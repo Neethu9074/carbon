@@ -9,18 +9,21 @@ exports.getCurrentUser = req => {
   }
 
   return new Promise((resolve, reject) => {
-    sendRequest({
-      url: req.uiBackendBaseUrl + '/checkUserAccessPermitted',
-      headers: {
-        'Cookie': `${serverConfig.cookie.name}=${cookieValue}`
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/checkUserAccessPermitted',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${cookieValue}`
+        },
+        timeout: 15000
       },
-      timeout: 15000
-    }, (error, response, userStr) => {
-      if (error) {
-        reject(new Error('Failed to retrieve current user from ui-backend: ' + String(error)));
-      } else {
-        resolve([response.statusCode, userStr]);
+      (error, response, userStr) => {
+        if (error) {
+          reject(new Error('Failed to retrieve current user from ui-backend: ' + String(error)));
+        } else {
+          resolve([response.statusCode, userStr]);
+        }
       }
-    });
+    );
   });
 };

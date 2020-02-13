@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
@@ -80,6 +81,14 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, ur
   return (
     <>
       <StackButton id={applicationId} timeConfig={timeConfig} productArea="application" />
+      <UpstreamDownstreamButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        boundaryScope={urlBoundaryScope}
+        dashboard="application"
+      />
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}

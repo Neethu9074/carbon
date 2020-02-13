@@ -93,6 +93,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
     '/notifications/': 'https://instana.github.io/ui-notifications/content/',
     '/registration/slack/': butlerUrl + '/registration/slack',
+    '/csrf/token': `${uiBackendUrl}/api/csrf/token`,
     '/integration/': integrationUrl + '/integration/'
   };
 

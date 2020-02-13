@@ -1,12 +1,14 @@
 import React from 'react';
 
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
+import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
@@ -14,7 +16,8 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary(props) {
-  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope } = props;
+  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope, data } = props;
+  const types = data.types;
 
   const filter = {
     timeConfig,
@@ -81,15 +84,27 @@ export default function Summary(props) {
 
       <Row>
         <Col lg={4}>
-          <CallsErrors
-            cardTitle="Calls"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-          />
+          {types.includes('HTTP') ? (
+            <CallsAndHttp
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+              callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            />
+          ) : (
+            <CallsErrors
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+              groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            />
+          )}
         </Col>
         <Col lg={4}>
           <Errors
@@ -103,14 +118,14 @@ export default function Summary(props) {
           />
         </Col>
         <Col lg={4}>
-          <Latency
+          <LatencyAndDistribution
             cardTitle="Latency"
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
-            groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+            percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
           />
         </Col>
       </Row>
@@ -129,7 +144,11 @@ export default function Summary(props) {
             />
           </Col>
           <Col lg={4}>
-            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            {types.includes('DATABASE') ? (
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+            ) : (
+              <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            )}
           </Col>
         </Row>
       ) : (
@@ -154,7 +173,11 @@ export default function Summary(props) {
             />
           </Col>
           <Col lg={4}>
-            <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            {types.includes('DATABASE') ? (
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+            ) : (
+              <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            )}
           </Col>
         </Row>
       )}

@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dragHandle {
+    height: 24px;
+    margin: 1.5rem 0.7rem 0 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    & > svg {
+      cursor: inherit;
+
+      &:hover {
+        cursor: inherit;
+      }
+    }
+  }
+
+  .timeZone {
+    display: flex;
+    justify-content: space-between;
+
+    & > :nth-child(2) {
+      @grid__gutter__px: @grid__gutter / 2px;
+      width: ~"calc(100% - @{grid__gutter__px})";
+    }
+  }
+
+  .removeButton {
+    fill: @lib__colors__blue800;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 1.5rem 0 0 0.7rem;
+  }
+
+  .addButton {
+    margin-bottom: 1rem;
+  }
+}

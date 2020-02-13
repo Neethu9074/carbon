@@ -1,3 +1,5 @@
+import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
+
 export const alertTypes = {
   specificJsError: 'specificJsError',
   slowness: 'slowness',
@@ -35,3 +37,9 @@ export const alertTypeConfig = Object.freeze([
     text: 'Alert on known HTTP Status Codes by selecting one or multiple Status Codes that have been monitored before.'
   }
 ]);
+
+export const availableTagFiltersPerAlertType = {
+  [alertTypes.specificJsError]: commonFilterTags,
+  [alertTypes.slowness]: availableFilterTags.pageLoad,
+  [alertTypes.specificStatusCode]: availableFilterTags.httpRequest
+};

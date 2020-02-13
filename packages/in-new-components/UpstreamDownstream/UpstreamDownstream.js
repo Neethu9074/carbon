@@ -8,9 +8,15 @@ import getServices from 'in-subscription/application/getServices';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ serviceId, timeConfig }) => ({
-    upstream: getStreamData({ timeConfig, serviceId, contextScope: relationships.UPSTREAM }),
-    downstream: getStreamData({ timeConfig, serviceId, contextScope: relationships.DOWNSTREAM })
+  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
+    upstream: getStreamData({ timeConfig, applicationId, serviceId, endpointId, contextScope: relationships.UPSTREAM }),
+    downstream: getStreamData({
+      timeConfig,
+      applicationId,
+      serviceId,
+      endpointId,
+      contextScope: relationships.DOWNSTREAM
+    })
   }),
   function UpstreamDownstream({
     activeTabIndex,
@@ -18,8 +24,12 @@ export default connectTo(
     timeConfig,
     serviceId,
     applicationId,
+    endpointId,
+    boundaryScope,
     upstream,
-    downstream
+    downstream,
+    dashboard,
+    close
   }) {
     const stream = activeTabIndex === 0 ? upstream : downstream;
     return (
@@ -31,6 +41,10 @@ export default connectTo(
         timeConfig={timeConfig}
         serviceId={serviceId}
         applicationId={applicationId}
+        endpointId={endpointId}
+        dashboard={dashboard}
+        boundaryScope={boundaryScope}
+        close={close}
       />
     );
   }

@@ -13,9 +13,10 @@ export default function GardenInfo({ snapshot }) {
       <DescriptionItem title="Container Path">{data.get('containerPath')}</DescriptionItem>
       <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
       <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
-      <DescriptionItem title="App Id">{data.get('appId')}</DescriptionItem>
       <DescriptionItem title="Org Id">{data.get('orgId')}</DescriptionItem>
       <DescriptionItem title="Space Id">{data.get('spaceId')}</DescriptionItem>
+      <DescriptionItem title="App Id">{data.get('appId')}</DescriptionItem>
+      <DescriptionItem title="Instance Index">{data.get('cfInstanceIndex')}</DescriptionItem>
     </DescriptionList>
   );
 }

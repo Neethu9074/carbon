@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import UpstreamDownstreamLoading from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamLoading';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import UpstreamDownstreamPane from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamPane';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import tabList from 'in-new-components/UpstreamDownstream/tabs';
 import Link from 'in-components/Link/Link';
 
@@ -17,7 +17,11 @@ export default function UpstreamDownstreamPresenter({
   timeConfig,
   result,
   serviceId,
-  applicationId
+  applicationId,
+  endpointId,
+  dashboard,
+  boundaryScope,
+  close
 }) {
   const isLoading = result.progress && result.progress.loading;
   const { key } = tabList[activeTabIndex];
@@ -54,15 +58,40 @@ export default function UpstreamDownstreamPresenter({
             timeConfig={timeConfig}
             totalHits={result.data.totalHits}
           />
-          {result.data.totalHits > 5 && (
-            <div className={locals.seeAll}>
-              <Link href$={getServiceDashboard(serviceId, { tab: '/flowMap' })}>
-                See all {result.data.totalHits} Services
-              </Link>
-            </div>
-          )}
+          <div className={locals.seeAll}>
+            {getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close)}
+          </div>
         </>
       )}
     </div>
+  );
+}
+
+function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close) {
+  if (dashboard === 'application') {
+    return (
+      <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
+        See all dependencies
+      </Link>
+    );
+  } else if (dashboard === 'service') {
+    return (
+      <Link href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap' })} onClick={close}>
+        See all {result.data.totalHits} Services
+      </Link>
+    );
+  }
+  return (
+    <Link
+      href$={getEndpointDashboard(endpointId, {
+        applicationId,
+        serviceId,
+        boundaryScope,
+        tab: '/flowMap'
+      })}
+      onClick={close}
+    >
+      See all Services and Endpoints
+    </Link>
   );
 }

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
-import { joinClassNames } from 'in-services/util/classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
@@ -17,15 +17,16 @@ export const themes = {
 
 export default function DashboardHeader(props) {
   const { theme = themes.default, icon, title, className, contextConfigurations, renderTimeSelection, result } = props;
-  let { label, renderIcon, renderMetaInformation, renderButtonLine } = props;
+  let { label, renderIcon, renderMetaInformation, renderButtonLine, renderButtonLineSecondary } = props;
 
   const isLoading = result && result.data == null;
 
   if (isLoading) {
     label = getSkeletonLabel();
 
-    if (renderButtonLine) {
+    if (renderButtonLine || renderButtonLineSecondary) {
       renderButtonLine = getSkeletonButton;
+      renderButtonLineSecondary = getSkeletonButton;
     }
     if (renderMetaInformation) {
       renderMetaInformation = getSkeletonButton;
@@ -48,13 +49,23 @@ export default function DashboardHeader(props) {
                 renderLastIconDelimiter={i < contextConfigurations.length - 1 || (label || icon || renderIcon)}
               />
             ))}
-          {renderIcon ? renderIcon() : <SvgIcon className={locals.icon} type={icon} size="l" />}
+          {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
           <span className={locals.label}>{label}</span>
           {renderMetaInformation && renderMetaInformation(props)}
         </div>
         {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
       </div>
-      {renderButtonLine && <div className={locals.buttonLine}>{renderButtonLine(props)}</div>}
+      {(renderButtonLine || renderButtonLineSecondary) && (
+        <div
+          className={evaluateClassNames({
+            [locals.buttonLine]: true,
+            [locals.withSecondary]: renderButtonLineSecondary
+          })}
+        >
+          <div className={locals.primaryActions}>{renderButtonLine && renderButtonLine(props)}</div>
+          <div className={locals.secondaryActions}>{renderButtonLineSecondary && renderButtonLineSecondary(props)}</div>
+        </div>
+      )}
     </header>
   );
 }
@@ -97,6 +108,7 @@ DashboardHeader.propTypes = {
   label: PropTypes.string,
   renderMetaInformation: PropTypes.func,
   renderButtonLine: PropTypes.func,
+  renderButtonLineSecondary: PropTypes.func,
   contextConfigurations: PropTypes.arrayOf(
     PropTypes.shape({
       renderContext: PropTypes.func.isRequired,

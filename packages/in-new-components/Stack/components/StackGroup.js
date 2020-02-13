@@ -7,7 +7,7 @@ import { Ul } from 'in-new-components/lists/List';
 
 import locals from './StackGroup.mless';
 
-export default function StackGroup({ group: { relationship, type, items }, area }) {
+export default function StackGroup({ group: { relationship, type, items }, tab }) {
   return (
     <div>
       <div className={locals.groupHead}>
@@ -15,7 +15,7 @@ export default function StackGroup({ group: { relationship, type, items }, area 
       </div>
       <Ul framed="topBottom">
         {items.map(item => (
-          <StackItem key={item.id} item={item} area={area} />
+          <StackItem key={item.id} item={item} tab={tab} />
         ))}
       </Ul>
     </div>

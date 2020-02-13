@@ -2,7 +2,6 @@
 import React from 'react';
 
 import EndpointDashboardNotifications from 'in-applications/Dashboards/endpoint/components/EndpointDashboardNotifications';
-import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -23,11 +22,6 @@ export default [
     stickToHeader: true,
     stickToBottom: true,
     isFullWidth: true
-  },
-  {
-    label: 'Performance',
-    path: `${endpointDashboard}/performance`,
-    component: wrapWithMessage(PerformanceTab)
   },
   {
     label: 'Error Messages',

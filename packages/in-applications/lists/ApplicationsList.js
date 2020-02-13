@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -30,7 +31,6 @@ import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 import locals from './ApplicationsList.mless';
 
@@ -191,24 +191,24 @@ export default connectTo(
 );
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
-  return getApplications(getApplicationListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query));
+  return getApplicationListSubscribeEvent({ timeConfig, query, page, pageSize, orderBy, orderDirection });
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getApplications(getApplicationListSubscribeEvent(timeConfig)))
+    .flatMap(timeConfig => getApplicationListSubscribeEvent({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-export function getApplicationListSubscribeEvent(
+export function getApplicationListSubscribeEvent({
   timeConfig,
+  query = '',
   page = 1,
   pageSize = 20,
   orderBy = 'callsAgg',
-  orderDirection = 'DESC',
-  query = ''
-) {
-  return {
+  orderDirection = 'DESC'
+}) {
+  return getApplications({
     pagination: {
       page,
       pageSize
@@ -262,5 +262,5 @@ export function getApplicationListSubscribeEvent(
       label: query,
       timeConfig
     }
-  };
+  });
 }
