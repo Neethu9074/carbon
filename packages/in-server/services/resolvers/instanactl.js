@@ -75,6 +75,7 @@ exports.getAgentEndpointConfiguration = (tenant, unit) => {
         timeout: 15000
       },
       (error, response, agentEndpointConfig) => {
+        console.log('Agent config from butler: ' + response.status + ', ' + agentEndpointConfig);
         if (error || response.status < 200 || response.status >= 300) {
           resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
         } else {
