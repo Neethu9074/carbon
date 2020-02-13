@@ -12,7 +12,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
   let basePath = form.get('basePath').value;
   basePath = isBlank(basePath) ? '' : '/' + basePath.trim();
 
-  const elkUrl = form.get('url').value + basePath + '/app/kibana#/dashboards?title=' + form.get('dashboard').value;
+  const elkUrl = form.get('url').value + basePath + '/app/kibana#/dashboard/' + form.get('dashboard').value;
 
   return (
     <fieldset>
@@ -50,7 +50,9 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: Optional base path you have configured in ELK.
+            Example: http://kibana.com:5601/
+            <b>instana</b>
+            /app/kibana#. Optional base path you have configured in ELK.
           </HelpText>
         </FormGroup>
       ))}
@@ -58,7 +60,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
       {form.get('dashboard').map(field => (
         <FormGroup>
           <Label htmlFor="elk-dashboard" hasError={!disabled && !field.valid && field.touched}>
-            Dashboard title
+            Dashboard ID
           </Label>
           <Input
             id="elk-dashboard"
@@ -69,7 +71,8 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: dashboard title you have configured in ELK for Instana.
+            Example: Can be found from the URL http://kibana.com:5601/app/kibana#/dashboard/
+            <b>a23a8810-4ce8-11ea-9be2-a53f95fe8814</b>. ID of the dashboard you have configured in ELK for Instana.
           </HelpText>
         </FormGroup>
       ))}

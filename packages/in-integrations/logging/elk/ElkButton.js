@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 
@@ -41,25 +40,23 @@ function constructElkLink(integration, props) {
   let basePath = integration.basePath;
   basePath = isBlank(basePath) ? '' : '/' + basePath.trim();
 
-  return `${integration.url}${basePath}/app/kibana#/dashboards?title=${integration.dashboard}&search=${toParams(
-    queryParameters,
-    '?',
-    '&'
-  )}`;
+  return `${integration.url}${basePath}/app/kibana#/dashboard/${
+    integration.dashboard
+  }?_g=()&_a=(query:(language:lucene,query:'${queryParameters.query}'))`;
 }
 
 function serializeQuery({ hostName, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
   let query = '';
 
   if (kubernetesPodName) {
-    query = `kubernetes.pod_name=${kubernetesPodName}`;
+    query = `kubernetes.pod_name:${kubernetesPodName}`;
   } else if (dockerContainerId) {
-    query = `kubernetes.docker_id=${dockerContainerId} or docker.container_id=${dockerContainerId}`;
+    query = `kubernetes.docker_id:${dockerContainerId} or docker.container_id:${dockerContainerId}`;
   } else if (hostName) {
     if (isWithinKubernetes) {
-      query = `kubernetes.host=${hostName}`;
+      query = `kubernetes.host${hostName}`;
     } else {
-      query = `host.name=${hostName}`;
+      query = `host.name:${hostName}`;
     }
   }
 
