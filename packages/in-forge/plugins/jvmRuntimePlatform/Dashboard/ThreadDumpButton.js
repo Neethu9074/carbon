@@ -15,7 +15,7 @@ export default connectTo(
   },
   function ThreadDumpButton({ snapshot, className, isOnline }) {
     const button = (
-      <Button kind="primary" onClick={onClick} className={className} disabled={!isOnline}>
+      <Button kind="secondary" onClick={onClick} className={className} disabled={!isOnline}>
         Get Thread Dump
       </Button>
     );

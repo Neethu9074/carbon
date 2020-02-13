@@ -7,6 +7,7 @@ import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Mic
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
+import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
@@ -15,7 +16,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import { getCodeView } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -46,7 +47,12 @@ export default connectTo({
 
       <DashboardSection
         title="Threads"
-        button={<ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />}
+        button={
+          <span>
+            <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
+            {isInternalVisible && <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />}
+          </span>
+        }
       >
         <ChartExplanation>
           The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>,
