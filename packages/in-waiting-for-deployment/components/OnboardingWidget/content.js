@@ -1160,8 +1160,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     '            httpGet: # Agent liveness is published on localhost:42699/status\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
-    '            initialDelaySeconds: 75\n' +
-    '            periodSeconds: 5\n' +
+    '            initialDelaySeconds: 300\n' +
+    '            timeoutSeconds: 3\n' +
     '          resources:\n' +
     '            requests:\n' +
     '              memory: "512Mi"\n' +
@@ -1191,8 +1191,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     '            httpGet: # Leader elector liveness is tied to Agent, published on localhost:42699/status\n' +
     '              path: /status\n' +
     '              port: 42699\n' +
-    '            initialDelaySeconds: 75\n' +
-    '            periodSeconds: 5\n' +
+    '            initialDelaySeconds: 300\n' +
+    '            timeoutSeconds: 3\n' +
     '          ports:\n' +
     '            - containerPort: 42655\n' +
     '      volumes:\n' +
