@@ -43,7 +43,7 @@ export default function Summary({ data: application, timeConfig }) {
           raw
         />
         <KpiCard
-          title="routes"
+          title="Routes"
           value={
             joinedRoutes ? (
               <Tooltip themeStyle="light" align="bottomLeft" content={joinedRoutes}>
