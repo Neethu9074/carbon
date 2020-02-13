@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -8,13 +8,16 @@ import locals from './SlideInView.mless';
 
 export default function SlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
   const [scrollshadow, setScrollshadow] = useState(false);
+  const { doSlideIn, style } = useCustomSlideInBehaviour(slideIn);
+
   return (
     <div className={locals.container}>
       <div
+        style={style}
         onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
         className={evaluateClassNames({
           [locals.slider]: true,
-          [locals.slideIn]: slideIn
+          [locals.slideIn]: doSlideIn
         })}
       >
         {sliderContent}
@@ -45,6 +48,31 @@ export default function SlideInView({ sliderContent, children, slideIn, title, o
       </div>
     </div>
   );
+}
+
+// Safari keeps focus on the selected slideIn component, which leads to a broken ui when tagFilter dropdown is selected.
+// For that we need to remove the slide-In so that Safari looses focus
+function useCustomSlideInBehaviour(slideIn) {
+  const [doSlideIn, setDoSlideIn] = useState(false);
+  const [style, setStyle] = useState({});
+
+  useEffect(
+    () => {
+      if (!slideIn) {
+        setDoSlideIn(false);
+        setTimeout(() => {
+          setStyle({ display: 'none' });
+        }, 500);
+      } else {
+        setStyle({ display: 'block' });
+        setTimeout(() => {
+          setDoSlideIn(true);
+        }, 100);
+      }
+    },
+    [slideIn]
+  );
+  return { doSlideIn, style };
 }
 
 SlideInView.propTypes = {
