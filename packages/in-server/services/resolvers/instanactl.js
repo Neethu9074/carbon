@@ -75,16 +75,29 @@ exports.getAgentEndpointConfiguration = (tenant, unit) => {
         timeout: 15000
       },
       (error, response, agentEndpointConfig) => {
-        console.log('Agent config from butler: ' + response.status + ', ' + agentEndpointConfig);
         if (error || response.status < 200 || response.status >= 300) {
           resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
         } else {
-          resolve({ agentEndpoint: agentEndpointConfig.acceptorHost, port: agentEndpointConfig.acceptorPort });
+          const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
+          resolve({
+            agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
+            port: parsedAgentEndpointConfig.acceptorPort
+          });
         }
       }
     );
   });
 };
+
+function getAgentEndpointConfigurationFromString(str) {
+  let agentEndpointConfig;
+  try {
+    agentEndpointConfig = JSON.parse(str);
+  } catch (error) {
+    agentEndpointConfig = null;
+  }
+  return agentEndpointConfig;
+}
 
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
