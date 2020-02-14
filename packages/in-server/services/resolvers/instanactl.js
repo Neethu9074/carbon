@@ -68,10 +68,12 @@ exports.getConfiguration = (tenant, unit) =>
   });
 
 exports.getAgentEndpointConfiguration = (tenant, unit) => {
+  const url = `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`;
+  console.log(`Get agent endpoint config from butler: ${url}`);
   return new Promise(resolve => {
     sendRequest(
       {
-        url: `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
+        url: url,
         timeout: 15000
       },
       (error, response, agentEndpointConfig) => {
