@@ -87,10 +87,15 @@ exports.getAgentEndpointConfiguration = (tenant, unit) => {
         } else {
           const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
           console.log(`Received agent endpoint config from butler: ${agentEndpointConfig}`);
-          resolve({
-            agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
-            port: parsedAgentEndpointConfig.acceptorPort
-          });
+          if (!parsedAgentEndpointConfig) {
+            console.error('Failed parsing agent endpoint config. Fall back to default.');
+            resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
+          } else {
+            resolve({
+              agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
+              port: parsedAgentEndpointConfig.acceptorPort
+            });
+          }
         }
       }
     );
