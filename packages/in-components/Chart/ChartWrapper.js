@@ -2,6 +2,7 @@ import invariant from 'invariant';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { deepCopy } from 'in-services/util/object';
 
@@ -97,13 +98,32 @@ function wrapProps(result, props) {
 
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id] || []);
   propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
+  determineTimeShifts(propsClone.y1, props.metricsConfiguration.metrics, propsClone.timeConfig);
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id] || []);
     propsClone.y2.aggregations = propsClone.y2.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
+    determineTimeShifts(propsClone.y2, props.metricsConfiguration.metrics, propsClone.timeConfig);
   }
 
   propsClone.customChartComponent = props.customChartComponent;
 
   return propsClone;
+}
+
+function determineTimeShifts(axis, metrics, timeConfig) {
+  let hasTimeShifts = false;
+
+  axis.timeShifts = axis.metricIds.map(id => {
+    const timeShift = translateOffsetToTimeShiftConfig(metrics[id].timeShift, timeConfig);
+    if (timeShift.offset < 0 || timeShift.offset > 0) {
+      hasTimeShifts = true;
+    }
+    return timeShift;
+  });
+
+  if (!hasTimeShifts) {
+    // Remove the timeShifts field. This allows the chart to skip time shift adjustment logic.
+    axis.timeShifts = null;
+  }
 }

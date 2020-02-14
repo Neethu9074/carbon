@@ -57,4 +57,9 @@
   .disabledIcon {
     fill: @lib__colors__N400 !important;
   }
+
+  .timeShift {
+    fill: @lib__colors__N700Medium;
+    margin: 0 0 0 0.2rem;
+  }
 }

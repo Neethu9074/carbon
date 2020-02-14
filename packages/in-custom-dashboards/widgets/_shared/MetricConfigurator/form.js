@@ -68,7 +68,7 @@ export function onChangeSource(form, setForm, newSource) {
 }
 
 function timeShiftValidator(v) {
-  if (v == null || v === 'auto' || v === 0) {
+  if (v == null || v === 'auto' || typeof v === 'number') {
     return null;
   }
 

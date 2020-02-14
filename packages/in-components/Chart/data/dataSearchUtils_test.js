@@ -86,31 +86,18 @@ describe('in-components/Chart/Chart', () => {
 
       expect(collectAllDataPointsAtTime(config, -100000)).to.deep.equal({});
       expect(collectAllDataPointsAtTime(config, -1)).to.deep.equal({
-        y2: {
-          count: [-1]
-        }
+        y2: [[-1]]
       });
       expect(collectAllDataPointsAtTime(config, 0)).to.deep.equal({
-        y1: {
-          calls: [0]
-        }
+        y1: [[0]]
       });
       expect(collectAllDataPointsAtTime(config, 2)).to.deep.equal({
-        y1: {
-          calls: [2]
-        },
-        y2: {
-          count: [2]
-        }
+        y1: [[2]],
+        y2: [[2]]
       });
       expect(collectAllDataPointsAtTime(config, 4)).to.deep.equal({
-        y1: {
-          calls: [4]
-        },
-        y2: {
-          count: [4],
-          foobar: [4]
-        }
+        y1: [[4]],
+        y2: [[4], [4]]
       });
     });
   });

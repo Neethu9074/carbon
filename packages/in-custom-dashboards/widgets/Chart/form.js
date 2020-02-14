@@ -15,8 +15,8 @@ export function createForm(savedState) {
         validator: notBlankValidator
       })
     )
-    .put('y1', createAxisForm(savedState.y1, true))
-    .put('y2', createAxisForm(savedState.y2));
+    .put('y1', createAxisForm(savedState && savedState.y1, true))
+    .put('y2', createAxisForm(savedState && savedState.y2));
 }
 
 function createAxisForm(savedState, requiresAtLeastOneMetric = false) {

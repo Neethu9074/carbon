@@ -27,6 +27,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
+      normalizeTimeShiftedTimestamps(result, config);
       const CustomChartComponent = config.customChartComponent;
       content = CustomChartComponent ? (
         <CustomChartComponent renderLegend={renderLegend} {...config} />
@@ -60,4 +61,25 @@ function containsOnlyEmptyData(metrics) {
     }
   }
   return true;
+}
+
+function normalizeTimeShiftedTimestamps(result, config) {
+  normalizeTimeShiftedTimestampsForAxis(result, config.y1);
+  if (config.y2) {
+    normalizeTimeShiftedTimestampsForAxis(result, config.y2);
+  }
+}
+
+function normalizeTimeShiftedTimestampsForAxis(result, axis) {
+  if (!axis.timeShifts) {
+    return;
+  }
+
+  axis.timeShifts.forEach(({ offset }, i) => {
+    if (offset === 0) {
+      return;
+    }
+
+    axis.metrics[i] = axis.metrics[i].map(([ts, v]) => [ts - offset, v]);
+  });
 }

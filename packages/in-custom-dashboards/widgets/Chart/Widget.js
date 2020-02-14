@@ -2,9 +2,9 @@ import { find } from 'lodash';
 import React from 'react';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { translateStoredValueToTimeShiftConfig } from 'in-custom-dashboards/widgets/_shared/timeShifting';
 import { formatters, defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -24,7 +24,7 @@ export default connectTo(({ config }) => ({
           resultType: config.type,
           granularity,
           timeConfig,
-          timeShift: translateStoredValueToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
         })
     );
 
@@ -35,7 +35,7 @@ export default connectTo(({ config }) => ({
           resultType: config.type,
           granularity,
           timeConfig,
-          timeShift: translateStoredValueToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
         })
     );
 
@@ -93,18 +93,20 @@ function toMetricsConfiguration(config) {
   };
 
   config.y1.metrics.forEach(
-    ({ metric, aggregation }, i) =>
+    ({ metric, aggregation, timeShift }, i) =>
       (metricsConfiguration.metrics[getMetricId('y1', i)] = {
         metric,
-        aggregation
+        aggregation,
+        timeShift
       })
   );
 
   config.y2.metrics.forEach(
-    ({ metric, aggregation }, i) =>
+    ({ metric, aggregation, timeShift }, i) =>
       (metricsConfiguration.metrics[getMetricId('y2', i)] = {
         metric,
-        aggregation
+        aggregation,
+        timeShift
       })
   );
 

@@ -1,8 +1,8 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import { translateStoredValueToTimeShiftConfig } from 'in-custom-dashboards/widgets/_shared/timeShifting';
 import { defaultFormatter, formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -18,7 +18,7 @@ export default connectTo(({ config }) => ({
         [metricKey]: {
           ...config.metricConfiguration,
           timeConfig,
-          timeShift: translateStoredValueToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig),
+          timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig),
           granularity: null,
           resultType: 'SINGLE_NUMBER'
         }

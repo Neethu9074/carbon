@@ -2,6 +2,7 @@ import React from 'react';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -63,19 +64,28 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
         return null;
       }
       const dataPointsForAxis = dataPointsAtTime[axisName];
-      const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
+      const dataPoint = dataPointsForAxis ? dataPointsForAxis[i] : null;
       const aggregations = axis.aggregations || [];
       const aggregation = aggregations[i];
+      const timeShift = (axis.timeShifts && axis.timeShifts[i]) || defaultTimeShift;
+
+      const notes = [];
+      if (timeShift.offset !== 0) {
+        notes.push(getTimeShiftLabel(timeShift).toLowerCase());
+      }
+      if (aggregation) {
+        notes.push(aggregationLabels[aggregation]);
+      }
 
       return (
-        <li key={label} className={locals.metricValue}>
+        <li key={i} className={locals.metricValue}>
           <div className={locals.entry}>
             <div
               style={{ background: axis.colors100[i] }}
               className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
             />
             <span className={locals.label}>{label}</span>
-            <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
+            {notes.length > 0 && <span className={locals.aggregation}>({notes.join(', ')})</span>}
           </div>
           <span className={locals.value}>
             {dataPoint

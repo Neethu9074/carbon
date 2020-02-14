@@ -45,9 +45,9 @@ function collectAllDataPointsAtTimeForAxis(config, timestamp, axisName, dataPoin
     const dataPointAtTime = getDataPointAtTimeForDataSeries(timestamp, dataSeries);
     if (dataPointAtTime) {
       if (!dataPointsCollection[axisName]) {
-        dataPointsCollection[axisName] = {};
+        dataPointsCollection[axisName] = [];
       }
-      dataPointsCollection[axisName][axis.labels[i]] = dataPointAtTime;
+      dataPointsCollection[axisName][i] = dataPointAtTime;
     }
   }
 }

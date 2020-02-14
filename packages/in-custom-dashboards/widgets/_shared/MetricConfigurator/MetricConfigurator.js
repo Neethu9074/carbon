@@ -1,9 +1,9 @@
 import React from 'react';
 
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
-import { timeShifts } from 'in-custom-dashboards/widgets/_shared/timeShifting';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { timeShifts } from 'in-stores/time/shifting';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import SvgIcon from 'in-components/SvgIcon';
@@ -44,10 +45,11 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
       {axis.labels.map((label, i) => {
         const isDisabled = filteredDataSeries && filteredDataSeries.has(label);
         const isToggleable = !axis.nonToggleableSeries || !axis.nonToggleableSeries.has(axis.metricIds[i]);
+        const timeShift = (axis.timeShifts && axis.timeShifts[i]) || defaultTimeShift;
 
         const content = (
           <li
-            key={label}
+            key={i}
             className={evaluateClassNames({
               [locals.metric]: true,
               [locals.disabledMetric]: isDisabled,
@@ -82,6 +84,13 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
             )}
 
             {label}
+
+            {timeShift &&
+              timeShift.offset !== 0 && (
+                <Tooltip content={`Metric is time shifted to: ${getTimeShiftLabel(timeShift)}`}>
+                  <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
+                </Tooltip>
+              )}
           </li>
         );
         return isToggleable ? (
