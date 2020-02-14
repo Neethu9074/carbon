@@ -68,22 +68,42 @@ exports.getConfiguration = (tenant, unit) =>
   });
 
 exports.getAgentEndpointConfiguration = (tenant, unit) => {
+  const url = `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`;
+  console.log(`Get agent endpoint config from butler: ${url}`);
   return new Promise(resolve => {
     sendRequest(
       {
-        url: `${getButlerDomain(tenant, unit)}/tenants/${tenant}/unit/${unit}/acceptors`,
+        url: url,
         timeout: 15000
       },
       (error, response, agentEndpointConfig) => {
         if (error || response.status < 200 || response.status >= 300) {
+          console.error(
+            `Could not load agent endpoint config from butler. error:${error}, response: ${response}, agentEndpointConfig: ${agentEndpointConfig}`
+          );
           resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
         } else {
-          resolve({ agentEndpoint: agentEndpointConfig.acceptorHost, port: agentEndpointConfig.acceptorPort });
+          const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
+          console.log(`Received agent endpoint config from butler: ${agentEndpointConfig}`);
+          resolve({
+            agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
+            port: parsedAgentEndpointConfig.acceptorPort
+          });
         }
       }
     );
   });
 };
+
+function getAgentEndpointConfigurationFromString(str) {
+  let agentEndpointConfig;
+  try {
+    agentEndpointConfig = JSON.parse(str);
+  } catch (error) {
+    agentEndpointConfig = null;
+  }
+  return agentEndpointConfig;
+}
 
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
