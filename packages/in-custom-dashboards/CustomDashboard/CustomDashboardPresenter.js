@@ -4,6 +4,7 @@ import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/Dashb
 import WidgetEditor from 'in-custom-dashboards/CustomDashboard/WidgetEditor/WidgetEditor';
 import { getNewCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { setDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
+import SetAsLandingPage from 'in-custom-dashboards/SetAsLandingPage';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import WithTvMode from 'in-new-components/WithTvMode';
@@ -147,7 +148,7 @@ function ButtonLine({
   );
 }
 
-function SecondaryButtonLine({ isEditing, onAddWidget, setTvModeEnabled }) {
+function SecondaryButtonLine({ isEditing, onAddWidget, setTvModeEnabled, customDashboardId }) {
   if (isEditing) {
     return (
       <Button kind="create" onClick={onAddWidget}>
@@ -157,8 +158,11 @@ function SecondaryButtonLine({ isEditing, onAddWidget, setTvModeEnabled }) {
   }
 
   return (
-    <Button kind="secondary" onClick={() => setTvModeEnabled(true)}>
-      TV Mode
-    </Button>
+    <>
+      <SetAsLandingPage customDashboardId={customDashboardId} />
+      <Button kind="secondary" onClick={() => setTvModeEnabled(true)}>
+        TV Mode
+      </Button>
+    </>
   );
 }

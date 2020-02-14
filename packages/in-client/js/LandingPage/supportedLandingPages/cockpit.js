@@ -1,0 +1,19 @@
+import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
+import { cockpitEnabled } from 'in-services/featureFlags';
+import { cockpit } from 'in-cockpit/navigation/paths';
+
+export const enabled = cockpitEnabled;
+export const persistencePrefix = 'cockpit';
+export const defaultPageKey = persistencePrefix;
+
+export function resolve(location) {
+  location.pathname = cockpit;
+}
+
+export function setLandingPage() {
+  setLandingPageInPersistence(persistencePrefix);
+}
+
+export function isLandingPage(pageKey) {
+  return pageKey === persistencePrefix;
+}

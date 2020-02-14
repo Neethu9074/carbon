@@ -217,7 +217,7 @@ export default function TermsPage2({
           height="83"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <title>Women sitting on a chair.</title>
+          <title>Women sitting on chairs.</title>
           <g fill="none" fillRule="evenodd">
             <path
               d="M42.776 4.648c-1.406 2.596-1.239 9.182.578 9.646.725.185 2.269-.268 3.84-1.206L46.208 20h5.824l-2.005-9.257c1.118-1.3 1.875-2.894 1.748-4.68-.364-5.144-7.593-4.012-8.999-1.415z"

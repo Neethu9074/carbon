@@ -3,7 +3,7 @@ import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/A
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import Map from 'promise-loader?global,infrastructure!in-map/index';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 
 import {
@@ -24,19 +24,18 @@ import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'i
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
+import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
-import { cockpit } from 'in-cockpit/navigation/paths';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 
@@ -70,9 +69,7 @@ export default (
 
     {profilingRoutes}
 
-    <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
-
-    {/* landing page */}
-    <RedirectWithHash from="/" to={cockpitEnabled ? cockpit : physicalPath} />
+    {/* The landing page must be the very last item as it dynamically redirects */}
+    <Route path="/" component={LandingPage} />
   </FragmentSupportingSwitch>
 );

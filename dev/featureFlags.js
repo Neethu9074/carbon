@@ -24,5 +24,6 @@ module.exports = {
   mobileAppMonitoringEnabled: true,
   apDashboardEventsEnabled: false,
   customDashboardsEnabled: true,
-  cockpitEnabled: true
+  cockpitEnabled: true,
+  landingPageConfigurationEnabled: true
 };

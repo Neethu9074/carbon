@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 // all the lazy loaded views. Bundle name: cockpit
-import Cockpit from 'promise-loader?global,cockpit!in-cockpit/navigation/Cockpit';
+import Cockpit from 'promise-loader?global,cockpit!in-cockpit/Cockpit';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { cockpit } from 'in-cockpit/navigation/paths';

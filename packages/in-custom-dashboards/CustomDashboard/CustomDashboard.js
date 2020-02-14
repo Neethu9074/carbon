@@ -29,17 +29,19 @@ function CustomDashboardLoader({ dashboardId, config }) {
     <CustomDashboard
       // Reset state when the config changes
       key={config.data.id}
+      customDashboardId={dashboardId}
       config={config.data}
     />
   );
 }
 
-function CustomDashboard({ config: originalConfiguration = sampleConfiguration }) {
+function CustomDashboard({ config: originalConfiguration = sampleConfiguration, customDashboardId }) {
   const [isEditing, setEditing] = useState(false);
   const [config, setConfig] = useState(originalConfiguration);
 
   return (
     <CustomDashboardPresenter
+      customDashboardId={customDashboardId}
       config={config}
       setConfig={setConfig}
       isEditing={isEditing}

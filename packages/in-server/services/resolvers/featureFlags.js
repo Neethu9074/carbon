@@ -132,5 +132,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.custom.dashboards.enabled',
     consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'landingPageConfigurationEnabled',
+    instanaCtlKey: 'feature.landing.page.configuration.enabled',
+    consulKey: `settings/${tenant}-${unit}/LANDING_PAGE_CONFIGURATION_ENABLED`,
+    defaultValue: false
   }
 ];

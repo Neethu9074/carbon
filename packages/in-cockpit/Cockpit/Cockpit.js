@@ -4,6 +4,7 @@ import React from 'react';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SideNav from 'in-new-components/SideNav';
@@ -20,7 +21,7 @@ export default function Cockpit() {
       <Sticky
         header={
           <>
-            <DashboardHeader label="System Overview" />
+            <DashboardHeader label="System Overview" renderButtonLineSecondary={() => <SetAsLandingPage />} />
             <DashboardHeaderShadowModule />
           </>
         }
