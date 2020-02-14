@@ -1,34 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { create } from 'reactive-observables';
-import { flamegraph } from 'd3-flame-graph';
-import { select } from 'd3-selection';
-import theme from 'in-themes';
-import tip from 'd3-tip';
 
-import 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph.css';
-import { serializeLine } from 'in-new-components/StackTrace/serializer';
-import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
-import getElementDimensions from 'in-hoc/getElementDimensions';
-import { containsIgnoreCase } from 'in-services/util/string';
-import { flameGraphClicked } from 'in-profiling/tracker';
-import Button from 'in-new-components/Button';
+import CanvasBasedProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProfileFlameGraph.mless';
 
-const fromRgb = hexToRGB(theme.lib.colors.yellow800);
-const toRgb = hexToRGB(theme.lib.colors.red800);
-const deltaColors = {
-  r: toRgb.r - fromRgb.r,
-  g: toRgb.g - fromRgb.g,
-  b: toRgb.b - fromRgb.b
-};
-
-export default getElementDimensions(function WidthWrapper(props) {
-  return <QueryToQueryStreamWrapper {...props} />;
-});
-
-function QueryToQueryStreamWrapper({ profile, query, width = 0 }) {
+export default function QueryToQueryStreamWrapper({ profile, query, width = 0 }) {
   const [query$] = useState(create());
   useEffect(
     () => {
@@ -40,171 +18,11 @@ function QueryToQueryStreamWrapper({ profile, query, width = 0 }) {
   return <ProfileFlameGraph query$={query$} width={width} profile={profile} />;
 }
 
-const ProfileFlameGraph = connectTo(({ query$ }) => ({ query: query$.debounce(300) }), function ProfileFlameGraph(
-  props
-) {
-  return <ProfileFlameGraphWithReducedUpdates profile={props.profile} width={props.width} query={props.query} />;
-});
-
-class ProfileFlameGraphWithReducedUpdates extends React.Component {
-  flamegraphObject = null;
-
-  state = {
-    isNodeSelected: false
-  };
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      this.props.query !== nextProps.query ||
-      this.props.width !== nextProps.width ||
-      this.props.profile !== nextProps.profile ||
-      this.state.isNodeSelected !== nextProps.isNodeSelected
-    );
-  }
-
-  componentDidMount() {
-    this.setupFlameGraph();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { width, query, profile } = this.props;
-    const { width: prevWidth, query: prevQuery, profile: prevProfile } = prevProps;
-
-    if (profile.__uid !== prevProfile.__uid || width !== prevWidth) {
-      this.setupFlameGraph();
-    }
-    if (query !== prevQuery && this.flamegraphObject) {
-      this.flamegraphObject.search(query);
-    }
-  }
-
-  componentWillUnmount() {
-    this.destroyFlameGraphIfPresent();
-  }
-
-  destroyFlameGraphIfPresent = () => {
-    if (this.flamegraphObject) {
-      this.flamegraphObject.destroy();
-      this.tooltip.destroy();
-    }
-  };
-
-  setupFlameGraph = () => {
-    const { width, profile } = this.props;
-    if (width <= 0) {
-      return;
-    }
-
-    const data = mapData(profile);
-
-    this.destroyFlameGraphIfPresent();
-
-    this.tooltip = tip()
-      .attr('class', 'd3-flame-graph-tip')
-      .html(function(node) {
-        return `${node.data.name} (${((node.data.value * 100) | 0) / 100}%)`;
-      });
-
-    this.flamegraphObject = flamegraph()
-      .width(Math.max(0, width - 32))
-      .tooltip(this.tooltip)
-      .setSearchMatch(function(d, term) {
-        return term && containsIgnoreCase(d.data.name, term);
-      })
-      .differential(false)
-      .selfValue(false)
-      .inverted(true)
-      .onClick(node => {
-        this.setState({ isNodeSelected: node.data.name !== 'root' });
-        flameGraphClicked(node.depth);
-      })
-      .setColorMapper(colorMapper.bind(null, this));
-
-    select('#chart')
-      .datum(data)
-      .call(this.flamegraphObject);
-  };
-
-  render() {
-    return (
-      <div className={locals.wrapper}>
-        {this.state.isNodeSelected ? (
-          <Button
-            className={locals.resetButton}
-            size="compact"
-            kind="primaryv2"
-            onClick={() => {
-              if (this.flamegraphObject) {
-                this.flamegraphObject.resetZoom();
-              }
-            }}
-          >
-            Reset
-          </Button>
-        ) : (
-          <div className={locals.resetButtonPlaceholder} />
-        )}
-        <div className={locals.flameGraphWrapper}>
-          <div className={locals.chart} id="chart" />
-        </div>
-      </div>
-    );
-  }
-}
-
-function mapData(profile) {
-  const data = {
-    name: 'root',
-    value: 100,
-    children: profile.profileGraph.map(childNode => ({
-      name: getName(childNode),
-      value: childNode.percent,
-      children: getChildren(childNode)
-    }))
-  };
-
-  return data;
-}
-
-function getChildren(profileNode) {
-  if (!profileNode.children) {
-    return null;
-  }
-
-  return profileNode.children.map(childNode => ({
-    name: getName(childNode),
-    value: childNode.percent,
-    children: getChildren(childNode)
-  }));
-}
-
-function getName(node) {
-  return serializeLine(node.fileName, node.methodName, node.fileLine);
-}
-
-function colorMapper(component, node) {
-  const query = component.props.query;
-
-  let hex;
-  if (node.data.name === 'root') {
-    hex = theme.lib.colors.N300;
-    if (node.data.fade) {
-      return theme.lib.colors.lightBlue800;
-    }
-  } else if (node.highlight) {
-    hex = theme.lib.colors.cyan800;
-  } else {
-    const normalizedPercent = node.data.value / 100;
-    hex = rgbToHex(
-      fromRgb.r + deltaColors.r * normalizedPercent,
-      fromRgb.g + deltaColors.g * normalizedPercent,
-      fromRgb.b + deltaColors.b * normalizedPercent
-    );
-  }
-
-  if (node.data.fade || (query && !node.highlight)) {
-    return hex + '40';
-  }
-
-  return hex;
-}
+const ProfileFlameGraph = connectTo(
+  ({ query$ }) => ({ query: query$.debounce(100) }),
+  props => (
+    <div className={locals.wrapper}>
+      <CanvasBasedProfileFlameGraph {...props} />
+    </div>
+  )
+);

@@ -2,26 +2,9 @@
 
 :local {
   .wrapper {
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem;
 
     background: @lib__colors__N100;
     border: 1px solid @lib__colors__N300;
-  }
-
-  .resetButton {
-    width: 100%;
-  }
-
-  .resetButtonPlaceholder {
-    height: 1.1875rem;
-  }
-
-  .flameGraphWrapper {
-    overflow: hidden;
-  }
-
-  .chart {
-    // must be in px
-    margin-top: -18px;
   }
 }

@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .highlightedNode {
+    position: absolute;
+
+    border: 1px solid @lib__colors__light-blue800;
+    cursor: pointer;
+  }
+}
