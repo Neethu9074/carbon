@@ -32,7 +32,7 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Cache Hits',
+      title: 'First-level Cache Hits',
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -40,6 +40,23 @@ function getCols(fqn) {
         },
         getMetricName() {
           return `metrics.meters.${fqn}.cache-hits`;
+        },
+        getContent: number.compact,
+        forceTimeWindowAggregation: true,
+        getTimeWindowAggregation() {
+          return 'sum';
+        }
+      }
+    },
+    {
+      title: 'Second-level Cache Hits',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.dropwizard.get('id');
+        },
+        getMetricName() {
+          return `metrics.meters.${fqn}.cache-hits-with-disambiguation`;
         },
         getContent: number.compact,
         forceTimeWindowAggregation: true,
@@ -95,21 +112,21 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title="Service Mapping">
+      <DashboardSection title="Application Mapping">
         <Table
           cols={getCols('com.instana.spanprocessing.stream.mapping.application.ApplicationCache')}
           rows={rows}
-          maxItemsPerPage={20}
+          maxItemsPerPage={10}
           getRowDetails={row =>
             getRowDetails(row, 'com.instana.spanprocessing.stream.mapping.application.ApplicationCache')
           }
         />
       </DashboardSection>
-      <DashboardSection title="Application Mapping">
+      <DashboardSection title="Service Mapping">
         <Table
           cols={getCols('com.instana.spanprocessing.stream.mapping.service.ServiceCache')}
           rows={rows}
-          maxItemsPerPage={20}
+          maxItemsPerPage={10}
           getRowDetails={row => getRowDetails(row, 'com.instana.spanprocessing.stream.mapping.service.ServiceCache')}
         />
       </DashboardSection>
@@ -129,9 +146,9 @@ function getRowDetails(row, fqn) {
           formatter: number.detailed,
           metrics: [
             `metrics.meters.${fqn}.cache-hits`,
-            `metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
+            `metrics.meters.${fqn}.cache-hits-with-disambiguation``metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
           ],
-          labels: ['Cache Hits', 'Cache misses caused by multiple entities'],
+          labels: ['First-level Cache Hits', 'Second-level Cache Hits', 'Cache misses caused by multiple entities'],
           type: 'line'
         }}
       />
