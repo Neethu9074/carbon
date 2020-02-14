@@ -76,6 +76,7 @@ exports.getAgentEndpointConfiguration = (tenant, unit) => {
       },
       (error, response, agentEndpointConfig) => {
         if (error || response.status < 200 || response.status >= 300) {
+          console.log('Could not load agent endpoint config from butler.', response, agentEndpointConfig);
           resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
         } else {
           const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
