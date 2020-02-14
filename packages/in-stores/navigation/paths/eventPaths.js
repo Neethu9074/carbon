@@ -60,11 +60,14 @@ export function getEventsViewFilteredBy({
   endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
   if (endpointId) {
     query += ` entity.endpoint.id:"${endpointId}"`;
-  } else if (serviceId) {
+  }
+  if (serviceId) {
     query += ` entity.service.id:"${serviceId}"`;
-  } else if (applicationId) {
+  }
+  if (applicationId) {
     query += ` entity.application.id:"${applicationId}"`;
-  } else if (snapshotId) {
+  }
+  if (snapshotId) {
     query += ` entity.id:"${snapshotId}"`;
   }
   query = query.trim();
