@@ -172,8 +172,10 @@ export default getElementDimensions(
             if (this.editor) {
               this.updateQuery(trim(this.editor.getValue()));
             }
+            if (!this.isFocused) {
+              this.hide();
+            }
             this.isFocused = false;
-            this.hide();
           });
 
         editor.on('change', (editor, change) => {
