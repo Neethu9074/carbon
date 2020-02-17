@@ -31,7 +31,7 @@ export default function InfrastructureTopList(props) {
               loading: false
             },
             data: {
-              items: snapshots.slice(0, 5)
+              items: snapshots
             }
           };
         })
@@ -64,7 +64,7 @@ export default function InfrastructureTopList(props) {
         setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
       })}
       fullListViewLinkTitle={
-        'All ' + (selectedType === 'host' ? 'Hosts' : selectedType === 'docker' ? 'Container' : 'Processes')
+        'All ' + (selectedType === 'host' ? 'Hosts' : selectedType === 'docker' ? 'Containers' : 'Processes')
       }
     />
   );
