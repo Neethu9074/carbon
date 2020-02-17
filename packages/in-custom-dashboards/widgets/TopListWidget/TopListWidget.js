@@ -58,7 +58,7 @@ function TopListWidget({
       useMaxAvailableHeight
       rightHeaderContent={
         <>
-          {header}
+          {header && <div className={locals.customHeaderWrapper}>{header}</div>}
           <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
         </>
       }

@@ -2,9 +2,13 @@ import React from 'react';
 
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
+import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
+import { getZone } from 'in-stores/zone';
+import connectTo from 'in-hoc/connectTo';
 
 export default {
   host: [
@@ -12,7 +16,9 @@ export default {
       id: 'label',
       label: 'Name',
       getContent(snapshot) {
-        return <KeyValue label="Name" value={getLabel(snapshot)} inverted accentuated />;
+        return (
+          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
+        );
       }
     },
     {
@@ -59,7 +65,9 @@ export default {
       id: 'label',
       label: 'Name',
       getContent(snapshot) {
-        return <KeyValue label="Name" value={getLabel(snapshot)} inverted accentuated />;
+        return (
+          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
+        );
       }
     },
     {
@@ -110,7 +118,9 @@ export default {
       id: 'label',
       label: 'Name',
       getContent(snapshot) {
-        return <KeyValue label="Name" value={getLabel(snapshot)} inverted accentuated />;
+        return (
+          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
+        );
       }
     },
     {
@@ -129,3 +139,20 @@ export default {
     }
   ]
 };
+
+const TwoSnapshotLabels = connectTo(
+  ({ getSecondarySnapshotId }) => ({
+    secondarySnapshot: getSecondarySnapshotId().flatMap(getSnapshot)
+  }),
+
+  function TwoSnapshotLabels({ primarySnapshot, secondarySnapshot }) {
+    return (
+      <KeyValue
+        label={secondarySnapshot ? getLabel(secondarySnapshot) : ''}
+        value={getLabel(primarySnapshot)}
+        inverted
+        accentuated
+      />
+    );
+  }
+);
