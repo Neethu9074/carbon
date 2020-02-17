@@ -13,8 +13,8 @@ export const themes = {
 };
 
 export default function KeyValue({ className, label, value, theme = themes.d, inverted, accentuated }) {
-  const k = <Key label={label} />;
-  const v = <Value value={value} theme={theme} accentuated={accentuated} />;
+  const k = <Key label={cap(label)} />;
+  const v = <Value value={cap(value)} theme={theme} accentuated={accentuated} />;
 
   return (
     <div
@@ -46,3 +46,11 @@ KeyValue.propTypes = {
   accentuated: PropTypes.bool,
   theme: PropTypes.oneOf(Object.keys(themes))
 };
+
+function cap(str) {
+  const maxCharacters = 48;
+  if (str.length > maxCharacters) {
+    return `${str.slice(0, maxCharacters - 1)}…`;
+  }
+  return str;
+}
