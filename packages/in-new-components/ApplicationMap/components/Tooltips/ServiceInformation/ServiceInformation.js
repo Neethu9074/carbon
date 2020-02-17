@@ -1,5 +1,5 @@
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import ErroneousServiceInformation from 'in-new-components/ApplicationMap/components/Tooltips/ServiceInformation/ErroneousServiceInformation';
 import ApplicationMapTootlip from 'in-new-components/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
