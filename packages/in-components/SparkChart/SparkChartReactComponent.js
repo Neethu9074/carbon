@@ -3,8 +3,8 @@ import React from 'react';
 
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -32,7 +32,7 @@ function SparkChartReactComponent(props) {
       return (
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
-          <Tooltip content={props.companionMetricTooltip}>
+          <Tooltip content={props.customValueTooltip}>
             <div className={locals.horizontalLabelAndValueWrapper}>
               <div className={locals.label}>{props.label}</div>
               <MetricValue className={locals.horizontalMetricValue} value={props.horizontalMetricValue} />

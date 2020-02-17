@@ -112,10 +112,7 @@ export default connectTo(({ applicationId, serviceId, itemServiceId, endpointId 
                   metric={item.metrics.erroneousCallsAgg}
                   tooltipFormatter={number.compact}
                   label="Erroneous Calls"
-                  companionMetric={item.metrics.errorsAgg}
-                  companionMetricLabel="Erroneous Call Rate: "
-                  companionMetricFormatter={percentage.detailed}
-                  companionAggregation="MEAN"
+                  customValueTooltip={`Erroneous Call Rate:  ${percentage.detailed(item.metrics.errorsAgg[0][1])}`}
                 />
               )}
             </div>
