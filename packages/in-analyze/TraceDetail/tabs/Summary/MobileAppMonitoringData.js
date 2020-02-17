@@ -20,10 +20,10 @@ import locals from './MobileAppMonitoringData.mless';
 const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
 export default compose(
-  connect(({ traceId, startTime }) => {
+  connect(({ correlationId, startTime }) => {
     return {
       result: getMobileAppBeacons({
-        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
+        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
         timeConfig: {
           windowSize: 1000 * 60 * 60,
           to: startTime + 1000 * 60 * 30,

@@ -114,7 +114,12 @@ class Summary extends React.Component {
       setShowLargeTrace,
       callTreeResult
     } = this.props;
+
     const rootCall = callTreeResult.data;
+
+    const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
+    const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
+    const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
 
     const traceDetails = (
       <ContentWrapper>
@@ -189,8 +194,18 @@ class Summary extends React.Component {
             </Col>
           </Row>
 
-          <WebsiteMonitoringData traceId={traceId} startTime={trace.startTime} />
-          <MobileAppMonitoringData traceId={traceId} startTime={trace.startTime} />
+          {hasWebsiteCorrelationId && (
+            <WebsiteMonitoringData correlationId={trace.correlationId} startTime={trace.startTime} />
+          )}
+          {hasMobileCorrelationId && (
+            <MobileAppMonitoringData correlationId={trace.correlationId} startTime={trace.startTime} />
+          )}
+          {missingEumCorrelation && (
+            <div>
+              <WebsiteMonitoringData correlationId={traceId} startTime={trace.startTime} />
+              <MobileAppMonitoringData correlationId={traceId} startTime={trace.startTime} />
+            </div>
+          )}
 
           {!isLargeTrace && (
             <Row>
