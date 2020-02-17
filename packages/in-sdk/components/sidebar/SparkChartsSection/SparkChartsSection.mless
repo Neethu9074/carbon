@@ -1,0 +1,31 @@
+:local {
+  .section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .chartWrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 0.6rem 0;
+  }
+
+  .description {
+    display: flex;
+    justify-content: space-between;
+    width: 8.75rem;
+  }
+
+  .label,
+  .value {
+    font-size: 0.75rem;
+  }
+
+  .value {
+    font-weight: bold;
+    text-align: right;
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
@@ -44,9 +44,11 @@ export default {
       label: 'CPU Usage',
       getContent(snapshot) {
         return (
-          <LabeledSparkChart
+          <HistoricMetricSparkChart
             snapshotId={snapshot.get('id')}
-            metric={{ label: 'CPU Usage', metric: 'cpu.used', aggregation: 'mean', formatter: percentage }}
+            formatter={percentage}
+            metric="cpu.used"
+            aggregation="mean"
           />
         );
       }
@@ -93,9 +95,11 @@ export default {
       label: 'CPU Usage',
       getContent(snapshot) {
         return (
-          <LabeledSparkChart
+          <HistoricMetricSparkChart
             snapshotId={snapshot.get('id')}
-            metric={{ label: 'CPU Usage', metric: 'cpu.total_usage', aggregation: 'mean', formatter: percentage }}
+            formatter={percentage}
+            metric="cpu.total_usage"
+            aggregation="mean"
           />
         );
       }
@@ -114,9 +118,11 @@ export default {
       label: 'CPU User',
       getContent(snapshot) {
         return (
-          <LabeledSparkChart
+          <HistoricMetricSparkChart
             snapshotId={snapshot.get('id')}
-            metric={{ label: 'CPU User', metric: 'cpu.user', aggregation: 'mean', formatter: percentage }}
+            formatter={percentage}
+            metric="cpu.user"
+            aggregation="mean"
           />
         );
       }

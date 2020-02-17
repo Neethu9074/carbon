@@ -1,13 +1,33 @@
 import {
-  type as healthColumnType,
-  validate as validateHealthColumn,
-  initialize as initializeHealthColumn
-} from 'in-sdk/components/dashboard/Table/renderers/health';
+  type as snapshotLinkType,
+  validate as validateSnapshotLinkColumn,
+  initialize as initializeSnapshotLinkColumn
+} from 'in-sdk/components/dashboard/Table/renderers/snapshotLink';
 import {
   type as sparkChartType,
   validate as validateSparkChartColumn,
   initialize as initializeSparkChartColumn
 } from 'in-sdk/components/dashboard/Table/renderers/sparkChart';
+import {
+  type as linkButtonType,
+  validate as validateLinkButtonColumn,
+  initialize as initializeLinkButtonColumn
+} from 'in-sdk/components/dashboard/Table/renderers/linkButton';
+import {
+  type as dateTimeType,
+  validate as validateDateTimeColumn,
+  initialize as initializeDateTimeColumn
+} from 'in-sdk/components/dashboard/Table/renderers/dateTime';
+import {
+  type as healthColumnType,
+  validate as validateHealthColumn,
+  initialize as initializeHealthColumn
+} from 'in-sdk/components/dashboard/Table/renderers/health';
+import {
+  type as booleanType,
+  validate as validateBooleanColumn,
+  initialize as initializeBooleanColumn
+} from 'in-sdk/components/dashboard/Table/renderers/boolean';
 import {
   type as metricType,
   validate as validateMetricColumn,
@@ -19,35 +39,15 @@ import {
   initialize as initializeStringColumn
 } from 'in-sdk/components/dashboard/Table/renderers/string';
 import {
-  type as dateTimeType,
-  validate as validateDateTimeColumn,
-  initialize as initializeDateTimeColumn
-} from 'in-sdk/components/dashboard/Table/renderers/dateTime';
-import {
   type as numberType,
   validate as validateNumberColumn,
   initialize as initializeNumberColumn
 } from 'in-sdk/components/dashboard/Table/renderers/number';
 import {
-  type as snapshotLinkType,
-  validate as validateSnapshotLinkColumn,
-  initialize as initializeSnapshotLinkColumn
-} from 'in-sdk/components/dashboard/Table/renderers/snapshotLink';
-import {
   type as customType,
   validate as validateCustomColumn,
   initialize as initializeCustomColumn
 } from 'in-sdk/components/dashboard/Table/renderers/custom';
-import {
-  type as booleanType,
-  validate as validateBooleanColumn,
-  initialize as initializeBooleanColumn
-} from 'in-sdk/components/dashboard/Table/renderers/boolean';
-import {
-  type as linkButtonType,
-  validate as validateLinkButtonColumn,
-  initialize as initializeLinkButtonColumn
-} from 'in-sdk/components/dashboard/Table/renderers/linkButton';
 import {
   type as linkType,
   validate as validateLinkColumn,

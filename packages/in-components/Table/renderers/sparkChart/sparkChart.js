@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
-import SparkChartWithValue from 'in-components/Table/renderers/sparkChart/SparkChartWithValue';
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import { compare } from 'in-services/util/number';
 import { getMetric } from 'in-stores/metric';
 
@@ -43,12 +43,13 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
 
   column.refreshContent = () => {
     column.content = (
-      <SparkChartWithValue
+      <HistoricMetricSparkChart
         snapshotId={snapshotId}
         metric={metric}
         formatter={formatter}
         value={column.value}
         aggregation={timeWindowAggregation}
+        horizontalMetricValue={column.value != null ? formatter(column.value) : null}
       />
     );
   };

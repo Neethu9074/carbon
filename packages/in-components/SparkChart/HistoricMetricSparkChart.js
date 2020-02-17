@@ -1,22 +1,24 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import { createLogger } from 'instalog';
 import React from 'react';
 
 import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
+import { timeConfig$ } from 'in-stores/time/config';
 import { deepCopy } from 'in-services/util/object';
 import { serverTime$ } from 'in-stores/serverTime';
 import { always } from 'in-services/fixedStreams';
 import SparkChart from 'in-components/SparkChart';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { createLogger } from 'instalog';
 
 const logger = createLogger('in-components/SparkChart/HistoricMetricSparkChart');
 
 export default connectTo(
   props => {
     return {
+      timeConfig: props.timeConfig ? null : timeConfig$,
       wiggleRoom: getSnapshot(props.snapshotId)
         .map(snapshot => getChartWiggleRoom(snapshot.get('plugin')))
         .distinct()

@@ -1,22 +1,43 @@
 import React from 'react';
 
-import LabeledSparkChart from 'in-sdk/components/sidebar/LabeledSparkChart';
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import MetricValue from 'in-components/MetricValue';
 
-import './SparkChartsSection.less';
+import locals from './SparkChartsSection.mless';
 
-const block = 'in-spark-chart-section';
-
-export default function SparkChartsSection({ snapshot, metrics, theme }) {
+export default function SparkChartsSection({ snapshot, metrics }) {
   return (
-    <div className={block}>
+    <div className={locals.section}>
       {metrics.map(metric => (
-        <LabeledSparkChart
-          key={metric.metric + metric.aggregation}
-          snapshotId={snapshot.get('id')}
-          metric={metric}
-          theme={theme}
-        />
+        <LabeledSparkChart key={metric.metric + metric.aggregation} snapshotId={snapshot.get('id')} metric={metric} />
       ))}
+    </div>
+  );
+}
+
+function LabeledSparkChart({ snapshotId, metric }) {
+  const { label, formatter, aggregation } = metric;
+  const metricName = metric.metric;
+
+  return (
+    <div className={locals.chartWrapper}>
+      <HistoricMetricSparkChart
+        width={140}
+        snapshotId={snapshotId}
+        metric={metricName}
+        tooltipFormatter={formatter.detailed}
+        aggregation={aggregation}
+      />
+      <div className={locals.description}>
+        <span className={locals.label}>{label}</span>
+        <MetricValue
+          className={locals.value}
+          snapshotId={snapshotId}
+          metric={metricName}
+          formatter={formatter.compact}
+          timeWindowAggregation={aggregation}
+        />
+      </div>
     </div>
   );
 }
