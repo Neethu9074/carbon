@@ -9,7 +9,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
-import { applicationsList } from 'in-applications/navigation/paths';
+import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 
@@ -21,7 +21,7 @@ export default function WebsitesAndMobileTopList(props) {
         icon="lib_website_inverted"
         getData={getWebsitesSubscribeEvent}
         columnDefinitions={columnDefinitions}
-        fullListView$={getView(applicationsList)}
+        fullListView$={getView(websiteMonitoringPath)}
         fullListViewLinkTitle="All Websites"
       />
     );
@@ -33,7 +33,7 @@ export default function WebsitesAndMobileTopList(props) {
       icon="lib_website_mobile_app_inverted"
       getData={getMergedData}
       columnDefinitions={columnDefinitions}
-      fullListView$={getView(applicationsList)}
+      fullListView$={getView(websiteMonitoringPath)}
       fullListViewLinkTitle="All Websites & Mobile Apps"
     />
   );
@@ -65,10 +65,7 @@ function getMergedData(params) {
         time: websiteResult.time,
         adjustedWindowSize: websiteResult.adjustedWindowSize,
         data: {
-          items: mergedItems,
-          page: 1,
-          pageSize: 5,
-          totalHits: websiteResult.data.totalHits + mobileAppsResult.data.totalHits
+          items: mergedItems
         }
       };
     }
