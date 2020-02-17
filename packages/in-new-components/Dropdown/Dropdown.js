@@ -16,14 +16,16 @@ export default function Dropdown({
   items,
   renderItemContent,
   onClick,
-  asSimpleDropdown
+  asSimpleDropdown,
+  className
 }) {
   return (
     <Overlay align={align} content={ItemList} props={{ items, renderItemContent, onClick }}>
       {({ toggle, isOpen }) => (
         <Button
           className={evaluateClassNames({
-            [locals.simpleDropdown]: asSimpleDropdown
+            [locals.simpleDropdown]: asSimpleDropdown,
+            [className]: true
           })}
           kind={asSimpleDropdown ? 'subtle' : 'primaryv2'}
           icon={icon}
@@ -44,7 +46,8 @@ Dropdown.propTypes = {
   items: array.isRequired,
   onClick: func.isRequired,
   renderItemContent: func,
-  asSimpleDropdown: bool
+  asSimpleDropdown: bool,
+  className: string
 };
 
 export function ItemList({ renderItemContent, items, onClick, close }) {

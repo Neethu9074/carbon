@@ -1,20 +1,21 @@
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import getWebsiteBackendTraceId from 'in-websites/subscriptions/getWebsiteBackendTraceId';
+import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import Dropdown from 'in-new-components/Dropdown';
 import Button from 'in-new-components/Button';
 import TrackVisibility from 'react-on-screen';
 import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import locals from './BackendTraceButton.mless';
 
 const InternalBackendTraceButton = connect(({ beacon }) => ({
   result: beacon.backendTraceId
-    ? getWebsiteBackendTraceId({
-        traceId: beacon.backendTraceId,
-        beaconTimestamp: beacon.timestamp
+    ? getWebsiteBackendTraces({
+        correlationId: beacon.backendTraceId
       })
     : empty
 }))(function InternalBackendTraceButton({ result }) {
@@ -22,19 +23,45 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
     return null;
   }
 
-  return (
-    <Button
-      className={locals.button}
-      href$={getLinkToTraceDetail(result.data, { callId: 'ROOT' })}
-      onClick={e => {
-        e.stopPropagation();
-        navigateToBackendTraceFromPageLoad();
-      }}
-      size="compact"
-    >
-      View Backend Trace
-    </Button>
-  );
+  // const traces = result.data;
+  const traces = [{ traceId: '200171036682f0b3' }, { traceId: '200171036682f0b3' }];
+  if (traces.length === 0) {
+    return null;
+  } else if (traces.length === 1) {
+    return (
+      <Button
+        className={locals.button}
+        href$={getLinkToTraceDetail(traces[0].traceId, { callId: 'ROOT' })}
+        onClick={e => {
+          e.stopPropagation();
+          navigateToBackendTraceFromPageLoad();
+        }}
+        size="compact"
+      >
+        View Backend Trace
+      </Button>
+    );
+  } else {
+    return (
+      <Dropdown
+        className={locals.dropdown}
+        label="View Backend Traces"
+        items={traces}
+        renderItemContent={trace => (
+          <Link
+            href$={getLinkToTraceDetail(trace.traceId, { callId: 'ROOT' })}
+            onClick={e => {
+              e.stopPropagation();
+              navigateToBackendTraceFromPageLoad();
+            }}
+          >
+            id:
+            {trace.traceId}
+          </Link>
+        )}
+      />
+    );
+  }
 });
 
 export default function BackendTraceButton(props) {

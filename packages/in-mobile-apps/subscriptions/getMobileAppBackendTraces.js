@@ -1,7 +1,7 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getWebsiteBackendTraceId',
+  eventId: 'getEumBeaconBackendTraces',
   disposeSubscriptionOnDocumentHidden: false,
   trackSubscriptionStatistics: true
 });

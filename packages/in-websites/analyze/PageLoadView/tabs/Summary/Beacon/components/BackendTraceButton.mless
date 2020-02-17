@@ -1,5 +1,15 @@
+@import '~in-themes/active.less';
 :local {
   .button {
     margin: 0 1rem 0 0;
+  }
+
+  .dropdown {
+    background: @lib__colors__primary1;
+    padding: 0 0.625rem;
+
+    &:hover {
+      background: #12978e;
+    }
   }
 }

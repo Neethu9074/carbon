@@ -1,42 +1,53 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import getWebsiteBackendTraceId from 'in-websites/subscriptions/getWebsiteBackendTraceId';
+import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
+import { latencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-new-components/HorizontalDescriptionList';
-import { latencyFixed, number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 export default connect(({ beacon }) => ({
-  result:
+  traceSummaries:
     beacon.backendTraceId &&
-    getWebsiteBackendTraceId({
-      traceId: beacon.backendTraceId,
-      beaconTimestamp: beacon.timestamp
+    getWebsiteBackendTraces({
+      correlationId: beacon.backendTraceId
     })
       .filter(r => r.data != null)
-      .flatMap(r => getTraceSummary({ id: r.data }))
+      .map(r => r.data)
+      .flatMap(traces =>
+        combineLatest(
+          traces.map(trace =>
+            getTraceSummary({ id: trace.traceId })
+              .filter(r => r.data != null)
+              .map(r => r.data)
+          )
+        )
+      )
 }))(BackendDi);
 
-function BackendDi({ result }) {
-  if (!result || !result.data) {
+function BackendDi({ traceSummaries }) {
+  if (traceSummaries == null || traceSummaries.length === 0) {
     return null;
   }
 
-  const summary = result.data;
-
   return (
     <Di title="Backend">
-      <Tooltip content="Open backend trace" align="topMiddle">
-        <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
-          {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call
-          {summary.callCount === 1 ? '' : 's'} with {number.compact(summary.totalErrorCount)} error
-          {summary.totalErrorCount === 1 ? '' : 's'}.
-        </Link>
-      </Tooltip>
+      {traceSummaries.map(summary => (
+        <Tooltip content="Open backend trace" align="topMiddle">
+          <div>
+            <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
+              {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call
+              {summary.callCount === 1 ? '' : 's'} with {number.compact(summary.totalErrorCount)} error
+              {summary.totalErrorCount === 1 ? '' : 's'}.
+            </Link>
+          </div>
+        </Tooltip>
+      ))}
     </Di>
   );
 }
