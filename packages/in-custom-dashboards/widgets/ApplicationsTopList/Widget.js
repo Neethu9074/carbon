@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
@@ -7,6 +8,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -42,7 +44,17 @@ function getTypeByItem() {
   return types.APPLCATIONS;
 }
 
-function getFavItems$(/*idsByType, timeConfig*/) {}
+function getFavItems$(idsByType) {
+  const applicationIds = idsByType[types.APPLCATIONS];
+  if (!applicationIds || applicationIds.length === 0) {
+    return;
+  }
+  return combineLatest(applicationIds.map(id => getApplication({ id }))).map(applications => {
+    return applications
+      .filter(applicationResult => applicationResult.data)
+      .map(applicationResult => ({ application: applicationResult.data }));
+  });
+}
 
 const columnDefinitions = [
   {
@@ -94,8 +106,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
+          metrics={get(item, ['metrics', 'calls'])}
+          metric={get(item, ['metrics', 'callsAgg'])}
           tooltipFormatter={number.compact}
         />
       );
@@ -111,8 +123,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
-          metrics={item.metrics.latency}
-          metric={item.metrics.latencyAgg}
+          metrics={get(item, ['metrics', 'latency'])}
+          metric={get(item, ['metrics', 'latencyAgg'])}
           tooltipFormatter={meanLatencyFixed.compact}
         />
       );
@@ -128,8 +140,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
+          metrics={get(item, ['metrics', 'errors'])}
+          metric={get(item, ['metrics', 'errorsAgg'])}
           tooltipFormatter={percentage.detailed}
         />
       );

@@ -118,9 +118,11 @@ function combineItemResults(itemsResult, favItemsResult, isItemFavorised) {
   if (itemsResult.data && itemsResult.data.items) {
     let items = itemsResult.data.items;
     if (favItemsResult.data && favItemsResult.data.items) {
-      items = favItemsResult.data.items.concat(items).slice(0, 5);
-      items.sort((i1, i2) => compare(isItemFavorised(i1), isItemFavorised(i2)));
+      items = items.filter(item => !isItemFavorised(item));
+      items = favItemsResult.data.items.concat(items);
     }
+    items = items.slice(0, 5);
+    items.sort((i1, i2) => compare(isItemFavorised(i1), isItemFavorised(i2)));
 
     return {
       ...itemsResult,
