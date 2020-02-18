@@ -5,8 +5,8 @@ import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkFo
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { teamSettingsLogManagementElk } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { integrationKey } from 'in-integrations/logging/elk/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
+import { integrationKey } from 'in-integrations/logging/elk/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
