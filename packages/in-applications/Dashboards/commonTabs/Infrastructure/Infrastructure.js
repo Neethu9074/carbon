@@ -123,7 +123,7 @@ function WithKubernetesPhysicalContext({
   return children;
 }
 
-function WithCloudfoundryPhysicalContext({ children, application, space, organization }) {
+function WithCloudfoundryPhysicalContext({ children, application, space, organization, cfInstanceIndex }) {
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}
@@ -134,7 +134,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
             icon="lib_cloudfoundry_application"
             getDashboard={pcfEnabled && getApplicationDashboard}
           >
-            instance of
+            instance {cfInstanceIndex} of
           </MetaEntityLink>
         )}
         {space && (

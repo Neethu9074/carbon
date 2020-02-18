@@ -7,7 +7,6 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
-import TechPreviewBadge from 'in-cloudfoundry/commonComponents/TechPreviewBadge';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import { applicationDashboard } from 'in-cloudfoundry/navigation/paths';
@@ -145,7 +144,6 @@ function renderMetaInformation({ result }) {
           </WithIcon>
         </Tooltip>
       )}
-      <TechPreviewBadge />
     </>
   );
 }
