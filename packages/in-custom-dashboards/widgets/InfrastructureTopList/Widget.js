@@ -8,6 +8,7 @@ import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { types } from 'in-cockpit/favItems/favItems';
 import { search } from 'in-stores/snapshot/snapshot';
 
 export default function InfrastructureTopList(props) {
@@ -17,25 +18,11 @@ export default function InfrastructureTopList(props) {
     <TopListWidget
       {...props}
       icon="lib_infrastructure_inverted"
-      getData={({ query }) =>
-        search({
-          customQuery: query,
-          restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
-        }).map(({ snapshots }) => {
-          if (!snapshots) {
-            return pendingResult;
-          }
-          return {
-            errors: [],
-            progress: {
-              loading: false
-            },
-            data: {
-              items: snapshots
-            }
-          };
-        })
-      }
+      favItemTypes={[types.INFRASTRUCTURE]}
+      getFavItems$={getFavItems$}
+      getIdByItem={getIdByItem}
+      getTypeByItem={getTypeByItem}
+      getItems={({ query }) => getItems(query, selectedType)}
       header={
         <ButtonGroup
           buttonPropsList={[
@@ -68,4 +55,34 @@ export default function InfrastructureTopList(props) {
       }
     />
   );
+}
+
+function getIdByItem(item) {
+  return item.get('id');
+}
+
+function getTypeByItem() {
+  return types.INFRASTRUCTURE;
+}
+
+function getFavItems$(/*idsByType, timeConfig*/) {}
+
+function getItems(query, selectedType) {
+  return search({
+    customQuery: query,
+    restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
+  }).map(({ snapshots }) => {
+    if (!snapshots) {
+      return pendingResult;
+    }
+    return {
+      errors: [],
+      progress: {
+        loading: false
+      },
+      data: {
+        items: snapshots
+      }
+    };
+  });
 }

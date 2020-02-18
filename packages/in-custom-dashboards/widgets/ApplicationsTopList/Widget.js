@@ -2,17 +2,18 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getApplicationListSubscribeEvent } from 'in-applications/lists/ApplicationsList';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
+import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { types } from 'in-cockpit/favItems/favItems';
 import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -21,7 +22,11 @@ export default function ApplicationsTopList(props) {
     <TopListWidget
       {...props}
       icon="lib_application_invert"
-      getData={({ timeConfig, query }) => getApplicationListSubscribeEvent({ timeConfig, query })}
+      getItems={getApplicationListSubscribeEvent}
+      favItemTypes={[types.APPLCATIONS]}
+      getFavItems$={getFavItems$}
+      getIdByItem={getIdByItem}
+      getTypeByItem={getTypeByItem}
       columnDefinitions={columnDefinitions}
       fullListView$={getView(applicationsList)}
       fullListViewLinkTitle="All Applications"
@@ -29,20 +34,36 @@ export default function ApplicationsTopList(props) {
   );
 }
 
+function getIdByItem(item) {
+  return item.application.id;
+}
+
+function getTypeByItem() {
+  return types.APPLCATIONS;
+}
+
+function getFavItems$(/*idsByType, timeConfig*/) {}
+
 const columnDefinitions = [
+  {
+    id: 'health',
+    label: 'Health',
+    width: 5,
+    getContent(item) {
+      return <HealthDot severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
+    }
+  },
   {
     id: 'applicationLabel',
     label: 'Name',
     getContent(item) {
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <KeyValue
-            label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
-            value={item.application.label}
-            inverted
-            accentuated
-          />
-        </SeverityIndicatorCellContentWrapper>
+        <KeyValue
+          label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
+          value={item.application.label}
+          inverted
+          accentuated
+        />
       );
     }
   },

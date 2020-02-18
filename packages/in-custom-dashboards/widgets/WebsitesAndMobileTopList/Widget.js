@@ -12,32 +12,50 @@ import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { types } from 'in-cockpit/favItems/favItems';
 
 export default function WebsitesAndMobileTopList(props) {
+  const generalProps = {
+    ...props,
+    getFavItems$: getFavItems$,
+    getIdByItem: getIdByItem,
+    getTypeByItem: getTypeByItem,
+    columnDefinitions: columnDefinitions,
+    fullListView$: getView(websiteMonitoringPath)
+  };
+
   if (!mobileAppMonitoringEnabled) {
     return (
       <TopListWidget
-        {...props}
+        {...generalProps}
         icon="lib_website_inverted"
-        getData={getWebsitesSubscribeEvent}
-        columnDefinitions={columnDefinitions}
-        fullListView$={getView(websiteMonitoringPath)}
         fullListViewLinkTitle="All Websites"
+        favItemTypes={[types.WEBSITES]}
+        getItems={getWebsitesSubscribeEvent}
       />
     );
   }
 
   return (
     <TopListWidget
-      {...props}
+      {...generalProps}
       icon="lib_website_mobile_app_inverted"
-      getData={getMergedData}
-      columnDefinitions={columnDefinitions}
-      fullListView$={getView(websiteMonitoringPath)}
       fullListViewLinkTitle="All Websites & Mobile Apps"
+      favItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
+      getItems={getMergedData}
     />
   );
 }
+
+function getIdByItem(item) {
+  return get(item, ['website', 'id'], get(item, ['mobileApp', 'id']));
+}
+
+function getTypeByItem(item) {
+  return item.website ? types.WEBSITES : types.MOBILE_APPS;
+}
+
+function getFavItems$(/*idsByType, timeConfig*/) {}
 
 function getMergedData(params) {
   return combineLatest([getWebsitesSubscribeEvent(params), getMobileAppsSubscribeEvent(params)]).map(
