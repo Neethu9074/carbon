@@ -41,7 +41,7 @@ function serializeQuery({ hostName, kubernetesPodName, dockerContainerId }) {
   if (kubernetesPodName) {
     query = `kubernetes.pod.name:${kubernetesPodName}`;
   } else if (dockerContainerId) {
-    query = `container.id:${dockerContainerId}`;
+    query = `docker.container.id:${dockerContainerId}`;
   } else if (hostName) {
     query = `host.name:${hostName}`;
   }
