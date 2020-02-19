@@ -17,12 +17,11 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 export default function WebsitesAndMobileTopList(props) {
   const generalProps = {
     ...props,
-    getIdByItem: getIdByItem,
-    getTypeByItem: getTypeByItem,
     columnDefinitions: columnDefinitions,
     fullListView$: getView(websiteMonitoringPath),
-    pinItem: item => pin(getTypeByItem(item), getIdByItem(item)),
-    unpinItem: item => unpin(getTypeByItem(item), getIdByItem(item))
+    getId,
+    pinItem: (id, item) => pin(getTypeByItem(item), id),
+    unpinItem: (id, item) => unpin(getTypeByItem(item), id)
   };
 
   if (!mobileAppMonitoringEnabled) {
@@ -48,7 +47,7 @@ export default function WebsitesAndMobileTopList(props) {
   );
 }
 
-function getIdByItem(item) {
+function getId(item) {
   return item.website ? item.website.id : item.mobileApp.id;
 }
 

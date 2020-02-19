@@ -24,8 +24,9 @@ export default function ApplicationsTopList(props) {
       icon="lib_application_invert"
       getItems={getApplicationListSubscribeEvent}
       pinnedItemTypes={[types.APPLCATIONS]}
-      pinItem={item => pin(types.APPLCATIONS, item.application.id)}
-      unpinItem={item => unpin(types.APPLCATIONS, item.application.id)}
+      getId={item => item.application.id}
+      pinItem={id => pin(types.APPLCATIONS, id)}
+      unpinItem={id => unpin(types.APPLCATIONS, id)}
       columnDefinitions={columnDefinitions}
       fullListView$={getView(applicationsList)}
       fullListViewLinkTitle="All Applications"

@@ -20,6 +20,7 @@ export default function InfrastructureTopList(props) {
     getItems: ({ query }) => getItems(query, selectedType),
     header: <Header selectedType={selectedType} setSelectedType={setSelectedType} />,
     columnDefinitions: columnDefinitions[selectedType],
+    getId: item => item.get('id'),
     fullListView$: getModifiedUrlStream(location => {
       location.pathname = physicalTablePath;
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
@@ -31,8 +32,8 @@ export default function InfrastructureTopList(props) {
       <TopListWidget
         {...generalProps}
         pinnedItemTypes={[types.HOSTS]}
-        pinItem={item => pin(types.HOSTS, item.get('id'))}
-        unpinItem={item => unpin(types.HOSTS, item.get('id'))}
+        pinItem={id => pin(types.HOSTS, id)}
+        unpinItem={id => unpin(types.HOSTS, id)}
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -43,8 +44,8 @@ export default function InfrastructureTopList(props) {
       <TopListWidget
         {...generalProps}
         pinnedItemTypes={[types.CONTAINER]}
-        pinItem={item => pin(types.CONTAINER, item.get('id'))}
-        unpinItem={item => unpin(types.CONTAINER, item.get('id'))}
+        pinItem={id => pin(types.CONTAINER, id)}
+        unpinItem={id => unpin(types.CONTAINER, id)}
         fullListViewLinkTitle="All Containers"
       />
     );
@@ -54,8 +55,8 @@ export default function InfrastructureTopList(props) {
     <TopListWidget
       {...generalProps}
       pinnedItemTypes={[types.PROCESSES]}
-      pinItem={item => pin(types.PROCESSES, item.get('id'))}
-      unpinItem={item => unpin(types.PROCESSES, item.get('id'))}
+      pinItem={id => pin(types.PROCESSES, id)}
+      unpinItem={id => unpin(types.PROCESSES, id)}
       fullListViewLinkTitle="All Processes"
     />
   );

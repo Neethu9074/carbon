@@ -20,6 +20,7 @@ export default compose(
     getItems: rpt.func.isRequired,
     columnDefinitions: rpt.array.isRequired,
     pinnedItemTypes: rpt.array,
+    getId: rpt.func.isRequired,
     pinItem: rpt.func.isRequired,
     unpinItem: rpt.func.isRequired,
     icon: rpt.string,
@@ -47,19 +48,26 @@ function TopListWidget({
   fullListView$,
   fullListViewLinkTitle,
   pinnedItemIdsByType,
+  getId,
   pinItem,
   unpinItem
 }) {
-  const numPinnedItems = getNumPinnedItems(pinnedItemIdsByType);
+  const flattenedIds = getFlattenedIds(pinnedItemIdsByType);
+  const numPinnedItems = flattenedIds.length;
   const numRegularItems = Math.max(0, 5 - numPinnedItems);
   if (result && result.data) {
     result = {
       ...result,
       data: {
-        items: result.data.items.slice(0, numRegularItems)
+        // this works as long as the queried page size is >= 10
+        items: result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1).slice(0, numRegularItems)
       }
     };
   }
+
+  const pinItemCb = item => pinItem(getId(item), item);
+  const unpinItemCb = item => unpinItem(getId(item), item);
+
   return (
     <LightCard
       title={title}
@@ -76,7 +84,7 @@ function TopListWidget({
       {numPinnedItems > 0 && (
         <ServerTablePresenter
           isSearchable={false}
-          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItem, unpinItem)]}
+          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
           result={pendingResult}
           timeConfig={timeConfig}
           numSkeletonRows={numPinnedItems}
@@ -85,7 +93,7 @@ function TopListWidget({
       {numRegularItems > 0 && (
         <ServerTablePresenter
           isSearchable={false}
-          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItem, unpinItem)]}
+          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
           result={result}
           timeConfig={timeConfig}
           numSkeletonRows={numRegularItems}
@@ -98,16 +106,16 @@ function TopListWidget({
   );
 }
 
-function getNumPinnedItems(IdsByType) {
-  let numItems = 0;
+function getFlattenedIds(IdsByType) {
+  let allIds = [];
   const keys = Object.keys(IdsByType);
   for (let i = 0; i < keys.length; i++) {
     const ids = IdsByType[keys[i]];
     if (ids) {
-      numItems += ids.length;
+      allIds = allIds.concat(ids);
     }
   }
-  return numItems;
+  return allIds;
 }
 
 function getStarColumn(pinned, pinItem, unpinItem) {
