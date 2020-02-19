@@ -67,6 +67,7 @@ export default function Cockpit() {
             <Sticky
               header={
                 <SideNav
+                  className={locals.nav}
                   scrollToTopOnFirstItemClicked
                   navItems={[
                     {

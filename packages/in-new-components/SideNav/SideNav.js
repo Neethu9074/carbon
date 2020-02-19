@@ -27,13 +27,14 @@ export default class SideNav extends React.Component {
   }
 
   render() {
-    const { addRightSeparator, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
+    const { addRightSeparator, className, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
     const setItemSelected = i => this.setState({ itemSelected: i });
 
     return (
       <nav
         className={evaluateClassNames({
           [locals.container]: true,
+          [className]: className,
           [locals.rightSeparator]: addRightSeparator,
           [locals.leftSeparator]: addLeftSeparator
         })}
@@ -98,6 +99,7 @@ export default class SideNav extends React.Component {
 
 SideNav.propTypes = {
   addRightSeparator: PropTypes.bool,
+  className: PropTypes.string,
   addLeftSeparator: PropTypes.bool,
   renderPreIcon: PropTypes.func,
   renderPostIcon: PropTypes.func,

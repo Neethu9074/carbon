@@ -14,4 +14,8 @@
   .icon {
     margin-right: 0.25rem;
   }
+
+  .nav {
+    margin-top: -1rem;
+  }
 }
