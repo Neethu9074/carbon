@@ -1,10 +1,11 @@
-import { just } from 'reactive-observables';
-
 import {
   pin as saveItem,
   unpin as deleteItem,
-  getPinnedItems$
+  getPinnedItems$,
+  clear as clearMap
 } from 'in-cockpit/pinnedItems/pinnedItemsStorageHandler';
+
+export const clear = clearMap;
 
 export const types = {
   WEBSITES: 'website',
@@ -24,26 +25,10 @@ export function getPinnedItems(itemTypes) {
   });
 }
 
-export function getgetPinnedItems({ timeConfig, getgetPinnedItems$, idsByType }) {
-  const subscription = getgetPinnedItems$(idsByType, timeConfig);
-  if (!subscription) {
-    return just(createResult([]));
-  }
-  return subscription.map(createResult);
-}
-
 export function pin(type, id) {
   saveItem(type, id);
 }
 
 export function unpin(type, id) {
   deleteItem(type, id);
-}
-
-function createResult(items) {
-  return {
-    data: {
-      items
-    }
-  };
 }

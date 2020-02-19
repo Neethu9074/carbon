@@ -60,7 +60,6 @@ function TopListWidget({
       }
     };
   }
-
   return (
     <LightCard
       title={title}

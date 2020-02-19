@@ -1,6 +1,12 @@
 import { create } from 'reactive-observables';
 
-const inMemoryMap = {};
+import { deepCopy } from 'in-services/util/object';
+
+let inMemoryMap = {};
+
+export function clear() {
+  inMemoryMap = {};
+}
 
 export const getPinnedItems$ = create();
 getPinnedItems$.emit(inMemoryMap);
@@ -11,7 +17,7 @@ export function pin(type, id) {
   }
   if (inMemoryMap[type].indexOf(id) === -1) {
     inMemoryMap[type].push(id);
-    getPinnedItems$.emit(inMemoryMap);
+    emitMap();
   }
 }
 
@@ -25,5 +31,9 @@ export function unpin(type, id) {
   }
 
   inMemoryMap[type].splice(indexOfId, 1);
-  getPinnedItems$.emit(inMemoryMap);
+  emitMap();
+}
+
+function emitMap() {
+  getPinnedItems$.emit(deepCopy(inMemoryMap));
 }
