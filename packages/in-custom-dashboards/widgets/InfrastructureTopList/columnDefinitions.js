@@ -1,6 +1,8 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -10,8 +12,23 @@ import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
 
+const healthColumnDefinition = {
+  id: 'health',
+  label: 'Health',
+  width: 5,
+  getContent(snapshot) {
+    return (
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={snapshot.get('id')}
+        render={healthInfo => <HealthDot severity={healthInfo && healthInfo.maxSeverity} iconSize={10} />}
+      />
+    );
+  }
+};
+
 export default {
   host: [
+    healthColumnDefinition,
     {
       id: 'label',
       label: 'Name',
@@ -61,6 +78,7 @@ export default {
     }
   ],
   docker: [
+    healthColumnDefinition,
     {
       id: 'label',
       label: 'Name',
@@ -114,6 +132,7 @@ export default {
     }
   ],
   process: [
+    healthColumnDefinition,
     {
       id: 'label',
       label: 'Name',

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -8,14 +9,20 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './HealthDot.mless';
 
 export default function HealthDot({ severity = 0, explanation, iconSize, className }) {
-  return (
-    <Tooltip content={explanation}>
-      <div
-        style={{ width: iconSize, height: iconSize, backgroundColor: getColorBySeverity(severity) }}
-        className={evaluateClassNames({ [locals.dot]: true, [className]: true })}
-      />
-    </Tooltip>
+  const dot = (
+    <div
+      style={{
+        width: iconSize,
+        height: iconSize,
+        backgroundColor: getColorBySeverity(severity, { defaultColor: theme.lib.colors.success })
+      }}
+      className={evaluateClassNames({ [locals.dot]: true, [className]: true })}
+    />
   );
+  if (!explanation) {
+    return dot;
+  }
+  return <Tooltip content={explanation}>{dot}</Tooltip>;
 }
 
 HealthDot.propTypes = {

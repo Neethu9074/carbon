@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .header {
     display: flex;
@@ -20,5 +22,13 @@
 
   .customHeaderWrapper {
     margin-right: 0.5rem;
+  }
+
+  .starIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .starIconFilled {
+    fill: @lib__colors__yellow800;
   }
 }

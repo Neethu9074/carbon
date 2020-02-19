@@ -8,35 +8,52 @@ import { getWebsitesSubscribeEvent } from 'in-websites/WebsitesList/WebsitesList
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
+import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 
 export default function WebsitesAndMobileTopList(props) {
+  const generalProps = {
+    ...props,
+    getIdByItem: getIdByItem,
+    getTypeByItem: getTypeByItem,
+    columnDefinitions: columnDefinitions,
+    fullListView$: getView(websiteMonitoringPath),
+    pinItem: item => pin(getTypeByItem(item), getIdByItem(item)),
+    unpinItem: item => unpin(getTypeByItem(item), getIdByItem(item))
+  };
+
   if (!mobileAppMonitoringEnabled) {
     return (
       <TopListWidget
-        {...props}
+        {...generalProps}
         icon="lib_website_inverted"
-        getData={getWebsitesSubscribeEvent}
-        columnDefinitions={columnDefinitions}
-        fullListView$={getView(websiteMonitoringPath)}
         fullListViewLinkTitle="All Websites"
+        pinnedItemTypes={[types.WEBSITES]}
+        getItems={getWebsitesSubscribeEvent}
       />
     );
   }
 
   return (
     <TopListWidget
-      {...props}
+      {...generalProps}
       icon="lib_website_mobile_app_inverted"
-      getData={getMergedData}
-      columnDefinitions={columnDefinitions}
-      fullListView$={getView(websiteMonitoringPath)}
       fullListViewLinkTitle="All Websites & Mobile Apps"
+      pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
+      getItems={getMergedData}
     />
   );
+}
+
+function getIdByItem(item) {
+  return item.website ? item.website.id : item.mobileApp.id;
+}
+
+function getTypeByItem(item) {
+  return item.website ? types.WEBSITES : types.MOBILE_APPS;
 }
 
 function getMergedData(params) {
@@ -97,8 +114,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.sessions || item.metrics.pageViews}
-          metric={item.metrics.sessionsAgg || item.metrics.pageViewsAgg}
+          metrics={get(item, ['metrics', 'sessions'], get(item, ['metrics', 'pageViews']))}
+          metric={get(item, ['metrics', 'sessionsAgg'], get(item, ['metrics', 'pageViewsAgg']))}
           tooltipFormatter={number.compact}
         />
       );
@@ -115,8 +132,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
-          metrics={item.metrics.views || item.metrics.onLoadTime}
-          metric={item.metrics.viewsAgg || item.metrics.onLoadTimeAgg}
+          metrics={get(item, ['metrics', 'views'], get(item, ['metrics', 'onLoadTime']))}
+          metric={get(item, ['metrics', 'viewsAgg'], get(item, ['metrics', 'onLoadTimeAgg']))}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
         />
       );

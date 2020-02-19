@@ -3,9 +3,12 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
+import { pendingResult } from 'in-services/fixedObjects';
 import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -14,28 +17,21 @@ import locals from './TopListWidget.mless';
 export default compose(
   setPropTypes({
     title: rpt.string.isRequired,
-    getData: rpt.func.isRequired,
+    getItems: rpt.func.isRequired,
     columnDefinitions: rpt.array.isRequired,
+    pinnedItemTypes: rpt.array,
+    pinItem: rpt.func.isRequired,
+    unpinItem: rpt.func.isRequired,
     icon: rpt.string,
     header: rpt.object,
     fullListView$: rpt.object,
     fullListViewLinkTitle: rpt.string
   }),
   withState('query', 'setQuery', ''),
-  connectTo(({ getData, query }) => ({
+  connectTo(({ getItems, pinnedItemTypes, query }) => ({
     timeConfig: timeConfig$,
-    result: timeConfig$.flatMap(timeConfig => getData({ timeConfig, query })).map(result => {
-      if (result.data && result.data.items) {
-        return {
-          ...result,
-          data: {
-            ...result.data,
-            items: result.data.items.slice(0, 5)
-          }
-        };
-      }
-      return result;
-    })
+    pinnedItemIdsByType: getPinnedItems(pinnedItemTypes),
+    result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query }))
   }))
 )(TopListWidget);
 
@@ -49,8 +45,21 @@ function TopListWidget({
   icon,
   columnDefinitions,
   fullListView$,
-  fullListViewLinkTitle
+  fullListViewLinkTitle,
+  pinnedItemIdsByType,
+  pinItem,
+  unpinItem
 }) {
+  const numPinnedItems = getNumPinnedItems(pinnedItemIdsByType);
+  const numRegularItems = Math.max(0, 5 - numPinnedItems);
+  if (result && result.data) {
+    result = {
+      ...result,
+      data: {
+        items: result.data.items.slice(0, numRegularItems)
+      }
+    };
+  }
   return (
     <LightCard
       title={title}
@@ -64,16 +73,56 @@ function TopListWidget({
       }
       bodyClassName={locals.content}
     >
-      <ServerTablePresenter
-        isSearchable={false} // is handled through this component
-        columnDefinitions={columnDefinitions}
-        result={result}
-        timeConfig={timeConfig}
-        numSkeletonRows={5}
-      />
+      {numPinnedItems > 0 && (
+        <ServerTablePresenter
+          isSearchable={false}
+          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItem, unpinItem)]}
+          result={pendingResult}
+          timeConfig={timeConfig}
+          numSkeletonRows={numPinnedItems}
+        />
+      )}
+      {numRegularItems > 0 && (
+        <ServerTablePresenter
+          isSearchable={false}
+          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItem, unpinItem)]}
+          result={result}
+          timeConfig={timeConfig}
+          numSkeletonRows={numRegularItems}
+        />
+      )}
       <Link className={locals.link} href$={fullListView$}>
         {fullListViewLinkTitle}
       </Link>
     </LightCard>
   );
+}
+
+function getNumPinnedItems(IdsByType) {
+  let numItems = 0;
+  const keys = Object.keys(IdsByType);
+  for (let i = 0; i < keys.length; i++) {
+    const ids = IdsByType[keys[i]];
+    if (ids) {
+      numItems += ids.length;
+    }
+  }
+  return numItems;
+}
+
+function getStarColumn(pinned, pinItem, unpinItem) {
+  return {
+    id: 'star',
+    label: 'Star',
+    width: 5,
+    getContent(item) {
+      return (
+        <SvgIcon
+          className={pinned ? locals.starIconFilled : locals.starIcon}
+          type={pinned ? 'lib_actions_star_filled' : 'lib_actions_star'}
+          onClick={() => (pinned ? unpinItem : pinItem)(item)}
+        />
+      );
+    }
+  };
 }

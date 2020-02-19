@@ -36,18 +36,18 @@ export default function Cockpit() {
                     width: 10,
                     height: 3,
                     x: 0,
-                    y: 0,
-                    type: 'applicationsTopList',
-                    title: 'Applications'
+                    y: 4,
+                    type: 'websitesAndMobileTopList',
+                    title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
                   },
                   {
                     id: '2',
                     width: 10,
                     height: 3,
                     x: 0,
-                    y: 4,
-                    type: 'websitesAndMobileTopList',
-                    title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
+                    y: 0,
+                    type: 'applicationsTopList',
+                    title: 'Applications'
                   },
                   {
                     id: '3',
@@ -69,12 +69,12 @@ export default function Cockpit() {
                 <SideNav
                   scrollToTopOnFirstItemClicked
                   navItems={[
-                    { scrollId: getWidgetId('1'), icon: 'lib_application', label: 'Applications' },
                     {
-                      scrollId: getWidgetId('2'),
+                      scrollId: getWidgetId('1'),
                       icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
                       label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
                     },
+                    { scrollId: getWidgetId('2'), icon: 'lib_application', label: 'Applications' },
                     { scrollId: getWidgetId('3'), icon: 'lib_infrastructure', label: 'Infrastructure' }
                   ]}
                   renderPreIcon={renderIcon}
