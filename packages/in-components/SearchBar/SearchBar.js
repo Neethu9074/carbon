@@ -29,7 +29,7 @@ export default connectTo(
     }
 
     render() {
-      const { theme = 'dark', showFilters = true, query, presetsVisible } = this.props;
+      const { style, theme = 'dark', showFilters = true, query, presetsVisible } = this.props;
       const hasContent = query.length > 0;
 
       const buttonClass = evaluateClassNames({
@@ -39,6 +39,7 @@ export default connectTo(
 
       return (
         <div
+          style={style}
           className={evaluateClassNames({
             ['in-searchbar']: true,
             [`in-searchbar-${theme}`]: true,

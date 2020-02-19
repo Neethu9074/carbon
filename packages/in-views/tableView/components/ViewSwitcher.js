@@ -32,7 +32,7 @@ export default connectTo(
           />
         </SecondLevelNavigation>
 
-        <SearchBar theme="dark" />
+        <SearchBar style={{ maxWidth: 'calc(100% - 22rem)' }} theme="dark" />
       </div>
     );
   }
