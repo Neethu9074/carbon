@@ -36,7 +36,7 @@ export default function Cockpit() {
                     width: 10,
                     height: 3,
                     x: 0,
-                    y: 4,
+                    y: 0,
                     type: 'websitesAndMobileTopList',
                     title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
                   },
@@ -45,7 +45,7 @@ export default function Cockpit() {
                     width: 10,
                     height: 3,
                     x: 0,
-                    y: 0,
+                    y: 4,
                     type: 'applicationsTopList',
                     title: 'Applications'
                   },
