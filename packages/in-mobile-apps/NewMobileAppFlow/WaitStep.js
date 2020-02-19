@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getEumAcceptorBaseUrl } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
+import { getReportingUrl } from 'in-mobile-apps/configuration';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import EntityWithType from 'in-new-components/EntityWithType';
 import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
@@ -28,7 +28,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
           <EntityWithType label={mobileAppId} type="Key" />
         </Li>
         <Li>
-          <EntityWithType label={getEumAcceptorBaseUrl()} type="Reporting URL" />
+          <EntityWithType label={getReportingUrl()} type="Reporting URL" />
         </Li>
       </Ul>
 
