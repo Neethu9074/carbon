@@ -8,6 +8,7 @@ import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getMetric } from 'in-stores/metric';
 import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
@@ -67,10 +68,11 @@ export default {
       label: 'CPU Usage',
       getContent(snapshot) {
         return (
-          <HistoricMetricSparkChart
+          <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
             formatter={percentage}
             metric="cpu.used"
+            label="CPU Usage"
             aggregation="mean"
           />
         );
@@ -121,10 +123,11 @@ export default {
       label: 'CPU Usage',
       getContent(snapshot) {
         return (
-          <HistoricMetricSparkChart
+          <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
             formatter={percentage}
             metric="cpu.total_usage"
+            label="CPU Usage"
             aggregation="mean"
           />
         );
@@ -147,10 +150,11 @@ export default {
       label: 'CPU User',
       getContent(snapshot) {
         return (
-          <HistoricMetricSparkChart
+          <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
             formatter={percentage}
             metric="cpu.user"
+            label="CPU Usage"
             aggregation="mean"
           />
         );
@@ -173,5 +177,19 @@ const TwoSnapshotLabels = connectTo(
         accentuated
       />
     );
+  }
+);
+
+const SparkChartWithMetricValue = connectTo(
+  ({ snapshotId, metric, aggregation }) => ({
+    horizontalMetricValue: getMetric({
+      snapshotId,
+      metric,
+      timeWindowAggregation: aggregation,
+      forceTimeWindowAggregation: true
+    })
+  }),
+  function SparkChartWithMetricValue(props) {
+    return <HistoricMetricSparkChart {...props} width={72} showAggregationIcon />;
   }
 );

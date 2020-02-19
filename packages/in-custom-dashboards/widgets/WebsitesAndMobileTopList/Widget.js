@@ -115,6 +115,8 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={get(item, ['metrics', 'sessions'], get(item, ['metrics', 'pageViews']))}
           metric={get(item, ['metrics', 'sessionsAgg'], get(item, ['metrics', 'pageViewsAgg']))}
+          label={get(item, ['metrics', 'sessions']) ? 'Sessions' : 'Page Views'}
+          showAggregationIcon
           tooltipFormatter={number.compact}
         />
       );
@@ -133,7 +135,9 @@ const columnDefinitions = [
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
           metrics={get(item, ['metrics', 'views'], get(item, ['metrics', 'onLoadTime']))}
           metric={get(item, ['metrics', 'viewsAgg'], get(item, ['metrics', 'onLoadTimeAgg']))}
+          label={get(item, ['metrics', 'views']) ? 'Views' : 'onLoad Time'}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
+          showAggregationIcon
         />
       );
     }

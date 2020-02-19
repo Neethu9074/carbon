@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .withHorizontalMetricValueWrapper {
     display: flex;
@@ -20,12 +22,6 @@
     white-space: nowrap;
   }
 
-  .horizontalLabelAndValueWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
   .label {
     margin-left: 0.25rem;
     white-space: nowrap;
@@ -46,5 +42,19 @@
 
   .number {
     margin-left: 0.5rem;
+  }
+
+  .iconValueWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .aggregationIcon {
+    fill: @lib__colors__N600Light;
+    margin-right: 0.25rem;
+  }
+
+  .keyValue {
+    margin-left: 0.25rem;
   }
 }

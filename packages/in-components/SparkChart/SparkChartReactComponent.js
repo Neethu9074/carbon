@@ -5,9 +5,11 @@ import MetricValue from 'in-components/tables/ServerTable/components/MetricValue
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SparkChart.mless';
 
@@ -16,27 +18,49 @@ export default defaultProps({
   width: 72
 })(SparkChartReactComponent);
 function SparkChartReactComponent(props) {
-  const { loading, timeConfig, metrics } = props;
+  const {
+    loading,
+    timeConfig,
+    metrics,
+    width,
+    height,
+    horizontalMetricValue,
+    label,
+    customValueTooltip,
+    verticalMetricValue,
+    aggregation,
+    showAggregationIcon
+  } = props;
 
   let sparkChart;
   if (loading) {
-    sparkChart = <InfiniteCircle width={props.width} height={props.height} />;
+    sparkChart = <InfiniteCircle width={width} height={height} />;
   } else if (metrics == null || metrics.length === 0) {
-    sparkChart = <NoDataAvailable width={props.width} height={props.height} />;
+    sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {
     sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
   }
 
-  if (props.horizontalMetricValue) {
-    if (props.label) {
+  if (horizontalMetricValue) {
+    if (label) {
+      const value =
+        aggregation && showAggregationIcon ? (
+          <div className={locals.iconValueWrapper}>
+            <SvgIcon
+              className={locals.aggregationIcon}
+              type={aggregation === 'SUM' ? 'lib_actions_loading' : 'lib_actions_loading'}
+              size="xs"
+            />
+            {horizontalMetricValue}
+          </div>
+        ) : (
+          horizontalMetricValue
+        );
       return (
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
-          <Tooltip content={props.customValueTooltip}>
-            <div className={locals.horizontalLabelAndValueWrapper}>
-              <div className={locals.label}>{props.label}</div>
-              <MetricValue className={locals.horizontalMetricValue} value={props.horizontalMetricValue} />
-            </div>
+          <Tooltip content={customValueTooltip}>
+            <KeyValue className={locals.keyValue} label={label} customValue={value} accentuated theme={themes.blue} />
           </Tooltip>
         </div>
       );
@@ -44,15 +68,15 @@ function SparkChartReactComponent(props) {
     return (
       <div className={locals.withHorizontalMetricValueWrapper}>
         {sparkChart}
-        <MetricValue className={locals.horizontalMetricValue} value={props.horizontalMetricValue} />
+        <MetricValue className={locals.horizontalMetricValue} value={horizontalMetricValue} />
       </div>
     );
   }
 
-  if (props.verticalMetricValue) {
+  if (verticalMetricValue) {
     return (
       <div className={locals.withVerticalMetricValueWrapper}>
-        <MetricValue className={locals.verticalMetricValue} value={props.verticalMetricValue} />
+        <MetricValue className={locals.verticalMetricValue} value={verticalMetricValue} />
         {sparkChart}
       </div>
     );

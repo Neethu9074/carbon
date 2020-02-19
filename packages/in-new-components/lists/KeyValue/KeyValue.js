@@ -12,9 +12,9 @@ export const themes = {
   blue: 'blue'
 };
 
-export default function KeyValue({ className, label, value, theme = themes.d, inverted, accentuated }) {
+export default function KeyValue({ className, label, value, customValue, theme = themes.d, inverted, accentuated }) {
   const k = <Key label={cap(label)} />;
-  const v = <Value value={cap(value)} theme={theme} accentuated={accentuated} />;
+  const v = <Value value={customValue || cap(value)} theme={theme} accentuated={accentuated} />;
 
   return (
     <div
@@ -42,6 +42,7 @@ KeyValue.propTypes = {
   label: PropTypes.string.isRequired,
   className: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  customValue: PropTypes.any,
   inverted: PropTypes.bool,
   accentuated: PropTypes.bool,
   theme: PropTypes.oneOf(Object.keys(themes))
