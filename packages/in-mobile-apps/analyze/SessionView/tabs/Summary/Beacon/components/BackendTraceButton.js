@@ -23,8 +23,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
     return null;
   }
 
-  // const traces = result.data;
-  const traces = [{ traceId: '200171036682f0b3' }, { traceId: '200171036682f0b3' }];
+  const traces = result.data;
 
   if (traces.length === 0) {
     return null;
