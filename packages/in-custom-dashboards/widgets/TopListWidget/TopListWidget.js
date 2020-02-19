@@ -1,14 +1,13 @@
 import { compose, withState, setPropTypes } from 'recompose';
-import { combineLatest } from 'reactive-observables';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { getFavItemIds, getFavItems, favoriseItem, unfavoriseItem } from 'in-cockpit/favItems/favItems';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
+import { pendingResult } from 'in-services/fixedObjects';
 import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
-import { compare } from 'in-services/util/boolean';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -19,38 +18,21 @@ export default compose(
   setPropTypes({
     title: rpt.string.isRequired,
     getItems: rpt.func.isRequired,
-    getFavItems$: rpt.func.isRequired,
     columnDefinitions: rpt.array.isRequired,
-    getIdByItem: rpt.func.isRequired,
-    getTypeByItem: rpt.func.isRequired,
+    pinnedItemTypes: rpt.array,
+    pinItem: rpt.func.isRequired,
+    unpinItem: rpt.func.isRequired,
     icon: rpt.string,
     header: rpt.object,
     fullListView$: rpt.object,
-    fullListViewLinkTitle: rpt.string,
-    favItemTypes: rpt.array
+    fullListViewLinkTitle: rpt.string
   }),
   withState('query', 'setQuery', ''),
-  connectTo(({ getItems, favItemTypes, getFavItems$, getIdByItem, getTypeByItem, query }) => {
-    const favItemIdsByType$ = getFavItemIds(favItemTypes);
-
-    return {
-      timeConfig: timeConfig$,
-      favItemIdsByType: favItemIdsByType$,
-      result: timeConfig$
-        .flatMap(timeConfig =>
-          combineLatest([
-            getItems({ timeConfig, query }),
-            favItemIdsByType$.flatMap(idsByType => getFavItems({ timeConfig, getFavItems$, idsByType })),
-            favItemIdsByType$
-          ])
-        )
-        .map(([itemsResult, favItemsResult, favItemIdsByType]) =>
-          combineItemResults(itemsResult, favItemsResult, item =>
-            isFavorised(item, favItemIdsByType, getIdByItem, getTypeByItem)
-          )
-        )
-    };
-  })
+  connectTo(({ getItems, pinnedItemTypes, query }) => ({
+    timeConfig: timeConfig$,
+    pinnedItemIdsByType: getPinnedItems(pinnedItemTypes),
+    result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query }))
+  }))
 )(TopListWidget);
 
 function TopListWidget({
@@ -64,10 +46,21 @@ function TopListWidget({
   columnDefinitions,
   fullListView$,
   fullListViewLinkTitle,
-  getIdByItem,
-  getTypeByItem,
-  favItemIdsByType
+  pinnedItemIdsByType,
+  pinItem,
+  unpinItem
 }) {
+  const numPinnedItems = getNumPinnedItems(pinnedItemIdsByType);
+  const numRegularItems = Math.max(0, 5 - numPinnedItems);
+  if (result && result.data) {
+    result = {
+      ...result,
+      data: {
+        items: result.data.items.slice(0, numRegularItems)
+      }
+    };
+  }
+
   return (
     <LightCard
       title={title}
@@ -81,32 +74,24 @@ function TopListWidget({
       }
       bodyClassName={locals.content}
     >
-      <ServerTablePresenter
-        isSearchable={false}
-        columnDefinitions={[
-          ...columnDefinitions,
-          {
-            id: 'star',
-            label: 'Star',
-            width: 5,
-            getContent(item) {
-              const isItemFavorised = isFavorised(item, favItemIdsByType, getIdByItem, getTypeByItem);
-              return (
-                <SvgIcon
-                  className={isItemFavorised ? locals.starIconFilled : locals.starIcon}
-                  type={isItemFavorised ? 'lib_actions_star_filled' : 'lib_actions_star'}
-                  onClick={() =>
-                    (isItemFavorised ? unfavoriseItem : favoriseItem)(getTypeByItem(item), getIdByItem(item))
-                  }
-                />
-              );
-            }
-          }
-        ]}
-        result={result}
-        timeConfig={timeConfig}
-        numSkeletonRows={5}
-      />
+      {numPinnedItems > 0 && (
+        <ServerTablePresenter
+          isSearchable={false}
+          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItem, unpinItem)]}
+          result={pendingResult}
+          timeConfig={timeConfig}
+          numSkeletonRows={numPinnedItems}
+        />
+      )}
+      {numRegularItems > 0 && (
+        <ServerTablePresenter
+          isSearchable={false}
+          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItem, unpinItem)]}
+          result={result}
+          timeConfig={timeConfig}
+          numSkeletonRows={numRegularItems}
+        />
+      )}
       <Link className={locals.link} href$={fullListView$}>
         {fullListViewLinkTitle}
       </Link>
@@ -114,29 +99,31 @@ function TopListWidget({
   );
 }
 
-function combineItemResults(itemsResult, favItemsResult, isItemFavorised) {
-  if (itemsResult.data && itemsResult.data.items) {
-    let items = itemsResult.data.items;
-    if (favItemsResult.data && favItemsResult.data.items) {
-      items = items.filter(item => !isItemFavorised(item));
-      items = favItemsResult.data.items.concat(items);
+function getNumPinnedItems(IdsByType) {
+  let numItems = 0;
+  const keys = Object.keys(IdsByType);
+  for (let i = 0; i < keys.length; i++) {
+    const ids = IdsByType[keys[i]];
+    if (ids) {
+      numItems += ids.length;
     }
-    items = items.slice(0, 5);
-    items.sort((i1, i2) => compare(isItemFavorised(i1), isItemFavorised(i2)));
-
-    return {
-      ...itemsResult,
-      data: {
-        ...itemsResult.data,
-        items
-      }
-    };
   }
-  return itemsResult;
+  return numItems;
 }
 
-function isFavorised(item, favItemIdsByType, getIdByItem, getTypeByItem) {
-  const itemId = getIdByItem(item);
-  const favIds = favItemIdsByType[getTypeByItem(item)];
-  return itemId && favIds && favIds.indexOf(itemId) !== -1;
+function getStarColumn(pinned, pinItem, unpinItem) {
+  return {
+    id: 'star',
+    label: 'Star',
+    width: 5,
+    getContent(item) {
+      return (
+        <SvgIcon
+          className={pinned ? locals.starIconFilled : locals.starIcon}
+          type={pinned ? 'lib_actions_star_filled' : 'lib_actions_star'}
+          onClick={() => (pinned ? unpinItem : pinItem)(item)}
+        />
+      );
+    }
+  };
 }

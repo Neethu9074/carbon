@@ -1,4 +1,3 @@
-import { combineLatest } from 'reactive-observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
@@ -8,14 +7,13 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
-import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
+import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { types } from 'in-cockpit/favItems/favItems';
 import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -25,35 +23,14 @@ export default function ApplicationsTopList(props) {
       {...props}
       icon="lib_application_invert"
       getItems={getApplicationListSubscribeEvent}
-      favItemTypes={[types.APPLCATIONS]}
-      getFavItems$={getFavItems$}
-      getIdByItem={getIdByItem}
-      getTypeByItem={getTypeByItem}
+      pinnedItemTypes={[types.APPLCATIONS]}
+      pinItem={item => pin(types.APPLCATIONS, item.application.id)}
+      unpinItem={item => unpin(types.APPLCATIONS, item.application.id)}
       columnDefinitions={columnDefinitions}
       fullListView$={getView(applicationsList)}
       fullListViewLinkTitle="All Applications"
     />
   );
-}
-
-function getIdByItem(item) {
-  return item.application.id;
-}
-
-function getTypeByItem() {
-  return types.APPLCATIONS;
-}
-
-function getFavItems$(idsByType) {
-  const applicationIds = idsByType[types.APPLCATIONS];
-  if (!applicationIds || applicationIds.length === 0) {
-    return;
-  }
-  return combineLatest(applicationIds.map(id => getApplication({ id }))).map(applications => {
-    return applications
-      .filter(applicationResult => applicationResult.data)
-      .map(applicationResult => ({ application: applicationResult.data }));
-  });
 }
 
 const columnDefinitions = [

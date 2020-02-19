@@ -8,20 +8,21 @@ import { getWebsitesSubscribeEvent } from 'in-websites/WebsitesList/WebsitesList
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
+import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { types } from 'in-cockpit/favItems/favItems';
 
 export default function WebsitesAndMobileTopList(props) {
   const generalProps = {
     ...props,
-    getFavItems$: getFavItems$,
     getIdByItem: getIdByItem,
     getTypeByItem: getTypeByItem,
     columnDefinitions: columnDefinitions,
-    fullListView$: getView(websiteMonitoringPath)
+    fullListView$: getView(websiteMonitoringPath),
+    pinItem: item => pin(getTypeByItem(item), getIdByItem(item)),
+    unpinItem: item => unpin(getTypeByItem(item), getIdByItem(item))
   };
 
   if (!mobileAppMonitoringEnabled) {
@@ -30,7 +31,7 @@ export default function WebsitesAndMobileTopList(props) {
         {...generalProps}
         icon="lib_website_inverted"
         fullListViewLinkTitle="All Websites"
-        favItemTypes={[types.WEBSITES]}
+        pinnedItemTypes={[types.WEBSITES]}
         getItems={getWebsitesSubscribeEvent}
       />
     );
@@ -41,21 +42,19 @@ export default function WebsitesAndMobileTopList(props) {
       {...generalProps}
       icon="lib_website_mobile_app_inverted"
       fullListViewLinkTitle="All Websites & Mobile Apps"
-      favItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
+      pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
       getItems={getMergedData}
     />
   );
 }
 
 function getIdByItem(item) {
-  return get(item, ['website', 'id'], get(item, ['mobileApp', 'id']));
+  return item.website ? item.website.id : item.mobileApp.id;
 }
 
 function getTypeByItem(item) {
   return item.website ? types.WEBSITES : types.MOBILE_APPS;
 }
-
-function getFavItems$(/*idsByType, timeConfig*/) {}
 
 function getMergedData(params) {
   return combineLatest([getWebsitesSubscribeEvent(params), getMobileAppsSubscribeEvent(params)]).map(
@@ -115,8 +114,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.sessions || item.metrics.pageViews}
-          metric={item.metrics.sessionsAgg || item.metrics.pageViewsAgg}
+          metrics={get(item, ['metrics', 'sessions'], get(item, ['metrics', 'pageViews']))}
+          metric={get(item, ['metrics', 'sessionsAgg'], get(item, ['metrics', 'pageViewsAgg']))}
           tooltipFormatter={number.compact}
         />
       );
@@ -133,8 +132,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
-          metrics={item.metrics.views || item.metrics.onLoadTime}
-          metric={item.metrics.viewsAgg || item.metrics.onLoadTimeAgg}
+          metrics={get(item, ['metrics', 'views'], get(item, ['metrics', 'onLoadTime']))}
+          metric={get(item, ['metrics', 'viewsAgg'], get(item, ['metrics', 'onLoadTimeAgg']))}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
         />
       );

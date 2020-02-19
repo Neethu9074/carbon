@@ -2,20 +2,20 @@ import { create } from 'reactive-observables';
 
 const inMemoryMap = {};
 
-export const favItems$ = create();
-favItems$.emit(inMemoryMap);
+export const getPinnedItems$ = create();
+getPinnedItems$.emit(inMemoryMap);
 
-export function set(type, id) {
+export function pin(type, id) {
   if (!inMemoryMap[type]) {
     inMemoryMap[type] = [];
   }
   if (inMemoryMap[type].indexOf(id) === -1) {
     inMemoryMap[type].push(id);
-    favItems$.emit(inMemoryMap);
+    getPinnedItems$.emit(inMemoryMap);
   }
 }
 
-export function unset(type, id) {
+export function unpin(type, id) {
   if (!inMemoryMap[type]) {
     return;
   }
@@ -25,5 +25,5 @@ export function unset(type, id) {
   }
 
   inMemoryMap[type].splice(indexOfId, 1);
-  favItems$.emit(inMemoryMap);
+  getPinnedItems$.emit(inMemoryMap);
 }
