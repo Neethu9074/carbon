@@ -3,13 +3,16 @@ import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SideNav from 'in-new-components/SideNav';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
+import { role } from 'in-stores/user';
 
 import locals from './Cockpit.mless';
 
@@ -21,7 +24,34 @@ export default function Cockpit() {
       <Sticky
         header={
           <>
-            <DashboardHeader label="System Overview" renderButtonLineSecondary={() => <SetAsLandingPage />} />
+            <DashboardHeader
+              label="System Overview"
+              renderButtonLineSecondary={() => (
+                <>
+                  <SetAsLandingPage />
+                  {role.canConfigureAgents && (
+                    <Button
+                      kind="secondary"
+                      icon="lib_alerts_user_impacted"
+                      href$={getModifiedUrlStream(params => {
+                        params.pathname = '/agents/installation';
+                      })}
+                    >
+                      Deploy Agent
+                    </Button>
+                  )}
+                  <Button
+                    kind="secondary"
+                    icon="lib_actions_settings"
+                    href$={getModifiedUrlStream(params => {
+                      params.pathname = '/config/team/accessControl/users';
+                    })}
+                  >
+                    Add User
+                  </Button>
+                </>
+              )}
+            />
             <DashboardHeaderShadowModule />
           </>
         }
