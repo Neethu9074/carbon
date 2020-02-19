@@ -1,0 +1,68 @@
+import React from 'react';
+
+import { isBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
+
+export default function ElkButton(props) {
+  const { elkIntegration: integration } = props;
+
+  if (!shouldShowButton(props) || !integration || !integration.enabled) {
+    return null;
+  }
+
+  return (
+    <Button
+      className={props.className}
+      kind="secondary"
+      icon="lib_elk"
+      target="_blank"
+      href={constructElkLink(integration, props)}
+    >
+      ELK
+    </Button>
+  );
+}
+
+function constructElkLink(integration, props) {
+  const { timeConfig } = props;
+
+  const basePath = constructBasePath(integration.basePath);
+  const timeParams = constructTimeParams(timeConfig);
+  const query = serializeQuery(props);
+
+  return `${integration.url}${basePath}/app/kibana#/dashboard/${
+    integration.dashboard
+  }?_g=(refreshInterval:(pause:!t,value:0),time:(mode:absolute,${timeParams}))&_a=(query:(language:lucene,query:'${query}'))`;
+}
+
+function serializeQuery({ hostName, kubernetesPodName, dockerContainerId }) {
+  let query = '';
+
+  if (kubernetesPodName) {
+    query = `kubernetes.pod.name:${kubernetesPodName}`;
+  } else if (dockerContainerId) {
+    query = `docker.container.id:${dockerContainerId}`;
+  } else if (hostName) {
+    query = `host.name:${hostName}`;
+  }
+
+  return query.trim();
+}
+
+export function shouldShowButton(props) {
+  return !isBlank(serializeQuery(props));
+}
+
+function constructBasePath(basePath) {
+  return isBlank(basePath) ? '' : `/${basePath.trim()}`;
+}
+
+function constructTimeParams(timeConfig) {
+  return timeConfig.to
+    ? `from:'${convertToISO(timeConfig.to - timeConfig.windowSize)}',to:'${convertToISO(timeConfig.to)}'`
+    : `from:'${convertToISO(Date.now() - timeConfig.windowSize)}'`;
+}
+
+function convertToISO(date) {
+  return new Date(date).toISOString();
+}

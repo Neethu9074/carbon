@@ -6,26 +6,33 @@ import CoralogixButton, {
 import LogDnaButton, { shouldShowButton as showLogDnaButton } from 'in-integrations/logging/logdna/LogDnaButton';
 import SplunkButton, { shouldShowButton as showSplunkButton } from 'in-integrations/logging/splunk/SplunkButton';
 import HumioButton, { shouldShowButton as showHumioButton } from 'in-integrations/logging/humio/HumioButton';
+import ElkButton, { shouldShowButton as showElkButton } from 'in-integrations/logging/elk/ElkButton';
 import { integrationKey as coralogixIntegrationKey } from 'in-integrations/logging/coralogix/consts';
 import { integrationKey as logdnaIntegrationKey } from 'in-integrations/logging/logdna/consts';
 import { integrationKey as splunkIntegrationKey } from 'in-integrations/logging/splunk/consts';
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
+import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
   coralogixIntegration: getIntegrationConfiguration(coralogixIntegrationKey),
+  elkIntegration: getIntegrationConfiguration(elkIntegrationKey),
+  humioIntegration: getIntegrationConfiguration(humioIntegrationKey),
   logdnaIntegration: getIntegrationConfiguration(logdnaIntegrationKey),
-  splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey),
-  humioIntegration: getIntegrationConfiguration(humioIntegrationKey)
+  splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey)
 })(function LoggingIntegrationButtons(props) {
-  const { coralogixIntegration, logdnaIntegration, splunkIntegration, humioIntegration } = props;
+  /*
+    Keep the list sorted alphabetically
+   */
+  const { coralogixIntegration, elkIntegration, humioIntegration, logdnaIntegration, splunkIntegration } = props;
 
   const integrations = [
     showCoralogixButton(props) &&
       coralogixIntegration &&
       coralogixIntegration.enabled && <CoralogixButton {...props} />,
+    showElkButton(props) && elkIntegration && elkIntegration.enabled && <ElkButton {...props} />,
     showHumioButton(props) && humioIntegration && humioIntegration.enabled && <HumioButton {...props} />,
     showLogDnaButton(props) && logdnaIntegration && logdnaIntegration.enabled && <LogDnaButton {...props} />,
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
