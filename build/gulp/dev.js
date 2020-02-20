@@ -72,6 +72,7 @@ gulp.task('enableDevWatches', () => {
   gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
   gulp.watch(paths.devWaitingHtmlSrc, ['copyDevWaitingHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
+  gulp.watch(paths.appleTouchIconSrc, ['copyAppleTouchIcon']);
   gulp.watch(paths.featureFlags, ['writeDevConfigFile']);
 });
 

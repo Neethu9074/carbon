@@ -22,7 +22,7 @@ gulp.task('build', cb => {
   runSequence(
     'clean',
     'ensureTargetDirStructureExists',
-    ['copyFavicon', 'writeBuildInfo', 'copyServerSources', 'translateTheme'],
+    ['copyFavicon', 'copyAppleTouchIcon', 'writeBuildInfo', 'copyServerSources', 'translateTheme'],
     'webpack:build',
     'minifyCss',
     'printFileStatistics',

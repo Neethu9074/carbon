@@ -26,6 +26,10 @@ gulp.task('copyFavicon', () => {
   return gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
 });
 
+gulp.task('copyAppleTouchIcon', () => {
+  return gulp.src(paths.appleTouchIconSrc).pipe(gulp.dest(paths.assetDir));
+});
+
 gulp.task('writeBuildInfo', cb => {
   var data = {
     revision: buildUtil.getRevision(),

@@ -19,7 +19,9 @@ paths.packageDir = path.join(paths.rootDir, 'packages');
 paths.themeDir = path.join(paths.packageDir, 'in-themes');
 paths.devIndexHtmlSrc = path.join(paths.packageDir, 'in-client', 'index.html');
 paths.devWaitingHtmlSrc = path.join(paths.packageDir, 'in-client', 'waiting.html');
-paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon.png');
+paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon-*');
+paths.appleTouchIconSrc = path.join(paths.packageDir, 'in-client', 'apple-*');
+
 paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**/*');
 paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');
 
