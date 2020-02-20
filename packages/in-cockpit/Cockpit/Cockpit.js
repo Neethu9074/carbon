@@ -2,6 +2,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
@@ -26,6 +27,7 @@ export default function Cockpit() {
           <>
             <DashboardHeader
               label="System Overview"
+              renderButtonLine={() => <OpenIncidentsButton />}
               renderButtonLineSecondary={() => (
                 <>
                   <SetAsLandingPage />
