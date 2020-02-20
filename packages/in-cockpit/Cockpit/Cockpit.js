@@ -31,7 +31,7 @@ export default function Cockpit() {
                   <SetAsLandingPage />
                   {role.canConfigureAgents && (
                     <Button
-                      kind="secondary"
+                      kind="secondaryDarker"
                       icon="lib_alerts_user_impacted"
                       href$={getModifiedUrlStream(params => {
                         params.pathname = '/agents/installation';
@@ -41,7 +41,7 @@ export default function Cockpit() {
                     </Button>
                   )}
                   <Button
-                    kind="secondary"
+                    kind="secondaryDarker"
                     icon="lib_actions_settings"
                     href$={getModifiedUrlStream(params => {
                       params.pathname = '/config/team/accessControl/users';
