@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { createLogger } from 'instalog';
-
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { isEntityOnline } from 'in-stores/snapshot';
-import Tooltip from 'in-components/Tooltip';
+import Prompt from 'in-components/Dialog/Prompt';
 import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-
-const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
 
 export default connectTo(
   props => {
@@ -18,7 +17,24 @@ export default connectTo(
   },
   function HeapDumpButton({ snapshot, className, isOnline }) {
     const button = (
-      <Button kind="secondary" onClick={onClick} className={className} disabled={!isOnline}>
+      <Button
+        kind="secondary"
+        onClick={() => {
+          if (isOnline) {
+            setActiveDialog(
+              <Prompt
+                header="JVM Heap Dump"
+                description="Please provide the path to store the heap dump. Taking a heap dump is an invasive operation."
+                inputLabel="Storage Path"
+                confirmButtonLabel="Take Heap Dump"
+                onSubmit={path => takeHeapDump(path, snapshot)}
+              />
+            );
+          }
+        }}
+        className={className}
+        disabled={!isOnline}
+      >
         Get Heap Dump
       </Button>
     );
@@ -28,28 +44,39 @@ export default connectTo(
     }
 
     return (
-      <Tooltip content="Heap dumps can only be retrieved for entities that are still under monitoring by Instana.">
+      <Tooltip content="Heap dumps can only be retrieved for JVMs that are still under monitoring by Instana.">
         {button}
       </Tooltip>
     );
-
-    function onClick() {
-      if (isOnline) {
-        const path = prompt(
-          'Please provide the path to store the heap dump.\nTaking a heap dump is an invasive operation.'
-        );
-        if (path) {
-          createAgentResponseObservable({
-            action: 'java.heapDump',
-            target: snapshot.get('volatileId'),
-            args: {
-              target: path
-            }
-          }).once(response => {
-            logger.info('Response', response);
-          });
-        }
-      }
-    }
   }
 );
+
+function takeHeapDump(path, snapshot) {
+  createAgentResponseObservable({
+    action: 'java.heapDump',
+    target: snapshot.get('volatileId'),
+    args: {
+      target: path
+    }
+  }).once(({ error, data }) => {
+    if (data) {
+      addMessage(
+        {
+          type: 'info',
+          timeout: 5000,
+          content: `Heap dump available via: ${data}.`
+        },
+        'jvm-heap-dump'
+      );
+    } else {
+      addMessage(
+        {
+          type: 'danger',
+          timeout: 5000,
+          content: `Failed to collect heap dump: ${error}.`
+        },
+        'jvm-heap-dump'
+      );
+    }
+  });
+}

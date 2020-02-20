@@ -117,7 +117,7 @@ SvgIcon.propTypes = {
   onBlur: PropTypes.func,
   onClick: PropTypes.func,
   onFocus: PropTypes.func,
-  refSetter: PropTypes.string,
+  refSetter: PropTypes.func,
   role: PropTypes.string,
   size: PropTypes.oneOf(['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']),
   spinning: PropTypes.bool,

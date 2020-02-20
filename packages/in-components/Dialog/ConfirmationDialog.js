@@ -10,6 +10,7 @@ import locals from './ConfirmationDialog.mless';
 export default function ConfirmationDialog({
   header,
   description,
+  children,
   onClose = close,
   aButtonLabel = 'Cancel',
   onA = close,
@@ -33,6 +34,8 @@ export default function ConfirmationDialog({
       onClose={onClose}
     >
       <p>{description}</p>
+
+      {children}
 
       <div className={locals.footer}>
         <Button kind={aButtonKind} onClick={onA} autoFocus>
