@@ -53,6 +53,7 @@ function initMixpanel(callback) {
       .filter(Boolean)
   ]).once(([tenantWithUnits, usageInfo, companyInfo]) => {
     window.mixpanel.register({
+      companyId: companyInfo.companyId,
       companyName: companyInfo.companyName,
       licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
     });
