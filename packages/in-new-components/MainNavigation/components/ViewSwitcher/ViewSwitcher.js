@@ -1,20 +1,24 @@
 import React, { Fragment } from 'react';
 
 import {
-  applicationListFullyQualified as cloudfoundryApplicationList,
-  cloudfoundry
-} from 'in-cloudfoundry/navigation/paths';
-import {
-  websiteMonitoringPath,
-  getLinkToAnalyze as getLinkToWebsiteAnalyze,
-  isAnalyzeView as isWebsiteAnalyzeView
-} from 'in-websites/navigation/paths';
+  pcfEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled,
+  cockpitEnabled
+} from 'in-services/featureFlags';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView
 } from 'in-mobile-apps/navigation/paths';
-import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
+import {
+  websiteMonitoringPath,
+  getLinkToAnalyze as getLinkToWebsiteAnalyze,
+  isAnalyzeView as isWebsiteAnalyzeView
+} from 'in-websites/navigation/paths';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
@@ -23,13 +27,9 @@ import {
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import {
-  pcfEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  vsphereEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled
-} from 'in-services/featureFlags';
+  applicationListFullyQualified as cloudfoundryApplicationList,
+  cloudfoundry
+} from 'in-cloudfoundry/navigation/paths';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
@@ -37,6 +37,7 @@ import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwi
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-profiling/navigation/paths';
+import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -46,6 +47,7 @@ import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
 import { isInstanaEmail, user, role } from 'in-stores/user';
@@ -79,6 +81,17 @@ export default function ViewSwitcher({
 
   return (
     <ul className={locals.list}>
+      {cockpitEnabled && (
+        <View
+          id="main-nav-system-overview"
+          label="System Overview"
+          icon="lib_navigation_stan"
+          isActive$={isView(cockpitPath)}
+          href$={getView(cockpitPath)}
+          {...commonProps}
+        />
+      )}
+      <Spacer />
       {customDashboardsEnabled && (
         <View
           id="main-nav-custom-dashboards"

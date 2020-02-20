@@ -6,6 +6,7 @@ import { click } from 'in-new-components/MainNavigation/components/ViewSwitcher/
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { cockpitEnabled } from 'in-services/featureFlags';
 import { scrollToTop } from 'in-services/util/dom';
 
 import locals from './MainNavigation.mless';
@@ -99,7 +100,7 @@ export default onClickOutside(
             ref={nav => (this.mainNavigation = nav)}
           >
             <div className={locals.backPlane} onMouseEnter={this.disposeHandle} />
-            <Stan isExpanded={isExpanded} />
+            {!cockpitEnabled && <Stan isExpanded={isExpanded} />}
             <ViewSwitcher
               isExpanded={isExpanded}
               expandedSubMenu={expandedSubMenu}
