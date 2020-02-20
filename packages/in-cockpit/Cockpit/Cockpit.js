@@ -85,6 +85,15 @@ export default function Cockpit() {
                     height: 3,
                     x: 0,
                     y: 8,
+                    type: 'platformsTopList',
+                    title: 'Platforms'
+                  },
+                  {
+                    id: '4',
+                    width: 10,
+                    height: 3,
+                    x: 0,
+                    y: 12,
                     type: 'infrastructureTopList',
                     title: 'Infrastructure'
                   }
@@ -106,7 +115,8 @@ export default function Cockpit() {
                       label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
                     },
                     { scrollId: getWidgetId('2'), icon: 'lib_application', label: 'Applications' },
-                    { scrollId: getWidgetId('3'), icon: 'lib_infrastructure', label: 'Infrastructure' }
+                    { scrollId: getWidgetId('3'), icon: 'lib_platforms', label: 'Platforms' },
+                    { scrollId: getWidgetId('4'), icon: 'lib_infrastructure', label: 'Infrastructure' }
                   ]}
                   renderPreIcon={renderIcon}
                 />
