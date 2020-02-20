@@ -39,13 +39,10 @@ Our development practices are collected within [Notion](https://www.notion.so/in
 
 ### Git Configuration
 
-This repository is using Git submodules. If you prefer to interact with GitHub via SSH, then we recommend
-that you add the following to `~/.git/.gitconfig` in order to always use SSH instead of HTTPS access for
-GitHub:
+This repository is using Git submodules. If you prefer to interact with GitHub via SSH, then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
 
 ```
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+git config --global url.git@github.com:.insteadof https://github.com/
 ```
 
 ### Installation of required software
