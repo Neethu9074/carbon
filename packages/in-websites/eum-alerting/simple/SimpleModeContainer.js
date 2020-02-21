@@ -5,6 +5,7 @@ import SimpleAlertConfigDialogStep1 from 'in-websites/eum-alerting/simple/Simple
 import SimpleAlertConfigDialogStep2 from 'in-websites/eum-alerting/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep3 from 'in-websites/eum-alerting/simple/SimpleAlertConfigDialogStep3';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
+import { websitesAlertingStepSwitch } from 'in-websites/eum-alerting/tracker';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SimpleModeContainer.mless';
@@ -95,10 +96,16 @@ function isLastStep(step, steps) {
 
 function handleNextClick(setStep, step, setSimpleModeStep) {
   setStep(step + 1);
+
+  // mixpanel tracking
   setSimpleModeStep(step + 1);
+  websitesAlertingStepSwitch({ step, nextStep: step + 1 });
 }
 
 function handleBackClick(setStep, step, setSimpleModeStep) {
   setStep(step - 1);
+
+  // mixpanel tracking
   setSimpleModeStep(step - 1);
+  websitesAlertingStepSwitch({ step, nextStep: step - 1 });
 }

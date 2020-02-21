@@ -11,10 +11,9 @@ import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedA
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import { operators } from 'in-analyze/applicationFilter';
-import { modeAdvanced } from '../../constants';
 
 import locals from './UseCaseSelection.mless';
 
@@ -45,10 +44,6 @@ export default function JsErrorUseCaseSelection({
   ) : (
     <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
   );
-
-  if (!isReadOnly) {
-    chart = <ChartContainer headline="Specific JS Errors (Selection)">{chart}</ChartContainer>;
-  }
 
   return (
     <>

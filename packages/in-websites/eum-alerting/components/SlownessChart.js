@@ -8,12 +8,12 @@ import {
   getBlueprintObject,
   debouncedThresholdValueChangedTracker,
   debouncedThresholdDeviationFactorChangedTracker
-} from '../trackingHelpers';
+} from 'in-websites/eum-alerting/trackingHelpers';
 import {
   websitesAlertingAggregationChanged,
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdTypeChanged
-} from '../tracker';
+} from 'in-websites/eum-alerting/tracker';
 import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline

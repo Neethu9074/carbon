@@ -11,9 +11,8 @@ import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedA
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
 import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
-import { modeAdvanced } from '../../constants';
+import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 
 import locals from './UseCaseSelection.mless';
 
@@ -38,9 +37,6 @@ export default function StatusCodeUseCaseSelection({ form, timeConfig, onChange,
     <StatusCodeChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
   );
 
-  if (!isReadOnly) {
-    chart = <ChartContainer headline="Specific HTTP Status Codes">{chart}</ChartContainer>;
-  }
   return (
     <>
       <ExpandableCard

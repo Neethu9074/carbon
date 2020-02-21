@@ -3,7 +3,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil.js';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
 

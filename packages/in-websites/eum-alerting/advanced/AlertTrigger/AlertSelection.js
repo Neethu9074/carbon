@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypeConfig } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
+import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import evaluateClassNames from 'in-services/util/classnames';
 import Menu from 'in-websites/eum-alerting/components/Menu';
@@ -29,6 +31,7 @@ export default function AlertSelection({ form, onChange }) {
           itemClickTracker={index => {
             setSelectButtonDisabled(false);
             setConfig(alertTypeConfig[index]);
+            websitesAlertingBlueprintChanged({ newBluePrint: alertTypeConfig[index].type, mode: modeAdvanced });
           }}
           initialItemSelected={alertTypeConfig.findIndex(
             ({ type }) => form.get(fieldNames.ruleAlertType).value === type

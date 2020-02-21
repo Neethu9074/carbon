@@ -7,8 +7,8 @@ import { withSlownessFormHistoricBaseline } from 'in-websites/eum-alerting/form/
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import * as constants from 'in-websites/eum-alerting/constants';
 import Button from 'in-new-components/Button/Button';
-import * as constants from '../constants';
 
 import locals from './AlertTypeDescription.mless';
 

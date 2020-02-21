@@ -1,4 +1,3 @@
-import theme from 'in-themes';
 import React from 'react';
 
 import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/StatusCodeUseCaseSelection';
@@ -21,6 +20,7 @@ import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AdvancedModeContainer.mless';
+import theme from 'in-themes';
 
 const idScrollContainer = 'eum-advanced-scroll-container';
 let scrollContainerRef = React.createRef();
@@ -49,21 +49,25 @@ export default function AdvancedModeContainer(props) {
           <ChartSwitch
             alertType={form.get(fieldNames.ruleAlertType).value}
             JsErrorsComponent={() => (
-              <JsErrorsUseCaseSelection
-                form={form}
-                timeConfig={timeConfig}
-                onChange={onChange}
-                setJsErrorsListVisible={setSliderState}
-                granularity={granularity}
-              />
+              <ChartContainer headline="Specific JS Errors (Selection)" withBorder>
+                <JsErrorsUseCaseSelection
+                  form={form}
+                  timeConfig={timeConfig}
+                  onChange={onChange}
+                  setJsErrorsListVisible={setSliderState}
+                  granularity={granularity}
+                />
+              </ChartContainer>
             )}
             StatusCodeComponent={() => (
-              <StatusCodeUseCaseSelection
-                form={form}
-                timeConfig={timeConfig}
-                onChange={onChange}
-                granularity={granularity}
-              />
+              <ChartContainer headline="Specific HTTP Status Codes" withBorder>
+                <StatusCodeUseCaseSelection
+                  form={form}
+                  timeConfig={timeConfig}
+                  onChange={onChange}
+                  granularity={granularity}
+                />
+              </ChartContainer>
             )}
             SlownessComponent={() => {
               return (

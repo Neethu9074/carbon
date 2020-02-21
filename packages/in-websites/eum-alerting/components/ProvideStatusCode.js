@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { websitesAlertingStatusCodeChanged } from 'in-websites/eum-alerting/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { websitesAlertingStatusCodeChanged } from '../tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Label from 'in-components/form/Label';
@@ -26,7 +26,7 @@ export default function ProvideStatusCode({ form, onChange, mode }) {
             value={field.value}
             options={selectOptions[fieldNames.ruleValue]}
             onChange={e => {
-              websitesAlertingStatusCodeChanged({ mode });
+              websitesAlertingStatusCodeChanged(mode);
               onChange(form, fieldNames.ruleValue, (e && e.value) || '', doCalculateThresholdOnBackend, {
                 name: fieldNames.ruleOperator,
                 value: getOperatorForStatusCode(e.value)

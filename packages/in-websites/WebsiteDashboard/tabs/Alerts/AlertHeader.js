@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
+import {
+  websitesAlertingAlertRevisionChanged,
+  websitesAlertingAlertDeleted,
+  websitesAlertingAlertPaused,
+  websitesAlertingAlertResumed
+} from 'in-websites/eum-alerting/tracker';
 import { disableAlertConfig, enableAlertConfig, deleteAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import RevisionDropdown from 'in-websites/WebsiteDashboard/tabs/Alerts/RevisionDropdown';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -59,7 +65,10 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
             <RevisionDropdown
               alertConfig={alertConfig}
               alertConfigVersions={alertConfigVersions}
-              setRevision={setRevision}
+              setRevision={revision => {
+                setRevision(revision);
+                websitesAlertingAlertRevisionChanged(revision);
+              }}
               alertRevision={alertRevision}
             />
           )}
@@ -136,6 +145,11 @@ function doToggleEnabled(config, setIsToggling, setRevision, setErrorMessage) {
   toggle$.once(() => {
     setIsToggling(false);
 
+    if (config.enabled) {
+      websitesAlertingAlertPaused(config.id);
+    } else {
+      websitesAlertingAlertResumed(config.id);
+    }
     // setting the revision will cause a reload of the page. a missing created data will fetch the newest version
     setRevision({ id: config.id });
   });
@@ -155,6 +169,7 @@ function doDelete(config, setIsDeleting, setErrorMessage) {
   const deletion$ = deleteAlertConfig(config.id);
 
   deletion$.once(() => {
+    websitesAlertingAlertDeleted(config.id);
     mutateUrl(location => {
       location.pathname = `${websitePathFullyQualified}/alerts`;
     });

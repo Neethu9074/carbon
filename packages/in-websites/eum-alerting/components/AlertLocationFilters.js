@@ -2,10 +2,18 @@ import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import React from 'react';
 
+import {
+  websitesAlertingFilterAdd,
+  websitesAlertingFilterSet,
+  websitesAlertingFilterRemove,
+  websitesAlertingFilterEdit
+} from 'in-websites/eum-alerting/tracker';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { availableTagFiltersPerAlertType } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
+import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 
@@ -28,14 +36,13 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
         {!isReadOnly && (
           <div className={locals.quickFilterBarWrapper}>
             <QuickFilterBar
-              className={locals.bar}
               timeConfig={timeConfig}
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
               upsertTagFilter={newTagFilter => {
-                addFilter(form, newTagFilter, onChange);
+                addFilter(form, newTagFilter, onChange, advancedMode);
               }}
               addTagFilter={newTagFilter => {
-                addFilter(form, newTagFilter, onChange);
+                addFilter(form, newTagFilter, onChange, advancedMode);
               }}
               removeTagFilter={name => {
                 if (name !== BEACON_WEBSITE_NAME) {
@@ -45,6 +52,11 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                     withoutTagFilterForName(getTagFilters(form), name),
                     doCalculateTresholdOnBackend
                   );
+                  websitesAlertingFilterRemove({
+                    ...getBlueprintObject(form),
+                    mode: advancedMode ? modeAdvanced : modeSimple,
+                    filterName: name
+                  });
                 }
               }}
               onMoreClick={tagFilter => {
@@ -52,9 +64,14 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                   <WebsiteEditTagFilterDialog
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
-                    setTagFilters={tagFilters =>
-                      onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
-                    }
+                    setTagFilters={tagFilters => {
+                      websitesAlertingFilterSet({
+                        ...getBlueprintObject(form),
+                        mode: advancedMode ? modeAdvanced : modeSimple,
+                        tagFilters
+                      });
+                      onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend);
+                    }}
                     tagSuggestions={tagSuggestions.filter(
                       name =>
                         name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
@@ -80,22 +97,32 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 <WebsiteEditTagFilterDialog
                   tagFilter={tagFilter}
                   tagFilters={getTagFilters(form)}
-                  setTagFilters={tagFilters =>
-                    onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend)
-                  }
+                  setTagFilters={tagFilters => {
+                    onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend);
+                    websitesAlertingFilterEdit({
+                      ...getBlueprintObject(form),
+                      mode: advancedMode ? modeAdvanced : modeSimple,
+                      tagFilters
+                    });
+                  }}
                   tagSuggestions={tagSuggestions}
                   timeConfig={timeConfig}
                 />
               );
             }}
-            onRemoveTagFilter={({ name }) =>
+            onRemoveTagFilter={({ name }) => {
               onChange(
                 form,
                 fieldNames.tagFilters,
                 withoutTagFilterForName(getTagFilters(form), name),
                 doCalculateTresholdOnBackend
-              )
-            }
+              );
+              websitesAlertingFilterRemove({
+                ...getBlueprintObject(form),
+                mode: advancedMode ? modeAdvanced : modeSimple,
+                filterName: name
+              });
+            }}
             tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
             readonlyFilterNames={[BEACON_WEBSITE_NAME]}
           />
@@ -114,10 +141,15 @@ AlertLocationFilters.propTypes = {
   isReadOnly: PropTypes.bool
 };
 
-function addFilter(form, newTagFilter, onChange) {
+function addFilter(form, newTagFilter, onChange, advancedMode) {
   const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
   newTagFilters.push(newTagFilter);
   onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
+  websitesAlertingFilterAdd({
+    ...getBlueprintObject(form),
+    mode: advancedMode ? modeAdvanced : modeSimple,
+    filterName: newTagFilter.name
+  });
 }
 
 function withoutTagFilterForName(tagFilters, name) {

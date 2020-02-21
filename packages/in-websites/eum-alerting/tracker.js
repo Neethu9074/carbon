@@ -12,9 +12,29 @@ import {
   WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED,
   WEBSITES_ALERTING_AGGREGATION_CHANGED,
   WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED,
+  WEBSITES_ALERTING_FILTER_ADD,
+  WEBSITES_ALERTING_FILTER_REMOVE,
+  WEBSITES_ALERTING_FILTER_EDIT,
+  WEBSITES_ALERTING_FILTER_SET,
+  WEBSITES_ALERTING_STEP_SWITCH,
+  WEBSITES_ALERTING_BLUEPRINT_CHANGED,
+  WEBSITES_ALERTING_ADDITIONAL_PROPS_ALERT_LEVEL_CHANGED,
+  WEBSITES_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED,
+  WEBSITES_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED,
+  WEBSITES_ALERTING_ADDITIONAL_PROPS_TITLE_CHANGE,
+  WEBSITES_ALERTING_LIST_ALERT_PAUSED,
+  WEBSITES_ALERTING_LIST_ALERT_DELETED,
+  WEBSITES_ALERTING_LIST_ALERT_RESUMED,
+  WEBSITES_ALERTING_ALERT_PAUSED,
+  WEBSITES_ALERTING_ALERT_RESUMED,
+  WEBSITES_ALERTING_ALERT_DELETED,
+  WEBSITES_ALERTING_ALERT_EDIT,
   WEBSITES_ALERTING_CLOSE_DIALOG,
   WEBSITES_ALERTING_JS_ERRORS_MSG_CHANGED,
-  WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED
+  WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED,
+  WEBSITES_ALERTING_ALERT_REVSION_CHANGED,
+  WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE,
+  WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG
 } from 'in-services/tracking/tracking';
 
 export const websitesAlertingAddAlert = (pathname, websiteName) =>
@@ -37,3 +57,30 @@ export const websitesAlertingAggregationChanged = e => track(WEBSITES_ALERTING_A
 export const websitesAlertingThresholdTypeChanged = e => track(WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED, e);
 export const websitesAlertingThresholdDeviationFactorChanged = e =>
   track(WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED, e);
+export const websitesAlertingFilterAdd = e => track(WEBSITES_ALERTING_FILTER_ADD, e);
+export const websitesAlertingFilterRemove = e => track(WEBSITES_ALERTING_FILTER_REMOVE, e);
+export const websitesAlertingFilterEdit = e => track(WEBSITES_ALERTING_FILTER_EDIT, e);
+export const websitesAlertingFilterSet = e => track(WEBSITES_ALERTING_FILTER_SET, e);
+export const websitesAlertingStepSwitch = e => track(WEBSITES_ALERTING_STEP_SWITCH, e);
+export const websitesAlertingBlueprintChanged = e => track(WEBSITES_ALERTING_BLUEPRINT_CHANGED, e);
+export const websitesAlertingAdditionalPropsTitleChanged = e =>
+  track(WEBSITES_ALERTING_ADDITIONAL_PROPS_TITLE_CHANGE, e);
+export const websitesAlertingAdditionalPropsAlertLevelChanged = e =>
+  track(WEBSITES_ALERTING_ADDITIONAL_PROPS_ALERT_LEVEL_CHANGED, e);
+export const websitesAlertingAdditionalPropsTriggerChanged = e =>
+  track(WEBSITES_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED, e);
+export const websitesAlertingAdditionalPropsDescriptionChanged = e =>
+  track(WEBSITES_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED, e);
+export const websitesAlertingListAlertPaused = e => track(WEBSITES_ALERTING_LIST_ALERT_PAUSED, e);
+export const websitesAlertingListAlertResumed = e => track(WEBSITES_ALERTING_LIST_ALERT_RESUMED, e);
+export const websitesAlertingListAlertDeleted = e => track(WEBSITES_ALERTING_LIST_ALERT_DELETED, e);
+
+export const websitesAlertingAlertRevisionChanged = e => track(WEBSITES_ALERTING_ALERT_REVSION_CHANGED, e);
+export const websitesAlertingAlertPaused = e => track(WEBSITES_ALERTING_ALERT_PAUSED, e);
+export const websitesAlertingAlertResumed = e => track(WEBSITES_ALERTING_ALERT_RESUMED, e);
+export const websitesAlertingAlertDeleted = e => track(WEBSITES_ALERTING_ALERT_DELETED, e);
+export const websitesAlertingAlertEdit = e => track(WEBSITES_ALERTING_ALERT_EDIT, e);
+
+export const websitesAlertingEventDetailsGoToAnalyze = e => track(WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE, e);
+export const websitesAlertingEventDetailsViewEditConfig = e =>
+  track(WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG, e);

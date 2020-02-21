@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
-import { modeSimple } from '../../constants';
+import { modeSimple } from 'in-websites/eum-alerting/constants';
 
 import locals from '../SelectAlertForJsError/SelectAlertForJsError.mless';
 

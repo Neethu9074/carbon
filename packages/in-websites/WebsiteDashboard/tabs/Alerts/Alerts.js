@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  websitesAlertingListAlertResumed,
+  websitesAlertingListAlertPaused,
+  websitesAlertingListAlertDeleted
+} from 'in-websites/eum-alerting/tracker';
+import {
   getAllAlertConfigs,
   disableAlertConfig,
   enableAlertConfig,
@@ -57,11 +62,14 @@ export default function Alerts({ websiteLabel, websiteId }) {
       columnDefinitions={getColumnDefinitions(websiteLabel)}
       tableActions={{
         delete: {
-          deleteEntity: config => deleteAlertConfig(config.id)
+          deleteEntity: config => deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted(config.id))
         },
         toggleEnabled: {
           get: config => config.enabled,
-          toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
+          toggle: config =>
+            config.enabled
+              ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused(config.id))
+              : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed(config.id))
         }
       }}
       loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}

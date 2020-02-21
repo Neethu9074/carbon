@@ -1,8 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { getBaselineValue, baselineGranularity } from 'in-websites/eum-alerting/chart/baselineUtils';
+import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/eum-alerting/tracker';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -67,6 +68,7 @@ function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfig, icon, group, 
     <Button
       kind="primary"
       icon={icon}
+      onClick={() => websitesAlertingEventDetailsGoToAnalyze(beaconType)}
       href$={getLinkToAnalyze({
         beaconType,
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),

@@ -12,10 +12,12 @@ import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
+import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
 import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
+import { modeSimple } from 'in-websites/eum-alerting/constants';
 import Menu from 'in-websites/eum-alerting/components/Menu';
 
 import locals from './SimpleAlertConfigDialogStep.mless';
@@ -82,14 +84,18 @@ export default function SimpleAlertConfigDialogStep1({
             }
           }
 
+          const newAlertType = alertTypeConfig[selectedItemIndex].type;
+
           onChange(
             updatedForm,
             fieldNames.ruleAlertType,
-            alertTypeConfig[selectedItemIndex].type,
+            newAlertType,
             metricToSelect,
             { name: fieldNames.thresholdType, value: thresholdTypeValue },
             { name: hiddenFieldNames.calculateThresholdOnBackend, value: true }
           );
+
+          websitesAlertingBlueprintChanged({ newBluePrint: newAlertType, mode: modeSimple });
         }}
         initialItemSelected={getIndexSelectedConf(form)}
         addRightSeparator

@@ -16,6 +16,14 @@ export default class AlertingChartEventsManager {
       return alwaysEmptyArray;
     }
 
+    const {
+      threshold: { baseline, type }
+    } = props.alertMetricConfiguration;
+
+    if (type === 'historicBaseline' && baseline.length === 0) {
+      return alwaysEmptyArray;
+    }
+
     const alerts$ = props.isCatalogMetric
       ? getWebsiteMetricAlertsPreview(props.alertMetricConfiguration)
       : getWebsiteRateMetricAlertsPreview(props.alertMetricConfiguration);

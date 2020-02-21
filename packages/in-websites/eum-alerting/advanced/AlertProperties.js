@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  websitesAlertingAdditionalPropsTitleChanged,
+  websitesAlertingAdditionalPropsAlertLevelChanged,
+  websitesAlertingAdditionalPropsTriggerChanged,
+  websitesAlertingAdditionalPropsDescriptionChanged
+} from 'in-websites/eum-alerting/tracker';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-websites/eum-alerting/formHelpers';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -27,7 +33,10 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
               name={fieldNames.name}
               rows="3"
               value={form.get(fieldNames.name).value}
-              onChange={e => onChange(form, fieldNames.name, (e && e.target.value) || '')}
+              onChange={e => {
+                onChange(form, fieldNames.name, (e && e.target.value) || '');
+                websitesAlertingAdditionalPropsTitleChanged();
+              }}
               hasError={hasError(form.get(fieldNames.name))}
               maxLength={500}
               placeholder={getTitlePlaceholder(form)}
@@ -47,7 +56,10 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
               name={fieldNames.severity}
               value={form.get(fieldNames.severity).value}
               options={selectOptions[fieldNames.severity]}
-              onChange={e => onChange(form, fieldNames.severity, (e && e.value) || '')}
+              onChange={e => {
+                onChange(form, fieldNames.severity, (e && e.value) || '');
+                websitesAlertingAdditionalPropsAlertLevelChanged();
+              }}
               defaultValue={selectOptions[fieldNames.severity][0].value}
               clearable={false}
             />
@@ -60,7 +72,10 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
         right={
           <Toggle
             checked={form.get(fieldNames.triggering).value}
-            onChange={e => onChange(form, fieldNames.triggering, (e && e.target.checked) || false)}
+            onChange={e => {
+              onChange(form, fieldNames.triggering, (e && e.target.checked) || false);
+              websitesAlertingAdditionalPropsTriggerChanged();
+            }}
             disabled={isReadOnly}
           />
         }
@@ -77,7 +92,10 @@ export default function AlertProperties({ form, onChange, isReadOnly }) {
               name={fieldNames.description}
               rows="3"
               value={form.get(fieldNames.description).value}
-              onChange={e => onChange(form, fieldNames.description, (e && e.target.value) || '')}
+              onChange={e => {
+                onChange(form, fieldNames.description, (e && e.target.value) || '');
+                websitesAlertingAdditionalPropsDescriptionChanged();
+              }}
               hasError={hasError(form.get(fieldNames.description))}
               maxLength={500}
               placeholder={getDescriptionPlaceholder(form)}

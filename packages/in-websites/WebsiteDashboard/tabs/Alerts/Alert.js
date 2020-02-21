@@ -12,6 +12,7 @@ import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDa
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import AlertHeader from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertHeader';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { websitesAlertingAlertEdit } from 'in-websites/eum-alerting/tracker';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getWebsite from 'in-subscription/website/getWebsite';
@@ -84,6 +85,7 @@ function Alert({
           setRevision={setRevision}
           openDialog={() => {
             setDialogOpen(true);
+            websitesAlertingAlertEdit(alertConfig.id);
           }}
         />
 

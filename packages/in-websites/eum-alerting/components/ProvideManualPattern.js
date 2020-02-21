@@ -9,7 +9,7 @@ import {
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-websites/eum-alerting/tracker';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList.js';
+import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
@@ -39,7 +39,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
             value={field.value}
             options={selectOptions[fieldNames.ruleOperator]}
             onChange={e => {
-              websitesAlertingJsErrorsOperatorChanged({ mode });
+              websitesAlertingJsErrorsOperatorChanged(mode);
               const previousOperator = field.value;
               const newOperator = (e && e.value) || '';
               let newRuleValueValue = 'Any';
@@ -72,7 +72,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
                 rows="3"
                 value={field.value}
                 onChange={e => {
-                  debouncedErrorMsgChangedTracker({ mode });
+                  debouncedErrorMsgChangedTracker(mode);
                   onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', doCalculateThresholdOnBackend);
                 }}
                 hasError={!field.valid && field.touched}
@@ -80,7 +80,7 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
               />
               <Button
                 onClick={() => {
-                  websitesAlertingJsErrorsOpenErrorSelectView({ mode });
+                  websitesAlertingJsErrorsOpenErrorSelectView(mode);
                   onSelectJsError({
                     slideInConfig: {
                       component: (
