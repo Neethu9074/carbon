@@ -41,7 +41,7 @@ export const Li = connectTo(
     };
   },
   function Li(props) {
-    const { renderActions, children, onClick, size, renderNestedContent, href, style } = props;
+    const { renderActions, children, onClick, size, renderNestedContent, href, style, noAlternatingBg } = props;
 
     const [open, setOpen] = useState(false);
 
@@ -78,6 +78,7 @@ export const Li = connectTo(
         style={style ? style : null}
         className={evaluateClassNames({
           [locals.listItem]: true,
+          [locals.noAlternatingBg]: noAlternatingBg,
           [locals.clickable]: onClick || href,
           [locals.expanded]: open
         })}

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import UpstreamDownstreamGroup from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamGroup';
+import { relationships } from 'in-new-components/UpstreamDownstream/constants';
+import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import ScrollHints from 'in-components/ScrollHints';
 
 import locals from './UpstreamDownstreamPane.mless';
@@ -11,13 +13,16 @@ export default function UpstreamDownstreamPane({
   items,
   label,
   result,
-  selectedMetric,
   serviceId,
   timeConfig,
-  totalHits
+  endpointId,
+  dashboard,
+  boundaryScope,
+  itemsApplication,
+  resultApplication
 }) {
-  if (!items.length) {
-    return <div style={{ padding: '1.5em' }}>No {area} data to display</div>;
+  if (!items.length && !itemsApplication.length) {
+    return <EmptyPane area={area} />;
   }
 
   return (
@@ -25,14 +30,40 @@ export default function UpstreamDownstreamPane({
       <UpstreamDownstreamGroup
         applicationId={applicationId}
         area={area}
+        boundaryScope={boundaryScope}
+        dashboard={dashboard}
+        endpointId={endpointId}
         items={items}
         label={label}
         result={result}
-        selectedMetric={selectedMetric}
         serviceId={serviceId}
         timeConfig={timeConfig}
-        totalHits={totalHits}
+        itemType={relationships.SERVICE}
       />
+      {itemsApplication.length > 0 && (
+        <UpstreamDownstreamGroup
+          applicationId={applicationId}
+          area={area}
+          boundaryScope={boundaryScope}
+          dashboard={dashboard}
+          endpointId={endpointId}
+          items={itemsApplication}
+          label={label}
+          result={resultApplication}
+          serviceId={serviceId}
+          timeConfig={timeConfig}
+          itemType={relationships.APPLICATION}
+        />
+      )}
     </ScrollHints>
   );
 }
+
+const EmptyPane = ({ area }) => {
+  return (
+    <div className={locals.emptyPane}>
+      <SvgIcon type={relationships.info[area].icon} size="xxl" />
+      <span className={locals.emptyMessage}>{relationships.info[area].message}</span>
+    </div>
+  );
+};

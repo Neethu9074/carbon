@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
-import UpstreamDownstreamLoading from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamLoading';
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import UpstreamDownstreamPane from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamPane';
+import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
+import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import tabList from 'in-new-components/UpstreamDownstream/tabs';
-import Link from 'in-components/Link/Link';
 
 import locals from './UpstreamDownstreamPresenter.mless';
 
@@ -21,77 +19,49 @@ export default function UpstreamDownstreamPresenter({
   endpointId,
   dashboard,
   boundaryScope,
-  close
+  close,
+  resultApplication,
+  itemsApplication
 }) {
-  const isLoading = result.progress && result.progress.loading;
+  const isLoading =
+    (result.progress && result.progress.loading) || (resultApplication.progress && resultApplication.progress.loading);
   const { key } = tabList[activeTabIndex];
-  const [selectedMetric, onChangeMetric] = useState('errors');
+
+  useEffect(() => {
+    disableBodyScroll();
+
+    return enableBodyScroll;
+  });
 
   return (
-    <div className={locals.wrapper}>
-      <InlineTabNavigation
-        tabList={tabList}
-        activeTabIndex={activeTabIndex}
-        onTabSelect={onTabSelect}
-        actions={
-          <UpstreamDownstreamMetric
-            metrics={[
-              { text: 'Errors', key: 'errors', kind: null, icon: 'lib_help_error_warning' },
-              { text: 'Latency', key: 'latency', kind: null, icon: 'lib_bar_chart' }
-            ]}
-            selectedMetric={selectedMetric}
-            onChangeMetric={onChangeMetric}
-          />
-        }
-      />
+    <>
+      <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
       {isLoading === true ? (
-        <UpstreamDownstreamLoading />
+        <Loader />
       ) : (
         <>
           <UpstreamDownstreamPane
             applicationId={applicationId}
             area={key}
             items={items}
+            itemsApplication={itemsApplication}
             result={result}
-            selectedMetric={selectedMetric}
+            resultApplication={resultApplication}
             serviceId={serviceId}
             timeConfig={timeConfig}
-            totalHits={result.data.totalHits}
+            endpointId={endpointId}
+            dashboard={dashboard}
+            boundaryScope={boundaryScope}
+            close={close}
           />
-          <div className={locals.seeAll}>
-            {getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close)}
-          </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 
-function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close) {
-  if (dashboard === 'application') {
-    return (
-      <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
-        See all dependencies
-      </Link>
-    );
-  } else if (dashboard === 'service') {
-    return (
-      <Link href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap' })} onClick={close}>
-        See all {result.data.totalHits} Services
-      </Link>
-    );
-  }
-  return (
-    <Link
-      href$={getEndpointDashboard(endpointId, {
-        applicationId,
-        serviceId,
-        boundaryScope,
-        tab: '/flowMap'
-      })}
-      onClick={close}
-    >
-      See all Services and Endpoints
-    </Link>
-  );
-}
+const Loader = () => (
+  <div className={locals.pane}>
+    <IndeterminateLoadingIndicator size="96" />
+  </div>
+);

@@ -5,7 +5,10 @@ import UpstreamDownstream from 'in-new-components/UpstreamDownstream/UpstreamDow
 import { contextGuideEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './UpstreamDownstreamButton.mless';
 
 export default connectTo(
   {
@@ -40,9 +43,10 @@ export default connectTo(
           )}
           withoutWrapper
         >
-          {({ toggle, refSetter }) => (
+          {({ toggle, refSetter, isOpen }) => (
             <Button kind="info" icon="lib_context_guide_upstream" onClick={toggle} refSetter={refSetter}>
               Upstream / Downstream
+              <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>
           )}
         </Overlay>

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
@@ -17,11 +17,12 @@ export default function ContextMenu({
   filters = [],
   groupByTag,
   isSynthetic,
-  itemServiceId,
-  itemServiceLabel,
-  serviceLabel
+  itemId,
+  itemLabel,
+  serviceLabel,
+  itemType
 }) {
-  filters = filterForAnalyze(area, serviceLabel, itemServiceLabel, applicationLabel);
+  filters = filterForAnalyze(area, serviceLabel, itemLabel, itemType, applicationLabel);
 
   return (
     <div className={locals.contextMenu}>
@@ -29,7 +30,11 @@ export default function ContextMenu({
         className={locals.button}
         kind="subtle"
         icon="lib_views_stats"
-        href$={getServiceDashboard(itemServiceId, { applicationId, boundaryScope })}
+        href$={
+          itemType === relationships.SERVICE
+            ? getServiceDashboard(itemId, { applicationId, boundaryScope })
+            : getApplicationDashboard(itemId, { boundaryScope })
+        }
       >
         Go to Dashboard
       </Button>
@@ -39,7 +44,8 @@ export default function ContextMenu({
         kind="subtle"
         icon="lib_analyze"
         href$={getLinkToAnalyze({
-          serviceName: area === relationships.UPSTREAM ? serviceLabel : itemServiceLabel,
+          applicationName: applicationLabel,
+          serviceName: area === relationships.UPSTREAM ? serviceLabel : itemLabel,
           endpointName: endpointLabel,
           dataSource: 'calls',
           filters: isSynthetic
@@ -54,29 +60,32 @@ export default function ContextMenu({
   );
 }
 
-function filterForAnalyze(area, serviceLabel, itemServiceLabel, applicationLabel) {
-  const serviceNameFilter = label => [
-    { name: 'service.name', value: label, operator: 'EQUALS', entity: entityTypes.SOURCE }
-  ];
-  const applicationLabelFilter = entity => ({
-    name: 'application.name',
-    value: applicationLabel,
-    operator: 'EQUALS',
-    entity: entity
-  });
+function filterForAnalyze(area, serviceLabel, itemLabel, itemType, applicationLabel) {
+  if (itemType === relationships.SERVICE) {
+    const serviceNameFilter = label => [
+      { name: 'service.name', value: label, operator: 'EQUALS', entity: entityTypes.SOURCE }
+    ];
 
-  let filters;
-  if (area === relationships.UPSTREAM) {
-    filters = serviceNameFilter(itemServiceLabel);
-    if (applicationLabel) {
-      filters.push(applicationLabelFilter(entityTypes.DESTINATION));
+    const applicationLabelFilter = entity => ({
+      name: 'application.name',
+      value: applicationLabel,
+      operator: 'EQUALS',
+      entity: entity
+    });
+
+    let filters;
+    if (area === relationships.UPSTREAM) {
+      filters = serviceNameFilter(itemLabel);
+      if (applicationLabel) {
+        filters.push(applicationLabelFilter(entityTypes.DESTINATION));
+      }
+      return filters;
+    } else if (area === relationships.DOWNSTREAM) {
+      filters = serviceNameFilter(serviceLabel);
+      if (applicationLabel) {
+        filters.push(applicationLabelFilter(entityTypes.SOURCE));
+      }
+      return filters;
     }
-    return filters;
-  } else if (area === relationships.DOWNSTREAM) {
-    filters = serviceNameFilter(serviceLabel);
-    if (applicationLabel) {
-      filters.push(applicationLabelFilter(entityTypes.SOURCE));
-    }
-    return filters;
   }
 }

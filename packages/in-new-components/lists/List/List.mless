@@ -31,6 +31,12 @@
     }
   }
 
+  .noAlternatingBg {
+    &:nth-child(even) {
+      background: @lib__colors__white;
+    }
+  }
+
   .link {
     &:hover {
       text-decoration: none;

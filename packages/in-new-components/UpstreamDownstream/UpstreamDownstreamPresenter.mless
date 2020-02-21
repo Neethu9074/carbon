@@ -1,10 +1,9 @@
 :local {
-  .wrapper {
-    width: 54rem;
-  }
-  .seeAll {
-    padding: 1rem;
-    display: grid;
-    place-content: center;
+  .pane {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 60vh;
+    width: 50rem;
   }
 }
