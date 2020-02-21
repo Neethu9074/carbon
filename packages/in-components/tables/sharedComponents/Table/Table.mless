@@ -64,11 +64,6 @@
       padding-top: @padding;
       padding-bottom: @padding;
     }
-
-    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
-      top: @padding * -1px;
-      bottom: @padding * -1px;
-    }
   }
 
   .trCompact {
@@ -79,11 +74,6 @@
       padding-top: @padding;
       padding-bottom: @padding;
     }
-
-    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
-      top: @padding * -1px;
-      bottom: @padding * -1px;
-    }
   }
 
   .trMinimal {
@@ -93,11 +83,6 @@
     & > .th {
       padding: @padding;
       padding-left: 1rem;
-    }
-
-    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
-      top: @padding * -1px;
-      bottom: @padding * -1px;
     }
   }
 
@@ -130,6 +115,7 @@
   }
 
   .td {
+    position: relative;
     border-bottom: 1px solid @lib__colors__N300;
 
     padding-left: 1rem;
@@ -177,13 +163,11 @@
     text-align: center;
   }
 
-  .severityIndicatorCellContentWrapper {
-    position: relative;
-  }
-
   .severityIndicatorCellContentWrapperIndicator {
     position: absolute;
-    left: -1rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
     width: 2px;
   }
 }

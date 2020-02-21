@@ -1,11 +1,10 @@
 import { assign, omit } from 'lodash';
+import theme from 'in-themes';
 import React from 'react';
 
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { evaluateClassNames } from 'in-services/util/classnames';
-
-import theme from 'in-themes';
 
 import locals from './Table.mless';
 
@@ -111,7 +110,7 @@ export function SeverityIndicatorCellContentWrapper({ severity, children }) {
 
   const background = severity === 0 ? theme.lib.colors.success : getDesignLibraryColorBySeverity(severity);
   return (
-    <div className={locals.severityIndicatorCellContentWrapper}>
+    <div>
       <div className={locals.severityIndicatorCellContentWrapperIndicator} style={{ background }}>
         &nbsp;
       </div>
