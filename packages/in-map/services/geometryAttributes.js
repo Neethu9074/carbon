@@ -19,5 +19,5 @@ function addAttributeData(geometry, attribute, data, numElements) {
   for (let i = 0, length = data.length; i < length; i++) {
     dataArray[i] = data[i];
   }
-  geometry.addAttribute(attribute, new BufferAttribute(dataArray, numElements));
+  geometry.setAttribute(attribute, new BufferAttribute(dataArray, numElements));
 }

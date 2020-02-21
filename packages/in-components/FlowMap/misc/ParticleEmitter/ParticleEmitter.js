@@ -43,9 +43,9 @@ export default class ParticleEmitter {
     const geometry = (this.geometry = new BufferGeometry());
     geometry.dynamic = true;
 
-    this.geometry.addAttribute('position', new BufferAttribute(this.vertices, 3));
-    this.geometry.addAttribute('progress', new BufferAttribute(this.progresses, 1));
-    this.geometry.addAttribute('severity', new BufferAttribute(this.severities, 1));
+    this.geometry.setAttribute('position', new BufferAttribute(this.vertices, 3));
+    this.geometry.setAttribute('progress', new BufferAttribute(this.progresses, 1));
+    this.geometry.setAttribute('severity', new BufferAttribute(this.severities, 1));
 
     const texture = loadImage(pointShape, loadedTexture => (loadedTexture.needsUpdate = true));
     texture.minFilter = LinearFilter;
