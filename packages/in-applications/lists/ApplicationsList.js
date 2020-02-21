@@ -8,6 +8,7 @@ import ApplicationsNoDataNotification from 'in-applications/lists/components/App
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -15,7 +16,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
-import getApplications from 'in-subscription/application/getApplications';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -191,76 +191,11 @@ export default connectTo(
 );
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
-  return getApplicationListSubscribeEvent({ timeConfig, query, page, pageSize, orderBy, orderDirection });
+  return getApplicationsWithDefaults({ timeConfig, query, page, pageSize, orderBy, orderDirection });
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getApplicationListSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getApplicationsWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-export function getApplicationListSubscribeEvent({
-  timeConfig,
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'callsAgg',
-  orderDirection = 'DESC'
-}) {
-  return getApplications({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      services: {
-        metric: 'services',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      openIssues: {
-        metric: 'openIssues',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      maxSeverity: {
-        metric: 'maxSeverity',
-        aggregation: 'MAX'
-      }
-    },
-    filter: {
-      label: query,
-      timeConfig
-    }
-  });
 }

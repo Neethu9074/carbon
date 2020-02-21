@@ -5,12 +5,12 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import getWebsites from 'in-websites/subscriptions/getWebsites';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -111,53 +111,11 @@ export default connectTo(
 );
 
 function getTableData(params) {
-  return getWebsitesSubscribeEvent(params);
+  return getWebsitesWithDefaults(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getWebsitesSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getWebsitesWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-export function getWebsitesSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'pageViewsAgg',
-  orderDirection = 'DESC',
-  timeConfig
-}) {
-  return getWebsites({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      pageViewsAgg: {
-        metric: 'pageViews',
-        aggregation: 'SUM'
-      },
-      pageViews: {
-        metric: 'pageViews',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      onLoadTimeAgg: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN'
-      },
-      onLoadTime: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    },
-    labelFilter: query,
-    timeConfig
-  });
 }

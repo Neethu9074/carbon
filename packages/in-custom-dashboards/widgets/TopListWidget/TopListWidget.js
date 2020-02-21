@@ -99,9 +99,12 @@ function TopListWidget({
           numSkeletonRows={numRegularItems}
         />
       )}
-      <Link className={locals.link} href$={fullListView$}>
-        {fullListViewLinkTitle}
-      </Link>
+      {fullListViewLinkTitle &&
+        fullListView$ && (
+          <Link className={locals.link} href$={fullListView$}>
+            {fullListViewLinkTitle}
+          </Link>
+        )}
     </LightCard>
   );
 }

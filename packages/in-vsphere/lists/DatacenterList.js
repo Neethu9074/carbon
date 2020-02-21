@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
+import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
 import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
-import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
@@ -115,35 +115,11 @@ export default connectTo(
 );
 
 function getTableData(params) {
-  return getVSphereDatacentersSubscribeEvent(params);
+  return getVSphereDatacentersWithDefaults(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getVSphereDatacentersSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getVSphereDatacentersWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-function getVSphereDatacentersSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'name',
-  orderDirection = 'ASC',
-  timeConfig
-}) {
-  return getVsphereDatacenters({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      timeConfig
-    }
-  });
 }

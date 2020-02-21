@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import CloudfoundryNoDataNotification from 'in-cloudfoundry/lists/components/CloudfoundryNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import getCloudfoundryApplications from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import { applicationList, getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
@@ -133,35 +133,11 @@ export default connectTo(
 );
 
 function getTableData(params) {
-  return getCloudfoundryApplicationsSubscribeEvent(params);
+  return getCloudfoundryApplicationsWithDefaults(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getCloudfoundryApplicationsSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getCloudfoundryApplicationsWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-function getCloudfoundryApplicationsSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'label',
-  orderDirection = 'ASC',
-  timeConfig
-}) {
-  return getCloudfoundryApplications({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      timeConfig
-    }
-  });
 }

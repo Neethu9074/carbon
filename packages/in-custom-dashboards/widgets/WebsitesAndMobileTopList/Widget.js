@@ -1,10 +1,10 @@
-import { combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
-import { getMobileAppsSubscribeEvent } from 'in-mobile-apps/MobileAppsList/MobileAppsList';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { getWebsitesSubscribeEvent } from 'in-websites/WebsitesList/WebsitesList';
+import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
+import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
+import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
@@ -31,7 +31,7 @@ export default function WebsitesAndMobileTopList(props) {
         icon="lib_website_inverted"
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
-        getItems={getWebsitesSubscribeEvent}
+        getItems={getWebsitesWithDefaults}
       />
     );
   }
@@ -48,42 +48,23 @@ export default function WebsitesAndMobileTopList(props) {
 }
 
 function getId(item) {
-  return item.website ? item.website.id : item.mobileApp.id;
+  return item.isWebsite ? item.website.id : item.mobileApp.id;
 }
 
 function getTypeByItem(item) {
-  return item.website ? types.WEBSITES : types.MOBILE_APPS;
+  return item.isWebsite ? types.WEBSITES : types.MOBILE_APPS;
 }
 
 function getMergedData(params) {
-  return combineLatest([getWebsitesSubscribeEvent(params), getMobileAppsSubscribeEvent(params)]).map(
-    ([websiteResult, mobileAppsResult]) => {
-      const isWebsitesLoading = get(websiteResult, ['progress', 'loading']);
-      const hasWebsitesErrors = get(websiteResult, ['errors', 'length'], 0) > 0;
-      if (isWebsitesLoading || hasWebsitesErrors) {
-        return websiteResult;
-      }
-
-      const isMobileAppsLoading = get(mobileAppsResult, ['progress', 'loading']);
-      const hasMobileAppsErrors = get(mobileAppsResult, ['errors', 'length'], 0) > 0;
-      if (isMobileAppsLoading || hasMobileAppsErrors) {
-        return mobileAppsResult;
-      }
-
-      const mergedItems = [...websiteResult.data.items, ...mobileAppsResult.data.items].sort((a, b) => {
-        const mainKpiA = get(a, ['metrics', 'pageViewsAgg', 0, 1], get(a, ['metrics', 'sessionsAgg', 0, 1], 0));
-        const mainKpiB = get(b, ['metrics', 'pageViewsAgg', 0, 1], get(a, ['metrics', 'sessionsAgg', 0, 1], 0));
-        return mainKpiB - mainKpiA;
-      });
-      return {
-        progress: { loading: false },
-        errors: [],
-        time: websiteResult.time,
-        adjustedWindowSize: websiteResult.adjustedWindowSize,
-        data: {
-          items: mergedItems
-        }
-      };
+  return mergeResults(getWebsitesWithDefaults(params), 'isWebsite', getMobileAppsWithDefaults(params), 'isMobileApp')(
+    (a, b) => {
+      const mainKpiA = a.isWebsite
+        ? get(a, ['metrics', 'pageViewsAgg', 0, 1], 0)
+        : get(a, ['metrics', 'sessionsAgg', 0, 1], 0);
+      const mainKpiB = b.isWebsite
+        ? get(b, ['metrics', 'pageViewsAgg', 0, 1], 0)
+        : get(b, ['metrics', 'sessionsAgg', 0, 1], 0);
+      return mainKpiB - mainKpiA;
     }
   );
 }
@@ -93,10 +74,11 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
+      const { isWebsite } = item;
       return (
         <KeyValue
-          label={item.website ? 'Website' : 'Mobile App'}
-          value={get(item, ['website', 'label'], get(item, ['mobileApp', 'label'], ''))}
+          label={isWebsite ? 'Website' : 'Mobile App'}
+          value={isWebsite ? item.website.label : item.mobileApp.label}
           inverted
           accentuated
         />
@@ -108,14 +90,15 @@ const columnDefinitions = [
     label: 'Metric 1',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      const { isWebsite, metrics } = item;
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={get(item, ['metrics', 'sessions'], get(item, ['metrics', 'pageViews']))}
-          metric={get(item, ['metrics', 'sessionsAgg'], get(item, ['metrics', 'pageViewsAgg']))}
-          label={get(item, ['metrics', 'sessions']) ? 'Sessions' : 'Page Views'}
+          metrics={!isWebsite ? metrics.sessions : metrics.pageViews}
+          metric={!isWebsite ? metrics.sessionsAgg : metrics.pageViewsAgg}
+          label={!isWebsite ? 'Sessions' : 'Page Views'}
           showAggregationIcon
           tooltipFormatter={number.compact}
         />
@@ -127,15 +110,15 @@ const columnDefinitions = [
     label: 'Metric 2',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
-      const isWebsite = !!item.website;
+      const { isWebsite, metrics } = item;
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
-          metrics={get(item, ['metrics', 'views'], get(item, ['metrics', 'onLoadTime']))}
-          metric={get(item, ['metrics', 'viewsAgg'], get(item, ['metrics', 'onLoadTimeAgg']))}
-          label={get(item, ['metrics', 'views']) ? 'Views' : 'onLoad Time'}
+          metrics={!isWebsite ? metrics.views : metrics.onLoadTime}
+          metric={!isWebsite ? metrics.viewsAgg : metrics.onLoadTimeAgg}
+          label={!isWebsite ? 'Views' : 'onLoad Time'}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
           showAggregationIcon
         />

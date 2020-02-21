@@ -2,7 +2,7 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
-import { getApplicationListSubscribeEvent } from 'in-applications/lists/ApplicationsList';
+import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -22,7 +22,7 @@ export default function ApplicationsTopList(props) {
     <TopListWidget
       {...props}
       icon="lib_application_invert"
-      getItems={getApplicationListSubscribeEvent}
+      getItems={getApplicationsWithDefaults}
       pinnedItemTypes={[types.APPLCATIONS]}
       getId={item => item.application.id}
       pinItem={id => pin(types.APPLCATIONS, id)}

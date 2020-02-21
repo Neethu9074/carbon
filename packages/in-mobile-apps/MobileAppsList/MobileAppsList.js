@@ -3,12 +3,12 @@ import React from 'react';
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
+import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
-import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
@@ -111,53 +111,11 @@ export default connectTo(
 );
 
 function getTableData(params) {
-  return getMobileAppsSubscribeEvent(params);
+  return getMobileAppsWithDefaults(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getMobileAppsSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getMobileAppsWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-export function getMobileAppsSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'sessionsAgg',
-  orderDirection = 'DESC',
-  timeConfig
-}) {
-  return getMobileApps({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      sessionsAgg: {
-        metric: 'sessions',
-        aggregation: 'SUM'
-      },
-      sessions: {
-        metric: 'sessions',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      viewsAgg: {
-        metric: 'views',
-        aggregation: 'SUM'
-      },
-      views: {
-        metric: 'views',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    },
-    labelFilter: query,
-    timeConfig
-  });
 }

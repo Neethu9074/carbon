@@ -3,10 +3,10 @@ import { get, find } from 'lodash';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
-import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -145,37 +145,13 @@ export default connectTo(
 );
 
 function getTableData(params) {
-  return getKubernetesClustersSubscribeEvent(params);
+  return getKubernetesClustersWithDefaults(params);
 }
 
 function getHasDataToRender() {
   return timeConfig$
-    .flatMap(timeConfig => getKubernetesClustersSubscribeEvent({ timeConfig }))
+    .flatMap(timeConfig => getKubernetesClustersWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
-}
-
-function getKubernetesClustersSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'name',
-  orderDirection = 'ASC',
-  timeConfig
-}) {
-  return getKubernetesClusters({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      timeConfig
-    }
-  });
 }
 
 function ClusterManagedByWithIcon({ clusterManagedBy }) {
