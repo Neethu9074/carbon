@@ -24,7 +24,18 @@ export function withJsErrorsFormSpecificError(form, rule = null) {
       fieldNames.ruleValue,
       createField({
         value: (rule && rule.value) || '',
-        validator: notBlankValidator
+        validator: value => {
+          if (!value || value.trim().length === 0) {
+            return [
+              {
+                severity: 'error',
+                message: 'Please provide an error message'
+              }
+            ];
+          } else {
+            return null;
+          }
+        }
       })
     );
 

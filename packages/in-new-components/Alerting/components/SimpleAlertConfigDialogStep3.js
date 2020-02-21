@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 
-import locals from './SimpleAlertConfigDialogStep.mless';
+import locals from './SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleAlertConfigDialogStep3({ form, onChange, setAlertChannelsVisible }) {
   return (
-    <>
-      <h1 className={locals.headline}>Who should get the alerts?</h1>
+    <SimpleModeStepContentWrapper headline="Who should get the alerts?">
       <div className={locals.alertChannelsContainer}>
         <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setAlertChannelsVisible} />
       </div>
-    </>
+    </SimpleModeStepContentWrapper>
   );
 }
 

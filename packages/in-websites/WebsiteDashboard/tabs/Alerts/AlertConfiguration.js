@@ -5,7 +5,7 @@ import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTri
 import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
 import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
-import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
+import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
