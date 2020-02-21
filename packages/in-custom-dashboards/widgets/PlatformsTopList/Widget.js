@@ -19,7 +19,7 @@ export default function PlatformsTopList(props) {
       icon="lib_platforms_inverted"
       getItems={getMergedData}
       pinnedItemTypes={[types.KUBERNETES_CLUSTERS, types.PCF_APPLICATIONS, types.VSPHERE_DATACENTERS]}
-      getId={getId}
+      getId={item => item.id}
       pinItem={(id, item) => pin(getTypeByItem(item), id)}
       unpinItem={(id, item) => unpin(getTypeByItem(item), id)}
       columnDefinitions={columnDefinitions}
@@ -27,9 +27,6 @@ export default function PlatformsTopList(props) {
   );
 }
 
-function getId(item) {
-  return item.id;
-}
 function getTypeByItem(item) {
   if (item.isKubernetes) {
     return types.KUBERNETES_CLUSTERS;
@@ -91,7 +88,9 @@ function getLabel(item) {
 function getSubTitle(item) {
   if (item.isKubernetes) {
     const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
-    return `${toTitleCase(clusterDistribution)} Cluster`;
+    return `${toTitleCase(clusterDistribution)} Cluster, ${item.nodes} Node${item.nodes > 1 ? 's' : ''}, ${
+      item.pods
+    } Pod${item.pods > 1 ? 's' : ''}`;
   }
   if (item.isPcf) {
     return 'Cloud Foundry Application';
