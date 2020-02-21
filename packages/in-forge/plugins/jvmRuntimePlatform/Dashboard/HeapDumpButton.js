@@ -3,6 +3,7 @@ import React from 'react';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Prompt from 'in-components/Dialog/Prompt';
 import Button from 'in-new-components/Button';
@@ -16,6 +17,12 @@ export default connectTo(
     };
   },
   function HeapDumpButton({ snapshot, className, isOnline }) {
+    const maxMemory = snapshot.get('data').get('memory.max');
+    const description = maxMemory
+      ? 'Taking a heap dump is an invasive operation and will require about ' +
+        bytesTwoDecimalPlaces(maxMemory) +
+        ' disk space. Please provide the path to store the heap dump:'
+      : 'Taking a heap dump is an invasive operation. Please provide the path to store the heap dump:';
     const button = (
       <Button
         kind="secondary"
@@ -24,7 +31,7 @@ export default connectTo(
             setActiveDialog(
               <Prompt
                 header="JVM Heap Dump"
-                description="Please provide the path to store the heap dump. Taking a heap dump is an invasive operation."
+                description={description}
                 inputLabel="Storage Path"
                 confirmButtonLabel="Take Heap Dump"
                 onSubmit={path => takeHeapDump(path, snapshot)}
