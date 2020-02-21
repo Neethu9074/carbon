@@ -1,10 +1,11 @@
+import { Route } from 'react-router-dom';
+import React from 'react';
+
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import Map from 'promise-loader?global,infrastructure!in-map/index';
-import { Route } from 'react-router-dom';
-import React from 'react';
 
 import {
   hasApplicationsAccess,
