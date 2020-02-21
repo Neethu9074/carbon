@@ -43,9 +43,9 @@ export default function InfrastructureTopList(props) {
     return (
       <TopListWidget
         {...generalProps}
-        pinnedItemTypes={[types.CONTAINER]}
-        pinItem={id => pin(types.CONTAINER, id)}
-        unpinItem={id => unpin(types.CONTAINER, id)}
+        pinnedItemTypes={[types.CONTAINERS]}
+        pinItem={id => pin(types.CONTAINERS, id)}
+        unpinItem={id => unpin(types.CONTAINERS, id)}
         fullListViewLinkTitle="All Containers"
       />
     );

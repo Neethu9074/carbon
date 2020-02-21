@@ -16,7 +16,7 @@ export default function WithIcon({ plugin, snapshot, icon, iconColor, className,
             [locals.pluginIcon]: true,
             [className]: className
           })}
-          size="xs"
+          size="s"
           plugin={plugin}
           snapshot={snapshot}
         />

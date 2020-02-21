@@ -22,10 +22,10 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
-import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -59,7 +59,7 @@ const columnDefinitions = [
       if (item.application.boundaryScope) {
         return (
           <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-            <WithIcon icon={boundaryScopes.info[item.application.boundaryScope].icon} iconColor={iconColor} />
+            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
           </Tooltip>
         );
       }

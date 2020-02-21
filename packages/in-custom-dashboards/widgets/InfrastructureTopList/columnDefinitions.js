@@ -7,6 +7,7 @@ import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
+import WithIcon from 'in-new-components/WithIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import { getLabel } from 'in-sdk/snapshot';
@@ -170,12 +171,14 @@ const TwoSnapshotLabels = connectTo(
 
   function TwoSnapshotLabels({ primarySnapshot, secondarySnapshot }) {
     return (
-      <KeyValue
-        label={secondarySnapshot ? getLabel(secondarySnapshot) : ''}
-        value={getLabel(primarySnapshot)}
-        inverted
-        accentuated
-      />
+      <WithIcon snapshot={primarySnapshot}>
+        <KeyValue
+          label={secondarySnapshot ? getLabel(secondarySnapshot) : ''}
+          value={getLabel(primarySnapshot)}
+          inverted
+          accentuated
+        />
+      </WithIcon>
     );
   }
 );

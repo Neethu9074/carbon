@@ -15,6 +15,7 @@ import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import WithIcon from 'in-new-components/WithIcon';
+import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
 export default function ApplicationsTopList(props) {
@@ -48,12 +49,14 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <KeyValue
-          label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
-          value={item.application.label}
-          inverted
-          accentuated
-        />
+        <WithIcon icon="lib_application">
+          <KeyValue
+            label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
+            value={item.application.label}
+            inverted
+            accentuated
+          />
+        </WithIcon>
       );
     }
   },
@@ -67,7 +70,7 @@ const columnDefinitions = [
       if (item.application.boundaryScope) {
         return (
           <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-            <WithIcon icon={boundaryScopes.info[item.application.boundaryScope].icon} iconColor={iconColor} />
+            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
           </Tooltip>
         );
       }

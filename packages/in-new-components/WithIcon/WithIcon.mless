@@ -13,7 +13,7 @@
 
   .pluginIcon,
   .linkEntityIcon {
-    fill: @lib__colors__N900Primary;
+    fill: @lib__colors__N700Medium;
   }
 
   .linkEntityIcon {

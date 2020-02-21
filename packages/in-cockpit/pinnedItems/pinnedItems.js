@@ -8,12 +8,15 @@ import {
 export const clear = clearMap;
 
 export const types = {
-  WEBSITES: 'website',
+  WEBSITES: 'websites',
   APPLCATIONS: 'applications',
   HOSTS: 'hosts',
-  CONTAINER: 'containers',
+  CONTAINERS: 'containers',
   PROCESSES: 'processes',
-  MOBILE_APPS: 'mobileApplications'
+  MOBILE_APPS: 'mobileApplications',
+  KUBERNETES_CLUSTERS: 'kubernetesCluster',
+  PCF_APPLICATIONS: 'pcfApplications',
+  VSPHERE_DATACENTERS: 'vpshereDatacenters'
 };
 
 // export for test

@@ -13,6 +13,7 @@ import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import WithIcon from 'in-new-components/WithIcon';
 
 export default function WebsitesAndMobileTopList(props) {
   const generalProps = {
@@ -76,12 +77,14 @@ const columnDefinitions = [
     getContent(item) {
       const { isWebsite } = item;
       return (
-        <KeyValue
-          label={isWebsite ? 'Website' : 'Mobile App'}
-          value={isWebsite ? item.website.label : item.mobileApp.label}
-          inverted
-          accentuated
-        />
+        <WithIcon icon={isWebsite ? 'lib_website' : 'lib_mobile_app'}>
+          <KeyValue
+            label={isWebsite ? 'Website' : 'Mobile App'}
+            value={isWebsite ? item.website.label : item.mobileApp.label}
+            inverted
+            accentuated
+          />
+        </WithIcon>
       );
     }
   },
