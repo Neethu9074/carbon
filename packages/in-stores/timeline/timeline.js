@@ -4,9 +4,10 @@ import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation
 import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
 import { createStore, createTrackingStore } from 'in-stores/store';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
-export { timeConfig$ } from 'in-stores/time/config';
 import { serverTime$ } from 'in-stores/serverTime';
 import { isBlank } from 'in-services/util/string';
+
+export { timeConfig$ } from 'in-stores/time/config';
 
 export const to$ = timeConfig$
   .flatMap(_timeConfig => {

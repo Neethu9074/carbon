@@ -24,7 +24,7 @@ function GroupMetricsChart({
   timeConfig,
   groupNameProcessor
 }) {
-  if (!items || items.length === 0) {
+  if (!items || items.length === 0 || !time) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
     // render them twice.
     return null;

@@ -3,6 +3,7 @@ import { assign, merge } from 'lodash';
 import { animationDuration as globalAnimationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { sensibleGranularities } from 'in-stores/metric/metric';
+import { maximumWindowSize } from 'in-stores/time/config';
 
 const maximumNumberOfUsefulDataPoints = 80;
 
@@ -62,6 +63,9 @@ export function extendWindowSizeOnLiveMode(timeConfig) {
   const granularity = getChartGranularity(timeConfig);
   const modifiedTimeConfig = assign({}, timeConfig);
   const animationDuration = timeConfig.autoRefresh ? globalAnimationDuration : 0;
-  modifiedTimeConfig.windowSize += wiggleRoom + 2 * Math.max(animationDuration, granularity);
+  modifiedTimeConfig.windowSize = Math.min(
+    maximumWindowSize,
+    modifiedTimeConfig.windowSize + wiggleRoom + 2 * Math.max(animationDuration, granularity)
+  );
   return modifiedTimeConfig;
 }
