@@ -38,7 +38,7 @@ export default function ViewSwitcher({ selectedEventType }) {
         />
       </SecondLevelNavigation>
 
-      <SearchBar style={{ maxWidth: 'calc(100% - 28rem)' }} theme="light" />
+      <SearchBar style={{ maxWidth: 'calc(100% - 18rem)' }} theme="light" />
     </div>
   );
 }
