@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Prompt from 'in-components/Dialog/Prompt';
@@ -34,7 +34,10 @@ export default connectTo(
                 description={description}
                 inputLabel="Storage Path"
                 confirmButtonLabel="Take Heap Dump"
-                onSubmit={path => takeHeapDump(path, snapshot)}
+                onSubmit={path => {
+                  close();
+                  takeHeapDump(path, snapshot);
+                }}
               />
             );
           }
@@ -59,6 +62,13 @@ export default connectTo(
 );
 
 function takeHeapDump(path, snapshot) {
+  addMessage(
+    {
+      type: 'info',
+      content: `Taking heap dump…`
+    },
+    'jvm-heap-dump'
+  );
   createAgentResponseObservable({
     action: 'java.heapDump',
     target: snapshot.get('volatileId'),

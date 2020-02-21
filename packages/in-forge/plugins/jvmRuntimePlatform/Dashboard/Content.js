@@ -50,7 +50,7 @@ export default connectTo({
         button={
           <span>
             <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
-            {isInternalVisible && <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />}
+            <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />
           </span>
         }
       >
