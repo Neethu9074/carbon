@@ -43,6 +43,8 @@ export default connectTo(({ timeConfig, tagFilters }) => ({
       renderMetric={({ item, selectedMetric }) => number.compact(item[selectedMetric])}
       tagFilters={tagFilters}
       websiteLabel={websiteLabel}
+      getMetricValueFromItem={getMetricValueFromItem}
+      selectedMetricFormatter={number.compact}
     />
   );
 });
@@ -100,4 +102,8 @@ function getLink(tagFilters, websiteLabel, min, max) {
     },
     beaconType: 'pageLoad'
   });
+}
+
+function getMetricValueFromItem(selectedMetric, item) {
+  return item[selectedMetric];
 }
