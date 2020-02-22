@@ -37,6 +37,9 @@ initialiseSteps([
   // if there is no agent deployed, force the onboarding dialog
   'instanaOnboarding',
 
-  // Rendering of the UI. This must come last!
-  'productRendering'
+  // This must be the second-last step: Rendering of the UI
+  'productRendering',
+
+  // This must be the last step: Collection of performance data.
+  'appInitializedMeasurement'
 ]);

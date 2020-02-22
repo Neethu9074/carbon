@@ -28,6 +28,9 @@ initialiseSteps([
   // for anonymus tracking during the onboarding process
   'anonymousMixpanel',
 
-  // Rendering of the UI. This must come last!
-  'waitingRendering'
+  // This must be the second-last step: Rendering of the UI
+  'waitingRendering',
+
+  // This must be the last step: Collection of performance data.
+  'appInitializedMeasurement'
 ]);
