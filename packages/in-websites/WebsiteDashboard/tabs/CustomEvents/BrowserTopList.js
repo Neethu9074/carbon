@@ -4,7 +4,7 @@ import BrowserTopList from 'in-websites/WebsiteDashboard/components/BrowserTopLi
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 
-const metrics = ['beaconCount', 'uniqueUsers'];
+const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
 const labels = ['Occurrences', 'Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];

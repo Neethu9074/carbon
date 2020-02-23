@@ -15,8 +15,8 @@ export const defaultMetrics = {
   pageLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   resourceLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   httpRequest: [{ metric: 'beaconDuration', aggregation: 'MEAN' }, { metric: 'beaconErrorRate', aggregation: 'MEAN' }],
-  error: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
-  custom: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
+  error: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
+  custom: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }]
 };
 
 const resourceTimingMetrics = [
@@ -62,8 +62,29 @@ const resourceSizeMetrics = [
 ];
 
 const uniqueUsers = {
+  category: 'User / Session Tracking',
   metric: 'uniqueUsers',
   label: 'Unique Users',
+  formatter: affectedUsers,
+  supportedAggregations: ['DISTINCT_COUNT'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
+const uniqueSessions = {
+  category: 'User / Session Tracking',
+  metric: 'uniqueSessions',
+  label: 'Unique Sessions',
+  formatter: affectedUsers,
+  supportedAggregations: ['DISTINCT_COUNT'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
+const uniqueUsersOrSessions = {
+  category: 'User / Session Tracking',
+  metric: 'uniqueUsersOrSessions',
+  label: 'Unique Users / Sessions',
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
   preferredRenderer: Renderer.stackedBar,
@@ -91,6 +112,8 @@ export const availableMetrics = {
       tag: 'beacon.duration'
     }),
     uniqueUsers,
+    uniqueSessions,
+    uniqueUsersOrSessions,
 
     withRawDataField(newTimeMetric({ metric: 'unloadTime', label: 'Unload Time', category: 'Navigation Timing' }), {
       tag: 'beacon.timing.unload'
@@ -140,6 +163,8 @@ export const availableMetrics = {
       tag: 'beacon.duration'
     }),
     uniqueUsers,
+    uniqueSessions,
+    uniqueUsersOrSessions,
     ...resourceTimingMetrics,
     ...resourceSizeMetrics
   ],
@@ -150,6 +175,8 @@ export const availableMetrics = {
     }),
     errorRate,
     uniqueUsers,
+    uniqueSessions,
+    uniqueUsersOrSessions,
     ...resourceTimingMetrics,
     ...resourceSizeMetrics,
 
@@ -205,6 +232,16 @@ export const availableMetrics = {
       ...uniqueUsers,
       // relabel the metric
       label: 'Affected Users'
+    },
+    {
+      ...uniqueSessions,
+      // relabel the metric
+      label: 'Affected Sessions'
+    },
+    {
+      ...uniqueUsersOrSessions,
+      // relabel the metric
+      label: 'Affected Users / Sessions'
     }
   ],
   custom: [
@@ -212,6 +249,8 @@ export const availableMetrics = {
       rawDataField: 'duration',
       tag: 'beacon.duration'
     }),
-    uniqueUsers
+    uniqueUsers,
+    uniqueSessions,
+    uniqueUsersOrSessions
   ]
 };

@@ -84,8 +84,8 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               tagFilters,
               timeConfig,
               metrics: {
-                uniqueUsers: {
-                  metric: 'uniqueUsers',
+                uniqueUsersOrSessions: {
+                  metric: 'uniqueUsersOrSessions',
                   aggregation: 'DISTINCT_COUNT'
                 }
               }
@@ -131,14 +131,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               renderer: Renderer.bar,
               formatter: affectedUsersChart,
               labels: ['Users'],
-              metricIds: ['uniqueUsers']
+              metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters,
               metrics: {
-                uniqueUsers: {
-                  metric: 'uniqueUsers',
+                uniqueUsersOrSessions: {
+                  metric: 'uniqueUsersOrSessions',
                   granularity,
                   aggregation: 'DISTINCT_COUNT'
                 }

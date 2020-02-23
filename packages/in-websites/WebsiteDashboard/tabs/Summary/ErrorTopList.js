@@ -8,7 +8,7 @@ import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
-const metrics = ['errors', 'uniqueUsers'];
+const metrics = ['errors', 'uniqueUsersOrSessions'];
 const labels = ['Occurrences', 'Affected Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];

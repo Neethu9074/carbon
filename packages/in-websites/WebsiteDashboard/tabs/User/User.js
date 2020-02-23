@@ -30,7 +30,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
               renderer: Renderer.line,
               formatter: number.forcedCompact,
               labels: ['Users'],
-              metricIds: ['uniqueUsers']
+              metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{
               timeConfig,
@@ -46,8 +46,8 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                   granularity,
                   aggregation: 'SUM'
                 },
-                uniqueUsers: {
-                  metric: 'uniqueUsers',
+                uniqueUsersOrSessions: {
+                  metric: 'uniqueUsersOrSessions',
                   granularity,
                   aggregation: 'DISTINCT_COUNT'
                 }

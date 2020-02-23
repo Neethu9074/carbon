@@ -38,7 +38,7 @@ export default compose(
       timeConfig,
       tagFilters: [
         { name: 'beacon.website.id', operator: 'EQUALS', stringValue: websiteId },
-        { name: 'beacon.user.id', operator: 'NOT_EMPTY', stringValue: '' }
+        { name: 'beacon.userIdOrSessionId', operator: 'NOT_EMPTY', stringValue: '' }
       ],
       metrics: {
         count: {

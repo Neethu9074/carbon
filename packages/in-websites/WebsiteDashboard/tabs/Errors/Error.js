@@ -91,8 +91,8 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 tagFilters: tagFiltersWithErrorId,
                 timeConfig,
                 metrics: {
-                  uniqueUsers: {
-                    metric: 'uniqueUsers',
+                  uniqueUsersOrSessions: {
+                    metric: 'uniqueUsersOrSessions',
                     aggregation: 'DISTINCT_COUNT'
                   }
                 }
@@ -216,14 +216,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 renderer: Renderer.bar,
                 formatter: affectedUsersChart,
                 labels: ['Affected Users'],
-                metricIds: ['uniqueUsers']
+                metricIds: ['uniqueUsersOrSessions']
               }}
               metricsConfiguration={{
                 timeConfig,
                 tagFilters: tagFiltersWithErrorId,
                 metrics: {
-                  uniqueUsers: {
-                    metric: 'uniqueUsers',
+                  uniqueUsersOrSessions: {
+                    metric: 'uniqueUsersOrSessions',
                     granularity,
                     aggregation: 'DISTINCT_COUNT'
                   }

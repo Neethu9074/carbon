@@ -56,7 +56,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'uniqueUsersAgg',
+    id: 'uniqueUsersOrSessionsAgg',
     label: 'Affected Users',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
@@ -65,8 +65,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.uniqueUsers}
-          metric={item.metrics.uniqueUsersAgg}
+          metrics={item.metrics.uniqueUsersOrSessions}
+          metric={item.metrics.uniqueUsersOrSessionsAgg}
           tooltipFormatter={affectedUsers.compact}
         />
       );
@@ -146,12 +146,12 @@ function getTableData({
       direction: orderDirection
     },
     metrics: {
-      uniqueUsersAgg: {
-        metric: 'uniqueUsers',
+      uniqueUsersOrSessionsAgg: {
+        metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT'
       },
-      uniqueUsers: {
-        metric: 'uniqueUsers',
+      uniqueUsersOrSessions: {
+        metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT',
         granularity: getSparkChartGranularity(timeConfig)
       },
