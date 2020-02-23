@@ -3,11 +3,11 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
-export default function OsTopList({
+export default function PageTopList({
   websiteId,
   websiteLabel,
   timeConfig,
@@ -16,11 +16,12 @@ export default function OsTopList({
   labels,
   aggregations,
   formatters,
-  beaconType
+  beaconType,
+  tabPath
 }) {
   return (
     <TopList
-      title="Operating Systems"
+      title="Pages"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -35,6 +36,7 @@ export default function OsTopList({
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       beaconType={beaconType}
+      tabPath={tabPath}
     />
   );
 }
@@ -52,7 +54,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
       direction: 'DESC'
     },
     group: {
-      groupbyTag: 'beacon.os.name'
+      groupbyTag: 'beacon.page.name'
     },
     metrics: {
       [selectedMetric]: {
@@ -71,16 +73,16 @@ function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
         beaconType,
         group: {
-          groupbyTag: 'beacon.os.name'
+          groupbyTag: 'beacon.page.name'
         }
       })}
     >
-      View all operating systems
+      View all pages
     </Link>
   );
 }
 
-function Label({ item, websiteLabel, tagFilters, beaconType }) {
+function Label({ item, websiteId, tabPath }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -91,15 +93,9 @@ function Label({ item, websiteLabel, tagFilters, beaconType }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          websiteLabel,
-          tagFilters: tagFilters.concat({ name: 'beacon.os.name', operator: 'EQUALS', stringValue: label })
-        }),
-        beaconType,
-        group: {
-          groupbyTag: 'beacon.browser.name'
-        }
+      href$={getLinkToWebsite(websiteId, {
+        pageId: label,
+        tabPath
       })}
     >
       {label}

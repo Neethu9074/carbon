@@ -7,6 +7,7 @@ export const errorId = 'errorId';
 export const resourceId = 'resourceId';
 export const resourceType = 'resourceType';
 export const xhrId = 'xhrId';
+export const customEventId = 'customEventId';
 
 // analyze
 export const tagFilters = 'tagFilters';

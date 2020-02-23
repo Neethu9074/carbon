@@ -1,23 +1,23 @@
 import React from 'react';
 
-import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/components/EffectiveConnectionTypeTopList';
+import OsTopList from 'in-websites/WebsiteDashboard/components/OsTopList';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 
-const metrics = ['pageLoads', 'uniqueUsers'];
-const labels = ['Page Loads', 'Users'];
+const metrics = ['beaconCount', 'uniqueUsers'];
+const labels = ['Occurrences', 'Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 
-export default function EffectiveConnectionTypeTopListWrapper(props) {
+export default function OsTopListWrapper(props) {
   return (
-    <EffectiveConnectionTypeTopList
+    <OsTopList
       {...props}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
       formatters={formatters}
-      beaconType="pageLoad"
+      beaconType="custom"
     />
   );
 }

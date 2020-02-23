@@ -80,7 +80,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         </Row>
 
         <Row>
-          <Col xs={6}>
+          <Col lg={6}>
             <WebsiteBeaconGroupsChartWrapper
               cardTitle="Calls"
               timeConfig={timeConfig}

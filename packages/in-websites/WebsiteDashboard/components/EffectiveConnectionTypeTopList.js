@@ -15,7 +15,8 @@ export default function EffectiveConnectionTypeTopList({
   metrics,
   labels,
   aggregations,
-  formatters
+  formatters,
+  beaconType
 }) {
   return (
     <TopList
@@ -33,6 +34,7 @@ export default function EffectiveConnectionTypeTopList({
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      beaconType={beaconType}
     />
   );
 }
@@ -65,7 +67,7 @@ function ViewAll() {
   return null;
 }
 
-function Label({ item, websiteLabel, tagFilters }) {
+function Label({ item, websiteLabel, tagFilters, beaconType }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -85,7 +87,7 @@ function Label({ item, websiteLabel, tagFilters }) {
             stringValue: label
           })
         }),
-        beaconType: 'error',
+        beaconType,
         group: {
           groupbyTag: 'beacon.browser.name'
         }

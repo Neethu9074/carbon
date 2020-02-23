@@ -11,6 +11,13 @@ const formatters = [number.compact, affectedUsers.compact];
 
 export default function BrowserTopListWrapper(props) {
   return (
-    <BrowserTopList {...props} metrics={metrics} labels={labels} aggregations={aggregations} formatters={formatters} />
+    <BrowserTopList
+      {...props}
+      metrics={metrics}
+      labels={labels}
+      aggregations={aggregations}
+      formatters={formatters}
+      beaconType="error"
+    />
   );
 }

@@ -15,7 +15,8 @@ export default function BrowserTopList({
   metrics,
   labels,
   aggregations,
-  formatters
+  formatters,
+  beaconType
 }) {
   return (
     <TopList
@@ -33,6 +34,7 @@ export default function BrowserTopList({
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      beaconType={beaconType}
     />
   );
 }
@@ -61,13 +63,13 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel }, className) {
+function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
   return (
     <Link
       className={className}
       href$={getLinkToAnalyze({
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType: 'error',
+        beaconType,
         group: {
           groupbyTag: 'beacon.browser.name'
         }
@@ -78,7 +80,7 @@ function ViewAll({ tagFilters, websiteLabel }, className) {
   );
 }
 
-function Label({ item, tagFilters, websiteLabel }) {
+function Label({ item, tagFilters, websiteLabel, beaconType }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -94,7 +96,7 @@ function Label({ item, tagFilters, websiteLabel }) {
           websiteLabel,
           tagFilters: tagFilters.concat({ name: 'beacon.browser.name', operator: 'EQUALS', stringValue: label })
         }),
-        beaconType: 'error',
+        beaconType,
         group: {
           groupbyTag: 'beacon.os.name'
         }

@@ -6,6 +6,7 @@ import {
   errorId as errorIdMatrixParameter,
   resourceId as resourceIdMatrixParameter,
   xhrId as xhrIdMatrixParameter,
+  customEventId as customEventIdMatrixParameter,
   tagFilters as tagFiltersMatrixParameter,
   serializeTagFilters,
   deserializeTagFilters,
@@ -50,6 +51,8 @@ export const ajaxTab = '/ajax';
 export const ajaxTabFullyQualified = `${websitePathFullyQualified}${ajaxTab}`;
 export const usersTab = '/users';
 export const usersTabFullyQualified = `${websitePathFullyQualified}${usersTab}`;
+export const customEventsTab = '/customEvents';
+export const customEventsTabFullyQualified = `${websitePathFullyQualified}${customEventsTab}`;
 export const alertTab = '/alerts';
 export const alertTabFullyQualified = `${websitePathFullyQualified}${alertTab}/details`;
 
@@ -130,6 +133,19 @@ export function getLinkToXhrRequest(websiteId, { xhrId, pageId } = emptyObject) 
     }
 
     setOrDeleteMatrixKey(params, '/details', xhrIdMatrixParameter, xhrId);
+  });
+}
+
+export function getLinkToCustomEvent(websiteId, { customEventId, pageId } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${websitePathFullyQualified}/customEvents/details`;
+    setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
+
+    if (pageId !== undefined) {
+      setOrDeleteMatrixKey(params, websitePath, pageIdMatrixParameter, pageId);
+    }
+
+    setOrDeleteMatrixKey(params, '/details', customEventIdMatrixParameter, customEventId);
   });
 }
 

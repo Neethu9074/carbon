@@ -10,5 +10,14 @@ const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 
 export default function OsTopListWrapper(props) {
-  return <OsTopList {...props} metrics={metrics} labels={labels} aggregations={aggregations} formatters={formatters} />;
+  return (
+    <OsTopList
+      {...props}
+      metrics={metrics}
+      labels={labels}
+      aggregations={aggregations}
+      formatters={formatters}
+      beaconType="pageLoad"
+    />
+  );
 }

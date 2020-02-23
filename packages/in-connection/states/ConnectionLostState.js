@@ -17,11 +17,19 @@ const transports = {
 // Safari does not support WebSocket connections with invalid SSL certs
 const bestAvailableTransport = __DEV__ && isSafari() ? transports.widelySupported : transports.efficient;
 
+// Do not track the initial enter call as connection lost
+let isInitialEnter = true;
+
 export default class ConnectionLostState extends AbstractState {
   onEnter() {
-    track(CONNECTION_LOST, {
-      transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
-    });
+    if (isInitialEnter) {
+      isInitialEnter = false;
+    } else {
+      track(CONNECTION_LOST, {
+        transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+      });
+    }
+
     // Assume that WS connection is not possible when quickly reentering
     // the connection lost step.
     if (this.lastEnterTime >= Date.now() - 3000) {

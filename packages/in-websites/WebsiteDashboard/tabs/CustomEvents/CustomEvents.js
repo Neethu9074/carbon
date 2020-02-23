@@ -11,21 +11,34 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getLinkToCustomEvent } from 'in-websites/navigation/paths';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import Link from 'in-components/Link';
 
 const columnDefinitions = [
   {
     id: 'name',
     label: 'Event Name',
-    getContent(item) {
+    getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {
-        return String(JSON.parse(label));
+        label = String(JSON.parse(label));
       } catch (e) {
-        return 'N/A';
+        // ignore
       }
+
+      return (
+        <Link
+          href$={getLinkToCustomEvent(websiteId, {
+            pageId,
+            customEventId: label
+          })}
+        >
+          {label}
+        </Link>
+      );
     }
   },
   {
