@@ -12,38 +12,25 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import changeExplanation from 'in-websites/emptyListExplanation';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
-import { number, ms } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import Link from 'in-components/Link';
 
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
-    getContent(item, { websiteId }) {
+    label: 'Event Name',
+    getContent(item) {
       let label = item.name;
       try {
-        label = String(JSON.parse(label));
+        return String(JSON.parse(label));
       } catch (e) {
-        // ignore
+        return 'N/A';
       }
-
-      return (
-        <Link
-          href$={getLinkToWebsite(websiteId, {
-            pageId: label,
-            tabPath: '/summary'
-          })}
-        >
-          {label}
-        </Link>
-      );
     }
   },
   {
-    id: 'pageViewsAgg',
-    label: 'Page Views',
+    id: 'occurrencesAgg',
+    label: 'Occurrences',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -51,34 +38,16 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.pageViews}
-          metric={item.metrics.pageViewsAgg}
+          metrics={item.metrics.occurrences}
+          metric={item.metrics.occurrencesAgg}
           tooltipFormatter={number.compact}
         />
       );
     }
   },
   {
-    id: 'onLoadTimeAgg',
-    label: 'onLoad Time',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          // onLoadTime is not available when pages haven't received any loads
-          metrics={item.metrics.onLoadTime || []}
-          metric={item.metrics.onLoadTimeAgg}
-          tooltipFormatter={ms.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'errorsAgg',
-    label: 'JS Errors',
+    id: 'usersAgg',
+    label: 'Users',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -86,8 +55,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
+          metrics={item.metrics.users}
+          metric={item.metrics.usersAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -98,7 +67,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'pages',
+    entityName: 'custom events',
     changeExplanation
   }),
   paginationResettingUrlParameters: [
@@ -108,14 +77,20 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     pageIdUrlParameter
   ],
   columnDefinitions,
-  defaultOrderBy: 'pageViewsAgg',
+  defaultOrderBy: 'occurrencesAgg',
   defaultOrderDirection: 'DESC',
-  pathSegment: '/pages'
+  pathSegment: '/customEvents'
 });
 
-export default function Pages({ timeConfig, tagFilters, websiteId }) {
+export default function Pages({ timeConfig, tagFilters, websiteId, pageId }) {
   return (
-    <ServerTableWithUrlState get={getTableData} websiteId={websiteId} tagFilters={tagFilters} timeConfig={timeConfig} />
+    <ServerTableWithUrlState
+      get={getTableData}
+      websiteId={websiteId}
+      pageId={pageId}
+      tagFilters={tagFilters}
+      timeConfig={timeConfig}
+    />
   );
 }
 
@@ -123,13 +98,14 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'pageViewsAgg',
+  orderBy = 'occurrencesAgg',
   orderDirection = 'DESC',
   timeConfig,
   tagFilters
 }) {
+  tagFilters = tagFilters.concat([{ name: 'beacon.type', stringValue: 'custom', operator: 'EQUALS' }]);
   if (isNotBlank(query)) {
-    tagFilters = tagFilters.concat([{ name: 'beacon.page.name', stringValue: query, operator: 'CONTAINS' }]);
+    tagFilters = tagFilters.concat([{ name: 'beacon.customEvent.name', stringValue: query, operator: 'CONTAINS' }]);
   }
 
   return getWebsitePaginatedBeaconGroups({
@@ -144,34 +120,25 @@ function getTableData({
       direction: orderDirection
     },
     group: {
-      groupbyTag: 'beacon.page.name'
+      groupbyTag: 'beacon.customEvent.name'
     },
     metrics: {
-      pageViewsAgg: {
-        metric: 'pageViews',
+      occurrencesAgg: {
+        metric: 'beaconCount',
         aggregation: 'SUM'
       },
-      pageViews: {
-        metric: 'pageViews',
+      occurrences: {
+        metric: 'beaconCount',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'SUM'
+      usersAgg: {
+        metric: 'uniqueUsers',
+        aggregation: 'DISTINCT_COUNT'
       },
-      errors: {
-        metric: 'errors',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      onLoadTimeAgg: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN'
-      },
-      onLoadTime: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN',
+      users: {
+        metric: 'uniqueUsers',
+        aggregation: 'DISTINCT_COUNT',
         granularity: getSparkChartGranularity(timeConfig)
       }
     }

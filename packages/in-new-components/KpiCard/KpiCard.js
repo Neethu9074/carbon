@@ -66,7 +66,7 @@ export default function KpiCard({
 
 KpiCard.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   companionValue: PropTypes.string,
   raw: PropTypes.bool,
   renderValue: PropTypes.func,

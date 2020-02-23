@@ -11,7 +11,7 @@ export default function TableSparkChart(props) {
   } else if (metric instanceof Array && metric.length === 1 && metric[0].length === 2) {
     aggregationContent = tooltipFormatter(metric[0][1]);
   }
-  const loading = !timeConfig || (!metrics && !metric);
+  const loading = !timeConfig || (!metrics && metric == null);
   return (
     <SparkChart
       {...props}

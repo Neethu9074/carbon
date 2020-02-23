@@ -59,7 +59,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
-          metrics={item.metrics.onLoadTime}
+          // onLoadTime is not available when websites haven't received any loads
+          metrics={item.metrics.onLoadTime || []}
           metric={item.metrics.onLoadTimeAgg}
           tooltipFormatter={meanLatencyFixed.compact}
         />
