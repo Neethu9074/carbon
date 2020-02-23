@@ -37,7 +37,7 @@ export default function DashboardHeader(props) {
   }
   return (
     <header className={joinClassNames(locals.dashboardHeader, locals[theme], className)}>
-      <Title title={title} />
+      <Title title={title} dynamic={label} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
           {contextConfigurations &&

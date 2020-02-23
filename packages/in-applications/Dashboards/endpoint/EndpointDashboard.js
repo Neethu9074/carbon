@@ -80,6 +80,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       icon="lib_application_endpoint"
+      title="Endpoint"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}

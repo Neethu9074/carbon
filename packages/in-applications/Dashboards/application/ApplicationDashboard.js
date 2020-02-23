@@ -71,6 +71,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       icon="lib_application"
+      title="Application"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
     />

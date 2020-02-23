@@ -1,6 +1,6 @@
 import withSideEffect from 'react-side-effect';
 
-import { isNotBlank } from 'in-services/util/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import config from 'in-services/config';
 
 const defaultTitleSuffix = `Instana (${config.tenantUnit}-${config.tenant})`;
@@ -18,7 +18,11 @@ function reduceProps(propsList) {
 }
 
 function toString({ title, dynamic }) {
-  if (dynamic == null) {
+  if (isBlank(title)) {
+    return null;
+  }
+
+  if (typeof dynamic != 'string' || dynamic === title) {
     return title;
   }
 
