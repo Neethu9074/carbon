@@ -16,7 +16,7 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
     });
 
     it('between existing ranges should return false', () => {
-      expect(isOverlappedWith([3, 4], [[1, 2], [4, 5]])).to.equal(false);
+      expect(isOverlappedWith([3, 4], [[1, 2], [5, 6]])).to.equal(false);
     });
 
     it('inside existing ranges should return true', () => {

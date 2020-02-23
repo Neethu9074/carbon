@@ -26,11 +26,14 @@ const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 // Fixing is expensive. Luckily it is easy to avoid this via memoization.
 const memoizedFixClockSkewProblems = memoizeOne(fixClockSkewProblems);
 
+const memoizedBeaconsSorter = memoizeOne(beacons => beacons.slice().sort(beaconsComparator));
+
 export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
 function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
   const fixResult = memoizedFixClockSkewProblems(beacons);
   beacons = fixResult.beacons;
+  beacons = memoizedBeaconsSorter(beacons);
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
@@ -92,4 +95,14 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
 
 function getBeaconCount(beacons, type) {
   return beacons.reduce((agg, beacon) => agg + (beacon.type === type ? beacon.batchSize || 1 : 0), 0);
+}
+
+function beaconsComparator(a, b) {
+  if (a.type === 'pageLoad') {
+    return -1;
+  } else if (b.type === 'pageLoad') {
+    return 1;
+  }
+
+  return a.timestamp - b.timestamp;
 }

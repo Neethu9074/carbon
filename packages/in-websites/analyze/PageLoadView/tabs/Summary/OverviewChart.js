@@ -2,13 +2,12 @@ import React, { Fragment } from 'react';
 
 import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
-import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
+import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
-import { deepFreeze } from 'in-services/util/object';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
 import theme from 'in-themes';
@@ -19,7 +18,7 @@ const barHeight = 8;
 
 export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width, endTimestamp }) {
   const scale = createScale();
-  const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
+  const beaconsStacked = applyLayout(beacons);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
@@ -47,12 +46,12 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
         )}
 
       <div className={locals.beacons} style={{ height: `${chartHeight}px` }}>
-        {beaconsStacked.map((beacon, i) => {
+        {beaconsStacked.map(({ beacon, depth }) => {
           const type = getType(beacon);
           const typeDefinition = types[type];
-          const startX = scale.getRange(beaconsStacked[i].timestamp);
-          const endX = scale.getRange(beaconsStacked[i].timestamp + beaconsStacked[i].duration);
-          const startY = beaconsStacked[i].depth;
+          const startX = scale.getRange(beacon.timestamp);
+          const endX = scale.getRange(beacon.timestamp + beacon.duration);
+          const startY = depth;
 
           return (
             <Tooltip
@@ -82,44 +81,30 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
 });
 
 function applyLayout(beacons) {
-  return deepFreeze(positionBeacons(beacons, 0, []));
-}
+  const occupiedTimeRangesByDepth = [];
 
-function positionBeacons(beacons, depth, occupiedTimeRangesByDepth) {
-  let stackedBeacons = [];
-  beacons.map(beacon => {
-    const end = beacon.timestamp + beacon.duration;
-    const depthWithoutOverlapping = findDepthWithoutAnyOverlapping(
-      depth,
-      [beacon.timestamp, end],
+  const result = beacons.map(beacon => {
+    const depth = findDepthWithoutAnyOverlapping(
+      [beacon.timestamp, beacon.timestamp + beacon.duration],
       occupiedTimeRangesByDepth
     );
-    const beaconWithDepth = {
-      ...beacon,
-      depth: depthWithoutOverlapping
+    return {
+      beacon,
+      depth
     };
-    stackedBeacons.push(beaconWithDepth);
   });
-  return stackedBeacons;
+
+  return result;
 }
 
-function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesByDepth) {
-  const start = timeRange[0];
-  const end = timeRange[1];
-
-  let depth = minDepth;
-
-  for (let d = minDepth; ; d++) {
-    if (!isOverlappedWith([start, end], occupiedTimeRangesByDepth[d])) {
-      depth = d;
-      break;
+function findDepthWithoutAnyOverlapping(timeRange, occupiedTimeRangesByDepth) {
+  for (let depth = 0; ; depth++) {
+    if (!isOverlappedWith(timeRange, occupiedTimeRangesByDepth[depth])) {
+      if (!occupiedTimeRangesByDepth[depth]) {
+        occupiedTimeRangesByDepth[depth] = [];
+      }
+      occupiedTimeRangesByDepth[depth].push(timeRange);
+      return depth;
     }
   }
-
-  if (!occupiedTimeRangesByDepth[depth]) {
-    occupiedTimeRangesByDepth[depth] = [];
-  }
-  occupiedTimeRangesByDepth[depth].push([start, end]);
-
-  return depth;
 }

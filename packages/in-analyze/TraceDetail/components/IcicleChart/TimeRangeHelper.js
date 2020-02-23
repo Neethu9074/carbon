@@ -1,29 +1,23 @@
+import { compare } from 'in-services/util/number';
+
 export function isOverlappedWith(timeRange, occupiedTimeRanges) {
   if (!occupiedTimeRanges || occupiedTimeRanges.length == 0) {
     return false;
   }
 
-  occupiedTimeRanges.sort((timeRangeA, timeRangeB) => {
-    return timeRangeA[0] - timeRangeB[0];
-  });
+  occupiedTimeRanges.sort((timeRangeA, timeRangeB) => compare(timeRangeA[0], timeRangeB[0]));
 
   let freeTimeRangeStart = 0;
-
-  for (const i in occupiedTimeRanges) {
+  for (let i = 0; i < occupiedTimeRanges.length; i++) {
     const occupiedTimeRange = occupiedTimeRanges[i];
-    const freeTimeRange = [freeTimeRangeStart, occupiedTimeRange[0]];
-    if (isInsideOf(timeRange, freeTimeRange)) {
+    if (isInsideOf(timeRange, [freeTimeRangeStart, occupiedTimeRange[0] - 1])) {
       return false;
     }
 
-    freeTimeRangeStart = occupiedTimeRange[1];
+    freeTimeRangeStart = occupiedTimeRange[1] + 1;
   }
 
-  if (timeRange[0] >= freeTimeRangeStart) {
-    return false;
-  }
-
-  return true;
+  return timeRange[0] < freeTimeRangeStart;
 }
 
 function isInsideOf(timeRangeA, timeRangeB) {
