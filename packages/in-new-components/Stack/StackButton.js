@@ -11,7 +11,7 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function StackButton({ id, timeConfig, isInternalVisible, productArea }) {
+  function StackButton({ id, applicationId, timeConfig, isInternalVisible, productArea }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
@@ -21,6 +21,7 @@ export default connectTo(
           content={() => (
             <Stack
               id={id}
+              applicationId={applicationId}
               timeConfig={timeConfig}
               productArea={productArea}
               activeTabIndex={activeTabIndex}
