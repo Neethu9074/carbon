@@ -48,7 +48,7 @@ export default {
         return (
           <KeyValue
             label="OS"
-            value={`${snapshot.getIn(['data', 'os.version'])} (${data.get('os.arch', '')})`}
+            value={`${data.get('os.version', '')} (${data.get('os.arch', '')})`}
             theme={themes.blue}
             accentuated
           />
@@ -60,7 +60,12 @@ export default {
       label: 'CPU Count',
       getContent(snapshot) {
         return (
-          <KeyValue label="# of CPUs" value={snapshot.getIn(['data', 'cpu.count'])} theme={themes.blue} accentuated />
+          <KeyValue
+            label="# of CPUs"
+            value={snapshot.getIn(['data', 'cpu.count'], '')}
+            theme={themes.blue}
+            accentuated
+          />
         );
       }
     },
@@ -98,7 +103,7 @@ export default {
         return (
           <KeyValue
             label="Created"
-            value={formatDateTime(snapshot.getIn(['data', 'Created']))}
+            value={formatDateTime(snapshot.getIn(['data', 'Created'], ''))}
             theme={themes.blue}
             accentuated
           />
@@ -112,7 +117,7 @@ export default {
         return (
           <KeyValue
             label="Started"
-            value={formatDateTime(snapshot.getIn(['data', 'Started']))}
+            value={formatDateTime(snapshot.getIn(['data', 'Started'], ''))}
             theme={themes.blue}
             accentuated
           />

@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
@@ -7,9 +8,11 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getResultForData } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { search } from 'in-stores/snapshot/snapshot';
+import { getSnapshot } from 'in-stores/snapshot';
 
 export default function InfrastructureTopList(props) {
   const [selectedType, setSelectedType] = useState('host');
@@ -34,6 +37,7 @@ export default function InfrastructureTopList(props) {
         pinnedItemTypes={[types.HOSTS]}
         pinItem={id => pin(types.HOSTS, id)}
         unpinItem={id => unpin(types.HOSTS, id)}
+        getItemsByGroupedIds={(groupedIds, timeConfig) => getItemsByGroupedIds(groupedIds[types.HOSTS], timeConfig)}
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -46,6 +50,9 @@ export default function InfrastructureTopList(props) {
         pinnedItemTypes={[types.CONTAINERS]}
         pinItem={id => pin(types.CONTAINERS, id)}
         unpinItem={id => unpin(types.CONTAINERS, id)}
+        getItemsByGroupedIds={(groupedIds, timeConfig) =>
+          getItemsByGroupedIds(groupedIds[types.CONTAINERS], timeConfig)
+        }
         fullListViewLinkTitle="All Containers"
       />
     );
@@ -57,6 +64,7 @@ export default function InfrastructureTopList(props) {
       pinnedItemTypes={[types.PROCESSES]}
       pinItem={id => pin(types.PROCESSES, id)}
       unpinItem={id => unpin(types.PROCESSES, id)}
+      getItemsByGroupedIds={(groupedIds, timeConfig) => getItemsByGroupedIds(groupedIds[types.PROCESSES], timeConfig)}
       fullListViewLinkTitle="All Processes"
     />
   );
@@ -105,4 +113,8 @@ function getItems(query, selectedType) {
       }
     };
   });
+}
+
+function getItemsByGroupedIds(ids, timeConfig) {
+  return combineLatest(ids.map(id => getSnapshot(id, timeConfig))).map(items => getResultForData({ items }));
 }
