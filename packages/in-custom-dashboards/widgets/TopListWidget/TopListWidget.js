@@ -4,6 +4,7 @@ import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
+import ServerTable from 'in-components/tables/ServerTable';
 import { pendingResult } from 'in-services/fixedObjects';
 import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
@@ -18,6 +19,7 @@ export default compose(
   setPropTypes({
     title: rpt.string.isRequired,
     getItems: rpt.func.isRequired,
+    getItemsByGroupedIds: rpt.func,
     columnDefinitions: rpt.array.isRequired,
     pinnedItemTypes: rpt.array,
     getId: rpt.func.isRequired,
@@ -48,6 +50,7 @@ function TopListWidget({
   fullListView$,
   fullListViewLinkTitle,
   pinnedItemIdsByType,
+  getItemsByGroupedIds,
   getId,
   pinItem,
   unpinItem
@@ -81,15 +84,24 @@ function TopListWidget({
       }
       bodyClassName={locals.content}
     >
-      {numPinnedItems > 0 && (
-        <ServerTablePresenter
-          isSearchable={false}
-          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
-          result={pendingResult}
-          timeConfig={timeConfig}
-          numSkeletonRows={numPinnedItems}
-        />
-      )}
+      {numPinnedItems > 0 &&
+        (getItemsByGroupedIds ? (
+          <ServerTable
+            isSearchable={false}
+            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+            get={() => getItemsByGroupedIds(pinnedItemIdsByType, timeConfig)}
+            timeConfig={timeConfig}
+            numSkeletonRows={numPinnedItems}
+          />
+        ) : (
+          <ServerTablePresenter
+            isSearchable={false}
+            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+            result={pendingResult}
+            timeConfig={timeConfig}
+            numSkeletonRows={numPinnedItems}
+          />
+        ))}
       {numRegularItems > 0 && (
         <ServerTablePresenter
           isSearchable={false}

@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
@@ -7,10 +8,15 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
+import getMetrics from 'in-subscription/application/getMetrics';
+import { getChartGranularity } from 'in-applications/metrics';
+import { hasError, isLoading } from 'in-services/util/result';
+import { getResultForData } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -24,6 +30,7 @@ export default function ApplicationsTopList(props) {
       {...props}
       icon="lib_application_invert"
       getItems={getApplicationsWithDefaults}
+      getItemsByGroupedIds={getItemsByGroupedIds}
       pinnedItemTypes={[types.APPLCATIONS]}
       getId={item => item.application.id}
       pinItem={id => pin(types.APPLCATIONS, id)}
@@ -33,6 +40,81 @@ export default function ApplicationsTopList(props) {
       fullListViewLinkTitle="All Applications"
     />
   );
+}
+
+function getItemsByGroupedIds(groupedIds, timeConfig) {
+  const applicationIds = groupedIds[types.APPLCATIONS];
+
+  return combineLatest(applicationIds.map(id => getApplicationById(id, timeConfig))).map(applicationResults => {
+    for (let i = 0; i < applicationResults.length; i++) {
+      if (isLoading(applicationResults[i]) || hasError(applicationResults[i])) {
+        return applicationResults[i];
+      }
+    }
+
+    return getResultForData({
+      items: applicationResults
+    });
+  });
+}
+
+function getApplicationById(id, timeConfig) {
+  const granularity = getChartGranularity(timeConfig);
+
+  return combineLatest([
+    getApplication({ id }),
+    getMetrics({
+      filter: {
+        timeConfig,
+        application: id
+      },
+      metrics: {
+        calls: {
+          metric: 'calls',
+          aggregation: 'SUM',
+          granularity
+        },
+        callsAgg: {
+          metric: 'calls',
+          aggregation: 'SUM'
+        },
+        latencyAgg: {
+          metric: 'latency',
+          aggregation: 'MEAN'
+        },
+        latency: {
+          metric: 'latency',
+          aggregation: 'MEAN',
+          granularity
+        },
+        errorsAgg: {
+          metric: 'errors',
+          aggregation: 'MEAN'
+        },
+        errors: {
+          metric: 'errors',
+          aggregation: 'MEAN',
+          granularity
+        }
+      }
+    })
+  ]).map(([applicationResult, metricResult]) => combineApplicationAndMetricResult(applicationResult, metricResult));
+}
+
+function combineApplicationAndMetricResult(applicationResult, metricResult) {
+  if (isLoading(applicationResult) || hasError(applicationResult)) {
+    return applicationResult;
+  }
+  if (isLoading(metricResult) || hasError(metricResult)) {
+    return metricResult;
+  }
+
+  return {
+    application: {
+      ...applicationResult.data
+    },
+    metrics: { ...metricResult.data }
+  };
 }
 
 const columnDefinitions = [

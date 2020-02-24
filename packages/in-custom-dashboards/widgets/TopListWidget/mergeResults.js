@@ -1,5 +1,6 @@
 import { combineLatest } from 'reactive-observables';
-import { get } from 'lodash';
+
+import { hasError, isLoading } from 'in-services/util/result';
 
 export default function mergeResults() {
   const { observables, tags } = collectObservablesAndTags(arguments);
@@ -7,11 +8,8 @@ export default function mergeResults() {
   return sorterFn =>
     combineLatest(observables).map(results => {
       for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-        const isLoading = get(result, ['progress', 'loading']);
-        const hasErrors = get(result, ['errors', 'length'], 0) > 0;
-        if (isLoading || hasErrors) {
-          return result;
+        if (isLoading(results[i]) || hasError(results[i])) {
+          return results[i];
         }
       }
 

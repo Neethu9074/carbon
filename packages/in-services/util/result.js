@@ -1,6 +1,8 @@
+import { just } from 'reactive-observables';
+import { get } from 'lodash';
+
 import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
-import { just } from 'reactive-observables';
 
 export function mapData(result, fn) {
   if (result.data != null) {
@@ -67,4 +69,20 @@ export function successObservableFactory(data, time = Date.now()) {
 
 export function noResultObservable() {
   return successObservable(emptyArray);
+}
+
+export function hasError(result) {
+  return get(result, ['progress', 'loading']);
+}
+
+export function isLoading(result) {
+  return get(result, ['errors', 'length'], 0) > 0;
+}
+
+export function getResultForData(data) {
+  return Object.freeze({
+    errors: [],
+    progress: { loading: false },
+    data
+  });
 }
