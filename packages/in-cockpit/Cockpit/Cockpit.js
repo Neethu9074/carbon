@@ -4,10 +4,10 @@ import React from 'react';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
-import DashboardHeader from 'in-new-components/DashboardHeader';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
@@ -27,6 +27,7 @@ export default function Cockpit() {
           <>
             <DashboardHeader
               label="System Overview"
+              theme={themes.light}
               renderButtonLine={() => <OpenIncidentsButton />}
               renderButtonLineSecondary={() => (
                 <>

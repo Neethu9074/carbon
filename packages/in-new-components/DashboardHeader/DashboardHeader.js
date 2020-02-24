@@ -99,7 +99,7 @@ function Context(props) {
 }
 
 DashboardHeader.propTypes = {
-  theme: PropTypes.oneOf([themes.dark, themes.lightWithGrey, themes.default]),
+  theme: PropTypes.oneOf([themes.dark, themes.light, themes.default]),
   result: PropTypes.any,
   icon: PropTypes.string,
   renderIcon: PropTypes.func,

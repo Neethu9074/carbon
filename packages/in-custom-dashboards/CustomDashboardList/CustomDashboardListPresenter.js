@@ -4,8 +4,8 @@ import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/Dashb
 import { getCustomDashboardLink, getNewCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import DashboardHeader from 'in-new-components/DashboardHeader';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
@@ -45,6 +45,7 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
         icon="lib_views_grid"
         label="Dashboards"
         title="Dashboards"
+        theme={themes.light}
         renderButtonLine={renderButtonLine}
       />
       <DashboardHeaderShadowModule />
