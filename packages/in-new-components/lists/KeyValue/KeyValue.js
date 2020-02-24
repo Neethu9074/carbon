@@ -49,6 +49,10 @@ KeyValue.propTypes = {
 };
 
 function cap(str) {
+  if (!str) {
+    return str;
+  }
+
   const maxCharacters = 48;
   if (str.length > maxCharacters) {
     return `${str.slice(0, maxCharacters - 1)}…`;
