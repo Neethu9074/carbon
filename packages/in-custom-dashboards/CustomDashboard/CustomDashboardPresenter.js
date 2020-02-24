@@ -49,7 +49,7 @@ export default function CustomDashboardPresenter(props) {
                       <DashboardHeader
                         icon="lib_views_grid"
                         label={config.title}
-                        title={config.title}
+                        title="Dashboard"
                         renderButtonLine={() => (
                           <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
                         )}
