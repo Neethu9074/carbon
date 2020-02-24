@@ -1,4 +1,5 @@
 import withSideEffect from 'react-side-effect';
+import { sortedUniq } from 'lodash';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import config from 'in-services/config';
@@ -7,10 +8,7 @@ const defaultTitleSuffix = `Instana (${config.tenantUnit}-${config.tenant})`;
 const MAX_DYNAMIC_SEGMENT_LENGTH = 30;
 
 function setTitle(titles) {
-  document.title = titles
-    .filter(isNotBlank)
-    .reverse()
-    .join(' – ');
+  document.title = sortedUniq(titles.filter(isNotBlank).reverse()).join(' – ');
 }
 
 function reduceProps(propsList) {
