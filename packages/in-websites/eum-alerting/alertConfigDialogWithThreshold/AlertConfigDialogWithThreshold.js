@@ -1,3 +1,4 @@
+import { compose, withProps } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
@@ -7,18 +8,27 @@ import {
   getMetricsBaselineConfiguration,
   getMetricConfiguration
 } from 'in-websites/eum-alerting/alertConfigDialogWithThreshold/MetricsConfigurationFactory';
+import {
+  websitesAlertingCloseDialog,
+  websitesAlertingSwitchMode,
+  websitesAlertingAlertCreated
+} from 'in-websites/eum-alerting/tracker';
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/eum-alerting/constants';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
+import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
+import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
+import AdvancedModeContainer from '../advanced/AdvancedModeContainer';
+import SimpleModeContainer from '../simple/SimpleModeContainer';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
-export const AlertConfigDialogWithThreshold = connectTo(
-  props => {
+export const AlertConfigDialogWithThreshold = compose(
+  connectTo(props => {
     const { form, timeConfig, granularity, onChange } = props;
 
     const thresholdType = form.get(fieldNames.thresholdType).value;
@@ -37,31 +47,44 @@ export const AlertConfigDialogWithThreshold = connectTo(
     }
 
     return observable;
-  },
-  function connectedAlertDialog({
-    form,
-    onChange,
-    onClose,
-    onCreate,
-    timeConfig,
-    websiteLabel,
-    editMode,
-    granularity
-  }) {
-    return (
-      <AlertConfigDialogPresenter
-        form={form}
-        onChange={onChange}
-        onClose={onClose}
-        onCreate={onCreate}
-        timeConfig={timeConfig}
-        websiteLabel={websiteLabel}
-        editMode={editMode}
-        granularity={granularity}
-      />
-    );
-  }
-);
+  }),
+  withProps(({ onClose, onCreate, form }) => ({
+    withTrackClose: trackingConfig => {
+      if (trackingConfig) {
+        websitesAlertingCloseDialog({ step: trackingConfig, ...getBlueprintObject(form) });
+      } else {
+        websitesAlertingCloseDialog({ mode: modeAdvanced, ...getBlueprintObject(form) });
+      }
+      onClose();
+    },
+    trackModeSwitch: (simpleMode, step) => {
+      if (simpleMode) {
+        websitesAlertingSwitchMode({
+          destinationMode: modeAdvanced,
+          step,
+          ...getBlueprintObject(form)
+        });
+      } else {
+        websitesAlertingSwitchMode({
+          destinationMode: modeSimple,
+          ...getBlueprintObject(form)
+        });
+      }
+    },
+    withTrackCreate: simpleMode => {
+      websitesAlertingAlertCreated({ mode: simpleMode ? modeSimple : modeAdvanced });
+      onCreate();
+    }
+  }))
+)(function connectedAlertDialog(props) {
+  return (
+    <AlertConfigDialogPresenter
+      {...props}
+      renderSimpleModeComponent={SimpleModeContainer}
+      renderAdvancedModeComponent={AdvancedModeContainer}
+    />
+  );
+});
 
 function resolveThresholdRequest(form, timeConfig, granularity) {
   const websiteId = form.get(fieldNames.websiteId).value;
@@ -145,7 +168,6 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
       getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality)
     );
   }
-  // return empty();
   return alwaysEmptyArray;
 }
 

@@ -1,18 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .form {
-    display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
-    grid-template-rows: min-content auto;
-    grid-column-gap: 0.5rem;
-    grid-row-gap: 0.5rem;
-
-    height: 29.375rem;
-    margin-top: 2rem;
-    width: 100%;
-  }
-
   .controls {
     display: flex;
     justify-content: center;

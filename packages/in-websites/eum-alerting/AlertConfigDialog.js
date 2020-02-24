@@ -23,6 +23,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
 
   return (
     <AlertConfigDialogWithThreshold
+      setForm={setForm}
       form={form}
       onChange={onChange(setForm)}
       onClose={onClose}

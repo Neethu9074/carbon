@@ -63,9 +63,6 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
       {operatorField.value !== operators.NOT_EMPTY &&
         ruleValueField.map(field => (
           <FormGroup>
-            <Label htmlFor={fieldNames.ruleValue} hasError={!field.valid && field.touched}>
-              String
-            </Label>
             <div className={locals.jsErrorSelection}>
               <TextArea
                 name={fieldNames.ruleValue}

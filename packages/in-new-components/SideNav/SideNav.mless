@@ -12,18 +12,6 @@
     padding: 0;
   }
 
-  .icon {
-    background-color: @lib__colors__N400;
-    border-radius: 50%;
-    margin-left: 0.5rem;
-    fill: @lib__colors__white;
-
-    &.checked {
-      background-color: @lib__colors__teal800;
-      color: @lib__colors__teal800;
-    }
-  }
-
   .item {
     margin: 1.25rem 0;
     font-size: @lib__typography__body__font-size;

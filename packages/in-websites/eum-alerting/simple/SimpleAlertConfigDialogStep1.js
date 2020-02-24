@@ -7,6 +7,7 @@ import {
 } from 'in-websites/eum-alerting/form/slownessForm';
 import SelectAlertForStatusCode from 'in-websites/eum-alerting/simple/SelectAlertForStatusCode/SelectAlertForStatusCode';
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
+import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
@@ -19,8 +20,6 @@ import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import { modeSimple } from 'in-websites/eum-alerting/constants';
 import Menu from 'in-websites/eum-alerting/components/Menu';
-
-import locals from './SimpleAlertConfigDialogStep.mless';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
@@ -48,8 +47,7 @@ export default function SimpleAlertConfigDialogStep1({
   }
 
   return (
-    <>
-      <h1 className={locals.headline}>What do you want to be alerted on?</h1>
+    <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
         itemLabels={alertTypeConfig.map(({ name }) => name)}
         itemClickTracker={selectedItemIndex => {
@@ -124,7 +122,7 @@ export default function SimpleAlertConfigDialogStep1({
         StatusCodeComponent={() => <StatusCodeChart form={form} timeConfig={timeConfig} granularity={granularity} />}
         SlownessComponent={() => <SlownessChart form={form} timeConfig={timeConfig} granularity={granularity} />}
       />
-    </>
+    </SimpleModeStepContentWrapper>
   );
 }
 

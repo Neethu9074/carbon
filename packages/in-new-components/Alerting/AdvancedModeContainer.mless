@@ -47,4 +47,16 @@
     margin: 2rem auto 1rem auto;
     width: 16.875rem;
   }
+
+  .icon {
+    background-color: @lib__colors__N400;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    fill: @lib__colors__white;
+
+    &.checked {
+      background-color: @lib__colors__teal800;
+      color: @lib__colors__teal800;
+    }
+  }
 }
