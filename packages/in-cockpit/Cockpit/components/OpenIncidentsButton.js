@@ -23,7 +23,7 @@ export default connectTo(
       <Overlay props={{ numIncidents, close }} content={Content} withoutWrapper>
         {({ toggle, refSetter }) => (
           <HealthIndicatorButtonPresenter
-            openIssues={`${numIncidents} Incidents`}
+            openIssues={`${numIncidents} Incident${numIncidents === 1 ? '' : 's'}`}
             maxSeverity={maxSeverity}
             onClick={toggle}
             refSetter={refSetter}

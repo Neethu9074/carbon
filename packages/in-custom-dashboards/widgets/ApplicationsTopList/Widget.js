@@ -53,7 +53,9 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
 
     return getResultForData(
       {
-        items: applicationResults
+        items: applicationResults.sort(
+          (a, b) => get(b, ['metrics', 'callsAgg', 0, 1], 0) - get(a, ['metrics', 'callsAgg', 0, 1], 0)
+        )
       },
       timeConfig.to || Date.now()
     );

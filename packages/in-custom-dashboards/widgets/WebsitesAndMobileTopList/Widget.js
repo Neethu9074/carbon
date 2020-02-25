@@ -66,16 +66,18 @@ function getTypeByItem(item) {
 
 function getMergedData(params) {
   return mergeResults(getWebsitesWithDefaults(params), 'isWebsite', getMobileAppsWithDefaults(params), 'isMobileApp')(
-    (a, b) => {
-      const mainKpiA = a.isWebsite
-        ? get(a, ['metrics', 'pageViewsAgg', 0, 1], 0)
-        : get(a, ['metrics', 'sessionsAgg', 0, 1], 0);
-      const mainKpiB = b.isWebsite
-        ? get(b, ['metrics', 'pageViewsAgg', 0, 1], 0)
-        : get(b, ['metrics', 'sessionsAgg', 0, 1], 0);
-      return mainKpiB - mainKpiA;
-    }
+    sort
   );
+}
+
+function sort(a, b) {
+  const mainKpiA = a.isWebsite
+    ? get(a, ['metrics', 'pageViewsAgg', 0, 1], 0)
+    : get(a, ['metrics', 'sessionsAgg', 0, 1], 0);
+  const mainKpiB = b.isWebsite
+    ? get(b, ['metrics', 'pageViewsAgg', 0, 1], 0)
+    : get(b, ['metrics', 'sessionsAgg', 0, 1], 0);
+  return mainKpiB - mainKpiA;
 }
 
 function getItemsByGroupedIds(groupedIds, timeConfig) {
@@ -94,7 +96,7 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
 
     return getResultForData(
       {
-        items: results
+        items: results.sort(sort)
       },
       timeConfig.to || Date.now()
     );
