@@ -122,7 +122,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                       href$={getModifiedUrlStream(
                         params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
                       )}
-                      description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, with an Instana agent in between."
+                      description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, without an Instana agent in between."
                     />
                     <LinkListItem
                       label="Application Monitoring"
