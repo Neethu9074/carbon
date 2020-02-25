@@ -17,7 +17,7 @@ export default function FormComponent({ form, onChange }) {
       <FormGroup>
         <Label htmlFor="metic-configurator-event-metric">Metric</Label>
         <Select id="metic-configurator-event-metric" value={metricField.value} disabled>
-          <option value="openEventCount">Open Event Count</option>
+          <option value="eventCount">Event Count</option>
         </Select>
         <TouchedMessages field={metricField} />
       </FormGroup>

@@ -13,7 +13,7 @@ export function createForm(form, savedState) {
       createField({
         // Metric selection not necessary because there is only one metric.
         // Therefore hard coded
-        value: 'openEventCount',
+        value: 'eventCount',
         validator: notBlankValidator
       })
     )
