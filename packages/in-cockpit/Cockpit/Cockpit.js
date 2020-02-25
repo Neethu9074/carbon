@@ -8,6 +8,7 @@ import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
@@ -133,8 +134,17 @@ export default function Cockpit() {
   );
 }
 
-function renderIcon({ icon }) {
-  return <SvgIcon className={locals.icon} type={icon} size="s" />;
+function renderIcon({ icon }, isSelected) {
+  return (
+    <SvgIcon
+      className={evaluateClassNames({
+        [locals.icon]: true,
+        [locals.iconSelected]: isSelected
+      })}
+      type={icon}
+      size="s"
+    />
+  );
 }
 
 function renderButtonLine() {

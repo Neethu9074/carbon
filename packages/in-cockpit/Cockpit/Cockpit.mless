@@ -21,6 +21,12 @@
 
   .icon {
     margin-right: 0.25rem;
+
+    fill: @lib__colors__N600Light;
+  }
+
+  .iconSelected {
+    fill: @lib__colors__N900Primary;
   }
 
   .nav {

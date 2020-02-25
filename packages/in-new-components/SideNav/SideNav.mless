@@ -14,14 +14,17 @@
 
   .item {
     margin: 1.25rem 0;
+
+    color: @lib__colors__N600Light;
     font-size: @lib__typography__body__font-size;
     line-height: 1.25rem;
-    color: @lib__colors__N700Medium;
+
     &:hover {
       cursor: pointer;
     }
+
     &.selected {
-      color: @lib__colors__teal800;
+      color: @lib__colors__N900Primary;
     }
   }
 

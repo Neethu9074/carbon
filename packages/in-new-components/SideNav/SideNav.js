@@ -53,7 +53,7 @@ export default class SideNav extends React.Component {
               }}
             >
               <span className={locals.label}>
-                {renderPreIcon && renderPreIcon(navItem)}
+                {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
                 {navItem.label}
                 {renderPostIcon && renderPostIcon(navItem)}
               </span>
