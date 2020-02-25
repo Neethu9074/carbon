@@ -7,3 +7,4 @@ export const type = 'markdown';
 export const label = 'Markdown';
 export const minimumWidth = 1;
 export const minimumHeight = 1;
+export const enabled = true;

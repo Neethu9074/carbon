@@ -7,3 +7,4 @@ export const type = 'applicationsTopList';
 export const label = 'Applications Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;
+export const enabled = false;

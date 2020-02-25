@@ -7,3 +7,4 @@ export const type = 'platformsTopList';
 export const label = 'Platforms Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;
+export const enabled = false;

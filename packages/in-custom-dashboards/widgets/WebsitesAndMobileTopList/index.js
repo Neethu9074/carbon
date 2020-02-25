@@ -7,3 +7,4 @@ export const type = 'websitesAndMobileTopList';
 export const label = 'Website and Mobile Apps Top List';
 export const minimumWidth = 6;
 export const minimumHeight = 3;
+export const enabled = false;

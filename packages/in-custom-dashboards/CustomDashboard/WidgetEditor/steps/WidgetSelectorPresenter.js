@@ -23,6 +23,7 @@ export default function WidgetSelectorPresenter({ form, onChange }) {
       >
         <option value="">Please select</option>
         {Object.keys(widgets)
+          .filter(type => widgets[type].enabled)
           .sort((a, b) => compareIgnoreCase(widgets[a].label, widgets[b].label))
           .map(type => (
             <option key={type} value={type}>

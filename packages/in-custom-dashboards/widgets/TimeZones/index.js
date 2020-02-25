@@ -7,3 +7,4 @@ export const type = 'timeZones';
 export const label = 'Time Zones';
 export const minimumWidth = 1;
 export const minimumHeight = 1;
+export const enabled = true;

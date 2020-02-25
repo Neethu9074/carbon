@@ -7,3 +7,4 @@ export const type = 'bigNumber';
 export const label = 'Big Number';
 export const minimumWidth = 1;
 export const minimumHeight = 1;
+export const enabled = true;

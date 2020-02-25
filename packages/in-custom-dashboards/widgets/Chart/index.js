@@ -7,3 +7,4 @@ export const type = 'chart';
 export const label = 'Chart';
 export const minimumWidth = 3;
 export const minimumHeight = 2;
+export const enabled = true;
