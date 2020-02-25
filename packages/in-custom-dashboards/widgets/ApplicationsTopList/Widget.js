@@ -72,6 +72,10 @@ function getApplicationById(id, timeConfig) {
         application: id
       },
       metrics: {
+        services: {
+          metric: 'services',
+          aggregation: 'DISTINCT_COUNT'
+        },
         calls: {
           metric: 'calls',
           aggregation: 'SUM',
