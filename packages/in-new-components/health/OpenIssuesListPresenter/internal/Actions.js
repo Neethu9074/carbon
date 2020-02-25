@@ -5,13 +5,13 @@ import Button from 'in-new-components/Button';
 
 import locals from './Actions.mless';
 
-export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink }) {
+export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, eventType }) {
   const openIssues = openIssuesResult.data;
   if (openIssues == null || openIssues.length === 0) {
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
-          View Issues
+          View {eventType + 's'}
         </Button>
       </div>
     );
@@ -33,7 +33,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink }
         asBlock
         href$={href$}
       >
-        View {openIssues.length} {openIssues.length === 1 ? 'Issue' : 'Issues'}
+        View {openIssues.length} {openIssues.length === 1 ? eventType : eventType + 's'}
       </Button>
     </div>
   );

@@ -4,17 +4,17 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Header.mless';
 
-export default function Header({ openIssuesResult, maxIssuesToShow, close }) {
+export default function Header({ openIssuesResult, maxIssuesToShow, eventType, close }) {
   let title = null;
   if (openIssuesResult.progress.loading) {
-    title = 'Loading Open Issues…';
+    title = `Loading Open ${eventType}s…`;
   } else if (openIssuesResult.errors.length > 0) {
-    title = 'Failed To Load Open Issues';
+    title = `Failed To Load Open ${eventType}s`;
   } else {
     const openIssueCount = openIssuesResult.data.length;
     title = (
       <Fragment>
-        {openIssueCount} Open {openIssueCount === 1 ? 'Issue' : 'Issues'}
+        {openIssueCount} Open {openIssueCount === 1 ? eventType : eventType + 's'}
         {openIssueCount > maxIssuesToShow && (
           <span className={locals.more}>(displaying {maxIssuesToShow} most severe)</span>
         )}
