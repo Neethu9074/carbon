@@ -112,38 +112,14 @@ export default function ViewSwitcher({
         {...commonProps}
       />
 
-      {hasKubernetesAccess && (
-        <View
-          id="main-nav-kubernetes"
-          label="Kubernetes"
-          icon="lib_kubernetes_inverted"
-          href$={getView(kubernetesClusterList)}
-          isActive$={isView(kubernetes)}
-          {...commonProps}
-        />
-      )}
-
-      {pcfEnabled && (
-        <View
-          id="main-nav-cloudfoundry"
-          label="Cloud Foundry"
-          icon="lib_cloudfoundry_inverted"
-          href$={getView(cloudfoundryApplicationList)}
-          isActive$={isView(cloudfoundry)}
-          {...commonProps}
-        />
-      )}
-
-      {vsphereEnabled && (
-        <View
-          id="main-nav-vsphere"
-          label="vSphere"
-          icon="lib_vsphere_inverted"
-          href$={getView(datacenterListFullyQualified)}
-          isActive$={isView(vsphere)}
-          {...commonProps}
-        />
-      )}
+      <Platforms
+        {...commonProps}
+        expandedSubMenu={expandedSubMenu}
+        setExpandedSubMenu={setExpandedSubMenu}
+        sidebarIsExpanded={isExpanded}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
 
       <Spacer />
 
@@ -209,6 +185,7 @@ export default function ViewSwitcher({
       <Spacer />
 
       <View
+        id="main-nav-more"
         label="More"
         icon="lib_menu_additional_resources"
         expandedSubMenu={expandedSubMenu}
@@ -217,7 +194,6 @@ export default function ViewSwitcher({
         sidebarIsExpanded={isExpanded}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        id="main-nav-more"
       >
         <SubViewItem label="Management Portal" href={umpLink} external id="main-nav-management-portal" />
         {tenantSwitcherEnabled && (
@@ -392,6 +368,76 @@ function WebsiteMobileAppView(props) {
   }
 
   return null;
+}
+
+function Platforms(props) {
+  const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
+
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable === 0) {
+    return null;
+  }
+
+  const ViewItemForPlatforms = numPlatformsAvailable > 1 && cockpitEnabled ? SubViewItem : View;
+  const platforms = (
+    <>
+      {hasKubernetesAccess && (
+        <ViewItemForPlatforms
+          id="main-nav-kubernetes"
+          label="Kubernetes"
+          icon="lib_kubernetes_inverted"
+          href$={getView(kubernetesClusterList)}
+          isActive$={isView(kubernetes)}
+          {...props}
+        />
+      )}
+
+      {pcfEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-cloudfoundry"
+          label="Cloud Foundry"
+          icon="lib_cloudfoundry_inverted"
+          href$={getView(cloudfoundryApplicationList)}
+          isActive$={isView(cloudfoundry)}
+          {...props}
+        />
+      )}
+
+      {vsphereEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-vsphere"
+          label="vSphere"
+          icon="lib_vsphere_inverted"
+          href$={getView(datacenterListFullyQualified)}
+          isActive$={isView(vsphere)}
+          {...props}
+        />
+      )}
+    </>
+  );
+
+  if (numPlatformsAvailable > 1 && cockpitEnabled) {
+    return (
+      <View
+        id="main-nav-platforms"
+        label="Platforms"
+        icon="lib_platforms_inverted"
+        isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
+        expandedSubMenu={expandedSubMenu}
+        setExpandedSubMenu={setExpandedSubMenu}
+        sidebarIsExpanded={sidebarIsExpanded}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        {platforms}
+      </View>
+    );
+  }
+
+  return platforms;
 }
 
 function Spacer() {
