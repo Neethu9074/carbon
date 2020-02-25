@@ -215,7 +215,6 @@ const columnDefinitions = [
           metrics={isWebsite ? metrics.pageViews : metrics.sessions}
           metric={isWebsite ? metrics.pageViewsAgg : metrics.sessionsAgg}
           label={isWebsite ? 'Page Views' : 'Sessions'}
-          showAggregationIcon
           tooltipFormatter={number.compact}
         />
       );
@@ -236,7 +235,6 @@ const columnDefinitions = [
           metric={isWebsite ? metrics.onLoadTimeAgg : metrics.viewsAgg}
           label={isWebsite ? 'onLoad Time' : 'Views'}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
-          showAggregationIcon
         />
       );
     }

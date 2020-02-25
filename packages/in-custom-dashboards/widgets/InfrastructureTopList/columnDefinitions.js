@@ -198,6 +198,6 @@ const SparkChartWithMetricValue = connectTo(
     })
   }),
   function SparkChartWithMetricValue(props) {
-    return <HistoricMetricSparkChart {...props} width={72} showAggregationIcon />;
+    return <HistoricMetricSparkChart {...props} width={72} />;
   }
 );

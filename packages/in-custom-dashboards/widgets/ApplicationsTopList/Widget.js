@@ -178,7 +178,6 @@ const columnDefinitions = [
           metrics={get(item, ['metrics', 'calls'])}
           metric={get(item, ['metrics', 'callsAgg'])}
           label="Calls"
-          showAggregationIcon
           tooltipFormatter={number.compact}
         />
       );
@@ -197,7 +196,6 @@ const columnDefinitions = [
           metrics={get(item, ['metrics', 'latency'])}
           metric={get(item, ['metrics', 'latencyAgg'])}
           label="Latency"
-          showAggregationIcon
           tooltipFormatter={meanLatencyFixed.compact}
         />
       );
@@ -216,7 +214,6 @@ const columnDefinitions = [
           metrics={get(item, ['metrics', 'errors'])}
           metric={get(item, ['metrics', 'errorsAgg'])}
           label="Erroneous Call Rate"
-          showAggregationIcon
           tooltipFormatter={percentage.detailed}
         />
       );
