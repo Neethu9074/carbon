@@ -1,15 +1,15 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import Section from '../../stories/_helpers/Section';
+import Root from '../../stories/_helpers/Root';
 
-import Section from '../_helpers/Section';
-import Root from '../_helpers/Root';
+export default {
+  title: 'Molecules|Errors'
+};
 
-storiesOf('Components/Errors', module).add('Errors', () => <ErrorsStory />);
-
-function ErrorsStory() {
+export function ErrorsStory() {
   return (
     <Root>
       <Section title="Erroneous Result Presenter single message">

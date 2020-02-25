@@ -1,18 +1,18 @@
 import { withKnobs, number } from '@storybook/addon-knobs/react';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Section from '../../_helpers/Section';
-import Root from '../../_helpers/Root';
+import Section from '../../stories/_helpers/Section';
+import Root from '../../stories/_helpers/Root';
 
-storiesOf('Components/Loading', module)
-  .addDecorator(withKnobs)
-  .add('Loading', () => <LoadingStory />);
+export default {
+  title: 'Molecules|Loading',
+  decorators: [withKnobs]
+};
 
-function LoadingStory() {
+export function LoadingStory() {
   return (
     <Root>
       <Section title="Infinite Bar">

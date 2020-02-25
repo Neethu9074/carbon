@@ -59,7 +59,6 @@ import './components/DashboardHeader.story';
 import './components/Dialog.story';
 import './components/EntityVersionList.story';
 import './components/EntityWithTypeAndIcon.story';
-import './components/Errors.story';
 import './components/ExpandableCard.story';
 import './components/ExpandableCard.story';
 import './components/FloatingActionButton.story';
@@ -97,7 +96,6 @@ import './components/TreeMap.story';
 import './components/VersionTimeline.story';
 import './components/ViewSwitcher.story';
 
-import './components/loading/Loading.story';
 import './components/loading/LoadingTraces.story';
 
 import './components/productNotifications/DashboardNotification.story';
