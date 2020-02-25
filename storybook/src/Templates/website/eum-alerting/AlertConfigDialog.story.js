@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import AlertConfigDialogPresenter from 'in-websites/eum-alerting/AlertConfigDialogPresenter';
+import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { twentyFourHrs, tenMins } from 'in-websites/eum-alerting/constants';
 

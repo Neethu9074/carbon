@@ -1,28 +1,22 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import Section from '../../stories/_helpers/Section';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-import Section from '../_helpers/Section';
 
 export default {
-  title: 'Components/Dashboard Header',
+  title: 'Templates|Dashboard Header',
   component: DashboardHeader
 };
 
-storiesOf('Components/Dashboard Header', module)
-  .addParameters({ component: DashboardHeader })
-  .add('default', () => <Default />)
-  .add('loading', () => <Loading />);
-
-function Default() {
+export function Default() {
   return <Headers />;
 }
 
-function Loading() {
+export function Loading() {
   return <Headers additionalProps={{ result: {} }} />;
 }
 
