@@ -14,7 +14,6 @@ import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-subscription/application/getMetrics';
-import { getChartGranularity } from 'in-applications/metrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getResultForData } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
@@ -62,7 +61,7 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
 }
 
 function getApplicationById(id, timeConfig) {
-  const granularity = getChartGranularity(timeConfig);
+  const granularity = getSparkChartGranularity(timeConfig);
 
   return combineLatest([
     getApplication({ id }),

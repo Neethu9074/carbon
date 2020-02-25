@@ -15,7 +15,6 @@ import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
-import { getChartGranularity } from 'in-applications/metrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';
 import { getResultForData } from 'in-services/util/result';
@@ -134,7 +133,7 @@ function getWebsiteId(id, timeConfig) {
 }
 
 function getMobileAppById(id, timeConfig) {
-  const granularity = getChartGranularity(timeConfig);
+  const granularity = getSparkChartGranularity(timeConfig);
 
   return combineLatest([
     getMobileApp({ id }),
