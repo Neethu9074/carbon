@@ -102,7 +102,7 @@ export const selectOptions = {
     { value: '415', label: '415 (Unsupported Media Type)' },
     { value: '416', label: '416 (Requested Range Not Satisfiable)' },
     { value: '417', label: '417 (Expectation Failed)' },
-    { value: '418', label: "418 (I'm a teapot" },
+    { value: '418', label: "418 (I'm a teapot)" },
     { value: '421', label: '421 (Misdirected Request)' },
     { value: '422', label: '422 (Unprocessable Entity)' },
     { value: '423', label: '423 (Locked)' },
