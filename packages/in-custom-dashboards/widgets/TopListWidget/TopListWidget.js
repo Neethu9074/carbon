@@ -5,7 +5,6 @@ import React from 'react';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
 import ServerTable from 'in-components/tables/ServerTable';
-import { pendingResult } from 'in-services/fixedObjects';
 import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -85,7 +84,7 @@ function TopListWidget({
       bodyClassName={locals.content}
     >
       {numPinnedItems > 0 &&
-        (getItemsByGroupedIds ? (
+        getItemsByGroupedIds && (
           <ServerTable
             isSearchable={false}
             columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
@@ -93,15 +92,7 @@ function TopListWidget({
             timeConfig={timeConfig}
             numSkeletonRows={numPinnedItems}
           />
-        ) : (
-          <ServerTablePresenter
-            isSearchable={false}
-            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
-            result={pendingResult}
-            timeConfig={timeConfig}
-            numSkeletonRows={numPinnedItems}
-          />
-        ))}
+        )}
       {numRegularItems > 0 && (
         <ServerTablePresenter
           isSearchable={false}

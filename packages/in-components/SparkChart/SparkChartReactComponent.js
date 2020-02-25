@@ -93,8 +93,8 @@ class SparkChartReactWrapper extends React.Component {
     this.sparkChart.update(this.props);
   }
 
-  componentDidUpdate(nextProps) {
-    this.sparkChart.update(nextProps);
+  componentDidUpdate() {
+    this.sparkChart.update(this.props);
   }
 
   componentWillUnmount() {

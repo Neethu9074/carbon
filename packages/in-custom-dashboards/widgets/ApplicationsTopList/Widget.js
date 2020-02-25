@@ -52,9 +52,12 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
       }
     }
 
-    return getResultForData({
-      items: applicationResults
-    });
+    return getResultForData(
+      {
+        items: applicationResults
+      },
+      timeConfig.to || Date.now()
+    );
   });
 }
 
@@ -98,10 +101,10 @@ function getApplicationById(id, timeConfig) {
         }
       }
     })
-  ]).map(([applicationResult, metricResult]) => combineApplicationAndMetricResult(applicationResult, metricResult));
+  ]).map(([applicationResult, metricResult]) => combineResults(applicationResult, metricResult));
 }
 
-function combineApplicationAndMetricResult(applicationResult, metricResult) {
+function combineResults(applicationResult, metricResult) {
   if (isLoading(applicationResult) || hasError(applicationResult)) {
     return applicationResult;
   }

@@ -1,16 +1,24 @@
+import { combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
+import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { getChartGranularity } from 'in-applications/metrics';
+import { hasError, isLoading } from 'in-services/util/result';
+import getWebsite from 'in-subscription/website/getWebsite';
+import { getResultForData } from 'in-services/util/result';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import WithIcon from 'in-new-components/WithIcon';
@@ -22,7 +30,8 @@ export default function WebsitesAndMobileTopList(props) {
     fullListView$: getView(websiteMonitoringPath),
     getId,
     pinItem: (id, item) => pin(getTypeByItem(item), id),
-    unpinItem: (id, item) => unpin(getTypeByItem(item), id)
+    unpinItem: (id, item) => unpin(getTypeByItem(item), id),
+    getItemsByGroupedIds: getItemsByGroupedIds
   };
 
   if (!mobileAppMonitoringEnabled) {
@@ -70,6 +79,110 @@ function getMergedData(params) {
   );
 }
 
+function getItemsByGroupedIds(groupedIds, timeConfig) {
+  const websiteIds = groupedIds[types.WEBSITES] || [];
+  const mobileAppIds = groupedIds[types.MOBILE_APPS] || [];
+
+  return combineLatest([
+    ...websiteIds.map(id => getWebsiteId(id, timeConfig)),
+    ...mobileAppIds.map(id => getMobileAppById(id, timeConfig))
+  ]).map(results => {
+    for (let i = 0; i < results.length; i++) {
+      if (isLoading(results[i]) || hasError(results[i])) {
+        return results[i];
+      }
+    }
+
+    return getResultForData(
+      {
+        items: results
+      },
+      timeConfig.to || Date.now()
+    );
+  });
+}
+
+function getWebsiteId(id, timeConfig) {
+  const granularity = getSparkChartGranularity(timeConfig);
+  return combineLatest([
+    getWebsite({ id }),
+    getWebsiteMetrics({
+      timeConfig,
+      tagFilters: [{ name: 'beacon.website.id', operator: 'EQUALS', stringValue: id }],
+      metrics: {
+        pageViewsAgg: {
+          metric: 'pageViews',
+          aggregation: 'SUM'
+        },
+        pageViews: {
+          metric: 'pageViews',
+          aggregation: 'SUM',
+          granularity
+        },
+        onLoadTimeAgg: {
+          metric: 'onLoadTime',
+          aggregation: 'MEAN'
+        },
+        onLoadTime: {
+          metric: 'onLoadTime',
+          aggregation: 'MEAN',
+          granularity
+        }
+      }
+    })
+  ]).map(([websiteResult, metricResult]) => combineResults(websiteResult, metricResult, 'website', 'isWebsite'));
+}
+
+function getMobileAppById(id, timeConfig) {
+  const granularity = getChartGranularity(timeConfig);
+
+  return combineLatest([
+    getMobileApp({ id }),
+    getMobileAppMetrics({
+      timeConfig,
+      tagFilters: [{ name: 'mobileBeacon.mobileApp.id', operator: 'EQUALS', stringValue: id }],
+      metrics: {
+        sessionsAgg: {
+          metric: 'sessions',
+          aggregation: 'SUM'
+        },
+        sessions: {
+          metric: 'sessions',
+          aggregation: 'SUM',
+          granularity
+        },
+        viewsAgg: {
+          metric: 'views',
+          aggregation: 'SUM'
+        },
+        views: {
+          metric: 'views',
+          aggregation: 'SUM',
+          granularity
+        }
+      }
+    })
+  ]).map(([mobileAppResult, metricResult]) =>
+    combineResults(mobileAppResult, metricResult, 'mobileApp', 'isMobileApp')
+  );
+}
+
+function combineResults(entityResult, metricResult, entityName, flag) {
+  if (isLoading(entityResult) || hasError(entityResult)) {
+    return entityResult;
+  }
+  if (isLoading(metricResult) || hasError(metricResult)) {
+    return metricResult;
+  }
+
+  const mappedResult = {
+    metrics: { ...metricResult.data }
+  };
+  mappedResult[entityName] = entityResult.data;
+  mappedResult[flag] = true;
+  return mappedResult;
+}
+
 const columnDefinitions = [
   {
     id: 'label',
@@ -96,12 +209,13 @@ const columnDefinitions = [
       const { isWebsite, metrics } = item;
       return (
         <SparkChart
+          debug
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={!isWebsite ? metrics.sessions : metrics.pageViews}
-          metric={!isWebsite ? metrics.sessionsAgg : metrics.pageViewsAgg}
-          label={!isWebsite ? 'Sessions' : 'Page Views'}
+          metrics={isWebsite ? metrics.pageViews : metrics.sessions}
+          metric={isWebsite ? metrics.pageViewsAgg : metrics.sessionsAgg}
+          label={isWebsite ? 'Page Views' : 'Sessions'}
           showAggregationIcon
           tooltipFormatter={number.compact}
         />
@@ -119,9 +233,9 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
-          metrics={!isWebsite ? metrics.views : metrics.onLoadTime}
-          metric={!isWebsite ? metrics.viewsAgg : metrics.onLoadTimeAgg}
-          label={!isWebsite ? 'Views' : 'onLoad Time'}
+          metrics={isWebsite ? metrics.onLoadTime : metrics.views}
+          metric={isWebsite ? metrics.onLoadTimeAgg : metrics.viewsAgg}
+          label={isWebsite ? 'onLoad Time' : 'Views'}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
           showAggregationIcon
         />

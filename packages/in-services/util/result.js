@@ -79,10 +79,15 @@ export function isLoading(result) {
   return get(result, ['errors', 'length'], 0) > 0;
 }
 
-export function getResultForData(data) {
-  return Object.freeze({
+export function getResultForData(data, time) {
+  const result = {
     errors: [],
     progress: { loading: false },
     data
-  });
+  };
+  if (time) {
+    result.time = time;
+  }
+
+  return Object.freeze(result);
 }
