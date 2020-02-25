@@ -109,7 +109,8 @@ function getItems(query, selectedType) {
         loading: false
       },
       data: {
-        items: snapshots
+        items: snapshots,
+        totalHits: snapshots.length
       }
     };
   });

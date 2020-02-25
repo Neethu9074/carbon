@@ -58,11 +58,14 @@ function TopListWidget({
   const numPinnedItems = flattenedIds.length;
   const numRegularItems = Math.max(0, 5 - numPinnedItems);
   if (result && result.data) {
+    const filteredItems = result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1);
+    title = `${title} (${filteredItems.length + numPinnedItems})`;
+
     result = {
       ...result,
       data: {
         // this works as long as the queried page size is >= 10
-        items: result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1).slice(0, numRegularItems)
+        items: filteredItems.slice(0, numRegularItems)
       }
     };
   }

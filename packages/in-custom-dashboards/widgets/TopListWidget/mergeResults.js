@@ -14,11 +14,13 @@ export default function mergeResults() {
       }
 
       let mergedItems = [];
+      let totalHits = 0;
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
         const tag = tags[i];
 
         mergedItems = mergedItems.concat(getTaggedItems(result, tag));
+        totalHits += result.data.totalHits;
       }
 
       if (sorterFn) {
@@ -31,7 +33,8 @@ export default function mergeResults() {
         time: results[0].time,
         adjustedWindowSize: results[0].adjustedWindowSize,
         data: {
-          items: mergedItems
+          items: mergedItems,
+          totalHits
         }
       };
     });
