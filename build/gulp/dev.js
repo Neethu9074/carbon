@@ -144,11 +144,6 @@ gulp.task('webpack:dev', () => {
   // modify some webpack config options
   const config = clone(webpackConfig);
   config.devtool = 'eval';
-  config.plugins.push(
-    new webpack.LoaderOptionsPlugin({
-      debug: true
-    })
-  );
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
