@@ -1,6 +1,14 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     display: flex;
+  }
+
+  .tuInformation {
+    color: @lib__colors__N600Light;
+    font-size: 0.875rem;
+    font-weight: 600;
   }
 
   .left {

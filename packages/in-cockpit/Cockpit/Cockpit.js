@@ -27,8 +27,9 @@ export default function Cockpit() {
           <>
             <DashboardHeader
               label="System Overview"
+              renderMetaInformation={renderMetaInformation}
               theme={themes.light}
-              renderButtonLine={() => <OpenIncidentsButton />}
+              renderButtonLine={renderButtonLine}
               renderButtonLineSecondary={() => (
                 <>
                   <SetAsLandingPage />
@@ -134,4 +135,17 @@ export default function Cockpit() {
 
 function renderIcon({ icon }) {
   return <SvgIcon className={locals.icon} type={icon} size="s" />;
+}
+
+function renderButtonLine() {
+  return <OpenIncidentsButton />;
+}
+
+function renderMetaInformation() {
+  const { tenant, tenantUnit } = window.instana.config;
+  return (
+    <span className={locals.tuInformation}>
+      {tenant}/{tenantUnit}
+    </span>
+  );
 }
