@@ -30,6 +30,6 @@
   }
 
   .nav {
-    margin-top: -1rem;
+    position: fixed;
   }
 }

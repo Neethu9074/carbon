@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import theme from 'in-themes';
-import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
@@ -18,7 +18,81 @@ import { role } from 'in-stores/user';
 
 import locals from './Cockpit.mless';
 
+const configEnrichmentLookUpTable = {
+  '1': {
+    type: 'websitesAndMobileTopList',
+    title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
+  },
+  '2': {
+    type: 'applicationsTopList',
+    title: 'Applications'
+  },
+  '3': {
+    type: 'platformsTopList',
+    title: 'Platforms'
+  },
+  '4': {
+    type: 'infrastructureTopList',
+    title: 'Infrastructure'
+  }
+};
+
+const navLookUpTable = {
+  '1': {
+    icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
+    label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
+  },
+  '2': {
+    icon: 'lib_application',
+    label: 'Applications'
+  },
+  '3': {
+    icon: 'lib_platforms',
+    label: 'Platforms'
+  },
+  '4': {
+    icon: 'lib_infrastructure',
+    label: 'Infrastructure'
+  }
+};
+
 export default function Cockpit() {
+  const [itemOrder, setItemOrder] = useState([
+    {
+      id: '1',
+      width: 10,
+      height: 3,
+      x: 0,
+      y: 0
+    },
+    {
+      id: '2',
+      width: 10,
+      height: 3,
+      x: 0,
+      y: 4
+    },
+    {
+      id: '3',
+      width: 10,
+      height: 3,
+      x: 0,
+      y: 8
+    },
+    {
+      id: '4',
+      width: 10,
+      height: 3,
+      x: 0,
+      y: 12
+    }
+  ]);
+  const setNewItemOrder = items => {
+    items = items.slice();
+    items.sort((i1, i2) => i1.y - i2.y);
+    setItemOrder(items);
+  };
+
   return (
     <>
       <SetBodyColor color={theme.lib.colors.N100} />
@@ -65,67 +139,25 @@ export default function Cockpit() {
           <div className={locals.left}>
             <Grid
               config={{
-                widgets: [
-                  {
-                    id: '1',
-                    width: 10,
-                    height: 3,
-                    x: 0,
-                    y: 0,
-                    type: 'websitesAndMobileTopList',
-                    title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
-                  },
-                  {
-                    id: '2',
-                    width: 10,
-                    height: 3,
-                    x: 0,
-                    y: 4,
-                    type: 'applicationsTopList',
-                    title: 'Applications'
-                  },
-                  {
-                    id: '3',
-                    width: 10,
-                    height: 3,
-                    x: 0,
-                    y: 8,
-                    type: 'platformsTopList',
-                    title: 'Platforms'
-                  },
-                  {
-                    id: '4',
-                    width: 10,
-                    height: 3,
-                    x: 0,
-                    y: 12,
-                    type: 'infrastructureTopList',
-                    title: 'Infrastructure'
-                  }
-                ]
+                widgets: itemOrder.map(config => ({
+                  ...config,
+                  ...configEnrichmentLookUpTable[config.id]
+                }))
               }}
               isEditing={false}
+              isResizable={false}
+              onLayoutChange={setNewItemOrder}
             />
           </div>
           <div className={locals.right}>
-            <Sticky
-              header={
-                <SideNav
-                  className={locals.nav}
-                  scrollToTopOnFirstItemClicked
-                  navItems={[
-                    {
-                      scrollId: getWidgetId('1'),
-                      icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
-                      label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
-                    },
-                    { scrollId: getWidgetId('2'), icon: 'lib_application', label: 'Applications' },
-                    { scrollId: getWidgetId('3'), icon: 'lib_platforms', label: 'Platforms' },
-                    { scrollId: getWidgetId('4'), icon: 'lib_infrastructure', label: 'Infrastructure' }
-                  ]}
-                  renderPreIcon={renderIcon}
-                />
-              }
+            <SideNav
+              className={locals.nav}
+              scrollToTopOnFirstItemClicked
+              navItems={itemOrder.map(config => ({
+                scrollId: getWidgetId(config.id),
+                ...navLookUpTable[config.id]
+              }))}
+              renderPreIcon={renderIcon}
             />
           </div>
         </div>
