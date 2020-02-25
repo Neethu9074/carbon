@@ -58,7 +58,6 @@
 
   .aggregationIcon {
     fill: @lib__colors__N600Light;
-    margin-right: 0.25rem;
   }
 
   .keyValue {

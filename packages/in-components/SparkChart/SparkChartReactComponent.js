@@ -48,7 +48,7 @@ function SparkChartReactComponent(props) {
           <div className={locals.iconValueWrapper}>
             <SvgIcon
               className={locals.aggregationIcon}
-              type={aggregation === 'SUM' ? 'lib_actions_loading' : 'lib_actions_loading'}
+              type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'}
               size="xs"
             />
             {horizontalMetricValue}
