@@ -157,7 +157,9 @@ gulp.task('webpack:dev', () => {
     liveReload: hotReload,
     disableHostCheck: hotReload,
     watchOptions: {
-      ignored: /node_modules/
+      ignored: /node_modules/,
+      aggregateTimeout: 300,
+      poll: 2000
     },
     stats: {
       colors: true
