@@ -114,7 +114,7 @@ export const selectOptions = {
     { value: '444', label: '444 (Connection Closed Without Response)' },
     { value: '451', label: '451 (Unavailable For Legal Reasons)' },
     { value: '499', label: '499 (Client Closed Request)' },
-    { value: '5XX', label: '5XX (Server Error)' },
+    { value: '5', label: '5XX (Server Error)' },
     { value: '500', label: '500 (Internal Server Error)' },
     { value: '501', label: '501 (Not Implemented)' },
     { value: '502', label: '502 (Bad Gateway)' },
