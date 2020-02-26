@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
-const sendRequest = require('request');
 
-const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
+const { getAgentEndpointConfigurationFromUrl } = require('../agentEndpoint.js');
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const cache = require('../loadingCache').createLoadingCache({
@@ -71,46 +70,8 @@ exports.getConfiguration = (tenant, unit) =>
 
 exports.getAgentEndpointConfiguration = (tenant, unit) => {
   const url = `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`;
-  console.log(`Get agent endpoint config from butler: ${url}`);
-  return new Promise(resolve => {
-    sendRequest(
-      {
-        url: url,
-        timeout: 15000
-      },
-      (error, response, agentEndpointConfig) => {
-        if (error || response.status < 200 || response.status >= 300) {
-          console.error(
-            `Could not load agent endpoint config from butler. error:${error}, response: ${response}, agentEndpointConfig: ${agentEndpointConfig}`
-          );
-          resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
-        } else {
-          const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
-          console.log(`Received agent endpoint config from butler: ${agentEndpointConfig}`);
-          if (!parsedAgentEndpointConfig) {
-            console.error('Failed parsing agent endpoint config. Fall back to default.');
-            resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
-          } else {
-            resolve({
-              agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
-              port: parsedAgentEndpointConfig.acceptorPort
-            });
-          }
-        }
-      }
-    );
-  });
+  return getAgentEndpointConfigurationFromUrl(url, tenant, unit);
 };
-
-function getAgentEndpointConfigurationFromString(str) {
-  let agentEndpointConfig;
-  try {
-    agentEndpointConfig = JSON.parse(str);
-  } catch (error) {
-    agentEndpointConfig = null;
-  }
-  return agentEndpointConfig;
-}
 
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
