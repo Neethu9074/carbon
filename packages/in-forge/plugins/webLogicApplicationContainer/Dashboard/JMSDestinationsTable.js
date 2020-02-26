@@ -16,7 +16,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Current Count',
+    title: 'Current Messages',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -32,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Pending Count',
+    title: 'Pending Messages',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -48,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Received Count',
+    title: 'Received Messages',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +103,7 @@ function getRowDetails(row) {
             'jmsDestinations.' + row.key + '.messagesPendingCount',
             'jmsDestinations.' + row.key + '.messagesReceivedCount'
           ],
-          labels: ['Messages Current Count', 'Messages Pending Count', 'Messages Received Count'],
+          labels: ['Current Messages', 'Pending Messages', 'Received Messages'],
           type: 'line'
         }}
       />

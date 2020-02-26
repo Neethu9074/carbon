@@ -53,9 +53,9 @@ export default [
       'Connections Created',
       'Leaked Connections',
       'State code',
-      'Messages Pending Count',
-      'Messages Current Count',
-      'Messages Received Count',
+      'Pending Messages',
+      'Current Messages ',
+      'Received Messages',
       'Requests'
     ],
     min: 0,
