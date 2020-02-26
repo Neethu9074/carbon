@@ -44,7 +44,8 @@ export default function Card({
         className={evaluateClassNames({
           [locals.header]: true,
           [locals.clickableHeader]: isInteractiveCard,
-          [headerClassName]: headerClassName
+          [headerClassName]: headerClassName,
+          [locals.noSubContent]: !titleSubContent
         })}
         {...headerProps}
       >
