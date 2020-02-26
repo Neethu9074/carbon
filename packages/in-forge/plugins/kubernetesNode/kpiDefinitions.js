@@ -1,14 +1,14 @@
-import { percentage } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 
 export default [
   {
-    label: 'CPU Requests Allocation',
-    metric: 'required_cpu_percentage',
-    formatter: percentage.detailed
+    label: 'CPU Requests',
+    metric: 'cpu.total_usage',
+    formatter: resourceQuotaNumber
   },
   {
-    label: 'Memory Requests Allocation',
-    metric: 'required_mem_percentage',
-    formatter: percentage.detailed
+    label: 'Memory Requests',
+    metric: 'memory.usage',
+    formatter: resourceQuotaBytes
   }
 ];
