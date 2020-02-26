@@ -44,6 +44,7 @@ export const apDashboardEventsEnabled = isInstanaEmail || isFeatureFlagEnabled('
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const cockpitEnabled = isFeatureFlagEnabled('cockpitEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
+export const queryPreviewEnabled = isInstanaEngineer || isFeatureFlagEnabled('queryPreviewEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

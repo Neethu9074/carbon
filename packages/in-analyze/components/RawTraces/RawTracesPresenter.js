@@ -19,10 +19,12 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
+import { queryPreviewEnabled } from 'in-services/featureFlags';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Th } from 'in-components/tables/sharedComponents';
 import { traceClickedTracker } from 'in-analyze/tracker';
+import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 
 import locals from './RawTracesPresenter.mless';
@@ -45,16 +47,29 @@ export default function RawTracesPresenter(props) {
     <AnalyzeWorkspace {...props} title="Trace Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
-        <Button
-          kind="secondary"
-          icon="lib_views_folder"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            props.openEditGroupDialog();
-          }}
-        >
-          Group by
-        </Button>
+        <div className={locals.labelWrapper}>
+          {queryPreviewEnabled && (
+            <>
+              <span className={locals.label}>Preview</span>
+              <Toggle
+                checked={props.previewEnabled}
+                onChange={e => {
+                  props.onPreviewEnabledChange(e.target.checked);
+                }}
+              />
+            </>
+          )}
+          <Button
+            kind="secondary"
+            icon="lib_views_folder"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              props.openEditGroupDialog();
+            }}
+          >
+            Group by
+          </Button>
+        </div>
       </div>
       <Table className={locals.table} tableInCard>
         <Thead>
@@ -89,7 +104,12 @@ export default function RawTracesPresenter(props) {
               <Td>
                 <Link
                   href$={getLinkToTraceDetail(item.trace.id)}
-                  onClick={() => traceClickedTracker({ erroneous: item.trace.erroneous, latecy: item.trace.duration })}
+                  onClick={() =>
+                    traceClickedTracker({
+                      erroneous: item.trace.erroneous,
+                      latecy: item.trace.duration
+                    })
+                  }
                 >
                   {item.trace.label}
                 </Link>

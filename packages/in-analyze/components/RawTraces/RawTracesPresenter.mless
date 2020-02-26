@@ -12,4 +12,12 @@
     margin-top: 1rem;
     padding: 0.3rem 0 0.5rem;
   }
+  .label {
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

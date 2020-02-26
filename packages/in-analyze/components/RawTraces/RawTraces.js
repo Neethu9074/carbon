@@ -19,13 +19,14 @@ export default compose(
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,
-      orderDirection: 'DESC'
+      orderDirection: 'DESC',
+      previewEnabled: false
     }),
     reducerName: 'onChangeOrder'
   }),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
+    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'previewEnabled'],
+    get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection, previewEnabled }) =>
       getTraces({
         pagination: {
           cursor,
@@ -47,7 +48,8 @@ export default compose(
                 entity: filterByGroup.entity
               }
             ])
-          : tagFiltersForSubscription
+          : tagFiltersForSubscription,
+        queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
       })
   })
 )(RawTraces);

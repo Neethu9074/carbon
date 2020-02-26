@@ -20,6 +20,14 @@ export function getGroupFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 
+export function getPreviewEnabledFromUrlString(urlString) {
+  return parsedUrlOrDefault(urlString, false);
+}
+
+export function getPreviewEnabledToUrlString(previewEnabled) {
+  return previewEnabled;
+}
+
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({
     name: tag.name,
