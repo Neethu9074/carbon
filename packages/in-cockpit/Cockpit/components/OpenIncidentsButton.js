@@ -78,7 +78,7 @@ const ContentWithEventsRetrieval = connectTo(
       })
     )
   },
-  function ContentWithEventsRetrieval({ events }) {
+  function ContentWithEventsRetrieval({ events, close }) {
     return (
       <OpenIssuesListPresenter
         eventType="Incident"

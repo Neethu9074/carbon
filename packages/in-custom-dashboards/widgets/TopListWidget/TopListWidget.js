@@ -3,6 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
 import ServerTable from 'in-components/tables/ServerTable';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -56,10 +57,12 @@ function TopListWidget({
 }) {
   const flattenedIds = getFlattenedIds(pinnedItemIdsByType);
   const numPinnedItems = flattenedIds.length;
-  const numRegularItems = Math.max(0, 5 - numPinnedItems);
+  let numRegularItems = Math.max(0, 5 - numPinnedItems);
   if (result && result.data) {
     const filteredItems = result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1);
-    title = `${title} (${filteredItems.length + numPinnedItems})`;
+    if (filteredItems.length + numPinnedItems > 0) {
+      title = `${title} (${filteredItems.length + numPinnedItems})`;
+    }
 
     result = {
       ...result,
@@ -68,6 +71,7 @@ function TopListWidget({
         items: filteredItems.slice(0, numRegularItems)
       }
     };
+    numRegularItems = result.data.items.length;
   }
 
   const pinItemCb = item => pinItem(getId(item), item);
@@ -105,6 +109,9 @@ function TopListWidget({
           numSkeletonRows={numRegularItems}
         />
       )}
+
+      {numRegularItems === 0 && numPinnedItems === 0 && <NoDataAvailable />}
+
       {fullListViewLinkTitle &&
         fullListView$ && (
           <Link className={locals.link} href$={fullListView$}>
