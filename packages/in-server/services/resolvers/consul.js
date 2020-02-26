@@ -2,7 +2,7 @@ const rp = require('request-promise');
 
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
-const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
+const { getAgentEndpointConfigurationFromUrl } = require('../agentEndpoint.js');
 const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
@@ -17,10 +17,11 @@ exports.getGroundskeeperBaseUrl = () =>
     return lookupServiceBaseUrl(`groundskeeper`);
   });
 
-exports.getButlerBaseUrl = () =>
+const getButlerBaseUrl = () =>
   cache(`butler`, () => {
     return lookupServiceBaseUrl(`butler`);
   });
+exports.getButlerBaseUrl = getButlerBaseUrl;
 
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
@@ -61,8 +62,12 @@ exports.getConfiguration = (tenant, unit) =>
     );
   });
 
-exports.getAgentEndpointConfiguration = (tenant, unit) =>
-  Promise.resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
+exports.getAgentEndpointConfiguration = (tenant, unit) => {
+  return getButlerBaseUrl().then(butlerBaseUrl => {
+    const url = `${butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`;
+    return getAgentEndpointConfigurationFromUrl(url, tenant, unit);
+  });
+};
 
 function lookupServiceBaseUrl(serviceName) {
   return rp({
