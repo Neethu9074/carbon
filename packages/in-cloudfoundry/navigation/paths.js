@@ -26,7 +26,7 @@ export function getApplicationDashboard(applicationId, { tab, tabMatrix, timeCon
 function getDashboard({
   base,
   tab = '/summary',
-  tabMatrix = emptyObject,
+  tabMatrix = {},
   timeConfig,
   matrixSegment,
   matrixParam,

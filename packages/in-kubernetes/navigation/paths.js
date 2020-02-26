@@ -177,7 +177,7 @@ export function getDashboardForEntity(snapshotId, plugin) {
 function getDashboard({
   base,
   tab = '/summary',
-  tabMatrix = emptyObject,
+  tabMatrix = {},
   timeConfig,
   matrixSegment,
   matrixParam,
