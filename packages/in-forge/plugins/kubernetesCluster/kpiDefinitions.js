@@ -4,11 +4,11 @@ export default [
   {
     label: 'CPU Requests Allocation',
     metric: 'requiredCapacityCPURatio',
-    formatter: percentage.detailed
+    formatter: percentage.compact
   },
   {
-    label: 'Memory Requests Allocation',
+    label: 'Memory Request Allocation',
     metric: 'requiredCapacityMemoryRatio',
-    formatter: percentage.detailed
+    formatter: percentage.compact
   }
 ];

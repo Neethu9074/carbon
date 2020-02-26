@@ -1,14 +1,9 @@
-import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'CPU Usage',
-    metric: 'cpu.total_usage',
-    formatter: twoDecimalPlaces
-  },
-  {
-    label: 'Memory Usage',
-    metric: 'memory.usage',
-    formatter: bytesTwoDecimalPlaces
+    label: 'Restarts',
+    metric: 'restartCount',
+    formatter: zeroDecimalPlaces
   }
 ];
