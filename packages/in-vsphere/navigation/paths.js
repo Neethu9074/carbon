@@ -63,7 +63,7 @@ export function getVsphereVmDashboard(vmId, { tab, tabMatrix, timeConfig, datace
 function getDashboard({
   base,
   tab = '/summary',
-  tabMatrix = emptyObject,
+  tabMatrix = {},
   timeConfig,
   matrixSegment,
   matrixParam,
