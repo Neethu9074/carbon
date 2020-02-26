@@ -1,4 +1,5 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { compareIgnoreCase } from 'in-services/util/string';
 import http from 'in-services/http';
 
 export function getWebsites() {
@@ -8,7 +9,7 @@ export function getWebsites() {
     url: `/api/website-monitoring/config`
   }).map(response => {
     const keys = response.body || [];
-    keys.sort((a, b) => a.appName.localeCompare(b.appName));
+    keys.sort((a, b) => compareIgnoreCase(a.name, b.name));
     return keys;
   });
 }

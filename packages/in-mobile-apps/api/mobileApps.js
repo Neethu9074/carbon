@@ -1,4 +1,5 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { compareIgnoreCase } from 'in-services/util/string';
 import http from 'in-services/http';
 
 export function getMobileApps() {
@@ -8,7 +9,7 @@ export function getMobileApps() {
     url: `/api/mobile-app-monitoring/config`
   }).map(response => {
     const keys = response.body || [];
-    keys.sort((a, b) => a.appName.localeCompare(b.appName));
+    keys.sort((a, b) => compareIgnoreCase(a.name, b.name));
     return keys;
   });
 }
