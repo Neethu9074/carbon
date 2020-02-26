@@ -22,7 +22,7 @@ export default function UpstreamDownstreamPane({
   resultApplication
 }) {
   if (!items.length && !itemsApplication.length) {
-    return <EmptyPane area={area} />;
+    return <EmptyPane serviceId={serviceId} endpointId={endpointId} area={area} />;
   }
 
   return (
@@ -59,11 +59,20 @@ export default function UpstreamDownstreamPane({
   );
 }
 
-const EmptyPane = ({ area }) => {
+const EmptyPane = ({ serviceId, endpointId, area }) => {
+  let entityType;
+  if (endpointId != null) {
+    entityType = 'endpoint';
+  } else if (serviceId != null) {
+    entityType = 'service';
+  } else {
+    entityType = 'application';
+  }
+
   return (
     <div className={locals.emptyPane}>
       <SvgIcon type={relationships.info[area].icon} size="xxl" />
-      <span className={locals.emptyMessage}>{relationships.info[area].message}</span>
+      <span className={locals.emptyMessage}>{`This ${entityType} ${relationships.info[area].message}`}</span>
     </div>
   );
 };
