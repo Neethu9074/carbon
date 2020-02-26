@@ -9,13 +9,13 @@ import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfo
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-new-components/WithIcon';
 
 export default function PlatformsTopList(props) {
@@ -52,7 +52,11 @@ function getMergedData(params) {
     'isKubernetes',
     getVSphereDatacentersWithDefaults(params),
     'isVsphere'
-  )();
+  )(sort);
+}
+
+function sort(a, b) {
+  return compareIgnoreCase(getLabel(a), getLabel(b));
 }
 
 function getItemsByGroupedIds(groupedIds, timeConfig) {
@@ -72,7 +76,7 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
     }
 
     return getResultForData({
-      items: results.map(result => result.data)
+      items: results.map(result => result.data).sort(sort)
     });
   });
 }
