@@ -105,7 +105,7 @@ DashboardHeader.propTypes = {
   renderIcon: PropTypes.func,
   title: PropTypes.string,
   renderTimeSelection: PropTypes.func,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   renderMetaInformation: PropTypes.func,
   renderButtonLine: PropTypes.func,
   renderButtonLineSecondary: PropTypes.func,
