@@ -35,6 +35,47 @@ const configEnrichmentLookUpTable = {
   '4': {
     type: 'infrastructureTopList',
     title: 'Infrastructure'
+  },
+  '5': {
+    type: 'eventChartCard',
+    config: {
+      y1: {
+        formatter: 'number.detailed',
+        renderer: 'stackedBar',
+        metrics: [
+          {
+            dynamicFocusQuery: 'event.type:incident ',
+            metric: 'eventCount',
+            timeShift: 0,
+            aggregation: 'DISTINCT_COUNT',
+            label: 'Incidents',
+            source: 'EVENT'
+          },
+          {
+            dynamicFocusQuery: 'event.severity:10 event.type:issue ',
+            metric: 'eventCount',
+            timeShift: 0,
+            aggregation: 'DISTINCT_COUNT',
+            label: 'Critical',
+            source: 'EVENT'
+          },
+          {
+            dynamicFocusQuery: 'event.severity:5 event.type:issue ',
+            metric: 'eventCount',
+            timeShift: 0,
+            aggregation: 'DISTINCT_COUNT',
+            label: 'Warning',
+            source: 'EVENT'
+          }
+        ]
+      },
+      y2: {
+        formatter: 'number.detailed',
+        renderer: 'line',
+        metrics: []
+      },
+      type: 'TIME_SERIES'
+    }
   }
 };
 
@@ -54,6 +95,10 @@ const navLookUpTable = {
   '4': {
     icon: 'lib_infrastructure',
     label: 'Infrastructure'
+  },
+  '5': {
+    icon: 'lib_events_warning',
+    label: 'Events'
   }
 };
 
@@ -86,6 +131,13 @@ export default function Cockpit() {
       height: 3,
       x: 0,
       y: 12
+    },
+    {
+      id: '5',
+      width: 10,
+      height: 2,
+      x: 0,
+      y: 16
     }
   ]);
   const setNewItemOrder = items => {

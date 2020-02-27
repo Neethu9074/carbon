@@ -2,6 +2,7 @@ import * as websitesAndMobileTopList from 'in-custom-dashboards/widgets/Websites
 import * as infrastructureTopList from 'in-custom-dashboards/widgets/InfrastructureTopList';
 import * as applicationsToplist from 'in-custom-dashboards/widgets/ApplicationsTopList';
 import * as platformsTopList from 'in-custom-dashboards/widgets/PlatformsTopList';
+import * as eventChartCard from 'in-custom-dashboards/widgets/EventChartCard';
 import * as timeZones from 'in-custom-dashboards/widgets/TimeZones';
 import * as bigNumber from 'in-custom-dashboards/widgets/BigNumber';
 import * as markdown from 'in-custom-dashboards/widgets/Markdown';
@@ -15,5 +16,6 @@ export default {
   [infrastructureTopList.type]: infrastructureTopList,
   [websitesAndMobileTopList.type]: websitesAndMobileTopList,
   [bigNumber.type]: bigNumber,
-  [chart.type]: chart
+  [chart.type]: chart,
+  [eventChartCard.type]: eventChartCard
 };
