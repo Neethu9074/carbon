@@ -12,6 +12,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
@@ -21,16 +22,16 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
-import { queryPreviewEnabled } from 'in-services/featureFlags';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './RawCallsPresenter.mless';
 
-export default function RawCallsPresenter(props) {
+export default connectTo({ isInternalVisible: isInternalVisible$ }, function RawCallsPresenter(props) {
   const {
     items,
     totalHits,
@@ -43,13 +44,12 @@ export default function RawCallsPresenter(props) {
     orderDirection,
     onChangeOrder
   } = props;
-
   return (
     <AnalyzeWorkspace {...props} title="Call Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
         <div className={locals.labelWrapper}>
-          {queryPreviewEnabled && (
+          {props.isInternalVisible && (
             <>
               <span className={locals.label}>Preview</span>
               <Toggle
@@ -139,4 +139,4 @@ export default function RawCallsPresenter(props) {
       <LoadingStates progress={progress} errors={errors} />
     </AnalyzeWorkspace>
   );
-}
+});

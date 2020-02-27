@@ -25,6 +25,5 @@ module.exports = {
   apDashboardEventsEnabled: false,
   customDashboardsEnabled: true,
   cockpitEnabled: true,
-  landingPageConfigurationEnabled: true,
-  queryPreviewEnabled: false
+  landingPageConfigurationEnabled: true
 };

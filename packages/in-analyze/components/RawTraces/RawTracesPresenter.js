@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import {
   Table,
   Thead,
@@ -19,17 +20,17 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
-import { queryPreviewEnabled } from 'in-services/featureFlags';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Th } from 'in-components/tables/sharedComponents';
 import { traceClickedTracker } from 'in-analyze/tracker';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './RawTracesPresenter.mless';
 
-export default function RawTracesPresenter(props) {
+export default connectTo({ isInternalVisible: isInternalVisible$ }, function RawTracesPresenter(props) {
   const {
     items,
     totalHits,
@@ -42,13 +43,12 @@ export default function RawTracesPresenter(props) {
     orderDirection,
     onChangeOrder
   } = props;
-
   return (
     <AnalyzeWorkspace {...props} title="Trace Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
         <div className={locals.labelWrapper}>
-          {queryPreviewEnabled && (
+          {props.isInternalVisible && (
             <>
               <span className={locals.label}>Preview</span>
               <Toggle
@@ -134,4 +134,4 @@ export default function RawTracesPresenter(props) {
       <LoadingStates progress={progress} errors={errors} />
     </AnalyzeWorkspace>
   );
-}
+});
