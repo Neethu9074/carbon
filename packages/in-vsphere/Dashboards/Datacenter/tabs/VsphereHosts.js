@@ -10,7 +10,6 @@ import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
 import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
-import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
 import { plugins } from 'in-forge/constants';
@@ -39,7 +38,7 @@ const columnDefinitions = [
   {
     id: 'cpu.usage.percent.maximum.*',
     label: 'CPU Usage',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -54,7 +53,7 @@ const columnDefinitions = [
   {
     id: 'cpuTotal',
     label: 'CPU Resources',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <EntityCounter count={item.cpuTotal} />;
     }
@@ -62,7 +61,7 @@ const columnDefinitions = [
   {
     id: 'mem.usage.average.percent',
     label: 'Memory Usage',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -77,7 +76,7 @@ const columnDefinitions = [
   {
     id: 'memTotal',
     label: 'Memory Resources',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MemoryTotal count={item.memTotal} />;
     }

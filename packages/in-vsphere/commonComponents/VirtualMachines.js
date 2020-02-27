@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -9,12 +10,10 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
-import { canSortByMetricColumns } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
 import { plugins } from 'in-forge/constants';
 import { MemoryTotal } from './MemoryTotal';
-import { get } from 'lodash';
 
 const pathSegment = '/vms';
 const matrixPrefix = 'vm.';
@@ -38,7 +37,7 @@ const columnDefinitions = [
   {
     id: 'cpu.usage.maximum.percent',
     label: 'CPU Usage',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -53,7 +52,7 @@ const columnDefinitions = [
   {
     id: 'cpuTotal',
     label: 'CPU Resources',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <EntityCounter count={item.cpuTotal} />;
     }
@@ -75,7 +74,7 @@ const columnDefinitions = [
   {
     id: 'memTotal',
     label: 'Memory Resources',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MemoryTotal count={item.memTotal} />;
     }

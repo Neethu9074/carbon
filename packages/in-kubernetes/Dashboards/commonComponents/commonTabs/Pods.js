@@ -1,5 +1,6 @@
 import { get, filter } from 'lodash';
 import { compose } from 'recompose';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -23,7 +24,6 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
@@ -32,7 +32,6 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
-import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -103,7 +102,7 @@ const allColumnDefinitions = [
     id: 'restartCount',
     label: 'Restarts',
     optional: true,
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -127,7 +126,7 @@ const allColumnDefinitions = [
     id: 'cpuRequests',
     label: 'CPU Requests',
     optional: true,
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />;
     }
@@ -136,7 +135,7 @@ const allColumnDefinitions = [
     id: 'cpuLimits',
     label: 'CPU Limits',
     optional: true,
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />;
     }
@@ -145,7 +144,7 @@ const allColumnDefinitions = [
     id: 'memoryRequests',
     label: 'Memory Requests',
     optional: true,
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />;
     }
@@ -154,7 +153,7 @@ const allColumnDefinitions = [
     id: 'memoryLimits',
     label: 'Memory Limits',
     optional: true,
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />;
     }

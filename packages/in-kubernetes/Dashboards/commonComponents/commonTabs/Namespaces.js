@@ -14,7 +14,6 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
-import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 
 const pathSegment = '/namespaces';
@@ -66,7 +65,7 @@ const columnDefinitions = [
   {
     id: 'required_cpu_percentage',
     label: 'CPU Requests Alloc.',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -81,7 +80,7 @@ const columnDefinitions = [
   {
     id: 'limit_cpu_percentage',
     label: 'CPU Limits Alloc.',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -96,7 +95,7 @@ const columnDefinitions = [
   {
     id: 'required_mem_percentage',
     label: 'Memory Requests Alloc.',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -111,7 +110,7 @@ const columnDefinitions = [
   {
     id: 'limit_mem_percentage',
     label: 'Memory Limits Alloc.',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -126,7 +125,7 @@ const columnDefinitions = [
   {
     id: 'used_pods_percentage',
     label: 'Pods Alloc.',
-    sortable: canSortByMetricColumns,
+    sortable: true,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
