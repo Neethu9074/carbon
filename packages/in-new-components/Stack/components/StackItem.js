@@ -20,7 +20,6 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './StackItem.mless';
 
 export default function StackItem({ item: { id, type, label, healthInfo }, tab }) {
-  const kpiDefinitions = getKpiDefinitions(type);
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo && healthInfo.type;
 
@@ -39,26 +38,20 @@ export default function StackItem({ item: { id, type, label, healthInfo }, tab }
           <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis={!isAp} addTooltip />
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
         </div>
-        {!isAp ? (
-          <div className={locals.chartWrapper}>
-            {kpiDefinitions.map(props => (
-              <KpiChart key={`${id}-${props.label}`} snapshotId={id} {...props} />
-            ))}
-          </div>
-        ) : null}
+        {!isAp ? showKpiCharts(id, type) : null}
       </div>
     </Li>
   );
 }
 
-function dashboardLink(id, type) {
+const dashboardLink = (id, type) => {
   if (type === 'application') {
     return getApplicationDashboard(id);
   } else if (type === 'service') {
     return getServiceDashboard(id);
   }
   return getDashboardLink(id, { pathname: physicalDashboardPath });
-}
+};
 
 const ProfileIndicator = connectTo(
   ({ processSnapshotId }) => ({
@@ -80,3 +73,15 @@ const ProfileIndicator = connectTo(
     );
   }
 );
+
+const showKpiCharts = (id, type) => {
+  const kpiDefinitions = getKpiDefinitions(type);
+
+  return (
+    <div className={locals.chartWrapper}>
+      {kpiDefinitions.map(props => (
+        <KpiChart key={`${id}-${props.label}`} snapshotId={id} {...props} />
+      ))}
+    </div>
+  );
+};
