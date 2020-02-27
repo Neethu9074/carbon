@@ -88,6 +88,8 @@ function TopListWidget({
           <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
         </>
       }
+      className={locals.card}
+      headerClassName={locals.header}
       bodyClassName={locals.content}
     >
       {numPinnedItems > 0 &&

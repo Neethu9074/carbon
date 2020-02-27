@@ -12,6 +12,8 @@ export default function LightCard({
   children,
   leftHeaderContent,
   rightHeaderContent,
+  className,
+  headerClassName,
   bodyClassName,
   useMaxAvailableHeight
 }) {
@@ -19,10 +21,16 @@ export default function LightCard({
     <div
       className={evaluateClassNames({
         [locals.card]: true,
+        [className]: className,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
-      <div className={locals.header}>
+      <div
+        className={evaluateClassNames({
+          [locals.header]: true,
+          [headerClassName]: headerClassName
+        })}
+      >
         <div className={locals.left}>
           {icon && <SvgIcon className={locals.icon} size="l" type={icon} />}
           <span className={locals.title}>{title}</span>
@@ -47,6 +55,8 @@ LightCard.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.string,
   children: PropTypes.node,
+  className: PropTypes.string,
+  headerClassName: PropTypes.string,
   bodyClassName: PropTypes.string,
   leftHeaderContent: PropTypes.node,
   rightHeaderContent: PropTypes.node,

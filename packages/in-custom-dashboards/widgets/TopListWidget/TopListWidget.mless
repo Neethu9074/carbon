@@ -2,8 +2,11 @@
 
 :local {
   .header {
-    display: flex;
-    align-items: center;
+    cursor: grab;
+  }
+
+  .card:hover {
+    box-shadow: @lib__shadows__strong;
   }
 
   .content {
