@@ -44,7 +44,13 @@ function SparkChartReactComponent(props) {
     if (label) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
-          <SvgIcon className={locals.aggregationIcon} type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'} size="xs" />
+          <Tooltip content={aggregation === 'SUM' ? 'sum' : 'mean'}>
+            <SvgIcon
+              className={locals.aggregationIcon}
+              type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'}
+              size="xs"
+            />
+          </Tooltip>
           {horizontalMetricValue}
         </div>
       ) : (
