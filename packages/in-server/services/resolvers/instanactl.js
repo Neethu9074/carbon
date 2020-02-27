@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const { getAgentEndpointConfigurationFromUrl } = require('../agentEndpoint.js');
+const { getReportingEndpointsFromButler } = require('../agentEndpoint.js');
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const cache = require('../loadingCache').createLoadingCache({
@@ -68,9 +68,12 @@ exports.getConfiguration = (tenant, unit) =>
     );
   });
 
-exports.getAgentEndpointConfiguration = (tenant, unit) => {
-  const url = `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`;
-  return getAgentEndpointConfigurationFromUrl(url, tenant, unit);
+exports.getReportingEndpoints = (tenant, unit) => {
+  return getReportingEndpointsFromButler(
+    `${serverConfig.butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
+    tenant,
+    unit
+  );
 };
 
 function getButlerDomain(tenant, unit) {

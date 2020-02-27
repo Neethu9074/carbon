@@ -36,8 +36,8 @@ router.get('/waiting', (req, res) => {
   return Promise.all([
     configResolver.getButlerBaseUrl(req.tenant, req.unit),
     activeResolver.getButlerDomain(req.tenant, req.unit),
-    activeResolver.getAgentEndpointConfiguration(req.tenant, req.unit)
-  ]).then(([butlerBaseUrl, butlerDomain, agentEndpointConfiguration]) => {
+    activeResolver.getReportingEndpoints(req.tenant, req.unit)
+  ]).then(([butlerBaseUrl, butlerDomain, reportingEndpoints]) => {
     return Promise.all([
       getLatestTermsAndPrivacyAcceptance(req, butlerBaseUrl),
       getCurrentUserFromButler(req, butlerBaseUrl),
@@ -45,14 +45,14 @@ router.get('/waiting', (req, res) => {
     ])
       .then(([termsAndPrivacyAccepted, [statusCode, userStr], csrfToken]) => {
         if (statusCode < 200 || statusCode > 299) {
-          sendWaitingIndex(req, res, nonces, butlerDomain, agentEndpointConfiguration);
+          sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints);
         } else {
           sendWaitingIndex(
             req,
             res,
             nonces,
             butlerDomain,
-            agentEndpointConfiguration,
+            reportingEndpoints,
             csrfToken,
             userStr,
             termsAndPrivacyAccepted
@@ -61,21 +61,12 @@ router.get('/waiting', (req, res) => {
       })
       .catch(error => {
         console.log('Failed to fetch user and ToS-acceptance from butler: %s', error.message);
-        return sendWaitingIndex(req, res, nonces, butlerDomain, agentEndpointConfiguration);
+        return sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints);
       });
   });
 });
 
-function sendWaitingIndex(
-  req,
-  res,
-  nonces,
-  butlerDomain,
-  agentEndpointConfiguration,
-  csrf,
-  userStr,
-  termsAndPrivacyAccepted
-) {
+function sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints, csrf, userStr, termsAndPrivacyAccepted) {
   res.send(
     compiledTemplate({
       waitingJsChecksum,
@@ -88,8 +79,13 @@ function sendWaitingIndex(
         tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
         region: serverConfig.clientConfig.region,
         butlerDomain: butlerDomain,
-        agentEndpoint: agentEndpointConfiguration.agentEndpoint,
-        agentEndpointPort: agentEndpointConfiguration.port
+
+        agentEndpoint: reportingEndpoints.agentEndpoint,
+        agentEndpointPort: reportingEndpoints.port,
+        websiteScriptSource: reportingEndpoints.websiteScriptSource,
+        websiteEndpoint: reportingEndpoints.websiteEndpoint,
+        mobileEndpoint: reportingEndpoints.mobileEndpoint,
+        serverlessEndpoint: reportingEndpoints.serverlessEndpoint
       }),
       csrf: JSON.stringify({
         token: csrf

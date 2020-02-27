@@ -2,7 +2,46 @@ const sendRequest = require('request');
 
 const serverConfig = require('../serverConfig.js');
 
-const resolveAgentEndpoint = (tenant, unit) => {
+exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
+  console.log(`Get reporting config from butler: ${butlerUrl}`);
+  return new Promise(resolve => {
+    sendRequest(
+      {
+        url: butlerUrl,
+        timeout: 15000
+      },
+      (error, response, reportingConfig) => {
+        if (error || response.status < 200 || response.status >= 300) {
+          console.error(
+            `Could not load reporting config from butler. error:${error}, response: ${response}, reportingConfig: ${reportingConfig}`
+          );
+          resolve(getFallbackReportingConfig(tenant, unit));
+        } else {
+          const parsedReportingConfig = getReportingConfigFromString(reportingConfig);
+          console.log(`Received reporting config from butler: ${reportingConfig}`);
+          if (!parsedReportingConfig) {
+            console.error('Failed parsing reporting config. Fall back to default.');
+            resolve(getFallbackReportingConfig(tenant, unit));
+          } else {
+            resolve({
+              agentEndpoint: parsedReportingConfig.acceptorHost,
+              port: parsedReportingConfig.acceptorPort,
+              websiteScriptSource: parsedReportingConfig.website_monitoring_script_source,
+              websiteEndpoint: parsedReportingConfig.website_monitoring_reporting,
+              mobileEndpoint: parsedReportingConfig.mobile_monitoring_reporting,
+              serverlessEndpoint: parsedReportingConfig.serverless_acceptor
+            });
+          }
+        }
+      }
+    );
+  });
+};
+
+exports.resolveAgentEndpoint = resolveAgentEndpoint;
+exports.resolveAgentEndpointPort = resolveAgentEndpointPort;
+
+function resolveAgentEndpoint(tenant, unit) {
   const clientConfig = serverConfig.clientConfig;
 
   // can be used for onprem and fullstack environments, GC and maybe others in the future
@@ -19,9 +58,9 @@ const resolveAgentEndpoint = (tenant, unit) => {
     }
     return `ingress-${clientConfig.region}-saas.instana.io`;
   }
-};
+}
 
-const resolveAgentEndpointPort = () => {
+function resolveAgentEndpointPort() {
   const clientConfig = serverConfig.clientConfig;
 
   // can be configured, e.g. for onprem
@@ -29,44 +68,17 @@ const resolveAgentEndpointPort = () => {
     return clientConfig.agentEndpointPort;
   }
   return '443';
-};
+}
 
-exports.resolveAgentEndpoint = resolveAgentEndpoint;
-exports.resolveAgentEndpointPort = resolveAgentEndpointPort;
+function getFallbackReportingConfig(tenant, unit) {
+  const fallbackConfig = {
+    agentEndpoint: resolveAgentEndpoint(tenant, unit),
+    port: resolveAgentEndpointPort()
+  };
+  fallbackConfig.serverlessEndpoint = `${fallbackConfig.agentEndpoint}:${fallbackConfig.agentEndpointPort}`;
+}
 
-exports.getAgentEndpointConfigurationFromUrl = (url, tenant, unit) => {
-  console.log(`Get agent endpoint config from butler: ${url}`);
-  return new Promise(resolve => {
-    sendRequest(
-      {
-        url: url,
-        timeout: 15000
-      },
-      (error, response, agentEndpointConfig) => {
-        if (error || response.status < 200 || response.status >= 300) {
-          console.error(
-            `Could not load agent endpoint config from butler. error:${error}, response: ${response}, agentEndpointConfig: ${agentEndpointConfig}`
-          );
-          resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
-        } else {
-          const parsedAgentEndpointConfig = getAgentEndpointConfigurationFromString(agentEndpointConfig);
-          console.log(`Received agent endpoint config from butler: ${agentEndpointConfig}`);
-          if (!parsedAgentEndpointConfig) {
-            console.error('Failed parsing agent endpoint config. Fall back to default.');
-            resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
-          } else {
-            resolve({
-              agentEndpoint: parsedAgentEndpointConfig.acceptorHost,
-              port: parsedAgentEndpointConfig.acceptorPort
-            });
-          }
-        }
-      }
-    );
-  });
-};
-
-function getAgentEndpointConfigurationFromString(str) {
+function getReportingConfigFromString(str) {
   let agentEndpointConfig;
   try {
     agentEndpointConfig = JSON.parse(str);

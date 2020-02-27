@@ -1,5 +1,5 @@
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
-import { region } from 'in-services/config';
+import config, { region } from 'in-services/config';
 
 const undefinedTrackingUrlPlaceholder = '<trackingBaseUrl>';
 
@@ -28,7 +28,8 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
       `  ineum('reportingUrl', '${undefinedTrackingUrlPlaceholder}');`
     );
   } else {
-    lines.push(`  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");`);
+    const snippetSource = config.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
+    lines.push(`  "${snippetSource}","InstanaEumObject","ineum");`);
     lines.push(`  ineum('reportingUrl', '${getEumAcceptorBaseUrl()}');`);
   }
 
@@ -48,6 +49,10 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
 }
 
 export function getEumAcceptorBaseUrl() {
+  if (config.websiteEndpoint) {
+    return config.websiteEndpoint;
+  }
+
   if (useInstanaSaasEumTrackingUrlEnabled && region) {
     if (region === 'eu-west-1') {
       return 'https://eum-blue-saas.instana.io';

@@ -37,8 +37,6 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         agentKey={agentKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
-        agentEndpoint={config.agentEndpoint}
-        agentEndpointPort={config.agentEndpointPort}
         butlerDomain={config.butlerDomain}
         trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
@@ -46,6 +44,9 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
           children: !apiCallSatisfied && isInstanaEngineer ? 'Engs can always pass' : 'Go to Instana!',
           onClick: onDialogSkip
         })}
+        agentEndpoint={config.agentEndpoint}
+        agentEndpointPort={config.agentEndpointPort}
+        serverlessEndpoint={config.serverlessEndpoint}
       />
     </ErrorBoundary>
   );

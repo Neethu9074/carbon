@@ -10,17 +10,22 @@ exports.getClientConfig = (tenant, unit) => {
     activeResolver.getButlerDomain(tenant, unit),
     activeResolver.getFeatureFlags(tenant, unit),
     activeResolver.getConfiguration(tenant, unit),
-    activeResolver.getAgentEndpointConfiguration(tenant, unit)
-  ]).then(([butlerDomain, featureFlags, configuration, agentEndpointConfiguration]) => ({
+    activeResolver.getReportingEndpoints(tenant, unit)
+  ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints]) => ({
     butlerDomain,
-    agentEndpoint: agentEndpointConfiguration.agentEndpoint,
-    agentEndpointPort: agentEndpointConfiguration.port,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     tenant: tenant,
     tenantUnit: unit,
     featureFlags: featureFlags,
     configuration: configuration,
-    zendeskKey: serverConfig.zendeskKey
+    zendeskKey: serverConfig.zendeskKey,
+
+    agentEndpoint: reportingEndpoints.agentEndpoint,
+    agentEndpointPort: reportingEndpoints.port,
+    websiteScriptSource: reportingEndpoints.websiteScriptSource,
+    websiteEndpoint: reportingEndpoints.websiteEndpoint,
+    mobileEndpoint: reportingEndpoints.mobileEndpoint,
+    serverlessEndpoint: reportingEndpoints.serverlessEndpoint
   }));
 };
