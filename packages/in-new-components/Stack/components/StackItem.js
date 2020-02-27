@@ -22,6 +22,7 @@ import locals from './StackItem.mless';
 export default function StackItem({ item: { id, type, label, healthInfo }, tab }) {
   const kpiDefinitions = getKpiDefinitions(type);
   const isInfra = tab === 'infrastructure';
+  const isKube = type === 'kubernetesCluster';
   const hasHealthInfo = healthInfo && healthInfo.type;
 
   return (
@@ -39,7 +40,7 @@ export default function StackItem({ item: { id, type, label, healthInfo }, tab }
           <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis={isInfra} addTooltip />
           {isInfra && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
         </div>
-        {isInfra ? (
+        {isInfra || isKube ? (
           <div className={locals.chartWrapper}>
             {kpiDefinitions.map(props => (
               <KpiChart key={`${id}-${props.label}`} snapshotId={id} {...props} />
