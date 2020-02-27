@@ -97,7 +97,7 @@ const navLookUpTable = {
     label: 'Infrastructure'
   },
   '5': {
-    icon: 'lib_events_warning',
+    icon: 'lib_events_inverted',
     label: 'Events'
   }
 };
