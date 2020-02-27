@@ -28,7 +28,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
     applicationId: getMatrixParameter(location, endpointDashboard, applicationId),
     serviceId: getMatrixParameter(location, endpointDashboard, serviceId),
     endpointId: getMatrixParameter(location, endpointDashboard, endpointId),
-    urlBoundaryScope: getMatrixParameter(location, endpointDashboard, boundaryScope),
+    boundaryScope: getMatrixParameter(location, endpointDashboard, boundaryScope),
     viewPath: endpointDashboard,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     timeConfig

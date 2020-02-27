@@ -21,7 +21,7 @@ export default function Summary({
   serviceId,
   onBoundaryStateChange,
   data: application,
-  urlBoundaryScope
+  boundaryScope: urlBoundaryScope
 }) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 

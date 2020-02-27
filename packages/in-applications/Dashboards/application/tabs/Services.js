@@ -218,7 +218,7 @@ function ServiceList(props) {
     technologies,
     setFilter,
     data: application,
-    urlBoundaryScope
+    boundaryScope: urlBoundaryScope
   } = props;
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;

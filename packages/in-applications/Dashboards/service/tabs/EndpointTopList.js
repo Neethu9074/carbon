@@ -19,7 +19,7 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig }) {
+export default function EndpointTopList({ applicationId, serviceId, boundaryScope: boundaryScope, timeConfig }) {
   return (
     <TopList
       title="Top Endpoints"

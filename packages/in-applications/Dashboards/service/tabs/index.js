@@ -27,7 +27,7 @@ export default [
   {
     label: 'Endpoints',
     path: `${serviceDashboard}/endpoints`,
-    component: Endpoints
+    component: wrapWithMessage(Endpoints)
   },
   {
     label: 'Error Messages',

@@ -6,7 +6,12 @@ import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/common
 import DatabaseStatementDetail from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementDetail';
 import CommonPerformanceSections from './common/CommonPerformanceSections';
 
-export default function PerformanceTab({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
+export default function PerformanceTab({
+  onBoundaryStateChange,
+  boundaryScope: urlBoundaryScope,
+  data: application,
+  ...props
+}) {
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
   return (
