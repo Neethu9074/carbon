@@ -8,9 +8,12 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { newApplicationView } from 'in-applications/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-subscription/application/getMetrics';
@@ -20,10 +23,23 @@ import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import WithIcon from 'in-new-components/WithIcon';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { role } from 'in-stores/user';
 
 export default function ApplicationsTopList(props) {
+  const header = role.canConfigureApplications && (
+    <Button
+      kind="action"
+      href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+      onClick={() => applicationOpenSubmitFormTracker()}
+      icon="lib_openclose_add_circle_outline"
+    >
+      Create Application Perspective
+    </Button>
+  );
+
   return (
     <TopListWidget
       {...props}
@@ -37,6 +53,7 @@ export default function ApplicationsTopList(props) {
       columnDefinitions={columnDefinitions}
       fullListView$={getView(applicationsList)}
       fullListViewLinkTitle="All Applications"
+      header={header}
     />
   );
 }

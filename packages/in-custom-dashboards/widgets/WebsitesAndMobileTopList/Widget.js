@@ -13,16 +13,48 @@ import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { linkToNewWebsite$ } from 'in-websites/navigation/paths';
+import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';
 import { getResultForData } from 'in-services/util/result';
 import { getView } from 'in-stores/navigation/navigation';
+import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import WithIcon from 'in-new-components/WithIcon';
+import Button from 'in-new-components/Button';
+import { role } from 'in-stores/user';
 
 export default function WebsitesAndMobileTopList(props) {
+  const header = (
+    <>
+      {role.canConfigureEumApplications && (
+        <Button
+          kind="action"
+          onClick={() => websitesOpenAddForm()}
+          icon="lib_openclose_add_circle_outline"
+          href$={linkToNewWebsite$}
+        >
+          Create Website
+        </Button>
+      )}
+      {mobileAppMonitoringEnabled &&
+        role.canConfigureEumApplications && (
+          <Button
+            kind="action"
+            onClick={() => mobileAppsOpenAddForm()}
+            icon="lib_openclose_add_circle_outline"
+            href$={linkToNewMobileApp$}
+          >
+            Create Mobile App
+          </Button>
+        )}
+    </>
+  );
+
   const generalProps = {
     ...props,
     columnDefinitions: columnDefinitions,
@@ -30,7 +62,8 @@ export default function WebsitesAndMobileTopList(props) {
     getId,
     pinItem: (id, item) => pin(getTypeByItem(item), id),
     unpinItem: (id, item) => unpin(getTypeByItem(item), id),
-    getItemsByGroupedIds: getItemsByGroupedIds
+    getItemsByGroupedIds: getItemsByGroupedIds,
+    header
   };
 
   if (!mobileAppMonitoringEnabled) {
