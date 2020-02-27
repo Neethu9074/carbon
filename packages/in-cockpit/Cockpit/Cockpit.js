@@ -10,6 +10,7 @@ import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SetBodyColor from 'in-components/SetBodyColor';
+import Lettering from 'in-components/Lettering';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -101,7 +102,7 @@ export default function Cockpit() {
         header={
           <>
             <DashboardHeader
-              label="System Overview"
+              label={<Lettering className={locals.lettering} />}
               renderMetaInformation={renderMetaInformation}
               theme={themes.light}
               renderButtonLine={renderButtonLine}
