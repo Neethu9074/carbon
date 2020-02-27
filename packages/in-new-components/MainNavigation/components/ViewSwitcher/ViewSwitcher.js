@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   pcfEnabled,
@@ -45,6 +45,7 @@ import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import StanV2 from 'in-new-components/MainNavigation/components/StanV2';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
@@ -81,93 +82,61 @@ export default function ViewSwitcher({
 
   return (
     <ul className={locals.list}>
-      {cockpitEnabled && (
-        <View
-          id="main-nav-system-overview"
-          label="System Overview"
-          icon="lib_navigation_stan"
-          isActive$={isView(cockpitPath)}
-          href$={getView(cockpitPath)}
-          {...commonProps}
-        />
+      {cockpitEnabled ? (
+        <>
+          <View
+            id="main-nav-system-overview"
+            renderContent={ex => <StanV2 isExpanded={ex} />}
+            isActive$={isView(cockpitPath)}
+            href$={getView(cockpitPath)}
+            {...commonProps}
+          />
+          <Spacer />
+
+          <CustomDashboards {...commonProps} />
+          <WebsiteMobileAppView {...commonProps} />
+          <Applications {...commonProps} />
+          <Platforms
+            {...commonProps}
+            expandedSubMenu={expandedSubMenu}
+            setExpandedSubMenu={setExpandedSubMenu}
+            sidebarIsExpanded={isExpanded}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          />
+          <Infrastructure {...commonProps} />
+
+          <Spacer />
+
+          <Analyze {...commonProps} />
+          <Incidents {...commonProps} />
+        </>
+      ) : (
+        <>
+          <Spacer />
+
+          <CustomDashboards {...commonProps} />
+          <Infrastructure {...commonProps} />
+          <Platforms
+            {...commonProps}
+            expandedSubMenu={expandedSubMenu}
+            setExpandedSubMenu={setExpandedSubMenu}
+            sidebarIsExpanded={isExpanded}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          />
+
+          <Spacer />
+
+          <Applications {...commonProps} />
+          <WebsiteMobileAppView {...commonProps} />
+          <Analyze {...commonProps} />
+
+          <Spacer />
+
+          <Incidents {...commonProps} />
+        </>
       )}
-      <Spacer />
-      {customDashboardsEnabled && (
-        <View
-          id="main-nav-custom-dashboards"
-          label="Dashboards"
-          icon="lib_views_grid"
-          isActive$={isView(customDashboardsPath)}
-          href$={getView(customDashboardsPath)}
-          {...commonProps}
-        />
-      )}
-      <View
-        id="main-nav-infrastructure"
-        label="Infrastructure"
-        icon="lib_infrastructure_inverted"
-        isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-        href$={getView(physicalPath)}
-        expandedSubMenu={expandedSubMenu}
-        {...commonProps}
-      />
-
-      <Platforms
-        {...commonProps}
-        expandedSubMenu={expandedSubMenu}
-        setExpandedSubMenu={setExpandedSubMenu}
-        sidebarIsExpanded={isExpanded}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      />
-
-      <Spacer />
-
-      {hasApplicationsAccess && (
-        <View
-          id="main-nav-application"
-          label="Applications"
-          icon="lib_application_invert"
-          isActive$={isView(isApplicationsView)}
-          href$={getView(applicationsList)}
-          {...commonProps}
-        />
-      )}
-
-      <WebsiteMobileAppView {...commonProps} />
-
-      {hasAnalyzeAccess && (
-        <View
-          id="main-nav-analyze"
-          label="Analytics"
-          icon="lib_analyze_inverted"
-          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView)}
-          href$={
-            [
-              hasApplicationsAccess &&
-                getLinkToAnalyze({
-                  dataSource: 'calls',
-                  groupByTag: getConfigByDataSource('calls').defaultGrouping
-                }),
-              hasWebsitesAccess &&
-                getLinkToWebsiteAnalyze({
-                  beaconType: 'pageLoad',
-                  group: defaultWebsiteGroupings.pageLoad
-                }),
-              hasMobileAppsAccess &&
-                getLinkToMobileAppAnalyze({
-                  beaconType: 'sessions',
-                  group: defaultMobileAppGroupings.sessions
-                })
-            ].filter(Boolean)[0]
-          }
-          {...commonProps}
-        />
-      )}
-
-      <Spacer />
-
-      <IncidentsMenuPoint {...commonProps} />
 
       <Spacer />
 
@@ -181,8 +150,6 @@ export default function ViewSwitcher({
       />
 
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
-
-      <Spacer />
 
       <View
         id="main-nav-more"
@@ -252,27 +219,24 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
   }
 
   return (
-    <Fragment>
-      <Spacer />
-      <View
-        label="Internal"
-        icon="lib_actions_lock"
-        isActive$={isView('/internal')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
-        sidebarIsExpanded={sidebarIsExpanded}
-        onClick={onClick}
-        onMouseLeave={onMouseLeave}
-      />
-    </Fragment>
+    <View
+      label="Internal"
+      icon="lib_actions_lock"
+      isActive$={isView('/internal')}
+      href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
+      sidebarIsExpanded={sidebarIsExpanded}
+      onClick={onClick}
+      onMouseLeave={onMouseLeave}
+    />
   );
 });
 
-const IncidentsMenuPoint = connectTo(
+const Incidents = connectTo(
   {
     events: openEventsAtServerTime$,
     isActive: isView(eventsPath)
   },
-  function IncidentsMenuPoint({ events, isActive, sidebarIsExpanded, onClick, onMouseLeave }) {
+  function Incidents({ events, isActive, sidebarIsExpanded, onClick, onMouseLeave }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
@@ -318,6 +282,87 @@ function SignOut() {
         )}
       />
     </form>
+  );
+}
+
+function CustomDashboards(props) {
+  if (!customDashboardsEnabled) {
+    return null;
+  }
+  return (
+    <View
+      id="main-nav-custom-dashboards"
+      label="Dashboards"
+      icon="lib_views_grid"
+      isActive$={isView(customDashboardsPath)}
+      href$={getView(customDashboardsPath)}
+      {...props}
+    />
+  );
+}
+
+function Infrastructure(props) {
+  return (
+    <View
+      id="main-nav-infrastructure"
+      label="Infrastructure"
+      icon="lib_infrastructure_inverted"
+      isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+      href$={getView(physicalPath)}
+      {...props}
+    />
+  );
+}
+
+function Applications(props) {
+  if (!hasApplicationsAccess) {
+    return null;
+  }
+
+  return (
+    <View
+      id="main-nav-application"
+      label="Applications"
+      icon="lib_application_invert"
+      isActive$={isView(isApplicationsView)}
+      href$={getView(applicationsList)}
+      {...props}
+    />
+  );
+}
+
+function Analyze(props) {
+  if (!hasAnalyzeAccess) {
+    return null;
+  }
+
+  return (
+    <View
+      id="main-nav-analyze"
+      label="Analytics"
+      icon="lib_analyze_inverted"
+      isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView)}
+      href$={
+        [
+          hasApplicationsAccess &&
+            getLinkToAnalyze({
+              dataSource: 'calls',
+              groupByTag: getConfigByDataSource('calls').defaultGrouping
+            }),
+          hasWebsitesAccess &&
+            getLinkToWebsiteAnalyze({
+              beaconType: 'pageLoad',
+              group: defaultWebsiteGroupings.pageLoad
+            }),
+          hasMobileAppsAccess &&
+            getLinkToMobileAppAnalyze({
+              beaconType: 'sessions',
+              group: defaultMobileAppGroupings.sessions
+            })
+        ].filter(Boolean)[0]
+      }
+      {...props}
+    />
   );
 }
 

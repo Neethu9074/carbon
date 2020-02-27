@@ -21,7 +21,6 @@ export default connectTo(
 
   function View({
     href$,
-    color,
     icon,
     label,
     children,
@@ -31,10 +30,11 @@ export default connectTo(
     onClick,
     onMouseEnter,
     onMouseLeave,
+    renderContent,
     setExpandedSubMenu,
     id
   }) {
-    const isExpanded = expandedSubMenu === label;
+    const isExpanded = label && expandedSubMenu === label;
     href$ = href$ || alwaysNull;
 
     return (
@@ -68,8 +68,14 @@ export default connectTo(
           onMouseLeave={() => onMouseLeave()} // don't parse the event
         >
           <Link id={id} className={locals.link} href$={href$}>
-            <SvgIcon className={locals.icon} style={{ fill: color }} type={icon} size="l" />
-            {sidebarIsExpanded && <span className={locals.label}>{label}</span>}
+            {renderContent ? (
+              renderContent(sidebarIsExpanded)
+            ) : (
+              <>
+                <SvgIcon className={locals.icon} type={icon} size="l" />
+                {sidebarIsExpanded && <span className={locals.label}>{label}</span>}
+              </>
+            )}
           </Link>
 
           {children &&

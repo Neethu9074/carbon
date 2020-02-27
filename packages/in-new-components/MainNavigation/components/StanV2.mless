@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+    overflow: hidden;
+
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .wrapperExpanded {
+    width: 7.75rem;
+  }
+
+  .content {
+    position: absolute;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+
+    transition: left 0.25s ease-in-out;
+    white-space: nowrap;
+  }
+
+  .label {
+    color: white;
+  }
+
+  .icon {
+    margin-right: 1rem;
+    fill: @lib__colors__N400;
+  }
+}
