@@ -36,18 +36,21 @@ export default compose(
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
       orderBy: defaultOrder,
-      orderDirection: 'DESC'
+      orderDirection: 'DESC',
+      previewEnabled: false
     }),
     getParsedUrlValues: urlValues => ({
       [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
       orderBy: urlValues.orderBy,
       orderDirection: urlValues.orderDirection,
-      showGraph: Boolean(urlValues.showGraph)
+      showGraph: Boolean(urlValues.showGraph),
+      previewEnabled: Boolean(urlValues.previewEnabled)
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
       orderBy: props.orderBy,
-      orderDirection: props.orderDirection
+      orderDirection: props.orderDirection,
+      previewEnabled: props.previewEnabled
     }),
     reducerName: 'onChange'
   }),
@@ -82,7 +85,14 @@ export default compose(
   })),
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', props => props.showGraph),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded', 'metrics'],
+    getResettingProps: () => [
+      'filters',
+      'orderBy',
+      'orderDirection',
+      'isChartSectionExpanded',
+      'metrics',
+      'previewEnabled'
+    ],
     get: ({
       dataSource,
       tagFiltersForSubscription,
@@ -91,7 +101,8 @@ export default compose(
       orderBy,
       orderDirection,
       isChartSectionExpanded,
-      metrics
+      metrics,
+      previewEnabled = false
     }) => {
       metrics = metrics.concat(defaultCountMetric(dataSource));
       const timeConfig = filters.timeConfig;
@@ -132,7 +143,8 @@ export default compose(
           groupbyTag: filters.group ? filters.group.name : null,
           groupbyTagSecondLevelKey: filters.group ? filters.group.value : '',
           groupbyTagEntity: filters.group ? filters.group.entity : entityTypes.NOT_APPLICABLE
-        }
+        },
+        queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
       });
     }
   })

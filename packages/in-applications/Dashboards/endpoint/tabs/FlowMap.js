@@ -5,6 +5,7 @@ import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNod
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import getService from 'in-subscription/application/getService';
+import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-components/ServerFlowMap';
 
 import connectTo from 'in-hoc/connectTo';
@@ -55,16 +56,7 @@ export default connectTo(
 
     return observables;
   },
-  function EndpointFlowMap({
-    data,
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    timeConfig,
-    service,
-    metricValues
-  }) {
+  function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, service, metricValues }) {
     if (!service || !metricValues) {
       return null;
     }
@@ -78,7 +70,7 @@ export default connectTo(
               rootNodeData={{
                 id: serviceId,
                 applicationContext: applicationId,
-                applicationBoundaryScope: boundaryScope,
+                applicationBoundaryScope: boundaryScopes.all,
                 service,
                 endpoint: data,
                 metricValues

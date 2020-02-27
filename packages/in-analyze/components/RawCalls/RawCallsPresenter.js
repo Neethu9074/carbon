@@ -21,9 +21,11 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
+import { queryPreviewEnabled } from 'in-services/featureFlags';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
+import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 
 import locals from './RawCallsPresenter.mless';
@@ -46,16 +48,29 @@ export default function RawCallsPresenter(props) {
     <AnalyzeWorkspace {...props} title="Call Analytics">
       <div className={locals.headerWrapper}>
         <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
-        <Button
-          kind="secondary"
-          icon="lib_views_folder"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            props.openEditGroupDialog();
-          }}
-        >
-          Group by
-        </Button>
+        <div className={locals.labelWrapper}>
+          {queryPreviewEnabled && (
+            <>
+              <span className={locals.label}>Preview</span>
+              <Toggle
+                checked={props.previewEnabled}
+                onChange={e => {
+                  props.onPreviewEnabledChange(e.target.checked);
+                }}
+              />
+            </>
+          )}
+          <Button
+            kind="secondary"
+            icon="lib_views_folder"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              props.openEditGroupDialog();
+            }}
+          >
+            Group by
+          </Button>
+        </div>
       </div>
       <Table className={locals.table} tableInCard>
         <Thead>
@@ -91,7 +106,9 @@ export default function RawCallsPresenter(props) {
               <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
               <Td>
                 <Link
-                  href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
+                  href$={getLinkToTraceDetail(item.call.traceId, {
+                    callId: item.call.id
+                  })}
                   onClick={() => callClickedTracker()}
                 >
                   {item.call.label}

@@ -189,7 +189,7 @@ function Infrastructure({
   onBoundaryStateChange,
   selectedType,
   setType,
-  urlBoundaryScope,
+  boundaryScope: urlBoundaryScope,
   data: application
 }) {
   if (!entity) {

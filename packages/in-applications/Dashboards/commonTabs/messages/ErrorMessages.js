@@ -14,7 +14,7 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null,
     endpointName: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : null
   }),
-  function ErrorMessages({ onBoundaryStateChange, urlBoundaryScope, data: application, ...props }) {
+  function ErrorMessages({ onBoundaryStateChange, boundaryScope: urlBoundaryScope, data: application, ...props }) {
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
     return (

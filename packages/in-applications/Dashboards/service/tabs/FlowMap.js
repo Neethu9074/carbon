@@ -4,6 +4,7 @@ import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullH
 import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
+import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-components/ServerFlowMap';
 
 import connectTo from 'in-hoc/connectTo';
@@ -41,7 +42,7 @@ export default connectTo(
       return null;
     })
   }),
-  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, boundaryScope, timeConfig, metricValues }) {
+  function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeConfig, metricValues }) {
     if (!metricValues) {
       return null;
     }
@@ -54,7 +55,7 @@ export default connectTo(
               rootNodeData={{
                 id: data.id,
                 applicationContext: applicationId,
-                applicationBoundaryScope: boundaryScope,
+                applicationBoundaryScope: boundaryScopes.all,
                 service: data,
                 metricValues
               }}

@@ -30,7 +30,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
     applicationId: getMatrixParameter(location, serviceDashboard, applicationId),
     serviceId: getMatrixParameter(location, serviceDashboard, serviceId),
     endpointId: getMatrixParameter(location, serviceDashboard, endpointId),
-    urlBoundaryScope: getMatrixParameter(location, serviceDashboard, boundaryScope),
+    boundaryScope: getMatrixParameter(location, serviceDashboard, boundaryScope),
     viewPath: serviceDashboard,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     timeConfig

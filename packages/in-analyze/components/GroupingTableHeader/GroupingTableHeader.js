@@ -3,7 +3,9 @@ import React from 'react';
 import AnalyzeGroupingInfo from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupingInfo';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
+import { queryPreviewEnabled } from 'in-services/featureFlags';
 import ResultHeader from 'in-analyze/components/ResultHeader';
+import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 
 import locals from './GroupingTableHeader.mless';
@@ -32,7 +34,18 @@ export default function GroupingTableHeader(props) {
         )}
       </div>
 
-      <div>
+      <div className={locals.labelWrapper}>
+        {queryPreviewEnabled && (
+          <>
+            <span className={locals.label}>Preview</span>
+            <Toggle
+              checked={props.previewEnabled}
+              onChange={e => {
+                props.onPreviewEnabledChange(e.target.checked);
+              }}
+            />
+          </>
+        )}
         <Button
           kind="secondary"
           icon="lib_views_folder"

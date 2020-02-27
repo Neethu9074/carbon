@@ -13,4 +13,12 @@
     display: flex;
     align-items: center;
   }
+  .label {
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

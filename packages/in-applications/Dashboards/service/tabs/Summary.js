@@ -16,7 +16,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary(props) {
-  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope, data } = props;
+  const { timeConfig, endpointId, applicationId, serviceId, boundaryScope: boundaryScope, data } = props;
   const types = data.types;
 
   const filter = {

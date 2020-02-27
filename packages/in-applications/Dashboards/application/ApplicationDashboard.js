@@ -36,7 +36,7 @@ export default compose(
 function ApplicationDashboard({
   onBoundaryStateChange,
   appId,
-  boundaryScope: urlBoundaryScope,
+  boundaryScope,
   serviceId,
   endpointId,
   location,
@@ -49,7 +49,7 @@ function ApplicationDashboard({
     viewPath: applicationDashboard,
     onBoundaryStateChange,
     timeConfig,
-    urlBoundaryScope
+    boundaryScope
   };
 
   return (
@@ -78,7 +78,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, urlBoundaryScope }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
   return (
     <>
       <StackButton id={applicationId} timeConfig={timeConfig} productArea="application" />
@@ -87,14 +87,14 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, ur
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        boundaryScope={urlBoundaryScope}
+        boundaryScope={boundaryScope}
         dashboard="application"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        boundaryScope={urlBoundaryScope}
+        boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
       />

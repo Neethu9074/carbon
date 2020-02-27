@@ -116,9 +116,11 @@ function handleBackClick(setStep, step, setSimpleModeStep) {
 function handleSubmit(e, step, setStep, form, setForm, setSimpleModeStep, onCreate) {
   stopPropagationAndPreventDefault(e);
 
-  let stepValid = false;
+  let stepValid = true;
   if (step === steps.selectAlert) {
-    stepValid = form.get(fieldNames.ruleValue).valid;
+    if (form.containsKey(fieldNames.ruleValue)) {
+      stepValid = form.get(fieldNames.ruleValue).valid;
+    }
   } else if (step === steps.selectAlertingChannel) {
     stepValid = form.get(fieldNames.alertChannelIds).valid;
   } else {

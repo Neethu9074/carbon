@@ -2,15 +2,18 @@ import { compose, withProps, withPropsOnChange } from 'recompose';
 import React from 'react';
 
 import {
+  previewEnabled as previewEnabledMatrixParameter,
   dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import {
-  getTagFilterToUrlString,
-  getGroupToUrlString,
+  getPreviewEnabledFromUrlString,
+  getPreviewEnabledToUrlString,
   getTagFilterFromUrlString,
-  getGroupFromUrlString
+  getTagFilterToUrlString,
+  getGroupFromUrlString,
+  getGroupToUrlString
 } from 'in-analyze/filterBuilder';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -40,31 +43,46 @@ export default compose(
     replaceHistory: false,
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [dataSourceMatrixParameter, groupByMatrixParameter, tagFilterMatrixParameter],
+    boundKeys: [
+      dataSourceMatrixParameter,
+      groupByMatrixParameter,
+      tagFilterMatrixParameter,
+      previewEnabledMatrixParameter
+    ],
     getInitialState: props => ({
       [dataSourceMatrixParameter]: 'traces',
       ...getInitialGrouping(props),
-      [tagFilterMatrixParameter]: []
+      [tagFilterMatrixParameter]: [],
+      [previewEnabledMatrixParameter]: false
     }),
     reducerName: 'onChangeAnalyzeConfig',
     getParsedUrlValues: values => ({
       [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter]),
-      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter])
+      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter]),
+      [previewEnabledMatrixParameter]: getPreviewEnabledFromUrlString(values[previewEnabledMatrixParameter])
     }),
     getSerializedUrlValues: props => ({
       [dataSourceMatrixParameter]: props[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
-      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter])
+      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
+      [previewEnabledMatrixParameter]: getPreviewEnabledToUrlString(props[previewEnabledMatrixParameter])
     })
   }),
   withPropsOnChange(
-    ['location', tagFilterMatrixParameter, groupByMatrixParameter, dataSourceMatrixParameter],
+    [
+      'location',
+      tagFilterMatrixParameter,
+      groupByMatrixParameter,
+      dataSourceMatrixParameter,
+      previewEnabledMatrixParameter
+    ],
     ({
       location,
       [tagFilterMatrixParameter]: tagFilter,
       [groupByMatrixParameter]: group,
-      [dataSourceMatrixParameter]: dataSource
+      [dataSourceMatrixParameter]: dataSource,
+      [previewEnabledMatrixParameter]: previewEnabledMatrixParameter
     }) => ({
       filters: {
         tagFilter,
@@ -113,6 +131,11 @@ function AnalyzeView(props) {
       {
         <View
           {...props}
+          onPreviewEnabledChange={value => {
+            const newState = {};
+            newState[previewEnabledMatrixParameter] = value;
+            props.onChangeAnalyzeConfig(newState);
+          }}
           openEditGroupDialog={() =>
             setActiveDialog(
               <EditGroupDialog

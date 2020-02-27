@@ -1,16 +1,22 @@
 import {
+  previewEnabled as previewEnabledMatrixParameter,
+  orderDirection as orderDirectionMatrixParameter,
+  dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
+  showGraph as showGraphMatrixParameter,
+  orderBy as orderByMatrixParameter,
   traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
-  dataSource as dataSourceMatrixParameter,
-  callId as callIdMatrixParameter,
-  orderBy as orderByMatrixParameter,
-  orderDirection as orderDirectionMatrixParameter,
   metrics as metricsMatrixParameter,
-  showGraph as showGraphMatrixParameter,
+  callId as callIdMatrixParameter,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
-import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
+import {
+  getTagFilterToUrlString,
+  getGroupToUrlString,
+  getTagFilterFromUrlString,
+  getPreviewEnabledToUrlString
+} from 'in-analyze/filterBuilder';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -42,7 +48,8 @@ export function getLinkToAnalyze({
   timeConfig,
   metrics,
   showGraph,
-  jumpToSource
+  jumpToSource,
+  previewEnabled
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -53,6 +60,15 @@ export function getLinkToAnalyze({
 
     if (groupByTag != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
+    }
+
+    if (previewEnabled) {
+      setOrDeleteMatrixKey(
+        params,
+        analyze,
+        `callList.${previewEnabledMatrixParameter}`,
+        getPreviewEnabledToUrlString(previewEnabled)
+      );
     }
 
     // Force lazy initialization of tagFilter so that we can differentiate between deliberate decision to reset filters
