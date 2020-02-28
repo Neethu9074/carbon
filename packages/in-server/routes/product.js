@@ -23,8 +23,29 @@ const compiledRedirectTemplate = Handlebars.compile(
 );
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
-const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
+
+// Module file name patterns for which a prefetch instruction should be added to the HTML
+// document. Ordered by likelyhood of usage.
+const modulesToPrefetch = [
+  // It is very likely that either of these of configured as the landing page:
+  // Prefetch with highest priority.
+  /^cockpit\./i,
+  /^customDashboarding\./i,
+
+  /^infrastructure\./i,
+  /^applications\./i,
+  /^websites\./i,
+  /^mobileApps\./i,
+  /^kubernetes\./i,
+  /^analyze\./i,
+
+  /^cloudfoundry\./i,
+  /^integrations\./i,
+  /^layoutingWorker\./i,
+  /^profiling\./i,
+  /^configView\./i
+];
 
 // Array of all the JS chunks which may be prefetched by the browser
 //
@@ -38,15 +59,18 @@ const stringifiedBuildInformation = JSON.stringify(buildInformation);
 // ]
 const prefetchItems = fs
   .readdirSync(paths.bundleDir)
-  .filter(fileName => /^.*\.[a-z0-9]+\.(js|css)$/i.test(fileName))
-  // There are just way too many Ammap files. No need to prefetch all of them.
-  .filter(fileName => fileName.indexOf('AmMap') === -1)
-  // never attempt to preload the internal bundle
-  .filter(fileName => fileName.indexOf('internal') === -1)
+  .filter(fileName => {
+    for (const regexp of modulesToPrefetch) {
+      if (regexp.test(fileName)) {
+        return true;
+      }
+      return false;
+    }
+  })
   .map(fileName => {
     return {
       rel: 'prefetch',
-      as: fileName.endsWith('css') ? 'style' : 'script',
+      as: fileName.endsWith('.css') ? 'style' : 'script',
       fileName
     };
   });
@@ -311,7 +335,6 @@ function sendIndex(
   res.send(
     compiledTemplate({
       indexJsChecksum,
-      indexCssChecksum,
       nonces,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
       mixpanelToken:

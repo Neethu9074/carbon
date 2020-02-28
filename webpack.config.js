@@ -2,7 +2,6 @@
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -27,15 +26,6 @@ const definePlugin = new webpack.DefinePlugin({
 const plugins = [
   definePlugin,
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
-  new MiniCssExtractPlugin({
-    // Options similar to the same options in webpackOptions.output
-    // all options are optional
-    filename: '[name].css',
-    chunkFilename: '[name].[contenthash].css',
-    // This is not completely sufficient. We also need to configure an ignore rule in
-    // our custom Webpack dev mode output build/gulp/dev.js
-    ignoreOrder: true
-  }),
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin,
   process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
@@ -59,12 +49,9 @@ const entry = hotReload
       waiting: './packages/in-waiting-for-deployment/index.js'
     };
 
-const miniCssLoader = {
-  loader: MiniCssExtractPlugin.loader,
-  options: {
-    publicPath: './',
-    hmr: hotReload
-  }
+const styleLoader = {
+  loader: 'style-loader',
+  options: { injectType: 'singletonStyleTag' }
 };
 
 const postCssLoader = {
@@ -102,7 +89,7 @@ module.exports = {
       {
         test: /\.mless$/i,
         use: [
-          miniCssLoader,
+          styleLoader,
           {
             loader: 'css-loader',
             options: {
@@ -117,7 +104,7 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/i,
-        use: [miniCssLoader, 'css-loader', postCssLoader, 'less-loader']
+        use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,

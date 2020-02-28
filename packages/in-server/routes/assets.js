@@ -7,9 +7,7 @@ const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
-const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
 const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
-const waitingCssChecksum = checkSumMod.getChecksumForFile(paths.waitingCss);
 
 const router = (module.exports = express.Router());
 const cacheControlHeader = 'public, max-age=86400, stale-while-revalidate=3600, stale-if-error=86400';
@@ -63,14 +61,6 @@ router.get('/bundle/index-:version.js', (req, res) => {
 
 router.get('/bundle/waiting-:version.js', (req, res) => {
   checkChecksumAndSend(req, res, waitingJsChecksum, paths.waitingJs);
-});
-
-router.get('/bundle/index-:version.css', (req, res) => {
-  checkChecksumAndSend(req, res, indexCssChecksum, paths.indexCss);
-});
-
-router.get('/bundle/waiting-:version.css', (req, res) => {
-  checkChecksumAndSend(req, res, waitingCssChecksum, paths.waitingCss);
 });
 
 function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {

@@ -21,7 +21,6 @@ const maxNonces = findMaxNonces(waitingHtmlTemplate);
 const compiledTemplate = Handlebars.compile(waitingHtmlTemplate);
 
 const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
-const waitingCssChecksum = checkSumMod.getChecksumForFile(paths.waitingCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 router.get('/waiting', (req, res) => {
@@ -79,7 +78,6 @@ function sendWaitingIndex(
   res.send(
     compiledTemplate({
       waitingJsChecksum,
-      waitingCssChecksum,
       nonces,
       config: JSON.stringify({
         tenant: req.tenant,
