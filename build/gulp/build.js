@@ -1,49 +1,55 @@
 /* eslint-env node */
 /* eslint-disable no-var, strict, vars-on-top, no-console */
-
 'use strict';
 
-const { clone } = require('lodash');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const fs = require('fs');
-const path = require('path');
-const gulp = require('gulp');
-const size = require('gulp-size');
-const webpack = require('webpack');
-const runSequence = require('run-sequence');
-const nano = require('gulp-cssnano');
 const execSync = require('child_process').execSync;
+const nano = require('gulp-cssnano');
+const { clone } = require('lodash');
+const webpack = require('webpack');
+const size = require('gulp-size');
+const gulp = require('gulp');
+const path = require('path');
+const fs = require('fs');
 
 const webpackConfig = require('../../webpack.config.js');
+const commonJobs = require('./common');
 const buildUtil = require('./util');
 const paths = require('./paths');
 
 gulp.task('build', cb => {
-  runSequence(
-    'clean',
-    'ensureTargetDirStructureExists',
-    ['copyFavicon', 'copyAppleTouchIcon', 'writeBuildInfo', 'copyServerSources', 'translateTheme'],
-    'webpack:build',
-    'minifyCss',
-    'printFileStatistics',
-    cb
-  );
+  const {
+    clean,
+    ensureTargetDirStructureExists,
+    copyFavicon,
+    copyAppleTouchIcon,
+    writeBuildInfo,
+    translateTheme
+  } = commonJobs;
+
+  gulp.series(
+    clean,
+    ensureTargetDirStructureExists,
+    gulp.parallel(copyFavicon, copyAppleTouchIcon, writeBuildInfo, copyServerSources, translateTheme),
+    webpackBuild,
+    minifyCss,
+    printFileStatistics
+  )(cb);
 });
 
 gulp.task('try-build', cb => {
-  runSequence(
-    'copyServerSources',
-    ['startTryBuildProxy', 'copyServerSources', 'openTryBuildUrlInBrowser', 'writeTryBuildServerConfigFile'],
-    'startTryBuildServer',
-    cb
-  );
+  gulp.series(
+    copyServerSources,
+    gulp.parallel(startTryBuildProxy, copyServerSources, openTryBuildUrlInBrowser, writeTryBuildServerConfigFile),
+    startTryBuildServer
+  )(cb);
 });
 
-gulp.task('copyServerSources', () => {
+function copyServerSources() {
   return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
-});
+}
 
-gulp.task('minifyCss', () => {
+function minifyCss() {
   return gulp
     .src(paths.allCssAssets)
     .pipe(
@@ -53,18 +59,18 @@ gulp.task('minifyCss', () => {
       })
     )
     .pipe(gulp.dest(paths.bundleDir));
-});
+}
 
-gulp.task('printFileStatistics', () => {
+function printFileStatistics() {
   return gulp.src([paths.allCssAssets, paths.allJsAssets]).pipe(
     size({
       showFiles: true,
       gzip: true
     })
   );
-});
+}
 
-gulp.task('webpack:build', callback => {
+function webpackBuild(cb) {
   // modify some webpack config options
   var config = clone(webpackConfig);
 
@@ -112,11 +118,11 @@ gulp.task('webpack:build', callback => {
       })
     );
 
-    callback();
+    cb();
   });
-});
+}
 
-gulp.task('writeTryBuildServerConfigFile', () => {
+function writeTryBuildServerConfigFile(cb) {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
     uiBackendBaseUrl: 'http://127.0.0.1:8080',
@@ -145,15 +151,17 @@ gulp.task('writeTryBuildServerConfigFile', () => {
     })
   };
   fs.writeFileSync(path.join(paths.targetDir, 'serverConfig.json'), JSON.stringify(config, 0, 2));
-});
+  cb();
+}
 
-gulp.task('startTryBuildServer', () => {
+function startTryBuildServer(cb) {
   execSync('node "' + path.join(paths.targetDir, 'index.js') + '"', {
     stdio: 'inherit'
   });
-});
+  cb();
+}
 
-gulp.task('startTryBuildProxy', () => {
+function startTryBuildProxy(cb) {
   buildUtil.startProxrox({
     serverName: 'local-instana.instana.io',
     port: 4000,
@@ -176,8 +184,10 @@ gulp.task('startTryBuildProxy', () => {
       '/api/data/': 'https://test-instana.instana.io'
     }
   });
-});
+  cb();
+}
 
-gulp.task('openTryBuildUrlInBrowser', () => {
+function openTryBuildUrlInBrowser(cb) {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');
-});
+  cb();
+}

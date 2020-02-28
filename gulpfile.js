@@ -3,4 +3,3 @@
 // import all gulp tasks
 require('./build/gulp/build');
 require('./build/gulp/dev');
-require('./build/gulp/common');

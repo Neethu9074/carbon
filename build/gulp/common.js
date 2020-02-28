@@ -12,25 +12,33 @@ const translateThemeInternal = require('./translateTheme');
 var buildUtil = require('./util');
 var paths = require('./paths');
 
-gulp.task('clean', () => {
-  return del(paths.targetDir);
-});
+exports.clean = clean;
+exports.ensureTargetDirStructureExists = ensureTargetDirStructureExists;
+exports.copyFavicon = copyFavicon;
+exports.copyAppleTouchIcon = copyAppleTouchIcon;
+exports.writeBuildInfo = writeBuildInfo;
+exports.translateTheme = translateTheme;
 
-gulp.task('ensureTargetDirStructureExists', () => {
+function clean() {
+  return del(paths.targetDir);
+}
+
+function ensureTargetDirStructureExists(cb) {
   mkdirp.sync(paths.targetDir);
   mkdirp.sync(paths.assetDir);
   mkdirp.sync(paths.bundleDir);
-});
+  cb();
+}
 
-gulp.task('copyFavicon', () => {
+function copyFavicon() {
   return gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
-});
+}
 
-gulp.task('copyAppleTouchIcon', () => {
+function copyAppleTouchIcon() {
   return gulp.src(paths.appleTouchIconSrc).pipe(gulp.dest(paths.assetDir));
-});
+}
 
-gulp.task('writeBuildInfo', cb => {
+function writeBuildInfo(cb) {
   var data = {
     revision: buildUtil.getRevision(),
     date: new Date().toISOString()
@@ -45,8 +53,9 @@ gulp.task('writeBuildInfo', cb => {
   }
 
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
-});
+}
 
-gulp.task('translateTheme', () => {
+function translateTheme(cb) {
   translateThemeInternal('theme', paths.themeDir, paths.themeDir, 'active');
-});
+  cb();
+}
