@@ -100,6 +100,7 @@ function generateFormData(error, tagFilters, websiteId) {
       type: 'staticThreshold',
       value: 0.0
     },
-    websiteId
+    websiteId,
+    calculateThresholdOnBackend: !!error
   };
 }
