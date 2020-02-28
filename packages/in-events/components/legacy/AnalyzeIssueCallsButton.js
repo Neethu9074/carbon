@@ -27,8 +27,7 @@ export default connectTo(
       // We would not need to subscribe to any observable here if it weren't for the endpoint's `synthetic` flag, which
       // is not available from the event's meta data. We fetch the endpoint entity from the back end (possibly hitting
       // appdata-reader) just for this one boolean flag.
-      const endpointEntity = getEntityObservable(event);
-      observables.endpointEntity = endpointEntity;
+      observables.endpointEntity = getEntityObservable(event);
     }
     return observables;
   },
@@ -97,11 +96,6 @@ function getEntityObservable(event) {
   return getEntityOfType(entityId, entityType, timeConfigFromEvent).entity;
 }
 
-function isErrorEvent(event) {
-  const problemText = getProblemTextOrEmpty(event);
-  return containsIgnoreCase(problemText, 'error');
-}
-
 function isSyntheticEndpoint(endpoint) {
   if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
     return false;
@@ -127,9 +121,8 @@ function getAnalyzeOrder(event) {
   let orderBy;
   let orderDirection;
   const entityType = event.get('entityType');
-  const problemText = getProblemTextOrEmpty(event);
-  if (containsIgnoreCase(problemText, 'latency')) {
-    orderBy = isEndpointEntity(entityType) ? 'latency' : 'latencyAgg';
+  if (isLatencyEvent(event)) {
+    orderBy = isEndpointEntity(entityType) ? 'latency_MEAN' : 'latency_MEAN_Agg';
     orderDirection = 'DESC';
   }
   return {
@@ -138,10 +131,19 @@ function getAnalyzeOrder(event) {
   };
 }
 
-function getProblemTextOrEmpty(event) {
-  const problem = event.get('problem');
-  if (problem) {
-    const problemText = problem.get('problemText');
-    return problemText ? problemText : '';
+function isErrorEvent(event) {
+  return containsMetricInEvent(event, 'error');
+}
+
+function isLatencyEvent(event) {
+  return containsMetricInEvent(event, 'duration');
+}
+
+function containsMetricInEvent(event, metricNamePart) {
+  const metricsList = event.getIn(['metadata', 'metrics'], []);
+  if (metricsList) {
+    return metricsList.filter(item => containsIgnoreCase(item.get('metricName', ''), metricNamePart)).size > 0;
   }
+
+  return false;
 }
