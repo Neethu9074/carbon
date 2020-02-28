@@ -30,7 +30,7 @@ export default function InstallDocumentation(props) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>
-        <span className={locals.headingText}>Installing the Instana agent</span>
+        <span className={locals.headingText}>Installing Instana Agents</span>
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>

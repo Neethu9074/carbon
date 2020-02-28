@@ -21,7 +21,7 @@ export default connectTo(
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}
-          withoutLegend
+          renderLegend={false}
           height={120}
           y1={{
             min: 0,

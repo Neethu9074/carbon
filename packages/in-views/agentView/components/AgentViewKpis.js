@@ -1,56 +1,31 @@
 import React from 'react';
 
-import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
-import { formatDateTime } from 'in-services/formatters/date';
-import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoValueBar from 'in-new-components/TwoValueBar';
-import { timeConfig$ } from 'in-stores/time/config';
-import KV from 'in-sdk/components/dashboard/KV';
-import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
+import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
 import locals from './AgentViewKpis.mless';
 
-export default connectTo(
-  {
-    agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
-    timeConfig: timeConfig$
-  },
-  function AgentViewKpis({ agentSnapshots, timeConfig }) {
-    if (!agentSnapshots) {
-      return null;
-    }
-
-    return (
-      <Kpis>
-        {agentSnapshots ? (
-          <Tooltip
-            content={`At the selected moment: ${
-              timeConfig.focusedMoment ? formatDateTime(timeConfig.focusedMoment) : 'Now'
-            }`}
-            align="rightMiddle"
-          >
-            <KV
-              k="Total agents"
-              v={
-                <div className={locals.value}>
-                  {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
-                  <div className={locals.twoValueBar}>
-                    <TwoValueBar
-                      v1={agentSnapshots.get('online', emptyList).size}
-                      v2={agentSnapshots.get('offline', emptyList).size}
-                      formatter={v => v}
-                      v1Label="Reporting"
-                      v2Label="Not reporting"
-                    />
-                  </div>
-                </div>
-              }
-            />
-          </Tooltip>
-        ) : null}
-      </Kpis>
-    );
-  }
-);
+export default function AgentViewKpis({ agentSnapshots }) {
+  return (
+    <div className={locals.row}>
+      <KpiCard
+        title="Total Agents"
+        value={
+          <div className={locals.value}>
+            {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
+            <div className={locals.twoValueBar}>
+              <TwoValueBar
+                v1={agentSnapshots.get('online', emptyList).size}
+                v2={agentSnapshots.get('offline', emptyList).size}
+                formatter={v => v}
+                v1Label="Reporting"
+                v2Label="Not reporting"
+              />
+            </div>
+          </div>
+        }
+      />
+    </div>
+  );
+}
