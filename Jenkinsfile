@@ -92,26 +92,29 @@ stage('Deployment') {
   parallel deployments
 }
 
-stage('Storybook build') {
-  if (env.BRANCH_NAME == 'develop') {
+stage('Storybook') {
+  if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release-')) {
     node {
-      runNodeBuild(gitCommitId, 'yarn && yarn run storybookBuild')
-      if ( currentBuild.currentResult == 'SUCCESS' ) {
-        stash includes: "storybookTarget/**/*", name: "ui-client-storybook-build-${gitCommitId}"
+      try {
+        awsCodeBuild credentialsType: 'jenkins',
+          credentialsId: 'codebuild',
+          projectName:
+          'ui-client-storybook',
+          region: 'us-west-2',
+          sourceControlType: 'project',
+          sourceVersion: gitCommitId
+
+        if ( currentBuild.currentResult == 'SUCCESS' ) {
+          slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+        }
+      } catch (e) {
+        slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
+        throw e
       }
     }
-    slackNotification('Storybook build', 'ui-client', gitCommitId, currentBuild.currentResult)
   }
 }
 
-stage('Deploy Storybook to S3') {
-  if (env.BRANCH_NAME == 'develop') {
-    node {
-      sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
-    }
-    slackNotification('Storybook S3 Deployment', 'ui-client', gitCommitId, currentBuild.currentResult)
-  }
-}
 
 def runNodeBuild(gitCommitId, buildCommands) {
   deleteDir()
