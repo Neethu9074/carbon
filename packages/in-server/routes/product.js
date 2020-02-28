@@ -64,8 +64,8 @@ const prefetchItems = fs
       if (regexp.test(fileName)) {
         return true;
       }
-      return false;
     }
+    return false;
   })
   .map(fileName => {
     return {
