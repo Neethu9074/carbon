@@ -8,7 +8,6 @@ module.exports = {
   tenantSwitcherEnabled: true,
   isUsageInfoPopupEnabled: false,
   onPremLicenseInformationEnabled: false,
-  customEventsInWebsiteMonitoringEnabled: true,
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
   internalMonitoringUnit: true,

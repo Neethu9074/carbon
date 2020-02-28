@@ -1094,7 +1094,6 @@
       "featureFlag.maintenanceNotesEnabled": "true",
       "build.date": "2019-07-17T18:41:18.510Z",
       "featureFlag.onPremLicenseInformationEnabled": "false",
-      "featureFlag.customEventsInWebsiteMonitoringEnabled": "false",
       "tenant": "instana",
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
       "featureFlag.containerInfoEnabled": "true",

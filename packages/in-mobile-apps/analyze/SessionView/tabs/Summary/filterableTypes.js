@@ -1,5 +1,3 @@
-import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
-
 export const types = {
   httpRequest: {
     short: 'HTTP',
@@ -19,7 +17,7 @@ export const types = {
     long: 'View Transitions',
     color: '#91c200'
   },
-  custom: customEventsInWebsiteMonitoringEnabled && {
+  custom: {
     short: 'Cus',
     badgeLabel: 'Cus',
     long: 'Custom Events',

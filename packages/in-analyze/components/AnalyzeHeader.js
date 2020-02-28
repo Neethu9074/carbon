@@ -19,7 +19,6 @@ import {
   getLinkToAnalyze as getLinkToProfilesAnalyze,
   analyzePath as profilingAnalyzePath
 } from 'in-profiling/navigation/paths';
-import { customEventsInWebsiteMonitoringEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import getConfigByDataSource, { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
@@ -33,6 +32,7 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -116,15 +116,13 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
                 })}
                 {...getProps('error', 'website', dataSource)}
               />
-              {customEventsInWebsiteMonitoringEnabled && (
-                <SecondLevelNavigationItem
-                  href$={getLinkToWebsiteAnalyze({
-                    group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
-                    beaconType: 'custom'
-                  })}
-                  {...getProps('custom', 'website', dataSource)}
-                />
-              )}
+              <SecondLevelNavigationItem
+                href$={getLinkToWebsiteAnalyze({
+                  group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+                  beaconType: 'custom'
+                })}
+                {...getProps('custom', 'website', dataSource)}
+              />
             </SecondLevelNavigationGroup>
           )}
           {hasMobileAppsAccess &&
@@ -149,15 +147,13 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
                   })}
                   {...getProps('httpRequest', 'mobileApp', dataSource)}
                 />
-                {customEventsInWebsiteMonitoringEnabled && (
-                  <SecondLevelNavigationItem
-                    href$={getLinkToMobileAppAnalyze({
-                      group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
-                      beaconType: 'custom'
-                    })}
-                    {...getProps('custom', 'mobileApp', dataSource)}
-                  />
-                )}
+                <SecondLevelNavigationItem
+                  href$={getLinkToMobileAppAnalyze({
+                    group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+                    beaconType: 'custom'
+                  })}
+                  {...getProps('custom', 'mobileApp', dataSource)}
+                />
               </SecondLevelNavigationGroup>
             )}
           <SecondLevelNavigationGroup

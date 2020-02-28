@@ -1,5 +1,3 @@
-import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
-
 export const types = {
   xhr: {
     short: 'XHR',
@@ -49,7 +47,7 @@ export const types = {
     long: '(Un-)caught JS Errors',
     color: 'darkred'
   },
-  custom: customEventsInWebsiteMonitoringEnabled && {
+  custom: {
     short: 'Cus',
     badgeLabel: 'Cus',
     long: 'Custom Events',
@@ -68,7 +66,7 @@ export function getType(beacon) {
     return beacon.resourceType;
   } else if (beacon.type === 'error') {
     return 'error';
-  } else if (beacon.type === 'custom' && customEventsInWebsiteMonitoringEnabled) {
+  } else if (beacon.type === 'custom') {
     return 'custom';
   } else if (beacon.type === 'pageChange') {
     return 'pageChange';

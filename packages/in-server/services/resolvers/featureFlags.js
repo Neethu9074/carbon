@@ -43,12 +43,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'customEventsInWebsiteMonitoringEnabled',
-    instanaCtlKey: 'feature.custom.events.in.website.monitoring.enabled',
-    consulKey: `settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'ruleDeprecationValidationChecksEnabled',
     instanaCtlKey: 'feature.rule.deprecation.validation.checks.enabled',
     consulKey: `settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`,

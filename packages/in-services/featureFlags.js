@@ -24,7 +24,6 @@ export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEna
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
-export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
 export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetricAggregationEnabled');

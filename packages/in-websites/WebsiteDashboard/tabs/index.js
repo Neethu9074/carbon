@@ -1,9 +1,9 @@
-import { websiteUserBreakdownEnabled, customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
+import { websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Resources from 'in-websites/WebsiteDashboard/tabs/Resources';
 import User from 'in-websites/WebsiteDashboard/tabs/User/User';
 import { eumAlertingEnabled } from 'in-services/featureFlags';
@@ -52,7 +52,7 @@ export const websiteTabs = [
     stickToBottom: true,
     isFullWidth: true
   },
-  customEventsInWebsiteMonitoringEnabled && {
+  {
     label: 'Custom Events',
     path: `${websitePathFullyQualified}/customEvents`,
     component: CustomEvents
