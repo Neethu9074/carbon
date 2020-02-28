@@ -6,7 +6,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 export default function VSphereViewSwitcher() {
   return (
     <>
-      <DashboardHeader icon="lib_vsphere_inverted" label="VSphere Clusters" title="VSphere Clusters" />
+      <DashboardHeader icon="lib_vsphere_inverted" label="vSphere Clusters" title="vSphere Clusters" />
       <DashboardHeaderShadowModule />
     </>
   );
