@@ -1,39 +1,41 @@
 import React from 'react';
 
-import AlertChannelSwitch from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelSwitch';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { openAlertChannelSubmitFormTracker } from 'in-settings/tracker';
+import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
+import MultiButton from 'in-new-components/MultiButton';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-components/Dialog';
 
 import locals from './NewChannelButton.mless';
 
-export default function NewChannelButton() {
+export default function NewChannelButton(props) {
+  const buttons = [
+    <AlertChannelButton type="email" {...props} />,
+    <AlertChannelButton type="slack" {...props} />,
+    <AlertChannelButton type="opsgenie" {...props} />,
+    <AlertChannelButton type="pagerduty" {...props} />,
+    <AlertChannelButton type="office365" {...props} />,
+    <AlertChannelButton type="webhook" {...props} />,
+    <AlertChannelButton type="splunk" {...props} />,
+    <AlertChannelButton type="googleChat" {...props} />,
+    <AlertChannelButton type="victorOps" {...props} />,
+    <AlertChannelButton type="prometheusWebhook" {...props} />
+  ];
+
   return (
-    <Button
+    <MultiButton
       className={locals.createNewButton}
       kind="action"
-      onClick={() => {
-        setActiveDialog(<NewChannelDialog />);
-        openAlertChannelSubmitFormTracker();
-      }}
       icon="lib_openclose_add_circle_outline"
-    >
-      Add Alert Channel
-    </Button>
+      label="Add Alert Channel"
+      buttons={buttons}
+    />
   );
 }
 
-function NewChannelDialog() {
+function AlertChannelButton({ type, className }) {
   return (
-    <Dialog header="Choose Channel Type" onClose={close}>
-      <AlertChannelSwitch
-        onClick={type => {
-          close();
-          goToAlertChannelView(type);
-        }}
-      />
-    </Dialog>
+    <Button className={className} kind="secondary" onClick={() => goToAlertChannelView(type)}>
+      {configs[type].label}
+    </Button>
   );
 }

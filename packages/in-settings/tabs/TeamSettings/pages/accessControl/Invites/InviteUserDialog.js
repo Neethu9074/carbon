@@ -9,11 +9,11 @@ import { close } from 'in-components/DialogPresenter/store';
 import { combineDataAndError } from 'in-services/util/ro';
 import FormGroup from 'in-settings/components/FormGroup';
 import Select from 'in-components/form/Select';
+import Button from 'in-new-components/Button';
+import Dialog from 'in-new-components/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
-import Button from 'in-components/Button';
-import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import { getRoles } from 'in-api/roles';
 
@@ -65,7 +65,7 @@ export default connectTo(
       const canSelectRole = sortedRoles !== undefined && sortedRoles.length !== 0;
 
       return (
-        <Dialog header={`Invite user to ${config.tenant}`} onClose={close}>
+        <Dialog title={`Invite user to ${config.tenant}`} onClose={close}>
           <form onSubmit={this.onSubmit(canSelectRole)}>
             {form.get('email').map(field => (
               <FormGroup>
@@ -106,7 +106,7 @@ export default connectTo(
                 </FormGroup>
               ))}
 
-            <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
+            <Button kind="primary" type="submit" disabled={!form.hierarchyValid && form.touched}>
               Invite User
             </Button>
           </form>
