@@ -86,7 +86,7 @@ export default function ViewSwitcher({
         <>
           <View
             id="main-nav-system-overview"
-            renderContent={ex => <StanV2 isExpanded={ex} />}
+            renderContent={() => <StanV2 />}
             isActive$={isView(cockpitPath)}
             href$={getView(cockpitPath)}
             {...commonProps}

@@ -303,10 +303,10 @@ export default class LineMetricRenderer {
     } else {
       this.drawPoints(theme.lib.colors.N900Primary, 3);
     }
-    this.drawPoints(theme.lib.colors.chart.strokeColors100[0], 2);
+    this.drawPoints(theme.lib.colors.chart.strokeColors100[0], 2, true);
   }
 
-  drawPoints(fillStyle, radius) {
+  drawPoints(fillStyle, radius, withRespectToZeroValues = false) {
     this.ctx.fillStyle = fillStyle;
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
@@ -316,13 +316,14 @@ export default class LineMetricRenderer {
         this.ctx.beginPath();
         this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
         this.ctx.fill();
-        if (dataPoint.value == 0) {
+
+        if (withRespectToZeroValues && dataPoint.value == 0) {
           /*
            * To help differentiate zero from some other value,
            * paint the dot representing zero as a thin blue halo
            */
-          this.ctx.arc(dataPoint.x, dataPoint.y, radius / 2, 0, 2 * Math.PI, false);
-          this.ctx.fillStyle = 'white';
+          this.ctx.arc(dataPoint.x, dataPoint.y, 1, 0, 2 * Math.PI, false);
+          this.ctx.fillStyle = '#c8ddec';
           this.ctx.fill();
         }
       }
