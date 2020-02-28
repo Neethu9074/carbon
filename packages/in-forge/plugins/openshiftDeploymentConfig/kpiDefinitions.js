@@ -1,14 +1,14 @@
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 
 export default [
   {
-    label: 'Pods',
-    metric: 'pods.count',
-    formatter: zeroDecimalPlaces
+    label: 'CPU Req.',
+    metric: 'pods.required_cpu',
+    formatter: resourceQuotaNumber
   },
   {
-    label: 'Available Replicas',
-    metric: 'availableReplicas',
-    formatter: zeroDecimalPlaces
+    label: 'Memory Req.',
+    metric: 'pods.required_mem',
+    formatter: resourceQuotaBytes
   }
 ];
