@@ -106,35 +106,35 @@ export default function Cockpit() {
   const [itemOrder, setItemOrder] = useState([
     {
       id: '1',
-      width: 10,
+      width: 12,
       height: 3,
       x: 0,
       y: 0
     },
     {
       id: '2',
-      width: 10,
+      width: 12,
       height: 3,
       x: 0,
       y: 4
     },
     {
       id: '3',
-      width: 10,
+      width: 12,
       height: 3,
       x: 0,
       y: 8
     },
     {
       id: '4',
-      width: 10,
+      width: 12,
       height: 3,
       x: 0,
       y: 12
     },
     {
       id: '5',
-      width: 10,
+      width: 12,
       height: 2,
       x: 0,
       y: 16
