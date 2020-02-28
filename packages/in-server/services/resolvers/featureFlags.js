@@ -132,11 +132,5 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.landing.page.configuration.enabled',
     consulKey: `settings/${tenant}-${unit}/LANDING_PAGE_CONFIGURATION_ENABLED`,
     defaultValue: false
-  },
-  {
-    uiClientKey: 'queryPreviewEnabled',
-    instanaCtlKey: 'feature.analytics.query.preview.enabled',
-    consulKey: `settings/${tenant}-${unit}/ANALYTICS_QUERY_PREVIEW_ENABLED`,
-    defaultValue: false
   }
 ];

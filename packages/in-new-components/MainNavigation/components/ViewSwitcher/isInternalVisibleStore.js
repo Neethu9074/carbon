@@ -35,7 +35,7 @@ export function click() {
   const temp = timesClicked.slice().sort((a, b) => a - b);
   const timeBetweenAllClicks = (temp[numClicksNeeded - 1] || Number.MAX_VALUE) - temp[0];
 
-  if (timeBetweenAllClicks < 2000) {
+  if (isInstanaEmail && timeBetweenAllClicks < 2000) {
     setVisible();
   }
 }

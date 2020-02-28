@@ -8,5 +8,12 @@ exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.confi
 exports.getUiBackendBaseUrl = () => Promise.resolve(serverConfig.uiBackendBaseUrl);
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
-exports.getAgentEndpointConfiguration = (tenant, unit) =>
-  Promise.resolve({ agentEndpoint: resolveAgentEndpoint(tenant, unit), port: resolveAgentEndpointPort() });
+
+exports.getReportingEndpoints = (tenant, unit) => {
+  const config = {
+    agentEndpoint: resolveAgentEndpoint(tenant, unit),
+    port: resolveAgentEndpointPort()
+  };
+  config.serverlessEndpoint = `${config.agentEndpoint}:8990`;
+  Promise.resolve(config);
+};

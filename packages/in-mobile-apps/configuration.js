@@ -1,5 +1,6 @@
 import { getEumAcceptorBaseUrl } from 'in-websites/trackingSnippet';
+import config from 'in-services/config';
 
 export function getReportingUrl() {
-  return getEumAcceptorBaseUrl() + '/mobile';
+  return config.mobileEndpoint || getEumAcceptorBaseUrl() + '/mobile';
 }

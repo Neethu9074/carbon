@@ -34,8 +34,6 @@ function App({ apiCallSatisfied }) {
         agentKey={config.agentKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
-        agentEndpoint={config.agentEndpoint}
-        agentEndpointPort={config.agentEndpointPort}
         butlerDomain={config.butlerDomain}
         trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
@@ -43,6 +41,9 @@ function App({ apiCallSatisfied }) {
           href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
           children: 'Sign in to Instana'
         })}
+        agentEndpoint={config.agentEndpoint}
+        agentEndpointPort={config.agentEndpointPort}
+        serverlessEndpoint={config.serverlessEndpoint}
       />
 
       <MessageFlyout />

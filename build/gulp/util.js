@@ -64,10 +64,12 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     region: envConfig.region,
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
-    agentEndpoint: 'ingress-red-saas.instana.io',
-    agentEndpointPort: '443',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
-    featureFlags: require(paths.featureFlags)
+    featureFlags: require(paths.featureFlags),
+
+    agentEndpoint: 'ingress-red-saas.instana.io',
+    agentEndpointPort: '443',
+    serverlessEndpoint: 'serverless-red-saas.instana.io:443'
   };
 };

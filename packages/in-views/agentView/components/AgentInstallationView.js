@@ -22,9 +22,10 @@ export default connectTo(
             agentKey={agentKey}
             tenant={config.tenant}
             tenantUnit={config.tenantUnit}
+            butlerDomain={config.butlerDomain}
             agentEndpoint={config.agentEndpoint}
             agentEndpointPort={config.agentEndpointPort}
-            butlerDomain={config.butlerDomain}
+            serverlessEndpoint={config.serverlessEndpoint}
           />
         </div>
       );
