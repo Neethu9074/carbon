@@ -55,7 +55,7 @@ function getTargetSelectedViaEnvironmentVariables() {
   }
 
   if (/^test$/i.test(process.env.TARGET)) {
-    return environments['Test'];
+    return environments['K8 Test'];
   } else if (/^local$/i.test(process.env.TARGET)) {
     return environments['Locally Running Backend'];
   }

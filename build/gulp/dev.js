@@ -3,20 +3,20 @@
 
 'use strict';
 
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const clearConsole = require('react-dev-utils/clearConsole');
+const WebpackDevServer = require('webpack-dev-server');
 const { clone } = require('lodash');
+const webpack = require('webpack');
 const chalk = require('chalk');
 const gulp = require('gulp');
 const path = require('path');
-const runSequence = require('run-sequence');
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const clearConsole = require('react-dev-utils/clearConsole');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 const webpackConfig = require('../../webpack.config.js');
 const { askQuestions } = require('./devModeQuestions');
-const paths = require('./paths');
+const commonJobs = require('./common');
 const buildUtil = require('./util');
+const paths = require('./paths');
 
 const hotReload = !!process.env.HOT_RELOAD;
 
@@ -24,59 +24,63 @@ const hotReload = !!process.env.HOT_RELOAD;
 let devModeOptions;
 
 gulp.task('prepareTestExecution', cb => {
-  runSequence('ensureTargetDirStructureExists', 'translateTheme', cb);
+  gulp.series(commonJobs.ensureTargetDirStructureExists, commonJobs.translateTheme)(cb);
 });
 
 gulp.task('dev', cb => {
-  runSequence(
-    'askForDevOptions',
-    'clean',
-    'ensureTargetDirStructureExists',
-    [
-      'copyFavicon',
-      'writeBuildInfo',
-      'translateTheme',
-      'copyDevIndexHtml',
-      'copyDevWaitingHtml',
-      'writeDevConfigFile',
-      'startDevProxy',
-      'openDevUrlInBrowser'
-    ],
-    'enableDevWatches',
-    'webpack:dev',
-    cb
-  );
+  const { clean, ensureTargetDirStructureExists, copyFavicon, writeBuildInfo, translateTheme } = commonJobs;
+  gulp.series(
+    askForDevOptions,
+    clean,
+    ensureTargetDirStructureExists,
+    gulp.parallel(
+      copyFavicon,
+      writeBuildInfo,
+      translateTheme,
+      copyDevIndexHtml,
+      copyDevWaitingHtml,
+      writeDevConfigFile,
+      startDevProxy,
+      openDevUrlInBrowser
+    ),
+    enableDevWatches,
+    webpackDev
+  )(cb);
 });
 
-gulp.task('askForDevOptions', cb => {
+function askForDevOptions(cb) {
   askQuestions(_devModeOptions => {
     devModeOptions = _devModeOptions;
     cb();
   });
-});
+}
 
-gulp.task('writeDevConfigFile', () => {
+function writeDevConfigFile(cb) {
   buildUtil.writeDevModeConfig(devModeOptions.target);
-});
+  cb();
+}
 
-gulp.task('copyDevIndexHtml', () => {
+function copyDevIndexHtml() {
   return gulp.src(paths.devIndexHtmlSrc).pipe(gulp.dest(paths.assetDir));
-});
+}
 
-gulp.task('copyDevWaitingHtml', () => {
+function copyDevWaitingHtml() {
   return gulp.src(paths.devWaitingHtmlSrc).pipe(gulp.dest(paths.assetDir));
-});
+}
 
-gulp.task('enableDevWatches', () => {
-  gulp.watch(path.join(paths.themeDir, 'theme.js'), ['translateTheme']);
-  gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
-  gulp.watch(paths.devWaitingHtmlSrc, ['copyDevWaitingHtml']);
-  gulp.watch(paths.faviconSrc, ['copyFavicon']);
-  gulp.watch(paths.appleTouchIconSrc, ['copyAppleTouchIcon']);
-  gulp.watch(paths.featureFlags, ['writeDevConfigFile']);
-});
+function enableDevWatches(cb) {
+  const { copyFavicon, copyAppleTouchIcon, translateTheme } = commonJobs;
 
-gulp.task('startDevProxy', function startDevProxy() {
+  gulp.watch(path.join(paths.themeDir, 'theme.js'), translateTheme);
+  gulp.watch(paths.devIndexHtmlSrc, copyDevIndexHtml);
+  gulp.watch(paths.devWaitingHtmlSrc, copyDevWaitingHtml);
+  gulp.watch(paths.faviconSrc, copyFavicon);
+  gulp.watch(paths.appleTouchIconSrc, copyAppleTouchIcon);
+  gulp.watch(paths.featureFlags, writeDevConfigFile);
+  cb();
+}
+
+function startDevProxy(cb) {
   const envConfig = devModeOptions.target;
   const uiBackendUrl = envConfig.uiBackendUrl;
   const butlerUrl = envConfig.butlerUrl;
@@ -130,17 +134,19 @@ gulp.task('startDevProxy', function startDevProxy() {
   };
 
   buildUtil.startProxrox(config);
-});
+  cb();
+}
 
-gulp.task('openDevUrlInBrowser', () => {
+function openDevUrlInBrowser(cb) {
   // set environment variable DONT_OPEN_BROWSER to some non-empty string to
   // avoid having Gulp opening a browser every time you start the build.
   if (!process.env.DONT_OPEN_BROWSER) {
     buildUtil.openBrowser(`https://local-instana.${devModeOptions.target.baseDomain}:4000`);
   }
-});
+  cb();
+}
 
-gulp.task('webpack:dev', () => {
+function webpackDev() {
   // modify some webpack config options
   const config = clone(webpackConfig);
   config.devtool = 'eval';
@@ -174,7 +180,7 @@ gulp.task('webpack:dev', () => {
   // return a Promise so that Gulp knows that this task is going to
   // continue to run asynchronously
   return new Promise(() => {});
-});
+}
 
 function createWebpackCompiler(config, onReadyCallback) {
   // "Compiler" is a low-level interface to Webpack.
