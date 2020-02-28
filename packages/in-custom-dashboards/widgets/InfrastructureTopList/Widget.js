@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest, just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
@@ -13,6 +13,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { search } from 'in-stores/snapshot/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getMetric } from 'in-stores/metric';
 
 export default function InfrastructureTopList(props) {
   const [selectedType, setSelectedType] = useState('host');
@@ -37,7 +38,9 @@ export default function InfrastructureTopList(props) {
         pinnedItemTypes={[types.HOSTS]}
         pinItem={id => pin(types.HOSTS, id)}
         unpinItem={id => unpin(types.HOSTS, id)}
-        getItemsByGroupedIds={(groupedIds, timeConfig) => getItemsByGroupedIds(groupedIds[types.HOSTS], timeConfig)}
+        getItemsByGroupedIds={(groupedIds, timeConfig) =>
+          getItemsByGroupedIds(groupedIds[types.HOSTS], timeConfig, selectedType)
+        }
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -51,7 +54,7 @@ export default function InfrastructureTopList(props) {
         pinItem={id => pin(types.CONTAINERS, id)}
         unpinItem={id => unpin(types.CONTAINERS, id)}
         getItemsByGroupedIds={(groupedIds, timeConfig) =>
-          getItemsByGroupedIds(groupedIds[types.CONTAINERS], timeConfig)
+          getItemsByGroupedIds(groupedIds[types.CONTAINERS], timeConfig, selectedType)
         }
         fullListViewLinkTitle="All Containers"
       />
@@ -64,7 +67,9 @@ export default function InfrastructureTopList(props) {
       pinnedItemTypes={[types.PROCESSES]}
       pinItem={id => pin(types.PROCESSES, id)}
       unpinItem={id => unpin(types.PROCESSES, id)}
-      getItemsByGroupedIds={(groupedIds, timeConfig) => getItemsByGroupedIds(groupedIds[types.PROCESSES], timeConfig)}
+      getItemsByGroupedIds={(groupedIds, timeConfig) =>
+        getItemsByGroupedIds(groupedIds[types.PROCESSES], timeConfig, selectedType)
+      }
       fullListViewLinkTitle="All Processes"
     />
   );
@@ -99,23 +104,50 @@ function getItems(query, selectedType) {
   return search({
     customQuery: query,
     restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
-  }).map(({ snapshots }) => {
-    if (!snapshots) {
-      return pendingResult;
-    }
-    return {
-      errors: [],
-      progress: {
-        loading: false
-      },
-      data: {
-        items: snapshots,
-        totalHits: snapshots.length
+  })
+    .flatMap(({ snapshots }) => {
+      if (!snapshots) {
+        return just(null);
       }
-    };
-  });
+      return enhanceWithAndSortByMetric(snapshots, selectedType);
+    })
+    .map(snapshots => {
+      if (!snapshots) {
+        return pendingResult;
+      }
+
+      return {
+        errors: [],
+        progress: {
+          loading: false
+        },
+        data: {
+          items: snapshots,
+          totalHits: snapshots.length
+        }
+      };
+    });
 }
 
-function getItemsByGroupedIds(ids, timeConfig) {
-  return combineLatest(ids.map(id => getSnapshot(id, timeConfig))).map(items => getResultForData({ items }));
+function getItemsByGroupedIds(ids, timeConfig, selectedType) {
+  return combineLatest(ids.map(id => getSnapshot(id, timeConfig)))
+    .flatMap(snapshots => enhanceWithAndSortByMetric(snapshots, selectedType))
+    .map(items => getResultForData({ items }));
+}
+
+function enhanceWithAndSortByMetric(snapshots, selectedType) {
+  return combineLatest(
+    snapshots.map(snapshot =>
+      getMetric({
+        snapshotId: snapshot.get('id'),
+        metric: selectedType === 'host' ? 'cpu.used' : selectedType === 'docker' ? 'cpu.total_usage' : 'cpu.user',
+        timeWindowAggregation: 'mean',
+        forceTimeWindowAggregation: true
+      }).map(metric => ({ snapshot, metric }))
+    )
+  ).map(enrichedSnapshots => {
+    enrichedSnapshots.sort((s1, s2) => s2.metric - s1.metric);
+
+    return enrichedSnapshots.map(({ snapshot }) => snapshot);
+  });
 }

@@ -197,7 +197,7 @@ export default function Cockpit() {
                   ...configEnrichmentLookUpTable[config.id]
                 }))
               }}
-              isEditing
+              isEditing={false}
               isResizable={false}
               onLayoutChange={setNewItemOrder}
             />
