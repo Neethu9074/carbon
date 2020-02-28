@@ -26,10 +26,10 @@ exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
             resolve({
               agentEndpoint: parsedReportingConfig.acceptorHost,
               port: parsedReportingConfig.acceptorPort,
-              websiteScriptSource: parsedReportingConfig.website_monitoring_script_source,
-              websiteEndpoint: parsedReportingConfig.website_monitoring_reporting,
-              mobileEndpoint: parsedReportingConfig.mobile_monitoring_reporting,
-              serverlessEndpoint: parsedReportingConfig.serverless_acceptor
+              websiteScriptSource: parsedReportingConfig.websiteMonitoringScriptSource,
+              websiteEndpoint: parsedReportingConfig.websiteMonitoringReporting,
+              mobileEndpoint: parsedReportingConfig.mobileMonitoringReporting,
+              serverlessEndpoint: parsedReportingConfig.serverlessAcceptor
             });
           }
         }
