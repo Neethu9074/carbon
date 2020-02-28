@@ -2,12 +2,12 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 
 export default [
   {
-    label: 'CPU Requests',
+    label: 'CPU Req.',
     metric: 'pods.required_cpu',
     formatter: resourceQuotaNumber
   },
   {
-    label: 'Memory Requests',
+    label: 'Memory Req.',
     metric: 'pods.required_mem',
     formatter: resourceQuotaBytes
   }
