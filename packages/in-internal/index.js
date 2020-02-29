@@ -18,6 +18,7 @@ import Agents from 'in-internal/thisUnit/Agents';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
+import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -107,6 +108,10 @@ export default function Internal() {
             component={wrapIninternalView(ProfilesCassandra)}
           />
           <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
+          <Route
+            path="/internal/monitoringUnit/sre/clickhouseTableSizes"
+            component={wrapIninternalView(ClickhouseTotalTableSizes)}
+          />
           <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
           <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
           <Route

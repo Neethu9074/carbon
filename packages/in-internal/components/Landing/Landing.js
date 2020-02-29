@@ -257,12 +257,22 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                         params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
                       )}
                     />
-                    <LinkListItem
-                      label="Clickhouse"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
-                      )}
-                    />
+                    <LinkListItem label="Clickhouse">
+                      <LinkList>
+                        <LinkListItem
+                          label="Overview"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
+                          )}
+                        />
+                        <LinkListItem
+                          label="Table Sizes"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/sre/clickhouseTableSizes')
+                          )}
+                        />
+                      </LinkList>
+                    </LinkListItem>
                     <LinkListItem
                       label="Elasticsearch"
                       href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/elastic'))}
