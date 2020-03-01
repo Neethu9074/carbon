@@ -8,6 +8,7 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import Button from 'in-new-components/Button';
+import Link from 'in-components/Link';
 
 export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackSessions, setTrackSessions }) {
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
@@ -20,8 +21,13 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
       </Header>
 
       <Paragraph>
-        Everything is ready to monitor your website <strong>{websiteName}</strong>. Add the tracking script to your
-        website to track real users or go to the dashboard.
+        Everything is ready to monitor your website <strong>{websiteName}</strong>. Copy this script to the HTML{' '}
+        {`document's`} <code>{'<head>'}</code>. Information about website monitoring and the full capabilities of the
+        tracking script are located{' '}
+        <Link href="https://docs.instana.io/products/website_monitoring/" external>
+          within our docs
+        </Link>
+        .
       </Paragraph>
 
       <TrackingSnippetPresenter

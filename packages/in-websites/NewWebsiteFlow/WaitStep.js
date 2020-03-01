@@ -8,6 +8,7 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import Button from 'in-new-components/Button';
+import Link from 'in-components/Link';
 
 export default function WaitStep({ websiteId, websiteName, trackSessions, setTrackSessions }) {
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
@@ -18,7 +19,12 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
 
       <Paragraph>
         We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add the
-        tracking script to your website.
+        following script to the HTML {`document's`} <code>{'<head>'}</code>. Information about website monitoring and
+        the full capabilities of the tracking script are located{' '}
+        <Link href="https://docs.instana.io/products/website_monitoring/" external>
+          within our docs
+        </Link>
+        .
       </Paragraph>
 
       <TrackingSnippetPresenter
