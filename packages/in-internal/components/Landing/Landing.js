@@ -125,6 +125,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                       description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, with an Instana agent in between."
                     />
                     <LinkListItem
+                      label="Cashiers"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/cashier/cashiers')
+                      )}
+                      description="Cashier components are used for generating usage stats for customers and internal accounting."
+                    />
+                    <LinkListItem
                       label="Application Monitoring"
                       description="Dashboards showing how application data, i.e. traces and spans, are written and read."
                     >
