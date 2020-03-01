@@ -19,7 +19,8 @@ export const mobileAppTabs = [
   {
     label: 'Geography',
     path: `${mobileAppPathFullyQualified}/geography`,
-    component: Geography
+    component: Geography,
+    mobileAppOnly: true
   },
   {
     label: 'Views',

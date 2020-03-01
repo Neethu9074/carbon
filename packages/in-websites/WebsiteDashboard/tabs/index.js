@@ -50,7 +50,8 @@ export const websiteTabs = [
     component: Geography,
     stickToHeader: true,
     stickToBottom: true,
-    isFullWidth: true
+    isFullWidth: true,
+    websiteOnly: true
   },
   {
     label: 'Custom Events',
