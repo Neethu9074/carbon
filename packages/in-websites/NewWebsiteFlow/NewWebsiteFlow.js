@@ -3,15 +3,19 @@ import { interval } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
+import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
-import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
 import ReadyStep from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 import { combineDataAndError } from 'in-services/util/ro';
 import { addWebsite } from 'in-websites/api/websites';
+import Footer from 'in-new-components/Footer';
+import Sticky from 'in-components/Sticky';
+import Title from 'in-components/Title';
 
 export default class NewWebsiteFlow extends React.PureComponent {
   constructor(props) {
@@ -95,22 +99,29 @@ export default class NewWebsiteFlow extends React.PureComponent {
 
   render() {
     const { websiteId, website } = this.state;
+    let content;
     if (!websiteId) {
-      return <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
-    }
-
-    if (!website) {
-      return <WaitStep {...this.state} setTrackSessions={this.setTrackSessions} />;
+      content = <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
+    } else if (!website) {
+      content = <WaitStep {...this.state} setTrackSessions={this.setTrackSessions} />;
+    } else {
+      content = (
+        <ReadyStep
+          {...this.state}
+          setTrackSessions={this.setTrackSessions}
+          websiteLink$={getLinkToWebsite(websiteId, {
+            timeConfig: getWaitForEntityCreationTimeConfig()
+          })}
+        />
+      );
     }
 
     return (
-      <ReadyStep
-        {...this.state}
-        setTrackSessions={this.setTrackSessions}
-        websiteLink$={getLinkToWebsite(websiteId, {
-          timeConfig: getWaitForEntityCreationTimeConfig()
-        })}
-      />
+      <Sticky header={<ViewSwitcher isWebsites />}>
+        <Title title="New Website" />
+        {content}
+        <Footer />
+      </Sticky>
     );
   }
 }
