@@ -2,11 +2,11 @@ import { compose, withState, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
 import React from 'react';
 
+import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
 import ServerTable from 'in-components/tables/ServerTable';
-import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
@@ -78,7 +78,7 @@ function TopListWidget({
   const unpinItemCb = item => unpinItem(getId(item), item);
 
   return (
-    <LightCard
+    <DraggableLightCard
       title={title}
       icon={icon}
       useMaxAvailableHeight
@@ -88,8 +88,6 @@ function TopListWidget({
           <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
         </>
       }
-      className={locals.card}
-      headerClassName={locals.header}
       bodyClassName={locals.content}
     >
       {numPinnedItems > 0 &&
@@ -111,16 +109,14 @@ function TopListWidget({
           numSkeletonRows={numRegularItems}
         />
       )}
-
       {numRegularItems === 0 && numPinnedItems === 0 && <NoDataAvailable />}
-
       {fullListViewLinkTitle &&
         fullListView$ && (
           <Link className={locals.link} href$={fullListView$}>
             {fullListViewLinkTitle}
           </Link>
         )}
-    </LightCard>
+    </DraggableLightCard>
   );
 }
 

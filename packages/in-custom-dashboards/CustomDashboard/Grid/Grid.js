@@ -1,4 +1,4 @@
-import { WidthProvider, Responsive } from 'react-grid-layout';
+import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import React from 'react';
@@ -17,7 +17,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Grid.mless';
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ReactGridLayout = GridLayout;
 
 export default function Grid({
   config,
@@ -30,10 +30,11 @@ export default function Grid({
   isDraggable,
   onEditWidget,
   onRemoveWidget,
-  tvMode
+  tvMode,
+  width
 }) {
   return (
-    <ResponsiveReactGridLayout
+    <ReactGridLayout
       className={evaluateClassNames({
         [locals.layout]: true,
         [locals.tvMode]: tvMode
@@ -41,6 +42,7 @@ export default function Grid({
       cols={cols}
       rowHeight={rowHeightPixels}
       margin={margin}
+      width={width}
       containerPadding={containerPadding}
       breakpoints={breakpoints}
       isDraggable={isEditing && isDraggable}
@@ -88,7 +90,7 @@ export default function Grid({
           </div>
         );
       })}
-    </ResponsiveReactGridLayout>
+    </ReactGridLayout>
   );
 
   function forwardLayoutChange(layout) {

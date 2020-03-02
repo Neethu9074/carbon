@@ -9,6 +9,8 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import getElementDimensions from 'in-hoc/getElementDimensions';
+import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
 import SideNav from 'in-new-components/SideNav';
@@ -17,7 +19,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 
-import topListLocals from 'in-custom-dashboards/widgets/TopListWidget/TopListWidget.mless';
+import draggableCardLocals from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard.mless';
 import locals from './Cockpit.mless';
 
 const configEnrichmentLookUpTable = {
@@ -104,6 +106,55 @@ const navLookUpTable = {
 };
 
 export default function Cockpit() {
+  return (
+    <>
+      <SetBodyColor color={theme.lib.colors.N100} />
+
+      <Sticky
+        header={
+          <>
+            <DashboardHeader
+              label={<Lettering className={locals.lettering} />}
+              renderMetaInformation={renderMetaInformation}
+              theme={themes.light}
+              renderButtonLine={renderButtonLine}
+              renderButtonLineSecondary={() => (
+                <>
+                  <SetAsLandingPage />
+                  {role.canConfigureAgents && (
+                    <Button
+                      kind="secondaryDarker"
+                      icon="lib_actions_settings"
+                      href$={getModifiedUrlStream(params => {
+                        params.pathname = '/agents/installation';
+                      })}
+                    >
+                      Deploy Agent
+                    </Button>
+                  )}
+                  <Button
+                    kind="secondaryDarker"
+                    icon="lib_alerts_user_impacted"
+                    href$={getModifiedUrlStream(params => {
+                      params.pathname = '/config/team/accessControl/users';
+                    })}
+                  >
+                    Add User
+                  </Button>
+                </>
+              )}
+            />
+            <DashboardHeaderShadowModule />
+          </>
+        }
+      >
+        <Content />
+      </Sticky>
+    </>
+  );
+}
+
+const Content = getElementDimensions(function Content({ width }) {
   const [itemOrder, setItemOrder] = useState([
     {
       id: '1',
@@ -148,49 +199,10 @@ export default function Cockpit() {
   };
 
   return (
-    <>
-      <SetBodyColor color={theme.lib.colors.N100} />
-
-      <Sticky
-        header={
-          <>
-            <DashboardHeader
-              label={<Lettering className={locals.lettering} />}
-              renderMetaInformation={renderMetaInformation}
-              theme={themes.light}
-              renderButtonLine={renderButtonLine}
-              renderButtonLineSecondary={() => (
-                <>
-                  <SetAsLandingPage />
-                  {role.canConfigureAgents && (
-                    <Button
-                      kind="secondaryDarker"
-                      icon="lib_alerts_user_impacted"
-                      href$={getModifiedUrlStream(params => {
-                        params.pathname = '/agents/installation';
-                      })}
-                    >
-                      Deploy Agent
-                    </Button>
-                  )}
-                  <Button
-                    kind="secondaryDarker"
-                    icon="lib_actions_settings"
-                    href$={getModifiedUrlStream(params => {
-                      params.pathname = '/config/team/accessControl/users';
-                    })}
-                  >
-                    Add User
-                  </Button>
-                </>
-              )}
-            />
-            <DashboardHeaderShadowModule />
-          </>
-        }
-      >
-        <div className={locals.wrapper}>
-          <div className={locals.left}>
+    <div className={locals.wrapper}>
+      <>
+        <div className={locals.left}>
+          {width && (
             <Grid
               config={{
                 widgets: itemOrder.map(config => ({
@@ -200,11 +212,14 @@ export default function Cockpit() {
               }}
               isEditing
               isResizable={false}
+              width={width - convertRemToPx(18)}
               onLayoutChange={setNewItemOrder}
-              draggableHandle={topListLocals.header}
+              draggableHandle={draggableCardLocals.dragHandleIcon}
             />
-          </div>
-          <div className={locals.right}>
+          )}
+        </div>
+        <div className={locals.right}>
+          {width && (
             <SideNav
               className={locals.nav}
               scrollToTopOnFirstItemClicked
@@ -214,12 +229,12 @@ export default function Cockpit() {
               }))}
               renderPreIcon={renderIcon}
             />
-          </div>
+          )}
         </div>
-      </Sticky>
-    </>
+      </>
+    </div>
   );
-}
+});
 
 function renderIcon({ icon }, isSelected) {
   return (

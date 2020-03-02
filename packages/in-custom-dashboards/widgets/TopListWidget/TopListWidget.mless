@@ -1,14 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .header {
-    cursor: grab;
-  }
-
-  .card:hover {
-    box-shadow: @lib__shadows__strong;
-  }
-
   .content {
     display: flex;
     flex-direction: column;

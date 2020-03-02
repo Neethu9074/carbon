@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    position: relative;
+  }
+
+  .cardWithStrongShadow {
+    box-shadow: @lib__shadows__strong;
+  }
+
+  .dragHandleIconWrapper {
+    position: absolute;
+    top: 0;
+    left: ~'calc(50% - 0.75rem)';
+  }
+
+  .dragHandleIcon {
+    cursor: grab;
+
+    fill: @lib__colors__N300;
+    &:hover {
+      fill: @lib__colors__N400;
+    }
+  }
+}
