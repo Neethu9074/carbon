@@ -1,39 +1,39 @@
-import { create } from 'reactive-observables';
-
+import { settings$, setSingle, getSingle } from 'in-services/settings/settings';
 import { deepCopy } from 'in-services/util/object';
 
-let inMemoryMap = {};
+const settingsKey = 'starred_items';
 
-export function clear() {
-  inMemoryMap = {};
-}
-
-export const getPinnedItems$ = create();
-getPinnedItems$.emit(inMemoryMap);
+export const getPinnedItems$ = settings$.map(settings => settings[settingsKey] || {});
 
 export function pin(type, id) {
-  if (!inMemoryMap[type]) {
-    inMemoryMap[type] = [];
+  let currentStarredItems = getSingle(settingsKey);
+  if (!currentStarredItems) {
+    currentStarredItems = {};
+    currentStarredItems[type] = [id];
+    return setSingle(settingsKey, currentStarredItems);
   }
-  if (inMemoryMap[type].indexOf(id) === -1) {
-    inMemoryMap[type].push(id);
-    emitMap();
+
+  currentStarredItems = deepCopy(currentStarredItems);
+  if (!currentStarredItems[type]) {
+    currentStarredItems[type] = [];
+  }
+  if (currentStarredItems[type].indexOf(id) === -1) {
+    currentStarredItems[type].push(id);
+    return setSingle(settingsKey, currentStarredItems);
   }
 }
 
 export function unpin(type, id) {
-  if (!inMemoryMap[type]) {
+  let currentStarredItems = getSingle(settingsKey, {});
+  if (!currentStarredItems[type]) {
     return;
   }
-  const indexOfId = inMemoryMap[type].indexOf(id);
+  const indexOfId = currentStarredItems[type].indexOf(id);
   if (indexOfId === -1) {
     return;
   }
 
-  inMemoryMap[type].splice(indexOfId, 1);
-  emitMap();
-}
-
-function emitMap() {
-  getPinnedItems$.emit(deepCopy(inMemoryMap));
+  currentStarredItems = deepCopy(currentStarredItems);
+  currentStarredItems[type].splice(indexOfId, 1);
+  setSingle(settingsKey, currentStarredItems);
 }

@@ -1,11 +1,8 @@
 import {
   pin as saveItem,
   unpin as deleteItem,
-  getPinnedItems$,
-  clear as clearMap
+  getPinnedItems$
 } from 'in-cockpit/pinnedItems/pinnedItemsStorageHandler';
-
-export const clear = clearMap;
 
 export const types = {
   WEBSITES: 'websites',
@@ -19,7 +16,6 @@ export const types = {
   VSPHERE_DATACENTERS: 'vpshereDatacenters'
 };
 
-// export for test
 export function getPinnedItems(itemTypes) {
   return getPinnedItems$.map(items => {
     const ids = {};

@@ -7,11 +7,10 @@ import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Gri
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import { settings$, setSingle } from 'in-services/settings/settings';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { setSingle } from 'in-services/settings/settings';
-import { settings$ } from 'in-services/settings/settings';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
