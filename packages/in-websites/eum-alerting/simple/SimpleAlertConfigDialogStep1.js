@@ -13,6 +13,7 @@ import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
+import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
 import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
 import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
@@ -90,7 +91,8 @@ export default function SimpleAlertConfigDialogStep1({
             newAlertType,
             metricToSelect,
             { name: fieldNames.thresholdType, value: thresholdTypeValue },
-            { name: hiddenFieldNames.calculateThresholdOnBackend, value: true }
+            { name: hiddenFieldNames.calculateThresholdOnBackend, value: true },
+            ...resetAllThresholdValuesProps(updatedForm)
           );
 
           websitesAlertingBlueprintChanged({ newBluePrint: newAlertType, mode: modeSimple });

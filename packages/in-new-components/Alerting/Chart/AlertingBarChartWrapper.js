@@ -1,23 +1,43 @@
+import { just, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
+import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
-import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
+    const metrics$ = props.getMetric(props.metricsConfiguration);
+    const baseline$ = just(props.y1.baseline).startWith(null);
+    const threshold$ = just(props.y1.threshold).startWith(null);
+
+    const combined$ = combineLatest([baseline$, threshold$, metrics$]);
+
     return {
-      result: props.getMetric(props.metricsConfiguration).map(result => {
-        return mergeResult(
-          result,
-          props.y1.metricIds[0],
-          props.y1.threshold,
-          props.y1.baseline,
-          props.y1.sensitivity,
-          props.y1.operator
-        );
+      result: combined$.map(([baseline, threshold, metrics]) => {
+        const thresholdType = props.alertMetricConfiguration && props.alertMetricConfiguration.threshold.type;
+        if (
+          (thresholdType === 'staticThreshold' && threshold !== '') ||
+          (thresholdType === 'historicBaseline' && baseline !== '')
+        ) {
+          return mergeResult(
+            metrics,
+            props.y1.metricIds[0],
+            threshold,
+            baseline,
+            props.y1.sensitivity,
+            props.y1.operator
+          );
+        } else {
+          return {
+            time: 0,
+            progress: indeterminateProgress,
+            errors: metrics.errors,
+            data: {}
+          };
+        }
       })
     };
   },

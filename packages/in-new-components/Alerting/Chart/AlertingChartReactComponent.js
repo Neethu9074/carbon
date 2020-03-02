@@ -58,7 +58,7 @@ const AlertingChartReactWrapper = compose(
         renderLegend = true,
         reverseTooltipOrder,
         alignLegendToLeftSideOfChart,
-        isCatalogMetric,
+        getAlertsPreview,
         alertMetricConfiguration
       } = this.props;
 
@@ -82,7 +82,7 @@ const AlertingChartReactWrapper = compose(
                     chart={chart}
                     reverseTooltipOrder={reverseTooltipOrder}
                     metrics={this.props}
-                    isCatalogMetric={isCatalogMetric}
+                    getAlertsPreview={getAlertsPreview}
                     alertMetricConfiguration={alertMetricConfiguration}
                   />
                 )}

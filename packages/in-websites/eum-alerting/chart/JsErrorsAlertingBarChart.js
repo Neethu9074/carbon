@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
+import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
@@ -58,6 +60,7 @@ export default function JsErrorsAlertingBarChart({
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
+      getAlertsPreview={metricConfig => getAlertsPreview(metricName, metricConfig)}
       metricsConfiguration={getMetricConfiguration(
         websiteId,
         metricName,
@@ -95,6 +98,13 @@ function getMetric(metricName, metricConfig) {
     return getWebsiteRateMetric(metricConfig);
   }
   return getWebsiteMetrics(metricConfig);
+}
+
+function getAlertsPreview(metricName, metricConfig) {
+  if (metricName === errorRate) {
+    return getWebsiteRateMetricAlertsPreview(metricConfig);
+  }
+  return getWebsiteMetricAlertsPreview(metricConfig);
 }
 
 function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, timeConfig, granularity) {

@@ -17,6 +17,7 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -62,7 +63,13 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
+                    onChange(
+                      form,
+                      fieldNames.ruleMetricName,
+                      value,
+                      doCalculateThresholdOnBackend,
+                      ...resetAllThresholdValuesProps(form)
+                    );
                     websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
                   }}
                   defaultValue={statusCodeCount}

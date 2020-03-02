@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
@@ -75,6 +76,7 @@ export default function SlownessAlertingBarChart({
         )
       }}
       getMetric={getWebsiteMetrics}
+      getAlertsPreview={getWebsiteMetricAlertsPreview}
       metricsConfiguration={{
         timeConfig,
         tagFilters: [...tagFilters, getWebsiteIdTagFilter(websiteId)],

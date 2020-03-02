@@ -301,7 +301,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.thresholdValue,
       createField({
-        value: (threshold && threshold.value) || 0,
+        value: (threshold && threshold.value) || null,
         validator: positiveNumberValidator
       })
     )

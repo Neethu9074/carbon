@@ -21,6 +21,7 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
+import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -64,7 +65,14 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     name: hiddenFieldNames.calculateThresholdOnBackend,
                     value: true
                   };
-                  onChange(form, fieldNames.ruleAggregation, value, doCalculateThresholdOnBackend);
+
+                  onChange(
+                    form,
+                    fieldNames.ruleAggregation,
+                    value,
+                    doCalculateThresholdOnBackend,
+                    ...resetAllThresholdValuesProps(form)
+                  );
                   websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
                 }}
                 defaultValue="P90"
@@ -125,7 +133,8 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     fieldNames.thresholdType,
                     thresholdType,
                     doCalculateThresholdOnBackend,
-                    seasonality
+                    seasonality,
+                    ...resetAllThresholdValuesProps(updatedForm)
                   );
 
                   websitesAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
@@ -143,9 +152,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                   type="number"
                   min="0"
                   name={fieldNames.thresholdValue}
-                  value={
-                    doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue, '')
-                  }
+                  value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)}
                   step="1"
                   onChange={e => {
                     const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
@@ -201,14 +208,16 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
         <SlownessAlertingBarChart
           websiteId={form.get(fieldNames.websiteId).value}
           thresholdType={form.get(fieldNames.thresholdType).value}
-          threshold={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue, 0)}
+          threshold={
+            (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)) || 0
+          }
           operator={form.get(fieldNames.thresholdOperator).value}
           sensitivity={
             doDebounceDeviationFactor
               ? tempThresholdDeviationFactor
               : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
           }
-          baseline={getFormValueOrDefault(form, fieldNames.thresholdBaseline, [])}
+          baseline={getFormValueOrDefault(form, fieldNames.thresholdBaseline) || []}
           timeConfig={timeConfig}
           tagFilters={form.get(fieldNames.tagFilters).value}
           aggregation={form.get(fieldNames.ruleAggregation).value}

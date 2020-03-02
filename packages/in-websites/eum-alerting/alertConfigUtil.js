@@ -38,6 +38,17 @@ export function getTimeThreshold(form) {
   };
 }
 
+export function resetAllThresholdValuesProps(form) {
+  let resetThresholds = [];
+  if (form.containsKey(fieldNames.thresholdValue)) {
+    resetThresholds.push({ name: fieldNames.thresholdValue, value: '' });
+  }
+  if (form.containsKey(fieldNames.thresholdBaseline)) {
+    resetThresholds.push({ name: fieldNames.thresholdBaseline, value: '' });
+  }
+  return resetThresholds;
+}
+
 function enrichByAlertType(form) {
   const alertType = form.get(fieldNames.ruleAlertType).value;
 
