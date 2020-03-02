@@ -22,6 +22,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export default function Grid({
   config,
   onLayoutChange,
+  draggableHandle,
   isEditing,
   isDeletable,
   isResizable,
@@ -46,6 +47,7 @@ export default function Grid({
       isResizable={isEditing && isResizable}
       onDragStop={forwardLayoutChange}
       onResizeStop={forwardLayoutChange}
+      draggableHandle={`.${draggableHandle}`}
     >
       {config.widgets.map(widget => {
         const { Widget, minimumWidth, minimumHeight } = widgets[widget.type];

@@ -17,6 +17,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 
+import topListLocals from 'in-custom-dashboards/widgets/TopListWidget/TopListWidget.mless';
 import locals from './Cockpit.mless';
 
 const configEnrichmentLookUpTable = {
@@ -197,9 +198,10 @@ export default function Cockpit() {
                   ...configEnrichmentLookUpTable[config.id]
                 }))
               }}
-              isEditing={false}
+              isEditing
               isResizable={false}
               onLayoutChange={setNewItemOrder}
+              draggableHandle={topListLocals.header}
             />
           </div>
           <div className={locals.right}>
