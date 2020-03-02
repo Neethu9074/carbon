@@ -19,13 +19,15 @@ export default compose(
     reducerName: 'onChange'
   }),
   withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave, availableMetrics }) => ({
-    onMetricChange: v =>
+    onMetricChange: (metric, aggregation) =>
       onChange({
         newMetricForm: newMetricForm
-          .updateIn(['metric'], f => f.setValue(v).setTouched(true))
-          .updateIn(['aggregation'], f =>
-            f.setValue(getUnusedAggregation(v, availableMetrics, selectedMetricsForm.value))
-          )
+          .updateIn(['metric'], f => f.setValue(metric).setTouched(true))
+          .updateIn(['aggregation'], f => {
+            return f.setValue(
+              aggregation ? aggregation : getUnusedAggregation(metric, availableMetrics, selectedMetricsForm.value)
+            );
+          })
       }),
     onAggregationChange: v =>
       onChange({

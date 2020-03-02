@@ -6,7 +6,7 @@ export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { met
 
 const errorRate = {
   metric: 'errors',
-  label: 'Erroneous Call Rate',
+  label: 'Erroneous Calls (rate)',
   formatter: percentage,
   supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
@@ -16,10 +16,12 @@ const errorRate = {
 
 const erroneousCalls = newNumberMetric({
   metric: 'erroneousCalls',
-  label: 'Erroneous Call Count',
+  label: 'Erroneous Calls (count)',
   category: 'Erroneous Calls'
 });
 
 const latency = newTimeMetric({ metric: 'latency', label: 'Latency' });
+latency.category = 'Latency';
+latency.unfoldAggregations = true;
 
 export const availableMetrics = [latency, erroneousCalls, errorRate];

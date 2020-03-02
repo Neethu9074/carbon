@@ -62,8 +62,11 @@ export default function MetricSelectorPresenter({
             </Label>
             <Select
               id="metric-select-metric"
-              value={field.value}
-              onChange={e => onMetricChange(e.target.value)}
+              value={selectedOptionValue(availableMetrics, field, newMetricForm)}
+              onChange={e => {
+                const [metric, aggregation] = parseOptionValue(e.target.value);
+                return onMetricChange(metric, aggregation);
+              }}
               hasError={!field.valid && field.touched}
             >
               <option value="" disabled>
@@ -73,20 +76,37 @@ export default function MetricSelectorPresenter({
               {Object.keys(groupedAvailableMetrics)
                 .sort(compareIgnoreCase)
                 .map(group => {
-                  const options = groupedAvailableMetrics[group].map(({ metric, label }) => (
-                    <option
-                      value={metric}
-                      key={metric}
-                      disabled={
-                        isMetricAndAllAggregationsSelected(
-                          selectedMetricsForm.value,
-                          find(availableMetrics, m => m.metric === metric)
-                        ) && field.value !== metric
-                      }
-                    >
-                      {label}
-                    </option>
-                  ));
+                  const options = groupedAvailableMetrics[group].map(
+                    ({ metric, label, unfoldAggregations, supportedAggregations }) => {
+                      if (unfoldAggregations && supportedAggregations) {
+                        return supportedAggregations.map(aggregation => {
+                          return (
+                            <option
+                              value={toCombinedOptionValue(metric, aggregation)}
+                              key={toCombinedOptionValue(metric, aggregation)}
+                              disabled={isAggregationSelected(selectedMetricsForm.value, metric, aggregation)}
+                            >
+                              {`${label} (${aggregationLabels[aggregation]})`}
+                            </option>
+                          );
+                        });
+                      } else
+                        return (
+                          <option
+                            value={metric}
+                            key={metric}
+                            disabled={
+                              isMetricAndAllAggregationsSelected(
+                                selectedMetricsForm.value,
+                                find(availableMetrics, m => m.metric === metric)
+                              ) && field.value !== metric
+                            }
+                          >
+                            {label}
+                          </option>
+                        );
+                    }
+                  );
 
                   if (isBlank(group)) {
                     return <Fragment key={group}>{options}</Fragment>;
@@ -103,7 +123,9 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        {supportAggregations(selectedMetricDefinition) &&
+        {selectedMetricDefinition &&
+          !selectedMetricDefinition.unfoldAggregations &&
+          supportAggregations(selectedMetricDefinition) &&
           (selectedMetricDefinition.supportedAggregations.length > 1 ||
             newMetricForm.get('aggregation').value !== selectedMetricDefinition.supportedAggregations[0]) &&
           newMetricForm.get('aggregation').map(field => (
@@ -228,6 +250,26 @@ export default function MetricSelectorPresenter({
       </div>
     </Dialog>
   );
+}
+
+function selectedOptionValue(availableMetrics, field, newMetricForm) {
+  const metric = field.value;
+  if (!metric) {
+    return metric;
+  }
+  const metricDefinition = find(availableMetrics, m => m.metric === metric);
+  return metricDefinition.unfoldAggregations
+    ? toCombinedOptionValue(metric, newMetricForm.get('aggregation').value)
+    : metric;
+}
+
+function toCombinedOptionValue(metric, aggregation) {
+  return metric + '|' + aggregation;
+}
+
+function parseOptionValue(optionValue) {
+  const [metric, aggregation] = optionValue.split('|');
+  return [metric, aggregation];
 }
 
 function supportAggregations(metricDefinition) {

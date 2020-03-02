@@ -12,7 +12,8 @@ export function newTimeMetric({ metric, label, category }) {
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,
-    preferredRenderer: Renderer.stackedArea
+    preferredRenderer: Renderer.stackedArea,
+    unfoldAggregations: false
   };
 }
 
@@ -24,7 +25,8 @@ export function newSizeMetric({ metric, label, category }) {
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,
-    preferredRenderer: Renderer.stackedArea
+    preferredRenderer: Renderer.stackedArea,
+    unfoldAggregations: false
   };
 }
 
@@ -36,7 +38,8 @@ export function newNumberMetric({ metric, label, category }) {
     supportedAggregations: ['SUM'],
     category,
     min: 0,
-    preferredRenderer: Renderer.stackedBar
+    preferredRenderer: Renderer.stackedBar,
+    unfoldAggregations: false
   };
 }
 
