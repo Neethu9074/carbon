@@ -2,12 +2,12 @@ import { createLogger } from 'instalog';
 import { List } from 'immutable';
 import React from 'react';
 
-import { getAllFilters, removeFilter } from 'in-api/filters';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { getAllFilters, removeFilter } from 'in-api/filters';
 import { createStore } from 'in-stores/store';
 
-const logger = createLogger('SearchBar/stores/filers');
+const logger = createLogger('SearchBar/stores/filters');
 
 const filtersStore = createStore({
   name: 'in-components/SearchBar/stores/filters',

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import { saveSettings, saveSetting } from 'in-api/settings';
 
-const logger = createLogger('SearchBar/stores/filers');
+const logger = createLogger('SearchBar/stores/settings');
 
 export const settingsStore = create({ emitLatestOnSubscribe: true });
 export const settings$ = settingsStore;
