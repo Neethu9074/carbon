@@ -38,6 +38,7 @@ import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import TuStatistics from 'in-internal/monitoringUnit/TuStatistics';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
+import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
 import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
@@ -118,6 +119,7 @@ export default function Internal() {
             path="/internal/monitoringUnit/serverless/serverlessacceptors"
             component={wrapIninternalView(ServerlessAcceptors)}
           />
+          <Route path="/internal/monitoringUnit/cashier/cashiers" component={wrapIninternalView(Cashiers)} />
           <Route
             path="/internal/monitoringUnit/infrastructureMetrics/filler"
             component={wrapIninternalView(FillerInfrastructureMetrics)}

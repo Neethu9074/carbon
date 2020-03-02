@@ -7,6 +7,7 @@ import { maintenanceNotesEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import { get, trySet } from 'in-services/localStorage';
 import { getSetting$ } from 'in-services/settings';
+import { instanaRegion } from 'in-services/config';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
@@ -66,10 +67,17 @@ export function init() {
 }
 
 function retrieveLatestMessage() {
+  let path;
+  if (instanaRegion) {
+    path = `/notifications/maintenance/${instanaRegion}.md`;
+  } else {
+    path = '/notifications/maintenance.md';
+  }
+
   const observable = http({
     method: 'GET',
     maxRetries: 3,
-    url: '/notifications/maintenance.md?cacheBust=' + Date.now(),
+    url: `${path}?cacheBust=${Date.now()}`,
     responseType: 'text'
   });
 

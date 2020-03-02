@@ -6,6 +6,7 @@ export const config = theConfig;
 export const baseUrl = window.location.origin;
 export const build = window.instana.build;
 export const region = theConfig.region;
+export const instanaRegion = theConfig.instanaRegion;
 
 export function isFeatureFlagEnabled(ff, fallback = false) {
   if (config.featureFlags == null || config.featureFlags[ff] == null) {
