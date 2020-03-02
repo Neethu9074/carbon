@@ -1,5 +1,6 @@
-export const twentyFourHrs = 1000 * 60 * 60 * 24;
-export const tenMins = 10 * 1000 * 60;
+export const alertingDialogChartTimeframe = 24 * 60 * 60 * 1000;
+export const alertingEventDetailsChartTimeframe = 12 * 60 * 60 * 1000;
+export const alertingMetricsGranularity = 10 * 60 * 1000;
 
 export const errorRate = 'specificJsErrorRate';
 export const errorCount = 'errors';

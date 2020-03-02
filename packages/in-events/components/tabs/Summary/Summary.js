@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
+import ApplicationEventContent from 'in-views/eventView/components/Event/ApplicationEventContent';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
@@ -40,8 +41,12 @@ export default function Summary({ selectedEventId, data: event }) {
 }
 
 function EventContent({ event }) {
-  if (isWebsiteEvent(event)) {
+  if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventContent event={event} />;
+  }
+
+  if (isApplicationSmartAlertEvent(event)) {
+    return <ApplicationEventContent event={event} />;
   }
 
   return (
@@ -175,8 +180,12 @@ function isOfflineEvent(event) {
   return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
 }
 
-function isWebsiteEvent(event) {
+function isWebsiteSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'websiteId']);
+}
+
+function isApplicationSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'applicationId']);
 }
 
 function hasEvents(event) {

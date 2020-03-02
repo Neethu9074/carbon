@@ -1,10 +1,10 @@
 import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
 
-export const alertTypes = {
+export const alertTypes = Object.freeze({
   specificJsError: 'specificJsError',
   slowness: 'slowness',
   specificStatusCode: 'statusCode'
-};
+});
 
 export const alertTypeConfig = Object.freeze([
   {

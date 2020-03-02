@@ -1,16 +1,25 @@
 import React from 'react';
 
+import {
+  errorRate,
+  errorCount,
+  onLoadTime,
+  statusCodeRate,
+  statusCodeCount,
+  alertingMetricsGranularity,
+  alertingEventDetailsChartTimeframe
+} from 'in-websites/eum-alerting/constants';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
-import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
+import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import AnalyzeEumButton from 'in-events/components/legacy/AnalyzeEumButton';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
@@ -18,16 +27,13 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './WebsiteEventContent.mless';
 
-const tenMins = 10 * 1000 * 60;
-const twelveHours = 1000 * 60 * 60 * 12;
-
-const chartTitleByMetric = {
-  errors: '# of JS Errors',
-  specificJsErrorRate: 'Rate of JS Errors',
-  httpxxx: '# of HTTP Status Codes',
-  specificStatusCodeRate: 'Rate of HTTP Status Codes',
-  onLoadTime: 'onLoad Time'
-};
+const chartTitleByMetric = Object.freeze({
+  [errorCount]: '# of JS Errors',
+  [errorRate]: 'Rate of JS Errors',
+  [statusCodeCount]: '# of HTTP Status Codes',
+  [statusCodeRate]: 'Rate of HTTP Status Codes',
+  [onLoadTime]: 'onLoad Time'
+});
 
 export default connectTo(
   ({ event }) => {
@@ -52,12 +58,12 @@ export default connectTo(
     const baseline = alertConfig.threshold.baseline;
     const thresholdValue = alertConfig.threshold.value;
     const operator = alertConfig.threshold.operator;
-    const metricName = alertConfig.rule.metricName || 'errors';
+    const metricName = alertConfig.rule.metricName || errorCount;
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = twelveHours;
+    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
     return (
       <Row>
         <Col xs>
@@ -70,12 +76,12 @@ export default connectTo(
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
-            <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
+            <WebsiteAlertConfigButton alertConfig={alertConfig} />
           </Card>
 
           <Card title={getChartTitle(metricName)}>
             <div className={locals.analyzeButtonWrapper}>
-              <AnalyzeEumButton event={event} alertConfig={alertConfig} />
+              <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
             </div>
             <ChartSwitch
               alertType={alertType}
@@ -87,7 +93,7 @@ export default connectTo(
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-                  granularity={tenMins}
+                  granularity={alertingMetricsGranularity}
                   metricName={metricName}
                 />
               )}
@@ -99,7 +105,7 @@ export default connectTo(
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
-                  granularity={tenMins}
+                  granularity={alertingMetricsGranularity}
                   metricName={metricName}
                 />
               )}
@@ -114,7 +120,7 @@ export default connectTo(
                   timeConfig={timeConfig}
                   tagFilters={tagFiltersWithWebsiteId}
                   aggregation={aggregation}
-                  granularity={tenMins}
+                  granularity={alertingMetricsGranularity}
                 />
               )}
             />
@@ -162,10 +168,7 @@ function getStatusCodeTagFilter(alertRule) {
 }
 
 function getChartTitle(metricName) {
-  if (metricName in chartTitleByMetric) {
-    return chartTitleByMetric[metricName];
-  }
-  return '';
+  return chartTitleByMetric[metricName] || '';
 }
 
 function getThresholdTypeWithSeasonality(thresholdRule) {

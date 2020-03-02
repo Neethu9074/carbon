@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 
-import { getBaselineValue, baselineGranularity } from 'in-websites/eum-alerting/chart/baselineUtils';
+import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
 import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
 

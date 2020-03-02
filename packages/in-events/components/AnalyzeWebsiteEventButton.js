@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import { getBaselineValue, baselineGranularity } from 'in-websites/eum-alerting/chart/baselineUtils';
+import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
+import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/eum-alerting/tracker';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
@@ -11,7 +12,7 @@ import Button from 'in-new-components/Button';
 
 const emptyTagFilter = {};
 
-export default function AnalyzeEumButton({ event, alertConfig }) {
+export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
   const metadata = event.get('metadata');
   const entityId = event.get('entityId');
   const websiteLabel = metadata.get('entityLabel');
@@ -58,7 +59,7 @@ export default function AnalyzeEumButton({ event, alertConfig }) {
   return null;
 }
 
-AnalyzeEumButton.propTypes = {
+AnalyzeWebsiteEventButton.propTypes = {
   event: PropTypes.object.isRequired,
   alertConfig: PropTypes.object.isRequired
 };
@@ -114,31 +115,13 @@ function getBaselineDurationTagFilter(alertThreshold, timeConfig) {
 }
 
 function getThresholdDurationTagFilter(thresholdValue, thresholdOperator) {
-  // adjust value because tag-filters only support LESS_THAN and GREATER_THAN
-  if (thresholdOperator === '<=') {
-    thresholdValue = Math.floor(thresholdValue) + 1;
-  } else if (thresholdOperator === '>=') {
-    thresholdValue = Math.ceil(thresholdValue) - 1;
-  }
+  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(thresholdValue, thresholdOperator);
 
   return {
     name: 'beacon.duration',
-    operator: toTagFilterNumberOperator(thresholdOperator),
-    numberValue: thresholdValue
+    operator: analyzeThreshold.operator,
+    numberValue: analyzeThreshold.value
   };
-}
-
-function toTagFilterNumberOperator(thresholdOperator) {
-  switch (thresholdOperator) {
-    case '<':
-    case '<=':
-      return 'LESS_THAN';
-    case '>':
-    case '>=':
-      return 'GREATER_THAN';
-    default:
-      return thresholdOperator;
-  }
 }
 
 function isGreaterOperator(operator) {

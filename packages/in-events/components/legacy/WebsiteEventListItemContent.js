@@ -1,23 +1,21 @@
 import React from 'react';
 
+import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-websites/eum-alerting/constants';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
-import AlertingConfigurationButton from 'in-events/components/legacy/AlertingConfigurationButton';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
+import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
-import AnalyzeEumButton from 'in-events/components/legacy/AnalyzeEumButton';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './WebsiteEventListItemContent.mless';
-
-const tenMins = 10 * 1000 * 60;
-const twelveHours = 1000 * 60 * 60 * 12;
 
 export default connectTo(
   ({ event }) => {
@@ -46,15 +44,15 @@ export default connectTo(
     const aggregation = alertConfig.rule.aggregation || null;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = twelveHours;
+    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
 
     return (
       <>
         <ProblemDescription event={event} />
-        <AlertingConfigurationButton alertConfig={alertConfig} websiteLabel={websiteLabel} />
+        <WebsiteAlertConfigButton alertConfig={alertConfig} />
         <div className={locals.sectionWrapper}>
           <div className={locals.analyzeButtonWrapper}>
-            <AnalyzeEumButton event={event} alertConfig={alertConfig} />
+            <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
           </div>
           <ChartSwitch
             alertType={alertType}
@@ -66,7 +64,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-                granularity={tenMins}
+                granularity={alertingMetricsGranularity}
                 metricName={metricName}
               />
             )}
@@ -78,7 +76,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
-                granularity={tenMins}
+                granularity={alertingMetricsGranularity}
                 metricName={metricName}
               />
             )}
@@ -93,7 +91,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersWithWebsiteId}
                 aggregation={aggregation}
-                granularity={tenMins}
+                granularity={alertingMetricsGranularity}
               />
             )}
           />

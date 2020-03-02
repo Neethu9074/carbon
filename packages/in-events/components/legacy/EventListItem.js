@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
+import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
@@ -85,11 +86,7 @@ export default connectTo(
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
               {isExpanded ? (
                 <div className={`${block}__expanded-details`}>
-                  {isWebsiteEvent(event) ? (
-                    <WebsiteEventListItemContent event={event} />
-                  ) : (
-                    <EventListItemContent event={event} />
-                  )}
+                  <ListItemContent event={event} />
                 </div>
               ) : null}
             </div>
@@ -147,6 +144,20 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   );
 }
 
-function isWebsiteEvent(event) {
+function ListItemContent({ event }) {
+  if (isWebsiteSmartAlertEvent(event)) {
+    return <WebsiteEventListItemContent event={event} />;
+  } else if (isApplicationSmartAlertEvent(event)) {
+    return <ApplicationEventListItemContent event={event} />;
+  } else {
+    return <EventListItemContent event={event} />;
+  }
+}
+
+function isWebsiteSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'websiteId']);
+}
+
+function isApplicationSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'applicationId']);
 }

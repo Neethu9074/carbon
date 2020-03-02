@@ -1,9 +1,9 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
+import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import { twentyFourHrs, tenMins } from 'in-websites/eum-alerting/constants';
 
 export default {
   title: 'Templates|website/eum-alerting/AlertConfigDialog',
@@ -13,7 +13,7 @@ export default {
 const timeConfig = {
   to: null,
   focusedMoment: null,
-  windowSize: twentyFourHrs,
+  windowSize: alertingDialogChartTimeframe,
   autoRefresh: false
 };
 
@@ -34,7 +34,7 @@ export const AlertConfigDialog = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      granularity={tenMins}
+      granularity={alertingMetricsGranularity}
     />
   );
 };

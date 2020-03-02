@@ -15,10 +15,14 @@ import {
   beaconType as beaconTypeMatrixParameter,
   pageLoadId as pageLoadIdMatrixParameter,
   beaconId as beaconIdMatrixParameter,
-  beaconTimestamp as beaconTimestampMatrixParameter
+  beaconTimestamp as beaconTimestampMatrixParameter,
+  websiteId as websiteIdMatrixParam,
+  alertId as alertIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam
 } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
 import { availableFilterTags } from 'in-websites/tags';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -199,5 +203,14 @@ export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
 
     // make sure that there is no grouping as otherwise the page load cannot be loaded.
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
+  });
+}
+
+export function goToAlertConfig(alertConfigId, alertConfigVersion, websiteId) {
+  mutateUrl(location => {
+    location.pathname = alertTabFullyQualified;
+    setOrDeleteMatrixKey(location, websitePath, websiteIdMatrixParam, websiteId);
+    setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, alertConfigId);
+    setOrDeleteMatrixKey(location, alertTab, alertCreatedMatrixParam, alertConfigVersion);
   });
 }

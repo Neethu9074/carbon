@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+  .sectionWrapper {
+    margin-top: 0.625rem;
+  }
+
+  .domainContentWrapper {
+      margin-top: 0.25rem;
+  }
+
+  .analyzeButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+  }
+}

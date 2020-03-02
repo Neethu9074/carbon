@@ -1,13 +1,16 @@
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { emptyObject } from 'in-services/fixedObjects';
 import {
   applicationId as matrixApplicationId,
   serviceId as matrixServiceId,
   endpointId as matrixEndpointId,
-  boundaryScope as matrixBoundaryScope
+  boundaryScope as matrixBoundaryScope,
+  applicationId as applicationIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
+import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const applicationsList = '/applications';
@@ -21,6 +24,9 @@ export const configureSyntheticEndpointsView = '/services/configure/syntheticEnd
 export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
+
+export const alertTab = '/alerts';
+export const alertTabFullyQualified = `${applicationDashboard}${alertTab}/details`;
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,
@@ -100,5 +106,14 @@ function getDashboard({
     }
 
     params.matrix[tab] = tabMatrix;
+  });
+}
+
+export function goToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
+  mutateUrl(location => {
+    location.pathname = alertTabFullyQualified;
+    setOrDeleteMatrixKey(location, applicationDashboard, applicationIdMatrixParam, applicationId);
+    setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, alertConfigId);
+    setOrDeleteMatrixKey(location, alertTab, alertCreatedMatrixParam, alertConfigVersion);
   });
 }

@@ -3,20 +3,18 @@ import theme from 'in-themes';
 import React from 'react';
 
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
+import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
-import { percentage, number } from 'in-services/formatters/number';
+import { errorRate } from 'in-applications/alerting/constants';
+import { percentage } from 'in-services/formatters/number';
 
-export default function JsErrorsAlertingBarChart({
-  websiteId,
+export default function ErrorRateAlertingBarChart({
+  applicationId,
   threshold,
   operator,
   timeConfig,
   tagFilters,
-  errorFilter,
   metricName,
   granularity,
   form
@@ -31,9 +29,7 @@ export default function JsErrorsAlertingBarChart({
         threshold,
         operator,
         getMax: metricsMaxValue => {
-          return threshold >= metricsMaxValue
-            ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(threshold) : threshold) * 1.2)
-            : metricsMaxValue;
+          return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, threshold * 1.2) : metricsMaxValue;
         },
         colors: [
           theme.lib.colors.blue800,
@@ -51,35 +47,26 @@ export default function JsErrorsAlertingBarChart({
           ]
         },
         renderer: Renderer.barWithThreshold,
-        formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
+        formatter: percentage.detailed,
         labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
-      getMetric={metricConfig => getMetric(metricName, metricConfig)}
-      metricsConfiguration={getMetricConfiguration(
-        websiteId,
-        metricName,
-        errorFilter,
-        tagFilters,
-        timeConfig,
-        granularity
-      )}
+      getMetric={getApplicationMetrics}
+      metricsConfiguration={getMetricConfiguration(applicationId, metricName, tagFilters, timeConfig, granularity)}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        [...tagFilters, getApplicationIdTagFilter(applicationId)],
         metricName,
         granularity,
-        errorFilter,
         form
       )}
     />
   );
 }
 
-JsErrorsAlertingBarChart.propTypes = {
-  errorFilter: PropTypes.object.isRequired,
+ErrorRateAlertingBarChart.propTypes = {
   form: PropTypes.object,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.string.isRequired,
@@ -87,73 +74,55 @@ JsErrorsAlertingBarChart.propTypes = {
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.number.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  websiteId: PropTypes.string.isRequired
+  applicationId: PropTypes.string.isRequired
 };
 
-function getMetric(metricName, metricConfig) {
-  if (metricName === errorRate) {
-    return getWebsiteRateMetric(metricConfig);
-  }
-  return getWebsiteMetrics(metricConfig);
-}
-
-function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, timeConfig, granularity) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+function getMetricConfiguration(websiteId, metric, tagFilters, timeConfig, granularity) {
+  const tagFiltersWithWebsiteId = [...tagFilters, getApplicationIdTagFilter(websiteId)];
 
   return {
     timeConfig,
-    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
+    tagFilters: tagFiltersWithWebsiteId,
     metrics: {
-      errors: getMetricConfig(metric, granularity, errorFilter)
+      errors: getMetricConfig(metric, granularity)
     }
   };
 }
 
-function getMetricConfig(metricName, granularity, errorFilter = null) {
+function getMetricConfig(metricName, granularity) {
   const metricConfigs = {
     [errorRate]: {
       metric: errorRate,
       granularity: granularity,
-      aggregation: 'MEAN',
-      numeratorFilter: errorFilter
-    },
-    [errorCount]: {
-      metric: errorCount,
-      granularity: granularity,
-      aggregation: 'SUM'
+      aggregation: 'MEAN'
     }
   };
   return metricConfigs[metricName];
 }
 
-function getWebsiteIdTagFilter(websiteId) {
+function getApplicationIdTagFilter(websiteId) {
   return {
-    name: 'beacon.website.id',
+    name: 'application.id',
     operator: 'EQUALS',
     stringValue: websiteId
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, errorFilter, form) {
-  //TODO: Refactor this method
+function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, form) {
   if (!form) return null;
 
   const threshold = getThreshold(form);
 
   const alertsConfig = {
     metric,
-    aggregation: metric === errorCount ? 'SUM' : 'MEAN',
+    aggregation: 'MEAN',
     granularity // global metric granularity
   };
-
-  if (metric === errorRate) {
-    alertsConfig.numeratorFilter = errorFilter;
-  }
 
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
-      tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
+      tagFilters: tagFilters,
       timeThreshold: getTimeThreshold(form),
       threshold,
       granularity, // local alerts/chart granularity
@@ -161,7 +130,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, err
         alerts: alertsConfig
       }
     };
-  } else {
-    return null;
   }
+
+  return null;
 }

@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { AlertConfigDialogWithThreshold } from 'in-websites/eum-alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
+import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
 import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
-import { twentyFourHrs, tenMins } from 'in-websites/eum-alerting/constants';
 import toAlertConfig from 'in-websites/eum-alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/eum-alerting/AlertDialog');
@@ -13,7 +13,7 @@ const logger = createLogger('in-websites/eum-alerting/AlertDialog');
 const timeConfig = {
   to: null,
   focusedMoment: null,
-  windowSize: twentyFourHrs,
+  windowSize: alertingDialogChartTimeframe,
   autoRefresh: false
 };
 
@@ -31,7 +31,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       timeConfig={timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
-      granularity={tenMins}
+      granularity={alertingMetricsGranularity}
       calculateThresholdOnBackend={calculateThresholdOnBackend}
       doCalculateThresholdOnBackend={load => setCalculateThresholdOnBackend(load)}
     />

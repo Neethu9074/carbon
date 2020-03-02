@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
+import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { percentage, number } from 'in-services/formatters/number';
 
@@ -20,10 +22,9 @@ export default function StatusCodeAlertingBarChart({
   form
 }) {
   return (
-    <EumAlertingBarChartWrapper
+    <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
-      isCatalogMetric={metricName === statusCodeCount}
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
@@ -56,6 +57,7 @@ export default function StatusCodeAlertingBarChart({
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([['statusCode', null], ['threshold', null]])
       }}
+      getMetric={metricConfig => getMetric(metricName, metricConfig)}
       metricsConfiguration={getMetricConfiguration(
         websiteId,
         metricName,
@@ -87,6 +89,13 @@ StatusCodeAlertingBarChart.propTypes = {
   timeConfig: PropTypes.object.isRequired,
   form: PropTypes.object
 };
+
+function getMetric(metricName, metricConfig) {
+  if (metricName === statusCodeRate) {
+    return getWebsiteRateMetric(metricConfig);
+  }
+  return getWebsiteMetrics(metricConfig);
+}
 
 function getMetricConfiguration(websiteId, metric, numeratorFilter, tagFilters, timeConfig, granularity) {
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];

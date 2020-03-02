@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import EumAlertingBarChartWrapper from 'in-websites/eum-alerting/chart/EumAlertingBarChartWrapper';
+import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
 
@@ -21,10 +22,9 @@ export default function SlownessAlertingBarChart({
   form
 }) {
   return (
-    <EumAlertingBarChartWrapper
+    <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
-      isCatalogMetric
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
@@ -74,6 +74,7 @@ export default function SlownessAlertingBarChart({
           form
         )
       }}
+      getMetric={getWebsiteMetrics}
       metricsConfiguration={{
         timeConfig,
         tagFilters: [...tagFilters, getWebsiteIdTagFilter(websiteId)],

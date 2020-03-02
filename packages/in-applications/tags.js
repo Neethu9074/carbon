@@ -340,3 +340,49 @@ export function getKeyValuePairTag(_tag) {
   }
   return null;
 }
+
+export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ applicationName, tagFilters }) {
+  let tagFiltersForAnalyze = tagFilters;
+  if (!applicationName) {
+    return tagFiltersForAnalyze;
+  }
+  // replace application ID filter with something more understandable by users.
+  if (tagFiltersForAnalyze.some(f => f.name === 'application.id')) {
+    return tagFiltersForAnalyze.map(
+      f => (f.name !== 'application.id' ? f : getApplicationNameTagFilter(applicationName))
+    );
+  }
+  // or add the application label tag filter to the end if application ID is filter is not present
+  return tagFiltersForAnalyze.concat(getApplicationNameTagFilter(applicationName));
+}
+
+function getApplicationNameTagFilter(applicationName) {
+  return {
+    name: 'application.name',
+    operator: 'EQUALS',
+    stringValue: applicationName
+  };
+}
+
+export function translateDemocratisationFiltersToAnalyzeFilters({ applicationName, filters }) {
+  let filtersForAnalyze = filters;
+  if (!applicationName) {
+    return filtersForAnalyze;
+  }
+  // replace application ID filter with something more understandable by users.
+  if (filtersForAnalyze.some(f => f.name === 'application.id')) {
+    return filtersForAnalyze.map(
+      f => (f.name !== 'application.id' ? f : getApplicationNameAnalyzeFilter(applicationName))
+    );
+  }
+  // or add the application label tag filter to the end if application ID is filter is not present
+  return filtersForAnalyze.concat(getApplicationNameAnalyzeFilter(applicationName));
+}
+
+function getApplicationNameAnalyzeFilter(applicationName) {
+  return {
+    name: 'application.name',
+    operator: 'EQUALS',
+    value: applicationName
+  };
+}
