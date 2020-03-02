@@ -109,7 +109,7 @@ function getItems(query, selectedType) {
       if (!snapshots) {
         return just(null);
       }
-      return enhanceWithAndSortByMetric(snapshots, selectedType);
+      return enrichWithAndSortByMetric(snapshots, selectedType);
     })
     .map(snapshots => {
       if (!snapshots) {
@@ -131,11 +131,11 @@ function getItems(query, selectedType) {
 
 function getItemsByGroupedIds(ids, timeConfig, selectedType) {
   return combineLatest(ids.map(id => getSnapshot(id, timeConfig)))
-    .flatMap(snapshots => enhanceWithAndSortByMetric(snapshots, selectedType))
+    .flatMap(snapshots => enrichWithAndSortByMetric(snapshots, selectedType))
     .map(items => getResultForData({ items }));
 }
 
-function enhanceWithAndSortByMetric(snapshots, selectedType) {
+function enrichWithAndSortByMetric(snapshots, selectedType) {
   return combineLatest(
     snapshots.map(snapshot =>
       getMetric({

@@ -3,6 +3,7 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -148,7 +149,17 @@ const columnDefinitions = [
     label: 'Health',
     width: 5,
     getContent(item) {
-      return <HealthDot severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
+      if (maxSeverity !== undefined) {
+        return <HealthDot severity={maxSeverity} iconSize={10} />;
+      }
+
+      return (
+        <WithApplicationHealthIndicationBehaviour
+          applicationId={item.application.id}
+          render={healthInfo => (healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null)}
+        />
+      );
     }
   },
   {

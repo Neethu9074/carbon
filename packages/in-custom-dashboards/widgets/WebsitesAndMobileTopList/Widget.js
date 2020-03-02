@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
+import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
@@ -14,6 +15,7 @@ import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
+import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { linkToNewWebsite$ } from 'in-websites/navigation/paths';
@@ -24,8 +26,10 @@ import { getResultForData } from 'in-services/util/result';
 import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { timeConfig$ } from 'in-stores/time/config';
 import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
+import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 export default function WebsitesAndMobileTopList(props) {
@@ -118,7 +122,7 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
   const mobileAppIds = groupedIds[types.MOBILE_APPS] || [];
 
   return combineLatest([
-    ...websiteIds.map(id => getWebsiteId(id, timeConfig)),
+    ...websiteIds.map(id => getWebsiteById(id, timeConfig)),
     ...mobileAppIds.map(id => getMobileAppById(id, timeConfig))
   ]).map(results => {
     for (let i = 0; i < results.length; i++) {
@@ -136,7 +140,7 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
   });
 }
 
-function getWebsiteId(id, timeConfig) {
+function getWebsiteById(id, timeConfig) {
   const granularity = getSparkChartGranularity(timeConfig);
   return combineLatest([
     getWebsite({ id }),
@@ -219,6 +223,17 @@ function combineResults(entityResult, metricResult, entityName, flag) {
 
 const columnDefinitions = [
   {
+    id: 'health',
+    label: 'Health',
+    width: 5,
+    getContent(item) {
+      if (!item.isWebsite) {
+        return null;
+      }
+      return <WebsiteHealthInfo websiteId={getId(item)} />;
+    }
+  },
+  {
     id: 'label',
     label: 'Name',
     getContent(item) {
@@ -275,3 +290,13 @@ const columnDefinitions = [
     }
   }
 ];
+
+const WebsiteHealthInfo = connectTo({ timeConfig: timeConfig$ }, function WebsiteHealthInfo({ websiteId, timeConfig }) {
+  return (
+    <WebsiteHealthIndicatorBehavior
+      websiteId={websiteId}
+      timeConfig={timeConfig}
+      render={healthInfo => (healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null)}
+    />
+  );
+});
