@@ -58,14 +58,15 @@ export default function UpstreamDownstreamGroup({
       </Ul>
       {itemType !== relationships.APPLICATION && (
         <div className={locals.seeAll}>
-          {getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close)}
+          {getSeeAllLink(result, dashboard, area, applicationId, serviceId, endpointId, boundaryScope, close)}
         </div>
       )}
     </div>
   );
 }
 
-function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, boundaryScope, close) {
+function getSeeAllLink(result, dashboard, area, applicationId, serviceId, endpointId, boundaryScope, close) {
+  const tabMatrix = area === 'UPSTREAM' ? { hideDownstream: true } : { hideUpstream: true };
   if (dashboard === 'application') {
     return (
       <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
@@ -74,18 +75,23 @@ function getSeeAllLink(result, dashboard, applicationId, serviceId, endpointId, 
     );
   } else if (dashboard === 'service') {
     return (
-      <Link href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap' })} onClick={close}>
+      <Link
+        href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap', tabMatrix })}
+        onClick={close}
+      >
         See all {result.data.totalHits} Services
       </Link>
     );
   }
+
   return (
     <Link
       href$={getEndpointDashboard(endpointId, {
         applicationId,
         serviceId,
         boundaryScope,
-        tab: '/flowMap'
+        tab: '/flowMap',
+        tabMatrix
       })}
       onClick={close}
     >

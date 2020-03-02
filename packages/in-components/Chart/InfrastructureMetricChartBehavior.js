@@ -208,7 +208,14 @@ export default getElementDimensions(
 
       const ChartComponent = this.props.chartRenderer || Chart;
       return (
-        <ChartComponent renderLegend={renderLegend} timeConfig={timeConfig} granularity={granularity} y1={y1} y2={y2} customHeight={customHeight} />
+        <ChartComponent
+          renderLegend={renderLegend}
+          timeConfig={timeConfig}
+          granularity={granularity}
+          y1={y1}
+          y2={y2}
+          customHeight={customHeight}
+        />
       );
     }
   }

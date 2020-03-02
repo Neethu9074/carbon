@@ -53,14 +53,24 @@ export default () => ComposedComponent => {
 
     componentDidMount() {
       const rootNodeData = this.props.rootNodeData;
+      const collapseRight = this.props.collapseRight;
+      const collapseLeft = this.props.collapseLeft;
       if (rootNodeData) {
         const result = this.flowMapState.addRootNode(rootNodeData);
         if (rootNodeData.endpoint) {
-          this.expandChildRight(result.nodeId, result.id);
-          this.expandChildLeft(result.nodeId, result.id);
+          if (!collapseRight) {
+            this.expandChildRight(result.nodeId, result.id);
+          }
+          if (!collapseLeft) {
+            this.expandChildLeft(result.nodeId, result.id);
+          }
         } else {
-          this.expandNodeRight(result.id);
-          this.expandNodeLeft(result.id);
+          if (!collapseRight) {
+            this.expandNodeRight(result.id);
+          }
+          if (!collapseLeft) {
+            this.expandNodeLeft(result.id);
+          }
         }
       }
       this.queueNextFlowMapState(this.flowMapState);
