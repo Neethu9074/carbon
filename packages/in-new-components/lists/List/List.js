@@ -41,7 +41,17 @@ export const Li = connectTo(
     };
   },
   function Li(props) {
-    const { renderActions, children, onClick, size, renderNestedContent, href, style, noAlternatingBg } = props;
+    const {
+      className,
+      renderActions,
+      children,
+      onClick,
+      size,
+      renderNestedContent,
+      href,
+      style,
+      noAlternatingBg
+    } = props;
 
     const [open, setOpen] = useState(false);
 
@@ -52,7 +62,8 @@ export const Li = connectTo(
             [locals.itemContent]: true,
             [locals.itemContentWithNestedContent]: renderNestedContent,
             [locals.itemContentExpanded]: open,
-            [locals[size]]: size
+            [locals[size]]: size,
+            [className]: className
           })}
         >
           {children}

@@ -24,14 +24,12 @@ function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
     <Ul className={locals.list}>
       {result.data.items.map((item, i) => {
         return (
-          <Li key={i}>
-            <div className={locals.row}>
-              {columnDefinitions.map(({ width, getContent }, i) => (
-                <div key={i} style={{ maxWidth: width, minWidth: width }} className={locals.column}>
-                  {getContent(item, { result, timeConfig })}
-                </div>
-              ))}
-            </div>
+          <Li key={i} className={locals.listItem}>
+            {columnDefinitions.map(({ width, getContent }, i) => (
+              <div key={i} style={{ maxWidth: width, minWidth: width }} className={locals.column}>
+                {getContent(item, { result, timeConfig })}
+              </div>
+            ))}
           </Li>
         );
       })}
@@ -43,12 +41,10 @@ function LoadingList({ columnDefinitions, numSkeletonRows }) {
   const loadingRows = [];
   for (let i = 0; i < numSkeletonRows; i++) {
     loadingRows[i] = (
-      <Li key={i}>
-        <div className={locals.row}>
-          {columnDefinitions.map(({ width }, i) => {
-            return <Skeleton key={i} style={{ maxWidth: width, minWidth: width }} className={locals.skeleton} />;
-          })}
-        </div>
+      <Li key={i} className={locals.listItem}>
+        {columnDefinitions.map(({ width }, i) => {
+          return <Skeleton key={i} style={{ maxWidth: width, minWidth: width }} className={locals.skeleton} />;
+        })}
       </Li>
     );
   }
@@ -60,10 +56,8 @@ function ErrorList({ errors }) {
   return (
     <Ul className={locals.list}>
       {getUniqueErrors(errors).map(error => (
-        <Li key={error}>
-          <div className={locals.row}>
-            <Error>{error}</Error>
-          </div>
+        <Li key={error} className={locals.listItem}>
+          <Error>{error}</Error>
         </Li>
       ))}
     </Ul>

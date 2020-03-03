@@ -3,16 +3,18 @@
     width: 100%;
   }
 
-  .row {
+  .listItem {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    overflow: hidden;
     width: 100%;
   }
 
   .column {
     flex-grow: 1;
+    overflow: hidden;
   }
 
   .skeleton {
