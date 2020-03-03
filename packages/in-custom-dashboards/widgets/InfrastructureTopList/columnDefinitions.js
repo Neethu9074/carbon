@@ -7,17 +7,15 @@ import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
-import WithIcon from 'in-new-components/WithIcon';
+import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
 
-const healthColumnDefinition = {
-  id: 'health',
-  label: 'Health',
-  width: 5,
+const healthColumn = {
+  width: '1.5rem',
   getContent(snapshot) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
@@ -28,12 +26,18 @@ const healthColumnDefinition = {
   }
 };
 
+const iconColumn = {
+  width: '2.5rem',
+  getContent(snapshot) {
+    return <PluginIcon snapshot={snapshot} size="s" />;
+  }
+};
+
 export default {
   host: [
-    healthColumnDefinition,
+    healthColumn,
+    iconColumn,
     {
-      id: 'label',
-      label: 'Name',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
@@ -41,8 +45,7 @@ export default {
       }
     },
     {
-      id: 'os',
-      label: 'OS',
+      width: '15rem',
       getContent(snapshot) {
         const data = snapshot.get('data');
         return (
@@ -56,8 +59,7 @@ export default {
       }
     },
     {
-      id: 'cpuCount',
-      label: 'CPU Count',
+      width: '6rem',
       getContent(snapshot) {
         return (
           <KeyValue
@@ -70,8 +72,7 @@ export default {
       }
     },
     {
-      id: 'cpuUsage',
-      label: 'CPU Usage',
+      width: '12rem',
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue
@@ -86,10 +87,9 @@ export default {
     }
   ],
   docker: [
-    healthColumnDefinition,
+    healthColumn,
+    iconColumn,
     {
-      id: 'label',
-      label: 'Name',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
@@ -97,8 +97,7 @@ export default {
       }
     },
     {
-      id: 'created',
-      label: 'Created',
+      width: '10rem',
       getContent(snapshot) {
         return (
           <KeyValue
@@ -111,8 +110,7 @@ export default {
       }
     },
     {
-      id: 'started',
-      label: 'Started',
+      width: '10rem',
       getContent(snapshot) {
         return (
           <KeyValue
@@ -125,8 +123,7 @@ export default {
       }
     },
     {
-      id: 'cpuUsage',
-      label: 'CPU Usage',
+      width: '12rem',
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue
@@ -141,10 +138,9 @@ export default {
     }
   ],
   process: [
-    healthColumnDefinition,
+    healthColumn,
+    iconColumn,
     {
-      id: 'label',
-      label: 'Name',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
@@ -152,8 +148,7 @@ export default {
       }
     },
     {
-      id: 'cpuUser',
-      label: 'CPU User',
+      width: '12rem',
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue
@@ -176,14 +171,12 @@ const TwoSnapshotLabels = connectTo(
 
   function TwoSnapshotLabels({ primarySnapshot, secondarySnapshot }) {
     return (
-      <WithIcon snapshot={primarySnapshot}>
-        <KeyValue
-          label={secondarySnapshot ? getLabel(secondarySnapshot) : ''}
-          value={getLabel(primarySnapshot)}
-          inverted
-          accentuated
-        />
-      </WithIcon>
+      <KeyValue
+        label={secondarySnapshot ? getLabel(secondarySnapshot) : ''}
+        value={getLabel(primarySnapshot)}
+        inverted
+        accentuated
+      />
     );
   }
 );

@@ -16,7 +16,7 @@ import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import WithIcon from 'in-new-components/WithIcon';
+import SvgIcon from 'in-components/SvgIcon';
 
 export default function PlatformsTopList(props) {
   return (
@@ -95,22 +95,20 @@ function mapPcfResult(result) {
 
 const columnDefinitions = [
   {
-    id: 'health',
-    label: 'Health',
-    width: 5,
+    width: '1.5rem',
     getContent(item) {
       return <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
     }
   },
   {
-    id: 'name',
-    label: 'Name',
+    width: '2.5rem',
     getContent(item) {
-      return (
-        <WithIcon icon={getIcon(item)}>
-          <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />
-        </WithIcon>
-      );
+      return <SvgIcon type={getIcon(item)} />;
+    }
+  },
+  {
+    getContent(item) {
+      return <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />;
     }
   }
 ];

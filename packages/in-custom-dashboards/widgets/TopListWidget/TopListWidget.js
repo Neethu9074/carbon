@@ -3,10 +3,9 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import ItemList from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
-import ServerTable from 'in-components/tables/ServerTable';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
@@ -66,10 +65,7 @@ function TopListWidget({
 
     result = {
       ...result,
-      data: {
-        // this works as long as the queried page size is >= 10
-        items: filteredItems.slice(0, numRegularItems)
-      }
+      data: { items: filteredItems.slice(0, numRegularItems) }
     };
     numRegularItems = result.data.items.length;
   }
@@ -92,30 +88,32 @@ function TopListWidget({
     >
       {numPinnedItems > 0 &&
         getItemsByGroupedIds && (
-          <ServerTable
-            isSearchable={false}
-            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+          <ItemList
             get={() => getItemsByGroupedIds(pinnedItemIdsByType, timeConfig)}
             timeConfig={timeConfig}
+            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
             numSkeletonRows={numPinnedItems}
           />
         )}
+
       {numRegularItems > 0 && (
-        <ServerTablePresenter
-          isSearchable={false}
-          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
+        <ItemList
           result={result}
           timeConfig={timeConfig}
+          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
           numSkeletonRows={numRegularItems}
         />
       )}
+
       {numRegularItems === 0 && numPinnedItems === 0 && <NoDataAvailable />}
-      {fullListViewLinkTitle &&
-        fullListView$ && (
-          <Link className={locals.link} href$={fullListView$}>
-            {fullListViewLinkTitle}
-          </Link>
-        )}
+
+      {fullListViewLinkTitle && fullListView$ ? (
+        <Link className={locals.link} href$={fullListView$}>
+          {fullListViewLinkTitle}
+        </Link>
+      ) : (
+        <div className={locals.linkPlaceHolder} />
+      )}
     </DraggableLightCard>
   );
 }
@@ -134,9 +132,7 @@ function getFlattenedIds(IdsByType) {
 
 function getStarColumn(pinned, pinItem, unpinItem) {
   return {
-    id: 'star',
-    label: 'Star',
-    width: 5,
+    width: '1.5rem',
     getContent(item) {
       return (
         <SvgIcon

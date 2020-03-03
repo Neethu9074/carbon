@@ -11,10 +11,17 @@
   }
 
   .link {
-    margin-bottom: 0.75rem;
-
     font-size: 0.875rem;
     font-weight: 600;
+  }
+
+  .link,
+  .linkPlaceHolder {
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .linkPlaceHolder {
+    height: 1rem;
   }
 
   .customHeaderWrapper {

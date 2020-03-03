@@ -4,7 +4,7 @@ import 'react-resizable/css/styles.css';
 import React from 'react';
 
 import {
-  rowHeightPixels,
+  rowHeightPixels as rowHeightPixelsFromSettings,
   cols,
   margin,
   breakpoints,
@@ -29,6 +29,7 @@ export default function Grid({
   isConfigurable,
   isDraggable,
   onEditWidget,
+  rowHeightPixels = rowHeightPixelsFromSettings,
   onRemoveWidget,
   tvMode,
   width

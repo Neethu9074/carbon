@@ -1,0 +1,25 @@
+:local {
+  .list {
+    width: 100%;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  .column {
+    flex-grow: 1;
+  }
+
+  .skeleton {
+    display: block;
+
+    height: 1rem;
+
+    margin: 0.5rem 0;
+  }
+}

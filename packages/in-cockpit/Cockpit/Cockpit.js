@@ -186,6 +186,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               }}
               isEditing
               isResizable={false}
+              rowHeightPixels={130}
               width={width - convertRemToPx(18)}
               onLayoutChange={setNewItemOrder}
               draggableHandle={draggableCardLocals.dragHandleIcon}

@@ -23,7 +23,6 @@ import { getResultForData } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -145,9 +144,7 @@ function combineResults(applicationResult, metricResult) {
 
 const columnDefinitions = [
   {
-    id: 'health',
-    label: 'Health',
-    width: 5,
+    width: '1.5rem',
     getContent(item) {
       const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
       if (maxSeverity !== undefined) {
@@ -163,25 +160,25 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'applicationLabel',
-    label: 'Name',
+    width: '2.5rem',
+    getContent() {
+      return <SvgIcon type="lib_application" />;
+    }
+  },
+  {
     getContent(item) {
       return (
-        <WithIcon icon="lib_application">
-          <KeyValue
-            label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
-            value={item.application.label}
-            inverted
-            accentuated
-          />
-        </WithIcon>
+        <KeyValue
+          label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
+          value={item.application.label}
+          inverted
+          accentuated
+        />
       );
     }
   },
   {
-    id: 'boundaryScope',
-    label: 'Scope',
-    sortable: false,
+    width: '4rem',
     getContent(item) {
       const href$ = getApplicationDashboard(item.application.id);
       const iconColor = href$ && theme.lib.colors.blue800;
@@ -196,9 +193,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'callsAgg',
-    label: 'Calls',
-    defaultOrderDirection: 'DESC',
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -214,9 +209,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'latencyAgg',
-    label: 'Latency',
-    defaultOrderDirection: 'DESC',
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -232,9 +225,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
-    defaultOrderDirection: 'DESC',
+    width: '14rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart

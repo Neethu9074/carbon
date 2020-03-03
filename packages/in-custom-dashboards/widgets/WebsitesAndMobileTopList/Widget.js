@@ -27,7 +27,7 @@ import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { timeConfig$ } from 'in-stores/time/config';
-import WithIcon from 'in-new-components/WithIcon';
+import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -61,7 +61,7 @@ export default function WebsitesAndMobileTopList(props) {
 
   const generalProps = {
     ...props,
-    columnDefinitions: columnDefinitions,
+    columnDefinitions,
     fullListView$: getView(websiteMonitoringPath),
     getId,
     pinItem: (id, item) => pin(getTypeByItem(item), id),
@@ -223,9 +223,7 @@ function combineResults(entityResult, metricResult, entityName, flag) {
 
 const columnDefinitions = [
   {
-    id: 'health',
-    label: 'Health',
-    width: 5,
+    width: '1.5rem',
     getContent(item) {
       if (!item.isWebsite) {
         return null;
@@ -234,26 +232,26 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'label',
-    label: 'Name',
+    width: '2.5rem',
+    getContent(item) {
+      return <SvgIcon type={item.isWebsite ? 'lib_website' : 'lib_mobile_app'} />;
+    }
+  },
+  {
     getContent(item) {
       const { isWebsite } = item;
       return (
-        <WithIcon icon={isWebsite ? 'lib_website' : 'lib_mobile_app'}>
-          <KeyValue
-            label={isWebsite ? 'Website' : 'Mobile App'}
-            value={isWebsite ? item.website.label : item.mobileApp.label}
-            inverted
-            accentuated
-          />
-        </WithIcon>
+        <KeyValue
+          label={isWebsite ? 'Website' : 'Mobile App'}
+          value={isWebsite ? item.website.label : item.mobileApp.label}
+          inverted
+          accentuated
+        />
       );
     }
   },
   {
-    id: 'metric1',
-    label: 'Metric 1',
-    defaultOrderDirection: 'DESC',
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (
@@ -271,9 +269,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'metric2',
-    label: 'Metric 2',
-    defaultOrderDirection: 'DESC',
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (
