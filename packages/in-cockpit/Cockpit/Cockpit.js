@@ -131,7 +131,6 @@ function Header() {
     <>
       <DashboardHeader
         label={<Lettering className={locals.lettering} />}
-        renderMetaInformation={renderMetaInformation}
         theme={themes.light}
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (
@@ -227,15 +226,6 @@ function renderButtonLine() {
   return <OpenIncidentsButton />;
 }
 
-function renderMetaInformation() {
-  const { tenant, tenantUnit } = window.instana.config;
-  return (
-    <span className={locals.tuInformation}>
-      {tenant}/{tenantUnit}
-    </span>
-  );
-}
-
 function getOrdering(settings) {
   const orderingFromSettings = settings[settingsKey];
   return orderingFromSettings
@@ -272,7 +262,7 @@ function getOrdering(settings) {
         {
           id: '5',
           width: 12,
-          height: 2,
+          height: 3,
           x: 0,
           y: 16
         }

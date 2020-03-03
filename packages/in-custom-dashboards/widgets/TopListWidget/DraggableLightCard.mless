@@ -5,13 +5,22 @@
     position: relative;
   }
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 100%;
+  }
+
   .cardWithStrongShadow {
     box-shadow: @lib__shadows__strong;
   }
 
   .dragHandleIconWrapper {
     position: absolute;
-    top: 0;
+    top: 0.25rem;
     left: ~'calc(50% - 0.75rem)';
   }
 
@@ -22,5 +31,19 @@
     &:hover {
       fill: @lib__colors__N400;
     }
+  }
+
+  .link,
+  .linkPlaceHolder {
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .link {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .linkPlaceHolder {
+    height: 1rem;
   }
 }

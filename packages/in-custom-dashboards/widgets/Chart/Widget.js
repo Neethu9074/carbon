@@ -43,7 +43,7 @@ export default connectTo(({ config }) => ({
   })
 }))(ChartWidget);
 
-function ChartWidget({ result, config, title, timeConfig }) {
+function ChartWidget({ result, config, title, timeConfig, customHeight }) {
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -64,6 +64,7 @@ function ChartWidget({ result, config, title, timeConfig }) {
       y2={toAxisConfiguration('y2', config.y2)}
       metricsConfiguration={toMetricsConfiguration(config)}
       result={result}
+      customHeight={customHeight}
     />
   );
 }

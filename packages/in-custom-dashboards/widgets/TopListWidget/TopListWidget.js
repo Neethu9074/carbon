@@ -10,7 +10,6 @@ import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 import locals from './TopListWidget.mless';
 
@@ -77,6 +76,8 @@ function TopListWidget({
     <DraggableLightCard
       title={title}
       icon={icon}
+      fullListViewLinkTitle={fullListViewLinkTitle}
+      fullListView$={fullListView$}
       useMaxAvailableHeight
       rightHeaderContent={
         <>
@@ -84,7 +85,6 @@ function TopListWidget({
           <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
         </>
       }
-      bodyClassName={locals.content}
     >
       {numPinnedItems > 0 &&
         getItemsByGroupedIds && (
@@ -106,14 +106,6 @@ function TopListWidget({
       )}
 
       {numRegularItems === 0 && numPinnedItems === 0 && <NoDataAvailable />}
-
-      {fullListViewLinkTitle && fullListView$ ? (
-        <Link className={locals.link} href$={fullListView$}>
-          {fullListViewLinkTitle}
-        </Link>
-      ) : (
-        <div className={locals.linkPlaceHolder} />
-      )}
     </DraggableLightCard>
   );
 }
