@@ -10,7 +10,7 @@ export default function SybaseInfo({ snapshot }) {
   return (
     <DescriptionList>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="PID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <DescriptionItem title="Start Time">{data.get('startTime')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
       <DescriptionItem title="Type">{data.get('serverType')}</DescriptionItem>

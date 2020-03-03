@@ -10,7 +10,7 @@ export default function RabbitMqInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="PID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <DescriptionItem title="Ports">{data.get('overview.ports', emptyList).join(', ')}</DescriptionItem>
       <DescriptionItem title="Version">{data.get('overview.version')}</DescriptionItem>
       <DescriptionItem title="Erlang version">{data.get('overview.erlang_version')}</DescriptionItem>

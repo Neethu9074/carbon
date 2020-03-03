@@ -8,7 +8,7 @@ export default function EtcdInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="PID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <DescriptionItem title="Cluster version">{data.get('version_cluster')}</DescriptionItem>
       <DescriptionItem title="Server version">{data.get('version_server')}</DescriptionItem>
       <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>

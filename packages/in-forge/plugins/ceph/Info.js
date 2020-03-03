@@ -7,7 +7,7 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Pid">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <DescriptionItem title="Cluster Name">{data.get('cluster_name')}</DescriptionItem>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Fsid">{data.get('fsid')}</DescriptionItem>
