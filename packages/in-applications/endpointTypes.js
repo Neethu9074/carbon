@@ -14,6 +14,7 @@ export const endpointNameTranslations = {
   GRAPHQL: 'GraphQL',
   INTERNAL: 'Internal',
   UNDEFINED: 'Undefined',
+  UNKNOWN: 'Undefined',
   SELF: 'Self',
   SDK: 'SDK'
 };
@@ -27,8 +28,9 @@ export const colorTranslation = {
   RPC: theme.lib.colors.rpc,
   EVENT: theme.lib.colors.event,
   GRAPHQL: theme.lib.colors.lime800,
-  INTERNAL: theme.lib.colors.N400,
-  UNDEFINED: theme.lib.colors.N400,
+  INTERNAL: theme.lib.colors.purple800,
+  UNDEFINED: theme.lib.colors.purple800,
+  UNKNOWN: theme.lib.colors.purple800,
   SELF: theme.lib.colors.N400,
   SDK: theme.lib.colors.N400
 };
