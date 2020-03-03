@@ -3,6 +3,7 @@ import { create } from 'reactive-observables';
 import invariant from 'invariant';
 import React from 'react';
 
+import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
 import theme from 'in-themes';
@@ -81,7 +82,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div ref={r => this.setWrapper(r)}>
+      <div ref={r => this.setWrapper(r)} className={stickyWrapperClassName}>
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
           {this.props.header}
         </Header>

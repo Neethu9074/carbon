@@ -196,7 +196,6 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
           {width && (
             <SideNav
               className={locals.nav}
-              scrollToTopOnFirstItemClicked
               navItems={itemOrder.map(config => ({
                 scrollId: getWidgetId(config.id),
                 ...navLookUpTable[config.id]

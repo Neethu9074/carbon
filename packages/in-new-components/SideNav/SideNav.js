@@ -2,8 +2,8 @@ import { on } from 'reactive-observables';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { scrollToTopSmoothly, scrollIntoView } from 'in-services/util/dom';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
 
@@ -65,10 +65,7 @@ export default class SideNav extends React.Component {
   }
 
   onItemClicked = (i, navItem) => {
-    if (this.props.scrollToTopOnFirstItemClicked && i === 0) {
-      return scrollToTopSmoothly();
-    }
-    return scrollIntoView(document.getElementById(navItem.scrollId), { behavior: 'smooth' });
+    scrollIntoView(document.getElementById(navItem.scrollId), { behavior: 'smooth' });
   };
 
   highlightCurrentItemOnManualScroll = () => {
@@ -103,7 +100,6 @@ SideNav.propTypes = {
   addLeftSeparator: PropTypes.bool,
   renderPreIcon: PropTypes.func,
   renderPostIcon: PropTypes.func,
-  scrollToTopOnFirstItemClicked: PropTypes.bool,
   navItems: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

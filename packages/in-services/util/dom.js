@@ -1,3 +1,5 @@
+import { isInStickyBody, withDisabledStickyBodyTopPadding } from 'in-components/Sticky/scrolling';
+
 const supportsTransformWithOutPrefix = 'transform' in document.body.style;
 
 export function applyTransform(ele, transform) {
@@ -10,7 +12,31 @@ export function applyTransform(ele, transform) {
 }
 
 export function scrollIntoView(element, options = {}) {
-  if (element) element.scrollIntoView(options);
+  if (!element) {
+    return;
+  }
+
+  if (!isInStickyBody(element)) {
+    element.scrollIntoView(options);
+    return;
+  }
+
+  // We cannot scroll to top (start) alone, as it will place the element behind our sticky header
+  // to move our regular content below the header, we applied a top padding to the wrapper of the sticky.
+  // By setting that padding to 0 and after scrolling baack to the original value, we effectively scroll
+  // to 'start' + paddingTop
+  let notAtTopAfterScrolling = false;
+  withDisabledStickyBodyTopPadding(() => {
+    element.scrollIntoView({ behavior: 'auto', block: 'start' });
+    notAtTopAfterScrolling = element.getBoundingClientRect().top > 0;
+  });
+
+  // If we are not at the top after scrolling, the element was too low on the page to be scrolled up
+  // that means that after applying the padding again, that element will scroll down again and potentially
+  // partially out of view. Therefor we must scroll it again afterwards
+  if (notAtTopAfterScrolling) {
+    element.scrollIntoView({ behavior: 'auto', block: 'start' });
+  }
 }
 
 export function scrollToTopSmoothly() {
