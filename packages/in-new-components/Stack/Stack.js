@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getStack, getStackForApplication, getStackForService } from 'in-new-components/Stack/subscriptions/getStack';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
 import connectTo from 'in-hoc/connectTo';
 
@@ -23,7 +24,7 @@ export default connectTo(
     const isLoading = stackResult.progress && stackResult.progress.loading;
 
     if (stackResult.errors.length > 0) {
-      return <div>Error: {stackResult.errors[0]}</div>;
+      return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
 
     return (
