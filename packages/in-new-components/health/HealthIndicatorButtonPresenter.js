@@ -7,6 +7,7 @@ export default function HealthIndicatorButtonPresenter({
   openIssues,
   maxSeverity,
   onClick,
+  href$,
   refSetter,
   showCheckAsNeutral = false
 }) {
@@ -21,7 +22,7 @@ export default function HealthIndicatorButtonPresenter({
   }
 
   return (
-    <Button kind={kind} icon={icon} onClick={onClick} refSetter={refSetter}>
+    <Button kind={kind} icon={icon} onClick={onClick} href$={href$} refSetter={refSetter}>
       {openIssues}
     </Button>
   );
