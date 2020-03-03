@@ -12,7 +12,6 @@ import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import StackButton from 'in-new-components/Stack/StackButton';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
@@ -81,7 +80,6 @@ function Header(props) {
 function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
   return (
     <>
-      <StackButton id={applicationId} timeConfig={timeConfig} productArea="application" />
       <UpstreamDownstreamButton
         applicationId={applicationId}
         serviceId={serviceId}

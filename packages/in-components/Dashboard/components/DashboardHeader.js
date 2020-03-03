@@ -44,7 +44,9 @@ function renderButtonLine({ snapshot, timeConfig }) {
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
-      <StackButton id={snapshot.get('id')} timeConfig={timeConfig} />
+      {![plugins.instanaAgent, plugins.prometheus, plugins.availabilityZone, plugins.genericZone].includes(
+        snapshot.get('plugin')
+      ) && <StackButton id={snapshot.get('id')} timeConfig={timeConfig} />}
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       {snapshot.get('plugin') === plugins.process && (
