@@ -83,6 +83,7 @@ export default class Overlay extends React.Component {
     const {
       autoOpen,
       inContentArea,
+      behindSidebar,
       forceConfiguredAlignment,
       wrapperStyle,
       wrapperClassName,
@@ -146,6 +147,7 @@ export default class Overlay extends React.Component {
               autoClose={autoClose}
               withoutArrow={withoutArrow}
               inContentArea={inContentArea}
+              behindSidebar={behindSidebar}
               align={align}
               forceConfiguredAlignment={forceConfiguredAlignment}
             />
@@ -179,6 +181,7 @@ Overlay.propTypes = {
   autoOpen: PropTypes.bool,
   forceConfiguredAlignment: PropTypes.bool,
   inContentArea: PropTypes.bool,
+  behindSidebar: PropTypes.bool,
   kind: PropTypes.string,
   onToggle: PropTypes.func,
   withoutArrow: PropTypes.bool,

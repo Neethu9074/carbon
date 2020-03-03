@@ -16,6 +16,7 @@ module.exports = {
     selectBoxFlyouts: zIndex++,
     mapOverlayControls: zIndex++,
     stickyHeader: (zIndex += 20),
+    overlaysBehindSidebar: ++zIndex,
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
     slideInView: ++zIndex,
