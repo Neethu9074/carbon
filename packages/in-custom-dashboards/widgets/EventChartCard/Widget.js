@@ -7,13 +7,13 @@ import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
 export default function EventChartCardWidget({ config }) {
   return (
     <DraggableLightCard
-      title="Events"
-      icon="lib_events_inverted"
+      {...config}
+      icon={config.cardIcon}
       useMaxAvailableHeight
       fullListViewLinkTitle="All Events"
       fullListView$={getEventsViewFilteredBy({})}
     >
-      <ChartWidget config={config} customHeight={250} />
+      <ChartWidget config={config.chartConfig} customHeight={250} />
     </DraggableLightCard>
   );
 }

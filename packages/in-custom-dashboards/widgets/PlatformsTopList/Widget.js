@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
+import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
@@ -12,20 +13,27 @@ import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter'
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import SvgIcon from 'in-components/SvgIcon';
 
-export default function PlatformsTopList(props) {
+export default function PlatformsTopList({ config }) {
+  const pinnedTypes = [
+    hasKubernetesAccess && types.KUBERNETES_CLUSTERS,
+    pcfEnabled && types.PCF_APPLICATIONS,
+    vsphereEnabled && types.VSPHERE_DATACENTERS
+  ].filter(Boolean);
+
   return (
     <TopListWidget
-      {...props}
-      icon="lib_platforms_inverted"
+      {...config}
       getItems={getMergedData}
       getItemsByGroupedIds={getItemsByGroupedIds}
-      pinnedItemTypes={[types.KUBERNETES_CLUSTERS, types.PCF_APPLICATIONS, types.VSPHERE_DATACENTERS]}
+      pinnedItemTypes={pinnedTypes}
       getId={item => (item.isKubernetes ? item.cluster.id : item.id)}
       pinItem={(id, item) => pin(getTypeByItem(item), id)}
       unpinItem={(id, item) => unpin(getTypeByItem(item), id)}
@@ -46,12 +54,14 @@ function getTypeByItem(item) {
 
 function getMergedData(params) {
   return mergeResults(
-    getCloudfoundryApplicationsWithDefaults(params),
-    'isPcf',
-    getKubernetesClustersWithDefaults(params),
-    'isKubernetes',
-    getVSphereDatacentersWithDefaults(params),
-    'isVsphere'
+    [
+      hasKubernetesAccess && getKubernetesClustersWithDefaults(params),
+      hasKubernetesAccess && 'isKubernetes',
+      pcfEnabled && getCloudfoundryApplicationsWithDefaults(params),
+      pcfEnabled && 'isPcf',
+      vsphereEnabled && getVSphereDatacentersWithDefaults(params),
+      vsphereEnabled && 'isVsphere'
+    ].filter(Boolean)
   )(sort);
 }
 
@@ -60,12 +70,12 @@ function sort(a, b) {
 }
 
 function getItemsByGroupedIds(groupedIds, timeConfig) {
-  const kubernetesIds = groupedIds[types.KUBERNETES_CLUSTERS] || [];
+  const kubernetesIds = hasKubernetesAccess ? groupedIds[types.KUBERNETES_CLUSTERS] || [] : [];
   const vSphereIds = groupedIds[types.VSPHERE_DATACENTERS] || [];
   const pcfIds = groupedIds[types.PCF_APPLICATIONS] || [];
 
   return combineLatest([
-    ...kubernetesIds.map(id => getKubernetesCluster({ id, timeConfig }).map(mapKubernetesClusterResult)),
+    ...kubernetesIds.map(id => getKubernetesClusterById(id, timeConfig)),
     ...vSphereIds.map(id => getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult)),
     ...pcfIds.map(id => getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult))
   ]).map(results => {
@@ -81,8 +91,19 @@ function getItemsByGroupedIds(groupedIds, timeConfig) {
   });
 }
 
-function mapKubernetesClusterResult(result) {
-  return result.data ? getResultForData({ cluster: result.data, isKubernetes: true }) : result;
+function getKubernetesClusterById(id, timeConfig) {
+  return combineLatest([
+    getKubernetesCluster({ id, timeConfig }),
+    getKubernetesClusterItemCounters({ clusterId: id, timeConfig })
+  ]).map(([kubernetesClusterResult, itemCounterResult]) => {
+    if (isLoading(kubernetesClusterResult) || hasError(kubernetesClusterResult)) {
+      return kubernetesClusterResult;
+    }
+    if (isLoading(itemCounterResult) || hasError(itemCounterResult)) {
+      return itemCounterResult;
+    }
+    return getResultForData({ cluster: kubernetesClusterResult.data, ...itemCounterResult.data, isKubernetes: true });
+  });
 }
 
 function mapVsphereResult(result) {

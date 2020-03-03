@@ -28,7 +28,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 
-export default function ApplicationsTopList(props) {
+export default function ApplicationsTopList({ config }) {
   const header = role.canConfigureApplications && (
     <Button
       kind="action"
@@ -42,8 +42,7 @@ export default function ApplicationsTopList(props) {
 
   return (
     <TopListWidget
-      {...props}
-      icon="lib_application_invert"
+      {...config}
       getItems={getApplicationsWithDefaults}
       getItemsByGroupedIds={getItemsByGroupedIds}
       pinnedItemTypes={[types.APPLCATIONS]}

@@ -32,7 +32,7 @@ import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
-export default function WebsitesAndMobileTopList(props) {
+export default function WebsitesAndMobileTopList({ config }) {
   const header = (
     <>
       {role.canConfigureEumApplications && (
@@ -60,7 +60,7 @@ export default function WebsitesAndMobileTopList(props) {
   );
 
   const generalProps = {
-    ...props,
+    ...config,
     columnDefinitions,
     fullListView$: getView(websiteMonitoringPath),
     getId,
@@ -74,7 +74,6 @@ export default function WebsitesAndMobileTopList(props) {
     return (
       <TopListWidget
         {...generalProps}
-        icon="lib_website_inverted"
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
         getItems={getWebsitesWithDefaults}
@@ -85,7 +84,6 @@ export default function WebsitesAndMobileTopList(props) {
   return (
     <TopListWidget
       {...generalProps}
-      icon="lib_website_mobile_app_inverted"
       fullListViewLinkTitle="All Websites & Mobile Apps"
       pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
       getItems={getMergedData}
@@ -102,7 +100,7 @@ function getTypeByItem(item) {
 }
 
 function getMergedData(params) {
-  return mergeResults(getWebsitesWithDefaults(params), 'isWebsite', getMobileAppsWithDefaults(params), 'isMobileApp')(
+  return mergeResults([getWebsitesWithDefaults(params), 'isWebsite', getMobileAppsWithDefaults(params), 'isMobileApp'])(
     sort
   );
 }
@@ -256,7 +254,6 @@ const columnDefinitions = [
       const { isWebsite, metrics } = item;
       return (
         <SparkChart
-          debug
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"

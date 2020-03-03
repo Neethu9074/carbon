@@ -35,6 +35,7 @@ export default class DraggableLightCard extends React.Component {
     return (
       <LightCard
         {...this.props}
+        title={this.props.label}
         headerClassName={locals.header}
         className={evaluateClassNames({
           [locals.cardWithStrongShadow]: this.state.isHovering

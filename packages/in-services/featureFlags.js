@@ -30,18 +30,19 @@ export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetr
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
-export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', true);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
-export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 export const apDashboardEventsEnabled = isInstanaEmail || isFeatureFlagEnabled('apDashboardEventsEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const cockpitEnabled = isFeatureFlagEnabled('cockpitEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
+//platform feature flags
+export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords

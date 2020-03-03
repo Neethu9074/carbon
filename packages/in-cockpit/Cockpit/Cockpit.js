@@ -7,10 +7,12 @@ import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Gri
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
@@ -29,83 +31,81 @@ const settingsKey = 'cockpit_widget_ordering';
 const configEnrichmentLookUpTable = {
   '1': {
     type: 'websitesAndMobileTopList',
-    title: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
+    config: {
+      label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites',
+      icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
+      cardIcon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app_inverted' : 'lib_website_inverted'
+    }
   },
   '2': {
     type: 'applicationsTopList',
-    title: 'Applications'
+    config: {
+      label: 'Applications',
+      icon: 'lib_application',
+      cardIcon: 'lib_application_invert'
+    }
   },
   '3': {
     type: 'platformsTopList',
-    title: 'Platforms'
+    config: {
+      label: getPlatformsTitle(),
+      icon: `${getPlatformCardIcon()}`,
+      cardIcon: `${getPlatformCardIcon()}_inverted`
+    }
   },
   '4': {
     type: 'infrastructureTopList',
-    title: 'Infrastructure'
+    config: {
+      label: 'Infrastructure',
+      icon: 'lib_infrastructure',
+      cardIcon: 'lib_infrastructure_inverted'
+    }
   },
   '5': {
     type: 'eventChartCard',
     config: {
-      y1: {
-        formatter: 'number.detailed',
-        renderer: 'stackedBar',
-        metrics: [
-          {
-            dynamicFocusQuery: 'event.type:incident ',
-            metric: 'eventCount',
-            timeShift: 0,
-            aggregation: 'DISTINCT_COUNT',
-            label: 'Incidents',
-            source: 'EVENT'
-          },
-          {
-            dynamicFocusQuery: 'event.severity:10 event.type:issue ',
-            metric: 'eventCount',
-            timeShift: 0,
-            aggregation: 'DISTINCT_COUNT',
-            label: 'Critical',
-            source: 'EVENT'
-          },
-          {
-            dynamicFocusQuery: 'event.severity:5 event.type:issue ',
-            metric: 'eventCount',
-            timeShift: 0,
-            aggregation: 'DISTINCT_COUNT',
-            label: 'Warning',
-            source: 'EVENT'
-          }
-        ]
-      },
-      y2: {
-        formatter: 'number.detailed',
-        renderer: 'line',
-        metrics: []
-      },
-      type: 'TIME_SERIES'
+      label: 'Events',
+      icon: 'lib_events_inverted',
+      cardIcon: 'lib_events_inverted',
+      chartConfig: {
+        y1: {
+          formatter: 'number.detailed',
+          renderer: 'stackedBar',
+          metrics: [
+            {
+              dynamicFocusQuery: 'event.type:incident ',
+              metric: 'eventCount',
+              timeShift: 0,
+              aggregation: 'DISTINCT_COUNT',
+              label: 'Incidents',
+              source: 'EVENT'
+            },
+            {
+              dynamicFocusQuery: 'event.severity:10 event.type:issue ',
+              metric: 'eventCount',
+              timeShift: 0,
+              aggregation: 'DISTINCT_COUNT',
+              label: 'Critical',
+              source: 'EVENT'
+            },
+            {
+              dynamicFocusQuery: 'event.severity:5 event.type:issue ',
+              metric: 'eventCount',
+              timeShift: 0,
+              aggregation: 'DISTINCT_COUNT',
+              label: 'Warning',
+              source: 'EVENT'
+            }
+          ]
+        },
+        y2: {
+          formatter: 'number.detailed',
+          renderer: 'line',
+          metrics: []
+        },
+        type: 'TIME_SERIES'
+      }
     }
-  }
-};
-
-const navLookUpTable = {
-  '1': {
-    icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
-    label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites'
-  },
-  '2': {
-    icon: 'lib_application',
-    label: 'Applications'
-  },
-  '3': {
-    icon: 'lib_platforms',
-    label: 'Platforms'
-  },
-  '4': {
-    icon: 'lib_infrastructure',
-    label: 'Infrastructure'
-  },
-  '5': {
-    icon: 'lib_events_inverted',
-    label: 'Events'
   }
 };
 
@@ -198,7 +198,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               className={locals.nav}
               navItems={itemOrder.map(config => ({
                 scrollId: getWidgetId(config.id),
-                ...navLookUpTable[config.id]
+                ...configEnrichmentLookUpTable[config.id].config
               }))}
               renderPreIcon={renderIcon}
             />
@@ -267,4 +267,38 @@ function getOrdering(settings) {
           y: 16
         }
       ];
+}
+
+function getPlatformsTitle() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'Platforms';
+  }
+  if (pcfEnabled) {
+    return 'Cloud Foundry';
+  }
+  if (vsphereEnabled) {
+    return 'vSphere';
+  }
+  return 'Kubernetes';
+}
+
+function getPlatformCardIcon() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'lib_platforms';
+  }
+  if (pcfEnabled) {
+    return 'lib_cloudfoundry';
+  }
+  if (vsphereEnabled) {
+    return 'lib_vsphere';
+  }
+  return 'lib_kubernetes';
 }

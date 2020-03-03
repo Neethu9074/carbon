@@ -15,12 +15,11 @@ import { search } from 'in-stores/snapshot/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 
-export default function InfrastructureTopList(props) {
+export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');
 
   const generalProps = {
-    ...props,
-    icon: 'lib_infrastructure_inverted',
+    ...config,
     getItems: ({ query }) => getItems(query, selectedType),
     header: <Header selectedType={selectedType} setSelectedType={setSelectedType} />,
     columnDefinitions: columnDefinitions[selectedType],

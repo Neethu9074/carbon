@@ -15,7 +15,6 @@ import locals from './TopListWidget.mless';
 
 export default compose(
   setPropTypes({
-    title: rpt.string.isRequired,
     getItems: rpt.func.isRequired,
     getItemsByGroupedIds: rpt.func,
     columnDefinitions: rpt.array.isRequired,
@@ -39,11 +38,11 @@ export default compose(
 function TopListWidget({
   query,
   setQuery,
-  title,
+  label,
   timeConfig,
   result,
   header,
-  icon,
+  cardIcon,
   columnDefinitions,
   fullListView$,
   fullListViewLinkTitle,
@@ -59,7 +58,7 @@ function TopListWidget({
   if (result && result.data) {
     const filteredItems = result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1);
     if (filteredItems.length + numPinnedItems > 0) {
-      title = `${title} (${filteredItems.length + numPinnedItems})`;
+      label = `${label} (${filteredItems.length + numPinnedItems})`;
     }
 
     result = {
@@ -74,8 +73,8 @@ function TopListWidget({
 
   return (
     <DraggableLightCard
-      title={title}
-      icon={icon}
+      label={label}
+      icon={cardIcon}
       fullListViewLinkTitle={fullListViewLinkTitle}
       fullListView$={fullListView$}
       useMaxAvailableHeight

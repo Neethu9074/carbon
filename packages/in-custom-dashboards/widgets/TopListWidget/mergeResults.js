@@ -2,8 +2,8 @@ import { combineLatest } from 'reactive-observables';
 
 import { hasError, isLoading } from 'in-services/util/result';
 
-export default function mergeResults() {
-  const { observables, tags } = collectObservablesAndTags(arguments);
+export default function mergeResults(args) {
+  const { observables, tags } = collectObservablesAndTags(args);
 
   return sorterFn =>
     combineLatest(observables).map(results => {
@@ -40,12 +40,12 @@ export default function mergeResults() {
     });
 }
 
-function collectObservablesAndTags(_arguments) {
+function collectObservablesAndTags(args) {
   const observables = [];
   const tags = [];
-  for (let i = 0; i < _arguments.length; i += 2) {
-    const observable = _arguments[i];
-    const tag = _arguments[i + 1];
+  for (let i = 0; i < args.length; i += 2) {
+    const observable = args[i];
+    const tag = args[i + 1];
     observables.push(observable);
     tags.push(tag);
   }
