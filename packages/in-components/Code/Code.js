@@ -16,6 +16,7 @@ import 'prismjs/components/prism-python.min.js';
 import 'prismjs/components/prism-ruby.min.js';
 import 'prismjs/components/prism-sql.min.js';
 import 'prismjs/components/prism-yaml.min.js';
+import 'prismjs/components/prism-bash.min.js';
 
 // prism plugins
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';

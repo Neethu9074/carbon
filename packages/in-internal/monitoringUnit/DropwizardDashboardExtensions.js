@@ -110,7 +110,7 @@ export default connect(({ snapshot, timeConfig }) => ({
       </DashboardSection>
 
       <DashboardSection title="Common Commands">
-        <Code lang="plain" code={getLogsCommand} showLineNumbers={false} />
+        <Code lang="bash" code={getLogsCommand} showLineNumbers={false} />
       </DashboardSection>
     </Fragment>
   );
@@ -150,9 +150,22 @@ function extractLogsCommand(pod, container, jvm, fqdn) {
   if (pod) {
     const namespace = pod.getIn(['data', 'namespace']);
     const name = pod.getIn(['data', 'name']);
+    const app = pod.getIn(['data', 'labels', 'app']);
     return `
-# Get logs directly via kubectl. Remember to configure kubectl
+# Kubectl not configured? Check the "kubectl" section in the
+# "K8S: Environments" slide deck in Google docs.
+
+# Get the configuration file
+kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml' | less
+
+# Get logs directly via kubectl.
 kubectl logs --namespace ${namespace} ${name} | less
+
+# Enter the container
+kubectl exec -it --namespace ${namespace} ${name} -- bash
+
+# Forward ports locally
+kubectl port-forward --namespace ${namespace} ${name} 8600 8601
       `.trim();
   }
   const allocId = container.getIn(['data', 'Nomad', 'allocId']);
