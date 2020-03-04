@@ -65,6 +65,7 @@ export const Li = connectTo(
             [locals[size]]: size,
             [className]: className
           })}
+          style={style}
         >
           {children}
           <div className={locals.actions}>
@@ -86,7 +87,6 @@ export const Li = connectTo(
 
     return (
       <li
-        style={style ? style : null}
         className={evaluateClassNames({
           [locals.listItem]: true,
           [locals.noAlternatingBg]: noAlternatingBg,

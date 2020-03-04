@@ -229,7 +229,7 @@ function combineResults(entityResult, metricResult, entityName, flag) {
 
 const columnDefinitions = [
   {
-    width: '1.5rem',
+    column: 1,
     getContent(item) {
       if (!item.isWebsite) {
         return null;
@@ -238,12 +238,13 @@ const columnDefinitions = [
     }
   },
   {
-    width: '2.5rem',
+    column: 2,
     getContent(item) {
       return <SvgIcon type={item.isWebsite ? 'lib_website' : 'lib_mobile_app'} />;
     }
   },
   {
+    column: '3 / span 4',
     getContent(item) {
       const { isWebsite } = item;
       return (
@@ -257,7 +258,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '12rem',
+    column: 7,
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (
@@ -274,7 +275,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '12rem',
+    column: 8,
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (

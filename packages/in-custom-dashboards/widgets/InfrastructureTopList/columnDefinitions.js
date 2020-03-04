@@ -15,7 +15,7 @@ import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
 
 const healthColumn = {
-  width: '1.5rem',
+  column: 1,
   getContent(snapshot) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
@@ -27,7 +27,7 @@ const healthColumn = {
 };
 
 const iconColumn = {
-  width: '2.5rem',
+  column: 2,
   getContent(snapshot) {
     return <PluginIcon snapshot={snapshot} size="s" />;
   }
@@ -38,6 +38,7 @@ export default {
     healthColumn,
     iconColumn,
     {
+      column: '3 / span 3',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
@@ -45,7 +46,7 @@ export default {
       }
     },
     {
-      width: '15rem',
+      column: 6,
       getContent(snapshot) {
         const data = snapshot.get('data');
         return (
@@ -59,7 +60,7 @@ export default {
       }
     },
     {
-      width: '6rem',
+      column: 7,
       getContent(snapshot) {
         return (
           <KeyValue
@@ -72,7 +73,7 @@ export default {
       }
     },
     {
-      width: '12rem',
+      column: 8,
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue
@@ -90,6 +91,7 @@ export default {
     healthColumn,
     iconColumn,
     {
+      column: '3 / span 3',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
@@ -97,7 +99,7 @@ export default {
       }
     },
     {
-      width: '10rem',
+      column: 6,
       getContent(snapshot) {
         return (
           <KeyValue
@@ -110,7 +112,7 @@ export default {
       }
     },
     {
-      width: '10rem',
+      column: 7,
       getContent(snapshot) {
         return (
           <KeyValue
@@ -123,7 +125,7 @@ export default {
       }
     },
     {
-      width: '12rem',
+      column: 8,
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue
@@ -141,6 +143,7 @@ export default {
     healthColumn,
     iconColumn,
     {
+      column: '3 / span 4',
       getContent(snapshot) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
@@ -148,7 +151,7 @@ export default {
       }
     },
     {
-      width: '12rem',
+      column: 8,
       getContent(snapshot) {
         return (
           <SparkChartWithMetricValue

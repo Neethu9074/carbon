@@ -116,18 +116,19 @@ function mapPcfResult(result) {
 
 const columnDefinitions = [
   {
-    width: '1.5rem',
+    column: 1,
     getContent(item) {
       return <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
     }
   },
   {
-    width: '2.5rem',
+    column: 2,
     getContent(item) {
       return <SvgIcon type={getIcon(item)} />;
     }
   },
   {
+    column: '3 /   span 5',
     getContent(item) {
       return <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />;
     }

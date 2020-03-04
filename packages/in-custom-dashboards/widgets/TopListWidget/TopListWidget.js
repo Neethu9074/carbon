@@ -141,7 +141,7 @@ function getFlattenedIds(IdsByType) {
 
 function getStarColumn(pinned, pinItem, unpinItem) {
   return {
-    width: '1.5rem',
+    column: '9',
     getContent(item) {
       return (
         <SvgIcon

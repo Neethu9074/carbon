@@ -4,16 +4,14 @@
   }
 
   .listItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.5rem 3rem 1fr 1fr 1fr 1fr 1fr 1fr 3rem;
 
     overflow: hidden;
     width: 100%;
   }
 
   .column {
-    flex-grow: 1;
     overflow: hidden;
   }
 

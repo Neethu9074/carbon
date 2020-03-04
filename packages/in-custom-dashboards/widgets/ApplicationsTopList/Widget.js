@@ -145,7 +145,7 @@ function combineResults(applicationResult, metricResult) {
 
 const columnDefinitions = [
   {
-    width: '1.5rem',
+    column: 1,
     getContent(item) {
       const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
       if (maxSeverity !== undefined) {
@@ -161,12 +161,13 @@ const columnDefinitions = [
     }
   },
   {
-    width: '2.5rem',
+    column: 2,
     getContent() {
       return <SvgIcon type="lib_application" />;
     }
   },
   {
+    column: '3 / span 2',
     getContent(item) {
       return (
         <KeyValue
@@ -179,7 +180,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '4rem',
+    column: 5,
     getContent(item) {
       const href$ = getApplicationDashboard(item.application.id);
       const iconColor = href$ && theme.lib.colors.blue800;
@@ -194,7 +195,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '12rem',
+    column: 6,
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -210,7 +211,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '12rem',
+    column: 7,
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -226,7 +227,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '14rem',
+    column: 8,
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
