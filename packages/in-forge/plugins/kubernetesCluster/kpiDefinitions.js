@@ -2,12 +2,12 @@ import { percentage } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'CPU Req. Alloc.',
+    label: 'CPU Requests',
     metric: 'requiredCapacityCPURatio',
     formatter: percentage.compact
   },
   {
-    label: 'Memory Req. Alloc.',
+    label: 'Memory Requests',
     metric: 'requiredCapacityMemoryRatio',
     formatter: percentage.compact
   }
