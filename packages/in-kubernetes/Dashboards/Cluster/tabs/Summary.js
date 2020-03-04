@@ -36,7 +36,7 @@ export default function Summary({ timeConfig, data: cluster }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Req. Alloc."
+            title="CPU Requests"
             snapshotId={snapshotId}
             metric="requiredCapacityCPURatio"
             formatter={percentage.detailed}
@@ -52,7 +52,7 @@ export default function Summary({ timeConfig, data: cluster }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Req. Alloc."
+            title="Memory Requests"
             snapshotId={snapshotId}
             metric="requiredCapacityMemoryRatio"
             formatter={percentage.detailed}
