@@ -7,11 +7,16 @@ import { setDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
 import SetAsLandingPage from 'in-custom-dashboards/SetAsLandingPage';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import getElementDimensions from 'in-hoc/getElementDimensions';
+import SetBodyColor from 'in-components/SetBodyColor';
 import WithTvMode from 'in-new-components/WithTvMode';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 
-export default function CustomDashboardPresenter(props) {
+export default getElementDimensions(CustomDashboardPresenter);
+
+function CustomDashboardPresenter(props) {
   const {
     config,
     setConfig,
@@ -21,16 +26,20 @@ export default function CustomDashboardPresenter(props) {
     isConfigurable,
     isDraggable,
     onLayoutChange,
-    onRenameDashboard
+    onRenameDashboard,
+    width
   } = props;
 
   return (
     <WithTvMode>
       {({ enabled, setEnabled }) => (
         <>
+          <SetBodyColor color={theme.lib.colors.N100} />
+
           {enabled && (
             <Grid
               tvMode
+              width={width}
               config={config}
               isEditing={false}
               isDeletable={false}
@@ -75,17 +84,20 @@ export default function CustomDashboardPresenter(props) {
                     </>
                   }
                 >
-                  <Grid
-                    config={config}
-                    onLayoutChange={onLayoutChange}
-                    onEditWidget={onEditWidget}
-                    onRemoveWidget={onRemoveWidget}
-                    isEditing={isEditing}
-                    isDeletable={isDeletable}
-                    isResizable={isResizable}
-                    isConfigurable={isConfigurable}
-                    isDraggable={isDraggable}
-                  />
+                  {
+                    <Grid
+                      width={width}
+                      config={config}
+                      onLayoutChange={onLayoutChange}
+                      onEditWidget={onEditWidget}
+                      onRemoveWidget={onRemoveWidget}
+                      isEditing={isEditing}
+                      isDeletable={isDeletable}
+                      isResizable={isResizable}
+                      isConfigurable={isConfigurable}
+                      isDraggable={isDraggable}
+                    />
+                  }
                 </Sticky>
               )}
             </WidgetEditor>

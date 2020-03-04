@@ -1,4 +1,4 @@
-import GridLayout from 'react-grid-layout';
+import ReactGridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import React from 'react';
@@ -17,8 +17,6 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Grid.mless';
 
-const ReactGridLayout = GridLayout;
-
 export default function Grid({
   config,
   onLayoutChange,
@@ -34,6 +32,10 @@ export default function Grid({
   tvMode,
   width
 }) {
+  if (!width) {
+    return null;
+  }
+
   return (
     <ReactGridLayout
       className={evaluateClassNames({

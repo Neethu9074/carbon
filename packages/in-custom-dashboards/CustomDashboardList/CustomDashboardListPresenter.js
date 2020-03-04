@@ -7,8 +7,10 @@ import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicato
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
+import SetBodyColor from 'in-components/SetBodyColor';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
+import theme from 'in-themes';
 
 import locals from './CustomDashboardListPresenter.mless';
 
@@ -41,6 +43,7 @@ export default function CustomDashboardListPresenter({ customDashboards }) {
 
   return (
     <>
+      <SetBodyColor color={theme.lib.colors.N100} />
       <DashboardHeader
         icon="lib_views_grid"
         label="Dashboards"
