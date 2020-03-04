@@ -28,6 +28,7 @@ export default connectTo(
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
+          align="bottomLeft"
           content={({ close }) => (
             <UpstreamDownstream
               timeConfig={timeConfig}
@@ -41,6 +42,7 @@ export default connectTo(
               close={close}
             />
           )}
+          behindSidebar
           withoutWrapper
         >
           {({ toggle, refSetter, isOpen }) => (

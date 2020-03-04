@@ -34,6 +34,9 @@ export default connectTo(
       if (this.props.inContentArea) {
         tooltipElement.classList.add(locals.inContentArea);
       }
+      if (this.props.behindSidebar) {
+        tooltipElement.classList.add(locals.behindSidebar);
+      }
       const focusedElementBox = this.props.relativeTo.getBoundingClientRect();
       const tooltipElementBox = tooltipElement.getBoundingClientRect();
 
@@ -80,14 +83,25 @@ export default connectTo(
     }
 
     render() {
-      const { content: Content, props, id, autoOpen, autoClose, delayedOpen, delayedClose, inContentArea } = this.props;
+      const {
+        content: Content,
+        props,
+        id,
+        autoOpen,
+        autoClose,
+        delayedOpen,
+        delayedClose,
+        inContentArea,
+        behindSidebar
+      } = this.props;
       return (
         <div
           data-overlay-id={id}
           ref={r => (this.tooltipElement = r)}
           className={evaluateClassNames({
             [locals.overlay]: true,
-            [locals.inContentArea]: inContentArea
+            [locals.inContentArea]: inContentArea,
+            [locals.behindSidebar]: behindSidebar
           })}
           onMouseEnter={autoOpen ? delayedOpen : undefined}
           onMouseLeave={autoClose ? delayedClose : undefined}

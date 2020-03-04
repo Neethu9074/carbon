@@ -31,6 +31,7 @@ export default connectTo(
               onTabSelect={onTabSelect}
             />
           )}
+          behindSidebar
           withoutWrapper
         >
           {({ toggle, refSetter, isOpen }) => (

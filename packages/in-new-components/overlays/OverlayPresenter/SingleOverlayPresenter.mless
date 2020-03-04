@@ -41,4 +41,8 @@
     position: absolute;
     z-index: @z-index__overlays-in-content-area;
   }
+
+  .behindSidebar {
+    z-index: @z-index__overlays-behind-sidebar;
+  }
 }
