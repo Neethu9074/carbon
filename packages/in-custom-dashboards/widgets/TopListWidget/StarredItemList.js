@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 
 import { LoadingListItem, ErrorListItem } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import { hasError, isLoading } from 'in-services/util/result';
+import { joinClassNames } from 'in-services/util/classnames';
 import { Ul, Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './ItemList.mless';
+import locals from './StarredItemList.mless';
+import listLocals from './ItemList.mless';
 
 export default function StarredItemList({ getItem, timeConfig, columnDefinitions, pinnedItemIdsByType }) {
   const [resolvedMetrics, setResolvedItems] = useState(new Map());
@@ -31,21 +33,19 @@ export default function StarredItemList({ getItem, timeConfig, columnDefinitions
   }
 
   return (
-    <>
-      <Ul className={locals.list}>
-        {items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id)).map(({ id, type }) => (
-          <Item
-            key={id}
-            id={id}
-            type={type}
-            getItem={getItem}
-            setResolvedItem={setResolvedItem}
-            timeConfig={timeConfig}
-            columnDefinitions={columnDefinitions}
-          />
-        ))}
-      </Ul>
-    </>
+    <Ul className={joinClassNames(listLocals.list, locals.list)}>
+      {items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id)).map(({ id, type }) => (
+        <Item
+          key={id}
+          id={id}
+          type={type}
+          getItem={getItem}
+          setResolvedItem={setResolvedItem}
+          timeConfig={timeConfig}
+          columnDefinitions={columnDefinitions}
+        />
+      ))}
+    </Ul>
   );
 }
 
@@ -63,9 +63,9 @@ const Item = connectTo(
     }
 
     return (
-      <Li className={locals.listItem}>
+      <Li className={listLocals.listItem}>
         {columnDefinitions.map(({ column, getContent }, i) => (
-          <div key={i} style={{ gridColumn: column }} className={locals.column}>
+          <div key={i} style={{ gridColumn: column }} className={listLocals.column}>
             {getContent(result.data ? result.data : result, { result, timeConfig })}
           </div>
         ))}

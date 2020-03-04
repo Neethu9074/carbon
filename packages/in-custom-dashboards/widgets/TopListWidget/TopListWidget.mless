@@ -4,4 +4,8 @@
   .customHeaderWrapper {
     margin-right: 0.5rem;
   }
+
+  .listsWrapper {
+    width: 100%;
+  }
 }

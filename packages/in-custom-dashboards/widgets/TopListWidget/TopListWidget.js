@@ -94,23 +94,25 @@ function TopListWidget(props) {
       useMaxAvailableHeight
       rightHeaderContent={headerContent}
     >
-      {numPinnedItems > 0 && (
-        <StarredItemList
-          timeConfig={timeConfig}
-          pinnedItemIdsByType={pinnedItemIdsByType}
-          getItem={getItem}
-          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
-        />
-      )}
+      <div className={locals.listsWrapper}>
+        {numPinnedItems > 0 && (
+          <StarredItemList
+            timeConfig={timeConfig}
+            pinnedItemIdsByType={pinnedItemIdsByType}
+            getItem={getItem}
+            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+          />
+        )}
 
-      {numRegularItems > 0 && (
-        <ItemList
-          result={result}
-          timeConfig={timeConfig}
-          numSkeletonRows={numRegularItems}
-          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
-        />
-      )}
+        {numRegularItems > 0 && (
+          <ItemList
+            result={result}
+            timeConfig={timeConfig}
+            numSkeletonRows={numRegularItems}
+            columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
+          />
+        )}
+      </div>
 
       {!hasContent && <EmptyStateComponent {...props} />}
 

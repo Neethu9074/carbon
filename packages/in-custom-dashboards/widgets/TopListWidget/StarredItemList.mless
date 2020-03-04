@@ -1,0 +1,5 @@
+:local {
+  .list {
+    margin-bottom: 0.125rem;
+  }
+}
