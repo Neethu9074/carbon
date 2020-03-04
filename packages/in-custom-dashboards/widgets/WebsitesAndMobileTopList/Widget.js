@@ -78,7 +78,7 @@ export default function WebsitesAndMobileTopList({ config }) {
         {...generalProps}
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
-        getItems={getWebsitesWithDefaults}
+        getItems={getWebsites}
         EmptyStateComponent={EmptyStateContent}
       />
     );
@@ -101,6 +101,10 @@ function getId(item) {
 
 function getTypeByItem(item) {
   return item.isWebsite ? types.WEBSITES : types.MOBILE_APPS;
+}
+
+function getWebsites(params) {
+  return mergeResults([getWebsitesWithDefaults(params), 'isWebsite'])(sort);
 }
 
 function getMergedData(params) {
