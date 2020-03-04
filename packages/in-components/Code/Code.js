@@ -59,7 +59,7 @@ export default class extends React.PureComponent {
   updateCode = () => {
     const codeElement = this.code;
     const preElement = this.pre;
-    const code = this.props.code;
+    const code = this.props.code || '';
     let line = this.props.line;
     const lang = this.props.lang;
 
