@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
+import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -53,6 +54,7 @@ export default function ApplicationsTopList({ config }) {
       fullListView$={getView(applicationsList)}
       fullListViewLinkTitle="All Applications"
       header={header}
+      EmptyStateComponent={ApplicationsNoDataNotification}
     />
   );
 }

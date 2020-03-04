@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
@@ -17,7 +17,7 @@ export default function ApplicationsNoDataNotification() {
       plugin={applicationPlugins.application}
       title="No Application Perspectives yet"
       explanation={() => (
-        <Fragment>
+        <>
           <ArticleContent id="applicationsNoData" />
           {role.canConfigureApplications ? (
             <Button
@@ -30,7 +30,7 @@ export default function ApplicationsNoDataNotification() {
           ) : (
             <p className={locals.text}>They will appear here once an account administrator creates them.</p>
           )}
-        </Fragment>
+        </>
       )}
     />
   );

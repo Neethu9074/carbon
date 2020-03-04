@@ -2,9 +2,9 @@ import { compose, withState, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
 import React from 'react';
 
+import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
 import ItemList from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -25,33 +25,38 @@ export default compose(
     icon: rpt.string,
     header: rpt.object,
     fullListView$: rpt.object,
-    fullListViewLinkTitle: rpt.string
+    fullListViewLinkTitle: rpt.string,
+    EmptyStateComponent: rpt.func
   }),
   withState('query', 'setQuery', ''),
   connectTo(({ getItems, pinnedItemTypes, query }) => ({
     timeConfig: timeConfig$,
     pinnedItemIdsByType: getPinnedItems(pinnedItemTypes),
-    result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query }))
+    result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query })),
+    resultForEmptyStateCheck: timeConfig$.flatMap(timeConfig => getItems({ timeConfig }))
   }))
 )(TopListWidget);
 
-function TopListWidget({
-  query,
-  setQuery,
-  label,
-  timeConfig,
-  result,
-  header,
-  cardIcon,
-  columnDefinitions,
-  fullListView$,
-  fullListViewLinkTitle,
-  pinnedItemIdsByType,
-  getItemsByGroupedIds,
-  getId,
-  pinItem,
-  unpinItem
-}) {
+function TopListWidget(props) {
+  const {
+    query,
+    setQuery,
+    timeConfig,
+    header,
+    cardIcon,
+    columnDefinitions,
+    fullListView$,
+    fullListViewLinkTitle,
+    pinnedItemIdsByType,
+    getItemsByGroupedIds,
+    EmptyStateComponent = DefaultEmptyStateContent,
+    getId,
+    resultForEmptyStateCheck,
+    pinItem,
+    unpinItem
+  } = props;
+  let { label, result } = props;
+
   const flattenedIds = getFlattenedIds(pinnedItemIdsByType);
   const numPinnedItems = flattenedIds.length;
   let numRegularItems = Math.max(0, 5 - numPinnedItems);
@@ -70,20 +75,23 @@ function TopListWidget({
 
   const pinItemCb = item => pinItem(getId(item), item);
   const unpinItemCb = item => unpinItem(getId(item), item);
+  const hasContent = hasContentToRender(resultForEmptyStateCheck, numPinnedItems);
+
+  const headerContent = hasContent ? (
+    <>
+      {header && <div className={locals.customHeaderWrapper}>{header}</div>}
+      <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
+    </>
+  ) : null;
 
   return (
     <DraggableLightCard
       label={label}
       icon={cardIcon}
-      fullListViewLinkTitle={fullListViewLinkTitle}
-      fullListView$={fullListView$}
+      fullListViewLinkTitle={headerContent && fullListViewLinkTitle}
+      fullListView$={headerContent && fullListView$}
       useMaxAvailableHeight
-      rightHeaderContent={
-        <>
-          {header && <div className={locals.customHeaderWrapper}>{header}</div>}
-          <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
-        </>
-      }
+      rightHeaderContent={headerContent}
     >
       {numPinnedItems > 0 &&
         getItemsByGroupedIds && (
@@ -104,9 +112,19 @@ function TopListWidget({
         />
       )}
 
-      {numRegularItems === 0 && numPinnedItems === 0 && <NoDataAvailable />}
+      {!hasContent && <EmptyStateComponent {...props} />}
+
+      {/* render an empty div to keep the link at the bottom of the card */}
+      {hasContent && numRegularItems === 0 && numPinnedItems === 0 && <div />}
     </DraggableLightCard>
   );
+}
+
+function hasContentToRender(result, numPinnedItems) {
+  if (!result || !result.data) {
+    return true;
+  }
+  return result.data.items.length + numPinnedItems > 0;
 }
 
 function getFlattenedIds(IdsByType) {
@@ -134,4 +152,8 @@ function getStarColumn(pinned, pinItem, unpinItem) {
       );
     }
   };
+}
+
+function DefaultEmptyStateContent({ cardIcon, label }) {
+  return <EntityPageMainNotification icon={cardIcon} title={`No ${label} yet`} />;
 }

@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
+import EmptyStateContent from 'in-custom-dashboards/widgets/WebsitesAndMobileTopList/EmptyStateContent';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
@@ -67,6 +68,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     pinItem: (id, item) => pin(getTypeByItem(item), id),
     unpinItem: (id, item) => unpin(getTypeByItem(item), id),
     getItemsByGroupedIds: getItemsByGroupedIds,
+
     header
   };
 
@@ -77,6 +79,7 @@ export default function WebsitesAndMobileTopList({ config }) {
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
         getItems={getWebsitesWithDefaults}
+        EmptyStateComponent={EmptyStateContent}
       />
     );
   }
@@ -87,6 +90,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       fullListViewLinkTitle="All Websites & Mobile Apps"
       pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
       getItems={getMergedData}
+      EmptyStateComponent={EmptyStateContent}
     />
   );
 }
