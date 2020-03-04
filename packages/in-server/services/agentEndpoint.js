@@ -3,7 +3,6 @@ const sendRequest = require('request');
 const serverConfig = require('../serverConfig.js');
 
 exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
-  console.log(`Get reporting config from butler: ${butlerUrl}`);
   return new Promise(resolve => {
     sendRequest(
       {
@@ -18,7 +17,6 @@ exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
           resolve(getFallbackReportingConfig(tenant, unit));
         } else {
           const parsedReportingConfig = getReportingConfigFromString(reportingConfig);
-          console.log(`Received reporting config from butler: ${reportingConfig}`);
           if (!parsedReportingConfig) {
             console.error('Failed parsing reporting config. Fall back to default.');
             resolve(getFallbackReportingConfig(tenant, unit));
