@@ -7,11 +7,12 @@ import { Ul } from 'in-new-components/lists/List';
 
 import locals from './StackGroup.mless';
 
-export default function StackGroup({ group: { relationship, type, items }, tab }) {
+export default function StackGroup({ group: { relationship, type, items, itemCount }, tab }) {
   return (
     <div>
       <div className={locals.groupHead}>
-        {RELATIONSHIP_MAP[relationship]} {items.length} {items.length > 1 ? getPlural(type) : getSingular(type)}
+        {RELATIONSHIP_MAP[relationship]} {itemCount > 50 ? '50+' : itemCount}{' '}
+        {itemCount > 1 ? getPlural(type) : getSingular(type)}
       </div>
       <Ul framed="topBottom">
         {items.map(item => (
