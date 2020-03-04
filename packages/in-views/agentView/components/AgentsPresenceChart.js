@@ -3,6 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -21,14 +22,17 @@ export default connectTo(
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}
-          renderLegend={false}
           height={120}
           y1={{
             min: 0,
-            metrics: [`plugin.${plugins.instanaAgent}`],
-            labels: ['Agents'],
+            metrics: [
+              `plugin.${plugins.instanaAgent}Mode2`,
+              `plugin.${plugins.instanaAgent}Mode1`,
+              `plugin.${plugins.instanaAgent}Mode0`
+            ],
+            labels: [modes[2], modes[1], modes[0]],
             formatter: n => number.compact(Math.ceil(n)),
-            type: 'bar',
+            type: 'stackedBar',
             aggregation: 'mean',
             minPixelsPerBlock: 5
           }}
