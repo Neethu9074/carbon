@@ -4,11 +4,12 @@ import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
+import StarredItemList from 'in-custom-dashboards/widgets/TopListWidget/StarredItemList';
 import ItemList from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
+import Star from 'in-custom-dashboards/widgets/TopListWidget/Star';
 import SearchInput from 'in-new-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './TopListWidget.mless';
@@ -16,7 +17,7 @@ import locals from './TopListWidget.mless';
 export default compose(
   setPropTypes({
     getItems: rpt.func.isRequired,
-    getItemsByGroupedIds: rpt.func,
+    getItem: rpt.func,
     columnDefinitions: rpt.array.isRequired,
     pinnedItemTypes: rpt.array,
     getId: rpt.func.isRequired,
@@ -48,7 +49,7 @@ function TopListWidget(props) {
     fullListView$,
     fullListViewLinkTitle,
     pinnedItemIdsByType,
-    getItemsByGroupedIds,
+    getItem,
     EmptyStateComponent = DefaultEmptyStateContent,
     getId,
     resultForEmptyStateCheck,
@@ -93,22 +94,21 @@ function TopListWidget(props) {
       useMaxAvailableHeight
       rightHeaderContent={headerContent}
     >
-      {numPinnedItems > 0 &&
-        getItemsByGroupedIds && (
-          <ItemList
-            get={() => getItemsByGroupedIds(pinnedItemIdsByType, timeConfig)}
-            timeConfig={timeConfig}
-            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
-            numSkeletonRows={numPinnedItems}
-          />
-        )}
+      {numPinnedItems > 0 && (
+        <StarredItemList
+          timeConfig={timeConfig}
+          pinnedItemIdsByType={pinnedItemIdsByType}
+          getItem={getItem}
+          columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+        />
+      )}
 
       {numRegularItems > 0 && (
         <ItemList
           result={result}
           timeConfig={timeConfig}
-          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
           numSkeletonRows={numRegularItems}
+          columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
         />
       )}
 
@@ -143,13 +143,7 @@ function getStarColumn(pinned, pinItem, unpinItem) {
   return {
     column: '9',
     getContent(item) {
-      return (
-        <SvgIcon
-          className={pinned ? locals.starIconFilled : locals.starIcon}
-          type={pinned ? 'lib_actions_star_filled' : 'lib_actions_star'}
-          onClick={() => (pinned ? unpinItem : pinItem)(item)}
-        />
-      );
+      return <Star pinned={pinned} pinItem={pinItem} unpinItem={unpinItem} item={item} />;
     }
   };
 }

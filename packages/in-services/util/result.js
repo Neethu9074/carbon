@@ -72,11 +72,11 @@ export function noResultObservable() {
 }
 
 export function hasError(result) {
-  return get(result, ['progress', 'loading']);
+  return get(result, ['errors', 'length'], 0) > 0;
 }
 
 export function isLoading(result) {
-  return get(result, ['errors', 'length'], 0) > 0;
+  return get(result, ['progress', 'loading']);
 }
 
 export function getResultForData(data, time) {

@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .starIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .starIconFilled {
+    fill: @lib__colors__yellow800;
+  }
+}

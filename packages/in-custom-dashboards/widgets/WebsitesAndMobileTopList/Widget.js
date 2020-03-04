@@ -23,7 +23,6 @@ import { linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';
-import { getResultForData } from 'in-services/util/result';
 import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -67,8 +66,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     getId,
     pinItem: (id, item) => pin(getTypeByItem(item), id),
     unpinItem: (id, item) => unpin(getTypeByItem(item), id),
-    getItemsByGroupedIds: getItemsByGroupedIds,
-
+    getItem,
     header
   };
 
@@ -123,27 +121,11 @@ function sort(a, b) {
   return mainKpiB - mainKpiA;
 }
 
-function getItemsByGroupedIds(groupedIds, timeConfig) {
-  const websiteIds = groupedIds[types.WEBSITES] || [];
-  const mobileAppIds = groupedIds[types.MOBILE_APPS] || [];
-
-  return combineLatest([
-    ...websiteIds.map(id => getWebsiteById(id, timeConfig)),
-    ...mobileAppIds.map(id => getMobileAppById(id, timeConfig))
-  ]).map(results => {
-    for (let i = 0; i < results.length; i++) {
-      if (isLoading(results[i]) || hasError(results[i])) {
-        return results[i];
-      }
-    }
-
-    return getResultForData(
-      {
-        items: results.sort(sort)
-      },
-      timeConfig.to || Date.now()
-    );
-  });
+function getItem(id, timeConfig, type) {
+  if (type === types.WEBSITES) {
+    return getWebsiteById(id, timeConfig);
+  }
+  return getMobileAppById(id, timeConfig);
 }
 
 function getWebsiteById(id, timeConfig) {
@@ -222,6 +204,11 @@ function combineResults(entityResult, metricResult, entityName, flag) {
   const mappedResult = {
     metrics: { ...metricResult.data }
   };
+  mappedResult.mainKpiValue = get(
+    metricResult.data,
+    ['pageViewsAgg', 0, 1],
+    get(metricResult.data, ['sessionsAgg', 0, 1], 0)
+  );
   mappedResult[entityName] = entityResult.data;
   mappedResult[flag] = true;
   return mappedResult;

@@ -13,9 +13,8 @@ export default compose(connectTo(({ get }) => (get ? { result: get() } : {})))(I
 
 function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
   if (!result || isLoading(result)) {
-    return <LoadingList numSkeletonRows={numSkeletonRows} columnDefinitions={columnDefinitions} />;
+    return <LoadingList numSkeletonRows={numSkeletonRows} />;
   }
-
   if (hasError(result)) {
     return <ErrorList errors={result.errors} />;
   }
@@ -37,29 +36,40 @@ function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
   );
 }
 
-function LoadingList({ columnDefinitions, numSkeletonRows }) {
+function LoadingList({ numSkeletonRows }) {
   const loadingRows = [];
   for (let i = 0; i < numSkeletonRows; i++) {
-    loadingRows[i] = (
-      <Li key={i} className={locals.listItem}>
-        {columnDefinitions.map(({ width }, i) => {
-          return <Skeleton key={i} style={{ maxWidth: width, minWidth: width }} className={locals.skeleton} />;
-        })}
-      </Li>
-    );
+    loadingRows[i] = <LoadingListItem key={i} />;
   }
 
   return <Ul className={locals.list}>{loadingRows}</Ul>;
 }
 
+export function LoadingListItem() {
+  return (
+    <Li className={locals.listItem}>
+      <div style={{ gridColumn: '1 / span 9' }}>
+        <Skeleton className={locals.skeleton} />
+      </div>
+    </Li>
+  );
+}
+
 function ErrorList({ errors }) {
   return (
     <Ul className={locals.list}>
-      {getUniqueErrors(errors).map(error => (
-        <Li key={error} className={locals.listItem}>
-          <Error>{error}</Error>
-        </Li>
-      ))}
+      <ErrorListItem errors={errors} />
     </Ul>
+  );
+}
+
+export function ErrorListItem({ errors }) {
+  const error = getUniqueErrors(errors)[0];
+  return (
+    <Li key={error} className={locals.listItem}>
+      <div style={{ gridColumn: '1 / span 9' }}>
+        <Error>ERROR</Error>
+      </div>
+    </Li>
   );
 }

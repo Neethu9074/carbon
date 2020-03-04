@@ -32,7 +32,7 @@ export default function PlatformsTopList({ config }) {
     <TopListWidget
       {...config}
       getItems={getMergedData}
-      getItemsByGroupedIds={getItemsByGroupedIds}
+      getItem={getItem}
       pinnedItemTypes={pinnedTypes}
       getId={item => (item.isKubernetes ? item.cluster.id : item.id)}
       pinItem={(id, item) => pin(getTypeByItem(item), id)}
@@ -62,33 +62,17 @@ function getMergedData(params) {
       vsphereEnabled && getVSphereDatacentersWithDefaults(params),
       vsphereEnabled && 'isVsphere'
     ].filter(Boolean)
-  )(sort);
+  )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
 
-function sort(a, b) {
-  return compareIgnoreCase(getLabel(a), getLabel(b));
-}
-
-function getItemsByGroupedIds(groupedIds, timeConfig) {
-  const kubernetesIds = hasKubernetesAccess ? groupedIds[types.KUBERNETES_CLUSTERS] || [] : [];
-  const vSphereIds = groupedIds[types.VSPHERE_DATACENTERS] || [];
-  const pcfIds = groupedIds[types.PCF_APPLICATIONS] || [];
-
-  return combineLatest([
-    ...kubernetesIds.map(id => getKubernetesClusterById(id, timeConfig)),
-    ...vSphereIds.map(id => getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult)),
-    ...pcfIds.map(id => getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult))
-  ]).map(results => {
-    for (let i = 0; i < results.length; i++) {
-      if (isLoading(results[i]) || hasError(results[i])) {
-        return results[i];
-      }
-    }
-
-    return getResultForData({
-      items: results.map(result => result.data).sort(sort)
-    });
-  });
+function getItem(id, timeConfig, type) {
+  if (type === types.KUBERNETES_CLUSTERS) {
+    return getKubernetesClusterById(id, timeConfig);
+  }
+  if (type === types.PCF_APPLICATIONS) {
+    return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
+  }
+  return getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult);
 }
 
 function getKubernetesClusterById(id, timeConfig) {

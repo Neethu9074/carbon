@@ -20,7 +20,6 @@ import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
-import { getResultForData } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -45,7 +44,7 @@ export default function ApplicationsTopList({ config }) {
     <TopListWidget
       {...config}
       getItems={getApplicationsWithDefaults}
-      getItemsByGroupedIds={getItemsByGroupedIds}
+      getItem={getItem}
       pinnedItemTypes={[types.APPLCATIONS]}
       getId={item => item.application.id}
       pinItem={id => pin(types.APPLCATIONS, id)}
@@ -59,28 +58,7 @@ export default function ApplicationsTopList({ config }) {
   );
 }
 
-function getItemsByGroupedIds(groupedIds, timeConfig) {
-  const applicationIds = groupedIds[types.APPLCATIONS];
-
-  return combineLatest(applicationIds.map(id => getApplicationById(id, timeConfig))).map(applicationResults => {
-    for (let i = 0; i < applicationResults.length; i++) {
-      if (isLoading(applicationResults[i]) || hasError(applicationResults[i])) {
-        return applicationResults[i];
-      }
-    }
-
-    return getResultForData(
-      {
-        items: applicationResults.sort(
-          (a, b) => get(b, ['metrics', 'callsAgg', 0, 1], 0) - get(a, ['metrics', 'callsAgg', 0, 1], 0)
-        )
-      },
-      timeConfig.to || Date.now()
-    );
-  });
-}
-
-function getApplicationById(id, timeConfig) {
+function getItem(id, timeConfig) {
   const granularity = getSparkChartGranularity(timeConfig);
 
   return combineLatest([
@@ -139,7 +117,9 @@ function combineResults(applicationResult, metricResult) {
     application: {
       ...applicationResult.data
     },
-    metrics: { ...metricResult.data }
+    metrics: { ...metricResult.data },
+    mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
+    time: applicationResult.time
   };
 }
 

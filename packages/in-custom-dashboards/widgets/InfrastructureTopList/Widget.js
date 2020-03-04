@@ -8,7 +8,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getResultForData } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { search } from 'in-stores/snapshot/snapshot';
@@ -23,11 +22,12 @@ export default function InfrastructureTopList({ config }) {
     getItems: ({ query }) => getItems(query, selectedType),
     header: <Header selectedType={selectedType} setSelectedType={setSelectedType} />,
     columnDefinitions: columnDefinitions[selectedType],
-    getId: item => item.get('id'),
+    getId: ({ snapshot }) => snapshot.get('id'),
     fullListView$: getModifiedUrlStream(location => {
       location.pathname = physicalTablePath;
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
-    })
+    }),
+    getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType)
   };
 
   if (selectedType === 'host') {
@@ -37,9 +37,6 @@ export default function InfrastructureTopList({ config }) {
         pinnedItemTypes={[types.HOSTS]}
         pinItem={id => pin(types.HOSTS, id)}
         unpinItem={id => unpin(types.HOSTS, id)}
-        getItemsByGroupedIds={(groupedIds, timeConfig) =>
-          getItemsByGroupedIds(groupedIds[types.HOSTS], timeConfig, selectedType)
-        }
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -52,9 +49,6 @@ export default function InfrastructureTopList({ config }) {
         pinnedItemTypes={[types.CONTAINERS]}
         pinItem={id => pin(types.CONTAINERS, id)}
         unpinItem={id => unpin(types.CONTAINERS, id)}
-        getItemsByGroupedIds={(groupedIds, timeConfig) =>
-          getItemsByGroupedIds(groupedIds[types.CONTAINERS], timeConfig, selectedType)
-        }
         fullListViewLinkTitle="All Containers"
       />
     );
@@ -66,9 +60,6 @@ export default function InfrastructureTopList({ config }) {
       pinnedItemTypes={[types.PROCESSES]}
       pinItem={id => pin(types.PROCESSES, id)}
       unpinItem={id => unpin(types.PROCESSES, id)}
-      getItemsByGroupedIds={(groupedIds, timeConfig) =>
-        getItemsByGroupedIds(groupedIds[types.PROCESSES], timeConfig, selectedType)
-      }
       fullListViewLinkTitle="All Processes"
     />
   );
@@ -121,32 +112,33 @@ function getItems(query, selectedType) {
           loading: false
         },
         data: {
-          items: snapshots,
+          items: snapshots.map(snapshot => ({ snapshot })),
           totalHits: snapshots.length
         }
       };
     });
 }
 
-function getItemsByGroupedIds(ids, timeConfig, selectedType) {
-  return combineLatest(ids.map(id => getSnapshot(id, timeConfig)))
-    .flatMap(snapshots => enrichWithAndSortByMetric(snapshots, selectedType))
-    .map(items => getResultForData({ items }));
+function getItem(id, timeConfig, selectedType) {
+  return getSnapshot(id, timeConfig).flatMap(snapshot =>
+    getMetricForType(snapshot.get('id'), selectedType).map(mainKpiValue => ({ snapshot, mainKpiValue }))
+  );
 }
 
 function enrichWithAndSortByMetric(snapshots, selectedType) {
   return combineLatest(
-    snapshots.map(snapshot =>
-      getMetric({
-        snapshotId: snapshot.get('id'),
-        metric: selectedType === 'host' ? 'cpu.used' : selectedType === 'docker' ? 'cpu.total_usage' : 'cpu.user',
-        timeWindowAggregation: 'mean',
-        forceTimeWindowAggregation: true
-      }).map(metric => ({ snapshot, metric }))
-    )
+    snapshots.map(snapshot => getMetricForType(snapshot.get('id', selectedType)).map(metric => ({ snapshot, metric })))
   ).map(enrichedSnapshots => {
     enrichedSnapshots.sort((s1, s2) => s2.metric - s1.metric);
-
     return enrichedSnapshots.map(({ snapshot }) => snapshot);
+  });
+}
+
+function getMetricForType(snapshotId, type) {
+  return getMetric({
+    snapshotId,
+    metric: type === 'host' ? 'cpu.used' : type === 'docker' ? 'cpu.total_usage' : 'cpu.user',
+    timeWindowAggregation: 'mean',
+    forceTimeWindowAggregation: true
   });
 }

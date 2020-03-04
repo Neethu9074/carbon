@@ -16,7 +16,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const healthColumn = {
   column: 1,
-  getContent(snapshot) {
+  getContent({ snapshot }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={snapshot.get('id')}
@@ -28,7 +28,7 @@ const healthColumn = {
 
 const iconColumn = {
   column: 2,
-  getContent(snapshot) {
+  getContent({ snapshot }) {
     return <PluginIcon snapshot={snapshot} size="s" />;
   }
 };
@@ -39,7 +39,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 3',
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
         );
@@ -47,7 +47,7 @@ export default {
     },
     {
       column: 6,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         const data = snapshot.get('data');
         return (
           <KeyValue
@@ -61,7 +61,7 @@ export default {
     },
     {
       column: 7,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <KeyValue
             label="# of CPUs"
@@ -74,7 +74,7 @@ export default {
     },
     {
       column: 8,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
@@ -92,7 +92,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 3',
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
         );
@@ -100,7 +100,7 @@ export default {
     },
     {
       column: 6,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <KeyValue
             label="Created"
@@ -113,7 +113,7 @@ export default {
     },
     {
       column: 7,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <KeyValue
             label="Started"
@@ -126,7 +126,7 @@ export default {
     },
     {
       column: 8,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
@@ -144,7 +144,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 4',
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
         );
@@ -152,7 +152,7 @@ export default {
     },
     {
       column: 8,
-      getContent(snapshot) {
+      getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue
             snapshotId={snapshot.get('id')}
