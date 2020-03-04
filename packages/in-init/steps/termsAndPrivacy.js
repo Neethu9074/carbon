@@ -8,6 +8,8 @@ import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 
+import 'in-themes/foundation.less';
+
 export function init() {
   const accepted = window.instana.termsAndPrivacyAccepted;
   if (accepted) {

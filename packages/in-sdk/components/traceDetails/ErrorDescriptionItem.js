@@ -12,7 +12,7 @@ export default function ErrorDescriptionItem({ error }) {
 
   return (
     <Di title="Error" style={{ color: theme.lib.colors.failure }} verticalDisplay>
-      <Code code={error} lang="plain" softWrap />
+      <Code code={error} lang="plain" softWrap showLineNumbers={false} />
     </Di>
   );
 }

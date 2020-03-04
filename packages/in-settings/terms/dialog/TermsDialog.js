@@ -9,10 +9,26 @@ export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) 
   const [saveError, setSaveError] = useState(false);
   const [form, setForm] = useState(termsFormDefinition(window.instana.termsAndPrivacySettings));
 
+  const onSaveHandler = (e, _form) => {
+    stopPropagationAndPreventDefault(e);
+    if (!_form.hierarchyValid) {
+      setForm(_form.setTouched(true, { recurse: true }));
+      return;
+    }
+
+    const tosPrivacyAgreement = Object.freeze({
+      tosAccepted: _form.get('tosAccepted').value,
+      privacyAgreementAccepted: _form.get('privacyAgreementAccepted').value,
+      userSettings: formUserSettingsObject(_form)
+    });
+
+    onSave(tosPrivacyAgreement, setSaveError);
+  };
+
   return (
     <TermsDialogPresenter
-      onSkip={onSkip || onSave}
-      onSave={save(onSave, setSaveError)}
+      onSkip={onSkip || onSaveHandler}
+      onSave={onSaveHandler}
       saveError={saveError}
       unsetSaveError={() => setSaveError(false)}
       onChange={onChange(setForm)}
@@ -20,24 +36,6 @@ export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) 
       fullTermsConfigEnabled={fullTermsConfigEnabled}
     />
   );
-}
-
-function save(onSave, setSaveError) {
-  return (e, form, setForm) => {
-    stopPropagationAndPreventDefault(e);
-    if (!form.hierarchyValid) {
-      setForm(form.setTouched(true, { recurse: true }));
-      return;
-    }
-
-    const tosPrivacyAgreement = Object.freeze({
-      tosAccepted: form.get('tosAccepted').value,
-      privacyAgreementAccepted: form.get('privacyAgreementAccepted').value,
-      userSettings: formUserSettingsObject(form)
-    });
-
-    onSave(tosPrivacyAgreement, setSaveError);
-  };
 }
 
 function onChange(setForm) {
