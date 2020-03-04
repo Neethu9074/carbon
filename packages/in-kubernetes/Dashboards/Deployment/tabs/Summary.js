@@ -35,7 +35,7 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Req."
+            title="CPU Requests"
             snapshotId={snapshotId}
             metric="pods.required_cpu"
             formatter={resourceQuotaNumber}
@@ -51,7 +51,7 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Req."
+            title="Memory Requests"
             snapshotId={snapshotId}
             metric="pods.required_mem"
             formatter={resourceQuotaBytes}

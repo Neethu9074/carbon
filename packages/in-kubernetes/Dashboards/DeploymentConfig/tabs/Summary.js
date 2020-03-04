@@ -39,7 +39,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Req."
+            title="CPU Requests"
             snapshotId={snapshotId}
             metric="pods.required_cpu"
             formatter={twoDecimalPlaces}
@@ -55,7 +55,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Req."
+            title="Memory Requests"
             snapshotId={snapshotId}
             metric="pods.required_mem"
             formatter={bytesTwoDecimalPlaces}

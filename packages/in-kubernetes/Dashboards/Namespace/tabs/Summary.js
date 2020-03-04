@@ -56,7 +56,7 @@ export default function Summary({ timeConfig, data: namespace }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Req. Alloc."
+            title="CPU Requests"
             snapshotId={snapshotId}
             metric="required_cpu_percentage"
             formatter={resourceQuotaPercentage}
@@ -72,7 +72,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Req. Alloc."
+            title="Memory Requests"
             snapshotId={snapshotId}
             metric="required_mem_percentage"
             formatter={resourceQuotaPercentage}

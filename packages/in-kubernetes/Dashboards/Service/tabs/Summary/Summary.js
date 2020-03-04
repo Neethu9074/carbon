@@ -35,7 +35,7 @@ export default function Summary({ timeConfig, data: service }) {
         <Row>
           <Col lg={3}>
             <InfraMetricKpiCard
-              title="CPU Req."
+              title="CPU Requests"
               snapshotId={deploymentId}
               metric="pods.required_cpu"
               formatter={resourceQuotaNumber}
@@ -51,7 +51,7 @@ export default function Summary({ timeConfig, data: service }) {
           </Col>
           <Col lg={3}>
             <InfraMetricKpiCard
-              title="Memory Req."
+              title="Memory Requests"
               snapshotId={deploymentId}
               metric="pods.required_mem"
               formatter={resourceQuotaBytes}
@@ -115,7 +115,7 @@ export default function Summary({ timeConfig, data: service }) {
           </Col>
           <Col lg={2}>
             <InfraMetricKpiCard
-              title="CPU Req."
+              title="CPU Requests"
               snapshotId={snapshotId}
               metric="cpuRequests"
               formatter={resourceQuotaNumber}
@@ -139,7 +139,7 @@ export default function Summary({ timeConfig, data: service }) {
           </Col>
           <Col lg={2}>
             <InfraMetricKpiCard
-              title="Memory Req."
+              title="Memory Requests"
               snapshotId={snapshotId}
               metric="memoryRequests"
               formatter={resourceQuotaBytes}
