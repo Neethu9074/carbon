@@ -58,7 +58,6 @@ const cols = [
   {
     title: 'Agent Version',
     type: 'string',
-    width: 100,
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'agentVersion']);
@@ -78,7 +77,7 @@ const cols = [
   {
     title: 'Origin',
     type: 'string',
-    width: 100,
+    width: 125,
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'origin']);
@@ -98,7 +97,7 @@ const cols = [
   {
     title: 'Mode',
     type: 'string',
-    width: 120,
+    width: 130,
     typeArgs: {
       getValue(row) {
         return modes[row.snapshot.getIn(['data', 'mode'])];
