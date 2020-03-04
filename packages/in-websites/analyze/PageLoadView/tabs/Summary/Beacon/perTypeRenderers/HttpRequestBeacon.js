@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 
+import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
-import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
+import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
@@ -122,6 +124,16 @@ export const Body = ({ beacon }) => {
           </Col>
         )}
       </Row>
+
+      {!hasResourceTimings &&
+        !hasNetworkInsights && (
+          <Row>
+            <Col lg={6}>
+              <BodyHeader>Resource Timing</BodyHeader>
+              <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
+            </Col>
+          </Row>
+        )}
 
       <Row>
         {hasResourceTimings && (
