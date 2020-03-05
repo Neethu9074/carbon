@@ -18,7 +18,6 @@ module.exports = {
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   contextGuideEnabled: true,
-  eumAlertingEnabled: true,
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
   apDashboardEventsEnabled: false,

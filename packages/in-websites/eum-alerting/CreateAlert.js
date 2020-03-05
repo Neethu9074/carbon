@@ -7,7 +7,6 @@ import { websitesAlertingAddAlert } from 'in-websites/eum-alerting/tracker';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { eumAlertingEnabled } from 'in-services/featureFlags';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { reload } from 'in-settings/components/List';
 import connectTo from 'in-hoc/connectTo';
@@ -33,10 +32,6 @@ export default connectTo(props => {
 })(CreateAlert);
 
 function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, websiteLabel, tagFilters, error }) {
-  if (!eumAlertingEnabled) {
-    return null;
-  }
-
   const [dialogOpen, setDialogOpen] = useState(false);
 
   if (!error && websiteErrorResult) {

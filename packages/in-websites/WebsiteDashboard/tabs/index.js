@@ -6,7 +6,6 @@ import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import { websiteUserBreakdownEnabled } from 'in-services/featureFlags';
 import Resources from 'in-websites/WebsiteDashboard/tabs/Resources';
 import User from 'in-websites/WebsiteDashboard/tabs/User/User';
-import { eumAlertingEnabled } from 'in-services/featureFlags';
 import Errors from 'in-websites/WebsiteDashboard/tabs/Errors';
 import Alerts from 'in-websites/WebsiteDashboard/tabs/Alerts';
 import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
@@ -64,7 +63,7 @@ export const websiteTabs = [
     component: Pages,
     websiteOnly: true
   },
-  eumAlertingEnabled && {
+  {
     label: 'Alerts',
     path: `${websitePathFullyQualified}/alerts`,
     component: Alerts

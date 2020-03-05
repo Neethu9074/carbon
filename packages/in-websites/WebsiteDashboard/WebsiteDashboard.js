@@ -20,7 +20,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { eumAlertingEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
@@ -167,14 +166,12 @@ function Header(props) {
 function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
   return (
     <>
-      {eumAlertingEnabled && (
-        <WebsiteHealthIndicatorBehavior
-          showOkayOnNoIssues={false}
-          IndicatorPresenter={HealthIndicatorButtonPresenter}
-          websiteId={websiteId}
-          timeConfig={timeConfig}
-        />
-      )}
+      <WebsiteHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        websiteId={websiteId}
+        timeConfig={timeConfig}
+      />
       <Button
         kind="primary"
         icon="lib_website_page_load"
