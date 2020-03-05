@@ -39,6 +39,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 3',
+      ellipsis: true,
       getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
@@ -92,6 +93,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 3',
+      ellipsis: true,
       getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
@@ -144,6 +146,7 @@ export default {
     iconColumn,
     {
       column: '3 / span 4',
+      ellipsis: true,
       getContent({ snapshot }) {
         return (
           <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
-import { LoadingListItem, ErrorListItem } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
+import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
+import { Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import { hasError, isLoading } from 'in-services/util/result';
-import { joinClassNames } from 'in-services/util/classnames';
-import { Ul, Li } from 'in-new-components/lists/List';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './StarredItemList.mless';
-import listLocals from './ItemList.mless';
+import locals from './ItemList.mless';
 
 export default function StarredItemList({ getItem, timeConfig, columnDefinitions, pinnedItemIdsByType }) {
   const [resolvedMetrics, setResolvedItems] = useState(new Map());
@@ -33,8 +32,8 @@ export default function StarredItemList({ getItem, timeConfig, columnDefinitions
   }
 
   return (
-    <Ul className={joinClassNames(listLocals.list, locals.list)}>
-      {items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id)).map(({ id, type }) => (
+    <div className={locals.grid}>
+      {items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id)).map(({ id, type }, i) => (
         <Item
           key={id}
           id={id}
@@ -43,9 +42,11 @@ export default function StarredItemList({ getItem, timeConfig, columnDefinitions
           setResolvedItem={setResolvedItem}
           timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
+          inOddRow={i % 2 === 1}
+          isLastRow={i === items.length - 1}
         />
       ))}
-    </Ul>
+    </div>
   );
 }
 
@@ -54,22 +55,34 @@ const Item = connectTo(
     result: getItem(id, timeConfig, type).tap(item => setResolvedItem(id, item))
   }),
 
-  function Item({ result, timeConfig, columnDefinitions }) {
+  function Item({ result, timeConfig, columnDefinitions, inOddRow, isLastRow }) {
     if (!result || isLoading(result)) {
-      return <LoadingListItem />;
+      return (
+        <Cell column="1 / span 9">
+          <Skeleton className={locals.skeleton} />
+        </Cell>
+      );
     }
     if (hasError(result)) {
-      return <ErrorListItem errors={result.errors} />;
+      return (
+        <Cell column="1 / span 9">
+          <Error>{getUniqueErrors(result.errors)[0]}</Error>
+        </Cell>
+      );
     }
 
-    return (
-      <Li className={listLocals.listItem}>
-        {columnDefinitions.map(({ column, getContent }, i) => (
-          <div key={i} style={{ gridColumn: column }} className={listLocals.column}>
-            {getContent(result.data ? result.data : result, { result, timeConfig })}
-          </div>
-        ))}
-      </Li>
-    );
+    return columnDefinitions.map(({ column, ellipsis, getContent }, i) => (
+      <Cell
+        key={i}
+        style={{ gridColumn: column, overflow: ellipsis && 'hidden' }}
+        column={column}
+        ellipsis={ellipsis}
+        firstCellInRow={i === 0}
+        inOddRow={inOddRow}
+        isLastRow={isLastRow}
+      >
+        {getContent(result.data ? result.data : result, { result, timeConfig })}
+      </Cell>
+    ));
   }
 );
