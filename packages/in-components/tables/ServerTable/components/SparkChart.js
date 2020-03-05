@@ -15,7 +15,7 @@ export default function TableSparkChart(props) {
   } = props;
   let aggregationContent = '';
 
-  const aggregatedValueIsNull = metric && metric[0][1] === 0;
+  const aggregatedValueIsNull = metric && metric[0] && metric[0][1] === 0;
   const noMetricsAvailable = metrics == null || metrics.length === 0;
   if (showDashOnMissingOrNullMetric && aggregatedValueIsNull && noMetricsAvailable) {
     aggregationContent = valueMissingPlaceholder;
