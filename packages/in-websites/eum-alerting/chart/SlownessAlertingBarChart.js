@@ -4,7 +4,6 @@ import React from 'react';
 
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
@@ -12,16 +11,14 @@ import { millis } from 'in-services/formatters/number';
 export default function SlownessAlertingBarChart({
   websiteId,
   aggregation,
-  threshold,
-  operator,
   sensitivity,
-  baseline,
   timeConfig,
   tagFilters,
-  thresholdType,
   granularity,
-  form
+  threshold,
+  timeThreshold
 }) {
+  const baseline = threshold.baseline;
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -31,8 +28,8 @@ export default function SlownessAlertingBarChart({
       y1={{
         sensitivity,
         baseline,
-        threshold,
-        operator,
+        threshold: threshold.value,
+        operator: threshold.operator,
         getMax: metricsMaxValue => {
           let maxBaselineVal = 0;
           if (baseline) {
@@ -61,7 +58,7 @@ export default function SlownessAlertingBarChart({
             theme.lib.colors.pink800
           ]
         },
-        renderer: thresholdType === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
+        renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
         metricIds: ['onLoadTime', 'threshold'],
         labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
@@ -72,7 +69,8 @@ export default function SlownessAlertingBarChart({
           [...tagFilters, getWebsiteIdTagFilter(websiteId)],
           aggregation,
           granularity,
-          form
+          threshold,
+          timeThreshold
         )
       }}
       getMetric={getWebsiteMetrics}
@@ -93,7 +91,8 @@ export default function SlownessAlertingBarChart({
         [...tagFilters, getWebsiteIdTagFilter(websiteId)],
         aggregation,
         granularity,
-        form
+        threshold,
+        timeThreshold
       )}
     />
   );
@@ -102,15 +101,12 @@ export default function SlownessAlertingBarChart({
 SlownessAlertingBarChart.propTypes = {
   websiteId: PropTypes.string.isRequired,
   aggregation: PropTypes.string.isRequired,
-  baseline: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  threshold: PropTypes.number,
-  operator: PropTypes.string.isRequired,
-  thresholdType: PropTypes.oneOf(['staticThreshold', 'historicBaseline.DAILY', 'historicBaseline.WEEKLY']),
+  threshold: PropTypes.object.isRequired,
+  timeThreshold: PropTypes.object.isRequired,
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  form: PropTypes.object
+  timeConfig: PropTypes.object.isRequired
 };
 
 function getWebsiteIdTagFilter(websiteId) {
@@ -121,16 +117,12 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, form) {
-  if (!form) return null;
-
-  const threshold = getThreshold(form);
-
+function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       tagFilters,
-      timeThreshold: getTimeThreshold(form),
+      timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity
       metrics: {

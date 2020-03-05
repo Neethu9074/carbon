@@ -6,7 +6,6 @@ import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscrip
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -14,15 +13,15 @@ import { percentage, number } from 'in-services/formatters/number';
 
 export default function StatusCodeAlertingBarChart({
   websiteId,
-  threshold,
-  operator,
   timeConfig,
   tagFilters,
   numeratorFilter,
   metricName,
   granularity,
-  form
+  threshold,
+  timeThreshold
 }) {
+  const thresholdValue = threshold.value;
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -30,11 +29,14 @@ export default function StatusCodeAlertingBarChart({
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
-        threshold,
-        operator,
+        threshold: thresholdValue,
+        operator: threshold.operator,
         getMax: metricsMaxValue => {
-          return threshold >= metricsMaxValue
-            ? Math.max(metricsMaxValue, (metricName === statusCodeCount ? Math.trunc(threshold) : threshold) * 1.2)
+          return thresholdValue >= metricsMaxValue
+            ? Math.max(
+                metricsMaxValue,
+                (metricName === statusCodeCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2
+              )
             : metricsMaxValue;
         },
         colors: [
@@ -75,7 +77,8 @@ export default function StatusCodeAlertingBarChart({
         metricName,
         granularity,
         numeratorFilter,
-        form
+        threshold,
+        timeThreshold
       )}
     />
   );
@@ -87,10 +90,9 @@ StatusCodeAlertingBarChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  threshold: PropTypes.number.isRequired,
-  operator: PropTypes.string.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  form: PropTypes.object
+  threshold: PropTypes.object.isRequired,
+  timeThreshold: PropTypes.object.isRequired,
+  timeConfig: PropTypes.object.isRequired
 };
 
 function getMetric(metricName, metricConfig) {
@@ -143,12 +145,15 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, numeratorFilter, form) {
-  //TODO: Refactor this method
-  if (!form) return null;
-
-  const threshold = getThreshold(form);
-
+function getAlertsConfiguration(
+  timeConfig,
+  tagFilters,
+  metric,
+  granularity,
+  numeratorFilter,
+  threshold,
+  timeThreshold
+) {
   const alertsConfig = {
     metric,
     aggregation: metric === statusCodeCount ? 'SUM' : 'MEAN',
@@ -163,7 +168,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, num
     return {
       timeConfig,
       tagFilters: metric === statusCodeCount ? [...tagFilters, numeratorFilter] : tagFilters,
-      timeThreshold: getTimeThreshold(form),
+      timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity
       metrics: {

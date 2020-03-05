@@ -6,7 +6,6 @@ import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscrip
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -14,15 +13,15 @@ import { percentage, number } from 'in-services/formatters/number';
 
 export default function JsErrorsAlertingBarChart({
   websiteId,
-  threshold,
-  operator,
   timeConfig,
   tagFilters,
   errorFilter,
   metricName,
   granularity,
-  form
+  threshold,
+  timeThreshold
 }) {
+  const thresholdValue = threshold.value;
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -30,11 +29,11 @@ export default function JsErrorsAlertingBarChart({
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
-        threshold,
-        operator,
+        threshold: thresholdValue,
+        operator: threshold.operator,
         getMax: metricsMaxValue => {
-          return threshold >= metricsMaxValue
-            ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(threshold) : threshold) * 1.2)
+          return thresholdValue >= metricsMaxValue
+            ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2)
             : metricsMaxValue;
         },
         colors: [
@@ -75,7 +74,8 @@ export default function JsErrorsAlertingBarChart({
         metricName,
         granularity,
         errorFilter,
-        form
+        threshold,
+        timeThreshold
       )}
     />
   );
@@ -83,12 +83,11 @@ export default function JsErrorsAlertingBarChart({
 
 JsErrorsAlertingBarChart.propTypes = {
   errorFilter: PropTypes.object.isRequired,
-  form: PropTypes.object,
+  threshold: PropTypes.object.isRequired,
+  timeThreshold: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.string.isRequired,
-  operator: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  threshold: PropTypes.number.isRequired,
   timeConfig: PropTypes.object.isRequired,
   websiteId: PropTypes.string.isRequired
 };
@@ -144,12 +143,7 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, errorFilter, form) {
-  //TODO: Refactor this method
-  if (!form) return null;
-
-  const threshold = getThreshold(form);
-
+function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, errorFilter, threshold, timeThreshold) {
   const alertsConfig = {
     metric,
     aggregation: metric === errorCount ? 'SUM' : 'MEAN',
@@ -164,7 +158,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, err
     return {
       timeConfig,
       tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
-      timeThreshold: getTimeThreshold(form),
+      timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity
       metrics: {

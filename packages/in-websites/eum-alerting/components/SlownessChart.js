@@ -18,6 +18,7 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
@@ -44,6 +45,12 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
   );
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
+
+  const threshold = {
+    ...getThreshold(form),
+    value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)) || 0,
+    baseline: getFormValueOrDefault(form, fieldNames.thresholdBaseline) || []
+  };
 
   return (
     <div className={locals.container}>
@@ -207,22 +214,17 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
       <div className={locals.placeholder}>
         <SlownessAlertingBarChart
           websiteId={form.get(fieldNames.websiteId).value}
-          thresholdType={form.get(fieldNames.thresholdType).value}
-          threshold={
-            (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)) || 0
-          }
-          operator={form.get(fieldNames.thresholdOperator).value}
+          threshold={threshold}
+          timeThreshold={getTimeThreshold(form)}
           sensitivity={
             doDebounceDeviationFactor
               ? tempThresholdDeviationFactor
               : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
           }
-          baseline={getFormValueOrDefault(form, fieldNames.thresholdBaseline) || []}
           timeConfig={timeConfig}
           tagFilters={form.get(fieldNames.tagFilters).value}
           aggregation={form.get(fieldNames.ruleAggregation).value}
           granularity={granularity}
-          form={form}
         />
       </div>
     </div>

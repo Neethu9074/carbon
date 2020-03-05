@@ -6,6 +6,7 @@ import {
   getStatusCodeLabel,
   getMetricLabel
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
@@ -21,8 +22,8 @@ export default function StatusCodeUseCaseSelection({ form, timeConfig, onChange,
   let chart = isReadOnly ? (
     <StatusCodeAlertingBarChart
       websiteId={form.get(fieldNames.websiteId).value}
-      threshold={form.get(fieldNames.thresholdValue).value || 0}
-      operator={form.get(fieldNames.thresholdOperator).value}
+      threshold={getThreshold(form)}
+      timeThreshold={getTimeThreshold(form)}
       timeConfig={timeConfig}
       tagFilters={form.get(fieldNames.tagFilters).value}
       numeratorFilter={{

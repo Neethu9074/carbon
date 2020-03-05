@@ -55,12 +55,11 @@ export default connectTo(
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
     const sensitivity = alertConfig.threshold.deviationFactor;
-    const baseline = alertConfig.threshold.baseline;
-    const thresholdValue = alertConfig.threshold.value;
-    const operator = alertConfig.threshold.operator;
     const metricName = alertConfig.rule.metricName || errorCount;
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
+    const threshold = alertConfig.threshold;
+    const thresholdWithSeasonality = { ...threshold, type: getThresholdTypeWithSeasonality(threshold) };
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -88,39 +87,37 @@ export default connectTo(
               JsErrorsComponent={() => (
                 <JsErrorsAlertingBarChart
                   websiteId={entityId}
-                  threshold={thresholdValue}
-                  operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
                   granularity={alertingMetricsGranularity}
                   metricName={metricName}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
                 />
               )}
               StatusCodeComponent={() => (
                 <StatusCodeAlertingBarChart
                   websiteId={entityId}
-                  threshold={thresholdValue}
-                  operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
                   granularity={alertingMetricsGranularity}
                   metricName={metricName}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
                 />
               )}
               SlownessComponent={() => (
                 <SlownessAlertingBarChart
                   websiteId={entityId}
-                  thresholdType={getThresholdTypeWithSeasonality(alertConfig.threshold)}
-                  threshold={thresholdValue}
-                  operator={operator}
                   sensitivity={sensitivity}
-                  baseline={baseline}
                   timeConfig={timeConfig}
                   tagFilters={tagFiltersWithWebsiteId}
                   aggregation={aggregation}
                   granularity={alertingMetricsGranularity}
+                  threshold={thresholdWithSeasonality}
+                  timeThreshold={alertConfig.timeThreshold}
                 />
               )}
             />

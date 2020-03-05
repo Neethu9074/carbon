@@ -17,7 +17,7 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
-import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
+import { resetAllThresholdValuesProps, getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -42,6 +42,14 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
 
   const metricName = form.get(fieldNames.ruleMetricName).value;
   const percentageMetric = isPercentageMetric(metricName);
+
+  const threshold = {
+    ...getThreshold(form),
+    value:
+      (doDebounce
+        ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+        : form.get(fieldNames.thresholdValue).value) || 0
+  };
 
   return (
     <div className={locals.container}>
@@ -137,12 +145,8 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
           <div className={locals.placeholder}>
             <StatusCodeAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={
-                doDebounce
-                  ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-                  : form.get(fieldNames.thresholdValue).value || 0
-              }
-              operator={form.get(fieldNames.thresholdOperator).value}
+              threshold={threshold}
+              timeThreshold={getTimeThreshold(form)}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
               numeratorFilter={{
@@ -152,7 +156,6 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
               }}
               metricName={metricName}
               granularity={granularity}
-              form={form}
             />
           </div>
         </>

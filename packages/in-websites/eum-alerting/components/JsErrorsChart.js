@@ -17,7 +17,7 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
+import { resetAllThresholdValuesProps, getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -42,6 +42,14 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
 
   const metricName = form.get(fieldNames.ruleMetricName).value;
   const percentageMetric = isPercentageMetric(metricName);
+
+  const threshold = {
+    ...getThreshold(form),
+    value:
+      (doDebounce
+        ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+        : form.get(fieldNames.thresholdValue).value) || 0
+  };
 
   return (
     <div className={locals.container}>
@@ -136,12 +144,6 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
           <div className={locals.placeholder}>
             <JsErrorsAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              threshold={
-                (doDebounce
-                  ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-                  : form.get(fieldNames.thresholdValue).value) || 0
-              }
-              operator={form.get(fieldNames.thresholdOperator).value}
               timeConfig={timeConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
               errorFilter={{
@@ -151,7 +153,8 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
               }}
               metricName={metricName}
               granularity={granularity}
-              form={form}
+              threshold={threshold}
+              timeThreshold={getTimeThreshold(form)}
             />
           </div>
         </>

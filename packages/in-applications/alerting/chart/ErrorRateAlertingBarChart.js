@@ -3,7 +3,6 @@ import theme from 'in-themes';
 import React from 'react';
 
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { errorRate } from 'in-applications/alerting/constants';
@@ -11,14 +10,14 @@ import { percentage } from 'in-services/formatters/number';
 
 export default function ErrorRateAlertingBarChart({
   applicationId,
-  threshold,
-  operator,
   timeConfig,
   tagFilters,
   metricName,
   granularity,
-  form
+  threshold,
+  timeThreshold
 }) {
+  const thresholdValue = threshold.value;
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -26,10 +25,10 @@ export default function ErrorRateAlertingBarChart({
       timeConfig={timeConfig}
       granularity={granularity}
       y1={{
-        threshold,
-        operator,
+        threshold: thresholdValue,
+        operator: threshold.operator,
         getMax: metricsMaxValue => {
-          return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, threshold * 1.2) : metricsMaxValue;
+          return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
         colors: [
           theme.lib.colors.blue800,
@@ -60,19 +59,19 @@ export default function ErrorRateAlertingBarChart({
         [...tagFilters, getApplicationIdTagFilter(applicationId)],
         metricName,
         granularity,
-        form
+        threshold,
+        timeThreshold
       )}
     />
   );
 }
 
 ErrorRateAlertingBarChart.propTypes = {
-  form: PropTypes.object,
   granularity: PropTypes.number.isRequired,
   metricName: PropTypes.string.isRequired,
-  operator: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  threshold: PropTypes.number.isRequired,
+  threshold: PropTypes.object.isRequired,
+  timeThreshold: PropTypes.object.isRequired,
   timeConfig: PropTypes.object.isRequired,
   applicationId: PropTypes.string.isRequired
 };
@@ -108,11 +107,7 @@ function getApplicationIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, form) {
-  if (!form) return null;
-
-  const threshold = getThreshold(form);
-
+function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, threshold, timeThreshold) {
   const alertsConfig = {
     metric,
     aggregation: 'MEAN',
@@ -123,7 +118,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, for
     return {
       timeConfig,
       tagFilters: tagFilters,
-      timeThreshold: getTimeThreshold(form),
+      timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity
       metrics: {

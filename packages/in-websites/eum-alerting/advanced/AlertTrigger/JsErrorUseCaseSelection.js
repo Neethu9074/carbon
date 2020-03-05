@@ -9,6 +9,7 @@ import {
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
@@ -29,8 +30,6 @@ export default function JsErrorUseCaseSelection({
   let chart = isReadOnly ? (
     <JsErrorsAlertingBarChart
       websiteId={form.get(fieldNames.websiteId).value}
-      threshold={form.get(fieldNames.thresholdValue).value}
-      operator={form.get(fieldNames.thresholdOperator).value}
       timeConfig={timeConfig}
       tagFilters={form.get(fieldNames.tagFilters).value}
       errorFilter={{
@@ -40,6 +39,8 @@ export default function JsErrorUseCaseSelection({
       }}
       metricName={form.get(fieldNames.ruleMetricName).value}
       granularity={granularity}
+      threshold={getThreshold(form)}
+      timeThreshold={getTimeThreshold(form)}
     />
   ) : (
     <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />
