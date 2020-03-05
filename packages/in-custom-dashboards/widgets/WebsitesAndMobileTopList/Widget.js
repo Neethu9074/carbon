@@ -10,6 +10,7 @@ import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResult
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
@@ -46,7 +47,8 @@ export default function WebsitesAndMobileTopList({ config }) {
         </Button>
       )}
       {mobileAppMonitoringEnabled &&
-        role.canConfigureEumApplications && (
+        hasMobileAppsAccess &&
+        role.canConfigureMobileAppMonitoring && (
           <Button
             kind="action"
             onClick={() => mobileAppsOpenAddForm()}
@@ -67,17 +69,28 @@ export default function WebsitesAndMobileTopList({ config }) {
     pinItem: (id, item) => pin(getTypeByItem(item), id),
     unpinItem: (id, item) => unpin(getTypeByItem(item), id),
     getItem,
-    header
+    header,
+    EmptyStateComponent: EmptyStateContent
   };
 
-  if (!mobileAppMonitoringEnabled) {
+  if (!mobileAppMonitoringEnabled || !hasMobileAppsAccess) {
     return (
       <TopListWidget
         {...generalProps}
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
         getItems={getWebsites}
-        EmptyStateComponent={EmptyStateContent}
+      />
+    );
+  }
+
+  if (!hasWebsitesAccess) {
+    return (
+      <TopListWidget
+        {...generalProps}
+        fullListViewLinkTitle="All Mobile Apps"
+        pinnedItemTypes={[types.MOBILE_APPS]}
+        getItems={getMobileApps}
       />
     );
   }
@@ -88,7 +101,6 @@ export default function WebsitesAndMobileTopList({ config }) {
       fullListViewLinkTitle="All Websites & Mobile Apps"
       pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
       getItems={getMergedData}
-      EmptyStateComponent={EmptyStateContent}
     />
   );
 }
@@ -103,6 +115,10 @@ function getTypeByItem(item) {
 
 function getWebsites(params) {
   return mergeResults([getWebsitesWithDefaults(params), 'isWebsite'])(sort);
+}
+
+function getMobileApps(params) {
+  return mergeResults([getMobileAppsWithDefaults(params), 'isMobileApp'])(sort);
 }
 
 function getMergedData(params) {
@@ -202,7 +218,8 @@ function combineResults(entityResult, metricResult, entityName, flag) {
   }
 
   const mappedResult = {
-    metrics: { ...metricResult.data }
+    metrics: { ...metricResult.data },
+    time: metricResult.time
   };
   mappedResult.mainKpiValue = get(
     metricResult.data,

@@ -1,6 +1,8 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
@@ -21,7 +23,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 import draggableCardLocals from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard.mless';
 import locals from './Cockpit.mless';
@@ -32,9 +33,9 @@ const configEnrichmentLookUpTable = {
   '1': {
     type: 'websitesAndMobileTopList',
     config: {
-      label: mobileAppMonitoringEnabled ? 'Websites & Mobile Apps' : 'Websites',
-      icon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app' : 'lib_website',
-      cardIcon: mobileAppMonitoringEnabled ? 'lib_website_mobile_app_inverted' : 'lib_website_inverted'
+      label: getWebsiteAndMobileLabel(),
+      icon: getWebsiteAndMobileIcon(),
+      cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
     }
   },
   '2': {
@@ -119,7 +120,7 @@ export default connectTo(
         <SetBodyColor color={theme.lib.colors.N100} />
 
         <Sticky header={<Header />}>
-          <Content itemOrder={getOrdering(settings)} />
+          <Content itemOrder={filterItems(getOrderedItems(settings))} />
         </Sticky>
       </>
     );
@@ -226,7 +227,7 @@ function renderButtonLine() {
   return <OpenIncidentsButton />;
 }
 
-function getOrdering(settings) {
+function getOrderedItems(settings) {
   const orderingFromSettings = settings[settingsKey];
   return orderingFromSettings
     ? orderingFromSettings.ordering
@@ -269,6 +270,17 @@ function getOrdering(settings) {
       ];
 }
 
+function filterItems(orderedItems) {
+  return orderedItems.filter(({ id }) => {
+    if (id === '1' && !hasWebsitesAccess && !hasMobileAppsAccess) {
+      return false;
+    } else if (id === '2' && !hasApplicationsAccess) {
+      return false;
+    }
+    return true;
+  });
+}
+
 function getPlatformsTitle() {
   let numPlatformsAvailable = 0;
   if (hasKubernetesAccess) numPlatformsAvailable++;
@@ -301,4 +313,24 @@ function getPlatformCardIcon() {
     return 'lib_vsphere';
   }
   return 'lib_kubernetes';
+}
+
+function getWebsiteAndMobileIcon() {
+  if (!hasMobileAppsAccess || !mobileAppMonitoringEnabled) {
+    return 'lib_website';
+  }
+  if (!hasWebsitesAccess) {
+    return 'lib_mobile_app';
+  }
+  return 'lib_website_mobile_app';
+}
+
+function getWebsiteAndMobileLabel() {
+  if (!hasMobileAppsAccess || !mobileAppMonitoringEnabled) {
+    return 'Websites';
+  }
+  if (!hasWebsitesAccess) {
+    return 'Mobile Apps';
+  }
+  return 'Websites & Mobile Apps';
 }

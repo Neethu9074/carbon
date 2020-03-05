@@ -36,7 +36,7 @@ export default function ApplicationsTopList({ config }) {
       onClick={() => applicationOpenSubmitFormTracker()}
       icon="lib_openclose_add_circle_outline"
     >
-      Create Application Perspective
+      Add Application Perspective
     </Button>
   );
 
@@ -119,7 +119,7 @@ function combineResults(applicationResult, metricResult) {
     },
     metrics: { ...metricResult.data },
     mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
-    time: applicationResult.time
+    time: metricResult.time
   };
 }
 
