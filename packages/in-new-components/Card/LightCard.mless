@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .card {
@@ -23,6 +24,8 @@
     font-size: 1.375rem;
     color: @lib__colors__N900Primary;
     font-weight: 500;
+
+    .ellipsis();
   }
 
   .header {
@@ -31,11 +34,17 @@
     align-items: center;
 
     padding: 1.5rem 1rem 1.5rem 1.5rem;
+
+    white-space: nowrap;
   }
 
   .icon {
     fill: @lib__colors__N700Medium;
     margin-right: 0.5rem;
+  }
+
+  .left {
+    .ellipsis();
   }
 
   .left,

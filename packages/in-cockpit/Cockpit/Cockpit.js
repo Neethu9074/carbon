@@ -172,6 +172,8 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
     setSingle(settingsKey, { ordering: items });
   };
 
+  const renderNavigation = width > 1200;
+
   return (
     <div className={locals.wrapper}>
       <>
@@ -187,14 +189,14 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               isEditing
               isResizable={false}
               rowHeightPixels={130}
-              width={width - convertRemToPx(18)}
+              width={width - convertRemToPx(renderNavigation ? 18 : 5.75)}
               onLayoutChange={setNewItemOrder}
               draggableHandle={draggableCardLocals.dragHandleIcon}
             />
           )}
         </div>
-        <div className={locals.right}>
-          {width && (
+        {renderNavigation && (
+          <div className={locals.right}>
             <SideNav
               className={locals.nav}
               navItems={itemOrder.map(config => ({
@@ -203,8 +205,8 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               }))}
               renderPreIcon={renderIcon}
             />
-          )}
-        </div>
+          </div>
+        )}
       </>
     </div>
   );
