@@ -17,7 +17,7 @@ export default connectTo(
 
     return {
       result: combined$.map(([baseline, threshold, metrics]) => {
-        const thresholdType = props.alertMetricConfiguration && props.alertMetricConfiguration.threshold.type;
+        const thresholdType = props.thresholdType;
         if (
           (thresholdType === 'staticThreshold' && threshold !== '') ||
           (thresholdType === 'historicBaseline' && baseline !== '')

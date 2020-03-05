@@ -15,7 +15,8 @@ export default function ErrorRateAlertingBarChart({
   metricName,
   granularity,
   threshold,
-  timeThreshold
+  timeThreshold,
+  alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
   return (
@@ -62,6 +63,8 @@ export default function ErrorRateAlertingBarChart({
         threshold,
         timeThreshold
       )}
+      thresholdType={threshold.type}
+      alertsPreviewEnabled={alertsPreviewEnabled}
     />
   );
 }
@@ -73,7 +76,8 @@ ErrorRateAlertingBarChart.propTypes = {
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  applicationId: PropTypes.string.isRequired
+  applicationId: PropTypes.string.isRequired,
+  alertsPreviewEnabled: PropTypes.bool
 };
 
 function getMetricConfiguration(websiteId, metric, tagFilters, timeConfig, granularity) {

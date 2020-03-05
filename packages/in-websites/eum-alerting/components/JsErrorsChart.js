@@ -155,6 +155,7 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
               granularity={granularity}
               threshold={threshold}
               timeThreshold={getTimeThreshold(form)}
+              alertsPreviewEnabled
             />
           </div>
         </>

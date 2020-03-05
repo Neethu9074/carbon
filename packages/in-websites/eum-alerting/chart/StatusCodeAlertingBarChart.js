@@ -19,7 +19,8 @@ export default function StatusCodeAlertingBarChart({
   metricName,
   granularity,
   threshold,
-  timeThreshold
+  timeThreshold,
+  alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
   return (
@@ -80,6 +81,8 @@ export default function StatusCodeAlertingBarChart({
         threshold,
         timeThreshold
       )}
+      thresholdType={threshold.type}
+      alertsPreviewEnabled={alertsPreviewEnabled}
     />
   );
 }
@@ -92,7 +95,8 @@ StatusCodeAlertingBarChart.propTypes = {
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  alertsPreviewEnabled: PropTypes.bool
 };
 
 function getMetric(metricName, metricConfig) {

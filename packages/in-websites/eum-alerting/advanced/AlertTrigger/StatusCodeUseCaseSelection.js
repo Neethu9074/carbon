@@ -33,6 +33,7 @@ export default function StatusCodeUseCaseSelection({ form, timeConfig, onChange,
       }}
       metricName={form.get(fieldNames.ruleMetricName).value}
       granularity={granularity}
+      alertsPreviewEnabled
     />
   ) : (
     <StatusCodeChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />

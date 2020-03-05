@@ -41,6 +41,7 @@ export default function JsErrorUseCaseSelection({
       granularity={granularity}
       threshold={getThreshold(form)}
       timeThreshold={getTimeThreshold(form)}
+      alertsPreviewEnabled
     />
   ) : (
     <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} granularity={granularity} />

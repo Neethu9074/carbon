@@ -19,7 +19,8 @@ export default function JsErrorsAlertingBarChart({
   metricName,
   granularity,
   threshold,
-  timeThreshold
+  timeThreshold,
+  alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
   return (
@@ -77,6 +78,8 @@ export default function JsErrorsAlertingBarChart({
         threshold,
         timeThreshold
       )}
+      thresholdType={threshold.type}
+      alertsPreviewEnabled={alertsPreviewEnabled}
     />
   );
 }
@@ -89,7 +92,8 @@ JsErrorsAlertingBarChart.propTypes = {
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  websiteId: PropTypes.string.isRequired
+  websiteId: PropTypes.string.isRequired,
+  alertsPreviewEnabled: PropTypes.bool
 };
 
 function getMetric(metricName, metricConfig) {

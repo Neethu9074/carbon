@@ -225,6 +225,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
           tagFilters={form.get(fieldNames.tagFilters).value}
           aggregation={form.get(fieldNames.ruleAggregation).value}
           granularity={granularity}
+          alertsPreviewEnabled
         />
       </div>
     </div>

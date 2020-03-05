@@ -16,7 +16,8 @@ export default function SlownessAlertingBarChart({
   tagFilters,
   granularity,
   threshold,
-  timeThreshold
+  timeThreshold,
+  alertsPreviewEnabled
 }) {
   const baseline = threshold.baseline;
   return (
@@ -94,6 +95,8 @@ export default function SlownessAlertingBarChart({
         threshold,
         timeThreshold
       )}
+      thresholdType={threshold.type}
+      alertsPreviewEnabled={alertsPreviewEnabled}
     />
   );
 }
@@ -106,7 +109,8 @@ SlownessAlertingBarChart.propTypes = {
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: PropTypes.object.isRequired,
+  alertsPreviewEnabled: PropTypes.bool
 };
 
 function getWebsiteIdTagFilter(websiteId) {

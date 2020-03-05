@@ -156,6 +156,7 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
               }}
               metricName={metricName}
               granularity={granularity}
+              alertsPreviewEnabled
             />
           </div>
         </>

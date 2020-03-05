@@ -10,7 +10,7 @@ export default class AlertingChartEventsManager {
   }
 
   getAlertsSubscription(props) {
-    if (!props.alertMetricConfiguration) {
+    if (!props.alertsPreviewEnabled) {
       return alwaysEmptyArray;
     }
 
@@ -22,7 +22,8 @@ export default class AlertingChartEventsManager {
       return alwaysEmptyArray;
     }
 
-    return props.getAlertsPreview(props.alertMetricConfiguration)
+    return props
+      .getAlertsPreview(props.alertMetricConfiguration)
       .startWith(pendingResult)
       .map(result => (result !== null && result.data ? result.data.alerts : []));
   }
