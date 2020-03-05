@@ -43,7 +43,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           icon="lib_openclose_add_circle_outline"
           href$={linkToNewWebsite$}
         >
-          Create Website
+          Add Website
         </Button>
       )}
       {mobileAppMonitoringEnabled &&
@@ -55,7 +55,7 @@ export default function WebsitesAndMobileTopList({ config }) {
             icon="lib_openclose_add_circle_outline"
             href$={linkToNewMobileApp$}
           >
-            Create Mobile App
+            Add Mobile App
           </Button>
         )}
     </>
