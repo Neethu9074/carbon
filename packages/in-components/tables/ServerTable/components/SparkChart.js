@@ -16,7 +16,8 @@ export default function TableSparkChart(props) {
   let aggregationContent = '';
 
   const aggregatedValueIsNull = metric && metric[0][1] === 0;
-  if (showDashOnMissingOrNullMetric && aggregatedValueIsNull) {
+  const noMetricsAvailable = metrics == null || metrics.length === 0;
+  if (showDashOnMissingOrNullMetric && aggregatedValueIsNull && noMetricsAvailable) {
     aggregationContent = valueMissingPlaceholder;
   } else if (typeof metric === 'number') {
     aggregationContent = tooltipFormatter(metric);

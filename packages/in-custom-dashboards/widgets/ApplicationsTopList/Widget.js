@@ -221,6 +221,8 @@ const columnDefinitions = [
           metric={get(item, ['metrics', 'errorsAgg'])}
           label="Erroneous Call Rate"
           tooltipFormatter={percentage.detailed}
+          showDashOnMissingOrNullMetric
+          hideChartOnEmptyMetrics
         />
       );
     }
