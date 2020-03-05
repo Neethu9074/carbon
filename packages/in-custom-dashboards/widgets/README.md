@@ -46,6 +46,10 @@ Each widget needs to define the following exports.
  - `enabled`: `true` or `false` to denote whether the widget is selectable in the widget
               editor. Please note that this only hides it in the configurator. A persisted
               widget configuration can still cause the widget to be presented.
+ - `onlyRenderInsideViewport`: When `true` that component will only be mounted once inside
+                               of the viewport or close to it. Use this to prevent components
+                               outside of the viewport to be mounted and hence to keep them
+                               from making (potentially unused) backend requests.
 
 ## Configuration Lifecycle
 

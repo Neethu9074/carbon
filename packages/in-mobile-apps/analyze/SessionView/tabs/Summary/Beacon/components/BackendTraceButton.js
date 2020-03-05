@@ -1,3 +1,4 @@
+import TrackVisibility from 'react-on-screen';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
@@ -6,7 +7,6 @@ import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import Dropdown from 'in-new-components/Dropdown';
 import Button from 'in-new-components/Button';
-import TrackVisibility from 'react-on-screen';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 

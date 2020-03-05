@@ -1,7 +1,11 @@
 import ReactGridLayout from 'react-grid-layout';
+import TrackVisibility from 'react-on-screen';
+import React, { useState } from 'react';
+
+import LifecycleObserver from 'in-components/LifecycleObserver';
+
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import React from 'react';
 
 import {
   rowHeightPixels as rowHeightPixelsFromSettings,
@@ -16,6 +20,10 @@ import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Grid.mless';
+
+const disabledTransitionStyle = {
+  transition: 'none'
+};
 
 export default function Grid({
   config,
@@ -36,64 +44,87 @@ export default function Grid({
     return null;
   }
 
+  // react-grid-layout has transitions enabled on each widget element. This means at the time of
+  // mounting each widget is temporarily visible at coordinates 0,0. This in turn means that any
+  // kind of visibility detection fails, because coordinates 0,0 are always visibile.
+  //
+  // To work around this we disable the transitions while mounting the component tree. On the next
+  // browser tick after mounting we re-enable transitions again so that react-grid-layout works
+  // as intended.
+  const [disabledTransitions, setDisabledTransitions] = useState(true);
+
   return (
-    <ReactGridLayout
-      className={evaluateClassNames({
-        [locals.layout]: true,
-        [locals.tvMode]: tvMode
-      })}
-      cols={cols}
-      rowHeight={rowHeightPixels}
-      margin={margin}
-      width={width}
-      containerPadding={containerPadding}
-      breakpoints={breakpoints}
-      isDraggable={isEditing && isDraggable}
-      isResizable={isEditing && isResizable}
-      onDragStop={forwardLayoutChange}
-      onResizeStop={forwardLayoutChange}
-      draggableHandle={`.${draggableHandle}`}
-    >
-      {config.widgets.map(widget => {
-        const { Widget, minimumWidth, minimumHeight } = widgets[widget.type];
-        return (
-          <div
-            key={widget.id}
-            id={getWidgetId(widget.id)}
-            data-grid={{
-              w: Math.max(widget.width, minimumWidth),
-              h: Math.max(widget.height, minimumHeight),
-              x: widget.x,
-              y: widget.y,
-              minW: minimumWidth,
-              minH: minimumHeight
-            }}
-          >
-            <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>
-              <Widget title={widget.title} config={widget.config} />
-            </ErrorBoundary>
-            {isEditing &&
-              isConfigurable && (
-                <SvgIcon
-                  type="lib_actions_edit"
-                  size="xs"
-                  className={locals.edit}
-                  onClick={() => onEditWidget(widget.id)}
-                />
-              )}
-            {isEditing &&
-              isDeletable && (
-                <SvgIcon
-                  type="lib_actions_delete"
-                  size="xs"
-                  className={locals.remove}
-                  onClick={() => onRemoveWidget(widget.id)}
-                />
-              )}
-          </div>
-        );
-      })}
-    </ReactGridLayout>
+    <>
+      <LifecycleObserver onDidMount={() => setTimeout(setDisabledTransitions, 0, false)} />
+      <ReactGridLayout
+        className={evaluateClassNames({
+          [locals.layout]: true,
+          [locals.tvMode]: tvMode
+        })}
+        cols={cols}
+        rowHeight={rowHeightPixels}
+        margin={margin}
+        width={width}
+        containerPadding={containerPadding}
+        breakpoints={breakpoints}
+        isDraggable={isEditing && isDraggable}
+        isResizable={isEditing && isResizable}
+        onDragStop={forwardLayoutChange}
+        onResizeStop={forwardLayoutChange}
+        draggableHandle={`.${draggableHandle}`}
+      >
+        {config.widgets.map(widget => {
+          const { Widget, minimumWidth, minimumHeight, onlyRenderInsideViewport } = widgets[widget.type];
+
+          const widgetComponent = <Widget title={widget.title} config={widget.config} />;
+
+          let content = widgetComponent;
+          if (onlyRenderInsideViewport) {
+            content = (
+              <TrackVisibility once offset={300} tag="div">
+                {({ isVisible }) => isVisible && widgetComponent}
+              </TrackVisibility>
+            );
+          }
+
+          return (
+            <div
+              key={widget.id}
+              id={getWidgetId(widget.id)}
+              data-grid={{
+                w: Math.max(widget.width, minimumWidth),
+                h: Math.max(widget.height, minimumHeight),
+                x: widget.x,
+                y: widget.y,
+                minW: minimumWidth,
+                minH: minimumHeight
+              }}
+              style={disabledTransitions ? disabledTransitionStyle : undefined}
+            >
+              <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>
+              {isEditing &&
+                isConfigurable && (
+                  <SvgIcon
+                    type="lib_actions_edit"
+                    size="xs"
+                    className={locals.edit}
+                    onClick={() => onEditWidget(widget.id)}
+                  />
+                )}
+              {isEditing &&
+                isDeletable && (
+                  <SvgIcon
+                    type="lib_actions_delete"
+                    size="xs"
+                    className={locals.remove}
+                    onClick={() => onRemoveWidget(widget.id)}
+                  />
+                )}
+            </div>
+          );
+        })}
+      </ReactGridLayout>
+    </>
   );
 
   function forwardLayoutChange(layout) {
