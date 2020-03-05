@@ -18,8 +18,9 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './StackItem.mless';
+import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 
-export default function StackItem({ item: { id, type, label, healthInfo }, tab }) {
+export default function StackItem({ item: { id, type, label, healthInfo, metrics }, tab }) {
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo && healthInfo.type;
 
@@ -35,10 +36,10 @@ export default function StackItem({ item: { id, type, label, healthInfo }, tab }
               iconSize={10}
             />
           ) : null}
-          <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis={!isAp} addTooltip />
+          <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip />
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
         </div>
-        {!isAp ? showKpiCharts(id, type) : null}
+        {isAp ? showApKpis(metrics) : showInfraKpis(id, type)}
       </div>
     </Li>
   );
@@ -74,7 +75,29 @@ const ProfileIndicator = connectTo(
   }
 );
 
-const showKpiCharts = (id, type) => {
+const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroenous Calls' }];
+
+const showApKpis = metrics => {
+  return (
+    <div className={locals.chartWrapper}>
+      {AP_KPIS.map(
+        kpi =>
+          metrics[kpi.key] && (
+            <KeyValue
+              key={kpi.key}
+              className={locals.chart}
+              label={kpi.label}
+              value={metrics[kpi.key][0][1]}
+              theme={themes.blue}
+              accentuated
+            />
+          )
+      )}
+    </div>
+  );
+};
+
+const showInfraKpis = (id, type) => {
   const kpiDefinitions = getKpiDefinitions(type);
 
   return (

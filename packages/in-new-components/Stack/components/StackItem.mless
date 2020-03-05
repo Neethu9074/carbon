@@ -28,6 +28,10 @@
     }
   }
 
+  .chart {
+    width: 10rem;
+  }
+
   .profileIcon {
     margin-left: 0.25rem;
     fill: @lib__colors__N600Light;
