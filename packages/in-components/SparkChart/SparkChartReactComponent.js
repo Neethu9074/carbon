@@ -5,8 +5,8 @@ import MetricValue from 'in-components/tables/ServerTable/components/MetricValue
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
-import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import SparkChart from 'in-components/SparkChart/SparkChart';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -21,23 +21,31 @@ function SparkChartReactComponent(props) {
   const {
     loading,
     timeConfig,
-    metrics,
     width,
     height,
     horizontalMetricValue,
+    rollup,
     label,
     customValueTooltip,
     verticalMetricValue,
-    aggregation
+    aggregation,
+    showNullValuesChartOnEmptyMetrics,
+    hideChartOnEmptyMetrics
   } = props;
+  let metrics = props.metrics;
+
+  const noMetricsAvailable = metrics == null || metrics.length === 0;
+  if (noMetricsAvailable && (showNullValuesChartOnEmptyMetrics || hideChartOnEmptyMetrics)) {
+    metrics = hideChartOnEmptyMetrics ? [] : createSyntheticNullValues(timeConfig, rollup);
+  }
 
   let sparkChart;
   if (loading) {
     sparkChart = <InfiniteCircle width={width} height={height} />;
-  } else if (metrics == null || metrics.length === 0) {
+  } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {
-    sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
+    sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} metrics={metrics} />;
   }
 
   if (horizontalMetricValue) {
@@ -48,7 +56,7 @@ function SparkChartReactComponent(props) {
             <SvgIcon
               className={locals.aggregationIcon}
               type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'}
-              size="xs"
+              size="xxs"
             />
           </Tooltip>
           {horizontalMetricValue}
@@ -60,7 +68,7 @@ function SparkChartReactComponent(props) {
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
           <Tooltip content={customValueTooltip}>
-            <KeyValue className={locals.keyValue} label={label} customValue={value} accentuated theme={themes.blue} />
+            <KeyValue className={locals.keyValue} label={label} customValue={value} accentuated />
           </Tooltip>
         </div>
       );
@@ -106,6 +114,7 @@ class SparkChartReactWrapper extends React.Component {
 
   render() {
     const { metrics, tooltipFormatter = number.detailed, timeConfig, width, height, rollup, aggregation } = this.props;
+
     return (
       <div className={locals.sparkChart}>
         <SparkTooltip
@@ -126,4 +135,15 @@ class SparkChartReactWrapper extends React.Component {
       </div>
     );
   }
+}
+
+function createSyntheticNullValues(timeConfig, rollup) {
+  const syntheticMetrics = [];
+  const from = timeConfig.to - timeConfig.windowSize;
+  const numDataPoints = timeConfig.windowSize / rollup;
+  for (let i = 0; i < numDataPoints; i++) {
+    syntheticMetrics[i] = [from + rollup * i, 0];
+  }
+
+  return syntheticMetrics;
 }

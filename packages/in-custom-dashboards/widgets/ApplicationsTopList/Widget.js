@@ -186,6 +186,7 @@ const columnDefinitions = [
           metric={get(item, ['metrics', 'callsAgg'])}
           label="Calls"
           tooltipFormatter={number.compact}
+          showNullValuesChartOnEmptyMetrics
         />
       );
     }
@@ -202,6 +203,8 @@ const columnDefinitions = [
           metric={get(item, ['metrics', 'latencyAgg'])}
           label="Latency"
           tooltipFormatter={meanLatencyFixed.compact}
+          showDashOnMissingOrNullMetric
+          hideChartOnEmptyMetrics
         />
       );
     }

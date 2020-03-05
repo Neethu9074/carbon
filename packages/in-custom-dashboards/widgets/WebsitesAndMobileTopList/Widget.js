@@ -274,6 +274,7 @@ const columnDefinitions = [
           metric={isWebsite ? metrics.pageViewsAgg : metrics.sessionsAgg}
           label={isWebsite ? 'Page Views' : 'Sessions'}
           tooltipFormatter={number.compact}
+          showNullValuesChartOnEmptyMetrics
         />
       );
     }
@@ -282,6 +283,7 @@ const columnDefinitions = [
     column: 8,
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
+
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}
@@ -291,6 +293,8 @@ const columnDefinitions = [
           metric={isWebsite ? metrics.onLoadTimeAgg : metrics.viewsAgg}
           label={isWebsite ? 'onLoad Time' : 'Views'}
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
+          showDashOnMissingOrNullMetric
+          hideChartOnEmptyMetrics
         />
       );
     }
