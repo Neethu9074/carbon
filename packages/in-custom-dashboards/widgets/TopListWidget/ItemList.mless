@@ -7,7 +7,7 @@
 
   .grid {
     display: grid;
-    grid-template-columns: 2rem 3rem 1fr 1fr 1fr 1fr 1fr 1fr 2.25rem;
+    grid-template-columns: 2.75rem 3rem 1fr 1fr 1fr 1fr 1fr 1fr 3rem;
 
     overflow: hidden;
     width: 100%;
@@ -36,7 +36,7 @@
   }
 
   .firstCellInRow {
-    padding-left: 0.75rem;
+    padding-left: 1.25rem;
   }
 
   .skeleton {

@@ -1,8 +1,4 @@
-import {
-  pin as saveItem,
-  unpin as deleteItem,
-  getPinnedItems$
-} from 'in-cockpit/pinnedItems/pinnedItemsStorageHandler';
+import { pin as saveItem, unpin as deleteItem, pinnedItems$ } from 'in-cockpit/pinnedItems/pinnedItemsStorageHandler';
 
 export const types = {
   WEBSITES: 'websites',
@@ -17,7 +13,7 @@ export const types = {
 };
 
 export function getPinnedItems(itemTypes) {
-  return getPinnedItems$.map(items => {
+  return pinnedItems$.map(items => {
     const ids = {};
     itemTypes.forEach(type => (ids[type] = items[type] || []));
     return ids;

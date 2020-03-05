@@ -1,16 +1,26 @@
-import { settings$, setSingle, getSingle } from 'in-services/settings/settings';
+import { create } from 'reactive-observables';
+import { createLogger } from 'instalog';
+
+import { savePinnedItems, getPinnedItems } from 'in-cockpit/api/pinnedItems';
 import { deepCopy } from 'in-services/util/object';
 
-const settingsKey = 'starred_items';
+const logger = createLogger('in-cockpit/pinnedItems/pinnedItemsStorageHandler');
 
-export const getPinnedItems$ = settings$.map(settings => settings[settingsKey] || {});
+let currentPinnedItems = {};
+export const pinnedItems$ = create({ emitLatestOnSubscribe: true });
+pinnedItems$.emit(currentPinnedItems);
+
+getPinnedItems().once(items => {
+  currentPinnedItems = items;
+  pinnedItems$.emit(items);
+});
 
 export function pin(type, id) {
-  let currentStarredItems = getSingle(settingsKey);
+  let currentStarredItems = currentPinnedItems;
   if (!currentStarredItems) {
     currentStarredItems = {};
     currentStarredItems[type] = [id];
-    return setSingle(settingsKey, currentStarredItems);
+    return save(currentStarredItems);
   }
 
   currentStarredItems = deepCopy(currentStarredItems);
@@ -19,12 +29,12 @@ export function pin(type, id) {
   }
   if (currentStarredItems[type].indexOf(id) === -1) {
     currentStarredItems[type].push(id);
-    return setSingle(settingsKey, currentStarredItems);
+    return save(currentStarredItems);
   }
 }
 
 export function unpin(type, id) {
-  let currentStarredItems = getSingle(settingsKey, {});
+  let currentStarredItems = currentPinnedItems;
   if (!currentStarredItems[type]) {
     return;
   }
@@ -35,5 +45,20 @@ export function unpin(type, id) {
 
   currentStarredItems = deepCopy(currentStarredItems);
   currentStarredItems[type].splice(indexOfId, 1);
-  setSingle(settingsKey, currentStarredItems);
+  save(currentStarredItems);
+}
+
+function save(value) {
+  // optimistic write
+  const oldValue = currentPinnedItems;
+  currentPinnedItems = value;
+  pinnedItems$.emit(value);
+
+  const result$ = savePinnedItems(value);
+  result$.errors().once(error => {
+    // rollback on error
+    currentPinnedItems = oldValue;
+    pinnedItems$.emit(oldValue);
+    logger.error(`failed to save pinned items (${value}): ${error.message}`, error);
+  });
 }
