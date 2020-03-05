@@ -7,9 +7,12 @@ import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKube
 import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
+import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
@@ -19,7 +22,9 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { getMetric } from 'in-stores/metric';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 
 export default function PlatformsTopList({ config }) {
   const pinnedTypes = [
@@ -112,9 +117,69 @@ const columnDefinitions = [
     }
   },
   {
-    column: '3 /   span 5',
+    column: '3 / span 2',
     getContent(item) {
       return <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />;
+    }
+  },
+  {
+    column: 5,
+    getContent(item) {
+      if (item.isPcf || item.isKubernetes) {
+        return null;
+      }
+      return <KeyValue label="ESXi Hosts" value={item.hosts} accentuated />;
+    }
+  },
+  {
+    column: 6,
+    getContent(item) {
+      if (item.isPcf) {
+        return null;
+      }
+      return item.isKubernetes ? (
+        <KeyValue label="Nodes" value={item.nodes} accentuated />
+      ) : (
+        <KeyValue label="VMs" value={item.vms} accentuated />
+      );
+    }
+  },
+  {
+    column: 7,
+    getContent(item) {
+      if (item.isPcf) {
+        return <KeyValue label="Instances" value={<InstanceMetric applicationId={item.id} />} accentuated />;
+      }
+      return item.isKubernetes ? (
+        <KeyValue label="Namespaces" value={item.namespaces} accentuated />
+      ) : (
+        <SparkChartWithMetricValue
+          snapshotId={item.id}
+          formatter={percentage.compact}
+          metric="cpu.usage.percent.maximum.*"
+          label="CPU Usage"
+          aggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    column: 8,
+    getContent(item) {
+      if (item.isPcf) {
+        return <KeyValue label="Memory Limit" value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
+      }
+      return item.isKubernetes ? (
+        <KeyValue label="Pods" value={item.pods} accentuated />
+      ) : (
+        <SparkChartWithMetricValue
+          snapshotId={item.id}
+          formatter={percentage.compact}
+          metric="mem.usage.average.percent"
+          label="Memory Usage"
+          aggregation="mean"
+        />
+      );
     }
   }
 ];
@@ -146,3 +211,17 @@ function getSubTitle(item) {
   }
   return 'vSphere Cluster';
 }
+
+const SparkChartWithMetricValue = connectTo(
+  ({ snapshotId, metric, aggregation }) => ({
+    horizontalMetricValue: getMetric({
+      snapshotId,
+      metric,
+      timeWindowAggregation: aggregation,
+      forceTimeWindowAggregation: true
+    })
+  }),
+  function SparkChartWithMetricValue(props) {
+    return <HistoricMetricSparkChart {...props} width={72} />;
+  }
+);

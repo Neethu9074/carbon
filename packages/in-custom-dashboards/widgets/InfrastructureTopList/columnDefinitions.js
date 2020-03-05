@@ -52,7 +52,7 @@ export default {
         return (
           <KeyValue
             label="OS"
-            value={`${data.get('os.name', '')} ${data.get('os.version', '')} (${data.get('os.arch', '')})`}
+            value={`${data.get('os.name', '')} ${data.get('os.version', '')}`}
             theme={themes.blue}
             accentuated
           />
