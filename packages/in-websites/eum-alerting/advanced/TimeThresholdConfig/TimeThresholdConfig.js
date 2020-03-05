@@ -47,7 +47,7 @@ function TimeThresholdConfig({ form, onChange, uniqueUsersOrSessionsResult }) {
               sessions
             </Link>{' '}
             detected. <br />
-            Please configure end-user monitoring before using this option.
+            Please configure website monitoring before using this option.
           </>
         )
       }
