@@ -11,10 +11,6 @@
     width: 100%;
   }
 
-  .column {
-    overflow: hidden;
-  }
-
   .skeleton {
     display: block;
 

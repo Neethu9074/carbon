@@ -25,7 +25,7 @@ function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
         return (
           <Li key={i} className={locals.listItem}>
             {columnDefinitions.map(({ column, getContent }, i) => (
-              <div key={i} style={{ gridColumn: column }} className={locals.column}>
+              <div key={i} style={{ gridColumn: column }}>
                 {getContent(item, { result, timeConfig })}
               </div>
             ))}
