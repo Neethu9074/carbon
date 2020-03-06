@@ -59,7 +59,8 @@ const AlertingChartReactWrapper = compose(
         reverseTooltipOrder,
         alignLegendToLeftSideOfChart,
         getAlertsPreview,
-        alertMetricConfiguration
+        alertMetricConfiguration,
+        alertsPreviewEnabled
       } = this.props;
 
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
@@ -92,7 +93,7 @@ const AlertingChartReactWrapper = compose(
                   this.canvas = canvas;
                 }}
               />
-              {this.props.alertMetricConfiguration && <div className={locals.alertsLabel}>Alerts</div>}
+              {alertsPreviewEnabled && <div className={locals.alertsLabel}>Alerts</div>}
             </Fragment>
             {chart &&
               chart.config.y2 && (

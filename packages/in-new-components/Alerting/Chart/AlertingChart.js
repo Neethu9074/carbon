@@ -9,7 +9,7 @@ export default class AlertingChart {
     this.chartEventsManager = new AlertingChartEventsManager();
     this.config = new Config(canvas, props);
 
-    if (props.alertMetricConfiguration) {
+    if (props.alertsPreviewEnabled) {
       this.config.markerPaneHeight = 32;
     }
 
