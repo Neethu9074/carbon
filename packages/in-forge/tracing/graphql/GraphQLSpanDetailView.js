@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { fromJS, Map } from 'immutable';
 
+import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
@@ -13,6 +14,7 @@ export default function GraphQLSpanDetailView({ span }) {
       <Di title="Operation Name">{span.getIn(['data', 'graphql', 'operationName'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'graphql', 'errors'])} />
       {getObjectTypeDetails(span)}
+      {span.getIn(['data', 'http']) && <HttpSpanDetailViewDescriptionList span={span} />}
     </Dl>
   );
 }
