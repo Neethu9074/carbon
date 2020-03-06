@@ -9,11 +9,11 @@ import { getApplicationsWithDefaults } from 'in-subscription/application/getAppl
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { application as applicationType } from 'in-stores/starredItems/types';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { newApplicationView } from 'in-applications/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
@@ -23,6 +23,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { add, remove } from 'in-stores/starredItems';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -45,14 +46,20 @@ export default function ApplicationsTopList({ config }) {
       {...config}
       header={header}
       getItem={getItem}
+      pinnedItemTypes={[applicationType]}
       getId={item => item.application.id}
-      pinnedItemTypes={[types.APPLCATIONS]}
+      pinItem={(id, item) =>
+        add({
+          id,
+          label: item.application.label,
+          type: applicationType
+        })
+      }
+      unpinItem={id => remove({ id, type: applicationType })}
       columnDefinitions={columnDefinitions}
       getItems={getApplicationsWithDefaults}
       fullListViewLinkTitle="All Applications"
       fullListView$={getView(applicationsList)}
-      pinItem={id => pin(types.APPLCATIONS, id)}
-      unpinItem={id => unpin(types.APPLCATIONS, id)}
       EmptyStateComponent={ApplicationsNoDataNotification}
       getItemLink={item => getApplicationDashboard(item.application.id)}
     />

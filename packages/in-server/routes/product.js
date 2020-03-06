@@ -106,7 +106,8 @@ router.get('/', (req, res) => {
         getUserPermissions(req),
         getTermsAndPrivacySettings(req),
         getLatestTermsAndPrivacyAcceptance(req),
-        getIsMonitoring(req)
+        getIsMonitoring(req),
+        getStarredItems(req)
       ]).then(
         ([
           userSettings,
@@ -116,7 +117,8 @@ router.get('/', (req, res) => {
           permissions,
           termsAndPrivacySettings,
           termsAndPrivacyAccepted,
-          reportingData
+          reportingData,
+          starredItems
         ]) =>
           sendIndex(
             req,
@@ -129,7 +131,8 @@ router.get('/', (req, res) => {
             permissions,
             termsAndPrivacySettings,
             termsAndPrivacyAccepted,
-            reportingData
+            reportingData,
+            starredItems
           )
       );
     })
@@ -311,6 +314,27 @@ function getIsMonitoring(req) {
   });
 }
 
+function getStarredItems(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/api/starred-item',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 15000
+      },
+      (error, response, starredItems) => {
+        if (error) {
+          reject(new Error('Failed to retrieve starred items from ui-backend: ' + String(error)));
+        } else {
+          resolve(starredItems);
+        }
+      }
+    );
+  });
+}
+
 function sendIndex(
   req,
   res,
@@ -322,7 +346,8 @@ function sendIndex(
   permissions,
   termsAndPrivacySettings,
   termsAndPrivacyAccepted,
-  reportingData
+  reportingData,
+  starredItems
 ) {
   const nonces = Array(maxNonces)
     .fill(maxNonces)
@@ -359,7 +384,8 @@ function sendIndex(
       numberLocale: getNumberLocaleDefinition(req),
       termsAndPrivacySettings,
       termsAndPrivacyAccepted,
-      reportingData
+      reportingData,
+      starredItems
     })
   );
 }

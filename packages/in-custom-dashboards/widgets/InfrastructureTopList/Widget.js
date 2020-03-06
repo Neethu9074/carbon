@@ -1,19 +1,21 @@
 import { combineLatest, just } from 'reactive-observables';
 import React, { useState } from 'react';
 
+import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
 import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
 import { entityTypeToFullyQualifiedPlugin } from 'in-views/tableView/stores/snapshotIds';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { add, remove } from 'in-stores/starredItems';
 import { search } from 'in-stores/snapshot/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
+import { getLabel } from 'in-sdk/snapshot';
 
 export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');
@@ -36,9 +38,15 @@ export default function InfrastructureTopList({ config }) {
     return (
       <TopListWidget
         {...generalProps}
-        pinnedItemTypes={[types.HOSTS]}
-        pinItem={id => pin(types.HOSTS, id)}
-        unpinItem={id => unpin(types.HOSTS, id)}
+        pinnedItemTypes={[hostType]}
+        pinItem={(id, item) =>
+          add({
+            id,
+            label: getLabel(item.snapshot),
+            type: hostType
+          })
+        }
+        unpinItem={id => remove({ id, type: hostType })}
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -48,9 +56,15 @@ export default function InfrastructureTopList({ config }) {
     return (
       <TopListWidget
         {...generalProps}
-        pinnedItemTypes={[types.CONTAINERS]}
-        pinItem={id => pin(types.CONTAINERS, id)}
-        unpinItem={id => unpin(types.CONTAINERS, id)}
+        pinnedItemTypes={[containerType]}
+        pinItem={(id, item) =>
+          add({
+            id,
+            label: getLabel(item.snapshot),
+            type: containerType
+          })
+        }
+        unpinItem={id => remove({ id, type: containerType })}
         fullListViewLinkTitle="All Containers"
       />
     );
@@ -59,9 +73,15 @@ export default function InfrastructureTopList({ config }) {
   return (
     <TopListWidget
       {...generalProps}
-      pinnedItemTypes={[types.PROCESSES]}
-      pinItem={id => pin(types.PROCESSES, id)}
-      unpinItem={id => unpin(types.PROCESSES, id)}
+      pinnedItemTypes={[processType]}
+      pinItem={(id, item) =>
+        add({
+          id,
+          label: getLabel(item.snapshot),
+          type: processType
+        })
+      }
+      unpinItem={id => remove({ id, type: processType })}
       fullListViewLinkTitle="All Processes"
     />
   );

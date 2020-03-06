@@ -2,6 +2,11 @@ import { combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  kubernetesCluster as kubernetesClusterType,
+  pcfApplication as pcfApplicationType,
+  vsphereDatacenter as vsphereDatacenterType
+} from 'in-stores/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
@@ -17,7 +22,6 @@ import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
@@ -25,15 +29,16 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { add, remove } from 'in-stores/starredItems';
 import { getMetric } from 'in-stores/metric';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 export default function PlatformsTopList({ config }) {
   const pinnedTypes = [
-    hasKubernetesAccess && types.KUBERNETES_CLUSTERS,
-    pcfEnabled && types.PCF_APPLICATIONS,
-    vsphereEnabled && types.VSPHERE_DATACENTERS
+    hasKubernetesAccess && kubernetesClusterType,
+    pcfEnabled && pcfApplicationType,
+    vsphereEnabled && vsphereDatacenterType
   ].filter(Boolean);
 
   return (
@@ -43,8 +48,14 @@ export default function PlatformsTopList({ config }) {
       getItem={getItem}
       pinnedItemTypes={pinnedTypes}
       getId={getId}
-      pinItem={(id, item) => pin(getTypeByItem(item), id)}
-      unpinItem={(id, item) => unpin(getTypeByItem(item), id)}
+      pinItem={(id, item) =>
+        add({
+          id,
+          label: getLabel(item),
+          type: getTypeByItem(item)
+        })
+      }
+      unpinItem={(id, item) => remove({ id, type: getTypeByItem(item) })}
       columnDefinitions={columnDefinitions}
       getItemLink={item => {
         return (item.isKubernetes
@@ -63,12 +74,12 @@ function getId(item) {
 
 function getTypeByItem(item) {
   if (item.isKubernetes) {
-    return types.KUBERNETES_CLUSTERS;
+    return kubernetesClusterType;
   }
   if (item.isPcf) {
-    return types.PCF_APPLICATIONS;
+    return pcfApplicationType;
   }
-  return types.VSPHERE_DATACENTERS;
+  return vsphereDatacenterType;
 }
 
 function getMergedData(params) {
@@ -85,10 +96,10 @@ function getMergedData(params) {
 }
 
 function getItem(id, timeConfig, type) {
-  if (type === types.KUBERNETES_CLUSTERS) {
+  if (type === kubernetesClusterType) {
     return getKubernetesClusterById(id, timeConfig);
   }
-  if (type === types.PCF_APPLICATIONS) {
+  if (type === pcfApplicationType) {
     return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
   }
   return getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult);

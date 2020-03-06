@@ -4,6 +4,7 @@ import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import EmptyStateContent from 'in-custom-dashboards/widgets/WebsitesAndMobileTopList/EmptyStateContent';
+import { website as websiteType, mobileApp as mobileAppType } from 'in-stores/starredItems/types';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
 import mergeResults from 'in-custom-dashboards/widgets/TopListWidget/mergeResults';
@@ -14,7 +15,6 @@ import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -29,6 +29,7 @@ import getWebsite from 'in-subscription/website/getWebsite';
 import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { add, remove } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
@@ -68,8 +69,13 @@ export default function WebsitesAndMobileTopList({ config }) {
     columnDefinitions,
     fullListView$: getView(websiteMonitoringPath),
     getId,
-    pinItem: (id, item) => pin(getTypeByItem(item), id),
-    unpinItem: (id, item) => unpin(getTypeByItem(item), id),
+    pinItem: (id, item) =>
+      add({
+        id,
+        label: item.isWebsite ? item.website.label : item.mobileApp.label,
+        type: getTypeByItem(item)
+      }),
+    unpinItem: (id, item) => remove({ id, type: getTypeByItem(item) }),
     getItem,
     header,
     EmptyStateComponent: EmptyStateContent
@@ -80,7 +86,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       <TopListWidget
         {...generalProps}
         fullListViewLinkTitle="All Websites"
-        pinnedItemTypes={[types.WEBSITES]}
+        pinnedItemTypes={[websiteType]}
         getItems={getWebsites}
         getItemLink={item => getLinkToWebsite(getId(item))}
       />
@@ -92,7 +98,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       <TopListWidget
         {...generalProps}
         fullListViewLinkTitle="All Mobile Apps"
-        pinnedItemTypes={[types.MOBILE_APPS]}
+        pinnedItemTypes={[mobileAppType]}
         getItems={getMobileApps}
         getItemLink={item => getLinkToMobileApp(getId(item))}
       />
@@ -103,7 +109,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     <TopListWidget
       {...generalProps}
       fullListViewLinkTitle="All Websites & Mobile Apps"
-      pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
+      pinnedItemTypes={[websiteType, mobileAppType]}
       getItems={getMergedData}
       getItemLink={item => (item.isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item)))}
     />
@@ -115,7 +121,7 @@ function getId(item) {
 }
 
 function getTypeByItem(item) {
-  return item.isWebsite ? types.WEBSITES : types.MOBILE_APPS;
+  return item.isWebsite ? websiteType : mobileAppType;
 }
 
 function getWebsites(params) {
@@ -143,7 +149,7 @@ function sort(a, b) {
 }
 
 function getItem(id, timeConfig, type) {
-  if (type === types.WEBSITES) {
+  if (type === websiteType) {
     return getWebsiteById(id, timeConfig);
   }
   return getMobileAppById(id, timeConfig);

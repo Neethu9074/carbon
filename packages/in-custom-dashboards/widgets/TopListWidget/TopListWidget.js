@@ -6,9 +6,9 @@ import EntityPageMainNotification from 'in-new-components/EntityPageMainNotifica
 import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
 import StarredItemList from 'in-custom-dashboards/widgets/TopListWidget/StarredItemList';
 import ItemList from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
-import { getPinnedItems } from 'in-cockpit/pinnedItems/pinnedItems';
 import Star from 'in-custom-dashboards/widgets/TopListWidget/Star';
 import SearchInput from 'in-new-components/SearchInput';
+import { starredItems$ } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -33,7 +33,15 @@ export default compose(
   withState('query', 'setQuery', ''),
   connectTo(({ getItems, pinnedItemTypes, query }) => ({
     timeConfig: timeConfig$,
-    pinnedItemIdsByType: getPinnedItems(pinnedItemTypes),
+    pinnedItemIdsByType: starredItems$.map(starredItems =>
+      starredItems.reduce((agg, starredItem) => {
+        if (pinnedItemTypes.indexOf(starredItem.type) !== -1) {
+          agg[starredItem.type] = agg[starredItem.type] || [];
+          agg[starredItem.type].push(starredItem.id);
+        }
+        return agg;
+      }, {})
+    ),
     result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query })),
     resultForEmptyStateCheck: timeConfig$.flatMap(timeConfig => getItems({ timeConfig }))
   }))
@@ -96,46 +104,43 @@ function TopListWidget(props) {
         )
       }
     >
-      {numPinnedItems > 0 ||
-        (numRegularItems > 0 && (
-          <div className={locals.listsWrapper}>
-            {numPinnedItems > 0 && (
-              <StarredItemList
-                timeConfig={timeConfig}
-                getItem={getItem}
-                getItemLink={getItemLink}
-                pinnedItemIdsByType={pinnedItemIdsByType}
-                columnDefinitions={[
-                  ...columnDefinitions,
-                  {
-                    width: '2rem',
-                    getContent(item) {
-                      return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
-                    }
-                  }
-                ]}
-              />
-            )}
+      <div className={locals.listsWrapper}>
+        {numPinnedItems > 0 && (
+          <StarredItemList
+            timeConfig={timeConfig}
+            getItem={getItem}
+            getItemLink={getItemLink}
+            pinnedItemIdsByType={pinnedItemIdsByType}
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                width: '2rem',
+                getContent(item) {
+                  return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                }
+              }
+            ]}
+          />
+        )}
 
-            {numRegularItems > 0 && (
-              <ItemList
-                result={result}
-                timeConfig={timeConfig}
-                getItemLink={getItemLink}
-                numSkeletonRows={numRegularItems}
-                columnDefinitions={[
-                  ...columnDefinitions,
-                  {
-                    width: '2rem',
-                    getContent(item) {
-                      return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
-                    }
-                  }
-                ]}
-              />
-            )}
-          </div>
-        ))}
+        {numRegularItems > 0 && (
+          <ItemList
+            result={result}
+            timeConfig={timeConfig}
+            getItemLink={getItemLink}
+            numSkeletonRows={numRegularItems}
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                width: '2rem',
+                getContent(item) {
+                  return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                }
+              }
+            ]}
+          />
+        )}
+      </div>
 
       {!hasContent && <EmptyStateComponent {...props} />}
 
@@ -152,11 +157,11 @@ function hasContentToRender(result, numPinnedItems) {
   return result.data.items.length + numPinnedItems > 0;
 }
 
-function getFlattenedIds(IdsByType) {
+function getFlattenedIds(idsByType) {
   let allIds = [];
-  const keys = Object.keys(IdsByType);
+  const keys = Object.keys(idsByType);
   for (let i = 0; i < keys.length; i++) {
-    const ids = IdsByType[keys[i]];
+    const ids = idsByType[keys[i]];
     if (ids) {
       allIds = allIds.concat(ids);
     }
