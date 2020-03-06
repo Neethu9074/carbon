@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -20,32 +20,14 @@ function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkele
   }
 
   return (
-    <List
-      items={result.data.items}
-      columnDefinitions={columnDefinitions}
-      getItemLink={getItemLink}
-      renderItem={({ item, rowIndex }) => (
-        <Fragment key={rowIndex}>
+    <Ul className={locals.list}>
+      {result.data.items.map((item, rowIndex) => (
+        <Li key={rowIndex} className={locals.listItem} href$={getItemLink(item)}>
           {columnDefinitions.map(({ width, ellipsis, getContent }, i2) => (
             <Cell key={i2} width={width} ellipsis={ellipsis}>
               {getContent(item, { result, timeConfig })}
             </Cell>
           ))}
-        </Fragment>
-      )}
-    />
-  );
-}
-
-export function List({ items, renderItem, getItemLink }) {
-  return (
-    <Ul className={locals.list}>
-      {items.map((item, rowIndex) => (
-        <Li key={rowIndex} className={locals.listItem} href$={getItemLink(item)}>
-          {renderItem({
-            item,
-            rowIndex
-          })}
         </Li>
       ))}
     </Ul>
@@ -65,7 +47,7 @@ function LoadingList({ numSkeletonRows }) {
   return <Ul className={locals.list}>{loadingRows}</Ul>;
 }
 
-function LoadingListItem() {
+export function LoadingListItem() {
   return (
     <Li>
       <Skeleton className={locals.skeleton} />
@@ -81,7 +63,7 @@ function ErrorList({ errors }) {
   );
 }
 
-function ErrorListItem({ errors }) {
+export function ErrorListItem({ errors }) {
   const error = getUniqueErrors(errors)[0];
   return (
     <Li key={error}>

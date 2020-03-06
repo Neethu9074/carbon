@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
-import { List, Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
+import { ErrorListItem, LoadingListItem, Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import { hasError, isLoading } from 'in-services/util/result';
-import Skeleton from 'in-new-components/Loading/Skeleton';
+import { Ul, Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ItemList.mless';
@@ -32,22 +31,20 @@ export default function StarredItemList({ getItem, timeConfig, columnDefinitions
   }
 
   return (
-    <List
-      items={items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id))}
-      columnDefinitions={columnDefinitions}
-      getItemLink={getItemLink}
-      renderItem={({ item, rowIndex }) => (
+    <Ul className={locals.list}>
+      {items.sort((a, b) => resolvedMetrics.get(b.id) - resolvedMetrics.get(a.id)).map((item, rowIndex) => (
         <Item
           key={rowIndex}
           id={item.id}
           type={item.type}
           getItem={getItem}
           timeConfig={timeConfig}
+          getItemLink={getItemLink}
           setResolvedItem={setResolvedItem}
           columnDefinitions={columnDefinitions}
         />
-      )}
-    />
+      ))}
+    </Ul>
   );
 }
 
@@ -57,19 +54,25 @@ const Item = connectTo(
   }),
 
   function Item(props) {
-    const { result, timeConfig, columnDefinitions } = props;
+    const { result, timeConfig, columnDefinitions, getItemLink } = props;
 
     if (!result || isLoading(result)) {
-      return <Skeleton className={locals.skeleton} />;
+      return <LoadingListItem />;
     }
     if (hasError(result)) {
-      return <Error>{getUniqueErrors(result.errors)[0]}</Error>;
+      return <ErrorListItem errors={result.errors} />;
     }
 
-    return columnDefinitions.map(({ width, ellipsis, getContent }, i) => (
-      <Cell key={i} width={width} ellipsis={ellipsis}>
-        {getContent(result.data ? result.data : result, { result, timeConfig })}
-      </Cell>
-    ));
+    const item = result.data ? result.data : result;
+
+    return (
+      <Li className={locals.listItem} href$={getItemLink(item)}>
+        {columnDefinitions.map(({ width, ellipsis, getContent }, i) => (
+          <Cell key={i} width={width} ellipsis={ellipsis}>
+            {getContent(item, { result, timeConfig })}
+          </Cell>
+        ))}
+      </Li>
+    );
   }
 );
