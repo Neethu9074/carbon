@@ -24,7 +24,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
   colors.push(theme.lib.colors.pink800, '#9aa5a9', '#99e1e1', '#cdbcf0');
 
   metricsConfiguration.infraIssues = {
-    query: `(event.type:warning OR event.type:critical) AND event.source:infra AND ${entityFilter}`,
+    query: `(event.type:warning OR event.type:critical) AND ${entityFilter}`,
     granularity
   };
   metricsConfiguration.offline = {
@@ -76,7 +76,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
 }
 
 function createEntityFilter(applicationId, serviceId, endpointId) {
-  const entityFilters = [];
+  const entityFilters = ['entity.pluginId:infra'];
   if (applicationId) {
     entityFilters.push(`entity.application.id:"${applicationId}"`);
   }
