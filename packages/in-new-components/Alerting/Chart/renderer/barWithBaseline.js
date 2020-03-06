@@ -1,6 +1,7 @@
 import invariant from 'invariant';
 
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
+import { isGreaterOperator } from 'in-websites/eum-alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
 
@@ -43,7 +44,7 @@ function renderBaseline(axis, metric, config, scale, colors) {
   const thresholdColor = colors[1];
   const alrightColor = colors[2];
   const violationColor = colors[3];
-  const isGreaterOp = isGreaterOperator(config.y1.operator);
+  const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
   const upperThresholdInTimeframe = [];
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
@@ -84,10 +85,6 @@ function renderBaseline(axis, metric, config, scale, colors) {
   config.backBufferCtx.setLineDash([8, 2]);
   line.render({ axis, dataSeries: upperThresholdInTimeframe, color: thresholdColor, scale, config });
   config.backBufferCtx.restore();
-}
-
-function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
 }
 
 function validateProps(config) {

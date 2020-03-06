@@ -1,5 +1,6 @@
 import invariant from 'invariant';
 
+import { isGreaterOperator } from 'in-websites/eum-alerting/alertConfigUtil';
 import bar from 'in-components/Chart/renderer/bar';
 
 export default {
@@ -14,7 +15,7 @@ export default {
     const thresholdColor = colors[1];
     const alrightColor = colors[2];
     const violationColor = colors[3];
-    const isGreaterOp = isGreaterOperator(config.y1.operator);
+    const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
 
     // historical data
     bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
@@ -46,10 +47,6 @@ export default {
     bar.enrich(config, axis);
   }
 };
-
-function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
-}
 
 function validateProps(config) {
   if (__DEV__) {

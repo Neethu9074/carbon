@@ -49,6 +49,10 @@ export function resetAllThresholdValuesProps(form) {
   return resetThresholds;
 }
 
+export function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
+}
+
 function enrichByAlertType(form) {
   const alertType = form.get(fieldNames.ruleAlertType).value;
 
