@@ -45,6 +45,7 @@ import './couchbaseCluster';
 import './couchbaseNode';
 import './crio';
 import './crystalRuntimePlatform';
+import './db2Database';
 import './defaultEntity20';
 import './docker';
 import './dropwizardApplicationContainer';
