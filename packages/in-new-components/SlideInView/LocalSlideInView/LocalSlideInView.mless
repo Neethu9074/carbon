@@ -10,13 +10,19 @@
     overflow-x: hidden;
   }
 
+  .content {
+    // Create a new stacking context: The content must be positioned underneath the header
+    // underneath the slide in content
+    z-index: 1;
+  }
+
   .header {
     position: absolute;
     top: 0;
     width: 100%;
 
     background: @lib__colors__white;
-    z-index: @z-index__dialog;
+    z-index: 3;
 
     visibility: hidden;
     transition: visibility 0.1s 0.3s;
@@ -29,6 +35,7 @@
 
   .inputBlocker {
     position: absolute;
+    z-index: 2;
     top: 5rem;
     bottom: 0;
     left: 0;
@@ -41,6 +48,7 @@
   .slider {
     position: absolute;
     background: @lib__colors__white;
+    z-index: 3;
     box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0);
     height: calc(100% - 5rem);
     top: 5rem;

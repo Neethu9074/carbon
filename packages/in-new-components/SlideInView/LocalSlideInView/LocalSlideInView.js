@@ -12,7 +12,7 @@ export default function LocalSlideInView({ sliderContent, children, slideIn, tit
 
   return (
     <div className={locals.container}>
-      {children}
+      <div className={locals.content}>{children}</div>
 
       <div
         className={evaluateClassNames({
