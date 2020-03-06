@@ -13,7 +13,7 @@ export default function DraggableLightCard(props) {
     <LightCard
       {...props}
       title={props.label}
-      className={isHovering && locals.cardWithStrongShadow}
+      className={isHovering ? locals.cardWithStrongShadow : undefined}
       headerClassName={locals.header}
       bodyClassName={locals.content}
     >
