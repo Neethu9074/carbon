@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -12,7 +11,7 @@ import locals from './ItemList.mless';
 
 export default compose(connectTo(({ get }) => (get ? { result: get() } : {})))(ItemList);
 
-function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
+function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkeletonRows }) {
   if (!result || isLoading(result)) {
     return <LoadingList numSkeletonRows={numSkeletonRows} />;
   }
@@ -21,43 +20,40 @@ function ItemList({ result, columnDefinitions, timeConfig, numSkeletonRows }) {
   }
 
   return (
-    <div className={locals.grid}>
-      {result.data.items.map((item, i) => {
-        return (
-          <Fragment key={i}>
-            {columnDefinitions.map(({ column, ellipsis, getContent }, i2) => (
-              <Cell
-                key={`${i}_${i2}`}
-                column={column}
-                ellipsis={ellipsis}
-                firstCellInRow={i2 === 0}
-                inOddRow={i % 2 === 1}
-                isLastRow={i === result.data.items.length - 1}
-              >
-                {getContent(item, { result, timeConfig })}
-              </Cell>
-            ))}
-          </Fragment>
-        );
-      })}
-    </div>
+    <List
+      items={result.data.items}
+      columnDefinitions={columnDefinitions}
+      getItemLink={getItemLink}
+      renderItem={({ item, rowIndex }) => (
+        <Fragment key={rowIndex}>
+          {columnDefinitions.map(({ width, ellipsis, getContent }, i2) => (
+            <Cell key={i2} width={width} ellipsis={ellipsis}>
+              {getContent(item, { result, timeConfig })}
+            </Cell>
+          ))}
+        </Fragment>
+      )}
+    />
   );
 }
 
-export function Cell({ children, column, ellipsis, firstCellInRow, inOddRow, isLastRow }) {
+export function List({ items, renderItem, getItemLink }) {
   return (
-    <div
-      style={{ gridColumn: column, overflow: ellipsis && 'hidden' }}
-      className={evaluateClassNames({
-        [locals.cell]: true,
-        [locals.firstCellInRow]: firstCellInRow,
-        [locals.cellOfOddRow]: inOddRow,
-        [locals.cellOfLastRow]: isLastRow
-      })}
-    >
-      {children}
-    </div>
+    <Ul className={locals.list}>
+      {items.map((item, rowIndex) => (
+        <Li key={rowIndex} className={locals.listItem} href$={getItemLink(item)}>
+          {renderItem({
+            item,
+            rowIndex
+          })}
+        </Li>
+      ))}
+    </Ul>
   );
+}
+
+export function Cell({ width, children }) {
+  return <div style={{ minWidth: width, flexGrow: !width && 1, overflow: !width && 'hidden' }}>{children}</div>;
 }
 
 function LoadingList({ numSkeletonRows }) {

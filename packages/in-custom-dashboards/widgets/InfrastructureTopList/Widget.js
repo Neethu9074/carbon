@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
 import { entityTypeToFullyQualifiedPlugin } from 'in-views/tableView/stores/snapshotIds';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
@@ -27,7 +28,8 @@ export default function InfrastructureTopList({ config }) {
       location.pathname = physicalTablePath;
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
     }),
-    getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType)
+    getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType),
+    getItemLink: item => getDashboardLink(item.snapshot.get('id'), { pathname: '/physical/dashboard' })
   };
 
   if (selectedType === 'host') {

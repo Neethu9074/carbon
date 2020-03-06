@@ -17,10 +17,12 @@ import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
+import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { linkToNewWebsite$ } from 'in-websites/navigation/paths';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';
@@ -80,6 +82,7 @@ export default function WebsitesAndMobileTopList({ config }) {
         fullListViewLinkTitle="All Websites"
         pinnedItemTypes={[types.WEBSITES]}
         getItems={getWebsites}
+        getItemLink={item => getLinkToWebsite(getId(item))}
       />
     );
   }
@@ -91,6 +94,7 @@ export default function WebsitesAndMobileTopList({ config }) {
         fullListViewLinkTitle="All Mobile Apps"
         pinnedItemTypes={[types.MOBILE_APPS]}
         getItems={getMobileApps}
+        getItemLink={item => getLinkToMobileApp(getId(item))}
       />
     );
   }
@@ -101,6 +105,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       fullListViewLinkTitle="All Websites & Mobile Apps"
       pinnedItemTypes={[types.WEBSITES, types.MOBILE_APPS]}
       getItems={getMergedData}
+      getItemLink={item => (item.isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item)))}
     />
   );
 }
@@ -233,7 +238,7 @@ function combineResults(entityResult, metricResult, entityName, flag) {
 
 const columnDefinitions = [
   {
-    column: 1,
+    width: '2rem',
     getContent(item) {
       if (!item.isWebsite) {
         return null;
@@ -242,13 +247,12 @@ const columnDefinitions = [
     }
   },
   {
-    column: 2,
+    width: '3rem',
     getContent(item) {
       return <SvgIcon type={item.isWebsite ? 'lib_website' : 'lib_mobile_app'} />;
     }
   },
   {
-    column: '3 / span 4',
     getContent(item) {
       const { isWebsite } = item;
       return (
@@ -262,7 +266,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 7,
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (
@@ -280,7 +284,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 8,
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       const { isWebsite, metrics } = item;
 

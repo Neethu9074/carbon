@@ -27,6 +27,7 @@ export default compose(
     header: rpt.object,
     fullListView$: rpt.object,
     fullListViewLinkTitle: rpt.string,
+    getItemLink: rpt.func.isRequired,
     EmptyStateComponent: rpt.func
   }),
   withState('query', 'setQuery', ''),
@@ -53,6 +54,7 @@ function TopListWidget(props) {
     EmptyStateComponent = DefaultEmptyStateContent,
     getId,
     resultForEmptyStateCheck,
+    getItemLink,
     pinItem,
     unpinItem
   } = props;
@@ -98,8 +100,9 @@ function TopListWidget(props) {
         {numPinnedItems > 0 && (
           <StarredItemList
             timeConfig={timeConfig}
-            pinnedItemIdsByType={pinnedItemIdsByType}
             getItem={getItem}
+            getItemLink={getItemLink}
+            pinnedItemIdsByType={pinnedItemIdsByType}
             columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
           />
         )}
@@ -108,6 +111,7 @@ function TopListWidget(props) {
           <ItemList
             result={result}
             timeConfig={timeConfig}
+            getItemLink={getItemLink}
             numSkeletonRows={numRegularItems}
             columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
           />
@@ -143,7 +147,7 @@ function getFlattenedIds(IdsByType) {
 
 function getStarColumn(pinned, pinItem, unpinItem) {
   return {
-    column: '9',
+    width: '2rem',
     getContent(item) {
       return <Star pinned={pinned} pinItem={pinItem} unpinItem={unpinItem} item={item} />;
     }

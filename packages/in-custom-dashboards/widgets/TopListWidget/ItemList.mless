@@ -3,40 +3,14 @@
 :local {
   .list {
     width: 100%;
-  }
 
-  .grid {
-    display: grid;
-    grid-template-columns: 2.75rem 3rem 1fr 1fr 1fr 1fr 1fr 1fr 3rem;
-
-    overflow: hidden;
-    width: 100%;
-
-    border: 1px solid @lib__colors__N400;
-
-    & + .grid {
+    & + .list {
       margin-top: 0.125rem;
     }
   }
 
-  .cell {
-    display: flex;
-    align-items: center;
-
-    border-bottom: 1px solid @lib__colors__N400;
-    padding: 0.75rem 0.25rem 0.75rem;
-  }
-
-  .cellOfOddRow {
-    background: @lib__colors__N050;
-  }
-
-  .cellOfLastRow {
-    border-bottom: none;
-  }
-
-  .firstCellInRow {
-    padding-left: 1.25rem;
+  .listItem {
+    justify-content: flex-start;
   }
 
   .skeleton {

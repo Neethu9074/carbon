@@ -43,17 +43,18 @@ export default function ApplicationsTopList({ config }) {
   return (
     <TopListWidget
       {...config}
-      getItems={getApplicationsWithDefaults}
+      header={header}
       getItem={getItem}
-      pinnedItemTypes={[types.APPLCATIONS]}
       getId={item => item.application.id}
+      pinnedItemTypes={[types.APPLCATIONS]}
+      columnDefinitions={columnDefinitions}
+      getItems={getApplicationsWithDefaults}
+      fullListViewLinkTitle="All Applications"
+      fullListView$={getView(applicationsList)}
       pinItem={id => pin(types.APPLCATIONS, id)}
       unpinItem={id => unpin(types.APPLCATIONS, id)}
-      columnDefinitions={columnDefinitions}
-      fullListView$={getView(applicationsList)}
-      fullListViewLinkTitle="All Applications"
-      header={header}
       EmptyStateComponent={ApplicationsNoDataNotification}
+      getItemLink={item => getApplicationDashboard(item.application.id)}
     />
   );
 }
@@ -125,7 +126,7 @@ function combineResults(applicationResult, metricResult) {
 
 const columnDefinitions = [
   {
-    column: 1,
+    width: '2rem',
     getContent(item) {
       const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
       if (maxSeverity !== undefined) {
@@ -141,13 +142,12 @@ const columnDefinitions = [
     }
   },
   {
-    column: 2,
+    width: '3rem',
     getContent() {
       return <SvgIcon type="lib_application" />;
     }
   },
   {
-    column: '3 / span 2',
     getContent(item) {
       return (
         <KeyValue
@@ -160,14 +160,12 @@ const columnDefinitions = [
     }
   },
   {
-    column: 5,
+    width: '3rem',
     getContent(item) {
-      const href$ = getApplicationDashboard(item.application.id);
-      const iconColor = href$ && theme.lib.colors.blue800;
       if (item.application.boundaryScope) {
         return (
           <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
+            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={theme.lib.colors.blue800} />
           </Tooltip>
         );
       }
@@ -175,7 +173,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 6,
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -192,7 +190,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 7,
+    width: '12rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
@@ -210,7 +208,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 8,
+    width: '14rem',
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart

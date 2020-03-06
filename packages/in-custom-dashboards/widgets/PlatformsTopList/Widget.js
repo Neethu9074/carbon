@@ -13,10 +13,13 @@ import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluste
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
+import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { pin, unpin, types } from 'in-cockpit/pinnedItems/pinnedItems';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
@@ -39,12 +42,23 @@ export default function PlatformsTopList({ config }) {
       getItems={getMergedData}
       getItem={getItem}
       pinnedItemTypes={pinnedTypes}
-      getId={item => (item.isKubernetes ? item.cluster.id : item.id)}
+      getId={getId}
       pinItem={(id, item) => pin(getTypeByItem(item), id)}
       unpinItem={(id, item) => unpin(getTypeByItem(item), id)}
       columnDefinitions={columnDefinitions}
+      getItemLink={item => {
+        return (item.isKubernetes
+          ? getClusterDashboard
+          : item.isPcf
+            ? getApplicationDashboard
+            : getVsphereDatacenterDashboard)(getId(item));
+      }}
     />
   );
+}
+
+function getId(item) {
+  return item.isKubernetes ? item.cluster.id : item.id;
 }
 
 function getTypeByItem(item) {
@@ -105,25 +119,24 @@ function mapPcfResult(result) {
 
 const columnDefinitions = [
   {
-    column: 1,
+    width: '2rem',
     getContent(item) {
       return <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
     }
   },
   {
-    column: 2,
+    width: '3rem',
     getContent(item) {
       return <SvgIcon type={getIcon(item)} />;
     }
   },
   {
-    column: '3 / span 2',
     getContent(item) {
       return <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />;
     }
   },
   {
-    column: 5,
+    width: '6rem',
     getContent(item) {
       if (item.isPcf || item.isKubernetes) {
         return null;
@@ -132,7 +145,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 6,
+    width: '6rem',
     getContent(item) {
       if (item.isPcf) {
         return null;
@@ -145,7 +158,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 7,
+    width: '12rem',
     getContent(item) {
       if (item.isPcf) {
         return <KeyValue label="Instances" value={<InstanceMetric applicationId={item.id} />} accentuated />;
@@ -164,7 +177,7 @@ const columnDefinitions = [
     }
   },
   {
-    column: 8,
+    width: '12rem',
     getContent(item) {
       if (item.isPcf) {
         return <KeyValue label="Memory Limit" value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;

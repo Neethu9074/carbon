@@ -15,7 +15,7 @@ import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
 
 const healthColumn = {
-  column: 1,
+  width: '2rem',
   getContent({ snapshot }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
@@ -27,7 +27,7 @@ const healthColumn = {
 };
 
 const iconColumn = {
-  column: 2,
+  width: '3rem',
   getContent({ snapshot }) {
     return <PluginIcon snapshot={snapshot} size="s" />;
   }
@@ -38,7 +38,6 @@ export default {
     healthColumn,
     iconColumn,
     {
-      column: '3 / span 3',
       ellipsis: true,
       getContent({ snapshot }) {
         return (
@@ -47,7 +46,7 @@ export default {
       }
     },
     {
-      column: 6,
+      width: '10rem',
       getContent({ snapshot }) {
         const data = snapshot.get('data');
         return (
@@ -61,7 +60,7 @@ export default {
       }
     },
     {
-      column: 7,
+      width: '5rem',
       getContent({ snapshot }) {
         return (
           <KeyValue
@@ -74,7 +73,7 @@ export default {
       }
     },
     {
-      column: 8,
+      width: '12rem',
       getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue
@@ -92,7 +91,6 @@ export default {
     healthColumn,
     iconColumn,
     {
-      column: '3 / span 3',
       ellipsis: true,
       getContent({ snapshot }) {
         return (
@@ -101,7 +99,7 @@ export default {
       }
     },
     {
-      column: 6,
+      width: '10rem',
       getContent({ snapshot }) {
         return (
           <KeyValue
@@ -114,7 +112,7 @@ export default {
       }
     },
     {
-      column: 7,
+      width: '10rem',
       getContent({ snapshot }) {
         return (
           <KeyValue
@@ -127,7 +125,7 @@ export default {
       }
     },
     {
-      column: 8,
+      width: '12rem',
       getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue
@@ -145,7 +143,6 @@ export default {
     healthColumn,
     iconColumn,
     {
-      column: '3 / span 4',
       ellipsis: true,
       getContent({ snapshot }) {
         return (
@@ -154,7 +151,7 @@ export default {
       }
     },
     {
-      column: 8,
+      width: '12rem',
       getContent({ snapshot }) {
         return (
           <SparkChartWithMetricValue

@@ -48,7 +48,7 @@ function SparkChartReactComponent(props) {
     sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} metrics={metrics} />;
   }
 
-  if (horizontalMetricValue) {
+  if (horizontalMetricValue !== undefined) {
     if (label) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
