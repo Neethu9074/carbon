@@ -36,7 +36,9 @@ export default function SvgIcon({
   iconPath,
   size = 'regular',
   onBlur,
-  onFocus
+  onFocus,
+  onMouseEnter,
+  onMouseLeave
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
@@ -83,6 +85,8 @@ export default function SvgIcon({
       ref={refSetter}
       onBlur={onBlur}
       onFocus={onFocus}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       id={id}
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
@@ -115,8 +119,10 @@ SvgIcon.propTypes = {
   iconPath: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onBlur: PropTypes.func,
-  onClick: PropTypes.func,
   onFocus: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onClick: PropTypes.func,
   refSetter: PropTypes.func,
   role: PropTypes.string,
   size: PropTypes.oneOf(['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']),

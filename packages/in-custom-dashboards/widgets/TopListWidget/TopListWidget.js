@@ -80,21 +80,21 @@ function TopListWidget(props) {
   const unpinItemCb = item => unpinItem(getId(item), item);
   const hasContent = hasContentToRender(resultForEmptyStateCheck, numPinnedItems);
 
-  const headerContent = hasContent ? (
-    <>
-      {header && <div className={locals.customHeaderWrapper}>{header}</div>}
-      <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
-    </>
-  ) : null;
-
   return (
     <DraggableLightCard
       label={label}
       icon={cardIcon}
-      fullListViewLinkTitle={headerContent && fullListViewLinkTitle}
-      fullListView$={headerContent && fullListView$}
+      fullListViewLinkTitle={hasContent && fullListViewLinkTitle}
+      fullListView$={hasContent && fullListView$}
       useMaxAvailableHeight
-      rightHeaderContent={headerContent}
+      rightHeaderContent={
+        hasContent && (
+          <>
+            {header && <div className={locals.customHeaderWrapper}>{header}</div>}
+            <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
+          </>
+        )
+      }
     >
       <div className={locals.listsWrapper}>
         {numPinnedItems > 0 && (
@@ -103,7 +103,15 @@ function TopListWidget(props) {
             getItem={getItem}
             getItemLink={getItemLink}
             pinnedItemIdsByType={pinnedItemIdsByType}
-            columnDefinitions={[...columnDefinitions, getStarColumn(true, pinItemCb, unpinItemCb)]}
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                width: '2rem',
+                getContent(item) {
+                  return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                }
+              }
+            ]}
           />
         )}
 
@@ -113,7 +121,15 @@ function TopListWidget(props) {
             timeConfig={timeConfig}
             getItemLink={getItemLink}
             numSkeletonRows={numRegularItems}
-            columnDefinitions={[...columnDefinitions, getStarColumn(false, pinItemCb, unpinItemCb)]}
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                width: '2rem',
+                getContent(item) {
+                  return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                }
+              }
+            ]}
           />
         )}
       </div>
@@ -143,15 +159,6 @@ function getFlattenedIds(IdsByType) {
     }
   }
   return allIds;
-}
-
-function getStarColumn(pinned, pinItem, unpinItem) {
-  return {
-    width: '2rem',
-    getContent(item) {
-      return <Star pinned={pinned} pinItem={pinItem} unpinItem={unpinItem} item={item} />;
-    }
-  };
 }
 
 function DefaultEmptyStateContent({ cardIcon, label }) {
