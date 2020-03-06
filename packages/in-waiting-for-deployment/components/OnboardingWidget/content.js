@@ -9,7 +9,7 @@ import {
   getAgentDownloadURL,
   HelpBox,
   Input,
-  JSON,
+  JSONFile,
   Listing,
   Row,
   Script,
@@ -17,7 +17,7 @@ import {
   TextWithLink,
   toURLstring,
   ValidatedInputFields,
-  YAML
+  YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
@@ -245,7 +245,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       />
       <Spacer />
       <Description lines={['The EC2 Virtual Machine running the Instana AWS Sensor needs the following IAM Roles.']} />
-      <JSON
+      <JSONFile
         content={
           '{\n  "Version": "2012-10-17",\n  "Statement": [{\n' +
           '    "Action": [\n' +
@@ -311,7 +311,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           'The role above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
         ]}
       />
-      <JSON
+      <JSONFile
         content={
           '{\n' +
           '  "Version": "2012-10-17",\n' +
@@ -753,7 +753,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
             {clusterNameInput}
             <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
           </Row>
-          <YAML
+          <YAMLFile
             title="daemonset.yaml"
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName)}
@@ -804,7 +804,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             {agentReleaseVersionInput}
           </Row>
           <Row>
-            <YAML
+            <YAMLFile
               title="runtime-config.yml"
               disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage}
               content={

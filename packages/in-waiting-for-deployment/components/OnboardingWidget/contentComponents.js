@@ -128,15 +128,16 @@ export function Row({ children }) {
   );
 }
 
-export function YAML(props) {
+export function YAMLFile(props) {
   return <RichCode {...props} language="yaml" />;
 }
 
-export function JSON(props) {
+export function JSONFile(props) {
   return <RichCode {...props} language="json" />;
 }
 
-export function RichCode(props) {
+function RichCode(props) {
+  const [downloadLink, setDownloadlink] = useState(null);
   const { content, disabledErrorMessage, language } = props;
   const title = props.title || `Configuration.${language}`;
   const button = (
@@ -159,6 +160,23 @@ export function RichCode(props) {
         button
       )}
       <CopyToClipboardButton getText={() => content} disabledErrorMessage={disabledErrorMessage} />
+      <a ref={link => setDownloadlink(link)} onClick={e => e.stopPropagation()}>
+        <Button
+          icon="lib_actions_download"
+          disabled={!!disabledErrorMessage}
+          onClick={e => {
+            e.stopPropagation();
+            if (!downloadLink) {
+              return;
+            }
+
+            downloadLink.setAttribute('href', `data:text/${language};charset=utf-8,${encodeURIComponent(content)}`);
+            downloadLink.setAttribute('download', `configuration.${language}`);
+          }}
+        >
+          Download
+        </Button>
+      </a>
     </Row>
   );
 }
