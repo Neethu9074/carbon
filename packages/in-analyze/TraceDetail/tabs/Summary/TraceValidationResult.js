@@ -11,7 +11,9 @@ export const issueMessages = {
   too_many_spans: 'The trace contains too many calls, it can only be partially displayed and downloaded.',
   missing_parent_span: 'Parent span is missing for some of the entry spans in this trace during the processing.',
   database_parent_spans:
-    'Some calls are malformed: they are built from a pair of exit/entry spans where the exit span represents a database call.'
+    'Some calls are malformed: they are built from a pair of exit/entry spans where the exit span represents a database call.',
+  malformed_trace:
+    'The trace contains some unexpected parent-child span relations, such as an exit span followed by an intermediate span.'
 };
 
 export default function TraceValidationResult({ issues }) {
