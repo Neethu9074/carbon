@@ -19,15 +19,24 @@ const isInternalVisibleStore = createStore({
 export const isInternalVisible$ = isInternalVisibleStore.observable;
 
 let setAutoInvisibleHandle;
-function setVisible() {
-  isInternalVisibleStore.mutateTo(true);
+function toggleVisible() {
+  isInternalVisibleStore.applyStateMutation(oldContent => {
+    // Make sure both the current setting is updated (toggled) but also persisted in the local-store
+    if (oldContent === true) {
+      trySet(localStorageKey, -1);
+      return false;
+    } else {
+      trySet(localStorageKey, Date.now());
+      return true;
+    }
+  });
+
   clearTimeout(setAutoInvisibleHandle);
   setAutoInvisibleHandle = setTimeout(() => isInternalVisibleStore.mutateTo(false), showInternalFeatureForMillis);
-  trySet(localStorageKey, Date.now());
 }
 
-const timesClicked = [];
 const numClicksNeeded = 10;
+let timesClicked = [];
 let currentIndex = 0;
 export function click() {
   const timeClicked = Date.now();
@@ -36,7 +45,8 @@ export function click() {
   const timeBetweenAllClicks = (temp[numClicksNeeded - 1] || Number.MAX_VALUE) - temp[0];
 
   if (isInstanaEmail && timeBetweenAllClicks < 2000) {
-    setVisible();
+    timesClicked = []; // Reset to start next session of 10 clicks
+    toggleVisible();
   }
 }
 

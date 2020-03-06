@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
@@ -14,90 +15,108 @@ import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import connectTo from 'in-hoc/connectTo';
 
-export default function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
-  const includeSyntheticCalls = get(data, 'synthetic', false);
-  const type = data.type;
+export default connectTo(
+  {
+    isInternalVisible: isInternalVisible$
+  },
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
+    const includeSyntheticCalls = get(data, 'synthetic', false);
+    const type = data.type;
 
-  const filter = {
-    timeConfig,
-    endpoint: endpointId,
-    application: applicationId,
-    applicationBoundaryScope: boundaryScope,
-    includeSyntheticCalls
-  };
+    const filter = {
+      timeConfig,
+      endpoint: endpointId,
+      application: applicationId,
+      applicationBoundaryScope: boundaryScope,
+      includeSyntheticCalls
+    };
 
-  return (
-    <Fragment>
-      <Row>
-        <Col xs>
-          <AppDataKpiCard
-            title="Total Calls"
-            formatter={number.compact}
-            metricsConfig={{
-              filter,
-              metrics: {
-                calls: {
-                  metric: 'calls',
-                  aggregation: 'SUM'
+    return (
+      <Fragment>
+        <Row>
+          <Col xs>
+            <AppDataKpiCard
+              title="Total Calls"
+              formatter={number.compact}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  calls: {
+                    metric: 'calls',
+                    aggregation: 'SUM'
+                  }
                 }
-              }
-            }}
-          />
-        </Col>
-        <Col xs>
-          <AppDataKpiCard
-            title="Erroneous Calls"
-            formatter={number.compact}
-            companionFormatter={v => `${percentage.detailed(v)} of all calls`}
-            metricsConfig={{
-              filter,
-              metrics: {
-                erroneousCalls: {
-                  metric: 'erroneousCalls',
-                  aggregation: 'SUM'
-                },
-                errors: {
-                  metric: 'errors',
-                  aggregation: 'MEAN'
-                }
-              }
-            }}
-          />
-        </Col>
-        <Col xs>
-          <AppDataKpiCard
-            title="Mean Latency"
-            formatter={meanLatency.detailed}
-            metricsConfig={{
-              filter,
-              metrics: {
-                latency: {
-                  metric: 'latency',
-                  aggregation: 'MEAN'
-                }
-              }
-            }}
-          />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={4}>
-          {type.includes('HTTP') ? (
-            <CallsAndHttp
-              cardTitle="Calls"
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              boundaryScope={boundaryScope}
-              includeSyntheticCalls={includeSyntheticCalls}
-              timeConfig={timeConfig}
-              callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              }}
             />
-          ) : (
-            <CallsErrors
-              cardTitle="Calls"
+          </Col>
+          <Col xs>
+            <AppDataKpiCard
+              title="Erroneous Calls"
+              formatter={number.compact}
+              companionFormatter={v => `${percentage.detailed(v)} of all calls`}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  erroneousCalls: {
+                    metric: 'erroneousCalls',
+                    aggregation: 'SUM'
+                  },
+                  errors: {
+                    metric: 'errors',
+                    aggregation: 'MEAN'
+                  }
+                }
+              }}
+            />
+          </Col>
+          <Col xs>
+            <AppDataKpiCard
+              title="Mean Latency"
+              formatter={meanLatency.detailed}
+              metricsConfig={{
+                filter,
+                metrics: {
+                  latency: {
+                    metric: 'latency',
+                    aggregation: 'MEAN'
+                  }
+                }
+              }}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col lg={4}>
+            {type.includes('HTTP') ? (
+              <CallsAndHttp
+                cardTitle="Calls"
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                boundaryScope={boundaryScope}
+                includeSyntheticCalls={includeSyntheticCalls}
+                timeConfig={timeConfig}
+                callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              />
+            ) : (
+              <CallsErrors
+                cardTitle="Calls"
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                boundaryScope={boundaryScope}
+                includeSyntheticCalls={includeSyntheticCalls}
+                timeConfig={timeConfig}
+                groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              />
+            )}
+          </Col>
+          <Col lg={4}>
+            <Errors
+              cardTitle="Erroneous Call Rate"
               applicationId={applicationId}
               serviceId={serviceId}
               endpointId={endpointId}
@@ -106,72 +125,60 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               timeConfig={timeConfig}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
             />
-          )}
-        </Col>
-        <Col lg={4}>
-          <Errors
-            cardTitle="Erroneous Call Rate"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            includeSyntheticCalls={includeSyntheticCalls}
-            timeConfig={timeConfig}
-            groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-          />
-        </Col>
-        <Col lg={4}>
-          <LatencyAndDistribution
-            cardTitle="Latency"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            boundaryScope={boundaryScope}
-            includeSyntheticCalls={includeSyntheticCalls}
-            timeConfig={timeConfig}
-            percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
-          />
-        </Col>
-      </Row>
+          </Col>
+          <Col lg={4}>
+            <LatencyAndDistribution
+              cardTitle="Latency"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              boundaryScope={boundaryScope}
+              includeSyntheticCalls={includeSyntheticCalls}
+              timeConfig={timeConfig}
+              percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
+            />
+          </Col>
+        </Row>
 
-      {!includeSyntheticCalls && (
-        <Fragment>
-          <Row>
-            {apDashboardEventsEnabled ? (
-              <Col lg={6}>
-                <IssuesAndEvents
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  endpointId={endpointId}
-                  timeConfig={timeConfig}
-                />
-              </Col>
-            ) : (
-              <Col lg={6}>
-                <TraceTopList
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  endpointId={endpointId}
-                  timeConfig={timeConfig}
-                />
-              </Col>
-            )}
-            <Col lg={6}>
-              {type.includes('DATABASE') ? (
-                <DatabaseSections
-                  boundaryScope={boundaryScope}
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  endpointId={endpointId}
-                  timeConfig={timeConfig}
-                />
+        {!includeSyntheticCalls && (
+          <Fragment>
+            <Row>
+              {isInternalVisible || apDashboardEventsEnabled ? (
+                <Col lg={6}>
+                  <IssuesAndEvents
+                    applicationId={applicationId}
+                    serviceId={serviceId}
+                    endpointId={endpointId}
+                    timeConfig={timeConfig}
+                  />
+                </Col>
               ) : (
-                <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+                <Col lg={6}>
+                  <TraceTopList
+                    applicationId={applicationId}
+                    serviceId={serviceId}
+                    endpointId={endpointId}
+                    timeConfig={timeConfig}
+                  />
+                </Col>
               )}
-            </Col>
-          </Row>
-        </Fragment>
-      )}
-    </Fragment>
-  );
-}
+              <Col lg={6}>
+                {type.includes('DATABASE') ? (
+                  <DatabaseSections
+                    boundaryScope={boundaryScope}
+                    applicationId={applicationId}
+                    serviceId={serviceId}
+                    endpointId={endpointId}
+                    timeConfig={timeConfig}
+                  />
+                ) : (
+                  <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+                )}
+              </Col>
+            </Row>
+          </Fragment>
+        )}
+      </Fragment>
+    );
+  }
+);

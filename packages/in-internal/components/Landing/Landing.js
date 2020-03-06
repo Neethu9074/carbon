@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -8,7 +9,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
-import { isInstanaEngineer } from 'in-stores/user';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
 import Card from 'in-new-components/Card';
@@ -16,7 +16,10 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Landing.mless';
 
-export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeConfig }) {
+export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ }, function Landing({
+  timeConfig,
+  isInternalVisible
+}) {
   return (
     <>
       <div className={locals.header}>
@@ -361,7 +364,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
             </Col>
           </Row>
 
-          {isInstanaEngineer && (
+          {isInternalVisible && (
             <Row>
               <Col lg={12}>
                 <Card title="Available Instana Units">

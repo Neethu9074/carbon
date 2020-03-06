@@ -2,6 +2,7 @@ import { just, create } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import MobileAppMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/MobileAppMonitoringData';
 import ErroneousTraceIndicator from 'in-analyze/TraceDetail/components/ErroneousTraceIndicator';
@@ -29,7 +30,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
-import { isInstanaEngineer } from 'in-stores/user';
 import Button from 'in-new-components/Button';
 import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
@@ -112,7 +112,8 @@ class Summary extends React.Component {
       isLargeTrace,
       showLargeTrace,
       setShowLargeTrace,
-      callTreeResult
+      callTreeResult,
+      isInternalVisible
     } = this.props;
 
     const rootCall = callTreeResult.data;
@@ -126,7 +127,7 @@ class Summary extends React.Component {
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <TraceValidationResult issues={trace.issues} />
         <div className={locals.left}>
-          {isInstanaEngineer &&
+          {isInternalVisible &&
           trace.callRecordCount &&
           trace.callCountIgnoringBatchSize &&
           trace.callRecordCount !== trace.callCountIgnoringBatchSize ? (
@@ -141,7 +142,7 @@ class Summary extends React.Component {
               </Col>
             </Row>
           ) : null}
-          {isInstanaEngineer && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
+          {isInternalVisible && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
             <Row>
               <Col lg={12}>
                 <ProblemIndicator kind="warning" title="Batched Ingestion">
@@ -358,6 +359,7 @@ export default compose(
     })
   }),
   connect(props => ({
+    isInternalVisible: isInternalVisible$,
     callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
   })),
   withProps(props => ({

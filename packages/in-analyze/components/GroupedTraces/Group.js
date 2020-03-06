@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEntityLink';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -11,9 +12,9 @@ import { groupClickedTracker } from 'in-analyze/tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
-import { isInstanaEngineer } from 'in-stores/user';
 import { isBlank } from 'in-services/util/string';
 import { getTagType } from 'in-applications/tags';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Group.mless';
@@ -21,62 +22,68 @@ import locals from './Group.mless';
 const NO_VALUE = 'no_value';
 const NO_VALUE_LABEL = 'No Value';
 
-export default function Group({
-  dataSource,
-  item,
-  filters,
-  onChangeAnalyzeConfigAndGetAsUrlObservable,
-  dotColor,
-  showDot,
-  metrics,
-  availableMetrics
-}) {
-  const rowContent = (
-    <Fragment>
-      <Td className={locals.labelCell} ellipsis="50vw">
-        <div className={locals.cell}>
-          {showDot && (
-            <span className={locals.dot}>
-              {dotColor ? (
-                <div className={locals.rect} style={{ background: dotColor }} />
-              ) : (
-                <span className={locals.rectPlaceHolder} />
-              )}
-            </span>
-          )}
-          <Link
-            href$={onChangeAnalyzeConfigAndGetAsUrlObservable(getGroupingChange(filters, item.name))}
-            onClick={() => trackSetGrouping(filters, item.name)}
-            className={evaluateClassNames({
-              [locals.name]: true,
-              [locals.specialName]: isSpecialItem(item)
-            })}
-          >
-            {getItemLabel(item)}
-          </Link>
+export default connectTo(
+  {
+    isInternalVisible: isInternalVisible$
+  },
+  function Group({
+    dataSource,
+    item,
+    filters,
+    onChangeAnalyzeConfigAndGetAsUrlObservable,
+    dotColor,
+    showDot,
+    metrics,
+    availableMetrics,
+    isInternalVisible
+  }) {
+    const rowContent = (
+      <Fragment>
+        <Td className={locals.labelCell} ellipsis="50vw">
+          <div className={locals.cell}>
+            {showDot && (
+              <span className={locals.dot}>
+                {dotColor ? (
+                  <div className={locals.rect} style={{ background: dotColor }} />
+                ) : (
+                  <span className={locals.rectPlaceHolder} />
+                )}
+              </span>
+            )}
+            <Link
+              href$={onChangeAnalyzeConfigAndGetAsUrlObservable(getGroupingChange(filters, item.name))}
+              onClick={() => trackSetGrouping(filters, item.name)}
+              className={evaluateClassNames({
+                [locals.name]: true,
+                [locals.specialName]: isSpecialItem(item)
+              })}
+            >
+              {getItemLabel(item)}
+            </Link>
 
-          {// internal feature: link to infrastructure entity when group value is a snapshot id
-          isInstanaEngineer && (
-            <div className={locals.snapshotEntityLink}>
-              <SnapshotEntityLink
-                snapshotId={filters.group.name.indexOf('snapshotId') > 0 ? item.name : null}
-                time={item.timestamp}
-              />
-            </div>
-          )}
-        </div>
-      </Td>
+            {// internal feature: link to infrastructure entity when group value is a snapshot id
+            isInternalVisible && (
+              <div className={locals.snapshotEntityLink}>
+                <SnapshotEntityLink
+                  snapshotId={filters.group.name.indexOf('snapshotId') > 0 ? item.name : null}
+                  time={item.timestamp}
+                />
+              </div>
+            )}
+          </div>
+        </Td>
 
-      <Td noWrap>{number.compact(get(item, ['metrics', `${dataSource}_SUM_Agg`, 0, 1]))}</Td>
+        <Td noWrap>{number.compact(get(item, ['metrics', `${dataSource}_SUM_Agg`, 0, 1]))}</Td>
 
-      <Td noWrap>{formatDateTime(item.timestamp)}</Td>
+        <Td noWrap>{formatDateTime(item.timestamp)}</Td>
 
-      <MetricColumnCells item={item} metrics={metrics} availableMetrics={availableMetrics} />
-    </Fragment>
-  );
+        <MetricColumnCells item={item} metrics={metrics} availableMetrics={availableMetrics} />
+      </Fragment>
+    );
 
-  return <Tr size="compact">{rowContent}</Tr>;
-}
+    return <Tr size="compact">{rowContent}</Tr>;
+  }
+);
 
 function isSpecialItem(item) {
   return item.name === NO_VALUE;
