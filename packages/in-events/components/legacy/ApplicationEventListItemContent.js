@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
+import {
+  alertingMetricsGranularity,
+  alertingEventDetailsChartTimeframe,
+  errorRate
+} from 'in-applications/alerting/constants';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -33,9 +37,9 @@ export default connectTo(
     const applicationName = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
-    const thresholdValue = alertConfig.threshold.value;
     const operator = alertConfig.threshold.operator;
     const alertType = alertConfig.rule.alertType;
+    const threshold = alertConfig.threshold;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -53,12 +57,13 @@ export default connectTo(
             ErrorRateComponent={() => (
               <ErrorRateAlertingBarChart
                 applicationId={entityId}
-                threshold={thresholdValue}
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 granularity={alertingMetricsGranularity}
-                metricName="errorRate"
+                metricName={errorRate}
+                threshold={threshold}
+                timeThreshold={alertConfig.timeThreshold}
               />
             )}
           />

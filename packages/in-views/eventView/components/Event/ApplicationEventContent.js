@@ -44,13 +44,14 @@ export default connectTo(
     const applicationName = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
-    const thresholdValue = alertConfig.threshold.value;
     const operator = alertConfig.threshold.operator;
     const metricName = errorRate;
     const alertType = alertConfig.rule.alertType;
+    const threshold = alertConfig.threshold;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
+
     return (
       <Row>
         <Col xs>
@@ -75,12 +76,13 @@ export default connectTo(
               ErrorRateComponent={() => (
                 <ErrorRateAlertingBarChart
                   applicationId={entityId}
-                  threshold={thresholdValue}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   granularity={alertingMetricsGranularity}
                   metricName={metricName}
+                  threshold={threshold}
+                  timeThreshold={alertConfig.timeThreshold}
                 />
               )}
             />
