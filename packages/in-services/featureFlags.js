@@ -10,14 +10,12 @@ const trainingTu = config.tenant === 'training';
 
 const onlyInternally =
   __DEV__ || (config.tenant === 'instana' && config.tenantUnit === 'test') || config.tenant === 'instanaops';
-const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 
 // ########################################################################################
 // Regular feature flags
 // ########################################################################################
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
-export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const tenantSwitcherEnabled = isFeatureFlagEnabled('tenantSwitcherEnabled');
 export const releaseNotesEnabled = isFeatureFlagEnabled('releaseNotesEnabled');
 export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEnabled');
