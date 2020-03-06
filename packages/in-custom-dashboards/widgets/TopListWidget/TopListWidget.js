@@ -96,43 +96,46 @@ function TopListWidget(props) {
         )
       }
     >
-      <div className={locals.listsWrapper}>
-        {numPinnedItems > 0 && (
-          <StarredItemList
-            timeConfig={timeConfig}
-            getItem={getItem}
-            getItemLink={getItemLink}
-            pinnedItemIdsByType={pinnedItemIdsByType}
-            columnDefinitions={[
-              ...columnDefinitions,
-              {
-                width: '2rem',
-                getContent(item) {
-                  return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
-                }
-              }
-            ]}
-          />
-        )}
+      {numPinnedItems > 0 ||
+        (numRegularItems > 0 && (
+          <div className={locals.listsWrapper}>
+            {numPinnedItems > 0 && (
+              <StarredItemList
+                timeConfig={timeConfig}
+                getItem={getItem}
+                getItemLink={getItemLink}
+                pinnedItemIdsByType={pinnedItemIdsByType}
+                columnDefinitions={[
+                  ...columnDefinitions,
+                  {
+                    width: '2rem',
+                    getContent(item) {
+                      return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                    }
+                  }
+                ]}
+              />
+            )}
 
-        {numRegularItems > 0 && (
-          <ItemList
-            result={result}
-            timeConfig={timeConfig}
-            getItemLink={getItemLink}
-            numSkeletonRows={numRegularItems}
-            columnDefinitions={[
-              ...columnDefinitions,
-              {
-                width: '2rem',
-                getContent(item) {
-                  return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
-                }
-              }
-            ]}
-          />
-        )}
-      </div>
+            {numRegularItems > 0 && (
+              <ItemList
+                result={result}
+                timeConfig={timeConfig}
+                getItemLink={getItemLink}
+                numSkeletonRows={numRegularItems}
+                columnDefinitions={[
+                  ...columnDefinitions,
+                  {
+                    width: '2rem',
+                    getContent(item) {
+                      return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                    }
+                  }
+                ]}
+              />
+            )}
+          </div>
+        ))}
 
       {!hasContent && <EmptyStateComponent {...props} />}
 
