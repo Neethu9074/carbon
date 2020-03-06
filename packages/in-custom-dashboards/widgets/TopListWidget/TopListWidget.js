@@ -42,6 +42,8 @@ export default compose(
         return agg;
       }, {})
     ),
+    
+    // these two will share the same subscription because query is initially empty
     result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query })),
     resultForEmptyStateCheck: timeConfig$.flatMap(timeConfig => getItems({ timeConfig }))
   }))

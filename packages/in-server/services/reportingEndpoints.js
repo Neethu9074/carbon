@@ -6,7 +6,7 @@ exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
   return new Promise(resolve => {
     sendRequest(
       {
-        url: butlerUrl,
+        url: `${butlerUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
         timeout: 15000
       },
       (error, response, reportingConfig) => {
@@ -35,9 +35,6 @@ exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
     );
   });
 };
-
-exports.resolveAgentEndpoint = resolveAgentEndpoint;
-exports.resolveAgentEndpointPort = resolveAgentEndpointPort;
 
 function resolveAgentEndpoint(tenant, unit) {
   const clientConfig = serverConfig.clientConfig;

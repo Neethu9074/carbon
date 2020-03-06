@@ -1,5 +1,5 @@
+const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const serverConfig = require('../../serverConfig.js');
-const { resolveAgentEndpoint, resolveAgentEndpointPort } = require('../agentEndpoint.js');
 
 exports.getFeatureFlags = () => Promise.resolve(serverConfig.clientConfig.featureFlags);
 exports.getBaseUrl = () => Promise.resolve(serverConfig.baseUrl);
@@ -10,10 +10,5 @@ exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeep
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
 exports.getReportingEndpoints = (tenant, unit) => {
-  const config = {
-    agentEndpoint: resolveAgentEndpoint(tenant, unit),
-    port: resolveAgentEndpointPort()
-  };
-  config.serverlessEndpoint = `${config.agentEndpoint}:8990`;
-  Promise.resolve(config);
+  return getReportingEndpointsFromButler(serverConfig.butlerBaseUrl, tenant, unit);
 };

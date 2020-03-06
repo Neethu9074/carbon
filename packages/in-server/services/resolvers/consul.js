@@ -1,8 +1,8 @@
 const rp = require('request-promise');
 
+const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const getFeatureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
-const { getReportingEndpointsFromButler } = require('../agentEndpoint.js');
 const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
@@ -64,7 +64,7 @@ exports.getConfiguration = (tenant, unit) =>
 
 exports.getReportingEndpoints = (tenant, unit) => {
   return getButlerBaseUrl().then(butlerBaseUrl => {
-    return getReportingEndpointsFromButler(`${butlerBaseUrl}/tenants/${tenant}/unit/${unit}/acceptors`, tenant, unit);
+    return getReportingEndpointsFromButler(butlerBaseUrl, tenant, unit);
   });
 };
 
