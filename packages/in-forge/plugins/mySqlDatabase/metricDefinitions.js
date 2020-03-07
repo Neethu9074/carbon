@@ -86,7 +86,27 @@ export default [
     min: 0,
     category: ['Queries'],
     formatter: number
+  },
+  {
+    metrics: [
+      'wait_events.wait/io/file',
+      'wait_events.wait/io/socket',
+      'wait_events.wait/io/table',
+      'wait_events.wait/lock/table',
+      'wait_events.wait/synch/cond',
+      'wait_events.wait/synch/mutex',
+      'wait_events.wait/synch/rwlock'
+    ],
+    labels: [
+      'wait/io/file',
+      'wait/io/socket',
+      'wait/io/table',
+      'wait/lock/table',
+      'wait/synch/cond',
+      'wait/synch/mutex',
+      'wait/synch/rwlock'
+    ],
+    min: 0,
+    formatter: number
   }
-
-  // TODO: Wait metric
 ];

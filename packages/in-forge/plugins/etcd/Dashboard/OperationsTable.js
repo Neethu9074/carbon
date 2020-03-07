@@ -27,7 +27,7 @@ const cols = [
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
@@ -43,7 +43,7 @@ const cols = [
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   }
@@ -83,8 +83,9 @@ function getRowDetails(row) {
         formatter: zeroDecimalPlaces,
         metrics: ['storage.' + row.key + '_success', 'storage.' + row.key + '_fail'],
         labels: ['Success', 'Fail'],
-        type: 'line',
-        colors: [theme.lib.colors.green800, theme.lib.colors.red800]
+        type: 'stackedBar',
+        colors: [theme.lib.colors.green800, theme.lib.colors.red800],
+        aggregation: 'sum'
       }}
     />
   );

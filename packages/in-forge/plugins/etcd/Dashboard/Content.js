@@ -23,7 +23,8 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
             metrics: ['requests_received', 'requests_sent'],
             labels: ['Received', 'Sent'],
             formatter: zeroDecimalPlaces,
-            type: 'line'
+            type: 'stackedBar',
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
@@ -35,7 +36,8 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
             metrics: ['bytes_per_sec_received', 'bytes_per_sec_sent'],
             labels: ['Received', 'Sent'],
             formatter: bytesZeroDecimalPlaces,
-            type: 'line'
+            type: 'stackedBar',
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
