@@ -1,11 +1,17 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getApplication from 'in-subscription/application/getApplication';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
-import { getModifiedUrlStream } from 'in-stores/navigation';
+import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
@@ -15,7 +21,28 @@ const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) {
+export default connect(({ applicationId, serviceId, endpointId }) => {
+  const observables = {};
+  if (applicationId) {
+    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
+  }
+  if (serviceId) {
+    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
+  }
+  if (endpointId) {
+    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
+  }
+  return observables;
+})(function DatabaseStatementTopList({
+  applicationId,
+  applicationLabel,
+  serviceId,
+  serviceLabel,
+  endpointId,
+  endpointLabel,
+  boundaryScope,
+  timeConfig
+}) {
   return (
     <TopList
       title="Top Statements"
@@ -31,13 +58,16 @@ export default function DatabaseStatementTopList({ applicationId, serviceId, end
       renderMetric={Metric}
       timeConfig={timeConfig}
       applicationId={applicationId}
+      applicationLabel={applicationLabel}
       serviceId={serviceId}
+      serviceLabel={serviceLabel}
       endpointId={endpointId}
+      endpointLabel={endpointLabel}
       boundaryScope={boundaryScope}
       colors={colors}
     />
   );
-}
+});
 
 function getItemsFromResult(result) {
   return result.data;
@@ -71,13 +101,19 @@ function getList({
   });
 }
 
-function Label({ item }, _item, className) {
+function Label({ item, applicationLabel, serviceLabel, endpointLabel }, _item, className) {
   return (
     <Fragment>
       <Link
         className={className}
-        href$={getModifiedUrlStream(params => {
-          params.pathname += `/database/statements/${item.id}`;
+        href$={getLinkToAnalyze({
+          applicationName: applicationLabel,
+          serviceName: serviceLabel,
+          endpointName: endpointLabel,
+          boundaryScope: boundaryScopes.all,
+          dataSource: 'calls',
+          filters: [{ name: 'call.database.statement', operator: 'equals', value: item.statement }],
+          groupByTag: {}
         })}
         onClick={() => trackTopListNavigation()}
       >
@@ -89,4 +125,8 @@ function Label({ item }, _item, className) {
 
 function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
+}
+
+function getLabel(result) {
+  return get(result, ['data', 'label'], null);
 }
