@@ -8,7 +8,7 @@ import { createStore } from 'in-stores/store';
 const logger = createLogger('in-stores/starredItems/store');
 
 const store = createStore({
-  initialValue: get(window, ['instana', 'starredItems']) || []
+  initialValue: Array.isArray(get(window, ['instana', 'starredItems'])) ? get(window, ['instana', 'starredItems']) : []
 });
 
 export const starredItems$ = store.observable;
