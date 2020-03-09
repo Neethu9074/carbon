@@ -15,7 +15,7 @@ export default function ApplicationAlertConfigButton({ alertConfig }) {
         goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.applicationId);
       }}
     >
-      View/Edit Alerting Configuration
+      View Alerting Configuration
     </Button>
   );
 }

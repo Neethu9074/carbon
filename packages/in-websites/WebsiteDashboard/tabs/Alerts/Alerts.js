@@ -58,7 +58,7 @@ export default function Alerts({ websiteLabel, websiteId }) {
   return (
     <List
       getHeader={() => header}
-      getEntityName={config => config.name}
+      getEntityName={getEntityName}
       columnDefinitions={getColumnDefinitions(websiteLabel)}
       tableActions={{
         delete: {
@@ -90,6 +90,10 @@ Alerts.propTypes = {
   websiteLabel: PropTypes.string.isRequired,
   websiteId: PropTypes.string.isRequired
 };
+
+function getEntityName(entity) {
+  return `alert "${entity.name}"`;
+}
 
 function getNameContent(config) {
   return (

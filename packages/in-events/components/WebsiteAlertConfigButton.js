@@ -17,7 +17,7 @@ export default function WebsiteAlertConfigButton({ alertConfig }) {
         goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.websiteId);
       }}
     >
-      View/Edit Alerting Configuration
+      View Alerting Configuration
     </Button>
   );
 }
