@@ -1,3 +1,4 @@
+import Map from 'promise-loader?global,infrastructure!in-map/index';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -5,7 +6,6 @@ import GraphView from 'promise-loader?global,graph-view!in-components/graphView/
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import InternalViews from 'promise-loader?global,internal!in-internal';
-import Map from 'promise-loader?global,infrastructure!in-map/index';
 
 import {
   hasApplicationsAccess,
@@ -18,7 +18,6 @@ import {
   pcfEnabled,
   vsphereEnabled,
   mobileAppMonitoringEnabled,
-  cockpitEnabled,
   customDashboardsEnabled
 } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
@@ -66,7 +65,7 @@ export default (
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsEnabled && customDashboardsRoutes}
-    {cockpitEnabled && cockpitRoutes}
+    {cockpitRoutes}
 
     {profilingRoutes}
 

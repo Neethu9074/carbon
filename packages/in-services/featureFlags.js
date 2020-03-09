@@ -35,7 +35,6 @@ export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', f
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
 export const apDashboardEventsEnabled = isFeatureFlagEnabled('apDashboardEventsEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
-export const cockpitEnabled = isFeatureFlagEnabled('cockpitEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
