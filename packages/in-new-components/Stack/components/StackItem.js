@@ -75,7 +75,7 @@ const ProfileIndicator = connectTo(
   }
 );
 
-const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroenous Calls' }];
+const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];
 
 const showApKpis = metrics => {
   return (

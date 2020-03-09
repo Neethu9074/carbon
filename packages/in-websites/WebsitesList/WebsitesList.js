@@ -1,8 +1,12 @@
+import { get } from 'lodash';
 import React from 'react';
 
+import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
@@ -10,6 +14,7 @@ import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
@@ -29,7 +34,11 @@ const columnDefinitions = [
     id: 'websiteLabel',
     label: 'Name',
     getContent(item) {
-      return <Link href$={getLinkToWebsite(item.website.id)}>{item.website.label}</Link>;
+      return (
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['healthInfo', 'maxSeverity'], 0)}>
+          <Link href$={getLinkToWebsite(item.website.id)}>{item.website.label}</Link>
+        </SeverityIndicatorCellContentWrapper>
+      );
     }
   },
   {
@@ -63,6 +72,23 @@ const columnDefinitions = [
           metrics={item.metrics.onLoadTime || []}
           metric={item.metrics.onLoadTimeAgg}
           tooltipFormatter={meanLatencyFixed.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <WebsiteHealthIndicatorBehavior
+          websiteId={item.website.id}
+          openIssues={get(item, ['healthInfo', 'openIssues', 'length'], 0)}
+          maxSeverity={get(item, ['healthInfo', 'maxSeverity'], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          inContentArea
         />
       );
     }

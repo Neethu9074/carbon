@@ -46,30 +46,16 @@ export default {
       }
     },
     {
-      width: '10rem',
+      width: '15rem',
       getContent({ snapshot }) {
         const data = snapshot.get('data');
-        return (
-          <KeyValue
-            label="OS"
-            value={`${data.get('os.name', '')} ${data.get('os.version', '')}`}
-            theme={themes.blue}
-            accentuated
-          />
-        );
+        return <KeyValue label="OS" value={`${data.get('os.name', '')} ${data.get('os.version', '')}`} accentuated />;
       }
     },
     {
       width: '5rem',
       getContent({ snapshot }) {
-        return (
-          <KeyValue
-            label="# of CPUs"
-            value={snapshot.getIn(['data', 'cpu.count'], '')}
-            theme={themes.blue}
-            accentuated
-          />
-        );
+        return <KeyValue label="# of CPUs" value={snapshot.getIn(['data', 'cpu.count'], '')} accentuated />;
       }
     },
     {

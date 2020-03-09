@@ -17,7 +17,7 @@ export default function EntityWithIcon({ label, icon, iconPath, rootOrUnknown, l
           [locals.rootOrUnknown]: rootOrUnknown
         })}
       >
-        {shorten(label, length || 22)}
+        {shorten(label, length || 24)}
       </span>
     </div>
   );

@@ -21,6 +21,7 @@ import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
 import Pill from 'in-new-components/Pill';
+import { role } from 'in-stores/user';
 
 import alertsLocals from './Alerts.mless';
 import locals from './AlertHeader.mless';
@@ -73,50 +74,57 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
             />
           )}
 
-          {!alertConfig.readOnly && (
-            <>
-              <SvgIcon
-                className={locals.actionIcon}
-                type={
-                  isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
-                }
-                spinning={isToggling}
-                onClick={() => {
-                  if (!isToggling) {
-                    doToggleEnabled(alertConfig, setIsToggling, setRevision, setErrorMessage);
+          {role.canConfigureCustomAlerts &&
+            !alertConfig.readOnly && (
+              <>
+                <SvgIcon
+                  className={locals.actionIcon}
+                  type={
+                    isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
                   }
-                }}
-              />
+                  spinning={isToggling}
+                  onClick={() => {
+                    if (!isToggling) {
+                      doToggleEnabled(alertConfig, setIsToggling, setRevision, setErrorMessage);
+                    }
+                  }}
+                />
 
-              <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
 
-              <SvgIcon
-                className={locals.actionIcon}
-                type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                spinning={isDeleting}
-                onClick={() => {
-                  if (!isDeleting) {
-                    setActiveDialog(
-                      <ConfirmationDialog
-                        header="Please Confirm"
-                        description={
-                          <span>
-                            Are you sure you want to remove the <strong>alert</strong>?
-                          </span>
-                        }
-                        bButtonLabel="Remove"
-                        onB={() => {
-                          close();
-                          doDelete(alertConfig, setIsDeleting, setErrorMessage);
-                        }}
-                        bButtonIcon="lib_actions_delete"
-                      />
-                    );
-                  }
-                }}
-              />
-            </>
-          )}
+                <SvgIcon
+                  className={locals.actionIcon}
+                  type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
+                  spinning={isDeleting}
+                  onClick={() => {
+                    if (!isDeleting) {
+                      setActiveDialog(
+                        <ConfirmationDialog
+                          header="Please Confirm"
+                          description={
+                            <span>
+                              Are you sure you want to remove the{' '}
+                              <strong>
+                                alert &quot;
+                                {alertConfig.name}
+                                &quot;
+                              </strong>
+                              ?
+                            </span>
+                          }
+                          bButtonLabel="Remove"
+                          onB={() => {
+                            close();
+                            doDelete(alertConfig, setIsDeleting, setErrorMessage);
+                          }}
+                          bButtonIcon="lib_actions_delete"
+                        />
+                      );
+                    }
+                  }}
+                />
+              </>
+            )}
         </div>
       </div>
       {isDeletedConfig && (

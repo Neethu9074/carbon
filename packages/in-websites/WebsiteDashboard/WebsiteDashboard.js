@@ -25,6 +25,7 @@ import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
+import { role } from 'in-stores/user';
 
 export default compose(
   withUrlState({
@@ -115,16 +116,18 @@ function WebsiteDashboard({
           websiteLabel: get(result, ['data', 'label'])
         })}
       />
-      <CreateAlert
-        websiteId={props.websiteId}
-        tagFilters={tagFilters}
-        websiteResult$={getWebsite({
-          id: props.websiteId,
-          timeConfig: props.timeConfig
-        })}
-        timeConfig={props.timeConfig}
-        location={location}
-      />
+      {role.canConfigureCustomAlerts && (
+        <CreateAlert
+          websiteId={props.websiteId}
+          tagFilters={tagFilters}
+          websiteResult$={getWebsite({
+            id: props.websiteId,
+            timeConfig: props.timeConfig
+          })}
+          timeConfig={props.timeConfig}
+          location={location}
+        />
+      )}
 
       <Footer />
     </>
