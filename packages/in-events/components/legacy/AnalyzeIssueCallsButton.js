@@ -122,7 +122,7 @@ function getAnalyzeOrder(event) {
   let orderDirection;
   const entityType = event.get('entityType');
   if (isLatencyEvent(event)) {
-    orderBy = isEndpointEntity(entityType) ? 'latency_MEAN' : 'latency_MEAN_Agg';
+    orderBy = isEndpointEntity(entityType) ? 'latency' : 'latency_MEAN_Agg';
     orderDirection = 'DESC';
   }
   return {
