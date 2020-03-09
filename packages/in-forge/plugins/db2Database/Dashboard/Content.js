@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
-// import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable'
+import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -22,24 +22,23 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        {/*<KpiKeyValue label="Queries">*/}
-        {/*  <MetricValue snapshotId={snapshotId} metric="queries" formatter={number.compact} />*/}
-        {/*</KpiKeyValue>*/}
-        {/*<KpiKeyValue label="Status">*/}
-        {/*  <MetricValue snapshotId={snapshotId} metric="status" formatter={number.compact} />*/}
-        {/*</KpiKeyValue>*/}
+        <KpiKeyValue label="Queries">
+          <MetricValue snapshotId={snapshotId} metric="databases.queries" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label="Status">
+          <MetricValue snapshotId={snapshotId} metric="databases.status" formatter={number.compact} />
+        </KpiKeyValue>
         <KpiKeyValue label="Client Connections">
-          <MetricValue snapshotId={snapshotId} metric="databaseStats.connectionsCount" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-
       <DashboardSection title="Connections">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['databaseStats.connectionsCount'],
+            metrics: ['databases.connectionsCount'],
             labels: ['Count'],
             formatter: number.compact,
             type: 'line'
@@ -53,10 +52,11 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['databaseStats.rowsRead', 'databaseStats.rowsReturned'],
-              labels: ['Read', 'Rows'],
+              metrics: ['databases.rowsRead', 'databases.rowsReturned'],
+              labels: ['Read', 'Returned'],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact,
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
@@ -66,10 +66,11 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['databaseStats.commits', 'databaseStats.rollbacks'],
+              metrics: ['databases.commits', 'databases.rollbacks'],
               labels: ['Commits', 'Rollbacks'],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact,
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
@@ -80,24 +81,27 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['databaseStats.selectQueries', 'databaseStats.mergeQueries'],
+            metrics: ['databases.selectQueries', 'databases.mergeQueries'],
             labels: ['SELECTS', 'MERGES'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
           y2={{
             min: 0,
-            metrics: ['databaseStats.ddlQueries', 'databaseStats.uidQueries', 'databaseStats.xQueries'],
+            metrics: ['databases.ddlQueries', 'databases.uidQueries', 'databases.xQueries'],
             labels: ['DDLS', 'UIDS', 'XQUERIES'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
           y3={{
             min: 0,
-            metrics: ['databaseStats.dynamicQueries', 'databaseStats.staticQueries', 'databaseStats.failedQueries'],
+            metrics: ['databases.dynamicQueries', 'databases.staticQueries', 'databases.failedQueries'],
             labels: ['Dynamic', 'Static', 'Failed'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
@@ -107,13 +111,15 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['databaseStats.staticQueries', 'databaseStats.dynamicQueries', 'databaseStats.failedQueries'],
+            metrics: ['databases.staticQueries', 'databases.dynamicQueries', 'databases.failedQueries'],
             labels: ['Static', 'Dynamic', 'Failed'],
             type: 'line',
-            formatter: number.detailed
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Buffer Pool Data Pages">
         <Chart
           snapshotId={snapshotId}
@@ -121,15 +127,16 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: [
-              'bufferPoolStats.poolDataWrites',
-              'bufferPoolStats.poolDataPhysicalReads',
-              'bufferPoolStats.poolDataLogicalReads',
-              'bufferPoolStats.poolTemporaryDataPhysicalReads',
-              'bufferPoolStats.poolTemporaryDataLogicalReads'
+              'bufferpools.dataWrites',
+              'bufferpools.dataPhysicalReads',
+              'bufferpools.dataLogicalReads',
+              'bufferpools.temporaryDataPhysicalReads',
+              'bufferpools.temporaryDataLogicalReads'
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.detailed
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
@@ -140,15 +147,16 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: [
-              'bufferPoolStats.poolIndexWrites',
-              'bufferPoolStats.reads.physical',
-              'bufferPoolStats.poolIndexLogicalReads',
-              'bufferPoolStats.reads.tempPhysical',
-              'bufferPoolStats.poolTemporaryDataLogicalReads'
+              'bufferpools.indexWrites',
+              'bufferpools.indexPhysicalReads',
+              'bufferpools.indexLogicalReads',
+              'bufferpools.temporaryIndexPhysicalRead',
+              'bufferpools.temporaryIndexLogicalReads'
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.detailed
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
@@ -159,33 +167,32 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: [
-              'bufferPoolStats.poolXdaDataWrites',
-              'bufferPoolStats.poolXdaDataPhysicalReads',
-              'bufferPoolStats.poolXdaDataLogicalReads',
-              'bufferPoolStats.reads.poolTemporaryXdaDataPhysicalReads',
-              'bufferPoolStats.poolTemporaryXdaDataLogicalReads'
+              'bufferpools.xdaDataWrites',
+              'bufferpools.xdaDataPhysicalReads',
+              'bufferpools.xdaDataLogicalReads',
+              'bufferpools.temporaryXdaDataPhysicalReads',
+              'bufferpools.temporaryXdaDataLogicalReads'
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.detailed
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
         />
       </DashboardSection>
-
       <DashboardSection title="Buffer Pool Time">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['bufferPoolStats.poolPhysicalReadTime', 'bufferPoolStats.poolPhysicalWriteTime'],
+            metrics: ['bufferpools.physicalReadTime', 'bufferpools.physicalWriteTime'],
             labels: ['Read', 'Write'],
             type: 'line',
             formatter: millis.detailed
           }}
         />
       </DashboardSection>
-
       <Columize>
         <DashboardSection title="Log Space">
           <Chart
@@ -193,7 +200,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['logStats.totalLogAvailable', 'logStats.totalLogsUsed'],
+              metrics: ['logs.available', 'logs.used'],
               labels: ['Available', 'Used'],
               type: 'line',
               formatter: bytes.detailed
@@ -206,29 +213,30 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['logStats.logReadsIO', 'logStats.logWritesIO'],
+              metrics: ['logs.readsIO', 'logs.writesIO'],
               labels: ['Reads', 'Writes'],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact,
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
       </Columize>
-
       <DashboardSection title="Log">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['logStats.logReads', 'logStats.logWrites'],
+            metrics: ['logs.reads', 'logs.writes'],
             labels: ['Reads', 'Writes'],
             type: 'line',
-            formatter: number.detailed
+            formatter: number.compact,
+            aggregation: 'sum'
           }}
           y2={{
             min: 0,
-            metrics: ['logStats.logReadTime', 'logStats.logWriteTime'],
+            metrics: ['logs.readTime', 'logs.writeTime'],
             labels: ['Read Time', 'Write Time'],
             type: 'line',
             formatter: millis.detailed
@@ -236,7 +244,8 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      {/*{data.get('containerNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}*/}
+      {data.get('databaseNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}
+
       {data.get('containerNames', emptyList).size > 0 && (
         <ContainersTable snapshot={snapshot} timeConfig={timeConfig} />
       )}
