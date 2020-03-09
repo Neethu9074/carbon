@@ -6,8 +6,7 @@ import {
   tenantSwitcherEnabled,
   vsphereEnabled,
   mobileAppMonitoringEnabled,
-  customDashboardsEnabled,
-  cockpitEnabled
+  customDashboardsEnabled
 } from 'in-services/featureFlags';
 import {
   mobileAppMonitoringPath,
@@ -45,10 +44,10 @@ import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-import StanV2 from 'in-new-components/MainNavigation/components/StanV2';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
+import Stan from 'in-new-components/MainNavigation/components/Stan';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
 import { isInstanaEmail, user, role } from 'in-stores/user';
@@ -82,64 +81,29 @@ export default function ViewSwitcher({
 
   return (
     <ul className={locals.list}>
-      {cockpitEnabled ? (
-        <>
-          <View
-            id="main-nav-system-overview"
-            renderContent={() => <StanV2 />}
-            isActive$={isView(cockpitPath)}
-            href$={getView(cockpitPath)}
-            {...commonProps}
-          />
-          <Spacer />
-
-          <CustomDashboards {...commonProps} />
-          <WebsiteMobileAppView {...commonProps} />
-          <Applications {...commonProps} />
-          <Platforms
-            {...commonProps}
-            expandedSubMenu={expandedSubMenu}
-            setExpandedSubMenu={setExpandedSubMenu}
-            sidebarIsExpanded={isExpanded}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-          <Infrastructure {...commonProps} />
-
-          <Spacer />
-
-          <Analyze {...commonProps} />
-          <Incidents {...commonProps} />
-        </>
-      ) : (
-        <>
-          <Spacer />
-
-          <CustomDashboards {...commonProps} />
-          <Infrastructure {...commonProps} />
-          <Platforms
-            {...commonProps}
-            expandedSubMenu={expandedSubMenu}
-            setExpandedSubMenu={setExpandedSubMenu}
-            sidebarIsExpanded={isExpanded}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-
-          <Spacer />
-
-          <Applications {...commonProps} />
-          <WebsiteMobileAppView {...commonProps} />
-          <Analyze {...commonProps} />
-
-          <Spacer />
-
-          <Incidents {...commonProps} />
-        </>
-      )}
-
+      <View
+        id="main-nav-system-overview"
+        renderContent={() => <Stan />}
+        isActive$={isView(cockpitPath)}
+        href$={getView(cockpitPath)}
+        {...commonProps}
+      />
       <Spacer />
-
+      <CustomDashboards {...commonProps} />
+      <WebsiteMobileAppView {...commonProps} />
+      <Applications {...commonProps} />
+      <Platforms
+        {...commonProps}
+        expandedSubMenu={expandedSubMenu}
+        setExpandedSubMenu={setExpandedSubMenu}
+        sidebarIsExpanded={isExpanded}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+      <Infrastructure {...commonProps} />
+      <Spacer />
+      <Analyze {...commonProps} />
+      <Incidents {...commonProps} />)<Spacer />
       <View
         id="main-nav-settings"
         label="Settings"
@@ -148,9 +112,7 @@ export default function ViewSwitcher({
         href$={getView(settingsPath)}
         {...commonProps}
       />
-
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
-
       <View
         id="main-nav-more"
         label="More"
@@ -426,7 +388,7 @@ function Platforms(props) {
     return null;
   }
 
-  const ViewItemForPlatforms = numPlatformsAvailable > 1 && cockpitEnabled ? SubViewItem : View;
+  const ViewItemForPlatforms = numPlatformsAvailable > 1 ? SubViewItem : View;
   const platforms = (
     <>
       {hasKubernetesAccess && (
@@ -464,7 +426,7 @@ function Platforms(props) {
     </>
   );
 
-  if (numPlatformsAvailable > 1 && cockpitEnabled) {
+  if (numPlatformsAvailable > 1) {
     return (
       <View
         id="main-nav-platforms"

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import StanImage from 'in-new-components/StanImage/StanImage';
 import Lettering from 'in-components/Lettering';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Stan.mless';
 
-export default function Stan({ isExpanded }) {
+export default function Stan() {
   return (
     <div className={locals.wrapper}>
-      <div className={locals.content} style={{ left: isExpanded ? -45 : 0 }}>
-        <StanImage className={locals.stan} />
+      <div className={locals.content}>
+        <SvgIcon className={locals.icon} type="lib_navigation_stan" size="l" />
         <Lettering />
       </div>
     </div>

@@ -1,8 +1,7 @@
 import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
-import { cockpitEnabled } from 'in-services/featureFlags';
 import { cockpit } from 'in-cockpit/navigation/paths';
 
-export const enabled = cockpitEnabled;
+export const enabled = true;
 export const persistencePrefix = 'cockpit';
 export const defaultPageKey = persistencePrefix;
 
