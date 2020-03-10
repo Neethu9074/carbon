@@ -120,5 +120,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.landing.page.configuration.enabled',
     consulKey: `settings/${tenant}-${unit}/LANDING_PAGE_CONFIGURATION_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationSmartAlertsEnabled',
+    instanaCtlKey: 'feature.application.smart.alerts.enabled',
+    consulKey: `settings/${tenant}-${unit}/APPLICATION_SMART_ALERTS_ENABLED`,
+    defaultValue: false
   }
 ];

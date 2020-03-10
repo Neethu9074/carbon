@@ -22,5 +22,6 @@ module.exports = {
   mobileAppMonitoringEnabled: true,
   apDashboardEventsEnabled: false,
   customDashboardsEnabled: true,
-  landingPageConfigurationEnabled: true
+  landingPageConfigurationEnabled: true,
+  applicationSmartAlertsEnabled: true
 };

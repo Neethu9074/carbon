@@ -40,6 +40,8 @@ export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPage
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
 
+export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
