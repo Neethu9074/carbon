@@ -73,8 +73,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               metrics: ['databases.rowsRead', 'databases.rowsReturned'],
               labels: ['Read', 'Returned'],
               type: 'line',
-              formatter: number.compact,
-              aggregation: 'sum'
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -87,8 +86,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               metrics: ['databases.commits', 'databases.rollbacks'],
               labels: ['Commits', 'Rollbacks'],
               type: 'line',
-              formatter: number.compact,
-              aggregation: 'sum'
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -102,24 +100,14 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: ['databases.selectQueries', 'databases.mergeQueries'],
             labels: ['SELECTS', 'MERGES'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['databases.ddlQueries', 'databases.uidQueries', 'databases.xQueries'],
             labels: ['DDLS', 'UIDS', 'XQUERIES'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
-          }}
-          y3={{
-            min: 0,
-            metrics: ['databases.dynamicQueries', 'databases.staticQueries', 'databases.failedQueries'],
-            labels: ['Dynamic', 'Static', 'Failed'],
-            type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -132,8 +120,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: ['databases.staticQueries', 'databases.dynamicQueries', 'databases.failedQueries'],
             labels: ['Static', 'Dynamic', 'Failed'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -153,8 +140,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -173,8 +159,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -193,8 +178,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -234,8 +218,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               metrics: ['logs.readsIO', 'logs.writesIO'],
               labels: ['Reads', 'Writes'],
               type: 'line',
-              formatter: number.compact,
-              aggregation: 'sum'
+              formatter: number.compact
             }}
           />
         </DashboardSection>
@@ -249,8 +232,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: ['logs.reads', 'logs.writes'],
             labels: ['Reads', 'Writes'],
             type: 'line',
-            formatter: number.compact,
-            aggregation: 'sum'
+            formatter: number.compact
           }}
           y2={{
             min: 0,
