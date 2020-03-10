@@ -1,21 +1,23 @@
 import React from 'react';
 
+import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart/LatencyDistributionChart';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
-import HistogramCardWrapper from 'in-new-components/Histogram/HistogramCardWrapper';
 
 export default function LatencyDistributionHistogram({
   timeConfig,
   applicationId,
   serviceId,
   endpointId,
-  cardTitle,
-  boundaryScope
+  boundaryScope,
+  callType
 }) {
   return (
-    <HistogramCardWrapper
-      cardTitle={cardTitle}
-      metricId="calls"
-      metricName="Calls"
+    <LatencyDistributionChart
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      boundaryScope={boundaryScope}
+      callType={callType}
       subscription={getLatencyDistribution({
         maxLatencyBuckets: 10,
         filter: {

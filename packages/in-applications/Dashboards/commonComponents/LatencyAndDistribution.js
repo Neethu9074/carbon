@@ -12,7 +12,8 @@ export default function LatencyAndDistribution({
   timeConfig,
   boundaryScope,
   cardTitle,
-  percentileGroupBy
+  percentileGroupBy,
+  callType
 }) {
   const tabs = ['Percentiles', 'Distribution'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -50,6 +51,7 @@ export default function LatencyAndDistribution({
           endpointId={endpointId}
           timeConfig={timeConfig}
           boundaryScope={boundaryScope}
+          callType={callType}
         />
       )}
     </Card>

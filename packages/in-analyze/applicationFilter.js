@@ -45,7 +45,9 @@ export const operators = {
   STARTS_WITH: 'STARTS_WITH',
   ENDS_WITH: 'ENDS_WITH',
   NOT_STARTS_WITH: 'NOT_STARTS_WITH',
-  NOT_ENDS_WITH: 'NOT_ENDS_WITH'
+  NOT_ENDS_WITH: 'NOT_ENDS_WITH',
+  GREATER_OR_EQUAL_THAN: 'GREATER_OR_EQUAL_THAN',
+  LESS_OR_EQUAL_THAN: 'LESS_OR_EQUAL_THAN'
 };
 
 export const entityTypes = {
@@ -90,7 +92,15 @@ export const TAG_TYPES = {
   },
   NUMBER: {
     technicalName: 'NUMBER',
-    operators: [operators.EQUALS, operators.NOT_EQUAL, operators.LESS_THAN, operators.GREATER_THAN, operators.IS_EMPTY]
+    operators: [
+      operators.EQUALS,
+      operators.NOT_EQUAL,
+      operators.LESS_THAN,
+      operators.GREATER_THAN,
+      operators.IS_EMPTY,
+      operators.LESS_OR_EQUAL_THAN,
+      operators.GREATER_OR_EQUAL_THAN
+    ]
   },
   BOOLEAN: {
     technicalName: 'BOOLEAN',
@@ -147,7 +157,9 @@ const operatorLabelLUT = {
     LESS_THAN: '<',
     GREATER_THAN: '>',
     NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present'
+    IS_EMPTY: 'is not present',
+    LESS_OR_EQUAL_THAN: '<=',
+    GREATER_OR_EQUAL_THAN: '>='
   },
   BOOLEAN: {
     EQUALS: 'is'

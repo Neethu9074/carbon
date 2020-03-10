@@ -87,7 +87,6 @@ export default connectTo(
             />
           </Col>
         </Row>
-
         <Row>
           <Col lg={4}>
             {type.includes('HTTP') ? (
@@ -136,10 +135,10 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
+              callType={type}
             />
           </Col>
         </Row>
-
         {!includeSyntheticCalls && (
           <Fragment>
             <Row>
