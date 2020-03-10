@@ -40,6 +40,8 @@ export const AlertConfigDialogWithThreshold = compose(
 
     const thresholdType = form.get(fieldNames.thresholdType).value;
 
+    thresholdOrBaselineLoadingSignal$.emit(form.get(hiddenFieldNames.calculateThresholdOnBackend).value);
+
     const observable = {};
     if (thresholdType === 'staticThreshold') {
       observable.result = resolveThresholdRequest(form, timeConfig, granularity)

@@ -5,7 +5,6 @@ import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/aler
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { withSlownessFormHistoricBaseline } from 'in-websites/eum-alerting/form/slownessForm';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import * as constants from 'in-websites/eum-alerting/constants';
@@ -67,8 +66,6 @@ function updateFormAndCallOnChange(form, config, onChange) {
     ruleMetricNameValue = constants.statusCodeCount;
     thresholdTypeValue = 'staticThreshold';
   }
-
-  thresholdOrBaselineLoadingSignal$.emit(true);
 
   onChange(
     updatedForm,

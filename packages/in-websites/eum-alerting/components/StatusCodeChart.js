@@ -14,11 +14,11 @@ import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
-import { statusCodeCount, statusCodeRate, thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -71,8 +71,6 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-
-                    thresholdOrBaselineLoadingSignal$.emit(true);
 
                     onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
                     websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
