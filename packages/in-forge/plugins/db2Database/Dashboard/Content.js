@@ -14,6 +14,24 @@ import MetricValue from 'in-components/MetricValue';
 export default function Db2Dashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
+  const statusFormatter = status => {
+    switch (status) {
+      case 0:
+        return 'ACTIVE';
+      case 1:
+        return 'QUIESCE PENDING';
+      case 2:
+        return 'QUIESCED';
+      case 3:
+        return 'ROLLFORWARD IN PROGRESS';
+      case 4:
+        return 'READ-ENABLED HADR STANDBY DB';
+      case 5:
+        return 'HADR STANDBY DB';
+      default:
+        return '-';
+    }
+  };
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
@@ -26,7 +44,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="databases.queries" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Status">
-          <MetricValue snapshotId={snapshotId} metric="databases.status" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="databases.status" formatter={statusFormatter} />
         </KpiKeyValue>
         <KpiKeyValue label="Client Connections">
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
