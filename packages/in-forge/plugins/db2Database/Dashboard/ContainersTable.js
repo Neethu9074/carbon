@@ -176,7 +176,7 @@ function getDetails(row) {
             formatter: millis.detailed,
             metrics: ['containers.' + row.key + '.poolReadTime', 'containers.' + row.key + '.poolWriteTime'],
             labels: ['Pool Read Time', 'Pool Write Time'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
       </Columize>
