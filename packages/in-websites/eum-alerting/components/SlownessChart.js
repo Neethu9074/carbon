@@ -18,11 +18,11 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
-import { resetAllThresholdValuesProps } from 'in-websites/eum-alerting/alertConfigUtil';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -73,13 +73,9 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     value: true
                   };
 
-                  onChange(
-                    form,
-                    fieldNames.ruleAggregation,
-                    value,
-                    doCalculateThresholdOnBackend,
-                    ...resetAllThresholdValuesProps(form)
-                  );
+                  thresholdOrBaselineLoadingSignal$.emit(true);
+
+                  onChange(form, fieldNames.ruleAggregation, value, doCalculateThresholdOnBackend);
                   websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
                 }}
                 defaultValue="P90"
@@ -96,11 +92,7 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                 options={selectOptions[fieldNames.thresholdOperator]}
                 onChange={e => {
                   const value = (e && e.value) || '';
-                  const doCalculateThresholdOnBackend = {
-                    name: hiddenFieldNames.calculateThresholdOnBackend,
-                    value: true
-                  };
-                  onChange(form, fieldNames.thresholdOperator, value, doCalculateThresholdOnBackend);
+                  onChange(form, fieldNames.thresholdOperator, value);
                   websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
                 }}
                 defaultValue=">="
@@ -135,13 +127,14 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     updatedForm = withSlownessFormHistoricBaseline(form);
                   }
 
+                  thresholdOrBaselineLoadingSignal$.emit(true);
+
                   onChange(
                     updatedForm,
                     fieldNames.thresholdType,
                     thresholdType,
                     doCalculateThresholdOnBackend,
-                    seasonality,
-                    ...resetAllThresholdValuesProps(updatedForm)
+                    seasonality
                   );
 
                   websitesAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
