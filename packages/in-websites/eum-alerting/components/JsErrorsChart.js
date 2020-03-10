@@ -16,10 +16,10 @@ import {
 } from 'in-websites/eum-alerting/tracker';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
+import { errorCount, errorRate, thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import { resetAllThresholdValuesProps, getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -71,13 +71,10 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                       name: hiddenFieldNames.calculateThresholdOnBackend,
                       value: true
                     };
-                    onChange(
-                      form,
-                      fieldNames.ruleMetricName,
-                      value,
-                      doCalculateThresholdOnBackend,
-                      ...resetAllThresholdValuesProps(form)
-                    );
+
+                    thresholdOrBaselineLoadingSignal$.emit(true);
+
+                    onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
                     websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
                   }}
                   defaultValue={errorCount}
@@ -94,11 +91,7 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
                   options={selectOptions[fieldNames.thresholdOperator]}
                   onChange={e => {
                     const value = (e && e.value) || '';
-                    const doCalculateThresholdOnBackend = {
-                      name: hiddenFieldNames.calculateThresholdOnBackend,
-                      value: true
-                    };
-                    onChange(form, fieldNames.thresholdOperator, value, doCalculateThresholdOnBackend);
+                    onChange(form, fieldNames.thresholdOperator, value);
                     websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
                   }}
                   defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}

@@ -724,7 +724,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text="For more information visit the"
+              text="These instructions are for Helm Version 3. For more information visit the"
               href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />

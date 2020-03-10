@@ -3,6 +3,7 @@ import React from 'react';
 
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
 import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
@@ -13,31 +14,23 @@ export default connectTo(
     const baseline$ = just(props.y1.baseline).startWith(null);
     const threshold$ = just(props.y1.threshold).startWith(null);
 
-    const combined$ = combineLatest([baseline$, threshold$, metrics$]);
+    const combined$ = combineLatest([
+      baseline$,
+      threshold$,
+      metrics$,
+      thresholdOrBaselineLoadingSignal$.startWith(true)
+    ]);
 
     return {
-      result: combined$.map(([baseline, threshold, metrics]) => {
-        const thresholdType = props.thresholdType;
-        if (
-          (thresholdType === 'staticThreshold' && threshold !== '') ||
-          (thresholdType === 'historicBaseline' && baseline !== '')
-        ) {
-          return mergeResult(
-            metrics,
-            props.y1.metricIds[0],
-            threshold,
-            baseline,
-            props.y1.sensitivity,
-            props.y1.operator
-          );
-        } else {
-          return {
-            time: 0,
-            progress: indeterminateProgress,
-            errors: metrics.errors,
-            data: {}
-          };
-        }
+      result: combined$.map(([baseline, threshold, metrics, thresholdOrBaselineLoading]) => {
+        return thresholdOrBaselineLoading
+          ? {
+              time: 0,
+              progress: indeterminateProgress,
+              errors: metrics.errors,
+              data: {}
+            }
+          : mergeResult(metrics, props.y1.metricIds[0], threshold, baseline, props.y1.sensitivity, props.y1.operator);
       })
     };
   },

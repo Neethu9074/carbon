@@ -9,13 +9,20 @@ import {
   getMetricConfiguration
 } from 'in-websites/eum-alerting/alertConfigDialogWithThreshold/MetricsConfigurationFactory';
 import {
+  errorCount,
+  errorRate,
+  statusCodeCount,
+  statusCodeRate,
+  onLoadTime,
+  thresholdOrBaselineLoadingSignal$
+} from 'in-websites/eum-alerting/constants';
+import {
   websitesAlertingCloseDialog,
   websitesAlertingSwitchMode,
   websitesAlertingAlertCreated
 } from 'in-websites/eum-alerting/tracker';
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
-import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/eum-alerting/constants';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
@@ -173,6 +180,7 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
 
 function addThresholdToForm(form, onChange, threshold, time) {
   if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
+    thresholdOrBaselineLoadingSignal$.emit(false);
     onChange(
       form,
       fieldNames.thresholdValue,
@@ -191,6 +199,7 @@ function addThresholdToForm(form, onChange, threshold, time) {
 
 function addBaselineToForm(form, onChange, baseline, time) {
   if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
+    thresholdOrBaselineLoadingSignal$.emit(false);
     onChange(
       form,
       fieldNames.thresholdBaseline,

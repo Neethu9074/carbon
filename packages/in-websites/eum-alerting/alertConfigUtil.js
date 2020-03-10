@@ -38,17 +38,6 @@ export function getTimeThreshold(form) {
   };
 }
 
-export function resetAllThresholdValuesProps(form) {
-  let resetThresholds = [];
-  if (form.containsKey(fieldNames.thresholdValue)) {
-    resetThresholds.push({ name: fieldNames.thresholdValue, value: '' });
-  }
-  if (form.containsKey(fieldNames.thresholdBaseline)) {
-    resetThresholds.push({ name: fieldNames.thresholdBaseline, value: '' });
-  }
-  return resetThresholds;
-}
-
 export function isGreaterOperator(operator) {
   return operator === '>=' || operator === '>';
 }
