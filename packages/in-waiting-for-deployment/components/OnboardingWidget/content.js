@@ -413,7 +413,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
-                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana:${layerVersion}`]} />(
+                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${layerVersion}`]} />(
                 <TextWithLink
                   text="See"
                   linkText="AWS docs"
@@ -485,7 +485,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             '# Instead, use this as a template to define your own aws cli command.',
             `aws --region ${awsRegion} lambda update-function-configuration \\`,
             `   --function-name ${lambdaFunctionName} \\`,
-            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana:${layerVersion} \\`,
+            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${layerVersion} \\`,
             '   --handler instana-aws-lambda-auto-wrap.handler',
             `   --environment "Variables={${
               lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
