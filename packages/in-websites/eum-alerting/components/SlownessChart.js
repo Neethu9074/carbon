@@ -22,7 +22,6 @@ import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-ale
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
-import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -72,8 +71,6 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                     name: hiddenFieldNames.calculateThresholdOnBackend,
                     value: true
                   };
-
-                  thresholdOrBaselineLoadingSignal$.emit(true);
 
                   onChange(form, fieldNames.ruleAggregation, value, doCalculateThresholdOnBackend);
                   websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
@@ -126,8 +123,6 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
                   if (thresholdType.startsWith('historicBaseline.')) {
                     updatedForm = withSlownessFormHistoricBaseline(form);
                   }
-
-                  thresholdOrBaselineLoadingSignal$.emit(true);
 
                   onChange(
                     updatedForm,

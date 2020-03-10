@@ -18,7 +18,7 @@ export default connectTo(
       baseline$,
       threshold$,
       metrics$,
-      thresholdOrBaselineLoadingSignal$.startWith(true)
+      thresholdOrBaselineLoadingSignal$.startWith(false)
     ]);
 
     return {

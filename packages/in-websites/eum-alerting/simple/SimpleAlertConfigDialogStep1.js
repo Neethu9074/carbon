@@ -10,7 +10,6 @@ import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertFo
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
-import { modeSimple, thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
@@ -19,6 +18,7 @@ import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart
 import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
 import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
+import { modeSimple } from 'in-websites/eum-alerting/constants';
 import Menu from 'in-websites/eum-alerting/components/Menu';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -83,8 +83,6 @@ export default function SimpleAlertConfigDialogStep1({
           }
 
           const newAlertType = alertTypeConfig[selectedItemIndex].type;
-
-          thresholdOrBaselineLoadingSignal$.emit(true);
 
           onChange(
             updatedForm,
