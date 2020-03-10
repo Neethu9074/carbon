@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -25,7 +25,7 @@ const cols = [
       getMetricName(row) {
         return 'servlets.' + row.servletKey + '.requests';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -41,7 +41,7 @@ const cols = [
       getMetricName(row) {
         return 'servlets.' + row.servletKey + '.avgResponseTime';
       },
-      getContent: msZeroDecimalPlaces,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -86,18 +86,20 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: msZeroDecimalPlaces,
-          metrics: ['servlets.' + servletKey + '.avgResponseTime'],
-          labels: ['Average Response Time'],
-          type: 'line'
+          metrics: ['servlets.' + servletKey + '.requests'],
+          labels: ['Requests'],
+          type: 'stackedBar',
+          aggregation: 'sum',
+          formatter: number.compact
         }}
       />
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          metrics: ['servlets.' + servletKey + '.requests'],
-          labels: ['Requests'],
+          formatter: millis.detailed,
+          metrics: ['servlets.' + servletKey + '.avgResponseTime'],
+          labels: ['Average Response Time'],
           type: 'line'
         }}
       />

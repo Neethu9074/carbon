@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, millis } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -25,7 +25,7 @@ const cols = [
       getMetricName(row) {
         return 'datasources.metrics.' + row.key + '.active';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -41,7 +41,7 @@ const cols = [
       getMetricName(row) {
         return 'datasources.metrics.' + row.key + '.available';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -57,7 +57,7 @@ const cols = [
       getMetricName(row) {
         return 'datasources.metrics.' + row.key + '.inUse';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -73,7 +73,7 @@ const cols = [
       getMetricName(row) {
         return 'datasources.metrics.' + row.key + '.blockingTime';
       },
-      getContent: msZeroDecimalPlaces,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -118,7 +118,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: zeroDecimalPlaces,
+          formatter: number.detailed,
           metrics: [
             'datasources.metrics.' + row.key + '.active',
             'datasources.metrics.' + row.key + '.available',
@@ -134,7 +134,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: msZeroDecimalPlaces,
+          formatter: millis.detailed,
           metrics: [
             'datasources.metrics.' + row.key + '.blockingTime',
             'datasources.metrics.' + row.key + '.creationTime'
