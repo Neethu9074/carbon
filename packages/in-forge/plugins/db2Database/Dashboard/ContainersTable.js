@@ -24,7 +24,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.totalSize`;
+        return `containers.${row.key}.totalSize`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -40,7 +40,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.usedSize`;
+        return `containers.${row.key}.usedSize`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -56,7 +56,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.pagesRead`;
+        return `containers.${row.key}.pagesRead`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -72,7 +72,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.pagesWritten`;
+        return `containers.${row.key}.pagesWritten`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -88,7 +88,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.poolReadTime`;
+        return `containers.${row.key}.poolReadTime`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -104,7 +104,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `filesystemStats.${row.key}.poolWriteTime`;
+        return `containers.${row.key}.poolWriteTime`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -150,7 +150,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['filesystemStats.' + row.key + '.totalSize', 'filesystemStats.' + row.key + '.usedSize'],
+          metrics: ['containers.' + row.key + '.totalSize', 'containers.' + row.key + '.usedSize'],
           labels: ['File System Size', 'File System Used'],
           type: 'line',
           formatter: bytes.detailed
@@ -163,7 +163,7 @@ function getDetails(row) {
           y1={{
             min: 0,
             formatter: number.detailed,
-            metrics: ['filesystemStats.' + row.key + '.pagesRead', 'filesystemStats.' + row.key + '.pagesWritten'],
+            metrics: ['containers.' + row.key + '.pagesRead', 'containers.' + row.key + '.pagesWritten'],
             labels: ['Pages Read', 'Pages Written'],
             type: 'line'
           }}
@@ -174,9 +174,9 @@ function getDetails(row) {
           y1={{
             min: 0,
             formatter: millis.detailed,
-            metrics: ['filesystemStats.' + row.key + '.poolReadTime', 'filesystemStats.' + row.key + '.poolWriteTime'],
+            metrics: ['containers.' + row.key + '.poolReadTime', 'containers.' + row.key + '.poolWriteTime'],
             labels: ['Pool Read Time', 'Pool Write Time'],
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
       </Columize>
