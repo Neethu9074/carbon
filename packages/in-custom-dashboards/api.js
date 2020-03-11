@@ -1,21 +1,22 @@
+import { create } from 'reactive-observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
-// We memoize the get API calls so that development of the views is easy. In order to trigger
-// a cache invalidation of the memoization logic we raise the mutationCounter when a custom
-// dashboard is added, updated or removed.
-let mutationCounter = 0;
+const refreshSignal = create().emit(true);
 
-export const getCustomDashboards = memoize(getCustomDashboardsInternal, () => String(mutationCounter), 60000);
+export const getCustomDashboards = memoize(getCustomDashboardsInternal, () => '', 60000);
 function getCustomDashboardsInternal() {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: `/api/custom-dashboard`
-    })
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/custom-dashboard`
+      })
+    )
   );
 }
 
@@ -28,25 +29,23 @@ export function addCustomDashboard(customDashboard) {
       headers: getCsrfHeader(),
       data: customDashboard
     }).map(v => {
-      mutationCounter++;
+      refreshSignal.emit(true);
       return v;
     })
   );
 }
 
-export const getCustomDashboard = memoize(
-  getCustomDashboardInternal,
-  customDashboardId => customDashboardId + '$' + mutationCounter,
-  60000
-);
+export const getCustomDashboard = memoize(getCustomDashboardInternal, customDashboardId => customDashboardId, 60000);
 function getCustomDashboardInternal(customDashboardId) {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
-      headers: getCsrfHeader()
-    })
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
+        headers: getCsrfHeader()
+      })
+    )
   );
 }
 
@@ -59,7 +58,7 @@ export function updateCustomDashboard(customDashboard) {
       headers: getCsrfHeader(),
       data: customDashboard
     }).map(v => {
-      mutationCounter++;
+      refreshSignal.emit(true);
       return v;
     })
   );
@@ -73,7 +72,7 @@ export function removeCustomDashboard(id) {
       url: `/api/custom-dashboard/${encodeURIComponent(id)}`,
       headers: getCsrfHeader()
     }).map(v => {
-      mutationCounter++;
+      refreshSignal.emit(true);
       return v;
     })
   );

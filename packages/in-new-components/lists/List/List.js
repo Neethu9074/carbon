@@ -6,7 +6,6 @@ import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibili
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './List.mless';
@@ -30,44 +29,37 @@ export function Ul({ framed = true, className, children }) {
   );
 }
 
-export const Li = connectTo(
-  ({ href, href$ }) => {
-    if (href) {
-      return {};
-    }
+export function Li(props) {
+  const {
+    className,
+    renderActions,
+    children,
+    onClick,
+    size,
+    renderNestedContent,
+    href,
+    href$,
+    style,
+    noAlternatingBg
+  } = props;
 
-    return {
-      href: href$
-    };
-  },
-  function Li(props) {
-    const {
-      className,
-      renderActions,
-      children,
-      onClick,
-      size,
-      renderNestedContent,
-      href,
-      style,
-      noAlternatingBg
-    } = props;
+  const [open, setOpen] = useState(false);
 
-    const [open, setOpen] = useState(false);
+  let itemElement = (
+    <Fragment>
+      <div
+        className={evaluateClassNames({
+          [locals.itemContent]: true,
+          [locals.itemContentWithNestedContent]: renderNestedContent,
+          [locals.itemContentExpanded]: open,
+          [locals[size]]: size,
+          [className]: className
+        })}
+        style={style}
+      >
+        {children}
 
-    const ItemContent = () => (
-      <Fragment>
-        <div
-          className={evaluateClassNames({
-            [locals.itemContent]: true,
-            [locals.itemContentWithNestedContent]: renderNestedContent,
-            [locals.itemContentExpanded]: open,
-            [locals[size]]: size,
-            [className]: className
-          })}
-          style={style}
-        >
-          {children}
+        {(renderActions || renderNestedContent) && (
           <div className={locals.actions}>
             {renderActions && renderActions()}
             {renderNestedContent && (
@@ -80,31 +72,31 @@ export const Li = connectTo(
               />
             )}
           </div>
-        </div>
-        {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
-      </Fragment>
-    );
-
-    return (
-      <li
-        className={evaluateClassNames({
-          [locals.listItem]: true,
-          [locals.noAlternatingBg]: noAlternatingBg,
-          [locals.clickable]: onClick || href,
-          [locals.expanded]: open
-        })}
-        onClick={onClick}
-        onKeyUp={onClick && getKeyboardActivatedOnClickHandler(onClick)}
-        tabIndex={onClick && 0}
-      >
-        {href ? (
-          <Link className={locals.link} href={href}>
-            <ItemContent />
-          </Link>
-        ) : (
-          <ItemContent />
         )}
-      </li>
-    );
-  }
-);
+      </div>
+      {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
+    </Fragment>
+  );
+
+  return (
+    <li
+      className={evaluateClassNames({
+        [locals.listItem]: true,
+        [locals.noAlternatingBg]: noAlternatingBg,
+        [locals.clickable]: onClick || href || href$,
+        [locals.expanded]: open
+      })}
+      onClick={onClick}
+      onKeyUp={onClick && getKeyboardActivatedOnClickHandler(onClick)}
+      tabIndex={onClick && 0}
+    >
+      {href || href$ ? (
+        <Link className={locals.link} href={href} href$={href$}>
+          {itemElement}
+        </Link>
+      ) : (
+        itemElement
+      )}
+    </li>
+  );
+}

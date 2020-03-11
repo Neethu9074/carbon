@@ -20,8 +20,8 @@ export default function Dropdown({
   className
 }) {
   return (
-    <Overlay align={align} content={ItemList} props={{ items, renderItemContent, onClick }}>
-      {({ toggle, isOpen }) => (
+    <Overlay align={align} content={ItemList} props={{ items, renderItemContent, onClick }} withoutWrapper>
+      {({ toggle, isOpen, refSetter }) => (
         <Button
           className={evaluateClassNames({
             [locals.simpleDropdown]: asSimpleDropdown,
@@ -30,6 +30,7 @@ export default function Dropdown({
           kind={asSimpleDropdown ? 'subtle' : 'primaryv2'}
           icon={icon}
           onClick={toggle}
+          refSetter={refSetter}
         >
           {label}
           <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />

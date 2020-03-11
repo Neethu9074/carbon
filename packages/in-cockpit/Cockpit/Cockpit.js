@@ -1,13 +1,17 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import {
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled
+} from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -126,10 +130,16 @@ export default connectTo(
 );
 
 function Header() {
+  let label;
+  if (customDashboardsEnabled) {
+    label = <DashboardSwitcher />;
+  } else {
+    label = <Lettering className={locals.lettering} />;
+  }
   return (
     <>
       <DashboardHeader
-        label={<Lettering className={locals.lettering} />}
+        label={label}
         theme={themes.light}
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (

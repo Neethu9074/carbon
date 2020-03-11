@@ -1,0 +1,20 @@
+:local {
+  .overlay {
+    min-width: 30rem;
+    max-width: 30rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .addDashboard {
+    margin: 0 0 0 2rem;
+  }
+
+  .tabs {
+    padding-bottom: 0;
+  }
+}

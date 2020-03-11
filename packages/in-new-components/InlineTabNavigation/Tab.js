@@ -8,13 +8,21 @@ import theme from 'in-themes';
 import locals from './Tab.mless';
 
 export default function Tab({ icon, text, index, isActive, onTabSelect, healthSeverity }) {
-  const Icon = () => (
+  let iconElement = icon && (
     <SvgIcon
       className={locals.tabIcon}
       type={icon}
       color={isActive ? theme.lib.colors.N900Primary : theme.lib.colors.N600Light}
     />
   );
+
+  if (healthSeverity && iconElement) {
+    iconElement = (
+      <WithHealthDot severity={healthSeverity} iconSize={10}>
+        {iconElement}
+      </WithHealthDot>
+    );
+  }
 
   return (
     <li
@@ -25,14 +33,7 @@ export default function Tab({ icon, text, index, isActive, onTabSelect, healthSe
       onClick={() => onTabSelect(index)}
     >
       <div className={locals.tabInner}>
-        {healthSeverity ? (
-          <WithHealthDot severity={healthSeverity} iconSize={10}>
-            <Icon />
-          </WithHealthDot>
-        ) : (
-          <Icon />
-        )}
-
+        {iconElement}
         <span>{text}</span>
       </div>
     </li>
