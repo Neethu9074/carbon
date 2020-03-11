@@ -7,7 +7,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Backend Name',
+    title: 'Name',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -195,36 +195,26 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          metrics: ['backendStats.' + row.key + '.reqConnErrors', 'backendStats.' + row.key + '.errorRes'],
-          labels: ['Connection Errors', 'Response Errors'],
-          type: 'line'
+          metrics: [
+            'backendStats.' + row.key + '.reqConnErrors',
+            'backendStats.' + row.key + '.connRetries',
+            'backendStats.' + row.key + '.errorRes'
+          ],
+          labels: ['Connection Errors', 'Connection Retries', 'Response Errors'],
+          type: 'stackedBar',
+          aggregation: 'sum',
+          formatter: number.compact
         }}
       />
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          metrics: ['backendStats.' + row.key + '.connRetries'],
-          labels: ['Connection Retries'],
-          type: 'line'
-        }}
-      />
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          metrics: ['backendStats.' + row.key + '.deniedRes'],
-          labels: ['Denied Responses'],
-          type: 'line'
-        }}
-      />
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          metrics: ['backendStats.' + row.key + '.reDispatchedReq'],
-          labels: ['Re-Dispatched Requests'],
-          type: 'line'
+          metrics: ['backendStats.' + row.key + '.deniedRes', 'backendStats.' + row.key + '.reDispatchedReq'],
+          labels: ['Denied Responses', 'Re-Dispatched Requests'],
+          type: 'stackedBar',
+          aggregation: 'sum',
+          formatter: number.compact
         }}
       />
     </div>

@@ -7,7 +7,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Frontend Name',
+    title: 'Name',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -226,7 +226,9 @@ function getRowDetails(row) {
         y1={{
           metrics: ['frontendStats.' + row.key + '.clientErrors', 'frontendStats.' + row.key + '.serverErrors'],
           labels: ['Client Errors', 'Server Errors'],
-          type: 'line'
+          type: 'stackedBar',
+          aggregation: 'sum',
+          formatter: number.compact
         }}
       />
       <Chart

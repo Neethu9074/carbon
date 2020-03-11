@@ -13,7 +13,7 @@ export default function HAProxyInfo({ snapshot }) {
       <DescriptionItem title="Name">{data.get('info.name')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Max Memory">{positiveNumber(data.get('info.memmax'))}</DescriptionItem>
-      <DescriptionItem title="Ulimit-n">{positiveNumber(data.get('info.ulimitN'))}</DescriptionItem>
+      <DescriptionItem title="Max File Descriptors">{positiveNumber(data.get('info.ulimitN'))}</DescriptionItem>
       <DescriptionItem title="Max Sockets">{positiveNumber(data.get('info.maxsock'))}</DescriptionItem>
       <DescriptionItem title="Max Connections">{positiveNumber(data.get('info.maxconn'))}</DescriptionItem>
       <DescriptionItem title="Max pipes">{positiveNumber(data.get('info.maxpipes'))}</DescriptionItem>
