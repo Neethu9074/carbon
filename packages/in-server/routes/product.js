@@ -60,6 +60,11 @@ const modulesToPrefetch = [
 const prefetchItems = fs
   .readdirSync(paths.bundleDir)
   .filter(fileName => {
+    // Only allow JS or CSS files as prefetch items
+    if (!fileName.endsWith('.js') && !fileName.endsWith('.css')) {
+      return false;
+    }
+
     for (const regexp of modulesToPrefetch) {
       if (regexp.test(fileName)) {
         return true;
