@@ -23,7 +23,7 @@ export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
 
   return class StatefulFlowMapComponent extends Component {
-    static displayName = getDisplayName('withFlowMapResultState', ComposedComponent);
+    static displayName = getDisplayName(ComposedComponent, 'withFlowMapResultState');
 
     constructor(props) {
       super(props);

@@ -21,7 +21,8 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
   opts = defaultsDeep(opts || {}, defaultOptions);
 
   return class extends React.Component {
-    static displayName = getDisplayName('connect', ComposedComponent);
+    static displayName = getDisplayName(ComposedComponent, 'connect');
+    static propTypes = ComposedComponent.propTypes;
     state = {};
 
     UNSAFE_componentWillMount() {

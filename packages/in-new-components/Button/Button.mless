@@ -25,11 +25,19 @@
     }
   }
 
+  .dropdownButton {
+    justify-content: space-between;
+  }
+
   .normal {
     padding: 0.5rem 0.625rem;
 
     .icon {
       margin: -0.25rem 0.5rem -0.25rem 0;
+    }
+
+    .dropdownButtonIndicator {
+      margin: -0.25rem 0 -0.25rem 0.5rem;
     }
   }
 
@@ -38,6 +46,10 @@
 
     .icon {
       margin-right: 0.5rem;
+    }
+
+    .dropdownButtonIndicator {
+      margin: -0.25rem -0.3rem -0.25rem 0.5rem;
     }
   }
 
