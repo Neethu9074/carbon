@@ -104,20 +104,36 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Cluster State Size">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['clusterState.totalStateSize'],
-            labels: ['Cluster State Size'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title="Cluster Store Size">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: withSiPrefixZeroDecimalPlaces,
+              tooltipFormatter: withSiPrefixThreeDecimalPlaces,
+              metrics: ['store_size'],
+              labels: ['Cluster Store Size'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Cluster State Size">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              tooltipFormatter: bytesTwoDecimalPlaces,
+              metrics: ['clusterState.totalStateSize'],
+              labels: ['Cluster State Size'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
 
       <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
 

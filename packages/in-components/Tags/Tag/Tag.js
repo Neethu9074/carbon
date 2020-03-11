@@ -19,7 +19,7 @@ export default connectTo(
     static displayName = 'Tag';
 
     static propTypes = {
-      active: rpt.bool.isRequired,
+      active: rpt.bool,
       tag: rpt.string.isRequired,
       isDark: rpt.bool
     };

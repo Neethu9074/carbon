@@ -6,6 +6,7 @@ import {
   timeByMillisTwoDecimalPlaces,
   msTwoDecimalPlaces,
   withSiPrefixThreeDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
   twoDecimalPlaces
 } from 'in-services/formatters/number';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.js';
@@ -94,6 +95,21 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
+
+      <DashboardSection title="Size">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: withSiPrefixZeroDecimalPlaces,
+            tooltipFormatter: withSiPrefixThreeDecimalPlaces,
+            metrics: ['indices.store_size'],
+            labels: ['Store Size'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <IndicesTable snapshot={snapshot} timeConfig={timeConfig} />
 
