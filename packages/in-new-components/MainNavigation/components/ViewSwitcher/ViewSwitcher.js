@@ -1,10 +1,8 @@
 import React from 'react';
 
 import {
-  pcfEnabled,
   releaseNotesEnabled,
   tenantSwitcherEnabled,
-  vsphereEnabled,
   mobileAppMonitoringEnabled,
   customDashboardsEnabled
 } from 'in-services/featureFlags';
@@ -380,19 +378,10 @@ function WebsiteMobileAppView(props) {
 function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
-  let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (numPlatformsAvailable === 0) {
-    return null;
-  }
-
-  const ViewItemForPlatforms = numPlatformsAvailable > 1 ? SubViewItem : View;
   const platforms = (
     <>
       {hasKubernetesAccess && (
-        <ViewItemForPlatforms
+        <SubViewItem
           id="main-nav-kubernetes"
           label="Kubernetes"
           icon="lib_kubernetes_inverted"
@@ -402,49 +391,41 @@ function Platforms(props) {
         />
       )}
 
-      {pcfEnabled && (
-        <ViewItemForPlatforms
-          id="main-nav-cloudfoundry"
-          label="Cloud Foundry"
-          icon="lib_cloudfoundry_inverted"
-          href$={getView(cloudfoundryApplicationList)}
-          isActive$={isView(cloudfoundry)}
-          {...props}
-        />
-      )}
+      <SubViewItem
+        id="main-nav-cloudfoundry"
+        label="Cloud Foundry"
+        icon="lib_cloudfoundry_inverted"
+        href$={getView(cloudfoundryApplicationList)}
+        isActive$={isView(cloudfoundry)}
+        {...props}
+      />
 
-      {vsphereEnabled && (
-        <ViewItemForPlatforms
-          id="main-nav-vsphere"
-          label="vSphere"
-          icon="lib_vsphere_inverted"
-          href$={getView(datacenterListFullyQualified)}
-          isActive$={isView(vsphere)}
-          {...props}
-        />
-      )}
+      <SubViewItem
+        id="main-nav-vsphere"
+        label="vSphere"
+        icon="lib_vsphere_inverted"
+        href$={getView(datacenterListFullyQualified)}
+        isActive$={isView(vsphere)}
+        {...props}
+      />
     </>
   );
 
-  if (numPlatformsAvailable > 1) {
-    return (
-      <View
-        id="main-nav-platforms"
-        label="Platforms"
-        icon="lib_platforms_inverted"
-        isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
-        expandedSubMenu={expandedSubMenu}
-        setExpandedSubMenu={setExpandedSubMenu}
-        sidebarIsExpanded={sidebarIsExpanded}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        {platforms}
-      </View>
-    );
-  }
-
-  return platforms;
+  return (
+    <View
+      id="main-nav-platforms"
+      label="Platforms"
+      icon="lib_platforms_inverted"
+      isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
+      expandedSubMenu={expandedSubMenu}
+      setExpandedSubMenu={setExpandedSubMenu}
+      sidebarIsExpanded={sidebarIsExpanded}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {platforms}
+    </View>
+  );
 }
 
 function Spacer() {

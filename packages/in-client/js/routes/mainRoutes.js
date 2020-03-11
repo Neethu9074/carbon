@@ -14,13 +14,8 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled
-} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -59,8 +54,8 @@ export default (
     {hasApplicationsAccess && applicationRoutes}
     {hasAnalyzeAccess && analyzeRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
-    {pcfEnabled && cloudfoundryRoutes}
-    {vsphereEnabled && vsphereRoutes}
+    {cloudfoundryRoutes}
+    {vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}

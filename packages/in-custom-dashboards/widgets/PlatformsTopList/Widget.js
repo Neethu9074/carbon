@@ -22,7 +22,6 @@ import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -35,11 +34,9 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 export default function PlatformsTopList({ config }) {
-  const pinnedTypes = [
-    hasKubernetesAccess && kubernetesClusterType,
-    pcfEnabled && pcfApplicationType,
-    vsphereEnabled && vsphereDatacenterType
-  ].filter(Boolean);
+  const pinnedTypes = [hasKubernetesAccess && kubernetesClusterType, pcfApplicationType, vsphereDatacenterType].filter(
+    Boolean
+  );
 
   return (
     <TopListWidget
@@ -87,10 +84,10 @@ function getMergedData(params) {
     [
       hasKubernetesAccess && getKubernetesClustersWithDefaults(params),
       hasKubernetesAccess && 'isKubernetes',
-      pcfEnabled && getCloudfoundryApplicationsWithDefaults(params),
-      pcfEnabled && 'isPcf',
-      vsphereEnabled && getVSphereDatacentersWithDefaults(params),
-      vsphereEnabled && 'isVsphere'
+      getCloudfoundryApplicationsWithDefaults(params),
+      'isPcf',
+      getVSphereDatacentersWithDefaults(params),
+      'isVsphere'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }

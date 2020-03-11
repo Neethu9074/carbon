@@ -8,12 +8,10 @@ import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Gri
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
@@ -49,9 +47,9 @@ const configEnrichmentLookUpTable = {
   '3': {
     type: 'platformsTopList',
     config: {
-      label: getPlatformsTitle(),
-      icon: `${getPlatformCardIcon()}`,
-      cardIcon: `${getPlatformCardIcon()}_inverted`
+      label: 'Platforms',
+      icon: 'lib_platforms',
+      cardIcon: 'lib_platforms_inverted'
     }
   },
   '4': {
@@ -281,40 +279,6 @@ function filterItems(orderedItems) {
     }
     return true;
   });
-}
-
-function getPlatformsTitle() {
-  let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (numPlatformsAvailable > 1) {
-    return 'Platforms';
-  }
-  if (pcfEnabled) {
-    return 'Cloud Foundry';
-  }
-  if (vsphereEnabled) {
-    return 'vSphere';
-  }
-  return 'Kubernetes';
-}
-
-function getPlatformCardIcon() {
-  let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (numPlatformsAvailable > 1) {
-    return 'lib_platforms';
-  }
-  if (pcfEnabled) {
-    return 'lib_cloudfoundry';
-  }
-  if (vsphereEnabled) {
-    return 'lib_vsphere';
-  }
-  return 'lib_kubernetes';
 }
 
 function getWebsiteAndMobileIcon() {
