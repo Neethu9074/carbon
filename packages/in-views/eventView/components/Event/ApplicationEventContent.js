@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  alertingMetricsGranularity,
-  alertingEventDetailsChartTimeframe,
-  errorRate
-} from 'in-applications/alerting/constants';
+import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -20,10 +16,6 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplicationEventContent.mless';
-
-const chartTitleByMetric = Object.freeze({
-  [errorRate]: 'Error Rate'
-});
 
 export default connectTo(
   ({ event }) => {
@@ -45,7 +37,7 @@ export default connectTo(
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
     const operator = alertConfig.threshold.operator;
-    const metricName = errorRate;
+    const metricName = alertConfig.rule.metricName;
     const alertType = alertConfig.rule.alertType;
     const threshold = alertConfig.threshold;
 
@@ -67,7 +59,7 @@ export default connectTo(
             <ApplicationAlertConfigButton alertConfig={alertConfig} />
           </Card>
 
-          <Card title={getChartTitle(metricName)}>
+          <Card title="Metrics">
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
             </div>
@@ -111,8 +103,4 @@ function getApplicationIdTagFilter(applicationId) {
     operator: 'EQUALS',
     stringValue: applicationId
   };
-}
-
-function getChartTitle(metricName) {
-  return chartTitleByMetric[metricName] || '';
 }

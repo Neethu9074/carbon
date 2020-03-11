@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 
-import StatusCodeUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/StatusCodeUseCaseSelection';
-import JsErrorsUseCaseSelection from 'in-websites/eum-alerting/advanced/AlertTrigger/JsErrorUseCaseSelection';
+import alertFormDefinition, {
+  fieldNames,
+  getRuleOperatorLabel,
+  getStatusCodeLabel
+} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
-import alertFormDefinition, { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
+import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
+import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
+import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
+import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
-import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
+import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import ExpandableCard from 'in-new-components/ExpandableCard';
+import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
 import Card from 'in-new-components/Card';
 
@@ -21,12 +29,9 @@ const oneDay = 24 * 60 * oneMinute;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
-  const [, setSlideInViewVisible] = useState(false);
-  const [, setSlideInConfig] = useState(null);
 
   const onChange = createOnChange(setForm);
   const granularity = 10 * oneMinute;
-  const setSliderState = createSetSliderState(setSlideInConfig, setSlideInViewVisible);
   const timeConfig = {
     windowSize: oneDay
   };
@@ -45,24 +50,71 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         <ChartSwitch
           alertType={form.get(fieldNames.ruleAlertType).value}
           JsErrorsComponent={() => (
-            <JsErrorsUseCaseSelection
-              {...props}
-              granularity={granularity}
-              isReadOnly
-              setJsErrorsListVisible={setSliderState}
-            />
+            <>
+              <SelectedAlertTypeInfo
+                title="Error Message"
+                description={getDescription(form)}
+                svgIconType="lib_help_error_warning"
+              />
+
+              <ChartContainer headline="Last 24 hours">
+                <JsErrorsAlertingBarChart
+                  websiteId={form.get(fieldNames.websiteId).value}
+                  timeConfig={timeConfig}
+                  tagFilters={form.get(fieldNames.tagFilters).value}
+                  errorFilter={{
+                    name: 'beacon.error.message',
+                    operator: form.get(fieldNames.ruleOperator).value,
+                    stringValue: form.get(fieldNames.ruleValue).value
+                  }}
+                  metricName={form.get(fieldNames.ruleMetricName).value}
+                  granularity={granularity}
+                  threshold={getThreshold(form)}
+                  timeThreshold={getTimeThreshold(form)}
+                />
+              </ChartContainer>
+            </>
           )}
           StatusCodeComponent={() => (
-            <StatusCodeUseCaseSelection
-              {...props}
-              granularity={granularity}
-              isReadOnly
-              setJsErrorsListVisible={setSliderState}
-            />
+            <>
+              <SelectedAlertTypeInfo
+                title="HTTP Status Code"
+                description={getStatusCodeLabel(form.get(fieldNames.ruleValue).value)}
+              />
+              <ChartContainer headline="Last 24 hours">
+                <StatusCodeAlertingBarChart
+                  websiteId={form.get(fieldNames.websiteId).value}
+                  threshold={getThreshold(form)}
+                  timeThreshold={getTimeThreshold(form)}
+                  timeConfig={timeConfig}
+                  tagFilters={form.get(fieldNames.tagFilters).value}
+                  numeratorFilter={{
+                    name: 'beacon.http.status',
+                    operator: form.get(fieldNames.ruleOperator).value,
+                    stringValue: form.get(fieldNames.ruleValue).value
+                  }}
+                  metricName={form.get(fieldNames.ruleMetricName).value}
+                  granularity={granularity}
+                />
+              </ChartContainer>
+            </>
           )}
           SlownessComponent={() => (
-            <ChartContainer headline="onLoad Time (ms)" withBorder={false}>
-              <SlownessChart {...props} isReadOnly granularity={granularity} />
+            <ChartContainer headline="Last 24 hours">
+              <SlownessAlertingBarChart
+                websiteId={form.get(fieldNames.websiteId).value}
+                threshold={{
+                  ...getThreshold(form),
+                  value: getFormValueOrDefault(form, fieldNames.thresholdValue, 0),
+                  baseline: getFormValueOrDefault(form, fieldNames.thresholdBaseline, [])
+                }}
+                timeThreshold={getTimeThreshold(form)}
+                sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)}
+                timeConfig={timeConfig}
+                tagFilters={form.get(fieldNames.tagFilters).value}
+                aggregation={form.get(fieldNames.ruleAggregation).value}
+                granularity={granularity}
+              />
             </ChartContainer>
           )}
         />
@@ -111,11 +163,11 @@ function createOnChange(setForm) {
   };
 }
 
-function createSetSliderState(setSlideInConfig, setSlideInViewVisible) {
-  return ({ slideInConfig, isVisible }) => {
-    if (slideInConfig) {
-      setSlideInConfig(slideInConfig);
-    }
-    setSlideInViewVisible(isVisible);
-  };
+function getDescription(form) {
+  const operator = form.get(fieldNames.ruleOperator).value;
+  let description = getRuleOperatorLabel(operator);
+  if (operator !== operators.NOT_EMPTY) {
+    description = `${description}: "${form.get(fieldNames.ruleValue).value}"`;
+  }
+  return description;
 }

@@ -22,6 +22,7 @@ import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-ale
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -37,7 +38,7 @@ export default compose(
   }))
 )(SlownessChart);
 
-function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, debounceOnChange$ }) {
+function SlownessChart({ form, timeConfig, onChange, granularity, debounceOnChange$, title }) {
   const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form, fieldNames.thresholdValue));
   const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
     getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor)
@@ -51,10 +52,27 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
     baseline: getFormValueOrDefault(form, fieldNames.thresholdBaseline) || []
   };
 
+  const chart = (
+    <SlownessAlertingBarChart
+      websiteId={form.get(fieldNames.websiteId).value}
+      threshold={threshold}
+      timeThreshold={getTimeThreshold(form)}
+      sensitivity={
+        doDebounceDeviationFactor
+          ? tempThresholdDeviationFactor
+          : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
+      }
+      timeConfig={timeConfig}
+      tagFilters={form.get(fieldNames.tagFilters).value}
+      aggregation={form.get(fieldNames.ruleAggregation).value}
+      granularity={granularity}
+      alertsPreviewEnabled
+    />
+  );
+
   return (
     <div className={locals.container}>
       {onChange &&
-        !isReadOnly &&
         form && (
           <div className={locals.controls}>
             <FormGroup>
@@ -199,23 +217,12 @@ function SlownessChart({ form, timeConfig, onChange, granularity, isReadOnly, de
             )}
           </div>
         )}
-      <div className={locals.placeholder}>
-        <SlownessAlertingBarChart
-          websiteId={form.get(fieldNames.websiteId).value}
-          threshold={threshold}
-          timeThreshold={getTimeThreshold(form)}
-          sensitivity={
-            doDebounceDeviationFactor
-              ? tempThresholdDeviationFactor
-              : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
-          }
-          timeConfig={timeConfig}
-          tagFilters={form.get(fieldNames.tagFilters).value}
-          aggregation={form.get(fieldNames.ruleAggregation).value}
-          granularity={granularity}
-          alertsPreviewEnabled
-        />
-      </div>
+
+      {title ? (
+        <ChartContainer headline={title}>{chart}</ChartContainer>
+      ) : (
+        <div className={locals.placeholder}>{chart}</div>
+      )}
     </div>
   );
 }
@@ -245,6 +252,6 @@ SlownessChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
-  isReadOnly: PropTypes.bool,
-  debounceOnChange$: PropTypes.object
+  debounceOnChange$: PropTypes.object,
+  title: PropTypes.string
 };

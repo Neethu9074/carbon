@@ -6,7 +6,9 @@ import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscrip
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
+import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { percentage, number } from 'in-services/formatters/number';
@@ -57,7 +59,12 @@ export default function StatusCodeAlertingBarChart({
         },
         renderer: Renderer.barWithThreshold,
         formatter: metricName === statusCodeCount ? number.forcedCompact : percentage.detailed,
-        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        labels: [
+          getMetricLabel(alertTypes.specificStatusCode, metricName),
+          'Threshold',
+          'Expected Range',
+          'Violations'
+        ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([['statusCode', null], ['threshold', null]])

@@ -19,8 +19,8 @@ export default function AlertSelection({ form, onChange }) {
 
   return (
     <ExpandableCard
-      label="Selected Condition"
-      title={getConfigByType(form).name}
+      label={getConfigByType(form).name}
+      title="Selected Blueprint"
       bodyWithoutPadding
       openByDefault
       darkFrame

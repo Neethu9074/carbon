@@ -118,7 +118,7 @@ function getOperatorText(operator) {
   }
 }
 
-function getAggregationText(aggregation) {
+export function getAggregationText(aggregation) {
   switch (aggregation.toUpperCase()) {
     case 'P25':
       return '25th';

@@ -1,11 +1,7 @@
 import React from 'react';
 
 import {
-  errorRate,
   errorCount,
-  onLoadTime,
-  statusCodeRate,
-  statusCodeCount,
   alertingMetricsGranularity,
   alertingEventDetailsChartTimeframe
 } from 'in-websites/eum-alerting/constants';
@@ -26,14 +22,6 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './WebsiteEventContent.mless';
-
-const chartTitleByMetric = Object.freeze({
-  [errorCount]: '# of JS Errors',
-  [errorRate]: 'Rate of JS Errors',
-  [statusCodeCount]: '# of HTTP Status Codes',
-  [statusCodeRate]: 'Rate of HTTP Status Codes',
-  [onLoadTime]: 'onLoad Time'
-});
 
 export default connectTo(
   ({ event }) => {
@@ -78,7 +66,7 @@ export default connectTo(
             <WebsiteAlertConfigButton alertConfig={alertConfig} />
           </Card>
 
-          <Card title={getChartTitle(metricName)}>
+          <Card title="Metrics">
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
             </div>
@@ -162,10 +150,6 @@ function getStatusCodeTagFilter(alertRule) {
     operator: alertRule.operator,
     stringValue: alertRule.value
   };
-}
-
-function getChartTitle(metricName) {
-  return chartTitleByMetric[metricName] || '';
 }
 
 function getThresholdTypeWithSeasonality(thresholdRule) {

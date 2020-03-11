@@ -6,6 +6,8 @@ import getWebsiteRateMetricAlertsPreview from 'in-websites/eum-alerting/subscrip
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
+import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -54,7 +56,7 @@ export default function JsErrorsAlertingBarChart({
         },
         renderer: Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])

@@ -19,6 +19,7 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-we
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -36,7 +37,7 @@ export default compose(
   }))
 )(JsErrorsChart);
 
-function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChange$, title }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -50,6 +51,24 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
         : form.get(fieldNames.thresholdValue).value) || 0
   };
+
+  const chart = (
+    <JsErrorsAlertingBarChart
+      websiteId={form.get(fieldNames.websiteId).value}
+      timeConfig={timeConfig}
+      tagFilters={form.get(fieldNames.tagFilters).value}
+      errorFilter={{
+        name: 'beacon.error.message',
+        operator: form.get(fieldNames.ruleOperator).value,
+        stringValue: form.get(fieldNames.ruleValue).value
+      }}
+      metricName={metricName}
+      granularity={granularity}
+      threshold={threshold}
+      timeThreshold={getTimeThreshold(form)}
+      alertsPreviewEnabled
+    />
+  );
 
   return (
     <div className={locals.container}>
@@ -132,23 +151,12 @@ function JsErrorsChart({ form, timeConfig, onChange, granularity, debounceOnChan
               </FormGroup>
             </div>
           )}
-          <div className={locals.placeholder}>
-            <JsErrorsAlertingBarChart
-              websiteId={form.get(fieldNames.websiteId).value}
-              timeConfig={timeConfig}
-              tagFilters={form.get(fieldNames.tagFilters).value}
-              errorFilter={{
-                name: 'beacon.error.message',
-                operator: form.get(fieldNames.ruleOperator).value,
-                stringValue: form.get(fieldNames.ruleValue).value
-              }}
-              metricName={metricName}
-              granularity={granularity}
-              threshold={threshold}
-              timeThreshold={getTimeThreshold(form)}
-              alertsPreviewEnabled
-            />
-          </div>
+
+          {title ? (
+            <ChartContainer headline={title}>{chart}</ChartContainer>
+          ) : (
+            <div className={locals.placeholder}>{chart}</div>
+          )}
         </>
       ) : (
         <div className={locals.message}>
@@ -165,7 +173,8 @@ JsErrorsChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
-  debounceOnChange$: PropTypes.object
+  debounceOnChange$: PropTypes.object,
+  title: PropTypes.string
 };
 
 function hasJsErrorSelected(form) {

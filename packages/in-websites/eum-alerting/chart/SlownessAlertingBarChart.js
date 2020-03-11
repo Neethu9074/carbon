@@ -4,8 +4,11 @@ import React from 'react';
 
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import { onLoadTime } from 'in-websites/eum-alerting/constants';
 import { millis } from 'in-services/formatters/number';
 
 export default function SlownessAlertingBarChart({
@@ -62,7 +65,7 @@ export default function SlownessAlertingBarChart({
         renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
         metricIds: ['onLoadTime', 'threshold'],
-        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        labels: [getMetricLabel(alertTypes.slowness, onLoadTime), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         nonToggleableSeries: new Map([['onLoadTime', null], ['threshold', null], ['alerts', null]]),
         alertMetricConfiguration: getAlertsConfiguration(
@@ -81,7 +84,7 @@ export default function SlownessAlertingBarChart({
         tagFilters: [...tagFilters, getWebsiteIdTagFilter(websiteId)],
         metrics: {
           onLoadTime: {
-            metric: 'onLoadTime',
+            metric: onLoadTime,
             granularity,
             aggregation
           }
@@ -131,7 +134,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity
       granularity, // local alerts/chart granularity
       metrics: {
         alerts: {
-          metric: 'onLoadTime',
+          metric: onLoadTime,
           aggregation,
           granularity // global metric granularity
         }

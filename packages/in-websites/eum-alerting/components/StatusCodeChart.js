@@ -20,6 +20,7 @@ import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCod
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -36,7 +37,7 @@ export default compose(
   }))
 )(StatusCodeChart);
 
-function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnChange$, title }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -50,6 +51,24 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
         : form.get(fieldNames.thresholdValue).value) || 0
   };
+
+  const chart = (
+    <StatusCodeAlertingBarChart
+      websiteId={form.get(fieldNames.websiteId).value}
+      threshold={threshold}
+      timeThreshold={getTimeThreshold(form)}
+      timeConfig={timeConfig}
+      tagFilters={form.get(fieldNames.tagFilters).value}
+      numeratorFilter={{
+        name: 'beacon.http.status',
+        operator: form.get(fieldNames.ruleOperator).value,
+        stringValue: form.get(fieldNames.ruleValue).value
+      }}
+      metricName={metricName}
+      granularity={granularity}
+      alertsPreviewEnabled
+    />
+  );
 
   return (
     <div className={locals.container}>
@@ -133,23 +152,12 @@ function StatusCodeChart({ form, timeConfig, onChange, granularity, debounceOnCh
               </FormGroup>
             </div>
           )}
-          <div className={locals.placeholder}>
-            <StatusCodeAlertingBarChart
-              websiteId={form.get(fieldNames.websiteId).value}
-              threshold={threshold}
-              timeThreshold={getTimeThreshold(form)}
-              timeConfig={timeConfig}
-              tagFilters={form.get(fieldNames.tagFilters).value}
-              numeratorFilter={{
-                name: 'beacon.http.status',
-                operator: form.get(fieldNames.ruleOperator).value,
-                stringValue: form.get(fieldNames.ruleValue).value
-              }}
-              metricName={metricName}
-              granularity={granularity}
-              alertsPreviewEnabled
-            />
-          </div>
+
+          {title ? (
+            <ChartContainer headline={title}>{chart}</ChartContainer>
+          ) : (
+            <div className={locals.placeholder}>{chart}</div>
+          )}
         </>
       ) : (
         <div className={locals.message}>
@@ -166,7 +174,8 @@ StatusCodeChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
-  debounceOnChange$: PropTypes.object
+  debounceOnChange$: PropTypes.object,
+  title: PropTypes.string
 };
 
 function hasStatusCodeSelected(form) {
