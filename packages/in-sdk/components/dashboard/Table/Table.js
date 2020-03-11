@@ -55,11 +55,15 @@ export default class Table extends React.Component {
     this.store.onRowChange(props.rows);
     this.store.onSelectedRowKeyChange(props.selectedRowKeys);
     this.dataSubscription = this.store.sortedPagedData$.subscribe(data => this.setState({ data }));
+    this.filterSubscription = this.store.filter$.subscribe(filter => this.setState({ filter }));
   }
 
   dispose() {
     if (this.dataSubscription) {
       this.dataSubscription.dispose();
+    }
+    if (this.filterSubscription) {
+      this.filterSubscription.dispose();
     }
     if (this.store) {
       this.store.dispose();
@@ -155,7 +159,7 @@ export default class Table extends React.Component {
               ]}
             />
           )}
-        <SearchInput maxWidth={140} query={this.store.filter} onChange={this.store.setFilter} />
+        <SearchInput maxWidth={140} query={this.state.filter} onChange={this.store.setFilter} />
       </div>
     );
 
