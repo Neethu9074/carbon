@@ -18,16 +18,18 @@ export default compose(
     result: getCustomDashboards(),
     navigationParameters: navigationParameters$
   }),
-  withProps(({ result, navigationParameters }) => ({
-    activeDashboardTitle: determineActiveDashboard(result, navigationParameters),
+  withProps(({ result, navigationParameters, titleOverwrite }) => ({
+    activeDashboardTitle: determineActiveDashboard(result, navigationParameters, titleOverwrite),
     isLoadingMore: result.progress.loading,
     customDashboards: result && result.data,
     onCreateNewDashboard
   }))
 )(DashboardSwitcherPresenter);
 
-function determineActiveDashboard(result, navigationParameters) {
-  if (navigationParameters.pathname !== viewPathFullyQualified) {
+function determineActiveDashboard(result, navigationParameters, titleOverwrite) {
+  if (titleOverwrite) {
+    return titleOverwrite;
+  } else if (navigationParameters.pathname !== viewPathFullyQualified) {
     return systemOverviewTitle;
   } else if (!result.data) {
     return loadingTitle;

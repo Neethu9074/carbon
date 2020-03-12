@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled
-} from 'in-services/featureFlags';
+import { releaseNotesEnabled, tenantSwitcherEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -82,12 +77,11 @@ export default function ViewSwitcher({
       <View
         id="main-nav-system-overview"
         renderContent={() => <Stan />}
-        isActive$={isView(cockpitPath)}
+        isActive$={any(isView(cockpitPath), isView(customDashboardsPath))}
         href$={getView(cockpitPath)}
         {...commonProps}
       />
       <Spacer />
-      <CustomDashboards {...commonProps} />
       <WebsiteMobileAppView {...commonProps} />
       <Applications {...commonProps} />
       <Platforms
@@ -242,22 +236,6 @@ function SignOut() {
         )}
       />
     </form>
-  );
-}
-
-function CustomDashboards(props) {
-  if (!customDashboardsEnabled) {
-    return null;
-  }
-  return (
-    <View
-      id="main-nav-custom-dashboards"
-      label="Dashboards"
-      icon="lib_views_grid"
-      isActive$={isView(customDashboardsPath)}
-      href$={getView(customDashboardsPath)}
-      {...props}
-    />
   );
 }
 

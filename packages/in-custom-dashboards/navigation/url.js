@@ -1,5 +1,6 @@
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { cockpit } from 'in-cockpit/navigation/paths';
 
 export const customDashboardsPath = '/customDashboards';
 
@@ -13,16 +14,9 @@ export const dashboardIdUrlParameter = {
   name: 'dashboardId'
 };
 
-export const newPath = '/new';
-export const newPathFullyQualified = `${customDashboardsPath}${newPath}`;
-export const duplicationSourceIdUrlParameter = {
-  path: newPath,
-  name: 'sourceId'
-};
-
 export function goToCustomDashboardList() {
   mutateUrl(params => {
-    params.pathname = listPathFullyQualified;
+    params.pathname = cockpit;
   });
 }
 
@@ -37,12 +31,5 @@ export function getCustomDashboardLink(customDashboardId) {
   return getModifiedUrlStream(params => {
     params.pathname = viewPathFullyQualified;
     setOrDeleteMatrixKey(params, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId);
-  });
-}
-
-export function getNewCustomDashboardLink(sourceId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = newPathFullyQualified;
-    setOrDeleteMatrixKey(params, duplicationSourceIdUrlParameter.path, duplicationSourceIdUrlParameter.name, sourceId);
   });
 }

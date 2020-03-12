@@ -37,15 +37,13 @@ export function addCustomDashboard(customDashboard) {
 
 export const getCustomDashboard = memoize(getCustomDashboardInternal, customDashboardId => customDashboardId, 60000);
 function getCustomDashboardInternal(customDashboardId) {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
-        headers: getCsrfHeader()
-      })
-    )
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
+      headers: getCsrfHeader()
+    })
   );
 }
 

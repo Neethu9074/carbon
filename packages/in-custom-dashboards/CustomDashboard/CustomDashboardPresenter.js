@@ -2,8 +2,7 @@ import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import WidgetEditor from 'in-custom-dashboards/CustomDashboard/WidgetEditor/WidgetEditor';
-import { getNewCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
-import { setDuplicationSource } from 'in-custom-dashboards/duplicationSupport';
+import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import SetAsLandingPage from 'in-custom-dashboards/SetAsLandingPage';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -56,8 +55,7 @@ function CustomDashboardPresenter(props) {
                   header={
                     <>
                       <DashboardHeader
-                        icon="lib_views_grid"
-                        label={config.title}
+                        label={<DashboardSwitcher titleOverwrite={config.title} />}
                         title="Dashboard"
                         renderButtonLine={() => (
                           <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
@@ -108,16 +106,7 @@ function CustomDashboardPresenter(props) {
   );
 }
 
-function ButtonLine({
-  config,
-  isEditing,
-  setEditing,
-  onDeleteCustomDashboard,
-  onSaveConfiguration,
-  onCancel,
-  showDuplicateDashboard = true,
-  editable
-}) {
+function ButtonLine({ isEditing, setEditing, onDeleteCustomDashboard, onSaveConfiguration, onCancel, editable }) {
   if (isEditing) {
     return (
       <>
@@ -144,15 +133,6 @@ function ButtonLine({
       {editable && (
         <Button kind="primaryv2" onClick={() => setEditing(true)}>
           Edit Dashboard
-        </Button>
-      )}
-      {showDuplicateDashboard && (
-        <Button
-          kind="secondary"
-          href$={getNewCustomDashboardLink(config.id)}
-          onClick={() => setDuplicationSource(config)}
-        >
-          Duplicate Dashboard
         </Button>
       )}
       {editable && <Button kind="secondary">Share</Button>}
