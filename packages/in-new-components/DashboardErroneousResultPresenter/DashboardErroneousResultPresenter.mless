@@ -1,0 +1,6 @@
+:local {
+  .wrapper {
+    margin: 1rem auto;
+    max-width: 37.5rem;
+  }
+}

@@ -1,8 +1,4 @@
 :local {
-  .error {
-    margin: 1rem;
-  }
-
   .content {
     padding: 1.5rem 0 0 0;
   }

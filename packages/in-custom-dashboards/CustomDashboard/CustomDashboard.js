@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import { compose } from 'recompose';
-import { isEqual } from 'lodash';
+import React from 'react';
 
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
-import sampleConfiguration from 'in-custom-dashboards/CustomDashboard/sampleConfiguration';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import withPropDependingState from 'in-hoc/withPropDependingState';
+import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,44 +17,41 @@ export default compose(
     bind: [dashboardIdUrlParameter]
   }),
   connectTo(({ dashboardId }) => ({
-    config: getCustomDashboard(dashboardId)
-  }))
+    result: getCustomDashboard(dashboardId)
+  })),
+  withPropDependingState({
+    getInitialState,
+    resets: [
+      {
+        getResettingProps: () => ['result'],
+        onReset: getInitialState
+      }
+    ],
+    reducerName: 'setConfig',
+    reducer: (prevState, config) => ({
+      ...prevState,
+      config
+    })
+  })
 )(CustomDashboardLoader);
 
-function CustomDashboardLoader({ dashboardId, config }) {
-  if (!dashboardId || !config || !config.data || config.data.id !== dashboardId) {
-    return null;
-  }
-  return (
-    <CustomDashboard
-      // Reset state when the config changes
-      key={config.data.id}
-      customDashboardId={dashboardId}
-      config={config.data}
-    />
-  );
-}
-
-function CustomDashboard({ config: originalConfiguration = sampleConfiguration, customDashboardId }) {
-  const [isEditing, setEditing] = useState(false);
-  const [config, setConfig] = useState(originalConfiguration);
+function CustomDashboardLoader(props) {
+  const { dashboardId, config, setConfig } = props;
 
   return (
     <CustomDashboardPresenter
-      customDashboardId={customDashboardId}
-      config={config}
-      setConfig={setConfig}
-      isEditing={isEditing}
-      setEditing={setEditing}
+      {...props}
+      // Reset state when the config changes
+      key={dashboardId}
+      customDashboardId={dashboardId}
       isDeletable
       isResizable
       isConfigurable
       isDraggable
-      editable={config.writable}
+      editable={config && config.writable}
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
-      onCancel={onCancel}
       onRenameDashboard={() => onRenameDashboard(config, setConfig)}
     />
   );
@@ -100,32 +97,20 @@ function CustomDashboard({ config: originalConfiguration = sampleConfiguration, 
         alert('Saving failed');
         return;
       }
-
-      setEditing(false);
     });
   }
+}
 
-  function onCancel() {
-    if (isEqual(originalConfiguration, config)) {
-      setEditing(false);
-    } else {
-      setActiveDialog(
-        <ConfirmationDialog
-          header="Confirm cancelation"
-          description={
-            <span>
-              You have made changes to the dashboard <strong>{config.title}</strong>. When you leave now, you will lose
-              the changes you have made.
-            </span>
-          }
-          bButtonLabel="Leave edit mode and discard changes"
-          onB={() => {
-            setEditing(false);
-            setConfig(originalConfiguration);
-            close();
-          }}
-        />
-      );
-    }
+function getInitialState({ result }) {
+  if (!result || !result.data) {
+    return {
+      persistedConfig: null,
+      config: null
+    };
   }
+
+  return {
+    persistedConfig: result.data,
+    config: deepCopy(result.data)
+  };
 }

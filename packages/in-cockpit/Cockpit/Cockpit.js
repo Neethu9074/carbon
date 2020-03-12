@@ -194,7 +194,6 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
                   ...configEnrichmentLookUpTable[config.id]
                 }))
               }}
-              isEditing
               isResizable={false}
               rowHeightPixels={130}
               width={width - convertRemToPx(renderNavigation ? 18 : 3)}

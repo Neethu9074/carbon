@@ -8,7 +8,7 @@ import {
 } from 'in-websites/api/websiteAlertConfig';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import AlertHeader from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertHeader';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';

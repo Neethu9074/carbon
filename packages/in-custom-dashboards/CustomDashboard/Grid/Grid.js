@@ -29,7 +29,6 @@ export default function Grid({
   config,
   onLayoutChange,
   draggableHandle,
-  isEditing,
   isDeletable,
   isResizable,
   isConfigurable,
@@ -67,8 +66,8 @@ export default function Grid({
         width={width}
         containerPadding={containerPadding}
         breakpoints={breakpoints}
-        isDraggable={isEditing && isDraggable}
-        isResizable={isEditing && isResizable}
+        isDraggable={isDraggable}
+        isResizable={isResizable}
         onDragStop={forwardLayoutChange}
         onResizeStop={forwardLayoutChange}
         draggableHandle={`.${draggableHandle}`}
@@ -102,8 +101,7 @@ export default function Grid({
               style={disabledTransitions ? disabledTransitionStyle : undefined}
             >
               <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>
-              {isEditing &&
-                isConfigurable && (
+              {isConfigurable && (
                   <SvgIcon
                     type="lib_actions_edit"
                     size="xs"
@@ -111,8 +109,7 @@ export default function Grid({
                     onClick={() => onEditWidget(widget.id)}
                   />
                 )}
-              {isEditing &&
-                isDeletable && (
+              {isDeletable && (
                   <SvgIcon
                     type="lib_actions_delete"
                     size="xs"

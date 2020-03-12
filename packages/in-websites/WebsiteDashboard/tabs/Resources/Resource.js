@@ -12,7 +12,7 @@ import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/Re
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';

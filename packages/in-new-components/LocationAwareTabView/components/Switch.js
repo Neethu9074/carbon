@@ -1,8 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
-import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -14,11 +14,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
   const isLoading = result && result.progress.loading;
 
   if (hasErrors) {
-    return renderErrors ? (
-      renderErrors(result.errors)
-    ) : (
-      <ErroneousResultPresenter errors={result.errors} className={locals.error} />
-    );
+    return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
     return <DefaultLoadingDashboard />;
   }

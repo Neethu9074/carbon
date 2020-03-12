@@ -1,25 +1,31 @@
+/* eslint-disable react/display-name */
+
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
 import WidgetEditor from 'in-custom-dashboards/CustomDashboard/WidgetEditor/WidgetEditor';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-custom-dashboards/SetAsLandingPage';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
-import DashboardHeader from 'in-new-components/DashboardHeader';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import SetBodyColor from 'in-components/SetBodyColor';
 import WithTvMode from 'in-new-components/WithTvMode';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
+import Title from 'in-components/Title';
 import theme from 'in-themes';
 
 export default getElementDimensions(CustomDashboardPresenter);
 
 function CustomDashboardPresenter(props) {
   const {
+    result,
     config,
     setConfig,
-    isEditing,
     isDeletable,
     isResizable,
     isConfigurable,
@@ -55,47 +61,55 @@ function CustomDashboardPresenter(props) {
                   header={
                     <>
                       <DashboardHeader
-                        label={<DashboardSwitcher titleOverwrite={config.title} />}
-                        title="Dashboard"
-                        renderButtonLine={() => (
-                          <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />
-                        )}
-                        renderButtonLineSecondary={() => (
-                          <SecondaryButtonLine
-                            {...props}
-                            onAddWidget={onAddWidget}
-                            onEditWidget={onEditWidget}
-                            setTvModeEnabled={setEnabled}
-                          />
-                        )}
-                        renderMetaInformation={() => (
-                          <>
-                            {isEditing && (
-                              <Button size="compact" kind="subtle" onClick={onRenameDashboard}>
-                                Rename
-                              </Button>
-                            )}
-                          </>
-                        )}
+                        theme={themes.light}
+                        label={<DashboardSwitcher titleOverwrite={config && config.title} />}
+                        renderButtonLine={
+                          config &&
+                          (() => <ButtonLine {...props} onAddWidget={onAddWidget} onEditWidget={onEditWidget} />)
+                        }
+                        renderButtonLineSecondary={
+                          config &&
+                          (() => (
+                            <SecondaryButtonLine
+                              {...props}
+                              onAddWidget={onAddWidget}
+                              onEditWidget={onEditWidget}
+                              setTvModeEnabled={setEnabled}
+                            />
+                          ))
+                        }
+                        renderMetaInformation={
+                          config &&
+                          (() => (
+                            <Button size="compact" kind="subtle" onClick={onRenameDashboard}>
+                              Rename
+                            </Button>
+                          ))
+                        }
                       />
+                      {result && <HorizontalIndicator progress={result.progress} />}
                       <DashboardHeaderShadowModule />
+
+                      <Title title="Dashboard" dynamic={config && config.title} />
                     </>
                   }
                 >
-                  {
+                  {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
+                  {result && <DashboardErroneousResultPresenter errors={result.errors} />}
+                  {config && (
                     <Grid
                       width={width}
                       config={config}
                       onLayoutChange={onLayoutChange}
                       onEditWidget={onEditWidget}
                       onRemoveWidget={onRemoveWidget}
-                      isEditing={isEditing}
+                      isEditing
                       isDeletable={isDeletable}
                       isResizable={isResizable}
                       isConfigurable={isConfigurable}
                       isDraggable={isDraggable}
                     />
-                  }
+                  )}
                 </Sticky>
               )}
             </WidgetEditor>
@@ -106,51 +120,28 @@ function CustomDashboardPresenter(props) {
   );
 }
 
-function ButtonLine({ isEditing, setEditing, onDeleteCustomDashboard, onSaveConfiguration, onCancel, editable }) {
-  if (isEditing) {
-    return (
-      <>
-        <Button kind="primaryv2" onClick={onSaveConfiguration}>
-          Save Configuration
-        </Button>
-        {onDeleteCustomDashboard && (
-          <Button kind="danger" onClick={onDeleteCustomDashboard}>
-            Delete Dashboard
-          </Button>
-        )}
-        {onCancel && (
-          <Button kind="secondary" onClick={onCancel}>
-            Cancel
-          </Button>
-        )}
-        <Button kind="secondary">Share</Button>
-      </>
-    );
-  }
-
+function ButtonLine({ onDeleteCustomDashboard, onSaveConfiguration }) {
   return (
     <>
-      {editable && (
-        <Button kind="primaryv2" onClick={() => setEditing(true)}>
-          Edit Dashboard
+      <Button kind="primaryv2" onClick={onSaveConfiguration}>
+        Save Configuration
+      </Button>
+      {onDeleteCustomDashboard && (
+        <Button kind="danger" onClick={onDeleteCustomDashboard}>
+          Delete Dashboard
         </Button>
       )}
-      {editable && <Button kind="secondary">Share</Button>}
+      <Button kind="secondary">Share</Button>
     </>
   );
 }
 
-function SecondaryButtonLine({ isEditing, onAddWidget, setTvModeEnabled, customDashboardId }) {
-  if (isEditing) {
-    return (
+function SecondaryButtonLine({ onAddWidget, setTvModeEnabled, customDashboardId }) {
+  return (
+    <>
       <Button kind="create" onClick={onAddWidget}>
         Add Widget
       </Button>
-    );
-  }
-
-  return (
-    <>
       <SetAsLandingPage customDashboardId={customDashboardId} />
       <Button kind="secondary" onClick={() => setTvModeEnabled(true)}>
         TV Mode

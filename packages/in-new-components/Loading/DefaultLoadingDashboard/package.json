@@ -1,0 +1,6 @@
+{
+  "name": "DefaultLoadingDashboard",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DefaultLoadingDashboard.js"
+}
