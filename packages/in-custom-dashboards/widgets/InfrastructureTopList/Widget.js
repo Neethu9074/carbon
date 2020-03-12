@@ -31,7 +31,8 @@ export default function InfrastructureTopList({ config }) {
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
     }),
     getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType),
-    getItemLink: item => getDashboardLink(item.snapshot.get('id'), { pathname: '/physical/dashboard' })
+    getItemLink: item => getDashboardLink(item.snapshot.get('id'), { pathname: '/physical/dashboard' }),
+    unpinItem: (id, type) => remove({ id, type })
   };
 
   if (selectedType === 'host') {
@@ -46,7 +47,6 @@ export default function InfrastructureTopList({ config }) {
             type: hostType
           })
         }
-        unpinItem={id => remove({ id, type: hostType })}
         fullListViewLinkTitle="All Hosts"
       />
     );
@@ -64,7 +64,6 @@ export default function InfrastructureTopList({ config }) {
             type: containerType
           })
         }
-        unpinItem={id => remove({ id, type: containerType })}
         fullListViewLinkTitle="All Containers"
       />
     );
@@ -81,7 +80,6 @@ export default function InfrastructureTopList({ config }) {
           type: processType
         })
       }
-      unpinItem={id => remove({ id, type: processType })}
       fullListViewLinkTitle="All Processes"
     />
   );

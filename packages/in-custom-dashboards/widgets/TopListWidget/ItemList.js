@@ -41,33 +41,23 @@ export function Cell({ width, children }) {
 function LoadingList({ numSkeletonRows }) {
   const loadingRows = [];
   for (let i = 0; i < numSkeletonRows; i++) {
-    loadingRows[i] = <LoadingListItem key={i} />;
+    loadingRows[i] = (
+      <Li key={i}>
+        <Skeleton className={locals.skeleton} />
+      </Li>
+    );
   }
 
   return <Ul className={locals.list}>{loadingRows}</Ul>;
 }
 
-export function LoadingListItem() {
-  return (
-    <Li>
-      <Skeleton className={locals.skeleton} />
-    </Li>
-  );
-}
-
 function ErrorList({ errors }) {
-  return (
-    <Ul className={locals.list}>
-      <ErrorListItem errors={errors} />
-    </Ul>
-  );
-}
-
-export function ErrorListItem({ errors }) {
   const error = getUniqueErrors(errors)[0];
   return (
-    <Li key={error}>
-      <Error>{error}</Error>
-    </Li>
+    <Ul className={locals.list}>
+      <Li key={error}>
+        <Error>{error}</Error>
+      </Li>
+    </Ul>
   );
 }
