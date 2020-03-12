@@ -2,20 +2,20 @@ import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
-import { msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 
-const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
+const msFormatter = d => (d < 0 ? 'No activity' : millis(d));
 
 export default function MySqlDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
-  const waitEvents = [
+  const waitEventMetrics = [
     'wait/io/file',
     'wait/io/socket',
     'wait/io/table',
@@ -23,6 +23,15 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
     'wait/synch/cond',
     'wait/synch/mutex',
     'wait/synch/rwlock'
+  ];
+  const waitEventLabels = [
+    'io file',
+    'io socket',
+    'io table',
+    'lock table',
+    'synch cond',
+    'synch mutex',
+    'synch rwlock'
   ];
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -39,8 +48,8 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" formatter={number.compact} />
         </KpiKeyValue>
         {performanceDataAvailable ? (
-          <KpiKeyValue label="avg. Query Latency">
-            <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={millis.detailed} />
+          <KpiKeyValue label="Average Query Latency">
+            <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={millis.compact} />
           </KpiKeyValue>
         ) : null}
         <KpiKeyValue label="Client Connections">
@@ -89,7 +98,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['status.DB_QUERY_LATENCY'],
-              labels: ['avg. Query Latency'],
+              labels: ['Average Query Latency'],
               type: 'line',
               formatter: millis.detailed
             }}
@@ -116,8 +125,8 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: waitEvents.map(wEv => 'wait_events.' + wEv),
-              labels: waitEvents,
+              metrics: waitEventMetrics.map(wEv => 'wait_events.' + wEv),
+              labels: waitEventLabels,
               type: 'line',
               formatter: msFormatter
             }}

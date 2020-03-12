@@ -33,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Avg. Query Latency',
+    title: 'Average Query Latency',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -42,7 +42,7 @@ const cols = [
       getMetricName(row) {
         return `databases.${row.key}.avg_query_latency`;
       },
-      getContent: millis.detailed,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -81,7 +81,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['databases.' + row.key + '.avg_query_latency'],
-          labels: ['avg. Query Latency'],
+          labels: ['Average Query Latency'],
           type: 'line',
           formatter: millis.detailed
         }}
