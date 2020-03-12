@@ -88,8 +88,8 @@ module.exports = exports = (tenant, unit) => [
   {
     uiClientKey: 'contextGuideEnabled',
     instanaCtlKey: 'feature.context.guide.enabled',
-    consulKey: `settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`,
-    defaultValue: false
+    consulKey: `settings/CONTEXT_GUIDE_ENABLED`,
+    defaultValue: true
   },
   {
     uiClientKey: 'fullTermsConfigEnabled',
