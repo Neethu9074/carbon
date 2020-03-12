@@ -9,7 +9,7 @@ export default [
   },
   {
     metric: 'availableToDesiredReplicaRatio',
-    label: 'Desired Replica Ratio',
+    label: 'Available to Desired Percentage',
     min: 0,
     formatter: percentage
   },
