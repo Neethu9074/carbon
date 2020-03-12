@@ -82,7 +82,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -109,6 +109,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+        filters={filterByType(result.data.types)}
       />
     </>
   );
@@ -144,4 +145,12 @@ function renderMetaInformation({ result }) {
 
 function renderApplicationContext(props) {
   return <ApplicationSwitcherContext {...props} />;
+}
+
+function filterByType(types) {
+  if (types.length === 1) {
+    return [{ name: 'call.type', value: types[0], operator: 'EQUALS', entity: 'NOT_APPLICABLE' }];
+  } else {
+    return [];
+  }
 }
