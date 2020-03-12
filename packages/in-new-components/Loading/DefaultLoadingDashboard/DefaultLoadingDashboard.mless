@@ -10,15 +10,15 @@
     width: 100%;
     height: 7.625rem;
     display: block;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
   }
 
   .skeletonChart {
     width: 100%;
     height: 15.563rem;
     display: block;
+  }
+
+  .lightMode {
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_large;
     box-shadow: @lib__shadows__subtle;
