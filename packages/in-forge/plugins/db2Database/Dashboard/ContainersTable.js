@@ -58,7 +58,7 @@ const cols = [
       getMetricName(row) {
         return `containers.${row.key}.pagesRead`;
       },
-      getContent: bytes.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -74,7 +74,7 @@ const cols = [
       getMetricName(row) {
         return `containers.${row.key}.pagesWritten`;
       },
-      getContent: bytes.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -90,7 +90,7 @@ const cols = [
       getMetricName(row) {
         return `containers.${row.key}.poolReadTime`;
       },
-      getContent: bytes.detailed,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -106,7 +106,7 @@ const cols = [
       getMetricName(row) {
         return `containers.${row.key}.poolWriteTime`;
       },
-      getContent: bytes.detailed,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }

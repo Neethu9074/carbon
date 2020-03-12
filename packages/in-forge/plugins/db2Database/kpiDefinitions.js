@@ -3,12 +3,12 @@ import { number } from 'in-services/formatters/number';
 export default [
   {
     label: 'Connections',
-    metric: 'connections',
+    metric: 'databases.connectionsCount',
     formatter: number.compact
   },
   {
-    label: 'Queues',
-    metric: 'queues',
+    label: 'Queries',
+    metric: 'databases.queries',
     formatter: number.compact
   }
 ];
