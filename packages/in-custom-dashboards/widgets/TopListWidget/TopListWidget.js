@@ -42,7 +42,7 @@ export default compose(
         return agg;
       }, {})
     ),
-    
+
     // these two will share the same subscription because query is initially empty
     result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query })),
     resultForEmptyStateCheck: timeConfig$.flatMap(timeConfig => getItems({ timeConfig }))
@@ -86,8 +86,6 @@ function TopListWidget(props) {
     numRegularItems = result.data.items.length;
   }
 
-  const pinItemCb = item => pinItem(getId(item), item);
-  const unpinItemCb = item => unpinItem(getId(item), item);
   const hasContent = hasContentToRender(resultForEmptyStateCheck, numPinnedItems);
 
   return (
@@ -113,12 +111,13 @@ function TopListWidget(props) {
             getItem={getItem}
             getItemLink={getItemLink}
             pinnedItemIdsByType={pinnedItemIdsByType}
+            unpinItem={unpinItem}
             columnDefinitions={[
               ...columnDefinitions,
               {
                 width: '2rem',
-                getContent(item) {
-                  return <Star pinned pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                getContent(item, { id, type }) {
+                  return <Star pinned onClick={() => unpinItem(id, type)} />;
                 }
               }
             ]}
@@ -136,7 +135,7 @@ function TopListWidget(props) {
               {
                 width: '2rem',
                 getContent(item) {
-                  return <Star pinItem={pinItemCb} unpinItem={unpinItemCb} item={item} />;
+                  return <Star onClick={() => pinItem(getId(item), item)} />;
                 }
               }
             ]}

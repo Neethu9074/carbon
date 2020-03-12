@@ -75,7 +75,7 @@ export default function WebsitesAndMobileTopList({ config }) {
         label: item.isWebsite ? item.website.label : item.mobileApp.label,
         type: getTypeByItem(item)
       }),
-    unpinItem: (id, item) => remove({ id, type: getTypeByItem(item) }),
+    unpinItem: (id, type) => remove({ id, type }),
     getItem,
     header,
     EmptyStateComponent: EmptyStateContent

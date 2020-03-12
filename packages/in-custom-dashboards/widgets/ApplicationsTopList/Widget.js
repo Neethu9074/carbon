@@ -55,7 +55,7 @@ export default function ApplicationsTopList({ config }) {
           type: applicationType
         })
       }
-      unpinItem={id => remove({ id, type: applicationType })}
+      unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItems={getApplicationsWithDefaults}
       fullListViewLinkTitle="All Applications"

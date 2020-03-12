@@ -52,7 +52,7 @@ export default function PlatformsTopList({ config }) {
           type: getTypeByItem(item)
         })
       }
-      unpinItem={(id, item) => remove({ id, type: getTypeByItem(item) })}
+      unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItemLink={item => {
         return (item.isKubernetes

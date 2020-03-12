@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import { ErrorListItem, LoadingListItem, Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
+import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
+import { Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
 import { hasError, isLoading } from 'in-services/util/result';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Ul, Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
 
@@ -54,13 +56,32 @@ const Item = connectTo(
   }),
 
   function Item(props) {
-    const { result, timeConfig, columnDefinitions, getItemLink } = props;
+    const { id, type, result, timeConfig, columnDefinitions, getItemLink } = props;
 
     if (!result || isLoading(result)) {
-      return <LoadingListItem />;
+      const starColumn = columnDefinitions[columnDefinitions.length - 1];
+      return (
+        <Li>
+          <Cell>
+            <Skeleton className={locals.skeleton} />
+          </Cell>
+          <Cell width="1rem" />
+          <Cell width={starColumn.width}>{starColumn.getContent(item, { id, type })}</Cell>
+        </Li>
+      );
     }
     if (hasError(result)) {
-      return <ErrorListItem errors={result.errors} />;
+      const starColumn = columnDefinitions[columnDefinitions.length - 1];
+      const error = getUniqueErrors(result.errors)[0];
+      return (
+        <Li>
+          <Cell>
+            <Error>{error}</Error>
+          </Cell>
+          <Cell width="1rem" />
+          <Cell width={starColumn.width}>{starColumn.getContent(item, { id, type })}</Cell>
+        </Li>
+      );
     }
 
     const item = result.data ? result.data : result;
@@ -69,7 +90,7 @@ const Item = connectTo(
       <Li className={locals.listItem} href$={getItemLink(item)}>
         {columnDefinitions.map(({ width, ellipsis, getContent }, i) => (
           <Cell key={i} width={width} ellipsis={ellipsis}>
-            {getContent(item, { result, timeConfig })}
+            {getContent(item, { id, type, result, timeConfig })}
           </Cell>
         ))}
       </Li>
