@@ -129,7 +129,13 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
                 <TimestampCell time={item.call.started} />
               </Td>
 
-              <Td>{latencyFixed.compact(item.call.duration)}</Td>
+              <Td>
+                {latencyFixed.compact(item.call.duration)}
+                <BatchingIndicator
+                  batchCount={item.call.batchCount}
+                  tooltipContent={`Total latency of ${item.call.batchCount} batched calls.`}
+                />
+              </Td>
             </Tr>
           ))}
 
