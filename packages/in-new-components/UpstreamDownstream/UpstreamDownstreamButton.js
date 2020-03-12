@@ -21,7 +21,8 @@ export default connectTo(
     serviceId,
     applicationId,
     boundaryScope,
-    dashboard
+    productArea,
+    className
   }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
@@ -38,7 +39,7 @@ export default connectTo(
               applicationId={applicationId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              dashboard={dashboard}
+              productArea={productArea}
               close={close}
             />
           )}
@@ -46,7 +47,13 @@ export default connectTo(
           withoutWrapper
         >
           {({ toggle, refSetter, isOpen }) => (
-            <Button kind="info" icon="lib_context_guide_upstream" onClick={toggle} refSetter={refSetter}>
+            <Button
+              kind="info"
+              icon="lib_context_guide_upstream"
+              onClick={toggle}
+              refSetter={refSetter}
+              className={className}
+            >
               Upstream / Downstream
               <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>

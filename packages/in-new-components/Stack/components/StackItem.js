@@ -25,7 +25,7 @@ export default function StackItem({ item: { id, type, label, healthInfo, metrics
   const hasHealthInfo = healthInfo && healthInfo.type;
 
   return (
-    <Li href$={dashboardLink(id, type)}>
+    <Li href$={dashboardLink(id, type)} noAlternatingBg>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
           {hasHealthInfo ? (

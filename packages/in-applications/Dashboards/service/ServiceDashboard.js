@@ -9,16 +9,15 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import StackButton from 'in-new-components/Stack/StackButton';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -93,14 +92,14 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-      <StackButton id={serviceId} applicationId={applicationId} timeConfig={timeConfig} productArea="service" />
-      <UpstreamDownstreamButton
+      <ContextGuide
+        id={serviceId}
+        timeConfig={timeConfig}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        timeConfig={timeConfig}
         boundaryScope={boundaryScope}
-        dashboard="service"
+        productArea="service"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}

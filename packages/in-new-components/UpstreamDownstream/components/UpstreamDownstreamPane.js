@@ -9,29 +9,29 @@ import locals from './UpstreamDownstreamPane.mless';
 
 export default function UpstreamDownstreamPane({
   applicationId,
-  area,
+  activeTab,
   items,
   label,
   result,
   serviceId,
   timeConfig,
   endpointId,
-  dashboard,
+  productArea,
   boundaryScope,
   itemsApplication,
   resultApplication
 }) {
   if (!items.length && !itemsApplication.length) {
-    return <EmptyPane serviceId={serviceId} endpointId={endpointId} area={area} />;
+    return <EmptyPane serviceId={serviceId} endpointId={endpointId} activeTab={activeTab} />;
   }
 
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={items.length}>
       <UpstreamDownstreamGroup
         applicationId={applicationId}
-        area={area}
+        activeTab={activeTab}
         boundaryScope={boundaryScope}
-        dashboard={dashboard}
+        productArea={productArea}
         endpointId={endpointId}
         items={items}
         label={label}
@@ -43,9 +43,9 @@ export default function UpstreamDownstreamPane({
       {itemsApplication.length > 0 && (
         <UpstreamDownstreamGroup
           applicationId={applicationId}
-          area={area}
+          activeTab={activeTab}
           boundaryScope={boundaryScope}
-          dashboard={dashboard}
+          productArea={productArea}
           endpointId={endpointId}
           items={itemsApplication}
           label={label}
@@ -59,7 +59,7 @@ export default function UpstreamDownstreamPane({
   );
 }
 
-const EmptyPane = ({ serviceId, endpointId, area }) => {
+const EmptyPane = ({ serviceId, endpointId, activeTab }) => {
   let entityType;
   if (endpointId != null) {
     entityType = 'endpoint';
@@ -71,8 +71,8 @@ const EmptyPane = ({ serviceId, endpointId, area }) => {
 
   return (
     <div className={locals.emptyPane}>
-      <SvgIcon type={relationships.info[area].icon} size="xxl" />
-      <span className={locals.emptyMessage}>{`This ${entityType} ${relationships.info[area].message}`}</span>
+      <SvgIcon type={relationships.info[activeTab].icon} size="xxl" />
+      <span className={locals.emptyMessage}>{`This ${entityType} ${relationships.info[activeTab].message}`}</span>
     </div>
   );
 };

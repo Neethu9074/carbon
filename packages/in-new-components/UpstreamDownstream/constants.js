@@ -8,15 +8,15 @@ export const relationships = {
 
   info: {
     UPSTREAM: {
-      SERVICE: { text: 'Directly called by' },
-      APPLICATION: { text: 'Directly called from within' },
+      SERVICE: { type: 'Service', text: 'Directly Called by' },
+      APPLICATION: { type: 'Application', text: 'Directly Called from Within' },
       message: 'didn’t receive any calls',
       icon: 'lib_context_guide_upstream'
     },
     DOWNSTREAM: {
-      SERVICE: { text: 'Directly calling' },
-      APPLICATION: { text: 'Directly calling services within' },
-      message: 'didn’t initiate any calls',
+      SERVICE: { type: 'Service', text: 'Directly Calling' },
+      APPLICATION: { type: 'Application', text: 'Directly Calling Services Within' },
+      message: 'didn’t initiate any downstream calls',
       icon: 'lib_context_guide_downstream'
     }
   }
