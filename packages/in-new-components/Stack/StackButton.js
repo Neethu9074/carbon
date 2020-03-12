@@ -14,7 +14,7 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function StackButton({ id, applicationId, timeConfig, isInternalVisible, productArea }) {
+  function StackButton({ id, applicationId, timeConfig, isInternalVisible, productArea, noAutoMargin, className }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
     if (isInternalVisible || contextGuideEnabled) {
@@ -35,7 +35,14 @@ export default connectTo(
           withoutWrapper
         >
           {({ toggle, refSetter, isOpen }) => (
-            <Button kind="info" icon="lib_context_guide_stack" onClick={toggle} refSetter={refSetter}>
+            <Button
+              kind="info"
+              icon="lib_context_guide_stack"
+              onClick={toggle}
+              refSetter={refSetter}
+              noAutoMargin={noAutoMargin}
+              className={className}
+            >
               Stack
               <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>

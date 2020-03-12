@@ -12,23 +12,26 @@ import locals from './UpstreamDownstreamGroup.mless';
 
 export default function UpstreamDownstreamGroup({
   items,
-  area,
+  activeTab,
   timeConfig,
   result,
   applicationId,
   serviceId,
-  dashboard,
+  productArea,
   endpointId,
   boundaryScope,
   itemType
 }) {
   const [selectedMetric, onChangeMetric] = useState('errors');
+  const totalHits = result.data.totalHits;
+  const relationshipTypeText = relationships.info[activeTab][itemType].type;
+  const relationshipText = relationships.info[activeTab][itemType].text;
 
   return (
     <div>
       <div className={locals.groupHead}>
         <div className={locals.relationshipText}>
-          {relationships.info[area][itemType].text} ({result.data.totalHits})
+          {relationshipText} {totalHits} {totalHits > 1 ? relationshipTypeText + 's' : relationshipTypeText}
         </div>
         <UpstreamDownstreamMetric
           metrics={[
@@ -49,7 +52,6 @@ export default function UpstreamDownstreamGroup({
             serviceId={serviceId}
             result={result}
             item={item}
-            area={area}
             selectedMetric={selectedMetric}
             timeConfig={timeConfig}
             itemType={itemType}
@@ -58,28 +60,28 @@ export default function UpstreamDownstreamGroup({
       </Ul>
       {itemType !== relationships.APPLICATION && (
         <div className={locals.seeAll}>
-          {getSeeAllLink(result, dashboard, area, applicationId, serviceId, endpointId, boundaryScope, close)}
+          {getSeeAllLink(totalHits, productArea, activeTab, applicationId, serviceId, endpointId, boundaryScope, close)}
         </div>
       )}
     </div>
   );
 }
 
-function getSeeAllLink(result, dashboard, area, applicationId, serviceId, endpointId, boundaryScope, close) {
-  const tabMatrix = area === 'UPSTREAM' ? { hideDownstream: true } : { hideUpstream: true };
-  if (dashboard === 'application') {
+function getSeeAllLink(totalHits, productArea, activeTab, applicationId, serviceId, endpointId, boundaryScope, close) {
+  const tabMatrix = activeTab === 'UPSTREAM' ? { hideDownstream: true } : { hideUpstream: true };
+  if (productArea === 'application') {
     return (
       <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
-        See all dependencies
+        See all {activeTab.toLowerCase()} Services
       </Link>
     );
-  } else if (dashboard === 'service') {
+  } else if (productArea === 'service') {
     return (
       <Link
         href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap', tabMatrix })}
         onClick={close}
       >
-        See all {result.data.totalHits} Services
+        {totalHits > 1 ? `See all ${totalHits} Services` : 'See Service'}
       </Link>
     );
   }

@@ -225,7 +225,10 @@ function getNativeExtensionHint(snapshot) {
       Native extensions could not be loaded for detailed <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}
       monitoring. As a result, Instana can only show you a limited set of metrics. Please contact us for installation
       support or refer to the{' '}
-      <a href="https://github.com/instana/nodejs-sensor">Node.js sensor installation instructions</a>.
+      <a href="https://docs.instana.io/ecosystem/node-js/installation/#native-addons">
+        Node.js collector installation instructions
+      </a>
+      .
     </DashboardNotification>
   );
 }

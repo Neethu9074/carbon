@@ -45,7 +45,7 @@ export default connectTo(
     downstream,
     upstreamApplications,
     downstreamApplications,
-    dashboard,
+    productArea,
     close
   }) {
     const stream = activeTabIndex === 0 ? upstream : downstream;
@@ -64,7 +64,7 @@ export default connectTo(
           serviceId={serviceId}
           applicationId={applicationId}
           endpointId={endpointId}
-          dashboard={dashboard}
+          productArea={productArea}
           boundaryScope={boundaryScope}
           close={close}
         />

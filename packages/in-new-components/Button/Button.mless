@@ -25,6 +25,12 @@
     }
   }
 
+  .noAutoMargin {
+    & + .button {
+      margin-left: 0;
+    }
+  }
+
   .normal {
     padding: 0.5rem 0.625rem;
 

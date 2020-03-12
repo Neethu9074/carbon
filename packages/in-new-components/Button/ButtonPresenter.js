@@ -40,9 +40,11 @@ export default function ButtonPresenter({
   disabled,
   target,
   refSetter,
-  autoFocus
+  autoFocus,
+  noAutoMargin
 }) {
-  let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
+  let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
+    ''}`;
   if (className) {
     classes = `${classes} ${className}`;
   }
@@ -106,5 +108,6 @@ ButtonPresenter.propTypes = {
   target: rpt.string,
   disabled: rpt.bool,
   refSetter: rpt.func,
-  autoFocus: rpt.bool
+  autoFocus: rpt.bool,
+  noAutoMargin: rpt.bool
 };
