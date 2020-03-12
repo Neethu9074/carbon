@@ -6,6 +6,10 @@
     padding: 0;
   }
 
+  .bottomMargin {
+    margin-bottom: 1rem;
+  }
+
   .error {
     background: #ff5d3b;
     border-radius: 3px;

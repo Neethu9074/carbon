@@ -3,22 +3,27 @@ import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
 import Header from 'in-new-components/BigHeaderDialog/Header';
 
 import locals from './BigHeaderDialog.mless';
 
-export default function BigHeaderDialog({
-  className,
+export default function BigHeaderDialogWithSlideInView({
   title,
   titleIconType,
   onClose,
   onTitleIconClick,
   children,
+  className,
   renderCustomCloseBehaviour,
   withoutBodyPadding,
   showOverflow,
   headless = false,
-  doNotCloseOnOutsideClick
+  doNotCloseOnOutsideClick,
+  onSlideInViewTitleClick,
+  slideInViewTitle,
+  slideInViewComponent,
+  slideInViewVisible
 }) {
   const [scrollshadow, setScrollshadow] = useState(false);
   return (
@@ -34,31 +39,38 @@ export default function BigHeaderDialog({
         onClick={stopPropagation}
         onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
       >
-        {!headless && (
-          <Header
-            icon={titleIconType}
-            onIconClick={onTitleIconClick}
-            title={title}
-            renderCustomCloseBehaviour={renderCustomCloseBehaviour}
-            onClose={onClose}
-            addScrollShadow={scrollshadow}
-          />
-        )}
-        <div
-          className={evaluateClassNames({
-            [locals.body]: true,
-            [locals.withoutPadding]: withoutBodyPadding,
-            [locals.showOverflow]: showOverflow
-          })}
+        <SlideInView
+          onTitleIconClick={onSlideInViewTitleClick}
+          title={slideInViewTitle}
+          sliderContent={slideInViewComponent}
+          slideIn={slideInViewVisible}
         >
-          {children}
-        </div>
+          {!headless && (
+            <Header
+              icon={titleIconType}
+              onIconClick={onTitleIconClick}
+              title={title}
+              renderCustomCloseBehaviour={renderCustomCloseBehaviour}
+              onClose={onClose}
+              addScrollShadow={scrollshadow}
+            />
+          )}
+          <div
+            className={evaluateClassNames({
+              [locals.body]: true,
+              [locals.withoutPadding]: withoutBodyPadding,
+              [locals.showOverflow]: showOverflow
+            })}
+          >
+            {children}
+          </div>
+        </SlideInView>
       </section>
     </div>
   );
 }
 
-BigHeaderDialog.propTypes = {
+BigHeaderDialogWithSlideInView.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   renderCustomCloseBehaviour: PropTypes.func,
@@ -69,5 +81,9 @@ BigHeaderDialog.propTypes = {
   title: PropTypes.string,
   titleIconType: PropTypes.string,
   withoutBodyPadding: PropTypes.bool,
-  doNotCloseOnOutsideClick: PropTypes.bool
+  doNotCloseOnOutsideClick: PropTypes.bool,
+  onSlideInViewTitleClick: PropTypes.func,
+  slideInViewTitle: PropTypes.string,
+  slideInViewComponent: PropTypes.node,
+  slideInViewVisible: PropTypes.bool
 };

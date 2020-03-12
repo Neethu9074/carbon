@@ -3,27 +3,27 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog';
+import BigHeaderDialogWithSlideInView from 'in-new-components/BigHeaderDialog/BigHeaderDialogWithSlideInView';
 import Button from 'in-new-components/Button/Button';
 
 export default {
-  title: 'Molecules|Dialogs/BigHeaderDialog',
-  component: BigHeaderDialog,
+  title: 'Molecules|Dialogs/BigHeaderDialogWithSlideInView',
+  component: BigHeaderDialogWithSlideInView,
   decorator: { text, action }
 };
 
-export const BigHeaderDialogDefault = () => (
+export const BigHeaderDialogWithSlideInViewDefault = () => (
   <div>
-    <BigHeaderDialog title={text('Title', 'Some title')} onClose={action('onClose')}>
+    <BigHeaderDialogWithSlideInView title={text('Title', 'Some title')} onClose={action('onClose')}>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
       cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
-    </BigHeaderDialog>
+    </BigHeaderDialogWithSlideInView>
   </div>
 );
 
-export const BigHeaderDialogCustom = () => (
+export const BigHeaderDialogWithSlideInViewCustom = () => (
   <div>
-    <BigHeaderDialog
+    <BigHeaderDialogWithSlideInView
       onClose={action('onClose')}
       renderCustomCloseBehaviour={() => (
         <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
@@ -35,15 +35,15 @@ export const BigHeaderDialogCustom = () => (
     >
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
       cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
-    </BigHeaderDialog>
+    </BigHeaderDialogWithSlideInView>
   </div>
 );
 
-export const BigHeaderDialogSlideIn = () => {
+export const BigHeaderDialogWithSlideInViewSlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
     <div>
-      <BigHeaderDialog
+      <BigHeaderDialogWithSlideInView
         title={'Some title'}
         slideInViewTitle={'SlideIn Title'}
         onSlideInViewTitleClick={() => setSlideInVisible(false)}
@@ -67,7 +67,7 @@ export const BigHeaderDialogSlideIn = () => {
           consequuntur?
           <Button onClick={() => setSlideInVisible(true)}>SlideIn</Button>
         </div>
-      </BigHeaderDialog>
+      </BigHeaderDialogWithSlideInView>
     </div>
   );
 };

@@ -13,7 +13,12 @@ import Button from 'in-new-components/Button';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
 
-export default function DashboardSwitcherOverlayPresenter({ customDashboards, isLoadingMore }) {
+export default function DashboardSwitcherOverlayPresenter({
+  customDashboards,
+  isLoadingMore,
+  onCreateNewDashboard,
+  close
+}) {
   const [query, setQuery] = useState('');
 
   return (
@@ -22,7 +27,15 @@ export default function DashboardSwitcherOverlayPresenter({ customDashboards, is
         <Li className={locals.actions}>
           <SearchInput placeholder="Search" query={query} onChange={q => setQuery(q)} />
 
-          <Button kind="subtle" icon="lib_openclose_add_circle_outline" className={locals.addDashboard}>
+          <Button
+            kind="subtle"
+            icon="lib_openclose_add_circle_outline"
+            className={locals.addDashboard}
+            onClick={() => {
+              onCreateNewDashboard();
+              close();
+            }}
+          >
             Create Dashboard
           </Button>
         </Li>
@@ -53,6 +66,8 @@ export default function DashboardSwitcherOverlayPresenter({ customDashboards, is
 
 DashboardSwitcherOverlayPresenter.propTypes = {
   isLoadingMore: rpt.bool,
+  onCreateNewDashboard: rpt.func.isRequired,
+  close: rpt.func.isRequired,
   customDashboards: rpt.arrayOf(
     rpt.shape({
       id: rpt.string.isRequired,

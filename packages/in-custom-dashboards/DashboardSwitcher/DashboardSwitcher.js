@@ -1,7 +1,10 @@
 import { withProps, compose } from 'recompose';
+import React from 'react';
 
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog/NewDashboardDialog';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
 import { navigationParameters$ } from 'in-stores/navigation';
@@ -18,7 +21,8 @@ export default compose(
   withProps(({ result, navigationParameters }) => ({
     activeDashboardTitle: determineActiveDashboard(result, navigationParameters),
     isLoadingMore: result.progress.loading,
-    customDashboards: result && result.data
+    customDashboards: result && result.data,
+    onCreateNewDashboard
   }))
 )(DashboardSwitcherPresenter);
 
@@ -46,4 +50,8 @@ function determineActiveDashboard(result, navigationParameters) {
   }
 
   return loadingTitle;
+}
+
+function onCreateNewDashboard() {
+  setActiveDialog(<NewDashboardDialog />);
 }

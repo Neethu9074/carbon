@@ -1,7 +1,7 @@
 import { uniq } from 'lodash';
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isTechnicalError } from 'in-types/error';
 
@@ -15,13 +15,19 @@ import locals from './ErroneousResultPresenter.mless';
 //   }
 // ]}/>
 
-export default function ErrorneousResultPresenter({ errors, className }) {
+export default function ErrorneousResultPresenter({ errors, className, addBottomMargin = false }) {
   if (errors == null || errors.length === 0) {
     return null;
   }
 
   return (
-    <ul className={joinClassNames(locals.errors, className)}>
+    <ul
+      className={evaluateClassNames({
+        [locals.errors]: true,
+        [locals.bottomMargin]: addBottomMargin,
+        [className]: className
+      })}
+    >
       {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.item}>
           <Error>{error}</Error>

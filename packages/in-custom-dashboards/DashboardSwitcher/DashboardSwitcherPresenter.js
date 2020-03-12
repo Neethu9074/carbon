@@ -27,7 +27,13 @@ export default function DashboardSwitcherPresenter(props) {
   );
 }
 
-DashboardSwitcherPresenter.propTypes = {
-  ...DashboardSwitcherOverlayPresenter.propTypes,
-  activeDashboardTitle: rpt.string.isRequired
-};
+if (__DEV__) {
+  DashboardSwitcherPresenter.propTypes = {
+    ...DashboardSwitcherOverlayPresenter.propTypes,
+    activeDashboardTitle: rpt.string.isRequired
+  };
+
+  // Close is provided by the Overlay wrapper around
+  // DashboardSwitcherOverlayPresenter
+  delete DashboardSwitcherPresenter.propTypes.close;
+}
