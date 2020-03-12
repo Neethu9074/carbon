@@ -2,6 +2,9 @@ import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import TimeThresholdConfig from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/TimeThresholdConfig';
+import StatusCodeInteractiveChart from 'in-websites/eum-alerting/advanced/StatusCodeInteractiveChart';
+import SlownessInteractiveChart from 'in-websites/eum-alerting/advanced/SlownessInteractiveChart';
+import JsErrorsInteractiveChart from 'in-websites/eum-alerting/advanced/JsErrorsInteractiveChart';
 import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
@@ -10,11 +13,8 @@ import { AdvancedModeContainer } from 'in-new-components/Alerting/AdvancedModeCo
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import StatusCodeChart from 'in-websites/eum-alerting/components/StatusCodeChart';
-import SlownessChart from 'in-websites/eum-alerting/components/SlownessChart';
-import JsErrorsChart from 'in-websites/eum-alerting/components/JsErrorsChart';
+import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
-import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
@@ -40,7 +40,7 @@ export default compose(
         content: (
           <>
             <AlertSelection form={form} onChange={onChange} />
-            <ChartSwitch
+            <AlertTypeSwitch
               alertType={form.get(fieldNames.ruleAlertType).value}
               JsErrorsComponent={() => (
                 <>
@@ -53,12 +53,11 @@ export default compose(
                       mode={modeAdvanced}
                     />
                   </Card>
-                  <JsErrorsChart
+                  <JsErrorsInteractiveChart
                     form={form}
                     onChange={onChange}
                     timeConfig={timeConfig}
                     granularity={granularity}
-                    title="Last 24 hours"
                   />
                 </>
               )}
@@ -67,24 +66,22 @@ export default compose(
                   <Card title="HTTP Status Code" withoutPadding darkFrame>
                     <ProvideStatusCode form={form} onChange={onChange} mode={modeAdvanced} />
                   </Card>
-                  <StatusCodeChart
+                  <StatusCodeInteractiveChart
                     form={form}
                     onChange={onChange}
                     timeConfig={timeConfig}
                     granularity={granularity}
-                    title="Last 24 hours"
                   />
                 </>
               )}
               SlownessComponent={() => {
                 return (
                   <>
-                    <SlownessChart
+                    <SlownessInteractiveChart
                       form={form}
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
-                      title="Last 24 hours"
                     />
                     {showInsufficientBaselineDataMessage(form) && (
                       <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>

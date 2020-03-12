@@ -9,8 +9,8 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
+import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -53,7 +53,7 @@ export default connectTo(
           <div className={locals.analyzeButtonWrapper}>
             <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
           </div>
-          <ChartSwitch
+          <AlertTypeSwitch
             alertType={alertType}
             JsErrorsComponent={() => (
               <JsErrorsAlertingBarChart

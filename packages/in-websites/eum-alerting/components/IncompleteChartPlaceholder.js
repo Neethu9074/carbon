@@ -1,0 +1,19 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './IncompleteChartPlaceholder.mless';
+
+export default function IncompleteChartPlaceholder({ message }) {
+  return (
+    <div className={locals.message}>
+      <SvgIcon type="lib_help_error_error_outline" size="xs" />
+      <span>{message}</span>
+    </div>
+  );
+}
+
+IncompleteChartPlaceholder.propTypes = {
+  message: PropTypes.string.isRequired
+};

@@ -2,16 +2,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .container {
-    margin: 0.5rem;
-    padding-top: 1rem;
-  }
-
-  .placeholder {
-    min-width: 25rem;
-    min-height: 13.75rem;
-  }
-
   .message {
     display: flex;
     align-items: center;
@@ -31,19 +21,5 @@
     > svg {
       fill: @lib__colors__N600Light;
     }
-  }
-
-  .wideControl {
-    width: 12.25rem;
-  }
-
-  .narrowControl {
-    width: 6rem;
-  }
-
-  .controls {
-    display: grid;
-    grid-template-columns: repeat(4, min-content);
-    column-gap: 0.5rem;
   }
 }

@@ -15,8 +15,8 @@ import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventB
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
+import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -70,7 +70,7 @@ export default connectTo(
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
             </div>
-            <ChartSwitch
+            <AlertTypeSwitch
               alertType={alertType}
               JsErrorsComponent={() => (
                 <JsErrorsAlertingBarChart

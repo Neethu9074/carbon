@@ -11,8 +11,8 @@ import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicati
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
+import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import ChartSwitch from 'in-applications/alerting/components/ChartSwitch';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -52,7 +52,7 @@ export default connectTo(
           <div className={locals.analyzeButtonWrapper}>
             <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
           </div>
-          <ChartSwitch
+          <AlertTypeSwitch
             alertType={alertType}
             ErrorRateComponent={() => (
               <ErrorRateAlertingBarChart

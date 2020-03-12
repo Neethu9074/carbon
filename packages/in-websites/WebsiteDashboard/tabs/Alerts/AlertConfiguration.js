@@ -13,10 +13,10 @@ import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAle
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
-import ChartSwitch from 'in-websites/eum-alerting/components/ChartSwitch';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
@@ -47,7 +47,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       <ListTitle>Alert configuration</ListTitle>
 
       <Card title="Trigger" withoutPadding darkFrame>
-        <ChartSwitch
+        <AlertTypeSwitch
           alertType={form.get(fieldNames.ruleAlertType).value}
           JsErrorsComponent={() => (
             <>

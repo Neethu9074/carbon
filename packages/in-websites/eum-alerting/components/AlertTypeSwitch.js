@@ -1,6 +1,6 @@
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 
-export default function ChartSwitch({ alertType, JsErrorsComponent, SlownessComponent, StatusCodeComponent }) {
+export default function AlertTypeSwitch({ alertType, JsErrorsComponent, SlownessComponent, StatusCodeComponent }) {
   if (alertType === alertTypes.specificJsError) {
     return JsErrorsComponent();
   } else if (alertType === alertTypes.specificStatusCode) {
