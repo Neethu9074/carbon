@@ -154,7 +154,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               'bufferpools.indexWrites',
               'bufferpools.indexPhysicalReads',
               'bufferpools.indexLogicalReads',
-              'bufferpools.temporaryIndexPhysicalRead',
+              'bufferpools.temporaryIndexPhysicalReads',
               'bufferpools.temporaryIndexLogicalReads'
             ],
             labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
