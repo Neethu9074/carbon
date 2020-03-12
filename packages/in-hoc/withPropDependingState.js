@@ -1,6 +1,6 @@
 import { pick, curryRight, defaults } from 'lodash';
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { createFactory, Component } from 'react';
+import React, { Component } from 'react';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -42,7 +42,6 @@ export default ({
   reducerName,
   reducer = defaultingReducer
 }) => BaseComponent => {
-  const factory = createFactory(BaseComponent);
   return class WithPropDependingState extends Component {
     static displayName = getDisplayName(BaseComponent, 'WithPropDependingState');
 
@@ -79,11 +78,12 @@ export default ({
     };
 
     render() {
-      return factory({
+      const props = {
         ...this.props,
         ...this.state.propDependingState,
         [reducerName]: this.reducer
-      });
+      };
+      return <BaseComponent {...props} />;
     }
   };
 };

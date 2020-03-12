@@ -1,7 +1,8 @@
 import { pick, curryRight, isEqual } from 'lodash';
-import { createFactory, Component } from 'react';
+import React, { Component } from 'react';
 
 import { indeterminateProgress, finishedProgress, emptyArray } from 'in-services/fixedObjects';
+import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { identity } from 'in-services/util/function';
 
 // Usage:
@@ -22,8 +23,9 @@ import { identity } from 'in-services/util/function';
 // })
 
 export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName = 'reload' }) => BaseComponent => {
-  const factory = createFactory(BaseComponent);
   return class CursorPaginated extends Component {
+    static displayName = getDisplayName(BaseComponent, 'cursorPaginated');
+
     constructor(props) {
       super(props);
       this.state = this.getResetState();
@@ -121,12 +123,13 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
     reloadHandler = () => this.reload(this.props);
 
     render() {
-      return factory({
+      const props = {
         ...this.props,
         ...this.state,
         [loadMoreName]: this.loadMoreHandler,
         [reloadName]: this.reloadHandler
-      });
+      };
+      return <BaseComponent {...props} />;
     }
   };
 };

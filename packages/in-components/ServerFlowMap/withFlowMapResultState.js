@@ -1,5 +1,5 @@
-import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
+import React, { Component } from 'react';
 
 import FlowMapState from 'in-components/ServerFlowMap/FlowMapState';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
@@ -20,8 +20,6 @@ const metrics = {
 };
 
 export default () => ComposedComponent => {
-  const factory = createFactory(ComposedComponent);
-
   return class StatefulFlowMapComponent extends Component {
     static displayName = getDisplayName(ComposedComponent, 'withFlowMapResultState');
 
@@ -212,15 +210,17 @@ export default () => ComposedComponent => {
     };
 
     render() {
-      return factory({
-        expandNodeLeft: this.expandNodeLeft,
-        expandNodeRight: this.expandNodeRight,
-        expandChildLeft: this.expandChildLeft,
-        expandChildRight: this.expandChildRight,
-        loadMore: this.loadMore,
-        ...this.props,
-        ...this.state
-      });
+      return (
+        <ComposedComponent
+          expandNodeLeft={this.expandNodeLeft}
+          expandNodeRight={this.expandNodeRight}
+          expandChildLeft={this.expandChildLeft}
+          expandChildRight={this.expandChildRight}
+          loadMore={this.loadMore}
+          {...this.props}
+          {...this.state}
+        />
+      );
     }
   };
 };

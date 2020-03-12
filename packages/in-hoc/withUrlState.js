@@ -1,4 +1,4 @@
-import { createFactory, Component } from 'react';
+import React, { Component } from 'react';
 import { isEqual } from 'lodash';
 
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation';
@@ -79,8 +79,6 @@ export default ({
 
   reduceAndGetAsUrlName = reduceAndGetAsUrlName || `${reducerName}AndGetAsUrl`;
   replaceHistory = Boolean(replaceHistory);
-
-  const factory = createFactory(BaseComponent);
 
   return class WithUrlState extends Component {
     static displayName = getDisplayName(BaseComponent, 'withUrlState');
@@ -223,12 +221,13 @@ export default ({
     }
 
     render() {
-      return factory({
+      const props = {
         ...this.props,
         ...this.state,
         [reducerName]: this.reducer,
         [reduceAndGetAsUrlName]: this.getModifiedUrl
-      });
+      };
+      return <BaseComponent {...props} />;
     }
   };
 };

@@ -1,5 +1,5 @@
 import { pick, curryRight, defaults, isEqual } from 'lodash';
-import { createFactory, Component } from 'react';
+import React, { Component } from 'react';
 
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
@@ -80,7 +80,6 @@ export default ({
     reduceAndGetAsUrlName = `${reducerName}AndGetAsUrlObservable`;
   }
 
-  const factory = createFactory(BaseComponent);
   return class WithUrlDependingState extends Component {
     static displayName = getDisplayName(BaseComponent, 'withUrlDependingState');
 
@@ -197,12 +196,13 @@ export default ({
     };
 
     render() {
-      return factory({
+      const props = {
         ...this.props,
         ...this.state.urlDependingState,
         [reducerName]: this.reducer,
         [reduceAndGetAsUrlName]: this.getModifiedUrl
-      });
+      };
+      return <BaseComponent {...props} />;
     }
   };
 };

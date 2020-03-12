@@ -1,11 +1,9 @@
-import { createFactory, Component } from 'react';
+import React, { Component } from 'react';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import http from 'in-services/http';
 
 export default ({ url, checkResult }) => BaseComponent => {
-  const factory = createFactory(BaseComponent);
-
   return class ResultFromApiPingClass extends Component {
     static displayName = getDisplayName(BaseComponent, 'getResultFromApiPing');
 
@@ -57,10 +55,7 @@ export default ({ url, checkResult }) => BaseComponent => {
     };
 
     render() {
-      return factory({
-        ...this.props,
-        ...this.state
-      });
+      return <BaseComponent {...this.props} {...this.state} />;
     }
   };
 };
