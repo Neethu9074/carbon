@@ -16,9 +16,9 @@ import {
 } from 'in-websites/eum-alerting/tracker';
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
+import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/IncompleteChartPlaceholder';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
-import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/IncompleteChartPlaceholder';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
@@ -147,6 +147,7 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, granularity, deb
               threshold={threshold}
               timeThreshold={getTimeThreshold(form)}
               alertsPreviewEnabled
+              canReload
             />
           </ChartContainer>
         </>

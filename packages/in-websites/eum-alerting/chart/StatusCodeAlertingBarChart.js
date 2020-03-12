@@ -22,7 +22,8 @@ export default function StatusCodeAlertingBarChart({
   granularity,
   threshold,
   timeThreshold,
-  alertsPreviewEnabled
+  alertsPreviewEnabled,
+  canReload
 }) {
   const thresholdValue = threshold.value;
   return (
@@ -31,6 +32,7 @@ export default function StatusCodeAlertingBarChart({
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
+      canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
@@ -103,7 +105,8 @@ StatusCodeAlertingBarChart.propTypes = {
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  alertsPreviewEnabled: PropTypes.bool
+  alertsPreviewEnabled: PropTypes.bool,
+  canReload: PropTypes.bool
 };
 
 function getMetric(metricName, metricConfig) {

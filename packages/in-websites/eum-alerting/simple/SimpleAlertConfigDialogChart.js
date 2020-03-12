@@ -34,6 +34,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
                 threshold={getThreshold(form)}
                 timeThreshold={getTimeThreshold(form)}
                 alertsPreviewEnabled
+                canReload
               />
             </div>
           ) : (
@@ -57,6 +58,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
             metricName={form.get(fieldNames.ruleMetricName).value}
             granularity={granularity}
             alertsPreviewEnabled
+            canReload
           />
         </div>
       )}
@@ -72,6 +74,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
             aggregation={form.get(fieldNames.ruleAggregation).value}
             granularity={granularity}
             alertsPreviewEnabled
+            canReload
           />
         </div>
       )}

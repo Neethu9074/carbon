@@ -20,7 +20,8 @@ export default function SlownessAlertingBarChart({
   granularity,
   threshold,
   timeThreshold,
-  alertsPreviewEnabled
+  alertsPreviewEnabled,
+  canReload
 }) {
   const baseline = threshold.baseline;
   return (
@@ -29,6 +30,7 @@ export default function SlownessAlertingBarChart({
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
+      canReload={canReload}
       y1={{
         sensitivity,
         baseline,
@@ -113,7 +115,8 @@ SlownessAlertingBarChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  alertsPreviewEnabled: PropTypes.bool
+  alertsPreviewEnabled: PropTypes.bool,
+  canReload: PropTypes.bool
 };
 
 function getWebsiteIdTagFilter(websiteId) {

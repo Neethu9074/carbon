@@ -212,6 +212,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           aggregation={form.get(fieldNames.ruleAggregation).value}
           granularity={granularity}
           alertsPreviewEnabled
+          canReload
         />
       </ChartContainer>
     </div>

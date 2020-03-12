@@ -145,6 +145,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
           metricName={metricName}
           granularity={granularity}
           alertsPreviewEnabled
+          canReload
         />
       </ChartContainer>
     </div>

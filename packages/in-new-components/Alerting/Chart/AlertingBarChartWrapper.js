@@ -23,7 +23,7 @@ export default connectTo(
 
     return {
       result: combined$.map(([baseline, threshold, metrics, thresholdOrBaselineLoading]) => {
-        return thresholdOrBaselineLoading
+        return props.canReload && thresholdOrBaselineLoading
           ? {
               time: 0,
               progress: indeterminateProgress,

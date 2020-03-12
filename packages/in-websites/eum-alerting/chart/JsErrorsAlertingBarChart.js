@@ -22,7 +22,8 @@ export default function JsErrorsAlertingBarChart({
   granularity,
   threshold,
   timeThreshold,
-  alertsPreviewEnabled
+  alertsPreviewEnabled,
+  canReload
 }) {
   const thresholdValue = threshold.value;
   return (
@@ -31,6 +32,7 @@ export default function JsErrorsAlertingBarChart({
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
+      canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
@@ -95,7 +97,8 @@ JsErrorsAlertingBarChart.propTypes = {
   tagFilters: PropTypes.array.isRequired,
   timeConfig: PropTypes.object.isRequired,
   websiteId: PropTypes.string.isRequired,
-  alertsPreviewEnabled: PropTypes.bool
+  alertsPreviewEnabled: PropTypes.bool,
+  canReload: PropTypes.bool
 };
 
 function getMetric(metricName, metricConfig) {

@@ -10,7 +10,7 @@ export default class AlertingChartEventsManager {
   }
 
   getAlertsSubscription(props) {
-    if (!props.alertsPreviewEnabled) {
+    if (!props.alertsPreviewEnabled || !props.alertMetricConfiguration) {
       return alwaysEmptyArray;
     }
 
