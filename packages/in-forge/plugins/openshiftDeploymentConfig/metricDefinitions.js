@@ -1,4 +1,4 @@
-import { number, bytes, millis } from 'in-services/formatters/number';
+import { number, bytes, millis, percentage } from 'in-services/formatters/number';
 
 export default [
   {
@@ -6,6 +6,12 @@ export default [
     labels: ['Available', 'Desired'],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'availableToDesiredReplicaRatio',
+    label: 'Available to Desired Percentage',
+    min: 0,
+    formatter: percentage
   },
   {
     metrics: ['phase.Pending.count', 'conditions.PodScheduled.False', 'conditions.Ready.False'],
