@@ -148,15 +148,17 @@ function Header() {
                 Deploy Agent
               </Button>
             )}
-            <Button
-              kind="secondaryDarker"
-              icon="lib_alerts_user_impacted"
-              href$={getModifiedUrlStream(params => {
-                params.pathname = '/config/team/accessControl/users';
-              })}
-            >
-              Add User
-            </Button>
+            {role.canConfigureUsers && (
+              <Button
+                kind="secondaryDarker"
+                icon="lib_alerts_user_impacted"
+                href$={getModifiedUrlStream(params => {
+                  params.pathname = '/config/team/accessControl/users';
+                })}
+              >
+                Add User
+              </Button>
+            )}
           </>
         )}
       />
