@@ -5,8 +5,10 @@ import React from 'react';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import CreateApplicationSmartAlert from '../../alerting/components/CreateApplicationSmartAlert';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
@@ -17,6 +19,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 
 export default compose(
   withUrlState({
@@ -48,7 +51,8 @@ function ApplicationDashboard({
     viewPath: applicationDashboard,
     onBoundaryStateChange,
     timeConfig,
-    boundaryScope
+    boundaryScope,
+    location
   };
 
   return (
@@ -77,7 +81,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location }) {
   return (
     <>
       <UpstreamDownstreamButton
@@ -104,6 +108,16 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
+      {role.canConfigureCustomAlerts &&
+        applicationSmartAlertsEnabled && (
+          <CreateApplicationSmartAlert
+            applicationLabel={label}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            applicationId={applicationId}
+            location={location}
+          />
+        )}
     </>
   );
 }

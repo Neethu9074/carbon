@@ -1,4 +1,5 @@
 import { compose, withProps } from 'recompose';
+import theme from 'in-themes';
 import React from 'react';
 
 import TimeThresholdConfig from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/TimeThresholdConfig';
@@ -7,18 +8,17 @@ import SlownessInteractiveChart from 'in-websites/eum-alerting/advanced/Slowness
 import JsErrorsInteractiveChart from 'in-websites/eum-alerting/advanced/JsErrorsInteractiveChart';
 import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
-import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertSelection/AlertSelection';
-import { AdvancedModeContainer } from 'in-new-components/Alerting/AdvancedModeContainer';
+import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
+import AdvancedModeContainer from 'in-new-components/Alerting/AdvancedModeContainer';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default compose(
   withProps(({ form, websiteLabel, timeConfig, onChange, setSliderState, granularity }) => ({

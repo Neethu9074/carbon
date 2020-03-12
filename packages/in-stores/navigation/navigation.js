@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { getRootPathPredicate, getPredicateForPathsWithRouteParamPlaceholders } from 'in-stores/navigation/paths';
 import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
@@ -154,3 +156,9 @@ export function isViewWithRouteParam(...args) {
 function isInfrastructurePath(path) {
   return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
 }
+
+export const propTypeLocation = PropTypes.shape({
+  pathname: PropTypes.string.isRequired,
+  matrix: PropTypes.object,
+  query: PropTypes.object
+});

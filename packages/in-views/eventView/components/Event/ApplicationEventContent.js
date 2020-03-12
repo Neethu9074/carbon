@@ -2,6 +2,7 @@ import React from 'react';
 
 import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -9,7 +10,6 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applic
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
-import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
@@ -63,7 +63,7 @@ export default connectTo(
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
             </div>
-            <AlertTypeSwitch
+            <ApplicationAlertTypeSwitch
               alertType={alertType}
               ErrorRateComponent={() => (
                 <ErrorRateAlertingBarChart

@@ -119,6 +119,8 @@ export const WEBSITES_ALERTING_ALERT_REVSION_CHANGED = 'websites.alerting.alert.
 export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.event.details.goToAnalyze';
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
 
+export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
+
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';
 export const MOBILE_APPS_ANALYZE_CHANGE_METRICS = 'mobileApps.analyze.changeMetrics';

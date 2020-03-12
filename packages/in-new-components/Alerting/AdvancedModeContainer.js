@@ -8,7 +8,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AdvancedModeContainer.mless';
 
-export function AdvancedModeContainer(props) {
+export default function AdvancedModeContainer(props) {
   const { form, onClose, onCreate, editMode, navItems } = props;
 
   return (
@@ -22,24 +22,19 @@ export function AdvancedModeContainer(props) {
               <div className={locals.divider} />
             </ScrollStep>
           ))}
-
-          <nav className={locals.controls}>
-            <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
-              Cancel
-            </Button>
-            <Button
-              className={locals.button}
-              onClick={() => onCreate()}
-              disabled={form.touched && !form.hierarchyValid}
-            >
-              {editMode ? 'Save' : 'Create'}
-            </Button>
-          </nav>
         </div>
       </div>
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
+      <nav className={locals.controls}>
+        <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
+          Cancel
+        </Button>
+        <Button className={locals.button} onClick={() => onCreate()} disabled={form.touched && !form.hierarchyValid}>
+          {editMode ? 'Save' : 'Create'}
+        </Button>
+      </nav>
     </div>
   );
 }

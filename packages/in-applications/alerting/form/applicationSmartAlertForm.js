@@ -1,10 +1,10 @@
 import { createMapForm, createField } from 'formalistic';
 import { get } from 'lodash';
 
-export function create(alertConfig) {
+export function createApplicationSmartAlertForm(alertConfig) {
   return createMapForm()
     .put(
-      'alertType',
+      'name',
       createField({
         value: get(alertConfig, 'name', '')
       })

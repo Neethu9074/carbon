@@ -6,6 +6,7 @@ import FloatingActionButton, { positions } from 'in-new-components/FloatingActio
 import { websitesAlertingAddAlert } from 'in-websites/eum-alerting/tracker';
 import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { reload } from 'in-settings/components/List';
@@ -73,9 +74,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
 
 CreateAlert.propTypes = {
   error: PropTypes.object,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
-  }).isRequired,
+  location: propTypeLocation.isRequired,
   tagFilters: PropTypes.array.isRequired,
   websiteId: PropTypes.string.isRequired,
   websiteLabel: PropTypes.string,
