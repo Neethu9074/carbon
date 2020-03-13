@@ -102,7 +102,7 @@
     "react-on-screen": "^2.1.0",
     "react-onclickoutside": "^6.8.0",
     "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
+    "react-router-dom": "^5.1.2",
     "react-select": "^1.2.1",
     "react-side-effect": "^2.1.0",
     "react-toggle": "^4.0.1",
