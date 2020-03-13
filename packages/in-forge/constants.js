@@ -293,6 +293,7 @@ export const fullyQualifiedPlugins = {
   pCFApplication: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFApplication',
   pCFOrganization: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFOrganization',
   pCFSpace: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFSpace',
+  perfCounters: 'com.instana.forge.fake.perfCounter',
   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',
   phpRuntimePlatform: 'com.instana.forge.infrastructure.runtime.php.PhpRuntimePlatform',
   ping: 'com.instana.forge.infrastructure.synthetic.ping.Ping',
