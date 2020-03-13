@@ -1,7 +1,13 @@
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import { pcfEnabled, vsphereEnabled, profilingEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  profilingEnabled,
+  mobileAppMonitoringEnabled,
+  internalMonitoringUnit
+} from 'in-services/featureFlags';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
@@ -42,7 +48,7 @@ export default (
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
-    {isInstanaEmail && (
+    {(isInstanaEmail || internalMonitoringUnit) && (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
     )}
 
