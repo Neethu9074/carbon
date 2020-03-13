@@ -118,6 +118,7 @@ export const nonServicePlugins = {
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',
   pCFSpace: 'pCFSpace',
+  perfCounters: 'perfCounters',
   phpFpmRuntimePlatform: 'phpFpmRuntimePlatform',
   phpRuntimePlatform: 'phpRuntimePlatform',
   ping: 'ping',
