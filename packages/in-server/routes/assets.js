@@ -1,6 +1,7 @@
 const express = require('express');
 
 const configEnrichment = require('../middleware/configEnrichment');
+const { activeResolver } = require('../services/resolvers/index');
 const unitCoordinates = require('../middleware/unitCoordinates');
 const checkSumMod = require('../services/checksum');
 const { getCurrentUser } = require('../auth');
@@ -20,24 +21,31 @@ const sendFilesConfig = {
 // Do not permit access to our internal chunk.
 router.use('/bundle/internal.*.js', unitCoordinates);
 router.use('/bundle/internal.*.js', configEnrichment);
-router.use('/bundle/internal.*.js', (req, res, next) => {
-  getCurrentUser(req)
-    .then(([statusCode, userStr]) => {
-      const user = getUserFromUserStr(userStr);
-      if (statusCode === 200) {
-        if (user && user.email.endsWith('@instana.com')) {
-          next();
-        } else {
-          res.sendStatus(403);
-        }
-      } else {
-        res.sendStatus(statusCode);
-      }
-    })
-    .catch(err => {
-      console.error('Failed to deliver bundle to user:', err);
-      res.send500(req, res);
-    });
+router.use('/bundle/internal.*.js', async (req, res, next) => {
+  try {
+    const featureFlags = await activeResolver.getFeatureFlags(req.tenant, req.unit);
+    if (featureFlags.internalMonitoringUnit) {
+      next();
+      return;
+    }
+
+    const [statusCode, userStr] = await getCurrentUser(req);
+    if (statusCode !== 200) {
+      res.sendStatus(statusCode);
+      return;
+    }
+
+    res.setHeader('Vary', 'Cookie');
+    const user = getUserFromUserStr(userStr);
+    if (user && user.email.endsWith('@instana.com')) {
+      next();
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (e) {
+    console.error('Failed to deliver bundle to user:', e);
+    res.send500(req, res);
+  }
 });
 
 // assets directory will be populated with generated JavaScript during the build process.
