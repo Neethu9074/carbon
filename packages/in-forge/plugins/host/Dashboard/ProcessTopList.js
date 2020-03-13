@@ -5,6 +5,8 @@ import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpd
 import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import { shorten } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProcessTopList.mless';
@@ -34,7 +36,12 @@ const cols = [
       },
       withHierarchy: true,
       getFallbackContent(row) {
-        return <span className={locals.label}>{row.process.get('name')}</span>;
+        const processName = row.process.get('name');
+        return (
+          <Tooltip content={processName}>
+            <span className={locals.label}>{shorten(processName, 100)}</span>
+          </Tooltip>
+        );
       },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
