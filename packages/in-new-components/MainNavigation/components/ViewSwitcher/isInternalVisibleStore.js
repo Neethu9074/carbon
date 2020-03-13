@@ -11,10 +11,9 @@ const isInternalVisibleStore = createStore({
   name: 'internals',
   // Either the view is deliberately enabled or the user opened the internal views directly
   initialValue:
-    isInstanaEmail &&
-    (internalMonitoringUnit ||
-      window.location.href.indexOf('/#/internal') != -1 ||
-      hasInternalFeatureEnabledPerLocalStorage())
+    internalMonitoringUnit ||
+    (isInstanaEmail &&
+      (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
 });
 export const isInternalVisible$ = isInternalVisibleStore.observable;
 

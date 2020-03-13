@@ -18,7 +18,8 @@ import {
   vsphereEnabled,
   mobileAppMonitoringEnabled,
   cockpitEnabled,
-  customDashboardsEnabled
+  customDashboardsEnabled,
+  internalMonitoringUnit
 } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -50,7 +51,7 @@ export default (
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
-    {isInstanaEmail && (
+    {(isInstanaEmail || internalMonitoringUnit) && (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
     )}
 

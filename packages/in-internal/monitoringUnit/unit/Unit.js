@@ -18,6 +18,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import Stan from 'in-internal/monitoringUnit/unit/Stan';
 import Eum from 'in-internal/monitoringUnit/unit/Eum';
 import { timeConfig$ } from 'in-stores/time/config';
+import { isInstanaEmail } from 'in-stores/user';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 
@@ -148,13 +149,15 @@ function Navigation({ tenant, unit }) {
         label="Infrastructure"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
       />
-      <LinkListItem
-        label="SLO Violations"
-        href$={getModifiedUrlStream(p => {
-          p.pathname = '/events';
-          p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
-        })}
-      />
+      {isInstanaEmail && (
+        <LinkListItem
+          label="SLO Violations"
+          href$={getModifiedUrlStream(p => {
+            p.pathname = '/events';
+            p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
+          })}
+        />
+      )}
       <LinkListItem
         label="Stan"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
