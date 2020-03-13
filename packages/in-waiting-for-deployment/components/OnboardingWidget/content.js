@@ -406,7 +406,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             </Col>
             <Col xs={6}>
               Current Lambda Handler:&nbsp;
-              <Input value={lambdaHandler} onChange={setHandler} placeholder="Your Current Lambda Handler" />
+              <Input
+                id="lambda-handler"
+                value={lambdaHandler}
+                onChange={setHandler}
+                placeholder="Your Current Lambda Handler"
+              />
             </Col>
           </GridRow>
           <Listing
@@ -469,6 +474,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <Col xs={3}>
             Lambda Function Name:
             <Input
+              id="lambda-function-name"
               value={lambdaFunctionName}
               onChange={setLambdaFunctionName}
               placeholder="The name of your Lambda function"
@@ -476,7 +482,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           </Col>
           <Col xs={3}>
             Current Lambda Handler (optional):
-            <Input value={lambdaHandler} onChange={setHandler} placeholder="Your Current Lambda Handler" />
+            <Input
+              id="current-lambda-function-handler"
+              value={lambdaHandler}
+              onChange={setHandler}
+              placeholder="Your Current Lambda Handler"
+            />
           </Col>
         </GridRow>
         <Bash
@@ -555,7 +566,7 @@ function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
   return (
     <>
-      <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+      <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
       <Bash
         lines={[
           'sudo docker run \\',
@@ -705,7 +716,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <>
           <Row>
             {clusterNameInput}
-            <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
           </Row>
           <Bash
             disabledErrorMessage={clusterNameValidationMessage}
@@ -751,7 +762,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <>
           <Row>
             {clusterNameInput}
-            <Input value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
           </Row>
           <YAMLFile
             title="daemonset.yaml"
