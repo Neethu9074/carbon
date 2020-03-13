@@ -13,8 +13,6 @@ import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
 import locals from './SelectAlertChannel.mless';
 
-const alertChannelIds = 'alertChannelIds';
-
 export default function SelectAlertChannelPresenter(props) {
   const { form, onChange } = props;
 
@@ -22,13 +20,13 @@ export default function SelectAlertChannelPresenter(props) {
     <>
       <AlertChannels
         setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(form.get(alertChannelIds).value)}
+        loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
         hasRowNavigation={false}
         noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         {...props}
       />
-      <TouchedMessages field={form.get(alertChannelIds)} />
+      <TouchedMessages field={form.get('alertChannelIds')} />
     </>
   );
 }
@@ -65,8 +63,8 @@ function alertChannelSelectionTableActions(form, onChange) {
     deselect: {
       deselect: deselectedEntity => {
         if (deselectedEntity) {
-          const value = form.get(alertChannelIds).value.filter(referencedId => referencedId !== deselectedEntity.id);
-          onChange([alertChannelIds], field => field.setValue(value).setTouched(true));
+          const value = form.get('alertChannelIds').value.filter(referencedId => referencedId !== deselectedEntity.id);
+          onChange(['alertChannelIds'], field => field.setValue(value).setTouched(true));
         }
       }
     }
