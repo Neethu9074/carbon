@@ -124,6 +124,7 @@ function getSubtitle(config) {
 
 function getFiltersContent(config, websiteLabel) {
   const pages = config.tagFilters.filter(filter => filter.name === 'beacon.page.name');
+  const otherTagFiltersCount = config.tagFilters.length - pages.length;
 
   return (
     <div className={locals.filters}>
@@ -146,7 +147,7 @@ function getFiltersContent(config, websiteLabel) {
             {page.stringValue}
           </span>
         ))}
-      {config.tagFilters.length > 1 && (
+      {otherTagFiltersCount >= 1 && (
         <Tooltip
           themeStyle="light"
           content={
@@ -159,7 +160,7 @@ function getFiltersContent(config, websiteLabel) {
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {config.tagFilters.length - pages.length} filter(s)
+            {otherTagFiltersCount} filter(s)
           </span>
         </Tooltip>
       )}
