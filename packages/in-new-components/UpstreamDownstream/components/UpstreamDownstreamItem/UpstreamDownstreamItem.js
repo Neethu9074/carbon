@@ -54,7 +54,10 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
             label={itemLabel}
             rootOrUnknown={itemId === 'ROOT' || itemId === 'UNKNOWN'}
           />
-          <EndpointTypeBadgeList types={item.service ? item.service.types : item.application.types} />
+          {itemId != 'ROOT' &&
+            itemId != 'UNKNOWN' && (
+              <EndpointTypeBadgeList types={item.service ? item.service.types : item.application.types} />
+            )}
         </div>
         <div className={locals.chartWrapper}>
           <SparkChart

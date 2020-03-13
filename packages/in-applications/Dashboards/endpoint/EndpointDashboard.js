@@ -107,7 +107,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         timeConfig={timeConfig}
         boundaryScope={boundaryScope}
-        dashboard="endpoint"
+        productArea="endpoint"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
