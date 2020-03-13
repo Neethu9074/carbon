@@ -78,6 +78,10 @@ const ProfileIndicator = connectTo(
 const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];
 
 const showApKpis = metrics => {
+  if (!metrics) {
+    return null;
+  }
+
   return (
     <div className={locals.chartWrapper}>
       {AP_KPIS.map(

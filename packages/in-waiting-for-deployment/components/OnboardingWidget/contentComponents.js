@@ -57,12 +57,12 @@ export function DropDown({ value, options, onChange }) {
   );
 }
 
-export function Input({ value, onChange, placeholder, hasError }) {
+export function Input({ id, value, onChange, placeholder, hasError }) {
   return (
     <InputComponent
       className={locals.input}
       type="text"
-      id="value"
+      id={id}
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
@@ -249,6 +249,7 @@ export function ValidatedInputFields({ fields, renderContent }) {
     props[`${field.name}Input`] = (
       <>
         <Input
+          id={field.name}
           key={field.name}
           value={formField.value}
           onChange={onChange}
