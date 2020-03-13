@@ -2,37 +2,31 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  websitesAlertingListAlertResumed,
-  websitesAlertingListAlertPaused,
-  websitesAlertingListAlertDeleted
-} from 'in-websites/eum-alerting/tracker';
+  applicationsAlertingListAlertResumed,
+  applicationsAlertingListAlertPaused,
+  applicationsAlertingListAlertDeleted
+} from 'in-applications/alerting/tracker';
 import {
   getAllAlertConfigs,
   disableAlertConfig,
   enableAlertConfig,
   deleteAlertConfig
-} from 'in-websites/api/websiteAlertConfig';
+} from 'in-applications/api/applicationAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getMetricLabel, getBlueprintLabel } from 'in-applications/alerting/form/formUtils';
+import { alertTab, alertTabFullyQualified } from 'in-applications/navigation/paths';
+import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
-import { alertTab, alertTabFullyQualified } from 'in-websites/navigation/paths';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
+import { role } from 'in-stores/user';
 
 import locals from './Alerts.mless';
 
-const useCaseByAlertType = Object.freeze({
-  [alertTypes.specificJsError]: 'JS Errors',
-  [alertTypes.specificStatusCode]: 'HTTP Status Codes',
-  [alertTypes.slowness]: 'Slowness'
-});
-
-function getColumnDefinitions(websiteLabel) {
+function getColumnDefinitions(applicationName) {
   return [
     {
       id: 'name',
@@ -42,12 +36,12 @@ function getColumnDefinitions(websiteLabel) {
     {
       id: 'filters',
       label: 'Filters',
-      getContent: entity => getFiltersContent(entity, websiteLabel)
+      getContent: entity => getFiltersContent(entity, applicationName)
     }
   ];
 }
 
-export default function Alerts({ websiteLabel, websiteId }) {
+export default function Alerts({ applicationName, applicationId }) {
   const [alertsSize, setAlertsSize] = useState(null);
 
   let header = 'Configured Alerts';
@@ -59,20 +53,23 @@ export default function Alerts({ websiteLabel, websiteId }) {
     <List
       getHeader={() => header}
       getEntityName={getEntityName}
-      columnDefinitions={getColumnDefinitions(websiteLabel)}
-      tableActions={{
-        delete: {
-          deleteEntity: config => deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted(config.id))
-        },
-        toggleEnabled: {
-          get: config => config.enabled,
-          toggle: config =>
-            config.enabled
-              ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused(config.id))
-              : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed(config.id))
+      columnDefinitions={getColumnDefinitions(applicationName)}
+      tableActions={
+        role.canConfigureCustomAlerts && {
+          delete: {
+            deleteEntity: config =>
+              deleteAlertConfig(config.id).tap(() => applicationsAlertingListAlertDeleted(config.id))
+          },
+          toggleEnabled: {
+            get: config => config.enabled,
+            toggle: config =>
+              config.enabled
+                ? disableAlertConfig(config.id).tap(() => applicationsAlertingListAlertPaused(config.id))
+                : enableAlertConfig(config.id).tap(() => applicationsAlertingListAlertResumed(config.id))
+          }
         }
-      }}
-      loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
+      }
+      loadEntities={() => getAllAlertConfigs(applicationId).tap(alerts => setAlertsSize(alerts.length))}
       pageSize={15}
       searchAttributes={[entity => entity.name]}
       noDataMessage="No alert configured."
@@ -87,8 +84,8 @@ export default function Alerts({ websiteLabel, websiteId }) {
 }
 
 Alerts.propTypes = {
-  websiteLabel: PropTypes.string.isRequired,
-  websiteId: PropTypes.string.isRequired
+  applicationName: PropTypes.string.isRequired,
+  applicationId: PropTypes.string.isRequired
 };
 
 function getEntityName(entity) {
@@ -118,49 +115,32 @@ function getNameContent(config) {
 
 function getSubtitle(config) {
   const alertType = config.rule.alertType;
-  const useCaseTitle = useCaseByAlertType[alertType];
-  return `${useCaseTitle}, ${getMetricLabel(alertType, config.rule.metricName)}`;
+  return `${getBlueprintLabel(alertType)}, ${getMetricLabel(alertType, config.rule.metricName)}`;
 }
 
-function getFiltersContent(config, websiteLabel) {
-  const pages = config.tagFilters.filter(filter => filter.name === 'beacon.page.name');
-  const otherTagFiltersCount = config.tagFilters.length - pages.length;
-
+function getFiltersContent(config, applicationName) {
   return (
     <div className={locals.filters}>
-      {websiteLabel && (
+      {applicationName && (
         <span
           className={evaluateClassNames({
             [locals.centered]: true,
-            [locals.space]: pages.length === 0,
-            [locals.devider]: pages.length > 0
+            [locals.space]: true
           })}
         >
-          <SvgIcon className={locals.filterIcon} type="lib_website" />
-          {websiteLabel}
+          <SvgIcon className={locals.filterIcon} type="lib_application" />
+          {applicationName}
         </span>
       )}
-      {pages &&
-        pages.map((page, i) => (
-          <span className={joinClassNames(locals.centered, locals.space)} key={i}>
-            <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
-            {page.stringValue}
-          </span>
-        ))}
-      {otherTagFiltersCount >= 1 && (
+      {config.tagFilters.length >= 1 && (
         <Tooltip
           themeStyle="light"
-          content={
-            <TagFilterListPresenter
-              tagFilters={config.tagFilters.filter(({ name }) => name !== 'beacon.page.name')}
-              readonly
-            />
-          }
+          content={<TagFilterListPresenter tagFilters={config.tagFilters} readonly />}
           align="topMiddle"
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {otherTagFiltersCount} filter(s)
+            {config.tagFilters.length} filter(s)
           </span>
         </Tooltip>
       )}

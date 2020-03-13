@@ -23,13 +23,13 @@ export function updateAlertConfig(data, id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigs(websiteId) {
+export function getAllAlertConfigs(applicationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     queryParams: {
-      websiteId
+      applicationId
     },
     url: baseUrl
   }).map(response => response.body);

@@ -1,9 +1,7 @@
-import { alertTypes } from 'in-applications/alerting/data/alertTypeConfigData';
-
 export default function ApplicationAlertTypeSwitch({ alertType, ErrorRateComponent }) {
-  if (alertType === alertTypes.errorRate) {
+  if (alertType === 'errorRate') {
     return ErrorRateComponent();
-  } else if (alertType === alertTypes.slowness) {
+  } else if (alertType === 'slowness') {
     return null;
   }
   return null;

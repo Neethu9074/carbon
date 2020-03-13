@@ -3,7 +3,6 @@ import React from 'react';
 
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { translateDemocratisationFiltersToAnalyzeFilters } from 'in-applications/tags';
-import { alertTypes } from 'in-applications/alerting/data/alertTypeConfigData';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -18,9 +17,9 @@ export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const timeConfig = getTimeConfigFromEvent(event);
 
   let analyzeFilters = [getApplicationIdAnalyzeFilter(entityId), ...filters];
-  if (alertType === alertTypes.errorRate) {
+  if (alertType === 'errorRate') {
     analyzeFilters.push(getErroneousCallsAnalyzeFilter());
-  } else if (alertType === alertTypes.slowness) {
+  } else if (alertType === 'slowness') {
     analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold.value, alertConfig.threshold.operator));
   }
 

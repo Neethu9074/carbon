@@ -5,7 +5,6 @@ import React from 'react';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
-import { errorRate } from 'in-applications/alerting/constants';
 import { percentage } from 'in-services/formatters/number';
 
 export default function ErrorRateAlertingBarChart({
@@ -94,8 +93,8 @@ function getMetricConfiguration(websiteId, metric, tagFilters, timeConfig, granu
 
 function getMetricConfig(metricName, granularity) {
   const metricConfigs = {
-    [errorRate]: {
-      metric: errorRate,
+    errors: {
+      metric: 'errors',
       granularity: granularity,
       aggregation: 'MEAN'
     }

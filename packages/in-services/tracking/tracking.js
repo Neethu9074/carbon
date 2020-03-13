@@ -115,11 +115,14 @@ export const WEBSITES_ALERTING_ALERT_PAUSED = 'websites.alerting.alert.paused';
 export const WEBSITES_ALERTING_ALERT_DELETED = 'websites.alerting.alert.deleted';
 export const WEBSITES_ALERTING_ALERT_RESUMED = 'websites.alerting.alert.resumed';
 export const WEBSITES_ALERTING_ALERT_EDIT = 'websites.alerting.alert.edit';
-export const WEBSITES_ALERTING_ALERT_REVSION_CHANGED = 'websites.alerting.alert.revisionChanged';
+export const WEBSITES_ALERTING_ALERT_REVISION_CHANGED = 'websites.alerting.alert.revisionChanged';
 export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.event.details.goToAnalyze';
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
 
 export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
+export const APPLICATIONS_ALERTING_LIST_ALERT_PAUSED = 'applications.alerting.list.alert.paused';
+export const APPLICATIONS_ALERTING_LIST_ALERT_DELETED = 'applications.alerting.list.alert.deleted';
+export const APPLICATIONS_ALERTING_LIST_ALERT_RESUMED = 'applications.alerting.list.alert.resumed';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

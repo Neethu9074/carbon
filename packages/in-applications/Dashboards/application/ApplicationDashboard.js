@@ -63,6 +63,9 @@ function ApplicationDashboard({
         tabs={tabs}
         props={props}
         result$={getApplication({ id: appId })}
+        withProps={({ result }) => ({
+          applicationName: get(result, ['data', 'label'])
+        })}
       />
       <Footer />
     </>

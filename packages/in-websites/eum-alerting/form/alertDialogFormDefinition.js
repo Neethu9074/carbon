@@ -48,7 +48,7 @@ export const hiddenFieldNames = Object.freeze({
   alertByPercentageOfImpactedUsersEnabled: 'alertByPercentageOfImpactedUsersEnabled'
 });
 
-export const selectOptions = {
+export const selectOptions = Object.freeze({
   [fieldNames.ruleOperator]: Object.freeze([
     { value: operators.NOT_EMPTY, label: 'Any' },
     { value: operators.EQUALS, label: 'Equals' },
@@ -178,15 +178,15 @@ export const selectOptions = {
     { value: 5400000, label: '90 min' },
     { value: 7200000, label: '120 min' }
   ])
-};
+});
 
-export const radioOptions = {
-  timeThresholdType: {
+export const radioOptions = Object.freeze({
+  timeThresholdType: Object.freeze({
     violationsInSequence: 'violationsInSequence',
     violationsInPeriod: 'violationsInPeriod',
     userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence'
-  }
-};
+  })
+});
 
 export default function alertFormDefinition(alertFormValues = {}) {
   const {

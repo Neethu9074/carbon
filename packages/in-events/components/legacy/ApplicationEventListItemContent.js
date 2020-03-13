@@ -1,10 +1,6 @@
 import React from 'react';
 
-import {
-  alertingMetricsGranularity,
-  alertingEventDetailsChartTimeframe,
-  errorRate
-} from 'in-applications/alerting/constants';
+import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -40,6 +36,7 @@ export default connectTo(
     const operator = alertConfig.threshold.operator;
     const alertType = alertConfig.rule.alertType;
     const threshold = alertConfig.threshold;
+    const metricName = alertConfig.rule.metricName;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -61,7 +58,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 granularity={alertingMetricsGranularity}
-                metricName={errorRate}
+                metricName={metricName}
                 threshold={threshold}
                 timeThreshold={alertConfig.timeThreshold}
               />

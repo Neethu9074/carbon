@@ -32,7 +32,7 @@ import {
   WEBSITES_ALERTING_CLOSE_DIALOG,
   WEBSITES_ALERTING_JS_ERRORS_MSG_CHANGED,
   WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED,
-  WEBSITES_ALERTING_ALERT_REVSION_CHANGED,
+  WEBSITES_ALERTING_ALERT_REVISION_CHANGED,
   WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE,
   WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG
 } from 'in-services/tracking/tracking';
@@ -75,7 +75,7 @@ export const websitesAlertingListAlertPaused = e => track(WEBSITES_ALERTING_LIST
 export const websitesAlertingListAlertResumed = e => track(WEBSITES_ALERTING_LIST_ALERT_RESUMED, e);
 export const websitesAlertingListAlertDeleted = e => track(WEBSITES_ALERTING_LIST_ALERT_DELETED, e);
 
-export const websitesAlertingAlertRevisionChanged = e => track(WEBSITES_ALERTING_ALERT_REVSION_CHANGED, e);
+export const websitesAlertingAlertRevisionChanged = e => track(WEBSITES_ALERTING_ALERT_REVISION_CHANGED, e);
 export const websitesAlertingAlertPaused = e => track(WEBSITES_ALERTING_ALERT_PAUSED, e);
 export const websitesAlertingAlertResumed = e => track(WEBSITES_ALERTING_ALERT_RESUMED, e);
 export const websitesAlertingAlertDeleted = e => track(WEBSITES_ALERTING_ALERT_DELETED, e);
