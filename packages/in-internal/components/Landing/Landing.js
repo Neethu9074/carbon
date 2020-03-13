@@ -379,117 +379,118 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
             </Col>
           </Row>
 
-          {isInternalVisible && (
-            <Row>
-              <Col lg={12}>
-                <Card title="Available Instana Units">
-                  <LinkList>
-                    <LinkListItem
-                      label="SaaS Monitoring Units"
-                      description="These two units exist to monitor our own SaaS installations. They themselves are SaaS units."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="EU"
-                          href="https://eu-instanaops.instana.io"
-                          external
-                          description="Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
-                        />
-                        <LinkListItem
-                          label="US"
-                          href="https://us-instanaops.instana.io"
-                          external
-                          description="Unit monitoring the US SaaS installation."
-                        />
-                      </LinkList>
-                    </LinkListItem>
+          {isInternalVisible &&
+            isInstanaEmail && (
+              <Row>
+                <Col lg={12}>
+                  <Card title="Available Instana Units">
+                    <LinkList>
+                      <LinkListItem
+                        label="SaaS Monitoring Units"
+                        description="These two units exist to monitor our own SaaS installations. They themselves are SaaS units."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="EU"
+                            href="https://eu-instanaops.instana.io"
+                            external
+                            description="Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
+                          />
+                          <LinkListItem
+                            label="US"
+                            href="https://us-instanaops.instana.io"
+                            external
+                            description="Unit monitoring the US SaaS installation."
+                          />
+                        </LinkList>
+                      </LinkListItem>
 
-                    <LinkListItem
-                      label="Development Units"
-                      description="These units are designed to be used mainly by the product organization of Instana to continue to evolve Instana itself."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="Test"
-                          href="https://test-instana.pink.instana.rocks"
-                          external
-                          description="Auto-deployed from the develop branches every hour."
-                        />
-                        <LinkListItem
-                          label="Nightly"
-                          href="https://nightly-instana.pink.instana.rocks"
-                          external
-                          description="Auto-deployed from the develop branches every night."
-                        />
-                        <LinkListItem
-                          label="Staging"
-                          href="https://staging-instana.peach.instana.rocks"
-                          external
-                          description="Auto-deployed from the release-XYZ branch on every commit."
-                        />
-                        <LinkListItem
-                          label="Preview"
-                          href="https://preview-instana.peach.instana.rocks"
-                          external
-                          description="Manually deployed latest release-XYZ branch 1 week before the SaaS release. Sales / CS / SE / PM has access to this unit."
-                        />
-                        <LinkListItem
-                          label="Release"
-                          href="https://release-instana.magenta.instana.rocks"
-                          external
-                          description="Manually deployed latest release-XYZ on demand."
-                        />
-                        <LinkListItem
-                          label="Load"
-                          href="https://load-instana.rose.instana.rocks"
-                          external
-                          description="Manually deployed from any branch on demand."
-                        />
-                        <LinkListItem
-                          label="SRE"
-                          href="https://sre-instana.melon.instana.rocks"
-                          external
-                          description="Manually deployed from any branch on demand. Used by SRE to develop instanactl."
-                        />
-                        <LinkListItem
-                          label="Internal"
-                          href="https://internal-instanaops.instana.io"
-                          external
-                          description="A SaaS unit monitoring the internal development units."
-                        />
-                        <LinkListItem
-                          label="Dev"
-                          href="https://dev-instanaops.instana.io"
-                          external
-                          description="Tools we are using for development purposes, e.g. Jenkins, are reporting to this unit."
-                        />
-                      </LinkList>
-                    </LinkListItem>
+                      <LinkListItem
+                        label="Development Units"
+                        description="These units are designed to be used mainly by the product organization of Instana to continue to evolve Instana itself."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="Test"
+                            href="https://test-instana.pink.instana.rocks"
+                            external
+                            description="Auto-deployed from the develop branches every hour."
+                          />
+                          <LinkListItem
+                            label="Nightly"
+                            href="https://nightly-instana.pink.instana.rocks"
+                            external
+                            description="Auto-deployed from the develop branches every night."
+                          />
+                          <LinkListItem
+                            label="Staging"
+                            href="https://staging-instana.peach.instana.rocks"
+                            external
+                            description="Auto-deployed from the release-XYZ branch on every commit."
+                          />
+                          <LinkListItem
+                            label="Preview"
+                            href="https://preview-instana.peach.instana.rocks"
+                            external
+                            description="Manually deployed latest release-XYZ branch 1 week before the SaaS release. Sales / CS / SE / PM has access to this unit."
+                          />
+                          <LinkListItem
+                            label="Release"
+                            href="https://release-instana.magenta.instana.rocks"
+                            external
+                            description="Manually deployed latest release-XYZ on demand."
+                          />
+                          <LinkListItem
+                            label="Load"
+                            href="https://load-instana.rose.instana.rocks"
+                            external
+                            description="Manually deployed from any branch on demand."
+                          />
+                          <LinkListItem
+                            label="SRE"
+                            href="https://sre-instana.melon.instana.rocks"
+                            external
+                            description="Manually deployed from any branch on demand. Used by SRE to develop instanactl."
+                          />
+                          <LinkListItem
+                            label="Internal"
+                            href="https://internal-instanaops.instana.io"
+                            external
+                            description="A SaaS unit monitoring the internal development units."
+                          />
+                          <LinkListItem
+                            label="Dev"
+                            href="https://dev-instanaops.instana.io"
+                            external
+                            description="Tools we are using for development purposes, e.g. Jenkins, are reporting to this unit."
+                          />
+                        </LinkList>
+                      </LinkListItem>
 
-                    <LinkListItem
-                      label="Demo Units"
-                      description="These units are frequently used by the whole company for demo / presentation purposes."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="demous"
-                          href="https://demous-demo.instana.io"
-                          external
-                          description="A SaaS demo unit running within the US."
-                        />
-                        <LinkListItem
-                          label="demous"
-                          href="https://demoeu-demo.instana.io"
-                          external
-                          description="A SaaS demo unit running within the EU."
-                        />
-                      </LinkList>
-                    </LinkListItem>
-                  </LinkList>
-                </Card>
-              </Col>
-            </Row>
-          )}
+                      <LinkListItem
+                        label="Demo Units"
+                        description="These units are frequently used by the whole company for demo / presentation purposes."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="demous"
+                            href="https://demous-demo.instana.io"
+                            external
+                            description="A SaaS demo unit running within the US."
+                          />
+                          <LinkListItem
+                            label="demous"
+                            href="https://demoeu-demo.instana.io"
+                            external
+                            description="A SaaS demo unit running within the EU."
+                          />
+                        </LinkList>
+                      </LinkListItem>
+                    </LinkList>
+                  </Card>
+                </Col>
+              </Row>
+            )}
         </Col>
       </Row>
       <Footer />
