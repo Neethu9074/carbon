@@ -10,7 +10,7 @@ import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPro
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertSelection/AlertSelection';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
-import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
+import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
 import AdvancedModeContainer from 'in-new-components/Alerting/AdvancedModeContainer';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';

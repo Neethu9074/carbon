@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
-import SelectAlertChannel from 'in-websites/eum-alerting/components/SelectAlertChannel';
+import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 
 import locals from './SimpleAlertConfigDialogStep3.mless';
 

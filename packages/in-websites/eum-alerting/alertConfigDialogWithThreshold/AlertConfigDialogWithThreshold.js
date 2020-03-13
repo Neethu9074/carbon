@@ -89,8 +89,8 @@ export const AlertConfigDialogWithThreshold = compose(
   return (
     <AlertConfigDialogPresenter
       {...props}
-      renderSimpleModeComponent={SimpleModeContainer}
-      renderAdvancedModeComponent={AdvancedModeContainer}
+      simpleModeElement={SimpleModeContainer}
+      advancedModeElement={AdvancedModeContainer}
     />
   );
 });

@@ -3,8 +3,7 @@ import React from 'react';
 
 import SelectAlertChannelPresenter, {
   SelectListDialogContent
-} from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+} from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
 import Button from 'in-new-components/Button/Button';
 
 export default function SelectAlertChannel(props) {
@@ -22,7 +21,7 @@ export default function SelectAlertChannel(props) {
                   <SelectListDialogContent
                     form={form}
                     onSubmit={selectedIds => {
-                      onChange(form, fieldNames.alertChannelIds, selectedIds);
+                      onChange(['alertChannelIds'], field => field.setValue(selectedIds).setTouched(true));
                       setAlertChannelsVisible({ isVisible: false });
                     }}
                   />

@@ -7,12 +7,13 @@ import AlertChannels, {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
 import locals from './SelectAlertChannel.mless';
+
+const alertChannelIds = 'alertChannelIds';
 
 export default function SelectAlertChannelPresenter(props) {
   const { form, onChange } = props;
@@ -21,13 +22,13 @@ export default function SelectAlertChannelPresenter(props) {
     <>
       <AlertChannels
         setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(form.get(fieldNames.alertChannelIds).value)}
+        loadEntities={() => getSelectedAlertChannels(form.get(alertChannelIds).value)}
         hasRowNavigation={false}
         noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         {...props}
       />
-      <TouchedMessages field={form.get(fieldNames.alertChannelIds)} />
+      <TouchedMessages field={form.get(alertChannelIds)} />
     </>
   );
 }
@@ -37,7 +38,7 @@ export function SelectListDialogContent({ form, onSubmit }) {
     <SelectListDialogContentComponent
       listComponent={AlertChannels}
       listComponentRightHeader={noRightHeader}
-      hiddenIds={form.get(fieldNames.alertChannelIds).value}
+      hiddenIds={form.get('alertChannelIds').value}
       limit={limitForConnectedAlertChannels}
       onSubmit={onSubmit}
       createSubmitLabel={numberOfItems =>
@@ -64,11 +65,8 @@ function alertChannelSelectionTableActions(form, onChange) {
     deselect: {
       deselect: deselectedEntity => {
         if (deselectedEntity) {
-          const value = form
-            .get(fieldNames.alertChannelIds)
-            .value.filter(referencedId => referencedId !== deselectedEntity.id);
-
-          onChange(form, fieldNames.alertChannelIds, value);
+          const value = form.get(alertChannelIds).value.filter(referencedId => referencedId !== deselectedEntity.id);
+          onChange([alertChannelIds], field => field.setValue(value).setTouched(true));
         }
       }
     }

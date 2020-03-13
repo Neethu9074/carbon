@@ -25,7 +25,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
     <AlertConfigDialogWithThreshold
       setForm={setForm}
       form={form}
-      onChange={onChange(setForm)}
+      onChange={createOnChange(setForm, form)}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode)}
       timeConfig={timeConfig}
@@ -45,8 +45,17 @@ AlertConfigDialog.propTypes = {
   editMode: PropTypes.bool
 };
 
-function onChange(setForm) {
+function createOnChange(setForm, externalForm) {
   return (form, fieldName, fieldValue, ...atomicAddFields) => {
+    // Alternative (new and desired) method signature
+    if (form instanceof Array) {
+      const path = form;
+      const fn = fieldName;
+      setForm(externalForm.updateIn(path, fn));
+      return;
+    }
+
+    // old signature, we want to get rid of this
     let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
     if (atomicAddFields.length > 0) {
       atomicAddFields.forEach(

@@ -2,10 +2,11 @@ import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
+import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import AdvancedModeContainer from 'in-new-components/Alerting/AdvancedModeContainer';
 
 export default compose(
-  withProps(({ form }) => ({
+  withProps(({ form, onChange, setSliderState }) => ({
     navItems: [
       {
         scrollId: '1',
@@ -42,7 +43,7 @@ export default compose(
         label: 'Alert Channels',
         title: 'Alert Channels: Who needs to be alerted?',
         checked: form.get('alertChannelIds').value.length > 0,
-        content: <h1>TODO: Add SelectAlertChannel here</h1>
+        content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
       },
       {
         scrollId: '5',

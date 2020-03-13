@@ -12,8 +12,8 @@ export default compose(
   setPropTypes({
     editMode: PropTypes.bool,
     form: PropTypes.object.isRequired,
-    renderAdvancedModeComponent: PropTypes.func.isRequired,
-    renderSimpleModeComponent: PropTypes.func.isRequired,
+    advancedModeElement: PropTypes.func.isRequired,
+    simpleModeElement: PropTypes.func.isRequired,
     trackModeSwitch: PropTypes.func.isRequired,
     withTrackClose: PropTypes.func.isRequired,
     withTrackCreate: PropTypes.func.isRequired
@@ -31,25 +31,6 @@ export default compose(
         props.setSlideInViewVisible(isVisible);
       }
     };
-  }),
-  withProps(props => {
-    return {
-      renderSimpleModeComponent: props.renderSimpleModeComponent({
-        ...props,
-        onCreate: props.withTrackCreate,
-        onClose: props.withTrackClose,
-        setSliderState: props.setSliderState,
-        setSimpleModeStep: props.setSimpleModeStep
-      }),
-
-      renderAdvancedModeComponent: props.renderAdvancedModeComponent({
-        ...props,
-        onClose: props.withTrackClose,
-        onCreate: props.withTrackCreate,
-        setSliderState: props.setSliderState,
-        setSimpleModeStep: props.setSimpleModeStep
-      })
-    };
   })
 )(AlertConfigDialogPresenter);
 
@@ -57,8 +38,8 @@ function AlertConfigDialogPresenter(props) {
   const {
     editMode,
     form,
-    renderAdvancedModeComponent,
-    renderSimpleModeComponent,
+    advancedModeElement,
+    simpleModeElement,
     setSimpleMode,
     setSlideInViewVisible,
     simpleMode,
@@ -66,8 +47,27 @@ function AlertConfigDialogPresenter(props) {
     slideInConfig,
     slideInViewVisible,
     trackModeSwitch,
-    withTrackClose
+    withTrackClose,
+    withTrackCreate,
+    setSliderState,
+    setSimpleModeStep
   } = props;
+
+  const SimpleMode = simpleModeElement({
+    ...props,
+    onCreate: withTrackCreate,
+    onClose: withTrackClose,
+    setSliderState: setSliderState,
+    setSimpleModeStep: setSimpleModeStep
+  });
+
+  const AdvancedMode = advancedModeElement({
+    ...props,
+    onClose: withTrackClose,
+    onCreate: withTrackCreate,
+    setSliderState: setSliderState,
+    setSimpleModeStep: setSimpleModeStep
+  });
 
   return (
     <BigHeaderDialogWithSlideInView
@@ -99,7 +99,7 @@ function AlertConfigDialogPresenter(props) {
           [locals.advancedMode]: !simpleMode
         })}
       >
-        {simpleMode ? renderSimpleModeComponent : renderAdvancedModeComponent}
+        {simpleMode ? SimpleMode : AdvancedMode}
       </div>
     </BigHeaderDialogWithSlideInView>
   );

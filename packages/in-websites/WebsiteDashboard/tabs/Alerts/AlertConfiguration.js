@@ -5,7 +5,7 @@ import alertFormDefinition, {
   getRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import SelectAlertChannelPresenter from 'in-websites/eum-alerting/components/SelectAlertChannelPresenter';
+import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';

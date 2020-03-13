@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ApplicationAdvancedModeContainer from 'in-applications/alerting/advancedMode/ApplicationAdvancedModeContainer';
+import ApplicationAdvancedModeContainer from 'in-applications/alerting/advanced/ApplicationAdvancedModeContainer';
 import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
 import { createApplicationSmartAlertForm } from 'in-applications/alerting/form/applicationSmartAlertForm';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
@@ -25,8 +25,8 @@ export default function ApplicationSmartAlertConfigDialog({ onClose, formData, e
       granularity={alertingMetricsGranularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onClose={onClose}
-      renderAdvancedModeComponent={ApplicationAdvancedModeContainer}
-      renderSimpleModeComponent={() => null}
+      advancedModeElement={ApplicationAdvancedModeContainer}
+      simpleModeElement={() => null}
       setForm={setForm}
       timeConfig={timeConfig}
       withTrackClose={() => {
