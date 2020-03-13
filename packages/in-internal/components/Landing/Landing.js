@@ -3,12 +3,12 @@ import React from 'react';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { isInstanaEngineer, isInstanaEmail } from 'in-stores/user';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
-import { isInstanaEngineer } from 'in-stores/user';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
 import Card from 'in-new-components/Card';
@@ -23,66 +23,69 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
         <TimeZones />
       </div>
 
-      {internalMonitoringUnit && (
-        <Row>
-          <Col lg={6}>
-            <SloViolationsChart
-              timeConfig={timeConfig}
-              cardTitle="Shared Component SLO Violations"
-              query={
-                'NOT (entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
-              }
-            />
-          </Col>
-          <Col lg={6}>
-            <SloViolationsChart
-              timeConfig={timeConfig}
-              cardTitle="TU SLO Violations"
-              query={
-                '(entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
-              }
-            />
-          </Col>
-        </Row>
-      )}
+      {internalMonitoringUnit &&
+        isInstanaEmail && (
+          <Row>
+            <Col lg={6}>
+              <SloViolationsChart
+                timeConfig={timeConfig}
+                cardTitle="Shared Component SLO Violations"
+                query={
+                  'NOT (entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
+                }
+              />
+            </Col>
+            <Col lg={6}>
+              <SloViolationsChart
+                timeConfig={timeConfig}
+                cardTitle="TU SLO Violations"
+                query={
+                  '(entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
+                }
+              />
+            </Col>
+          </Row>
+        )}
 
       <Row>
         {internalMonitoringUnit && (
           <Col lg={6}>
-            <Card title={`SaaS Monitoring (${config.tenantUnit.toUpperCase()})`}>
+            <Card title="Instana Installation Monitoring">
               <LinkList>
-                <LinkListItem
-                  label="Service-Level Objectives (SLOs)"
-                  description="SLOs are used to check whether our components and data-stores are operating within expected bounds."
-                >
-                  <LinkList>
-                    <LinkListItem label="Violations" description="Inspect which SLOs we are breaking/violating.">
-                      <LinkList>
-                        <LinkListItem
-                          label="Grouped View"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sloViolations')
-                          )}
-                        />
-                        <LinkListItem
-                          label="Event View"
-                          href$={getModifiedUrlStream(params => {
-                            params.pathname = '/events';
-                            params.query.q =
-                              '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
-                            setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
-                          })}
-                        />
-                      </LinkList>
-                    </LinkListItem>
-                    <LinkListItem
-                      label="Definition"
-                      external
-                      href="https://github.com/instana/backend/tree/develop/objectives"
-                      description="Learn about & evolve our SLOs."
-                    />
-                  </LinkList>
-                </LinkListItem>
+                {isInstanaEmail && (
+                  <LinkListItem
+                    label="Service-Level Objectives (SLOs)"
+                    description="SLOs are used to check whether our components and data-stores are operating within expected bounds."
+                  >
+                    <LinkList>
+                      <LinkListItem label="Violations" description="Inspect which SLOs we are breaking/violating.">
+                        <LinkList>
+                          <LinkListItem
+                            label="Grouped View"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sloViolations')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Event View"
+                            href$={getModifiedUrlStream(params => {
+                              params.pathname = '/events';
+                              params.query.q =
+                                '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
+                              setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
+                            })}
+                          />
+                        </LinkList>
+                      </LinkListItem>
+                      <LinkListItem
+                        label="Definition"
+                        external
+                        href="https://github.com/instana/backend/tree/develop/objectives"
+                        description="Learn about & evolve our SLOs."
+                      />
+                    </LinkList>
+                  </LinkListItem>
+                )}
 
                 <LinkListItem
                   label="Region Statistics"
@@ -108,207 +111,218 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                   </LinkList>
                 </LinkListItem>
 
-                <LinkListItem label="Pipelines">
-                  <LinkList>
-                    <LinkListItem
-                      label="Acceptor"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/acceptors')
-                      )}
-                      description="Agents transmit data to acceptors. Acceptors are therefore the first-mile for most of the data transmitted to Instana."
-                    />
-                    <LinkListItem
-                      label="ServerlessAcceptor"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
-                      )}
-                      description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, with an Instana agent in between."
-                    />
-                    <LinkListItem
-                      label="Application Monitoring"
-                      description="Dashboards showing how application data, i.e. traces and spans, are written and read."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="Processing"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/appdataProcessing')
-                          )}
-                        />
-                        <LinkListItem
-                          label="Batching & Writing"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights')
-                          )}
-                        />
-                        <LinkListItem
-                          label="Writing & Reading"
-                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdata'))}
-                        />
-                        <LinkListItem
-                          label="Query Performance"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/appDataQueryPerformance')
-                          )}
-                        />
-                        <LinkListItem
-                          label="Call Extraction"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/callExtraction')
-                          )}
-                        />
-                        <LinkListItem
-                          label="Resilient Mapping"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/resilientMapping')
-                          )}
-                        />
-                      </LinkList>
-                    </LinkListItem>
+                {isInstanaEngineer && (
+                  <LinkListItem label="Pipelines">
+                    <LinkList>
+                      <LinkListItem
+                        label="Acceptor"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/acceptors')
+                        )}
+                        description="Agents transmit data to acceptors. Acceptors are therefore the first-mile for most of the data transmitted to Instana."
+                      />
+                      <LinkListItem
+                        label="ServerlessAcceptor"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
+                        )}
+                        description="Serverless-acceptors are the first-mile for serverless tracing and monitoring, when data is transmitted directly from a serverless enitity to our back end, with an Instana agent in between."
+                      />
+                      <LinkListItem
+                        label="Application Monitoring"
+                        description="Dashboards showing how application data, i.e. traces and spans, are written and read."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="Processing"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appdataProcessing')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Batching & Writing"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Writing & Reading"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appdata')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Query Performance"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appDataQueryPerformance')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Call Extraction"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/callExtraction')
+                            )}
+                          />
+                          <LinkListItem
+                            label="Resilient Mapping"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/resilientMapping')
+                            )}
+                          />
+                        </LinkList>
+                      </LinkListItem>
 
-                    <LinkListItem
-                      label="Infrastructure Metrics"
-                      description="Information about our infrastructure metric pipeline."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="Filler (metric extraction)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/infrastructureMetrics/filler')
-                          )}
-                        />
-                      </LinkList>
-                    </LinkListItem>
+                      <LinkListItem
+                        label="Infrastructure Metrics"
+                        description="Information about our infrastructure metric pipeline."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="Filler (metric extraction)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/infrastructureMetrics/filler')
+                            )}
+                          />
+                        </LinkList>
+                      </LinkListItem>
 
-                    <LinkListItem
-                      label="End-User Monitoring (EUM)"
-                      description="Information about our website monitoring processing pipeline. This includes acceptance of end-user requests as well as processing and writing of the received beacons."
-                    >
-                      <LinkList>
-                        <LinkListItem
-                          label="Overview"
-                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/eum'))}
-                          description="Gain an overview across the whole EUM pipeline. This dashboard is a combination and subset of the eum-acceptor, eum-processor and appdata-writer dashboards."
-                        />
-                        <LinkListItem
-                          label="eum-acceptor (beacon acceptance)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/eum-acceptor')
-                          )}
-                          description="eum-acceptor accepts end-user requests, validates, maps and transmits them via Kafka for processing."
-                        />
-                        <LinkListItem
-                          label="js-stack-trace-translator (beacon pre-processing)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/jsStackTraceTranslator')
-                          )}
-                          description="Parses and attempts to make JavaScript stack traces more readable by means of JavaScript source maps."
-                        />
-                        <LinkListItem
-                          label="eum-processor (beacon processing)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/eum-processor')
-                          )}
-                          description="eum-processor enriches received beacons and forwards them to Kafka for persistence."
-                        />
-                        <LinkListItem
-                          label="eum-health-processor (health rule execution)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/eumHealthProcessor')
-                          )}
-                          description="eum-health-processor reads processed beacons from Kafka and executes rules on buckets of beacons."
-                        />
-                        <LinkListItem
-                          label="appdata-writer (beacon ingestion)"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/appdata-writer')
-                          )}
-                          description="appdata-writer persists enriched beacons to ClickHouse."
-                        />
-                        <LinkListItem
-                          label="Error Simulator"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/eum/errorSimulator')
-                          )}
-                          description="Trigger JavaScript errors to verify website monitoring behavior."
-                        />
-                      </LinkList>
-                    </LinkListItem>
-                  </LinkList>
-                </LinkListItem>
+                      <LinkListItem
+                        label="End-User Monitoring (EUM)"
+                        description="Information about our website monitoring processing pipeline. This includes acceptance of end-user requests as well as processing and writing of the received beacons."
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label="Overview"
+                            href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/eum'))}
+                            description="Gain an overview across the whole EUM pipeline. This dashboard is a combination and subset of the eum-acceptor, eum-processor and appdata-writer dashboards."
+                          />
+                          <LinkListItem
+                            label="eum-acceptor (beacon acceptance)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/eum-acceptor')
+                            )}
+                            description="eum-acceptor accepts end-user requests, validates, maps and transmits them via Kafka for processing."
+                          />
+                          <LinkListItem
+                            label="js-stack-trace-translator (beacon pre-processing)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/jsStackTraceTranslator')
+                            )}
+                            description="Parses and attempts to make JavaScript stack traces more readable by means of JavaScript source maps."
+                          />
+                          <LinkListItem
+                            label="eum-processor (beacon processing)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/eum-processor')
+                            )}
+                            description="eum-processor enriches received beacons and forwards them to Kafka for persistence."
+                          />
+                          <LinkListItem
+                            label="eum-health-processor (health rule execution)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/eumHealthProcessor')
+                            )}
+                            description="eum-health-processor reads processed beacons from Kafka and executes rules on buckets of beacons."
+                          />
+                          <LinkListItem
+                            label="appdata-writer (beacon ingestion)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/appdata-writer')
+                            )}
+                            description="appdata-writer persists enriched beacons to ClickHouse."
+                          />
+                          <LinkListItem
+                            label="Error Simulator"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/eum/errorSimulator')
+                            )}
+                            description="Trigger JavaScript errors to verify website monitoring behavior."
+                          />
+                        </LinkList>
+                      </LinkListItem>
+                    </LinkList>
+                  </LinkListItem>
+                )}
 
-                <LinkListItem label="Data Stores">
-                  <LinkList>
-                    <LinkListItem
-                      label="Metrics Cassandra"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
-                      )}
-                    />
-                    <LinkListItem
-                      label="Spans Cassandra"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
-                      )}
-                    />
-                    <LinkListItem
-                      label="Profiles Cassandra"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
-                      )}
-                    />
-                    <LinkListItem
-                      label="Clickhouse"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
-                      )}
-                    />
-                    <LinkListItem
-                      label="Elasticsearch"
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/elastic'))}
-                    />
-                    <LinkListItem
-                      label="Kafka"
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
-                    />
-                  </LinkList>
-                </LinkListItem>
+                {isInstanaEngineer && (
+                  <LinkListItem label="Data Stores">
+                    <LinkList>
+                      <LinkListItem
+                        label="Metrics Cassandra"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Spans Cassandra"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Profiles Cassandra"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Clickhouse"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Elasticsearch"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/elastic')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Kafka"
+                        href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
+                      />
+                    </LinkList>
+                  </LinkListItem>
+                )}
 
-                <LinkListItem label="Workers">
-                  <LinkList>
-                    <LinkListItem
-                      label="Worker Allocation/Load"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/workerStats')
-                      )}
-                    />
-                    <LinkListItem
-                      label="Selfservice Worker Allocation/Load"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/selfserviceWorkerStats')
-                      )}
-                    />
-                  </LinkList>
-                </LinkListItem>
+                {isInstanaEngineer && (
+                  <LinkListItem label="Workers">
+                    <LinkList>
+                      <LinkListItem
+                        label="Worker Allocation/Load"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/workerStats')
+                        )}
+                      />
+                      <LinkListItem
+                        label="Selfservice Worker Allocation/Load"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/selfserviceWorkerStats')
+                        )}
+                      />
+                    </LinkList>
+                  </LinkListItem>
+                )}
               </LinkList>
             </Card>
           </Col>
         )}
 
         <Col lg={6}>
-          {internalMonitoringUnit && (
-            <Row>
-              <Col lg={12}>
-                <Card title="Tip">
-                  <p className={locals.tip}>
-                    Did you know that these features are also available on customer tenant units? They are hidden by
-                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on
-                    the non-interactive part of our main navigation!
-                  </p>
-                </Card>
-              </Col>
-            </Row>
-          )}
+          {internalMonitoringUnit &&
+            isInstanaEmail && (
+              <Row>
+                <Col lg={12}>
+                  <Card title="Tip">
+                    <p className={locals.tip}>
+                      Did you know that these features are also available on customer tenant units? They are hidden by
+                      default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on
+                      the non-interactive part of our main navigation!
+                    </p>
+                  </Card>
+                </Col>
+              </Row>
+            )}
 
           <Row>
             <Col lg={12}>

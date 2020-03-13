@@ -13,8 +13,13 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled,
+  internalMonitoringUnit
+} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, vsphereEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
@@ -42,7 +47,7 @@ export default (
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
-    {isInstanaEmail && (
+    {(isInstanaEmail || internalMonitoringUnit) && (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
     )}
 
