@@ -23,6 +23,7 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
+import { role } from 'in-stores/user';
 
 import locals from './Alerts.mless';
 
@@ -60,18 +61,20 @@ export default function Alerts({ websiteLabel, websiteId }) {
       getHeader={() => header}
       getEntityName={getEntityName}
       columnDefinitions={getColumnDefinitions(websiteLabel)}
-      tableActions={{
-        delete: {
-          deleteEntity: config => deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted(config.id))
-        },
-        toggleEnabled: {
-          get: config => config.enabled,
-          toggle: config =>
-            config.enabled
-              ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused(config.id))
-              : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed(config.id))
+      tableActions={
+        role.canConfigureCustomAlerts && {
+          delete: {
+            deleteEntity: config => deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted(config.id))
+          },
+          toggleEnabled: {
+            get: config => config.enabled,
+            toggle: config =>
+              config.enabled
+                ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused(config.id))
+                : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed(config.id))
+          }
         }
-      }}
+      }
       loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
       pageSize={15}
       searchAttributes={[entity => entity.name]}
