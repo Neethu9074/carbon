@@ -1,7 +1,4 @@
 :local {
-  .wrapper {
-    margin-right: .5rem;
-  }
 
   .leftButton {
     border-radius: 0 0 2px 2px;

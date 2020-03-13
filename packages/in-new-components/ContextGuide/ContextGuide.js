@@ -15,7 +15,7 @@ export default function ContextGuide({
   productArea
 }) {
   return (
-    <div className={locals.wrapper}>
+    <>
       <StackButton
         id={id}
         applicationId={applicationId}
@@ -33,6 +33,6 @@ export default function ContextGuide({
         productArea={productArea}
         className={locals.rightButton}
       />
-    </div>
+    </>
   );
 }
