@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { releaseNotesEnabled, tenantSwitcherEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -23,6 +22,7 @@ import {
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { releaseNotesEnabled, tenantSwitcherEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
@@ -39,9 +39,9 @@ import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import AboutInstanaDialog from 'in-new-components/AboutInstanaDialog';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
-import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
