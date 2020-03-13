@@ -256,7 +256,7 @@ function getFilterTags(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: req.uiBackendBaseUrl + '/api/tags',
+        url: req.uiBackendBaseUrl + '/api/application-monitoring/catalog/tags',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
