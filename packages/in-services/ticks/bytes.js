@@ -108,8 +108,9 @@ function filterTicks(ticks, formatter) {
 
   // remove duplicate ticks with formatted applied
   const uniqueTicks = uniqBy(formattedTicks, 'formattedValue');
+  const uniqueLastTick = uniqueTicks[uniqueTicks.length - 1];
 
-  if (lastTick.formattedValue === uniqueTicks[uniqueTicks.length - 1].formattedValue) {
+  if (lastTick && uniqueLastTick && lastTick.formattedValue === uniqueLastTick.formattedValue) {
     const remaininingTicks = uniqueTicks.filter(tick => tick.formattedValue !== lastTick.formattedValue);
     return [...remaininingTicks, lastTick].map(tick => tick.value);
   }
