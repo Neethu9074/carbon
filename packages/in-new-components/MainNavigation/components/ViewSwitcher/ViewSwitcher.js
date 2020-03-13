@@ -43,12 +43,12 @@ import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
-import { isInstanaEmail, user, role } from 'in-stores/user';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
 import { getColorBySeverity } from 'in-stores/events';
 import { all, any } from 'in-services/fixedStreams';
+import { user, role } from 'in-stores/user';
 import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -167,8 +167,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
   onClick,
   onMouseLeave
 }) {
-  // should always be visible when instanaInternalFeaturesEnabled is set. if not, then only when instana engineer AND isVisible
-  if (!isInternalVisible || !isInstanaEmail) {
+  if (!isInternalVisible) {
     return null;
   }
 
