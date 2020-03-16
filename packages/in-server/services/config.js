@@ -15,6 +15,7 @@ exports.getClientConfig = (tenant, unit) => {
     butlerDomain,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
+    instanaRegion: serverConfig.clientConfig.instanaRegion,
     tenant: tenant,
     tenantUnit: unit,
     featureFlags: featureFlags,
