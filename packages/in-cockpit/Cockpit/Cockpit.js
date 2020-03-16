@@ -1,19 +1,17 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import {
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled
-} from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { settings$, setSingle } from 'in-services/settings/settings';
-import SetAsLandingPage from 'in-cockpit/Cockpit/SetAsLandingPage';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { convertRemToPx } from 'in-services/util/dom';
@@ -144,7 +142,6 @@ function Header() {
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (
           <>
-            <SetAsLandingPage />
             {role.canConfigureAgents && (
               <Button
                 kind="secondaryDarker"
@@ -156,6 +153,7 @@ function Header() {
                 Deploy Agent
               </Button>
             )}
+
             {role.canConfigureUsers && (
               <Button
                 kind="secondaryDarker"
@@ -167,6 +165,16 @@ function Header() {
                 Add User
               </Button>
             )}
+
+            <SetAsLandingPage isLandingPage={isLandingPage}>
+              {({ label, icon, isAlreadyLandingPage }) =>
+                !isAlreadyLandingPage && (
+                  <Button kind="secondaryDarker" icon={icon} onClick={setLandingPage}>
+                    {label}
+                  </Button>
+                )
+              }
+            </SetAsLandingPage>
           </>
         )}
       />

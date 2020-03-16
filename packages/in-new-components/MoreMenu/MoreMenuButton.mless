@@ -1,0 +1,16 @@
+:local {
+  .item {
+    display: block;
+  }
+
+  .button {
+    width: 100%;
+    border-radius: 0;
+    justify-content: flex-start;
+    padding: 0.8rem 1.3rem;
+  }
+
+  .item + .item .button:not(:hover) {
+    border-top-color: transparent;
+  }
+}

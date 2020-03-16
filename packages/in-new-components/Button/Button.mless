@@ -40,6 +40,10 @@
 
     .icon {
       margin: -0.25rem 0.5rem -0.25rem 0;
+
+      &.noHorizontalMargin {
+        margin-right: 0;
+      }
     }
 
     .dropdownButtonIndicator {
@@ -52,6 +56,10 @@
 
     .icon {
       margin-right: 0.5rem;
+
+      &.noHorizontalMargin {
+        margin-right: 0;
+      }
     }
 
     .dropdownButtonIndicator {

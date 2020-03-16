@@ -1,0 +1,3 @@
+export { default as MoreMenuSetAsLandingPageButton } from 'in-new-components/MoreMenu/MoreMenuSetAsLandingPageButton';
+export { default as MoreMenuButton } from 'in-new-components/MoreMenu/MoreMenuButton';
+export { default as MoreMenu } from 'in-new-components/MoreMenu/MoreMenu';

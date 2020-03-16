@@ -2,6 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Button.mless';
@@ -62,7 +63,15 @@ export default function ButtonPresenter({
   let iconElement;
   if (icon) {
     iconElement = (
-      <SvgIcon className={locals.icon} type={icon} spinning={iconSpinning} size={iconSize || iconDimensions[size]} />
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.icon]: true,
+          [locals.noHorizontalMargin]: !children
+        })}
+        type={icon}
+        spinning={iconSpinning}
+        size={iconSize || iconDimensions[size]}
+      />
     );
   }
 
