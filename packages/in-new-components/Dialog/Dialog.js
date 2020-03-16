@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import { generateUniqueShortId } from 'in-services/util/id';
 import { stopPropagation } from 'in-services/util/function';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -17,14 +18,16 @@ export default function Dialog({
   showOverflow,
   headless = false
 }) {
+  const [id] = useState(generateUniqueShortId());
+
   return (
-    <div className={locals.wrapper} onClick={onClose}>
+    <div key={id} className={locals.wrapper} onClick={onClose}>
       <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
         {!headless && (
           <div className={locals.header}>
             <h1 className={locals.title}>{title}</h1>
             {renderCustomCloseBehaviour ? (
-              <Fragment>{renderCustomCloseBehaviour()}</Fragment>
+              <>{renderCustomCloseBehaviour()}</>
             ) : (
               <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={onClose} />
             )}

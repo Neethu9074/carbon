@@ -1,12 +1,19 @@
 import { create } from 'reactive-observables';
 
-// null or a react component
-export const activeDialog$ = create().emit(null);
+export const activeDialogs$ = create().emit([]);
 
 export function setActiveDialog(dialog) {
-  activeDialog$.emit(dialog);
+  activeDialogs$.once(dialogs => {
+    dialogs = dialogs.slice();
+    dialogs.push(dialog);
+    activeDialogs$.emit(dialogs);
+  });
 }
 
 export function close() {
-  activeDialog$.emit(null);
+  activeDialogs$.once(dialogs => {
+    dialogs = dialogs.slice();
+    dialogs.pop();
+    activeDialogs$.emit(dialogs ? dialogs : []);
+  });
 }
