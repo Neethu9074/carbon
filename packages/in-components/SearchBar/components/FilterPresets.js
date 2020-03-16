@@ -5,7 +5,7 @@ import { togglePresets } from 'in-components/SearchBar/stores/presetsVisibility'
 import UserFilterLink from 'in-components/SearchBar/components/UserFilterLink';
 import MenuHeading from 'in-components/SearchBar/components/MenuHeading';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import LifecycleObserver from 'in-components/LifecycleObserver';
@@ -98,5 +98,5 @@ export default connectTo(
 
 function edit(filter) {
   setValues(filter.get('id'), filter.get('name'), filter.get('definition'));
-  setActiveDialog(<SaveDialog />);
+  addActiveDialog(<SaveDialog />);
 }

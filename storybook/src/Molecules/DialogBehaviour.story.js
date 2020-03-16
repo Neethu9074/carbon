@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
@@ -15,7 +15,7 @@ export function MultipleDialogs() {
     <>
       <DialogPresenter />
 
-      <Button onClick={() => setActiveDialog(<FirstDialog />)}>Open first dialog</Button>
+      <Button onClick={() => addActiveDialog(<FirstDialog />)}>Open first dialog</Button>
     </>
   );
 }
@@ -23,7 +23,7 @@ export function MultipleDialogs() {
 function FirstDialog() {
   return (
     <Dialog title="First Dialog" onClose={close}>
-      <Button onClick={() => setActiveDialog(<SecondDialog />)}>Open second dialog</Button>
+      <Button onClick={() => addActiveDialog(<SecondDialog />)}>Open second dialog</Button>
     </Dialog>
   );
 }
@@ -31,7 +31,7 @@ function FirstDialog() {
 function SecondDialog() {
   return (
     <Dialog title="Second Dialog" onClose={close}>
-      <Button onClick={() => setActiveDialog(<ThirdDialog />)}>Open third dialog</Button>
+      <Button onClick={() => addActiveDialog(<ThirdDialog />)}>Open third dialog</Button>
     </Dialog>
   );
 }

@@ -4,7 +4,7 @@ import React from 'react';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { testRules } from 'in-api/endpointConfiguration';
 
 import locals from './DragAndDropRuleList.mless';
@@ -131,7 +131,7 @@ export default class DragAndDropRuleList extends React.Component {
   };
 
   onRuleClicked = (rules, rule, index) => {
-    setActiveDialog(
+    addActiveDialog(
       <EndpointExtractionRuleDialog
         rules={rules}
         ruleIndex={index}

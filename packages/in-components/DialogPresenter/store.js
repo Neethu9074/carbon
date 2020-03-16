@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 
 export const activeDialogs$ = create().emit([]);
 
-export function setActiveDialog(dialog) {
+export function addActiveDialog(dialog) {
   activeDialogs$.once(dialogs => {
     dialogs = dialogs.slice();
     dialogs.push(dialog);

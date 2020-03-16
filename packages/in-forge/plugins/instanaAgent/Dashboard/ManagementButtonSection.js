@@ -4,7 +4,7 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import { resetAgent, resetSensors, updateAgent, rebootAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -19,12 +19,12 @@ export default connectTo(
     return (
       <div className={locals.wrapper}>
         {role.canConfigureAgentRunMode ? (
-          <ImageButton iconType="lib_actions_settings" onClick={() => setActiveDialog(<Mode snapshot={snapshot} />)}>
+          <ImageButton iconType="lib_actions_settings" onClick={() => addActiveDialog(<Mode snapshot={snapshot} />)}>
             Change Agent Mode
           </ImageButton>
         ) : null}
 
-        <ImageButton iconType="lib_actions_settings" onClick={() => setActiveDialog(<LogLevel snapshot={snapshot} />)}>
+        <ImageButton iconType="lib_actions_settings" onClick={() => addActiveDialog(<LogLevel snapshot={snapshot} />)}>
           Change Log Level
         </ImageButton>
 

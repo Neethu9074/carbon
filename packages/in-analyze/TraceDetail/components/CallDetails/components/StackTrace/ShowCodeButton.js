@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
 
 export default function ShowCodeButton({ snapshot, file, line, children }) {
@@ -17,6 +17,6 @@ export default function ShowCodeButton({ snapshot, file, line, children }) {
   function showCodeView(e) {
     e.preventDefault();
     e.stopPropagation();
-    setActiveDialog(getCodeView(snapshot, file, line));
+    addActiveDialog(getCodeView(snapshot, file, line));
   }
 }

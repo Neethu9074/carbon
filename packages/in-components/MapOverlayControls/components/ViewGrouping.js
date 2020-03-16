@@ -16,7 +16,7 @@ import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/comp
 import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
 import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
 import Control from 'in-components/MapOverlayControls/components/Control';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { view$, types } from 'in-stores/view';
@@ -104,7 +104,7 @@ const MenuContent = connectTo(
           size="sm"
           onClick={() => {
             const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
-            setActiveDialog(dialog);
+            addActiveDialog(dialog);
           }}
           className={`${block}__custom-button`}
         >

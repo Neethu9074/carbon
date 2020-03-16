@@ -9,17 +9,17 @@ import {
   addApplicationConfig,
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
+import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
 import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
 } from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
-import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -135,7 +135,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                           <Button
                             kind="action"
                             onClick={() =>
-                              setActiveDialog(
+                              addActiveDialog(
                                 <EditTagFilterDialog
                                   tagFilters={filters.tagFilter}
                                   timeConfig={filters.timeConfig}
@@ -184,7 +184,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                               conjunction: matchSpecification.get('conjunction').value
                             },
                             onClick: () =>
-                              setActiveDialog(
+                              addActiveDialog(
                                 <EditTagFilterDialog
                                   tagFilter={{
                                     name: matchSpecification.get('key').value,

@@ -5,7 +5,7 @@ import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { deepCopy } from 'in-services/util/object';
@@ -57,7 +57,7 @@ function CustomDashboardLoader(props) {
   );
 
   function onDeleteCustomDashboard() {
-    setActiveDialog(
+    addActiveDialog(
       <ConfirmationDialog
         header="Confirm deletion"
         description={

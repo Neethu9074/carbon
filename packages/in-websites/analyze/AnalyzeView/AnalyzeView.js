@@ -29,7 +29,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
@@ -91,7 +91,7 @@ export default compose(
       availableMetrics,
       onChangeOrder: onChange,
       openMetricSelector: () => {
-        setActiveDialog(
+        addActiveDialog(
           <MetricSelector
             title="Select Metrics"
             help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
@@ -176,7 +176,7 @@ export default compose(
       configuredRawDataSupportedMetrics
     }) => ({
       openEditGroupDialog() {
-        setActiveDialog(
+        addActiveDialog(
           <WebsiteEditGroupDialog
             setGroup={setGroup}
             group={group}

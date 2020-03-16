@@ -4,7 +4,7 @@ import React from 'react';
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog/NewDashboardDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
 import { navigationParameters$ } from 'in-stores/navigation';
@@ -55,5 +55,5 @@ function determineActiveDashboard(result, navigationParameters, titleOverwrite) 
 }
 
 function onCreateNewDashboard() {
-  setActiveDialog(<NewDashboardDialog />);
+  addActiveDialog(<NewDashboardDialog />);
 }

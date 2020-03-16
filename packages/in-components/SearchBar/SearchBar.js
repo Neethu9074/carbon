@@ -5,7 +5,7 @@ import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
@@ -113,7 +113,7 @@ function onShowKeywordHelp(e) {
 
 function save(query) {
   setValues('', 'New filter', query);
-  setActiveDialog(<SaveDialog />);
+  addActiveDialog(<SaveDialog />);
 }
 
 const ClearQueryButton = connectTo(

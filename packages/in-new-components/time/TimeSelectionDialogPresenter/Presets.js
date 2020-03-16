@@ -4,7 +4,7 @@ import TimePresetsForReleases, { getReleasesSubscribeEvent } from 'in-new-compon
 import SelectableItem from 'in-new-components/time/TimeSelectionDialogPresenter/SelectableItem';
 import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/timePresets';
 import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { fromNowAccurately } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
@@ -67,7 +67,7 @@ function ReleasesPresets({ onChange, timeConfig, result, closeOverlay }) {
         kind="secondary"
         onClick={() => {
           closeOverlay();
-          setActiveDialog(
+          addActiveDialog(
             <Dialog className={locals.dialog} title="Search for a release" onClose={() => close()}>
               <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={5} />
             </Dialog>

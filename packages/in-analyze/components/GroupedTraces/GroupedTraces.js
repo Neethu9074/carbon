@@ -1,4 +1,5 @@
 import { compose, withProps, withState } from 'recompose';
+import theme from 'in-themes';
 import React from 'react';
 
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
@@ -9,7 +10,7 @@ import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -17,7 +18,6 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import theme from 'in-themes';
 
 const defaultCountMetric = dataSource => {
   return {
@@ -59,7 +59,7 @@ export default compose(
     onChangeOrder: onChange,
     showGraph: showGraph,
     openMetricSelector: () => {
-      setActiveDialog(
+      addActiveDialog(
         <MetricSelector
           title="Select Metrics"
           help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."

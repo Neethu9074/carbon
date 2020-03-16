@@ -25,11 +25,11 @@ import {
 import MobileAppEditGroupDialog from 'in-mobile-apps/analyze/AnalyzeView/MobileAppEditGroupDialog';
 import GroupedBeacons from 'in-mobile-apps/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
 import EmptyAnalyzeView from 'in-mobile-apps/analyze/AnalyzeView/EmptyAnalyzeView';
-import { availableGroupingTags, availableFilterTags } from 'in-mobile-apps/tags';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { availableGroupingTags, availableFilterTags } from 'in-mobile-apps/tags';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import Beacons from 'in-mobile-apps/analyze/AnalyzeView/Beacons/Beacons';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
@@ -91,7 +91,7 @@ export default compose(
       availableMetrics,
       onChangeOrder: onChange,
       openMetricSelector: () => {
-        setActiveDialog(
+        addActiveDialog(
           <MetricSelector
             title="Select Metrics"
             help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
@@ -176,7 +176,7 @@ export default compose(
       configuredRawDataSupportedMetrics
     }) => ({
       openEditGroupDialog() {
-        setActiveDialog(
+        addActiveDialog(
           <MobileAppEditGroupDialog
             setGroup={setGroup}
             group={group}

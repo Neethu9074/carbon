@@ -11,7 +11,7 @@ import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceCha
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -132,7 +132,7 @@ function onUpdateAllAgents({ agentSnapshots }) {
 }
 
 function updateAllAgents({ agentSnapshots }) {
-  setActiveDialog(
+  addActiveDialog(
     <ConfirmationDialog
       header="Confirm update of all agents"
       description={
@@ -164,7 +164,7 @@ function onResetAllAgents({ agentSnapshots }) {
 }
 
 function resetAllAgents({ agentSnapshots }) {
-  setActiveDialog(
+  addActiveDialog(
     <ConfirmationDialog
       header="Confirm reset of all agents"
       description={

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -14,7 +14,7 @@ import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
 import Button from 'in-new-components/Button';
 import { getCodeView } from 'in-sdk/snapshot';
@@ -151,7 +151,7 @@ function getSource(snapshot) {
   if (!className) {
     return;
   }
-  setActiveDialog(getCodeView(snapshot, className));
+  addActiveDialog(getCodeView(snapshot, className));
 }
 
 function getPackage(snapshot) {
@@ -159,7 +159,7 @@ function getPackage(snapshot) {
   if (!packageName) {
     return;
   }
-  setActiveDialog(getPackageView(snapshot, packageName));
+  addActiveDialog(getPackageView(snapshot, packageName));
 }
 
 function getPackageView(snapshot, packageName) {

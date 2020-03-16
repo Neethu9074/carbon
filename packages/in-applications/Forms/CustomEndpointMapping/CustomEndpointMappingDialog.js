@@ -4,20 +4,20 @@ import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 import { get } from 'lodash';
 
+import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import {
   createNewEndpointConfig,
   updateEndpointConfig,
   addEndpointConfig,
   getEndpointConfig
 } from 'in-api/endpointConfiguration';
-import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -80,7 +80,7 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
                           <Button
                             kind="action"
                             onClick={() =>
-                              setActiveDialog(
+                              addActiveDialog(
                                 <EndpointExtractionRuleDialog
                                   ruleIndex={0}
                                   rules={form.get('rules')}

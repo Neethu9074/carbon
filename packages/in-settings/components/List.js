@@ -8,7 +8,7 @@ import theme from 'in-themes';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
@@ -397,7 +397,7 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
                   if (disabled) {
                     return;
                   }
-                  setActiveDialog(
+                  addActiveDialog(
                     <ConfirmationDialog
                       header="Please Confirm"
                       description={
