@@ -7,10 +7,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityWithIcon.mless';
 
-export default function EntityWithIcon({ label, icon, iconPath, rootOrUnknown, length }) {
+export default function EntityWithIcon({ label, icon, iconPath, rootOrUnknown, length, iconSize }) {
   return (
     <div className={locals.wrapper}>
-      {(icon || iconPath) && <SvgIcon className={locals.entityIcon} type={icon} iconPath={iconPath} />}
+      {(icon || iconPath) && <SvgIcon className={locals.entityIcon} type={icon} iconPath={iconPath} size={iconSize} />}
       <span
         className={evaluateClassNames({
           [locals.label]: true,
@@ -28,5 +28,6 @@ EntityWithIcon.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.string,
   rootOrUnknown: PropTypes.bool,
-  length: PropTypes.number
+  length: PropTypes.number,
+  iconSize: PropTypes.string
 };
