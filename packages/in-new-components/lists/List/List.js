@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
@@ -9,6 +9,8 @@ import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './List.mless';
+
+export { default as ColumnizedContent } from 'in-new-components/lists/List/ColumnizedContent';
 
 export const LoadMoreLi = LoadMoreLiComponent;
 export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
@@ -30,23 +32,12 @@ export function Ul({ framed = true, className, children }) {
 }
 
 export function Li(props) {
-  const {
-    className,
-    renderActions,
-    children,
-    onClick,
-    size,
-    renderNestedContent,
-    href,
-    href$,
-    style,
-    noAlternatingBg
-  } = props;
+  const { className, children, onClick, size, renderNestedContent, href, href$, style, noAlternatingBg } = props;
 
   const [open, setOpen] = useState(false);
 
   let itemElement = (
-    <Fragment>
+    <>
       <div
         className={evaluateClassNames({
           [locals.itemContent]: true,
@@ -59,9 +50,8 @@ export function Li(props) {
       >
         {children}
 
-        {(renderActions || renderNestedContent) && (
+        {renderNestedContent && (
           <div className={locals.actions}>
-            {renderActions && renderActions()}
             {renderNestedContent && (
               <SvgIcon
                 className={locals.expandIcon}
@@ -75,7 +65,7 @@ export function Li(props) {
         )}
       </div>
       {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
-    </Fragment>
+    </>
   );
 
   return (

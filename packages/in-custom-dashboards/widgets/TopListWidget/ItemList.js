@@ -23,8 +23,8 @@ function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkele
     <Ul className={locals.list}>
       {result.data.items.map((item, rowIndex) => (
         <Li key={rowIndex} className={locals.listItem} href$={getItemLink(item)}>
-          {columnDefinitions.map(({ width, ellipsis, getContent }, i2) => (
-            <Cell key={i2} width={width} ellipsis={ellipsis}>
+          {columnDefinitions.map(({ width, getContent }, i2) => (
+            <Cell key={i2} width={width}>
               {getContent(item, { result, timeConfig })}
             </Cell>
           ))}
