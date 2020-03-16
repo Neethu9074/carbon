@@ -2,7 +2,7 @@ import React from 'react';
 
 import MetricConfiguratorDialog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfiguratorDialog';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
@@ -34,7 +34,7 @@ export default function DataSeriesFormComponent({ axisName, form, onChange }) {
 }
 
 function showMetricConfigurationDialog(onChange, axisName, metricConfiguration, i) {
-  setActiveDialog(
+  addActiveDialog(
     <MetricConfiguratorDialog
       withLabelConfiguration
       metricConfiguration={metricConfiguration}

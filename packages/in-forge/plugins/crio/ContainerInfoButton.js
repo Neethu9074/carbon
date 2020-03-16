@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ContainerInfoDialog from 'in-forge/plugins/crio/ContainerInfoDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -29,7 +29,7 @@ export default connectTo(
 
     function onClick() {
       if (isOnline) {
-        setActiveDialog(<ContainerInfoDialog snapshot={snapshot} time={Date.now()} />);
+        addActiveDialog(<ContainerInfoDialog snapshot={snapshot} time={Date.now()} />);
       }
     }
   }

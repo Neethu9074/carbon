@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -28,7 +28,7 @@ export default connectTo(
         kind="secondary"
         onClick={() => {
           if (isOnline) {
-            setActiveDialog(
+            addActiveDialog(
               <Prompt
                 header="JVM Heap Dump"
                 description={description}

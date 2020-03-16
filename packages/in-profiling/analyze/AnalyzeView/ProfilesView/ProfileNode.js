@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { treeViewExpanded } from 'in-profiling/tracker';
 import { getCodeView } from 'in-forge/codeView/java';
@@ -178,7 +178,7 @@ function FileNameAndLine({ isOnline, processSnapshot, profileNode }) {
       onClick={e => {
         stopPropagationAndPreventDefault(e);
         if (isOnline) {
-          setActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
+          addActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
         }
       }}
     >

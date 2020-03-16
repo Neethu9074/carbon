@@ -1,11 +1,13 @@
-import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import React from 'react';
+
+import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    activeDialog: activeDialog$
+    activeDialogs: activeDialogs$
   },
-  function DialogPresenter({ activeDialog }) {
-    return activeDialog;
+  function DialogPresenter({ activeDialogs }) {
+    return React.Children.map(activeDialogs, (dialog, index) => React.cloneElement(dialog, { key: index }));
   }
 );

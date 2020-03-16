@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
 import Button from 'in-new-components/Button';
@@ -18,7 +18,7 @@ export default function InviteUserButton({ setMessage }) {
       kind="action"
       onClick={() => {
         track(USER_INVITE);
-        setActiveDialog(<InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId)} />);
+        addActiveDialog(<InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId)} />);
       }}
       icon="lib_openclose_add_circle_outline"
     >

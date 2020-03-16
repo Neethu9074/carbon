@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getSnapshotVersions } from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import EntityVersionListing from 'in-new-components/EntityVersionList/EntityVersionListing';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import VersionTimeline from 'in-new-components/VersionTimeline';
@@ -27,7 +27,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Ent
   return (
     <Button
       kind="secondary"
-      onClick={() => setActiveDialog(<VersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)}
+      onClick={() => addActiveDialog(<VersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)}
     >
       Show snapshot versions
     </Button>

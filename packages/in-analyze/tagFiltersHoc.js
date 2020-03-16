@@ -8,7 +8,7 @@ import {
   filterClearedTracker
 } from 'in-analyze/tracker';
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { createFilter } from 'in-analyze/filterBuilder';
 
 export const tagFilterManipulators = withProps(props => {
@@ -55,7 +55,7 @@ export const tagFilterManipulators = withProps(props => {
       filterClearedTracker();
     },
     onMoreClick() {
-      setActiveDialog(<EditTagFilterDialog {...props} tagFilter={null} forAnalyzeCalls />);
+      addActiveDialog(<EditTagFilterDialog {...props} tagFilter={null} forAnalyzeCalls />);
     },
     trackFilterAdded: filterAddedTracker,
     trackFilterChanged: filterChangedTracker,

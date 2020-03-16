@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import { List } from 'immutable';
 import React from 'react';
 
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getAllFilters, removeFilter } from 'in-api/filters';
 import { createStore } from 'in-stores/store';
@@ -36,7 +36,7 @@ export function refresh() {
 }
 
 export function remove(id, name) {
-  setActiveDialog(
+  addActiveDialog(
     <ConfirmationDialog
       header="Confirm Removal"
       description={

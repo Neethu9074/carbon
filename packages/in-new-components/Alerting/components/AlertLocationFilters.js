@@ -15,7 +15,7 @@ import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilte
 import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
 import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 import locals from './AlertLocationFilters.mless';
 
@@ -60,7 +60,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 }
               }}
               onMoreClick={tagFilter => {
-                setActiveDialog(
+                addActiveDialog(
                   <WebsiteEditTagFilterDialog
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
@@ -93,7 +93,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
         <div className={locals.filterList}>
           <TagFilterListPresenter
             onTagFilterClick={tagFilter => {
-              setActiveDialog(
+              addActiveDialog(
                 <WebsiteEditTagFilterDialog
                   tagFilter={tagFilter}
                   tagFilters={getTagFilters(form)}

@@ -12,7 +12,7 @@ import {
 } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/stores/selectedNode';
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
 import { track, NODEJS_CPU_PROFILING_TOGGLE_NODE } from 'in-services/tracking/tracking';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
@@ -126,7 +126,7 @@ function NodeLabel({ node, snapshot }) {
 function showCodeView(e, snapshot, file) {
   e.preventDefault();
   e.stopPropagation();
-  setActiveDialog(getCodeView(snapshot, file));
+  addActiveDialog(getCodeView(snapshot, file));
 }
 
 function getPercentageOfParent(node, prop, rootNode) {

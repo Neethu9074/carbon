@@ -2,7 +2,7 @@ import { withProps } from 'recompose';
 import React from 'react';
 
 import MobileAppEditTagFilterDialog from 'in-mobile-apps/analyze/AnalyzeView/MobileAppEditTagFilterDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
   withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags, group }) => {
@@ -67,7 +67,7 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
         });
       },
       onMoreClick() {
-        setActiveDialog(
+        addActiveDialog(
           <MobileAppEditTagFilterDialog
             tagFilters={tagFilters}
             setTagFilters={trackedSetTagFilters}
@@ -77,7 +77,7 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
         );
       },
       onTagFilterClick(tagFilter) {
-        setActiveDialog(
+        addActiveDialog(
           <MobileAppEditTagFilterDialog
             tagFilter={tagFilter}
             tagFilters={tagFilters}

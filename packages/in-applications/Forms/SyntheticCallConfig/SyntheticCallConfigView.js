@@ -1,13 +1,13 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { get } from 'lodash';
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
-import { getSyntheticCallConfig, updateSyntheticCallConfig } from 'in-api/syntheticCallConfiguration';
 import CustomSyntheticRuleDialog, {
   getInitialForm as getConfigRuleForm
 } from 'in-applications/Forms/SyntheticCallConfig/CustomSyntheticRuleDialog';
 import MatchedSyntheticEndpoints from 'in-applications/Forms/SyntheticCallConfig/MatchedSyntheticEndpoints';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { getSyntheticCallConfig, updateSyntheticCallConfig } from 'in-api/syntheticCallConfiguration';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -54,7 +54,7 @@ export default function SyntheticCallConfigDialog() {
                         <Button
                           kind="action"
                           onClick={() =>
-                            setActiveDialog(
+                            addActiveDialog(
                               <CustomSyntheticRuleDialog
                                 onSave={newRule =>
                                   updateForm(
@@ -115,7 +115,7 @@ export default function SyntheticCallConfigDialog() {
                               );
                             }}
                             onEdit={() =>
-                              setActiveDialog(
+                              addActiveDialog(
                                 <CustomSyntheticRuleDialog
                                   rule={rule}
                                   form={form}

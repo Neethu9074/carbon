@@ -21,8 +21,8 @@ import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -37,7 +37,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default compose(
   connectTo({
-    activeDialog: activeDialog$
+    isDialogActive: activeDialogs$.map(dialogs => dialogs.length > 0)
   }),
   withUrlDependingState({
     replaceHistory: false,
@@ -109,7 +109,7 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { activeDialog, isRawView, dataSource, filters } = props;
+  const { isDialogActive, isRawView, dataSource, filters } = props;
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views
   // in the index bundle.
   let View = GroupedTraces;
@@ -127,7 +127,7 @@ function AnalyzeView(props) {
       FallbackComponent={EmptyAnalyzeView}
       type={dataSource}
     >
-      {activeDialog && <DisabledBodyScroll />}
+      {isDialogActive && <DisabledBodyScroll />}
       {
         <View
           {...props}
@@ -137,7 +137,7 @@ function AnalyzeView(props) {
             props.onChangeAnalyzeConfig(newState);
           }}
           openEditGroupDialog={() =>
-            setActiveDialog(
+            addActiveDialog(
               <EditGroupDialog
                 {...props}
                 tagFilters={props.tagFilter}

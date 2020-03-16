@@ -38,7 +38,7 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AboutInstanaDialog from 'in-new-components/AboutInstanaDialog';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
@@ -150,7 +150,7 @@ export default function ViewSwitcher({
         <SubViewItem
           label="About Instana"
           onClick={e => {
-            setActiveDialog(<AboutInstanaDialog />);
+            addActiveDialog(<AboutInstanaDialog />);
             onViewSwitched(e, 'About Instana');
           }}
           id="main-nav-about"

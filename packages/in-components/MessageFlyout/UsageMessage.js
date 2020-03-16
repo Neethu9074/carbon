@@ -3,10 +3,9 @@ import React from 'react';
 
 import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import history from 'in-stores/navigation/history';
-
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -61,7 +60,7 @@ export default function UsageMessage({ message }) {
                     e.preventDefault();
                     e.stopPropagation();
                     track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
-                    setActiveDialog(<RequestQuoteDialog />);
+                    addActiveDialog(<RequestQuoteDialog />);
                   }}
                 >
                   Request a quote

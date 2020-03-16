@@ -2,7 +2,7 @@ import { withProps } from 'recompose';
 import React from 'react';
 
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { noop } from 'in-services/util/function';
 
 export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
@@ -68,7 +68,7 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
         });
       },
       onMoreClick() {
-        setActiveDialog(
+        addActiveDialog(
           <WebsiteEditTagFilterDialog
             tagFilters={tagFilters}
             setTagFilters={trackedSetTagFilters}
@@ -78,7 +78,7 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
         );
       },
       onTagFilterClick(tagFilter) {
-        setActiveDialog(
+        addActiveDialog(
           <WebsiteEditTagFilterDialog
             tagFilter={tagFilter}
             tagFilters={tagFilters}

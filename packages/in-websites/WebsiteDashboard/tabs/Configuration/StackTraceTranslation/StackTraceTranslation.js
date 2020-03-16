@@ -1,9 +1,9 @@
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { isNotBlank } from 'in-services/util/string';
@@ -73,7 +73,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
             className={locals.button}
             kind="action"
             onClick={() => {
-              setActiveDialog(<FileDownloadConfigurationDialog onFinished={onFinished} websiteId={websiteId} />);
+              addActiveDialog(<FileDownloadConfigurationDialog onFinished={onFinished} websiteId={websiteId} />);
             }}
             icon="lib_openclose_add_circle_outline"
           >
@@ -81,7 +81,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
           </Button>
         }
         onRowClick={config => {
-          setActiveDialog(
+          addActiveDialog(
             <FileDownloadConfigurationDialog config={config} websiteId={websiteId} onFinished={onFinished} />
           );
         }}

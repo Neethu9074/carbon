@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import CopyButton from 'in-waiting-for-deployment/components/OnboardingWidget/CopyButton';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
@@ -144,7 +144,7 @@ function RichCode(props) {
     <Button
       kind="secondary"
       icon="lib_views_popup"
-      onClick={() => setActiveDialog(<CodeDialog {...props} />)}
+      onClick={() => addActiveDialog(<CodeDialog {...props} />)}
       disabled={!!disabledErrorMessage}
     >
       {title || 'Show config'}

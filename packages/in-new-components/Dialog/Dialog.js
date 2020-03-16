@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import { stopPropagation } from 'in-services/util/function';
@@ -24,7 +24,7 @@ export default function Dialog({
           <div className={locals.header}>
             <h1 className={locals.title}>{title}</h1>
             {renderCustomCloseBehaviour ? (
-              <Fragment>{renderCustomCloseBehaviour()}</Fragment>
+              <>{renderCustomCloseBehaviour()}</>
             ) : (
               <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={onClose} />
             )}

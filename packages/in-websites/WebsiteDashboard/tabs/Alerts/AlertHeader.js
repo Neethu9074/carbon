@@ -9,7 +9,7 @@ import {
 } from 'in-websites/eum-alerting/tracker';
 import { disableAlertConfig, enableAlertConfig, deleteAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import RevisionDropdown from 'in-websites/WebsiteDashboard/tabs/Alerts/RevisionDropdown';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -98,7 +98,7 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
                   spinning={isDeleting}
                   onClick={() => {
                     if (!isDeleting) {
-                      setActiveDialog(
+                      addActiveDialog(
                         <ConfirmationDialog
                           header="Please Confirm"
                           description={

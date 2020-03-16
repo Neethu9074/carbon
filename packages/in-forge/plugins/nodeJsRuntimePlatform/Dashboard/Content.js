@@ -11,7 +11,7 @@ import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
 import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
@@ -238,9 +238,9 @@ function getSource(snapshot) {
   if (!filename) {
     return;
   }
-  setActiveDialog(getCodeView(snapshot, filename));
+  addActiveDialog(getCodeView(snapshot, filename));
 }
 
 function getModuleAnalysis(snapshot) {
-  setActiveDialog(<ModuleAnalysisDialog snapshot={snapshot} />);
+  addActiveDialog(<ModuleAnalysisDialog snapshot={snapshot} />);
 }
