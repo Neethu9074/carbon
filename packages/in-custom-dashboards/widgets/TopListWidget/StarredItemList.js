@@ -2,10 +2,9 @@ import React from 'react';
 
 import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
 import WithStarredItems from 'in-custom-dashboards/widgets/TopListWidget/WithStarredItems';
-import { Cell } from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from './ItemList.mless';
 
@@ -45,27 +44,38 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
   const { id, type, result } = item;
 
   if (!result || isLoading(result)) {
-    const starColumn = columnDefinitions[columnDefinitions.length - 1];
     return (
       <Li>
-        <Cell>
-          <Skeleton className={locals.skeleton} />
-        </Cell>
-        <Cell width="1rem" />
-        <Cell width={starColumn.width}>{starColumn.getContent(item, { id, type })}</Cell>
+        <ColumnizedContent
+          columnDefinitions={[
+            {
+              getContent() {
+                return <Skeleton className={locals.skeleton} />;
+              }
+            },
+            columnDefinitions[columnDefinitions.length - 1]
+          ]}
+          id={id}
+          type={type}
+        />
       </Li>
     );
   }
   if (hasError(result)) {
-    const starColumn = columnDefinitions[columnDefinitions.length - 1];
-    const error = getUniqueErrors(result.errors)[0];
     return (
       <Li>
-        <Cell>
-          <Error>{error}</Error>
-        </Cell>
-        <Cell width="1rem" />
-        <Cell width={starColumn.width}>{starColumn.getContent(item, { id, type })}</Cell>
+        <ColumnizedContent
+          columnDefinitions={[
+            {
+              getContent() {
+                return <Error>{getUniqueErrors(result.errors)[0]}</Error>;
+              }
+            },
+            columnDefinitions[columnDefinitions.length - 1]
+          ]}
+          id={id}
+          type={type}
+        />
       </Li>
     );
   }
@@ -73,12 +83,15 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
   const resolvedItem = result.data ? result.data : result;
 
   return (
-    <Li className={locals.listItem} href$={getItemLink(resolvedItem)}>
-      {columnDefinitions.map(({ width, ellipsis, getContent }, i) => (
-        <Cell key={i} width={width} ellipsis={ellipsis}>
-          {getContent(resolvedItem, { id, type, result, timeConfig })}
-        </Cell>
-      ))}
+    <Li href$={getItemLink(resolvedItem)}>
+      <ColumnizedContent
+        columnDefinitions={columnDefinitions}
+        id={id}
+        type={type}
+        result={result}
+        item={resolvedItem}
+        timeConfig={timeConfig}
+      />
     </Li>
   );
 }

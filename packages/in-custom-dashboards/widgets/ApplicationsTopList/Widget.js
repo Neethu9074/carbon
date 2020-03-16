@@ -134,7 +134,7 @@ function combineResults(applicationResult, metricResult) {
 const columnDefinitions = [
   {
     width: '2rem',
-    getContent(item) {
+    getContent({ item }) {
       const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
       if (maxSeverity !== undefined) {
         return <HealthDot severity={maxSeverity} iconSize={10} />;
@@ -155,7 +155,7 @@ const columnDefinitions = [
     }
   },
   {
-    getContent(item) {
+    getContent({ item }) {
       return (
         <KeyValue
           label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
@@ -168,7 +168,7 @@ const columnDefinitions = [
   },
   {
     width: '3rem',
-    getContent(item) {
+    getContent({ item }) {
       if (item.application.boundaryScope) {
         return (
           <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
@@ -181,7 +181,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item, { result, timeConfig }) {
+    getContent({ item, result, timeConfig }) {
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}
@@ -198,7 +198,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item, { result, timeConfig }) {
+    getContent({ item, result, timeConfig }) {
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}
@@ -216,7 +216,7 @@ const columnDefinitions = [
   },
   {
     width: '14rem',
-    getContent(item, { result, timeConfig }) {
+    getContent({ item, result, timeConfig }) {
       return (
         <SparkChart
           rollup={getSparkChartGranularity(timeConfig)}

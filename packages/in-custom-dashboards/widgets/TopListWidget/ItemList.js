@@ -2,9 +2,9 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { Ul, Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ItemList.mless';
@@ -22,20 +22,17 @@ function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkele
   return (
     <Ul className={locals.list}>
       {result.data.items.map((item, rowIndex) => (
-        <Li key={rowIndex} className={locals.listItem} href$={getItemLink(item)}>
-          {columnDefinitions.map(({ width, getContent }, i2) => (
-            <Cell key={i2} width={width}>
-              {getContent(item, { result, timeConfig })}
-            </Cell>
-          ))}
+        <Li key={rowIndex} href$={getItemLink(item)}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            item={item}
+            result={result}
+            timeConfig={timeConfig}
+          />
         </Li>
       ))}
     </Ul>
   );
-}
-
-export function Cell({ width, children }) {
-  return <div style={{ minWidth: width, flexGrow: !width && 1, overflow: !width && 'hidden' }}>{children}</div>;
 }
 
 function LoadingList({ numSkeletonRows }) {

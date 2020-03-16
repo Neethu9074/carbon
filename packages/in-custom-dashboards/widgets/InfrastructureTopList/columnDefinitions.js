@@ -16,10 +16,10 @@ import connectTo from 'in-hoc/connectTo';
 
 const healthColumn = {
   width: '2rem',
-  getContent({ snapshot }) {
+  getContent({ item }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
-        snapshotId={snapshot.get('id')}
+        snapshotId={item.snapshot.get('id')}
         render={healthInfo => <HealthDot severity={healthInfo && healthInfo.maxSeverity} iconSize={10} />}
       />
     );
@@ -28,8 +28,8 @@ const healthColumn = {
 
 const iconColumn = {
   width: '3rem',
-  getContent({ snapshot }) {
-    return <PluginIcon snapshot={snapshot} size="s" />;
+  getContent({ item }) {
+    return <PluginIcon snapshot={item.snapshot} size="s" />;
   }
 };
 
@@ -39,31 +39,34 @@ export default {
     iconColumn,
     {
       ellipsis: true,
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
-          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getZone(snapshot.get('id'))} />
+          <TwoSnapshotLabels
+            primarySnapshot={item.snapshot}
+            getSecondarySnapshotId={() => getZone(item.snapshot.get('id'))}
+          />
         );
       }
     },
     {
       width: '15rem',
-      getContent({ snapshot }) {
-        const data = snapshot.get('data');
+      getContent({ item }) {
+        const data = item.snapshot.get('data');
         return <KeyValue label="OS" value={`${data.get('os.name', '')} ${data.get('os.version', '')}`} accentuated />;
       }
     },
     {
       width: '5rem',
-      getContent({ snapshot }) {
-        return <KeyValue label="# of CPUs" value={snapshot.getIn(['data', 'cpu.count'], '')} accentuated />;
+      getContent({ item }) {
+        return <KeyValue label="# of CPUs" value={item.snapshot.getIn(['data', 'cpu.count'], '')} accentuated />;
       }
     },
     {
       width: '12rem',
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
           <SparkChartWithMetricValue
-            snapshotId={snapshot.get('id')}
+            snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.used"
             label="CPU Usage"
@@ -78,19 +81,22 @@ export default {
     iconColumn,
     {
       ellipsis: true,
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
-          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
+          <TwoSnapshotLabels
+            primarySnapshot={item.snapshot}
+            getSecondarySnapshotId={() => getHostSnapshotId(item.snapshot)}
+          />
         );
       }
     },
     {
       width: '10rem',
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
           <KeyValue
             label="Created"
-            value={formatDateTime(snapshot.getIn(['data', 'Created'], ''))}
+            value={formatDateTime(item.snapshot.getIn(['data', 'Created'], ''))}
             theme={themes.blue}
             accentuated
           />
@@ -99,11 +105,11 @@ export default {
     },
     {
       width: '10rem',
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
           <KeyValue
             label="Started"
-            value={formatDateTime(snapshot.getIn(['data', 'Started'], ''))}
+            value={formatDateTime(item.snapshot.getIn(['data', 'Started'], ''))}
             theme={themes.blue}
             accentuated
           />
@@ -112,10 +118,10 @@ export default {
     },
     {
       width: '12rem',
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
           <SparkChartWithMetricValue
-            snapshotId={snapshot.get('id')}
+            snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.total_usage"
             label="CPU Usage"
@@ -130,18 +136,21 @@ export default {
     iconColumn,
     {
       ellipsis: true,
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
-          <TwoSnapshotLabels primarySnapshot={snapshot} getSecondarySnapshotId={() => getHostSnapshotId(snapshot)} />
+          <TwoSnapshotLabels
+            primarySnapshot={item.snapshot}
+            getSecondarySnapshotId={() => getHostSnapshotId(item.snapshot)}
+          />
         );
       }
     },
     {
       width: '12rem',
-      getContent({ snapshot }) {
+      getContent({ item }) {
         return (
           <SparkChartWithMetricValue
-            snapshotId={snapshot.get('id')}
+            snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.user"
             label="CPU Usage"

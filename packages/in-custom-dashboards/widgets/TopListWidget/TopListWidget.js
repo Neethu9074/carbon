@@ -116,7 +116,7 @@ function TopListWidget(props) {
               ...columnDefinitions,
               {
                 width: '2rem',
-                getContent(item, { id, type }) {
+                getContent({ id, type }) {
                   return <Star pinned onClick={() => unpinItem(id, type)} />;
                 }
               }
@@ -134,7 +134,7 @@ function TopListWidget(props) {
               ...columnDefinitions,
               {
                 width: '2rem',
-                getContent(item) {
+                getContent({ item }) {
                   return <Star onClick={() => pinItem(getId(item), item)} />;
                 }
               }

@@ -128,24 +128,24 @@ function mapPcfResult(result) {
 const columnDefinitions = [
   {
     width: '2rem',
-    getContent(item) {
+    getContent({ item }) {
       return <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
     }
   },
   {
     width: '3rem',
-    getContent(item) {
+    getContent({ item }) {
       return <SvgIcon type={getIcon(item)} />;
     }
   },
   {
-    getContent(item) {
+    getContent({ item }) {
       return <KeyValue label={getSubTitle(item)} value={getLabel(item)} inverted accentuated />;
     }
   },
   {
     width: '6rem',
-    getContent(item) {
+    getContent({ item }) {
       if (item.isPcf || item.isKubernetes) {
         return null;
       }
@@ -154,7 +154,7 @@ const columnDefinitions = [
   },
   {
     width: '6rem',
-    getContent(item) {
+    getContent({ item }) {
       if (item.isPcf) {
         return null;
       }
@@ -167,7 +167,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item) {
+    getContent({ item }) {
       if (item.isPcf) {
         return <KeyValue label="Instances" value={<InstanceMetric applicationId={item.id} />} accentuated />;
       }
@@ -186,7 +186,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item) {
+    getContent({ item }) {
       if (item.isPcf) {
         return <KeyValue label="Memory Limit" value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
       }

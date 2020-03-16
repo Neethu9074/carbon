@@ -245,7 +245,7 @@ function combineResults(entityResult, metricResult, entityName, flag) {
 const columnDefinitions = [
   {
     width: '2rem',
-    getContent(item) {
+    getContent({ item }) {
       if (!item.isWebsite) {
         return null;
       }
@@ -254,12 +254,12 @@ const columnDefinitions = [
   },
   {
     width: '3rem',
-    getContent(item) {
+    getContent({ item }) {
       return <SvgIcon type={item.isWebsite ? 'lib_website' : 'lib_mobile_app'} />;
     }
   },
   {
-    getContent(item) {
+    getContent({ item }) {
       const { isWebsite } = item;
       return (
         <KeyValue
@@ -273,7 +273,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item, { result, timeConfig }) {
+    getContent({ item, result, timeConfig }) {
       const { isWebsite, metrics } = item;
       return (
         <SparkChart
@@ -291,7 +291,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem',
-    getContent(item, { result, timeConfig }) {
+    getContent({ item, result, timeConfig }) {
       const { isWebsite, metrics } = item;
 
       return (
