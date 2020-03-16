@@ -10,7 +10,7 @@ import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 
-const msFormatter = d => (d < 0 ? 'No activity' : millis(d));
+const msFormatter = d => (d < 0 ? 'No activity' : millis.detailed(d));
 
 export default function MySqlDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
