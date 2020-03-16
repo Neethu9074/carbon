@@ -13,6 +13,7 @@ import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import SaveButton from 'in-components/form/SaveButton';
 import SetBodyColor from 'in-components/SetBodyColor';
 import WithTvMode from 'in-new-components/WithTvMode';
 import Button from 'in-new-components/Button';
@@ -23,17 +24,7 @@ import theme from 'in-themes';
 export default getElementDimensions(CustomDashboardPresenter);
 
 function CustomDashboardPresenter(props) {
-  const {
-    result,
-    config,
-    setConfig,
-    isDeletable,
-    isResizable,
-    isConfigurable,
-    isDraggable,
-    onLayoutChange,
-    width
-  } = props;
+  const { result, config, setConfig, onLayoutChange, width, editable } = props;
 
   return (
     <WithTvMode>
@@ -85,10 +76,10 @@ function CustomDashboardPresenter(props) {
                       onEditWidget={onEditWidget}
                       onRemoveWidget={onRemoveWidget}
                       isEditing
-                      isDeletable={isDeletable}
-                      isResizable={isResizable}
-                      isConfigurable={isConfigurable}
-                      isDraggable={isDraggable}
+                      isDeletable={editable}
+                      isResizable={editable}
+                      isConfigurable={editable}
+                      isDraggable={editable}
                     />
                   )}
                 </Sticky>
@@ -101,11 +92,21 @@ function CustomDashboardPresenter(props) {
   );
 }
 
-function ButtonLine({ onSaveConfiguration }) {
+function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving }) {
+  if (!isSaving && (!editable || !hasChanges)) {
+    return null;
+  }
+
   return (
-    <Button icon="lib_actions_sync" kind="primaryv2" onClick={onSaveConfiguration}>
+    <SaveButton
+      icon="lib_actions_sync"
+      kind="primaryv2"
+      onClick={onSaveConfiguration}
+      type="button"
+      isSaving={isSaving}
+    >
       Save changes
-    </Button>
+    </SaveButton>
   );
 }
 
@@ -114,17 +115,22 @@ function SecondaryButtonLine({
   setTvModeEnabled,
   customDashboardId,
   onDeleteCustomDashboard,
-  onRenameDashboard
+  onRenameDashboard,
+  editable
 }) {
   return (
     <>
-      <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
-        Add Widget
-      </Button>
+      {editable && (
+        <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
+          Add Widget
+        </Button>
+      )}
 
-      <Button kind="secondaryDarker" icon="lib_actions_share">
-        Share
-      </Button>
+      {editable && (
+        <Button kind="secondaryDarker" icon="lib_actions_share">
+          Share
+        </Button>
+      )}
 
       <MoreMenu kind="secondaryDarker">
         <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
@@ -134,13 +140,17 @@ function SecondaryButtonLine({
           setLandingPage={() => setLandingPage(customDashboardId)}
           isLandingPage={pageKey => isLandingPage(pageKey, customDashboardId)}
         />
-        <MoreMenuButton icon="lib_actions_edit" onClick={onRenameDashboard}>
-          Edit Name
-        </MoreMenuButton>
+        {editable && (
+          <MoreMenuButton icon="lib_actions_edit" onClick={onRenameDashboard}>
+            Edit Name
+          </MoreMenuButton>
+        )}
         <MoreMenuButton icon="lib_views_popup">Duplicate</MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
-          Delete
-        </MoreMenuButton>
+        {editable && (
+          <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
+            Delete
+          </MoreMenuButton>
+        )}
       </MoreMenu>
     </>
   );

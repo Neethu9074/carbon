@@ -28,23 +28,30 @@ export function addCustomDashboard(customDashboard) {
       url: `/api/custom-dashboard`,
       headers: getCsrfHeader(),
       data: customDashboard
-    }).map(v => {
-      refreshSignal.emit(true);
-      return v;
+    }).map(res => {
+      if (res?.body?.id) {
+        refreshSignal.emit(res.body.id);
+      }
+      return res;
     })
   );
 }
 
 export const getCustomDashboard = memoize(getCustomDashboardInternal, customDashboardId => customDashboardId, 60000);
 function getCustomDashboardInternal(customDashboardId) {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
-      headers: getCsrfHeader()
-    })
-  );
+  return refreshSignal
+    .startWith(customDashboardId)
+    .filter(id => id === customDashboardId)
+    .flatMap(() =>
+      createObservable(
+        http({
+          method: 'GET',
+          maxRetries: 3,
+          url: `/api/custom-dashboard/${encodeURIComponent(customDashboardId)}`,
+          headers: getCsrfHeader()
+        })
+      )
+    );
 }
 
 export function updateCustomDashboard(customDashboard) {
@@ -56,7 +63,7 @@ export function updateCustomDashboard(customDashboard) {
       headers: getCsrfHeader(),
       data: customDashboard
     }).map(v => {
-      refreshSignal.emit(true);
+      refreshSignal.emit(customDashboard.id);
       return v;
     })
   );
@@ -70,7 +77,7 @@ export function removeCustomDashboard(id) {
       url: `/api/custom-dashboard/${encodeURIComponent(id)}`,
       headers: getCsrfHeader()
     }).map(v => {
-      refreshSignal.emit(true);
+      refreshSignal.emit(id);
       return v;
     })
   );

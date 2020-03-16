@@ -1,4 +1,5 @@
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
+import { isEqual } from 'lodash';
 import React from 'react';
 
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
@@ -27,16 +28,20 @@ export default compose(
         onReset: getInitialState
       }
     ],
-    reducerName: 'setConfig',
-    reducer: (prevState, config) => ({
+    reducerName: 'setState',
+    reducer: (prevState, newState) => ({
       ...prevState,
-      config
+      ...newState
     })
-  })
+  }),
+  withProps(({ setState }) => ({
+    setConfig: config => setState({ config }),
+    setSaving: isSaving => setState({ isSaving })
+  }))
 )(CustomDashboardLoader);
 
 function CustomDashboardLoader(props) {
-  const { dashboardId, config, setConfig } = props;
+  const { dashboardId, config, setConfig, result, isSaving, setSaving } = props;
 
   return (
     <CustomDashboardPresenter
@@ -44,11 +49,9 @@ function CustomDashboardLoader(props) {
       // Reset state when the config changes
       key={dashboardId}
       customDashboardId={dashboardId}
-      isDeletable
-      isResizable
-      isConfigurable
-      isDraggable
-      editable={config && config.writable}
+      editable={config?.writable && !isSaving}
+      hasChanges={hasChanges(result, config)}
+      isSaving={isSaving}
       onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
@@ -87,6 +90,7 @@ function CustomDashboardLoader(props) {
   }
 
   function onSaveConfiguration() {
+    setSaving(true);
     updateCustomDashboard(config).subscribe(result => {
       if (result.progress.loading) {
         return;
@@ -105,12 +109,22 @@ function getInitialState({ result }) {
   if (!result || !result.data) {
     return {
       persistedConfig: null,
-      config: null
+      config: null,
+      isSaving: false
     };
   }
 
   return {
     persistedConfig: result.data,
-    config: deepCopy(result.data)
+    config: deepCopy(result.data),
+    isSaving: false
   };
+}
+
+function hasChanges(result, config) {
+  if (!config || !result?.data) {
+    return false;
+  }
+
+  return !isEqual(result.data, config);
 }
