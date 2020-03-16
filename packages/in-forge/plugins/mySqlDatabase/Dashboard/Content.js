@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -10,7 +10,7 @@ import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 
-const msFormatter = d => (d < 0 ? 'No activity' : millis(d));
+const msFormatter = d => (d < 0 ? 'No activity' : millis.detailed(d));
 
 export default function MySqlDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
