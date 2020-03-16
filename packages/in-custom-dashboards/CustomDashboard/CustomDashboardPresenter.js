@@ -54,9 +54,12 @@ function CustomDashboardPresenter(props) {
                       <DashboardHeader
                         theme={themes.light}
                         label={<DashboardSwitcher titleOverwrite={config && config.title} />}
-                        renderButtonLine={config && (() => <ButtonLine {...props} onAddWidget={onAddWidget} />)}
+                        renderButtonLine={config && (() => <ButtonLine {...props} />)}
                         renderButtonLineSecondary={
-                          config && (() => <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} />)
+                          config &&
+                          (() => (
+                            <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
+                          ))
                         }
                       />
                       {result && <HorizontalIndicator progress={result.progress} />}
