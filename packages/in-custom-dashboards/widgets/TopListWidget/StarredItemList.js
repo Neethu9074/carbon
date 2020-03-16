@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -36,8 +35,8 @@ export default function StarredItemList({ getItem, timeConfig, columnDefinitions
 }
 
 function sort(i1, i2) {
-  const mainKpiValue1 = get(i1, ['result', 'mainKpiValue'], 0);
-  const mainKpiValue2 = get(i2, ['result', 'mainKpiValue'], 0);
+  const mainKpiValue1 = i1?.result?.mainKpiValue || 0;
+  const mainKpiValue2 = i2?.result?.mainKpiValue || 0;
 
   return mainKpiValue2 - mainKpiValue1;
 }
