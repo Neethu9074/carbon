@@ -18,7 +18,9 @@ export default function EntityWithTypeAndIcon({
 }) {
   return (
     <div className={locals.wrapper}>
-      {(iconType || iconPath) && <SvgIcon className={locals.entityIcon} type={iconType} iconPath={iconPath} />}
+      {(iconType || iconPath) && (
+        <SvgIcon className={locals.entityIcon} type={iconType} iconPath={iconPath} size="sm" />
+      )}
       <EntityWithType
         label={label}
         type={type}

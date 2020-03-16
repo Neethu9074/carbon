@@ -15,10 +15,6 @@
     .ellipsis();
   }
 
-  .blue {
-    color: @lib__colors__light-blue800;
-  }
-
   .accentuated {
     font-size: 0.875rem;
   }

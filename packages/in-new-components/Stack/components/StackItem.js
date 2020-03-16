@@ -4,9 +4,9 @@ import { getApplicationDashboard, getServiceDashboard } from 'in-applications/na
 import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
+import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
@@ -33,10 +33,12 @@ export default function StackItem({ item: { id, type, label, healthInfo, metrics
               className={locals.dot}
               severity={SEVERITY_MAP[healthInfo.type]}
               explanation={healthInfo.explanation}
-              iconSize={10}
+              iconSize={8}
             />
-          ) : null}
-          <EntityWithTypeAndIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip />
+          ) : (
+            <div className={locals.dot} />
+          )}
+          <EntityWithIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip iconSize="s" />
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
         </div>
         {isAp ? showApKpis(metrics) : showInfraKpis(id, type)}
