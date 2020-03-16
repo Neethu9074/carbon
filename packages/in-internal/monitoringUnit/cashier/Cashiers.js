@@ -4,7 +4,6 @@ import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetriev
 import { number, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -13,32 +12,23 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    cashieracceptors: getDropwizardWithContext('entity.label:"cashier-acceptor"'),
+    cashieracceptors: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-acceptor"'),
     cashierusagetransfers: getDropwizardWithContext('entity.label:"cashier-usage-transfer"'),
-    cashieringests: getDropwizardWithContext('entity.label:"cashier-ingest"'),
-    cashierrollups: getDropwizardWithContext('entity.label:"cashier-rollup"')
+    cashieringests: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-ingest"'),
+    cashierrollups: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-rollup"')
   },
   function Overview({ cashieracceptors, cashierusagetransfers, cashieringests, cashierrollups, timeConfig }) {
-    if (
-      cashieracceptors.length === 0 ||
-      cashierusagetransfers.length === 0 ||
-      cashieringests === 0 ||
-      cashierrollups === 0
-    ) {
-      return <LoadingIndicator type="dark" />;
-    }
-
     cashieracceptors = sort(cashieracceptors);
-    const acceptorLabels = getLabels(cashieracceptors, /^(fleet-worker-\d+).*$/i);
+    const acceptorLabels = getLabels(cashieracceptors, /^(k8s-worker-\d+).*$/i);
 
     cashierusagetransfers = sort(cashierusagetransfers);
     const cashierusagetransfersLabels = getLabels(cashierusagetransfers, /^(fleet-worker-\d+).*$/i);
 
     cashieringests = sort(cashieringests);
-    const cashieringestsLabels = getLabels(cashieringests, /^(fleet-worker-\d+).*$/i);
+    const cashieringestsLabels = getLabels(cashieringests, /^(k8s-worker-\d+).*$/i);
 
     cashierrollups = sort(cashierrollups);
-    const cashierrollupsLabels = getLabels(cashierrollups, /^(fleet-worker-\d+).*$/i);
+    const cashierrollupsLabels = getLabels(cashierrollups, /^(k8s-worker-\d+).*$/i);
 
     return (
       <div>
