@@ -34,6 +34,7 @@ function DatePickerInput({ open, onChange, refSetter, inputProps, close }) {
   return (
     <Input
       type="text"
+      autoComplete="off"
       onChange={e => onChange(e.target.value)}
       onKeyDown={e => {
         // keyCode is deprecated and code is not yet supported everywhere
