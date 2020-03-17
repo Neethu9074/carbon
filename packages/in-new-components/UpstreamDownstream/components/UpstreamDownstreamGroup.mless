@@ -8,9 +8,9 @@
     align-items: flex-end;
   }
 
-  .relationshipText {
-    color: @lib__colors__blue800;
+  .groupHeadText {
     margin-bottom: 0.125rem;
+    font-weight: 500;
   }
 
   .seeAll {

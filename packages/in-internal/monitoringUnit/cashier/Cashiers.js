@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import { number, millis } from 'in-services/formatters/number';
+import { number, millis, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -147,6 +147,40 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
+        <Columize>
+          <DashboardSection title={'Kafka Lag Timer (99th)'}>
+            <Chart
+              snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashierusagetransfers.map(
+                  () =>
+                    'metrics.timers.com.instana.cashierusagetransfer.service.processing.PayloadAcceptor.kafka-lag.99th'
+                ),
+                labels: cashierusagetransfersLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={'Kafka Lag Timer (Mean)'}>
+            <Chart
+              snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashierusagetransfers.map(
+                  () =>
+                    'metrics.timers.com.instana.cashierusagetransfer.service.processing.PayloadAcceptor.kafka-lag.mean'
+                ),
+                labels: cashierusagetransfersLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
 
         <h2>Cashier Ingest</h2>
         <Columize>
@@ -226,7 +260,40 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
-
+        <Columize>
+          <DashboardSection title={'Kafka Lag Timer (99th)'}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.timers.com.instana.cashieringest.service.processing.PayloadAcceptor.kafka-lag-timer.99th'
+                ),
+                labels: cashieringestsLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={'Kafka Lag Timer (Mean)'}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.timers.com.instana.cashieringest.service.processing.PayloadAcceptor.kafka-lag-timer.mean'
+                ),
+                labels: cashieringestsLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
         <h2>Cashier Rollups</h2>
         <Columize>
           <DashboardSection title={'Create And Insert Hourly Payload Rollups (rate)'}>
