@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import theme from 'in-themes';
 
 import { formatDuration, formatDateTime } from 'in-services/formatters/date';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
@@ -7,7 +8,6 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
-import theme from 'in-themes';
 
 import locals from './VersionTimeline.mless';
 
@@ -26,34 +26,38 @@ function VersionTimeline({ onVersionClick, width, getTooltip, from, to, selected
 
   return (
     <div className={locals.view}>
-      <BeginningGap firstVersion={versions[0]} scale={scale} />
-      {versions.map((version, i) => {
-        const left = Math.max(0, scale.getRange(version.from));
-        return (
-          <Fragment key={i}>
-            <Tooltip
-              themeStyle="light"
-              content={<TooltipContent from={from} to={to} getTooltip={getTooltip} version={version} />}
-              align={getTooltipAlign(left)}
-            >
-              <div
-                className={evaluateClassNames({
-                  [locals.version]: true,
-                  [locals.selected]: selectedVersion && selectedVersion.from === version.from,
-                  [locals.even]: i % 2 === 0
-                })}
-                style={{
-                  left,
-                  width: scale.getRange(version.to || to) - left
-                }}
-                onClick={() => onVersionClick(version)}
-              />
-            </Tooltip>
-            <IntermediateGap version={version} nextVersion={versions[i + 1]} scale={scale} />
-          </Fragment>
-        );
-      })}
-      <EndingGap lastVersion={versions[versions.length - 1]} scale={scale} />
+      {versions.length > 0 && (
+        <>
+          <BeginningGap firstVersion={versions[0]} scale={scale} />
+          {versions.map((version, i) => {
+            const left = Math.max(0, scale.getRange(version.from));
+            return (
+              <Fragment key={i}>
+                <Tooltip
+                  themeStyle="light"
+                  content={<TooltipContent from={from} to={to} getTooltip={getTooltip} version={version} />}
+                  align={getTooltipAlign(left)}
+                >
+                  <div
+                    className={evaluateClassNames({
+                      [locals.version]: true,
+                      [locals.selected]: selectedVersion && selectedVersion.from === version.from,
+                      [locals.even]: i % 2 === 0
+                    })}
+                    style={{
+                      left,
+                      width: scale.getRange(version.to || to) - left
+                    }}
+                    onClick={() => onVersionClick(version)}
+                  />
+                </Tooltip>
+                <IntermediateGap version={version} nextVersion={versions[i + 1]} scale={scale} />
+              </Fragment>
+            );
+          })}
+          <EndingGap lastVersion={versions[versions.length - 1]} scale={scale} />
+        </>
+      )}
       <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />
     </div>
   );

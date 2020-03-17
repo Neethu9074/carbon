@@ -9,7 +9,6 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
-
 import routes from 'in-client/js/routes/mainRoutes';
 
 import 'in-themes/foundation.less';
