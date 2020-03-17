@@ -133,7 +133,7 @@ AlertProperties.propTypes = {
   getTitlePlaceholder: PropTypes.func.isRequired,
   isReadOnly: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  trackAlertLevelChanged: PropTypes.func.isRequired,
+  trackAlertLevelChanged: PropTypes.func,
   trackDescriptionChanged: PropTypes.func,
   trackTitleChanged: PropTypes.func,
   trackTriggerChanged: PropTypes.func
