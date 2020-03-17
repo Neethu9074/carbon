@@ -2,30 +2,32 @@ import { compose, withState } from 'recompose';
 import React, { useState } from 'react';
 
 import {
-  websitesAlertingAlertRevisionChanged,
-  websitesAlertingAlertDeleted,
-  websitesAlertingAlertResumed,
-  websitesAlertingAlertPaused,
-  websitesAlertingAlertEdit
-} from 'in-websites/eum-alerting/tracker';
-import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
   deleteAlertConfig
-} from 'in-websites/api/websiteAlertConfig';
-import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
+} from 'in-applications/api/applicationAlertConfig';
+import {
+  applicationsAlertingAlertRevisionChanged,
+  applicationsAlertingAlertEdit,
+  applicationsAlertingAlertPaused,
+  applicationsAlertingAlertResumed,
+  applicationsAlertingAlertDeleted
+} from 'in-applications/alerting/tracker';
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-applications/navigation/matrix';
+import ApplicationSmartAlertConfigDialog from 'in-applications/alerting/Dialog/ApplicationSmartAlertConfigDialog';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
-import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
-import { alertsTab, alertsTabListFullyQualified } from 'in-websites/navigation/paths';
-import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
-import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
+import getApplication from 'in-subscription/application/getApplication';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import getWebsite from 'in-subscription/website/getWebsite';
+import { alertsTab } from 'in-applications/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 
@@ -39,8 +41,8 @@ export default compose(
       ? getAlertConfig(revision.id, revision.created)
       : getAlertConfig(alertConfigId, alertConfigCreated);
     const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
-    const websiteLabel$ = alertConfig$.flatMap(({ websiteId }) =>
-      getWebsite({ id: websiteId }).map(({ data }) => data && data.label)
+    const applicationName$ = alertConfig$.flatMap(({ applicationId }) =>
+      getApplication({ id: applicationId }).map(({ data }) => data && data.label)
     );
 
     return {
@@ -48,7 +50,7 @@ export default compose(
       alertConfigVersions: alertConfigVersions$,
       alertConfigError: alertConfig$.errors(),
       alertConfigVersionsError: alertConfigVersions$.errors(),
-      websiteLabel: websiteLabel$
+      applicationName: applicationName$
     };
   })
 )(Alert);
@@ -64,7 +66,7 @@ function Alert({
   alertConfigVersionsError,
   setRevision,
   triggerReload,
-  websiteLabel
+  applicationName
 }) {
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
@@ -77,13 +79,15 @@ function Alert({
   return (
     <>
       {dialogOpen && (
-        <AlertConfigDialog
+        <ApplicationSmartAlertConfigDialog
+          formData={{
+            name: applicationName,
+            ...alertConfig
+          }}
           onClose={() => {
             setDialogOpen(false);
             triggerReload(Math.random());
           }}
-          formData={alertConfig}
-          websiteLabel={websiteLabel}
           editMode
         />
       )}
@@ -94,7 +98,7 @@ function Alert({
           setRevision={setRevision}
           openDialog={() => {
             setDialogOpen(true);
-            websitesAlertingAlertEdit(alertConfig.id);
+            applicationsAlertingAlertEdit(alertConfig.id);
           }}
           fullyQualifiedAlertsList={alertsTabListFullyQualified}
           doEnableConfig$={enableAlertConfig}
@@ -102,19 +106,17 @@ function Alert({
           doDeleteConfig$={deleteAlertConfig}
           onConfigStateChanged={(configId, enabled) => {
             if (enabled) {
-              websitesAlertingAlertPaused(configId);
+              applicationsAlertingAlertPaused(configId);
             } else {
-              websitesAlertingAlertResumed(configId);
+              applicationsAlertingAlertResumed(configId);
             }
           }}
-          onConfigDeleted={websitesAlertingAlertDeleted}
-          onConfigRevisionChanged={websitesAlertingAlertRevisionChanged}
+          onConfigDeleted={applicationsAlertingAlertDeleted}
+          onConfigRevisionChanged={applicationsAlertingAlertRevisionChanged}
         />
 
         <Row>
-          <Col xs={6}>
-            <AlertConfiguration alertConfig={alertConfig} websiteLabel={websiteLabel} />
-          </Col>
+          <Col xs={6}>{/* TODO: application specific AlertConfiguration component */}</Col>
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
       </div>

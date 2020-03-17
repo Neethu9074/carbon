@@ -3,9 +3,9 @@ import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMe
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
-import Alerts from 'in-applications/Dashboards/application/tabs/Alerts/Alerts';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
+import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import { role } from 'in-stores/user';

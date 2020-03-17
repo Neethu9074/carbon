@@ -13,8 +13,8 @@ import {
   deleteAlertConfig
 } from 'in-applications/api/applicationAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { getMetricLabel, getBlueprintLabel } from 'in-applications/alerting/form/formUtils';
-import { alertTab, alertTabFullyQualified } from 'in-applications/navigation/paths';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -75,8 +75,8 @@ export default function Alerts({ applicationName, applicationId }) {
       noDataMessage="No alert configured."
       onRowClick={config =>
         mutateUrl(location => {
-          location.pathname = alertTabFullyQualified;
-          setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, config.id);
+          location.pathname = alertsTabDetailsFullyQualified;
+          setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
         })
       }
     />

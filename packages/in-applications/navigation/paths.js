@@ -25,8 +25,9 @@ export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
 
-export const alertTab = '/alerts';
-export const alertTabFullyQualified = `${applicationDashboard}${alertTab}/details`;
+export const alertsTab = '/alerts';
+export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
+export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,
@@ -111,9 +112,9 @@ function getDashboard({
 
 export function goToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
   mutateUrl(location => {
-    location.pathname = alertTabFullyQualified;
+    location.pathname = alertsTabDetailsFullyQualified;
     setOrDeleteMatrixKey(location, applicationDashboard, applicationIdMatrixParam, applicationId);
-    setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, alertConfigId);
-    setOrDeleteMatrixKey(location, alertTab, alertCreatedMatrixParam, alertConfigVersion);
+    setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, alertConfigId);
+    setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
   });
 }

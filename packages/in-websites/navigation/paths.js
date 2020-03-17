@@ -57,8 +57,9 @@ export const usersTab = '/users';
 export const usersTabFullyQualified = `${websitePathFullyQualified}${usersTab}`;
 export const customEventsTab = '/customEvents';
 export const customEventsTabFullyQualified = `${websitePathFullyQualified}${customEventsTab}`;
-export const alertTab = '/alerts';
-export const alertTabFullyQualified = `${websitePathFullyQualified}${alertTab}/details`;
+export const alertsTab = '/alerts';
+export const alertsTabListFullyQualified = `${websitePathFullyQualified}${alertsTab}`;
+export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
 export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${websitePathFullyQualified}${configurationTab}`;
@@ -67,12 +68,6 @@ export const configurationOptionsFullyQualified = `${configurationTabFullyQualif
 export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
-
-export function getLinkToAlerts() {
-  return getModifiedUrlStream(params => {
-    params.pathname = `${websitePathFullyQualified}${alertTab}`;
-  });
-}
 
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;
@@ -208,9 +203,9 @@ export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
 
 export function goToAlertConfig(alertConfigId, alertConfigVersion, websiteId) {
   mutateUrl(location => {
-    location.pathname = alertTabFullyQualified;
+    location.pathname = alertsTabDetailsFullyQualified;
     setOrDeleteMatrixKey(location, websitePath, websiteIdMatrixParam, websiteId);
-    setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, alertConfigId);
-    setOrDeleteMatrixKey(location, alertTab, alertCreatedMatrixParam, alertConfigVersion);
+    setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, alertConfigId);
+    setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
   });
 }

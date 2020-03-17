@@ -123,6 +123,11 @@ export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
 export const APPLICATIONS_ALERTING_LIST_ALERT_PAUSED = 'applications.alerting.list.alert.paused';
 export const APPLICATIONS_ALERTING_LIST_ALERT_DELETED = 'applications.alerting.list.alert.deleted';
 export const APPLICATIONS_ALERTING_LIST_ALERT_RESUMED = 'applications.alerting.list.alert.resumed';
+export const APPLICATIONS_ALERTING_ALERT_PAUSED = 'applications.alerting.alert.paused';
+export const APPLICATIONS_ALERTING_ALERT_DELETED = 'applications.alerting.alert.deleted';
+export const APPLICATIONS_ALERTING_ALERT_RESUMED = 'applications.alerting.alert.resumed';
+export const APPLICATIONS_ALERTING_ALERT_EDIT = 'applications.alerting.alert.edit';
+export const APPLICATIONS_ALERTING_ALERT_REVISION_CHANGED = 'applications.alerting.alert.revisionChanged';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

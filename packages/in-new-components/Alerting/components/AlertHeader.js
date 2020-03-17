@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
-import {
-  websitesAlertingAlertRevisionChanged,
-  websitesAlertingAlertDeleted,
-  websitesAlertingAlertPaused,
-  websitesAlertingAlertResumed
-} from 'in-websites/eum-alerting/tracker';
-import { disableAlertConfig, enableAlertConfig, deleteAlertConfig } from 'in-websites/api/websiteAlertConfig';
-import RevisionDropdown from 'in-websites/WebsiteDashboard/tabs/Alerts/RevisionDropdown';
+import RevisionDropdown from 'in-new-components/Alerting/components/RevisionDropdown';
+import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getLinkToAlerts } from 'in-websites/navigation/paths';
 import TemporaryMessage from 'in-components/TemporaryMessage';
-import { mutateUrl } from 'in-stores/navigation/navigation';
 import Message from 'in-new-components/Message/Message';
 import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -23,10 +15,21 @@ import Button from 'in-new-components/Button';
 import Pill from 'in-new-components/Pill';
 import { role } from 'in-stores/user';
 
-import alertsLocals from './Alerts.mless';
 import locals from './AlertHeader.mless';
 
-export default function AlertHeader({ alertConfig, alertConfigVersions, setRevision, openDialog }) {
+export default function AlertHeader({
+  alertConfig,
+  alertConfigVersions,
+  setRevision,
+  openDialog,
+  fullyQualifiedAlertsList,
+  doEnableConfig$,
+  doDisableConfig$,
+  doDeleteConfig$,
+  onConfigStateChanged,
+  onConfigDeleted,
+  onConfigRevisionChanged
+}) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
   const isDeletedConfig = alertConfig.readOnly && alertRevision === alertConfigVersions.length;
   const isNotLatestRevision = alertRevision < alertConfigVersions.length;
@@ -35,9 +38,53 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
   const [isToggling, setIsToggling] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const doToggleEnabled = () => {
+    setIsToggling(true);
+
+    const toggle$ = alertConfig.enabled ? doDisableConfig$(alertConfig.id) : doEnableConfig$(alertConfig.id);
+
+    toggle$.once(() => {
+      setIsToggling(false);
+      if (onConfigStateChanged) {
+        onConfigStateChanged(alertConfig.id, alertConfig.enabled);
+      }
+
+      // setting the revision will cause a reload of the page. a missing created data will fetch the newest version
+      setRevision({ id: alertConfig.id });
+    });
+
+    toggle$.errors().once(error => {
+      setIsToggling(false);
+
+      const errorMessage = `Failed to ${alertConfig.enabled ? 'disable' : 'enable'} alert config with ID ${
+        alertConfig.id
+      }: ${error.message}`;
+      setErrorMessage(errorMessage);
+    });
+  };
+
+  const doDelete = () => {
+    setIsDeleting(true);
+    const deletion$ = doDeleteConfig$(alertConfig.id);
+
+    deletion$.once(() => {
+      if (onConfigDeleted) {
+        onConfigDeleted(alertConfig.id);
+      }
+      mutateUrl(location => {
+        location.pathname = fullyQualifiedAlertsList;
+      });
+    });
+    deletion$.errors().once(error => {
+      setIsDeleting(false);
+      const errorMessage = `Failed to remove alert config with ID ${alertConfig.id}: ${error.message}`;
+      setErrorMessage(errorMessage);
+    });
+  };
+
   return (
     <div>
-      <BackButton label="Back to list of alerts" href$={getLinkToAlerts()} withoutMargin />
+      <BackButton label="Back to list of alerts" href$={getLinkToAlerts(fullyQualifiedAlertsList)} withoutMargin />
 
       {errorMessage && (
         <TemporaryMessage id={errorMessage} message={errorMessage} type="error" onHide={() => setErrorMessage(null)} />
@@ -48,8 +95,8 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
           <SvgIcon
             className={evaluateClassNames({
               [locals.alertIcon]: true,
-              [alertsLocals.alertIconSeverityLow]: alertConfig.severity <= 5,
-              [alertsLocals.alertIconSeverityHigh]: alertConfig.severity > 5
+              [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
+              [locals.alertIconSeverityHigh]: alertConfig.severity > 5
             })}
             size="l"
             type="lib_alerts_alert"
@@ -68,7 +115,9 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
               alertConfigVersions={alertConfigVersions}
               setRevision={revision => {
                 setRevision(revision);
-                websitesAlertingAlertRevisionChanged(revision);
+                if (onConfigRevisionChanged) {
+                  onConfigRevisionChanged(revision);
+                }
               }}
               alertRevision={alertRevision}
             />
@@ -85,7 +134,7 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
                   spinning={isToggling}
                   onClick={() => {
                     if (!isToggling) {
-                      doToggleEnabled(alertConfig, setIsToggling, setRevision, setErrorMessage);
+                      doToggleEnabled();
                     }
                   }}
                 />
@@ -115,7 +164,7 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
                           bButtonLabel="Remove"
                           onB={() => {
                             close();
-                            doDelete(alertConfig, setIsDeleting, setErrorMessage);
+                            doDelete();
                           }}
                           bButtonIcon="lib_actions_delete"
                         />
@@ -145,47 +194,23 @@ export default function AlertHeader({ alertConfig, alertConfigVersions, setRevis
   );
 }
 
-function doToggleEnabled(config, setIsToggling, setRevision, setErrorMessage) {
-  setIsToggling(true);
+AlertHeader.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  alertConfigVersions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setRevision: PropTypes.func.isRequired,
+  openDialog: PropTypes.func.isRequired,
+  fullyQualifiedAlertsList: PropTypes.string.isRequired,
+  doEnableConfig$: PropTypes.func.isRequired,
+  doDisableConfig$: PropTypes.func.isRequired,
+  doDeleteConfig$: PropTypes.func.isRequired,
+  onConfigStateChanged: PropTypes.func,
+  onConfigDeleted: PropTypes.func,
+  onConfigRevisionChanged: PropTypes.func
+};
 
-  const toggle$ = config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id);
-
-  toggle$.once(() => {
-    setIsToggling(false);
-
-    if (config.enabled) {
-      websitesAlertingAlertPaused(config.id);
-    } else {
-      websitesAlertingAlertResumed(config.id);
-    }
-    // setting the revision will cause a reload of the page. a missing created data will fetch the newest version
-    setRevision({ id: config.id });
-  });
-
-  toggle$.errors().once(error => {
-    setIsToggling(false);
-
-    const errorMessage = `Failed to ${config.enabled ? 'disable' : 'enable'} alert config with ID ${config.id}: ${
-      error.message
-    }`;
-    setErrorMessage(errorMessage);
-  });
-}
-
-function doDelete(config, setIsDeleting, setErrorMessage) {
-  setIsDeleting(true);
-  const deletion$ = deleteAlertConfig(config.id);
-
-  deletion$.once(() => {
-    websitesAlertingAlertDeleted(config.id);
-    mutateUrl(location => {
-      location.pathname = `${websitePathFullyQualified}/alerts`;
-    });
-  });
-  deletion$.errors().once(error => {
-    setIsDeleting(false);
-    const errorMessage = `Failed to remove alert config with ID ${config.id}: ${error.message}`;
-    setErrorMessage(errorMessage);
+function getLinkToAlerts(fullyQualifiedAlertsList) {
+  return getModifiedUrlStream(params => {
+    params.pathname = fullyQualifiedAlertsList;
   });
 }
 

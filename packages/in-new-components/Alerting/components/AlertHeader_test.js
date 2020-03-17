@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 
-import { getRevision } from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertHeader';
+import { getRevision } from 'in-new-components/Alerting/components/AlertHeader';
 
 describe('in-websites/WebsiteDashboard/tabs/Alerts/AlertHeader', () => {
   describe('#getRevision', () => {

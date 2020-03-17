@@ -14,8 +14,8 @@ import {
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
-import { alertTab, alertTabFullyQualified } from 'in-websites/navigation/paths';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -81,8 +81,8 @@ export default function Alerts({ websiteLabel, websiteId }) {
       noDataMessage="No alert configured."
       onRowClick={config =>
         mutateUrl(location => {
-          location.pathname = alertTabFullyQualified;
-          setOrDeleteMatrixKey(location, alertTab, alertIdMatrixParam, config.id);
+          location.pathname = alertsTabDetailsFullyQualified;
+          setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
         })
       }
     />
