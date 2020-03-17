@@ -16,11 +16,16 @@ import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 
 import locals from './StackItem.mless';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 
-export default function StackItem({ item: { id, type, label, healthInfo, metrics }, tab }) {
+export default function StackItem({
+  item: { id, type, label, healthInfo, metrics, endpointTypes, technologies },
+  tab
+}) {
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo && healthInfo.type;
 
@@ -40,6 +45,8 @@ export default function StackItem({ item: { id, type, label, healthInfo, metrics
           )}
           <EntityWithIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip iconSize="s" />
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
+          {showEndpointTypes(endpointTypes)}
+          {showTechnologies(technologies)}
         </div>
         {isAp ? showApKpis(metrics) : showInfraKpis(id, type)}
       </div>
@@ -76,6 +83,20 @@ const ProfileIndicator = connectTo(
     );
   }
 );
+
+const showEndpointTypes = endpointTypes => {
+  return endpointTypes ? (
+    <div className={locals.endpointTypes}>
+      <EndpointTypeBadgeList types={endpointTypes} />
+    </div>
+  ) : (
+    <div />
+  );
+};
+
+const showTechnologies = technologies => {
+  return technologies ? <TechnologyIndicatorList technologies={technologies} /> : <div />;
+};
 
 const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];
 

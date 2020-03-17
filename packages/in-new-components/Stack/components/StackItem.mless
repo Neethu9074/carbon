@@ -42,4 +42,8 @@
     width:8px;
     height: 8px;
   }
+
+  .endpointTypes {
+    margin-right: 0.25rem;
+  }
 }
