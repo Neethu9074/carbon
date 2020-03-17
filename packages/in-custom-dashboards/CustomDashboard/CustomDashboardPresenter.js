@@ -119,7 +119,8 @@ function SecondaryButtonLine({
   customDashboardId,
   onDeleteCustomDashboard,
   onRenameDashboard,
-  editable
+  editable,
+  onShare
 }) {
   return (
     <>
@@ -130,7 +131,7 @@ function SecondaryButtonLine({
       )}
 
       {editable && (
-        <Button kind="secondaryDarker" icon="lib_actions_share">
+        <Button kind="secondaryDarker" icon="lib_actions_share" onClick={onShare}>
           Share
         </Button>
       )}

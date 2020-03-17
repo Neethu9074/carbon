@@ -22,6 +22,7 @@ const sizes = {
 
 export default function CheckboxFancy({
   label,
+  explanation,
   asRadioButton,
   checked,
   onChange,
@@ -47,12 +48,13 @@ export default function CheckboxFancy({
   return label ? (
     <label
       className={evaluateClassNames({
-        [locals.label]: true,
+        [locals.labelWrapper]: true,
         [wrapperClassName]: wrapperClassName
       })}
     >
       {input}
-      {label}
+      {label && <div className={locals.label}>{label}</div>}
+      {explanation && <div className={locals.explanation}>{explanation}</div>}
     </label>
   ) : (
     input
@@ -65,6 +67,7 @@ CheckboxFancy.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  explanation: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   onChange: PropTypes.func.isRequired,
   size: PropTypes.string,
   style: PropTypes.object,

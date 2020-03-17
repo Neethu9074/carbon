@@ -31,6 +31,16 @@ export const checkbox = () => {
           disabled
         />
       </p>
+      <p>
+        <CheckboxFancy
+          label="This is a fancy checkbox with an explanation."
+          explanation="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          checked={value}
+          onChange={() => setValue(!value)}
+          size={size}
+          disabled
+        />
+      </p>
     </Fragment>
   ));
 };
@@ -62,6 +72,7 @@ export const asRadioButton = () => {
       <p>
         <CheckboxFancy
           label="This is a fancy radio button with gray controls."
+          explanation="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           checked={value}
           onChange={() => setValue(!value)}
           size={size}

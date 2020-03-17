@@ -6,6 +6,7 @@ import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
+import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
@@ -56,8 +57,22 @@ function CustomDashboardLoader(props) {
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+      onShare={onShare}
     />
   );
+
+  function onShare() {
+    addActiveDialog(
+      <SharingDialog
+        config={config}
+        onSubmit={accessRules => {
+          const newConfig = deepCopy(config);
+          newConfig.accessRules = accessRules;
+          setConfig(newConfig);
+        }}
+      />
+    );
+  }
 
   function onDeleteCustomDashboard() {
     addActiveDialog(

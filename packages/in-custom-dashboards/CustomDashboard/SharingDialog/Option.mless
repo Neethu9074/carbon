@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .checkbox {
+    margin-bottom: 1rem;
+  }
+
+  .label {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .checked {
+    color: @lib__colors__primary1;
+  }
+}
