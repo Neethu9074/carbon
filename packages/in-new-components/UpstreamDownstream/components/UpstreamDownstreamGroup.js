@@ -5,6 +5,7 @@ import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/compone
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
+import { capitalize } from 'in-services/formatters/string';
 import { Ul } from 'in-new-components/lists/List';
 import Link from 'in-components/Link/Link';
 
@@ -30,7 +31,7 @@ export default function UpstreamDownstreamGroup({
   return (
     <div>
       <div className={locals.groupHead}>
-        <div className={locals.relationshipText}>
+        <div className={locals.groupHeadText}>
           {relationshipText} {totalHits} {totalHits > 1 ? relationshipTypeText + 's' : relationshipTypeText}
         </div>
         <UpstreamDownstreamMetric
@@ -72,7 +73,7 @@ function getSeeAllLink(totalHits, productArea, activeTab, applicationId, service
   if (productArea === 'application') {
     return (
       <Link href$={getApplicationDashboard(applicationId, { boundaryScope, tab: '/map' })} onClick={close}>
-        See all {activeTab.toLowerCase()} Services
+        See all dependencies
       </Link>
     );
   } else if (productArea === 'service') {
@@ -81,7 +82,7 @@ function getSeeAllLink(totalHits, productArea, activeTab, applicationId, service
         href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap', tabMatrix })}
         onClick={close}
       >
-        {totalHits > 1 ? `See all ${totalHits} Services` : 'See Service'}
+        {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
       </Link>
     );
   }

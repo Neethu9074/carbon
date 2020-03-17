@@ -10,7 +10,7 @@ import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
@@ -39,6 +39,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
   timeConfig,
   itemType
 }) {
+  const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
   return (
     <Li
       href$={
@@ -48,7 +49,11 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
     >
       <div className={locals.itemWrapper}>
         <div className={locals.entityWrapper}>
-          <SeverityIndicator severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} />
+          {maxSeverity !== 0 ? (
+            <HealthDot className={locals.dot} severity={maxSeverity} iconSize={8} />
+          ) : (
+            <div className={locals.dot} />
+          )}
           <EntityWithIcon
             icon={itemType === relationships.SERVICE ? relationships.SERVICE_ICON : relationships.APPLICATION_ICON}
             label={itemLabel}
@@ -101,17 +106,6 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
     </Li>
   );
 });
-
-const SeverityIndicator = ({ severity }) => {
-  return (
-    <div
-      className={evaluateClassNames({
-        [locals.severity]: true,
-        [locals.severityBad]: severity > 5
-      })}
-    />
-  );
-};
 
 function getLabel(result) {
   return get(result, ['data', 'label'], null);

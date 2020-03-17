@@ -39,4 +39,10 @@
   .severityBad {
     background-color: @lib__colors__failure;
   }
+
+  .dot {
+    margin-right: 0.25rem;
+    width:8px;
+    height: 8px;
+  }
 }
