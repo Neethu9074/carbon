@@ -1,9 +1,17 @@
 import { compose, withProps } from 'recompose';
 import React from 'react';
 
+import {
+  applicationsAlertingAdditionalPropsAlertLevelChanged,
+  applicationsAlertingAdditionalPropsDescriptionChanged,
+  applicationsAlertingAdditionalPropsTitleChanged,
+  applicationsAlertingAdditionalPropsTriggerChanged
+} from 'in-applications/alerting/tracker';
+import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
+import AdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
-import AdvancedModeContainer from 'in-new-components/Alerting/AdvancedModeContainer';
 
 export default compose(
   withProps(({ form, onChange, setSliderState }) => ({
@@ -50,7 +58,19 @@ export default compose(
         label: 'Properties (optional)',
         title: 'Additional Alert Properties (optional)',
         checked: Boolean(form.get('name').value || form.get('description').value),
-        content: <h1>TODO: Add AlertPropertiesContainer here</h1>
+        content: (
+          <AlertPropertiesContainer
+            form={form}
+            onChange={onChange}
+            label={form.get('name').value}
+            getDescriptionPlaceholder={getDescriptionPlaceholder}
+            getTitlePlaceholder={getTitlePlaceholder}
+            trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}
+            trackDescriptionChanged={applicationsAlertingAdditionalPropsDescriptionChanged}
+            trackTitleChanged={applicationsAlertingAdditionalPropsTitleChanged}
+            trackTriggerChanged={applicationsAlertingAdditionalPropsTriggerChanged}
+          />
+        )
       }
     ]
   }))

@@ -128,6 +128,13 @@ export const APPLICATIONS_ALERTING_ALERT_DELETED = 'applications.alerting.alert.
 export const APPLICATIONS_ALERTING_ALERT_RESUMED = 'applications.alerting.alert.resumed';
 export const APPLICATIONS_ALERTING_ALERT_EDIT = 'applications.alerting.alert.edit';
 export const APPLICATIONS_ALERTING_ALERT_REVISION_CHANGED = 'applications.alerting.alert.revisionChanged';
+export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_TITLE_CHANGE = 'applications.alerting.additionalProps.titleChanged';
+export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_ALERT_LEVEL_CHANGED =
+  'applications.alerting.additionalProps.alertLevelChanged';
+export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
+  'applications.alerting.additionalProps.triggerChanged';
+export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
+  'applications.alerting.additionalProps.descriptionChanged';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

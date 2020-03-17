@@ -1,24 +1,34 @@
 import { compose, withProps } from 'recompose';
-import theme from 'in-themes';
 import React from 'react';
 
+import {
+  websitesAlertingAdditionalPropsAlertLevelChanged,
+  websitesAlertingAdditionalPropsDescriptionChanged,
+  websitesAlertingAdditionalPropsTitleChanged,
+  websitesAlertingAdditionalPropsTriggerChanged
+} from 'in-websites/eum-alerting/tracker';
+import {
+  getFormValueOrDefault,
+  getDescriptionPlaceholder,
+  getTitlePlaceholder
+} from 'in-websites/eum-alerting/formHelpers';
+import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import TimeThresholdConfig from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/TimeThresholdConfig';
 import StatusCodeInteractiveChart from 'in-websites/eum-alerting/advanced/StatusCodeInteractiveChart';
 import SlownessInteractiveChart from 'in-websites/eum-alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/eum-alerting/advanced/JsErrorsInteractiveChart';
-import AlertPropertiesContainer from 'in-websites/eum-alerting/advanced/AlertPropertiesContainer';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
+import AdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertSelection/AlertSelection';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
-import AdvancedModeContainer from 'in-new-components/Alerting/AdvancedModeContainer';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
-import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 export default compose(
   withProps(({ form, websiteLabel, timeConfig, onChange, setSliderState, granularity }) => ({
@@ -115,7 +125,19 @@ export default compose(
         label: 'Properties (optional)',
         title: 'Additional Alert Properties (optional)',
         checked: !!(form.get(fieldNames.name).value || form.get(fieldNames.description).value),
-        content: <AlertPropertiesContainer form={form} onChange={onChange} websiteLabel={websiteLabel} />
+        content: (
+          <AlertPropertiesContainer
+            form={form}
+            onChange={onChange}
+            label={websiteLabel}
+            getDescriptionPlaceholder={getDescriptionPlaceholder}
+            getTitlePlaceholder={getTitlePlaceholder}
+            trackAlertLevelChanged={websitesAlertingAdditionalPropsAlertLevelChanged}
+            trackDescriptionChanged={websitesAlertingAdditionalPropsDescriptionChanged}
+            trackTitleChanged={websitesAlertingAdditionalPropsTitleChanged}
+            trackTriggerChanged={websitesAlertingAdditionalPropsTriggerChanged}
+          />
+        )
       }
     ]
   }))

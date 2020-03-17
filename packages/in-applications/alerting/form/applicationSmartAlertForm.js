@@ -1,6 +1,9 @@
 import { createMapForm, createField } from 'formalistic';
 import { get } from 'lodash';
 
+const defaultSeverity = 5;
+const defaultGranularity = 600000;
+
 export function createApplicationSmartAlertForm(alertConfig) {
   return createMapForm()
     .put(
@@ -24,7 +27,7 @@ export function createApplicationSmartAlertForm(alertConfig) {
     .put(
       'severity',
       createField({
-        value: get(alertConfig, 'severity', 1)
+        value: get(alertConfig, 'severity', defaultSeverity)
       })
     )
     .put(
@@ -58,7 +61,7 @@ export function createApplicationSmartAlertForm(alertConfig) {
     .put(
       'granularity',
       createField({
-        value: get(alertConfig, 'granularity', 600000)
+        value: get(alertConfig, 'granularity', defaultGranularity)
       })
     )
     .put(

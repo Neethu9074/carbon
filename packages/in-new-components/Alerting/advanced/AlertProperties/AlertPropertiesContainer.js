@@ -1,47 +1,34 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-websites/eum-alerting/formHelpers';
+import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
 import TwoColumnContainer from 'in-websites/eum-alerting/advanced/components/TwoColumnContainer';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './AlertProperties.mless';
 
-export default function AlertPropertiesContainer({ form, onChange, websiteLabel, isReadOnly }) {
-  const severity = +form.get(fieldNames.severity).value;
+export default function AlertPropertiesContainer(props) {
+  const { form } = props;
+  const severity = Number(form.get('severity').value);
 
   return (
     <TwoColumnContainer
       mainContentHeadline="Alert Properties"
-      mainContent={
-        <AlertProperties form={form} onChange={onChange} isReadOnly={isReadOnly} websiteLabel={websiteLabel} />
-      }
-      secondaryContent={
-        <AlertPreview
-          form={form}
-          websiteLabel={websiteLabel}
-          tagFilters={form.get(fieldNames.tagFilters).value}
-          severity={severity}
-        />
-      }
+      mainContent={<AlertProperties {...props} />}
+      secondaryContent={<AlertPreview {...props} tagFilters={form.get('tagFilters').value} severity={severity} />}
     />
   );
 }
 
 AlertPropertiesContainer.propTypes = {
-  form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
-  isReadOnly: PropTypes.bool
+  form: PropTypes.object.isRequired
 };
 
-function AlertPreview({ form, websiteLabel, severity, tagFilters }) {
+function AlertPreview({ form, label, severity, tagFilters, getTitlePlaceholder, getDescriptionPlaceholder }) {
   const pages = tagFilters.filter(filter => filter.name === 'beacon.page.name');
-  const name = form.get(fieldNames.name).value;
-  const description = form.get(fieldNames.description).value;
+  const name = form.get('name').value;
+  const description = form.get('description').value;
   return (
     <div
       className={evaluateClassNames({
@@ -61,7 +48,7 @@ function AlertPreview({ form, websiteLabel, severity, tagFilters }) {
       <div className={locals.alertPreviewContent}>
         <h3 className={locals.alertPreviewHeadline}>{name || getTitlePlaceholder(form)}</h3>
         <p className={locals.siteAndPageNames}>
-          {websiteLabel && (
+          {label && (
             <span
               className={evaluateClassNames({
                 [locals.centred]: true,
@@ -70,7 +57,7 @@ function AlertPreview({ form, websiteLabel, severity, tagFilters }) {
               })}
             >
               <SvgIcon className={locals.filterIcon} size="s" type="lib_website" />
-              {websiteLabel}
+              {label}
             </span>
           )}
           {pages &&

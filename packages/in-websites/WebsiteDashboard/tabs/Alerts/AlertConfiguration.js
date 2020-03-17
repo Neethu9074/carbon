@@ -5,18 +5,22 @@ import alertFormDefinition, {
   getRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import {
+  getFormValueOrDefault,
+  getTitlePlaceholder,
+  getDescriptionPlaceholder
+} from 'in-websites/eum-alerting/formHelpers';
 import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
-import AlertProperties from 'in-websites/eum-alerting/advanced/AlertProperties';
 import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
-import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
@@ -144,7 +148,12 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       </ExpandableCard>
 
       <ExpandableCard title="Alert Properties" openByDefault bodyWithoutPadding darkFrame>
-        <AlertProperties {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
+        <AlertProperties
+          {...props}
+          isReadOnly
+          getDescriptionPlaceholder={getDescriptionPlaceholder}
+          getTitlePlaceholder={getTitlePlaceholder}
+        />
       </ExpandableCard>
     </>
   );

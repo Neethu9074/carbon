@@ -10,7 +10,6 @@ import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 
 const severityWarning = 5;
-const severityCritical = 10;
 
 export const fieldNames = Object.freeze({
   ruleAggregation: 'ruleAggregation',
@@ -160,10 +159,6 @@ export const selectOptions = Object.freeze({
     { value: '>', label: '>' },
     { value: '<=', label: '≤' },
     { value: '<', label: '<' }
-  ]),
-  [fieldNames.severity]: Object.freeze([
-    { value: severityWarning, label: 'Warning' },
-    { value: severityCritical, label: 'Critical' }
   ]),
   [fieldNames.thresholdType]: Object.freeze([
     { value: 'staticThreshold', label: 'Static Threshold' },

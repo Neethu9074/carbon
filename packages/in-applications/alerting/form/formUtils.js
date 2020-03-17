@@ -20,3 +20,26 @@ export function getBlueprintLabel(alertType) {
       return '';
   }
 }
+
+export function getDescriptionPlaceholder(form) {
+  switch (form.get('rule').get('alertType').value) {
+    case 'errorRate':
+      return `TODO: JS Errors which FOO BAR have been detected.`;
+    case 'slowness':
+      return `TODO:The onLoad Time FOO BAR is BLA above/below the expectation.`;
+
+    default:
+      return '';
+  }
+}
+
+export function getTitlePlaceholder(form) {
+  switch (form.get('rule').get('alertType').value) {
+    case 'errorRate':
+      return `TODO: Implememnt title placeholder`;
+    case 'slowness':
+      return `TODO: Implememnt title placeholder`;
+    default:
+      return '';
+  }
+}
