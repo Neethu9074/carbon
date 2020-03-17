@@ -54,7 +54,7 @@ export default function ContextMenu({
           groupByTag: groupByTag ? groupByTag : {}
         })}
       >
-        Go to Analyze
+        Go to Analytics
       </Button>
     </div>
   );

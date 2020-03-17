@@ -62,10 +62,11 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           serviceName: node.data.label,
           // the dependency map shows services using all calls of the application
           // so link to Analyze should always use boundaryScopes.all
-          boundaryScope: boundaryScopes.all
+          boundaryScope: boundaryScopes.all,
+          dataSource: 'calls'
         })}
       >
-        Go to Analyze
+        Go to Analytics
       </Button>
 
       {openIssues > 0 && (
