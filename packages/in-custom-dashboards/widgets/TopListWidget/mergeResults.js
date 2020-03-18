@@ -30,8 +30,10 @@ export default function mergeResults(args) {
       return {
         progress: { loading: false },
         errors: [],
-        time: results[0].time,
-        adjustedWindowSize: results[0].adjustedWindowSize,
+        // results may be an empty array in cases in which there aren't any platforms or
+        // when the user doesn't have access to these due to RBAC.
+        time: results?.[0]?.time ?? Date.now(),
+        adjustedWindowSize: results?.[0]?.adjustedWindowSize ?? undefined,
         data: {
           items: mergedItems,
           totalHits

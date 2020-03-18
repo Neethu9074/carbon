@@ -12,9 +12,10 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { add, remove } from 'in-stores/starredItems';
-import { search } from 'in-stores/snapshot/snapshot';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
+import search from 'in-subscription/search';
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function InfrastructureTopList({ config }) {
@@ -111,47 +112,63 @@ function Header({ selectedType, setSelectedType }) {
 }
 
 function getItems(query, selectedType) {
-  return search({
-    customQuery: query,
-    restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
-  })
-    .flatMap(({ snapshots }) => {
-      if (!snapshots) {
-        return just(null);
-      }
-      return enrichWithAndSortByMetric(snapshots, selectedType);
-    })
-    .map(snapshots => {
-      if (!snapshots) {
-        return pendingResult;
-      }
+  return (
+    timeConfig$
+      .flatMap(timeConfig =>
+        search({
+          query,
+          timeConfig,
+          view: 'TABLE',
+          restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
+        })
+      )
+      .flatMap(snapshotIds =>
+        combineLatest(
+          snapshotIds.map(snapshotId =>
+            getMetricForType(snapshotId, selectedType).map(metric => ({ snapshotId, metric }))
+          ),
+          false
+        )
+      )
+      // Sort decending by metric value.
+      .map(snapshotIdsWithMetrics => snapshotIdsWithMetrics.filter(Boolean).sort((s1, s2) => s2.metric - s1.metric))
+      // Add the snapshot to the first 5 items in the list
+      .flatMap(snapshotIdsWithMetrics =>
+        combineLatest(
+          snapshotIdsWithMetrics.map((snapshotIdWithMetric, i) => {
+            if (i >= 5) {
+              return just(snapshotIdWithMetric);
+            }
 
-      return {
-        errors: [],
-        progress: {
-          loading: false
-        },
-        data: {
-          items: snapshots.map(snapshot => ({ snapshot })),
-          totalHits: snapshots.length
-        }
-      };
-    });
+            return getSnapshot(snapshotIdWithMetric.snapshotId).map(snapshot => ({
+              ...snapshotIdWithMetric,
+              snapshot
+            }));
+          })
+        )
+      )
+      .throttle(2000)
+      .map(snapshotIdsWithMetrics => {
+        return {
+          errors: [],
+          progress: {
+            loading: false
+          },
+          data: {
+            // Only return the first five.
+            items: snapshotIdsWithMetrics.slice(0, 5),
+            totalHits: snapshotIdsWithMetrics.length
+          }
+        };
+      })
+      .startWith(pendingResult)
+  );
 }
 
 function getItem(id, timeConfig, selectedType) {
   return getSnapshot(id, timeConfig).flatMap(snapshot =>
     getMetricForType(snapshot.get('id'), selectedType).map(mainKpiValue => ({ snapshot, mainKpiValue }))
   );
-}
-
-function enrichWithAndSortByMetric(snapshots, selectedType) {
-  return combineLatest(
-    snapshots.map(snapshot => getMetricForType(snapshot.get('id', selectedType)).map(metric => ({ snapshot, metric })))
-  ).map(enrichedSnapshots => {
-    enrichedSnapshots.sort((s1, s2) => s2.metric - s1.metric);
-    return enrichedSnapshots.map(({ snapshot }) => snapshot);
-  });
 }
 
 function getMetricForType(snapshotId, type) {

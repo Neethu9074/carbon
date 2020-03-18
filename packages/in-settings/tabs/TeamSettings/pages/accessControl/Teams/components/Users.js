@@ -89,7 +89,8 @@ function columnDefinitions(roles) {
       label: 'Role',
       width: 30,
       getContent(user) {
-        const role = roles.find(role => role.id === user.roleId);
+        // Roles may still be in the process of being loaded.
+        const role = roles?.find(role => role.id === user.roleId);
         return role ? (
           <WithSubscript subscript={isRbacEnabled && role.restrictedAccess ? 'Limited Access' : ''}>
             <span>{role.name}</span>

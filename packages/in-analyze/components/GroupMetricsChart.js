@@ -50,7 +50,7 @@ function GroupMetricsChart({
   );
 
   selectedChart = selectedChart || chartDefinitionsAvailableForPresentation[0].key;
-  let chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
+  let chartDefinition = find(chartDefinitionsAvailableForPresentation, d => d.key === selectedChart);
   if (!chartDefinition) {
     chartDefinition = chartDefinitionsAvailableForPresentation[0];
     selectedChart = chartDefinition.key;
