@@ -139,6 +139,7 @@ import './tibcoEMS';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
 import './varnish';
+import './vault';
 import './vsphereHost';
 import './vsphereVm';
 import './webLogicApplicationContainer';
