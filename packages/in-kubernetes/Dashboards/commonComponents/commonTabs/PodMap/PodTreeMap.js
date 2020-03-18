@@ -17,6 +17,7 @@ import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { settings$ } from 'in-services/settings/settings';
+import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
@@ -205,7 +206,7 @@ function getGroupValueLabel(pods, metricValues) {
   }
 
   const summedMetricValue = pods.map(p => p.rawValue).reduce((v1, v2) => v1 + v2, 0);
-  return metricValues ? metricValues[pods[0].id].format(summedMetricValue) : summedMetricValue;
+  return metricValues?.[pods[0].id]?.format(summedMetricValue) ?? siPrefix.compact(summedMetricValue);
 }
 
 function getColorForTreeNode(node, showHealth, colorPool) {
