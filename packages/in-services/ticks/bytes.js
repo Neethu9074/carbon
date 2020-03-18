@@ -103,6 +103,9 @@ function niceBytes(tick) {
 // removes duplicate ticks when zero decimal formatter gets applied eg. [1000GiB, 1500GiB, 2000GiB] -> [1TiB, 1TiB, 2TiB], returns just byte sized of [1TiB, 2TiB].
 function filterTicks(ticks, formatter) {
   const formattedTicks = ticks.map(tick => ({ value: tick, formattedValue: formatter(tick) }));
+  if (formattedTicks.length < 2) {
+    return formattedTicks.map(tick => tick.value);
+  }
 
   const lastTick = formattedTicks.pop();
 
