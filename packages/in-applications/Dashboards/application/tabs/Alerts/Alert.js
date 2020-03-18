@@ -21,6 +21,7 @@ import {
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
 import ApplicationSmartAlertConfigDialog from 'in-applications/alerting/Dialog/ApplicationSmartAlertConfigDialog';
+import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
@@ -116,7 +117,9 @@ function Alert({
         />
 
         <Row>
-          <Col xs={6}>{/* TODO: application specific AlertConfiguration component */}</Col>
+          <Col xs={6}>
+            <AlertConfiguration alertConfig={alertConfig} />
+          </Col>
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
       </div>

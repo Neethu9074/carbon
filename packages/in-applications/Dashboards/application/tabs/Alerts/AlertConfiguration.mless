@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .alertChannelsWrapper {
+    margin: -1px;
+  }
+}

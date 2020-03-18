@@ -19,8 +19,8 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-we
 import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/IncompleteChartPlaceholder';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';

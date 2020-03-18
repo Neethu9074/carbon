@@ -1,45 +1,36 @@
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import alertFormDefinition, {
-  fieldNames,
   getRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
-import SelectedAlertTypeInfo from 'in-websites/eum-alerting/components/SelectedAlertTypeInfo';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
-import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import { alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
+
 import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
 
-const oneMinute = 60 * 1000;
-const oneDay = 24 * 60 * oneMinute;
+const oneDay = 24 * 60 * 60 * 1000;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
+  const form = alertFormDefinition(alertConfig);
 
-  const onChange = createOnChange(setForm);
-  const granularity = 10 * oneMinute;
   const timeConfig = {
     windowSize: oneDay
-  };
-
-  const props = {
-    form,
-    onChange,
-    timeConfig
   };
 
   return (
@@ -48,29 +39,29 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
       <Card title="Trigger" withoutPadding darkFrame>
         <AlertTypeSwitch
-          alertType={form.get(fieldNames.ruleAlertType).value}
+          alertType={alertConfig.rule.alertType}
           JsErrorsComponent={() => (
             <>
               <SelectedAlertTypeInfo
                 title="Error Message"
-                description={getDescription(form)}
+                description={getDescription(alertConfig.rule)}
                 svgIconType="lib_help_error_warning"
               />
 
               <ChartContainer headline="Last 24 hours">
                 <JsErrorsAlertingBarChart
-                  websiteId={form.get(fieldNames.websiteId).value}
+                  websiteId={alertConfig.websiteId}
                   timeConfig={timeConfig}
-                  tagFilters={form.get(fieldNames.tagFilters).value}
+                  tagFilters={alertConfig.tagFilters}
                   errorFilter={{
                     name: 'beacon.error.message',
-                    operator: form.get(fieldNames.ruleOperator).value,
-                    stringValue: form.get(fieldNames.ruleValue).value
+                    operator: alertConfig.rule.operator,
+                    stringValue: alertConfig.rule.value
                   }}
-                  metricName={form.get(fieldNames.ruleMetricName).value}
-                  granularity={granularity}
-                  threshold={getThreshold(form)}
-                  timeThreshold={getTimeThreshold(form)}
+                  metricName={alertConfig.rule.metricName}
+                  granularity={alertingMetricsGranularity}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
                 />
               </ChartContainer>
             </>
@@ -79,22 +70,22 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
             <>
               <SelectedAlertTypeInfo
                 title="HTTP Status Code"
-                description={getStatusCodeLabel(form.get(fieldNames.ruleValue).value)}
+                description={getStatusCodeLabel(alertConfig.rule.value)}
               />
               <ChartContainer headline="Last 24 hours">
                 <StatusCodeAlertingBarChart
-                  websiteId={form.get(fieldNames.websiteId).value}
-                  threshold={getThreshold(form)}
-                  timeThreshold={getTimeThreshold(form)}
+                  websiteId={alertConfig.websiteId}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
                   timeConfig={timeConfig}
-                  tagFilters={form.get(fieldNames.tagFilters).value}
+                  tagFilters={alertConfig.tagFilters}
                   numeratorFilter={{
                     name: 'beacon.http.status',
-                    operator: form.get(fieldNames.ruleOperator).value,
-                    stringValue: form.get(fieldNames.ruleValue).value
+                    operator: alertConfig.rule.operator,
+                    stringValue: alertConfig.rule.value
                   }}
-                  metricName={form.get(fieldNames.ruleMetricName).value}
-                  granularity={granularity}
+                  metricName={alertConfig.rule.metricName}
+                  granularity={alertingMetricsGranularity}
                 />
               </ChartContainer>
             </>
@@ -102,18 +93,14 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           SlownessComponent={() => (
             <ChartContainer headline="Last 24 hours">
               <SlownessAlertingBarChart
-                websiteId={form.get(fieldNames.websiteId).value}
-                threshold={{
-                  ...getThreshold(form),
-                  value: getFormValueOrDefault(form, fieldNames.thresholdValue, 0),
-                  baseline: getFormValueOrDefault(form, fieldNames.thresholdBaseline, [])
-                }}
-                timeThreshold={getTimeThreshold(form)}
-                sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)}
+                websiteId={alertConfig.websiteId}
+                threshold={alertConfig.threshold}
+                timeThreshold={alertConfig.timeThreshold}
+                sensitivity={alertConfig.threshold.deviationFactor}
                 timeConfig={timeConfig}
-                tagFilters={form.get(fieldNames.tagFilters).value}
-                aggregation={form.get(fieldNames.ruleAggregation).value}
-                granularity={granularity}
+                tagFilters={alertConfig.tagFilters}
+                aggregation={alertConfig.rule.aggregation}
+                granularity={alertingMetricsGranularity}
               />
             </ChartContainer>
           )}
@@ -122,7 +109,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
       <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
         <div className={locals.wrapper}>
-          <AlertLocationFilters {...props} isReadOnly granularity={granularity} websiteLabel={websiteLabel} />
+          <AlertLocationFilters form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} isReadOnly />
           <div className={locals.overlay} />
         </div>
       </ExpandableCard>
@@ -138,7 +125,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
             getHeader={() => null}
             rightHeader={null}
             tableActions={[]}
-            {...props}
+            form={form}
           />
         </div>
       </ExpandableCard>
@@ -150,24 +137,16 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   );
 }
 
-function createOnChange(setForm) {
-  return (form, fieldName, fieldValue, ...atomicAddFields) => {
-    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
-    if (atomicAddFields.length > 0) {
-      atomicAddFields.forEach(
-        ({ name, value }) => (updatedForm = updatedForm.updateIn([name], field => field.setValue(value)))
-      );
-    }
+AlertConfiguration.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  websiteLabel: PropTypes.string.isRequired
+};
 
-    setForm(updatedForm);
-  };
-}
-
-function getDescription(form) {
-  const operator = form.get(fieldNames.ruleOperator).value;
+function getDescription(alertConfigRule) {
+  const operator = alertConfigRule.operator;
   let description = getRuleOperatorLabel(operator);
   if (operator !== operators.NOT_EMPTY) {
-    description = `${description}: "${form.get(fieldNames.ruleValue).value}"`;
+    description = `${description}: "${alertConfigRule.value}"`;
   }
   return description;
 }

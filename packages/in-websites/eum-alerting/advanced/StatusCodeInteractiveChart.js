@@ -19,8 +19,8 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-we
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';

@@ -8,7 +8,6 @@ import {
   websitesAlertingFilterRemove,
   websitesAlertingFilterEdit
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { availableTagFiltersPerAlertType } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -21,10 +20,10 @@ import locals from './AlertLocationFilters.mless';
 
 const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
-const doCalculateTresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
+const doCalculateThresholdOnBackend = { name: 'calculateThresholdOnBackend', value: true };
 
 export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel, isReadOnly }) {
-  const alertType = form.get(fieldNames.ruleAlertType).value;
+  const alertType = form.get('ruleAlertType').value;
   const tagSuggestions = availableTagFiltersPerAlertType[alertType];
   if (__DEV__) {
     invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);
@@ -48,9 +47,9 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                 if (name !== BEACON_WEBSITE_NAME) {
                   onChange(
                     form,
-                    fieldNames.tagFilters,
+                    'tagFilters',
                     withoutTagFilterForName(getTagFilters(form), name),
-                    doCalculateTresholdOnBackend
+                    doCalculateThresholdOnBackend
                   );
                   websitesAlertingFilterRemove({
                     ...getBlueprintObject(form),
@@ -70,7 +69,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                         mode: advancedMode ? modeAdvanced : modeSimple,
                         tagFilters
                       });
-                      onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend);
+                      onChange(form, 'tagFilters', tagFilters, doCalculateThresholdOnBackend);
                     }}
                     tagSuggestions={tagSuggestions.filter(
                       name =>
@@ -98,7 +97,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
                   tagFilter={tagFilter}
                   tagFilters={getTagFilters(form)}
                   setTagFilters={tagFilters => {
-                    onChange(form, fieldNames.tagFilters, tagFilters, doCalculateTresholdOnBackend);
+                    onChange(form, 'tagFilters', tagFilters, doCalculateThresholdOnBackend);
                     websitesAlertingFilterEdit({
                       ...getBlueprintObject(form),
                       mode: advancedMode ? modeAdvanced : modeSimple,
@@ -113,9 +112,9 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
             onRemoveTagFilter={({ name }) => {
               onChange(
                 form,
-                fieldNames.tagFilters,
+                'tagFilters',
                 withoutTagFilterForName(getTagFilters(form), name),
-                doCalculateTresholdOnBackend
+                doCalculateThresholdOnBackend
               );
               websitesAlertingFilterRemove({
                 ...getBlueprintObject(form),
@@ -135,7 +134,7 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
 AlertLocationFilters.propTypes = {
   advancedMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
   websiteLabel: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool
@@ -144,7 +143,7 @@ AlertLocationFilters.propTypes = {
 function addFilter(form, newTagFilter, onChange, advancedMode) {
   const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
   newTagFilters.push(newTagFilter);
-  onChange(form, fieldNames.tagFilters, newTagFilters, doCalculateTresholdOnBackend);
+  onChange(form, 'tagFilters', newTagFilters, doCalculateThresholdOnBackend);
   websitesAlertingFilterAdd({
     ...getBlueprintObject(form),
     mode: advancedMode ? modeAdvanced : modeSimple,
@@ -171,5 +170,5 @@ function mutateFiltersForView(tagFilters, websiteLabel) {
 }
 
 function getTagFilters(form) {
-  return form.get(fieldNames.tagFilters).value;
+  return form.get('tagFilters').value;
 }

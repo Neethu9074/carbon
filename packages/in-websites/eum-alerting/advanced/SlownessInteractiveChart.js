@@ -22,7 +22,7 @@ import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-ale
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
-import ChartContainer from 'in-websites/eum-alerting/advanced/ChartContainer';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
