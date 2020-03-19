@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  plugins: ['flowtype', 'react', 'mocha'],
+  plugins: ['flowtype', 'react', 'mocha', 'babel'],
 
   settings: {
     flowtype: {
@@ -52,7 +52,9 @@ module.exports = {
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: ['error', 'always'],
     'no-useless-escape': 'error',
-    'no-unused-expressions': 'error',
+    // prevent from throwing no-unused-expression error when using optional chaining
+    'no-unused-expressions': 'off',
+    'babel/no-unused-expressions': 'error',
 
     // editor integration for flow errors, see
     // https://www.npmjs.com/package/eslint-plugin-flowtype-errors
