@@ -7,8 +7,8 @@ import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
-const metrics = ['sessions'];
-const labels = ['Sessions'];
+const metrics = ['views'];
+const labels = ['Occurrences'];
 const aggregations = ['SUM'];
 const formatters = [number.compact, number.compact];
 
