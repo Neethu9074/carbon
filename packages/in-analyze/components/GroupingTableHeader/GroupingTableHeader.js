@@ -36,17 +36,18 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
       </div>
 
       <div className={locals.labelWrapper}>
-        {props.isInternalVisible && (
-          <>
-            <span className={locals.label}>Preview</span>
-            <Toggle
-              checked={props.previewEnabled}
-              onChange={e => {
-                props.onPreviewEnabledChange(e.target.checked);
-              }}
-            />
-          </>
-        )}
+        {props.isInternalVisible &&
+          props.onPreviewEnabledChange && (
+            <>
+              <span className={locals.label}>Preview</span>
+              <Toggle
+                checked={props.previewEnabled}
+                onChange={e => {
+                  props.onPreviewEnabledChange(e.target.checked);
+                }}
+              />
+            </>
+          )}
         <Button
           kind="secondary"
           icon="lib_views_folder"

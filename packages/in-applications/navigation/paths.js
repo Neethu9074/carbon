@@ -3,9 +3,12 @@ import {
   serviceId as matrixServiceId,
   endpointId as matrixEndpointId,
   boundaryScope as matrixBoundaryScope,
+  contextScope as matrixContextScope,
   applicationId as applicationIdMatrixParam,
   alertCreated as alertCreatedMatrixParam,
-  alertId as alertIdMatrixParam
+  alertId as alertIdMatrixParam,
+  serviceListPrefix as serviceListMatrixPrefix,
+  applicationListPrefix as applicationListMatrixPrefix
 } from 'in-applications/navigation/matrix';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -36,6 +39,32 @@ export const isApplicationsView = getRootPathPredicate(
   serviceDashboard,
   endpointDashboard
 );
+
+export function getApplicationList({ timeConfig, applicationId, serviceId, endpointId, contextScope }) {
+  return getModifiedUrlStream(params => {
+    params.pathname = applicationsList;
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixApplicationId, applicationId);
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixServiceId, serviceId);
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixEndpointId, endpointId);
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixContextScope, contextScope);
+
+    if (timeConfig != null) {
+      setTimeConfig(params, timeConfig);
+    }
+  });
+}
+
+export function getServiceList({ timeConfig, applicationId, contextScope }) {
+  return getModifiedUrlStream(params => {
+    params.pathname = servicesList;
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixApplicationId, applicationId);
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixContextScope, contextScope);
+
+    if (timeConfig != null) {
+      setTimeConfig(params, timeConfig);
+    }
+  });
+}
 
 export function getApplicationDashboard(
   applicationId,

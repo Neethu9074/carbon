@@ -31,7 +31,7 @@ export default compose(
     EmptyStateComponent: rpt.func
   }),
   withState('query', 'setQuery', ''),
-  connectTo(({ getItems, pinnedItemTypes, query }) => ({
+  connectTo(({ pinnedItemTypes }) => ({
     timeConfig: timeConfig$,
     pinnedItemIdsByType: starredItems$.map(starredItems =>
       starredItems.reduce((agg, starredItem) => {
@@ -41,11 +41,12 @@ export default compose(
         }
         return agg;
       }, {})
-    ),
-
+    )
+  })),
+  connectTo(({ getItems, query, timeConfig, pinnedItemIdsByType }) => ({
     // these two will share the same subscription because query is initially empty
-    result: timeConfig$.flatMap(timeConfig => getItems({ timeConfig, query })),
-    resultForEmptyStateCheck: timeConfig$.flatMap(timeConfig => getItems({ timeConfig }))
+    result: timeConfig && pinnedItemIdsByType && getItems({ timeConfig, query, pinnedItemIdsByType }),
+    resultForEmptyStateCheck: timeConfig && pinnedItemIdsByType && getItems({ timeConfig, pinnedItemIdsByType })
   }))
 )(TopListWidget);
 
@@ -70,23 +71,28 @@ function TopListWidget(props) {
   } = props;
   let { label, result } = props;
 
-  const flattenedIds = getFlattenedIds(pinnedItemIdsByType);
-  const numPinnedItems = flattenedIds.length;
-  let numRegularItems = Math.max(0, 5 - numPinnedItems);
+  const flattenedPinnedIds = getFlattenedIds(pinnedItemIdsByType);
+  const numberOfPinnedItems = flattenedPinnedIds.length;
+  let numberOfRegularItemsToShow = Math.max(0, 5 - numberOfPinnedItems);
+
   if (result && result.data) {
-    const filteredItems = result.data.items.filter(item => flattenedIds.indexOf(getId(item)) === -1);
-    if (filteredItems.length + numPinnedItems > 0) {
-      label = `${label} (${filteredItems.length + numPinnedItems})`;
+    const regularItems = result.data.items.filter(item => flattenedPinnedIds.indexOf(getId(item)) === -1);
+    let totalCount = result.data.items.length;
+    if (result.data.totalHits) {
+      totalCount = result.data.totalHits;
+    }
+    if (totalCount > 0) {
+      label = `${label} (${totalCount})`;
     }
 
     result = {
       ...result,
-      data: { items: filteredItems.slice(0, numRegularItems) }
+      data: { items: regularItems.slice(0, numberOfRegularItemsToShow) }
     };
-    numRegularItems = result.data.items.length;
+    numberOfRegularItemsToShow = result.data.items.length;
   }
 
-  const hasContent = hasContentToRender(resultForEmptyStateCheck, numPinnedItems);
+  const hasContent = hasContentToRender(resultForEmptyStateCheck, numberOfPinnedItems);
 
   return (
     <DraggableLightCard
@@ -105,7 +111,7 @@ function TopListWidget(props) {
       }
     >
       <div className={locals.listsWrapper}>
-        {numPinnedItems > 0 && (
+        {numberOfPinnedItems > 0 && (
           <StarredItemList
             timeConfig={timeConfig}
             getItem={getItem}
@@ -124,12 +130,12 @@ function TopListWidget(props) {
           />
         )}
 
-        {numRegularItems > 0 && (
+        {numberOfRegularItemsToShow > 0 && (
           <ItemList
             result={result}
             timeConfig={timeConfig}
             getItemLink={getItemLink}
-            numSkeletonRows={numRegularItems}
+            numSkeletonRows={numberOfRegularItemsToShow}
             columnDefinitions={[
               ...columnDefinitions,
               {
@@ -146,19 +152,19 @@ function TopListWidget(props) {
       {!hasContent && <EmptyStateComponent {...props} />}
 
       {/* render an empty div to keep the link at the bottom of the card */}
-      {hasContent && numRegularItems === 0 && numPinnedItems === 0 && <div />}
+      {hasContent && numberOfRegularItemsToShow === 0 && numberOfPinnedItems === 0 && <div />}
     </DraggableLightCard>
   );
 }
 
-function hasContentToRender(result, numPinnedItems) {
+function hasContentToRender(result, numberOfPinnedItems) {
   if (!result || !result.data) {
     return true;
   }
-  return result.data.items.length + numPinnedItems > 0;
+  return result.data.items.length + numberOfPinnedItems > 0;
 }
 
-function getFlattenedIds(idsByType) {
+export function getFlattenedIds(idsByType) {
   let allIds = [];
   const keys = Object.keys(idsByType);
   for (let i = 0; i < keys.length; i++) {

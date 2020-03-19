@@ -42,25 +42,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'sessionsAgg',
-    label: 'Session Starts',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="SUM"
-          metrics={item.metrics.sessions}
-          metric={item.metrics.sessionsAgg}
-          tooltipFormatter={number.compact}
-        />
-      );
-    }
-  },
-  {
     id: 'viewsAgg',
-    label: 'View Changes',
+    label: 'Occurrences',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

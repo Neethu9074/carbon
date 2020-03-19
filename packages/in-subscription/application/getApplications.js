@@ -13,7 +13,11 @@ export function getApplicationsWithDefaults({
   page = 1,
   pageSize = 20,
   orderBy = 'callsAgg',
-  orderDirection = 'DESC'
+  orderDirection = 'DESC',
+  applicationId,
+  serviceId,
+  endpointId,
+  contextScope
 }) {
   return getApplications({
     pagination: {
@@ -67,7 +71,11 @@ export function getApplicationsWithDefaults({
     },
     filter: {
       label: query,
+      application: applicationId,
+      service: serviceId,
+      endpoint: endpointId,
       timeConfig
-    }
+    },
+    contextScope: contextScope ? contextScope : 'NONE'
   });
 }

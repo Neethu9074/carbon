@@ -1,0 +1,25 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid @lib__colors__N400;
+    margin-bottom: .5rem;
+    height: 2.5625rem;
+    padding: 0 0.5rem;
+  }
+
+  .notificationText {
+    flex-grow: 1;
+  }
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+    margin-right: 0.25rem;
+  }
+}
