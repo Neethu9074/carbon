@@ -3,7 +3,6 @@ import React from 'react';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import InstanaServiceToKubernetesServicesButton from 'in-kubernetes/components/InstanaServiceToKubernetesServicesButton';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
@@ -18,7 +17,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -116,20 +114,11 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
 
 function renderButtonLineSecondary({ applicationId, serviceId, timeConfig }) {
   return (
-    <>
-      <InstanaServiceToCloudfoundryApplicationButton
-        applicationId={applicationId}
-        serviceId={serviceId}
-        timeConfig={timeConfig}
-      />
-      {hasKubernetesAccess && (
-        <InstanaServiceToKubernetesServicesButton
-          applicationId={applicationId}
-          serviceId={serviceId}
-          timeConfig={timeConfig}
-        />
-      )}
-    </>
+    <InstanaServiceToCloudfoundryApplicationButton
+      applicationId={applicationId}
+      serviceId={serviceId}
+      timeConfig={timeConfig}
+    />
   );
 }
 
