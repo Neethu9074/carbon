@@ -1,7 +1,15 @@
+import { compose } from 'recompose';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  applicationId as applicationIdMatrixParam,
+  serviceId as serviceIdMatrixParam,
+  endpointId as endpointIdMatrixParam,
+  contextScope as contextScopeMatrixParam,
+  applicationListPrefix as matrixPrefix
+} from 'in-applications/navigation/matrix';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
@@ -11,6 +19,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -20,6 +29,7 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -35,7 +45,6 @@ import { role } from 'in-stores/user';
 import locals from './ApplicationsList.mless';
 
 const pathSegment = applicationsList;
-const matrixPrefix = 'app.';
 
 const columnDefinitions = [
   {
@@ -166,32 +175,117 @@ const rightHeader = role.canConfigureApplications && (
   </Button>
 );
 
-export default connectTo(
-  {
+export default compose(
+  connectTo({
     timeConfig: timeConfig$
-  },
-  function ApplicationsList({ timeConfig }) {
-    return (
-      <Sticky header={<ViewSwitcher />}>
-        <LeftRightPadding>
-          <Title title="Applications" />
+  }),
+  withUrlDependingState({
+    getPathSegment: () => applicationsList,
+    getMatrixPrefix: () => matrixPrefix,
+    boundKeys: [applicationIdMatrixParam, serviceIdMatrixParam, endpointIdMatrixParam, contextScopeMatrixParam],
+    getInitialState: () => ({
+      [applicationIdMatrixParam]: '',
+      [serviceIdMatrixParam]: '',
+      [endpointIdMatrixParam]: '',
+      [contextScopeMatrixParam]: ''
+    }),
+    reducerName: 'setFilter',
+    reducer: (prevState, nextState) => ({
+      [applicationIdMatrixParam]:
+        nextState[applicationIdMatrixParam] != null
+          ? nextState[applicationIdMatrixParam]
+          : prevState[applicationIdMatrixParam],
+      [serviceIdMatrixParam]:
+        nextState[serviceIdMatrixParam] != null ? nextState[serviceIdMatrixParam] : prevState[serviceIdMatrixParam],
+      [endpointIdMatrixParam]:
+        nextState[endpointIdMatrixParam] != null ? nextState[endpointIdMatrixParam] : prevState[endpointIdMatrixParam],
+      [contextScopeMatrixParam]:
+        nextState[contextScopeMatrixParam] != null
+          ? nextState[contextScopeMatrixParam]
+          : prevState[contextScopeMatrixParam]
+    })
+  })
+)(ApplicationsList);
 
-          <WithEmptyStateFallback
-            getHasDataToRender={getHasDataToRender}
-            FallbackComponent={ApplicationsNoDataNotification}
-          >
-            <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
-          </WithEmptyStateFallback>
-        </LeftRightPadding>
-
-        <Footer />
-      </Sticky>
+function ApplicationsList({
+  timeConfig,
+  setFilter,
+  [applicationIdMatrixParam]: applicationId,
+  [serviceIdMatrixParam]: serviceId,
+  [endpointIdMatrixParam]: endpointId,
+  [contextScopeMatrixParam]: contextScope
+}) {
+  const scopeNotification = (applicationId || serviceId || endpointId) &&
+    contextScope && (
+      <ScopeNotification
+        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+        productArea="application"
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        contextScope={contextScope}
+        onClose={() =>
+          setFilter({
+            [applicationIdMatrixParam]: '',
+            [serviceIdMatrixParam]: '',
+            [endpointIdMatrixParam]: '',
+            [contextScopeMatrixParam]: ''
+          })
+        }
+      />
     );
-  }
-);
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
-  return getApplicationsWithDefaults({ timeConfig, query, page, pageSize, orderBy, orderDirection });
+  return (
+    <Sticky header={<ViewSwitcher />}>
+      <LeftRightPadding>
+        <Title title="Applications" />
+
+        <WithEmptyStateFallback
+          getHasDataToRender={getHasDataToRender}
+          FallbackComponent={ApplicationsNoDataNotification}
+        >
+          <ServerTableWithUrlState
+            get={getTableData}
+            timeConfig={timeConfig}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            contextScope={contextScope}
+            scopeNotification={scopeNotification}
+            rightHeader={rightHeader}
+          />
+        </WithEmptyStateFallback>
+      </LeftRightPadding>
+
+      <Footer />
+    </Sticky>
+  );
+}
+
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  timeConfig,
+  applicationId,
+  serviceId,
+  endpointId,
+  contextScope
+}) {
+  return getApplicationsWithDefaults({
+    timeConfig,
+    query,
+    page,
+    pageSize,
+    orderBy,
+    orderDirection,
+    applicationId,
+    serviceId,
+    endpointId,
+    contextScope
+  });
 }
 
 function getHasDataToRender() {

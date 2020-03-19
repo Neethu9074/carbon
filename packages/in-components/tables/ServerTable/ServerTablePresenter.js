@@ -58,6 +58,7 @@ export default function ServerTablePresenter(props) {
     allRowsAreSelected = false,
     setSelectedStateForRows,
     renderNoDataAvailable,
+    scopeNotification,
 
     // events
     onChange,
@@ -166,6 +167,11 @@ export default function ServerTablePresenter(props) {
       </div>
     );
 
+  let scope;
+  if (scopeNotification) {
+    scope = scopeNotification;
+  }
+
   if (cardTitle != null) {
     if (__DEV__) {
       invariant(
@@ -188,6 +194,7 @@ export default function ServerTablePresenter(props) {
           {header}
         </div>
       )}
+      {scope}
       {content}
       {pagination}
     </Fragment>

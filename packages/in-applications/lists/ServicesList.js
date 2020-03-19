@@ -3,6 +3,11 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import {
+  serviceListPrefix as matrixPrefix,
+  applicationId as applicationIdMatrixParam,
+  contextScope as contextScopeMatrixParam
+} from 'in-applications/navigation/matrix';
+import {
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
@@ -13,9 +18,11 @@ import ServicesNoDataNotification from 'in-applications/lists/components/Service
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
+import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -26,8 +33,8 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import Filters from 'in-applications/components/Filters';
-import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
@@ -38,7 +45,6 @@ import { role } from 'in-stores/user';
 
 import locals from './ServicesList.mless';
 
-const matrixPrefix = 'service.';
 const pathSegment = servicesList;
 
 const columnDefinitions = [
@@ -51,7 +57,7 @@ const columnDefinitions = [
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           icon="lib_application_service"
           label={item.service.label}
-          href$={getServiceDashboard(item.service.id)}
+          href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}
         />
       );
     }
@@ -179,12 +185,25 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => servicesList,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes', 'technologies'],
-    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+    boundKeys: ['endpointTypes', 'technologies', applicationIdMatrixParam, contextScopeMatrixParam],
+    getInitialState: () => ({
+      endpointTypes: [],
+      technologies: [],
+      [applicationIdMatrixParam]: '',
+      [contextScopeMatrixParam]: ''
+    }),
     reducerName: 'setFilter',
-    reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
-      technologies: technologies ? technologies : prevState.technologies
+    reducer: (prevState, nextState) => ({
+      endpointTypes: nextState.endpointTypes ? nextState.endpointTypes : prevState.endpointTypes,
+      technologies: nextState.technologies ? nextState.technologies : prevState.technologies,
+      [applicationIdMatrixParam]:
+        nextState[applicationIdMatrixParam] != null
+          ? nextState[applicationIdMatrixParam]
+          : prevState[applicationIdMatrixParam],
+      [contextScopeMatrixParam]:
+        nextState[contextScopeMatrixParam] != null
+          ? nextState[contextScopeMatrixParam]
+          : prevState[contextScopeMatrixParam]
     }),
     getParsedUrlValues: ({ endpointTypes, technologies }) => ({
       endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
@@ -197,7 +216,14 @@ export default compose(
   })
 )(ServicesList);
 
-function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
+function ServicesList({
+  timeConfig,
+  setFilter,
+  endpointTypes,
+  technologies,
+  [applicationIdMatrixParam]: applicationId,
+  [contextScopeMatrixParam]: contextScope
+}) {
   const rightHeader = (
     <Fragment>
       {role.canConfigureServiceMapping && (
@@ -214,6 +240,17 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
     </Fragment>
   );
 
+  const scopeNotification = !isBlank(applicationId) &&
+    !isBlank(contextScope) && (
+      <ScopeNotification
+        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+        productArea="service"
+        applicationId={applicationId}
+        contextScope={contextScope}
+        onClose={() => setFilter({ [applicationIdMatrixParam]: '', [contextScopeMatrixParam]: '' })}
+      />
+    );
+
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -224,7 +261,10 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
             timeConfig={timeConfig}
             endpointTypes={endpointTypes}
             technologies={technologies}
+            applicationId={applicationId}
+            contextScope={contextScope}
             rightHeader={rightHeader}
+            scopeNotification={scopeNotification}
           />
         </WithEmptyStateFallback>
       </LeftRightPadding>
@@ -252,7 +292,9 @@ function getServiceListSubscribeEvent({
   orderDirection = 'DESC',
   endpointTypes = [],
   technologies = [],
-  timeConfig
+  timeConfig,
+  applicationId,
+  contextScope
 }) {
   return getServices({
     pagination: {
@@ -311,8 +353,10 @@ function getServiceListSubscribeEvent({
     filter: {
       label: query,
       timeConfig,
+      application: applicationId,
       endpointTypes,
       technologies
-    }
+    },
+    contextScope: contextScope ? contextScope : 'NONE'
   });
 }
