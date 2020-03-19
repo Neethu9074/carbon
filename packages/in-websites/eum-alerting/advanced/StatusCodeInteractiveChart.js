@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  getThresholdLabel,
-  isPercentageMetric,
   getThresholdValueForPercentageMetric,
   getValueRoundedToDecimals,
   round
-} from 'in-websites/eum-alerting/formHelpers';
+} from 'in-new-components/Alerting/utils/formatUtils';
 import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
@@ -17,6 +15,7 @@ import {
 import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
 import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';

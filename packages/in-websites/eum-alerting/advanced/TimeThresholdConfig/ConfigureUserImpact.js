@@ -3,6 +3,7 @@ import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import { hiddenFieldNames, fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getValueRoundedToDecimals, round } from 'in-new-components/Alerting/utils/formatUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import Toggle from 'in-components/form/Toggle';
@@ -69,12 +70,12 @@ export default function ConfigureUserImpact({ form, onChange }) {
                 min="1"
                 max="100"
                 name={fieldNames.timeThresholdUserPercentage}
-                value={value * 100}
+                value={getValueRoundedToDecimals(value, true)}
                 onChange={e =>
                   onChange(
                     form,
                     fieldNames.timeThresholdUserPercentage,
-                    e.target.value !== '' ? Math.abs(e.target.value) / 100 : ''
+                    e.target.value !== '' ? round(Math.abs(e.target.value) / 100, 3) : ''
                   )
                 }
                 step="1"

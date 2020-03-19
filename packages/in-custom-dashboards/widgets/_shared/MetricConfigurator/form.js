@@ -1,5 +1,6 @@
-import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 
 export function createForm(savedState, { withLabelConfiguration = false } = {}) {
   let form = createMapForm()
