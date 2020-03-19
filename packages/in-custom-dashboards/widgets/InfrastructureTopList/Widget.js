@@ -3,16 +3,15 @@ import React, { useState } from 'react';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
 import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
+import TopListWidget, { getFlattenedIds } from 'in-custom-dashboards/widgets/TopListWidget';
 import { entityTypeToFullyQualifiedPlugin } from 'in-views/tableView/stores/snapshotIds';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { add, remove } from 'in-stores/starredItems';
-import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import search from 'in-subscription/search';
@@ -23,16 +22,20 @@ export default function InfrastructureTopList({ config }) {
 
   const generalProps = {
     ...config,
-    getItems: ({ query }) => getItems(query, selectedType),
+    getItems: args =>
+      getItems({
+        ...args,
+        selectedType
+      }),
     header: <Header selectedType={selectedType} setSelectedType={setSelectedType} />,
     columnDefinitions: columnDefinitions[selectedType],
-    getId: ({ snapshot }) => snapshot.get('id'),
+    getId: ({ snapshotId }) => snapshotId,
     fullListView$: getModifiedUrlStream(location => {
       location.pathname = physicalTablePath;
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
     }),
     getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType),
-    getItemLink: item => getDashboardLink(item.snapshot.get('id'), { pathname: '/physical/dashboard' }),
+    getItemLink: item => getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' }),
     unpinItem: (id, type) => remove({ id, type })
   };
 
@@ -111,32 +114,28 @@ function Header({ selectedType, setSelectedType }) {
   );
 }
 
-function getItems(query, selectedType) {
-  return (
-    timeConfig$
-      .flatMap(timeConfig =>
-        search({
-          query,
-          timeConfig,
-          view: 'TABLE',
-          restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
-        })
-      )
-      .flatMap(snapshotIds =>
-        combineLatest(
-          snapshotIds.map(snapshotId =>
-            getMetricForType(snapshotId, selectedType).map(metric => ({ snapshotId, metric }))
-          ),
-          false
-        )
-      )
-      // Sort decending by metric value.
+function getItems({ query, selectedType, timeConfig, pinnedItemIdsByType }) {
+  const pinnedIds = getFlattenedIds(pinnedItemIdsByType);
+
+  return search({
+    query,
+    timeConfig,
+    view: 'TABLE',
+    restrictResultEntityType: entityTypeToFullyQualifiedPlugin[selectedType]
+  }).flatMap(snapshotIds =>
+    combineLatest(
+      snapshotIds
+        .toArray()
+        .map(snapshotId => getMetricForType(snapshotId, selectedType).map(metric => ({ snapshotId, metric }))),
+      false
+    ) // Sort decending by metric value.
       .map(snapshotIdsWithMetrics => snapshotIdsWithMetrics.filter(Boolean).sort((s1, s2) => s2.metric - s1.metric))
-      // Add the snapshot to the first 5 items in the list
+      // Add the snapshot to the first 5 items and for the pinned items to the list
+      .throttle(1000)
       .flatMap(snapshotIdsWithMetrics =>
         combineLatest(
           snapshotIdsWithMetrics.map((snapshotIdWithMetric, i) => {
-            if (i >= 5) {
+            if (i >= 5 && pinnedIds.indexOf(snapshotIdWithMetric.snapshotId) === -1) {
               return just(snapshotIdWithMetric);
             }
 
@@ -147,7 +146,7 @@ function getItems(query, selectedType) {
           })
         )
       )
-      .throttle(2000)
+      .throttle(500)
       .map(snapshotIdsWithMetrics => {
         return {
           errors: [],
@@ -155,9 +154,10 @@ function getItems(query, selectedType) {
             loading: false
           },
           data: {
-            // Only return the first five.
-            items: snapshotIdsWithMetrics.slice(0, 5),
-            totalHits: snapshotIdsWithMetrics.length
+            // Only return those that have the snapshot field set. The previous
+            // flatMap step implements the rule as to when this should be done.
+            items: snapshotIdsWithMetrics.filter(s => s.snapshot),
+            totalHits: snapshotIds.size
           }
         };
       })
