@@ -4,18 +4,4 @@
     overflow-y: scroll;
     width: 50rem;
   }
-
-  .emptyPane {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-  }
-
-  .emptyMessage {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 0.25rem;
-  }
 }

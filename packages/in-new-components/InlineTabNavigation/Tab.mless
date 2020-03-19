@@ -12,19 +12,26 @@
     border-bottom: 3px solid transparent;
     cursor: pointer;
 
-    &:hover,
-    &.active {
-      color: @lib__colors__N900Primary;
+    &:not(.disabled) {
+      &:hover,
+      &.active {
+        color: @lib__colors__N900Primary;
+      }
+
+      &:hover {
+        border-bottom-color: @lib__colors__N600Light;
+      }
+
+      &.active {
+        cursor: default;
+        border-bottom-color: @lib__colors__teal800;
+        font-weight: 600;
+      }
     }
 
-    &:hover {
-      border-bottom-color: @lib__colors__N600Light;
-    }
-
-    &.active {
+    &.disabled {
       cursor: default;
-      border-bottom-color: @lib__colors__teal800;
-      font-weight: 600;
+      color: @lib__colors__N400
     }
   }
 

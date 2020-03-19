@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { contextGuideEnabled } from 'in-services/featureFlags';
@@ -15,21 +15,12 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function StackButton({ id, applicationId, timeConfig, isInternalVisible, productArea, noAutoMargin, className }) {
-    const [activeTabIndex, onTabSelect] = useState(0);
-
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
           align="bottomLeft"
           content={() => (
-            <Stack
-              id={id}
-              applicationId={applicationId}
-              timeConfig={timeConfig}
-              productArea={productArea}
-              activeTabIndex={activeTabIndex}
-              onTabSelect={onTabSelect}
-            />
+            <Stack id={id} applicationId={applicationId} timeConfig={timeConfig} productArea={productArea} />
           )}
           behindSidebar
           withoutWrapper
