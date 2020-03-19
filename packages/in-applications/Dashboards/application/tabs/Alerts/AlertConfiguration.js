@@ -75,7 +75,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
       </ExpandableCard>
 
       <ExpandableCard title="Alert Properties" openByDefault bodyWithoutPadding darkFrame>
-        <AlertPropertyInfos form={form} />
+        <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableCard>
     </>
   );

@@ -16,12 +16,10 @@ const severitySelectOptions = [
   { value: severityCritical, label: 'Critical' }
 ];
 
-export default function AlertPropertyInfos({ form }) {
-  const severity = Number(form.get('severity').value);
-
+export default function AlertPropertyInfos({ alertConfig: { name, description, triggering, severity } }) {
   return (
     <>
-      <PropContainer left="Title" right={<Label className={locals.staticTitle}>{form.get('name').value}</Label>} />
+      <PropContainer left="Title" right={<Label className={locals.staticTitle}>{name}</Label>} />
       <PropContainer
         icon={severity <= severityWarning ? 'lib_events_warning' : 'lib_events_critical'}
         left="Alert Level"
@@ -30,17 +28,17 @@ export default function AlertPropertyInfos({ form }) {
       <PropContainer
         icon="lib_events_incident"
         left="Triggers Incident"
-        right={<Toggle checked={Boolean(form.get('triggering').value)} disabled />}
+        right={<Toggle checked={triggering} disabled />}
       />
       <PropContainer
         icon="lib_help_error_error_outline"
         left="Description"
-        right={<Label className={locals.staticDescription}>{form.get('description').value}</Label>}
+        right={<Label className={locals.staticDescription}>{description}</Label>}
       />
     </>
   );
 }
 
 AlertPropertyInfos.propTypes = {
-  form: PropTypes.object.isRequired
+  alertConfig: PropTypes.object.isRequired
 };
