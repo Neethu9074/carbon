@@ -4,6 +4,7 @@ import React from 'react';
 import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
 import { createApplicationSmartAlertForm } from 'in-applications/alerting/form/applicationSmartAlertForm';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
+import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
@@ -60,6 +61,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
             disabled
           />
         </div>
+      </ExpandableCard>
+
+      <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
+        <TimeThresholdDescription config={alertConfig} />
       </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>

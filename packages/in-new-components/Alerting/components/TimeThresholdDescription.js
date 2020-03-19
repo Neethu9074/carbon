@@ -6,7 +6,7 @@ import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './TimeThresholdPresenter.mless';
+import locals from './TimeThresholdDescription.mless';
 
 export default function TimeThresholdDescription({ config }) {
   const timeThreshold = config.timeThreshold;
