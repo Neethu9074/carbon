@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
-import { createApplicationSmartAlertForm } from 'in-applications/alerting/form/applicationSmartAlertForm';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
+import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
@@ -20,7 +19,6 @@ import locals from './AlertConfiguration.mless';
 const oneDay = 24 * 60 * 60 * 1000;
 
 export default function AlertConfiguration({ alertConfig, applicationName }) {
-  const form = createApplicationSmartAlertForm(alertConfig);
   const tagFilters = alertConfig.tagFilters;
   const tagFiltersWithApplicationId = [getApplicationIdTagFilter(alertConfig.applicationId), ...tagFilters];
 
@@ -64,18 +62,12 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
       </ExpandableCard>
 
       <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
-        <TimeThresholdDescription config={alertConfig} />
+        <TimeThresholdDescription timeThreshold={alertConfig.timeThreshold} />
       </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
         <div className={locals.alertChannelsWrapper}>
-          <SelectAlertChannelPresenter
-            isSearchable={false}
-            getHeader={() => null}
-            rightHeader={null}
-            tableActions={[]}
-            form={form}
-          />
+          <AlertChannelsViewer alertChannelIds={alertConfig.alertChannelIds} />
         </div>
       </ExpandableCard>
 

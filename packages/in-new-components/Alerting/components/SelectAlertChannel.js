@@ -1,44 +1,97 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SelectAlertChannelPresenter, {
-  SelectListDialogContent
-} from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import AlertChannels, {
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
-export default function SelectAlertChannel(props) {
-  const { form, onChange, setAlertChannelsVisible } = props;
+import locals from './SelectAlertChannel.mless';
 
+export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
   return (
-    <SelectAlertChannelPresenter
-      rightHeader={
-        <Button
-          kind="action"
-          onClick={() =>
-            setAlertChannelsVisible({
-              slideInConfig: {
-                component: (
-                  <SelectListDialogContent
-                    form={form}
-                    onSubmit={selectedIds => {
-                      onChange(['alertChannelIds'], field => field.setValue(selectedIds).setTouched(true));
-                      setAlertChannelsVisible({ isVisible: false });
-                    }}
-                  />
-                ),
-                title: 'Select alert channels'
-              },
-              isVisible: true
-            })
-          }
-          icon="lib_openclose_add_circle_outline"
-        >
-          Select Alert Channels
-        </Button>
+    <>
+      <AlertChannels
+        setTitle={false}
+        loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
+        hasRowNavigation={false}
+        noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
+        tableActions={alertChannelSelectionTableActions(form, onChange)}
+        rightHeader={
+          <Button
+            kind="action"
+            onClick={() =>
+              setAlertChannelsVisible({
+                slideInConfig: {
+                  component: (
+                    <SelectListDialogContent
+                      form={form}
+                      onSubmit={selectedIds => {
+                        onChange(['alertChannelIds'], field => field.setValue(selectedIds).setTouched(true));
+                        setAlertChannelsVisible({ isVisible: false });
+                      }}
+                    />
+                  ),
+                  title: 'Select alert channels'
+                },
+                isVisible: true
+              })
+            }
+            icon="lib_openclose_add_circle_outline"
+          >
+            Select Alert Channels
+          </Button>
+        }
+      />
+      <TouchedMessages field={form.get('alertChannelIds')} />
+    </>
+  );
+}
+
+function SelectListDialogContent({ form, onSubmit }) {
+  return (
+    <SelectListDialogContentComponent
+      listComponent={AlertChannels}
+      listComponentRightHeader={noRightHeader}
+      hiddenIds={form.get('alertChannelIds').value}
+      limit={limitForConnectedAlertChannels}
+      onSubmit={onSubmit}
+      createSubmitLabel={numberOfItems =>
+        numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
       }
-      {...props}
+      requiresAtLeastOneMessage="Please select at least one alert channel."
+      pageSize={5}
+      listFormGroupClassOverwrites={locals.alertChannelsList}
+      tableScrollWrapperClassOverwrites={locals.alertChannelsList}
     />
   );
+}
+
+const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function(selectedChannels) {
+  if (selectedChannels.length === 0) {
+    return alwaysEmptyArray;
+  }
+  // null is treated as a pending result when converting the HTTP response into a result
+  return getAlertChannelsByIdsMutable(selectedChannels).startWith(null);
+});
+
+function alertChannelSelectionTableActions(form, onChange) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          const value = form.get('alertChannelIds').value.filter(referencedId => referencedId !== deselectedEntity.id);
+          onChange(['alertChannelIds'], field => field.setValue(value).setTouched(true));
+        }
+      }
+    }
+  };
 }
 
 SelectAlertChannel.propTypes = {

@@ -1,17 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import alertFormDefinition, {
-  getRuleOperatorLabel,
-  getStatusCodeLabel
-} from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/SelectAlertChannelPresenter';
+import { getRuleOperatorLabel, getStatusCodeLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
+import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
@@ -27,7 +24,6 @@ import locals from './AlertConfiguration.mless';
 const oneDay = 24 * 60 * 60 * 1000;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
-  const form = alertFormDefinition(alertConfig);
   const tagFilters = alertConfig.tagFilters;
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(alertConfig.websiteId), ...tagFilters];
 
@@ -122,18 +118,12 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       </ExpandableCard>
 
       <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
-        <TimeThresholdDescription config={alertConfig} />
+        <TimeThresholdDescription timeThreshold={alertConfig.timeThreshold} />
       </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
         <div className={locals.alertChannelsWrapper}>
-          <SelectAlertChannelPresenter
-            isSearchable={false}
-            getHeader={() => null}
-            rightHeader={null}
-            tableActions={[]}
-            form={form}
-          />
+          <AlertChannelsViewer alertChannelIds={alertConfig.alertChannelIds} />
         </div>
       </ExpandableCard>
 
