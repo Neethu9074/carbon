@@ -1103,6 +1103,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     'metadata:\n' +
     '  name: instana-agent\n' +
     '  namespace: instana-agent\n' +
+    '  labels:\n' +
+    '    app.kubernetes.io/version: "1.0.24"\n' +
     'spec:\n' +
     '  selector:\n' +
     '    matchLabels:\n' +
@@ -1111,6 +1113,7 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     '    metadata:\n' +
     '      labels:\n' +
     '        app: instana-agent\n' +
+    '        app.kubernetes.io/version: "1.0.24"\n' +
     '    spec:\n' +
     '      serviceAccountName: instana-agent\n' +
     '      hostIPC: true\n' +
@@ -1236,6 +1239,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     'apiVersion: rbac.authorization.k8s.io/v1\n' +
     'metadata:\n' +
     '  name: instana-agent-role\n' +
+    '  labels:\n' +
+    '    app.kubernetes.io/version: "1.0.24"\n' +
     'rules:\n' +
     '- nonResourceURLs:\n' +
     '    - "/version"\n' +
