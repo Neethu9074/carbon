@@ -8,6 +8,7 @@ import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEven
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -17,8 +18,10 @@ import EventChart from 'in-events/components/EventChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
+import { getSnapshot } from 'in-stores/snapshot';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
+import connectTo from 'in-hoc/connectTo';
 
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
@@ -49,6 +52,7 @@ function EventContent({ event }) {
     return <ApplicationEventContent event={event} />;
   }
 
+  const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
   return (
     <>
       <Row>
@@ -58,7 +62,7 @@ function EventContent({ event }) {
               entityId={event.get('entityId')}
               entityType={event.get('entityType')}
               metadata={event.get('metadata')}
-              timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
+              timeConfig={timeConfig}
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
@@ -77,12 +81,19 @@ function EventContent({ event }) {
         </Row>
       ) : (
         <>
-          {hasEvents(event) && (
+          {hasAtLeastOneMetric(event) && (
             <Row>
               <Col xs>
                 <Card title="Metrics">
                   <EventChart event={event} />
                 </Card>
+              </Col>
+            </Row>
+          )}
+          {hasMetric(event, 'cpu.user') && (
+            <Row>
+              <Col xs>
+                <ProcessContent snapshotId={event.get('entityId')} timeConfig={timeConfig} />
               </Col>
             </Row>
           )}
@@ -92,7 +103,17 @@ function EventContent({ event }) {
   );
 }
 
-import connectTo from 'in-hoc/connectTo';
+const ProcessContent = connectTo(
+  ({ snapshotId, timeConfig }) => ({
+    snapshot: getSnapshot(snapshotId, timeConfig).startWith(null)
+  }),
+  function ProcessContent({ snapshot, timeConfig }) {
+    if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
+      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+    }
+    return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} considerCpuCount={true} />;
+  }
+);
 
 const IncidentContent = connectTo(
   ({ incident }) => ({
@@ -188,6 +209,10 @@ function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
-function hasEvents(event) {
+function hasMetric(event, metric) {
+  return event.getIn(['metadata', 'metrics'], emptyList).filter(e => e.get('metricName') === metric).size > 0;
+}
+
+function hasAtLeastOneMetric(event) {
   return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
 }

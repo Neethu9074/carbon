@@ -43,6 +43,7 @@ const cols = [
           </Tooltip>
         );
       },
+      pathname: '/physical/dashboard',
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
           return hierarchy[0];
@@ -56,7 +57,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.process.get('cpu');
+        return row.process.get('cpu') / row.cpuCount;
       },
       getContent: percentageZeroDecimalPlaces
     }
@@ -76,10 +77,10 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes', props.timeConfig)
     };
   },
-  function ProcessTopList({ snapshot, data }) {
+  function ProcessTopList({ snapshot, data, considerCpuCount = false }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -93,7 +94,8 @@ export default connectTo(
       return {
         key: String(process.get('pid')),
         process,
-        host: snapshot
+        host: snapshot,
+        cpuCount: considerCpuCount ? snapshot.getIn(['data', 'cpu.count'], 1) : 1
       };
     });
 

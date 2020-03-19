@@ -234,7 +234,10 @@ export function getRawPayload(snapshotId, payloadName) {
     .map(o => o.get('raw_payload'));
 }
 
-export function getRawPayloadWithTimestamp(snapshotId, payloadName) {
+export function getRawPayloadWithTimestamp(snapshotId, payloadName, timeConfig) {
+  if (timeConfig) {
+    return createRawPayloadObservable({ snapshotId, payloadName, timeConfig });
+  }
   return timeConfig$.flatMap(timeConfig => createRawPayloadObservable({ snapshotId, payloadName, timeConfig }));
 }
 
