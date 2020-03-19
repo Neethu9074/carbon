@@ -1,5 +1,6 @@
-import { fieldNames, radioOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/formHelpers';
+import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 
 export default function toAlertConfig(form) {
@@ -30,12 +31,22 @@ export function getThreshold(form) {
   };
 }
 
-export function getTimeThreshold(form) {
-  return {
-    timeWindow: form.get(fieldNames.timeThresholdTimeWindow).value,
-    type: form.get(fieldNames.timeThresholdType).value,
-    ...enrichByTimeThresholdType(form)
-  };
+function getTimeThreshold(form) {
+  const timeThresholdForm = form.get('timeThreshold');
+  const hiddenFieldsForm = form.get('hiddenFields');
+  const timeThreshold = timeThresholdForm.toJS();
+
+  if (timeThresholdForm.get('type').value === timeThresholdTypes.userImpactOfViolationsInSequence) {
+    timeThreshold['users'] = hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').value
+      ? timeThresholdForm.get(fieldNames.timeThresholdUsers).value
+      : null;
+
+    timeThreshold['userPercentage'] = hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').value
+      ? timeThresholdForm.get(fieldNames.timeThresholdUserPercentage).value
+      : null;
+  }
+
+  return timeThreshold;
 }
 
 export function isGreaterOperator(operator) {
@@ -81,24 +92,6 @@ function enrichByThresholdType(form) {
       seasonality: form.get(fieldNames.thresholdSeasonality).value,
       baseline: form.get(fieldNames.thresholdBaseline).value,
       deviationFactor: form.get(fieldNames.thresholdDeviationFactor).value
-    };
-  }
-}
-
-function enrichByTimeThresholdType(form) {
-  const { violationsInPeriod, userImpactOfViolationsInSequence } = radioOptions.timeThresholdType;
-  const timeThresholdType = form.get(fieldNames.timeThresholdType).value;
-  if (timeThresholdType === violationsInPeriod) {
-    return { violations: form.get(fieldNames.timeThresholdViolations).value };
-  }
-  if (timeThresholdType === userImpactOfViolationsInSequence) {
-    return {
-      users: form.get(hiddenFieldNames.alertByNumberOfImpactedUsersEnabled).value
-        ? form.get(fieldNames.timeThresholdUsers).value
-        : null,
-      userPercentage: form.get(hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled).value
-        ? form.get(fieldNames.timeThresholdUserPercentage).value
-        : null
     };
   }
 }

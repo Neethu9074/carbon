@@ -13,14 +13,14 @@ import {
   getTitlePlaceholder
 } from 'in-websites/eum-alerting/formHelpers';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
-import TimeThresholdConfig from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/TimeThresholdConfig';
 import StatusCodeInteractiveChart from 'in-websites/eum-alerting/advanced/StatusCodeInteractiveChart';
+import WebsiteTimeThresholdConfig from 'in-websites/eum-alerting/advanced/WebsiteTimeThresholdConfig';
 import SlownessInteractiveChart from 'in-websites/eum-alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/eum-alerting/advanced/JsErrorsInteractiveChart';
-import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import AdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import AlertSelection from 'in-websites/eum-alerting/advanced/AlertSelection/AlertSelection';
 import ProvideManualPattern from 'in-websites/eum-alerting/components/ProvideManualPattern';
+import AlertLocationFilters from 'in-websites/eum-alerting/components/AlertLocationFilters';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatusCode';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
@@ -31,14 +31,19 @@ import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 export default compose(
-  withProps(({ form, websiteLabel, timeConfig, onChange, setSliderState, granularity }) => ({
+  withProps(({ form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm }) => ({
     navItems: [
       {
         scrollId: '1',
         label: 'Scope',
         title: 'Scope: Where is the condition happening?',
         content: (
-          <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} onChange={onChange} />
+          <AlertLocationFilters
+            form={form}
+            websiteLabel={websiteLabel}
+            timeConfig={timeConfig}
+            updateForm={updateForm}
+          />
         ),
         checked: true
       },
@@ -49,7 +54,7 @@ export default compose(
         checked: validateTrigger(form),
         content: (
           <>
-            <AlertSelection form={form} onChange={onChange} />
+            <AlertSelection form={form} updateForm={updateForm} />
             <AlertTypeSwitch
               alertType={form.get(fieldNames.ruleAlertType).value}
               JsErrorsComponent={() => (
@@ -58,7 +63,7 @@ export default compose(
                     <ProvideManualPattern
                       form={form}
                       timeConfig={timeConfig}
-                      onChange={onChange}
+                      updateForm={updateForm}
                       onSelectJsError={setSliderState}
                       mode={modeAdvanced}
                     />
@@ -66,6 +71,7 @@ export default compose(
                   <JsErrorsInteractiveChart
                     form={form}
                     onChange={onChange}
+                    updateForm={updateForm}
                     timeConfig={timeConfig}
                     granularity={granularity}
                   />
@@ -74,11 +80,12 @@ export default compose(
               StatusCodeComponent={() => (
                 <>
                   <Card title="HTTP Status Code" withoutPadding darkFrame>
-                    <ProvideStatusCode form={form} onChange={onChange} mode={modeAdvanced} />
+                    <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
                   </Card>
                   <StatusCodeInteractiveChart
                     form={form}
                     onChange={onChange}
+                    updateForm={updateForm}
                     timeConfig={timeConfig}
                     granularity={granularity}
                   />
@@ -92,6 +99,7 @@ export default compose(
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
+                      updateForm={updateForm}
                     />
                     {showInsufficientBaselineDataMessage(form) && (
                       <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
@@ -111,7 +119,7 @@ export default compose(
         label: 'Time Threshold',
         title: 'Time Threshold: When do you want to be alerted?',
         checked: true,
-        content: <TimeThresholdConfig form={form} onChange={onChange} />
+        content: <WebsiteTimeThresholdConfig form={form} onChange={onChange} updateForm={updateForm} />
       },
       {
         scrollId: '4',

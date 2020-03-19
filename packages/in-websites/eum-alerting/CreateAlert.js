@@ -95,6 +95,6 @@ function generateFormData(error, tagFilters, websiteId) {
       value: 0.0
     },
     websiteId,
-    calculateThresholdOnBackend: !!error
+    calculateThresholdOnBackend: Boolean(error)
   };
 }

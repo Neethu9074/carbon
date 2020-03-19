@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { timeThresholdLabels } from 'in-websites/eum-alerting/advanced/TimeThresholdConfig/SelectThreshold';
+import { timeThresholdLabels } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/SelectThreshold';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon';

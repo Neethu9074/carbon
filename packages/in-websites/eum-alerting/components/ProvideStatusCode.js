@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { websitesAlertingStatusCodeChanged } from 'in-websites/eum-alerting/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -11,9 +11,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
 
-const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
-
-export default function ProvideStatusCode({ form, onChange, mode }) {
+export default function ProvideStatusCode({ form, mode, updateForm }) {
   return (
     <div className={locals.container}>
       {form.get(fieldNames.ruleValue).map(field => (
@@ -27,10 +25,14 @@ export default function ProvideStatusCode({ form, onChange, mode }) {
             options={selectOptions[fieldNames.ruleValue]}
             onChange={e => {
               websitesAlertingStatusCodeChanged(mode);
-              onChange(form, fieldNames.ruleValue, (e && e.value) || '', doCalculateThresholdOnBackend, {
-                name: fieldNames.ruleOperator,
-                value: getOperatorForStatusCode(e.value)
-              });
+              updateForm(
+                form
+                  .updateIn([fieldNames.ruleValue], f => f.setValue((e && e.value) || '').setTouched(true))
+                  .updateIn([fieldNames.ruleOperator], f =>
+                    f.setValue(getOperatorForStatusCode(e.value)).setTouched(true)
+                  )
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              );
             }}
             defaultValue="4"
             clearable={false}
@@ -45,8 +47,8 @@ export default function ProvideStatusCode({ form, onChange, mode }) {
 
 ProvideStatusCode.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
+  updateForm: PropTypes.func.isRequired
 };
 
 function getOperatorForStatusCode(statusCode) {

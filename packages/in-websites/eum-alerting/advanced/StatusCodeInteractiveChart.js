@@ -12,14 +12,14 @@ import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
-import { getThresholdLabel, isPercentageMetric } from 'in-websites/eum-alerting/formHelpers';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import { isPercentageMetric, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -35,7 +35,7 @@ export default compose(
   }))
 )(StatusCodeInteractiveChart);
 
-function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -63,12 +63,13 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
             options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificStatusCode]}
             onChange={e => {
               const value = (e && e.value) || '';
-              const doCalculateThresholdOnBackend = {
-                name: hiddenFieldNames.calculateThresholdOnBackend,
-                value: true
-              };
 
-              onChange(form, fieldNames.ruleMetricName, value, doCalculateThresholdOnBackend);
+              updateForm(
+                form
+                  .updateIn([fieldNames.ruleMetricName], f => f.setValue(value).setTouched(true))
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              );
+
               websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue={statusCodeCount}
@@ -85,7 +86,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
             options={selectOptions[fieldNames.thresholdOperator]}
             onChange={e => {
               const value = (e && e.value) || '';
-              onChange(form, fieldNames.thresholdOperator, value);
+              onChange([fieldNames.thresholdOperator], f => f.setValue(value).setTouched(true));
               websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
@@ -118,7 +119,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
               setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
 
               const onChangCallback = () => {
-                onChange(form, fieldNames.thresholdValue, value);
+                onChange([fieldNames.thresholdValue], f => f.setValue(value).setTouched(true));
                 setDoDebounce(false);
               };
 
@@ -133,7 +134,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
         <StatusCodeAlertingBarChart
           websiteId={form.get(fieldNames.websiteId).value}
           threshold={threshold}
-          timeThreshold={getTimeThreshold(form)}
+          timeThreshold={form.get('timeThreshold').toJS()}
           timeConfig={timeConfig}
           tagFilters={form.get(fieldNames.tagFilters).value}
           numeratorFilter={{
@@ -156,7 +157,8 @@ StatusCodeInteractiveChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  debounceOnChange$: PropTypes.object
+  debounceOnChange$: PropTypes.object,
+  updateForm: PropTypes.func.isRequired
 };
 
 function getMaxThresholdValue(metricName) {

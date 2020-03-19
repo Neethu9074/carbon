@@ -7,6 +7,7 @@ import {
   applicationsAlertingAdditionalPropsTitleChanged,
   applicationsAlertingAdditionalPropsTriggerChanged
 } from 'in-applications/alerting/tracker';
+import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
@@ -14,7 +15,7 @@ import AdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedM
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 
 export default compose(
-  withProps(({ form, onChange, setSliderState }) => ({
+  withProps(({ form, onChange, setSliderState, updateForm }) => ({
     navItems: [
       {
         scrollId: '1',
@@ -44,7 +45,7 @@ export default compose(
         label: 'Time Threshold',
         title: 'Time Threshold: When do you want to be alerted?',
         checked: true,
-        content: <h1>TODO: Add TimeThresholdConfig here</h1>
+        content: <TimeThresholdConfigPresenter form={form} onChange={onChange} updateForm={updateForm} />
       },
       {
         scrollId: '4',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
@@ -13,7 +14,7 @@ import locals from './AlertSelection.mless';
 
 const subMenuLabels = [];
 
-export default function AlertSelection({ form, onChange }) {
+export default function AlertSelection({ form, updateForm }) {
   const [config, setConfig] = useState(getConfigByType(form));
   const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
 
@@ -45,7 +46,7 @@ export default function AlertSelection({ form, onChange }) {
         >
           <AlertTypeDescription
             form={form}
-            onChange={onChange}
+            updateForm={updateForm}
             config={config}
             selectButtonDisabled={selectButtonDisabled}
             setSelectButtonDisabled={setSelectButtonDisabled}
@@ -55,6 +56,11 @@ export default function AlertSelection({ form, onChange }) {
     </ExpandableCard>
   );
 }
+
+AlertSelection.propTypes = {
+  form: PropTypes.object.isRequired,
+  updateForm: PropTypes.func.isRequired
+};
 
 function getConfigByType(form) {
   return alertTypeConfig.find(({ type }) => form.get(fieldNames.ruleAlertType).value === type);

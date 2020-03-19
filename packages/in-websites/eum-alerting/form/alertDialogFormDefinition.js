@@ -5,6 +5,7 @@ import {
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
 import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
+import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
@@ -33,11 +34,13 @@ export const fieldNames = Object.freeze({
   thresholdSeasonality: 'thresholdSeasonality',
   thresholdBaseline: 'thresholdBaseline',
   thresholdDeviationFactor: 'thresholdDeviationFactor',
-  timeThresholdViolations: 'timeThresholdViolations',
-  timeThresholdTimeWindow: 'timeThresholdTimeWindow',
-  timeThresholdType: 'timeThresholdType',
-  timeThresholdUsers: 'timeThresholdUsers',
-  timeThresholdUserPercentage: 'timeThresholdUserPercentage'
+
+  // TODO: Refactor
+  timeThresholdViolations: 'violations',
+  timeThresholdTimeWindow: 'timeWindow',
+  timeThresholdType: 'type',
+  timeThresholdUsers: 'users',
+  timeThresholdUserPercentage: 'userPercentage'
 });
 
 // We don't sent this fields to the api
@@ -164,26 +167,10 @@ export const selectOptions = Object.freeze({
     { value: 'staticThreshold', label: 'Static Threshold' },
     { value: 'historicBaseline.DAILY', label: 'Baseline (Daily Seasonality)' },
     { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
-  ]),
-  conditionPersistenceTime: Object.freeze([
-    { value: 600000, label: '10 min' },
-    { value: 1200000, label: '20 min' },
-    { value: 1800000, label: '30 min' },
-    { value: 3600000, label: '60 min' },
-    { value: 5400000, label: '90 min' },
-    { value: 7200000, label: '120 min' }
   ])
 });
 
-export const radioOptions = Object.freeze({
-  timeThresholdType: Object.freeze({
-    violationsInSequence: 'violationsInSequence',
-    violationsInPeriod: 'violationsInPeriod',
-    userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence'
-  })
-});
-
-export default function alertFormDefinition(alertFormValues = {}) {
+export default function alertFormDefinition(alertConfig = {}) {
   const {
     rule = '',
     tagFilters = [],
@@ -195,10 +182,8 @@ export default function alertFormDefinition(alertFormValues = {}) {
     name = '',
     websiteId = '',
     id = '',
-    threshold = '',
-    calculateThresholdOnBackend = false,
-    timeThreshold = ''
-  } = alertFormValues;
+    threshold = ''
+  } = alertConfig;
 
   let form = createMapForm()
     .put(
@@ -300,55 +285,10 @@ export default function alertFormDefinition(alertFormValues = {}) {
         validator: positiveNumberValidator
       })
     )
+    .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put(
-      fieldNames.timeThresholdViolations,
-      createField({
-        value: (timeThreshold && timeThreshold.violations) || 1
-      })
-    )
-    .put(
-      fieldNames.timeThresholdTimeWindow,
-      createField({
-        value: (timeThreshold && timeThreshold.timeWindow) || 600000
-      })
-    )
-    .put(
-      fieldNames.timeThresholdType,
-      createField({
-        value: (timeThreshold && timeThreshold.type) || radioOptions.timeThresholdType.violationsInSequence
-      })
-    )
-    .put(
-      fieldNames.timeThresholdUsers,
-      createField({
-        validator: numAffectedUsersValidator,
-        value: (timeThreshold && timeThreshold.users) || 20
-      })
-    )
-    .put(
-      fieldNames.timeThresholdUserPercentage,
-      createField({
-        validator: percentageAffectedUsersValidator,
-        value: (timeThreshold && timeThreshold.userPercentage) || 0.2
-      })
-    )
-    .put(
-      hiddenFieldNames.alertByNumberOfImpactedUsersEnabled,
-      createField({
-        value: !!(timeThreshold && timeThreshold.users !== null)
-      })
-    )
-    .put(
-      hiddenFieldNames.alertByPercentageOfImpactedUsersEnabled,
-      createField({
-        value: !!(typeof timeThreshold.userPercentage === 'undefined' ? true : timeThreshold.userPercentage)
-      })
-    )
-    .put(
-      hiddenFieldNames.calculateThresholdOnBackend,
-      createField({
-        value: calculateThresholdOnBackend
-      })
+      'hiddenFields',
+      createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)
     );
 
   const alertType = form.get(fieldNames.ruleAlertType).value;
@@ -370,6 +310,28 @@ export default function alertFormDefinition(alertFormValues = {}) {
   }
 
   return form;
+}
+
+function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = false) {
+  return createMapForm()
+    .put(
+      'alertByNumberOfImpactedUsersEnabled',
+      createField({
+        value: !!(timeThreshold && timeThreshold.users !== null)
+      })
+    )
+    .put(
+      'alertByPercentageOfImpactedUsersEnabled',
+      createField({
+        value: !!(typeof timeThreshold.userPercentage === 'undefined' ? true : timeThreshold.userPercentage)
+      })
+    )
+    .put(
+      'calculateThresholdOnBackend',
+      createField({
+        value: calculateThresholdOnBackend
+      })
+    );
 }
 
 export function getStatusCodeLabel(value) {
@@ -411,28 +373,6 @@ function positiveNumberValidator(num) {
       {
         severity: 'error',
         message: 'Please provide a number >= 0'
-      }
-    ];
-  }
-}
-
-function numAffectedUsersValidator(num) {
-  if (num === '' || num < 1) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please provide a number >= 1'
-      }
-    ];
-  }
-}
-
-function percentageAffectedUsersValidator(num) {
-  if (num === '' || num < 0.01 || num > 1.0) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please provide a number between 1% and 100%'
       }
     ];
   }

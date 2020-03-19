@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ScrollStep from 'in-websites/eum-alerting/advanced/ScrollStep';
+import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Button from 'in-new-components/Button/Button';
 import SideNav from 'in-new-components/SideNav';

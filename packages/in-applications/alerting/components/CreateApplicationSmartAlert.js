@@ -38,12 +38,12 @@ export default function CreateApplicationSmartAlert({
             applicationId,
             tagFilters: [
               {
-                name: 'serviceId',
+                name: 'service.id',
                 operator: 'EQUALS',
                 stringValue: serviceId
               },
               {
-                name: 'endpointId',
+                name: 'endpoint.id',
                 operator: 'EQUALS',
                 stringValue: endpointId
               }

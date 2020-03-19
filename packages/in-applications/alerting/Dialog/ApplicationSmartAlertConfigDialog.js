@@ -22,6 +22,7 @@ export default function ApplicationSmartAlertConfigDialog({ onClose, formData, e
     <AlertConfigDialogPresenter
       editMode={editMode}
       form={form}
+      updateForm={setForm}
       granularity={alertingMetricsGranularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onClose={onClose}

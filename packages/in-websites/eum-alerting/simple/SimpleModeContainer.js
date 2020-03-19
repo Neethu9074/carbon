@@ -31,7 +31,7 @@ export default function SimpleModeContainer({
   websiteLabel,
   onCreate,
   setSimpleModeStep,
-  setForm
+  updateForm
 }) {
   const [step, setStep] = useState(0);
 
@@ -39,10 +39,11 @@ export default function SimpleModeContainer({
     <>
       <StepProgressBar stepTitles={stepTitles} step={step} />
 
-      <form onSubmit={e => handleSubmit(e, step, setStep, form, setForm, setSimpleModeStep, onCreate)}>
+      <form onSubmit={e => handleSubmit(e, step, setStep, form, updateForm, setSimpleModeStep, onCreate)}>
         {step === steps.selectAlert && (
           <SimpleAlertConfigDialogStep1
             form={form}
+            updateForm={updateForm}
             onChange={onChange}
             timeConfig={timeConfig}
             setJsErrorsListVisible={setSliderState}
@@ -53,8 +54,8 @@ export default function SimpleModeContainer({
           <SimpleAlertConfigDialogStep2
             form={form}
             timeConfig={timeConfig}
+            updateForm={updateForm}
             websiteLabel={websiteLabel}
-            onChange={onChange}
             granularity={granularity}
           />
         )}
@@ -90,7 +91,7 @@ SimpleModeContainer.propTypes = {
   setSliderState: PropTypes.func.isRequired,
   timeConfig: PropTypes.any,
   websiteLabel: PropTypes.any,
-  setForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired
 };
 
 function isLastStep(step, steps) {
@@ -113,7 +114,7 @@ function handleBackClick(setStep, step, setSimpleModeStep) {
   websitesAlertingStepSwitch({ step, nextStep: step - 1 });
 }
 
-function handleSubmit(e, step, setStep, form, setForm, setSimpleModeStep, onCreate) {
+function handleSubmit(e, step, setStep, form, updateForm, setSimpleModeStep, onCreate) {
   stopPropagationAndPreventDefault(e);
 
   let stepValid = true;
@@ -129,9 +130,9 @@ function handleSubmit(e, step, setStep, form, setForm, setSimpleModeStep, onCrea
 
   if (step === steps.selectAlert) {
     if (!stepValid) {
-      setForm(form.updateIn([fieldNames.ruleValue], f => f.setTouched(true)));
+      updateForm(form.updateIn([fieldNames.ruleValue], f => f.setTouched(true)));
     } else {
-      setForm(form.setTouched(false, { recurse: true }));
+      updateForm(form.setTouched(false, { recurse: true }));
       handleNextClick(setStep, step, setSimpleModeStep);
     }
     return;
@@ -139,9 +140,9 @@ function handleSubmit(e, step, setStep, form, setForm, setSimpleModeStep, onCrea
 
   if (step === steps.selectAlertingChannel) {
     if (!stepValid) {
-      setForm(form.updateIn([fieldNames.alertChannelIds], f => f.setTouched(true)));
+      updateForm(form.updateIn([fieldNames.alertChannelIds], f => f.setTouched(true)));
     } else {
-      setForm(form.setTouched(false, { recurse: true }));
+      updateForm(form.setTouched(false, { recurse: true }));
       onCreate();
     }
     return;

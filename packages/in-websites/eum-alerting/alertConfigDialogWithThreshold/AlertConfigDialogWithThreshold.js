@@ -25,8 +25,8 @@ import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subs
 import WebsitesAlertingAdvancedModeContainer from 'in-websites/eum-alerting/advanced/WebsitesAlertingAdvancedModeContainer';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
-import { fieldNames, hiddenFieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
 import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
@@ -36,23 +36,23 @@ import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = compose(
   connectTo(props => {
-    const { form, timeConfig, granularity, onChange } = props;
+    const { form, timeConfig, granularity, updateForm } = props;
 
     const thresholdType = form.get(fieldNames.thresholdType).value;
 
-    thresholdOrBaselineLoadingSignal$.emit(form.get(hiddenFieldNames.calculateThresholdOnBackend).value);
+    thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     const observable = {};
     if (thresholdType === 'staticThreshold') {
       observable.result = resolveThresholdRequest(form, timeConfig, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .map(resp => resp.data)
-        .tap(({ threshold, time }) => addThresholdToForm(form, onChange, threshold, time));
+        .tap(({ threshold, time }) => addThresholdToForm(form, updateForm, threshold, time));
     } else {
       observable.result = resolveBaselineRequest(form, timeConfig, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .map(resp => resp.data)
-        .tap(({ baseline, time }) => addBaselineToForm(form, onChange, baseline || [], time));
+        .tap(({ baseline, time }) => addBaselineToForm(form, updateForm, baseline || [], time));
     }
 
     return observable;
@@ -180,40 +180,26 @@ function resolveBaselineRequest(form, timeConfig, granularity) {
   return alwaysEmptyArray;
 }
 
-function addThresholdToForm(form, onChange, threshold, time) {
-  if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
+function addThresholdToForm(form, updateForm, threshold, time) {
+  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
     thresholdOrBaselineLoadingSignal$.emit(false);
-    onChange(
-      form,
-      fieldNames.thresholdValue,
-      threshold,
-      {
-        name: hiddenFieldNames.calculateThresholdOnBackend,
-        value: false
-      },
-      {
-        name: fieldNames.thresholdLastUpdated,
-        value: time
-      }
+    updateForm(
+      form
+        .updateIn([fieldNames.thresholdValue], f => f.setValue(threshold).setTouched(true))
+        .updateIn([fieldNames.thresholdLastUpdated], f => f.setValue(time))
+        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
 }
 
-function addBaselineToForm(form, onChange, baseline, time) {
-  if (form.get(hiddenFieldNames.calculateThresholdOnBackend).value) {
+function addBaselineToForm(form, updateForm, baseline, time) {
+  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
     thresholdOrBaselineLoadingSignal$.emit(false);
-    onChange(
-      form,
-      fieldNames.thresholdBaseline,
-      baseline,
-      {
-        name: hiddenFieldNames.calculateThresholdOnBackend,
-        value: false
-      },
-      {
-        name: fieldNames.thresholdLastUpdated,
-        value: time
-      }
+    updateForm(
+      form
+        .updateIn([fieldNames.thresholdBaseline], f => f.setValue(baseline).setTouched(true))
+        .updateIn([fieldNames.thresholdLastUpdated], f => f.setValue(time))
+        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
 }

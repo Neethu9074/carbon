@@ -5,10 +5,10 @@ import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/Inco
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import { getThreshold, getTimeThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/eum-alerting/formHelpers';
+import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -32,7 +32,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
                 metricName={form.get(fieldNames.ruleMetricName).value}
                 granularity={granularity}
                 threshold={getThreshold(form)}
-                timeThreshold={getTimeThreshold(form)}
+                timeThreshold={form.get('timeThreshold').toJS()}
                 alertsPreviewEnabled
                 canReload
               />
@@ -47,7 +47,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
           <StatusCodeAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}
             threshold={getThreshold(form)}
-            timeThreshold={getTimeThreshold(form)}
+            timeThreshold={form.get('timeThreshold').toJS()}
             timeConfig={timeConfig}
             tagFilters={form.get(fieldNames.tagFilters).value}
             numeratorFilter={{
@@ -67,7 +67,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
           <SlownessAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}
             threshold={getThreshold(form)}
-            timeThreshold={getTimeThreshold(form)}
+            timeThreshold={form.get('timeThreshold').toJS()}
             sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)}
             timeConfig={timeConfig}
             tagFilters={form.get(fieldNames.tagFilters).value}

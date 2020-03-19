@@ -1,0 +1,27 @@
+import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
+import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import connectTo from 'in-hoc/connectTo';
+
+const twentyFourHours = 86400000;
+
+export default connectTo(props => ({
+  uniqueUsersOrSessionsResult:
+    props.form.get('timeThreshold').get('type').value === timeThresholdTypes.userImpactOfViolationsInSequence &&
+    getWebsiteMetrics({
+      timeConfig: { windowSize: twentyFourHours },
+      tagFilters: [
+        {
+          name: 'beacon.website.id',
+          operator: 'EQUALS',
+          stringValue: props.form.get('websiteId').value
+        }
+      ],
+      metrics: {
+        count: {
+          metric: 'uniqueUsersOrSessions',
+          aggregation: 'DISTINCT_COUNT'
+        }
+      }
+    })
+}))(TimeThresholdConfigPresenter);

@@ -8,7 +8,7 @@ import {
   websitesAlertingJsErrorsErrorSelected,
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames, hiddenFieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -20,10 +20,9 @@ import Label from 'in-components/form/Label';
 
 import locals from './ProvideManualPattern.mless';
 
-const doCalculateThresholdOnBackend = { name: hiddenFieldNames.calculateThresholdOnBackend, value: true };
 const debouncedErrorMsgChangedTracker = debounce(websitesAlertingJsErrorsMsgChanged, 300);
 
-export default function ProvideManualPattern({ form, timeConfig, onChange, onSelectJsError, mode }) {
+export default function ProvideManualPattern({ form, timeConfig, onSelectJsError, mode, updateForm }) {
   const operatorField = form.get(fieldNames.ruleOperator);
   const ruleValueField = form.get(fieldNames.ruleValue);
 
@@ -48,10 +47,13 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
               } else if (newOperator !== operators.NOT_EMPTY) {
                 newRuleValueValue = ruleValueField.value;
               }
-              onChange(form, fieldNames.ruleOperator, newOperator, doCalculateThresholdOnBackend, {
-                name: fieldNames.ruleValue,
-                value: newRuleValueValue
-              });
+
+              updateForm(
+                form
+                  .updateIn([fieldNames.ruleOperator], f => f.setValue(newOperator).setTouched(true))
+                  .updateIn([fieldNames.ruleValue], f => f.setValue(newRuleValueValue).setTouched(true))
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              );
             }}
             defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
             clearable={false}
@@ -70,7 +72,11 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
                 value={field.value}
                 onChange={e => {
                   debouncedErrorMsgChangedTracker(mode);
-                  onChange(form, fieldNames.ruleValue, (e && e.target.value) || '', doCalculateThresholdOnBackend);
+                  updateForm(
+                    form
+                      .updateIn([fieldNames.ruleValue], f => f.setValue((e && e.target.value) || '').setTouched(true))
+                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  );
                 }}
                 hasError={!field.valid && field.touched}
                 maxLength={65536}
@@ -86,7 +92,11 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
                           timeConfig={timeConfig}
                           onChange={(updatedForm, fieldName, message) => {
                             websitesAlertingJsErrorsErrorSelected({ message, mode });
-                            onChange(updatedForm, fieldName, message, doCalculateThresholdOnBackend);
+                            updateForm(
+                              updatedForm
+                                .updateIn([fieldName], f => f.setValue(message).setTouched(true))
+                                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                            );
                           }}
                           slideOut={() => onSelectJsError({ isVisible: false })}
                         />
@@ -109,8 +119,8 @@ export default function ProvideManualPattern({ form, timeConfig, onChange, onSel
 
 ProvideManualPattern.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
+  updateForm: PropTypes.func.isRequired,
   onSelectJsError: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired
+  timeConfig: PropTypes.object.isRequired
 };

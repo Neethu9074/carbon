@@ -1,5 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
-import { get } from 'lodash';
+
+import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
@@ -9,43 +10,43 @@ export function createApplicationSmartAlertForm(alertConfig) {
     .put(
       'name',
       createField({
-        value: get(alertConfig, 'name', '')
+        value: alertConfig.name ?? ''
       })
     )
     .put(
       'description',
       createField({
-        value: get(alertConfig, 'description', '')
+        value: alertConfig.description ?? ''
       })
     )
     .put(
       'applicationId',
       createField({
-        value: get(alertConfig, 'applicationId', '')
+        value: alertConfig.applicationId ?? ''
       })
     )
     .put(
       'severity',
       createField({
-        value: get(alertConfig, 'severity', defaultSeverity)
+        value: alertConfig.severity ?? defaultSeverity
       })
     )
     .put(
       'triggering',
       createField({
-        value: get(alertConfig, 'triggering', true)
+        value: alertConfig.triggering ?? true
       })
     )
     .put(
       'tagFilters',
       createField({
-        value: get(alertConfig, 'tagFilters', [])
+        value: alertConfig.tagFilters ?? []
       })
     )
     .put(
       'alertChannelIds',
       createField({
-        value: get(alertConfig, 'alertChannelIds', []),
+        value: alertConfig.alertChannelIds ?? [],
         validator: array => {
           if (!array || array.length === 0) {
             return [
@@ -61,36 +62,36 @@ export function createApplicationSmartAlertForm(alertConfig) {
     .put(
       'granularity',
       createField({
-        value: get(alertConfig, 'granularity', defaultGranularity)
+        value: alertConfig.granularity ?? defaultGranularity
       })
     )
     .put(
       'id',
       createField({
-        value: get(alertConfig, 'id', '')
+        value: alertConfig.id ?? ''
       })
     )
     .put(
       'created',
       createField({
-        value: get(alertConfig, 'created', '')
+        value: alertConfig.created ?? ''
       })
     )
     .put(
       'readOnly',
       createField({
-        value: get(alertConfig, 'readOnly', false)
+        value: alertConfig.readOnly ?? false
       })
     )
     .put(
       'enabled',
       createField({
-        value: get(alertConfig, 'enabled', true)
+        value: alertConfig.enabled ?? true
       })
     )
-    .put('threshold', createThresholdForm(get(alertConfig, 'threshold', {})))
-    .put('timeThreshold', createTimeThresholdForm(get(alertConfig, 'timeThreshold', {})))
-    .put('rule', createRuleForm(get(alertConfig, 'rule', {})));
+    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
+    .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
+    .put('rule', createRuleForm(alertConfig.rule ?? {}));
 }
 
 function createThresholdForm(threshold) {
@@ -98,25 +99,25 @@ function createThresholdForm(threshold) {
     .put(
       'type',
       createField({
-        value: get(threshold, 'type', 'staticThreshold')
+        value: threshold.type ?? 'staticThreshold'
       })
     )
     .put(
       'lastUpdated',
       createField({
-        value: get(threshold, 'lastUpdated', 0)
+        value: threshold.lastUpdated ?? 0
       })
     )
     .put(
       'operator',
       createField({
-        value: get(threshold, 'operator', '>=')
+        value: threshold.operator ?? '>='
       })
     )
     .put(
       'value',
       createField({
-        value: get(threshold, 'value', ''),
+        value: threshold.value ?? '',
         validator: num => {
           if (num === '' || num < 0) {
             return [
@@ -131,40 +132,18 @@ function createThresholdForm(threshold) {
     );
 }
 
-function createTimeThresholdForm(timeThreshold) {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: get(timeThreshold, 'type', 'violationsInSequence')
-      })
-    )
-    .put(
-      'timeWindow',
-      createField({
-        value: get(timeThreshold, 'timeWindow', 600000)
-      })
-    )
-    .put(
-      'violations',
-      createField({
-        value: get(timeThreshold, 'violations', 1)
-      })
-    );
-}
-
 function createRuleForm(rule) {
   return createMapForm()
     .put(
       'alertType',
       createField({
-        value: get(rule, 'alertType', 'errorRate')
+        value: rule.alertType ?? 'errorRate'
       })
     )
     .put(
       'metricName',
       createField({
-        value: get(rule, 'metricName', 'errors')
+        value: rule.metricName ?? 'errors'
       })
     );
 }
