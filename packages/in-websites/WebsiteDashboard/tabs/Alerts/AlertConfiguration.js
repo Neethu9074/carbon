@@ -9,17 +9,17 @@ import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/S
 import TimeThresholdDescription from 'in-websites/WebsiteDashboard/tabs/Alerts/TimeThresholdDescription';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
+import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
-import AlertLocationFilters from 'in-new-components/Alerting/components/AlertLocationFilters';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
-
 import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
@@ -28,6 +28,8 @@ const oneDay = 24 * 60 * 60 * 1000;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const form = alertFormDefinition(alertConfig);
+  const tagFilters = alertConfig.tagFilters;
+  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(alertConfig.websiteId), ...tagFilters];
 
   const timeConfig = {
     windowSize: oneDay
@@ -108,9 +110,14 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       </Card>
 
       <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
-        <div className={locals.wrapper}>
-          <AlertLocationFilters form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} isReadOnly />
-          <div className={locals.overlay} />
+        <div className={locals.filterList}>
+          <TagFilterListPresenter
+            tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+              tagFilters: tagFiltersWithWebsiteId,
+              websiteLabel
+            })}
+            disabled
+          />
         </div>
       </ExpandableCard>
 
@@ -149,4 +156,12 @@ function getDescription(alertConfigRule) {
     description = `${description}: "${alertConfigRule.value}"`;
   }
   return description;
+}
+
+function getWebsiteIdTagFilter(websiteId) {
+  return {
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: websiteId
+  };
 }

@@ -118,7 +118,7 @@ function Alert({
 
         <Row>
           <Col xs={6}>
-            <AlertConfiguration alertConfig={alertConfig} />
+            <AlertConfiguration alertConfig={alertConfig} applicationName={applicationName} />
           </Col>
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>

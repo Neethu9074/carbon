@@ -22,7 +22,7 @@ const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
 const doCalculateThresholdOnBackend = { name: 'calculateThresholdOnBackend', value: true };
 
-export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel, isReadOnly }) {
+export default function AlertLocationFilters({ advancedMode, form, onChange, timeConfig, websiteLabel }) {
   const alertType = form.get('ruleAlertType').value;
   const tagSuggestions = availableTagFiltersPerAlertType[alertType];
   if (__DEV__) {
@@ -32,63 +32,61 @@ export default function AlertLocationFilters({ advancedMode, form, onChange, tim
   return (
     form && (
       <>
-        {!isReadOnly && (
-          <div className={locals.quickFilterBarWrapper}>
-            <QuickFilterBar
-              timeConfig={timeConfig}
-              tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-              upsertTagFilter={newTagFilter => {
-                addFilter(form, newTagFilter, onChange, advancedMode);
-              }}
-              addTagFilter={newTagFilter => {
-                addFilter(form, newTagFilter, onChange, advancedMode);
-              }}
-              removeTagFilter={name => {
-                if (name !== BEACON_WEBSITE_NAME) {
-                  onChange(
-                    form,
-                    'tagFilters',
-                    withoutTagFilterForName(getTagFilters(form), name),
-                    doCalculateThresholdOnBackend
-                  );
-                  websitesAlertingFilterRemove({
-                    ...getBlueprintObject(form),
-                    mode: advancedMode ? modeAdvanced : modeSimple,
-                    filterName: name
-                  });
-                }
-              }}
-              onMoreClick={tagFilter => {
-                addActiveDialog(
-                  <WebsiteEditTagFilterDialog
-                    tagFilter={tagFilter}
-                    tagFilters={getTagFilters(form)}
-                    setTagFilters={tagFilters => {
-                      websitesAlertingFilterSet({
-                        ...getBlueprintObject(form),
-                        mode: advancedMode ? modeAdvanced : modeSimple,
-                        tagFilters
-                      });
-                      onChange(form, 'tagFilters', tagFilters, doCalculateThresholdOnBackend);
-                    }}
-                    tagSuggestions={tagSuggestions.filter(
-                      name =>
-                        name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
-                    )}
-                    timeConfig={timeConfig}
-                  />
+        <div className={locals.quickFilterBarWrapper}>
+          <QuickFilterBar
+            timeConfig={timeConfig}
+            tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
+            upsertTagFilter={newTagFilter => {
+              addFilter(form, newTagFilter, onChange, advancedMode);
+            }}
+            addTagFilter={newTagFilter => {
+              addFilter(form, newTagFilter, onChange, advancedMode);
+            }}
+            removeTagFilter={name => {
+              if (name !== BEACON_WEBSITE_NAME) {
+                onChange(
+                  form,
+                  'tagFilters',
+                  withoutTagFilterForName(getTagFilters(form), name),
+                  doCalculateThresholdOnBackend
                 );
-              }}
-              align="bottomMiddle"
-              showPageSelector
-              showWebsiteSelector={advancedMode}
-              removeBarPadding
-              removeBarBackgroundColor
-              hideClearFiltersButton
-              withoutFiltersLabel
-            />
-          </div>
-        )}
+                websitesAlertingFilterRemove({
+                  ...getBlueprintObject(form),
+                  mode: advancedMode ? modeAdvanced : modeSimple,
+                  filterName: name
+                });
+              }
+            }}
+            onMoreClick={tagFilter => {
+              addActiveDialog(
+                <WebsiteEditTagFilterDialog
+                  tagFilter={tagFilter}
+                  tagFilters={getTagFilters(form)}
+                  setTagFilters={tagFilters => {
+                    websitesAlertingFilterSet({
+                      ...getBlueprintObject(form),
+                      mode: advancedMode ? modeAdvanced : modeSimple,
+                      tagFilters
+                    });
+                    onChange(form, 'tagFilters', tagFilters, doCalculateThresholdOnBackend);
+                  }}
+                  tagSuggestions={tagSuggestions.filter(
+                    name =>
+                      name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
+                  )}
+                  timeConfig={timeConfig}
+                />
+              );
+            }}
+            align="bottomMiddle"
+            showPageSelector
+            showWebsiteSelector={advancedMode}
+            removeBarPadding
+            removeBarBackgroundColor
+            hideClearFiltersButton
+            withoutFiltersLabel
+          />
+        </div>
         <div className={locals.filterList}>
           <TagFilterListPresenter
             onTagFilterClick={tagFilter => {
@@ -136,8 +134,7 @@ AlertLocationFilters.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func,
   timeConfig: PropTypes.object.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
-  isReadOnly: PropTypes.bool
+  websiteLabel: PropTypes.string.isRequired
 };
 
 function addFilter(form, newTagFilter, onChange, advancedMode) {

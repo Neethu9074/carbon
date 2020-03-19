@@ -5,6 +5,8 @@ import SelectAlertChannelPresenter from 'in-new-components/Alerting/components/S
 import { createApplicationSmartAlertForm } from 'in-applications/alerting/form/applicationSmartAlertForm';
 import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
+import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
@@ -16,8 +18,10 @@ import locals from './AlertConfiguration.mless';
 
 const oneDay = 24 * 60 * 60 * 1000;
 
-export default function AlertConfiguration({ alertConfig }) {
+export default function AlertConfiguration({ alertConfig, applicationName }) {
   const form = createApplicationSmartAlertForm(alertConfig);
+  const tagFilters = alertConfig.tagFilters;
+  const tagFiltersWithApplicationId = [getApplicationIdTagFilter(alertConfig.applicationId), ...tagFilters];
 
   const timeConfig = {
     windowSize: oneDay
@@ -35,7 +39,7 @@ export default function AlertConfiguration({ alertConfig }) {
               <ErrorRateAlertingBarChart
                 applicationId={alertConfig.applicationId}
                 timeConfig={timeConfig}
-                tagFilters={alertConfig.tagFilters}
+                tagFilters={tagFilters}
                 metricName={alertConfig.rule.metricName}
                 granularity={alertingMetricsGranularity}
                 threshold={alertConfig.threshold}
@@ -45,6 +49,18 @@ export default function AlertConfiguration({ alertConfig }) {
           )}
         />
       </Card>
+
+      <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
+        <div className={locals.filterList}>
+          <TagFilterListPresenter
+            tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+              tagFilters: tagFiltersWithApplicationId,
+              applicationName
+            })}
+            disabled
+          />
+        </div>
+      </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
         <div className={locals.alertChannelsWrapper}>
@@ -66,5 +82,14 @@ export default function AlertConfiguration({ alertConfig }) {
 }
 
 AlertConfiguration.propTypes = {
-  alertConfig: PropTypes.object.isRequired
+  alertConfig: PropTypes.object.isRequired,
+  applicationName: PropTypes.string.isRequired
 };
+
+function getApplicationIdTagFilter(applicationId) {
+  return {
+    name: 'application.id',
+    operator: 'EQUALS',
+    stringValue: applicationId
+  };
+}
