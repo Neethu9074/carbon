@@ -1,8 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
-import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -104,43 +102,9 @@ function renderMetaInformation({ result }) {
 }
 
 function renderButtonLine(props) {
-  const k8sServiceUid = get(props.result, ['data', 'uid']);
   return (
     <>
       <StackButton id={props.serviceId} timeConfig={props.timeConfig} />
-      {k8sServiceUid && (
-        <EntityToInstanaServiceButton
-          {...props}
-          getServices={() =>
-            getApplicationServicesForKubernetesService({
-              kubernetesServiceUid: k8sServiceUid,
-              timeConfig: props.timeConfig,
-              order: {
-                by: 'callsAgg',
-                direction: 'DESC'
-              },
-              metrics: {
-                callsAgg: {
-                  metric: 'calls',
-                  aggregation: 'SUM'
-                },
-                latencyAgg: {
-                  metric: 'latency',
-                  aggregation: 'MEAN'
-                },
-                errorsAgg: {
-                  metric: 'errors',
-                  aggregation: 'MEAN'
-                },
-                maxSeverity: {
-                  metric: 'maxSeverity',
-                  aggregation: 'MAX'
-                }
-              }
-            })
-          }
-        />
-      )}
       <AnalyzeCallsButton
         clusterName={get(props.result, ['data', 'clusterName'])}
         namespaceName={get(props.result, ['data', 'namespace'])}
