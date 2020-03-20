@@ -19,7 +19,8 @@ export default function UpstreamDownstreamPane({
   productArea,
   boundaryScope,
   itemsApplication,
-  resultApplication
+  resultApplication,
+  close
 }) {
   if (!items.length && !itemsApplication.length) {
     return <EmptyPane serviceId={serviceId} endpointId={endpointId} activeTab={activeTab} />;
@@ -39,6 +40,7 @@ export default function UpstreamDownstreamPane({
         serviceId={serviceId}
         timeConfig={timeConfig}
         itemType={relationships.SERVICE}
+        close={close}
       />
       {itemsApplication.length > 0 && (
         <UpstreamDownstreamGroup
@@ -53,6 +55,7 @@ export default function UpstreamDownstreamPane({
           serviceId={serviceId}
           timeConfig={timeConfig}
           itemType={relationships.APPLICATION}
+          close={close}
         />
       )}
     </ScrollHints>
