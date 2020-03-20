@@ -26,7 +26,8 @@ export default function UpstreamDownstreamGroup({
   productArea,
   endpointId,
   boundaryScope,
-  itemType
+  itemType,
+  close
 }) {
   const [selectedMetric, onChangeMetric] = useState('errors');
   const totalHits = result.data.totalHits;
@@ -82,9 +83,9 @@ export default function UpstreamDownstreamGroup({
   );
 }
 
-function getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId, close) {
+function getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId) {
   return (
-    <Link href$={getApplicationList({ applicationId, serviceId, endpointId, contextScope: activeTab })} onClick={close}>
+    <Link href$={getApplicationList({ applicationId, serviceId, endpointId, contextScope: activeTab })}>
       {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Applications` : 'See Application'}
     </Link>
   );
@@ -103,7 +104,7 @@ function getSeeAllServicesLink(
   const tabMatrix = activeTab === 'UPSTREAM' ? { hideDownstream: true } : { hideUpstream: true };
   if (productArea === 'application') {
     return (
-      <Link href$={getServiceList({ applicationId, contextScope: activeTab })} onClick={close}>
+      <Link href$={getServiceList({ applicationId, contextScope: activeTab })}>
         {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
       </Link>
     );
