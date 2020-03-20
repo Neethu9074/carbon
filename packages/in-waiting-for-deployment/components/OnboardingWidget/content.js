@@ -563,31 +563,32 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPo
 
 function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
+  const lines = [
+    'sudo docker run \\',
+    '--detach \\',
+    '--name instana-agent \\',
+    '--volume /var/run:/var/run \\',
+    '--volume /run:/run \\',
+    '--volume /dev:/dev \\',
+    '--volume /sys:/sys \\',
+    '--volume /var/log:/var/log \\',
+    '--privileged \\',
+    '--net=host \\',
+    '--pid=host \\',
+    '--ipc=host \\',
+    `--env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
+    `--env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
+    `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+    'instana/agent'
+  ];
+  if (zoneName) {
+    lines.push(`--env="INSTANA_AGENT_ZONE=${zoneName}" \\`, lines.pop());
+  }
 
   return (
     <>
       <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
-      <Bash
-        lines={[
-          'sudo docker run \\',
-          '--detach \\',
-          '--name instana-agent \\',
-          '--volume /var/run:/var/run \\',
-          '--volume /run:/run \\',
-          '--volume /dev:/dev \\',
-          '--volume /sys:/sys \\',
-          '--volume /var/log:/var/log \\',
-          '--privileged \\',
-          '--net=host \\',
-          '--pid=host \\',
-          '--ipc=host \\',
-          `--env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
-          `--env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
-          `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
-          `--env="INSTANA_AGENT_ZONE='${zoneName}'" \\`,
-          'instana/agent'
-        ]}
-      />
+      <Bash lines={lines} />
     </>
   );
 }

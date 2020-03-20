@@ -35,7 +35,8 @@ export default function InfrastructureTopList({ config }) {
       setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
     }),
     getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType),
-    getItemLink: item => getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' }),
+    getItemLink: item =>
+      getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), { pathname: '/physical/dashboard' }),
     unpinItem: (id, type) => remove({ id, type })
   };
 

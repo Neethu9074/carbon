@@ -6,7 +6,9 @@ exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
   return new Promise(resolve => {
     sendRequest(
       {
-        url: `${butlerUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
+        url: `${butlerUrl}/tos-privacy-agreement/acceptors?tenant=${encodeURIComponent(
+          tenant
+        )}&unit=${encodeURIComponent(unit)}`,
         timeout: 15000
       },
       (error, response, reportingConfig) => {
