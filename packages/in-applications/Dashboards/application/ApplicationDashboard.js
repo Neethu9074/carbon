@@ -87,6 +87,13 @@ function Header(props) {
 function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location }) {
   return (
     <>
+      <ApplicationEntityHealthIndicatorBehavior
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+      />
       <UpstreamDownstreamButton
         applicationId={applicationId}
         serviceId={serviceId}
@@ -102,14 +109,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-      />
-      <ApplicationEntityHealthIndicatorBehavior
-        showOkayOnNoIssues={false}
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        timeConfig={timeConfig}
       />
       {role.canConfigureCustomAlerts &&
         applicationSmartAlertsEnabled && (

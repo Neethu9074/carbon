@@ -93,7 +93,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
-        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         applicationId={applicationId}
         serviceId={serviceId}

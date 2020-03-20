@@ -27,13 +27,10 @@ export default connectTo(
     };
   },
   function ApplicationEntityHealthIndicatorBehavior(props) {
-    const { openIssues, showOkayOnNoIssues = true } = props;
-    if (openIssues == null || openIssues < 0) {
-      return null;
-    }
+    let { openIssues, maxSeverity } = props;
 
-    if (openIssues === 0) {
-      return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
+    if (openIssues === 0 || openIssues === null || openIssues < 0) {
+      return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues="No Issues" />;
     }
 
     return (
@@ -46,7 +43,12 @@ export default connectTo(
 
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
-    <IndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} onClick={toggle} refSetter={refSetter} />
+    <IndicatorPresenter
+      openIssues={`${openIssues} issue${openIssues === 1 ? '' : 's'}`}
+      maxSeverity={maxSeverity}
+      onClick={toggle}
+      refSetter={refSetter}
+    />
   );
 }
 
