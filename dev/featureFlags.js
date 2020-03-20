@@ -20,7 +20,7 @@ module.exports = {
   contextGuideEnabled: true,
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
-  apDashboardEventsEnabled: false,
+  apDashboardEventsEnabled: true,
   customDashboardsEnabled: true,
   landingPageConfigurationEnabled: true
 };
