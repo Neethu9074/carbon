@@ -8,7 +8,6 @@ import SvgIcon from 'in-components/SvgIcon';
 export default function WebsiteContextIcon({ className, websiteId, timeConfig }) {
   return (
     <WebsiteHealthIndicatorBehavior
-      showOkayOnNoIssues={false}
       IndicatorPresenter={HealthIndicatorButtonPresenter}
       websiteId={websiteId}
       timeConfig={timeConfig}

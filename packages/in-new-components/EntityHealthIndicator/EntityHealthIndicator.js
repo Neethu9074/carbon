@@ -6,13 +6,20 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import locals from './EntityHealthIndicator.mless';
 
 export default function EntityHealthIndicator(props) {
-  const { openIssues, showOkayOnNoIssues = true } = props;
+  const { openIssues, maxSeverity } = props;
+
   if (openIssues == null || openIssues < 0) {
     return null;
   }
 
   if (openIssues === 0) {
-    return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
+    return (
+      <props.IndicatorPresenter
+        showCheckAsNeutral
+        maxSeverity={maxSeverity}
+        openIssues={props.inContentArea ? openIssues : 'No Issues'}
+      />
+    );
   }
 
   return (
@@ -24,7 +31,12 @@ export default function EntityHealthIndicator(props) {
 
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
-    <IndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} onClick={toggle} refSetter={refSetter} />
+    <IndicatorPresenter
+      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
+      maxSeverity={maxSeverity}
+      onClick={toggle}
+      refSetter={refSetter}
+    />
   );
 }
 

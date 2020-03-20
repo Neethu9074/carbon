@@ -29,7 +29,11 @@ export default connectTo(
   function ApplicationEntityHealthIndicatorBehavior(props) {
     let { openIssues, maxSeverity } = props;
 
-    if (openIssues === 0 || openIssues === null || openIssues < 0) {
+    if (openIssues == null || openIssues < 0) {
+      return null;
+    }
+
+    if (openIssues === 0) {
       return (
         <props.IndicatorPresenter
           showCheckAsNeutral
@@ -50,7 +54,7 @@ export default connectTo(
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
     <IndicatorPresenter
-      openIssues={`${openIssues} issue${openIssues === 1 ? '' : 's'}`}
+      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
       maxSeverity={maxSeverity}
       onClick={toggle}
       refSetter={refSetter}

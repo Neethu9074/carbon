@@ -26,7 +26,7 @@ export default connectTo(
     };
   },
   function WebsiteHealthIndicatorBehavior(props) {
-    const { render, healthInfo, openIssues, showOkayOnNoIssues = true } = props;
+    const { openIssues, maxSeverity, render, healthInfo } = props;
 
     if (render) {
       return render(healthInfo);
@@ -37,7 +37,13 @@ export default connectTo(
     }
 
     if (openIssues === 0) {
-      return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
+      return (
+        <props.IndicatorPresenter
+          showCheckAsNeutral
+          maxSeverity={maxSeverity}
+          openIssues={props.inContentArea ? openIssues : 'No Issues'}
+        />
+      );
     }
 
     return (
@@ -50,7 +56,12 @@ export default connectTo(
 
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
-    <IndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} onClick={toggle} refSetter={refSetter} />
+    <IndicatorPresenter
+      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
+      maxSeverity={maxSeverity}
+      onClick={toggle}
+      refSetter={refSetter}
+    />
   );
 }
 

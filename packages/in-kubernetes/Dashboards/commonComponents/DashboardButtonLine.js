@@ -8,7 +8,6 @@ export default function DashboardButtonLine({ snapshotId, timeConfig }) {
   return (
     <>
       <EntityHealthIndicator
-        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         snapshotId={snapshotId}
         timeConfig={timeConfig}

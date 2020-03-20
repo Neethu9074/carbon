@@ -119,6 +119,7 @@ const columnDefinitions = [
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           snapshotId={item.container.id}
+          inContentArea
         />
       );
     }

@@ -15,7 +15,6 @@ export default function MapSidebarHeader({ snapshot, timeConfig }) {
       <div className={locals.buttonContainer}>
         <ViewDashboardButton snapshotId={snapshotId} />
         <EntityHealthIndicator
-          showOkayOnNoIssues={false}
           IndicatorPresenter={HealthIndicatorButtonPresenter}
           snapshotId={snapshotId}
           timeConfig={timeConfig}

@@ -39,7 +39,6 @@ function renderButtonLine({ snapshot, timeConfig }) {
   return (
     <>
       <EntityHealthIndicator
-        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}

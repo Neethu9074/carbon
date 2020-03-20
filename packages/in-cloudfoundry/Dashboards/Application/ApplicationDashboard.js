@@ -81,7 +81,6 @@ function renderButtonLine(props) {
   return (
     <>
       <EntityHealthIndicator
-        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         timeConfig={props.timeConfig}
         snapshotId={props.applicationId}
