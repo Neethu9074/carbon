@@ -57,7 +57,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.process.get('cpu') / row.cpuCount;
+        return row.process.get('cpu') / row.host.getIn(['data', 'cpu.count'], 1);
       },
       getContent: percentageZeroDecimalPlaces
     }
@@ -80,7 +80,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes', props.timeConfig)
     };
   },
-  function ProcessTopList({ snapshot, data, considerCpuCount = false }) {
+  function ProcessTopList({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -94,8 +94,7 @@ export default connectTo(
       return {
         key: String(process.get('pid')),
         process,
-        host: snapshot,
-        cpuCount: considerCpuCount ? snapshot.getIn(['data', 'cpu.count'], 1) : 1
+        host: snapshot
       };
     });
 

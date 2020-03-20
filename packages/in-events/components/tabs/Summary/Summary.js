@@ -111,7 +111,7 @@ const ProcessContent = connectTo(
     if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
-    return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} considerCpuCount={true} />;
+    return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
   }
 );
 
