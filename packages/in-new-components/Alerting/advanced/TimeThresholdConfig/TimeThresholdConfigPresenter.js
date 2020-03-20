@@ -8,13 +8,21 @@ import SelectThreshold from 'in-new-components/Alerting/advanced/TimeThresholdCo
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
 import Link from 'in-components/Link';
 
-export default function TimeThresholdConfigPresenter({ form, onChange, uniqueUsersOrSessionsResult, updateForm }) {
+export default function TimeThresholdConfigPresenter({
+  form,
+  onChange,
+  uniqueUsersOrSessionsResult,
+  updateForm,
+  hasUserImpactOption
+}) {
   return (
     <TwoColumnContainer
       moveMainAreaRight
       mainContentHeadline={getTitle(form.get('timeThreshold'))}
       mainContent={<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />}
-      secondaryContent={<SelectThreshold form={form} updateForm={updateForm} />}
+      secondaryContent={
+        <SelectThreshold form={form} updateForm={updateForm} hasUserImpactOption={hasUserImpactOption} />
+      }
       warnMessage={
         uniqueUsersOrSessionsResult &&
         get(uniqueUsersOrSessionsResult, ['data', 'count', 0, 1]) === 0 && (
@@ -54,5 +62,6 @@ TimeThresholdConfigPresenter.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   uniqueUsersOrSessionsResult: PropTypes.object,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  hasUserImpactOption: PropTypes.bool
 };

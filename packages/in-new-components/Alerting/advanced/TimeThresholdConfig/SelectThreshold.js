@@ -18,13 +18,17 @@ export const timeThresholdLabels = Object.freeze({
   userImpactOfViolationsInSequence: 'When a certain amount of my users are impacted'
 });
 
-export default function SelectThreshold({ form, updateForm }) {
+export default function SelectThreshold({ form, updateForm, hasUserImpactOption }) {
   const { violationsInSequence, violationsInPeriod, userImpactOfViolationsInSequence } = timeThresholdTypes;
   const checkboxes = [
     createOption(form, updateForm, violationsInSequence),
-    createOption(form, updateForm, violationsInPeriod),
-    createOption(form, updateForm, userImpactOfViolationsInSequence)
+    createOption(form, updateForm, violationsInPeriod)
   ];
+
+  if (hasUserImpactOption) {
+    checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence));
+  }
+
   return (
     <>
       {checkboxes.map(({ label, checked, onChange }, i) => (
@@ -50,24 +54,24 @@ function createOption(form, updateForm, thresholdType) {
   return {
     label: timeThresholdLabels[thresholdType],
     checked: form.get('timeThreshold').get('type').value === thresholdType,
-    onChange: () => {
-      let timeThresholdForm = form;
-      if (thresholdType === 'violationsInSequence') {
-        timeThresholdForm = createViolationsInSequenceForm(form.get('timeThreshold').toJS());
-      }
-      if (thresholdType === 'violationsInPeriod') {
-        timeThresholdForm = createViolationsInPeriodForm(form.get('timeThreshold').toJS());
-      }
-      if (thresholdType === 'userImpactOfViolationsInSequence') {
-        timeThresholdForm = createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
-      }
-
-      updateForm(form.put('timeThreshold', timeThresholdForm));
-    }
+    onChange: () => updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, thresholdType)))
   };
+}
+
+function getTimeThresholdFormForType(form, thresholdType) {
+  if (thresholdType === 'violationsInSequence') {
+    return createViolationsInSequenceForm(form.get('timeThreshold').toJS());
+  }
+  if (thresholdType === 'violationsInPeriod') {
+    return createViolationsInPeriodForm(form.get('timeThreshold').toJS());
+  }
+  if (thresholdType === 'userImpactOfViolationsInSequence') {
+    return createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
+  }
 }
 
 SelectThreshold.propTypes = {
   form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  hasUserImpactOption: PropTypes.bool
 };

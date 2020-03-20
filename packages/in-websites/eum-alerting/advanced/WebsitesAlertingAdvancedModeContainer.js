@@ -1,4 +1,5 @@
 import { compose, withProps } from 'recompose';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -28,7 +29,6 @@ import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default compose(
   withProps(({ form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm }) => ({
@@ -119,7 +119,9 @@ export default compose(
         label: 'Time Threshold',
         title: 'Time Threshold: When do you want to be alerted?',
         checked: true,
-        content: <WebsiteTimeThresholdConfig form={form} onChange={onChange} updateForm={updateForm} />
+        content: (
+          <WebsiteTimeThresholdConfig form={form} onChange={onChange} updateForm={updateForm} hasUserImpactOption />
+        )
       },
       {
         scrollId: '4',
