@@ -18,7 +18,7 @@ module.exports = {
   fullTermsConfigEnabled: true,
   contextGuideEnabled: true,
   mobileAppMonitoringEnabled: true,
-  apDashboardEventsEnabled: false,
+  apDashboardEventsEnabled: true,
   customDashboardsEnabled: true,
   landingPageConfigurationEnabled: true,
   applicationSmartAlertsEnabled: true

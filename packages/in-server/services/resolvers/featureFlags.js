@@ -95,7 +95,7 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'apDashboardEventsEnabled',
     instanaCtlKey: 'feature.ap.dashboard.events.enabled',
     consulKey: `settings/${tenant}-${unit}/AP_DASHBOARD_EVENTS_ENABLED`,
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsEnabled',
