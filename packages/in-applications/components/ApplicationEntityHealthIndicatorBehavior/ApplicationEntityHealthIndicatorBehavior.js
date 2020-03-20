@@ -30,7 +30,13 @@ export default connectTo(
     let { openIssues, maxSeverity } = props;
 
     if (openIssues === 0 || openIssues === null || openIssues < 0) {
-      return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues="No Issues" />;
+      return (
+        <props.IndicatorPresenter
+          showCheckAsNeutral
+          maxSeverity={maxSeverity}
+          openIssues={props.inContentArea ? openIssues : 'No Issues'}
+        />
+      );
     }
 
     return (

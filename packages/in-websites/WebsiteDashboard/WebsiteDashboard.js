@@ -170,7 +170,6 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
   return (
     <>
       <WebsiteHealthIndicatorBehavior
-        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         websiteId={websiteId}
         timeConfig={timeConfig}
