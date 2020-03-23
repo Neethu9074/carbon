@@ -1,11 +1,4 @@
 :local {
-  .paginationWrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
-  }
-
   .header {
     display: flex;
     align-items: center;
@@ -20,8 +13,12 @@
     justify-content: flex-end;
   }
 
-  .pagination {
+  .paginationWrapper {
+    display: flex;
     justify-content: center;
-    margin: 1rem 0 0;
+
+    width: 100%;
+
+    margin: 1rem 0;
   }
 }

@@ -76,7 +76,6 @@ import './components/KpiGridRow.story';
 import './components/MapControls.story';
 import './components/Message.story';
 import './components/overlays/Overlay.story';
-import './components/Pagination.story';
 import './components/Pill.story';
 import './components/ProblemIndicator.story';
 import './components/SearchInput.story';
