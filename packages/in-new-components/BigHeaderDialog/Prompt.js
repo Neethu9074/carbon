@@ -21,9 +21,7 @@ export default compose(
   }),
   withProps(({ field, setField, onSubmit }) => ({
     onChange: v => setField(field.setValue(v).setTouched(true)),
-    onSubmit: e => {
-      e.preventDefault();
-
+    onSubmit: () => {
       if (!field.valid) {
         setField(field.setTouched(true));
         return;
