@@ -6,7 +6,7 @@ import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnC
 import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
-import locals from './AlertProperties.mless';
+import locals from './AlertPropertiesContainer.mless';
 
 export default function AlertPropertiesContainer(props) {
   const { form } = props;
