@@ -103,7 +103,6 @@ import './components/productNotifications/HelpText.story';
 import './components/productNotifications/TraceValidationResult.story';
 
 import './content/List.story';
-import './content/table/ServerTable.story';
 import './content/table/SharedComponents.story';
 import './content/table/Table.story';
 import './content/Typography.story';

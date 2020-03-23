@@ -1,28 +1,21 @@
-import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { millis, percentage, number } from 'in-services/formatters/number';
-import Counter from 'in-components/tables/ServerTable/components/Counter';
-
-import Root from '../../_helpers/Root';
 
 const onChange = action('onChange');
 
-storiesOf('Content/Table/Server Table', module)
-  .addDecorator(withKnobs)
-  .add('Pending', () => <Pending />)
-  .add('Error', () => <Error />)
-  .add('Empty', () => <Empty />)
-  .add('With Data', () => <WithData />)
-  .add('Configurable Columns', () => <Configurable />);
+export default {
+  title: 'Organisms|ServerTablePresenter',
+  component: ServerTablePresenter
+};
 
-function Pending() {
+export function Pending() {
   return (
-    <Root>
+    <>
       <h2>Pending Table</h2>
       <p>
         The following table visualizes what a table looks like when it is in the process of retrieving data from the
@@ -36,7 +29,7 @@ function Pending() {
           errors: []
         }}
       />
-    </Root>
+    </>
   );
 }
 
@@ -56,9 +49,9 @@ function WrappedTable(props) {
   );
 }
 
-function Error() {
+export function Error() {
   return (
-    <Root>
+    <>
       <h2>Failed Data Retrieval</h2>
       <p>The following table visualizes what a table looks like when data retrieval has failed.</p>
       <WrappedTable
@@ -74,13 +67,13 @@ function Error() {
           ]
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function Empty() {
+export function Empty() {
   return (
-    <Root>
+    <>
       <h2>Empty</h2>
       <p>When no rows could be found, then the table looks like this.</p>
       <WrappedTable
@@ -97,13 +90,13 @@ function Empty() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function WithData() {
+export function WithData() {
   return (
-    <Root>
+    <>
       <h2>With Data</h2>
       <p>Last but not least, a table with some rows.</p>
       <WrappedTable
@@ -120,13 +113,13 @@ function WithData() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function Configurable() {
+export function Configurable() {
   return (
-    <Root>
+    <>
       <h2>Configurable</h2>
       <WrappedTable
         result={{
@@ -146,7 +139,7 @@ function Configurable() {
           return columnDefinition;
         })}
       />
-    </Root>
+    </>
   );
 }
 
@@ -163,7 +156,7 @@ const columnDefinitions = [
   {
     id: 'Endpoints',
     getContent() {
-      return <Counter>42</Counter>;
+      return <>42</>;
     }
   },
   {
