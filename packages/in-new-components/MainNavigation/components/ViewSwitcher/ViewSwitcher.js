@@ -103,7 +103,8 @@ export default function ViewSwitcher({
       <Infrastructure {...commonProps} />
       <Spacer />
       <Analyze {...commonProps} />
-      <Incidents {...commonProps} />)<Spacer />
+      <Incidents {...commonProps} />
+      <Spacer />
       <View
         id="main-nav-settings"
         label="Settings"
