@@ -81,6 +81,7 @@ import './jiraApplication';
 import './jvmRuntimePlatform';
 import './kafka';
 import './kafkaCluster';
+import './kafkaConnectWorker';
 import './kubernetesCluster';
 import './kubernetesDeployment';
 import './kubernetesNamespace';
