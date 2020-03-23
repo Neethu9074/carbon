@@ -147,9 +147,9 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       Content: CfAndBoshContent
     },
     {
-      label: 'Pivotal Platform',
-      icon: 'lib_pivotal_platform',
-      fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
+      label: 'VMware Tanzu',
+      icon: 'lib_vmware_tanzu',
+      fullLabel: 'VMware Tanzu (formerly known as Pivotal Cloud Foundry)',
       category: 'Platform',
       keyWords: 'pivotalplatformpivotalcloudfoundrypcf',
       Content: PcfContent
@@ -871,13 +871,13 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <TextWithLink
         text="Download the &quot;Instana Microservices Application Monitoring&quot; tile from "
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
-        linkText="Pivotal Network."
+        linkText="VMware Tanzu Network."
       />
       <Spacer />
       <TextWithLink
         text="Upload the &quot;Instana Microservices Application Monitoring&quot; tile to your Ops Manager as described in the"
         href="https://docs.pivotal.io/partners/instana/installing.html"
-        linkText="Instana tile documentation on Pivotal Network."
+        linkText="Instana tile documentation on VMware Tanzu Network."
       />
       <Description
         lines={[
@@ -902,7 +902,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <Spacer />
       <Description
         lines={[
-          'Finally, you will need to give your Pivotal Platform foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
+          'Finally, you will need to give your VMware Tanzu foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
         ]}
       />
       <TextWithLink text="Apply the changes introduced by the &quot;Instana Microservices Application Monitoring&quot; tile to all tiles in the Ops Manager. Tiles that are not selected for the &quot;Apply changes&quot; step in Ops Manager will not be visible in Instana." />
@@ -912,7 +912,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       </HelpBox>
       <Spacer />
       <HelpBox title="Supported Stemcells">
-        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
+        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
       </HelpBox>
     </>
   );
