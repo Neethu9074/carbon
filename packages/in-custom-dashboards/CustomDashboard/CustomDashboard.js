@@ -4,10 +4,11 @@ import React from 'react';
 
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
+import RenameDashboardDialog from 'in-custom-dashboards/RenameDashboardDialog/RenameDashboardDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
-import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { deepCopy } from 'in-services/util/object';
@@ -99,6 +100,19 @@ function CustomDashboardLoader(props) {
 
             goToCustomDashboardList();
           });
+        }}
+      />
+    );
+  }
+
+  function onRenameDashboard(config, setConfig) {
+    addActiveDialog(
+      <RenameDashboardDialog
+        title={config.title}
+        onSubmit={title => {
+          const newConfig = deepCopy(config);
+          newConfig.title = title;
+          setConfig(newConfig);
         }}
       />
     );
