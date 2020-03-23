@@ -1,22 +1,26 @@
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
 
-import NewDashboardDialogPresenter from 'in-custom-dashboards/NewDashboardDialog/NewDashboardDialogPresenter';
+import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
 
 export default compose(
-  withState('state', 'setState', {
+  withState('state', 'setState', ({ config }) => ({
     field: createField({
-      value: '',
+      value: `Copy of ${config.title}`,
       validator: notBlankValidator
     }),
     isSaving: false,
-    error: null
-  }),
-  withProps(({ state, setState }) => ({
+    errors: null
+  })),
+  withProps(({ state, setState, config }) => ({
+    header: 'Duplicate Dashboard',
+    headerIcon: 'lib_views_grid',
+    inputLabel: 'Dashboard Name',
+    confirmButtonLabel: 'Duplicate',
     ...state,
     onChange: newValue =>
       setState({
@@ -49,7 +53,7 @@ export default compose(
             relatedId: user.id
           }
         ],
-        widgets: []
+        widgets: config.widgets
       })
         .filter(response => response.data || response.errors.length > 0)
         .once(
@@ -82,4 +86,4 @@ export default compose(
         );
     }
   }))
-)(NewDashboardDialogPresenter);
+)(PromptPresenter);

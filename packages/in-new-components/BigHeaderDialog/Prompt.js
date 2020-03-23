@@ -1,16 +1,15 @@
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
 
-import RenameDashboardDialogPresenter from 'in-custom-dashboards/RenameDashboardDialog/RenameDashboardDialogPresenter';
+import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { close } from 'in-components/DialogPresenter/store';
 
 export default compose(
   withPropDependingState({
     getInitialState,
     resets: [
       {
-        getResettingProps: () => ['title'],
+        getResettingProps: () => ['initialValue'],
         onReset: getInitialState
       }
     ],
@@ -21,23 +20,24 @@ export default compose(
     })
   }),
   withProps(({ field, setField, onSubmit }) => ({
-    onChange: newValue => setField(field.setValue(newValue).setTouched(true)),
-    onSubmit() {
+    onChange: v => setField(field.setValue(v).setTouched(true)),
+    onSubmit: e => {
+      e.preventDefault();
+
       if (!field.valid) {
         setField(field.setTouched(true));
         return;
       }
 
       onSubmit(field.value);
-      close();
     }
   }))
-)(RenameDashboardDialogPresenter);
+)(PromptPresenter);
 
-function getInitialState({ title }) {
+function getInitialState({ initialValue }) {
   return {
     field: createField({
-      value: title ?? '',
+      value: initialValue ?? '',
       validator: notBlankValidator
     })
   };

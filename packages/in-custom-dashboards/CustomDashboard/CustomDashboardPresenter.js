@@ -119,6 +119,7 @@ function SecondaryButtonLine({
   customDashboardId,
   onDeleteCustomDashboard,
   onRenameDashboard,
+  onDuplicateDashboard,
   editable,
   onShare
 }) {
@@ -149,7 +150,9 @@ function SecondaryButtonLine({
             Edit Name
           </MoreMenuButton>
         )}
-        <MoreMenuButton icon="lib_views_popup">Duplicate</MoreMenuButton>
+        <MoreMenuButton icon="lib_views_popup" onClick={onDuplicateDashboard}>
+          Duplicate
+        </MoreMenuButton>
         {editable && (
           <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
             Delete

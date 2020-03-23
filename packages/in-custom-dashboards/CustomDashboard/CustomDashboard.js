@@ -4,13 +4,14 @@ import React from 'react';
 
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
-import RenameDashboardDialog from 'in-custom-dashboards/RenameDashboardDialog/RenameDashboardDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
+import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import Prompt from 'in-new-components/BigHeaderDialog/Prompt';
 import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
@@ -58,6 +59,7 @@ function CustomDashboardLoader(props) {
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+      onDuplicateDashboard={onDuplicateDashboard}
       onShare={onShare}
     />
   );
@@ -76,6 +78,7 @@ function CustomDashboardLoader(props) {
   }
 
   function onDeleteCustomDashboard() {
+    // TODO use big header dialog
     addActiveDialog(
       <ConfirmationDialog
         header="Confirm deletion"
@@ -107,15 +110,24 @@ function CustomDashboardLoader(props) {
 
   function onRenameDashboard(config, setConfig) {
     addActiveDialog(
-      <RenameDashboardDialog
-        title={config.title}
+      <Prompt
+        header="Rename Dashboard"
+        headerIcon="lib_views_grid"
+        inputLabel="Dashboard Name"
+        confirmButtonLabel="Rename"
+        initialValue={config.title}
         onSubmit={title => {
           const newConfig = deepCopy(config);
           newConfig.title = title;
           setConfig(newConfig);
+          close();
         }}
       />
     );
+  }
+
+  function onDuplicateDashboard() {
+    addActiveDialog(<DuplicateDashboardDialog config={config} />);
   }
 
   function onSaveConfiguration() {

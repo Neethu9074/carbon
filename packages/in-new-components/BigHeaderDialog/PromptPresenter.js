@@ -11,9 +11,20 @@ import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
-export default function NewDashboardDialogPresenter({ onSubmit, field, onChange, isSaving, errors }) {
+export default function PromptPresenter({
+  header,
+  headerIcon,
+  inputLabel,
+  confirmButtonLabel = 'Confirm',
+  onSubmit,
+  field,
+  onChange,
+  isSaving,
+  errors,
+  onClose = close
+}) {
   return (
-    <BigHeaderDialog titleIconType="lib_views_grid" title="Create New Dashboard" onClose={close}>
+    <BigHeaderDialog titleIconType={headerIcon} title={header} onClose={onClose}>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -23,15 +34,16 @@ export default function NewDashboardDialogPresenter({ onSubmit, field, onChange,
         <ErroneousResultPresenter errors={errors} addBottomMargin />
 
         <FormGroup>
-          <Label htmlFor="new-dashboard-name" hasError={!field.valid && field.touched}>
-            Dashboard Name
+          <Label htmlFor="prompt-input" hasError={!field.valid && field.touched}>
+            {inputLabel}
           </Label>
           <Input
-            id="new-dashboard-name"
+            id="prompt-input"
             type="text"
             value={field.value || ''}
             onChange={e => onChange(e.target.value)}
             hasError={!field.valid && field.touched}
+            disabled={isSaving}
             autoFocus
           />
           <TouchedMessages field={field} />
@@ -40,7 +52,7 @@ export default function NewDashboardDialogPresenter({ onSubmit, field, onChange,
         <Actions>
           <CancelButton onClick={close} isSaving={isSaving} />
           <SaveButton form={field} isSaving={isSaving}>
-            Create
+            {confirmButtonLabel}
           </SaveButton>
         </Actions>
       </form>

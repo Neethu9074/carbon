@@ -3,7 +3,7 @@ import React from 'react';
 
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
-import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog/NewDashboardDialog';
+import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
