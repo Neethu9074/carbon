@@ -3,12 +3,12 @@ import { shallowEqual } from 'recompose';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-new-components/LoadingIndicators/SvgLineCoordinates.json';
+import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-new-components/LoadingIndicators/SvgPaths.json';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import theme from 'in-themes';
 
-import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from './SvgLineCoordinates.json';
-import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from './SvgPaths.json';
-import stylesheet from './IndeterminateLoadingIndicator.mless';
+import locals from './IndeterminateLoadingIndicator.mless';
 
 const {
   lib: { colors: COLORS }
@@ -62,7 +62,7 @@ export default class IndeterminateLoadingIndicator extends Component {
 
     return (
       <svg
-        className={stylesheet.indeterminateLoadingIndicator}
+        className={locals.indeterminateLoadingIndicator}
         height={size}
         width={size}
         viewBox="0 0 64 64"
@@ -126,8 +126,8 @@ export default class IndeterminateLoadingIndicator extends Component {
             strokeDasharray: this.state[key] || 0,
             strokeDashoffset: this.state[key] || 0,
             ...props[key],
-            className: classnames(stylesheet.animatedSvgElement, stylesheet.animationSequenceIn, {
-              [stylesheet.animationStartOnce]: this.state[key]
+            className: classnames(locals.animatedSvgElement, locals.animationSequenceIn, {
+              [locals.animationStartOnce]: this.state[key]
             })
           })
         )}
@@ -159,8 +159,8 @@ export default class IndeterminateLoadingIndicator extends Component {
             animationDelay: `${Number(key + 1) * 1000}ms`,
             stroke: connectorStrokeColor || stroke
           },
-          className: classnames(stylesheet.animatedSvgElement, stylesheet.animationSequenceInOut, {
-            [stylesheet.animationStart]: this.state[`line${key}`]
+          className: classnames(locals.animatedSvgElement, locals.animationSequenceInOut, {
+            [locals.animationStart]: this.state[`line${key}`]
           })
         })}
 
@@ -173,8 +173,8 @@ export default class IndeterminateLoadingIndicator extends Component {
             fill: hexagonFillColor || fill,
             stroke: hexagonStrokeColor || stroke
           },
-          className: classnames(stylesheet.animatedSvgElement, stylesheet.animationSequenceFadeInOut, {
-            [stylesheet.animationStart]: this.state[`hexagon${key}`]
+          className: classnames(locals.animatedSvgElement, locals.animationSequenceFadeInOut, {
+            [locals.animationStart]: this.state[`hexagon${key}`]
           })
         })}
       </g>

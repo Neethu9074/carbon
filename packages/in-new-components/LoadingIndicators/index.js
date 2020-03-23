@@ -1,5 +1,5 @@
 // @flow
 
-import Indeterminate from './IndeterminateLoadingIndicator';
-
-export const IndeterminateLoadingIndicator = Indeterminate;
+export {
+  default as IndeterminateLoadingIndicator
+} from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
