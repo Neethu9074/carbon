@@ -1,0 +1,9 @@
+:local {
+  .dialog {
+    max-width: 35rem;
+  }
+  .description {
+    margin: 0 0 1.5rem;
+    line-height: 1.5;
+  }
+}

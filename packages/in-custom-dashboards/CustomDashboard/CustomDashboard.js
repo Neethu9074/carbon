@@ -6,10 +6,10 @@ import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
+import ConfirmationDialog from 'in-new-components/BigHeaderDialog/ConfirmationDialog';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import Prompt from 'in-new-components/BigHeaderDialog/Prompt';
 import { deepCopy } from 'in-services/util/object';
@@ -78,17 +78,17 @@ function CustomDashboardLoader(props) {
   }
 
   function onDeleteCustomDashboard() {
-    // TODO use big header dialog
     addActiveDialog(
       <ConfirmationDialog
-        header="Confirm deletion"
+        header="Confirm Dashboard Deletion"
+        headerIcon="lib_views_grid"
+        confirmButtonLabel="Delete Dashboard"
         description={
           <span>
             Are you sure you want to delete the dashboard <strong>{config.title}</strong>?
           </span>
         }
-        bButtonLabel="Delete Dashboard"
-        onB={() => {
+        onSubmit={() => {
           close();
           removeCustomDashboard(config.id).subscribe(result => {
             if (result.progress.loading) {
