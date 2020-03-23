@@ -17,8 +17,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-
+import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
@@ -42,6 +41,7 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import Link from 'in-components/Link';
 
 import locals from './ServicesList.mless';
 
@@ -53,12 +53,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_application_service"
-          label={item.service.label}
-          href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}
-        />
+        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+          <Link href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}>
+            {item.service.label}
+          </Link>
+        </SeverityIndicatorCellContentWrapper>
       );
     }
   },

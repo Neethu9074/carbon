@@ -6,17 +6,11 @@
     padding: 1rem 0.5rem 1rem 1rem;
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_large;
-    .flexbox();
-  }
-
-  .wrapper > label {
-    /* Overrides the styling of CheckboxFancy, where contents of the label is differently spaced. */
-    .flexbox();
-    justify-content: space-around;
   }
 
   .icon {
     fill: @lib__colors__teal800;
+    margin: 0 4px;
   }
 
   .content {
