@@ -6,7 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Menu.mless';
 
-export default function Menu({ addRightSeparator = false, itemLabels, itemClickTracker, initialItemSelected = 0 }) {
+export default function Menu({ addRightSeparator = false, itemLabels, onItemClick, initialItemSelected = 0 }) {
   validateinitialItemSelected(initialItemSelected, itemLabels);
 
   const [itemSelected, setItemSelected] = useState(() => {
@@ -30,7 +30,7 @@ export default function Menu({ addRightSeparator = false, itemLabels, itemClickT
             })}
             onClick={() => {
               setItemSelected(i);
-              itemClickTracker(i, label);
+              onItemClick(i, label);
             }}
           >
             {label}
@@ -44,7 +44,7 @@ export default function Menu({ addRightSeparator = false, itemLabels, itemClickT
 Menu.propTypes = {
   addRightSeparator: PropTypes.bool,
   itemLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  itemClickTracker: PropTypes.func.isRequired,
+  onItemClick: PropTypes.func.isRequired,
   initialItemSelected: PropTypes.number
 };
 

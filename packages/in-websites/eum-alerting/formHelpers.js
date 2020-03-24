@@ -1,5 +1,4 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/eum-alerting/constants';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getStatusCodeLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
@@ -26,7 +25,7 @@ export function getTitlePlaceholder(form) {
     return `HTTP Status Code(s): ${fillStatusCodeValue(statusCodeString)}`;
   } else if (alertType === alertTypes.slowness) {
     const aggregation = ruleForm.get('aggregation').value;
-    const operator = form.get(fieldNames.thresholdOperator).value;
+    const operator = form.get('threshold').get('operator').value;
     return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
   }
   return '';
@@ -34,6 +33,7 @@ export function getTitlePlaceholder(form) {
 
 export function getDescriptionPlaceholder(form) {
   const ruleForm = form.get('rule');
+  const thresholdForm = form.get('threshold');
   const alertType = ruleForm.get('alertType').value;
 
   if (alertType === alertTypes.specificJsError) {
@@ -46,16 +46,16 @@ export function getDescriptionPlaceholder(form) {
     }" have been detected.`;
   } else if (alertType === alertTypes.specificStatusCode) {
     const statusCodeString = ruleForm.get('value').value;
-    const operator = form.get(fieldNames.thresholdOperator).value;
+    const operator = thresholdForm.get('operator').value;
     return `Occurrences of HTTP Status Code ${getStatusCodeLabel(statusCodeString)} is ${getSimpleOperatorText(
       operator
     )} the expectation.`;
   } else if (alertType === alertTypes.slowness) {
     const aggregation = ruleForm.get('aggregation').value;
-    const operator = form.get(fieldNames.thresholdOperator).value;
-    const thresholdType = form.get(fieldNames.thresholdType).value;
+    const operator = thresholdForm.get('operator').value;
+    const thresholdType = thresholdForm.get('type').value;
     if (thresholdType === 'staticThreshold') {
-      const thresholdValue = form.get(fieldNames.thresholdValue).value;
+      const thresholdValue = thresholdForm.get('value').value;
       return `The onLoad Time (${getAggregationText(aggregation)}) is ${getOperatorText(
         operator
       )} ${thresholdValue} ms.`;

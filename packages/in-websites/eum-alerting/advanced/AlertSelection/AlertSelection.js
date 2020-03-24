@@ -28,7 +28,7 @@ export default function AlertSelection({ form, updateForm }) {
       <div className={locals.container}>
         <Menu
           itemLabels={alertTypeConfig.map(({ name }) => name)}
-          itemClickTracker={index => {
+          onItemClick={index => {
             setSelectButtonDisabled(false);
             setConfig(alertTypeConfig[index]);
             websitesAlertingBlueprintChanged({ newBluePrint: alertTypeConfig[index].type, mode: modeAdvanced });
@@ -37,7 +37,7 @@ export default function AlertSelection({ form, updateForm }) {
             ({ type }) => form.get('rule').get('alertType').value === type
           )}
         />
-        {subMenuLabels.length > 0 && <Menu itemLabels={subMenuLabels} itemClickTracker={() => {}} />}
+        {subMenuLabels.length > 0 && <Menu itemLabels={subMenuLabels} onItemClick={() => {}} />}
         <div
           className={evaluateClassNames({
             [locals.spanTwoColumns]: subMenuLabels.length === 0

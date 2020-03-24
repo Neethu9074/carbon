@@ -165,10 +165,12 @@ function validateTrigger(form) {
 }
 
 function showInsufficientBaselineDataMessage(form) {
-  if (form.get(fieldNames.thresholdType).value === 'staticThreshold') {
+  const thresholdForm = form.get('threshold');
+
+  if (thresholdForm.get('type').value === 'staticThreshold') {
     return false;
   }
 
-  const baseline = form.get(fieldNames.thresholdBaseline).value;
+  const baseline = thresholdForm.containsKey('baseline') && thresholdForm.get('baseline').value;
   return baseline && baseline.length === 0;
 }

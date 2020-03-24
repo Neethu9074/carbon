@@ -1,19 +1,13 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 
-import {
-  withSlownessFormStaticThreshold,
-  withSlownessFormHistoricBaseline
-} from 'in-websites/eum-alerting/form/slownessForm';
-import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { getInitialThresholdType } from 'in-websites/eum-alerting/form/thresholdFormData';
+import createThresholdForm from 'in-websites/eum-alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 
 const severityWarning = 5;
 
 export const fieldNames = Object.freeze({
-  // TODO: Refactor: get rid of these
   tagFilters: 'tagFilters',
   alertChannelIds: 'alertChannelIds',
   enabled: 'enabled',
@@ -22,38 +16,14 @@ export const fieldNames = Object.freeze({
   description: 'description',
   name: 'name',
   websiteId: 'websiteId',
-  id: 'id',
-
-  // TODO: Refactor: get rid of these
-  thresholdValue: 'thresholdValue',
-  thresholdType: 'thresholdType',
-  thresholdLastUpdated: 'thresholdLastUpdated',
-  thresholdOperator: 'thresholdOperator',
-  thresholdSeasonality: 'thresholdSeasonality',
-  thresholdBaseline: 'thresholdBaseline',
-  thresholdDeviationFactor: 'thresholdDeviationFactor'
+  id: 'id'
 });
 
-// TODO: Refactor: get rid of these
 // We don't sent this fields to the api
 export const hiddenFieldNames = Object.freeze({
   calculateThresholdOnBackend: 'calculateThresholdOnBackend',
   alertByNumberOfImpactedUsersEnabled: 'alertByNumberOfImpactedUsersEnabled',
   alertByPercentageOfImpactedUsersEnabled: 'alertByPercentageOfImpactedUsersEnabled'
-});
-
-export const selectOptions = Object.freeze({
-  [fieldNames.thresholdOperator]: Object.freeze([
-    { value: '>=', label: '≥' },
-    { value: '>', label: '>' },
-    { value: '<=', label: '≤' },
-    { value: '<', label: '<' }
-  ]),
-  [fieldNames.thresholdType]: Object.freeze([
-    { value: 'staticThreshold', label: 'Static Threshold' },
-    { value: 'historicBaseline.DAILY', label: 'Baseline (Daily Seasonality)' },
-    { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
-  ])
 });
 
 export default function alertFormDefinition(alertConfig = {}) {
@@ -135,66 +105,19 @@ export default function alertFormDefinition(alertConfig = {}) {
         value: id
       })
     )
-    .put(
-      fieldNames.thresholdType,
-      createField({
-        value: threshold.type && getInitialThresholdType(threshold),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      fieldNames.thresholdOperator,
-      createField({
-        value: (threshold && threshold.operator) || '>=',
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      fieldNames.thresholdLastUpdated,
-      createField({
-        value: (threshold && threshold.lastUpdated) || 0
-      })
-    )
-    .put(
-      fieldNames.thresholdValue,
-      createField({
-        value: (threshold && threshold.value) || null,
-        validator: num => {
-          if (num === '' || num < 0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please provide a number >= 0'
-              }
-            ];
-          }
-        }
-      })
-    )
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
+    .put(
+      'threshold',
+      createThresholdForm(
+        { ...alertConfig.threshold, type: getInitialThresholdType(alertConfig.threshold) } ?? {},
+        alertConfig.rule?.alertType
+      )
+    )
     .put('rule', createRuleForm(alertConfig.rule ?? {}, getInitialThresholdType(threshold)))
     .put(
       'hiddenFields',
       createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)
     );
-
-  const alertType = form.get('rule').get('alertType').value;
-
-  if (alertType === alertTypes.slowness) {
-    const thresholdType = form.get(fieldNames.thresholdType).value;
-
-    if (thresholdType === 'staticThreshold') {
-      form = withSlownessFormStaticThreshold(form, threshold);
-    }
-
-    if (thresholdType.includes('historicBaseline.')) {
-      form = withSlownessFormHistoricBaseline(form, threshold);
-    }
-  } else if (alertType === alertTypes.specificJsError) {
-    form = withJsErrorsFormSpecificError(form);
-  } else if (alertType === alertTypes.specificStatusCode) {
-    form = withStatusCodesFormSpecificStatusCode(form);
-  }
 
   return form;
 }
@@ -219,8 +142,4 @@ function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = fal
         value: calculateThresholdOnBackend
       })
     );
-}
-
-function getInitialThresholdType(threshold) {
-  return threshold.type === 'historicBaseline' ? `${threshold.type}.${threshold.seasonality}` : 'staticThreshold';
 }

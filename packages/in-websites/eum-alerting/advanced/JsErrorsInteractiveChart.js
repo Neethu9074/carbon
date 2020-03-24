@@ -14,13 +14,13 @@ import {
 } from 'in-websites/eum-alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/eum-alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/IncompleteChartPlaceholder';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
+import { thresholdOperatorOptions } from 'in-websites/eum-alerting/form/thresholdFormData';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { ruleMetricNameOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
-import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -37,18 +37,18 @@ export default compose(
 )(JsErrorsInteractiveChart);
 
 function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, granularity, debounceOnChange$ }) {
-  const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
+  const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
   const metricName = form.get('rule').get('metricName').value;
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
-    ...getThreshold(form),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-        : form.get(fieldNames.thresholdValue).value) || 0
+        : form.get('threshold').get('value').value) || 0
   };
 
   return (
@@ -78,36 +78,36 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
               />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor={fieldNames.thresholdOperator}>Operator</Label>
+              <Label htmlFor="thresholdOperator">Operator</Label>
               <ComboBox
-                id={fieldNames.thresholdOperator}
+                id="thresholdOperator"
                 className={locals.narrowControl}
-                name={fieldNames.thresholdOperator}
-                value={form.get(fieldNames.thresholdOperator).value}
-                options={selectOptions[fieldNames.thresholdOperator]}
+                name="thresholdOperator"
+                value={form.get('threshold').get('operator').value}
+                options={thresholdOperatorOptions}
                 onChange={e => {
                   const value = (e && e.value) || '';
-                  onChange([fieldNames.thresholdOperator], f => f.setValue(value).setTouched(true));
+                  onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
                   websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
                 }}
-                defaultValue={selectOptions[fieldNames.thresholdOperator][0].value}
+                defaultValue={thresholdOperatorOptions[0].value}
                 clearable={false}
               />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor={fieldNames.thresholdValue}>{getThresholdLabel(form)}</Label>
+              <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
               <Input
-                id={fieldNames.thresholdValue}
+                id="thresholdValue"
                 className={locals.narrowControl}
                 type="number"
                 min="0"
                 max={getMaxThresholdValue(metricName)}
-                name={fieldNames.thresholdValue}
+                name="thresholdValue"
                 step="1"
                 value={
                   (doDebounce
                     ? tempThreshold
-                    : getValueRoundedToDecimals(form.get(fieldNames.thresholdValue).value, percentageMetric)) ?? 0
+                    : getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric)) ?? 0
                 }
                 onChange={e => {
                   let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
@@ -119,7 +119,7 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
                   setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
 
                   const onChangCallback = () => {
-                    onChange([fieldNames.thresholdValue], f => f.setValue(value).setTouched(true));
+                    onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
                     setDoDebounce(false);
                   };
 

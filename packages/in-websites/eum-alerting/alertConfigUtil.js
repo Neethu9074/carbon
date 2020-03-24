@@ -13,17 +13,9 @@ export default function toAlertConfig(form) {
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
-    threshold: getThreshold(form),
+    threshold: form.get('threshold').toJS(),
     timeThreshold: getTimeThreshold(form)
   });
-}
-
-export function getThreshold(form) {
-  return {
-    operator: form.get(fieldNames.thresholdOperator).value,
-    lastUpdated: form.get(fieldNames.thresholdLastUpdated).value,
-    ...enrichByThresholdType(form)
-  };
 }
 
 function getTimeThreshold(form) {
@@ -46,21 +38,4 @@ function getTimeThreshold(form) {
 
 export function isGreaterOperator(operator) {
   return operator === '>=' || operator === '>';
-}
-
-function enrichByThresholdType(form) {
-  const thresholdType = form.get(fieldNames.thresholdType).value;
-  if (thresholdType === 'staticThreshold') {
-    return {
-      type: 'staticThreshold',
-      value: form.get(fieldNames.thresholdValue).value
-    };
-  } else {
-    return {
-      type: 'historicBaseline',
-      seasonality: form.get(fieldNames.thresholdSeasonality).value,
-      baseline: form.get(fieldNames.thresholdBaseline).value,
-      deviationFactor: form.get(fieldNames.thresholdDeviationFactor).value
-    };
-  }
 }

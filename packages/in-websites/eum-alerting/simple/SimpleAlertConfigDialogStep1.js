@@ -1,29 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  withSlownessFormHistoricBaseline,
-  withSlownessFormStaticThreshold
-} from 'in-websites/eum-alerting/form/slownessForm';
 import SelectAlertForStatusCode from 'in-websites/eum-alerting/simple/SelectAlertForStatusCode/SelectAlertForStatusCode';
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-websites/eum-alerting/simple/SimpleAlertConfigDialogChart';
-import { withStatusCodesFormSpecificStatusCode } from 'in-websites/eum-alerting/form/statusCodesForm';
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
 import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
-import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import createBlueprintForm from 'in-websites/eum-alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
-import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 import { modeSimple } from 'in-websites/eum-alerting/constants';
 import Menu from 'in-websites/eum-alerting/components/Menu';
-
-const getMetricNameForAlertType = {
-  specificJsError: 'errors',
-  statusCode: 'httpxxx',
-  slowness: 'onLoadTime'
-};
 
 export default function SimpleAlertConfigDialogStep1({
   form,
@@ -36,8 +23,8 @@ export default function SimpleAlertConfigDialogStep1({
   const alertType = alertTypeConfig[getIndexSelectedConf(form)].type;
 
   // Fallback to static threshold for slowness when the historic baseline was not good enough.
-  const thresholdTypeValue = form.get(fieldNames.thresholdType).value;
-  const thresholdBaseline = form.get(fieldNames.thresholdBaseline);
+  const thresholdTypeValue = form.get('threshold').get('type').value;
+  const thresholdBaseline = form.get('threshold').get('baseline');
 
   if (
     alertType === alertTypes.slowness &&
@@ -48,7 +35,7 @@ export default function SimpleAlertConfigDialogStep1({
   ) {
     updateForm(
       form
-        .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
+        .updateIn(['threshold', 'type'], f => f.setValue('staticThreshold').setTouched(true))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
@@ -57,60 +44,13 @@ export default function SimpleAlertConfigDialogStep1({
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
         itemLabels={alertTypeConfig.map(({ name }) => name)}
-        itemClickTracker={selectedItemIndex => {
-          const alertType = alertTypeConfig[selectedItemIndex].type;
-
-          const newRuleForm = createRuleForm(
-            {
-              ...form.get('rule').toJS(),
-              alertType,
-              metricName: getMetricNameForAlertType[alertType]
-            },
-            form.get(fieldNames.thresholdType).value
+        onItemClick={selectedItemIndex => {
+          updateForm(
+            createBlueprintForm(form, alertTypeConfig[selectedItemIndex].type).updateIn(
+              ['hiddenFields', 'calculateThresholdOnBackend'],
+              f => f.setValue(true)
+            )
           );
-
-          let newForm = form.put('rule', newRuleForm);
-
-          if (alertType === alertTypes.specificJsError) {
-            updateForm(
-              withJsErrorsFormSpecificError(newForm)
-                .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-            );
-          }
-
-          if (alertType === alertTypes.specificStatusCode) {
-            updateForm(
-              withStatusCodesFormSpecificStatusCode(newForm)
-                .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-            );
-          }
-
-          if (alertType === alertTypes.slowness) {
-            let thresholdTypeValue = newForm.get(fieldNames.thresholdType).value;
-            const thresholdBaseline = newForm.get(fieldNames.thresholdBaseline);
-
-            // On the first load or when the baseline is OK, use baseline
-            if (
-              !thresholdTypeValue.includes('historicBaseline.') &&
-              (!thresholdBaseline || (thresholdBaseline.value && thresholdBaseline.value.length > 0))
-            ) {
-              thresholdTypeValue = 'historicBaseline.DAILY';
-            }
-
-            if (thresholdTypeValue === 'staticThreshold') {
-              newForm = withSlownessFormStaticThreshold(newForm);
-            } else if (thresholdTypeValue.includes('historicBaseline.')) {
-              newForm = withSlownessFormHistoricBaseline(newForm);
-            }
-
-            updateForm(
-              newForm
-                .updateIn([fieldNames.thresholdType], f => f.setValue(thresholdTypeValue).setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-            );
-          }
 
           websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
         }}

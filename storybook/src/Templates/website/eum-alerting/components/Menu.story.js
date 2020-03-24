@@ -11,10 +11,10 @@ export default {
 
 const entries = ['Item 1', 'Item 2', 'Item 3'];
 
-export const MenuDefault = () => <Menu itemLabels={entries} itemClickTracker={action('click')} />;
+export const MenuDefault = () => <Menu itemLabels={entries} onItemClick={action('click')} />;
 
 export const MenuWithSeperator = () => (
   <div style={{ width: '200px' }}>
-    <Menu itemLabels={entries} itemClickTracker={action('click')} initialItemSelected={1} addRightSeparator />
+    <Menu itemLabels={entries} onItemClick={action('click')} initialItemSelected={1} addRightSeparator />
   </div>
 );

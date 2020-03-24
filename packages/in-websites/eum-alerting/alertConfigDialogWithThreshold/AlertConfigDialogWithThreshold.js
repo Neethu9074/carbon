@@ -38,7 +38,7 @@ export const AlertConfigDialogWithThreshold = compose(
   connectTo(props => {
     const { form, timeConfig, granularity, updateForm } = props;
 
-    const thresholdType = form.get(fieldNames.thresholdType).value;
+    const thresholdType = form.get('threshold').get('type').value;
 
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
@@ -171,7 +171,7 @@ function resolveBaselineRequest(form, granularity) {
   const tagFilters = form.get(fieldNames.tagFilters).value;
   const metricName = form.get('rule').get('metricName').value;
   const aggregation = getFormValueOrDefault(form.get('rule'), 'aggregation');
-  const seasonality = getFormValueOrDefault(form, fieldNames.thresholdSeasonality);
+  const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
 
   if (metricName === onLoadTime) {
     return getWebsiteMetricsBaseline(
@@ -184,10 +184,11 @@ function resolveBaselineRequest(form, granularity) {
 function addThresholdToForm(form, updateForm, threshold, time) {
   if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
     thresholdOrBaselineLoadingSignal$.emit(false);
+
     updateForm(
       form
-        .updateIn([fieldNames.thresholdValue], f => f.setValue(threshold).setTouched(true))
-        .updateIn([fieldNames.thresholdLastUpdated], f => f.setValue(time))
+        .updateIn(['threshold', 'value'], f => f.setValue(threshold).setTouched(true))
+        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
@@ -198,8 +199,8 @@ function addBaselineToForm(form, updateForm, baseline, time) {
     thresholdOrBaselineLoadingSignal$.emit(false);
     updateForm(
       form
-        .updateIn([fieldNames.thresholdBaseline], f => f.setValue(baseline).setTouched(true))
-        .updateIn([fieldNames.thresholdLastUpdated], f => f.setValue(time))
+        .updateIn(['threshold', 'baseline'], f => f.setValue(baseline).setTouched(true))
+        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }

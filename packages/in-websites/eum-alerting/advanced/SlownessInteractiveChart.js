@@ -14,17 +14,13 @@ import {
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdTypeChanged
 } from 'in-websites/eum-alerting/tracker';
-import {
-  withSlownessFormStaticThreshold,
-  withSlownessFormHistoricBaseline
-} from 'in-websites/eum-alerting/form/slownessForm';
 import { ruleAggregationForWeeklySeasonalityOptions } from 'in-websites/eum-alerting/form/ruleFormData';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
+import { thresholdOperatorOptions, thresholdTypeOptions } from '../form/thresholdFormData';
 import { ruleAggregationOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import createThresholdForm from 'in-websites/eum-alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -42,17 +38,17 @@ export default compose(
 )(SlownessInteractiveChart);
 
 function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
-  const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form, fieldNames.thresholdValue));
+  const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
   const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
-    getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor)
+    getFormValueOrDefault(form.get('threshold'), 'deviationFactor')
   );
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
   const threshold = {
-    ...getThreshold(form),
-    value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)) || 0,
-    baseline: getFormValueOrDefault(form, fieldNames.thresholdBaseline) || []
+    ...form.get('threshold').toJS(),
+    value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
+    baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || []
   };
 
   return (
@@ -81,16 +77,16 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor={fieldNames.thresholdOperator}>Operator</Label>
+          <Label htmlFor="thresholdOperator">Operator</Label>
           <ComboBox
-            id={fieldNames.thresholdOperator}
+            id="thresholdOperator"
             className={locals.narrowControl}
-            name={fieldNames.thresholdOperator}
-            value={form.get(fieldNames.thresholdOperator).value}
-            options={selectOptions[fieldNames.thresholdOperator]}
+            name="thresholdOperator"
+            value={form.get('threshold').get('operator').value}
+            options={thresholdOperatorOptions}
             onChange={e => {
               const value = (e && e.value) || '';
-              onChange([fieldNames.thresholdOperator], f => f.setValue(value).setTouched(true));
+              onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
               websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
             }}
             defaultValue=">="
@@ -98,33 +94,31 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor={fieldNames.thresholdType}>Threshold Type</Label>
+          <Label htmlFor="thresholdType">Threshold Type</Label>
           <ComboBox
-            id={fieldNames.thresholdType}
+            id="thresholdType"
             className={locals.wideControl}
-            name={fieldNames.thresholdType}
-            value={form.get(fieldNames.thresholdType).value}
-            options={selectOptions[fieldNames.thresholdType]}
+            name="thresholdType"
+            value={form.get('threshold').get('type').value}
+            options={thresholdTypeOptions}
             onChange={e => {
               const thresholdType = e.value || '';
 
               const newRuleForm = createRuleForm(form.get('rule').toJS(), thresholdType);
-              let newForm = form.put('rule', newRuleForm);
 
-              if (thresholdType === 'staticThreshold') {
-                newForm = withSlownessFormStaticThreshold(newForm);
-              }
-
-              if (thresholdType.startsWith('historicBaseline.')) {
-                newForm = withSlownessFormHistoricBaseline(newForm);
-              }
+              const newThresholdForm = createThresholdForm(
+                {
+                  ...form.get('threshold').toJS(),
+                  type: thresholdType,
+                  seasonality: thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY'
+                },
+                form.get('rule').get('alertType').value
+              );
 
               updateForm(
-                newForm
-                  .updateIn([fieldNames.thresholdType], f => f.setValue(thresholdType).setTouched(true))
-                  .updateIn([fieldNames.thresholdSeasonality], f =>
-                    f.setValue(thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY').setTouched(true)
-                  )
+                form
+                  .put('rule', newRuleForm)
+                  .put('threshold', newThresholdForm)
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
@@ -134,16 +128,16 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             clearable={false}
           />
         </FormGroup>
-        {form.get(fieldNames.thresholdType).value === 'staticThreshold' ? (
+        {form.get('threshold').get('type').value === 'staticThreshold' ? (
           <FormGroup>
-            <Label htmlFor={fieldNames.thresholdValue}>{getThresholdLabel(form)}</Label>
+            <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
             <Input
-              id={fieldNames.thresholdValue}
+              id="thresholdValue"
               className={locals.narrowControl}
               type="number"
               min="0"
-              name={fieldNames.thresholdValue}
-              value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form, fieldNames.thresholdValue)}
+              name="thresholdValue"
+              value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
               step="1"
               onChange={e => {
                 const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
@@ -152,7 +146,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                 setTempThreshold(value);
 
                 const onChangCallback = () => {
-                  onChange([fieldNames.thresholdValue], f => f.setValue(value).setTouched(true));
+                  onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
                   setDoDebounceThreshold(false);
                 };
 
@@ -163,17 +157,17 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           </FormGroup>
         ) : (
           <FormGroup>
-            <Label htmlFor={fieldNames.thresholdDeviationFactor}>Sensitivity</Label>
+            <Label htmlFor="thresholdDeviationFactor">Sensitivity</Label>
             <Input
-              id={fieldNames.thresholdDeviationFactor}
+              id="thresholdDeviationFactor"
               className={locals.narrowControl}
               type="number"
               min="0"
-              name={fieldNames.thresholdDeviationFactor}
+              name="thresholdDeviationFactor"
               value={
                 doDebounceDeviationFactor
                   ? tempThresholdDeviationFactor
-                  : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, '')
+                  : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')
               }
               step="0.1"
               onChange={e => {
@@ -183,7 +177,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                 setTempThresholdDeviationFactor(value);
 
                 const onChangCallback = () => {
-                  onChange([fieldNames.thresholdDeviationFactor], f => f.setValue(value).setTouched(true));
+                  onChange(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true));
                   setDoDebounceDeviationFactor(false);
                 };
 
@@ -197,16 +191,16 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
 
       <ChartContainer headline="Last 24 hours">
         <SlownessAlertingBarChart
-          websiteId={form.get(fieldNames.websiteId).value}
+          websiteId={form.get('websiteId').value}
           threshold={threshold}
           timeThreshold={form.get('timeThreshold').toJS()}
-          sensitivity={
+          sensitivity={Number(
             doDebounceDeviationFactor
               ? tempThresholdDeviationFactor
-              : getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)
-          }
+              : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+          )}
           timeConfig={timeConfig}
-          tagFilters={form.get(fieldNames.tagFilters).value}
+          tagFilters={form.get('tagFilters').value}
           aggregation={form.get('rule').get('aggregation').value}
           granularity={granularity}
           alertsPreviewEnabled
@@ -232,7 +226,7 @@ function getAggregationValueAndUpdateFormIfNeeded(form, updateForm) {
 }
 
 function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form, fieldNames.thresholdType) === 'historicBaseline.WEEKLY') {
+  if (getFormValueOrDefault(form.get('threshold'), 'type') === 'historicBaseline.WEEKLY') {
     return ruleAggregationForWeeklySeasonalityOptions;
   }
   return ruleAggregationOptions;
