@@ -18,7 +18,7 @@ const columnDefinitions = [
   }
 ];
 
-export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
+export default function JsErrorsList({ form, timeConfig, onJsErrorSelect, slideOut }) {
   return (
     <>
       <List
@@ -45,8 +45,10 @@ export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
         pageSize={10}
         noDataMessage="No alert configured."
         onRowClick={error => {
-          const updatedForm = form.updateIn([fieldNames.ruleOperator], field => field.setValue(operators.EQUALS));
-          onChange(updatedForm, fieldNames.ruleValue, error.message);
+          onJsErrorSelect(
+            form.updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS)),
+            error.message
+          );
           slideOut();
         }}
       />
@@ -57,7 +59,7 @@ export default function JsErrorsList({ form, timeConfig, onChange, slideOut }) {
 
 JsErrorsList.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onJsErrorSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };

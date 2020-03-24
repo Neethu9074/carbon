@@ -17,8 +17,8 @@ import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDi
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
+import { ruleMetricNameOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -39,7 +39,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
   const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const metricName = form.get(fieldNames.ruleMetricName).value;
+  const metricName = form.get('rule').get('metricName').value;
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
@@ -54,19 +54,19 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
     <div className={locals.container}>
       <div className={locals.controls}>
         <FormGroup>
-          <Label htmlFor={fieldNames.ruleMetricName}>Metric</Label>
+          <Label htmlFor={'ruleMetricName'}>Metric</Label>
           <ComboBox
-            id={fieldNames.ruleMetricName}
+            id={'ruleMetricName'}
             className={locals.wideControl}
-            name={fieldNames.ruleMetricName}
+            name={'ruleMetricName'}
             value={metricName}
-            options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificStatusCode]}
+            options={ruleMetricNameOptions.statusCode}
             onChange={e => {
               const value = (e && e.value) || '';
 
               updateForm(
                 form
-                  .updateIn([fieldNames.ruleMetricName], f => f.setValue(value).setTouched(true))
+                  .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
@@ -139,8 +139,8 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
           tagFilters={form.get(fieldNames.tagFilters).value}
           numeratorFilter={{
             name: 'beacon.http.status',
-            operator: form.get(fieldNames.ruleOperator).value,
-            stringValue: form.get(fieldNames.ruleValue).value
+            operator: form.get('rule').get('operator').value,
+            stringValue: form.get('rule').get('value').value
           }}
           metricName={metricName}
           granularity={granularity}

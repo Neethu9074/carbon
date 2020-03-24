@@ -43,13 +43,14 @@ export const AlertConfigDialogWithThreshold = compose(
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     const observable = {};
+
     if (thresholdType === 'staticThreshold') {
       observable.result = resolveThresholdRequest(form, timeConfig, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .map(resp => resp.data)
         .tap(({ threshold, time }) => addThresholdToForm(form, updateForm, threshold, time));
     } else {
-      observable.result = resolveBaselineRequest(form, timeConfig, granularity)
+      observable.result = resolveBaselineRequest(form, granularity)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .map(resp => resp.data)
         .tap(({ baseline, time }) => addBaselineToForm(form, updateForm, baseline || [], time));
@@ -97,11 +98,11 @@ export const AlertConfigDialogWithThreshold = compose(
 
 function resolveThresholdRequest(form, timeConfig, granularity) {
   const websiteId = form.get(fieldNames.websiteId).value;
-  const stringValue = getFormValueOrDefault(form, fieldNames.ruleValue);
-  const operator = getFormValueOrDefault(form, fieldNames.ruleOperator);
+  const stringValue = getFormValueOrDefault(form.get('rule'), 'value');
+  const operator = getFormValueOrDefault(form.get('rule'), 'operator');
   const tagFilters = form.get(fieldNames.tagFilters).value;
-  const metricName = form.get(fieldNames.ruleMetricName).value;
-  const aggregation = getFormValueOrDefault(form, fieldNames.ruleAggregation);
+  const metricName = form.get('rule').get('metricName').value;
+  const aggregation = getFormValueOrDefault(form.get('rule'), 'aggregation');
 
   switch (metricName) {
     case errorCount:
@@ -165,11 +166,11 @@ function resolveThresholdRequest(form, timeConfig, granularity) {
   }
 }
 
-function resolveBaselineRequest(form, timeConfig, granularity) {
+function resolveBaselineRequest(form, granularity) {
   const websiteId = form.get(fieldNames.websiteId).value;
   const tagFilters = form.get(fieldNames.tagFilters).value;
-  const metricName = form.get(fieldNames.ruleMetricName).value;
-  const aggregation = getFormValueOrDefault(form, fieldNames.ruleAggregation);
+  const metricName = form.get('rule').get('metricName').value;
+  const aggregation = getFormValueOrDefault(form.get('rule'), 'aggregation');
   const seasonality = getFormValueOrDefault(form, fieldNames.thresholdSeasonality);
 
   if (metricName === onLoadTime) {

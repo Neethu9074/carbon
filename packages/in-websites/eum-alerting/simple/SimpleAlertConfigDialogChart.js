@@ -15,7 +15,7 @@ import locals from './SimpleAlertConfigDialogChart.mless';
 export default function SimpleAlertConfigDialogChart({ form, granularity, timeConfig }) {
   return (
     <AlertTypeSwitch
-      alertType={form.get(fieldNames.ruleAlertType).value}
+      alertType={form.get('rule').get('alertType').value}
       JsErrorsComponent={() => (
         <>
           {hasJsErrorSelected(form) ? (
@@ -26,10 +26,10 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
                 tagFilters={form.get(fieldNames.tagFilters).value}
                 errorFilter={{
                   name: 'beacon.error.message',
-                  operator: form.get(fieldNames.ruleOperator).value,
-                  stringValue: form.get(fieldNames.ruleValue).value
+                  operator: form.get('rule').get('operator').value,
+                  stringValue: form.get('rule').get('value').value
                 }}
-                metricName={form.get(fieldNames.ruleMetricName).value}
+                metricName={form.get('rule').get('metricName').value}
                 granularity={granularity}
                 threshold={getThreshold(form)}
                 timeThreshold={form.get('timeThreshold').toJS()}
@@ -52,10 +52,10 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
             tagFilters={form.get(fieldNames.tagFilters).value}
             numeratorFilter={{
               name: 'beacon.http.status',
-              operator: form.get(fieldNames.ruleOperator).value,
-              stringValue: form.get(fieldNames.ruleValue).value
+              operator: form.get('rule').get('operator').value,
+              stringValue: form.get('rule').get('value').value
             }}
-            metricName={form.get(fieldNames.ruleMetricName).value}
+            metricName={form.get('rule').get('metricName').value}
             granularity={granularity}
             alertsPreviewEnabled
             canReload
@@ -71,7 +71,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
             sensitivity={getFormValueOrDefault(form, fieldNames.thresholdDeviationFactor, 0)}
             timeConfig={timeConfig}
             tagFilters={form.get(fieldNames.tagFilters).value}
-            aggregation={form.get(fieldNames.ruleAggregation).value}
+            aggregation={form.get('rule').get('aggregation').value}
             granularity={granularity}
             alertsPreviewEnabled
             canReload
@@ -89,5 +89,5 @@ SimpleAlertConfigDialogChart.propTypes = {
 };
 
 function hasJsErrorSelected(form) {
-  return !!(form && form.get(fieldNames.ruleValue).value);
+  return !!(form && form.get('rule').get('value').value);
 }

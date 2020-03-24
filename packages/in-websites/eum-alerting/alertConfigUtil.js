@@ -1,15 +1,10 @@
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/eum-alerting/formHelpers';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 
 export default function toAlertConfig(form) {
   return Object.freeze({
-    rule: {
-      alertType: form.get(fieldNames.ruleAlertType).value,
-      metricName: form.get(fieldNames.ruleMetricName).value,
-      ...enrichByAlertType(form)
-    },
+    rule: form.get('rule').toJS(),
     tagFilters: form.get(fieldNames.tagFilters).value,
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
     enabled: form.get(fieldNames.enabled).value,
@@ -38,11 +33,11 @@ function getTimeThreshold(form) {
 
   if (timeThresholdForm.get('type').value === timeThresholdTypes.userImpactOfViolationsInSequence) {
     timeThreshold['users'] = hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').value
-      ? timeThresholdForm.get(fieldNames.timeThresholdUsers).value
+      ? timeThresholdForm.get('users').value
       : null;
 
     timeThreshold['userPercentage'] = hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').value
-      ? timeThresholdForm.get(fieldNames.timeThresholdUserPercentage).value
+      ? timeThresholdForm.get('userPercentage').value
       : null;
   }
 
@@ -51,32 +46,6 @@ function getTimeThreshold(form) {
 
 export function isGreaterOperator(operator) {
   return operator === '>=' || operator === '>';
-}
-
-function enrichByAlertType(form) {
-  const alertType = form.get(fieldNames.ruleAlertType).value;
-
-  if (alertType === alertTypes.specificJsError) {
-    return {
-      operator: form.get(fieldNames.ruleOperator).value,
-      value: form.get(fieldNames.ruleValue).value
-    };
-  }
-
-  if (alertType === alertTypes.specificStatusCode) {
-    return {
-      operator: form.get(fieldNames.ruleOperator).value,
-      value: form.get(fieldNames.ruleValue).value
-    };
-  }
-
-  if (alertType === alertTypes.slowness) {
-    return {
-      aggregation: form.get(fieldNames.ruleAggregation).value
-    };
-  }
-
-  return null;
 }
 
 function enrichByThresholdType(form) {

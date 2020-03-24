@@ -2,7 +2,7 @@ import { createField, notBlankValidator } from 'formalistic';
 
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
-export function withSlownessFormStaticThreshold(form, rule, threshold) {
+export function withSlownessFormStaticThreshold(form, threshold) {
   let updatedForm = form;
 
   updatedForm = removeCommonFields(updatedForm);
@@ -10,19 +10,17 @@ export function withSlownessFormStaticThreshold(form, rule, threshold) {
   updatedForm = updatedForm.remove(fieldNames.thresholdBaseline);
   updatedForm = updatedForm.remove(fieldNames.thresholdDeviationFactor);
 
-  updatedForm = addFieldsContainedInBoth(updatedForm, rule, threshold);
+  updatedForm = addFieldsContainedInBoth(updatedForm, threshold);
 
   return updatedForm;
 }
 
-export function withSlownessFormHistoricBaseline(form, rule, threshold) {
+export function withSlownessFormHistoricBaseline(form, threshold) {
   let updatedForm = form;
 
   updatedForm = removeCommonFields(updatedForm);
 
-  updatedForm = updatedForm.remove(fieldNames.ruleOperator);
-
-  updatedForm = addFieldsContainedInBoth(updatedForm, rule, threshold);
+  updatedForm = addFieldsContainedInBoth(updatedForm, threshold);
 
   updatedForm = updatedForm
     .put(
@@ -41,17 +39,7 @@ export function withSlownessFormHistoricBaseline(form, rule, threshold) {
   return updatedForm;
 }
 
-function addFieldsContainedInBoth(form, rule, threshold) {
-  if (!form.containsKey(fieldNames.ruleAggregation)) {
-    form = form.put(
-      fieldNames.ruleAggregation,
-      createField({
-        value: (rule && rule.aggregation) || 'P90',
-        validator: notBlankValidator
-      })
-    );
-  }
-
+function addFieldsContainedInBoth(form, threshold) {
   if (!form.containsKey(fieldNames.thresholdSeasonality)) {
     form = form.put(
       fieldNames.thresholdSeasonality,
@@ -66,7 +54,5 @@ function addFieldsContainedInBoth(form, rule, threshold) {
 }
 
 function removeCommonFields(updatedForm) {
-  updatedForm = updatedForm.remove(fieldNames.ruleOperator);
-  updatedForm = updatedForm.remove(fieldNames.ruleValue);
   return updatedForm;
 }

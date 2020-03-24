@@ -13,11 +13,11 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { getMetricLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { getMetricLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';

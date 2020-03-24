@@ -18,11 +18,14 @@ import {
   withSlownessFormStaticThreshold,
   withSlownessFormHistoricBaseline
 } from 'in-websites/eum-alerting/form/slownessForm';
+import { ruleAggregationForWeeklySeasonalityOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
 import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
+import { ruleAggregationOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
+import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -56,18 +59,18 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
     <div className={locals.container}>
       <div className={locals.controls}>
         <FormGroup>
-          <Label htmlFor={fieldNames.ruleAggregation}>Aggregation</Label>
+          <Label htmlFor={'ruleAggregation'}>Aggregation</Label>
           <ComboBox
-            id={fieldNames.ruleAggregation}
+            id="ruleAggregation"
             className={locals.wideControl}
-            name={fieldNames.ruleAggregation}
+            name="ruleAggregation"
             value={getAggregationValueAndUpdateFormIfNeeded(form, updateForm)}
             options={getAggregationOptions(form)}
             onChange={e => {
               const value = (e && e.value) || '';
               updateForm(
                 form
-                  .updateIn([fieldNames.ruleAggregation], f => f.setValue(value).setTouched(true))
+                  .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
@@ -105,13 +108,15 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             onChange={e => {
               const thresholdType = e.value || '';
 
-              let newForm = form;
+              const newRuleForm = createRuleForm(form.get('rule').toJS(), thresholdType);
+              let newForm = form.put('rule', newRuleForm);
+
               if (thresholdType === 'staticThreshold') {
-                newForm = withSlownessFormStaticThreshold(form);
+                newForm = withSlownessFormStaticThreshold(newForm);
               }
 
               if (thresholdType.startsWith('historicBaseline.')) {
-                newForm = withSlownessFormHistoricBaseline(form);
+                newForm = withSlownessFormHistoricBaseline(newForm);
               }
 
               updateForm(
@@ -202,7 +207,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           }
           timeConfig={timeConfig}
           tagFilters={form.get(fieldNames.tagFilters).value}
-          aggregation={form.get(fieldNames.ruleAggregation).value}
+          aggregation={form.get('rule').get('aggregation').value}
           granularity={granularity}
           alertsPreviewEnabled
           canReload
@@ -214,12 +219,12 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
 
 function getAggregationValueAndUpdateFormIfNeeded(form, updateForm) {
   const aggregationOptions = getAggregationOptions(form);
-  let aggregationValue = form.get(fieldNames.ruleAggregation).value;
+  let aggregationValue = form.get('rule').get('aggregation').value;
   if (!aggregationOptions.find(e => e.value === aggregationValue)) {
     aggregationValue = aggregationOptions[0].value;
     updateForm(
       form
-        .updateIn([fieldNames.ruleAggregation], f => f.setValue(aggregationValue).setTouched(true))
+        .updateIn(['rule', 'aggregation'], f => f.setValue(aggregationValue).setTouched(true))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
@@ -228,9 +233,9 @@ function getAggregationValueAndUpdateFormIfNeeded(form, updateForm) {
 
 function getAggregationOptions(form) {
   if (getFormValueOrDefault(form, fieldNames.thresholdType) === 'historicBaseline.WEEKLY') {
-    return selectOptions.ruleAggregationForWeeklySeasonality;
+    return ruleAggregationForWeeklySeasonalityOptions;
   }
-  return selectOptions[fieldNames.ruleAggregation];
+  return ruleAggregationOptions;
 }
 
 SlownessInteractiveChart.propTypes = {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { ruleStatusCodeValueOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import { websitesAlertingStatusCodeChanged } from 'in-websites/eum-alerting/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -14,33 +14,34 @@ import locals from './ProvideManualPattern.mless';
 export default function ProvideStatusCode({ form, mode, updateForm }) {
   return (
     <div className={locals.container}>
-      {form.get(fieldNames.ruleValue).map(field => (
-        <FormGroup>
-          <Label htmlFor={fieldNames.ruleValue} hasError={!field.valid && field.touched}>
-            Status Code
-          </Label>
-          <ComboBox
-            name={fieldNames.ruleValue}
-            value={field.value}
-            options={selectOptions[fieldNames.ruleValue]}
-            onChange={e => {
-              websitesAlertingStatusCodeChanged(mode);
-              updateForm(
-                form
-                  .updateIn([fieldNames.ruleValue], f => f.setValue((e && e.value) || '').setTouched(true))
-                  .updateIn([fieldNames.ruleOperator], f =>
-                    f.setValue(getOperatorForStatusCode(e.value)).setTouched(true)
-                  )
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-              );
-            }}
-            defaultValue="4"
-            clearable={false}
-            searchable
-          />
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
+      {form
+        .get('rule')
+        .get('value')
+        .map(field => (
+          <FormGroup>
+            <Label htmlFor={'ruleValue'} hasError={!field.valid && field.touched}>
+              Status Code
+            </Label>
+            <ComboBox
+              name={'ruleValue'}
+              value={field.value}
+              options={ruleStatusCodeValueOptions}
+              onChange={e => {
+                websitesAlertingStatusCodeChanged(mode);
+                updateForm(
+                  form
+                    .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))
+                    .updateIn(['rule', 'operator'], f => f.setValue(getOperatorForStatusCode(e.value)).setTouched(true))
+                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                );
+              }}
+              defaultValue="4"
+              clearable={false}
+              searchable
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
     </div>
   );
 }

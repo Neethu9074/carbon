@@ -56,7 +56,7 @@ export default compose(
           <>
             <AlertSelection form={form} updateForm={updateForm} />
             <AlertTypeSwitch
-              alertType={form.get(fieldNames.ruleAlertType).value}
+              alertType={form.get('rule').get('alertType').value}
               JsErrorsComponent={() => (
                 <>
                   <Card title="JS Error Message" withoutPadding darkFrame>
@@ -154,10 +154,11 @@ export default compose(
 )(AdvancedModeContainer);
 
 function validateTrigger(form) {
-  const alertType = form.get(fieldNames.ruleAlertType).value;
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
 
   if (alertType === 'specificJsError') {
-    return Boolean(form.get(fieldNames.ruleAlertType).value && getFormValueOrDefault(form, fieldNames.ruleValue));
+    return Boolean(ruleForm.get('alertType').value && getFormValueOrDefault(ruleForm, 'value'));
   } else {
     return true;
   }

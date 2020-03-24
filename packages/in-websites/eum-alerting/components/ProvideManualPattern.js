@@ -8,7 +8,7 @@ import {
   websitesAlertingJsErrorsErrorSelected,
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { ruleJsErrorsOperatorOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import JsErrorsList from 'in-websites/eum-alerting/simple/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -23,20 +23,20 @@ import locals from './ProvideManualPattern.mless';
 const debouncedErrorMsgChangedTracker = debounce(websitesAlertingJsErrorsMsgChanged, 300);
 
 export default function ProvideManualPattern({ form, timeConfig, onSelectJsError, mode, updateForm }) {
-  const operatorField = form.get(fieldNames.ruleOperator);
-  const ruleValueField = form.get(fieldNames.ruleValue);
+  const operatorField = form.get('rule').get('operator');
+  const ruleValueField = form.get('rule').get('value');
 
   return (
     <div className={locals.container}>
       {operatorField.map(field => (
         <FormGroup>
-          <Label htmlFor={fieldNames.ruleOperator} hasError={!field.valid && field.touched}>
+          <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
             Error Message
           </Label>
           <ComboBox
-            name={fieldNames.ruleOperator}
+            name={'ruleOperator'}
             value={field.value}
-            options={selectOptions[fieldNames.ruleOperator]}
+            options={ruleJsErrorsOperatorOptions}
             onChange={e => {
               websitesAlertingJsErrorsOperatorChanged(mode);
               const previousOperator = field.value;
@@ -50,12 +50,12 @@ export default function ProvideManualPattern({ form, timeConfig, onSelectJsError
 
               updateForm(
                 form
-                  .updateIn([fieldNames.ruleOperator], f => f.setValue(newOperator).setTouched(true))
-                  .updateIn([fieldNames.ruleValue], f => f.setValue(newRuleValueValue).setTouched(true))
+                  .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
+                  .updateIn(['rule', 'value'], f => f.setValue(newRuleValueValue).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
             }}
-            defaultValue={selectOptions[fieldNames.ruleOperator][0].value}
+            defaultValue={ruleJsErrorsOperatorOptions[0].value}
             clearable={false}
             searchable
           />
@@ -67,14 +67,14 @@ export default function ProvideManualPattern({ form, timeConfig, onSelectJsError
           <FormGroup>
             <div className={locals.jsErrorSelection}>
               <TextArea
-                name={fieldNames.ruleValue}
+                name={'ruleValue'}
                 rows="3"
                 value={field.value}
                 onChange={e => {
                   debouncedErrorMsgChangedTracker(mode);
                   updateForm(
                     form
-                      .updateIn([fieldNames.ruleValue], f => f.setValue((e && e.target.value) || '').setTouched(true))
+                      .updateIn(['rule', 'value'], f => f.setValue((e && e.target.value) || '').setTouched(true))
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
                 }}
@@ -90,11 +90,11 @@ export default function ProvideManualPattern({ form, timeConfig, onSelectJsError
                         <JsErrorsList
                           form={form}
                           timeConfig={timeConfig}
-                          onChange={(updatedForm, fieldName, message) => {
+                          onJsErrorSelect={(updatedForm, message) => {
                             websitesAlertingJsErrorsErrorSelected({ message, mode });
                             updateForm(
                               updatedForm
-                                .updateIn([fieldName], f => f.setValue(message).setTouched(true))
+                                .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
                                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                             );
                           }}

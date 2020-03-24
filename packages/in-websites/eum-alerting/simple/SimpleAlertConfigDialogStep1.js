@@ -15,8 +15,15 @@ import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alert
 import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsErrorsForm';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
+import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 import { modeSimple } from 'in-websites/eum-alerting/constants';
 import Menu from 'in-websites/eum-alerting/components/Menu';
+
+const getMetricNameForAlertType = {
+  specificJsError: 'errors',
+  statusCode: 'httpxxx',
+  slowness: 'onLoadTime'
+};
 
 export default function SimpleAlertConfigDialogStep1({
   form,
@@ -53,11 +60,20 @@ export default function SimpleAlertConfigDialogStep1({
         itemClickTracker={selectedItemIndex => {
           const alertType = alertTypeConfig[selectedItemIndex].type;
 
+          const newRuleForm = createRuleForm(
+            {
+              ...form.get('rule').toJS(),
+              alertType,
+              metricName: getMetricNameForAlertType[alertType]
+            },
+            form.get(fieldNames.thresholdType).value
+          );
+
+          let newForm = form.put('rule', newRuleForm);
+
           if (alertType === alertTypes.specificJsError) {
             updateForm(
-              withJsErrorsFormSpecificError(form)
-                .updateIn([fieldNames.ruleAlertType], f => f.setValue(alertTypes.specificJsError).setTouched(true))
-                .updateIn([fieldNames.ruleMetricName], f => f.setValue('errors').setTouched(true))
+              withJsErrorsFormSpecificError(newForm)
                 .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
@@ -65,17 +81,15 @@ export default function SimpleAlertConfigDialogStep1({
 
           if (alertType === alertTypes.specificStatusCode) {
             updateForm(
-              withStatusCodesFormSpecificStatusCode(form)
-                .updateIn([fieldNames.ruleAlertType], f => f.setValue(alertTypes.specificStatusCode).setTouched(true))
-                .updateIn([fieldNames.ruleMetricName], f => f.setValue('httpxxx').setTouched(true))
+              withStatusCodesFormSpecificStatusCode(newForm)
                 .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
           }
 
           if (alertType === alertTypes.slowness) {
-            let thresholdTypeValue = form.get(fieldNames.thresholdType).value;
-            const thresholdBaseline = form.get(fieldNames.thresholdBaseline);
+            let thresholdTypeValue = newForm.get(fieldNames.thresholdType).value;
+            const thresholdBaseline = newForm.get(fieldNames.thresholdBaseline);
 
             // On the first load or when the baseline is OK, use baseline
             if (
@@ -85,17 +99,14 @@ export default function SimpleAlertConfigDialogStep1({
               thresholdTypeValue = 'historicBaseline.DAILY';
             }
 
-            let updatedForm = form;
             if (thresholdTypeValue === 'staticThreshold') {
-              updatedForm = withSlownessFormStaticThreshold(form);
+              newForm = withSlownessFormStaticThreshold(newForm);
             } else if (thresholdTypeValue.includes('historicBaseline.')) {
-              updatedForm = withSlownessFormHistoricBaseline(form);
+              newForm = withSlownessFormHistoricBaseline(newForm);
             }
 
             updateForm(
-              updatedForm
-                .updateIn([fieldNames.ruleAlertType], f => f.setValue(alertTypes.slowness).setTouched(true))
-                .updateIn([fieldNames.ruleMetricName], f => f.setValue('onLoadTime').setTouched(true))
+              newForm
                 .updateIn([fieldNames.thresholdType], f => f.setValue(thresholdTypeValue).setTouched(true))
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
@@ -122,7 +133,7 @@ export default function SimpleAlertConfigDialogStep1({
       {alertType === alertTypes.slowness && (
         <AlertTypeDescription
           updateForm={updateForm}
-          config={alertTypeConfig.find(({ type }) => form.get(fieldNames.ruleAlertType).value === type)}
+          config={alertTypeConfig.find(({ type }) => form.get('rule').get('alertType').value === type)}
         />
       )}
 
@@ -141,5 +152,5 @@ SimpleAlertConfigDialogStep1.propTypes = {
 };
 
 function getIndexSelectedConf(form) {
-  return alertTypeConfig.findIndex(({ type }) => form.get(fieldNames.ruleAlertType).value === type);
+  return alertTypeConfig.findIndex(({ type }) => form.get('rule').get('alertType').value === type);
 }

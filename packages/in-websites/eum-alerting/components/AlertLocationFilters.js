@@ -22,7 +22,7 @@ const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, websiteLabel, updateForm }) {
-  const alertType = form.get('ruleAlertType').value;
+  const alertType = form.get('rule').get('alertType').value;
   const tagSuggestions = availableTagFiltersPerAlertType[alertType];
   if (__DEV__) {
     invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);

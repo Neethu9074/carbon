@@ -4,10 +4,9 @@ import {
   websitesAlertingThresholdValueChanged,
   websitesAlertingThresholdDeviationFactorChanged
 } from 'in-websites/eum-alerting/tracker';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
 export function getBlueprintObject(form) {
-  return { bluePrint: form.get(fieldNames.ruleAlertType).value };
+  return { bluePrint: form.get('rule').get('alertType').value };
 }
 
 export const debouncedThresholdValueChangedTracker = debounce(websitesAlertingThresholdValueChanged, 300);

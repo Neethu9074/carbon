@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getRuleOperatorLabel, getStatusCodeLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
+import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
-import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypeConfig } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
@@ -35,7 +34,7 @@ export default function AlertSelection({ form, updateForm }) {
             websitesAlertingBlueprintChanged({ newBluePrint: alertTypeConfig[index].type, mode: modeAdvanced });
           }}
           initialItemSelected={alertTypeConfig.findIndex(
-            ({ type }) => form.get(fieldNames.ruleAlertType).value === type
+            ({ type }) => form.get('rule').get('alertType').value === type
           )}
         />
         {subMenuLabels.length > 0 && <Menu itemLabels={subMenuLabels} itemClickTracker={() => {}} />}
@@ -63,5 +62,5 @@ AlertSelection.propTypes = {
 };
 
 function getConfigByType(form) {
-  return alertTypeConfig.find(({ type }) => form.get(fieldNames.ruleAlertType).value === type);
+  return alertTypeConfig.find(({ type }) => form.get('rule').get('alertType').value === type);
 }

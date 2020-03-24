@@ -7,6 +7,7 @@ import { withJsErrorsFormSpecificError } from 'in-websites/eum-alerting/form/jsE
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import createRuleForm from 'in-websites/eum-alerting/form/ruleForm';
 import * as constants from 'in-websites/eum-alerting/constants';
 import Button from 'in-new-components/Button/Button';
 
@@ -49,31 +50,38 @@ AlertTypeDescription.propTypes = {
 };
 
 function updateFormAndCallOnChange(form, config, updateForm) {
+  const newRuleForm = createRuleForm(
+    {
+      ...form.get('rule').toJS(),
+      alertType: config.type
+    },
+    form.get(fieldNames.thresholdType).value
+  );
+
+  let newForm = form.put('rule', newRuleForm);
+
   if (config.type === alertTypes.specificJsError) {
+    newForm = newForm.updateIn(['rule', 'metricName'], f => f.setValue(constants.errorCount).setTouched(true));
     updateForm(
-      withJsErrorsFormSpecificError(form)
-        .updateIn([fieldNames.ruleAlertType], f => f.setValue(config.type).setTouched(true))
-        .updateIn([fieldNames.ruleMetricName], f => f.setValue(constants.errorCount).setTouched(true))
+      withJsErrorsFormSpecificError(newForm)
         .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
 
   if (config.type === alertTypes.slowness) {
+    newForm = newForm.updateIn(['rule', 'metricName'], f => f.setValue(constants.onLoadTime).setTouched(true));
     updateForm(
-      withSlownessFormHistoricBaseline(form)
-        .updateIn([fieldNames.ruleAlertType], f => f.setValue(config.type).setTouched(true))
-        .updateIn([fieldNames.ruleMetricName], f => f.setValue(constants.onLoadTime).setTouched(true))
+      withSlownessFormHistoricBaseline(newForm)
         .updateIn([fieldNames.thresholdType], f => f.setValue('historicBaseline.DAILY').setTouched(true))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
 
   if (config.type === alertTypes.specificStatusCode) {
+    newForm = newForm.updateIn(['rule', 'metricName'], f => f.setValue(constants.statusCodeCount).setTouched(true));
     updateForm(
-      withStatusCodesFormSpecificStatusCode(form)
-        .updateIn([fieldNames.ruleAlertType], f => f.setValue(config.type).setTouched(true))
-        .updateIn([fieldNames.ruleMetricName], f => f.setValue(constants.statusCodeCount).setTouched(true))
+      withStatusCodesFormSpecificStatusCode(newForm)
         .updateIn([fieldNames.thresholdType], f => f.setValue('staticThreshold').setTouched(true))
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );

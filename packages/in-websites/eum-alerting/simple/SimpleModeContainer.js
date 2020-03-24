@@ -119,8 +119,8 @@ function handleSubmit(e, step, setStep, form, updateForm, setSimpleModeStep, onC
 
   let stepValid = true;
   if (step === steps.selectAlert) {
-    if (form.containsKey(fieldNames.ruleValue)) {
-      stepValid = form.get(fieldNames.ruleValue).valid;
+    if (form.containsKey('value')) {
+      stepValid = form.get('value').valid;
     }
   } else if (step === steps.selectAlertingChannel) {
     stepValid = form.get(fieldNames.alertChannelIds).valid;
@@ -130,7 +130,7 @@ function handleSubmit(e, step, setStep, form, updateForm, setSimpleModeStep, onC
 
   if (step === steps.selectAlert) {
     if (!stepValid) {
-      updateForm(form.updateIn([fieldNames.ruleValue], f => f.setTouched(true)));
+      updateForm(form.updateIn(['rule', 'value'], f => f.setTouched(true)));
     } else {
       updateForm(form.setTouched(false, { recurse: true }));
       handleNextClick(setStep, step, setSimpleModeStep);

@@ -1,5 +1,6 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/eum-alerting/constants';
-import { fieldNames, getStatusCodeLabel } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
+import { getStatusCodeLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -11,19 +12,20 @@ const operatorDescriptionValues = {
 };
 
 export function getTitlePlaceholder(form) {
-  const alertType = form.get(fieldNames.ruleAlertType).value;
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
   if (alertType === alertTypes.specificJsError) {
-    const operator = form.get(fieldNames.ruleOperator).value;
+    const operator = ruleForm.get('operator').value;
     if (operator === operators.NOT_EMPTY) {
       return `Any JS Errors`;
     }
-    const errorMessage = form.get(fieldNames.ruleValue).value;
+    const errorMessage = ruleForm.get('value').value;
     return `JS Error(s): ${errorMessage}`;
   } else if (alertType === alertTypes.specificStatusCode) {
-    const statusCodeString = form.get(fieldNames.ruleValue).value;
+    const statusCodeString = ruleForm.get('value').value;
     return `HTTP Status Code(s): ${fillStatusCodeValue(statusCodeString)}`;
   } else if (alertType === alertTypes.slowness) {
-    const aggregation = form.get(fieldNames.ruleAggregation).value;
+    const aggregation = ruleForm.get('aggregation').value;
     const operator = form.get(fieldNames.thresholdOperator).value;
     return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
   }
@@ -31,23 +33,25 @@ export function getTitlePlaceholder(form) {
 }
 
 export function getDescriptionPlaceholder(form) {
-  const alertType = form.get(fieldNames.ruleAlertType).value;
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
+
   if (alertType === alertTypes.specificJsError) {
-    const operator = form.get(fieldNames.ruleOperator).value;
+    const operator = ruleForm.get('operator').value;
     if (operator === operators.NOT_EMPTY) {
       return `JS Errors have been detected.`;
     }
     return `JS Errors which ${operatorDescriptionValues[operator]} "${
-      form.get(fieldNames.ruleValue).value
+      ruleForm.get('value').value
     }" have been detected.`;
   } else if (alertType === alertTypes.specificStatusCode) {
-    const statusCodeString = form.get(fieldNames.ruleValue).value;
+    const statusCodeString = ruleForm.get('value').value;
     const operator = form.get(fieldNames.thresholdOperator).value;
     return `Occurrences of HTTP Status Code ${getStatusCodeLabel(statusCodeString)} is ${getSimpleOperatorText(
       operator
     )} the expectation.`;
   } else if (alertType === alertTypes.slowness) {
-    const aggregation = form.get(fieldNames.ruleAggregation).value;
+    const aggregation = ruleForm.get('aggregation').value;
     const operator = form.get(fieldNames.thresholdOperator).value;
     const thresholdType = form.get(fieldNames.thresholdType).value;
     if (thresholdType === 'staticThreshold') {
@@ -67,7 +71,7 @@ export function getFormValueOrDefault(form, key, defaultValue = null) {
 }
 
 export function getThresholdLabel(form) {
-  const metricName = form.get(fieldNames.ruleMetricName).value;
+  const metricName = form.get('rule').get('metricName').value;
   switch (metricName) {
     case onLoadTime:
       return 'Milliseconds';

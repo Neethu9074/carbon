@@ -17,8 +17,8 @@ import IncompleteChartPlaceholder from 'in-websites/eum-alerting/components/Inco
 import { fieldNames, selectOptions } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/eum-alerting/formHelpers';
+import { ruleMetricNameOptions } from 'in-websites/eum-alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { errorCount, errorRate } from 'in-websites/eum-alerting/constants';
 import { getThreshold } from 'in-websites/eum-alerting/alertConfigUtil';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -40,7 +40,7 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
   const [tempThreshold, setTempThreshold] = useState(() => form.get(fieldNames.thresholdValue).value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const metricName = form.get(fieldNames.ruleMetricName).value;
+  const metricName = form.get('rule').get('metricName').value;
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
@@ -57,18 +57,18 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
         <>
           <div className={locals.controls}>
             <FormGroup>
-              <Label htmlFor={fieldNames.ruleMetricName}>Metric</Label>
+              <Label htmlFor={'ruleMetricName'}>Metric</Label>
               <ComboBox
-                id={fieldNames.ruleMetricName}
+                id={'ruleMetricName'}
                 className={locals.wideControl}
-                name={fieldNames.ruleMetricName}
+                name={'ruleMetricName'}
                 value={metricName}
-                options={selectOptions[fieldNames.ruleMetricName][alertTypes.specificJsError]}
+                options={ruleMetricNameOptions.specificJsError}
                 onChange={e => {
                   const value = (e && e.value) || '';
                   updateForm(
                     form
-                      .updateIn([fieldNames.ruleMetricName], f => f.setValue(value).setTouched(true))
+                      .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
                   websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
@@ -137,8 +137,8 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
               tagFilters={form.get(fieldNames.tagFilters).value}
               errorFilter={{
                 name: 'beacon.error.message',
-                operator: form.get(fieldNames.ruleOperator).value,
-                stringValue: form.get(fieldNames.ruleValue).value
+                operator: form.get('rule').get('operator').value,
+                stringValue: form.get('rule').get('value').value
               }}
               metricName={metricName}
               granularity={granularity}
@@ -166,7 +166,7 @@ JsErrorsInteractiveChart.propTypes = {
 };
 
 function hasJsErrorSelected(form) {
-  return !!(form && form.get(fieldNames.ruleValue).value);
+  return !!(form && form.get('rule').get('value').value);
 }
 
 function getMaxThresholdValue(metricName) {
