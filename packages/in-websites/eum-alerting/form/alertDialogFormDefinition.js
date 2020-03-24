@@ -317,7 +317,7 @@ function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = fal
     .put(
       'alertByNumberOfImpactedUsersEnabled',
       createField({
-        value: !!(timeThreshold && timeThreshold.users !== null)
+        value: !!(timeThreshold && timeThreshold.users)
       })
     )
     .put(
