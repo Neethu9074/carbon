@@ -8,6 +8,10 @@ import locals from './Pagination.mless';
 const pagePlaceholder = undefined;
 
 export default function Pagination({ currentPage, numPages, onChange }) {
+  if (numPages <= 1) {
+    return null;
+  }
+
   const pages = getSteps(currentPage, numPages);
   return (
     <div className={locals.pagination}>
