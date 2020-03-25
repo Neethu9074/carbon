@@ -68,7 +68,7 @@ function renderUser(props) {
   );
 }
 
-function RoleComboBox({ user, roles, form, setForm, setCanSaveItem }) {
+function RoleComboBox({ user, roles, form, setForm }) {
   if (!user || !roles) {
     return null;
   }
@@ -88,7 +88,6 @@ function RoleComboBox({ user, roles, form, setForm, setCanSaveItem }) {
       options={options}
       onChange={e => {
         setForm(form.updateIn(['roleId'], f => f.setValue(e.value).setTouched(true)));
-        setCanSaveItem(true);
       }}
       clearable={false}
     />

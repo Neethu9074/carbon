@@ -3,6 +3,7 @@ import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
+import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import Header from 'in-settings/components/ApiItemView/Header';
 import { isLoading, hasError } from 'in-services/util/result';
@@ -15,24 +16,23 @@ export default connectTo(
 
   function ApiItemView(props) {
     const { parentPath, parentViewName, render, renderLoadingState, enrichForm, result, saveItem } = props;
-
     if (result.errors && result.errors.length > 0) {
       const error = getUniqueErrors(result.errors)[0];
       return (
-        <div className={locals.wrapper}>
+        <SettingsDetailPage>
           <Header parentPath={parentPath} parentViewName={parentViewName} />
           <MessageWrapper message={{ message: error, type: 'error' }} />
-        </div>
+        </SettingsDetailPage>
       );
     }
 
     if (result.isLoading) {
       return (
-        <div className={locals.wrapper}>
+        <SettingsDetailPage>
           <Header parentPath={parentPath} parentViewName={parentViewName} />
           <MessageWrapper />
           {renderLoadingState({ ...props })}
-        </div>
+        </SettingsDetailPage>
       );
     }
 
@@ -40,16 +40,21 @@ export default connectTo(
     const [form, setForm] = useState(createForm(enrichForm, props));
     const [canSaveItem, setCanSaveItem] = useState(false);
 
+    const setFormAndUpdateSave = form => {
+      setForm(form);
+      setCanSaveItem(true);
+    };
+
     return (
-      <div className={locals.wrapper}>
+      <SettingsDetailPage>
         <Header
           parentPath={parentPath}
           parentViewName={parentViewName}
           onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form }) : undefined}
         />
         <MessageWrapper message={message} />
-        {render({ ...props, ...result, message, setMessage, form, setForm, setCanSaveItem })}
-      </div>
+        {render({ ...props, ...result, message, setMessage, form, setForm: setFormAndUpdateSave, setCanSaveItem })}
+      </SettingsDetailPage>
     );
   }
 );

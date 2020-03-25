@@ -1,0 +1,9 @@
+:local {
+  .maxWidth {
+    max-width: 35rem;
+  }
+
+  .input {
+    width: 100%;
+  }
+}

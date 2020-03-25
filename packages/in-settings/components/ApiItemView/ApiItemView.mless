@@ -1,10 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper {
-    padding: 0 1rem;
-  }
-
   .controls,
   .customControls {
     display: flex;
