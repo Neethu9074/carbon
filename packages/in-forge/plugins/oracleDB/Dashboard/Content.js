@@ -84,7 +84,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Execution">
+      <DashboardSection title="SQL Execution">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -102,7 +102,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Parse Count">
+      <DashboardSection title="SQL Parse Count">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -114,7 +114,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Parse Ratios">
+      <DashboardSection title="SQL Parse Ratios">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
