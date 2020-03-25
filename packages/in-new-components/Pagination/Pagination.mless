@@ -3,7 +3,9 @@
 :local {
   .pagination {
     display: flex;
+    justify-content: center;
     font-size: 0.875rem;
+    padding: 1rem 0;
   }
 
   .control {

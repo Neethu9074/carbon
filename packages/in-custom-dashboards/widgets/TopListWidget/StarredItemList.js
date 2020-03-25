@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
 import WithStarredItems from 'in-custom-dashboards/widgets/TopListWidget/WithStarredItems';
+import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import { error } from 'in-new-components/Message/types';
+import Message from 'in-new-components/Message';
 
 import locals from './ItemList.mless';
 
@@ -68,7 +70,11 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
           columnDefinitions={[
             {
               getContent() {
-                return <Error>{getUniqueErrors(result.errors)[0]}</Error>;
+                return (
+                  <Message type={error} small>
+                    {getUniqueErrors(result.errors)[0]}
+                  </Message>
+                );
               }
             },
             columnDefinitions[columnDefinitions.length - 1]

@@ -5,26 +5,58 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
     box-sizing: border-box;
-    min-height: 2.5rem;
     padding: 0.625rem;
+
+    border-radius: @lib__shapes__radius_small;
+    border: 1px solid @lib__colors__N400;
     color: @lib__colors__N600Light;
   }
 
-  .messageBg {
+  .neutral {
     background: @lib__colors__N200;
-    border-radius: @lib__shapes__radius_small;
-    border: 1px solid @lib__colors__N400;
+  }
+
+  .success {
+    background: @lib__colors__success;
+    color: @lib__colors__white;
+
+    .icon {
+      fill: @lib__colors__white;
+    }
+  }
+
+  .warning {
+    background: @lib__colors__warning;
+    color: @lib__colors__N900Primary;
+
+    .icon {
+      fill: @lib__colors__N900Primary;
+    }
+  }
+
+  .error {
+    background: @lib__colors__failure;
+    color: @lib__colors__white;
+    font-weight: bold;
+
+    .icon {
+      fill: @lib__colors__white;
+    }
+  }
+
+  .small {
+    padding: 6px 10px;
+  }
+
+  .bold {
+    font-weight: bold;
   }
 
   .icon {
     align-self: flex-start;
     margin-right: 0.5rem;
-    line-height: 1.5rem;
-
-    &.smallSize {
-      line-height: 1.25rem;
-    }
   }
 
   .content {

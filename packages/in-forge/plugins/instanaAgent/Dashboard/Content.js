@@ -204,8 +204,8 @@ export default connectTo(
               <ChartExplanation>
                 The Java and PHP Tracer use pooled StringBuilder instances to process incoming spans. If the created and
                 released metrics are not zero the pools are full. StringBuilder instances are created (and released) on
-                demand then. Also StringBuilder instances which grew over 8 MB are not pooled, but immediately
-                released. Both scenarios might lead to increased heap usage and GC pressure.
+                demand then. Also StringBuilder instances which grew over 8 MB are not pooled, but immediately released.
+                Both scenarios might lead to increased heap usage and GC pressure.
               </ChartExplanation>
               <Columize>
                 <Chart

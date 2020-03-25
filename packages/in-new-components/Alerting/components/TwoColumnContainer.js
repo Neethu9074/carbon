@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import evaluateClassNames from 'in-services/util/classnames';
+import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 
 import locals from './TwoColumnContainer.mless';
-import theme from 'in-themes';
 
 export default function TwoColumnContainer({
   mainContent,
@@ -24,11 +24,7 @@ export default function TwoColumnContainer({
     >
       <div className={locals.mainArea}>
         <h3 className={locals.headline}>{mainContentHeadline}</h3>
-        {warnMessage && (
-          <Message iconColor={theme.lib.colors.warning} withIcon type="neutral">
-            {warnMessage}
-          </Message>
-        )}
+        {warnMessage && <Message type={warning}>{warnMessage}</Message>}
         <div className={locals.mainAreaContent}>{mainContent}</div>
       </div>
       <div

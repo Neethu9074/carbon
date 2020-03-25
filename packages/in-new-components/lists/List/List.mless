@@ -65,6 +65,10 @@
     padding: 0.25rem 0.75rem;
   }
 
+  .borderless {
+    padding: 0;
+  }
+
   .actions {
     display: flex;
     justify-content: flex-end;

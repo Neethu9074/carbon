@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .headline {
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar {
+    margin-right: 0.75rem;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .email {
+    margin-left: 0.75rem;
+
+    font-weight: 300;
+    font-size: 0.875rem;
+    color: @lib__colors__N500;
+  }
+
+  .rolesWrapper {
+    padding-top: 2rem;
+    max-width: 17rem;
+  }
+
+  .nameSkeleton {
+    display: block;
+
+    width: 200px;
+    height: 1rem;
+
+    margin-right: 0.5rem;
+  }
+}

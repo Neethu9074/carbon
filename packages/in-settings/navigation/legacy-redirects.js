@@ -14,6 +14,7 @@ const redirects = [
     params: { roleId: 'id' }
   },
   { from: `${settingsPath}/users`, to: paths.teamSettingsAccessControlUsers },
+  { from: `${settingsPath}/users/:id`, to: paths.teamSettingsAccessControlUserEdit, params: { userId: 'id' } },
   { from: `${settingsPath}/apiTokens`, to: paths.teamSettingsAccessControlApiTokens },
   {
     from: `${settingsPath}/apiTokens/:apiTokenId`,

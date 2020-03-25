@@ -6,8 +6,8 @@ import WithSubscript from 'in-settings/components/WithSubscript';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import { getRolesMutable } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
-import { getUsers } from 'in-api/users';
 import connectTo from 'in-hoc/connectTo';
+import { getUsers } from 'in-api/users';
 
 import locals from './Users.mless';
 
@@ -62,7 +62,7 @@ function columnDefinitions(roles) {
       id: 'gravatar',
       sortable: false,
       getContent(user) {
-        return <Gravatar email={user.email} className={locals.avatar} />;
+        return <Gravatar email={user.email} />;
       },
       headCellProps: {
         className: locals.narrowColumn

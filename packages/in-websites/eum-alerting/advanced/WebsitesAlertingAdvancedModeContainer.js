@@ -1,5 +1,4 @@
 import { compose, withProps } from 'recompose';
-import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -27,6 +26,7 @@ import ProvideStatusCode from 'in-websites/eum-alerting/components/ProvideStatus
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
 import { modeAdvanced } from 'in-websites/eum-alerting/constants';
+import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
 
@@ -102,7 +102,7 @@ export default compose(
                       updateForm={updateForm}
                     />
                     {showInsufficientBaselineDataMessage(form) && (
-                      <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
+                      <Message type={warning} withIcon>
                         Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
                         instead.
                       </Message>

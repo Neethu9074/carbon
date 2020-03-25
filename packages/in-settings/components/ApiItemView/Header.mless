@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header,
+  .customControls {
+    display: flex;
+    align-items: center;
+  }
+
+  .header {
+    justify-content: space-between;
+
+    min-height: 2.5rem;
+  }
+
+  .backNavigationWrapper {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.875rem;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+
+    fill: @lib__colors__blue800;
+  }
+}

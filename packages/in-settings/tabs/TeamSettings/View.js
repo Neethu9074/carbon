@@ -4,6 +4,7 @@ import React from 'react';
 import {
   teamSettings,
   teamSettingsAccessControlUsers,
+  teamSettingsAccessControlUserEdit,
   teamSettingsAccessControlInvites,
   teamSettingsAccessControlRoles,
   teamSettingsAccessControlRoleEdit,
@@ -63,6 +64,7 @@ import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/R
 import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
+import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
@@ -81,7 +83,13 @@ function navigationTreeForRole(role): NavigationTree {
       accessControlPages.push({
         path: teamSettingsAccessControlUsers,
         label: 'Users',
-        component: UsersPage
+        component: UsersPage,
+        subPages: [
+          {
+            path: teamSettingsAccessControlUserEdit,
+            component: UserPage
+          }
+        ]
       });
       accessControlPages.push({
         path: teamSettingsAccessControlInvites,

@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
+  .icon {
+    fill: @lib__colors__primary2;
+  }
+}
