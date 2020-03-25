@@ -1,23 +1,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  .header,
-  .customControls {
-    display: flex;
-    align-items: center;
-  }
-
-  .header {
-    justify-content: space-between;
-
-    min-height: 2.5rem;
-  }
-
   .backNavigationWrapper {
     display: flex;
     align-items: center;
 
     font-size: 0.875rem;
+    margin-bottom: 1rem;
   }
 
   .icon {

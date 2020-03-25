@@ -2,14 +2,14 @@ import { combineLatest } from 'reactive-observables';
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import BackToParentPathLink from 'in-settings/components/ApiItemView/BackToParentPathLink';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import TemporaryMessage from 'in-new-components/TemporaryMessage';
-import Header from 'in-settings/components/ApiItemView/Header';
+import { error as errorType } from 'in-new-components/Message/types';
+import Footer from 'in-settings/components/ApiItemView/Footer';
 import { isLoading, hasError } from 'in-services/util/result';
+import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './ApiItemView.mless';
 
 export default connectTo(
   ({ getObservables }) => getResults(getObservables()),
@@ -20,8 +20,10 @@ export default connectTo(
       const error = getUniqueErrors(result.errors)[0];
       return (
         <SettingsDetailPage>
-          <Header parentPath={parentPath} parentViewName={parentViewName} />
-          <MessageWrapper message={{ message: error, type: 'error' }} />
+          <BackToParentPathLink parentPath={parentPath} parentViewName={parentViewName} />
+          <Message type={errorType} withIcon small>
+            {error}
+          </Message>
         </SettingsDetailPage>
       );
     }
@@ -29,8 +31,7 @@ export default connectTo(
     if (result.isLoading) {
       return (
         <SettingsDetailPage>
-          <Header parentPath={parentPath} parentViewName={parentViewName} />
-          <MessageWrapper />
+          <BackToParentPathLink parentPath={parentPath} parentViewName={parentViewName} />
           {renderLoadingState({ ...props })}
         </SettingsDetailPage>
       );
@@ -47,21 +48,19 @@ export default connectTo(
 
     return (
       <SettingsDetailPage>
-        <Header
+        <BackToParentPathLink parentPath={parentPath} parentViewName={parentViewName} />
+
+        {render({ ...props, ...result, message, setMessage, form, setForm: setFormAndUpdateSave, setCanSaveItem })}
+
+        <Footer
+          message={message}
           parentPath={parentPath}
-          parentViewName={parentViewName}
           onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form }) : undefined}
         />
-        <MessageWrapper message={message} />
-        {render({ ...props, ...result, message, setMessage, form, setForm: setFormAndUpdateSave, setCanSaveItem })}
       </SettingsDetailPage>
     );
   }
 );
-
-function MessageWrapper({ message }) {
-  return <div className={locals.messageWrapper}>{message && <TemporaryMessage {...message} duration={5000} />}</div>;
-}
 
 function createForm(enrichForm, props) {
   const form = createMapForm();
