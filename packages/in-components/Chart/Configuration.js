@@ -29,6 +29,8 @@ export default class Config {
     this.backBufferCanvas = createCanvas();
     this.backBufferCtx = this.backBufferCanvas.getContext('2d');
 
+    this.localHighlightedTimeframe$ = create().emit(null);
+
     this.filteredDataSeries$ = create();
     this.filteredDataSeries = new Set();
     this.userFilteredDataSeries = this.getFilteredMetrics(props, 'defaultDisabledMetrics');
@@ -234,6 +236,14 @@ export default class Config {
       }
       return color;
     });
+  }
+
+  clearLocalHighlightedTimeframe() {
+    this.localHighlightedTimeframe$.emit(null);
+  }
+
+  setLocalHighlightedtimeframe(t1, t2) {
+    this.localHighlightedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
   }
 
   clearTopOverdraw() {

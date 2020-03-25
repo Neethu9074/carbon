@@ -1,15 +1,15 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import { setHighlightedTimeframe, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  {
-    timeConfig: timeConfig$
-  },
+  ({ chart }) => ({
+    timeConfig: timeConfig$,
+    localHighlightedTimeframe: chart.config.localHighlightedTimeframe$
+  }),
   class extends React.Component {
     static displayName = 'HighlightedTimeframe';
 
@@ -19,12 +19,13 @@ export default connectTo(
     offset = 5;
     minPxToMoveUntilDragStarts = 3;
 
+    state = {
+      isDragging: false,
+      highlightedTimeframeSetByMouseUp: false
+    };
+
     componentDidMount() {
       this.setupSubscriptions();
-    }
-
-    shouldComponentUpdate(nextProps) {
-      return this.props.timeConfig.autoRefresh || this.props.glassPane !== nextProps.glassPane;
     }
 
     componentDidUpdate(nextProps) {
@@ -39,8 +40,15 @@ export default connectTo(
     }
 
     render() {
-      // rendering logic is handlered inside RenderScheduler while this component serves as event handler for mouse moves
-      return null;
+      const Content = this.props.children;
+      return (
+        <Content
+          {...this.props}
+          isDragging={this.state.isDragging}
+          localHighlightedTimeframe={!this.mouseDownPos && this.props.localHighlightedTimeframe}
+          highlightedTimeframeSetByMouseUp={this.state.highlightedTimeframeSetByMouseUp}
+        />
+      );
     }
 
     setupSubscriptions = () => {
@@ -48,11 +56,10 @@ export default connectTo(
       if (!glassPane) {
         return;
       }
-      this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
-
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
+      this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
       this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
-
+      this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(e => e.preventDefault());
       this.onMouseMoveSubscription = on(glassPane, 'mousemove')
         .throttle(50)
         .subscribe(this.onMouseMove.bind(this));
@@ -61,13 +68,9 @@ export default connectTo(
     onMouseDown(e) {
       e.preventDefault();
 
-      // we only allow drag&drop on left click
-      if (e.button !== 0) {
-        return;
-      }
-
-      clearHighlightedTimeframe();
       this.mouseDownPos = e.offsetX;
+      this.setState({ isDragging: true, highlightedTimeframeSetByMouseUp: false });
+      this.props.chart.config.clearLocalHighlightedTimeframe();
     }
 
     onMouseMove = e => {
@@ -95,10 +98,10 @@ export default connectTo(
       }
 
       const currentMousePosInDomainTime = xScale.getDomain(currentMousePos);
-      if (isSnappingEnabled) {
-        return setHighlightedTimeframe(this.mouseDownDomainTime, this.snapWhileDrag(currentMousePosInDomainTime));
-      }
-      setHighlightedTimeframe(this.mouseDownDomainTime, currentMousePosInDomainTime);
+      const from = this.mouseDownDomainTime;
+      const to = isSnappingEnabled ? this.snapWhileDrag(currentMousePosInDomainTime) : currentMousePosInDomainTime;
+
+      this.props.chart.config.setLocalHighlightedtimeframe(from, to);
     };
 
     onMouseUp(e) {
@@ -112,15 +115,21 @@ export default connectTo(
           getNearestDataPointDomainForTimestamp(config, currentMousePosInDomainTime) || currentMousePosInDomainTime;
         const granularityHalf = this.props.chart.config.granularity / 2;
 
-        setHighlightedTimeframe(nearestTimeInMetrics - granularityHalf, nearestTimeInMetrics + granularityHalf);
+        this.props.chart.config.setLocalHighlightedtimeframe(
+          nearestTimeInMetrics - granularityHalf,
+          nearestTimeInMetrics + granularityHalf
+        );
       }
 
-      this.onMouseLeave();
+      this.mouseDownPos = null;
+      this.mouseDownDomainTime = null;
+      this.setState({ isDragging: false, highlightedTimeframeSetByMouseUp: true });
     }
 
     onMouseLeave() {
       this.mouseDownPos = null;
       this.mouseDownDomainTime = null;
+      this.setState({ isDragging: false, highlightedTimeframeSetByMouseUp: false });
     }
 
     snapStart = (time, leftToRight) => {
@@ -181,6 +190,14 @@ export default connectTo(
       if (this.onMouseLeaveSubscription) {
         this.onMouseLeaveSubscription.dispose();
         this.onMouseLeaveSubscription = null;
+      }
+      if (this.onClickSubscription) {
+        this.onClickSubscription.dispose();
+        this.onClickSubscription = null;
+      }
+      if (this.onContextMenuSubscription) {
+        this.onContextMenuSubscription.dispose();
+        this.onContextMenuSubscription = null;
       }
     };
   }

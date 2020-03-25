@@ -1,13 +1,12 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
+import HighlightedTimeframeCloseButton from 'in-components/Chart/components/HighlightedTimeframeCloseButton';
 import HighlightedTimeframeController from 'in-components/Chart/components/HighlightedTimeframeController';
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
-import { isInsideHighlightedTimeframe } from 'in-components/Chart/components/utils';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import ContextMenu from 'in-components/Chart/components/ContextMenu';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-services/scale';
@@ -20,15 +19,12 @@ const userInteractionThrottlingMillis = 50;
 export default connectTo(
   ({ chart, timeConfig }) => {
     const observables = {
-      highlightedTimeframe: highlightedTimeframe$,
       highlightedMoment: highlightedMoment$,
       events: chart.chartEventsManager.events$
     };
 
     if (timeConfig.autoRefresh) {
-      observables.timeSinceLastAnimationDurationPassed = getAnimationFramesWithAnAnimationDurationOf(
-        chart.config.animationDuration
-      ).map(r => r.timeSinceLastAnimationDurationPassed);
+      observables.y = getAnimationFramesWithAnAnimationDurationOf(chart.config.animationDuration);
     }
 
     return observables;
@@ -47,29 +43,8 @@ export default connectTo(
     }
 
     render() {
-      const { chart, highlightedMoment, highlightedTimeframe } = this.props;
+      const { chart } = this.props;
       const xScale = this.updateScale(chart);
-
-      let isHighlightedTimeframeHovered = false;
-      let tooltipContent = null;
-      if (highlightedMoment > xScale.getDomainFrom() && highlightedMoment < xScale.getDomainTo()) {
-        isHighlightedTimeframeHovered = isInsideHighlightedTimeframe(highlightedMoment, highlightedTimeframe);
-
-        const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(chart.config, highlightedMoment);
-        if (nearestTimeInMetrics) {
-          const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
-
-          tooltipContent = (
-            <TooltipLineAndContent
-              {...this.props}
-              timestamp={nearestTimeInMetrics}
-              cursorXPosition={cursorXPosition}
-              hoveredEvent={this.getHoveredEvent(highlightedMoment)}
-              align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
-            />
-          );
-        }
-      }
 
       return (
         <div
@@ -78,18 +53,13 @@ export default connectTo(
             [locals.hasY2Axis]: !!chart.config.y2
           })}
         >
-          <HighlightedTimeframeController {...this.props} xScale={xScale} glassPane={this.glassPane} />
-
-          {tooltipContent}
-
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
 
-          <ContextMenu
-            {...this.props}
-            glassPane={this.glassPane}
-            xScale={xScale}
-            isHighlightedTimeframeHovered={isHighlightedTimeframeHovered}
-          />
+          <HighlightedTimeframeController {...this.props} xScale={xScale} glassPane={this.glassPane}>
+            {this.renderTooltipAndContextMenu}
+          </HighlightedTimeframeController>
+
+          <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />
         </div>
       );
     }
@@ -134,7 +104,7 @@ export default connectTo(
       }
 
       let offset = 0;
-      if (this.props.timeSinceLastAnimationDurationPassed) {
+      if (this.props.y) {
         offset = Math.max(
           0,
           this.props.chart.config.animationDuration - (this.props.timeSinceLastAnimationDurationPassed || 0)
@@ -153,6 +123,40 @@ export default connectTo(
           return event;
         }
       }
+    };
+
+    renderTooltipAndContextMenu = props => {
+      const { isDragging, xScale, highlightedMoment, chart, localHighlightedTimeframe } = props;
+      if (isDragging) {
+        return null;
+      }
+
+      let tooltipContent = null;
+      if (highlightedMoment > xScale.getDomainFrom() && highlightedMoment < xScale.getDomainTo()) {
+        const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(chart.config, highlightedMoment);
+        if (nearestTimeInMetrics) {
+          const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
+
+          tooltipContent = (
+            <TooltipLineAndContent
+              {...props}
+              timestamp={nearestTimeInMetrics}
+              cursorXPosition={cursorXPosition}
+              hoveredEvent={this.getHoveredEvent(highlightedMoment)}
+              align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
+            />
+          );
+        }
+      }
+
+      return (
+        <>
+          {tooltipContent}
+          {localHighlightedTimeframe && (
+            <ContextMenu {...props} xScale={xScale} highlightedTimeframe={localHighlightedTimeframe} />
+          )}
+        </>
+      );
     };
 
     disposeSubscriptions = () => {

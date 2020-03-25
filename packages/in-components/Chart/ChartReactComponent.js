@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import { withState, compose } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
@@ -63,7 +63,7 @@ const ChartReactWrapper = compose(
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
       return (
-        <div className={locals.chart}>
+        <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart &&
             renderLegend && <Legend alignLegendToLeftSideOfChart={alignLegendToLeftSideOfChart} chart={chart} />}
           <div className={locals.chartAxisWrapper}>
@@ -71,24 +71,20 @@ const ChartReactWrapper = compose(
               chart.config.y1 && (
                 <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
               )}
-            <Fragment>
+            <>
               {chart &&
                 width && (
                   <ChartOverlay
                     width={width}
                     timeConfig={timeConfig}
                     chart={chart}
+                    chartWrapper={this.chartWrapper}
                     reverseTooltipOrder={reverseTooltipOrder}
                     metrics={this.props}
                   />
                 )}
-              <canvas
-                className={locals.canvas}
-                ref={canvas => {
-                  this.canvas = canvas;
-                }}
-              />
-            </Fragment>
+              <canvas className={locals.canvas} ref={canvas => (this.canvas = canvas)} />
+            </>
             {chart &&
               chart.config.y2 && (
                 <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />

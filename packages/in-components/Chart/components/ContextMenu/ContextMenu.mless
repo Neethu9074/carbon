@@ -3,8 +3,7 @@
 :local {
   .contextMenu {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 2rem;
 
     display: flex;
     flex-direction: column;
@@ -16,6 +15,14 @@
 
     box-shadow: @lib__shadows__subtle;
     border: 1px solid rgba(0, 0, 0, 0.16);
+  }
+
+  .leftAligned {
+    left: ~'calc(100% - 1.875rem)';
+  }
+
+  .rightAligned {
+    right: 0;
   }
 
   .button {
@@ -38,8 +45,11 @@
     }
   }
 
-  .contextMenuOpenButton {
+  .contextMenuActionsButtonsWrapper {
     position: absolute;
+    top: -2rem;
+
+    display: flex;
   }
 
   .contextMenuOpenButtonIcon {

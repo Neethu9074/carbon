@@ -14,8 +14,10 @@ export default function render(config, highlightedTimeframe) {
   const height = canvasHeight - timeAxisHeight;
   const width = to - from;
 
+  backBufferCtx.globalCompositeOperation = 'multiply';
   backBufferCtx.beginPath();
   backBufferCtx.rect(from, 0, width, height);
-  backBufferCtx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  backBufferCtx.fillStyle = 'rgba(75, 165, 210, 0.2)';
   backBufferCtx.fill();
+  backBufferCtx.globalCompositeOperation = 'source-over';
 }
