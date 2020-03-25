@@ -6,7 +6,7 @@ export default function SetBodyColor({ color }) {
   const originalbackgroundColor = document.documentElement.style.background;
   return (
     <LifecycleObserver
-      onWillMount={() => (document.body.style.background = color)}
+      onDidMount={() => (document.body.style.background = color)}
       onWillUnmount={() => (document.body.style.background = originalbackgroundColor)}
     />
   );
