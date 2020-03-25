@@ -74,6 +74,7 @@ const blacklists = {
       'service.id': !isInstanaEngineer,
       'service.rule_id': !isInstanaEngineer,
       'endpoint.id': !isInstanaEngineer,
+      'endpoint.type': !isInstanaEngineer,
       'process.id': true,
       'docker.container.id': true,
       'containerd.container.id': true,
