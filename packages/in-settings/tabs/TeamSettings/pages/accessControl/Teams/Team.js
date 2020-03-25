@@ -7,6 +7,7 @@ import { teamSettingsAccessControlTeams } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getTeam, saveTeam, createTeam } from 'in-api/teams';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -34,6 +35,7 @@ const Form = entityForm(function DetailsForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create Team' : `Configure Team: ${entity.get('name')}`}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

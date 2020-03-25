@@ -7,6 +7,7 @@ import { teamSettingsAccessControlRoles } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getRole, saveRole, createRole } from 'in-api/roles';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import { submitRoleTracker } from 'in-settings/tracker';
@@ -38,6 +39,7 @@ const Form = entityForm(function DetailsForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create Role' : `Configure Role: ${entity.get('name')}`}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

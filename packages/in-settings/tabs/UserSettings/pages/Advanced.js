@@ -6,6 +6,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
+import SectionLine from 'in-settings/components/SectionLine';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
 import Label from 'in-components/form/Label';
@@ -58,6 +59,7 @@ export default class extends React.Component {
       <SettingsDetailPage>
         <Title title="Advanced User Interface Settings" />
         <SubViewHeader>Advanced User Interface Settings</SubViewHeader>
+        <SectionLine />
 
         <SectionHeading>3D Maps</SectionHeading>
 

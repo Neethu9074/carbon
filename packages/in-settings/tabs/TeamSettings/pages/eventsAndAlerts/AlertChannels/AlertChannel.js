@@ -1,6 +1,7 @@
 import { createMapForm } from 'formalistic';
-import React from 'react';
 import { fromJS } from 'immutable';
+import theme from 'in-themes';
+import React from 'react';
 
 import {
   getEntityHref,
@@ -9,7 +10,6 @@ import {
   teamSettingsAlertingConfigurations,
   getModifyAlertChannelUrl
 } from 'in-settings/navigation/paths';
-
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -20,6 +20,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { toTitleCase } from 'in-services/util/string';
@@ -32,7 +33,6 @@ import entityForm from 'in-hoc/entityForm';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 import locals from './AlertChannel.mless';
 
@@ -78,6 +78,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert Channel
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -91,6 +92,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{entity.get('name') + ' Alert Channel'}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

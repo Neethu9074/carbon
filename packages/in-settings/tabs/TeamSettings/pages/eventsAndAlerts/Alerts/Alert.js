@@ -1,6 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -17,19 +18,19 @@ import { queryValidationResultValidator, queryValidationInProgressValidator, val
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
 import { addStaticJsonPayloadToEventsConfig } from 'in-services/featureFlags';
-import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { staticJsonPayloadFieldName } from './components/Step5';
+import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { staticJsonPayloadFieldName } from './components/Step5';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export const limitForConnectedEvents = 1000;
 export const limitForConnectedAlertChannels = 100;
@@ -63,6 +64,7 @@ function DetailsForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -75,6 +77,7 @@ function DetailsForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
+      <SectionLine />
 
       {message && (
         <Section>

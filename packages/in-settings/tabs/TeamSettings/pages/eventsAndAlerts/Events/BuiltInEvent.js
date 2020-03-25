@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
@@ -7,6 +8,7 @@ import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -18,7 +20,6 @@ import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './BuiltInEvent.mless';
 
@@ -43,6 +44,7 @@ export default connectTo(
           <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
             Unknown Event
           </SubViewHeader>
+          <SectionLine />
           <DescriptionText>
             {event.get('errors').get(0)}
             <br />
@@ -70,6 +72,7 @@ export default connectTo(
       <SettingsDetailPage>
         <Title title="Built-in Event" />
         <SubViewHeader>Configure Built-in Event: {event.get('name')}</SubViewHeader>
+        <SectionLine />
 
         <FormGroup>
           <Label>Entity type</Label>

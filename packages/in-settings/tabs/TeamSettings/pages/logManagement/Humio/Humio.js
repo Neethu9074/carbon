@@ -1,5 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
+import { createLogger } from 'instalog';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
@@ -8,6 +9,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
 import { isBlank } from 'in-services/util/string';
@@ -15,7 +17,6 @@ import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
-import { createLogger } from 'instalog';
 
 const block = 'in-ui-config';
 
@@ -91,6 +92,7 @@ export default class Humio extends React.Component {
       <SettingsDetailPage>
         <Title title="Humio" />
         <SubViewHeader>{'Configure your Humio settings'}</SubViewHeader>
+        <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>

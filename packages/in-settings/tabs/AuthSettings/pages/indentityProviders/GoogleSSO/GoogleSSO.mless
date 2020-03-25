@@ -6,4 +6,8 @@
   .input {
     width: 100%;
   }
+
+  .flexWrapper {
+    display: flex;
+  }
 }

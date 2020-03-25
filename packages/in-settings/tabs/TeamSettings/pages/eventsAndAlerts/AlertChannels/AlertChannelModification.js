@@ -1,5 +1,6 @@
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
+import theme from 'in-themes';
 import React from 'react';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
@@ -10,14 +11,14 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { submitAlertChannelTracker } from 'in-settings/tracker';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
-import { submitAlertChannelTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export default function AlertChannelModification(props) {
   const kind = getMatrixParameter(props.location, '/channels', 'kind');
@@ -68,6 +69,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert Channel
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -86,6 +88,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
       <SubViewHeader>{`${
         isCreate ? 'Create ' + alertChannelLabel : 'Modify ' + entity.get('name')
       } Alert Channel`}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

@@ -1,0 +1,9 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .header {
+    .breakWord();
+    padding-bottom: 0.25rem;
+    font-weight: 400;
+  }
+}

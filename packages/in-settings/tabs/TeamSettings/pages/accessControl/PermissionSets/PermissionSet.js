@@ -7,6 +7,7 @@ import { getPermissionSet, savePermissionSet, createPermissionSet } from 'in-api
 import { teamSettingsAccessControlPermissionSets } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -36,6 +37,7 @@ const Form = entityForm(function DetailsForm(props) {
       <SubViewHeader>
         {isCreate ? 'Create Access Scope' : `Configure Access Scope: ${entity.get('name')}`}
       </SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

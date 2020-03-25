@@ -4,6 +4,7 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
+import SectionLine from 'in-settings/components/SectionLine';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -55,6 +56,7 @@ export default class extends React.Component {
       <SettingsDetailPage>
         <Title title="User Interface Settings" />
         <SubViewHeader>User Interface Settings</SubViewHeader>
+        <SectionLine />
 
         <HorizontalFormGroup
           helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right

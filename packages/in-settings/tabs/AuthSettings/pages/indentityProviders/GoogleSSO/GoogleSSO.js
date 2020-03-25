@@ -1,12 +1,13 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import SubViewSectionHeader from 'in-settings/components/SubViewSectionHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { neutral } from 'in-new-components/Message/types';
-import FormGroup from 'in-settings/components/FormGroup';
+import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
@@ -33,7 +34,8 @@ function render({ form, setForm }) {
   return (
     <>
       <Title title="Google SSO Configuration" />
-      <SubViewHeader subscript="Configure allowed email domains.">Google SSO Configuration</SubViewHeader>
+      <SubViewHeader>Google SSO Configuration</SubViewHeader>
+      <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
 
       <form>
         <p>
@@ -62,6 +64,49 @@ function render({ form, setForm }) {
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
+
+        <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
+        <div className={locals.flexWrapper}>
+          {form.get('clientId').map(field => (
+            <FormGroup>
+              <Label htmlFor="google_sso_client_id" hasError={!field.valid && field.touched}>
+                Client ID
+              </Label>
+
+              <Input
+                type="text"
+                id="google_sso_client_id"
+                value={field.value}
+                onChange={e => {
+                  setForm(form.updateIn(['clientId'], f => f.setValue(e.target.value).setTouched(true)));
+                }}
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+
+          {form.get('clientSecret').map(field => (
+            <FormGroup>
+              <Label htmlFor="google_sso_client_secret" hasError={!field.valid && field.touched}>
+                Client Secret
+              </Label>
+
+              <Input
+                type="text"
+                id="google_sso_client_secret"
+                value={field.value}
+                onChange={e => {
+                  setForm(form.updateIn(['clientSecret'], f => f.setValue(e.target.value).setTouched(true)));
+                }}
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </div>
       </form>
     </>
   );
@@ -81,10 +126,23 @@ function saveItem({ setMessage }) {
 }
 
 function enrichForm(form) {
-  return form.put(
-    'emails',
-    createField({
-      value: ''
-    })
-  );
+  return form
+    .put(
+      'emails',
+      createField({
+        value: ''
+      })
+    )
+    .put(
+      'clientId',
+      createField({
+        value: ''
+      })
+    )
+    .put(
+      'clientSecret',
+      createField({
+        value: ''
+      })
+    );
 }

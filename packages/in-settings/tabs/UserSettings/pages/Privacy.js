@@ -7,6 +7,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import evaluateClassNames from 'in-services/util/classnames';
+import SectionLine from 'in-settings/components/SectionLine';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -34,6 +35,7 @@ function Privacy({ termsAndPrivacySettings }) {
     <SettingsDetailPage>
       <Title title="Privacy Settings" />
       <SubViewHeader>Set your preferences for third-party services below.</SubViewHeader>
+      <SectionLine />
       <form className={locals.form}>
         {form.get('allAnalyticsServices').map(({ value }) => (
           <CheckboxFancy

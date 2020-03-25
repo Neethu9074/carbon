@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -20,13 +21,13 @@ import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
@@ -57,6 +58,7 @@ const Form = entityForm(function DetailsForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Event
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -69,6 +71,7 @@ const Form = entityForm(function DetailsForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create A New Event' : `Configure Event: ${entity.get('name')}`}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

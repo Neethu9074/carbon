@@ -7,6 +7,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import evaluateClassNames from 'in-services/util/classnames';
+import SectionLine from 'in-settings/components/SectionLine';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { roles } from 'in-settings/terms/rolesConfig';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -36,6 +37,7 @@ function Communication({ termsAndPrivacySettings }) {
     <SettingsDetailPage>
       <Title title="Communication Settings" />
       <SubViewHeader>Control how we contact you, and for what purposes.</SubViewHeader>
+      <SectionLine />
       <form className={locals.form}>
         <div className={locals.flexColumn}>
           {form.get('productTips').map(({ value }) => (
