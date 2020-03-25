@@ -11,7 +11,7 @@ export default function StackGroup({ group: { relationship, type, items, itemCou
   return (
     <div>
       <div className={locals.groupHead}>
-        {RELATIONSHIP_MAP[relationship]} {itemCount > 50 ? '50+' : itemCount}{' '}
+        {RELATIONSHIP_MAP[relationship]} {itemCount > items.length ? items.length + '+' : itemCount}{' '}
         {itemCount > 1 ? getPlural(type) : getSingular(type)}
       </div>
       <Ul framed="topBottom">
