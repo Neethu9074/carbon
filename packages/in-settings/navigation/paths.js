@@ -35,6 +35,10 @@ export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
 export const ldap = `${authSettings}/ldap`;
 
+const mapping = `${authSettings}/mapping`;
+export const samlMapping = `${mapping}/saml`;
+export const ldapMapping = `${mapping}/ldap`;
+
 export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
