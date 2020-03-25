@@ -72,7 +72,7 @@ export default connectTo(
           {
             icon: 'lib_analyze',
             label: 'View in Analytics',
-            getHref$: (highlightedTime, metricsToFilter) =>
+            getHref$: (highlightedTime, config) =>
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -82,7 +82,7 @@ export default connectTo(
                   jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
                   filters: isSynthetic
                     ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
-                    : filtersBasedOnMetrics(labels, metricsToFilter),
+                    : filtersBasedOnMetrics(labels, config),
                   groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE }
                 }
               )
@@ -95,9 +95,9 @@ export default connectTo(
   }
 );
 
-function filtersBasedOnMetrics(labels, filteredMetrics) {
+function filtersBasedOnMetrics(labels, config) {
   return labels
-    .filter(metric => filteredMetrics.renderedMetrics.indexOf(metric) == -1)
+    .filter(metric => config.renderedMetrics.indexOf(metric) == -1)
     .filter(metric => metric != 'Self')
     .map(metric => ({
       name: 'call.type',

@@ -96,7 +96,6 @@ export default class extends React.Component {
       }
     ];
 
-    const strippedConfig = this.getStrippedConfig();
     const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
       .filter(Boolean)
       .map(config => {
@@ -106,13 +105,14 @@ export default class extends React.Component {
             stopPropagationAndPreventDefault(e);
             this.closeContextMenu();
             if (originalOnClick) {
-              originalOnClick(strippedConfig);
+              originalOnClick(this.getStrippedConfig());
             }
           };
         }
         if (config.getHref$) {
           const originalGetHref$ = config.getHref$;
-          config.getHref$ = () => originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), strippedConfig);
+          config.getHref$ = () =>
+            originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
         }
         return config;
       });
