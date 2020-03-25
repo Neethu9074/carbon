@@ -3,7 +3,7 @@
     max-width: 35rem;
   }
 
-  .flexWrapper {
-    display: flex;
+  .space {
+    height: 1.5rem;
   }
 }

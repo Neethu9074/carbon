@@ -13,7 +13,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 
-import locals from './GoogleSSO.mless';
+import indentityProvidersLocals from '../indentityProviders.mless';
 
 export default function GoogleSSO() {
   return (
@@ -36,14 +36,14 @@ function render({ form, setForm }) {
     <>
       <Title title="Google SSO Configuration" />
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
-      <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
+      <SubViewSectionHeader>Configure allowed email domains</SubViewSectionHeader>
 
-      <form className={locals.maxWidth}>
+      <form>
         <p>
           Only users with email addresses at the following domains will be allowed to sign in to your Instana tenant:
         </p>
 
-        <Row className={locals.row}>
+        <Row className={indentityProvidersLocals.row}>
           <Col xs={12}>
             {form.get('emails').map(field => (
               <FormGroup>
@@ -70,7 +70,7 @@ function render({ form, setForm }) {
         </Row>
 
         <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
-        <Row className={locals.row}>
+        <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
             {form.get('clientId').map(field => (
               <FormGroup>

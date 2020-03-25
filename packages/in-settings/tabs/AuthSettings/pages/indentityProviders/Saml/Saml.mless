@@ -1,0 +1,10 @@
+:local {
+  .list {
+    margin: 0.5rem 0;
+    padding: 0 0 0 1rem;
+
+    & > li {
+      line-height: 1rem;
+    }
+  }
+}
