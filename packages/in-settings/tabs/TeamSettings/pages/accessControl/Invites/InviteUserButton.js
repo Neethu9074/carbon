@@ -2,6 +2,7 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+import { success, error as errorType } from 'in-new-components/Message/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
@@ -11,14 +12,16 @@ import locals from './InviteUserButton.mless';
 
 const logger = createLogger('InviteUserButton');
 
-export default function InviteUserButton({ setMessage }) {
+export default function InviteUserButton({ setMessage, reload }) {
   return (
     <Button
       className={locals.createNewButton}
       kind="action"
       onClick={() => {
         track(USER_INVITE);
-        addActiveDialog(<InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId)} />);
+        addActiveDialog(
+          <InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId, reload)} />
+        );
       }}
       icon="lib_openclose_add_circle_outline"
     >
@@ -27,18 +30,21 @@ export default function InviteUserButton({ setMessage }) {
   );
 }
 
-function onDoInviteUser(setMessage, email, roleId) {
+function onDoInviteUser(setMessage, email, roleId, reload) {
   close();
-  setMessage({ message: 'Sending invitation…', type: 'success' });
+  setMessage({ text: 'Sending invitation…', type: success });
   const invitationResult$ = sendInvitation(email, roleId);
   invitationResult$.once(() => {
-    setMessage({ message: 'Invitation successfully send.', type: 'success' });
+    setMessage({ text: 'Invitation successfully send.', type: success });
+    if (reload) {
+      reload();
+    }
     setTimeout(() => {
       setMessage(null);
     }, 5000);
   });
   invitationResult$.errors().once(error => {
-    setMessage({ message: `Failed to send invitation for ${email}: ${error.message}`, type: 'error' });
+    setMessage({ text: `Failed to send invitation for ${email}: ${error.message}`, type: errorType });
     logger.error(error);
   });
 }

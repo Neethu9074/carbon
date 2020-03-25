@@ -1,9 +1,11 @@
 import { uniq } from 'lodash';
 import React from 'react';
 
+import { error as errorType } from 'in-new-components/Message/types';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isTechnicalError } from 'in-types/error';
+import Message from 'in-new-components/Message';
 
 import locals from './ErroneousResultPresenter.mless';
 
@@ -30,15 +32,13 @@ export default function ErrorneousResultPresenter({ errors, className, addBottom
     >
       {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.item}>
-          <Error>{error}</Error>
+          <Message type={errorType} small>
+            {error}
+          </Message>
         </li>
       ))}
     </ul>
   );
-}
-
-export function Error({ children }) {
-  return <span className={locals.error}>{children}</span>;
 }
 
 export function getUniqueErrors(errors = emptyArray) {

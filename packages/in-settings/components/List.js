@@ -8,11 +8,10 @@ import theme from 'in-themes';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import Delete from 'in-settings/components/actions/Delete';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
@@ -385,40 +384,13 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
       const disabled = actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity);
 
       let element = (
-        <SvgIcon
-          type="lib_actions_delete"
-          color={theme.lib.colors.primary2}
-          style={disabled ? { cursor: 'default', opacity: '0.6' } : null}
-          onClick={
-            disabled
-              ? null
-              : e => {
-                  stopPropagationAndPreventDefault(e);
-                  if (disabled) {
-                    return;
-                  }
-                  addActiveDialog(
-                    <ConfirmationDialog
-                      header="Please Confirm"
-                      description={
-                        actionDefinition.dialogMessage ? (
-                          actionDefinition.dialogMessage(entity)
-                        ) : (
-                          <span>
-                            Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
-                          </span>
-                        )
-                      }
-                      bButtonLabel={actionDefinition.confirmLabel || 'Remove'}
-                      onB={() => {
-                        close();
-                        doDelete(entity, actionDefinition.deleteEntity, setErrorMessage);
-                      }}
-                      bButtonIcon="lib_actions_delete"
-                    />
-                  );
-                }
-          }
+        <Delete
+          {...actionDefinition}
+          disabled={disabled}
+          entity={entity}
+          getEntityName={getEntityName}
+          doDelete={doDelete}
+          setErrorMessage={setErrorMessage}
         />
       );
 

@@ -1,5 +1,4 @@
 import { compose, withProps, withPropsOnChange } from 'recompose';
-import { pendingResult } from 'in-services/fixedObjects';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { timeout } from 'reactive-observables';
 
@@ -7,6 +6,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { getSingle, setSingle } from 'in-services/settings/settings';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { pendingResult } from 'in-services/fixedObjects';
 import { emptyArray } from 'in-services/fixedObjects';
 import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';

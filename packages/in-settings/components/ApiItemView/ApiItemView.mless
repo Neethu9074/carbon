@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 0 1rem;
+  }
+
+  .controls,
+  .customControls {
+    display: flex;
+    align-items: center;
+  }
+
+  .controls {
+    justify-content: space-between;
+  }
+
+  .backNavigationWrapper {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__blue800;
+  }
+
+  .messageWrapper {
+    margin: 0.5rem 0 1rem 0;
+    min-height: 2.125rem;
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import getGravatarUrl from 'in-subscription/gravatar';
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import unknown from 'in-components/Gravatar/unknown.png';
+import getGravatarUrl from 'in-subscription/gravatar';
 import { onImageLoad } from 'in-services/image';
 import connectTo from 'in-hoc/connectTo';
 
-const block = 'in-gravatar';
+import locals from './Gravatar.mless';
 
 export default connectTo(
   props => {
@@ -18,17 +18,17 @@ export default connectTo(
         : null
     };
   },
-  function Gravatar({ avatarUrl, email, className }) {
+  function Gravatar({ className, avatarUrl, email, size }) {
+    className = evaluateClassNames({
+      [locals.regular]: size !== 'l',
+      [locals.l]: size === 'l',
+      [className]: className
+    });
+
     if (avatarUrl) {
-      return (
-        <img
-          src={avatarUrl}
-          alt={`Avatar for ${email} from gravatar.com.`}
-          className={joinClassNames(block, className)}
-        />
-      );
+      return <img className={className} src={avatarUrl} alt={`Avatar for ${email} from gravatar.com.`} />;
     }
 
-    return <img src={unknown} alt={`Fallback avatar for ${email}.`} className={joinClassNames(block, className)} />;
+    return <img className={className} src={unknown} alt={`Fallback avatar for ${email}.`} />;
   }
 );

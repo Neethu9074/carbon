@@ -1,140 +1,95 @@
-import { withState, compose } from 'recompose';
-import React, { Fragment } from 'react';
-import { createLogger } from 'instalog';
+import React from 'react';
 
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
-import { getUsers, setRole, removeUserFromTenant } from 'in-api/users';
-import WithSubscript from 'in-settings/components/WithSubscript';
-import TemporaryMessage from 'in-components/TemporaryMessage';
-import { fallbackRoleId } from 'in-stores/user';
-import List from 'in-settings/components/List';
-import { getRolesMutable } from 'in-api/roles';
+import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
+import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import { isLoading, hasError } from 'in-services/util/result';
+import createApiList from 'in-settings/components/ApiList';
+import Skeleton from 'in-new-components/Loading/Skeleton';
+import { getRolesAsResultObservable } from 'in-api/roles';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import Gravatar from 'in-components/Gravatar';
-import ComboBox from 'in-components/ComboBox';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Users.mless';
 
-const logger = createLogger('Users');
+const UsersList = createApiList({
+  ListRenderer,
+  getItems: getUsersAsResultObservable,
+  deleteItem: removeUserFromTenant,
+  itemName: 'user',
+  searchFields: ['fullName', 'email'],
+  orderBy: 'fullName',
+  renderAdditionalHeaderContent,
+  boundedPath: '/users'
+});
 
-export default compose(
-  connectTo({
-    roles: getRolesMutable()
-  }),
-  withState('message', 'setMessage', null)
-)(Users);
+export default connectTo({ rolesResult: getRolesAsResultObservable() }, function Users({ rolesResult }) {
+  return <UsersList rolesResult={rolesResult} />;
+});
 
-function Users({ roles, message, setMessage }) {
-  let sortedRoles = roles
-    ? roles.filter(role => role.id !== fallbackRoleId).sort((a, b) => a.name.localeCompare(b.name))
-    : null;
+const columnDefinitions = [
+  {
+    width: '3rem',
+    getContent({ user }) {
+      return <Gravatar email={user.email} />;
+    }
+  },
+  {
+    getContent({ user }) {
+      return <KeyValue value={user.fullName} label={user.email} inverted accentuated />;
+    }
+  },
+  {
+    width: '20rem',
+    getContent({ user, rolesResult }) {
+      if (isLoading(rolesResult)) {
+        return <Skeleton className={locals.skeleton} />;
+      }
+      if (hasError(rolesResult)) {
+        return null;
+      }
+      const userRole = rolesResult.data.filter(role => role.id !== user.roleId)[0];
+      if (!userRole) {
+        return null;
+      }
+      return <KeyValue value={userRole.name} label="Role" accentuated />;
+    }
+  },
+  {
+    width: '2rem',
+    getContent({ user, deleteItem, currentDeletingItemIds }) {
+      return (
+        <Delete
+          itemName={user.fullName}
+          doDelete={() => deleteItem(user.id)}
+          isDeleting={currentDeletingItemIds.has(user.id)}
+        />
+      );
+    }
+  }
+];
 
+function ListRenderer({ items, rolesResult, deleteItem, currentDeletingItemIds }) {
   return (
-    <Fragment>
-      {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
-      <List
-        title="Users"
-        getHeader={getHeader}
-        getEntityName={getEntityName}
-        columnDefinitions={columnDefinitions(sortedRoles, setMessage)}
-        tableActions={tableActions}
-        initialOrderBy="fullName"
-        loadEntities={getUsers}
-        pageSize={15}
-        rightHeader={<InviteUserButton setMessage={setMessage} />}
-        searchAttributes={['fullName', 'email', getRoleName(sortedRoles)]}
-      />
-    </Fragment>
+    <Ul>
+      {items.map(user => (
+        <Li key={user.id} href$={getEntityIdView(teamSettingsAccessControlUsers, user.id)}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            user={user}
+            deleteItem={deleteItem}
+            rolesResult={rolesResult}
+            currentDeletingItemIds={currentDeletingItemIds}
+          />
+        </Li>
+      ))}
+    </Ul>
   );
 }
 
-function columnDefinitions(sortedRoles, setMessage) {
-  return [
-    {
-      id: 'gravatar',
-      sortable: false,
-      width: '4rem',
-      widthInAbsoluteUnit: true,
-      getContent(user) {
-        return <Gravatar email={user.email} className={locals.avatar} />;
-      }
-    },
-    {
-      id: 'fullName',
-      label: 'Name',
-      width: 50,
-      ellipsis: true,
-      getContent(user) {
-        return (
-          <WithSubscript subscript={user.email}>
-            <span className={locals.ellipsis}>{user.fullName}</span>
-          </WithSubscript>
-        );
-      }
-    },
-    {
-      id: 'roleId',
-      label: 'Role',
-      getContent(user) {
-        return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;
-      }
-    }
-  ];
-}
-
-const tableActions = {
-  delete: {
-    deleteEntity: entity => removeUserFromTenant(entity.id)
-  }
-};
-
-function getHeader(totalHits) {
-  return totalHits ? `Users (${totalHits})` : 'Users';
-}
-
-function getEntityName(entity) {
-  return `user ${entity.fullName}`;
-}
-
-function RoleComboBox({ user, roles, setMessage }) {
-  if (!user || !roles) {
-    return null;
-  }
-
-  const options = roles.map(role => ({
-    value: role.id,
-    label: role.name
-  }));
-  return (
-    <ComboBox
-      name="user-management-roles"
-      value={user.roleId}
-      options={options}
-      onChange={e => changeRoleTo(setMessage, user, e.value)}
-      clearable={false}
-    />
-  );
-}
-
-function changeRoleTo(setMessage, user, newRoleId) {
-  setMessage({ message: 'Saving role change…', type: 'success' });
-  const setRoleResult$ = setRole(user.id, newRoleId);
-  setRoleResult$.once(() => {
-    setMessage({ message: 'Role change successfully saved.', type: 'success' });
-  });
-  setRoleResult$.errors().once(error => {
-    const message = `Failed to set user role: ${error.message}`;
-    setMessage({ message, type: 'error' });
-    logger.warn(message, error);
-  });
-}
-
-function getRoleName(roles) {
-  return function(user) {
-    if (!roles) {
-      return null;
-    }
-    const role = roles.find(role => role.id === user.roleId);
-    return role ? role.name : null;
-  };
+function renderAdditionalHeaderContent({ setMessage }) {
+  return <InviteUserButton setMessage={setMessage} />;
 }

@@ -17,9 +17,9 @@ import locals from './IndividualEditRightSelection.mless';
 
 const columnDefinitions = [
   {
-    width: '2rem',
+    width: '3rem',
     getContent({ user }) {
-      return <Gravatar className={locals.avatar} email={user.email} />;
+      return <Gravatar email={user.email} />;
     }
   },
   {

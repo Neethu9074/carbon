@@ -4,6 +4,7 @@ import React from 'react';
 import {
   teamSettings,
   teamSettingsAccessControlUsers,
+  teamSettingsAccessControlUserEdit,
   teamSettingsAccessControlInvites,
   teamSettingsAccessControlRoles,
   teamSettingsAccessControlRoleEdit,
@@ -37,15 +38,15 @@ import {
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk
 } from 'in-settings/navigation/paths';
-import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
-import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
+import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
+import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import PermissionSetPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSet';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
-import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
@@ -63,6 +64,7 @@ import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/R
 import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
+import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
@@ -81,7 +83,13 @@ function navigationTreeForRole(role): NavigationTree {
       accessControlPages.push({
         path: teamSettingsAccessControlUsers,
         label: 'Users',
-        component: UsersPage
+        component: UsersPage,
+        subPages: [
+          {
+            path: teamSettingsAccessControlUserEdit,
+            component: UserPage
+          }
+        ]
       });
       accessControlPages.push({
         path: teamSettingsAccessControlInvites,

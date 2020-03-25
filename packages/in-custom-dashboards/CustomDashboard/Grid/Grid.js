@@ -102,21 +102,21 @@ export default function Grid({
             >
               <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>
               {isConfigurable && (
-                  <SvgIcon
-                    type="lib_actions_edit"
-                    size="xs"
-                    className={locals.edit}
-                    onClick={() => onEditWidget(widget.id)}
-                  />
-                )}
+                <SvgIcon
+                  type="lib_actions_edit"
+                  size="xs"
+                  className={locals.edit}
+                  onClick={() => onEditWidget(widget.id)}
+                />
+              )}
               {isDeletable && (
-                  <SvgIcon
-                    type="lib_actions_delete"
-                    size="xs"
-                    className={locals.remove}
-                    onClick={() => onRemoveWidget(widget.id)}
-                  />
-                )}
+                <SvgIcon
+                  type="lib_actions_delete"
+                  size="xs"
+                  className={locals.remove}
+                  onClick={() => onRemoveWidget(widget.id)}
+                />
+              )}
             </div>
           );
         })}

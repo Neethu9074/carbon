@@ -1,8 +1,19 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
+
+export function getRolesAsResultObservable() {
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/roles`
+    })
+  );
+}
 
 export function getRoles() {
   return getRolesMutable().map(fromJS);

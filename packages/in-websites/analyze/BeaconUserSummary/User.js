@@ -40,7 +40,7 @@ export default function User({ beacon, beacons }) {
 
   return (
     <div className={locals.user}>
-      <Gravatar email={beacon.userEmail} className={locals.avatar} />
+      <Gravatar email={beacon.userEmail} size="l" />
       <div className={locals.info}>
         <div className={locals.first}>
           <span className={locals.firstText}>{first}</span>{' '}

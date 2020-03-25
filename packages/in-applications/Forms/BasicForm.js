@@ -1,5 +1,5 @@
-import React from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';

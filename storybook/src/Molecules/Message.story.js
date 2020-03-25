@@ -1,6 +1,6 @@
-import theme from 'in-themes';
 import React from 'react';
 
+import { success, warning, error } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 
 export default {
@@ -10,10 +10,6 @@ export default {
 
 export const DefaultMessage = () => {
   return <Message>This is a message.</Message>;
-};
-
-export const MessageTransparent = () => {
-  return <Message transparent>This is a message without background and borders.</Message>;
 };
 
 export const DismissibleMessage = () => {
@@ -28,6 +24,14 @@ export const DismissibleMessageWithIcon = () => {
   );
 };
 
+export const BoldMessageWithIcon = () => {
+  return (
+    <Message withIcon bold>
+      This is a dismissible message showing an optional icon.
+    </Message>
+  );
+};
+
 export const DismissibleMessageWithIconSmallSize = () => {
   return (
     <Message withIcon dismissible small>
@@ -36,15 +40,19 @@ export const DismissibleMessageWithIconSmallSize = () => {
   );
 };
 
-export const DismissibleMessageWithCustomIcon = () => {
+export const Types = () => {
   return (
-    <Message withIcon type="warning" iconColor={theme.lib.colors.warning} dismissible>
-      This is a dismissible message showing a custom icon. This is a dismissible message showing a custom icon. This is
-      a dismissible message showing a custom icon. This is a dismissible message showing a custom icon. This is a
-      dismissible message showing a custom icon. This is a dismissible message showing a custom icon. dismissible
-      message showing a custom icon. This is a dismissible message showing a custom icon. dismissible message showing a
-      custom icon. This is a dismissible message showing a custom icon. dismissible message showing a custom icon. This
-      is a dismissible message showing a custom icon.
-    </Message>
+    <>
+      <Message withIcon>This is a neutral message</Message>
+      <Message type={success} withIcon>
+        This is a success message
+      </Message>
+      <Message type={warning} withIcon>
+        This is a warning message
+      </Message>
+      <Message type={error} withIcon>
+        This is an errror message
+      </Message>
+    </>
   );
 };

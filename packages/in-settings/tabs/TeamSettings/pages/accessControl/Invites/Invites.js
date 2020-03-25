@@ -1,63 +1,78 @@
-import React, { Fragment } from 'react';
-import { withState } from 'recompose';
+import React from 'react';
 
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
-import { getInvitations, revokeInvitation } from 'in-api/users';
-import TemporaryMessage from 'in-components/TemporaryMessage';
-import List from 'in-settings/components/List';
+import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import { getInvitations$, revokeInvitation } from 'in-api/users';
+import createApiList from 'in-settings/components/ApiList';
+import Gravatar from 'in-components/Gravatar';
 import { config } from 'in-services/config';
 
-export default withState('message', 'setMessage', null)(Invites);
+const InvitesList = createApiList({
+  ListRenderer,
+  getItems: getInvitations$,
+  deleteItem: revokeInvitation,
+  itemName: 'pending invitation',
+  searchFields: ['email'],
+  renderAdditionalHeaderContent,
+  searchPlaceholder: 'Filter invites',
+  boundedPath: '/invites'
+});
 
-function Invites({ message, setMessage }) {
-  return (
-    <Fragment>
-      {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
-      <List
-        title="Pending Invitations"
-        getHeader={getHeader}
-        getEntityName={getEntityName}
-        columnDefinitions={columnDefinitions}
-        tableActions={tableActions}
-        initialOrderBy="email"
-        loadEntities={getInvitations}
-        rightHeader={<InviteUserButton setMessage={setMessage} />}
-        searchAttributes={['email']}
-      />
-    </Fragment>
-  );
+export default function Invites() {
+  return <InvitesList />;
 }
 
 const columnDefinitions = [
   {
-    id: 'email',
-    label: 'E-Mail',
-    ellipsis: true,
-    getContent(entity) {
-      return entity.email;
+    width: '3rem',
+    getContent({ invite }) {
+      return <Gravatar email={invite.email} />;
+    }
+  },
+  {
+    getContent({ invite }) {
+      return invite.email;
+    }
+  },
+  {
+    width: '2rem',
+    getContent({ invite, deleteItem, currentDeletingItemIds }) {
+      return (
+        <Delete
+          itemName={invite.email}
+          doDelete={() => deleteItem(invite.email)}
+          isDeleting={currentDeletingItemIds.has(invite.email)}
+          confirmLabel="Revoke"
+          dialogMessage={() => (
+            <span>
+              Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for{' '}
+              <strong>{invite.email}</strong>?
+            </span>
+          )}
+        />
+      );
     }
   }
 ];
 
-const tableActions = {
-  delete: {
-    deleteEntity: entity => revokeInvitation(entity.email),
-    confirmLabel: 'Revoke Invitation',
-    dialogMessage: function DialogMessage(invite) {
-      return (
-        <span>
-          Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for{' '}
-          <strong>{invite.email}</strong>?
-        </span>
-      );
-    }
-  }
-};
-
-function getHeader(totalHits) {
-  return totalHits ? `Pending Invitations (${totalHits})` : 'Pending Invitations';
+function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
+  return (
+    <Ul>
+      {items.map(invite => (
+        <Li key={invite.id}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            invite={invite}
+            deleteItem={deleteItem}
+            currentDeletingItemIds={currentDeletingItemIds}
+          />
+        </Li>
+      ))}
+    </Ul>
+  );
 }
 
-function getEntityName(entity) {
-  return `invitation for e-mail "${entity.email}"`;
+function renderAdditionalHeaderContent({ setMessage, reload }) {
+  return <InviteUserButton setMessage={setMessage} reload={reload} />;
 }

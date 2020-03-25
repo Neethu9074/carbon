@@ -36,7 +36,7 @@ export default function Pagination({ currentPage, numPages, onChange }) {
   );
 }
 
-function getSteps(currentPage, numPages) {
+export function getSteps(currentPage, numPages) {
   const pagesBefore = [];
   for (let i = Math.max(1, currentPage - 2); i < currentPage; i++) {
     pagesBefore.push(i);
