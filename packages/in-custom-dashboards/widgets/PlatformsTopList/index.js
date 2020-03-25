@@ -6,5 +6,5 @@ export { demo } from 'in-custom-dashboards/widgets/PlatformsTopList/demo';
 export const type = 'platformsTopList';
 export const label = 'Platforms Top List';
 export const minimumWidth = 6;
-export const minimumHeight = 3;
+export const minimumHeight = 17;
 export const enabled = false;

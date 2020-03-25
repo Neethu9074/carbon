@@ -6,5 +6,5 @@ export { demo } from 'in-custom-dashboards/widgets/Chart/demo';
 export const type = 'chart';
 export const label = 'Chart';
 export const minimumWidth = 3;
-export const minimumHeight = 2;
+export const minimumHeight = 13;
 export const enabled = true;

@@ -8,7 +8,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import {
-  rowHeightPixels as rowHeightPixelsFromSettings,
+  rowHeightPixels,
   cols,
   margin,
   breakpoints,
@@ -34,7 +34,6 @@ export default function Grid({
   isConfigurable,
   isDraggable,
   onEditWidget,
-  rowHeightPixels = rowHeightPixelsFromSettings,
   onRemoveWidget,
   tvMode,
   width
@@ -70,7 +69,7 @@ export default function Grid({
         isResizable={isResizable}
         onDragStop={forwardLayoutChange}
         onResizeStop={forwardLayoutChange}
-        draggableHandle={`.${draggableHandle}`}
+        draggableHandle={draggableHandle ? `.${draggableHandle}` : undefined}
       >
         {config.widgets.map(widget => {
           const { Widget, minimumWidth, minimumHeight, onlyRenderInsideViewport } = widgets[widget.type];
@@ -90,6 +89,7 @@ export default function Grid({
             <div
               key={widget.id}
               id={getWidgetId(widget.id)}
+              data-h={Math.max(widget.height, minimumHeight)}
               data-grid={{
                 w: Math.max(widget.width, minimumWidth),
                 h: Math.max(widget.height, minimumHeight),

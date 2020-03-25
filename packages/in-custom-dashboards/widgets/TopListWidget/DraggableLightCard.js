@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import LightCard from 'in-new-components/Card/LightCard';
+import LightCard from 'in-new-components/Card/LightCardV2';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 

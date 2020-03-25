@@ -4,6 +4,7 @@ import React from 'react';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
+import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './KpiCard.mless';
 
@@ -19,18 +20,13 @@ export default function KpiCard({
 }) {
   if (raw || renderValue) {
     return (
-      <div
-        className={evaluateClassNames({
-          [locals.wrapper]: true,
-          [locals.borderless]: borderless
-        })}
-      >
+      <Wrapper borderless={borderless}>
         <div className={locals.title}>{title}</div>
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}
         </span>
         {companionValue && <span className={locals.companion}>{companionValue}</span>}
-      </div>
+      </Wrapper>
     );
   }
 
@@ -48,19 +44,14 @@ export default function KpiCard({
   }
 
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.wrapper]: true,
-        [locals.borderless]: borderless
-      })}
-    >
+    <Wrapper borderless={borderless}>
       <div className={locals.title}>{title}</div>
       <span className={locals.major} style={{ color: color }}>
         {major}
       </span>
       {minor && <span className={locals.minor}>{minor}</span>}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-    </div>
+    </Wrapper>
   );
 }
 
@@ -74,3 +65,21 @@ KpiCard.propTypes = {
   borderless: PropTypes.bool,
   color: PropTypes.string
 };
+
+function Wrapper({ children, borderless }) {
+  return (
+    <WithActiveTheme>
+      {theme => (
+        <div
+          className={evaluateClassNames({
+            [locals.wrapper]: true,
+            [locals[theme]]: true,
+            [locals.borderless]: borderless
+          })}
+        >
+          {children}
+        </div>
+      )}
+    </WithActiveTheme>
+  );
+}
