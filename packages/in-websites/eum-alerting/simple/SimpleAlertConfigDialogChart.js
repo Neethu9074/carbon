@@ -15,7 +15,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
   return (
     <AlertTypeSwitch
       alertType={form.get('rule').get('alertType').value}
-      JsErrorsComponent={() => (
+      renderJsErrors={() => (
         <>
           {hasJsErrorSelected(form) ? (
             <div className={locals.placeholder}>
@@ -41,7 +41,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
           )}
         </>
       )}
-      StatusCodeComponent={() => (
+      renderStatusCode={() => (
         <div className={locals.placeholder}>
           <StatusCodeAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}
@@ -61,7 +61,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
           />
         </div>
       )}
-      SlownessComponent={() => (
+      renderSlowness={() => (
         <div className={locals.placeholder}>
           <SlownessAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}

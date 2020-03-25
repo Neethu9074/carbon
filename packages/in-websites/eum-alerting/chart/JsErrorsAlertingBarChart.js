@@ -26,6 +26,7 @@ export default function JsErrorsAlertingBarChart({
   canReload
 }) {
   const thresholdValue = threshold.value;
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -69,13 +70,13 @@ export default function JsErrorsAlertingBarChart({
         websiteId,
         metricName,
         errorFilter,
-        tagFilters,
+        tagFiltersWithWebsiteId,
         timeConfig,
         granularity
       )}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        tagFiltersWithWebsiteId,
         metricName,
         granularity,
         errorFilter,
@@ -116,11 +117,9 @@ function getAlertsPreview(metricName, metricConfig) {
 }
 
 function getMetricConfiguration(websiteId, metric, errorFilter, tagFilters, timeConfig, granularity) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-
   return {
     timeConfig,
-    tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
+    tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
     metrics: {
       errors: getMetricConfig(metric, granularity, errorFilter)
     }

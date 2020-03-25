@@ -26,6 +26,7 @@ export default function StatusCodeAlertingBarChart({
   canReload
 }) {
   const thresholdValue = threshold.value;
+  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -77,13 +78,13 @@ export default function StatusCodeAlertingBarChart({
         websiteId,
         metricName,
         numeratorFilter,
-        tagFilters,
+        tagFiltersWithWebsiteId,
         timeConfig,
         granularity
       )}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        [...tagFilters, getWebsiteIdTagFilter(websiteId)],
+        tagFiltersWithWebsiteId,
         metricName,
         granularity,
         numeratorFilter,
@@ -124,10 +125,9 @@ function getAlertsPreview(metricName, metricConfig) {
 }
 
 function getMetricConfiguration(websiteId, metric, numeratorFilter, tagFilters, timeConfig, granularity) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   return {
     timeConfig,
-    tagFilters: metric === statusCodeCount ? [...tagFiltersWithWebsiteId, numeratorFilter] : tagFiltersWithWebsiteId,
+    tagFilters: metric === statusCodeCount ? [...tagFilters, numeratorFilter] : tagFilters,
     metrics: {
       statusCode: getMetricConfig(metric, granularity, numeratorFilter)
     }

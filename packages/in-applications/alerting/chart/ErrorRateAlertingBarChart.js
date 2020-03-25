@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { percentage } from 'in-services/formatters/number';
 
 export default function ErrorRateAlertingBarChart({
@@ -18,6 +20,7 @@ export default function ErrorRateAlertingBarChart({
   alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
+  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -47,16 +50,23 @@ export default function ErrorRateAlertingBarChart({
         },
         renderer: Renderer.barWithThreshold,
         formatter: percentage.detailed,
-        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        labels: [getMetricLabel('errorRate', 'errors'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
       getMetric={getApplicationMetrics}
-      metricsConfiguration={getMetricConfiguration(applicationId, metricName, tagFilters, timeConfig, granularity)}
+      getAlertsPreview={getApplicationMetricsAlertPreview}
+      metricsConfiguration={getMetricConfiguration(
+        applicationId,
+        metricName,
+        tagFiltersWithApplicationId,
+        timeConfig,
+        granularity
+      )}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        [...tagFilters, getApplicationIdTagFilter(applicationId)],
+        tagFiltersWithApplicationId,
         metricName,
         granularity,
         threshold,
@@ -80,11 +90,9 @@ ErrorRateAlertingBarChart.propTypes = {
 };
 
 function getMetricConfiguration(websiteId, metric, tagFilters, timeConfig, granularity) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getApplicationIdTagFilter(websiteId)];
-
   return {
     timeConfig,
-    tagFilters: tagFiltersWithWebsiteId,
+    tagFilters,
     metrics: {
       errors: getMetricConfig(metric, granularity)
     }

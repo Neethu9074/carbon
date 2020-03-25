@@ -10,9 +10,9 @@ import {
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
-import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import AdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
+import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 
 export default compose(
   withProps(({ form, onChange, setSliderState, updateForm }) => ({
@@ -33,9 +33,10 @@ export default compose(
           <>
             <h1>TODO: Add BlueprintSelection here</h1>
 
-            <ApplicationAlertTypeSwitch
+            <AlertTypeSwitch
               alertType={form.get('rule').get('alertType').value}
-              ErrorRateComponent={() => <h1>TODO: Add ErorrateComponent here</h1>}
+              renderErrorRate={() => <h1>TODO: Add ErrorRate component here</h1>}
+              renderSlowness={() => <h1>TODO: Add Slowness component here</h1>}
             />
           </>
         )

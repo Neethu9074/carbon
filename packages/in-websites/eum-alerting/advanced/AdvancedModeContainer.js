@@ -61,7 +61,7 @@ export default function AdvancedModeContainer(props) {
               <BlueprintSelection form={form} updateForm={updateForm} blueprintConfig={blueprintConfig} />
               <AlertTypeSwitch
                 alertType={form.get('rule').get('alertType').value}
-                JsErrorsComponent={() => (
+                renderJsErrors={() => (
                   <>
                     <Card title="JS Error Message" withoutPadding darkFrame>
                       <ProvideManualPattern
@@ -81,7 +81,7 @@ export default function AdvancedModeContainer(props) {
                     />
                   </>
                 )}
-                StatusCodeComponent={() => (
+                renderStatusCode={() => (
                   <>
                     <Card title="HTTP Status Code" withoutPadding darkFrame>
                       <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
@@ -101,7 +101,7 @@ export default function AdvancedModeContainer(props) {
                     )}
                   </>
                 )}
-                SlownessComponent={() => {
+                renderSlowness={() => {
                   return (
                     <>
                       <SlownessInteractiveChart

@@ -38,7 +38,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       <Card title="Trigger" withoutPadding darkFrame>
         <AlertTypeSwitch
           alertType={alertConfig.rule.alertType}
-          JsErrorsComponent={() => (
+          renderJsErrors={() => (
             <>
               <SelectedAlertTypeInfo
                 title="Error Message"
@@ -64,7 +64,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
               </ChartContainer>
             </>
           )}
-          StatusCodeComponent={() => (
+          renderStatusCode={() => (
             <>
               <SelectedAlertTypeInfo
                 title="HTTP Status Code"
@@ -88,7 +88,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
               </ChartContainer>
             </>
           )}
-          SlownessComponent={() => (
+          renderSlowness={() => (
             <ChartContainer headline="Last 24 hours">
               <SlownessAlertingBarChart
                 websiteId={alertConfig.websiteId}

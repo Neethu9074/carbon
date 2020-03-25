@@ -72,7 +72,7 @@ export default connectTo(
             </div>
             <AlertTypeSwitch
               alertType={alertType}
-              JsErrorsComponent={() => (
+              renderJsErrors={() => (
                 <JsErrorsAlertingBarChart
                   websiteId={entityId}
                   timeConfig={timeConfig}
@@ -84,7 +84,7 @@ export default connectTo(
                   timeThreshold={alertConfig.timeThreshold}
                 />
               )}
-              StatusCodeComponent={() => (
+              renderStatusCode={() => (
                 <StatusCodeAlertingBarChart
                   websiteId={entityId}
                   timeConfig={timeConfig}
@@ -96,7 +96,7 @@ export default connectTo(
                   timeThreshold={alertConfig.timeThreshold}
                 />
               )}
-              SlownessComponent={() => (
+              renderSlowness={() => (
                 <SlownessAlertingBarChart
                   websiteId={entityId}
                   sensitivity={sensitivity}

@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import ListTitle from 'in-new-components/lists/Title';
@@ -31,9 +32,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
       <ListTitle>Alert configuration</ListTitle>
 
       <Card title="Trigger" withoutPadding darkFrame>
-        <ApplicationAlertTypeSwitch
+        <AlertTypeSwitch
           alertType={alertConfig.rule.alertType}
-          ErrorRateComponent={() => (
+          renderErrorRate={() => (
             <ChartContainer headline="Last 24 hours">
               <ErrorRateAlertingBarChart
                 applicationId={alertConfig.applicationId}
@@ -43,6 +44,20 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 granularity={alertingMetricsGranularity}
                 threshold={alertConfig.threshold}
                 timeThreshold={alertConfig.timeThreshold}
+              />
+            </ChartContainer>
+          )}
+          renderSlowness={() => (
+            <ChartContainer headline="Last 24 hours">
+              <SlownessAlertingBarChart
+                applicationId={alertConfig.applicationId}
+                threshold={alertConfig.threshold}
+                timeThreshold={alertConfig.timeThreshold}
+                sensitivity={alertConfig.threshold.deviationFactor}
+                timeConfig={timeConfig}
+                tagFilters={alertConfig.tagFilters}
+                aggregation={alertConfig.rule.aggregation}
+                granularity={alertingMetricsGranularity}
               />
             </ChartContainer>
           )}

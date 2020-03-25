@@ -2,17 +2,15 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
+import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { getMetricLabel } from 'in-websites/eum-alerting/form/ruleFormData';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
+import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
-import { onLoadTime } from 'in-websites/eum-alerting/constants';
+import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { millis } from 'in-services/formatters/number';
 
 export default function SlownessAlertingBarChart({
-  websiteId,
+  applicationId,
   aggregation,
   sensitivity,
   timeConfig,
@@ -24,7 +22,7 @@ export default function SlownessAlertingBarChart({
   canReload
 }) {
   const baseline = threshold.baseline;
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -67,19 +65,19 @@ export default function SlownessAlertingBarChart({
         },
         renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
-        metricIds: ['onLoadTime', 'threshold'],
-        labels: [getMetricLabel(alertTypes.slowness, onLoadTime), 'Threshold', 'Expected Range', 'Violations'],
+        metricIds: ['latency', 'threshold'],
+        labels: [getMetricLabel('slowness', 'latency'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        nonToggleableSeries: new Map([['onLoadTime', null], ['threshold', null], ['alerts', null]])
+        nonToggleableSeries: new Map([['latency', null], ['threshold', null], ['alerts', null]])
       }}
-      getMetric={getWebsiteMetrics}
-      getAlertsPreview={getWebsiteMetricAlertsPreview}
+      getMetric={getApplicationMetrics}
+      getAlertsPreview={getApplicationMetricsAlertPreview}
       metricsConfiguration={{
         timeConfig,
-        tagFilters: tagFiltersWithWebsiteId,
+        tagFilters: tagFiltersWithApplicationId,
         metrics: {
-          onLoadTime: {
-            metric: onLoadTime,
+          latency: {
+            metric: 'latency',
             granularity,
             aggregation
           }
@@ -87,7 +85,7 @@ export default function SlownessAlertingBarChart({
       }}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        tagFiltersWithWebsiteId,
+        tagFiltersWithApplicationId,
         aggregation,
         granularity,
         threshold,
@@ -100,7 +98,7 @@ export default function SlownessAlertingBarChart({
 }
 
 SlownessAlertingBarChart.propTypes = {
-  websiteId: PropTypes.string.isRequired,
+  applicationId: PropTypes.string.isRequired,
   aggregation: PropTypes.string.isRequired,
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
@@ -112,11 +110,11 @@ SlownessAlertingBarChart.propTypes = {
   canReload: PropTypes.bool
 };
 
-function getWebsiteIdTagFilter(websiteId) {
+function getApplicationIdTagFilter(applicationId) {
   return {
-    name: 'beacon.website.id',
+    name: 'application.id',
     operator: 'EQUALS',
-    stringValue: websiteId
+    stringValue: applicationId
   };
 }
 
@@ -130,7 +128,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity
       granularity, // local alerts/chart granularity
       metrics: {
         alerts: {
-          metric: onLoadTime,
+          metric: 'latency',
           aggregation,
           granularity // global metric granularity
         }
