@@ -5,12 +5,12 @@ import SelectAlertForStatusCode from 'in-websites/eum-alerting/simple/SelectAler
 import SelectAlertForJsError from 'in-websites/eum-alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-websites/eum-alerting/simple/SimpleAlertConfigDialogChart';
-import { AlertTypeDescription } from 'in-websites/eum-alerting/components/AlertTypeDescription';
-import { alertTypeConfig, alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
+import { blueprintConfig, alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 import createBlueprintForm from 'in-websites/eum-alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/eum-alerting/tracker';
 import { modeSimple } from 'in-websites/eum-alerting/constants';
-import Menu from 'in-websites/eum-alerting/components/Menu';
+import Menu from 'in-new-components/Alerting/components/Menu';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
@@ -20,7 +20,7 @@ export default function SimpleAlertConfigDialogStep1({
   timeConfig,
   updateForm
 }) {
-  const alertType = alertTypeConfig[getIndexSelectedConf(form)].type;
+  const alertType = blueprintConfig[getIndexSelectedConf(form)].type;
 
   // Fallback to static threshold for slowness when the historic baseline was not good enough.
   const thresholdTypeValue = form.get('threshold').get('type').value;
@@ -43,10 +43,10 @@ export default function SimpleAlertConfigDialogStep1({
   return (
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
-        itemLabels={alertTypeConfig.map(({ name }) => name)}
+        itemLabels={blueprintConfig.map(({ name }) => name)}
         onItemClick={selectedItemIndex => {
           updateForm(
-            createBlueprintForm(form, alertTypeConfig[selectedItemIndex].type).updateIn(
+            createBlueprintForm(form, blueprintConfig[selectedItemIndex].type).updateIn(
               ['hiddenFields', 'calculateThresholdOnBackend'],
               f => f.setValue(true)
             )
@@ -71,9 +71,9 @@ export default function SimpleAlertConfigDialogStep1({
         <SelectAlertForStatusCode form={form} onChange={onChange} timeConfig={timeConfig} updateForm={updateForm} />
       )}
       {alertType === alertTypes.slowness && (
-        <AlertTypeDescription
-          updateForm={updateForm}
-          config={alertTypeConfig.find(({ type }) => form.get('rule').get('alertType').value === type)}
+        <BlueprintDescription
+          config={blueprintConfig.find(({ type }) => form.get('rule').get('alertType').value === type)}
+          isSimpleMode
         />
       )}
 
@@ -92,5 +92,5 @@ SimpleAlertConfigDialogStep1.propTypes = {
 };
 
 function getIndexSelectedConf(form) {
-  return alertTypeConfig.findIndex(({ type }) => form.get('rule').get('alertType').value === type);
+  return blueprintConfig.findIndex(({ type }) => form.get('rule').get('alertType').value === type);
 }

@@ -5,7 +5,7 @@ import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThr
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
 
-export function createApplicationSmartAlertForm(alertConfig) {
+export function CreateSmartAlertForm(alertConfig) {
   return createMapForm()
     .put(
       'name',

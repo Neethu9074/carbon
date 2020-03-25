@@ -4,9 +4,9 @@ import React from 'react';
 
 import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getMetricLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { onLoadTime } from 'in-websites/eum-alerting/constants';
 import { millis } from 'in-services/formatters/number';

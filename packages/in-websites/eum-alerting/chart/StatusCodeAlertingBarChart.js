@@ -7,9 +7,9 @@ import getWebsiteMetricAlertsPreview from 'in-websites/eum-alerting/subscription
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetric';
 import { statusCodeCount, statusCodeRate } from 'in-websites/eum-alerting/constants';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import { getMetricLabel } from 'in-websites/eum-alerting/form/ruleFormData';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { percentage, number } from 'in-services/formatters/number';
 

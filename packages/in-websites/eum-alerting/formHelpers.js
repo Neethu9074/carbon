@@ -1,6 +1,6 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/eum-alerting/constants';
 import { getStatusCodeLabel } from 'in-websites/eum-alerting/form/ruleFormData';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
 
 const operatorDescriptionValues = {

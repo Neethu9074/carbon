@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ApplicationSmartAlertConfigDialog from 'in-applications/alerting/Dialog/ApplicationSmartAlertConfigDialog';
 import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
 
-export default function CreateApplicationSmartAlert({
-  applicationLabel,
-  applicationId,
-  serviceId,
-  endpointId,
-  location
-}) {
+export default function CreateSmartAlert({ applicationLabel, applicationId, serviceId, endpointId, location }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <>
@@ -32,7 +26,7 @@ export default function CreateApplicationSmartAlert({
         Add Alert
       </FloatingActionButton>
       {dialogOpen && (
-        <ApplicationSmartAlertConfigDialog
+        <SmartAlertConfigDialog
           formData={{
             name: applicationLabel,
             applicationId,
@@ -57,7 +51,7 @@ export default function CreateApplicationSmartAlert({
   );
 }
 
-CreateApplicationSmartAlert.propTypes = {
+CreateSmartAlert.propTypes = {
   applicationId: PropTypes.string.isRequired,
   applicationLabel: PropTypes.string.isRequired,
   endpointId: PropTypes.string,

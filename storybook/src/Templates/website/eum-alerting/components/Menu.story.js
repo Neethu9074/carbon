@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import Menu from 'in-websites/eum-alerting/components/Menu';
+import Menu from 'in-new-components/Alerting/components/Menu';
 
 export default {
   title: 'Templates|website/eum-alerting/components/Menu',

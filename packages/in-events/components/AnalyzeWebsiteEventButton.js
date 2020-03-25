@@ -5,7 +5,7 @@ import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/eum-alerting/tracker';
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Button from 'in-new-components/Button';

@@ -22,10 +22,10 @@ import {
   websitesAlertingAlertCreated
 } from 'in-websites/eum-alerting/tracker';
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
-import WebsitesAlertingAdvancedModeContainer from 'in-websites/eum-alerting/advanced/WebsitesAlertingAdvancedModeContainer';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import getWebsiteMetricsBaseline from 'in-websites/eum-alerting/subscriptions/getWebsiteMetricsBaseline';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import AdvancedModeContainer from 'in-websites/eum-alerting/advanced/AdvancedModeContainer';
 import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
 import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';
@@ -91,7 +91,7 @@ export const AlertConfigDialogWithThreshold = compose(
     <AlertConfigDialogPresenter
       {...props}
       simpleModeElement={SimpleModeContainer}
-      advancedModeElement={WebsitesAlertingAdvancedModeContainer}
+      advancedModeElement={AdvancedModeContainer}
     />
   );
 });

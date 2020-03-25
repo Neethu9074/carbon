@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ApplicationAlertingAdvancedModeContainer from 'in-applications/alerting/advanced/ApplicationAlertingAdvancedModeContainer';
 import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
-import { createApplicationSmartAlertForm } from 'in-applications/alerting/form/applicationSmartAlertForm';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
+import { CreateSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 
 const timeConfig = {
   to: null,
@@ -13,8 +13,8 @@ const timeConfig = {
   autoRefresh: false
 };
 
-export default function ApplicationSmartAlertConfigDialog({ onClose, formData, editMode }) {
-  const [form, setForm] = useState(createApplicationSmartAlertForm(formData));
+export default function SmartAlertConfigDialog({ onClose, formData, editMode }) {
+  const [form, setForm] = useState(CreateSmartAlertForm(formData));
 
   const onCreate = () => {};
 
@@ -26,7 +26,7 @@ export default function ApplicationSmartAlertConfigDialog({ onClose, formData, e
       granularity={alertingMetricsGranularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onClose={onClose}
-      advancedModeElement={ApplicationAlertingAdvancedModeContainer}
+      advancedModeElement={AdvancedModeContainer}
       simpleModeElement={() => null}
       setForm={setForm}
       timeConfig={timeConfig}
@@ -41,7 +41,7 @@ export default function ApplicationSmartAlertConfigDialog({ onClose, formData, e
   );
 }
 
-ApplicationSmartAlertConfigDialog.propTypes = {
+SmartAlertConfigDialog.propTypes = {
   formData: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   editMode: PropTypes.bool

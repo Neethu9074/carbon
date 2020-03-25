@@ -8,8 +8,8 @@ import {
   websitesAlertingFilterRemove,
   websitesAlertingFilterEdit
 } from 'in-websites/eum-alerting/tracker';
-import { availableTagFiltersPerAlertType } from 'in-websites/eum-alerting/data/alertTypeConfigData';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
+import { availableTagFiltersPerAlertType } from 'in-websites/eum-alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { modeAdvanced, modeSimple } from 'in-websites/eum-alerting/constants';
 import { getBlueprintObject } from 'in-websites/eum-alerting/trackingHelpers';

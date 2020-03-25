@@ -6,7 +6,7 @@ export const alertTypes = Object.freeze({
   specificStatusCode: 'statusCode'
 });
 
-export const alertTypeConfig = Object.freeze([
+export const blueprintConfig = Object.freeze([
   {
     type: alertTypes.specificJsError,
     name: 'JS Errors',

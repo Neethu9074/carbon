@@ -1,4 +1,4 @@
-import { alertTypes } from 'in-websites/eum-alerting/data/alertTypeConfigData';
+import { alertTypes } from 'in-websites/eum-alerting/data/blueprintConfig';
 
 export default function AlertTypeSwitch({ alertType, JsErrorsComponent, SlownessComponent, StatusCodeComponent }) {
   if (alertType === alertTypes.specificJsError) {

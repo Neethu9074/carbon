@@ -31,7 +31,7 @@ export default compose(
         checked: true,
         content: (
           <>
-            <h1>TODO: Add AlertSelection here</h1>
+            <h1>TODO: Add BlueprintSelection here</h1>
 
             <ApplicationAlertTypeSwitch
               alertType={form.get('rule').get('alertType').value}
