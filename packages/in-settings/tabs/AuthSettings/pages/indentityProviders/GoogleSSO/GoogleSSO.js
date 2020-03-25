@@ -37,6 +37,7 @@ function render({ form, setForm }) {
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
       <h2>Configure allowed email domains</h2>
       <div className={indentityProvidersLocals.space} />
+
       <form>
         <p>
           Only users with email addresses at the following domains will be allowed to sign in to your Instana tenant:
@@ -68,7 +69,8 @@ function render({ form, setForm }) {
           </Col>
         </Row>
 
-        <h2>Configure allowed email domains.</h2>
+        <div className={indentityProvidersLocals.space} />
+        <h2>On-premise configuration</h2>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
             {form.get('clientId').map(field => (
