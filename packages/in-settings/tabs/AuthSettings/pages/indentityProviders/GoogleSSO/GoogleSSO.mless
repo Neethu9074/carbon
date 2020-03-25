@@ -1,10 +1,6 @@
 :local {
-  .maxWidth {
+  .row {
     max-width: 35rem;
-  }
-
-  .input {
-    width: 100%;
   }
 
   .flexWrapper {

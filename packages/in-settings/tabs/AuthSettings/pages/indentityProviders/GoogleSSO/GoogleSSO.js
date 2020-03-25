@@ -7,6 +7,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { neutral } from 'in-new-components/Message/types';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -37,76 +38,83 @@ function render({ form, setForm }) {
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
       <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
 
-      <form>
+      <form className={locals.maxWidth}>
         <p>
           Only users with email addresses at the following domains will be allowed to sign in to your Instana tenant:
         </p>
 
-        {form.get('emails').map(field => (
-          <FormGroup className={locals.maxWidth}>
-            <Label htmlFor="google_sso_emails" hasError={!field.valid && field.touched}>
-              Domains
-            </Label>
+        <Row className={locals.row}>
+          <Col xs={12}>
+            {form.get('emails').map(field => (
+              <FormGroup>
+                <Label htmlFor="google_sso_emails" hasError={!field.valid && field.touched}>
+                  Domains
+                </Label>
 
-            <Input
-              className={locals.input}
-              type="text"
-              id="google_sso_emails"
-              value={field.value}
-              onChange={e => {
-                setForm(form.updateIn(['emails'], f => f.setValue(e.target.value).setTouched(true)));
-              }}
-              placeholder="@example.com, @example.io"
-              autoComplete="off"
-              hasError={!field.valid && field.touched}
-            />
-            <DescriptionText>Separate multiple domains with a comma</DescriptionText>
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+                <Input
+                  type="text"
+                  id="google_sso_emails"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['emails'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  placeholder="@example.com, @example.io"
+                  autoComplete="off"
+                  hasError={!field.valid && field.touched}
+                />
+                <DescriptionText>Separate multiple domains with a comma</DescriptionText>
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
 
         <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
-        <div className={locals.flexWrapper}>
-          {form.get('clientId').map(field => (
-            <FormGroup>
-              <Label htmlFor="google_sso_client_id" hasError={!field.valid && field.touched}>
-                Client ID
-              </Label>
+        <Row className={locals.row}>
+          <Col xs={6}>
+            {form.get('clientId').map(field => (
+              <FormGroup>
+                <Label htmlFor="google_sso_client_id" hasError={!field.valid && field.touched}>
+                  Client ID
+                </Label>
 
-              <Input
-                type="text"
-                id="google_sso_client_id"
-                value={field.value}
-                onChange={e => {
-                  setForm(form.updateIn(['clientId'], f => f.setValue(e.target.value).setTouched(true)));
-                }}
-                autoComplete="off"
-                hasError={!field.valid && field.touched}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
+                <Input
+                  type="text"
+                  id="google_sso_client_id"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['clientId'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  autoComplete="off"
+                  hasError={!field.valid && field.touched}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
 
-          {form.get('clientSecret').map(field => (
-            <FormGroup>
-              <Label htmlFor="google_sso_client_secret" hasError={!field.valid && field.touched}>
-                Client Secret
-              </Label>
+          <Col xs={6}>
+            {form.get('clientSecret').map(field => (
+              <FormGroup>
+                <Label htmlFor="google_sso_client_secret" hasError={!field.valid && field.touched}>
+                  Client Secret
+                </Label>
 
-              <Input
-                type="text"
-                id="google_sso_client_secret"
-                value={field.value}
-                onChange={e => {
-                  setForm(form.updateIn(['clientSecret'], f => f.setValue(e.target.value).setTouched(true)));
-                }}
-                autoComplete="off"
-                hasError={!field.valid && field.touched}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </div>
+                <Input
+                  type="text"
+                  id="google_sso_client_secret"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['clientSecret'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  autoComplete="off"
+                  hasError={!field.valid && field.touched}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
       </form>
     </>
   );
