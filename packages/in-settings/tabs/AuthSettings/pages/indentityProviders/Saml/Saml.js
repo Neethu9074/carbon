@@ -1,7 +1,6 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import SubViewSectionHeader from 'in-settings/components/SubViewSectionHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -38,9 +37,7 @@ function render({ form, setForm }) {
     <>
       <Title title="SAML Configuration" />
       <SubViewHeader>SAML Configuration</SubViewHeader>
-      <SubViewSectionHeader>
-        Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP)
-      </SubViewSectionHeader>
+      <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP)</h2>
 
       <form>
         <p>
@@ -65,7 +62,7 @@ function render({ form, setForm }) {
 
         <div className={indentityProvidersLocals.space} />
 
-        <SubViewSectionHeader>Automatic setup</SubViewSectionHeader>
+        <h2>Automatic setup</h2>
         <Button kind="secondary" icon="lib_actions_download">
           Configuration Metadata
         </Button>
@@ -78,7 +75,7 @@ function render({ form, setForm }) {
 
         <div className={indentityProvidersLocals.space} />
 
-        <SubViewSectionHeader>Manual setup</SubViewSectionHeader>
+        <h2>Manual setup</h2>
         <p>
           {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
           creation of a SAML-app and manually entering the required values. The values required to connect to Instana
@@ -182,7 +179,7 @@ function render({ form, setForm }) {
 
         <div className={indentityProvidersLocals.space} />
 
-        <SubViewSectionHeader>Upload IdP Metadata</SubViewSectionHeader>
+        <h2>Upload IdP Metadata</h2>
         <Button kind="secondary" icon="lib_views_file">
           Choose file…
         </Button>

@@ -1,8 +1,0 @@
-@import '~in-themes/mixins.less';
-
-:local {
-  .header {
-    .breakWord();
-    font-weight: 500;
-  }
-}

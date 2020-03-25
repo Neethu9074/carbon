@@ -1,7 +1,6 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import SubViewSectionHeader from 'in-settings/components/SubViewSectionHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -36,8 +35,8 @@ function render({ form, setForm }) {
     <>
       <Title title="Google SSO Configuration" />
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
-      <SubViewSectionHeader>Configure allowed email domains</SubViewSectionHeader>
-
+      <h2>Configure allowed email domains</h2>
+      <div className={indentityProvidersLocals.space} />
       <form>
         <p>
           Only users with email addresses at the following domains will be allowed to sign in to your Instana tenant:
@@ -69,7 +68,7 @@ function render({ form, setForm }) {
           </Col>
         </Row>
 
-        <SubViewSectionHeader>Configure allowed email domains.</SubViewSectionHeader>
+        <h2>Configure allowed email domains.</h2>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
             {form.get('clientId').map(field => (
