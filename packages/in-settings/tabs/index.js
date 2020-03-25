@@ -1,7 +1,9 @@
-import { userSettings, teamSettings } from 'in-settings/navigation/paths';
+import { userSettings, teamSettings, authSettings } from 'in-settings/navigation/paths';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
+import AuthSettings from 'in-settings/tabs/AuthSettings/View';
+import { role } from 'in-stores/user';
 
 const teamTab = {
   label: 'Team Settings',
@@ -15,4 +17,14 @@ const userTab = {
   component: UserSettings
 };
 
-export default (roleHasAnyTeamPermissions() ? [teamTab, userTab] : [userTab]);
+const authTab = {
+  label: 'Authentication',
+  path: `${authSettings}`,
+  component: AuthSettings
+};
+
+export default [
+  roleHasAnyTeamPermissions() && teamTab,
+  userTab,
+  role.canConfigureAuthenticationMethods && authTab
+].filter(Boolean);

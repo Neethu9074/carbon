@@ -28,6 +28,12 @@ export const teamSettingsAccessControlPermissionSets = `${accessControl}/permiss
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
+export const authSettings = `${settingsPath}/auth`;
+
+export const googleSSO = `${authSettings}/googleSingleSignOn`;
+export const saml = `${authSettings}/saml`;
+export const ldap = `${authSettings}/ldap`;
+
 export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
