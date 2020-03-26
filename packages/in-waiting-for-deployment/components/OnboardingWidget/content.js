@@ -941,14 +941,15 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, t
     <>
       <Row>
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
-        <DownloadButton title='Download' href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`} />
+        <DownloadButton
+          title="Download"
+          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
+            agentKey
+          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`}
+        />
       </Row>
       <Spacer />
-      <Description
-        lines={[
-          'Launch the installer as an application and supply the following configuration:'
-        ]}
-      />
+      <Description lines={['Launch the installer as an application and supply the following configuration:']} />
       <Spacer />
       <GridRow>
         <Col xs={4}>
@@ -981,13 +982,15 @@ function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpo
       <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(agentKey)}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
+            agentKey
+          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`
         ]}
       />
       <Spacer />
       <Description
         lines={[
-          'The following command line installation will Install the Instana agent without opening the installer\'s user interface:'
+          "The following command line installation will Install the Instana agent without opening the installer's user interface:"
         ]}
       />
       <Cmd
