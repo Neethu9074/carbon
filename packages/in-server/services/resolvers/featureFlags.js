@@ -73,6 +73,12 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'pcfEnabled',
+    instanaCtlKey: 'feature.pcf.enabled',
+    consulKey: `settings/${tenant}-${unit}/PCF_ENABLED`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'websiteUserBreakdownEnabled',
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,
@@ -90,6 +96,12 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.full.terms.config.enabled',
     consulKey: `settings/${tenant}-${unit}/FULL_TERMS_CONFIG_ENABLED`,
     defaultValue: true
+  },
+  {
+    uiClientKey: 'vsphereEnabled',
+    instanaCtlKey: 'feature.vsphere.enabled',
+    consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
+    defaultValue: false
   },
   {
     uiClientKey: 'apDashboardEventsEnabled',

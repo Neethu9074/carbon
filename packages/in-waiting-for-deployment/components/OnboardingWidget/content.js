@@ -171,7 +171,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: PackagesContent
         },
         {
-          label: 'Static tarballs',
+          label: 'Archive (tar.gz)',
           keyWords: 'linuxmanualtarball',
           Content: ManualLinuxContent
         },
@@ -1032,7 +1032,12 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
+            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+          ]}
+        />
       </HelpBox>
     </>
   );
@@ -1091,7 +1096,12 @@ function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
+            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+          ]}
+        />
       </HelpBox>
     </>
   );
