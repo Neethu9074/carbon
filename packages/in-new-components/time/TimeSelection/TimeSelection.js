@@ -9,7 +9,7 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import { retention$ } from 'in-subscription/application/getRetention';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
@@ -28,15 +28,13 @@ import locals from './TimeSelection.mless';
 const largeDataSupportedViews = [isApplicationsView, isAnalyzeView];
 
 export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
-  containsPastLiveData$(timeConfig)
+  retention$(timeConfig)
     .flatMap(
-      containsPastLiveData =>
-        containsPastLiveData
+      data =>
+        data.containsPastLiveData
           ? // if the selected timeframe contains historic data,
             // there's no need to query for the sampling level
-            just({
-              containsPastLiveData: true
-            })
+            just(data)
           : // if not, query the sampling level on large data supported views
             isView.apply(this, largeDataSupportedViews).flatMap(
               supportLargeData =>
@@ -44,12 +42,11 @@ export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
                   ? getSamplingLevel$(timeConfig).flatMap(samplingLevel =>
                       just({
                         containsPastLiveData: false,
+                        retention: data.retention,
                         samplingLevel
                       })
                     )
-                  : just({
-                      containsPastLiveData: false
-                    })
+                  : just(data)
             )
     )
     .startWith(false)
@@ -80,7 +77,7 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
 }
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataResult, darkTheme, refSetter }) {
-  const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
+  const { containsPastLiveData, retention, samplingLevel } = historicOrLargeDataResult;
   const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
     <div
@@ -94,6 +91,7 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
         expanded={isOpen}
         timeConfig={timeConfig}
         historicData={containsPastLiveData}
+        retention={retention}
         largeData={largeData}
         onClick={toggle}
         refSetter={refSetter}

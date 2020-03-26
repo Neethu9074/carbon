@@ -20,11 +20,19 @@ export const Example = () => {
     step: 60000
   });
 
+  const retention = number('Retention', 7, {
+    range: true,
+    min: 1,
+    max: 365,
+    step: 1
+  });
+
   return (
     <TimePresenter
       expanded={boolean('Expanded', false)}
       timeConfig={{ windowSize, to }}
       historicData={boolean('Historic Data', false)}
+      retention={retention}
       largeData={boolean('Large Data', false)}
       onClick={action('click')}
     />

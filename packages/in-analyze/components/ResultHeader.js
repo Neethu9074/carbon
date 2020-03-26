@@ -26,7 +26,7 @@ export default connectTo(
     adjustedWindowSize
   }) {
     let counter = '';
-    const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
+    const { containsPastLiveData, retention, samplingLevel } = historicOrLargeDataResult;
 
     if (itemType == 'Group') {
       counter = formatCounter(nbRows, 'Group');
@@ -54,7 +54,8 @@ export default connectTo(
         >
           {counter}
         </span>
-        {!samplingIndicatorEnabled && containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
+        {!samplingIndicatorEnabled &&
+          containsPastLiveData && <TimeIcon theme="light" containsPastLiveData retention={retention} />}
         {adjustedWindowSize && (
           <Tooltip
             content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."

@@ -11,6 +11,7 @@ export default function TimePresenter({
   onClick,
   timeConfig,
   historicData,
+  retention,
   largeData,
   className,
   expanded,
@@ -37,6 +38,7 @@ export default function TimePresenter({
         <TimeIcon
           className={locals.timeIcon}
           containsPastLiveData={historicData}
+          retention={retention}
           largeData={largeData}
           theme={darkTheme ? 'dark' : 'light'}
         />

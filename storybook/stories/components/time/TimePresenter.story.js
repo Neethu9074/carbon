@@ -19,12 +19,21 @@ function Example({ to }) {
     max: 2592000000,
     step: 60000
   });
+
+  const retention = number('Retention', 7, {
+    range: true,
+    min: 1,
+    max: 365,
+    step: 1
+  });
+
   return (
     <Root style={{ background: '#0C2227', padding: '1rem' }}>
       <TimePresenter
         expanded={boolean('Expanded', false)}
         timeConfig={{ windowSize, to }}
         historicData={boolean('Historic Data', false)}
+        retention={retention}
         largeData={boolean('Large Data', false)}
         onClick={action('click')}
       />

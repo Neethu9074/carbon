@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import { retention$ } from 'in-subscription/application/getRetention';
 import { format } from 'in-new-components/time/timeframeFormatter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
@@ -10,15 +10,16 @@ import locals from './SelectableItem.mless';
 
 export default connectTo(
   props => ({
-    containsPastLiveData:
+    getRetention:
       !props.hideTimeIcon &&
-      containsPastLiveData$(
+      retention$(
         { windowSize: props.newTimeframe.windowSize, to: props.newTimeframe.to, focusedMoment: props.newTimeframe.to },
         false
       )
   }),
-  function SelectableItem({ timeConfig, newTimeframe, onChange, containsPastLiveData, hideTimeIcon = false }) {
+  function SelectableItem({ timeConfig, newTimeframe, onChange, getRetention, hideTimeIcon = false }) {
     const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
+    const { containsPastLiveData, retention } = getRetention;
     return (
       <a
         className={evaluateClassNames({
@@ -35,7 +36,12 @@ export default connectTo(
         {newTimeframe.label || format(newTimeframe)}
         {containsPastLiveData &&
           !hideTimeIcon && (
-            <TimeIcon theme={isActive ? 'dark' : 'light'} className={locals.timeIcon} containsPastLiveData />
+            <TimeIcon
+              theme={isActive ? 'dark' : 'light'}
+              className={locals.timeIcon}
+              containsPastLiveData
+              retention={retention}
+            />
           )}
       </a>
     );
