@@ -23,6 +23,10 @@
     }
 
     &:hover {
+      .more {
+        opacity: 1;
+      }
+
       & > :last-child {
         opacity: 1;
       }
@@ -35,17 +39,12 @@
     }
   }
 
-  .edit {
-    position: absolute;
-    bottom: 0;
-    right: 1rem;
-    fill: @lib__colors__N800Dark;
-  }
+  .more {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
 
-  .remove {
-    position: absolute;
-    bottom: 0;
-    right: 3rem;
-    fill: @lib__colors__N800Dark;
+    &:active, &:focus {
+      opacity: 1;
+    }
   }
 }

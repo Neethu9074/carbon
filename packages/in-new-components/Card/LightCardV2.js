@@ -11,12 +11,17 @@ export default function LightCardV2({
   icon,
   children,
   leftHeaderContent,
+  // Exists for backwards compatibility with the `light` theme.
+  header,
   rightHeaderContent,
   className,
   headerClassName,
   bodyClassName,
   useMaxAvailableHeight
 }) {
+  if (header && !rightHeaderContent) {
+    rightHeaderContent = header;
+  }
   return (
     <div
       className={evaluateClassNames({
@@ -59,6 +64,7 @@ LightCardV2.propTypes = {
   headerClassName: PropTypes.string,
   bodyClassName: PropTypes.string,
   leftHeaderContent: PropTypes.node,
+  header: PropTypes.node,
   rightHeaderContent: PropTypes.node,
   useMaxAvailableHeight: PropTypes.bool
 };

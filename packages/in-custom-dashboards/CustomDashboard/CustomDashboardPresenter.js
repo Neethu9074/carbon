@@ -81,7 +81,6 @@ function CustomDashboardPresenter(props) {
                         onLayoutChange={onLayoutChange}
                         onEditWidget={onEditWidget}
                         onRemoveWidget={onRemoveWidget}
-                        isEditing
                         isDeletable={editable}
                         isResizable={editable}
                         isConfigurable={editable}

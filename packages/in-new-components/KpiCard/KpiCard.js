@@ -11,6 +11,7 @@ import locals from './KpiCard.mless';
 export default function KpiCard({
   title,
   value,
+  actions,
   companionValue,
   raw = false,
   renderValue,
@@ -21,7 +22,7 @@ export default function KpiCard({
 }) {
   if (raw || renderValue) {
     return (
-      <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight}>
+      <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
         <div className={locals.title}>{title}</div>
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}
@@ -45,7 +46,7 @@ export default function KpiCard({
   }
 
   return (
-    <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight}>
+    <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
       <div className={locals.title}>{title}</div>
       <span className={locals.major} style={{ color: color }}>
         {major}
@@ -59,6 +60,7 @@ export default function KpiCard({
 KpiCard.propTypes = {
   title: PropTypes.string,
   value: PropTypes.any,
+  actions: PropTypes.node,
   companionValue: PropTypes.string,
   raw: PropTypes.bool,
   renderValue: PropTypes.func,
@@ -68,7 +70,7 @@ KpiCard.propTypes = {
   useMaxAvailableHeight: PropTypes.bool
 };
 
-function Wrapper({ children, borderless, useMaxAvailableHeight }) {
+function Wrapper({ children, borderless, useMaxAvailableHeight, actions }) {
   return (
     <WithActiveTheme>
       {theme => (
@@ -81,6 +83,8 @@ function Wrapper({ children, borderless, useMaxAvailableHeight }) {
           })}
         >
           {children}
+
+          {actions && <div className={locals.actions}>{actions}</div>}
         </div>
       )}
     </WithActiveTheme>

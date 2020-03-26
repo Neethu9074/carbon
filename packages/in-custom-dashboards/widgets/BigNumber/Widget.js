@@ -27,7 +27,7 @@ export default connectTo(({ config }) => ({
   )
 }))(BigNumber);
 
-function BigNumber({ result, config, title }) {
+function BigNumber({ result, config, title, actions }) {
   return (
     <ResultAwareKpiCard
       title={title}
@@ -45,7 +45,7 @@ function BigNumber({ result, config, title }) {
           value = formatter.formatter(value);
         }
 
-        return <KpiCard title={title} value={value} useMaxAvailableHeight />;
+        return <KpiCard title={title} value={value} useMaxAvailableHeight actions={actions} />;
       }}
     />
   );

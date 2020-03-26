@@ -2,9 +2,6 @@ import ReactGridLayout from 'react-grid-layout';
 import TrackVisibility from 'react-on-screen';
 import React, { useState } from 'react';
 
-import LifecycleObserver from 'in-components/LifecycleObserver';
-import theme from 'in-themes';
-
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
@@ -15,10 +12,12 @@ import {
   breakpoints,
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
-import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -31,7 +30,6 @@ export default function Grid({
   config,
   onLayoutChange,
   draggableHandle,
-  isDeletable,
   isResizable,
   isConfigurable,
   isDraggable,
@@ -78,7 +76,17 @@ export default function Grid({
         {config.widgets.map(widget => {
           const { Widget, minimumWidth, minimumHeight, onlyRenderInsideViewport } = widgets[widget.type];
 
-          const widgetComponent = <Widget title={widget.title} config={widget.config} />;
+          const actions = isConfigurable && (
+            <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+              <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
+                Edit
+              </MoreMenuButton>
+              <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
+                Delete
+              </MoreMenuButton>
+            </MoreMenu>
+          );
+          const widgetComponent = <Widget title={widget.title} actions={actions} config={widget.config} />;
 
           let content = widgetComponent;
           if (onlyRenderInsideViewport) {
@@ -106,22 +114,6 @@ export default function Grid({
               style={disabledTransitions ? disabledTransitionStyle : undefined}
             >
               <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>
-              {isConfigurable && (
-                <SvgIcon
-                  type="lib_actions_edit"
-                  size="xs"
-                  className={locals.edit}
-                  onClick={() => onEditWidget(widget.id)}
-                />
-              )}
-              {isDeletable && (
-                <SvgIcon
-                  type="lib_actions_delete"
-                  size="xs"
-                  className={locals.remove}
-                  onClick={() => onRemoveWidget(widget.id)}
-                />
-              )}
             </div>
           );
         })}

@@ -85,7 +85,7 @@ function wrapProps(result, props) {
 
   const propsClone = deepCopy({
     ...props,
-    // cardHeader can be defined and it could be a React component. Cloning this is a super expensive
+    // cardHeader can be defined and it could be a React element. Cloning this is a super expensive
     // operation that is getting more and more expensive the more often this is executed.
     // Also, there is no need to clone this React element, as we aren't manipulating it.
     cardHeader: undefined

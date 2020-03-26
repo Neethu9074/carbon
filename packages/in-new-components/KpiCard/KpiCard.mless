@@ -5,6 +5,7 @@
   .wrapper {
     padding: 0.625rem 1rem;
     .ellipsis();
+    position: relative;
   }
 
   .light {
@@ -49,5 +50,11 @@
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;
+  }
+
+  .actions {
+    position: absolute;
+    top: 0.625rem;
+    right: 1rem;
   }
 }

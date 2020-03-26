@@ -23,6 +23,8 @@ Each widget needs to define the following exports.
    - `title`: This title must be used to render a `Card` as a wrapper around the
               widget. The responsibility to render cards falls to the widget because
               widgets might want to influence the presentation of cards.
+   - `actions`: An optional React element that manages the edit/remove/duplicate options.
+                When defined, it should be mounted, e.g. within the header of cards.
    - `config`: All the saved configuration options for this widget. This data is
                whatever was stored in the form created by `createForm`.
  - `demo`: This is a demonstation/sample configuration for the widget that shows

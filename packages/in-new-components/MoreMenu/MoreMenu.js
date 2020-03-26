@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 
 import locals from './MoreMenu.mless';
 
-export default function MoreMenu({ children, kind = 'secondary' }) {
+export default function MoreMenu({ children, kind = 'secondary', size = 'normal', className }) {
   return (
     <Overlay
       withoutWrapper
@@ -16,10 +17,11 @@ export default function MoreMenu({ children, kind = 'secondary' }) {
     >
       {({ toggle, refSetter }) => (
         <Button
-          className={locals.button}
+          className={joinClassNames(locals.button, className)}
           onClick={toggle}
           refSetter={refSetter}
           icon="lib_menu_more_horizontal"
+          size={size}
           kind={kind}
         />
       )}
