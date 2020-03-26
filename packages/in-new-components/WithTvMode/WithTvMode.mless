@@ -9,5 +9,6 @@
     bottom: 0;
     background: @lib__colors__N100;
     z-index: @z-index__tv-mode;
+    overflow: hidden auto;
   }
 }
