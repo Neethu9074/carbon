@@ -6,6 +6,8 @@ export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
 export const expandId = 'expanded';
 export const previewEnabled = 'previewEnabled';
+export const showGraph = 'showGraph';
+export const focussedMetric = 'focussedMetric';
 
 // tags
 export const tagFilter = 'tagFilter';
@@ -24,6 +26,3 @@ export const orderDirection = 'orderDirection';
 // trace detail view
 export const traceId = 'traceId';
 export const callId = 'callId';
-
-// show graph
-export const showGraph = 'showGraph';

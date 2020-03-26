@@ -1,5 +1,4 @@
 import { intersection, find } from 'lodash';
-import { withState } from 'recompose';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -12,17 +11,18 @@ import { identity } from 'in-services/util/function';
 
 import locals from './GroupMetricsChart.mless';
 
-export default withState('selectedChart', 'setSelectedChart', null)(GroupMetricsChart);
+export default GroupMetricsChart;
 
 function GroupMetricsChart({
   items,
   groupColors,
   time,
   selectedChart,
-  setSelectedChart,
+  onChange,
   chartDefinitions,
   timeConfig,
-  groupNameProcessor
+  groupNameProcessor,
+  focussedMetric
 }) {
   if (!items || items.length === 0 || !time) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
@@ -56,6 +56,11 @@ function GroupMetricsChart({
     selectedChart = chartDefinition.key;
   }
 
+  if (focussedMetric) {
+    const toDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focussedMetric));
+    selectedChart = toDisplay[0].key;
+  }
+
   // Render chart selector and chart.
   return (
     <div className={locals.charts}>
@@ -64,7 +69,7 @@ function GroupMetricsChart({
           buttonPropsList={chartDefinitionsAvailableForPresentation.map(({ label, key }) => ({
             text: label,
             key,
-            onClick: () => setSelectedChart(key)
+            onClick: () => onChange({ focussedMetric: key })
           }))}
           activeKey={selectedChart}
         />

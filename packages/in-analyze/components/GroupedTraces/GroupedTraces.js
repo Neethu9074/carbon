@@ -2,6 +2,10 @@ import { compose, withProps } from 'recompose';
 import theme from 'in-themes';
 import React from 'react';
 
+import {
+  showGraph as showGraphMatrixParameter,
+  focussedMetric as focussedMetricMatrixParameter
+} from 'in-analyze/navigation/matrix';
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
@@ -16,6 +20,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { metricChangedTracker } from 'in-analyze/tracker';
+
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
@@ -32,7 +37,13 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
-    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection', 'showGraph'],
+    boundKeys: [
+      metricsMatrixParameter,
+      'orderBy',
+      'orderDirection',
+      showGraphMatrixParameter,
+      focussedMetricMatrixParameter
+    ],
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
       orderBy: defaultOrder,
@@ -44,21 +55,24 @@ export default compose(
       orderBy: urlValues.orderBy,
       orderDirection: urlValues.orderDirection,
       showGraph: urlValues.showGraph === 'false' ? false : true,
-      previewEnabled: Boolean(urlValues.previewEnabled)
+      previewEnabled: Boolean(urlValues.previewEnabled),
+      focussedMetric: urlValues.focussedMetric
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
       orderBy: props.orderBy,
       orderDirection: props.orderDirection,
       previewEnabled: props.previewEnabled,
-      showGraph: Boolean(props.showGraph).toString()
+      showGraph: Boolean(props.showGraph).toString(),
+      focussedMetric: props.focussedMetric
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, focussedMetric }) => ({
     availableMetrics: availableMetrics,
     onChangeOrder: onChange,
     showGraph: showGraph,
+    focussedMetric: focussedMetric,
     openMetricSelector: () => {
       addActiveDialog(
         <MetricSelector
