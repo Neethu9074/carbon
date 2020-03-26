@@ -13,6 +13,7 @@ export default function ElasticsearchSpanDetailView({ span }) {
         <Di title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
         <Di title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
         <Di title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</Di>
+        <Di title="ID">{span.getIn(['data', 'elasticsearch', 'id'])}</Di>
         <Di title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'elasticsearch', 'error'])} />
 
