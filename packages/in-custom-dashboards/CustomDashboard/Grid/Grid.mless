@@ -2,15 +2,15 @@
 
 :local {
   .layout {
-    margin: 0 @grid__gutter * 0.5px @grid__gutter * 0.5px;
+    margin: 0 @grid__gutter * 0.5px;
   }
 
   .tvMode {
-    margin: @grid__gutter * 1px;
+    margin: @grid__gutter * 0.5px;
   }
 
   .widget {
-    & > :last-child {
+    & > :last-child:not(div) {
       transition: opacity .3s ease-in-out;
       opacity: 0;
       background: none;
@@ -30,12 +30,6 @@
       & > :last-child {
         opacity: 1;
       }
-    }
-  }
-
-  .widget:hover {
-    & > :last-child {
-      opacity: 1;
     }
   }
 
