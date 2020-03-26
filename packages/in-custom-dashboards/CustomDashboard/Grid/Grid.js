@@ -34,6 +34,7 @@ export default function Grid({
   isConfigurable,
   isDraggable,
   onEditWidget,
+  onDuplicateWidget,
   onRemoveWidget,
   tvMode,
   width
@@ -80,6 +81,9 @@ export default function Grid({
             <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
               <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
                 Edit
+              </MoreMenuButton>
+              <MoreMenuButton icon="lib_views_popup" onClick={() => onDuplicateWidget(widget.id)}>
+                Duplicate
               </MoreMenuButton>
               <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
                 Delete

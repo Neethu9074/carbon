@@ -50,7 +50,7 @@ function CustomDashboardPresenter(props) {
 
             {!enabled && (
               <WidgetEditor config={config} setConfig={setConfig}>
-                {({ onAddWidget, onEditWidget, onRemoveWidget }) => (
+                {({ onAddWidget, onEditWidget, onRemoveWidget, onDuplicateWidget }) => (
                   <Sticky
                     header={
                       <>
@@ -81,6 +81,7 @@ function CustomDashboardPresenter(props) {
                         onLayoutChange={onLayoutChange}
                         onEditWidget={onEditWidget}
                         onRemoveWidget={onRemoveWidget}
+                        onDuplicateWidget={onDuplicateWidget}
                         isDeletable={editable}
                         isResizable={editable}
                         isConfigurable={editable}

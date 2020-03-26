@@ -3,6 +3,7 @@ import { find } from 'lodash';
 
 import Wizard from 'in-custom-dashboards/CustomDashboard/WidgetEditor/Wizard';
 import SlideInView from 'in-new-components/SlideInView/GlobalSlideInView';
+import { generateUniqueShortId } from 'in-services/util/id';
 import { deepCopy } from 'in-services/util/object';
 
 export default function WidgetEditor({ children, config, setConfig }) {
@@ -40,6 +41,13 @@ export default function WidgetEditor({ children, config, setConfig }) {
         onEditWidget: id => {
           const widget = find(config.widgets, eachWidget => id === eachWidget.id);
           setState({ editing: true, widget, version: Date.now() });
+        },
+        onDuplicateWidget: id => {
+          const newConfig = deepCopy(config);
+          const widget = deepCopy(find(newConfig.widgets, eachWidget => id === eachWidget.id));
+          widget.id = generateUniqueShortId();
+          newConfig.widgets.push(widget);
+          setConfig(newConfig);
         },
         onRemoveWidget: id => {
           const newConfig = deepCopy(config);
