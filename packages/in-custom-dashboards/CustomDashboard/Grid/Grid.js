@@ -3,6 +3,7 @@ import TrackVisibility from 'react-on-screen';
 import React, { useState } from 'react';
 
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import theme from 'in-themes';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -20,6 +21,7 @@ import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Grid.mless';
+import './Grid.less';
 
 const disabledTransitionStyle = {
   transition: 'none'
@@ -62,7 +64,9 @@ export default function Grid({
         cols={cols}
         rowHeight={rowHeightPixels}
         margin={margin}
-        width={width}
+        // Remove the horizontal spacing added by the grid layout to avoid
+        // horizontal overflow.
+        width={width - theme.grid.gutter}
         containerPadding={containerPadding}
         breakpoints={breakpoints}
         isDraggable={isDraggable}
@@ -88,6 +92,7 @@ export default function Grid({
           return (
             <div
               key={widget.id}
+              className={locals.widget}
               id={getWidgetId(widget.id)}
               data-h={Math.max(widget.height, minimumHeight)}
               data-grid={{

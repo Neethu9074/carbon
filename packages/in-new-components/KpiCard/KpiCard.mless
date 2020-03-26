@@ -21,6 +21,10 @@
     border-left: 0;
   }
 
+  .useMaxAvailableHeight {
+    height: 100%;
+  }
+
   .title {
     color: @lib__colors__N700Medium;
     font-size: 1rem;

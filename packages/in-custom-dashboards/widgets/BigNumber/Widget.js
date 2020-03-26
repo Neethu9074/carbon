@@ -32,6 +32,7 @@ function BigNumber({ result, config, title }) {
     <ResultAwareKpiCard
       title={title}
       result={result}
+      useMaxAvailableHeight
       renderKpiCard={result => {
         let value = null;
         const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -44,7 +45,7 @@ function BigNumber({ result, config, title }) {
           value = formatter.formatter(value);
         }
 
-        return <KpiCard title={title} value={value} />;
+        return <KpiCard title={title} value={value} useMaxAvailableHeight />;
       }}
     />
   );

@@ -16,11 +16,12 @@ export default function KpiCard({
   renderValue,
   valuesClassName,
   borderless = false,
-  color
+  color,
+  useMaxAvailableHeight
 }) {
   if (raw || renderValue) {
     return (
-      <Wrapper borderless={borderless}>
+      <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight}>
         <div className={locals.title}>{title}</div>
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}
@@ -44,7 +45,7 @@ export default function KpiCard({
   }
 
   return (
-    <Wrapper borderless={borderless}>
+    <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight}>
       <div className={locals.title}>{title}</div>
       <span className={locals.major} style={{ color: color }}>
         {major}
@@ -63,10 +64,11 @@ KpiCard.propTypes = {
   renderValue: PropTypes.func,
   valuesClassName: PropTypes.string,
   borderless: PropTypes.bool,
-  color: PropTypes.string
+  color: PropTypes.string,
+  useMaxAvailableHeight: PropTypes.bool
 };
 
-function Wrapper({ children, borderless }) {
+function Wrapper({ children, borderless, useMaxAvailableHeight }) {
   return (
     <WithActiveTheme>
       {theme => (
@@ -74,7 +76,8 @@ function Wrapper({ children, borderless }) {
           className={evaluateClassNames({
             [locals.wrapper]: true,
             [locals[theme]]: true,
-            [locals.borderless]: borderless
+            [locals.borderless]: borderless,
+            [locals.useMaxAvailableHeight]: useMaxAvailableHeight
           })}
         >
           {children}
