@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react';
 import {
   Bash,
   CheckBox,
+  Cmd,
   Description,
   DownloadButton,
   DropDown,
@@ -52,7 +53,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: ElasticComputingLinuxContent
         },
         {
-          label: 'Elastic Computing (EC2) - Windows',
+          label: 'Elastic Computing (EC2) - Windows 64Bit',
           keyWords: 'elasticcomputeec2windows',
           Content: WindowsInstallerContent
         },
@@ -206,9 +207,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'OS',
       subTechnologies: [
         {
-          label: 'Windows Installer',
+          label: 'Windows Installer 64Bit',
           keyWords: 'windowsexe',
           Content: WindowsInstallerContent
+        },
+        {
+          label: 'Windows Installer 64Bit (Unattended)',
+          keyWords: 'windowsexe',
+          Content: WindowsInstallerUnattendedContent
         },
         {
           label: 'ZIP Archives',
@@ -927,15 +933,66 @@ function PackagesContent({ agentKey }) {
   );
 }
 
-function WindowsInstallerContent({ agentKey, tenant, tenantUnit }) {
+function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
   return (
     <>
-      <Description lines={['We make available the latest Windows installer (64Bit) at following address:']} />
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+        <DownloadButton title='Download' href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`} />
+      </Row>
+      <Spacer />
+      <Description
+        lines={[
+          'Launch the installer as an application and supply the following configuration:'
+        ]}
+      />
+      <Spacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Instana Backend Address']} />
+          <Script lines={[agentEndpoint]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Backend Port']} />
+          <Script lines={[agentEndpointPort]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Agent key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
+    </>
+  );
+}
+
+function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+      </Row>
+
+      <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
-            'exe64'
-          )}`
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(agentKey)}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`
+        ]}
+      />
+      <Spacer />
+      <Description
+        lines={[
+          'The following command line installation will Install the Instana agent without opening the installer\'s user interface:'
+        ]}
+      />
+      <Cmd
+        lines={[
+          `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet`
         ]}
       />
     </>
