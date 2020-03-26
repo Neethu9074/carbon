@@ -3,9 +3,9 @@ import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import BackToParentPathLink from 'in-settings/components/ApiItemView/BackToParentPathLink';
+import { neutral, success, error as errorType } from 'in-new-components/Message/types';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { error as errorType } from 'in-new-components/Message/types';
 import Footer from 'in-settings/components/ApiItemView/Footer';
 import { isLoading, hasError } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
@@ -55,12 +55,23 @@ export default connectTo(
         <Footer
           message={message}
           parentPath={parentPath}
-          onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form }) : undefined}
+          onSaveClick={canSaveItem ? () => onSave(saveItem, setMessage, form) : undefined}
         />
       </SettingsDetailPage>
     );
   }
 );
+
+function onSave(saveItem, setMessage, form) {
+  const apiCallResult$ = saveItem(form);
+  setMessage({ text: 'Saving…', type: neutral });
+  apiCallResult$.once(
+    () => {
+      setMessage({ text: 'Saved successfully.', type: success });
+    },
+    error => setMessage({ text: `Failed while saving: ${error.message}`, type: errorType })
+  );
+}
 
 function createForm(enrichForm, props) {
   const form = createMapForm();

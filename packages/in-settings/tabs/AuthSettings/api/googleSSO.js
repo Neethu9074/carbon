@@ -1,0 +1,38 @@
+import { create } from 'reactive-observables';
+
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import http from 'in-services/http';
+
+const refreshSignal = create().emit(true);
+
+// observables
+
+export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => '', 60000);
+function getConfigAsResultObservableInternal() {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/authentication/google_sso`
+      })
+    )
+  );
+}
+
+// regular calls
+
+export function setConfig(config) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/authentication/google_sso`,
+    headers: getCsrfHeader(),
+    data: config
+  }).map(v => {
+    refreshSignal.emit(config);
+    return v;
+  });
+}

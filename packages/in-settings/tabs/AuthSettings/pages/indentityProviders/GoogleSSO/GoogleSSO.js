@@ -1,11 +1,11 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { getConfigAsResultObservable, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { neutral } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -17,7 +17,9 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 export default function GoogleSSO() {
   return (
     <ApiItemView
-      getObservables={() => ({})}
+      getObservables={() => ({
+        config: getConfigAsResultObservable()
+      })}
       enrichForm={enrichForm}
       saveItem={saveItem}
       render={render}
@@ -45,18 +47,18 @@ function render({ form, setForm }) {
 
         <Row className={indentityProvidersLocals.row}>
           <Col xs={12}>
-            {form.get('emails').map(field => (
+            {form.get('domains').map(field => (
               <FormGroup>
-                <Label htmlFor="google_sso_emails" hasError={!field.valid && field.touched}>
+                <Label htmlFor="google_sso_domains" hasError={!field.valid && field.touched}>
                   Domains
                 </Label>
 
                 <Input
+                  id="google_sso_domains"
                   type="text"
-                  id="google_sso_emails"
                   value={field.value}
                   onChange={e => {
-                    setForm(form.updateIn(['emails'], f => f.setValue(e.target.value).setTouched(true)));
+                    setForm(form.updateIn(['domains'], f => f.setValue(e.target.value).setTouched(true)));
                   }}
                   placeholder="@example.com, @example.io"
                   autoComplete="off"
@@ -121,23 +123,17 @@ function render({ form, setForm }) {
   );
 }
 
-function saveItem({ setMessage }) {
-  // const emails = form.get('emails').value;
-
-  setMessage({ text: 'Saving SSO config', type: neutral });
-  // const setRoleResult$ = setRole(userId, roleId);
-  // setRoleResult$.once(
-  //   () => {
-  //     setMessage({ text: 'Role change successfully saved.', type: success });
-  //   },
-  //   error => setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType })
-  // );
+function saveItem(form) {
+  const domains = form.get('domains').value;
+  return setConfig({
+    domains
+  });
 }
 
 function enrichForm(form) {
   return form
     .put(
-      'emails',
+      'domains',
       createField({
         value: ''
       })

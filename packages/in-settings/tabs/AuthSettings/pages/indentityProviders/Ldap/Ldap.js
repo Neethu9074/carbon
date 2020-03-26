@@ -1,11 +1,11 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { getConfigAsResultObservable, setConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { neutral } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -18,7 +18,9 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 export default function Ldap() {
   return (
     <ApiItemView
-      getObservables={() => ({})}
+      getObservables={() => ({
+        config: getConfigAsResultObservable()
+      })}
       enrichForm={enrichForm}
       saveItem={saveItem}
       render={render}
@@ -112,17 +114,11 @@ function createInput(form, setForm, fieldName, label) {
   ));
 }
 
-function saveItem({ setMessage }) {
-  // const emails = form.get('emails').value;
-
-  setMessage({ text: 'Saving SSO config', type: neutral });
-  // const setRoleResult$ = setRole(userId, roleId);
-  // setRoleResult$.once(
-  //   () => {
-  //     setMessage({ text: 'Role change successfully saved.', type: success });
-  //   },
-  //   error => setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType })
-  // );
+function saveItem(form) {
+  const url = form.get('url').value;
+  return setConfig({
+    url
+  });
 }
 
 function enrichForm(form) {
