@@ -63,13 +63,13 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
             Select Metrics
           </Button>
         )}
-        {props.setIsChartSectionExpanded && (
+        {props.onChange && (
           <Button
             kind="secondary"
-            onClick={() => props.setIsChartSectionExpanded(!props.isChartSectionExpanded)}
+            onClick={() => props.onChange({ showGraph: !props.showGraph })}
             icon="lib_views_stats"
           >
-            {props.isChartSectionExpanded ? 'Hide' : 'Show'} Graph
+            {props.showGraph ? 'Hide' : 'Show'} Graph
           </Button>
         )}
       </div>

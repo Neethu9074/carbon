@@ -12,7 +12,7 @@ export default function Groups({
   orderDirection,
   groupColors,
   groupComponent: Group,
-  isChartSectionExpanded,
+  showGraph,
   metrics,
   availableMetrics
 }) {
@@ -29,7 +29,7 @@ export default function Groups({
           onChangeAnalyzeConfig={onChangeAnalyzeConfig}
           onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
           dotColor={groupColors[groupIndex]}
-          showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
+          showDot={showGraph && groupIndex < maximumDataSeriesInChart}
           metrics={metrics}
           availableMetrics={availableMetrics}
         />

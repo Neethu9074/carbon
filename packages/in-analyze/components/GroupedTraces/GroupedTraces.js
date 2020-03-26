@@ -1,4 +1,4 @@
-import { compose, withProps, withState } from 'recompose';
+import { compose, withProps } from 'recompose';
 import theme from 'in-themes';
 import React from 'react';
 
@@ -43,14 +43,15 @@ export default compose(
       [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
       orderBy: urlValues.orderBy,
       orderDirection: urlValues.orderDirection,
-      showGraph: Boolean(urlValues.showGraph),
+      showGraph: urlValues.showGraph === 'false' ? false : true,
       previewEnabled: Boolean(urlValues.previewEnabled)
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
       orderBy: props.orderBy,
       orderDirection: props.orderDirection,
-      previewEnabled: props.previewEnabled
+      previewEnabled: props.previewEnabled,
+      showGraph: Boolean(props.showGraph).toString()
     }),
     reducerName: 'onChange'
   }),
@@ -83,16 +84,8 @@ export default compose(
       );
     }
   })),
-  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', props => props.showGraph),
   cursorPaginated({
-    getResettingProps: () => [
-      'filters',
-      'orderBy',
-      'orderDirection',
-      'isChartSectionExpanded',
-      'metrics',
-      'previewEnabled'
-    ],
+    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'showGraph', 'metrics', 'previewEnabled'],
     get: ({
       dataSource,
       tagFiltersForSubscription,
@@ -100,7 +93,7 @@ export default compose(
       filters,
       orderBy,
       orderDirection,
-      isChartSectionExpanded,
+      showGraph,
       metrics,
       previewEnabled = false
     }) => {
@@ -113,7 +106,7 @@ export default compose(
           aggregation
         };
 
-        if (isChartSectionExpanded) {
+        if (showGraph) {
           agg[`${metric}_${aggregation}`] = {
             metric,
             aggregation,
@@ -151,7 +144,7 @@ export default compose(
 )(GroupedTraces);
 
 function GroupedTraces(props) {
-  const { items, isChartSectionExpanded } = props;
+  const { items, showGraph } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -160,7 +153,7 @@ function GroupedTraces(props) {
   return (
     <AnalyzeWorkspace {...props} title="Trace Analytics">
       <GroupingTableHeader itemType="Group" {...props} forAnalyzeCalls />
-      {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
+      {showGraph && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeWorkspace>
   );
