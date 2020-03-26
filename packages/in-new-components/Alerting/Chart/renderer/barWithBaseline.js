@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
-import { isGreaterOperator } from 'in-websites/eum-alerting/alertConfigUtil';
+import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
 

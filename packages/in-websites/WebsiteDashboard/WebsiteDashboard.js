@@ -18,7 +18,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import CreateAlert from 'in-websites/eum-alerting/CreateAlert';
+import CreateAlert from 'in-websites/alerting/CreateAlert';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';

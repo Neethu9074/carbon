@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
 import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
-import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/alerting/constants';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';

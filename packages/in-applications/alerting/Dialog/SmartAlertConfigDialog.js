@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
+import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/alerting/constants';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import { CreateSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
