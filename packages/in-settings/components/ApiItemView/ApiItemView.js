@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import renderFallbackLoadingView from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import BackToParentPathLink from 'in-settings/components/ApiItemView/BackToParentPathLink';
 import { neutral, success, error as errorType } from 'in-new-components/Message/types';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -15,7 +16,15 @@ export default connectTo(
   ({ getObservables }) => getResults(getObservables()),
 
   function ApiItemView(props) {
-    const { parentPath, parentViewName, render, renderLoadingState, enrichForm, result, saveItem } = props;
+    const {
+      parentPath,
+      parentViewName,
+      render,
+      renderLoadingState = renderFallbackLoadingView,
+      enrichForm,
+      result,
+      saveItem
+    } = props;
     if (result.errors && result.errors.length > 0) {
       const error = getUniqueErrors(result.errors)[0];
       return (

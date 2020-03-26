@@ -25,13 +25,8 @@ export default function Saml() {
       enrichForm={enrichForm}
       saveItem={saveItem}
       render={render}
-      renderLoadingState={renderLoadingState}
     />
   );
-}
-
-function renderLoadingState() {
-  return <div>Loading</div>;
 }
 
 function render({ form, setForm }) {
