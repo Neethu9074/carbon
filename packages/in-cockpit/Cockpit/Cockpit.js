@@ -1,10 +1,15 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled
+} from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
-import { mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
@@ -14,6 +19,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
@@ -49,9 +55,9 @@ const configEnrichmentLookUpTable = {
   '3': {
     type: 'platformsTopList',
     config: {
-      label: 'Platforms',
-      icon: 'lib_platforms',
-      cardIcon: 'lib_platforms_inverted'
+      label: getPlatformsTitle(),
+      icon: `${getPlatformCardIcon()}`,
+      cardIcon: `${getPlatformCardIcon()}_inverted`
     }
   },
   '4': {
@@ -298,6 +304,40 @@ function filterItems(orderedItems) {
     }
     return true;
   });
+}
+
+function getPlatformsTitle() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'Platforms';
+  }
+  if (pcfEnabled) {
+    return 'Cloud Foundry';
+  }
+  if (vsphereEnabled) {
+    return 'vSphere';
+  }
+  return 'Kubernetes';
+}
+
+function getPlatformCardIcon() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'lib_platforms';
+  }
+  if (pcfEnabled) {
+    return 'lib_cloudfoundry';
+  }
+  if (vsphereEnabled) {
+    return 'lib_vsphere';
+  }
+  return 'lib_kubernetes';
 }
 
 function getWebsiteAndMobileIcon() {
