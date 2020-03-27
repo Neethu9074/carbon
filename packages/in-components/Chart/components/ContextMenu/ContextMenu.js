@@ -83,11 +83,6 @@ export default class extends React.Component {
         onClick: () =>
           setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]) ||
           chart.config.clearLocalHighlightedTimeframe()
-      },
-      highlightedTimeframe && {
-        icon: 'lib_openclose_circle_outline',
-        label: 'Clear selection',
-        onClick: () => chart.config.clearLocalHighlightedTimeframe()
       }
     ];
 
