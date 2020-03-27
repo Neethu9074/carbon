@@ -76,4 +76,12 @@ class Scale {
     const percentageOfRange = (1 / (this.rangeTo - this.rangeFrom)) * (rangeValue - this.rangeFrom);
     return percentageOfRange * (this.domainTo - this.domainFrom) + this.domainFrom;
   }
+
+  getDomainArea(rangeArea) {
+    return this.getDomain(this.getRangeTo()) - this.getDomain(this.getRangeTo() - rangeArea);
+  }
+
+  getRangeArea(domainArea) {
+    return this.getRange(this.getDomainTo()) - this.getRange(this.getDomainTo() - domainArea);
+  }
 }

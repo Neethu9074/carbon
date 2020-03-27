@@ -165,5 +165,22 @@ describe('scale', () => {
 
       expect(scale.getDomain(5)).to.equal(0);
     });
+
+    it('must translate one domain area to the other', () => {
+      // Range:     0--------------------------100
+      // Domain:    0--------------------------10
+      scale.setRangeFrom(0);
+      scale.setRangeTo(100);
+      scale.setDomainFrom(0);
+      scale.setDomainTo(10);
+
+      expect(scale.getDomainArea(10)).to.equal(1);
+      expect(scale.getDomainArea(20)).to.equal(2);
+      expect(scale.getDomainArea(50)).to.equal(5);
+
+      expect(scale.getRangeArea(1)).to.equal(10);
+      expect(scale.getRangeArea(2)).to.equal(20);
+      expect(scale.getRangeArea(5)).to.equal(50);
+    });
   });
 });

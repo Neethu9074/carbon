@@ -18,7 +18,7 @@
   }
 
   .leftAligned {
-    left: ~'calc(100% - 1.875rem)';
+    left: 100%;
   }
 
   .rightAligned {
@@ -48,6 +48,7 @@
   .contextMenuActionsButtonsWrapper {
     position: absolute;
     top: -2rem;
+    width: 4.25rem;
 
     display: flex;
   }

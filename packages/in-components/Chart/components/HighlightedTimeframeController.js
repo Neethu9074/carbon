@@ -21,7 +21,7 @@ export default connectTo(
 
     state = {
       isDragging: false,
-      highlightedTimeframeSetByMouseUp: false
+      immediatelyOpenContextMenu: false
     };
 
     componentDidMount() {
@@ -46,7 +46,7 @@ export default connectTo(
           {...this.props}
           isDragging={this.state.isDragging}
           localHighlightedTimeframe={!this.mouseDownPos && this.props.localHighlightedTimeframe}
-          highlightedTimeframeSetByMouseUp={this.state.highlightedTimeframeSetByMouseUp}
+          immediatelyOpenContextMenu={this.state.immediatelyOpenContextMenu}
         />
       );
     }
@@ -69,7 +69,7 @@ export default connectTo(
       e.preventDefault();
 
       this.mouseDownPos = e.offsetX;
-      this.setState({ isDragging: true, highlightedTimeframeSetByMouseUp: false });
+      this.setState({ isDragging: true, immediatelyOpenContextMenu: false });
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
 
@@ -106,7 +106,8 @@ export default connectTo(
 
     onMouseUp(e) {
       // the user has clicked but not dragged inside the chart
-      if (this.mouseDownPos && !this.mouseDownDomainTime) {
+      const selectOnClick = this.mouseDownPos && !this.mouseDownDomainTime;
+      if (selectOnClick) {
         const config = this.props.chart.config;
 
         const currentMousePos = e.offsetX;
@@ -123,13 +124,13 @@ export default connectTo(
 
       this.mouseDownPos = null;
       this.mouseDownDomainTime = null;
-      this.setState({ isDragging: false, highlightedTimeframeSetByMouseUp: true });
+      this.setState({ isDragging: false, immediatelyOpenContextMenu: selectOnClick });
     }
 
     onMouseLeave() {
       this.mouseDownPos = null;
       this.mouseDownDomainTime = null;
-      this.setState({ isDragging: false, highlightedTimeframeSetByMouseUp: false });
+      this.setState({ isDragging: false });
     }
 
     snapStart = (time, leftToRight) => {

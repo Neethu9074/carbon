@@ -126,7 +126,14 @@ export default connectTo(
     };
 
     renderTooltipAndContextMenu = props => {
-      const { isDragging, xScale, highlightedMoment, chart, localHighlightedTimeframe } = props;
+      const {
+        isDragging,
+        xScale,
+        highlightedMoment,
+        chart,
+        immediatelyOpenContextMenu,
+        localHighlightedTimeframe
+      } = props;
       if (isDragging) {
         return null;
       }
@@ -153,7 +160,12 @@ export default connectTo(
         <>
           {tooltipContent}
           {localHighlightedTimeframe && (
-            <ContextMenu {...props} xScale={xScale} highlightedTimeframe={localHighlightedTimeframe} />
+            <ContextMenu
+              {...props}
+              xScale={xScale}
+              highlightedTimeframe={localHighlightedTimeframe}
+              immediatelyOpenContextMenu={immediatelyOpenContextMenu}
+            />
           )}
         </>
       );

@@ -23,8 +23,7 @@ export default class extends React.Component {
     super(props);
 
     this.state = {
-      showContextMenu: props.highlightedTimeframeSetByMouseUp,
-      openendByClick: props.highlightedTimeframeSetByMouseUp
+      showContextMenu: props.immediatelyOpenContextMenu
     };
   }
 
@@ -51,12 +50,8 @@ export default class extends React.Component {
     }
   }
 
-  closeContextMenu = () => {
-    this.setState({ showContextMenu: false, openendByClick: false });
-  };
-
   render() {
-    const { highlightedTimeframe, xScale, chart } = this.props;
+    const { immediatelyOpenContextMenu, highlightedTimeframe, xScale, chart } = this.props;
     const { showContextMenu } = this.state;
 
     const isContextMenuAvailable =
@@ -103,7 +98,7 @@ export default class extends React.Component {
           const originalOnClick = config.onClick;
           config.onClick = e => {
             stopPropagationAndPreventDefault(e);
-            this.closeContextMenu();
+            this.setState({ showContextMenu: false });
             if (originalOnClick) {
               originalOnClick(this.getStrippedConfig());
             }
@@ -121,6 +116,7 @@ export default class extends React.Component {
     }
 
     const leftAligned = this.isLeftAligned();
+    const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
     return (
       <>
@@ -128,7 +124,7 @@ export default class extends React.Component {
           className={locals.contextMenuActionsButtonsWrapper}
           style={{ left: this.getXPosition(contextMenuButtons.length) }}
         >
-          {this.renderButtons(contextMenuButtons)}
+          {!immediatelyOpenContextMenu && this.renderButtons(contextMenuButtons)}
           {showContextMenu && (
             <div
               className={evaluateClassNames({
@@ -136,6 +132,10 @@ export default class extends React.Component {
                 [locals.leftAligned]: leftAligned,
                 [locals.rightAligned]: !leftAligned
               })}
+              style={{
+                marginLeft: leftAligned ? 2 : 0,
+                marginRight: leftAligned ? 0 : barWidthInPx + 2
+              }}
             >
               {contextMenuButtons.slice(1).map((buttonConfig, index) => (
                 <Button
@@ -166,12 +166,8 @@ export default class extends React.Component {
     return highlightedTimeframe[1] < xScale.getDomainFrom() + fullDomain / 2;
   };
 
-  onOpenContextMenuClicked = () => {
-    if (this.state.openendByClick) {
-      this.closeContextMenu();
-    } else {
-      this.setState({ showContextMenu: true, openendByClick: true });
-    }
+  toggleContextMenu = () => {
+    this.setState({ showContextMenu: !this.state.showContextMenu });
   };
 
   getStrippedConfig = () => {
@@ -220,7 +216,7 @@ export default class extends React.Component {
   renderContextMenu = () => {
     return createIconButton({
       icon: 'lib_menu_more_horizontal',
-      onClick: this.onOpenContextMenuClicked
+      onClick: this.toggleContextMenu
     });
   };
 }
