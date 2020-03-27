@@ -1,5 +1,17 @@
+@import '~in-themes/active.less';
+
 :local {
   .createNewButton {
     margin-right: 0.5rem;
+  }
+
+  .alertChannelButton {
+    & + .alertChannelButton {
+      border-top: 1px solid @lib__colors__N050;
+
+      &:hover {
+        border: 1px solid @lib__colors__N500;
+      }
+    }
   }
 }
