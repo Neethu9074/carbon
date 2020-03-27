@@ -16,7 +16,7 @@ function getConfigAsResultObservableInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/authentication/google_sso`
+        url: `/api/settings/authentication/googleSSO`
       })
     )
   );
@@ -28,7 +28,7 @@ export function setConfig(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/settings/authentication/google_sso`,
+    url: `/api/settings/authentication/googleSSO`,
     headers: getCsrfHeader(),
     data: config
   }).map(v => {
