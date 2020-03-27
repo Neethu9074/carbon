@@ -1,14 +1,14 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
-import Root from '../_helpers/Root';
 
-storiesOf('Websites/Browser Icons', module).add('Icons', () => <BrowserIconList />);
+export default {
+  title: 'Templates|website/BrowserIconList'
+};
 
-function BrowserIconList() {
+export function BrowserIcons() {
   return (
-    <Root>
+    <>
       {Object.keys(userAgentParserBrowserNameToIcon).map(name => (
         <div key={name} style={{ margin: '2rem 1rem' }}>
           <img
@@ -23,6 +23,6 @@ function BrowserIconList() {
           <strong>{name}</strong>
         </div>
       ))}
-    </Root>
+    </>
   );
 }

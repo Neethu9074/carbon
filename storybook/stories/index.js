@@ -33,13 +33,6 @@ import './application/CreatingNewApplicationWaiter.story';
 import './application/EmptyAppList.story';
 import './application/ServiceListPopup.story';
 
-import './website/BrowserIcons.story';
-import './website/Deprecations.story';
-import './website/NewWebsite.story';
-import './website/OverviewChart.story';
-import './website/PageLoadView/PageLoadView.story';
-import './website/StackTraceTranslationConfiguration.story';
-
 import './components/Axis.story';
 import './components/Badge.story';
 import './components/BigHeaderDialog.story';
