@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getReportingUrl } from 'in-mobile-apps/configuration';
-import EntityWithType from 'in-new-components/EntityWithType';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
@@ -22,10 +22,10 @@ export default function ConfigurationGuidance({ mobileAppId }) {
     >
       <Ul>
         <Li>
-          <EntityWithType label={mobileAppId} type="Key" />
+          <KeyValue label="Key" value={mobileAppId} accentuated />
         </Li>
         <Li>
-          <EntityWithType label={getReportingUrl()} type="Reporting URL" />
+          <KeyValue label="Reporting URL" value={getReportingUrl()} accentuated />
         </Li>
       </Ul>
     </Card>
