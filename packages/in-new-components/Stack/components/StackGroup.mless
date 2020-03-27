@@ -7,4 +7,7 @@
     font-weight: 500;
     margin-bottom: 0.125rem;
   }
+  .moreItems {
+    text-indent: 5rem;
+  }
 }
