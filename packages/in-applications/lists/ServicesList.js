@@ -266,7 +266,14 @@ function ServicesList({
         serviceId={serviceId}
         endpointId={endpointId}
         contextScope={contextScope}
-        onClose={() => setFilter({ [applicationIdMatrixParam]: '', [contextScopeMatrixParam]: '' })}
+        onClose={() =>
+          setFilter({
+            [applicationIdMatrixParam]: '',
+            [serviceIdMatrixParam]: '',
+            [endpointIdMatrixParam]: '',
+            [contextScopeMatrixParam]: ''
+          })
+        }
       />
     );
 
