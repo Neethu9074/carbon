@@ -12,7 +12,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { capitalize } from 'in-services/formatters/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -30,14 +29,14 @@ const columnDefinitions = [
     getContent(item) {
       const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
       const clusterIcon = `lib_${clusterDistribution}`;
-      const clusterManagedBy = get(item, ['cluster', 'clusterManagedBy']);
+      const clusterManagement = get(item, ['cluster', 'clusterManagement']);
       return (
         <SeverityAwareEntityLink
           icon={clusterIcon}
           label={get(item, ['cluster', 'label'])}
           href$={getClusterDashboard(get(item, ['cluster', 'id']))}
           severity={item.entityHealthInfo.maxSeverity}
-          subscriptComponent={<ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />}
+          subscriptComponent={<ClusterManagedByWithIcon clusterManagement={clusterManagement} />}
         />
       );
     }
@@ -155,13 +154,13 @@ function getHasDataToRender() {
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function ClusterManagedByWithIcon({ clusterManagedBy }) {
-  if (clusterManagedBy && clusterManagedBy !== 'none') {
+function ClusterManagedByWithIcon({ clusterManagement }) {
+  if (clusterManagement && clusterManagement.shortName !== 'none') {
     return (
-      <div className={locals.clusterManagedBy}>
+      <div className={locals.clusterManagement}>
         <Fragment>
-          <span className={locals.clusterManagedByLabel}>Managed by {capitalize(clusterManagedBy)}</span>
-          <SvgIcon className={locals.clusterManagedByIcon} type={`lib_${clusterManagedBy}`} />
+          <span className={locals.clusterManagementLabel}>Managed by {clusterManagement.fullName}</span>
+          <SvgIcon className={locals.clusterManagementIcon} type={`lib_${clusterManagement.shortName}`} />
         </Fragment>
       </div>
     );

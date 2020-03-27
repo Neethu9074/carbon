@@ -18,7 +18,6 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
-import { capitalize } from 'in-services/formatters/string';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import icons from 'in-components/SvgIcon/registry.json';
@@ -101,21 +100,21 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
 function renderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
-  const clusterManagedBy = get(result, ['data', 'clusterManagedBy']);
+  const clusterManagement = get(result, ['data', 'clusterManagement']);
 
   return (
     <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type={`${clusterBadgeName(clusterDistribution)} Cluster`} />
-      <ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />
+      <ClusterManagedByWithIcon clusterManagement={clusterManagement} />
     </>
   );
 }
 
-function ClusterManagedByWithIcon({ clusterManagedBy }) {
-  if (clusterManagedBy && clusterManagedBy !== 'none') {
-    const iconPath = icons[`lib_${clusterManagedBy}`].path;
-    return <TechnologyLabelWithIcon path={iconPath} label={`Managed by ${capitalize(clusterManagedBy)}`} />;
+function ClusterManagedByWithIcon({ clusterManagement }) {
+  if (clusterManagement && clusterManagement.shortName !== 'none') {
+    const iconPath = icons[`lib_${clusterManagement.shortName}`].path;
+    return <TechnologyLabelWithIcon path={iconPath} label={`Managed by ${clusterManagement.fullName}`} />;
   }
   return null;
 }
