@@ -16,8 +16,6 @@ export default function UpstreamDownstreamPane({
   serviceId,
   timeConfig,
   endpointId,
-  productArea,
-  boundaryScope,
   itemsApplication,
   resultApplication,
   close
@@ -31,8 +29,6 @@ export default function UpstreamDownstreamPane({
       <UpstreamDownstreamGroup
         applicationId={applicationId}
         activeTab={activeTab}
-        boundaryScope={boundaryScope}
-        productArea={productArea}
         endpointId={endpointId}
         items={items}
         label={label}
@@ -46,8 +42,6 @@ export default function UpstreamDownstreamPane({
         <UpstreamDownstreamGroup
           applicationId={applicationId}
           activeTab={activeTab}
-          boundaryScope={boundaryScope}
-          productArea={productArea}
           endpointId={endpointId}
           items={itemsApplication}
           label={label}

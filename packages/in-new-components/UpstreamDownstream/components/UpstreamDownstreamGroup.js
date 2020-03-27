@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
-import {
-  getServiceDashboard,
-  getEndpointDashboard,
-  getApplicationList,
-  getServiceList
-} from 'in-applications/navigation/paths';
+import { getApplicationList, getServiceList } from 'in-applications/navigation/paths';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import { capitalize } from 'in-services/formatters/string';
@@ -23,11 +18,8 @@ export default function UpstreamDownstreamGroup({
   result,
   applicationId,
   serviceId,
-  productArea,
   endpointId,
-  boundaryScope,
-  itemType,
-  close
+  itemType
 }) {
   const [selectedMetric, onChangeMetric] = useState('errors');
   const totalHits = result.data.totalHits;
@@ -67,17 +59,8 @@ export default function UpstreamDownstreamGroup({
       </Ul>
       <div className={locals.seeAll}>
         {itemType == relationships.APPLICATION
-          ? getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId, close)
-          : getSeeAllServicesLink(
-              totalHits,
-              productArea,
-              activeTab,
-              applicationId,
-              serviceId,
-              endpointId,
-              boundaryScope,
-              close
-            )}
+          ? getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId)
+          : getSeeAllServicesLink(totalHits, activeTab, applicationId, serviceId, endpointId)}
       </div>
     </div>
   );
@@ -91,46 +74,10 @@ function getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceI
   );
 }
 
-function getSeeAllServicesLink(
-  totalHits,
-  productArea,
-  activeTab,
-  applicationId,
-  serviceId,
-  endpointId,
-  boundaryScope,
-  close
-) {
-  const tabMatrix = activeTab === 'UPSTREAM' ? { hideDownstream: true } : { hideUpstream: true };
-  if (productArea === 'application') {
-    return (
-      <Link href$={getServiceList({ applicationId, contextScope: activeTab })}>
-        {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
-      </Link>
-    );
-  } else if (productArea === 'service') {
-    return (
-      <Link
-        href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, tab: '/flowMap', tabMatrix })}
-        onClick={close}
-      >
-        {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
-      </Link>
-    );
-  } else {
-    return (
-      <Link
-        href$={getEndpointDashboard(endpointId, {
-          applicationId,
-          serviceId,
-          boundaryScope,
-          tab: '/flowMap',
-          tabMatrix
-        })}
-        onClick={close}
-      >
-        See all Services and Endpoints
-      </Link>
-    );
-  }
+function getSeeAllServicesLink(totalHits, activeTab, applicationId, serviceId, endpointId) {
+  return (
+    <Link href$={getServiceList({ applicationId, serviceId, endpointId, contextScope: activeTab })}>
+      {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
+    </Link>
+  );
 }
