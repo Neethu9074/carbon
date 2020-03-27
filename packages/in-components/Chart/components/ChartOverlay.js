@@ -34,6 +34,10 @@ export default connectTo(
 
     xScale = createScale();
 
+    state = {
+      showContextMenu: false
+    };
+
     componentDidMount() {
       this.setupSubscriptions();
     }
@@ -55,7 +59,12 @@ export default connectTo(
         >
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
 
-          <HighlightedTimeframeController {...this.props} xScale={xScale} glassPane={this.glassPane}>
+          <HighlightedTimeframeController
+            {...this.props}
+            xScale={xScale}
+            glassPane={this.glassPane}
+            setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
+          >
             {this.renderTooltipAndContextMenu}
           </HighlightedTimeframeController>
 
@@ -138,8 +147,10 @@ export default connectTo(
         return null;
       }
 
+      const { showContextMenu } = this.state;
+
       let tooltipContent = null;
-      if (highlightedMoment > xScale.getDomainFrom() && highlightedMoment < xScale.getDomainTo()) {
+      if (!showContextMenu && highlightedMoment > xScale.getDomainFrom() && highlightedMoment < xScale.getDomainTo()) {
         const nearestTimeInMetrics = getNearestDataPointDomainForTimestamp(chart.config, highlightedMoment);
         if (nearestTimeInMetrics) {
           const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
@@ -165,6 +176,8 @@ export default connectTo(
               xScale={xScale}
               highlightedTimeframe={localHighlightedTimeframe}
               immediatelyOpenContextMenu={immediatelyOpenContextMenu}
+              showContextMenu={showContextMenu}
+              setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
             />
           )}
         </>

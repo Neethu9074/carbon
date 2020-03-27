@@ -70,6 +70,8 @@ export default connectTo(
 
       this.mouseDownPos = e.offsetX;
       this.setState({ isDragging: true, immediatelyOpenContextMenu: false });
+
+      this.props.setShowContextMenu(false);
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
 

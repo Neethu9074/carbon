@@ -22,9 +22,9 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showContextMenu: props.immediatelyOpenContextMenu
-    };
+    if (props.immediatelyOpenContextMenu) {
+      this.props.setShowContextMenu(true);
+    }
   }
 
   componentDidMount() {
@@ -46,13 +46,20 @@ export default class extends React.Component {
       !containsIgnoreCase(targetClassName, locals.button) &&
       !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
     ) {
+      this.props.setShowContextMenu(false);
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
   }
 
   render() {
-    const { immediatelyOpenContextMenu, highlightedTimeframe, xScale, chart } = this.props;
-    const { showContextMenu } = this.state;
+    const {
+      showContextMenu,
+      setShowContextMenu,
+      immediatelyOpenContextMenu,
+      highlightedTimeframe,
+      xScale,
+      chart
+    } = this.props;
 
     const isContextMenuAvailable =
       highlightedTimeframe &&
@@ -80,9 +87,11 @@ export default class extends React.Component {
       highlightedTimeframe && {
         icon: 'lib_views_tag',
         label: 'Highlight selection',
-        onClick: () =>
-          setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]) ||
-          chart.config.clearLocalHighlightedTimeframe()
+        onClick: () => {
+          setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]);
+          chart.config.clearLocalHighlightedTimeframe();
+          setShowContextMenu(false);
+        }
       }
     ];
 
@@ -93,7 +102,7 @@ export default class extends React.Component {
           const originalOnClick = config.onClick;
           config.onClick = e => {
             stopPropagationAndPreventDefault(e);
-            this.setState({ showContextMenu: false });
+            setShowContextMenu(false);
             if (originalOnClick) {
               originalOnClick(this.getStrippedConfig());
             }
@@ -162,7 +171,7 @@ export default class extends React.Component {
   };
 
   toggleContextMenu = () => {
-    this.setState({ showContextMenu: !this.state.showContextMenu });
+    this.props.setShowContextMenu(!this.props.showContextMenu);
   };
 
   getStrippedConfig = () => {
