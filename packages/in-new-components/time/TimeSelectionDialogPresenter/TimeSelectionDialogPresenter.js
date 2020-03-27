@@ -22,7 +22,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    containsPastLiveData: retention$(props.timeConfig, props.containsPastLiveData),
+    containsHistoricData: retention$(props.timeConfig, props.containsHistoricData),
     isApp20View: isView(
       analyze,
       applicationsList,
@@ -33,7 +33,7 @@ export default connectTo(
       serviceDashboard,
       newServiceView,
       endpointDashboard
-    ).map(data => data.containsPastLiveData)
+    ).map(data => data.containsHistoricData)
   }),
   function TimeSelectionDialogPresenter(props) {
     return (

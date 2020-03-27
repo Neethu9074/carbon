@@ -13,7 +13,7 @@ const historicDataMessage = retention =>
 const LARGE_DATA_MESSAGE =
   'You are viewing approximate data due to a large data set. Please reduce the time range for precise data.';
 
-export default function TimeIcon({ selected, containsPastLiveData, retention, largeData, theme = 'dark', className }) {
+export default function TimeIcon({ selected, containsHistoricData, retention, largeData, theme = 'dark', className }) {
   const content = (
     <div
       className={evaluateClassNames({
@@ -30,13 +30,13 @@ export default function TimeIcon({ selected, containsPastLiveData, retention, la
         type="lib_datetime_time"
       />
 
-      {containsPastLiveData && <SvgIcon size="xs" className={locals.indicator} type="lib_help_error_error_circle" />}
+      {containsHistoricData && <SvgIcon size="xs" className={locals.indicator} type="lib_help_error_error_circle" />}
 
       {largeData && <SvgIcon size="xs" className={locals.indicator} type="lib_approximately_equal" />}
     </div>
   );
 
-  if (containsPastLiveData) {
+  if (containsHistoricData) {
     return (
       <Tooltip
         themeStyle="light"

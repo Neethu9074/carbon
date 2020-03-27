@@ -31,7 +31,7 @@ export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
   retention$(timeConfig)
     .flatMap(
       data =>
-        data.containsPastLiveData
+        data.containsHistoricData
           ? // if the selected timeframe contains historic data,
             // there's no need to query for the sampling level
             just(data)
@@ -41,7 +41,7 @@ export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
                 supportLargeData
                   ? getSamplingLevel$(timeConfig).flatMap(samplingLevel =>
                       just({
-                        containsPastLiveData: false,
+                        containsHistoricData: false,
                         retention: data.retention,
                         samplingLevel
                       })
@@ -77,7 +77,7 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
 }
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataResult, darkTheme, refSetter }) {
-  const { containsPastLiveData, retention, samplingLevel } = historicOrLargeDataResult;
+  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult;
   const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
     <div
@@ -90,7 +90,7 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
         className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
-        historicData={containsPastLiveData}
+        historicData={containsHistoricData}
         retention={retention}
         largeData={largeData}
         onClick={toggle}

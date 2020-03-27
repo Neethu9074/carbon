@@ -26,12 +26,12 @@ export default connectTo(
     adjustedWindowSize
   }) {
     let counter = '';
-    const { containsPastLiveData, retention, samplingLevel } = historicOrLargeDataResult;
+    const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult;
 
     if (itemType == 'Group') {
       counter = formatCounter(nbRows, 'Group');
     } else {
-      if (containsPastLiveData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
+      if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
         counter = formatCounter(nbRows, 'Row');
       } else {
         counter = formatCounter(nbItems, itemType);
@@ -55,7 +55,7 @@ export default connectTo(
           {counter}
         </span>
         {!samplingIndicatorEnabled &&
-          containsPastLiveData && <TimeIcon theme="light" containsPastLiveData retention={retention} />}
+          containsHistoricData && <TimeIcon theme="light" containsHistoricData retention={retention} />}
         {adjustedWindowSize && (
           <Tooltip
             content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."

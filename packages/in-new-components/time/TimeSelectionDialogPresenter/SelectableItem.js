@@ -19,7 +19,7 @@ export default connectTo(
   }),
   function SelectableItem({ timeConfig, newTimeframe, onChange, getRetention, hideTimeIcon = false }) {
     const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
-    const { containsPastLiveData, retention } = getRetention;
+    const { containsHistoricData, retention } = getRetention;
     return (
       <a
         className={evaluateClassNames({
@@ -34,12 +34,12 @@ export default connectTo(
         }}
       >
         {newTimeframe.label || format(newTimeframe)}
-        {containsPastLiveData &&
+        {containsHistoricData &&
           !hideTimeIcon && (
             <TimeIcon
               theme={isActive ? 'dark' : 'light'}
               className={locals.timeIcon}
-              containsPastLiveData
+              containsHistoricData
               retention={retention}
             />
           )}
