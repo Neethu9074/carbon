@@ -1,7 +1,7 @@
 :local {
   .button {
     position: absolute;
-    top: -1.875rem;
+    top: -3.5rem;
     right: 0;
   }
 }
