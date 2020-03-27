@@ -246,10 +246,6 @@ export default class Config {
     this.localHighlightedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
   }
 
-  clearTopOverdraw() {
-    this.backBufferCtx.clearRect(0, 0, this.backBufferWidth, this.scales.y1.getRangeTo());
-  }
-
   clearBottomOverdraw() {
     this.backBufferCtx.clearRect(0, this.scales.y1.getRangeFrom(), this.backBufferWidth, this.height);
   }
