@@ -61,7 +61,9 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
           />
           {itemId != 'ROOT' &&
             itemId != 'UNKNOWN' && (
-              <EndpointTypeBadgeList types={item.service ? item.service.types : item.application.types} />
+              <EndpointTypeBadgeList
+                types={item.service ? item.service.types.filter(type => type !== 'UNDEFINED') : []}
+              />
             )}
         </div>
         <div className={locals.chartWrapper}>
