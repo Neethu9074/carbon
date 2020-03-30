@@ -6,7 +6,6 @@ import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supporte
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-new-components/MoreMenu';
 import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
-import WidgetEditor from 'in-custom-dashboards/CustomDashboard/WidgetEditor/WidgetEditor';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
@@ -26,7 +25,17 @@ import theme from 'in-themes';
 export default getElementDimensions(CustomDashboardPresenter);
 
 function CustomDashboardPresenter(props) {
-  const { result, config, setConfig, onLayoutChange, width, editable } = props;
+  const {
+    result,
+    config,
+    onLayoutChange,
+    width,
+    editable,
+    onAddWidget,
+    onEditWidget,
+    onRemoveWidget,
+    onDuplicateWidget
+  } = props;
 
   return (
     <LocallyChangedTheme theme={lightV2}>
@@ -49,48 +58,44 @@ function CustomDashboardPresenter(props) {
             )}
 
             {!enabled && (
-              <WidgetEditor config={config} setConfig={setConfig}>
-                {({ onAddWidget, onEditWidget, onRemoveWidget, onDuplicateWidget }) => (
-                  <Sticky
-                    header={
-                      <>
-                        <DashboardHeader
-                          theme={themes.light}
-                          label={<DashboardSwitcher titleOverwrite={config && config.title} />}
-                          renderButtonLine={config && (() => <ButtonLine {...props} />)}
-                          renderButtonLineSecondary={
-                            config &&
-                            (() => (
-                              <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
-                            ))
-                          }
-                        />
-                        {result && <HorizontalIndicator progress={result.progress} />}
-                        <DashboardHeaderShadowModule />
+              <Sticky
+                header={
+                  <>
+                    <DashboardHeader
+                      theme={themes.light}
+                      label={<DashboardSwitcher titleOverwrite={config && config.title} />}
+                      renderButtonLine={config && (() => <ButtonLine {...props} />)}
+                      renderButtonLineSecondary={
+                        config &&
+                        (() => (
+                          <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
+                        ))
+                      }
+                    />
+                    {result && <HorizontalIndicator progress={result.progress} />}
+                    <DashboardHeaderShadowModule />
 
-                        <Title title="Dashboard" dynamic={config && config.title} />
-                      </>
-                    }
-                  >
-                    {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
-                    {result && <DashboardErroneousResultPresenter errors={result.errors} />}
-                    {config && (
-                      <Grid
-                        width={width}
-                        config={config}
-                        onLayoutChange={onLayoutChange}
-                        onEditWidget={onEditWidget}
-                        onRemoveWidget={onRemoveWidget}
-                        onDuplicateWidget={onDuplicateWidget}
-                        isDeletable={editable}
-                        isResizable={editable}
-                        isConfigurable={editable}
-                        isDraggable={editable}
-                      />
-                    )}
-                  </Sticky>
+                    <Title title="Dashboard" dynamic={config && config.title} />
+                  </>
+                }
+              >
+                {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
+                {result && <DashboardErroneousResultPresenter errors={result.errors} />}
+                {config && (
+                  <Grid
+                    width={width}
+                    config={config}
+                    onLayoutChange={onLayoutChange}
+                    onEditWidget={onEditWidget}
+                    onRemoveWidget={onRemoveWidget}
+                    onDuplicateWidget={onDuplicateWidget}
+                    isDeletable={editable}
+                    isResizable={editable}
+                    isConfigurable={editable}
+                    isDraggable={editable}
+                  />
                 )}
-              </WidgetEditor>
+              </Sticky>
             )}
           </>
         )}
@@ -99,21 +104,26 @@ function CustomDashboardPresenter(props) {
   );
 }
 
-function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving }) {
+function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDiscardChanges }) {
   if (!isSaving && (!editable || !hasChanges)) {
     return null;
   }
 
   return (
-    <SaveButton
-      icon="lib_actions_sync"
-      kind="primaryv2"
-      onClick={onSaveConfiguration}
-      type="button"
-      isSaving={isSaving}
-    >
-      Save changes
-    </SaveButton>
+    <>
+      <SaveButton
+        icon="lib_actions_sync"
+        kind="primaryv2"
+        onClick={onSaveConfiguration}
+        type="button"
+        isSaving={isSaving}
+      >
+        Save changes
+      </SaveButton>
+      <Button icon="lib_openclose_cancel" kind="subtle" onClick={onDiscardChanges}>
+        Discard Changes
+      </Button>
+    </>
   );
 }
 

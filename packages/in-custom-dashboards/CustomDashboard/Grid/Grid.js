@@ -52,6 +52,19 @@ export default function Grid({
   // as intended.
   const [disabledTransitions, setDisabledTransitions] = useState(true);
 
+  const layout = config.widgets.map(widget => {
+    const { minimumWidth, minimumHeight } = widgets[widget.type];
+    return {
+      i: widget.id,
+      w: Math.max(widget.width, minimumWidth),
+      h: Math.max(widget.height, minimumHeight),
+      x: widget.x,
+      y: widget.y,
+      minW: minimumWidth,
+      minH: minimumHeight
+    };
+  });
+
   return (
     <>
       <LifecycleObserver onDidMount={() => setTimeout(setDisabledTransitions, 0, false)} />
@@ -67,6 +80,7 @@ export default function Grid({
         // horizontal overflow.
         width={width - theme.grid.gutter}
         containerPadding={containerPadding}
+        layout={layout}
         breakpoints={breakpoints}
         isDraggable={isDraggable}
         isResizable={isResizable}
@@ -75,7 +89,7 @@ export default function Grid({
         draggableHandle={draggableHandle ? `.${draggableHandle}` : undefined}
       >
         {config.widgets.map(widget => {
-          const { Widget, minimumWidth, minimumHeight, onlyRenderInsideViewport } = widgets[widget.type];
+          const { Widget, onlyRenderInsideViewport } = widgets[widget.type];
 
           const actions = isConfigurable && (
             <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
@@ -106,15 +120,6 @@ export default function Grid({
               key={widget.id}
               className={locals.widget}
               id={getWidgetId(widget.id)}
-              data-h={Math.max(widget.height, minimumHeight)}
-              data-grid={{
-                w: Math.max(widget.width, minimumWidth),
-                h: Math.max(widget.height, minimumHeight),
-                x: widget.x,
-                y: widget.y,
-                minW: minimumWidth,
-                minH: minimumHeight
-              }}
               style={disabledTransitions ? disabledTransitionStyle : undefined}
             >
               <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>

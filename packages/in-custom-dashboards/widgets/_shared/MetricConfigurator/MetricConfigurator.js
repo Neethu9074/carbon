@@ -9,7 +9,7 @@ import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
-export default function MetricConfigurator({ form, onChange, onChangeSource, withLabelConfiguration }) {
+export default function MetricConfigurator({ form, onChange, onChangeSource, withLabelConfiguration, withTimeShiftConfiguration }) {
   const sourceField = form.get('source');
 
   let sourceSpecificConfiguration;
@@ -20,8 +20,31 @@ export default function MetricConfigurator({ form, onChange, onChangeSource, wit
 
   return (
     <>
-      {withLabelConfiguration &&
-        form.get('label').map(field => (
+      <FormGroup>
+        <Label htmlFor="metic-configurator-source" hasError={!sourceField.valid && sourceField.touched}>
+          Data Source
+        </Label>
+        <Select
+          id="metic-configurator-source"
+          value={sourceField.value}
+          onChange={e => onChangeSource(e.target.value)}
+          hasError={!sourceField.valid && sourceField.touched}
+        >
+          <option value="">Please select</option>
+          {Object.keys(sources)
+            .sort((a, b) => compareIgnoreCase(sources[a].label, sources[b].label))
+            .map(key => (
+              <option key={key} value={key}>
+                {sources[key].label}
+              </option>
+            ))}
+        </Select>
+        <TouchedMessages field={sourceField} />
+      </FormGroup>
+
+      {sourceSpecificConfiguration}
+
+      {withLabelConfiguration && form.get('label').map(field => (
           <FormGroup>
             <Label htmlFor="metic-configurator-label" hasError={!field.valid && field.touched}>
               Label
@@ -37,7 +60,7 @@ export default function MetricConfigurator({ form, onChange, onChangeSource, wit
           </FormGroup>
         ))}
 
-      {form.get('timeShift').map(field => (
+      {withTimeShiftConfiguration && form.get('timeShift').map(field => (
         <FormGroup>
           <Label htmlFor="metic-configurator-time-shift" hasError={!field.valid && field.touched}>
             Time Shift
@@ -63,30 +86,6 @@ export default function MetricConfigurator({ form, onChange, onChangeSource, wit
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-
-      <FormGroup>
-        <Label htmlFor="metic-configurator-source" hasError={!sourceField.valid && sourceField.touched}>
-          Source
-        </Label>
-        <Select
-          id="metic-configurator-source"
-          value={sourceField.value}
-          onChange={e => onChangeSource(e.target.value)}
-          hasError={!sourceField.valid && sourceField.touched}
-        >
-          <option value="">Please select</option>
-          {Object.keys(sources)
-            .sort((a, b) => compareIgnoreCase(sources[a].label, sources[b].label))
-            .map(key => (
-              <option key={key} value={key}>
-                {sources[key].label}
-              </option>
-            ))}
-        </Select>
-        <TouchedMessages field={sourceField} />
-      </FormGroup>
-
-      {sourceSpecificConfiguration}
     </>
   );
 }

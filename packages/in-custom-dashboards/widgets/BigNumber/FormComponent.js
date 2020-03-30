@@ -4,6 +4,7 @@ import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
@@ -11,6 +12,20 @@ import Label from 'in-components/form/Label';
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   return (
     <>
+      <Header>What would you like to show?</Header>
+
+      <MetricConfigurator
+        form={form.get('metricConfiguration')}
+        onChange={(path, fn) => onChange(['metricConfiguration', ...path], fn)}
+        onChangeSource={newSource =>
+          onChangeSource(
+            form.get('metricConfiguration'),
+            metricConfigurationForm => onChange(['metricConfiguration'], () => metricConfigurationForm),
+            newSource
+          )
+        }
+      />
+
       {form.get('formatter').map(field => (
         <FormGroup>
           <Label htmlFor="big-number-formatter" hasError={!field.valid && field.touched}>
@@ -31,18 +46,6 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
-
-      <MetricConfigurator
-        form={form.get('metricConfiguration')}
-        onChange={(path, fn) => onChange(['metricConfiguration', ...path], fn)}
-        onChangeSource={newSource =>
-          onChangeSource(
-            form.get('metricConfiguration'),
-            metricConfigurationForm => onChange(['metricConfiguration'], () => metricConfigurationForm),
-            newSource
-          )
-        }
-      />
     </>
   );
 }

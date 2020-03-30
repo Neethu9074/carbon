@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import { find, groupBy } from 'lodash';
 import React from 'react';
 
 import QuickFilterForm from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website/QuickFilterForm';
@@ -6,6 +6,7 @@ import { availableMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import {Row, Col} from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import { dataSourceTitles } from 'in-websites/tags';
 import Select from 'in-components/form/Select';
@@ -23,7 +24,7 @@ export default function FormComponent({ form, onChange }) {
           htmlFor="metic-configurator-website-beacon-type"
           hasError={!beaconTypeField.valid && beaconTypeField.touched}
         >
-          Data source
+          Beacon Type
         </Label>
         <Select
           id="metic-configurator-website-beacon-type"
@@ -61,68 +62,88 @@ export default function FormComponent({ form, onChange }) {
         <TouchedMessages field={beaconTypeField} />
       </FormGroup>
 
-      <FormGroup>
-        <Label htmlFor="metic-configurator-website-metric" hasError={!metricField.valid && metricField.touched}>
-          Metric
-        </Label>
-        <Select
-          id="metic-configurator-website-metric"
-          value={metricField.value}
-          onChange={e =>
-            onChange([], form =>
-              form
-                .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
-                .updateIn(['aggregation'], field => field.setValue(''))
-            )
-          }
-          hasError={!metricField.valid && metricField.touched}
-          disabled={!beaconTypeField.valid}
-        >
-          {!beaconTypeField.valid && <option value="">Please select a data source</option>}
-          {beaconTypeField.valid && (
-            <>
-              <option value="">Please select</option>
-              {availableMetrics[beaconTypeField.value].map(({ metric, label }) => (
-                <option key={metric} value={metric}>
-                  {label}
-                </option>
-              ))}
-            </>
-          )}
-        </Select>
-        <TouchedMessages field={metricField} />
-      </FormGroup>
-
-      <FormGroup>
-        <Label
-          htmlFor="metic-configurator-website-aggregation"
-          hasError={!aggregationField.valid && aggregationField.touched}
-        >
-          Aggregation
-        </Label>
-        <Select
-          id="metic-configurator-website-aggregation"
-          value={aggregationField.value}
-          onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
-          hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid}
-        >
-          {!metricField.valid && <option value="">Please select a metric</option>}
-          {metricField.valid && (
-            <>
-              <option value="">Please select</option>
-              {getAggregations(beaconTypeField.value, metricField.value).map(aggregation => (
-                <option key={aggregation} value={aggregation}>
-                  {aggregationLabels[aggregation]}
-                </option>
-              ))}
-            </>
-          )}
-        </Select>
-        <TouchedMessages field={aggregationField} />
-      </FormGroup>
-
       <QuickFilterForm form={form} onChange={onChange} />
+
+      <Row>
+        <Col lg>
+          <FormGroup>
+            <Label htmlFor="metic-configurator-website-metric" hasError={!metricField.valid && metricField.touched}>
+              Metric
+            </Label>
+            <Select
+              id="metic-configurator-website-metric"
+              value={metricField.value}
+              onChange={e =>
+                onChange([], form =>
+                  form
+                    .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
+                    .updateIn(['aggregation'], field => field.setValue(''))
+                )
+              }
+              hasError={!metricField.valid && metricField.touched}
+              disabled={!beaconTypeField.valid}
+            >
+              {!beaconTypeField.valid && <option value="">Please select a data source</option>}
+              {beaconTypeField.valid && (
+                <>
+                  <option value="">Please select</option>
+                  {Object.entries(groupBy(availableMetrics[beaconTypeField.value], ({category}) => category || ''))
+                    .sort((a, b) => compareIgnoreCase(a.category, b.category))
+                    .map(([category, metrics]) => {
+                      const options = metrics.map(({ metric, label }) => (
+                        <option key={metric} value={metric}>
+                          {label}
+                        </option>
+                      ));
+
+                      if (!category) {
+                        return options;
+                      }
+
+                      return (
+                        <optgroup key={category} label={category}>
+                          {options}
+                        </optgroup>
+                      );
+                    })}
+                </>
+              )}
+            </Select>
+            <TouchedMessages field={metricField} />
+          </FormGroup>
+        </Col>
+
+        <Col lg>
+          <FormGroup>
+            <Label
+              htmlFor="metic-configurator-website-aggregation"
+              hasError={!aggregationField.valid && aggregationField.touched}
+            >
+              Aggregation
+            </Label>
+            <Select
+              id="metic-configurator-website-aggregation"
+              value={aggregationField.value}
+              onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+              hasError={!aggregationField.valid && aggregationField.touched}
+              disabled={!metricField.valid}
+            >
+              {!metricField.valid && <option value="">Please select a metric</option>}
+              {metricField.valid && (
+                <>
+                  <option value="">Please select</option>
+                  {getAggregations(beaconTypeField.value, metricField.value).map(aggregation => (
+                    <option key={aggregation} value={aggregation}>
+                      {aggregationLabels[aggregation]}
+                    </option>
+                  ))}
+                </>
+              )}
+            </Select>
+            <TouchedMessages field={aggregationField} />
+          </FormGroup>
+        </Col>
+      </Row>
     </>
   );
 }

@@ -2,8 +2,8 @@ import { find } from 'lodash';
 import React from 'react';
 
 import { defaultFormatter, formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
-import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -27,12 +27,12 @@ export default connectTo(({ config }) => ({
   )
 }))(BigNumber);
 
-function BigNumber({ result, config, title, actions }) {
+function BigNumber({ result, config, title, actions, isPreview }) {
   return (
     <ResultAwareKpiCard
       title={title}
       result={result}
-      useMaxAvailableHeight
+      useMaxAvailableHeight={!isPreview}
       renderKpiCard={result => {
         let value = null;
         const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -45,7 +45,7 @@ function BigNumber({ result, config, title, actions }) {
           value = formatter.formatter(value);
         }
 
-        return <KpiCard title={title} value={value} useMaxAvailableHeight actions={actions} />;
+        return <KpiCard title={title} value={value} useMaxAvailableHeight={!isPreview} actions={actions} />;
       }}
     />
   );

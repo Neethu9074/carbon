@@ -27,6 +27,9 @@ Each widget needs to define the following exports.
                 When defined, it should be mounted, e.g. within the header of cards.
    - `config`: All the saved configuration options for this widget. This data is
                whatever was stored in the form created by `createForm`.
+   - `isPreview`: Optional bool to indicate whether the widget is rendered in a preview mode.
+                  Can be used to disable some behavior, e.g. avoiding `height: 100%` usage
+                  of cards.
  - `demo`: This is a demonstation/sample configuration for the widget that shows
            a common usage scenario.
  - `createForm`: Creates a [formalistic](https://github.com/bripkens/formalistic)
