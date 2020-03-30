@@ -9,6 +9,7 @@ import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -26,10 +27,6 @@ export default class extends React.Component {
 
     const basicButtonConfigs = [
       highlightedTimeframe && {
-        ...zoomInButtonConfig,
-        getHref$: () => zoomInButtonConfig.getHref$(chart)
-      },
-      highlightedTimeframe && {
         icon: 'lib_views_tag',
         label: 'Highlight on all charts',
         onClick: () => {
@@ -37,6 +34,10 @@ export default class extends React.Component {
           chart.config.clearLocalHighlightedTimeframe();
           setShowContextMenu(false);
         }
+      },
+      highlightedTimeframe && {
+        ...zoomInButtonConfig,
+        getHref$: () => zoomInButtonConfig.getHref$(chart)
       },
       allowDownloadMetricsFromCharts && {
         ...downloadButtonConfig,
@@ -72,12 +73,17 @@ export default class extends React.Component {
 
   componentDidMount() {
     this.onMouseDownSubscription = on(window, 'mousedown').subscribe(e => this.onMouseDown(e));
+    this.keyDownSubscription = on(window, 'keydown').subscribe(e => this.onKeyDown(e));
   }
 
   componentWillUnmount() {
     if (this.onMouseDownSubscription) {
       this.onMouseDownSubscription.dispose();
       this.onMouseDownSubscription = null;
+    }
+    if (this.keyDownSubscription) {
+      this.keyDownSubscription.dispose();
+      this.keyDownSubscription = null;
     }
   }
 
@@ -90,6 +96,12 @@ export default class extends React.Component {
       !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
     ) {
       this.props.setShowContextMenu(false);
+      this.props.chart.config.clearLocalHighlightedTimeframe();
+    }
+  }
+
+  onKeyDown(e) {
+    if (e.keyCode === keyCodes.escape) {
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
   }

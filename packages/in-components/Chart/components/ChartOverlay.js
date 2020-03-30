@@ -143,10 +143,14 @@ export default connectTo(
     onMouseDown(e) {
       e.preventDefault();
 
-      this.mouseDownPos = e.offsetX;
-      this.setState({ isDragging: true, immediatelyOpenContextMenu: false, showContextMenu: false });
+      // clicking on the glass panel when a highlighted selection was made, only discards the selection
+      // a new selection should only possible if there is no current selection
+      if (!this.props.localHighlightedTimeframe) {
+        this.mouseDownPos = e.offsetX;
+        clearHighlightedMoment();
+      }
 
-      clearHighlightedMoment();
+      this.setState({ isDragging: true, immediatelyOpenContextMenu: false, showContextMenu: false });
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
 
