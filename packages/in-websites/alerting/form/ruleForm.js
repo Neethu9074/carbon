@@ -4,22 +4,22 @@ import { operators } from 'in-analyze/applicationFilter';
 
 export default function createRuleForm(rule, thresholdType) {
   const { alertType } = rule;
-  const baseForm = createRuleBaseForm(rule);
+  const baseForm = createBaseForm(rule);
 
   if (alertType === 'slowness') {
-    return createSlownessRuleForm(baseForm, rule, thresholdType);
+    return createSlownessForm(baseForm, rule, thresholdType);
   }
 
   if (alertType === 'specificJsError') {
-    return createRuleFormSpecificJsError(baseForm, rule);
+    return createSpecificJsErrorForm(baseForm, rule);
   }
 
   if (alertType === 'statusCode') {
-    return createRuleFormSpecificStatusCodeForm(baseForm, rule);
+    return createSpecificStatusCodeForm(baseForm, rule);
   }
 }
 
-function createRuleBaseForm(rule) {
+function createBaseForm(rule) {
   return createMapForm()
     .put(
       'alertType',
@@ -35,21 +35,23 @@ function createRuleBaseForm(rule) {
     );
 }
 
-function createSlownessRuleForm(baseForm, rule, thresholdType) {
+function createSlownessForm(baseForm, rule, thresholdType) {
   if (thresholdType === 'staticThreshold') {
-    return createRuleFormStaticThreshold(baseForm, rule);
+    return createStaticThresholdForm(baseForm, rule);
   }
 
-  if (thresholdType.includes('historicBaseline.')) {
-    return createRuleFormHistoricBaseline(baseForm, rule);
+  if (thresholdType.startsWith('historicBaseline')) {
+    return createHistoricBaselineForm(baseForm, rule);
   }
+
+  throw new Error(`Unknown threshold type ${thresholdType}.`);
 }
 
-function createRuleFormStaticThreshold(baseForm, rule) {
-  return createRuleFormHistoricBaseline(baseForm, rule);
+function createStaticThresholdForm(baseForm, rule) {
+  return createHistoricBaselineForm(baseForm, rule);
 }
 
-function createRuleFormHistoricBaseline(baseForm, rule) {
+function createHistoricBaselineForm(baseForm, rule) {
   return baseForm.put(
     'aggregation',
     createField({
@@ -58,7 +60,7 @@ function createRuleFormHistoricBaseline(baseForm, rule) {
   );
 }
 
-function createRuleFormSpecificJsError(baseForm, rule) {
+function createSpecificJsErrorForm(baseForm, rule) {
   return baseForm
     .put(
       'operator',
@@ -86,7 +88,7 @@ function createRuleFormSpecificJsError(baseForm, rule) {
     );
 }
 
-function createRuleFormSpecificStatusCodeForm(baseForm, rule) {
+function createSpecificStatusCodeForm(baseForm, rule) {
   return baseForm
     .put(
       'operator',

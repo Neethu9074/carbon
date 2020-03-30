@@ -5,26 +5,26 @@ import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
+  applicationsAlertingAggregationChanged,
+  applicationsAlertingThresholdOperatorChanged,
+  applicationsAlertingThresholdTypeChanged
+} from 'in-applications/alerting/tracker';
+import {
   getBlueprintObject,
   debouncedThresholdValueChangedTracker,
   debouncedThresholdDeviationFactorChangedTracker
-} from 'in-websites/alerting/trackingHelpers';
-import {
-  websitesAlertingAggregationChanged,
-  websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdTypeChanged
-} from 'in-websites/alerting/tracker';
+} from 'in-applications/alerting/trackingHelpers';
 import {
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions
-} from 'in-websites/alerting/form/ruleFormData';
-import { thresholdOperatorOptions, thresholdTypeOptions } from 'in-websites/alerting/form/thresholdFormData';
-import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/formHelpers';
-import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
+} from 'in-applications/alerting/form/ruleFormData';
+import { thresholdOperatorOptions, thresholdTypeOptions } from 'in-applications/alerting/form/thresholdFormData';
+import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
+import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
-import createRuleForm from 'in-websites/alerting/form/ruleForm';
+import { createSlownessForm } from 'in-applications/alerting/form/thresholdForm';
+import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -73,7 +73,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
-              websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
+              applicationsAlertingAggregationChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue="P90"
             clearable={false}
@@ -90,7 +90,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-              websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
+              applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
             }}
             defaultValue=">="
             clearable={false}
@@ -107,27 +107,32 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             onChange={e => {
               const thresholdType = e.value || '';
 
-              // reset to default value (happens in createRuleForm)
-              const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }, thresholdType);
+              let newThresholdForm = createSlownessForm({
+                ...form.get('threshold').toJS(),
+                type: thresholdType,
+                operator: null // reset to default value (happens in createSlownessForm)
+              });
 
-              const newThresholdForm = createThresholdForm(
-                {
-                  ...getThresholdWithFixedType(form.get('threshold').toJS()),
-                  type: thresholdType,
-                  seasonality: thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY',
-                  operator: null // reset to default value (happens in createThresholdForm)
-                },
-                form.get('rule').get('alertType').value
-              );
+              if (thresholdType.includes('historicBaseline.')) {
+                const seasonality = thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY';
+                newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
+                  f.setValue(seasonality).setTouched()
+                );
+              }
+
+              let newRuleForm = createRuleForm({
+                ...form.get('rule').toJS(),
+                aggregation: null // reset to default value (happens in createRuleForm)
+              });
 
               updateForm(
                 form
-                  .put('rule', newRuleForm)
                   .put('threshold', newThresholdForm)
+                  .put('rule', newRuleForm)
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
-              websitesAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
+              applicationsAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
             }}
             defaultValue="staticThreshold"
             clearable={false}
@@ -196,7 +201,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
 
       <ChartContainer headline="Last 24 hours">
         <SlownessAlertingBarChart
-          websiteId={form.get('websiteId').value}
+          applicationId={form.get('applicationId').value}
           threshold={threshold}
           timeThreshold={form.get('timeThreshold').toJS()}
           sensitivity={Number(

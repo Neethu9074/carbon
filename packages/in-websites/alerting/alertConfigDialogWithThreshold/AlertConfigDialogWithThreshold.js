@@ -9,20 +9,14 @@ import {
   getMetricConfiguration
 } from 'in-websites/alerting/alertConfigDialogWithThreshold/MetricsConfigurationFactory';
 import {
-  errorCount,
-  errorRate,
-  statusCodeCount,
-  statusCodeRate,
-  onLoadTime,
-  thresholdOrBaselineLoadingSignal$
-} from 'in-websites/alerting/constants';
-import {
   websitesAlertingCloseDialog,
   websitesAlertingSwitchMode,
   websitesAlertingAlertCreated
 } from 'in-websites/alerting/tracker';
 import getWebsiteRateMetricHistoricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
 import getWebsiteMetricsHistoricThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
+import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/alerting/constants';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteMetricsBaseline from 'in-websites/alerting/subscriptions/getWebsiteMetricsBaseline';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';

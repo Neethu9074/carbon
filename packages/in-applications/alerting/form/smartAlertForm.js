@@ -1,12 +1,15 @@
 import { createMapForm, createField } from 'formalistic';
 
+import { createSlownessForm, createErrorRateForm } from 'in-applications/alerting/form/thresholdForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { getInitialThresholdType } from 'in-applications/alerting/form/thresholdFormData';
+import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
 
-export function CreateSmartAlertForm(alertConfig) {
-  return createMapForm()
+export function createSmartAlertForm(alertConfig) {
+  const form = createMapForm()
     .put(
       'name',
       createField({
@@ -34,7 +37,7 @@ export function CreateSmartAlertForm(alertConfig) {
     .put(
       'triggering',
       createField({
-        value: alertConfig.triggering ?? true
+        value: alertConfig.triggering ?? false
       })
     )
     .put(
@@ -89,61 +92,32 @@ export function CreateSmartAlertForm(alertConfig) {
         value: alertConfig.enabled ?? true
       })
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
+    .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put('rule', createRuleForm(alertConfig.rule ?? {}));
+    .put(
+      'hiddenFields',
+      createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)
+    );
+
+  const alertType = alertConfig.rule?.alertType ?? 'errorRate';
+
+  if (alertType === 'slowness') {
+    return form.put(
+      'threshold',
+      createSlownessForm({ ...alertConfig.threshold, type: getInitialThresholdType(alertConfig.threshold) } ?? {})
+    );
+  }
+
+  if (alertType === 'errorRate') {
+    return form.put('threshold', createErrorRateForm(alertConfig.threshold));
+  }
 }
 
-function createThresholdForm(threshold) {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: threshold.type ?? 'staticThreshold'
-      })
-    )
-    .put(
-      'lastUpdated',
-      createField({
-        value: threshold.lastUpdated ?? 0
-      })
-    )
-    .put(
-      'operator',
-      createField({
-        value: threshold.operator ?? '>='
-      })
-    )
-    .put(
-      'value',
-      createField({
-        value: threshold.value ?? '',
-        validator: num => {
-          if (num === '' || num < 0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please provide a number >= 0'
-              }
-            ];
-          }
-        }
-      })
-    );
-}
-
-function createRuleForm(rule) {
-  return createMapForm()
-    .put(
-      'alertType',
-      createField({
-        value: rule.alertType ?? 'errorRate'
-      })
-    )
-    .put(
-      'metricName',
-      createField({
-        value: rule.metricName ?? 'errors'
-      })
-    );
+function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = false) {
+  return createMapForm().put(
+    'calculateThresholdOnBackend',
+    createField({
+      value: calculateThresholdOnBackend
+    })
+  );
 }

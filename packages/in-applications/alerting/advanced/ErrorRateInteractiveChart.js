@@ -1,4 +1,4 @@
-import { withState, compose } from 'recompose';
+import { compose, withState } from 'recompose';
 import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -8,18 +8,13 @@ import {
   getValueRoundedToDecimals,
   round
 } from 'in-new-components/Alerting/utils/formatUtils';
-import {
-  websitesAlertingThresholdMetricChanged,
-  websitesAlertingThresholdOperatorChanged
-} from 'in-websites/alerting/tracker';
-import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
-import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/formHelpers';
-import { thresholdOperatorOptions } from 'in-websites/alerting/form/thresholdFormData';
+import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
+import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
+import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
+import { thresholdOperatorOptions } from 'in-applications/alerting/form/thresholdFormData';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
-import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
+import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -33,49 +28,25 @@ export default compose(
   connectTo(({ debounceOnChange$ }) => ({
     debounce: debounceOnChange$.debounce(300).tap(callback => callback())
   }))
-)(StatusCodeInteractiveChart);
+)(ErrorRateInteractiveChart);
 
-function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
+function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
   const metricName = form.get('rule').get('metricName').value;
-  const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
     ...getThresholdWithFixedType(form.get('threshold').toJS()),
     value:
       (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+        ? getThresholdValueForPercentageMetric(tempThreshold, true)
         : form.get('threshold').get('value').value) || 0
   };
 
   return (
     <div className={locals.container}>
       <div className={locals.controls}>
-        <FormGroup>
-          <Label htmlFor={'ruleMetricName'}>Metric</Label>
-          <ComboBox
-            id={'ruleMetricName'}
-            className={locals.wideControl}
-            name={'ruleMetricName'}
-            value={metricName}
-            options={ruleMetricNameOptions.statusCode}
-            onChange={e => {
-              const value = (e && e.value) || '';
-
-              updateForm(
-                form
-                  .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-              );
-
-              websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
-            }}
-            defaultValue={statusCodeCount}
-            clearable={false}
-          />
-        </FormGroup>
         <FormGroup>
           <Label htmlFor="thresholdOperator">Operator</Label>
           <ComboBox
@@ -87,7 +58,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-              websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
+              applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue={thresholdOperatorOptions[0].value}
             clearable={false}
@@ -100,23 +71,22 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
             className={locals.narrowControl}
             type="number"
             min="0"
-            max={getMaxThresholdValue(metricName)}
+            max="100"
             name="thresholdValue"
             step="1"
             value={
-              doDebounce
+              (doDebounce
                 ? tempThreshold
-                : getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric)
+                : getValueRoundedToDecimals(form.get('threshold').get('value').value, true)) ?? 0
             }
             onChange={e => {
               let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
               if (value !== '') {
-                value = percentageMetric ? round(Math.abs(value) / 100, 3) : Math.abs(value);
+                value = round(Math.abs(value) / 100, 3);
               }
-
               setDoDebounce(true);
-              setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
+              setTempThreshold(getValueRoundedToDecimals(value, true));
 
               const onChangCallback = () => {
                 onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
@@ -131,19 +101,14 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
       </div>
 
       <ChartContainer headline="Last 24 hours">
-        <StatusCodeAlertingBarChart
-          websiteId={form.get('websiteId').value}
-          threshold={threshold}
-          timeThreshold={form.get('timeThreshold').toJS()}
+        <ErrorRateAlertingBarChart
+          applicationId={form.get('applicationId').value}
           timeConfig={timeConfig}
           tagFilters={form.get('tagFilters').value}
-          numeratorFilter={{
-            name: 'beacon.http.status',
-            operator: form.get('rule').get('operator').value,
-            stringValue: form.get('rule').get('value').value
-          }}
           metricName={metricName}
           granularity={granularity}
+          threshold={threshold}
+          timeThreshold={form.get('timeThreshold').toJS()}
           alertsPreviewEnabled
           canReload
         />
@@ -152,19 +117,10 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
   );
 }
 
-StatusCodeInteractiveChart.propTypes = {
+ErrorRateInteractiveChart.propTypes = {
+  debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  debounceOnChange$: PropTypes.object,
-  updateForm: PropTypes.func.isRequired
+  timeConfig: PropTypes.object.isRequired
 };
-
-function getMaxThresholdValue(metricName) {
-  return isRateMetric(metricName) ? 100 : undefined;
-}
-
-function isRateMetric(metricName) {
-  return metricName === statusCodeRate;
-}

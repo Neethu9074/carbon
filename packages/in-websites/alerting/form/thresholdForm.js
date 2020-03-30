@@ -1,27 +1,27 @@
 import { createField, createMapForm } from 'formalistic';
 
 export default function createThresholdForm(threshold, alertType) {
-  const baseForm = createThresholdBaseForm(threshold);
+  const baseForm = createBaseForm(threshold);
 
   if (alertType === 'slowness') {
-    return createThresholdSlownessForm(baseForm, threshold);
+    return createSlownessForm(baseForm, threshold);
   }
 
   if (alertType === 'specificJsError') {
-    return createThresholdFormSpecificJsError(baseForm, threshold);
+    return createSpecificJsErrorForm(baseForm, threshold);
   }
 
   if (alertType === 'statusCode') {
-    return createThresholdFormStatusCode(baseForm, threshold);
+    return createStatusCodeForm(baseForm, threshold);
   }
 }
 
-function createThresholdBaseForm(threshold) {
+function createBaseForm(threshold) {
   return createMapForm()
     .put(
       'type',
       createField({
-        value: threshold.type
+        value: threshold.type ?? 'staticThreshold'
       })
     )
     .put(
@@ -38,14 +38,14 @@ function createThresholdBaseForm(threshold) {
     );
 }
 
-function createThresholdSlownessForm(baseForm, threshold) {
+function createSlownessForm(baseForm, threshold) {
   const thresholdType = threshold.type;
 
   if (thresholdType === 'staticThreshold') {
     return createThresholdFormStaticThreshold(baseForm, threshold);
   }
 
-  if (thresholdType.includes('historicBaseline.')) {
+  if (thresholdType.startsWith('historicBaseline')) {
     return createThresholdFormHistoricBaseline(baseForm, threshold);
   }
 }
@@ -80,6 +80,16 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
     .put(
       'baseline',
       createField({
+        validator: array => {
+          if (!array || array.length === 0) {
+            return [
+              {
+                severity: 'error',
+                message: 'baseline is empty'
+              }
+            ];
+          }
+        },
         value: threshold.baseline
       })
     )
@@ -91,10 +101,10 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
     );
 }
 
-function createThresholdFormSpecificJsError(baseForm, threshold) {
+function createSpecificJsErrorForm(baseForm, threshold) {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }
 
-function createThresholdFormStatusCode(baseForm, threshold) {
+function createStatusCodeForm(baseForm, threshold) {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }

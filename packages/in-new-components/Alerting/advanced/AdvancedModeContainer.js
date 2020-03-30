@@ -9,10 +9,10 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props) {
-  const { form, onClose, onCreate, editMode, navItems } = props;
+  const { form, onClose, onCreate, editMode, navItems, isSaving } = props;
 
   return (
-    <div className={locals.container}>
+    <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
           {navItems.map(({ scrollId, label, title, content }) => (
@@ -31,11 +31,17 @@ export default function AdvancedModeContainer(props) {
         <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
           Cancel
         </Button>
-        <Button className={locals.button} onClick={() => onCreate()} disabled={form.touched && !form.hierarchyValid}>
+        <Button
+          className={locals.button}
+          onClick={() => onCreate()}
+          disabled={form.touched && !form.hierarchyValid}
+          icon={isSaving ? 'lib_actions_loading' : ''}
+          iconSpinning={isSaving}
+        >
           {editMode ? 'Save' : 'Create'}
         </Button>
       </nav>
-    </div>
+    </nav>
   );
 }
 

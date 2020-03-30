@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -26,10 +27,8 @@ import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition'
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced } from 'in-websites/alerting/constants';
-import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
   const { form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm } = props;
@@ -93,12 +92,6 @@ export default function AdvancedModeContainer(props) {
                       timeConfig={timeConfig}
                       granularity={granularity}
                     />
-                    {showInsufficientBaselineDataMessage(form) && (
-                      <Message type={warning} withIcon>
-                        Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
-                        instead.
-                      </Message>
-                    )}
                   </>
                 )}
                 renderSlowness={() => {

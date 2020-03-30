@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
-import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
+import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
@@ -26,7 +26,7 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
         Add Alert
       </FloatingActionButton>
       {dialogOpen && (
-        <SmartAlertConfigDialog
+        <SmartAlertConfigDialogWrapper
           formData={{
             name: applicationLabel,
             applicationId,
@@ -41,7 +41,8 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
                 operator: 'EQUALS',
                 stringValue: endpointId
               }
-            ].filter(({ stringValue }) => Boolean(stringValue))
+            ].filter(({ stringValue }) => Boolean(stringValue)),
+            calculateThresholdOnBackend: true
           }}
           onClose={() => setDialogOpen(false)}
           editMode

@@ -1,4 +1,4 @@
-import { selectOptions } from 'in-applications/alerting/form/formData';
+import { selectOptions } from 'in-applications/alerting/form/ruleFormData';
 
 export function getMetricLabel(alertType, value) {
   const metricList = selectOptions['ruleMetricName'][alertType];
@@ -41,5 +41,21 @@ export function getTitlePlaceholder(form) {
       return `TODO: Implememnt title placeholder`;
     default:
       return '';
+  }
+}
+
+export function getFormValueOrDefault(form, key, defaultValue = null) {
+  return form.containsKey(key) ? form.get(key).value : defaultValue;
+}
+
+export function getThresholdLabel(form) {
+  const metricName = form.get('rule').get('metricName').value;
+  switch (metricName) {
+    case 'latency':
+      return 'Milliseconds';
+    case 'errors':
+      return 'Percentage';
+    default:
+      return 'Value';
   }
 }

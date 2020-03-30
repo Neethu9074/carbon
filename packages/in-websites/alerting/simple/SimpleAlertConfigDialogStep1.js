@@ -20,7 +20,7 @@ export default function SimpleAlertConfigDialogStep1({
   timeConfig,
   updateForm
 }) {
-  const alertType = blueprintConfig[getIndexSelectedConf(form)].type;
+  const alertType = blueprintConfig[getIndexSelectedConf()].type;
 
   // Fallback to static threshold for slowness when the historic baseline was not good enough.
   const thresholdTypeValue = form.get('threshold').get('type').value;
@@ -28,7 +28,7 @@ export default function SimpleAlertConfigDialogStep1({
 
   if (
     alertType === alertTypes.slowness &&
-    thresholdTypeValue.includes('historicBaseline.') &&
+    thresholdTypeValue.startsWith('historicBaseline') &&
     thresholdBaseline &&
     thresholdBaseline.value &&
     thresholdBaseline.value.length === 0
@@ -54,7 +54,7 @@ export default function SimpleAlertConfigDialogStep1({
 
           websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
         }}
-        initialItemSelected={getIndexSelectedConf(form)}
+        initialItemSelected={getIndexSelectedConf()}
         addRightSeparator
       />
 
@@ -71,15 +71,20 @@ export default function SimpleAlertConfigDialogStep1({
         <SelectAlertForStatusCode form={form} onChange={onChange} timeConfig={timeConfig} updateForm={updateForm} />
       )}
       {alertType === alertTypes.slowness && (
-        <BlueprintDescription
-          config={blueprintConfig.find(({ type }) => form.get('rule').get('alertType').value === type)}
-          isSimpleMode
-        />
+        <BlueprintDescription config={blueprintConfig.find(configTypeEqualsAlertType)} isSimpleMode />
       )}
 
       <SimpleAlertConfigDialogChart form={form} granularity={granularity} timeConfig={timeConfig} />
     </SimpleModeStepContentWrapper>
   );
+
+  function getIndexSelectedConf() {
+    return blueprintConfig.findIndex(configTypeEqualsAlertType);
+  }
+
+  function configTypeEqualsAlertType({ type }) {
+    return form.get('rule').get('alertType').value === type;
+  }
 }
 
 SimpleAlertConfigDialogStep1.propTypes = {
@@ -90,7 +95,3 @@ SimpleAlertConfigDialogStep1.propTypes = {
   timeConfig: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired
 };
-
-function getIndexSelectedConf(form) {
-  return blueprintConfig.findIndex(({ type }) => form.get('rule').get('alertType').value === type);
-}

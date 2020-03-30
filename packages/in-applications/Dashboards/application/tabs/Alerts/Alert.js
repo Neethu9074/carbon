@@ -20,8 +20,8 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
+import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
-import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
@@ -80,7 +80,7 @@ function Alert({
   return (
     <>
       {dialogOpen && (
-        <SmartAlertConfigDialog
+        <SmartAlertConfigDialogWrapper
           formData={{
             name: applicationName,
             ...alertConfig

@@ -17,6 +17,7 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/formHelpers';
 import { thresholdOperatorOptions } from 'in-websites/alerting/form/thresholdFormData';
+import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
@@ -44,7 +45,7 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
-    ...form.get('threshold').toJS(),
+    ...getThresholdWithFixedType(form.get('threshold').toJS()),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)

@@ -14,7 +14,7 @@ describe('in-websites/alerting/form/ruleForm', () => {
 
     context('when thresholdType includes historicBaseline.', () => {
       it('should contain fields: alertType, metricName, aggregation', () => {
-        const ruleForm = createRuleForm({ alertType: 'slowness' }, 'historicBaseline.').toJS();
+        const ruleForm = createRuleForm({ alertType: 'slowness' }, 'historicBaseline.DAILY').toJS();
         expect(ruleForm).to.have.keys('alertType', 'metricName', 'aggregation');
       });
     });

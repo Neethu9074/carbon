@@ -3,10 +3,12 @@ import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType) {
+  const threshold = form.get('threshold').toJS();
+
   const newThresholdForm = createThresholdForm(
     {
-      ...form.get('threshold').toJS(),
-      type: getThresholdTypeForAlertType(alertType)
+      ...threshold,
+      type: getThresholdTypeForAlertType(alertType, threshold)
     },
     alertType
   );
@@ -37,12 +39,8 @@ function getThresholdTypeForAlertType(alertType, threshold) {
 }
 
 function getSlownessThresholdType(threshold) {
-  const isBaselineDaily =
-    !threshold.type.includes('historicBaseline.') && (!threshold.baseline || threshold.baseline?.value?.length > 0);
-
-  if (isBaselineDaily) {
+  if (threshold.baseline && threshold.baseline?.length > 0) {
     return 'historicBaseline.DAILY';
-  } else {
-    return threshold.type;
   }
+  return 'staticThreshold';
 }

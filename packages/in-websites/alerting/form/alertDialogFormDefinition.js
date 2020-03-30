@@ -36,8 +36,7 @@ export default function alertFormDefinition(alertConfig = {}) {
     description = '',
     name = '',
     websiteId = '',
-    id = '',
-    threshold = ''
+    id = ''
   } = alertConfig;
 
   let form = createMapForm()
@@ -113,7 +112,7 @@ export default function alertFormDefinition(alertConfig = {}) {
         alertConfig.rule?.alertType
       )
     )
-    .put('rule', createRuleForm(alertConfig.rule ?? {}, getInitialThresholdType(threshold)))
+    .put('rule', createRuleForm(alertConfig.rule ?? {}, getInitialThresholdType(alertConfig.threshold)))
     .put(
       'hiddenFields',
       createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)
