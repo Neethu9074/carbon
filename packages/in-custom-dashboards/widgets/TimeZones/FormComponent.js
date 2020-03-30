@@ -17,13 +17,20 @@ import locals from './FormComponent.mless';
 
 let supportedTimeZones;
 
-export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onChange }) {
+export default function TimeZoneWidgetFormComponent({
+  form: timeZonesForm,
+  onChange,
+  widgetTitleFormGroup,
+  widgetPreview
+}) {
   if (!supportedTimeZones) {
     supportedTimeZones = moment.tz.names().filter(isSupportedTimeZone);
   }
 
   return (
     <>
+      {widgetTitleFormGroup}
+
       <TouchedMessages field={timeZonesForm} />
 
       <DragDropContext
@@ -121,6 +128,8 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
       >
         Add Time Zone
       </Button>
+
+      {widgetPreview}
     </>
   );
 }

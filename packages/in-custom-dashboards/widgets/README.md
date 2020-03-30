@@ -42,6 +42,9 @@ Each widget needs to define the following exports.
              `createForm(…)`.
    - `onChange`: Used to change values within `form`. The signature of `onChange` is
                  `onChange(['path', 'to', 'update'], formElement => …);`
+   - `widgetTitleFormGroup`: A React element to render the form group containing the widget
+                             title input field.
+   - `widgetPreview`: A react element containing the logic to render a widget preview.
  - `minimumWidth`: The minimum number of horizontal grid cells necessary in order to
                    render this widget. Users cannot configure the widget to use
                    fewer than these number of vertical cells.
