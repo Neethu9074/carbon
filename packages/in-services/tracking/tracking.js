@@ -120,6 +120,9 @@ export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
 
 export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
+export const APPLICATIONS_ALERTING_CLOSE_DIALOG = 'applications.alerting.closeDialog';
+export const APPLICATIONS_ALERTING_SWITCH_MODE = 'applications.alerting.switchMode';
+export const APPLICATIONS_ALERTING_CREATE_ALERT = 'applications.alerting.createAlert';
 export const APPLICATIONS_ALERTING_LIST_ALERT_PAUSED = 'applications.alerting.list.alert.paused';
 export const APPLICATIONS_ALERTING_LIST_ALERT_DELETED = 'applications.alerting.list.alert.deleted';
 export const APPLICATIONS_ALERTING_LIST_ALERT_RESUMED = 'applications.alerting.list.alert.resumed';

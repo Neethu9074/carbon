@@ -18,11 +18,18 @@ import {
   APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED,
   APPLICATIONS_ALERTING_AGGREGATION_CHANGED,
   APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED,
-  APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED
+  APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED,
+  APPLICATIONS_ALERTING_CLOSE_DIALOG,
+  APPLICATIONS_ALERTING_SWITCH_MODE,
+  APPLICATIONS_ALERTING_CREATE_ALERT
 } from 'in-services/tracking/tracking';
 
 export const applicationsAlertingAddAlert = (pathname, websiteName) =>
   track(APPLICATIONS_ALERTING_ADD_ALERT, { pathname, websiteName });
+
+export const applicationsAlertingCloseDialog = e => track(APPLICATIONS_ALERTING_CLOSE_DIALOG, e);
+export const applicationsAlertingSwitchMode = e => track(APPLICATIONS_ALERTING_SWITCH_MODE, e);
+export const applicationsAlertingAlertCreated = e => track(APPLICATIONS_ALERTING_CREATE_ALERT, e);
 
 export const applicationsAlertingListAlertPaused = e => track(APPLICATIONS_ALERTING_LIST_ALERT_PAUSED, e);
 export const applicationsAlertingListAlertResumed = e => track(APPLICATIONS_ALERTING_LIST_ALERT_RESUMED, e);

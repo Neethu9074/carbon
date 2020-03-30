@@ -3,6 +3,11 @@ import { createLogger } from 'instalog';
 import PropTypes from 'prop-types';
 
 import {
+  applicationsAlertingCloseDialog,
+  applicationsAlertingSwitchMode,
+  applicationsAlertingAlertCreated
+} from 'in-applications/alerting/tracker';
+import {
   alertingDialogChartTimeframe,
   alertingMetricsGranularity as granularity
 } from 'in-applications/alerting/constants';
@@ -10,6 +15,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applic
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
@@ -35,11 +41,32 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formD
       simpleModeElement={() => null}
       setForm={setForm}
       timeConfig={timeConfig}
-      trackModeSwitch={() => {}}
-      withTrackClose={() => {
+      trackModeSwitch={(simpleMode, step) => {
+        applicationsAlertingSwitchMode(
+          simpleMode
+            ? {
+                destinationMode: 'Advanced',
+                step,
+                ...getBlueprintObject(form)
+              }
+            : {
+                destinationMode: 'Simple',
+                ...getBlueprintObject(form)
+              }
+        );
+      }}
+      withTrackClose={trackingConfig => {
+        applicationsAlertingCloseDialog(
+          trackingConfig
+            ? { step: trackingConfig, ...getBlueprintObject(form) }
+            : { mode: 'Advanced', ...getBlueprintObject(form) }
+        );
         onClose();
       }}
-      withTrackCreate={() => createAlert({ form, setForm, onClose, editMode, setIsSaving })}
+      withTrackCreate={simpleMode => {
+        applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
+        createAlert({ form, setForm, onClose, editMode, setIsSaving });
+      }}
       isSaving={isSaving}
     />
   );
