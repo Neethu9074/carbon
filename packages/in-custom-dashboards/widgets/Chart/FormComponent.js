@@ -1,32 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataSeriesFormComponent from 'in-custom-dashboards/widgets/Chart/DataSeriesFormComponent';
 import { renderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
+import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
+import Stack from 'in-new-components/layout/Stack';
 import Select from 'in-components/form/Select';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Card from 'in-new-components/Card';
 
 export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFormGroup, widgetPreview }) {
+  const [showY2, setShowY2] = useState(form.get('y2').get('metrics').size > 0);
+
   return (
-    <>
-      <Header>Chart: Primary Y Axis</Header>
-      <AxisFormComponent axisName="y1" form={form} onChange={onChange} />
+    <Stack space="large">
+      <StackItem>
+        <Header>Chart: Primary Y Axis</Header>
+        <AxisFormComponent axisName="y1" form={form} onChange={onChange} />
+      </StackItem>
 
-      <Header>Chart: Secondary Y Axis</Header>
-      <AxisFormComponent axisName="y2" form={form} onChange={onChange} />
+      <StackItem>
+        <Header>Chart: Secondary Y Axis</Header>
+        {showY2 && <AxisFormComponent axisName="y2" form={form} onChange={onChange} />}
+        {!showY2 && <Button onClick={() => setShowY2(true)}>Add secondary Y axis</Button>}
+      </StackItem>
 
-      <Header>Customize the Widget</Header>
-      {widgetTitleFormGroup}
+      <StackItem>
+        <Header>Customize the Widget</Header>
+        {widgetTitleFormGroup}
+      </StackItem>
 
-      <Header>Widget Preview</Header>
-      {widgetPreview}
-    </>
+      <StackItem>
+        <Header>Widget Preview</Header>
+        {widgetPreview}
+      </StackItem>
+    </Stack>
   );
 }
 
@@ -34,7 +47,7 @@ function AxisFormComponent({ axisName, form, onChange }) {
   const axisForm = form.get(axisName);
 
   return (
-    <Card title={`${axisName.toUpperCase()} Axis`}>
+    <>
       {axisForm.get('renderer').map(field => (
         <FormGroup>
           <Label htmlFor={`${axisName}-chart-configurator-renderer`} hasError={!field.valid && field.touched}>
@@ -116,6 +129,6 @@ function AxisFormComponent({ axisName, form, onChange }) {
       </Row>
 
       <DataSeriesFormComponent axisName={axisName} form={form} onChange={onChange} />
-    </Card>
+    </>
   );
 }

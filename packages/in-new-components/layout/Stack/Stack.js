@@ -1,0 +1,32 @@
+import rpt from 'prop-types';
+import React from 'react';
+
+import { evaluateClassNames } from 'in-services/util/classnames';
+
+import locals from './Stack.mless';
+
+const components = ['div', 'ul', 'ol'];
+const alignments = ['left', 'center', 'right'];
+const spaces = ['gutter', 'xxsmall', 'xsmall', 'small', 'medium', 'large', 'xlarge', 'xxlarge'];
+
+// An implementation of https://seek-oss.github.io/braid-design-system/components/Stack/
+export default function Stack({ component = 'div', space = 'gutter', align = null, children }) {
+  return React.createElement(
+    component,
+    {
+      className: evaluateClassNames({
+        [locals.stack]: true,
+        [locals[`spacing-${space}`]]: true,
+        [locals[`alignment-${align}`]]: align
+      })
+    },
+    children
+  );
+}
+
+Stack.propTypes = {
+  component: rpt.oneOf(components),
+  space: rpt.oneOf(spaces),
+  align: rpt.oneOf(alignments),
+  children: rpt.node
+};

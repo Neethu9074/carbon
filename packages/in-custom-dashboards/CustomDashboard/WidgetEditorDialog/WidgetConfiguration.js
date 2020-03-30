@@ -3,7 +3,6 @@ import React from 'react';
 import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import HelpText from 'in-components/form/HelpText';
 import widgets from 'in-custom-dashboards/widgets';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -37,7 +36,6 @@ function TitleInput({ form, onChange }) {
         hasError={!field.valid && field.touched}
       />
       <TouchedMessages field={field} />
-      <HelpText>The widget will be placed into a box with this text as its title.</HelpText>
     </FormGroup>
   );
 }
