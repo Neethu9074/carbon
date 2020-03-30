@@ -5,22 +5,28 @@ import { renderer as availableRenderers } from 'in-custom-dashboards/widgets/Cha
 import { formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Card from 'in-new-components/Card';
 
-export default function ChartWidgetFormComponent({ form, onChange }) {
+export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFormGroup, widgetPreview }) {
   return (
-    <Row>
-      <Col lg={6}>
-        <AxisFormComponent axisName="y1" form={form} onChange={onChange} />
-      </Col>
-      <Col lg={6}>
-        <AxisFormComponent axisName="y2" form={form} onChange={onChange} />
-      </Col>
-    </Row>
+    <>
+      <Header>Chart: Primary Y Axis</Header>
+      <AxisFormComponent axisName="y1" form={form} onChange={onChange} />
+
+      <Header>Chart: Secondary Y Axis</Header>
+      <AxisFormComponent axisName="y2" form={form} onChange={onChange} />
+
+      <Header>Customize the Widget</Header>
+      {widgetTitleFormGroup}
+
+      <Header>Widget Preview</Header>
+      {widgetPreview}
+    </>
   );
 }
 
