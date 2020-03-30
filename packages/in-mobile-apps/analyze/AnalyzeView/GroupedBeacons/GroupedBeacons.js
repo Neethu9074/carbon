@@ -1,4 +1,4 @@
-import { compose, withState } from 'recompose';
+import { compose } from 'recompose';
 import React from 'react';
 
 import {
@@ -15,8 +15,9 @@ import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
-import cursorPaginated from 'in-hoc/cursorPaginated';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
+import cursorPaginated from 'in-hoc/cursorPaginated';
+import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
@@ -27,18 +28,22 @@ const defaultCountMetric = {
 };
 
 export default compose(
-  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
-  cursorPaginated({
-    getResettingProps: () => [
-      'timeConfig',
-      'orderBy',
-      'orderDirection',
-      'isChartSectionExpanded',
-      'tagFilters',
-      'group',
-      'metrics'
+  withUrlState({
+    bind: [
+      {
+        path: '/analyzeBeacons',
+        name: 'showGraph',
+        parser: v => v === 'true',
+        serializer: String,
+        initialState: false
+      }
     ],
-    get: ({ tagFilters, cursor, timeConfig, orderBy, orderDirection, isChartSectionExpanded, group, metrics }) => {
+    reducerName: 'onChange',
+    replaceHistory: true
+  }),
+  cursorPaginated({
+    getResettingProps: () => ['timeConfig', 'orderBy', 'orderDirection', 'showGraph', 'tagFilters', 'group', 'metrics'],
+    get: ({ tagFilters, cursor, timeConfig, orderBy, orderDirection, showGraph, group, metrics }) => {
       metrics = metrics.concat(defaultCountMetric);
       const granularity = getChartGranularity(timeConfig);
 
@@ -48,7 +53,7 @@ export default compose(
           aggregation
         };
 
-        if (isChartSectionExpanded) {
+        if (showGraph) {
           agg[`${metric}_${aggregation}`] = {
             metric,
             aggregation,
@@ -86,7 +91,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, isChartSectionExpanded, beaconType } = props;
+  const { items, showGraph, beaconType } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -117,7 +122,7 @@ function GroupedBeacons(props) {
         <LeftRightPadding>
           <TagFilterList {...props} />
           <GroupingTableHeader itemType="Group" {...props} />
-          {isChartSectionExpanded && <MobileAppGroupMetricsChart {...props} groupColors={groupColors} />}
+          {showGraph && <MobileAppGroupMetricsChart {...props} groupColors={groupColors} />}
           <GroupedBeaconsTable {...props} groupColors={groupColors} />
         </LeftRightPadding>
       </Sticky>
