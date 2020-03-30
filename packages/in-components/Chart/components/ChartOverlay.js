@@ -146,31 +146,34 @@ export default connectTo(
       this.mouseDownPos = e.offsetX;
       this.setState({ isDragging: true, immediatelyOpenContextMenu: false, showContextMenu: false });
 
+      clearHighlightedMoment();
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
 
-    onMouseMove = e => {
-      // tooltip highlighted moment
-      if (e.offsetX >= this.xScale.getRangeFrom() && e.offsetX <= this.xScale.getRangeTo()) {
-        setHighlightedMoment(this.xScale.getDomain(e.offsetX));
-      }
-
+    onMouseMove(e) {
+      const { isDragging } = this.state;
       const { chart } = this.props;
+      const xScale = this.xScale;
       const currentMousePos = e.offsetX;
       const isSnappingEnabled = !chart.config.snapHighlightingToMetricsDisabled;
 
-      this.granularityHalf = this.props.chart.config.granularity / 2;
+      this.granularityHalf = chart.config.granularity / 2;
 
       if (this.mouseDownPos != null) {
         const diff = currentMousePos - this.mouseDownPos;
 
         // calculate the starting point of the drag & drop
         if (!this.mouseDownDomainTime && Math.abs(diff) > this.minPxToMoveUntilDragStarts) {
-          this.mouseDownDomainTime = this.xScale.getDomain(this.mouseDownPos);
+          this.mouseDownDomainTime = xScale.getDomain(this.mouseDownPos);
           if (isSnappingEnabled) {
             this.mouseDownDomainTime = this.snapStart(this.mouseDownDomainTime, diff > 0);
           }
         }
+      }
+
+      // tooltip highlighted moment
+      if (!isDragging && currentMousePos >= xScale.getRangeFrom() && currentMousePos <= xScale.getRangeTo()) {
+        setHighlightedMoment(xScale.getDomain(currentMousePos));
       }
 
       // if dragging has not started
@@ -178,12 +181,12 @@ export default connectTo(
         return;
       }
 
-      const currentMousePosInDomainTime = this.xScale.getDomain(currentMousePos);
+      const currentMousePosInDomainTime = xScale.getDomain(currentMousePos);
       const from = this.mouseDownDomainTime;
       const to = isSnappingEnabled ? this.snapWhileDrag(currentMousePosInDomainTime) : currentMousePosInDomainTime;
 
       chart.config.setLocalHighlightedtimeframe(from, to);
-    };
+    }
 
     onMouseUp(e) {
       // the user has clicked but not dragged inside the chart
@@ -209,14 +212,14 @@ export default connectTo(
       this.setState({ isDragging: false, immediatelyOpenContextMenu: selectOnClick, showContextMenu: selectOnClick });
     }
 
-    onMouseLeave = () => {
+    onMouseLeave() {
       // clear tooltip highlighted moment
       clearHighlightedMoment();
 
       this.mouseDownPos = null;
       this.mouseDownDomainTime = null;
       this.setState({ isDragging: false });
-    };
+    }
 
     snapStart = (time, leftToRight) => {
       const config = this.props.chart.config;

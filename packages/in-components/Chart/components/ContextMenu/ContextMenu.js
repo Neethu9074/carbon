@@ -29,18 +29,18 @@ export default class extends React.Component {
         ...zoomInButtonConfig,
         getHref$: () => zoomInButtonConfig.getHref$(chart)
       },
-      allowDownloadMetricsFromCharts && {
-        ...downloadButtonConfig,
-        onClick: () => downloadButtonConfig.onClick(this.props.metrics, highlightedTimeframe)
-      },
       highlightedTimeframe && {
         icon: 'lib_views_tag',
-        label: 'Highlight selection',
+        label: 'Highlight on all charts',
         onClick: () => {
           setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]);
           chart.config.clearLocalHighlightedTimeframe();
           setShowContextMenu(false);
         }
+      },
+      allowDownloadMetricsFromCharts && {
+        ...downloadButtonConfig,
+        onClick: () => downloadButtonConfig.onClick(this.props.metrics, highlightedTimeframe)
       }
     ];
 

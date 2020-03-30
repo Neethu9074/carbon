@@ -36,7 +36,7 @@ export default connectTo(
 
       return (
         <Button className={locals.button} kind="secondary" size="compact" onClick={clearHighlightedTimeframe}>
-          Clear global selection
+          Clear highlight
         </Button>
       );
     }
