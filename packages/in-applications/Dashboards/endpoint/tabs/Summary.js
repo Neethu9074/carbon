@@ -6,13 +6,11 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
-import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
@@ -21,7 +19,7 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
 
@@ -142,25 +140,14 @@ export default connectTo(
         {!includeSyntheticCalls && (
           <Fragment>
             <Row>
-              {isInternalVisible || apDashboardEventsEnabled ? (
-                <Col lg={6}>
-                  <IssuesAndEvents
-                    applicationId={applicationId}
-                    serviceId={serviceId}
-                    endpointId={endpointId}
-                    timeConfig={timeConfig}
-                  />
-                </Col>
-              ) : (
-                <Col lg={6}>
-                  <TraceTopList
-                    applicationId={applicationId}
-                    serviceId={serviceId}
-                    endpointId={endpointId}
-                    timeConfig={timeConfig}
-                  />
-                </Col>
-              )}
+              <Col lg={6}>
+                <IssuesAndEvents
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  endpointId={endpointId}
+                  timeConfig={timeConfig}
+                />
+              </Col>
               <Col lg={6}>
                 {type.includes('DATABASE') ? (
                   <DatabaseSections

@@ -20,7 +20,6 @@ module.exports = {
   contextGuideEnabled: true,
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
-  apDashboardEventsEnabled: true,
   customDashboardsEnabled: true,
   landingPageConfigurationEnabled: true,
   applicationSmartAlertsEnabled: true

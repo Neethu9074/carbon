@@ -33,7 +33,6 @@ export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBrea
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
-export const apDashboardEventsEnabled = isFeatureFlagEnabled('apDashboardEventsEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
 //platform feature flags
