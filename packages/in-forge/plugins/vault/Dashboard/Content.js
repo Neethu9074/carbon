@@ -3,11 +3,17 @@ import React from 'react';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 
 export default function VaultDashboard({ snapshot, timeConfig }) {
+  const sealed = snapshot.getIn(['data', 'sealed'], false);
+  if (sealed) {
+    return <DashboardNotification type="info">Vault is sealed.</DashboardNotification>;
+  }
+
   const snapshotId = snapshot.get('id');
 
   return (
