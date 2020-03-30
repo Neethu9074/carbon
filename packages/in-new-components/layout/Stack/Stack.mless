@@ -10,6 +10,7 @@
   .alignment-center { align-items: center; }
   .alignment-right { align-items: flex-end; }
 
+  .spacing-disabled > * { margin-bottom: 0; }
   .spacing-xxsmall > * { margin-bottom: .25rem; }
   .spacing-xsmall > * { margin-bottom: .5rem; }
   .spacing-small > * { margin-bottom: .75rem; }

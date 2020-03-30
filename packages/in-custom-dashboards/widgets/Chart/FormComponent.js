@@ -48,49 +48,59 @@ function AxisFormComponent({ axisName, form, onChange }) {
 
   return (
     <>
-      {axisForm.get('renderer').map(field => (
-        <FormGroup>
-          <Label htmlFor={`${axisName}-chart-configurator-renderer`} hasError={!field.valid && field.touched}>
-            Type
-          </Label>
-          <Select
-            id={`${axisName}-chart-configurator-renderer`}
-            value={field.value}
-            onChange={e => onChange([axisName, 'renderer'], field => field.setValue(e.target.value).setTouched(true))}
-            hasError={!field.valid && field.touched}
-          >
-            {availableRenderers.map(({ id, label }) => (
-              <option key={id} value={id}>
-                {label}
-              </option>
-            ))}
-          </Select>
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
-
-      {axisForm.get('formatter').map(field => (
-        <FormGroup>
-          <Label htmlFor={`${axisName}-chart-configurator-formatter`} hasError={!field.valid && field.touched}>
-            Formatter
-          </Label>
-          <Select
-            id={`${axisName}-chart-configurator-formatter`}
-            value={field.value}
-            onChange={e => onChange([axisName, 'formatter'], field => field.setValue(e.target.value).setTouched(true))}
-            hasError={!field.valid && field.touched}
-          >
-            {formatters.map(({ id, label }) => (
-              <option key={id} value={id}>
-                {label}
-              </option>
-            ))}
-          </Select>
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
-
       <Row>
+        <Col md={6}>
+          {axisForm.get('renderer').map(field => (
+            <FormGroup>
+              <Label htmlFor={`${axisName}-chart-configurator-renderer`} hasError={!field.valid && field.touched}>
+                Type
+              </Label>
+              <Select
+                id={`${axisName}-chart-configurator-renderer`}
+                value={field.value}
+                onChange={e =>
+                  onChange([axisName, 'renderer'], field => field.setValue(e.target.value).setTouched(true))
+                }
+                hasError={!field.valid && field.touched}
+              >
+                {availableRenderers.map(({ id, label }) => (
+                  <option key={id} value={id}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </Col>
+
+        <Col md={6}>
+          {axisForm.get('formatter').map(field => (
+            <FormGroup>
+              <Label htmlFor={`${axisName}-chart-configurator-formatter`} hasError={!field.valid && field.touched}>
+                Formatter
+              </Label>
+              <Select
+                id={`${axisName}-chart-configurator-formatter`}
+                value={field.value}
+                onChange={e =>
+                  onChange([axisName, 'formatter'], field => field.setValue(e.target.value).setTouched(true))
+                }
+                hasError={!field.valid && field.touched}
+              >
+                {formatters.map(({ id, label }) => (
+                  <option key={id} value={id}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+
+      <Row withoutTopMargin>
         <Col md={6}>
           {axisForm.get('min').map(field => (
             <FormGroup>
