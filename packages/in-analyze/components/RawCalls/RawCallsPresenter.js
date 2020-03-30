@@ -44,6 +44,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
     orderDirection,
     onChangeOrder
   } = props;
+
   return (
     <AnalyzeWorkspace {...props} title="Call Analytics">
       <div className={locals.headerWrapper}>

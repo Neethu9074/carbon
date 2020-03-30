@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+  @border: 1px solid @lib__colors__N300;
+
+  .quickFilterBarWrapper {
+    padding: 0 1rem;
+    border-top: @border;
+    border-right: @border;
+    border-left: @border;
+  }
+
+  .filterList {
+    padding: 1rem;
+    border: @border;
+  }
+}

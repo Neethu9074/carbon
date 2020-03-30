@@ -13,6 +13,7 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
+import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
@@ -33,7 +34,14 @@ export default function AdvancedModeContainer(props) {
           scrollId: '1',
           label: 'Scope',
           title: 'Scope: Where is the condition happening?',
-          content: <h1>TODO: Add filters here</h1>,
+          content: (
+            <AlertLocationFilters
+              form={form}
+              applicationName={form.get('name').value}
+              timeConfig={timeConfig}
+              updateForm={updateForm}
+            />
+          ),
           checked: true
         },
         {
