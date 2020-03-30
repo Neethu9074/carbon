@@ -7,6 +7,11 @@
     margin-bottom: 1rem;
   }
 
+  .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
   .bar {
     border-top-left-radius: @lib__shapes__radius_large;
     border-top-right-radius: @lib__shapes__radius_large;

@@ -13,8 +13,7 @@ export default compose(
   withProps(({ form, onChange }) => {
     const beaconTypeTagFilter = form.get('tagFilters').value.find(t => t.name === 'beacon.type');
     return {
-      tagFilters: form.get('tagFilters').value
-      // Do not show the beacon type tag filter in the list
+      tagFilters: form.get('tagFilters').value// Do not show the beacon type tag filter in the list
       .filter(t => t !== beaconTypeTagFilter),
       setTagFilters: tagFilters =>
         onChange(['tagFilters'], field => field.setValue(tagFilters.concat(beaconTypeTagFilter)).setTouched(true)),
@@ -30,6 +29,7 @@ export default compose(
 function QuickFilterForm(props) {
   return (
     <TagFilterConfiguration
+      disabled={props.disabled}
       quickFilterBar={<QuickFilterBar {...props} showWebsiteSelector showPageSelector />}
       tagFilterList={<TagFilterList {...props} />}
     />

@@ -7,13 +7,15 @@ import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
-export default function FormComponent({ form, onChange }) {
+export default function FormComponent({ form, onChange, dataSourceFormGroup }) {
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const dynamicFocusQueryField = form.get('dynamicFocusQuery');
 
   return (
     <>
+      {dataSourceFormGroup}
+
       <FormGroup>
         <Label htmlFor="metic-configurator-event-metric">Metric</Label>
         <Select id="metic-configurator-event-metric" value={metricField.value} disabled>

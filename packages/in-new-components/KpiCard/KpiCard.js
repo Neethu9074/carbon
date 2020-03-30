@@ -61,7 +61,7 @@ KpiCard.propTypes = {
   title: PropTypes.string,
   value: PropTypes.any,
   actions: PropTypes.node,
-  companionValue: PropTypes.string,
+  companionValue: PropTypes.any,
   raw: PropTypes.bool,
   renderValue: PropTypes.func,
   valuesClassName: PropTypes.string,

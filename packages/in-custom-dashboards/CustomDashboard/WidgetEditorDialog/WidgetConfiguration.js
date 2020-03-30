@@ -1,7 +1,7 @@
 import React from 'react';
 
+import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import widgets from 'in-custom-dashboards/widgets';
@@ -13,15 +13,12 @@ export default function WidgetConfiguration({ form, onChange }) {
   const widget = widgets[selectedType];
 
   return (
-    <>
-      <widget.Form form={form.get('config')} onChange={(path, fn) => onChange(['config', ...path], fn)} />
-
-      <Header>Customize the Widget</Header>
-      <TitleInput form={form} onChange={onChange} />
-
-      <Header>Widget Preview</Header>
-      <Preview form={form} />
-    </>
+    <widget.Form
+      form={form.get('config')}
+      onChange={(path, fn) => onChange(['config', ...path], fn)}
+      widgetTitleFormGroup={<TitleInput form={form} onChange={onChange} />}
+      widgetPreview={<WidgetPreview form={form} onChange={onChange} />}
+    />
   );
 }
 
@@ -43,14 +40,4 @@ function TitleInput({ form, onChange }) {
       <HelpText>The widget will be placed into a box with this text as its title.</HelpText>
     </FormGroup>
   );
-}
-
-function Preview({ form }) {
-  if (!form.hierarchyValid) {
-    return <p>Preview not available because the widget configuration is invalid.</p>;
-  }
-
-  const widget = widgets[form.get('type').value];
-  const config = form.get('config').toJS();
-  return <widget.Widget title={form.get('title').value} config={config} isPreview />;
 }

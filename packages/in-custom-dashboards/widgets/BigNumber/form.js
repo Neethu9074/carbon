@@ -1,6 +1,7 @@
 import { createMapForm, notBlankValidator, createField } from 'formalistic';
 
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { green, red } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 
 export function createForm(savedState) {
@@ -8,7 +9,21 @@ export function createForm(savedState) {
     .put(
       'formatter',
       createField({
-        value: (savedState && savedState.formatter) || defaultFormatter.id,
+        value: savedState?.formatter ?? defaultFormatter.id,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'comparisonDecreaseColor',
+      createField({
+        value: savedState?.comparisonDecreaseColor ?? green.id,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'comparisonIncreaseColor',
+      createField({
+        value: savedState?.comparisonIncreaseColor ?? red.id,
         validator: notBlankValidator
       })
     )
