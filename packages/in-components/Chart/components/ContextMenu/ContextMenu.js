@@ -22,58 +22,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props.immediatelyOpenContextMenu) {
-      this.props.setShowContextMenu(true);
-    }
-  }
-
-  componentDidMount() {
-    this.onMouseDownSubscription = on(window, 'mousedown').subscribe(e => this.onMouseDown(e));
-  }
-
-  componentWillUnmount() {
-    if (this.onMouseDownSubscription) {
-      this.onMouseDownSubscription.dispose();
-      this.onMouseDownSubscription = null;
-    }
-  }
-
-  onMouseDown(e) {
-    const targetClassName = e?.target?.className;
-    if (
-      typeof targetClassName === 'string' &&
-      !containsIgnoreCase(targetClassName, locals.contextMenu) &&
-      !containsIgnoreCase(targetClassName, locals.button) &&
-      !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
-    ) {
-      this.props.setShowContextMenu(false);
-      this.props.chart.config.clearLocalHighlightedTimeframe();
-    }
-  }
-
-  render() {
-    const {
-      showContextMenu,
-      setShowContextMenu,
-      immediatelyOpenContextMenu,
-      highlightedTimeframe,
-      xScale,
-      chart
-    } = this.props;
-
-    const isContextMenuAvailable =
-      highlightedTimeframe &&
-      highlightedTimeframe[1] > xScale.getDomainFrom() &&
-      highlightedTimeframe[0] < xScale.getDomainTo();
-    if (!isContextMenuAvailable) {
-      return null;
-    }
-
-    const buttonProps = {
-      className: locals.button,
-      kind: 'secondary',
-      size: 'compact'
-    };
+    const { setShowContextMenu, highlightedTimeframe, chart } = props;
 
     const basicButtonConfigs = [
       highlightedTimeframe && {
@@ -82,7 +31,7 @@ export default class extends React.Component {
       },
       allowDownloadMetricsFromCharts && {
         ...downloadButtonConfig,
-        onClick: () => downloadButtonConfig.onClick(this.props.metrics, this.props.highlightedTimeframe)
+        onClick: () => downloadButtonConfig.onClick(this.props.metrics, highlightedTimeframe)
       },
       highlightedTimeframe && {
         icon: 'lib_views_tag',
@@ -115,9 +64,54 @@ export default class extends React.Component {
         }
         return config;
       });
-    if (contextMenuButtons.length === 0) {
+
+    this.state = {
+      contextMenuButtons
+    };
+  }
+
+  componentDidMount() {
+    this.onMouseDownSubscription = on(window, 'mousedown').subscribe(e => this.onMouseDown(e));
+  }
+
+  componentWillUnmount() {
+    if (this.onMouseDownSubscription) {
+      this.onMouseDownSubscription.dispose();
+      this.onMouseDownSubscription = null;
+    }
+  }
+
+  onMouseDown(e) {
+    const targetClassName = e?.target?.className;
+    if (
+      typeof targetClassName === 'string' &&
+      !containsIgnoreCase(targetClassName, locals.contextMenu) &&
+      !containsIgnoreCase(targetClassName, locals.button) &&
+      !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
+    ) {
+      this.props.setShowContextMenu(false);
+      this.props.chart.config.clearLocalHighlightedTimeframe();
+    }
+  }
+
+  render() {
+    const { showContextMenu, immediatelyOpenContextMenu, highlightedTimeframe, xScale, chart } = this.props;
+    const contextMenuButtons = this.state.contextMenuButtons;
+
+    const isContextMenuAvailable =
+      (highlightedTimeframe &&
+        highlightedTimeframe[1] > xScale.getDomainFrom() &&
+        highlightedTimeframe[0] < xScale.getDomainTo()) ||
+      contextMenuButtons.length === 0;
+    if (!isContextMenuAvailable) {
       return null;
     }
+
+    const buttonProps = {
+      className: locals.button,
+      kind: 'secondary',
+      size: 'compact'
+    };
 
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
@@ -141,7 +135,7 @@ export default class extends React.Component {
                 marginRight: leftAligned ? 0 : barWidthInPx + 2
               }}
             >
-              {contextMenuButtons.slice(1).map((buttonConfig, index) => (
+              {contextMenuButtons.slice(immediatelyOpenContextMenu ? 0 : 1).map((buttonConfig, index) => (
                 <Button
                   key={index}
                   {...buttonProps}
