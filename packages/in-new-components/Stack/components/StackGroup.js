@@ -18,7 +18,6 @@ export default function StackGroup({ group: { relationship, type, items, itemCou
         {items.map(item => (
           <StackItem key={item.id} item={item} tab={tab} />
         ))}
-        ;
         {numMoreItems > 0 && (
           <Li className={locals.moreItems} noAlternatingBg>
             +{numMoreItems} more...
