@@ -15,7 +15,7 @@ import QuickFilterBar from '../analyze/QuickFilterBar';
 
 import locals from './AlertLocationFilters.mless';
 
-const APPLICATION_NAME_TAG = 'application.name';
+const applicationNameTag = 'application.name';
 const APPLICATION_ID_TAG = 'application.id';
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationName, updateForm }) {
@@ -39,7 +39,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               addFilter(form, newTagFilter, updateForm, advancedMode);
             }}
             removeTagFilter={name => {
-              if (name !== APPLICATION_NAME_TAG) {
+              if (name !== applicationNameTag) {
                 updateForm(
                   form
                     .updateIn(['tagFilters'], f =>
@@ -74,7 +74,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                   }}
                   tagSuggestions={tagSuggestions.filter(
                     name =>
-                      name !== APPLICATION_NAME_TAG && name !== APPLICATION_ID_TAG && name !== 'beacon.error.message'
+                      name !== applicationNameTag && name !== APPLICATION_ID_TAG && name !== 'beacon.error.message'
                   )}
                   timeConfig={timeConfig}
                 />
@@ -128,7 +128,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               });
             }}
             tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
-            readonlyFilterNames={[APPLICATION_NAME_TAG]}
+            readonlyFilterNames={[applicationNameTag]}
           />
         </div>
       </>
@@ -160,16 +160,16 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
 }
 
 function withoutTagFilterForName(tagFilters, name) {
-  return tagFilters.filter(tf => tf.name !== name);
+  return tagFilters.filter(tf => tf.name === 'technology' || tf.name !== name);
 }
 
 function mutateFiltersForView(tagFilters, applicationName) {
-  const hasWebsiteName = tagFilters.some(({ name }) => name === APPLICATION_NAME_TAG);
+  const hasWebsiteName = tagFilters.some(({ name }) => name === applicationNameTag);
   return hasWebsiteName
     ? tagFilters
     : [
         {
-          name: APPLICATION_NAME_TAG,
+          name: applicationNameTag,
           operator: 'EQUALS',
           stringValue: applicationName
         },
