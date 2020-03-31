@@ -118,10 +118,10 @@ function LoadingCircle({ percentage }) {
   );
 }
 
+const errorCodes = ['SERVER', 'CLIENT', 'VALIDATION', 'TIMEOUT'];
+
 function getError(errors) {
-  const filtered = errors.filter(
-    e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 'VALIDATION' || e.code === 'TIMEOUT'
-  );
+  const filtered = errors.filter(e => errorCodes.includes(e.code));
   const [error] = uniq(
     filtered.map(e => {
       const [status, description] = e.message.split(':');
