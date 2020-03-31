@@ -98,7 +98,7 @@ function renderCompanionValue(config, result, value, formatter, timeConfig) {
     comparisonValue = dataPoint.values[0][1];
   }
 
-  if (comparisonValue == null) {
+  if (comparisonValue == null || comparisonValue === 0) {
     return null;
   }
 
