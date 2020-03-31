@@ -66,7 +66,7 @@ function QueryFailed({ errors }) {
         </div>
         <div className={locals.progressText}>Server Error</div>
         <span className={locals.description}>
-          An unexpected error occurred. Please refresh the page or try again later.
+          An unexpected error occurred. Please try again later or contact support to report the error.
         </span>
       </div>
     );
