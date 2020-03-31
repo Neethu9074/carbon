@@ -13,6 +13,7 @@ import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'i
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -110,7 +111,19 @@ const configEnrichmentLookUpTable = {
           renderer: 'line',
           metrics: []
         },
-        type: 'TIME_SERIES'
+        type: 'TIME_SERIES',
+        primaryContextMenuAction: 'showEvents',
+        additionalContextMenuButtons: [
+          {
+            name: 'showEvents',
+            icon: 'lib_events_inverted',
+            label: 'View Events',
+            getHref$: highlightedTime =>
+              getEventsViewFilteredBy({
+                timeConfig: highlightedTime
+              })
+          }
+        ]
       }
     }
   }

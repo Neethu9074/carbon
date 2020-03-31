@@ -56,9 +56,10 @@ export default getElementDimensions(
     }
 
     mapProps = props => {
-      let { timeConfig, y1, y2, customHeight, minRollup, renderLegend } = props;
+      let { timeConfig, y1, y2, customHeight, minRollup, renderLegend, primaryContextMenuAction } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
       this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
+      this.primaryContextMenuAction = primaryContextMenuAction;
       this.customHeight = customHeight;
       this.renderLegend = renderLegend;
       this.y1 = mapAxis(y1);
@@ -198,7 +199,7 @@ export default getElementDimensions(
     };
 
     render() {
-      let { customHeight, timeConfig, granularity, y1, y2, renderLegend } = this;
+      let { customHeight, timeConfig, granularity, y1, y2, renderLegend, primaryContextMenuAction } = this;
       const { y1Metrics = [], y2Metrics = [] } = this.state;
 
       y1.metrics = y1Metrics;
@@ -215,6 +216,7 @@ export default getElementDimensions(
           y1={y1}
           y2={y2}
           customHeight={customHeight}
+          primaryContextMenuAction={primaryContextMenuAction}
         />
       );
     }

@@ -1,4 +1,5 @@
 const config = {
+  name: 'download',
   icon: 'lib_actions_download',
   label: 'Download JSON',
   onClick: download

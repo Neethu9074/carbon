@@ -84,8 +84,10 @@ export default function Latency({
           }
         }
       }}
+      primaryContextMenuAction="analyze"
       additionalContextMenuButtons={[
         {
+          name: 'analyze',
           icon: 'lib_analyze',
           label: 'View in Analytics',
           getHref$: (highlightedTime, metricsToAdd) =>

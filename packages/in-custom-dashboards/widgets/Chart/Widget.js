@@ -64,6 +64,8 @@ function ChartWidget({ result, actions, config, title, timeConfig, customHeight,
       y1={toAxisConfiguration('y1', config.y1)}
       y2={toAxisConfiguration('y2', config.y2)}
       metricsConfiguration={toMetricsConfiguration(config)}
+      primaryContextMenuAction={config.primaryContextMenuAction}
+      additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
       customHeight={customHeight}
     />

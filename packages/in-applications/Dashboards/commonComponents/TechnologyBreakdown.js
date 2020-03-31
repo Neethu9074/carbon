@@ -68,8 +68,10 @@ export default connectTo(
           tooltipFormatter: meanLatencyFixed.compact,
           min: 0
         },
+        primaryContextMenuAction: 'analyze',
         additionalContextMenuButtons: [
           {
+            name: 'analyze',
             icon: 'lib_analyze',
             label: 'View in Analytics',
             getHref$: (highlightedTime, config) =>

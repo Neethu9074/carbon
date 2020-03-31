@@ -1,9 +1,9 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import downloadButtonConfig from 'in-components/Chart/components/ContextMenu/downloadButtonConfig';
-import zoomInButtonConfig from 'in-components/Chart/components/ContextMenu/zoomInButtonConfig';
-import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
+import downloadAction from 'in-components/Chart/components/ContextMenu/actions/download';
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -26,27 +26,24 @@ export default class extends React.Component {
     const { setShowContextMenu, highlightedTimeframe, chart } = props;
 
     const basicButtonConfigs = [
-      highlightedTimeframe && {
-        icon: 'lib_views_tag',
-        label: 'Highlight on all charts',
-        onClick: () => {
-          setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]);
-          chart.config.clearLocalHighlightedTimeframe();
-          setShowContextMenu(false);
-        }
+      {
+        ...globalHighlightAction,
+        onClick: () => globalHighlightAction.onClick(chart.config.clearLocalHighlightedTimeframe, highlightedTimeframe)
       },
-      highlightedTimeframe && {
-        ...zoomInButtonConfig,
-        getHref$: () => zoomInButtonConfig.getHref$(chart)
+      {
+        ...zoomInAction,
+        getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
       allowDownloadMetricsFromCharts && {
-        ...downloadButtonConfig,
-        onClick: () => downloadButtonConfig.onClick(this.props.metrics, highlightedTimeframe)
+        ...downloadAction,
+        onClick: () => downloadAction.onClick(this.props.metrics, highlightedTimeframe)
       }
     ];
 
+    const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
     const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
       .filter(Boolean)
+      .sort((a1, a2) => sortByPrimaryAction(a1, a2, primaryContextMenuAction))
       .map(config => {
         if (config.onClick) {
           const originalOnClick = config.onClick;
@@ -275,4 +272,15 @@ function getHighlightedTimeConfig(highlightedTimeframe) {
   };
 
   return highlightedTimeConfig;
+}
+
+// exporting for test
+export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
+  if (i1.name === primaryContextMenuAction) {
+    return -1;
+  }
+  if (i2.name === primaryContextMenuAction) {
+    return 1;
+  }
+  return 0;
 }
