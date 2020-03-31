@@ -12,7 +12,7 @@ import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap'
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 
 function navigationTreeForRole(): NavigationTree {
-  return [
+  const navigationTree = [
     {
       title: 'Identity Providers',
       pages: [
@@ -32,8 +32,10 @@ function navigationTreeForRole(): NavigationTree {
           component: Ldap
         }
       ]
-    },
-    {
+    }
+  ];
+  if (__DEV__) {
+    navigationTree.push({
       title: 'Mapping',
       pages: [
         {
@@ -47,8 +49,9 @@ function navigationTreeForRole(): NavigationTree {
           component: SamlMapping
         }
       ]
-    }
-  ];
+    });
+  }
+  return navigationTree;
 }
 
 export default function View(props: any) {
