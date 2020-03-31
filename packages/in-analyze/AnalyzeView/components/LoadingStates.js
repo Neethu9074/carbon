@@ -75,6 +75,7 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
+          <div className={locals.progressText}>There was an input error.</div>
           <span className={locals.description}>{error.description}</span>
         </div>
       );
