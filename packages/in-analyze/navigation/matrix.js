@@ -7,7 +7,7 @@ export const endpointId = 'endpointId';
 export const expandId = 'expanded';
 export const previewEnabled = 'previewEnabled';
 export const showGraph = 'showGraph';
-export const focussedMetric = 'focussedMetric';
+export const focusedMetric = 'focusedMetric';
 
 // tags
 export const tagFilter = 'tagFilter';

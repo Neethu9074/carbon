@@ -86,7 +86,7 @@ export default connectTo(
                     ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
                     : filtersBasedOnMetrics(labels, config),
                   groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE },
-                  focussedMetric: 'latency_MEAN'
+                  focusedMetric: 'latency_MEAN'
                 }
               )
           }

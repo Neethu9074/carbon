@@ -22,7 +22,7 @@ function GroupMetricsChart({
   chartDefinitions,
   timeConfig,
   groupNameProcessor,
-  focussedMetric
+  focusedMetric
 }) {
   if (!items || items.length === 0 || !time) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
@@ -56,8 +56,8 @@ function GroupMetricsChart({
     selectedChart = chartDefinition.key;
   }
 
-  if (focussedMetric) {
-    const toDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focussedMetric));
+  if (focusedMetric) {
+    const toDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focusedMetric));
     selectedChart = toDisplay[0].key;
   }
 
@@ -69,7 +69,7 @@ function GroupMetricsChart({
           buttonPropsList={chartDefinitionsAvailableForPresentation.map(({ label, key }) => ({
             text: label,
             key,
-            onClick: () => onChange({ focussedMetric: key })
+            onClick: () => onChange({ focusedMetric: key })
           }))}
           activeKey={selectedChart}
         />

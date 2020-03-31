@@ -9,7 +9,7 @@ import {
   groupBy as groupByMatrixParameter,
   metrics as metricsMatrixParameter,
   callId as callIdMatrixParameter,
-  focussedMetric as focussedMetricMatrixParameter,
+  focusedMetric as focusedMetricMatrixParameter,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
 import {
@@ -49,7 +49,7 @@ export function getLinkToAnalyze({
   timeConfig,
   metrics,
   showGraph,
-  focussedMetric,
+  focusedMetric,
   jumpToSource,
   previewEnabled
 } = emptyObject) {
@@ -190,8 +190,8 @@ export function getLinkToAnalyze({
       setOrDeleteMatrixKey(params, analyze, `groups.${showGraphMatrixParameter}`, showGraph);
     }
 
-    if (focussedMetric) {
-      setOrDeleteMatrixKey(params, analyze, `groups.${focussedMetricMatrixParameter}`, focussedMetric);
+    if (focusedMetric) {
+      setOrDeleteMatrixKey(params, analyze, `groups.${focusedMetricMatrixParameter}`, focusedMetric);
     }
   });
 }

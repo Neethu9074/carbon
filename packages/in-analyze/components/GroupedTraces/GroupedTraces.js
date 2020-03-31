@@ -4,7 +4,7 @@ import React from 'react';
 
 import {
   showGraph as showGraphMatrixParameter,
-  focussedMetric as focussedMetricMatrixParameter
+  focusedMetric as focusedMetricMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
@@ -42,7 +42,7 @@ export default compose(
       'orderBy',
       'orderDirection',
       showGraphMatrixParameter,
-      focussedMetricMatrixParameter
+      focusedMetricMatrixParameter
     ],
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
@@ -56,7 +56,7 @@ export default compose(
       orderDirection: urlValues.orderDirection,
       showGraph: urlValues.showGraph === 'false' ? false : true,
       previewEnabled: Boolean(urlValues.previewEnabled),
-      focussedMetric: urlValues.focussedMetric
+      focusedMetric: urlValues.focusedMetric
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
@@ -64,15 +64,15 @@ export default compose(
       orderDirection: props.orderDirection,
       previewEnabled: props.previewEnabled,
       showGraph: Boolean(props.showGraph).toString(),
-      focussedMetric: props.focussedMetric
+      focusedMetric: props.focusedMetric
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, focussedMetric }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, focusedMetric }) => ({
     availableMetrics: availableMetrics,
     onChangeOrder: onChange,
     showGraph: showGraph,
-    focussedMetric: focussedMetric,
+    focusedMetric: focusedMetric,
     openMetricSelector: () => {
       addActiveDialog(
         <MetricSelector

@@ -74,7 +74,7 @@ export default function CallsErrors({
                     aggregation: 'MEAN'
                   }
                 ],
-                focussedMetric: focusBasedOnMetrics(config)
+                focusedMetric: focusBasedOnMetrics(config)
               }
             )
         }
