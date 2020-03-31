@@ -30,6 +30,7 @@ export default function CreateSmartAlert({
       </FloatingActionButton>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
+          applicationLabel={applicationLabel}
           formData={generateFormData({ applicationId, serviceId, endpointId, boundaryScope })}
           onClose={() => {
             setDialogOpen(false);
