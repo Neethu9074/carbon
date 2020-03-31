@@ -119,6 +119,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
               endpointId={endpointId}
               applicationId={applicationId}
               location={location}
+              boundaryScope={boundaryScope}
             />
           </FloatingActionButtons>
         )}

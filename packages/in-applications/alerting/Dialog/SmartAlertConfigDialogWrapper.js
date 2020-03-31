@@ -77,8 +77,10 @@ SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   formData: PropTypes.shape({
     applicationId: PropTypes.string.isRequired,
-    tagFilters: PropTypes.array,
-    calculateThresholdOnBackend: PropTypes.bool
+    boundaryScope: PropTypes.string,
+    calculateThresholdOnBackend: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    tagFilters: PropTypes.array
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };

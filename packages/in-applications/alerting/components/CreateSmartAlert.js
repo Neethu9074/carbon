@@ -7,7 +7,14 @@ import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
 
-export default function CreateSmartAlert({ applicationLabel, applicationId, serviceId, endpointId, location }) {
+export default function CreateSmartAlert({
+  applicationLabel,
+  applicationId,
+  serviceId,
+  endpointId,
+  location,
+  boundaryScope
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <>
@@ -26,7 +33,7 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
       </FloatingActionButton>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
-          formData={generateFormData(applicationId, serviceId, endpointId)}
+          formData={generateFormData({ applicationId, serviceId, endpointId, boundaryScope })}
           onClose={() => setDialogOpen(false)}
           editMode
         />
@@ -40,12 +47,14 @@ CreateSmartAlert.propTypes = {
   applicationLabel: PropTypes.string.isRequired,
   endpointId: PropTypes.string,
   location: propTypeLocation.isRequired,
-  serviceId: PropTypes.string
+  serviceId: PropTypes.string,
+  boundaryScope: PropTypes.string
 };
 
-function generateFormData(applicationId, serviceId, endpointId) {
+function generateFormData({ applicationId, serviceId, endpointId, boundaryScope }) {
   return {
     applicationId,
+    boundaryScope,
     rule: {
       alertType: 'errorRate'
     },

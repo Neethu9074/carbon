@@ -29,6 +29,12 @@ export function createSmartAlertForm(alertConfig) {
       })
     )
     .put(
+      'boundaryScope',
+      createField({
+        value: alertConfig.boundaryScope ?? 'ALL'
+      })
+    )
+    .put(
       'severity',
       createField({
         value: alertConfig.severity ?? defaultSeverity
