@@ -1,7 +1,7 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { getConfigAsResultObservable, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -23,6 +23,7 @@ export default function Saml() {
         config: getConfigAsResultObservable()
       })}
       enrichForm={enrichForm}
+      onCancelClick={refresh}
       saveItem={saveItem}
       render={render}
     />

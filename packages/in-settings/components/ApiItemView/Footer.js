@@ -6,7 +6,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './Footer.mless';
 
-export default function Footer({ onSaveClick, parentPath, message }) {
+export default function Footer({ onSaveClick, parentPath, onCancelClick, message }) {
   if (!message && !onSaveClick) {
     return null;
   }
@@ -19,8 +19,8 @@ export default function Footer({ onSaveClick, parentPath, message }) {
         </div>
       )}
       <div className={locals.buttonLine}>
-        {parentPath && (
-          <Button kind="subtle" href$={getView(parentPath)}>
+        {(parentPath || onCancelClick) && (
+          <Button kind="subtle" href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick}>
             Cancel
           </Button>
         )}

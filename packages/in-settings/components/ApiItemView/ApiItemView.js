@@ -18,6 +18,7 @@ export default connectTo(
   function ApiItemView(props) {
     const {
       parentPath,
+      onCancelClick,
       parentViewName,
       render,
       renderLoadingState = renderFallbackLoadingView,
@@ -64,6 +65,7 @@ export default connectTo(
         <Footer
           message={message}
           parentPath={parentPath}
+          onCancelClick={onCancelClick}
           onSaveClick={canSaveItem ? () => onSave(saveItem, setMessage, form) : undefined}
         />
       </SettingsDetailPage>

@@ -1,7 +1,7 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { getConfigAsResultObservable, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
+import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -21,6 +21,7 @@ export default function GoogleSSO() {
         config: getConfigAsResultObservable()
       })}
       enrichForm={enrichForm}
+      onCancelClick={refresh}
       saveItem={saveItem}
       render={render}
     />
@@ -42,18 +43,18 @@ function render({ form, setForm }) {
 
         <Row className={indentityProvidersLocals.row}>
           <Col xs={12}>
-            {form.get('domains').map(field => (
+            {form.get('filter').map(field => (
               <FormGroup>
-                <Label htmlFor="google_sso_domains" hasError={!field.valid && field.touched}>
+                <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
                   Domains
                 </Label>
 
                 <Input
-                  id="google_sso_domains"
+                  id="google_sso_filter"
                   type="text"
                   value={field.value}
                   onChange={e => {
-                    setForm(form.updateIn(['domains'], f => f.setValue(e.target.value).setTouched(true)));
+                    setForm(form.updateIn(['filter'], f => f.setValue(e.target.value).setTouched(true)));
                   }}
                   placeholder="@example.com, @example.io"
                   autoComplete="off"
@@ -119,30 +120,31 @@ function render({ form, setForm }) {
 }
 
 function saveItem(form) {
-  const domains = form.get('domains').value;
   return setConfig({
-    domains
+    filter: form.get('filter').value,
+    clientId: form.get('clientId').value,
+    clientSecret: form.get('clientSecret').value
   });
 }
 
-function enrichForm(form) {
+function enrichForm(form, { result: { config } }) {
   return form
     .put(
-      'domains',
+      'filter',
       createField({
-        value: ''
+        value: config.filter
       })
     )
     .put(
       'clientId',
       createField({
-        value: ''
+        value: config.clientId
       })
     )
     .put(
       'clientSecret',
       createField({
-        value: ''
+        value: config.clientSecret
       })
     );
 }
