@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Object } from 'core-js';
 import React from 'react';
 
 import {
@@ -43,7 +44,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                 updateForm(
                   form
                     .updateIn(['tagFilters'], f =>
-                      f.setValue(withoutTagFilterForName(getTagFilters(form), name)).setTouched(true)
+                      f.setValue(withoutTagFiltersForName(getTagFilters(form), name)).setTouched(true)
                     )
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
@@ -113,18 +114,16 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                 />
               );
             }}
-            onRemoveTagFilter={({ name }) => {
+            onRemoveTagFilter={tagFilter => {
               updateForm(
                 form
-                  .updateIn(['tagFilters'], f =>
-                    f.setValue(withoutTagFilterForName(getTagFilters(form), name)).setTouched(true)
-                  )
+                  .updateIn(['tagFilters'], f => f.setValue(withoutTagFilter(form, tagFilter)).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
               websitesAlertingFilterRemove({
                 ...getBlueprintObject(form),
                 mode: advancedMode ? 'Advanced' : 'Simple',
-                filterName: name
+                filterName: tagFilter.name
               });
             }}
             tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
@@ -145,7 +144,7 @@ AlertLocationFilters.propTypes = {
 };
 
 function addFilter(form, newTagFilter, updateForm, advancedMode) {
-  const newTagFilters = withoutTagFilterForName(getTagFilters(form), newTagFilter.name);
+  const newTagFilters = withoutTagFilter(getTagFilters(form), newTagFilter);
   newTagFilters.push(newTagFilter);
   updateForm(
     form
@@ -159,8 +158,12 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
   });
 }
 
-function withoutTagFilterForName(tagFilters, name) {
-  return tagFilters.filter(tf => tf.name === 'technology' || tf.name !== name);
+function withoutTagFiltersForName(tagFilters, name) {
+  return tagFilters.filter(tf => tf.name !== name);
+}
+
+function withoutTagFilter(form, tagFilter) {
+  return getTagFilters(form).filter(tf => !Object.is(tf, tagFilter));
 }
 
 function mutateFiltersForView(tagFilters, applicationName) {
