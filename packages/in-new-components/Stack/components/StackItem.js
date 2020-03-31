@@ -17,7 +17,6 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 
 import locals from './StackItem.mless';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
@@ -28,6 +27,7 @@ export default function StackItem({
 }) {
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo && healthInfo.type;
+  const technologiesNoK8s = technologies.filter(s => !s.startsWith('kubernetes'));
 
   return (
     <Li href$={dashboardLink(id, type)} noAlternatingBg>
@@ -45,15 +45,15 @@ export default function StackItem({
           )}
           <EntityWithIcon
             label={shortLabel || label}
-            iconPath={getIconSvgPath(type)}
+            iconPath={showTechnologyIcon(type, technologiesNoK8s)}
             addEllipsis
             addTooltip
             iconSize="s"
             length={52}
           />
+
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
           {showEndpointTypes(endpointTypes)}
-          {showTechnologies(technologies)}
         </div>
         {isAp ? showApKpis(metrics) : showInfraKpis(id, type)}
       </div>
@@ -101,8 +101,12 @@ const showEndpointTypes = endpointTypes => {
   );
 };
 
-const showTechnologies = technologies => {
-  return technologies ? <TechnologyIndicatorList technologies={technologies} /> : <div />;
+const showTechnologyIcon = (type, technologies) => {
+  let remainder = technologies ? technologies.length - 1 : -1;
+  if (remainder < 0) {
+    return getIconSvgPath(type);
+  }
+  return getIconSvgPath(technologies[0]);
 };
 
 const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];
