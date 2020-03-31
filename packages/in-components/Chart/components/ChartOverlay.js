@@ -84,11 +84,13 @@ export default connectTo(
       const localHighlightedTimeframe = !this.mouseDownPos && this.props.localHighlightedTimeframe;
 
       const nearestTimeInMetrics = this.getNearestTimeInMetrics();
-      const cursorXPosition = nearestTimeInMetrics ? this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics) : null;
+      const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
+
+      const showTooltip = cursorXPosition && !showContextMenu;
 
       return (
         <>
-          {nearestTimeInMetrics && (
+          {showTooltip && (
             <TooltipLineAndContent
               {...this.props}
               timestamp={nearestTimeInMetrics}
@@ -156,7 +158,7 @@ export default connectTo(
 
     onMouseMove(e) {
       const { isDragging } = this.state;
-      const { chart } = this.props;
+      const { chart, localHighlightedTimeframe } = this.props;
       const xScale = this.xScale;
       const currentMousePos = e.offsetX;
       const isSnappingEnabled = !chart.config.snapHighlightingToMetricsDisabled;
@@ -176,7 +178,12 @@ export default connectTo(
       }
 
       // tooltip highlighted moment
-      if (!isDragging && currentMousePos >= xScale.getRangeFrom() && currentMousePos <= xScale.getRangeTo()) {
+      if (
+        !isDragging &&
+        !localHighlightedTimeframe &&
+        currentMousePos >= xScale.getRangeFrom() &&
+        currentMousePos <= xScale.getRangeTo()
+      ) {
         setHighlightedMoment(xScale.getDomain(currentMousePos));
       }
 
