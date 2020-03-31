@@ -53,7 +53,7 @@ function QueryRunning({ progress }) {
 function QueryFailed({ errors }) {
   const error = getError(errors);
 
-  if (error === 'SERVER') {
+  if (error.code === 'SERVER') {
     return (
       <div className={locals.stateWrapper}>
         <div className={locals.bigIconContainer}>
@@ -70,25 +70,13 @@ function QueryFailed({ errors }) {
         </span>
       </div>
     );
-  } else if (error === 'CLIENT') {
+  } else if (error.code === 'CLIENT' || error.code === 'VALIDATION') {
     return (
       <div className={locals.stateWrapper}>
         <div className={locals.bigIconContainer}>
           <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
         </div>
-        <div className={locals.progressText}>Server busy</div>
-        <span className={locals.description}>
-          We are currently experiencing significant load. Please try again later.
-        </span>
-      </div>
-    );
-  } else if (error === 'VALIDATION') {
-    return (
-      <div className={locals.stateWrapper}>
-        <div className={locals.bigIconContainer}>
-          <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
-        </div>
-        <span className={locals.description}>{errors[0].message}</span>
+        <span className={locals.description}>{error.description}</span>
       </div>
     );
   } else {
@@ -130,6 +118,11 @@ function getError(errors) {
   const filtered = errors.filter(
     e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 'VALIDATION' || e.code === 504
   );
-  const [error] = uniq(filtered.map(e => e.code));
+  const [error] = uniq(
+    filtered.map(e => {
+      const [status, description] = e.message.split(':');
+      return { code: e.code, status: status, description: description };
+    })
+  );
   return error;
 }
