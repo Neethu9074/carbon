@@ -28,7 +28,10 @@ export default class extends React.Component {
     const basicButtonConfigs = [
       {
         ...globalHighlightAction,
-        onClick: () => globalHighlightAction.onClick(chart.config.clearLocalHighlightedTimeframe, highlightedTimeframe)
+        onClick: () => {
+          globalHighlightAction.onClick(highlightedTimeframe);
+          chart.config.clearLocalHighlightedTimeframe();
+        }
       },
       {
         ...zoomInAction,

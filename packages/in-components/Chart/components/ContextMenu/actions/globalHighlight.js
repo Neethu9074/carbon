@@ -8,7 +8,6 @@ const config = {
 };
 export default config;
 
-function onClick(highlightedTimeframe, clearLocalHighlightedTimeframe) {
+function onClick(highlightedTimeframe) {
   setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]);
-  clearLocalHighlightedTimeframe();
 }
