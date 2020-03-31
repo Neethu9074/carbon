@@ -53,46 +53,49 @@ function QueryRunning({ progress }) {
 function QueryFailed({ errors }) {
   const error = getError(errors);
 
-  if (error.code === 'SERVER') {
-    return (
-      <div className={locals.stateWrapper}>
-        <div className={locals.bigIconContainer}>
-          <SvgIcon
-            size="xl"
-            className={locals.errorIcon}
-            type="lib_help_error_warning"
-            style={{ fill: theme.lib.colors.failure }}
-          />
+  switch (error.code) {
+    case 'TIMEOUT':
+      return (
+        <div className={locals.stateWrapper}>
+          <div className={locals.bigIconContainer}>
+            <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+          </div>
+          <div className={locals.progressText}>This query has timed out.</div>
+          <span className={locals.description}>The query took too long to run and has been cancelled.</span>
+          <div className={locals.infoBlock}>
+            <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
+            <span>Select a shorter timeframe or issue a more specific query by applying more filters.</span>
+          </div>
         </div>
-        <div className={locals.progressText}>Server Error</div>
-        <span className={locals.description}>
-          An unexpected error occurred. Please try again later or contact support to report the error.
-        </span>
-      </div>
-    );
-  } else if (error.code === 'CLIENT' || error.code === 'VALIDATION') {
-    return (
-      <div className={locals.stateWrapper}>
-        <div className={locals.bigIconContainer}>
-          <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+      );
+    case 'CLIENT':
+    case 'VALIDATION':
+      return (
+        <div className={locals.stateWrapper}>
+          <div className={locals.bigIconContainer}>
+            <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+          </div>
+          <span className={locals.description}>{error.description}</span>
         </div>
-        <span className={locals.description}>{error.description}</span>
-      </div>
-    );
-  } else {
-    return (
-      <div className={locals.stateWrapper}>
-        <div className={locals.bigIconContainer}>
-          <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+      );
+    case 'SERVER':
+    default:
+      return (
+        <div className={locals.stateWrapper}>
+          <div className={locals.bigIconContainer}>
+            <SvgIcon
+              size="xl"
+              className={locals.errorIcon}
+              type="lib_help_error_warning"
+              style={{ fill: theme.lib.colors.failure }}
+            />
+          </div>
+          <div className={locals.progressText}>Server Error</div>
+          <span className={locals.description}>
+            An unexpected error occurred. Please try again later or contact support to report the error.
+          </span>
         </div>
-        <div className={locals.progressText}>This query has timed out.</div>
-        <span className={locals.description}>The query took too long to run and has been cancelled.</span>
-        <div className={locals.infoBlock}>
-          <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
-          <span>Select a shorter timeframe or issue a more specific query by applying more filters.</span>
-        </div>
-      </div>
-    );
+      );
   }
 }
 
@@ -116,7 +119,7 @@ function LoadingCircle({ percentage }) {
 
 function getError(errors) {
   const filtered = errors.filter(
-    e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 'VALIDATION' || e.code === 504
+    e => e.code === 'SERVER' || e.code === 'CLIENT' || e.code === 'VALIDATION' || e.code === 'TIMEOUT'
   );
   const [error] = uniq(
     filtered.map(e => {
