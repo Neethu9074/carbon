@@ -15,7 +15,7 @@ export default function DataSeriesFormComponent({ axisName, form, onChange }) {
       <TouchedMessages field={axisForm} />
       <TouchedMessages field={metricsForm} />
 
-      <Stack>
+      <Stack space="small">
         {metricsForm.size > 0 && (
           <Stack space="disabled">
             {metricsForm.map((metricForm, i) => (
