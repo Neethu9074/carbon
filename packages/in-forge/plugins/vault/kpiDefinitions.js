@@ -3,12 +3,17 @@ import { number } from 'in-services/formatters/number';
 export default [
   {
     label: 'Secrets Created',
-    metric: 'secret.created',
+    metric: 'secret.create.count',
     formatter: number.compact
   },
   {
-    label: 'Tokens Created',
-    metric: 'token.created',
+    label: 'Secrets Read',
+    metric: 'secret.read.count',
+    formatter: number.compact
+  },
+  {
+    label: 'Tokens Lookup',
+    metric: 'ttoken.lookup.count',
     formatters: number.compact
   }
 ];

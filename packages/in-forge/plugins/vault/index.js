@@ -1,8 +1,8 @@
+import metricDefinitions from 'in-forge/plugins/vault/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/vault/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from './metricDefinitions';
-import kpiDefinitions from './kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/vault/iconPath';
 import { plugins } from 'in-forge/constants';
-import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.vault,
