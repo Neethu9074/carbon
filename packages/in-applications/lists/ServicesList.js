@@ -68,7 +68,7 @@ const columnDefinitions = [
     sortable: false,
     noWrap: true,
     getContent(item) {
-      return <EndpointTypeBadgeList types={item.service.types} />;
+      return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
     }
   },
   {
