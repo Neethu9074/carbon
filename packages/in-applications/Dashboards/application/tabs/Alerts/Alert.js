@@ -81,10 +81,7 @@ function Alert({
     <>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
-          formData={{
-            name: applicationName,
-            ...alertConfig
-          }}
+          formData={alertConfig}
           onClose={() => {
             setDialogOpen(false);
             triggerReload(Math.random());

@@ -19,7 +19,7 @@ import {
   ruleAggregationOptions
 } from 'in-websites/alerting/form/ruleFormData';
 import { thresholdOperatorOptions, thresholdTypeOptions } from 'in-websites/alerting/form/thresholdFormData';
-import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/formHelpers';
+import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';

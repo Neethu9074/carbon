@@ -14,7 +14,7 @@ import {
 } from 'in-websites/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
-import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/formHelpers';
+import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { thresholdOperatorOptions } from 'in-websites/alerting/form/thresholdFormData';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';

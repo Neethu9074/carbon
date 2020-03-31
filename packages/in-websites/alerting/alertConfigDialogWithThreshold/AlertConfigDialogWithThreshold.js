@@ -22,9 +22,9 @@ import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDi
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
 import { getBlueprintObject } from 'in-websites/alerting/trackingHelpers';
-import { getFormValueOrDefault } from 'in-websites/alerting/formHelpers';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 

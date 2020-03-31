@@ -28,7 +28,6 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
           formData={{
-            name: applicationLabel,
             applicationId,
             tagFilters: [
               {

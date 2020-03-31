@@ -14,8 +14,8 @@ import {
 } from 'in-websites/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/formHelpers';
 import { thresholdOperatorOptions } from 'in-websites/alerting/form/thresholdFormData';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';

@@ -11,9 +11,11 @@ import {
   alertingDialogChartTimeframe,
   alertingMetricsGranularity as granularity
 } from 'in-applications/alerting/constants';
+import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
+import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
@@ -29,7 +31,6 @@ const timeConfig = {
 export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formData }) {
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
-
   return (
     <SmartAlertConfigDialog
       editMode={editMode}
@@ -75,7 +76,6 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formD
 SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   formData: PropTypes.shape({
-    name: PropTypes.string.isRequired,
     applicationId: PropTypes.string.isRequired,
     tagFilters: PropTypes.array,
     calculateThresholdOnBackend: PropTypes.bool
@@ -92,11 +92,7 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
     return;
   }
 
-  const alertConfig = form.remove('hiddenFields').toJS();
-
-  if (alertConfig.threshold.type.startsWith('historicBaseline.')) {
-    alertConfig.threshold.type = 'historicBaseline';
-  }
+  const alertConfig = toAlertConfig(form);
 
   if (editMode) {
     updateAlertConfig(alertConfig, form.get('id').value).once(
@@ -115,4 +111,12 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
       }
     );
   }
+}
+
+function toAlertConfig(form) {
+  const alertConfig = form.remove('hiddenFields').toJS();
+  alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
+  alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
+  alertConfig.threshold = getThresholdWithFixedType(alertConfig.threshold);
+  return alertConfig;
 }

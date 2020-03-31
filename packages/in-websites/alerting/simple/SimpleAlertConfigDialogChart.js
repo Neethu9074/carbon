@@ -8,7 +8,7 @@ import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertin
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
-import { getFormValueOrDefault } from 'in-websites/alerting/formHelpers';
+import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 

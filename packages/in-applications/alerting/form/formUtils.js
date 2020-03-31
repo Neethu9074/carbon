@@ -1,14 +1,6 @@
-import { selectOptions } from 'in-applications/alerting/form/ruleFormData';
-
-export function getMetricLabel(alertType, value) {
-  const metricList = selectOptions['ruleMetricName'][alertType];
-
-  if (!metricList) {
-    return '';
-  }
-
-  return metricList.filter(entry => entry.value === value)[0].label;
-}
+import { isGreaterOperator, getAggregationText, getOperatorText } from 'in-new-components/Alerting/utils/formUtils';
+import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
+import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 
 export function getBlueprintLabel(alertType) {
   switch (alertType) {
@@ -21,27 +13,14 @@ export function getBlueprintLabel(alertType) {
   }
 }
 
-export function getDescriptionPlaceholder(form) {
-  switch (form.get('rule').get('alertType').value) {
-    case 'errorRate':
-      return `TODO: JS Errors which FOO BAR have been detected.`;
-    case 'slowness':
-      return `TODO:The onLoad Time FOO BAR is BLA above/below the expectation.`;
+export function getMetricLabel(alertType, value) {
+  const metricList = ruleMetricNameOptions[alertType];
 
-    default:
-      return '';
+  if (!metricList) {
+    return '';
   }
-}
 
-export function getTitlePlaceholder(form) {
-  switch (form.get('rule').get('alertType').value) {
-    case 'errorRate':
-      return `TODO: Implememnt title placeholder`;
-    case 'slowness':
-      return `TODO: Implememnt title placeholder`;
-    default:
-      return '';
-  }
+  return metricList.filter(entry => entry.value === value)[0].label;
 }
 
 export function getFormValueOrDefault(form, key, defaultValue = null) {
@@ -58,4 +37,48 @@ export function getThresholdLabel(form) {
     default:
       return 'Value';
   }
+}
+
+export function getTitlePlaceholder(form) {
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
+  switch (alertType) {
+    case 'errorRate':
+      return `Error Rate is higher than expected`;
+    case 'slowness': {
+      const aggregation = ruleForm.get('aggregation').value;
+      const operator = form.get('threshold').get('operator').value;
+      return `Latency (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
+    }
+    default:
+      return '';
+  }
+}
+
+export function getDescriptionPlaceholder(form) {
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
+  const thresholdForm = form.get('threshold');
+  const operator = thresholdForm.get('operator').value;
+  switch (alertType) {
+    case 'errorRate': {
+      const thresholdValue = thresholdForm.get('value').value;
+      return `The error rate is ${getOperatorText(operator)} ${getValueRoundedToDecimals(thresholdValue, true)}%.`;
+    }
+    case 'slowness': {
+      const aggregation = ruleForm.get('aggregation').value;
+      const thresholdType = thresholdForm.get('type').value;
+      if (thresholdType === 'staticThreshold') {
+        const thresholdValue = thresholdForm.get('value').value;
+        return `The latency (${getAggregationText(aggregation)}) is ${getOperatorText(operator)} ${thresholdValue} ms.`;
+      }
+      return `The latency (${getAggregationText(aggregation)}) is ${getSimpleOperatorText(operator)} the expectation.`;
+    }
+    default:
+      return '';
+  }
+}
+
+function getSimpleOperatorText(operator) {
+  return isGreaterOperator(operator) ? 'above' : 'below';
 }

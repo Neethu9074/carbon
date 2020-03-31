@@ -11,7 +11,7 @@ import {
   getFormValueOrDefault,
   getDescriptionPlaceholder,
   getTitlePlaceholder
-} from 'in-websites/alerting/formHelpers';
+} from 'in-websites/alerting/form/formUtils';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';

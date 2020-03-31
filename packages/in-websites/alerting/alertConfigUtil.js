@@ -1,5 +1,5 @@
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/formHelpers';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 
