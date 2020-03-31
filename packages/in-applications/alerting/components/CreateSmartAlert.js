@@ -23,9 +23,6 @@ export default function CreateSmartAlert({
         onClick={() => {
           setDialogOpen(true);
           applicationsAlertingAddAlert(location.pathname, applicationLabel);
-          if (location.pathname.includes('/application/alerts')) {
-            reload();
-          }
         }}
         withBoxShadow
       >
@@ -34,7 +31,12 @@ export default function CreateSmartAlert({
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
           formData={generateFormData({ applicationId, serviceId, endpointId, boundaryScope })}
-          onClose={() => setDialogOpen(false)}
+          onClose={() => {
+            setDialogOpen(false);
+            if (location.pathname.includes('/application/alerts')) {
+              reload();
+            }
+          }}
           editMode
         />
       )}
