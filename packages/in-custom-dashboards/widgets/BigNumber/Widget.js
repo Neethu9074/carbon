@@ -45,18 +45,19 @@ export default connectTo(({ config }) => ({
   })
 }))(BigNumber);
 
-function BigNumber({ result, config, title, actions, isPreview, timeConfig }) {
+function BigNumber({ result, config, title, actions, dragHandle, isPreview, timeConfig }) {
   return (
     <ResultAwareKpiCard
       title={title}
       result={result}
       useMaxAvailableHeight={!isPreview}
-      renderKpiCard={result => renderKpiCard(result, config, title, actions, isPreview, timeConfig)}
+      actions={actions}
+      renderKpiCard={result => renderKpiCard(result, config, title, actions, dragHandle, isPreview, timeConfig)}
     />
   );
 }
 
-function renderKpiCard(result, config, title, actions, isPreview, timeConfig) {
+function renderKpiCard(result, config, title, actions, dragHandle, isPreview, timeConfig) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint && dataPoint.values.length === 1) {
@@ -75,7 +76,12 @@ function renderKpiCard(result, config, title, actions, isPreview, timeConfig) {
       value={formattedValue}
       companionValue={renderCompanionValue(config, result, value, formatter, timeConfig)}
       useMaxAvailableHeight={!isPreview}
-      actions={actions}
+      actions={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
     />
   );
 }

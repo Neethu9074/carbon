@@ -43,7 +43,7 @@ export default connectTo(({ config }) => ({
   })
 }))(ChartWidget);
 
-function ChartWidget({ result, actions, config, title, timeConfig, customHeight, isPreview }) {
+function ChartWidget({ result, actions, config, title, timeConfig, customHeight, isPreview, dragHandle }) {
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -59,7 +59,12 @@ function ChartWidget({ result, actions, config, title, timeConfig, customHeight,
     <ChartWrapper
       cardTitle={title}
       cardUseMaxAvailableHeight={!isPreview}
-      cardHeader={actions}
+      cardHeader={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
       timeConfig={timeConfig}
       y1={toAxisConfiguration('y1', config.y1)}
       y2={toAxisConfiguration('y2', config.y2)}

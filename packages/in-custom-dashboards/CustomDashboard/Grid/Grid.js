@@ -17,6 +17,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
+import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 
 import locals from './Grid.mless';
@@ -25,6 +26,8 @@ import './Grid.less';
 const disabledTransitionStyle = {
   transition: 'none'
 };
+
+const dragHandle = <SvgIcon className={locals.dragHandle} type="lib_actions_reorder" />;
 
 export default function Grid({
   config,
@@ -86,7 +89,7 @@ export default function Grid({
         isResizable={isResizable}
         onDragStop={forwardLayoutChange}
         onResizeStop={forwardLayoutChange}
-        draggableHandle={draggableHandle ? `.${draggableHandle}` : undefined}
+        draggableHandle={`.${draggableHandle || locals.dragHandle}`}
       >
         {config.widgets.map(widget => {
           const { Widget, onlyRenderInsideViewport } = widgets[widget.type];
@@ -104,7 +107,14 @@ export default function Grid({
               </MoreMenuButton>
             </MoreMenu>
           );
-          const widgetComponent = <Widget title={widget.title} actions={actions} config={widget.config} />;
+          const widgetComponent = (
+            <Widget
+              title={widget.title}
+              actions={actions}
+              dragHandle={isDraggable && dragHandle}
+              config={widget.config}
+            />
+          );
 
           let content = widgetComponent;
           if (onlyRenderInsideViewport) {

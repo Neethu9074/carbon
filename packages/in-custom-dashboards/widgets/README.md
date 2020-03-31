@@ -25,6 +25,8 @@ Each widget needs to define the following exports.
               widgets might want to influence the presentation of cards.
    - `actions`: An optional React element that manages the edit/remove/duplicate options.
                 When defined, it should be mounted, e.g. within the header of cards.
+   - `dragHandle`: An optional React element that renders a drag handle. When defined, it should be mounted,
+                   e.g. within the header of cards.
    - `config`: All the saved configuration options for this widget. This data is
                whatever was stored in the form created by `createForm`.
    - `isPreview`: Optional bool to indicate whether the widget is rendered in a preview mode.

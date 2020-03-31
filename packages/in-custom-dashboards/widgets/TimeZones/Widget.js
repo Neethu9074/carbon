@@ -23,11 +23,21 @@ export default compose(
   })
 )(TimeZonesWidget);
 
-function TimeZonesWidget({ title, config: timeZones, serverTime, actions, isPreview }) {
+function TimeZonesWidget({ title, config: timeZones, serverTime, actions, isPreview, dragHandle }) {
   serverTime = serverTime || Date.now();
 
   return (
-    <Card title={title} withoutPadding useMaxAvailableHeight={!isPreview} header={actions}>
+    <Card
+      title={title}
+      withoutPadding
+      useMaxAvailableHeight={!isPreview}
+      header={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
+    >
       <dl className={locals.zones}>
         {timeZones.map(({ timeZone, label }, i) => (
           <TimeZone key={i} serverTime={serverTime} timeZone={timeZone} label={label} />

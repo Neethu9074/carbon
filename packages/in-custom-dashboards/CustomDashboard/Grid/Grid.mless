@@ -23,13 +23,25 @@
     }
 
     &:hover {
-      .more {
+      .more, .dragHandle, & > :last-child {
         opacity: 1;
       }
+    }
+  }
 
-      & > :last-child {
-        opacity: 1;
-      }
+  .dragHandle {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    cursor: grab;
+    fill: @lib__colors__N400;
+
+    &:hover, &:active, &:focus {
+      opacity: 1;
+      fill: @lib__colors__N500;
+    }
+
+    & + .more {
+      margin-left: 0.5rem;
     }
   }
 
