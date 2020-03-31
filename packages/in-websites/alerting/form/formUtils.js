@@ -14,9 +14,9 @@ const operatorDescriptionValues = {
 export function getTitlePlaceholder(form) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const operator = ruleForm.get('operator').value;
   switch (alertType) {
     case alertTypes.specificJsError: {
+      const operator = ruleForm.get('operator').value;
       if (operator === operators.NOT_EMPTY) {
         return `Any JS Errors`;
       }
@@ -29,6 +29,7 @@ export function getTitlePlaceholder(form) {
     }
     case alertTypes.slowness: {
       const aggregation = ruleForm.get('aggregation').value;
+      const operator = form.get('threshold').get('operator').value;
       return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
     }
     default:
@@ -40,25 +41,27 @@ export function getDescriptionPlaceholder(form) {
   const ruleForm = form.get('rule');
   const thresholdForm = form.get('threshold');
   const alertType = ruleForm.get('alertType').value;
-  const operator = ruleForm.get('operator').value;
 
   switch (alertType) {
     case alertTypes.specificJsError: {
-      if (operator === operators.NOT_EMPTY) {
+      const ruleOperator = ruleForm.get('operator').value;
+      if (ruleOperator === operators.NOT_EMPTY) {
         return `JS Errors have been detected.`;
       }
-      return `JS Errors which ${operatorDescriptionValues[operator]} "${
+      return `JS Errors which ${operatorDescriptionValues[ruleOperator]} "${
         ruleForm.get('value').value
       }" have been detected.`;
     }
     case alertTypes.specificStatusCode: {
       const statusCodeString = ruleForm.get('value').value;
+      const operator = thresholdForm.get('operator').value;
       return `Occurrences of HTTP Status Code ${getStatusCodeLabel(statusCodeString)} is ${getSimpleOperatorText(
         operator
       )} the expectation.`;
     }
     case alertTypes.slowness: {
       const aggregation = ruleForm.get('aggregation').value;
+      const operator = thresholdForm.get('operator').value;
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
