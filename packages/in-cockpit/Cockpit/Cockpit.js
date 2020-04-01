@@ -207,7 +207,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
   const setNewItemOrder = items => {
     items = items.slice();
     items.sort((i1, i2) => i1.y - i2.y);
-    setSingle(settingsKey, { ordering: items });
+    setSingle(settingsKey, { ordering: items.map(({ id, x, y }) => ({ id, x, y })) });
   };
 
   const renderNavigation = width > 1200;
@@ -267,45 +267,36 @@ function renderButtonLine() {
 
 function getOrderedItems(settings) {
   const orderingFromSettings = settings[settingsKey];
-  return orderingFromSettings
+  return (orderingFromSettings
     ? orderingFromSettings.ordering
     : [
         {
           id: '1',
-          width: 12,
-          height: 3,
           x: 0,
           y: 0
         },
         {
           id: '2',
-          width: 12,
-          height: 3,
           x: 0,
           y: 4
         },
         {
           id: '3',
-          width: 12,
-          height: 3,
           x: 0,
           y: 8
         },
         {
           id: '4',
-          width: 12,
-          height: 3,
           x: 0,
           y: 12
         },
         {
           id: '5',
-          width: 12,
-          height: 3,
           x: 0,
           y: 16
         }
-      ];
+      ]
+  ).map(widget => ({ ...widget, width: 12, height: 3 }));
 }
 
 function filterItems(orderedItems) {
