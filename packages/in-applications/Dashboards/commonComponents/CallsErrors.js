@@ -5,6 +5,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { number } from 'in-services/formatters/number';
 
 export default function CallsErrors({
   applicationId,
@@ -26,6 +27,7 @@ export default function CallsErrors({
       y1={{
         renderer: Renderer.bar,
         labels: labels,
+        formatter: number.compact,
         metricIds: ['calls', 'erroneousCalls'],
         colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
       }}
