@@ -77,7 +77,7 @@ const configEnrichmentLookUpTable = {
       cardIcon: 'lib_events_inverted',
       chartConfig: {
         y1: {
-          formatter: 'number.detailed',
+          formatter: 'number.compact',
           renderer: 'stackedBar',
           metrics: [
             {
@@ -107,7 +107,7 @@ const configEnrichmentLookUpTable = {
           ]
         },
         y2: {
-          formatter: 'number.detailed',
+          formatter: 'number.compact',
           renderer: 'line',
           metrics: []
         },
