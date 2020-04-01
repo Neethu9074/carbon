@@ -1,9 +1,9 @@
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
-import { muSecondsZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
+import { micros } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import NoWrap from 'in-sdk/components/common/NoWrap';
 import connectTo from 'in-hoc/connectTo';
@@ -32,7 +32,7 @@ const cols = [
       getValue(row) {
         return row.slowLog.get('duration');
       },
-      getContent: muSecondsZeroDecimalPlaces
+      getContent: micros.detailed
     }
   },
   {
