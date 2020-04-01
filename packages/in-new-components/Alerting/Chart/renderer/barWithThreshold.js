@@ -16,6 +16,7 @@ export default {
     const alrightColor = colors[2];
     const violationColor = colors[3];
     const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
+    const markerPaneHeight = config.markerPaneHeight;
 
     // historical data
     bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
@@ -24,7 +25,7 @@ export default {
     // Background above line
     backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
     backBufferCtx.globalAlpha = 0.25;
-    backBufferCtx.fillRect(0, 0, chartWidth, chartHeight - threshold);
+    backBufferCtx.fillRect(0, markerPaneHeight, chartWidth, chartHeight - threshold - markerPaneHeight);
 
     // Background below line
     backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
