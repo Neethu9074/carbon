@@ -7,10 +7,13 @@ import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBa
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
-import { percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
-export default function ErrorRateAlertingBarChart({
+export default function LogsAlertingBarChart({
   applicationId,
+  logMessage,
+  logMessageOperator,
+  logLevel,
   timeConfig,
   tagFilters,
   granularity,
@@ -19,7 +22,10 @@ export default function ErrorRateAlertingBarChart({
   alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
-  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
+  const tagFiltersWithApplicationId = [
+    ...tagFilters,
+    ...getRequiredTagFilters(applicationId, logMessage, logMessageOperator, logLevel)
+  ];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -48,11 +54,11 @@ export default function ErrorRateAlertingBarChart({
           ]
         },
         renderer: Renderer.barWithThreshold,
-        formatter: percentage.detailed,
-        labels: [getMetricLabel('errorRate', 'errors'), 'Threshold', 'Expected Range', 'Violations'],
+        formatter: number.forcedCompact,
+        labels: [getMetricLabel('logs', 'calls'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        metricIds: ['errors', 'threshold'],
-        nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
+        metricIds: ['logs', 'threshold'],
+        nonToggleableSeries: new Map([['logs', null], ['threshold', null]])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
@@ -70,13 +76,16 @@ export default function ErrorRateAlertingBarChart({
   );
 }
 
-ErrorRateAlertingBarChart.propTypes = {
+LogsAlertingBarChart.propTypes = {
+  applicationId: PropTypes.string.isRequired,
+  logMessage: PropTypes.string.isRequired,
+  logMessageOperator: PropTypes.string.isRequired,
+  logLevel: PropTypes.string.isRequired,
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  applicationId: PropTypes.string.isRequired,
   alertsPreviewEnabled: PropTypes.bool
 };
 
@@ -85,8 +94,8 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
     timeConfig,
     tagFilters,
     metrics: {
-      errors: {
-        metric: 'errors',
+      logs: {
+        metric: 'calls',
         granularity: granularity,
         aggregation: 'MEAN'
       }
@@ -94,11 +103,21 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
   };
 }
 
-function getApplicationIdTagFilter(applicationId) {
+function getRequiredTagFilters(applicationId, logMessage, logMessageOperator, logLevel) {
+  const tagFilters = [];
+  tagFilters.push(createStringTagFilter('application.id', 'EQUALS', applicationId));
+  tagFilters.push(createStringTagFilter('log.message', logMessageOperator, logMessage));
+  if (logLevel !== 'ANY') {
+    tagFilters.push(createStringTagFilter('log.level', 'EQUALS', logLevel));
+  }
+  return tagFilters;
+}
+
+function createStringTagFilter(name, operator, stringValue) {
   return {
-    name: 'application.id',
-    operator: 'EQUALS',
-    stringValue: applicationId
+    name,
+    operator,
+    stringValue
   };
 }
 
@@ -112,7 +131,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
       granularity, // local alerts/chart granularity
       metrics: {
         alerts: {
-          metric: 'errors',
+          metric: 'calls',
           aggregation: 'MEAN',
           granularity // global metric granularity
         }

@@ -7,6 +7,7 @@ import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicati
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
+import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -36,10 +37,10 @@ export default connectTo(
     const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
     const sensitivity = alertConfig.threshold.deviationFactor;
     const operator = alertConfig.threshold.operator;
-    const metricName = alertConfig.rule.metricName;
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation;
     const threshold = alertConfig.threshold;
+    const timeThreshold = alertType.timeThreshold;
     const thresholdWithSeasonality = { ...threshold, type: getThresholdTypeWithSeasonality(threshold) };
 
     const timeConfig = getChartTimeConfigByEvent({ event });
@@ -62,9 +63,8 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 granularity={alertingMetricsGranularity}
-                metricName={metricName}
                 threshold={threshold}
-                timeThreshold={alertConfig.timeThreshold}
+                timeThreshold={timeThreshold}
               />
             )}
             renderSlowness={() => (
@@ -76,7 +76,21 @@ export default connectTo(
                 aggregation={aggregation}
                 granularity={alertingMetricsGranularity}
                 threshold={thresholdWithSeasonality}
-                timeThreshold={alertConfig.timeThreshold}
+                timeThreshold={timeThreshold}
+              />
+            )}
+            renderLogs={() => (
+              <LogsAlertingBarChart
+                applicationId={entityId}
+                logMessage={alertConfig.rule.message}
+                logMessageOperator={alertConfig.rule.operator}
+                logLevel={alertConfig.rule.level}
+                operator={operator}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                granularity={alertingMetricsGranularity}
+                threshold={threshold}
+                timeThreshold={timeThreshold}
               />
             )}
           />

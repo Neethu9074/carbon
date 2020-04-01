@@ -34,8 +34,6 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const metricName = form.get('rule').get('metricName').value;
-
   const threshold = {
     ...getThresholdWithFixedType(form.get('threshold').toJS()),
     value:
@@ -105,7 +103,6 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
           applicationId={form.get('applicationId').value}
           timeConfig={timeConfig}
           tagFilters={form.get('tagFilters').value}
-          metricName={metricName}
           granularity={granularity}
           threshold={threshold}
           timeThreshold={form.get('timeThreshold').toJS()}

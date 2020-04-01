@@ -12,16 +12,8 @@ export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const metadata = event.get('metadata');
   const entityId = event.get('entityId');
   const applicationName = metadata.get('entityLabel');
-  const filters = convertToAnalyzeFilters(alertConfig.tagFilters);
-  const alertType = alertConfig.rule.alertType;
   const timeConfig = getTimeConfigFromEvent(event);
-
-  let analyzeFilters = [getApplicationIdAnalyzeFilter(entityId), ...filters];
-  if (alertType === 'errorRate') {
-    analyzeFilters.push(getErroneousCallsAnalyzeFilter());
-  } else if (alertType === 'slowness') {
-    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold.value, alertConfig.threshold.operator));
-  }
+  let analyzeFilters = getEnrichedAnalyzeFilteres(alertConfig, entityId);
 
   return <GoToAnalyzeButton applicationName={applicationName} filters={analyzeFilters} timeConfig={timeConfig} />;
 }
@@ -48,6 +40,20 @@ function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
       Analyze Calls
     </Button>
   );
+}
+
+function getEnrichedAnalyzeFilteres(alertConfig, applicationId) {
+  const alertType = alertConfig.rule.alertType;
+  let analyzeFilters = convertToAnalyzeFilters(alertConfig.tagFilters);
+  analyzeFilters.push(getApplicationIdAnalyzeFilter(applicationId));
+  if (alertType === 'errorRate') {
+    analyzeFilters.push(getErroneousCallsAnalyzeFilter());
+  } else if (alertType === 'slowness') {
+    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold));
+  } else if (alertType === 'logs') {
+    analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
+  }
+  return analyzeFilters;
 }
 
 function convertToAnalyzeFilters(tagFilters) {
@@ -85,11 +91,28 @@ function getErroneousCallsAnalyzeFilter() {
   };
 }
 
-function getThresholdLatencyAnalyzeFilter(thresholdValue, thresholdOperator) {
-  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(thresholdValue, thresholdOperator);
+function getThresholdLatencyAnalyzeFilter(threshold) {
+  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(threshold.value, threshold.operator);
   return {
     name: 'call.latency',
     operator: analyzeThreshold.operator,
     value: analyzeThreshold.value
   };
+}
+
+function getLogCallsAnalyzeFilters(rule) {
+  const analyzeFilters = [];
+  analyzeFilters.push({
+    name: 'log.message',
+    operator: rule.operator,
+    value: rule.message
+  });
+  if (rule.level !== 'ANY') {
+    analyzeFilters.push({
+      name: 'log.level',
+      operator: 'EQUALS',
+      value: rule.level
+    });
+  }
+  return analyzeFilters;
 }

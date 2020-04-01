@@ -1,6 +1,7 @@
 export const ruleMetricNameOptions = Object.freeze({
   errorRate: Object.freeze([{ value: 'errors', label: 'Errors rate' }]),
-  slowness: Object.freeze([{ value: 'latency', label: 'Latency' }])
+  slowness: Object.freeze([{ value: 'latency', label: 'Latency' }]),
+  logs: Object.freeze([{ value: 'calls', label: 'Logs count' }])
 });
 
 export const ruleAggregationOptions = Object.freeze([

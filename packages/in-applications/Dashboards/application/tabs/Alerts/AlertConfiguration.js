@@ -40,7 +40,6 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 applicationId={alertConfig.applicationId}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
-                metricName={alertConfig.rule.metricName}
                 granularity={alertingMetricsGranularity}
                 threshold={alertConfig.threshold}
                 timeThreshold={alertConfig.timeThreshold}
@@ -59,6 +58,11 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 aggregation={alertConfig.rule.aggregation}
                 granularity={alertingMetricsGranularity}
               />
+            </ChartContainer>
+          )}
+          renderLogs={() => (
+            <ChartContainer headline="Last 24 hours">
+              <h1>TODO</h1>
             </ChartContainer>
           )}
         />

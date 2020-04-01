@@ -42,35 +42,32 @@ export default function AdvancedModeContainer(props) {
               <BlueprintSelection form={form} updateForm={updateForm} blueprintConfig={blueprintConfig} />
               <AlertTypeSwitch
                 alertType={form.get('rule').get('alertType').value}
-                renderErrorRate={() => {
-                  return (
-                    <ErrorRateInteractiveChart
+                renderErrorRate={() => (
+                  <ErrorRateInteractiveChart
+                    form={form}
+                    timeConfig={timeConfig}
+                    granularity={granularity}
+                    onChange={onChange}
+                  />
+                )}
+                renderSlowness={() => (
+                  <>
+                    <SlownessInteractiveChart
                       form={form}
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
+                      updateForm={updateForm}
                     />
-                  );
-                }}
-                renderSlowness={() => {
-                  return (
-                    <>
-                      <SlownessInteractiveChart
-                        form={form}
-                        timeConfig={timeConfig}
-                        granularity={granularity}
-                        onChange={onChange}
-                        updateForm={updateForm}
-                      />
-                      {showInsufficientBaselineDataMessage(form) && (
-                        <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-                          Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
-                          instead.
-                        </Message>
-                      )}
-                    </>
-                  );
-                }}
+                    {showInsufficientBaselineDataMessage(form) && (
+                      <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
+                        Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
+                        instead.
+                      </Message>
+                    )}
+                  </>
+                )}
+                renderLogs={() => <h1>TODO</h1>}
               />
             </>
           )
