@@ -60,8 +60,8 @@ export default function SelectBarOverlay({
                   (!filterSuggestionsClientSide || containsIgnoreCase(item.key, query)) &&
                   (!selectedItem || item.key !== selectedItem.key)
               )
-              .map(item => (
-                <li key={item.key}>
+              .map((item, i) => (
+                <li key={`${item.key}${i}`}>
                   <Tooltip content={`Click to filter by ${item.label}`}>
                     <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                   </Tooltip>

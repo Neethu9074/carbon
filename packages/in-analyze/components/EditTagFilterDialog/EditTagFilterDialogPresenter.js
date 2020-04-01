@@ -110,8 +110,8 @@ export default function EditTagFilterDialogPresenter({
               onChange={e => onOperatorChange(e.target.value)}
               hasError={!field.valid && field.touched}
             >
-              {operatorSuggestions.map(tag => (
-                <option value={tag} key={tag}>
+              {operatorSuggestions.map((tag, i) => (
+                <option value={tag} key={`${tag}${i}`}>
                   {getOperatorLabel(selectedTagType, tag)}
                 </option>
               ))}

@@ -20,7 +20,7 @@ export default function Groups({
     <Fragment>
       {items.map((item, groupIndex) => (
         <Group
-          key={item.name}
+          key={`${item.name}${groupIndex}`}
           dataSource={dataSource}
           orderBy={orderBy}
           orderDirection={orderDirection}
