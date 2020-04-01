@@ -196,7 +196,6 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
-    // TODO what about secondLevelName?
     const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator, entity: tag.entity };
     addValue(backendTagFilter, tag);
     return backendTagFilter;
@@ -219,11 +218,23 @@ function addValue(backendTagFilter, tag) {
 }
 
 export function convertToApplicationAreaSpecificTagFilter(tagFilters) {
-  // TODO what about secondLevelName?
-  return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue }) => ({
-    name,
-    operator,
-    value: stringValue ?? booleanValue ?? numberValue,
-    entity
-  }));
+  return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue }) => {
+    const node = findSubTreeByFullyQualifiedName(name);
+    let value = stringValue ?? booleanValue ?? numberValue;
+    let secondLevelName;
+    if (node?.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName && value) {
+      const parts = stringValue.split('=', 2);
+      if (parts.length === 2) {
+        value = parts[1];
+        secondLevelName = parts[0];
+      }
+    }
+    return {
+      name,
+      secondLevelName,
+      operator,
+      value,
+      entity
+    };
+  });
 }
