@@ -144,7 +144,7 @@ AlertLocationFilters.propTypes = {
 };
 
 function addFilter(form, newTagFilter, updateForm, advancedMode) {
-  const newTagFilters = withoutTagFilter(getTagFilters(form), newTagFilter);
+  const newTagFilters = withoutTagFilter(form, newTagFilter);
   newTagFilters.push(newTagFilter);
   updateForm(
     form
