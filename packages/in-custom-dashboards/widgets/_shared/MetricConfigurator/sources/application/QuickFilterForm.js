@@ -46,7 +46,7 @@ function QuickFilterForm(props) {
   const { tagFilters, removeTagFilter } = props;
   return (
     <TagFilterConfiguration
-      quickFilterBar={<QuickFilterBar {...props} />}
+      quickFilterBar={<QuickFilterBar {...props} showLatencySelector={false} showHiddenCallsSelector={false} />}
       tagFilterList={
         // For some reason the AP tag filter list needs a custom tag filters list. No idea why it just
         // doesn't use the same mechanism as the bar :(.
