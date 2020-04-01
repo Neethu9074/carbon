@@ -77,6 +77,7 @@ const configEnrichmentLookUpTable = {
       cardIcon: 'lib_events_inverted',
       chartConfig: {
         y1: {
+          colors: [theme.lib.colors.orange800, theme.lib.colors.red800, theme.lib.colors.yellow800],
           formatter: 'number.compact',
           renderer: 'stackedBar',
           metrics: [
