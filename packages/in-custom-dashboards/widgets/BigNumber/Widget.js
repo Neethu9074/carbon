@@ -51,7 +51,12 @@ function BigNumber({ result, config, title, actions, dragHandle, isPreview, time
       title={title}
       result={result}
       useMaxAvailableHeight={!isPreview}
-      actions={actions}
+      actions={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
       renderKpiCard={result => renderKpiCard(result, config, title, actions, dragHandle, isPreview, timeConfig)}
     />
   );

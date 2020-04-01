@@ -22,6 +22,8 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
 
+import locals from './CustomDashboardPresenter.mless';
+
 export default getElementDimensions(CustomDashboardPresenter);
 
 function CustomDashboardPresenter(props) {
@@ -82,18 +84,20 @@ function CustomDashboardPresenter(props) {
                 {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
                 {result && <DashboardErroneousResultPresenter errors={result.errors} />}
                 {config && (
-                  <Grid
-                    width={width}
-                    config={config}
-                    onLayoutChange={onLayoutChange}
-                    onEditWidget={onEditWidget}
-                    onRemoveWidget={onRemoveWidget}
-                    onDuplicateWidget={onDuplicateWidget}
-                    isDeletable={editable}
-                    isResizable={editable}
-                    isConfigurable={editable}
-                    isDraggable={editable}
-                  />
+                  <div className={locals.wrapper}>
+                    <Grid
+                      width={width}
+                      config={config}
+                      onLayoutChange={onLayoutChange}
+                      onEditWidget={onEditWidget}
+                      onRemoveWidget={onRemoveWidget}
+                      onDuplicateWidget={onDuplicateWidget}
+                      isDeletable={editable}
+                      isResizable={editable}
+                      isConfigurable={editable}
+                      isDraggable={editable}
+                    />
+                  </div>
                 )}
               </Sticky>
             )}

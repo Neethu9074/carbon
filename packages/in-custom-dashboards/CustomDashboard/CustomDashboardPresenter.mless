@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    margin-bottom: @grid__gutter / 2 * 1px;
+  }
+}

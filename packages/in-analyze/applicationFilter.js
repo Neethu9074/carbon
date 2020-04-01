@@ -196,13 +196,14 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
+    // TODO what about secondLevelName?
     const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator, entity: tag.entity };
-    getValueByTag(backendTagFilter, tag);
+    addValue(backendTagFilter, tag);
     return backendTagFilter;
   });
 }
 
-function getValueByTag(backendTagFilter, tag) {
+function addValue(backendTagFilter, tag) {
   const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
   const type = node ? node.type : TAG_TYPES.STRING.technicalName;
 
@@ -215,4 +216,14 @@ function getValueByTag(backendTagFilter, tag) {
       ? `${tag.secondLevelName}=${tag.value}`
       : tag.value || tag.stringValue;
   }
+}
+
+export function convertToApplicationAreaSpecificTagFilter(tagFilters) {
+  // TODO what about secondLevelName?
+  return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue }) => ({
+    name,
+    operator,
+    value: stringValue ?? booleanValue ?? numberValue,
+    entity
+  }));
 }
