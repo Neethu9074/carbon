@@ -1,7 +1,7 @@
 import { find, groupBy } from 'lodash';
 import React from 'react';
 
-import QuickFilterForm from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/QuickFilterForm';
+import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -30,7 +30,10 @@ export default function FormComponent({
         <Col lg={6}>{dataSourceFormGroup}</Col>
       </Row>
 
-      <QuickFilterForm form={form} onChange={onChange} />
+      <TagFilterConfiguration
+        tagFilters={form.get('tagFilters').value}
+        onChange={tagFilters => onChange(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))}
+      />
 
       <Header>Customize the widget</Header>
 

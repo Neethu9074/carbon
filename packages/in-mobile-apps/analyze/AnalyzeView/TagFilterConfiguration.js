@@ -1,7 +1,7 @@
 import { compose, withProps } from 'recompose';
 import React from 'react';
 
-import TagFilterConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/TagFilterConfiguration';
+import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import { tagFilterManipulators, noopTagFilterTrackers } from 'in-mobile-apps/tagFiltersHoc';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
@@ -10,16 +10,11 @@ import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
-  withProps(({ form, onChange }) => {
-    const beaconTypeTagFilter = form.get('tagFilters').value.find(t => t.name === 'mobileBeacon.type');
+  withProps(({ tagFilters, onChange, beaconType }) => {
     return {
-      tagFilters: form
-        .get('tagFilters')
-        .value // Do not show the beacon type tag filter in the list
-        .filter(t => t !== beaconTypeTagFilter),
-      setTagFilters: tagFilters =>
-        onChange(['tagFilters'], field => field.setValue(tagFilters.concat(beaconTypeTagFilter)).setTouched(true)),
-      filterableTags: availableFilterTags[form.get('beaconType').value] || []
+      tagFilters,
+      setTagFilters: onChange,
+      filterableTags: availableFilterTags[beaconType] || []
     };
   }),
   connectTo({
@@ -30,8 +25,8 @@ export default compose(
 
 function QuickFilterForm(props) {
   return (
-    <TagFilterConfiguration
-      disabled={props.disabled}
+    <TagFilterConfigurationWrapper
+      disabled={!props.beaconType}
       quickFilterBar={<QuickFilterBar {...props} showMobileAppSelector showViewSelector />}
       tagFilterList={<TagFilterList {...props} />}
     />

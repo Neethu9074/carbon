@@ -5,7 +5,7 @@ import {
   getTagFilterListForBackendSubscription,
   convertToApplicationAreaSpecificTagFilter
 } from 'in-analyze/applicationFilter';
-import TagFilterConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/TagFilterConfiguration';
+import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
@@ -18,8 +18,8 @@ export default compose(
   connectTo({
     timeConfig: timeConfig$
   }),
-  withProps(({ form, onChange, timeConfig }) => {
-    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(form.get('tagFilters').value);
+  withProps(({ tagFilters, onChange, timeConfig }) => {
+    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
     return {
       tagFilters: applicationAreaSpecificTagFilters,
       filters: {
@@ -33,10 +33,7 @@ export default compose(
         // Yes, a deliberate copy for a singular tagFilter that is actually the array. The AP analyze area is a mess…
         tagFilter: applicationAreaSpecificTagFilters
       },
-      setTagFilters: tagFilters =>
-        onChange(['tagFilters'], field =>
-          field.setValue(getTagFilterListForBackendSubscription(tagFilters)).setTouched(true)
-        )
+      setTagFilters: tagFilters => onChange(getTagFilterListForBackendSubscription(tagFilters))
     };
   }),
   tagFilterManipulators
@@ -45,7 +42,7 @@ export default compose(
 function QuickFilterForm(props) {
   const { tagFilters, removeTagFilter } = props;
   return (
-    <TagFilterConfiguration
+    <TagFilterConfigurationWrapper
       quickFilterBar={<QuickFilterBar {...props} showLatencySelector={false} showHiddenCallsSelector={false} />}
       tagFilterList={
         // For some reason the AP tag filter list needs a custom tag filters list. No idea why it just

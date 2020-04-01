@@ -1,7 +1,7 @@
 import { find, groupBy } from 'lodash';
 import React from 'react';
 
-import QuickFilterForm from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/QuickFilterForm';
+import TagFilterConfiguration from 'in-mobile-apps/analyze/AnalyzeView/TagFilterConfiguration';
 import { availableMetrics } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -25,6 +25,7 @@ export default function FormComponent({
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
+  const beaconTypeTagFilter = form.get('tagFilters').value.find(t => t.name === 'mobileBeacon.type');
 
   return (
     <>
@@ -77,7 +78,14 @@ export default function FormComponent({
         </Col>
       </Row>
 
-      <QuickFilterForm form={form} onChange={onChange} disabled={!beaconTypeField.value} />
+      <TagFilterConfiguration
+        // Do not show the beacon type tag filter in the list
+        tagFilters={form.get('tagFilters').value.filter(t => t !== beaconTypeTagFilter)}
+        onChange={tagFilters =>
+          onChange(['tagFilters'], field => field.setValue(tagFilters.concat(beaconTypeTagFilter)).setTouched(true))
+        }
+        beaconType={beaconTypeField.value}
+      />
 
       <Header>Customize the widget</Header>
 
