@@ -152,11 +152,20 @@ function RuleDescription({ description }) {
 }
 
 function ExpandableContent({ matchSpecifications }) {
-  const tagFilters = matchSpecifications.map(matchSpecification => ({
-    key: matchSpecification.key,
-    operator: matchSpecification.operator,
-    value: matchSpecification.value
-  }));
+  const tagFilters = matchSpecifications.map(
+    matchSpecification =>
+      matchSpecification.key && matchSpecification.key.toLowerCase().startsWith('call.http.header.')
+        ? {
+            key: 'call.http.header',
+            operator: matchSpecification.operator,
+            value: `${matchSpecification.key.substring('call.http.header.'.length)}=${matchSpecification.value}`
+          }
+        : {
+            key: matchSpecification.key,
+            operator: matchSpecification.operator,
+            value: matchSpecification.value
+          }
+  );
 
   if (tagFilters.length === 0) {
     return <div className={locals.message}>No rules are specified.</div>;
