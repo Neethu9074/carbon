@@ -49,7 +49,7 @@ function TimeZonesWidget({ title, config: timeZones, serverTime, actions, isPrev
 
 const TimeZone = compose(
   withPropsOnChange(['timeZone'], ({ timeZone }) => ({
-    formatter: new Intl.DateTimeFormat('en-US', {
+    formatter: new Intl.DateTimeFormat('de-de', {
       timeZone,
       hour12: false,
       hour: 'numeric',

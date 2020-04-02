@@ -148,7 +148,7 @@ export default function TimeZoneWidgetFormComponent({
 
 function isSupportedTimeZone(timeZone) {
   try {
-    new Intl.DateTimeFormat('en-US', {
+    new Intl.DateTimeFormat('de-de', {
       timeZone,
       hour12: false,
       hour: 'numeric',
