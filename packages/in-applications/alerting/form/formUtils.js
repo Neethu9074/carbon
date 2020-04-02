@@ -8,6 +8,8 @@ export function getBlueprintLabel(alertType) {
       return 'Error Rate';
     case 'slowness':
       return 'Slowness';
+    case 'logs':
+      return 'Log Message';
     default:
       return '';
   }

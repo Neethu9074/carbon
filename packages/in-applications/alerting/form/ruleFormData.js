@@ -1,3 +1,5 @@
+import { operators } from 'in-analyze/applicationFilter';
+
 export const ruleMetricNameOptions = Object.freeze({
   errorRate: Object.freeze([{ value: 'errors', label: 'Errors rate' }]),
   slowness: Object.freeze([{ value: 'latency', label: 'Latency' }]),
@@ -21,3 +23,15 @@ export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
   { value: 'MEAN', label: 'mean' },
   { value: 'P50', label: '50th' }
 ]);
+
+export const ruleLogMessageOperatorOptions = Object.freeze([
+  { value: operators.NOT_EMPTY, label: 'Any' },
+  { value: operators.EQUALS, label: 'Equals' },
+  { value: operators.CONTAINS, label: 'Contains' },
+  { value: operators.STARTS_WITH, label: 'Starts with' },
+  { value: operators.ENDS_WITH, label: 'Ends with' }
+]);
+
+export function getLogMessageRuleOperatorLabel(value) {
+  return ruleLogMessageOperatorOptions.filter(entry => entry.value === value)[0].label;
+}

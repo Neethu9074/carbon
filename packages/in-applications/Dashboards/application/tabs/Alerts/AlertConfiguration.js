@@ -4,20 +4,25 @@ import React from 'react';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
+import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
+import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
+import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
 import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
 
 const oneDay = 24 * 60 * 60 * 1000;
+const logLevelList = ['ERROR', 'WARN'];
 
 export default function AlertConfiguration({ alertConfig, applicationName }) {
   const tagFilters = alertConfig.tagFilters;
@@ -61,9 +66,27 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
             </ChartContainer>
           )}
           renderLogs={() => (
-            <ChartContainer headline="Last 24 hours">
-              <h1>TODO</h1>
-            </ChartContainer>
+            <>
+              <SelectedAlertTypeInfo
+                title="Log Message"
+                description={getDescription(alertConfig.rule)}
+                badges={getLogLevelAsList(alertConfig.rule)}
+              />
+
+              <ChartContainer headline="Last 24 hours">
+                <LogsAlertingBarChart
+                  applicationId={alertConfig.applicationId}
+                  logMessage={alertConfig.rule.message}
+                  logMessageOperator={alertConfig.rule.operator}
+                  logLevel={alertConfig.rule.level}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={alertingMetricsGranularity}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
+                />
+              </ChartContainer>
+            </>
           )}
         />
       </Card>
@@ -108,4 +131,21 @@ function getApplicationIdTagFilter(applicationId) {
     operator: 'EQUALS',
     stringValue: applicationId
   };
+}
+
+function getDescription(alertConfigRule) {
+  const operator = alertConfigRule.operator;
+  let description = getLogMessageRuleOperatorLabel(operator);
+  if (operator !== operators.NOT_EMPTY) {
+    description = `${description}: "${alertConfigRule.value}"`;
+  }
+  return description;
+}
+
+function getLogLevelAsList(alertConfigRule) {
+  const level = alertConfigRule.level;
+  if (level === 'ANY') {
+    return logLevelList;
+  }
+  return [level];
 }
