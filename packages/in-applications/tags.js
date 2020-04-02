@@ -9,8 +9,8 @@ import moment from 'moment';
 export const customServiceMappingTagKeys = [
   'agent.tag',
   'cassandra.cluster.name',
-  'cloudfoundry.app.id',
-  'cloudfoundry.app.name',
+  'cloudfoundry.application.id',
+  'cloudfoundry.application.name',
   'cloudfoundry.organization.id',
   'cloudfoundry.organization.name',
   'cloudfoundry.space.id',
