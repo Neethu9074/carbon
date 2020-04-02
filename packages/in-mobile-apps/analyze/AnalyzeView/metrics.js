@@ -58,8 +58,9 @@ const errorRate = {
 };
 
 export const availableMetrics = {
-  sessionStart: [uniqueUsers],
+  sessionStart: [newNumberMetric({ metric: 'beaconCount', label: 'Session Starts' }), uniqueUsers],
   httpRequest: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Calls' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
       rawDataField: 'duration',
       tag: 'mobileBeacon.duration'
@@ -115,6 +116,7 @@ export const availableMetrics = {
     })
   ],
   custom: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Occurrences' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Duration' }), {
       rawDataField: 'duration',
       tag: 'mobileBeacon.duration'
