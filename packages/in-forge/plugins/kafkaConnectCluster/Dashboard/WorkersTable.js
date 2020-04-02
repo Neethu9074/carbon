@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, percentage, number, millis } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, percentage, number, ms } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -75,7 +75,7 @@ const cols = [
       getMetricName() {
         return 'rebalanceAvgTimeMs';
       },
-      getContent: millis,
+      getContent: ms.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -107,7 +107,7 @@ const cols = [
       getMetricName() {
         return 'timeSinceLastRebalanceMs';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: ms.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -140,6 +140,6 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Tasks (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Workers (${rows.length})`} cols={cols} rows={rows} />;
   }
 );

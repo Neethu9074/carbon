@@ -2,9 +2,9 @@ import React from 'react';
 
 import ConnectorsTable from 'in-forge/plugins/kafkaConnectWorker/Dashboard/ConnectorsTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 
 export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
@@ -28,7 +28,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Worker Rebalance">
+      <Columize>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -49,6 +49,8 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             type: 'line'
           }}
         />
+      </Columize>
+      <Columize>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -69,7 +71,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             type: 'line'
           }}
         />
-      </DashboardSection>
+      </Columize>
 
       <ConnectorsTable workerId={snapshotId} timeConfig={timeConfig} />
     </div>

@@ -14,8 +14,8 @@ const cols = [
     title: 'Name',
     type: 'string',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.taskId;
+      getValue(row) {
+        return row.taskName;
       }
     }
   },
