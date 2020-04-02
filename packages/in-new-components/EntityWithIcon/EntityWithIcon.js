@@ -1,16 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import MultipleTechnologiesIcon from 'in-new-components/MultipleTechnologiesIcon';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { shorten } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityWithIcon.mless';
 
-export default function EntityWithIcon({ label, icon, iconPath, rootOrUnknown, length, iconSize }) {
+export default function EntityWithIcon({ label, type, technologies, rootOrUnknown, length, iconSize, icon }) {
   return (
     <div className={locals.wrapper}>
-      {(icon || iconPath) && <SvgIcon className={locals.entityIcon} type={icon} iconPath={iconPath} size={iconSize} />}
+      {(type || technologies || icon) && (
+        <MultipleTechnologiesIcon type={type} icon={icon} technologies={technologies} iconSize={iconSize} />
+      )}
       <span
         className={evaluateClassNames({
           [locals.label]: true,
@@ -24,8 +26,9 @@ export default function EntityWithIcon({ label, icon, iconPath, rootOrUnknown, l
 }
 
 EntityWithIcon.propTypes = {
-  iconPath: PropTypes.string,
   icon: PropTypes.string,
+  type: PropTypes.string,
+  technologies: PropTypes.array,
   label: PropTypes.string,
   rootOrUnknown: PropTypes.bool,
   length: PropTypes.number,

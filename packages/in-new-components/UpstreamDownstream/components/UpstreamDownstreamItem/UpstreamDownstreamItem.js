@@ -40,6 +40,9 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
   itemType
 }) {
   const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
+  const technologies = item?.service?.technologies;
+  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes'));
+
   return (
     <Li
       href$={
@@ -58,6 +61,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
             icon={itemType === relationships.SERVICE ? relationships.SERVICE_ICON : relationships.APPLICATION_ICON}
             label={itemLabel}
             rootOrUnknown={itemId === 'ROOT' || itemId === 'UNKNOWN'}
+            technologies={technologiesNoK8s}
           />
           {itemId != 'ROOT' &&
             itemId != 'UNKNOWN' && (
