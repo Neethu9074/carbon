@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/instanaAgent/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/instanaAgent/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/instanaAgent/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/instanaAgent/kpiDefinitions';
@@ -14,5 +15,6 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   tableDefinition
 });

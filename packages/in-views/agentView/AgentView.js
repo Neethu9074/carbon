@@ -6,6 +6,7 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import AgentInstallationView from 'in-views/agentView/components/AgentInstallationView';
+import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -16,9 +17,9 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { close } from 'in-components/DialogPresenter/store';
 import { emptyList } from 'in-services/fixedImmutables';
+import { timeConfig$ } from 'in-stores/time/config';
 import SearchBar from 'in-components/SearchBar';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
@@ -27,11 +28,24 @@ import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 export default connectTo(
-  ({ agentSnapshots }) => (!agentSnapshots ? { agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent') } : {}),
-  function AgentView({ agentSnapshots }) {
-    if (!agentSnapshots) {
+  props => {
+    const observables = { timeConfig: timeConfig$ };
+    if (!props.agentSnapshotsResult) {
+      observables.agentSnapshotsResult = timeConfig$.flatMap(timeConfig => {
+        return getAgentSnapshotsInTimeframe({ timeConfig });
+      });
+    }
+    return observables;
+  },
+  function AgentView({ agentSnapshotsResult }) {
+    if (
+      !agentSnapshotsResult ||
+      agentSnapshotsResult.getIn(['progress', 'loading']) ||
+      agentSnapshotsResult.getIn(['errors']).length > 0
+    ) {
       return <LoadingIndicator type="dark" />;
     }
+    const agentSnapshots = agentSnapshotsResult.getIn(['data']);
     return (
       <>
         <Switch>

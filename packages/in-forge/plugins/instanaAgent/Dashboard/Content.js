@@ -24,6 +24,8 @@ import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
@@ -156,6 +158,9 @@ export default connectTo(
             }}
           />
         </DashboardSection>
+        {(agentMonitoringIssuesEnabled || isInternalVisible) && (
+          <IssueList snapshot={snapshot} timeConfig={timeConfig} />
+        )}
         {isInternalVisible && (
           <Fragment>
             <SensorList snapshot={snapshot} />

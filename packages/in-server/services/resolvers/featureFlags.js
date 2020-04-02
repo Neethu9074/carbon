@@ -120,5 +120,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
     consulKey: `settings/${tenant}-${unit}/APPLICATION_SMART_ALERTS_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'agentMonitoringIssuesEnabled',
+    instanaCtlKey: 'feature.agent.monitoring.issues.enabled',
+    consulKey: `settings/${tenant}-${unit}/AGENT_MONITORING_ISSUES_ENABLED`,
+    defaultValue: false
   }
 ];
