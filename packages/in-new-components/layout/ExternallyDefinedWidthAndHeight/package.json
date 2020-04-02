@@ -1,0 +1,6 @@
+{
+  "name": "ExternallyDefinedWidthAndHeight",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ExternallyDefinedWidthAndHeight.js"
+}

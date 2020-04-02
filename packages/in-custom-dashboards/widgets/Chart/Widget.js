@@ -43,7 +43,7 @@ export default connectTo(({ config }) => ({
   })
 }))(ChartWidget);
 
-function ChartWidget({ result, actions, config, title, timeConfig, customHeight, isPreview, dragHandle }) {
+function ChartWidget({ result, actions, config, title, timeConfig, isPreview, dragHandle, customHeight }) {
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -72,6 +72,7 @@ function ChartWidget({ result, actions, config, title, timeConfig, customHeight,
       primaryContextMenuAction={config.primaryContextMenuAction}
       additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
+      automaticallySize={!isPreview && !customHeight}
       customHeight={customHeight}
     />
   );

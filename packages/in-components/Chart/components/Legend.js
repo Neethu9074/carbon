@@ -9,6 +9,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Legend.mless';
 
+export const HEIGHT = 32;
+
 export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.filteredDataSeries$
