@@ -1,9 +1,9 @@
 export default [
   {
     icon: 'lib_application_invert',
-    text: 'Services',
+    text: 'Application',
     key: 'application',
-    emptyMessage: 'There are no related Instana Services'
+    emptyMessage: 'There are no related Instana Applications or Services'
   },
   {
     icon: 'lib_kubernetes_inverted',
