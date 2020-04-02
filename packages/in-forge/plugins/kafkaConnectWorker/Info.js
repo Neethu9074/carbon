@@ -9,8 +9,8 @@ export default function KafkaConnectWorkerInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Worker Name">{data.get('workerName')}</DescriptionItem>
-      <DescriptionItem title="Connect Protocol">{data.get('connectProtocol')}</DescriptionItem>
+      <DescriptionItem title="Worker Name">{data.get('workerId')}</DescriptionItem>
+      <DescriptionItem title="Brokers in use">{data.get('numberOfBrokers')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

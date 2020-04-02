@@ -7,13 +7,13 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.kafkaConnectWorker,
   pluginName: {
-    singular: 'KafkaConnect Worker',
-    plural: 'KafkaConnect Workers'
+    singular: 'Kafka Worker',
+    plural: 'Kafka Workers'
   },
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'KafkaConnectWorker'
+    label: 'KafkaWorker'
   }
 });

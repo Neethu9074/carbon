@@ -1,4 +1,4 @@
-import { number } from 'in-services/formatters/number';
+import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -9,7 +9,7 @@ export default [
   {
     metric: 'rebalanceAvgTimeMs',
     label: 'Rebalance Average Time',
-    formatter: number
+    formatter: millis
   },
   {
     metric: 'rebalancing',
@@ -19,6 +19,6 @@ export default [
   {
     metric: 'timeSinceLastRebalanceMs',
     label: 'Time Since Last Rebalance',
-    formatter: number.perSecond
+    formatter: millis
   }
 ];

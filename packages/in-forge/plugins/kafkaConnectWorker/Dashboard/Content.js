@@ -1,9 +1,10 @@
 import React from 'react';
 
+import ConnectorsTable from 'in-forge/plugins/kafkaConnectWorker/Dashboard/ConnectorsTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, percentage, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { number, percentage } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
@@ -42,7 +43,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.msZeroDecimalPlaces,
+            formatter: millis,
             metrics: ['rebalanceAvgTimeMs'],
             labels: ['Rebalance Average Time'],
             type: 'line'
@@ -62,13 +63,15 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.msZeroDecimalPlaces,
+            formatter: millis,
             metrics: ['timeSinceLastRebalanceMs'],
             labels: ['Time Since Last Rebalance'],
             type: 'line'
           }}
         />
       </DashboardSection>
+
+      <ConnectorsTable workerId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }
