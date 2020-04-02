@@ -66,27 +66,26 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'Type',
-    sortable: false,
+    id: 'types',
+    label: 'Types',
+    defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
       return (
         <Fragment>
-          {item.service.types
-            .slice()
-            .sort()
-            .map(type => (
-              <Badge color={getColor(type)} key={type}>
-                {type}
-              </Badge>
-            ))}
+          {item.service.types.slice().map(type => (
+            <Badge color={getColor(type)} key={type}>
+              {type}
+            </Badge>
+          ))}
         </Fragment>
       );
     }
   },
   {
-    id: 'Technology',
-    sortable: false,
+    id: 'technologies',
+    label: 'Technologies',
+    defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.service.technologies} />;

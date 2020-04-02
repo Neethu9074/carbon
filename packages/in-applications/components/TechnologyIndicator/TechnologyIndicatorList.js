@@ -38,17 +38,14 @@ export default getElementDimensions(
 
       return (
         <ul className={locals.list}>
-          {technologies
-            .slice()
-            .sort()
-            .map(pluginOrGroupType => (
-              <TechnologyIndicator
-                getHref$={getHref$}
-                key={pluginOrGroupType}
-                pluginOrGroupType={pluginOrGroupType}
-                showTechnologyLabel={this.state.showTechnologyLabel}
-              />
-            ))}
+          {technologies.slice().map(pluginOrGroupType => (
+            <TechnologyIndicator
+              getHref$={getHref$}
+              key={pluginOrGroupType}
+              pluginOrGroupType={pluginOrGroupType}
+              showTechnologyLabel={this.state.showTechnologyLabel}
+            />
+          ))}
         </ul>
       );
     }
