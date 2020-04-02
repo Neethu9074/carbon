@@ -8,7 +8,7 @@ function fallbackAgentMonitoringIssueDefinition(code) {
       Component: function fallbackIssueDefinition() {
         return (
           <span>
-            Unknown issue code: <code>{code}</code>. Please consult our documentation for further reference.
+            Unknown issue code: <code>{code}</code>, please consult our documentation for further reference
           </span>
         );
       }

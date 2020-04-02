@@ -6,7 +6,7 @@ export default {
       Component: function nginxApiNotAccessible({ url }) {
         return (
           <span>
-            The API URL <code>{url}</code> could not be accessed.
+            The API URL <code>{url}</code> could not be accessed
           </span>
         );
       }
@@ -19,7 +19,7 @@ export default {
       Component: function nginxStatusNotAccessible({ url }) {
         return (
           <span>
-            The status URL <code>{url}</code> could not be accessed.
+            The status URL <code>{url}</code> could not be accessed
           </span>
         );
       }
@@ -33,7 +33,7 @@ export default {
       Component: function nginxApiNotFound({ config }) {
         return (
           <span>
-            The API URL could not be found in the configuration <code>{config}</code>.
+            The API URL could not be found in the configuration <code>{config}</code>
           </span>
         );
       }
@@ -46,7 +46,7 @@ export default {
       Component: function nginxStatusNotFound({ config }) {
         return (
           <span>
-            The status URL could not be found in the configuration <code>{config}</code>.
+            The status URL could not be found in the configuration <code>{config}</code>
           </span>
         );
       }
@@ -57,7 +57,7 @@ export default {
   nginx_config_not_accessible: {
     issueDescription: {
       Component: function nginxConfigNotAccessible() {
-        return <span>The configuration file could not be found.</span>;
+        return <span>The configuration file could not be found</span>;
       }
     },
     explanationLinkLabel: `Docs`,

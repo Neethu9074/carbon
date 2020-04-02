@@ -44,6 +44,9 @@ export default connectTo(
         <DashboardSection title="Info">
           <InfoButtonSection snapshot={snapshot} />
         </DashboardSection>
+        {(agentMonitoringIssuesEnabled || isInternalVisible) && (
+          <IssueList snapshot={snapshot} timeConfig={timeConfig} />
+        )}
 
         <Columize>
           {snapshot.getIn(['data', 'hasCpuLoad']) ? (
@@ -158,9 +161,6 @@ export default connectTo(
             }}
           />
         </DashboardSection>
-        {(agentMonitoringIssuesEnabled || isInternalVisible) && (
-          <IssueList snapshot={snapshot} timeConfig={timeConfig} />
-        )}
         {isInternalVisible && (
           <Fragment>
             <SensorList snapshot={snapshot} />
