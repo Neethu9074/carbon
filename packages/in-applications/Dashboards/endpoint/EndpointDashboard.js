@@ -114,6 +114,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         isSynthetic={isSynthetic}
         timeConfig={timeConfig}
         groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+        area="endpoint"
       />
     </>
   );

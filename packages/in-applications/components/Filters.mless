@@ -6,4 +6,8 @@
     margin-right: 0.5rem;
     height: 2rem;
   }
+
+  .button {
+    margin-right: 0.5rem;
+  }
 }

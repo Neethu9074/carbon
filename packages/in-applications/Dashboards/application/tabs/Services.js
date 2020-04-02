@@ -23,12 +23,27 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import withUrlState from 'in-hoc/withUrlState';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
+
+const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
+const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
+
+export default compose(
+  withUrlState({
+    bind: [endpointTypesUrlParameter, technologiesUrlParameter],
+    reducerName: 'setFilter',
+    reducer: (prevState, { endpointTypes, technologies }) => ({
+      endpointTypes: endpointTypes || prevState.endpointTypes,
+      technologies: technologies || prevState.technologies
+    })
+  })
+)(ServiceList);
 
 const columnDefinitions = [
   {
@@ -172,9 +187,6 @@ const columnDefinitions = [
   }
 ];
 
-const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
-const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
-
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
@@ -196,17 +208,6 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default compose(
-  withUrlState({
-    bind: [endpointTypesUrlParameter, technologiesUrlParameter],
-    reducerName: 'setFilter',
-    reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes || prevState.endpointTypes,
-      technologies: technologies || prevState.technologies
-    })
-  })
-)(ServiceList);
-
 function ServiceList(props) {
   const {
     timeConfig,
@@ -218,12 +219,24 @@ function ServiceList(props) {
     technologies,
     setFilter,
     data: application,
-    boundaryScope: urlBoundaryScope
+    boundaryScope: urlBoundaryScope,
+    applicationName
   } = props;
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
-  const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
+  const rightHeader = ({ query }) => (
+    <Filters
+      endpointTypes={endpointTypes}
+      technologies={technologies}
+      setFilter={setFilter}
+      query={query}
+      buttonLabel="Services"
+      applicationName={applicationName}
+      boundaryScope={boundaryScope}
+      groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+    />
+  );
 
   return (
     <Fragment>

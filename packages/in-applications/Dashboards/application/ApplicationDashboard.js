@@ -107,6 +107,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+        area="application"
       />
       {role.canConfigureCustomAlerts &&
         applicationSmartAlertsEnabled && (

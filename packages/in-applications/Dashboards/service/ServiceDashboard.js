@@ -105,6 +105,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         timeConfig={timeConfig}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
         filters={filterByType(result.data.types)}
+        area="service"
       />
     </>
   );

@@ -35,6 +35,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -240,7 +241,7 @@ function ServicesList({
   [endpointIdMatrixParam]: endpointId,
   [contextScopeMatrixParam]: contextScope
 }) {
-  const rightHeader = (
+  const rightHeader = ({ query }) => (
     <Fragment>
       {role.canConfigureServiceMapping && (
         <Button
@@ -252,7 +253,14 @@ function ServicesList({
           Configure Services
         </Button>
       )}
-      <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />
+      <Filters
+        endpointTypes={endpointTypes}
+        technologies={technologies}
+        setFilter={setFilter}
+        query={query}
+        buttonLabel="Services"
+        groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+      />
     </Fragment>
   );
 

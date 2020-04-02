@@ -21,7 +21,9 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
     observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
   }
   return observables;
-})(function AnalyzeCallsButton({
+})(AnalyzeCallsButton);
+
+function AnalyzeCallsButton({
   applicationLabel,
   applicationBoundaryScope,
   serviceLabel,
@@ -50,7 +52,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       Analyze Calls
     </Button>
   );
-});
+}
 
 function getLabel(result) {
   return get(result, ['data', 'label'], null);
