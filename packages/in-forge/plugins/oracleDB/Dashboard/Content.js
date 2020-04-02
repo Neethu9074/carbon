@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {
-  zeroDecimalPlaces,
+  number,
+  millis,
+  micros,
   hitRateTwoDecimalPlaces,
-  muSecondsToMillisTwoDecimalPlaces,
-  msZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -26,7 +26,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: muSecondsToMillisTwoDecimalPlaces,
+            formatter: micros.detailed,
             metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
             labels: ['DB', 'DB CPU', 'SQL Execute', 'Parse'],
             type: 'line'
@@ -53,7 +53,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           height={200}
           y1={{
-            formatter: msZeroDecimalPlaces,
+            formatter: millis.detailed,
             metrics: [
               'stats.timeWaited.userIO',
               'stats.timeWaited.other',
@@ -84,37 +84,37 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Execution">
+      <DashboardSection title="SQL Execution">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: ['stats.sqlExecuteCount'],
             labels: ['Count'],
             type: 'line'
           }}
           y2={{
-            formatter: muSecondsToMillisTwoDecimalPlaces,
+            formatter: micros.detailed,
             metrics: ['stats.averageSqlExecuteTime'],
             labels: ['Average Time'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Parse Count">
+      <DashboardSection title="SQL Parse Count">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
             labels: ['Hard Parse', 'Total Parse'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sql Parse Ratios">
+      <DashboardSection title="SQL Parse Ratios">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -133,7 +133,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: [
               'stats.userCalls',
               'stats.recursiveCalls',
@@ -151,7 +151,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
             labels: ['Physical', 'Logical'],
             type: 'line'
@@ -177,7 +177,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
             labels: ['Active User', 'Inactive User', 'Background'],
             type: 'stackedArea'

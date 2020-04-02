@@ -12,7 +12,7 @@ export default function Groups({
   orderDirection,
   groupColors,
   groupComponent: Group,
-  isChartSectionExpanded,
+  showGraph,
   metrics,
   availableMetrics
 }) {
@@ -20,7 +20,7 @@ export default function Groups({
     <Fragment>
       {items.map((item, groupIndex) => (
         <Group
-          key={item.name}
+          key={`${item.name}${groupIndex}`}
           dataSource={dataSource}
           orderBy={orderBy}
           orderDirection={orderDirection}
@@ -29,7 +29,7 @@ export default function Groups({
           onChangeAnalyzeConfig={onChangeAnalyzeConfig}
           onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
           dotColor={groupColors[groupIndex]}
-          showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
+          showDot={showGraph && groupIndex < maximumDataSeriesInChart}
           metrics={metrics}
           availableMetrics={availableMetrics}
         />

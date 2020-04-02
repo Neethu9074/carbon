@@ -6,13 +6,17 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 // scroll behavior, this would otherwise result in confusing behavior.
 // https://www.pivotaltracker.com/story/show/153704585
 export default function DisabledBodyScroll() {
-  return <LifecycleObserver onWillMount={disableBodyScroll} onWillUnmount={enableBodyScroll} />;
+  return <LifecycleObserver onDidMount={disableBodyScroll} onWillUnmount={enableBodyScroll} />;
 }
 
 export function disableBodyScroll() {
-  document.documentElement.style.overflow = 'hidden';
+  // Implement disabled body scrolling without a jumping document body
+  // as caused by a suddenly vanishing scroll bar.
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'visible';
 }
 
 export function enableBodyScroll() {
   document.documentElement.style.overflow = null;
+  document.body.style.overflow = null;
 }

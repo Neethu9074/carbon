@@ -1,4 +1,8 @@
 :local {
+  .dialog {
+    max-width: 35rem;
+  }
+
   .button {
     min-width: 6rem;
   }

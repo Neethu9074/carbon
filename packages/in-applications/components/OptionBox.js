@@ -25,6 +25,7 @@ export default function OptionBox({ checked, icon, title, description, onChange,
         checked={checked}
         onChange={e => onChange(e.target.checked)}
         size={'large'}
+        verticalLabel
       />
     </div>
   );

@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .loading {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wrapper {
+    margin: 1.5rem 0;
+  }
+
+  .addWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 0 0 0.5rem;
+  }
+
+  .addInput {
+    flex-grow: 1;
+  }
+
+  .addButton {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: @grid__gutter * 1px;
+  }
+
+  .delete {
+    fill: @lib__colors__primary2;
+  }
+}

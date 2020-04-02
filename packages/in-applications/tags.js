@@ -9,8 +9,8 @@ import moment from 'moment';
 export const customServiceMappingTagKeys = [
   'agent.tag',
   'cassandra.cluster.name',
-  'cloudfoundry.app.id',
-  'cloudfoundry.app.name',
+  'cloudfoundry.application.id',
+  'cloudfoundry.application.name',
   'cloudfoundry.organization.id',
   'cloudfoundry.organization.name',
   'cloudfoundry.space.id',
@@ -74,6 +74,7 @@ const blacklists = {
       'service.id': !isInstanaEngineer,
       'service.rule_id': !isInstanaEngineer,
       'endpoint.id': !isInstanaEngineer,
+      'endpoint.type': !isInstanaEngineer,
       'process.id': true,
       'docker.container.id': true,
       'containerd.container.id': true,

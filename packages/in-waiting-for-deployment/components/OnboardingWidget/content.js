@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react';
 import {
   Bash,
   CheckBox,
+  Cmd,
   Description,
   DownloadButton,
   DropDown,
@@ -19,6 +20,7 @@ import {
   ValidatedInputFields,
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
+import instanaAgentTokenizedYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instanaAgentTokenized.yaml';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
@@ -52,7 +54,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: ElasticComputingLinuxContent
         },
         {
-          label: 'Elastic Computing (EC2) - Windows',
+          label: 'Elastic Computing (EC2) - Windows 64Bit',
           keyWords: 'elasticcomputeec2windows',
           Content: WindowsInstallerContent
         },
@@ -147,9 +149,9 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       Content: CfAndBoshContent
     },
     {
-      label: 'Pivotal Platform',
-      icon: 'lib_pivotal_platform',
-      fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
+      label: 'VMware Tanzu',
+      icon: 'lib_vmware_tanzu',
+      fullLabel: 'VMware Tanzu (formerly known as Pivotal Cloud Foundry)',
       category: 'Platform',
       keyWords: 'pivotalplatformpivotalcloudfoundrypcf',
       Content: PcfContent
@@ -170,7 +172,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: PackagesContent
         },
         {
-          label: 'Static tarballs',
+          label: 'Archive (tar.gz)',
           keyWords: 'linuxmanualtarball',
           Content: ManualLinuxContent
         },
@@ -206,9 +208,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'OS',
       subTechnologies: [
         {
-          label: 'Windows Installer',
+          label: 'Windows Installer 64Bit',
           keyWords: 'windowsexe',
           Content: WindowsInstallerContent
+        },
+        {
+          label: 'Windows Installer 64Bit (Unattended)',
+          keyWords: 'windowsexe',
+          Content: WindowsInstallerUnattendedContent
         },
         {
           label: 'ZIP Archives',
@@ -361,7 +368,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '23';
+  const layerVersion = '25';
 
   let steps;
 
@@ -871,13 +878,13 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <TextWithLink
         text="Download the &quot;Instana Microservices Application Monitoring&quot; tile from "
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
-        linkText="Pivotal Network."
+        linkText="VMware Tanzu Network."
       />
       <Spacer />
       <TextWithLink
         text="Upload the &quot;Instana Microservices Application Monitoring&quot; tile to your Ops Manager as described in the"
         href="https://docs.pivotal.io/partners/instana/installing.html"
-        linkText="Instana tile documentation on Pivotal Network."
+        linkText="Instana tile documentation on VMware Tanzu Network."
       />
       <Description
         lines={[
@@ -902,7 +909,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <Spacer />
       <Description
         lines={[
-          'Finally, you will need to give your Pivotal Platform foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
+          'Finally, you will need to give your VMware Tanzu foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
         ]}
       />
       <TextWithLink text="Apply the changes introduced by the &quot;Instana Microservices Application Monitoring&quot; tile to all tiles in the Ops Manager. Tiles that are not selected for the &quot;Apply changes&quot; step in Ops Manager will not be visible in Instana." />
@@ -912,7 +919,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       </HelpBox>
       <Spacer />
       <HelpBox title="Supported Stemcells">
-        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
+        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
       </HelpBox>
     </>
   );
@@ -927,15 +934,69 @@ function PackagesContent({ agentKey }) {
   );
 }
 
-function WindowsInstallerContent({ agentKey, tenant, tenantUnit }) {
+function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
   return (
     <>
-      <Description lines={['We make available the latest Windows installer (64Bit) at following address:']} />
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+        <DownloadButton
+          title="Download"
+          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
+            agentKey
+          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`}
+        />
+      </Row>
+      <Spacer />
+      <Description lines={['Launch the installer as an application and supply the following configuration:']} />
+      <Spacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Instana Backend Address']} />
+          <Script lines={[agentEndpoint]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Backend Port']} />
+          <Script lines={[agentEndpointPort]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Agent key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
+    </>
+  );
+}
+
+function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+      </Row>
+
+      <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
           `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
-            'exe64'
-          )}`
+            agentKey
+          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`
+        ]}
+      />
+      <Spacer />
+      <Description
+        lines={[
+          "The following command line installation will Install the Instana agent without opening the installer's user interface:"
+        ]}
+      />
+      <Cmd
+        lines={[
+          `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet`
         ]}
       />
     </>
@@ -972,7 +1033,12 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
+            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+          ]}
+        />
       </HelpBox>
     </>
   );
@@ -1031,7 +1097,12 @@ function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
+            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+          ]}
+        />
       </HelpBox>
     </>
   );
@@ -1069,228 +1140,10 @@ function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
 }
 
 function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName) {
-  return (
-    'apiVersion: v1\n' +
-    'kind: Namespace\n' +
-    'metadata:\n' +
-    '  name: instana-agent\n' +
-    '---\n' +
-    'apiVersion: v1\n' +
-    'kind: ServiceAccount\n' +
-    'metadata:\n' +
-    '  name: instana-agent\n' +
-    '  namespace: instana-agent\n' +
-    '---\n' +
-    'apiVersion: v1\n' +
-    'kind: Secret\n' +
-    'metadata:\n' +
-    '  name: instana-agent-secret\n' +
-    '  namespace: instana-agent\n' +
-    'type: Opaque\n' +
-    'data:\n' +
-    `  key: ${btoa(agentKey)}\n` +
-    '---\n' +
-    'apiVersion: v1\n' +
-    'kind: ConfigMap\n' +
-    'metadata:\n' +
-    '  name: instana-configuration\n' +
-    '  namespace: instana-agent\n' +
-    'data:\n' +
-    '  configuration.yaml: |\n' +
-    '\n' +
-    '---\n' +
-    'apiVersion: apps/v1\n' +
-    'kind: DaemonSet\n' +
-    'metadata:\n' +
-    '  name: instana-agent\n' +
-    '  namespace: instana-agent\n' +
-    '  labels:\n' +
-    '    app.kubernetes.io/version: "1.0.24"\n' +
-    'spec:\n' +
-    '  selector:\n' +
-    '    matchLabels:\n' +
-    '      app: instana-agent\n' +
-    '  template:\n' +
-    '    metadata:\n' +
-    '      labels:\n' +
-    '        app: instana-agent\n' +
-    '        app.kubernetes.io/version: "1.0.24"\n' +
-    '    spec:\n' +
-    '      serviceAccountName: instana-agent\n' +
-    '      hostIPC: true\n' +
-    '      hostNetwork: true\n' +
-    '      hostPID: true\n' +
-    '      containers:\n' +
-    '        - name: instana-agent\n' +
-    '          image: instana/agent\n' +
-    '          imagePullPolicy: Always\n' +
-    '          env:\n' +
-    '            - name: INSTANA_AGENT_LEADER_ELECTOR_PORT\n' +
-    '              value: "42655"\n' +
-    '            - name: INSTANA_KUBERNETES_CLUSTER_NAME\n' +
-    `              value: '${clusterName}'\n` +
-    '            - name: INSTANA_AGENT_ENDPOINT\n' +
-    `              value: ${agentEndpoint}\n` +
-    '            - name: INSTANA_AGENT_ENDPOINT_PORT\n' +
-    `              value: "${agentEndpointPort}"\n` +
-    '            - name: INSTANA_AGENT_KEY\n' +
-    '              valueFrom:\n' +
-    '                secretKeyRef:\n' +
-    '                  name: instana-agent-secret\n' +
-    '                  key: key\n' +
-    '            - name: INSTANA_ZONE\n' +
-    `              value: '${zoneName}'\n` +
-    '            - name: JAVA_OPTS\n' +
-    '              # Approximately 1/3 of container memory limits to allow for direct-buffer memory usage and JVM overhead\n' +
-    '              value: "-Xmx170M -XX:+ExitOnOutOfMemoryError"\n' +
-    '            - name: INSTANA_AGENT_POD_NAME\n' +
-    '              valueFrom:\n' +
-    '                fieldRef:\n' +
-    '                  fieldPath: metadata.name\n' +
-    '            - name: POD_IP\n' +
-    '              valueFrom:\n' +
-    '                fieldRef:\n' +
-    '                  fieldPath: status.podIP\n' +
-    '          securityContext:\n' +
-    '            privileged: true\n' +
-    '          volumeMounts:\n' +
-    '            - name: dev\n' +
-    '              mountPath: /dev\n' +
-    '            - name: run\n' +
-    '              mountPath: /run\n' +
-    '            - name: var-run\n' +
-    '              mountPath: /var/run\n' +
-    '            - name: sys\n' +
-    '              mountPath: /sys\n' +
-    '            - name: log\n' +
-    '              mountPath: /var/log\n' +
-    '            - name: var-lib\n' +
-    '              mountPath: /var/lib/containers/storage\n' +
-    '            - name: machine-id\n' +
-    '              mountPath: /etc/machine-id\n' +
-    '            - name: configuration\n' +
-    '              subPath: configuration.yaml\n' +
-    '              mountPath: /root/configuration.yaml\n' +
-    '          livenessProbe:\n' +
-    '            httpGet: # Agent liveness is published on localhost:42699/status\n' +
-    '              path: /status\n' +
-    '              port: 42699\n' +
-    '            initialDelaySeconds: 300\n' +
-    '            timeoutSeconds: 3\n' +
-    '          resources:\n' +
-    '            requests:\n' +
-    '              memory: "512Mi"\n' +
-    '              cpu: "0.5"\n' +
-    '            limits:\n' +
-    '              memory: "512Mi"\n' +
-    '              cpu: "1.5"\n' +
-    '          ports:\n' +
-    '            - containerPort: 42699\n' +
-    '        - name: instana-agent-leader-elector\n' +
-    '          image: instana/leader-elector:0.5.4\n' +
-    '          env:\n' +
-    '            - name: INSTANA_AGENT_POD_NAME\n' +
-    '              valueFrom:\n' +
-    '                fieldRef:\n' +
-    '                  fieldPath: metadata.name\n' +
-    '          command:\n' +
-    '            - "/app/server"\n' +
-    '            - "--election=instana"\n' +
-    '            - "--http=localhost:42655"\n' +
-    '            - "--id=$(INSTANA_AGENT_POD_NAME)"\n' +
-    '          resources:\n' +
-    '            requests:\n' +
-    '              cpu: "0.1"\n' +
-    '              memory: "64Mi"\n' +
-    '          livenessProbe:\n' +
-    '            httpGet: # Leader elector liveness is tied to Agent, published on localhost:42699/status\n' +
-    '              path: /status\n' +
-    '              port: 42699\n' +
-    '            initialDelaySeconds: 300\n' +
-    '            timeoutSeconds: 3\n' +
-    '          ports:\n' +
-    '            - containerPort: 42655\n' +
-    '      volumes:\n' +
-    '        - name: dev\n' +
-    '          hostPath:\n' +
-    '            path: /dev\n' +
-    '        - name: run\n' +
-    '          hostPath:\n' +
-    '            path: /run\n' +
-    '        - name: var-run\n' +
-    '          hostPath:\n' +
-    '            path: /var/run\n' +
-    '        - name: sys\n' +
-    '          hostPath:\n' +
-    '            path: /sys\n' +
-    '        - name: log\n' +
-    '          hostPath:\n' +
-    '            path: /var/log\n' +
-    '        - name: var-lib\n' +
-    '          hostPath:\n' +
-    '            path: /var/lib/containers/storage\n' +
-    '        - name: machine-id\n' +
-    '          hostPath:\n' +
-    '            path: /etc/machine-id\n' +
-    '        - name: configuration\n' +
-    '          configMap:\n' +
-    '            name: instana-configuration\n' +
-    '---\n' +
-    'kind: ClusterRole\n' +
-    'apiVersion: rbac.authorization.k8s.io/v1\n' +
-    'metadata:\n' +
-    '  name: instana-agent-role\n' +
-    '  labels:\n' +
-    '    app.kubernetes.io/version: "1.0.24"\n' +
-    'rules:\n' +
-    '- nonResourceURLs:\n' +
-    '    - "/version"\n' +
-    '    - "/healthz"\n' +
-    '  verbs: ["get"]\n' +
-    '- apiGroups: ["batch"]\n' +
-    '  resources:\n' +
-    '    - "jobs"\n' +
-    '  verbs: ["get", "list", "watch"]\n' +
-    '- apiGroups: ["extensions"]\n' +
-    '  resources:\n' +
-    '    - "deployments"\n' +
-    '    - "replicasets"\n' +
-    '    - "ingresses"\n' +
-    '  verbs: ["get", "list", "watch"]\n' +
-    '- apiGroups: ["apps"]\n' +
-    '  resources:\n' +
-    '    - "deployments"\n' +
-    '    - "replicasets"\n' +
-    '  verbs: ["get", "list", "watch"]\n' +
-    '- apiGroups: [""]\n' +
-    '  resources:\n' +
-    '    - "namespaces"\n' +
-    '    - "events"\n' +
-    '    - "services"\n' +
-    '    - "endpoints"\n' +
-    '    - "nodes"\n' +
-    '    - "pods"\n' +
-    '    - "replicationcontrollers"\n' +
-    '    - "componentstatuses"\n' +
-    '    - "resourcequotas"\n' +
-    '  verbs: ["get", "list", "watch"]\n' +
-    '- apiGroups: [""]\n' +
-    '  resources:\n' +
-    '    - "endpoints"\n' +
-    '  verbs: ["create", "update", "patch"]\n' +
-    '---\n' +
-    'kind: ClusterRoleBinding\n' +
-    'apiVersion: rbac.authorization.k8s.io/v1\n' +
-    'metadata:\n' +
-    '  name: instana-agent-role-binding\n' +
-    '  namespace: instana-agent\n' +
-    'subjects:\n' +
-    '- kind: ServiceAccount\n' +
-    '  name: instana-agent\n' +
-    '  namespace: instana-agent\n' +
-    'roleRef:\n' +
-    '  kind: ClusterRole\n' +
-    '  name: instana-agent-role\n' +
-    '  apiGroup: rbac.authorization.k8s.io\n'
-  );
+  return instanaAgentTokenizedYaml
+    .replace('${agentKey}', btoa(agentKey))
+    .replace('${agentEndpoint}', agentEndpoint)
+    .replace('${agentEndpointPort}', agentEndpointPort)
+    .replace('${clusterName}', clusterName)
+    .replace('${zoneName}', zoneName);
 }

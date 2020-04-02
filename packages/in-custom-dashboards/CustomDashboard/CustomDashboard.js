@@ -1,15 +1,20 @@
 import { compose, withProps } from 'recompose';
-import { isEqual } from 'lodash';
+import { find, isEqual } from 'lodash';
 import React from 'react';
 
+import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
-import { onLayoutChange, onRenameDashboard } from 'in-custom-dashboards/CustomDashboard/editor';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
+import ConfirmationDialog from 'in-new-components/BigHeaderDialog/ConfirmationDialog';
+import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import Prompt from 'in-new-components/BigHeaderDialog/Prompt';
+import { generateUniqueShortId } from 'in-services/util/id';
 import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
@@ -57,9 +62,56 @@ function CustomDashboardLoader(props) {
       onDeleteCustomDashboard={onDeleteCustomDashboard}
       onSaveConfiguration={onSaveConfiguration}
       onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+      onDuplicateDashboard={onDuplicateDashboard}
+      onAddWidget={onAddWidget}
+      onEditWidget={onEditWidget}
+      onDuplicateWidget={onDuplicateWidget}
+      onRemoveWidget={onRemoveWidget}
+      onDiscardChanges={onDiscardChanges}
       onShare={onShare}
     />
   );
+
+  function onAddWidget() {
+    addActiveDialog(
+      <WidgetEditorDialog
+        onSubmit={widget => {
+          const newConfig = deepCopy(config);
+          newConfig.widgets.push(widget);
+          setConfig(newConfig);
+        }}
+      />
+    );
+  }
+
+  function onEditWidget(id) {
+    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
+    addActiveDialog(
+      <WidgetEditorDialog
+        widget={widget}
+        onSubmit={widget => {
+          const newConfig = deepCopy(config);
+          newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
+          newConfig.widgets.push(widget);
+          setConfig(newConfig);
+        }}
+      />
+    );
+  }
+
+  function onDuplicateWidget(id) {
+    const newConfig = deepCopy(config);
+    const widget = deepCopy(find(newConfig.widgets, eachWidget => id === eachWidget.id));
+    widget.id = generateUniqueShortId();
+    newConfig.widgets.push(widget);
+    setConfig(newConfig);
+  }
+
+  function onRemoveWidget(id) {
+    const newConfig = deepCopy(config);
+    newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
+    setConfig(newConfig);
+  }
 
   function onShare() {
     addActiveDialog(
@@ -77,14 +129,15 @@ function CustomDashboardLoader(props) {
   function onDeleteCustomDashboard() {
     addActiveDialog(
       <ConfirmationDialog
-        header="Confirm deletion"
+        header="Confirm Dashboard Deletion"
+        headerIcon="lib_views_grid"
+        confirmButtonLabel="Delete Dashboard"
         description={
           <span>
             Are you sure you want to delete the dashboard <strong>{config.title}</strong>?
           </span>
         }
-        bButtonLabel="Delete Dashboard"
-        onB={() => {
+        onSubmit={() => {
           close();
           removeCustomDashboard(config.id).subscribe(result => {
             if (result.progress.loading) {
@@ -92,8 +145,14 @@ function CustomDashboardLoader(props) {
             }
 
             if (result.errors.length > 0) {
-              // TODO improve error case
-              alert('Removal failed');
+              addMessage(
+                {
+                  type: 'danger',
+                  timeout: 3000,
+                  content: 'Failed to delete the dashboard.'
+                },
+                'custom-dashboard-error'
+              );
               return;
             }
 
@@ -104,6 +163,28 @@ function CustomDashboardLoader(props) {
     );
   }
 
+  function onRenameDashboard(config, setConfig) {
+    addActiveDialog(
+      <Prompt
+        header="Rename Dashboard"
+        headerIcon="lib_views_grid"
+        inputLabel="Dashboard Name"
+        confirmButtonLabel="Rename"
+        initialValue={config.title}
+        onSubmit={title => {
+          const newConfig = deepCopy(config);
+          newConfig.title = title;
+          setConfig(newConfig);
+          close();
+        }}
+      />
+    );
+  }
+
+  function onDuplicateDashboard() {
+    addActiveDialog(<DuplicateDashboardDialog config={config} />);
+  }
+
   function onSaveConfiguration() {
     setSaving(true);
     updateCustomDashboard(config).subscribe(result => {
@@ -112,11 +193,21 @@ function CustomDashboardLoader(props) {
       }
 
       if (result.errors.length > 0) {
-        // TODO improve error case
-        alert('Saving failed');
+        addMessage(
+          {
+            type: 'danger',
+            timeout: 5000,
+            content: 'Failed to save the dashboard.'
+          },
+          'custom-dashboard-error'
+        );
         return;
       }
     });
+  }
+
+  function onDiscardChanges() {
+    setConfig(deepCopy(result.data));
   }
 }
 

@@ -14,12 +14,14 @@ module.exports = {
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
+  pcfEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,
   contextGuideEnabled: true,
+  vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
-  apDashboardEventsEnabled: true,
   customDashboardsEnabled: true,
   landingPageConfigurationEnabled: true,
-  applicationSmartAlertsEnabled: true
+  applicationSmartAlertsEnabled: true,
+  agentMonitoringIssuesEnabled: false
 };

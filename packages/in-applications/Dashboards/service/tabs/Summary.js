@@ -6,13 +6,11 @@ import DatabaseSections from 'in-applications/Dashboards/commonComponents/databa
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
-import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
-import { apDashboardEventsEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
@@ -22,15 +20,7 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function Summary(props) {
-    const {
-      timeConfig,
-      endpointId,
-      applicationId,
-      serviceId,
-      boundaryScope: boundaryScope,
-      data,
-      isInternalVisible
-    } = props;
+    const { timeConfig, endpointId, applicationId, serviceId, boundaryScope: boundaryScope, data } = props;
     const types = data.types;
 
     const filter = {
@@ -144,58 +134,26 @@ export default connectTo(
             />
           </Col>
         </Row>
-
-        {isInternalVisible || apDashboardEventsEnabled ? (
-          <Row>
-            <Col lg={4}>
-              <IssuesAndEvents applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-            </Col>
-            <Col lg={4}>
-              <EndpointTopList
-                applicationId={applicationId}
-                serviceId={serviceId}
-                boundaryScope={boundaryScope}
-                timeConfig={timeConfig}
-              />
-            </Col>
-            <Col lg={4}>
-              {types.includes('DATABASE') ? (
-                <DatabaseSections boundaryScope={boundaryScope} {...props} />
-              ) : (
-                <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-              )}
-            </Col>
-          </Row>
-        ) : (
-          <Row>
-            <Col lg={4}>
-              <EndpointTopList
-                applicationId={applicationId}
-                serviceId={serviceId}
-                boundaryScope={boundaryScope}
-                groupByTag={{ name: 'call.type', entity: entityTypes.NOT_APPLICABLE }}
-                timeConfig={timeConfig}
-              />
-            </Col>
-            <Col lg={4}>
-              <TraceTopList
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                applicationBoundaryScope={boundaryScope}
-                groupByTag={{ name: 'call.type', entity: entityTypes.NOT_APPLICABLE }}
-                timeConfig={timeConfig}
-              />
-            </Col>
-            <Col lg={4}>
-              {types.includes('DATABASE') ? (
-                <DatabaseSections boundaryScope={boundaryScope} {...props} />
-              ) : (
-                <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-              )}
-            </Col>
-          </Row>
-        )}
+        <Row>
+          <Col lg={4}>
+            <IssuesAndEvents applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+          </Col>
+          <Col lg={4}>
+            <EndpointTopList
+              applicationId={applicationId}
+              serviceId={serviceId}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+            />
+          </Col>
+          <Col lg={4}>
+            {types.includes('DATABASE') ? (
+              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+            ) : (
+              <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
+            )}
+          </Col>
+        </Row>
       </>
     );
   }

@@ -3,57 +3,79 @@
 
 :local {
   .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    background: @lib__colors__white;
-
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
-  }
-
-  .useMaxAvailableHeight {
-    height: 100%;
-  }
-
-  .title {
-    margin-right: 1rem;
-
-    font-size: 1.375rem;
-    color: @lib__colors__N900Primary;
-    font-weight: 500;
-
-    .ellipsis();
+    background: #fff;
+    border-top-left-radius: @lib__shapes__radius_small;
+    border-top-right-radius: @lib__shapes__radius_small;
   }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 1.5rem 1rem 1.5rem 1.5rem;
-
-    white-space: nowrap;
+    padding: 1rem;
+    background: @lib__colors__N200;
+    border-top-left-radius: @lib__shapes__radius_small;
+    border-top-right-radius: @lib__shapes__radius_small;
   }
 
-  .icon {
-    fill: @lib__colors__N700Medium;
-    margin-right: 0.5rem;
+  .noSubContent {
+    max-height: 3.125rem;
   }
 
-  .left {
+  .clickableHeader {
+    cursor: pointer;
+  }
+
+  .nonClickable {
+    cursor: default;
+  }
+
+  .framed {
+    border: 1px solid @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
+
+    &.darkFrame {
+      border: 1px solid @lib__colors__N300;
+    }
+  }
+
+  .twoLineTitleLabel {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
     .ellipsis();
   }
 
-  .left,
-  .right {
-    display: flex;
-    align-items: center;
+  .twoLineTitle {
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    color: @lib__colors__N900Primary;
+    .ellipsis();
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 200;
+    color: @lib__colors__N700Medium;
+    .ellipsis();
+    margin: 0 1rem 0 0;
+  }
+
+  .titleSubContent {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: @lib__colors__N700Medium;
+    padding: 0 0 0 0.5rem;
   }
 
   .body {
-    padding: 0 1rem 1rem;
+    padding: 1rem;
+  }
+
+  .bodyWithoutPadding {
+    padding: 0;
+  }
+
+  .useMaxAvailableHeight {
+    height: 100%;
   }
 }

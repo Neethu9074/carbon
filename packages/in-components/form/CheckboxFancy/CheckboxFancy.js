@@ -31,7 +31,8 @@ export default function CheckboxFancy({
   size,
   style,
   disabled,
-  withControlsGrayscale
+  withControlsGrayscale,
+  verticalLabel
 }) {
   const input = (
     <Input
@@ -53,7 +54,16 @@ export default function CheckboxFancy({
       })}
     >
       {input}
-      {label && <div className={locals.label}>{label}</div>}
+      {label && (
+        <div
+          className={evaluateClassNames({
+            [locals.label]: true,
+            [locals.verticalLabel]: verticalLabel
+          })}
+        >
+          {label}
+        </div>
+      )}
       {explanation && <div className={locals.explanation}>{explanation}</div>}
     </label>
   ) : (
@@ -71,6 +81,7 @@ CheckboxFancy.propTypes = {
   onChange: PropTypes.func.isRequired,
   size: PropTypes.string,
   style: PropTypes.object,
+  verticalLabel: PropTypes.bool,
   wrapperClassName: PropTypes.string,
   withControlsGrayscale: PropTypes.bool
 };

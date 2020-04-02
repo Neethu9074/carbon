@@ -99,8 +99,7 @@ function Event({ event }) {
             className={locals.title}
             href$={getEventsViewFilteredBy({
               query: '',
-              eventId: event.id,
-              eventTypeFilter: 'issue'
+              eventId: event.id
             })}
           >
             {event.title + ' - ' + event.errorText}

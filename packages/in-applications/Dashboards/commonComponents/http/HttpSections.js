@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -7,7 +8,6 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) => ({
@@ -93,8 +93,10 @@ export default connectTo(
           },
           reverseOrder: true
         }}
+        primaryContextMenuAction="analyze"
         additionalContextMenuButtons={[
           {
+            name: 'analyze',
             icon: 'lib_analyze',
             label: 'View in Analytics',
             getHref$: (highlightedTime, metricsToAdd) =>

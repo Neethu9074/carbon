@@ -8,6 +8,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message/Message';
 import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -177,12 +178,12 @@ export default function AlertHeader({
         </div>
       </div>
       {isDeletedConfig && (
-        <Message iconColor={theme.lib.colors.failure} withIcon type="neutral">
+        <Message type={warning} withIcon>
           You are looking at a deleted alert configuration. Modifications are not possible.
         </Message>
       )}
       {isNotLatestRevision && (
-        <Message withIcon type="neutral">
+        <Message withIcon>
           You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the
           <Button className={locals.latestButton} kind="action" onClick={() => setRevision({ id: alertConfig.id })}>
             latest revision

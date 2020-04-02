@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/nginx/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/nginx/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/nginx/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -13,6 +14,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: 'Nginx'
   }

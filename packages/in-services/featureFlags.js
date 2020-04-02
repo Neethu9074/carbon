@@ -33,9 +33,13 @@ export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBrea
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitoringEnabled');
-export const apDashboardEventsEnabled = isFeatureFlagEnabled('apDashboardEventsEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
+export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
+//platform feature flags
+export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
+
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 
 // ########################################################################################

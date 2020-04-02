@@ -73,6 +73,12 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'pcfEnabled',
+    instanaCtlKey: 'feature.pcf.enabled',
+    consulKey: `settings/${tenant}-${unit}/PCF_ENABLED`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'websiteUserBreakdownEnabled',
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     consulKey: `settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`,
@@ -92,10 +98,10 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: true
   },
   {
-    uiClientKey: 'apDashboardEventsEnabled',
-    instanaCtlKey: 'feature.ap.dashboard.events.enabled',
-    consulKey: `settings/${tenant}-${unit}/AP_DASHBOARD_EVENTS_ENABLED`,
-    defaultValue: true
+    uiClientKey: 'vsphereEnabled',
+    instanaCtlKey: 'feature.vsphere.enabled',
+    consulKey: `settings/${tenant}-${unit}/VSPHERE_ENABLED`,
+    defaultValue: false
   },
   {
     uiClientKey: 'customDashboardsEnabled',
@@ -113,6 +119,12 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'applicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
     consulKey: `settings/${tenant}-${unit}/APPLICATION_SMART_ALERTS_ENABLED`,
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'agentMonitoringIssuesEnabled',
+    instanaCtlKey: 'feature.agent.monitoring.issues.enabled',
+    consulKey: `settings/${tenant}-${unit}/AGENT_MONITORING_ISSUES_ENABLED`,
     defaultValue: false
   }
 ];

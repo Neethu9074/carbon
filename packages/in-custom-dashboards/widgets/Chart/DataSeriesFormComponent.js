@@ -1,10 +1,9 @@
 import React from 'react';
 
-import MetricConfiguratorDialog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfiguratorDialog';
+import MetricConfigurationFormComponent from 'in-custom-dashboards/widgets/Chart/MetricConfigurationFormComponent';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Ul, Li } from 'in-new-components/lists/List';
+import Stack from 'in-new-components/layout/Stack';
 import Button from 'in-new-components/Button';
 
 export default function DataSeriesFormComponent({ axisName, form, onChange }) {
@@ -16,38 +15,30 @@ export default function DataSeriesFormComponent({ axisName, form, onChange }) {
       <TouchedMessages field={axisForm} />
       <TouchedMessages field={metricsForm} />
 
-      {metricsForm.size > 0 && (
-        <Ul>
-          {metricsForm.map((metricForm, i) => (
-            <Li key={i} onClick={() => showMetricConfigurationDialog(onChange, axisName, metricForm.toJS(), i)}>
-              {metricForm.get('label').value}
-            </Li>
-          ))}
-        </Ul>
-      )}
+      <Stack space="small">
+        {metricsForm.size > 0 && (
+          <Stack space="disabled">
+            {metricsForm.map((metricForm, i) => (
+              <MetricConfigurationFormComponent
+                key={i}
+                index={i}
+                metricForm={metricForm}
+                onChange={onChange}
+                axisName={axisName}
+                form={form}
+              />
+            ))}
+          </Stack>
+        )}
 
-      <Button kind="create" onClick={() => showMetricConfigurationDialog(onChange, axisName)}>
-        Add Metric
-      </Button>
+        <Button
+          kind="action"
+          icon="lib_openclose_add_circle_outline"
+          onClick={() => onChange([axisName, 'metrics'], f => f.push(createMetricForm()))}
+        >
+          Add Metric
+        </Button>
+      </Stack>
     </>
-  );
-}
-
-function showMetricConfigurationDialog(onChange, axisName, metricConfiguration, i) {
-  addActiveDialog(
-    <MetricConfiguratorDialog
-      withLabelConfiguration
-      metricConfiguration={metricConfiguration}
-      onFinished={changedMetricConfiguration => {
-        const metricForm = createMetricForm(changedMetricConfiguration);
-        onChange([axisName, 'metrics'], metricsForm => {
-          if (i == null) {
-            return metricsForm.push(metricForm);
-          } else {
-            return metricsForm.set(i, metricForm);
-          }
-        });
-      }}
-    />
   );
 }

@@ -13,5 +13,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
-  technologyDescriptor: {}
+  technologyDescriptor: {
+    label: 'Sybase'
+  }
 });

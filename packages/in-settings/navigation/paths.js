@@ -15,6 +15,7 @@ export const teamSettings = `${settingsPath}/team`;
 
 const accessControl = `${teamSettings}/accessControl`;
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
+export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
 export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
 export const teamSettingsAccessControlRoleEdit = `${accessControl}/roles/:id`;
 export const teamSettingsAccessControlRoleNew = `${accessControl}/roles/new`;

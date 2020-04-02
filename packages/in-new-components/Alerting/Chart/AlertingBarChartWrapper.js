@@ -1,12 +1,14 @@
-import { just, combineLatest } from 'reactive-observables';
+import { just, combineLatest, create } from 'reactive-observables';
 import React from 'react';
 
+// import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
 import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
-import { thresholdOrBaselineLoadingSignal$ } from 'in-websites/eum-alerting/constants';
-import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
+
+export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
 
 export default connectTo(
   props => {
@@ -14,12 +16,7 @@ export default connectTo(
     const baseline$ = just(props.y1.baseline).startWith(null);
     const threshold$ = just(props.y1.threshold).startWith(null);
 
-    const combined$ = combineLatest([
-      baseline$,
-      threshold$,
-      metrics$,
-      thresholdOrBaselineLoadingSignal$.startWith(false)
-    ]);
+    const combined$ = combineLatest([baseline$, threshold$, metrics$, thresholdOrBaselineLoadingSignal$]);
 
     return {
       result: combined$.map(([baseline, threshold, metrics, thresholdOrBaselineLoading]) => {

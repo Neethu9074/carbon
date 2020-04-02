@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .regular,
+  .l {
+    border-radius: 50%;
+    background: @lib__colors__N200;
+  }
+
+  .regular {
+    .size(2rem);
+  }
+
+  .l {
+    .size(3rem);
+  }
+
+  .size(@size) {
+    & {
+      min-width: @size;
+      min-height: @size;
+      max-width: @size;
+      max-height: @size;
+    }
+  }
+}

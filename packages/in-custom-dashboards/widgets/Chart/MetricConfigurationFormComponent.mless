@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+  .timeShifted {
+    display: flex;
+    align-items: center;
+  }
+
+  .timeShiftIndicator {
+    fill: @lib__colors__N600Light;
+    margin: 0 0 0 0.2rem;
+  }
+
+  .removeIcon {
+    fill: @lib__colors__N600Light;
+  }
+}

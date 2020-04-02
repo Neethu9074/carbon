@@ -2,6 +2,13 @@ import { compose, withState } from 'recompose';
 import React, { useState } from 'react';
 
 import {
+  applicationsAlertingAlertRevisionChanged,
+  applicationsAlertingAlertEdit,
+  applicationsAlertingAlertPaused,
+  applicationsAlertingAlertResumed,
+  applicationsAlertingAlertDeleted
+} from 'in-applications/alerting/tracker';
+import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
@@ -10,17 +17,10 @@ import {
   deleteAlertConfig
 } from 'in-applications/api/applicationAlertConfig';
 import {
-  applicationsAlertingAlertRevisionChanged,
-  applicationsAlertingAlertEdit,
-  applicationsAlertingAlertPaused,
-  applicationsAlertingAlertResumed,
-  applicationsAlertingAlertDeleted
-} from 'in-applications/alerting/tracker';
-import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
-import ApplicationSmartAlertConfigDialog from 'in-applications/alerting/Dialog/ApplicationSmartAlertConfigDialog';
+import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
@@ -80,11 +80,8 @@ function Alert({
   return (
     <>
       {dialogOpen && (
-        <ApplicationSmartAlertConfigDialog
-          formData={{
-            name: applicationName,
-            ...alertConfig
-          }}
+        <SmartAlertConfigDialogWrapper
+          formData={alertConfig}
           onClose={() => {
             setDialogOpen(false);
             triggerReload(Math.random());

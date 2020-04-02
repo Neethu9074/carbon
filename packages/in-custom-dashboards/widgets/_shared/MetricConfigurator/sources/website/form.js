@@ -2,7 +2,7 @@ import { createField, notBlankValidator } from 'formalistic';
 import { find } from 'lodash';
 
 export function createForm(form, savedState) {
-  const tagFilters = (savedState && savedState.tagFilters) || [];
+  const tagFilters = savedState?.tagFilters ?? [];
   return form
     .put(
       'tagFilters',

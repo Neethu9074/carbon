@@ -12,9 +12,9 @@ import {
   Thead
 } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { joinClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
@@ -157,12 +157,9 @@ export default function ServerTablePresenter(props) {
     result.data.totalHits > result.data.pageSize && (
       <div className={locals.paginationWrapper}>
         <Pagination
-          current={page}
-          last={Math.ceil(result.data.totalHits / result.data.pageSize)}
+          currentPage={page}
+          numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
           onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-          className={evaluateClassNames({
-            [locals.pagination]: true
-          })}
         />
       </div>
     );

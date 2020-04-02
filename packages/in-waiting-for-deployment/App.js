@@ -7,6 +7,7 @@ import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
 
 import 'in-themes/foundation.less';
@@ -21,30 +22,32 @@ export default compose(
 function App({ apiCallSatisfied }) {
   return (
     <ErrorBoundary name="app">
-      <DialogPresenter />
+      <GlobalTheme>
+        <DialogPresenter />
 
-      <DisabledBodyScroll />
+        <DisabledBodyScroll />
 
-      <FullViewOnboardingWidget
-        isRestricted
-        disableAwsSensorDocumentation
-        isAgentDeployed={false}
-        isBackendAvailable={apiCallSatisfied}
-        agentKey={config.agentKey}
-        tenant={config.tenant}
-        tenantUnit={config.tenantUnit}
-        butlerDomain={config.butlerDomain}
-        trackingIdPrefix="onboarding"
-        getRedirectButtonProperties={() => ({
-          disabled: !apiCallSatisfied,
-          href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
-          children: 'Sign in to Instana'
-        })}
-        agentEndpoint={config.agentEndpoint}
-        agentEndpointPort={config.agentEndpointPort}
-        serverlessEndpoint={config.serverlessEndpoint}
-      />
-      <TooltipPresenter />
+        <FullViewOnboardingWidget
+          isRestricted
+          disableAwsSensorDocumentation
+          isAgentDeployed={false}
+          isBackendAvailable={apiCallSatisfied}
+          agentKey={config.agentKey}
+          tenant={config.tenant}
+          tenantUnit={config.tenantUnit}
+          butlerDomain={config.butlerDomain}
+          trackingIdPrefix="onboarding"
+          getRedirectButtonProperties={() => ({
+            disabled: !apiCallSatisfied,
+            href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
+            children: 'Sign in to Instana'
+          })}
+          agentEndpoint={config.agentEndpoint}
+          agentEndpointPort={config.agentEndpointPort}
+          serverlessEndpoint={config.serverlessEndpoint}
+        />
+        <TooltipPresenter />
+      </GlobalTheme>
     </ErrorBoundary>
   );
 }

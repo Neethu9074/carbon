@@ -2,22 +2,55 @@
 
 :local {
   .layout {
-    margin: 0 @grid__gutter * 1px @grid__gutter * 1px;
+    margin: 0 @grid__gutter * 0.5px;
   }
 
   .tvMode {
-    margin: @grid__gutter * 1px;
+    margin: @grid__gutter * 0.5px;
   }
 
-  .edit {
-    position: absolute;
-    bottom: 0;
-    right: 1rem;
+  .widget {
+    & > :last-child:not(div) {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      background: none;
+
+      &::after {
+        width: 10px;
+        height: 10px;
+        border-color: @lib__colors__N800Dark;
+      }
+    }
+
+    &:hover {
+      .more, .dragHandle, & > :last-child {
+        opacity: 1;
+      }
+    }
   }
 
-  .remove {
-    position: absolute;
-    bottom: 0;
-    right: 3rem;
+  .dragHandle {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+    cursor: grab;
+    fill: @lib__colors__N400;
+
+    &:hover, &:active, &:focus {
+      opacity: 1;
+      fill: @lib__colors__N500;
+    }
+
+    & + .more {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .more {
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+
+    &:active, &:focus {
+      opacity: 1;
+    }
   }
 }

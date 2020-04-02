@@ -23,7 +23,7 @@ export default function TimeZones() {
 
 const TimeZone = connecTo(
   props => {
-    const formatter = new Intl.DateTimeFormat('en-US', {
+    const formatter = new Intl.DateTimeFormat('de-de', {
       timeZone: props.timeZone,
       hour12: false,
       hour: 'numeric',

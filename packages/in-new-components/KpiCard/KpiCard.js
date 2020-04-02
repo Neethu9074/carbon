@@ -4,33 +4,31 @@ import React from 'react';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
+import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './KpiCard.mless';
 
 export default function KpiCard({
   title,
   value,
+  actions,
   companionValue,
   raw = false,
   renderValue,
   valuesClassName,
   borderless = false,
-  color
+  color,
+  useMaxAvailableHeight
 }) {
   if (raw || renderValue) {
     return (
-      <div
-        className={evaluateClassNames({
-          [locals.wrapper]: true,
-          [locals.borderless]: borderless
-        })}
-      >
+      <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
         <div className={locals.title}>{title}</div>
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}
         </span>
         {companionValue && <span className={locals.companion}>{companionValue}</span>}
-      </div>
+      </Wrapper>
     );
   }
 
@@ -48,29 +46,47 @@ export default function KpiCard({
   }
 
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.wrapper]: true,
-        [locals.borderless]: borderless
-      })}
-    >
+    <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
       <div className={locals.title}>{title}</div>
       <span className={locals.major} style={{ color: color }}>
         {major}
       </span>
       {minor && <span className={locals.minor}>{minor}</span>}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-    </div>
+    </Wrapper>
   );
 }
 
 KpiCard.propTypes = {
   title: PropTypes.string,
   value: PropTypes.any,
-  companionValue: PropTypes.string,
+  actions: PropTypes.node,
+  companionValue: PropTypes.any,
   raw: PropTypes.bool,
   renderValue: PropTypes.func,
   valuesClassName: PropTypes.string,
   borderless: PropTypes.bool,
-  color: PropTypes.string
+  color: PropTypes.string,
+  useMaxAvailableHeight: PropTypes.bool
 };
+
+function Wrapper({ children, borderless, useMaxAvailableHeight, actions }) {
+  return (
+    <WithActiveTheme>
+      {theme => (
+        <div
+          className={evaluateClassNames({
+            [locals.wrapper]: true,
+            [locals[theme]]: true,
+            [locals.borderless]: borderless,
+            [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+          })}
+        >
+          {children}
+
+          {actions && <div className={locals.actions}>{actions}</div>}
+        </div>
+      )}
+    </WithActiveTheme>
+  );
+}

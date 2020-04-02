@@ -1,47 +1,80 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './LightCard.mless';
 
 export default function LightCard({
   title,
-  icon,
+  titleSubContent,
   children,
-  leftHeaderContent,
-  rightHeaderContent,
+  withoutPadding,
+  header,
+  onHeaderBackgroundClicked,
   className,
   headerClassName,
   bodyClassName,
-  useMaxAvailableHeight
+  darkFrame = false,
+  framed = true,
+  useMaxAvailableHeight,
+  label
 }) {
+  const isInteractiveCard = !!onHeaderBackgroundClicked;
+  const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
+  const headerProps = isInteractiveCard
+    ? toInteractiveElement({
+        onDefaultInteraction: onHeaderBackgroundClicked
+      })
+    : {};
+
   return (
     <div
       className={evaluateClassNames({
         [locals.card]: true,
         [className]: className,
+        [locals.framed]: framed,
+        [locals.darkFrame]: darkFrame,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
       <div
         className={evaluateClassNames({
           [locals.header]: true,
-          [headerClassName]: headerClassName
+          [locals.clickableHeader]: isInteractiveCard,
+          [headerClassName]: headerClassName,
+          [locals.noSubContent]: !titleSubContent
         })}
+        {...headerProps}
       >
-        <div className={locals.left}>
-          {icon && <SvgIcon className={locals.icon} size="l" type={icon} />}
-          <span className={locals.title}>{title}</span>
-          {leftHeaderContent}
+        {label ? (
+          <div>
+            {<div className={locals.twoLineTitle}>{title}</div>}
+            {<div className={locals.twoLineTitleLabel}>{label}</div>}
+          </div>
+        ) : (
+          <div className={locals.title}>
+            {title}
+            {titleSubContent && <span className={locals.titleSubContent}>{titleSubContent}</span>}
+          </div>
+        )}
+
+        <div
+          className={evaluateClassNames({
+            [locals.nonClickable]: isInteractiveCard
+          })}
+          onClick={isInteractiveCard ? onClickPrevented : undefined}
+        >
+          {header}
         </div>
-        {rightHeaderContent && <div className={locals.right}>{rightHeaderContent}</div>}
       </div>
 
       <div
         className={evaluateClassNames({
           [locals.body]: true,
+          [locals.bodyWithoutPadding]: withoutPadding,
           [bodyClassName]: bodyClassName
         })}
       >
@@ -52,13 +85,16 @@ export default function LightCard({
 }
 
 LightCard.propTypes = {
-  title: PropTypes.string,
-  icon: PropTypes.string,
+  bodyClassName: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
-  headerClassName: PropTypes.string,
-  bodyClassName: PropTypes.string,
-  leftHeaderContent: PropTypes.node,
-  rightHeaderContent: PropTypes.node,
-  useMaxAvailableHeight: PropTypes.bool
+  darkFrame: PropTypes.bool,
+  framed: PropTypes.bool,
+  header: PropTypes.node,
+  label: PropTypes.string,
+  onHeaderBackgroundClicked: PropTypes.func,
+  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  useMaxAvailableHeight: PropTypes.bool,
+  withoutPadding: PropTypes.bool
 };

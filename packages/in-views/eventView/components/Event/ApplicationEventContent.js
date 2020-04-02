@@ -2,13 +2,15 @@ import React from 'react';
 
 import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
-import ApplicationAlertTypeSwitch from 'in-applications/alerting/components/ApplicationAlertTypeSwitch';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
+import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -36,10 +38,13 @@ export default connectTo(
     const applicationName = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
     const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
+    const sensitivity = alertConfig.threshold.deviationFactor;
     const operator = alertConfig.threshold.operator;
-    const metricName = alertConfig.rule.metricName;
     const alertType = alertConfig.rule.alertType;
+    const aggregation = alertConfig.rule.aggregation;
     const threshold = alertConfig.threshold;
+    const timeThreshold = alertConfig.timeThreshold;
+    const thresholdWithSeasonality = { ...threshold, type: getThresholdTypeWithSeasonality(threshold) };
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -63,18 +68,43 @@ export default connectTo(
             <div className={locals.analyzeButtonWrapper}>
               <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
             </div>
-            <ApplicationAlertTypeSwitch
+            <AlertTypeSwitch
               alertType={alertType}
-              ErrorRateComponent={() => (
+              renderErrorRate={() => (
                 <ErrorRateAlertingBarChart
                   applicationId={entityId}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   granularity={alertingMetricsGranularity}
-                  metricName={metricName}
                   threshold={threshold}
-                  timeThreshold={alertConfig.timeThreshold}
+                  timeThreshold={timeThreshold}
+                />
+              )}
+              renderSlowness={() => (
+                <SlownessAlertingBarChart
+                  applicationId={entityId}
+                  sensitivity={sensitivity}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFiltersWithApplicationId}
+                  aggregation={aggregation}
+                  granularity={alertingMetricsGranularity}
+                  threshold={thresholdWithSeasonality}
+                  timeThreshold={timeThreshold}
+                />
+              )}
+              renderLogs={() => (
+                <LogsAlertingBarChart
+                  applicationId={entityId}
+                  logMessage={alertConfig.rule.message}
+                  logMessageOperator={alertConfig.rule.operator}
+                  logLevel={alertConfig.rule.level}
+                  operator={operator}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={alertingMetricsGranularity}
+                  threshold={threshold}
+                  timeThreshold={timeThreshold}
                 />
               )}
             />
@@ -103,4 +133,11 @@ function getApplicationIdTagFilter(applicationId) {
     operator: 'EQUALS',
     stringValue: applicationId
   };
+}
+
+function getThresholdTypeWithSeasonality(thresholdRule) {
+  if (thresholdRule.type === 'historicBaseline') {
+    return `${thresholdRule.type}.${thresholdRule.seasonality.toUpperCase()}`;
+  }
+  return thresholdRule.type;
 }

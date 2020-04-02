@@ -1,0 +1,114 @@
+import React from 'react';
+
+import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
+import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
+import { isBlank, compareIgnoreCase } from 'in-services/util/string';
+import KeyValue from 'in-new-components/lists/KeyValue';
+import FormGroup from 'in-components/form/FormGroup';
+import Select from 'in-components/form/Select';
+import Button from 'in-new-components/Button';
+import Gravatar from 'in-components/Gravatar';
+import Label from 'in-components/form/Label';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
+import { user } from 'in-stores/user';
+
+import locals from './IndividualEditRightSelection.mless';
+
+const columnDefinitions = [
+  {
+    width: '3rem',
+    getContent({ user }) {
+      return <Gravatar email={user.email} />;
+    }
+  },
+  {
+    getContent({ user }) {
+      return <KeyValue value={user.fullName} label={user.email} inverted accentuated />;
+    }
+  },
+  {
+    width: '2rem',
+    getContent({ user, removeEditor }) {
+      return (
+        <Tooltip content={`Remove editing rights for ${user.fullName}.`}>
+          <SvgIcon className={locals.delete} type="lib_actions_delete" onClick={() => removeEditor(user.id)} />
+        </Tooltip>
+      );
+    }
+  }
+];
+
+export default function IndividualEditRightSelection({
+  isPrivate,
+  usersResult,
+  selectedUserId,
+  setSelectedUserId,
+  addEditor,
+  removeEditor,
+  accessRules
+}) {
+  if (isPrivate) {
+    return null;
+  }
+
+  if (usersResult == null || usersResult.progress.loading) {
+    return (
+      <div className={locals.loading}>
+        <IndeterminateLoadingIndicator size={96} />
+      </div>
+    );
+  }
+
+  const otherUsersWithAccess = accessRules
+    .filter(({ relationType, relatedId }) => relationType === 'USER' && relatedId !== user.id)
+    .map(({ relatedId }) => getUser(usersResult.data, relatedId))
+    .filter(Boolean);
+
+  return (
+    <div className={locals.wrapper}>
+      <div className={locals.addWrapper}>
+        <FormGroup withoutBottomMargin className={locals.addInput}>
+          <Label htmlFor="dashboard-edit-right-selection">Add editors</Label>
+          <Select
+            id="dashboard-edit-right-selection"
+            value={selectedUserId}
+            onChange={e => setSelectedUserId(e.target.value)}
+          >
+            <option value="">Please Select</option>
+
+            {usersResult.data
+              .filter(({ id }) => id !== user.id)
+              .sort(compareUser)
+              .map(user => (
+                <option key={user.id} value={user.id} disabled={getUser(otherUsersWithAccess, user.id)}>
+                  {user.fullName} ({user.email})
+                </option>
+              ))}
+          </Select>
+        </FormGroup>
+        <Button kind="primary" disabled={isBlank(selectedUserId)} className={locals.addButton} onClick={addEditor}>
+          Add
+        </Button>
+      </div>
+
+      {otherUsersWithAccess.length > 0 && (
+        <Ul>
+          {otherUsersWithAccess.sort(compareUser).map(user => (
+            <Li key={user.id}>
+              <ColumnizedContent columnDefinitions={columnDefinitions} user={user} removeEditor={removeEditor} />
+            </Li>
+          ))}
+        </Ul>
+      )}
+    </div>
+  );
+}
+
+function compareUser(a, b) {
+  return compareIgnoreCase(a.fullName || a.email, b.fullName || b.email);
+}
+
+function getUser(users, userId) {
+  return users.find(({ id }) => id === userId);
+}

@@ -1,10 +1,12 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import { getUniqueErrors, Error } from 'in-new-components/Errors/ErroneousResultPresenter';
+import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import { error as errorType } from 'in-new-components/Message/types';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ItemList.mless';
@@ -53,7 +55,9 @@ function ErrorList({ errors }) {
   return (
     <Ul className={locals.list}>
       <Li key={error}>
-        <Error>{error}</Error>
+        <Message type={errorType} small>
+          {error}
+        </Message>
       </Li>
     </Ul>
   );

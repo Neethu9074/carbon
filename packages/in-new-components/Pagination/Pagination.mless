@@ -3,33 +3,54 @@
 :local {
   .pagination {
     display: flex;
+    justify-content: center;
     font-size: 0.875rem;
+    padding: 1rem 0;
   }
 
-  .action {
-    color: @lib__colors__N600Light;
-    text-decoration: none;
+  .control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__white;
+    border: 1px solid @lib__colors__N300;
+    border-left: none;
+
+    &:first-child {
+      border-radius: 2px 0 0 2px;
+      border-left: 1px solid @lib__colors__N300;
+    }
+
+    &:last-child {
+      border-radius: 0 2px 2px 0;
+    }
 
     &:hover {
-      color: @lib__colors__primary1;
-      text-decoration: none;
+      background: @lib__colors__N100;
+      color: @lib__colors__N900Primary;
+      cursor: pointer;
     }
   }
 
-  .disabledAction,
-  .disabledAction:hover {
-    color: @lib__colors__N600Light;
-    cursor: default;
-    text-decoration: none;
+  .disabled {
+    color: @lib__colors__N500;
+    pointer-events: none;
+
+    .icon {
+      fill: @lib__colors__N500;
+    }
   }
 
-  .center {
-    margin: 0 1rem 1rem;
+  .active {
+    color: @lib__colors__primary1;
   }
 
-  .current,
-  .separator,
-  .last {
-    color: @lib__colors__N900Primary;
+  .icon {
+    fill: @lib__colors__N700Medium;
   }
 }

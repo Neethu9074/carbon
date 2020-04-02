@@ -54,7 +54,7 @@ const columnDefinitions = [
       if (!logEntry.actor || logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
         return 'API call';
       }
-      return <Gravatar email={logEntry.actor.email} className={locals.avatar} />;
+      return <Gravatar email={logEntry.actor.email} size="l" />;
     },
     headCellProps: {
       className: locals.narrowColumn

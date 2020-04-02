@@ -24,4 +24,9 @@ const latency = newTimeMetric({ metric: 'latency', label: 'Latency' });
 latency.category = 'Latency';
 latency.unfoldAggregations = true;
 
-export const availableMetrics = [latency, erroneousCalls, errorRate];
+export const availableMetrics = [
+  newNumberMetric({ metric: 'calls', label: 'Calls' }),
+  latency,
+  erroneousCalls,
+  errorRate
+];

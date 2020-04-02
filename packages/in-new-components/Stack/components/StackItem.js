@@ -23,7 +23,7 @@ import locals from './StackItem.mless';
 import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 
 export default function StackItem({
-  item: { id, type, label, healthInfo, metrics, endpointTypes, technologies },
+  item: { id, type, label, shortLabel, healthInfo, metrics, endpointTypes, technologies },
   tab
 }) {
   const isAp = tab === 'application';
@@ -43,7 +43,14 @@ export default function StackItem({
           ) : (
             <div className={locals.dot} />
           )}
-          <EntityWithIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip iconSize="s" />
+          <EntityWithIcon
+            label={shortLabel || label}
+            iconPath={getIconSvgPath(type)}
+            addEllipsis
+            addTooltip
+            iconSize="s"
+            length={52}
+          />
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
           {showEndpointTypes(endpointTypes)}
           {showTechnologies(technologies)}

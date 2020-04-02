@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
+import renderLocalHighlightedTimeframe from 'in-components/Chart/renderer/localHighlightedTimeframe';
 import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';
 import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
@@ -23,10 +24,12 @@ export default class RenderScheduler {
 
     this.combinedSubscriptions = combineLatest([
       offset$,
+      chart.config.localHighlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE),
       highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
-    ]).subscribe(([serverTimeOffset, highlightedTimeframe]) => {
+    ]).subscribe(([serverTimeOffset, localHighlightedTimeframe, highlightedTimeframe]) => {
       this.serverTimeOffset = serverTimeOffset;
       this.highlightedTimeframe = highlightedTimeframe;
+      this.localHighlightedTimeframe = localHighlightedTimeframe;
       chart.requestRender();
     });
   }
@@ -112,6 +115,7 @@ export default class RenderScheduler {
     this.renderAxisMetrics('y1', config);
     this.renderAxisMetrics('y2', config);
 
+    renderLocalHighlightedTimeframe(config, this.localHighlightedTimeframe);
     renderHighlightedTimeframe(config, this.highlightedTimeframe);
 
     this.clearOverdraw(config);
@@ -178,7 +182,6 @@ export default class RenderScheduler {
   }
 
   clearOverdraw(config) {
-    config.clearTopOverdraw();
     config.clearBottomOverdraw();
     config.clearLeftOverdraw();
     config.clearRightOverdraw();

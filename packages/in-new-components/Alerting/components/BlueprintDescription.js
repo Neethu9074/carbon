@@ -1,0 +1,37 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import Button from 'in-new-components/Button/Button';
+
+import locals from './BlueprintDescription.mless';
+
+export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMode, onSelectBlueprintForAlertType }) {
+  const { headline, text } = config;
+
+  return (
+    <div className={locals.container}>
+      <div>
+        <h3 className={locals.headline}>{headline}</h3>
+        <DangerousHtmlPresenter className={locals.text} html={text} />
+      </div>
+      {!isSimpleMode && (
+        <Button
+          kind={selectButtonDisabled ? 'info' : 'primary'}
+          className={locals.button}
+          disabled={selectButtonDisabled}
+          onClick={() => onSelectBlueprintForAlertType({ alertType: config.type })}
+        >
+          Select
+        </Button>
+      )}
+    </div>
+  );
+}
+
+BlueprintDescription.propTypes = {
+  config: PropTypes.object.isRequired,
+  selectButtonDisabled: PropTypes.bool,
+  isSimpleMode: PropTypes.bool,
+  onSelectBlueprintForAlertType: PropTypes.func
+};

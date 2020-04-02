@@ -1,10 +1,11 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import theme from 'in-themes';
+import { number } from 'in-services/formatters/number';
 
 export default function CallsErrors({
   applicationId,
@@ -18,14 +19,15 @@ export default function CallsErrors({
   cardTitle
 }) {
   const granularity = getChartGranularity(timeConfig);
-
+  const labels = ['Calls', 'Erroneous Calls'];
   return (
     <AppdataChartWrapper
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{
         renderer: Renderer.bar,
-        labels: ['Calls', 'Erroneous Calls'],
+        labels: labels,
+        formatter: number.compact,
         metricIds: ['calls', 'erroneousCalls'],
         colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
       }}
@@ -51,11 +53,13 @@ export default function CallsErrors({
           }
         }
       }}
+      primaryContextMenuAction="analyze"
       additionalContextMenuButtons={[
         {
+          name: 'analyze',
           icon: 'lib_analyze',
           label: 'View in Analytics',
-          getHref$: highlightedTime =>
+          getHref$: (highlightedTime, config) =>
             getJumpToAnalyzeHref$(
               { applicationId, serviceId, endpointId },
               {
@@ -71,11 +75,19 @@ export default function CallsErrors({
                     metric: 'latency',
                     aggregation: 'MEAN'
                   }
-                ]
+                ],
+                focusedMetric: focusBasedOnMetrics(config)
               }
             )
         }
       ]}
     />
   );
+}
+
+function focusBasedOnMetrics(config) {
+  if (config.renderedMetrics[0] === 'erroneousCalls') {
+    return 'erroneousCalls_SUM';
+  }
+  return 'calls_SUM';
 }

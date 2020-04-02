@@ -60,7 +60,7 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
                       <li
                         className={locals.listItem}
                         {...getItemProps({
-                          key: item,
+                          key: `${item}${index}`,
                           index,
                           item,
                           style: {
