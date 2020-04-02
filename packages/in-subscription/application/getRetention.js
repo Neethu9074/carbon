@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getRetention = createResultSubscriptionFactory({
@@ -11,6 +9,6 @@ export default getRetention;
 
 export function retention$(timeConfig, defaultValue) {
   return getRetention({ timeConfig: timeConfig })
-    .map(result => get(result, ['data'], defaultValue))
+    .map(result => result?.data || defaultValue)
     .distinct();
 }

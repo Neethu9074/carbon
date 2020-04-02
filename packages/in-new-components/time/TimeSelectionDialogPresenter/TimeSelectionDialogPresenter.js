@@ -33,7 +33,7 @@ export default connectTo(
       serviceDashboard,
       newServiceView,
       endpointDashboard
-    ).map(data => data.containsHistoricData)
+    ).map(data => data?.containsHistoricData)
   }),
   function TimeSelectionDialogPresenter(props) {
     return (

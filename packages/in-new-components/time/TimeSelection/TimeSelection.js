@@ -29,6 +29,7 @@ const largeDataSupportedViews = [isApplicationsView, isAnalyzeView];
 
 export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
   retention$(timeConfig)
+    .filter(Boolean)
     .flatMap(
       data =>
         data.containsHistoricData
