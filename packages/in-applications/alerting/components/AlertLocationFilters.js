@@ -3,18 +3,18 @@ import { Object } from 'core-js';
 import React from 'react';
 
 import {
-  websitesAlertingFilterAdd,
-  websitesAlertingFilterSet,
-  websitesAlertingFilterRemove,
-  websitesAlertingFilterEdit
-} from 'in-websites/alerting/tracker';
+  applicationsAlertingFilterAdd,
+  applicationsAlertingFilterSet,
+  applicationsAlertingFilterRemove,
+  applicationsAlertingFilterEdit
+} from 'in-applications/alerting/tracker';
 import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
+import QuickFilterBar from 'in-applications/alerting/analyze/QuickFilterBar';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getBlueprintObject } from '../trackingHelpers';
-import QuickFilterBar from '../analyze/QuickFilterBar';
-import { getAnalyzeFilterTagKeys } from '../../tags';
+import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 
 const applicationNameTag = 'application.name';
 const notContainedInTagSuggestions = ['application.id', 'application.name', 'service.id', 'endpoint.id'];
@@ -54,7 +54,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
 
-                  websitesAlertingFilterRemove({
+                  applicationsAlertingFilterRemove({
                     ...getBlueprintObject(form),
                     mode: advancedMode ? 'Advanced' : 'Simple',
                     filterName: name
@@ -67,7 +67,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      websitesAlertingFilterSet({
+                      applicationsAlertingFilterSet({
                         ...getBlueprintObject(form),
                         mode: advancedMode ? 'Advanced' : 'Simple',
                         tagFilters
@@ -85,7 +85,6 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               }}
               align="bottomMiddle"
               showPageSelector
-              showWebsiteSelector={advancedMode}
               removeBarPadding
               removeBarBackgroundColor
               hideClearFiltersButton
@@ -105,7 +104,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                           .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
-                      websitesAlertingFilterEdit({
+                      applicationsAlertingFilterEdit({
                         ...getBlueprintObject(form),
                         mode: advancedMode ? 'Advanced' : 'Simple',
                         tagFilters
@@ -122,7 +121,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     .updateIn(['tagFilters'], f => f.setValue(withoutTagFilter(form, tagFilter)).setTouched(true))
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
-                websitesAlertingFilterRemove({
+                applicationsAlertingFilterRemove({
                   ...getBlueprintObject(form),
                   mode: advancedMode ? 'Advanced' : 'Simple',
                   filterName: tagFilter.name
@@ -154,7 +153,7 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
       .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
   );
-  websitesAlertingFilterAdd({
+  applicationsAlertingFilterAdd({
     ...getBlueprintObject(form),
     mode: advancedMode ? 'Advanced' : 'Simple',
     filterName: newTagFilter.name
