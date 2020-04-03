@@ -140,6 +140,11 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         description="Cashier components are used for generating usage stats for customers and internal accounting."
                       />
                       <LinkListItem
+                        label="Hubforce"
+                        href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/hubforce'))}
+                        description="Hubforce (i.e. Portal) "
+                      />
+                      <LinkListItem
                         label="Application Monitoring"
                         description="Dashboards showing how application data, i.e. traces and spans, are written and read."
                       >
