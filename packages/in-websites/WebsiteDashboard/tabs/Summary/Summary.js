@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
@@ -11,8 +12,8 @@ import AggregationSelector from 'in-new-components/AggregationSelector';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function Summary({ websiteId, tagFilters, timeConfig, pageId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
@@ -202,6 +203,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           </Col>
         )}
       </Row>
+      <Footer />
     </Fragment>
   );
 }

@@ -1,0 +1,19 @@
+import React from 'react';
+
+import { floatingActionButtons$ } from './stores/floatingActionButtons';
+import connectTo from 'in-hoc/connectTo';
+
+import locals from './FloatingActionButtonPresenter.mless';
+
+export default connectTo({
+  floatingActionButtons: floatingActionButtons$
+})(FloatingActionButtonPresenter);
+function FloatingActionButtonPresenter({ floatingActionButtons = [] }) {
+  return floatingActionButtons.length > 0 ? (
+    <div className={locals.container}>
+      {floatingActionButtons.map((ActionButton, i) => (
+        <div key={i}>{ActionButton}</div>
+      ))}
+    </div>
+  ) : null;
+}

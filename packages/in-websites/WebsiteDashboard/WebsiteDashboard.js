@@ -7,6 +7,7 @@ import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
@@ -18,12 +19,11 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import CreateAlert from 'in-websites/alerting/CreateAlert';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import CreateAlert from 'in-websites/alerting/CreateAlert';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
-import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 
@@ -117,19 +117,19 @@ function WebsiteDashboard({
         })}
       />
       {role.canConfigureCustomAlerts && (
-        <CreateAlert
-          websiteId={props.websiteId}
-          tagFilters={tagFilters}
-          websiteResult$={getWebsite({
-            id: props.websiteId,
-            timeConfig: props.timeConfig
-          })}
-          timeConfig={props.timeConfig}
-          location={location}
-        />
+        <FloatingActionButtons>
+          <CreateAlert
+            websiteId={props.websiteId}
+            tagFilters={tagFilters}
+            websiteResult$={getWebsite({
+              id: props.websiteId,
+              timeConfig: props.timeConfig
+            })}
+            timeConfig={props.timeConfig}
+            location={location}
+          />
+        </FloatingActionButtons>
       )}
-
-      <Footer />
     </>
   );
 }

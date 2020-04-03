@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
+import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
@@ -20,7 +20,6 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
             reload();
           }
         }}
-        position={positions.bottomRight}
         withBoxShadow
       >
         Add Alert

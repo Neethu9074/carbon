@@ -27,6 +27,7 @@ import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getWebsite from 'in-subscription/website/getWebsite';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
@@ -118,6 +119,7 @@ function Alert({
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
       </div>
+      <Footer />
     </>
   );
 }

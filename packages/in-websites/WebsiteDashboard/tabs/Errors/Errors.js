@@ -19,6 +19,7 @@ import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import Footer from 'in-new-components/Footer';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -117,6 +118,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
         timeConfig={timeConfig}
         rightHeader={rightHeader}
       />
+      <Footer />
     </Fragment>
   );
 }

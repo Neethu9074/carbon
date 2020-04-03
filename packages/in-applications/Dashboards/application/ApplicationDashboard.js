@@ -5,6 +5,7 @@ import React from 'react';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import CreateSmartAlert from '../../alerting/components/CreateSmartAlert';
@@ -111,13 +112,15 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
       />
       {role.canConfigureCustomAlerts &&
         applicationSmartAlertsEnabled && (
-          <CreateSmartAlert
-            applicationLabel={label}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            applicationId={applicationId}
-            location={location}
-          />
+          <FloatingActionButtons>
+            <CreateSmartAlert
+              applicationLabel={label}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              applicationId={applicationId}
+              location={location}
+            />
+          </FloatingActionButtons>
         )}
     </>
   );

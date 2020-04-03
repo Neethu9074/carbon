@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import FloatingActionButton, { positions } from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import { websitesAlertingAddAlert } from 'in-websites/alerting/tracker';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
@@ -51,7 +51,6 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
           setDialogOpen(true);
           websitesAlertingAddAlert(location.pathname, websiteLabel);
         }}
-        position={positions.bottomRight}
         withBoxShadow
       >
         Add Alert

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
@@ -30,22 +31,21 @@ export default function App() {
         <ErrorBoundary name="dialogs">
           {/* for release notes */}
           <ReleaseNotesDialog />
-
           {/* for backend send messages */}
           <MessageDialog />
-
           {/* help articles */}
           <HelpPresenter />
-
           <TooltipPresenter />
-
           <OverlayPresenter />
-
           {/* the flyouts on the top right corner */}
           <MessageFlyout />
-
           {/* all the different dialogs e.g. in the settings */}
           <DialogPresenter />
+        </ErrorBoundary>
+
+        <ErrorBoundary name="floatinButtons">
+          {/* floating action buttons at the bottom of the screen */}
+          <FloatingActionButtonPresenter />
         </ErrorBoundary>
       </GlobalTheme>
     </ErrorBoundary>

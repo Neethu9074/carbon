@@ -6,6 +6,7 @@ import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer';
 
 export default function Speed({ timeConfig, tagFilters }) {
   const granularity = getChartGranularity(timeConfig);
@@ -246,6 +247,7 @@ export default function Speed({ timeConfig, tagFilters }) {
           </AggregationSelector>
         </Col>
       </Row>
+      <Footer />
     </Fragment>
   );
 }

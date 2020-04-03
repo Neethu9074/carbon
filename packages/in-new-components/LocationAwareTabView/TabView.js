@@ -40,6 +40,7 @@ function TabView({
 }) {
   const filteredTabs = tabs.filter(filterTabByResult(result));
   const hasErrors = result && result.errors.length > 0;
+
   return (
     <section>
       <Sticky

@@ -15,6 +15,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import Footer from 'in-new-components/Footer';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -115,7 +116,15 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Pages({ timeConfig, tagFilters, websiteId }) {
   return (
-    <ServerTableWithUrlState get={getTableData} websiteId={websiteId} tagFilters={tagFilters} timeConfig={timeConfig} />
+    <>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+      />
+      <Footer />
+    </>
   );
 }
 
