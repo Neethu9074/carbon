@@ -29,5 +29,7 @@
 
   .empty {
     text-align: center;
+    color: @lib__colors__N500;
+    font-size: 0.875rem;
   }
 }

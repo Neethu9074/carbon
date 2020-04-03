@@ -1,7 +1,11 @@
+@import '~in-themes/active.less';
+
 // File exists to change some behavior in react-grid-layout.
 // We also have a PR upstream to add this to react-grid-layout
 // natively.
 
 .react-grid-item.react-grid-placeholder {
   pointer-events: none;
+  background: @lib__colors__teal800;
+  border-radius: @lib__shapes__radius_large;
 }
