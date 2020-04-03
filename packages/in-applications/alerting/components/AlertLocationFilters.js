@@ -17,7 +17,7 @@ import QuickFilterBar from '../analyze/QuickFilterBar';
 import { getAnalyzeFilterTagKeys } from '../../tags';
 
 const applicationNameTag = 'application.name';
-const notContainedInTagSuggestions = ['application.id', 'application.name'];
+const notContainedInTagSuggestions = ['application.id', 'application.name', 'service.id', 'endpoint.id'];
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationLabel, updateForm }) {
   const tagSuggestions = getAnalyzeFilterTagKeys().filter(tag => !notContainedInTagSuggestions.includes(tag));

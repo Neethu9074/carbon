@@ -31,7 +31,7 @@ export function createSmartAlertForm(alertConfig) {
     .put(
       'boundaryScope',
       createField({
-        value: alertConfig.boundaryScope ?? 'ALL'
+        value: alertConfig.boundaryScope ?? 'INBOUND'
       })
     )
     .put(

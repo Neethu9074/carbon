@@ -12,8 +12,9 @@ import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerti
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
-import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
+import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
+import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
@@ -26,6 +27,7 @@ import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
   const { form, timeConfig, granularity, onChange, setSliderState, updateForm, applicationLabel } = props;
+
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -35,12 +37,15 @@ export default function AdvancedModeContainer(props) {
           label: 'Scope',
           title: 'Scope: Where is the condition happening?',
           content: (
-            <AlertLocationFilters
-              form={form}
-              applicationLabel={applicationLabel}
-              timeConfig={timeConfig}
-              updateForm={updateForm}
-            />
+            <>
+              <AlertLocationFilters
+                form={form}
+                applicationLabel={applicationLabel}
+                timeConfig={timeConfig}
+                updateForm={updateForm}
+              />
+              <InboundOutboundCallsSwitch form={form} onChange={onChange} />
+            </>
           ),
           checked: true
         },
