@@ -17,10 +17,12 @@ export default function PromptPresenter({
   header,
   headerIcon,
   description,
+  additionalFields,
   inputLabel,
   confirmButtonLabel = 'Confirm',
   onSubmit,
   field,
+  form,
   onChange,
   isSaving,
   errors,
@@ -54,9 +56,11 @@ export default function PromptPresenter({
           <TouchedMessages field={field} />
         </FormGroup>
 
+        {additionalFields}
+
         <Actions>
           <CancelButton onClick={close} isSaving={isSaving} />
-          <SaveButton form={field} isSaving={isSaving}>
+          <SaveButton form={form || field} isSaving={isSaving}>
             {confirmButtonLabel}
           </SaveButton>
         </Actions>

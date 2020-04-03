@@ -1,0 +1,22 @@
+:local {
+  .wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    & > label {
+      margin: 0;
+    }
+
+    & > :global(.react-toggle) {
+      // react-toggle introduces an ugly horizontal leading space
+      // which causes it to misalign to other element.
+      margin-left: -.313rem;
+    }
+  }
+
+  .withoutBottomMargin {
+    margin-bottom: 0;
+  }
+}
