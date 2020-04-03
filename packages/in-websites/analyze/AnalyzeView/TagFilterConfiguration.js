@@ -27,6 +27,7 @@ function QuickFilterForm(props) {
   return (
     <TagFilterConfigurationWrapper
       disabled={!props.beaconType}
+      isEmpty={props.tagFilters.length === 0}
       quickFilterBar={<QuickFilterBar {...props} showWebsiteSelector showPageSelector />}
       tagFilterList={<TagFilterList {...props} />}
     />

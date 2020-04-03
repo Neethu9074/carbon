@@ -3,6 +3,7 @@ import React from 'react';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
@@ -79,8 +80,12 @@ export default function MetricConfigurator({
 
   return (
     <>
-      {dataSourceFormGroupElement}
-      {labelFormGroupElement}
+      <Row>
+        <Col lg={6}>{labelFormGroupElement}</Col>
+      </Row>
+      <Row withoutTopMargin>
+        <Col lg={6}>{dataSourceFormGroupElement}</Col>
+      </Row>
     </>
   );
 }

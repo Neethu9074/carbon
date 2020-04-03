@@ -1,4 +1,4 @@
-import { formatDurationAccurately } from 'in-services/formatters/date';
+import { formatDuration } from 'in-services/formatters/date';
 
 export const defaultTimeShift = {
   offset: 0,
@@ -60,5 +60,5 @@ export function getTimeShiftLabel(timeShift) {
     }
   }
 
-  return `Previous ${formatDurationAccurately(timeShift.offset)}`;
+  return `Previous ${formatDuration(Math.abs(timeShift.offset))}`;
 }

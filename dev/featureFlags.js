@@ -21,7 +21,6 @@ module.exports = {
   vsphereEnabled: true,
   mobileAppMonitoringEnabled: true,
   customDashboardsEnabled: true,
-  landingPageConfigurationEnabled: true,
   applicationSmartAlertsEnabled: true,
   agentMonitoringIssuesEnabled: false
 };

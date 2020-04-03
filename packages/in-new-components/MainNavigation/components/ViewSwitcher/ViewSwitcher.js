@@ -84,7 +84,8 @@ export default function ViewSwitcher({
         id="main-nav-system-overview"
         renderContent={() => <Stan />}
         isActive$={any(isView(cockpitPath), isView(customDashboardsPath))}
-        href$={getView(cockpitPath)}
+        // Go to default landing page when clicking this button
+        href$={getView('/')}
         {...commonProps}
       />
       <Spacer />

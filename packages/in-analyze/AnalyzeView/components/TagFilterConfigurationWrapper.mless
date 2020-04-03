@@ -26,4 +26,8 @@
     background: #fff;
     padding: 1rem;
   }
+
+  .empty {
+    text-align: center;
+  }
 }

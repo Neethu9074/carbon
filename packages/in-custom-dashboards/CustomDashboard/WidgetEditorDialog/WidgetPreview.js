@@ -12,7 +12,11 @@ export default function WidgetPreview({ form, onChange }) {
     return (
       <p className={locals.invalidConfig}>
         Preview not available because the widget configuration is incomplete.
-        <Button className={locals.button} onClick={() => onChange([], f => f.setTouched(true, { recurse: true }))}>
+        <Button
+          kind="action"
+          className={locals.button}
+          onClick={() => onChange([], f => f.setTouched(true, { recurse: true }))}
+        >
           Highlight missing configuration
         </Button>
       </p>

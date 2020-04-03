@@ -24,7 +24,15 @@ export default function FormComponent({
 
   return (
     <>
-      {dataSourceFormGroup}
+      {labelFormGroup && (
+        <Row>
+          <Col lg={6}>{labelFormGroup}</Col>
+        </Row>
+      )}
+
+      <Row withoutTopMargin>
+        <Col lg={6}>{dataSourceFormGroup}</Col>
+      </Row>
 
       <FormGroup>
         <Label
@@ -83,8 +91,6 @@ export default function FormComponent({
               </FormGroup>
             </Col>
           </Row>
-
-          {labelFormGroup}
 
           {formatterFormGroup}
 

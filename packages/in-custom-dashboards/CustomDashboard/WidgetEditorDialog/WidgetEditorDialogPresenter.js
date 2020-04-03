@@ -17,6 +17,7 @@ export default function WidgetEditorDialogPresenter({ isEditing, onSubmit, onCha
       titleIconType="lib_views_grid"
       title={isEditing ? 'Edit Widget' : 'Add a Widget'}
       onClose={close}
+      doNotCloseOnOutsideClick
       className={locals.dialog}
     >
       <form

@@ -3,4 +3,4 @@ import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurat
 export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/form';
 export const Form = FormComponent;
 export const source = 'APPLICATION';
-export const label = 'Application & Service Monitoring';
+export const label = 'Applications (Traces and Calls)';

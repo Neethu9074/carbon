@@ -4,7 +4,7 @@ export const green = {
   id: 'greenish',
   label: 'Green',
   backgroundColor: theme.lib.colors.green800,
-  foregroundColor: theme.lib.colors.lib__colors__N900Primary
+  foregroundColor: '#ffffff'
 };
 
 export const red = {

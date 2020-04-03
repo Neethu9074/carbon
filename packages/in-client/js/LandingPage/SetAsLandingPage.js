@@ -1,5 +1,4 @@
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
-import { landingPageConfigurationEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 
 const label = 'Make Homepage';
@@ -10,7 +9,7 @@ export default connectTo(({ isLandingPage }) => ({
 }))(SetAsLandingPage);
 
 function SetAsLandingPage({ isAlreadyLandingPage, children }) {
-  if (isAlreadyLandingPage || !landingPageConfigurationEnabled) {
+  if (isAlreadyLandingPage) {
     return null;
   }
   return children({ isAlreadyLandingPage, label, icon });
