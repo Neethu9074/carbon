@@ -32,11 +32,16 @@ export default function MetricConfigurator({
         hasError={!sourceField.valid && sourceField.touched}
       >
         <option value="">Please select</option>
-        {Object.keys(sources)
-          .sort((a, b) => compareIgnoreCase(sources[a].label, sources[b].label))
-          .map(key => (
-            <option key={key} value={key}>
-              {sources[key].label}
+        {Object.values(sources)
+          .concat({
+            source: 'infra',
+            label: 'Infrastructure & Platforms (coming soon)',
+            disabled: true
+          })
+          .sort((a, b) => compareIgnoreCase(a.label, b.label))
+          .map(({ source, label, disabled }) => (
+            <option key={source} value={source} disabled={disabled}>
+              {label}
             </option>
           ))}
       </Select>
