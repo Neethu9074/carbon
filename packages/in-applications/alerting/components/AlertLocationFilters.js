@@ -8,128 +8,122 @@ import {
   websitesAlertingFilterRemove,
   websitesAlertingFilterEdit
 } from 'in-websites/alerting/tracker';
-import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
+import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
+import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getBlueprintObject } from '../trackingHelpers';
 import QuickFilterBar from '../analyze/QuickFilterBar';
-
-import locals from './AlertLocationFilters.mless';
+import { getAnalyzeFilterTagKeys } from '../../tags';
 
 const applicationNameTag = 'application.name';
-const APPLICATION_ID_TAG = 'application.id';
+// const APPLICATION_ID_TAG = 'application.id';
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationName, updateForm }) {
-  const tagSuggestions = [];
-
-  // if (__DEV__) {
-  //   invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);
-  // }
-
   return (
     form && (
       <>
-        <div className={locals.quickFilterBarWrapper}>
-          <QuickFilterBar
-            timeConfig={timeConfig}
-            tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
-            upsertTagFilter={newTagFilter => {
-              addFilter(form, newTagFilter, updateForm, advancedMode);
-            }}
-            addTagFilter={newTagFilter => {
-              addFilter(form, newTagFilter, updateForm, advancedMode);
-            }}
-            removeTagFilter={name => {
-              if (name !== applicationNameTag) {
+        <TagFilterConfigurationWrapper
+          disabled={false}
+          quickFilterBar={
+            <QuickFilterBar
+              timeConfig={timeConfig}
+              tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
+              upsertTagFilter={newTagFilter => {
+                addFilter(form, newTagFilter, updateForm, advancedMode);
+              }}
+              addTagFilter={newTagFilter => {
+                addFilter(form, newTagFilter, updateForm, advancedMode);
+              }}
+              removeTagFilter={name => {
+                if (name !== applicationNameTag) {
+                  updateForm(
+                    form
+                      .updateIn(['tagFilters'], f =>
+                        f.setValue(withoutTagFiltersForName(getTagFilters(form), name)).setTouched(true)
+                      )
+                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  );
+
+                  websitesAlertingFilterRemove({
+                    ...getBlueprintObject(form),
+                    mode: advancedMode ? 'Advanced' : 'Simple',
+                    filterName: name
+                  });
+                }
+              }}
+              onMoreClick={tagFilter => {
+                addActiveDialog(
+                  <ApplicationEditTagFilterDialog
+                    tagFilter={tagFilter}
+                    tagFilters={getTagFilters(form)}
+                    setTagFilters={tagFilters => {
+                      websitesAlertingFilterSet({
+                        ...getBlueprintObject(form),
+                        mode: advancedMode ? 'Advanced' : 'Simple',
+                        tagFilters
+                      });
+                      updateForm(
+                        form
+                          .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
+                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                      );
+                    }}
+                    tagSuggestions={getAnalyzeFilterTagKeys()}
+                    timeConfig={timeConfig}
+                  />
+                );
+              }}
+              align="bottomMiddle"
+              showPageSelector
+              showWebsiteSelector={advancedMode}
+              removeBarPadding
+              removeBarBackgroundColor
+              hideClearFiltersButton
+              withoutFiltersLabel
+            />
+          }
+          tagFilterList={
+            <TagFilterListPresenter
+              onTagFilterClick={tagFilter => {
+                addActiveDialog(
+                  <ApplicationEditTagFilterDialog
+                    tagFilter={tagFilter}
+                    tagFilters={getTagFilters(form)}
+                    setTagFilters={tagFilters => {
+                      updateForm(
+                        form
+                          .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
+                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                      );
+                      websitesAlertingFilterEdit({
+                        ...getBlueprintObject(form),
+                        mode: advancedMode ? 'Advanced' : 'Simple',
+                        tagFilters
+                      });
+                    }}
+                    tagSuggestions={[]}
+                    timeConfig={timeConfig}
+                  />
+                );
+              }}
+              onRemoveTagFilter={tagFilter => {
                 updateForm(
                   form
-                    .updateIn(['tagFilters'], f =>
-                      f.setValue(withoutTagFiltersForName(getTagFilters(form), name)).setTouched(true)
-                    )
+                    .updateIn(['tagFilters'], f => f.setValue(withoutTagFilter(form, tagFilter)).setTouched(true))
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
-
                 websitesAlertingFilterRemove({
                   ...getBlueprintObject(form),
                   mode: advancedMode ? 'Advanced' : 'Simple',
-                  filterName: name
+                  filterName: tagFilter.name
                 });
-              }
-            }}
-            onMoreClick={tagFilter => {
-              addActiveDialog(
-                <WebsiteEditTagFilterDialog
-                  tagFilter={tagFilter}
-                  tagFilters={getTagFilters(form)}
-                  setTagFilters={tagFilters => {
-                    websitesAlertingFilterSet({
-                      ...getBlueprintObject(form),
-                      mode: advancedMode ? 'Advanced' : 'Simple',
-                      tagFilters
-                    });
-                    updateForm(
-                      form
-                        .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
-                        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                    );
-                  }}
-                  tagSuggestions={tagSuggestions.filter(
-                    name =>
-                      name !== applicationNameTag && name !== APPLICATION_ID_TAG && name !== 'beacon.error.message'
-                  )}
-                  timeConfig={timeConfig}
-                />
-              );
-            }}
-            align="bottomMiddle"
-            showPageSelector
-            showWebsiteSelector={advancedMode}
-            removeBarPadding
-            removeBarBackgroundColor
-            hideClearFiltersButton
-            withoutFiltersLabel
-          />
-        </div>
-        <div className={locals.filterList}>
-          <TagFilterListPresenter
-            onTagFilterClick={tagFilter => {
-              addActiveDialog(
-                <WebsiteEditTagFilterDialog
-                  tagFilter={tagFilter}
-                  tagFilters={getTagFilters(form)}
-                  setTagFilters={tagFilters => {
-                    updateForm(
-                      form
-                        .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
-                        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                    );
-                    websitesAlertingFilterEdit({
-                      ...getBlueprintObject(form),
-                      mode: advancedMode ? 'Advanced' : 'Simple',
-                      tagFilters
-                    });
-                  }}
-                  tagSuggestions={tagSuggestions}
-                  timeConfig={timeConfig}
-                />
-              );
-            }}
-            onRemoveTagFilter={tagFilter => {
-              updateForm(
-                form
-                  .updateIn(['tagFilters'], f => f.setValue(withoutTagFilter(form, tagFilter)).setTouched(true))
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-              );
-              websitesAlertingFilterRemove({
-                ...getBlueprintObject(form),
-                mode: advancedMode ? 'Advanced' : 'Simple',
-                filterName: tagFilter.name
-              });
-            }}
-            tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
-            readonlyFilterNames={[applicationNameTag]}
-          />
-        </div>
+              }}
+              tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
+              readonlyFilterNames={[applicationNameTag]}
+            />
+          }
+        />
       </>
     )
   );
@@ -167,8 +161,8 @@ function withoutTagFilter(form, tagFilter) {
 }
 
 function mutateFiltersForView(tagFilters, applicationName) {
-  const hasWebsiteName = tagFilters.some(({ name }) => name === applicationNameTag);
-  return hasWebsiteName
+  const hasApplicationName = tagFilters.some(({ name }) => name === applicationNameTag);
+  return hasApplicationName
     ? tagFilters
     : [
         {
