@@ -17,9 +17,11 @@ import QuickFilterBar from '../analyze/QuickFilterBar';
 import { getAnalyzeFilterTagKeys } from '../../tags';
 
 const applicationNameTag = 'application.name';
-// const APPLICATION_ID_TAG = 'application.id';
+const notContainedInTagSuggestions = ['application.id', 'application.name'];
 
-export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationName, updateForm }) {
+export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationLabel, updateForm }) {
+  const tagSuggestions = getAnalyzeFilterTagKeys().filter(tag => !notContainedInTagSuggestions.includes(tag));
+
   return (
     form && (
       <>
@@ -28,7 +30,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
           quickFilterBar={
             <QuickFilterBar
               timeConfig={timeConfig}
-              tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
+              tagFilters={mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })}
               upsertTagFilter={newTagFilter => {
                 addFilter(form, newTagFilter, updateForm, advancedMode);
               }}
@@ -69,7 +71,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
                     }}
-                    tagSuggestions={getAnalyzeFilterTagKeys()}
+                    tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
                   />
                 );
@@ -102,7 +104,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                         tagFilters
                       });
                     }}
-                    tagSuggestions={[]}
+                    tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
                   />
                 );
@@ -119,7 +121,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                   filterName: tagFilter.name
                 });
               }}
-              tagFilters={mutateFiltersForView(getTagFilters(form), applicationName)}
+              tagFilters={mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })}
               readonlyFilterNames={[applicationNameTag]}
             />
           }
@@ -134,7 +136,7 @@ AlertLocationFilters.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  applicationName: PropTypes.string.isRequired
+  applicationLabel: PropTypes.string.isRequired
 };
 
 function addFilter(form, newTagFilter, updateForm, advancedMode) {
@@ -160,15 +162,15 @@ function withoutTagFilter(form, tagFilter) {
   return getTagFilters(form).filter(tf => !Object.is(tf, tagFilter));
 }
 
-function mutateFiltersForView(tagFilters, applicationName) {
-  const hasApplicationName = tagFilters.some(({ name }) => name === applicationNameTag);
-  return hasApplicationName
+function mutateFiltersForView({ tagFilters, applicationLabel }) {
+  const tagFiltersContainApplicationNameTag = tagFilters.some(({ name }) => name === applicationNameTag);
+  return tagFiltersContainApplicationNameTag
     ? tagFilters
     : [
         {
           name: applicationNameTag,
           operator: 'EQUALS',
-          stringValue: applicationName
+          stringValue: applicationLabel
         },
         ...tagFilters
       ];

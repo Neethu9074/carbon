@@ -8,12 +8,12 @@ import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
 
 export default function CreateSmartAlert({
-  applicationLabel,
   applicationId,
-  serviceId,
+  applicationLabel,
+  boundaryScope,
   endpointId,
   location,
-  boundaryScope
+  serviceId
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (

@@ -1,68 +1,33 @@
 import { withProps } from 'recompose';
 
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
-import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import { mapDataHO } from 'in-services/util/result';
+
+const mapResultData = mapDataHO(data => data.suggestions);
 
 export default withProps({
   getKeySuggestions: ({ timeConfig, tagFilters, tag }) => {
-    // console.log({ timeConfig, tagFilters, tag });
-
-    return getWebsiteBeaconGroups({
-      timeConfig: timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
+    return getTagSuggestions({
+      filter: {
+        timeConfig
       },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: tag
-      }
-    }).map(mapData);
+      tagFilters: getTagFilterListForBackendSubscription(tagFilters),
+      tagName: tag,
+      secondLevelKeyTagName: null,
+      valueFilter: null
+    }).map(mapResultData);
   },
   getValueSuggestions: ({ timeConfig, tagFilters, tag, key }) => {
-    // console.log({ timeConfig, tagFilters, tag, key });
-    return getWebsiteBeaconGroups({
-      timeConfig: timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
+    return getTagSuggestions({
+      filter: {
+        timeConfig
       },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: tag,
-        groupbyTagSecondLevelKey: key
-      }
-    }).map(mapData);
+      tagFilters: getTagFilterListForBackendSubscription(tagFilters),
+      tagName: key ?? tag,
+      secondLevelKeyTagName: null,
+      valueFilter: null
+    }).map(mapResultData);
   }
 })(EditTagFilterDialog);
-
-function mapData(result) {
-  if (!result.data) {
-    return result;
-  }
-
-  return {
-    progress: result.progress,
-    errors: result.errors,
-    time: result.time,
-    data: result.data.items.map(item => JSON.parse(item.name))
-  };
-}

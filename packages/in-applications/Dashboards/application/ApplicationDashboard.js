@@ -83,7 +83,8 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location }) {
+function renderButtonLine(props) {
+  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location } = props;
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior

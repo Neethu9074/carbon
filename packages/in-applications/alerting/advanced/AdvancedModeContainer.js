@@ -25,7 +25,7 @@ import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
-  const { form, timeConfig, granularity, onChange, setSliderState, updateForm, applicationName } = props;
+  const { form, timeConfig, granularity, onChange, setSliderState, updateForm, applicationLabel } = props;
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -37,7 +37,7 @@ export default function AdvancedModeContainer(props) {
           content: (
             <AlertLocationFilters
               form={form}
-              applicationName={applicationName}
+              applicationLabel={applicationLabel}
               timeConfig={timeConfig}
               updateForm={updateForm}
             />
@@ -129,7 +129,7 @@ export default function AdvancedModeContainer(props) {
             <AlertPropertiesContainer
               form={form}
               onChange={onChange}
-              label={applicationName}
+              label={applicationLabel}
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               getTitlePlaceholder={getTitlePlaceholder}
               trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}
