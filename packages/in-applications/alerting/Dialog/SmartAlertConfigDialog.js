@@ -62,7 +62,8 @@ function resolveThresholdRequest({ form, timeConfig, granularity }) {
           aggregation: 'SUM',
           metric: 'calls',
           timeConfig,
-          granularity
+          granularity,
+          tagFilters: getLogTagFilters(form)
         })
       );
     default:
@@ -107,4 +108,15 @@ function addBaselineToForm({ form, updateForm, baseline, time }) {
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
+}
+
+function getLogTagFilters(form) {
+  const operator = form.get('rule').get('operator').value;
+  const message = form.get('rule').get('message').value;
+  const level = form.get('rule').get('level').value;
+
+  const logMessageFilter = { name: 'log.message', operator: operator, stringValue: message };
+  const logLevelFilter = { name: 'log.level', operator: 'EQUALS', stringValue: level };
+
+  return [...form.get('tagFilters').toJS(), logLevelFilter, logMessageFilter];
 }
