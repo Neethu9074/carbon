@@ -20,7 +20,9 @@ export default function HealthIndicatorPresenter({ openIssues, maxSeverity, acti
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();
-        onClick();
+        if (onClick) {
+          onClick();
+        }
       }}
       className={locals.badge}
       ref={refSetter}
