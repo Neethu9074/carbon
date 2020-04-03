@@ -137,7 +137,7 @@ function getDescription(alertConfigRule) {
   const operator = alertConfigRule.operator;
   let description = getLogMessageRuleOperatorLabel(operator);
   if (operator !== operators.NOT_EMPTY) {
-    description = `${description}: "${alertConfigRule.value}"`;
+    description = `${description}: "${alertConfigRule.message}"`;
   }
   return description;
 }

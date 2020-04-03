@@ -55,7 +55,7 @@ function extendForLogs(baseForm, rule) {
     .put(
       'message',
       createField({
-        value: rule.value ?? '',
+        value: rule.message ?? '',
         validator: value => {
           if (!value || value.trim().length === 0) {
             return [
