@@ -12,11 +12,14 @@ import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerti
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
+import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
+import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Message from 'in-new-components/Message';
+import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
@@ -67,7 +70,27 @@ export default function AdvancedModeContainer(props) {
                     )}
                   </>
                 )}
-                renderLogs={() => <h1>TODO</h1>}
+                renderLogs={() => (
+                  <>
+                    <Card title="Log Message" withoutPadding darkFrame>
+                      {
+                        <ProvideLogMessage
+                          form={form}
+                          timeConfig={timeConfig}
+                          updateForm={updateForm}
+                          onSelectLogMessage={setSliderState}
+                          mode="Advanced"
+                        />
+                      }
+                    </Card>
+                    <LogsInteractiveChart
+                      form={form}
+                      timeConfig={timeConfig}
+                      granularity={granularity}
+                      onChange={onChange}
+                    />
+                  </>
+                )}
               />
             </>
           )

@@ -145,6 +145,11 @@ export const APPLICATIONS_ALERTING_AGGREGATION_CHANGED = 'applications.alerting.
 export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
   'applications.alerting.thresholdDeviationFactorChanged';
+export const APPLICATIONS_ALERTING_LOG_MSG_CHANGED = 'applications.alerting.logMessageChanged';
+export const APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED = 'applications.alerting.logLevelChanged';
+export const APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED = 'applications.alerting.logOperatorChanged';
+export const APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW = 'applications.alerting.logOpenMessageSelectView';
+export const APPLICATIONS_ALERTING_LOG_MSG_SELECTED = 'applications.alerting.logMessageSelected';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

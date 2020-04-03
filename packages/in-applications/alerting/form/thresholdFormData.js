@@ -19,5 +19,6 @@ export function getInitialThresholdType(threshold) {
 
 export const metricNameForAlertType = Object.freeze({
   errorRate: 'errors',
-  slowness: 'latency'
+  slowness: 'latency',
+  logs: 'calls'
 });

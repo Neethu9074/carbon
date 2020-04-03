@@ -1,6 +1,24 @@
 import { createField, createMapForm } from 'formalistic';
 
+export default function createThresholdForm(threshold, alertType) {
+  if (alertType === 'slowness') {
+    return createSlownessForm(threshold);
+  }
+
+  if (alertType === 'errorRate') {
+    return createErrorRateForm(threshold);
+  }
+
+  if (alertType === 'logs') {
+    return createLogsForm(threshold);
+  }
+}
+
 export function createErrorRateForm(threshold = {}) {
+  return createStaticThresholdForm(threshold);
+}
+
+export function createLogsForm(threshold = {}) {
   return createStaticThresholdForm(threshold);
 }
 

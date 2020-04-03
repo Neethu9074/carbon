@@ -21,7 +21,12 @@ import {
   APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED,
   APPLICATIONS_ALERTING_CLOSE_DIALOG,
   APPLICATIONS_ALERTING_SWITCH_MODE,
-  APPLICATIONS_ALERTING_CREATE_ALERT
+  APPLICATIONS_ALERTING_CREATE_ALERT,
+  APPLICATIONS_ALERTING_LOG_MSG_CHANGED,
+  APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED,
+  APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED,
+  APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW,
+  APPLICATIONS_ALERTING_LOG_MSG_SELECTED
 } from 'in-services/tracking/tracking';
 
 export const applicationsAlertingAddAlert = (pathname, websiteName) =>
@@ -58,3 +63,9 @@ export const applicationsAlertingAggregationChanged = e => track(APPLICATIONS_AL
 export const applicationsAlertingThresholdTypeChanged = e => track(APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED, e);
 export const applicationsAlertingThresholdDeviationFactorChanged = e =>
   track(APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED, e);
+
+export const applicationsAlertingLogMsgChanged = e => track(APPLICATIONS_ALERTING_LOG_MSG_CHANGED, e);
+export const applicationsAlertingLogLevelChanged = e => track(APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED, e);
+export const applicationsAlertingLogOperatorChanged = e => track(APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED, e);
+export const applicationsAlertingLogOpenMsgSelectView = e => track(APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW, e);
+export const applicationsAlertingLogMsgSelected = e => track(APPLICATIONS_ALERTING_LOG_MSG_SELECTED, e);

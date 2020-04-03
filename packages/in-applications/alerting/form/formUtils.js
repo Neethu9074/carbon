@@ -1,6 +1,14 @@
 import { isGreaterOperator, getAggregationText, getOperatorText } from 'in-new-components/Alerting/utils/formUtils';
+import { ruleMetricNameOptions, getLogLevelRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
-import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import { operators } from 'in-analyze/applicationFilter';
+
+const operatorDescriptionValues = {
+  [operators.EQUALS]: 'equal',
+  [operators.CONTAINS]: 'contain',
+  [operators.STARTS_WITH]: 'start with',
+  [operators.ENDS_WITH]: 'end with'
+};
 
 export function getBlueprintLabel(alertType) {
   switch (alertType) {
@@ -36,6 +44,8 @@ export function getThresholdLabel(form) {
       return 'Milliseconds';
     case 'errors':
       return 'Percentage';
+    case 'calls':
+      return 'Count';
     default:
       return 'Value';
   }
@@ -51,6 +61,22 @@ export function getTitlePlaceholder(form) {
       const aggregation = ruleForm.get('aggregation').value;
       const operator = form.get('threshold').get('operator').value;
       return `Latency (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
+    }
+    case 'logs': {
+      const message = ruleForm.get('message').value;
+      const operator = ruleForm.get('operator').value;
+      const level = ruleForm.get('level').value;
+      if (operator === operators.NOT_EMPTY) {
+        if (level === 'ANY') {
+          return 'Any Log Message';
+        }
+        return `Any ${getLogLevelRuleOperatorLabel(level)} Log Message`;
+      }
+
+      if (level === 'ANY') {
+        return `Log Messages: ${message}`;
+      }
+      return `${getLogLevelRuleOperatorLabel(level)} Log Messages: ${message}`;
     }
     default:
       return '';
@@ -75,6 +101,16 @@ export function getDescriptionPlaceholder(form) {
         return `The latency (${getAggregationText(aggregation)}) is ${getOperatorText(operator)} ${thresholdValue} ms.`;
       }
       return `The latency (${getAggregationText(aggregation)}) is ${getSimpleOperatorText(operator)} the expectation.`;
+    }
+    case 'logs': {
+      const message = ruleForm.get('message').value;
+      const operator = ruleForm.get('operator').value;
+      const level = ruleForm.get('level').value;
+      const levelText = getLogLevelRuleOperatorLabel(level);
+      if (operator === operators.NOT_EMPTY) {
+        return `${levelText} log messages have been detected.`;
+      }
+      return `${levelText} log messages which ${operatorDescriptionValues[operator]} "${message}" have been detected.`;
     }
     default:
       return '';

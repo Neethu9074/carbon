@@ -9,7 +9,7 @@ import {
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-websites/alerting/tracker';
 import { ruleJsErrorsOperatorOptions } from 'in-websites/alerting/form/ruleFormData';
-import JsErrorsList from 'in-websites/alerting/simple/JsErrorsList';
+import JsErrorsList from 'in-websites/alerting/components/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';

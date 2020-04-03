@@ -1,0 +1,155 @@
+import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
+import React from 'react';
+
+import {
+  applicationsAlertingLogMsgChanged,
+  applicationsAlertingLogOperatorChanged,
+  applicationsAlertingLogLevelChanged,
+  applicationsAlertingLogMsgSelected,
+  applicationsAlertingLogOpenMsgSelectView
+} from 'in-applications/alerting/tracker';
+import { ruleLogMessageOperatorOptions, ruleLogLevelOptions } from 'in-applications/alerting/form/ruleFormData';
+import LogMessagesList from 'in-applications/alerting/components/LogMessagesList';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { operators } from 'in-analyze/applicationFilter';
+import ComboBox from 'in-components/ComboBox/ComboBox';
+import Button from 'in-new-components/Button/Button';
+import TextArea from 'in-components/form/TextArea';
+import Label from 'in-components/form/Label';
+
+import locals from './ProvideLogMessage.mless';
+
+const debouncedLogMsgChangedTracker = debounce(applicationsAlertingLogMsgChanged, 300);
+
+export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage, mode, updateForm }) {
+  const operatorField = form.get('rule').get('operator');
+  const messageField = form.get('rule').get('message');
+  const levelField = form.get('rule').get('level');
+
+  return (
+    <div className={locals.container}>
+      {levelField.map(field => (
+        <FormGroup>
+          <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>
+            Log Level
+          </Label>
+          <ComboBox
+            name={'ruleLevel'}
+            value={field.value}
+            options={ruleLogLevelOptions}
+            onChange={e => {
+              applicationsAlertingLogLevelChanged(mode);
+              const newLevel = (e && e.value) || '';
+              updateForm(
+                form
+                  .updateIn(['rule', 'level'], f => f.setValue(newLevel).setTouched(true))
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              );
+            }}
+            defaultValue={ruleLogLevelOptions[0].value}
+            clearable={false}
+            searchable
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+      {operatorField.map(field => (
+        <FormGroup>
+          <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
+            Error Message
+          </Label>
+          <ComboBox
+            name={'ruleOperator'}
+            value={field.value}
+            options={ruleLogMessageOperatorOptions}
+            onChange={e => {
+              applicationsAlertingLogOperatorChanged(mode);
+              const previousOperator = field.value;
+              const newOperator = (e && e.value) || '';
+              let newRuleValueValue = 'Any';
+              if (previousOperator === operators.NOT_EMPTY) {
+                newRuleValueValue = '';
+              } else if (newOperator !== operators.NOT_EMPTY) {
+                newRuleValueValue = messageField.value;
+              }
+
+              updateForm(
+                form
+                  .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
+                  .updateIn(['rule', 'message'], f => f.setValue(newRuleValueValue).setTouched(true))
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              );
+            }}
+            defaultValue={ruleLogMessageOperatorOptions[0].value}
+            clearable={false}
+            searchable
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+      {operatorField.value !== operators.NOT_EMPTY &&
+        messageField.map(field => (
+          <FormGroup>
+            <div className={locals.logMessageSelection}>
+              <TextArea
+                name={'ruleMessage'}
+                rows="3"
+                value={field.value}
+                onChange={e => {
+                  debouncedLogMsgChangedTracker(mode);
+                  updateForm(
+                    form
+                      .updateIn(['rule', 'message'], f => f.setValue((e && e.target.value) || '').setTouched(true))
+                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  );
+                }}
+                hasError={!field.valid && field.touched}
+                maxLength={65536}
+              />
+              <Button
+                onClick={() => {
+                  applicationsAlertingLogOpenMsgSelectView(mode);
+                  onSelectLogMessage({
+                    slideInConfig: {
+                      component: (
+                        <LogMessagesList
+                          form={form}
+                          timeConfig={timeConfig}
+                          onLogMessageSelect={(message, level) => {
+                            applicationsAlertingLogMsgSelected({ message, mode });
+                            updateForm(
+                              form
+                                .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
+                                .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
+                                .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
+                                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                            );
+                          }}
+                          slideOut={() => onSelectLogMessage({ isVisible: false })}
+                        />
+                      ),
+                      title: 'Select Log Message'
+                    },
+                    isVisible: true
+                  });
+                }}
+              >
+                Select Log Message
+              </Button>
+            </div>
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
+    </div>
+  );
+}
+
+ProvideLogMessage.propTypes = {
+  form: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  onSelectLogMessage: PropTypes.func.isRequired,
+  timeConfig: PropTypes.object.isRequired
+};

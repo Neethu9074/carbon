@@ -24,6 +24,12 @@ export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
   { value: 'P50', label: '50th' }
 ]);
 
+export const ruleLogLevelOptions = Object.freeze([
+  { value: 'ERROR', label: 'Error' },
+  { value: 'WARN', label: 'Warning' },
+  { value: 'ANY', label: 'Error or Warning' }
+]);
+
 export const ruleLogMessageOperatorOptions = Object.freeze([
   { value: operators.NOT_EMPTY, label: 'Any' },
   { value: operators.EQUALS, label: 'Equals' },
@@ -34,4 +40,8 @@ export const ruleLogMessageOperatorOptions = Object.freeze([
 
 export function getLogMessageRuleOperatorLabel(value) {
   return ruleLogMessageOperatorOptions.filter(entry => entry.value === value)[0].label;
+}
+
+export function getLogLevelRuleOperatorLabel(value) {
+  return ruleLogLevelOptions.filter(entry => entry.value === value)[0].label;
 }

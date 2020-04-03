@@ -1,29 +1,38 @@
-import { createSlownessForm, createErrorRateForm } from 'in-applications/alerting/form/thresholdForm';
-import { metricNameForAlertType } from './thresholdFormData';
+import { metricNameForAlertType } from 'in-applications/alerting/form/thresholdFormData';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
+import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType) {
   const threshold = form.get('threshold').toJS();
-  let newForm = form
-    .updateIn(['rule', 'alertType'], f => f.setValue(alertType).setTouched())
-    .updateIn(['rule', 'metricName'], f => f.setValue(metricNameForAlertType[alertType]).setTouched())
-    .updateIn(['threshold', 'type'], f => f.setValue(getThresholdTypeForAlertType(alertType, threshold)).setTouched());
 
-  // reset value fields to prevent displaying the old value in the input field until the new one has arrived
-  if (newForm.get('threshold').containsKey('value')) {
-    newForm = newForm.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched());
-  }
+  const newThresholdForm = createThresholdForm(
+    {
+      ...threshold,
+      type: getThresholdTypeForAlertType(alertType, threshold)
+    },
+    alertType
+  );
 
-  if (alertType === 'errorRate') {
-    return newForm.put('threshold', createErrorRateForm(newForm.get('threshold').toJS()));
-  }
+  const newRuleForm = createRuleForm(
+    {
+      ...form
+        .get('rule')
+        .remove('operator')
+        .remove('value')
+        .remove('message')
+        .remove('level')
+        .toJS(),
+      alertType,
+      metricName: metricNameForAlertType[alertType]
+    },
+    newThresholdForm.get('type').value
+  );
 
-  if (alertType === 'slowness') {
-    return newForm.put('threshold', createSlownessForm(newForm.get('threshold').toJS()));
-  }
+  return form.put('rule', newRuleForm).put('threshold', newThresholdForm);
 }
 
 function getThresholdTypeForAlertType(alertType, threshold) {
-  if (alertType === 'errorRate') {
+  if (alertType === 'errorRate' || alertType === 'logs') {
     return 'staticThreshold';
   }
   if (alertType === 'slowness') {

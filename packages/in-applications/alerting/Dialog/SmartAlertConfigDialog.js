@@ -55,6 +55,16 @@ function resolveThresholdRequest({ form, timeConfig, granularity }) {
           granularity
         })
       );
+    case 'calls':
+      return getApplicationMetricsHistoricThreshold(
+        getHistoricThresholdMetricsConfiguration({
+          ...form.toJS(),
+          aggregation: 'SUM',
+          metric: 'calls',
+          timeConfig,
+          granularity
+        })
+      );
     default:
       return empty;
   }

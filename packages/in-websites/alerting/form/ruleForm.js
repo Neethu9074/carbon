@@ -24,7 +24,7 @@ function createBaseForm(rule) {
     .put(
       'alertType',
       createField({
-        value: rule.alertType ?? 'errorRate'
+        value: rule.alertType ?? 'specificJsError'
       })
     )
     .put(

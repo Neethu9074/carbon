@@ -97,7 +97,7 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
       logs: {
         metric: 'calls',
         granularity: granularity,
-        aggregation: 'MEAN'
+        aggregation: 'SUM'
       }
     }
   };
@@ -132,7 +132,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
       metrics: {
         alerts: {
           metric: 'calls',
-          aggregation: 'MEAN',
+          aggregation: 'SUM',
           granularity // global metric granularity
         }
       }
