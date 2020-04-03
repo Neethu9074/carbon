@@ -83,7 +83,15 @@ function lookupServiceBaseUrl(serviceName) {
       error.notFound = true;
       return Promise.reject(error);
     }
-    return `http://${services[0].ServiceAddress}:${services[0].ServicePort}`;
+    const service = services[0];
+    let host = service.ServiceAddress;
+    // Prefer DNS resolution.
+    if (service.NodeMeta && service.NodeMeta.host) {
+      host = service.NodeMeta.host;
+    }
+    const port = service.ServicePort;
+    const scheme = port === 443 ? 'https' : 'http';
+    return `${scheme}://${host}:${port}`;
   });
 }
 

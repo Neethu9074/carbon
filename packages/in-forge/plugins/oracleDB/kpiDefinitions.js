@@ -1,10 +1,10 @@
-import { hitRateTwoDecimalPlaces, muSecondsToMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { hitRateTwoDecimalPlaces, micros } from 'in-services/formatters/number';
 
 export default [
   {
     label: 'DB Time/Second',
     metric: 'stats.dbTime',
-    formatter: muSecondsToMillisTwoDecimalPlaces
+    formatter: micros
   },
   {
     label: 'DB CPU Time/DB Ratio',

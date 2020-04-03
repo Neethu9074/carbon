@@ -5,6 +5,8 @@ import { get } from 'lodash';
 import {
   serviceListPrefix as matrixPrefix,
   applicationId as applicationIdMatrixParam,
+  serviceId as serviceIdMatrixParam,
+  endpointId as endpointIdMatrixParam,
   contextScope as contextScopeMatrixParam
 } from 'in-applications/navigation/matrix';
 import {
@@ -67,7 +69,7 @@ const columnDefinitions = [
     sortable: false,
     noWrap: true,
     getContent(item) {
-      return <EndpointTypeBadgeList types={item.service.types} />;
+      return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
     }
   },
   {
@@ -185,11 +187,20 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => servicesList,
     getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes', 'technologies', applicationIdMatrixParam, contextScopeMatrixParam],
+    boundKeys: [
+      'endpointTypes',
+      'technologies',
+      applicationIdMatrixParam,
+      serviceIdMatrixParam,
+      endpointIdMatrixParam,
+      contextScopeMatrixParam
+    ],
     getInitialState: () => ({
       endpointTypes: [],
       technologies: [],
       [applicationIdMatrixParam]: '',
+      [serviceIdMatrixParam]: '',
+      [endpointIdMatrixParam]: '',
       [contextScopeMatrixParam]: ''
     }),
     reducerName: 'setFilter',
@@ -200,6 +211,10 @@ export default compose(
         nextState[applicationIdMatrixParam] != null
           ? nextState[applicationIdMatrixParam]
           : prevState[applicationIdMatrixParam],
+      [serviceIdMatrixParam]:
+        nextState[serviceIdMatrixParam] != null ? nextState[serviceIdMatrixParam] : prevState[serviceIdMatrixParam],
+      [endpointIdMatrixParam]:
+        nextState[endpointIdMatrixParam] != null ? nextState[endpointIdMatrixParam] : prevState[endpointIdMatrixParam],
       [contextScopeMatrixParam]:
         nextState[contextScopeMatrixParam] != null
           ? nextState[contextScopeMatrixParam]
@@ -222,6 +237,8 @@ function ServicesList({
   endpointTypes,
   technologies,
   [applicationIdMatrixParam]: applicationId,
+  [serviceIdMatrixParam]: serviceId,
+  [endpointIdMatrixParam]: endpointId,
   [contextScopeMatrixParam]: contextScope
 }) {
   const rightHeader = (
@@ -240,14 +257,23 @@ function ServicesList({
     </Fragment>
   );
 
-  const scopeNotification = !isBlank(applicationId) &&
+  const scopeNotification = (!isBlank(applicationId) || !isBlank(serviceId) || !isBlank(endpointId)) &&
     !isBlank(contextScope) && (
       <ScopeNotification
         icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
         productArea="service"
         applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
         contextScope={contextScope}
-        onClose={() => setFilter({ [applicationIdMatrixParam]: '', [contextScopeMatrixParam]: '' })}
+        onClose={() =>
+          setFilter({
+            [applicationIdMatrixParam]: '',
+            [serviceIdMatrixParam]: '',
+            [endpointIdMatrixParam]: '',
+            [contextScopeMatrixParam]: ''
+          })
+        }
       />
     );
 
@@ -262,6 +288,8 @@ function ServicesList({
             endpointTypes={endpointTypes}
             technologies={technologies}
             applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
             contextScope={contextScope}
             rightHeader={rightHeader}
             scopeNotification={scopeNotification}
@@ -294,6 +322,8 @@ function getServiceListSubscribeEvent({
   technologies = [],
   timeConfig,
   applicationId,
+  serviceId,
+  endpointId,
   contextScope
 }) {
   return getServices({
@@ -354,6 +384,8 @@ function getServiceListSubscribeEvent({
       label: query,
       timeConfig,
       application: applicationId,
+      service: serviceId,
+      endpoint: endpointId,
       endpointTypes,
       technologies
     },

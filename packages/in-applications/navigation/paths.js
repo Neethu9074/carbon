@@ -54,10 +54,12 @@ export function getApplicationList({ timeConfig, applicationId, serviceId, endpo
   });
 }
 
-export function getServiceList({ timeConfig, applicationId, contextScope }) {
+export function getServiceList({ timeConfig, applicationId, serviceId, endpointId, contextScope }) {
   return getModifiedUrlStream(params => {
     params.pathname = servicesList;
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixApplicationId, applicationId);
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixServiceId, serviceId);
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixContextScope, contextScope);
 
     if (timeConfig != null) {

@@ -17,8 +17,6 @@ export default function UpstreamDownstreamPresenter({
   serviceId,
   applicationId,
   endpointId,
-  productArea,
-  boundaryScope,
   close,
   resultApplication,
   itemsApplication
@@ -50,8 +48,6 @@ export default function UpstreamDownstreamPresenter({
             serviceId={serviceId}
             timeConfig={timeConfig}
             endpointId={endpointId}
-            productArea={productArea}
-            boundaryScope={boundaryScope}
             close={close}
           />
         </>

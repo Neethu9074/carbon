@@ -31,6 +31,10 @@ export default [
     formatter: number
   },
   {
+    metric: 'DistributedFilesToInsert',
+    formatter: number
+  },
+  {
     metric: 'QueryPreempted',
     formatter: number
   },

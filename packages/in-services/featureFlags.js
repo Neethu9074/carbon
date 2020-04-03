@@ -36,6 +36,10 @@ export const mobileAppMonitoringEnabled = isFeatureFlagEnabled('mobileAppMonitor
 export const apDashboardEventsEnabled = isFeatureFlagEnabled('apDashboardEventsEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const landingPageConfigurationEnabled = isFeatureFlagEnabled('landingPageConfigurationEnabled');
+//platform feature flags
+export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
+export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
+
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 
 // ########################################################################################
