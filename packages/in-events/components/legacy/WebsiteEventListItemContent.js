@@ -34,7 +34,6 @@ export default connectTo(
     const metadata = event.get('metadata');
     const websiteLabel = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
-    const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
     const sensitivity = alertConfig.threshold.deviationFactor;
     const metricName = alertConfig.rule.metricName || 'errors';
     const alertType = alertConfig.rule.alertType;
@@ -84,7 +83,7 @@ export default connectTo(
                 websiteId={entityId}
                 sensitivity={sensitivity}
                 timeConfig={timeConfig}
-                tagFilters={tagFiltersWithWebsiteId}
+                tagFilters={tagFilters}
                 aggregation={aggregation}
                 granularity={alertingMetricsGranularity}
                 threshold={thresholdWithSeasonality}
@@ -98,7 +97,7 @@ export default connectTo(
             <div className={locals.domainContentWrapper}>
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: tagFiltersWithWebsiteId,
+                  tagFilters: [getWebsiteIdTagFilter(entityId), ...tagFilters],
                   websiteLabel
                 })}
                 disabled
