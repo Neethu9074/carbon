@@ -6,31 +6,34 @@ import { Col, Row } from 'in-new-components/layout/Grid';
 
 import locals from './InboundOrAllCallsSwitch.mless';
 
-export default function InboundOutboundCallsSwitch({ form, onChange }) {
+export default function InboundOutboundCallsSwitch({ form, updateForm }) {
   const boundaryScope = form.get('boundaryScope').value;
-
   return (
     <div className={locals.inboundOutboundCallsSwitchContainer}>
       <Row>
         <Col lg={6}>
           <InboundOrAllCallsOption
             boundaryScope={boundaryScope}
-            onBoundaryStateChange={() =>
-              onChange(['boundaryScope'], f => f.setValue(boundaryScopes.inbound).setTouched(true))
-            }
+            onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.inbound)}
             scope={boundaryScopes.inbound}
           />
         </Col>
         <Col lg={6}>
           <InboundOrAllCallsOption
             boundaryScope={boundaryScope}
-            onBoundaryStateChange={() =>
-              onChange(['boundaryScope'], f => f.setValue(boundaryScopes.all).setTouched(true))
-            }
+            onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.all)}
             scope={boundaryScopes.all}
           />
         </Col>
       </Row>
     </div>
   );
+
+  function updateBoundaryScope(boundaryScope) {
+    updateForm(
+      form
+        .updateIn(['boundaryScope'], f => f.setValue(boundaryScope).setTouched(true))
+        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+    );
+  }
 }
