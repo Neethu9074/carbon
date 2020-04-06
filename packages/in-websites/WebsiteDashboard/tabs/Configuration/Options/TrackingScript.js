@@ -9,7 +9,7 @@ import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 export default function TrackingScript({ websiteId }) {
-  const [trackSessions, setTrackSessions] = useState(false);
+  const [trackSessions, setTrackSessions] = useState(true);
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
