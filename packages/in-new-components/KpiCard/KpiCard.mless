@@ -4,12 +4,27 @@
 :local {
   .wrapper {
     padding: 0.625rem 1rem;
-    border-left: 3px solid @lib__colors__N200;
     .ellipsis();
+    position: relative;
+  }
+
+  .light {
+    border-left: 3px solid @lib__colors__N200;
+  }
+
+  .lightV2 {
+    background: @lib__colors__white;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_large;
+    box-shadow: @lib__shadows__subtle;
   }
 
   .borderless {
     border-left: 0;
+  }
+
+  .useMaxAvailableHeight {
+    height: 100%;
   }
 
   .title {
@@ -36,5 +51,13 @@
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;
+  }
+
+  .actions {
+    position: absolute;
+    top: 0.625rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
   }
 }

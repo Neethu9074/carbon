@@ -20,6 +20,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -131,7 +132,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
           <MetaEntityLink
             entity={application}
             icon="lib_cloudfoundry_application"
-            getDashboard={getApplicationDashboard}
+            getDashboard={pcfEnabled && getApplicationDashboard}
           >
             instance {cfInstanceIndex} of
           </MetaEntityLink>
@@ -157,7 +158,11 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
       {children}
       <div className={locals.metaRow}>
         {datacenter && (
-          <MetaEntityLink entity={datacenter} icon="lib_vsphere" getDashboard={getVsphereDatacenterDashboard}>
+          <MetaEntityLink
+            entity={datacenter}
+            icon="lib_vsphere"
+            getDashboard={vsphereEnabled && getVsphereDatacenterDashboard}
+          >
             instance of
           </MetaEntityLink>
         )}

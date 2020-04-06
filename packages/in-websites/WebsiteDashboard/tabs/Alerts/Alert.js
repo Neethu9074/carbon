@@ -7,7 +7,7 @@ import {
   websitesAlertingAlertResumed,
   websitesAlertingAlertPaused,
   websitesAlertingAlertEdit
-} from 'in-websites/eum-alerting/tracker';
+} from 'in-websites/alerting/tracker';
 import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
@@ -23,10 +23,11 @@ import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/
 import { alertsTab, alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
-import AlertConfigDialog from 'in-websites/eum-alerting/AlertConfigDialog';
+import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getWebsite from 'in-subscription/website/getWebsite';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
@@ -118,6 +119,7 @@ function Alert({
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
       </div>
+      <Footer />
     </>
   );
 }

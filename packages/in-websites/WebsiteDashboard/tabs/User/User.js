@@ -9,6 +9,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
+import Footer from 'in-new-components/Footer';
 
 export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
@@ -94,6 +95,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
           />
         </Col>
       </Row>
+      <Footer />
     </Fragment>
   );
 }

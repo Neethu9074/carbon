@@ -244,6 +244,7 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
   // make sorting case insensitive
   const caseInsensitiveSortIteratee = entity => {
     let value = null;
+
     if (typeof sortIteratee === 'string') {
       value = entity[sortIteratee];
     } else if (typeof sortIteratee === 'function') {

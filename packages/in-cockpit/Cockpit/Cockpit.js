@@ -1,19 +1,26 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  mobileAppMonitoringEnabled,
+  customDashboardsEnabled
+} from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
-import { mobileAppMonitoringEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Lettering from 'in-components/Lettering';
@@ -49,9 +56,9 @@ const configEnrichmentLookUpTable = {
   '3': {
     type: 'platformsTopList',
     config: {
-      label: 'Platforms',
-      icon: 'lib_platforms',
-      cardIcon: 'lib_platforms_inverted'
+      label: getPlatformsTitle(),
+      icon: `${getPlatformCardIcon()}`,
+      cardIcon: `${getPlatformCardIcon()}_inverted`
     }
   },
   '4': {
@@ -70,7 +77,8 @@ const configEnrichmentLookUpTable = {
       cardIcon: 'lib_events_inverted',
       chartConfig: {
         y1: {
-          formatter: 'number.detailed',
+          colors: [theme.lib.colors.orange800, theme.lib.colors.red800, theme.lib.colors.yellow800],
+          formatter: 'number.compact',
           renderer: 'stackedBar',
           metrics: [
             {
@@ -100,11 +108,23 @@ const configEnrichmentLookUpTable = {
           ]
         },
         y2: {
-          formatter: 'number.detailed',
+          formatter: 'number.compact',
           renderer: 'line',
           metrics: []
         },
-        type: 'TIME_SERIES'
+        type: 'TIME_SERIES',
+        primaryContextMenuAction: 'showEvents',
+        additionalContextMenuButtons: [
+          {
+            name: 'showEvents',
+            icon: 'lib_events_inverted',
+            label: 'View Events',
+            getHref$: highlightedTime =>
+              getEventsViewFilteredBy({
+                timeConfig: highlightedTime
+              })
+          }
+        ]
       }
     }
   }
@@ -187,7 +207,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
   const setNewItemOrder = items => {
     items = items.slice();
     items.sort((i1, i2) => i1.y - i2.y);
-    setSingle(settingsKey, { ordering: items });
+    setSingle(settingsKey, { ordering: items.map(({ id, x, y }) => ({ id, x, y })) });
   };
 
   const renderNavigation = width > 1200;
@@ -205,7 +225,6 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
                 }))
               }}
               isResizable={false}
-              rowHeightPixels={130}
               width={width - convertRemToPx(renderNavigation ? 18 : 3)}
               onLayoutChange={setNewItemOrder}
               draggableHandle={draggableCardLocals.dragHandleIcon}
@@ -248,45 +267,36 @@ function renderButtonLine() {
 
 function getOrderedItems(settings) {
   const orderingFromSettings = settings[settingsKey];
-  return orderingFromSettings
+  return (orderingFromSettings
     ? orderingFromSettings.ordering
     : [
         {
           id: '1',
-          width: 12,
-          height: 3,
           x: 0,
           y: 0
         },
         {
           id: '2',
-          width: 12,
-          height: 3,
           x: 0,
           y: 4
         },
         {
           id: '3',
-          width: 12,
-          height: 3,
           x: 0,
           y: 8
         },
         {
           id: '4',
-          width: 12,
-          height: 3,
           x: 0,
           y: 12
         },
         {
           id: '5',
-          width: 12,
-          height: 3,
           x: 0,
           y: 16
         }
-      ];
+      ]
+  ).map(widget => ({ ...widget, width: 12, height: 3 }));
 }
 
 function filterItems(orderedItems) {
@@ -298,6 +308,40 @@ function filterItems(orderedItems) {
     }
     return true;
   });
+}
+
+function getPlatformsTitle() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'Platforms';
+  }
+  if (pcfEnabled) {
+    return 'Cloud Foundry';
+  }
+  if (vsphereEnabled) {
+    return 'vSphere';
+  }
+  return 'Kubernetes';
+}
+
+function getPlatformCardIcon() {
+  let numPlatformsAvailable = 0;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (pcfEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
+  if (numPlatformsAvailable > 1) {
+    return 'lib_platforms';
+  }
+  if (pcfEnabled) {
+    return 'lib_cloudfoundry';
+  }
+  if (vsphereEnabled) {
+    return 'lib_vsphere';
+  }
+  return 'lib_kubernetes';
 }
 
 function getWebsiteAndMobileIcon() {

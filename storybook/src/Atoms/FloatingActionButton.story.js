@@ -1,9 +1,9 @@
+import { withKnobs } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import markdownNotes from './FloatingActionButton.md';
-import { withKnobs } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button',

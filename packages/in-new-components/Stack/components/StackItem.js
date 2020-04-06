@@ -1,33 +1,32 @@
 import React from 'react';
 
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
 import { Li } from 'in-new-components/lists/List';
-import { getIconSvgPath } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 
 import locals from './StackItem.mless';
-import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 
 export default function StackItem({
-  item: { id, type, label, healthInfo, metrics, endpointTypes, technologies },
+  item: { id, type, label, shortLabel, healthInfo, metrics, endpointTypes, technologies },
   tab
 }) {
   const isAp = tab === 'application';
-  const hasHealthInfo = healthInfo && healthInfo.type;
+  const hasHealthInfo = healthInfo?.type;
+  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes'));
 
   return (
     <Li href$={dashboardLink(id, type)} noAlternatingBg>
@@ -43,10 +42,10 @@ export default function StackItem({
           ) : (
             <div className={locals.dot} />
           )}
-          <EntityWithIcon label={label} iconPath={getIconSvgPath(type)} addEllipsis addTooltip iconSize="s" />
+          <EntityWithIcon label={shortLabel || label} type={type} technologies={technologiesNoK8s} length={52} />
+
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
           {showEndpointTypes(endpointTypes)}
-          {showTechnologies(technologies)}
         </div>
         {isAp ? showApKpis(metrics) : showInfraKpis(id, type)}
       </div>
@@ -92,10 +91,6 @@ const showEndpointTypes = endpointTypes => {
   ) : (
     <div />
   );
-};
-
-const showTechnologies = technologies => {
-  return technologies ? <TechnologyIndicatorList technologies={technologies} /> : <div />;
 };
 
 const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];

@@ -33,4 +33,18 @@
     font-size: 0.875rem;
     line-height: 1.125rem;
   }
+
+  .badgeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1rem;
+    justify-content: space-around;
+  }
+
+  .badge {
+    display: block;
+    position: relative;
+    width: 100%
+  }
 }

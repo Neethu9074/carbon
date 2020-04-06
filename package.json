@@ -88,7 +88,7 @@
     "moment-timezone": "^0.5.25",
     "nivo": "0.31.0",
     "prismjs": "^1.5.1",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.7.2",
     "qs": "^6.4.0",
     "react": "^16.13.0",
     "react-addons-shallow-compare": "^15.6.2",

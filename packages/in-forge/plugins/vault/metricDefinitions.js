@@ -1,88 +1,94 @@
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { number } from 'in-services/formatters/number';
-
-const TOPICS_ROOT = 'topics';
-const QUEUES_ROOT = 'queues';
+import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: [
-      'uptime',
-      'connectionCount',
-      'sessionCount',
-      'durableCount',
-      'readOperations',
-      'writeOperations',
-      'pendingMessageCount',
-      'pendingMessageSize',
-      'messagesMemory',
-      'inMessages',
-      'inMessagesCount',
-      'outMessages',
-      'outMessagesCount',
+      'secret.create.count',
+      'secret.read.count',
+      'secret.update.count',
+      'secret.delete.count',
 
-      getMetricMatch(TOPICS_ROOT, 'inMessages'),
-      getMetricMatch(TOPICS_ROOT, 'inMessagesCount'),
-      getMetricMatch(TOPICS_ROOT, 'inMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'outMessages'),
-      getMetricMatch(TOPICS_ROOT, 'outMessagesCount'),
-      getMetricMatch(TOPICS_ROOT, 'outMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessages'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessagesLimit'),
-      getMetricMatch(TOPICS_ROOT, 'subscriberCount'),
+      'audit.logRequest.count',
+      'audit.logRequest.failure.count',
+      'audit.logResponse.count',
+      'audit.logResponse.failure.count',
 
-      getMetricMatch(QUEUES_ROOT, 'inMessages'),
-      getMetricMatch(QUEUES_ROOT, 'inMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'inMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'outMessages'),
-      getMetricMatch(QUEUES_ROOT, 'outMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'outMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesLimit'),
-      getMetricMatch(QUEUES_ROOT, 'receiverCount')
+      'core.leadershipLost.duration',
+      'core.leadershipSetupFailed.duration',
+
+      'token.lookup.count',
+      'token.create.count',
+
+      'barrier.put.count',
+      'barrier.get.count',
+      'barrier.list.count',
+      'barrier.delete.count',
+
+      'database.initialize.error.count',
+      'database.close.error.count',
+      'database.createUser.error.count',
+      'database.renewUser.error.count',
+      'database.revokeUser.error.count'
     ],
     labels: [
-      'Uptime',
-      'Connections Count',
-      'Sessions Count',
-      'Durables Count',
-      'Read Operations Rate',
-      'Write Operations Rate',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Messages Memory',
-      'In Messages Rate',
-      'In Messages Count',
-      'Out Messages Count',
-      'Out Messages Rate',
+      'Secrets Created Count',
+      'Secrets Read Count',
+      'Secrets Update Count',
+      'Secrets Delete Count',
 
-      //topics
-      'In Messages Rate',
-      'In Messages Count',
-      'In Messages Size',
-      'Out Messages Rate',
-      'Out Messages Count',
-      'Out Messages Size',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Pending Messages Limit',
-      'Subscribers Count',
+      'Audit Log Requests Count',
+      'Audit Log Requests Failure',
+      'Audit Log Responses Count',
+      'Audit Log Responses Failure',
 
-      //queues
-      'In Messages Rate',
-      'In Messages Count',
-      'In Messages Size',
-      'Out Messages Rate',
-      'Out Messages Count',
-      'Out Messages Size',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Pending Messages Limit',
-      'Receivers Count'
+      'Leader Failure Lost',
+      'Leader Failure Setup Failed',
+
+      'Tokens Lookup Count',
+      'Tokens Created Count',
+
+      'Barrier Operations Put Count',
+      'Barrier Operations Get Count',
+      'Barrier Operations List Count',
+      'Barrier Operations Delete Count',
+
+      'Secret Engine Initialization Errors',
+      'Secret Engine Close Errors',
+      'Secret Engine Create User Errors',
+      'Secret Engine Renew User Errors',
+      'Secret Engine Revoke User Errors'
     ],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [
+      'secret.create.duration',
+      'secret.read.duration',
+      'secret.update.duration',
+      'secret.delete.duration',
+
+      'audit.logRequest.duration',
+
+      'audit.logResponse.duration',
+
+      'token.lookup.duration',
+      'token.create.duration'
+    ],
+    labels: [
+      'Secrets Creadted Duration',
+      'Secrets Read Duration',
+      'Secrets Update Duration',
+      'Secrets Delete Duration',
+
+      'Audit Log Requests Duration',
+
+      'Audit Log Responses Duration',
+
+      'Tokens Loopup Duration',
+      'Tokens Created Duration'
+    ],
+    min: 0,
+    formatter: millis
   }
 ];

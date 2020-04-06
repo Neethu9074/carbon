@@ -16,52 +16,66 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './CallDetails.mless';
 
+const traceIdCorrelationType = 'traceId';
+
 export default compose(
   connectTo(({ rootCall, callId, traceId, startTime }) => {
-    const observables = {
-      callResult: getTraceActivityTreeNodeDetails({
-        traceId: traceId,
-        nodeId: callId
-      }).startWith(pendingResult)
-    };
+    const callResult$ = getTraceActivityTreeNodeDetails({
+      traceId: traceId,
+      nodeId: callId
+    }).startWith(pendingResult);
 
     if (!rootCall || (rootCall.id !== callId && callId !== 'ROOT')) {
       // No need to attempt to load mobile app / website correlation data for non root calls.
-      return observables;
+      return {
+        callResult: callResult$
+      };
     }
 
+    const correlationInformation$ = callResult$
+      .map(result => extractCorrelationInformation(traceId, result))
+      .filter(Boolean);
+
     return {
-      ...observables,
-      websiteBeaconResult: getWebsiteBeacons({
-        tagFilters: [{ name: 'beacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: 1000 * 60 * 60,
-          to: startTime + 1000 * 60 * 30,
-          focusedMoment: startTime + 1000 * 60 * 30
-        },
-        order: {
-          by: 'beacon.timestamp',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      }),
-      mobileAppBeaconResult: getMobileAppBeacons({
-        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: 1000 * 60 * 60,
-          to: startTime + 1000 * 60 * 30,
-          focusedMoment: startTime + 1000 * 60 * 30
-        },
-        order: {
-          by: 'mobileBeacon.timestamp',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      })
+      callResult: callResult$,
+      websiteBeaconResult: correlationInformation$
+        .filter(({ correlationType }) => correlationType === traceIdCorrelationType || correlationType === 'web')
+        .flatMap(({ correlationId }) =>
+          getWebsiteBeacons({
+            tagFilters: [{ name: 'beacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
+            timeConfig: {
+              windowSize: 1000 * 60 * 60,
+              to: startTime + 1000 * 60 * 30,
+              focusedMoment: startTime + 1000 * 60 * 30
+            },
+            order: {
+              by: 'beacon.timestamp',
+              direction: 'DESC'
+            },
+            pagination: {
+              retrievalSize: 1
+            }
+          })
+        ),
+      mobileAppBeaconResult: correlationInformation$
+        .filter(({ correlationType }) => correlationType === traceIdCorrelationType || correlationType === 'mobile')
+        .flatMap(({ correlationId }) =>
+          getMobileAppBeacons({
+            tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
+            timeConfig: {
+              windowSize: 1000 * 60 * 60,
+              to: startTime + 1000 * 60 * 30,
+              focusedMoment: startTime + 1000 * 60 * 30
+            },
+            order: {
+              by: 'mobileBeacon.timestamp',
+              direction: 'DESC'
+            },
+            pagination: {
+              retrievalSize: 1
+            }
+          })
+        )
     };
   })
 )(CallDetails);
@@ -100,4 +114,27 @@ function CallDetails(props) {
       <IsSynthetic call={call} />
     </aside>
   );
+}
+
+function extractCorrelationInformation(traceId, result) {
+  if (!result.data) {
+    return null;
+  }
+
+  for (const span of result.data.spans) {
+    const correlationId = span?.data?.correlationId;
+    const correlationType = span?.data?.correlationType;
+
+    if (correlationId && correlationType) {
+      return {
+        correlationId,
+        correlationType
+      };
+    }
+  }
+
+  return {
+    correlationId: traceId,
+    correlationType: traceIdCorrelationType
+  };
 }

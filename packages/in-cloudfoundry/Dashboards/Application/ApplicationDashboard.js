@@ -126,6 +126,7 @@ function renderButtonLine(props) {
 function renderMetaInformation({ result }) {
   const space = get(result, ['data', 'space']);
   const organization = get(result, ['data', 'organization']);
+  const foundation = get(result, ['data', 'foundation']);
 
   return (
     <>
@@ -140,6 +141,13 @@ function renderMetaInformation({ result }) {
         <Tooltip themeStyle="light" content={`Organization: ${organization}`}>
           <WithIcon className={locals.icon} icon="lib_cloudfoundry_organization">
             <span className={locals.label}>{organization}</span>
+          </WithIcon>
+        </Tooltip>
+      )}
+      {foundation && (
+        <Tooltip themeStyle="light" content={`Foundation: ${foundation}`}>
+          <WithIcon className={locals.icon} icon="lib_cloudfoundry_application">
+            <span className={locals.label}>{foundation}</span>
           </WithIcon>
         </Tooltip>
       )}

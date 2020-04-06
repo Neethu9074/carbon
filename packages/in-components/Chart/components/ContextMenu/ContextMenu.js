@@ -1,14 +1,15 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import downloadButtonConfig from 'in-components/Chart/components/ContextMenu/downloadButtonConfig';
-import zoomInButtonConfig from 'in-components/Chart/components/ContextMenu/zoomInButtonConfig';
-import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
+import downloadAction from 'in-components/Chart/components/ContextMenu/actions/download';
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -22,20 +23,67 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
+    const { setShowContextMenu, highlightedTimeframe, chart } = props;
+
+    const basicButtonConfigs = [
+      {
+        ...globalHighlightAction,
+        onClick: () => {
+          globalHighlightAction.onClick(highlightedTimeframe);
+          chart.config.clearLocalHighlightedTimeframe();
+        }
+      },
+      {
+        ...zoomInAction,
+        getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
+      },
+      allowDownloadMetricsFromCharts && {
+        ...downloadAction,
+        onClick: () => downloadAction.onClick(this.props.metrics, highlightedTimeframe)
+      }
+    ];
+
+    const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
+    const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
+      .filter(Boolean)
+      .sort((a1, a2) => sortByPrimaryAction(a1, a2, primaryContextMenuAction))
+      .map(config => {
+        if (config.onClick) {
+          const originalOnClick = config.onClick;
+          config.onClick = e => {
+            stopPropagationAndPreventDefault(e);
+            setShowContextMenu(false);
+            if (originalOnClick) {
+              originalOnClick(this.getStrippedConfig());
+            }
+          };
+        }
+        if (config.getHref$) {
+          const originalGetHref$ = config.getHref$;
+          config.getHref$ = () =>
+            originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), this.getStrippedConfig());
+        }
+        return config;
+      });
+
     this.state = {
-      showContextMenu: props.highlightedTimeframeSetByMouseUp,
-      openendByClick: props.highlightedTimeframeSetByMouseUp
+      contextMenuButtons
     };
   }
 
   componentDidMount() {
     this.onMouseDownSubscription = on(window, 'mousedown').subscribe(e => this.onMouseDown(e));
+    this.keyDownSubscription = on(window, 'keydown').subscribe(e => this.onKeyDown(e));
   }
 
   componentWillUnmount() {
     if (this.onMouseDownSubscription) {
       this.onMouseDownSubscription.dispose();
       this.onMouseDownSubscription = null;
+    }
+    if (this.keyDownSubscription) {
+      this.keyDownSubscription.dispose();
+      this.keyDownSubscription = null;
     }
   }
 
@@ -47,22 +95,26 @@ export default class extends React.Component {
       !containsIgnoreCase(targetClassName, locals.button) &&
       !containsIgnoreCase(targetClassName, locals.contextMenuActionsButtonsWrapper)
     ) {
+      this.props.setShowContextMenu(false);
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
   }
 
-  closeContextMenu = () => {
-    this.setState({ showContextMenu: false, openendByClick: false });
-  };
+  onKeyDown(e) {
+    if (e.keyCode === keyCodes.escape) {
+      this.props.chart.config.clearLocalHighlightedTimeframe();
+    }
+  }
 
   render() {
-    const { highlightedTimeframe, xScale, chart } = this.props;
-    const { showContextMenu } = this.state;
+    const { showContextMenu, immediatelyOpenContextMenu, highlightedTimeframe, xScale, chart } = this.props;
+    const contextMenuButtons = this.state.contextMenuButtons;
 
     const isContextMenuAvailable =
-      highlightedTimeframe &&
-      highlightedTimeframe[1] > xScale.getDomainFrom() &&
-      highlightedTimeframe[0] < xScale.getDomainTo();
+      (highlightedTimeframe &&
+        highlightedTimeframe[1] > xScale.getDomainFrom() &&
+        highlightedTimeframe[0] < xScale.getDomainTo()) ||
+      contextMenuButtons.length === 0;
     if (!isContextMenuAvailable) {
       return null;
     }
@@ -73,54 +125,8 @@ export default class extends React.Component {
       size: 'compact'
     };
 
-    const basicButtonConfigs = [
-      highlightedTimeframe && {
-        ...zoomInButtonConfig,
-        getHref$: () => zoomInButtonConfig.getHref$(chart)
-      },
-      allowDownloadMetricsFromCharts && {
-        ...downloadButtonConfig,
-        onClick: () => downloadButtonConfig.onClick(this.props.metrics, this.props.highlightedTimeframe)
-      },
-      highlightedTimeframe && {
-        icon: 'lib_views_tag',
-        label: 'Highlight selection',
-        onClick: () =>
-          setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]) ||
-          chart.config.clearLocalHighlightedTimeframe()
-      },
-      highlightedTimeframe && {
-        icon: 'lib_openclose_circle_outline',
-        label: 'Clear selection',
-        onClick: () => chart.config.clearLocalHighlightedTimeframe()
-      }
-    ];
-
-    const strippedConfig = this.getStrippedConfig();
-    const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
-      .filter(Boolean)
-      .map(config => {
-        if (config.onClick) {
-          const originalOnClick = config.onClick;
-          config.onClick = e => {
-            stopPropagationAndPreventDefault(e);
-            this.closeContextMenu();
-            if (originalOnClick) {
-              originalOnClick(strippedConfig);
-            }
-          };
-        }
-        if (config.getHref$) {
-          const originalGetHref$ = config.getHref$;
-          config.getHref$ = () => originalGetHref$(getHighlightedTimeConfig(highlightedTimeframe), strippedConfig);
-        }
-        return config;
-      });
-    if (contextMenuButtons.length === 0) {
-      return null;
-    }
-
     const leftAligned = this.isLeftAligned();
+    const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
     return (
       <>
@@ -128,7 +134,7 @@ export default class extends React.Component {
           className={locals.contextMenuActionsButtonsWrapper}
           style={{ left: this.getXPosition(contextMenuButtons.length) }}
         >
-          {this.renderButtons(contextMenuButtons)}
+          {!immediatelyOpenContextMenu && this.renderButtons(contextMenuButtons)}
           {showContextMenu && (
             <div
               className={evaluateClassNames({
@@ -136,8 +142,12 @@ export default class extends React.Component {
                 [locals.leftAligned]: leftAligned,
                 [locals.rightAligned]: !leftAligned
               })}
+              style={{
+                marginLeft: leftAligned ? 2 : 0,
+                marginRight: leftAligned ? 0 : barWidthInPx + 2
+              }}
             >
-              {contextMenuButtons.slice(1).map((buttonConfig, index) => (
+              {contextMenuButtons.slice(immediatelyOpenContextMenu ? 0 : 1).map((buttonConfig, index) => (
                 <Button
                   key={index}
                   {...buttonProps}
@@ -166,12 +176,8 @@ export default class extends React.Component {
     return highlightedTimeframe[1] < xScale.getDomainFrom() + fullDomain / 2;
   };
 
-  onOpenContextMenuClicked = () => {
-    if (this.state.openendByClick) {
-      this.closeContextMenu();
-    } else {
-      this.setState({ showContextMenu: true, openendByClick: true });
-    }
+  toggleContextMenu = () => {
+    this.props.setShowContextMenu(!this.props.showContextMenu);
   };
 
   getStrippedConfig = () => {
@@ -220,7 +226,7 @@ export default class extends React.Component {
   renderContextMenu = () => {
     return createIconButton({
       icon: 'lib_menu_more_horizontal',
-      onClick: this.onOpenContextMenuClicked
+      onClick: this.toggleContextMenu
     });
   };
 }
@@ -269,4 +275,15 @@ function getHighlightedTimeConfig(highlightedTimeframe) {
   };
 
   return highlightedTimeConfig;
+}
+
+// exporting for test
+export function sortByPrimaryAction(i1, i2, primaryContextMenuAction) {
+  if (i1.name === primaryContextMenuAction) {
+    return -1;
+  }
+  if (i2.name === primaryContextMenuAction) {
+    return 1;
+  }
+  return 0;
 }

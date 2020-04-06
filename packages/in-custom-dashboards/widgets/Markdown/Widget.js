@@ -18,9 +18,18 @@ export default compose(
   }))
 )(MarkdownWidget);
 
-function MarkdownWidget({ title, html }) {
+function MarkdownWidget({ title, actions, html, isPreview, dragHandle }) {
   return (
-    <Card title={title} useMaxAvailableHeight>
+    <Card
+      title={title}
+      header={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
+      useMaxAvailableHeight={!isPreview}
+    >
       <DangerousHtmlPresenter html={html} />
     </Card>
   );

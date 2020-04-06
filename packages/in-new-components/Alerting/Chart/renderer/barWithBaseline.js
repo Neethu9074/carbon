@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
-import { isGreaterOperator } from 'in-websites/eum-alerting/alertConfigUtil';
+import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
 
@@ -13,7 +13,7 @@ export default {
     // historical data
     bar.render({ axis, dataSeries: metric, color: colors[0], scale, config });
 
-    renderBaseline(axis, metric, config, scale, colors);
+    renderBaseline(axis, config, scale, colors);
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
@@ -30,7 +30,7 @@ function drawLineGraph(len, config, upperThresholdInTimeframe, scale) {
   }
 }
 
-function renderBaseline(axis, metric, config, scale, colors) {
+function renderBaseline(axis, config, scale, colors) {
   const baseline = config.y1.baseline;
   if (!baseline || baseline.length === 0) {
     return;
@@ -54,9 +54,11 @@ function renderBaseline(axis, metric, config, scale, colors) {
   const len = upperThresholdInTimeframe.length;
   const xPosStart = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
   const xPosEnd = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
+  const markerPaneHeight = config.markerPaneHeight;
   const yPosStart = scale.getRange(upperThresholdInTimeframe[0][1]);
 
   config.backBufferCtx.save();
+
   // Background below line
   config.backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
   config.backBufferCtx.globalAlpha = 0.25;
@@ -74,8 +76,8 @@ function renderBaseline(axis, metric, config, scale, colors) {
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(xPosStart, yPosStart);
   drawLineGraph(len, config, upperThresholdInTimeframe, scale);
-  config.backBufferCtx.lineTo(xPosEnd, 0);
-  config.backBufferCtx.lineTo(xPosStart, 0);
+  config.backBufferCtx.lineTo(xPosEnd, markerPaneHeight);
+  config.backBufferCtx.lineTo(xPosStart, markerPaneHeight);
   config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
   config.backBufferCtx.restore();

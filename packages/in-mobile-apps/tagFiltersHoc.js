@@ -3,6 +3,7 @@ import React from 'react';
 
 import MobileAppEditTagFilterDialog from 'in-mobile-apps/analyze/AnalyzeView/MobileAppEditTagFilterDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { noop } from 'in-services/util/function';
 
 export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
   withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags, group }) => {
@@ -89,3 +90,11 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
       }
     };
   });
+
+export const noopTagFilterTrackers = {
+  add: noop,
+  change: noop,
+  remove: noop,
+  clear: noop,
+  set: noop
+};

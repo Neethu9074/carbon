@@ -64,7 +64,6 @@ export default function EditTagFilterDialogPresenter({
                 label: s
               }))}
               onChange={e => onTagChange(e ? e.value : tagSuggestions[0])}
-              autoFocus={!editMode}
               clearable={false}
               openOnFocus
               searchable
@@ -111,8 +110,8 @@ export default function EditTagFilterDialogPresenter({
               onChange={e => onOperatorChange(e.target.value)}
               hasError={!field.valid && field.touched}
             >
-              {operatorSuggestions.map(tag => (
-                <option value={tag} key={tag}>
+              {operatorSuggestions.map((tag, i) => (
+                <option value={tag} key={`${tag}${i}`}>
                   {getOperatorLabel(selectedTagType, tag)}
                 </option>
               ))}
@@ -143,7 +142,6 @@ export default function EditTagFilterDialogPresenter({
                   value={field.value}
                   onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
-                  autoFocus={editMode}
                 >
                   <option value="true">true</option>
                   <option value="false">false</option>
@@ -157,7 +155,6 @@ export default function EditTagFilterDialogPresenter({
                   min="0"
                   onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
-                  autoFocus={editMode}
                 />
               )}
               <TouchedMessages field={field} />

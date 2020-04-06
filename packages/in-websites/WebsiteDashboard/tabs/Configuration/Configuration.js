@@ -11,7 +11,7 @@ import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigatio
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
-
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 const NavigationItem = connectTo(({ path }) => ({
@@ -40,6 +40,7 @@ export default function Configuration(props) {
           to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
         />
       </Switch>
+      <Footer />
     </StickySidebarContainer>
   );
 }

@@ -19,6 +19,6 @@ export const PastLive = () => (
   <TimeSelectionDialogPresenter
     timeConfig={{ windowSize: 1000 * 60 * 5, to: null, focusedMoment: null }}
     onChange={action('onChange')}
-    containsPastLiveData
+    containsHistoricData
   />
 );

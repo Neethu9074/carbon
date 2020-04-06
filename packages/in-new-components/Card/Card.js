@@ -1,100 +1,12 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import { buildThemeDependentComponentSwitcher } from 'in-themes/themeDependentComponentSwitcher';
+import LightCardV2 from 'in-new-components/Card/LightCardV2';
+import LightCard from 'in-new-components/Card/LightCard';
+import { light, lightV2 } from 'in-themes/themes';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
-
-import locals from './Card.mless';
-
-export default function Card({
-  title,
-  titleSubContent,
-  children,
-  withoutPadding,
-  header,
-  onHeaderBackgroundClicked,
-  className,
-  headerClassName,
-  bodyClassName,
-  darkFrame = false,
-  framed = true,
-  useMaxAvailableHeight,
-  label
-}) {
-  const isInteractiveCard = !!onHeaderBackgroundClicked;
-  const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
-  const headerProps = isInteractiveCard
-    ? toInteractiveElement({
-        onDefaultInteraction: onHeaderBackgroundClicked
-      })
-    : {};
-
-  return (
-    <div
-      className={evaluateClassNames({
-        [locals.card]: true,
-        [className]: className,
-        [locals.framed]: framed,
-        [locals.darkFrame]: darkFrame,
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
-      })}
-    >
-      <div
-        className={evaluateClassNames({
-          [locals.header]: true,
-          [locals.clickableHeader]: isInteractiveCard,
-          [headerClassName]: headerClassName,
-          [locals.noSubContent]: !titleSubContent
-        })}
-        {...headerProps}
-      >
-        {label ? (
-          <div>
-            {<div className={locals.twoLineTitle}>{title}</div>}
-            {<div className={locals.twoLineTitleLabel}>{label}</div>}
-          </div>
-        ) : (
-          <div className={locals.title}>
-            {title}
-            {titleSubContent && <span className={locals.titleSubContent}>{titleSubContent}</span>}
-          </div>
-        )}
-
-        <div
-          className={evaluateClassNames({
-            [locals.nonClickable]: isInteractiveCard
-          })}
-          onClick={isInteractiveCard ? onClickPrevented : undefined}
-        >
-          {header}
-        </div>
-      </div>
-
-      <div
-        className={evaluateClassNames({
-          [locals.body]: true,
-          [locals.bodyWithoutPadding]: withoutPadding,
-          [bodyClassName]: bodyClassName
-        })}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-Card.propTypes = {
-  bodyClassName: PropTypes.string,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  darkFrame: PropTypes.bool,
-  framed: PropTypes.bool,
-  header: PropTypes.node,
-  label: PropTypes.string,
-  onHeaderBackgroundClicked: PropTypes.func,
-  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  useMaxAvailableHeight: PropTypes.bool,
-  withoutPadding: PropTypes.bool
-};
+export default buildThemeDependentComponentSwitcher({
+  name: 'Card',
+  definitions: {
+    [light]: LightCard,
+    [lightV2]: LightCardV2
+  }
+});

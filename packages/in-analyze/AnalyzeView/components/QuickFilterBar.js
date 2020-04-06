@@ -18,7 +18,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { filters, clearTagFilters, onMoreClick } = props;
+  const { filters, clearTagFilters, onMoreClick, showHiddenCallsSelector = true, showLatencySelector = true } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
   const tagFilters = filters.tagFilter;
@@ -80,16 +80,18 @@ export default function QuickFilterBar(props) {
           <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
         )}
       />
-      <NumberBarItem
-        {...props}
-        tagFilters={tagFilters}
-        tag={dataSourceConfig.latencyTagPreset}
-        singularLabel="Latency"
-        formatter={millis.fixedCompact}
-        unit="ms"
-        showRange
-        minValue="1"
-      />
+      {showLatencySelector && (
+        <NumberBarItem
+          {...props}
+          tagFilters={tagFilters}
+          tag={dataSourceConfig.latencyTagPreset}
+          singularLabel="Latency"
+          formatter={millis.fixedCompact}
+          unit="ms"
+          showRange
+          minValue="1"
+        />
+      )}
       <BooleanBarItem
         {...props}
         timeConfig={timeConfig}
@@ -97,13 +99,16 @@ export default function QuickFilterBar(props) {
         tag={dataSourceConfig.errorneousTagPreset}
         singularLabel="Erroneous"
       />
-      <CheckboxBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag={{ synthetic: 'include_synthetic', internal: 'include_internal' }}
-        singularLabel="Hidden Calls"
-      />
+
+      {showHiddenCallsSelector && (
+        <CheckboxBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag={{ synthetic: 'include_synthetic', internal: 'include_internal' }}
+          singularLabel="Hidden Calls"
+        />
+      )}
 
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
     </Bar>

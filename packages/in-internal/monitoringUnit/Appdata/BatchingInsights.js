@@ -16,6 +16,7 @@ import locals from './BatchingInsights.mless';
 
 const types = [
   {
+    title: 'Calls',
     type: 'calls',
     incomingKpi: 'KPI.incoming.calls'
   },
@@ -38,12 +39,19 @@ const types = [
     type: 'mobileBeacons.longTerm'
   },
   {
+    title: 'Chains',
     type: 'chains',
-    incomingKpi: 'KPI.incoming.chains'
+    incomingKpi: 'KPI.incoming.call_graphs'
   },
   {
+    title: 'Logs',
     type: 'logs',
     incomingKpi: 'KPI.incoming.logs'
+  },
+  {
+    title: 'Profile Infos (ClickHouse)',
+    type: 'raw_profile_infos',
+    incomingKpi: 'KPI.incoming.raw_profiles'
   }
 ];
 
@@ -218,7 +226,7 @@ export default connectTo(
 
         <Row key={`raw-spans`}>
           <Col lg={12}>
-            <ExpandableCard title={`Pipeline Behaviour for: Raw Spans`}>
+            <ExpandableCard title={`Pipeline behavior for: Raw Spans`}>
               <Columize>
                 <DashboardSection title={`Kafka Reads`}>
                   <Chart
@@ -296,6 +304,49 @@ export default connectTo(
                       ),
                       labels,
                       type: 'line'
+                    }}
+                  />
+                </DashboardSection>
+              </Columize>
+            </ExpandableCard>
+          </Col>
+        </Row>
+
+        <Row key={`raw-profiles`}>
+          <Col lg={12}>
+            <ExpandableCard title={`Pipeline behavior for: Raw Profiles (Cassandra)`}>
+              <Columize>
+                <DashboardSection title={`Cassandra writes`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(
+                        () =>
+                          `metrics.meters.com.instana.appdata.writer.service.RawProfilesCassandraDownstream.num-written-profiles`
+                      ),
+                      labels,
+                      type: 'stackedArea'
+                    }}
+                  />
+                </DashboardSection>
+                <DashboardSection title={`Cassandra errors`}>
+                  <Chart
+                    snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                    timeConfig={timeConfig}
+                    customHeight={150}
+                    y1={{
+                      min: 0,
+                      formatter: number.perSecond.compact,
+                      metrics: rows.map(
+                        () =>
+                          `metrics.meters.com.instana.appdata.writer.service.RawProfilesCassandraDownstream.num-failed-profiles`
+                      ),
+                      labels,
+                      type: 'stackedArea'
                     }}
                   />
                 </DashboardSection>

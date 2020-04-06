@@ -2,25 +2,40 @@
 import { withState, compose } from 'recompose';
 import React from 'react';
 
+import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/ExternallyDefinedWidthAndHeight';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
+import Legend, { HEIGHT } from 'in-components/Chart/components/Legend';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
-import Legend from 'in-components/Chart/components/Legend';
 import { getSetting$ } from 'in-services/settings';
 import Chart from 'in-components/Chart/Chart';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Chart.mless';
 
-export default getElementDimensions(function ChartReactComponent(props) {
-  let { width, customHeight } = props;
+export default function ChartReactComponent(props) {
+  if (props.automaticallySize) {
+    return <CompletelyAutomaticallySized {...props} />;
+  }
+  return <HorizontallyAutomaticallySized {...props} />;
+}
 
-  const height = customHeight || 182;
-  const overlayWidth = width - (props.y2 ? 2 : 1) * WIDTH;
-
-  return <ChartReactWrapper {...props} width={overlayWidth} height={height} />;
+const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
+  return (
+    <ChartReactWrapper {...props} width={props.width - (props.y2 ? 2 : 1) * WIDTH} height={props.customHeight || 182} />
+  );
 });
+
+function CompletelyAutomaticallySized(props) {
+  return (
+    <ExternallyDefinedWidthAndHeight>
+      {({ width, height }) => (
+        <ChartReactWrapper {...props} width={width - (props.y2 ? 2 : 1) * WIDTH} height={height - HEIGHT} />
+      )}
+    </ExternallyDefinedWidthAndHeight>
+  );
+}
 
 const ChartReactWrapper = compose(
   withState('chart', 'setChart', null),

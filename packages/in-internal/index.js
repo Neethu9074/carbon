@@ -36,6 +36,7 @@ import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
+import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
 import TuStatistics from 'in-internal/monitoringUnit/TuStatistics';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
@@ -124,6 +125,7 @@ export default function Internal() {
             path="/internal/monitoringUnit/infrastructureMetrics/filler"
             component={wrapIninternalView(FillerInfrastructureMetrics)}
           />
+          <Route path="/internal/monitoringUnit/hubforce" component={wrapIninternalView(Hubforce)} />
         </>
       )}
 

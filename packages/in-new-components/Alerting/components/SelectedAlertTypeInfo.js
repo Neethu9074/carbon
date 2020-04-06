@@ -2,14 +2,25 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
 
 import locals from './SelectedAlertTypeInfo.mless';
 
-export default function SelectedAlertTypeInfo({ title, description, svgIconType }) {
+export default function SelectedAlertTypeInfo({ title, description, svgIconType, badges = [] }) {
   return (
     <div className={locals.outerWrapper}>
       <div className={locals.innerWrapper}>
         {svgIconType && <SvgIcon className={locals.icon} type={svgIconType} />}
+
+        {badges.length > 0 && (
+          <div className={locals.badgeWrapper}>
+            {badges.map((badge, index) => (
+              <Pill key={index} className={locals.badge} kind="lighter">
+                {badge.toUpperCase()}
+              </Pill>
+            ))}
+          </div>
+        )}
 
         <div>
           <span className={locals.heading}>{title}</span>
@@ -23,5 +34,6 @@ export default function SelectedAlertTypeInfo({ title, description, svgIconType 
 SelectedAlertTypeInfo.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  svgIconType: PropTypes.string
+  svgIconType: PropTypes.string,
+  badges: PropTypes.arrayOf(PropTypes.string)
 };

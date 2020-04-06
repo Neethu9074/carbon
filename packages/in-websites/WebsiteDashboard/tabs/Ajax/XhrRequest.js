@@ -5,10 +5,10 @@ import theme from 'in-themes';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
@@ -23,6 +23,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
+import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -460,6 +461,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
       </div>
 
       {content}
+      <Footer />
     </Fragment>
   );
 }

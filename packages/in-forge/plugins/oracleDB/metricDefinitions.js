@@ -1,11 +1,11 @@
-import { number, muSecondsToMillis, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
+import { number, micros, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
     metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
     labels: ['DB Time', 'DB CPU Time', 'SQL Execute Time', 'Parse Time'],
-    formatter: muSecondsToMillis,
+    formatter: micros,
     min: 0
   },
   {
@@ -52,7 +52,7 @@ export default [
     min: 0
   },
   {
-    formatter: muSecondsToMillis,
+    formatter: micros,
     metrics: ['stats.averageSqlExecuteTime'],
     labels: ['Average Sql Execution Time'],
     min: 0

@@ -7,22 +7,28 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
-import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import {
+  applicationDashboardUrlParameters,
+  createEndpointTypesUrlParameter,
+  createEndpointTechnologiesUrlParameter
+} from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
-import { isNotBlank } from 'in-services/util/string';
+import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
+import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 import locals from './Endpoints.mless';
@@ -30,24 +36,23 @@ import locals from './Endpoints.mless';
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoint.';
 
+const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
+const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
+
 export default compose(
-  withUrlDependingState({
-    getPathSegment: () => pathSegment,
-    getMatrixPrefix: () => matrixPrefix,
-    boundKeys: ['endpointTypes', 'technologies'],
-    getInitialState: () => ({ endpointTypes: [], technologies: [] }),
+  connectTo(({ serviceId }) => {
+    const observables = {};
+    if (serviceId) {
+      observables.serviceLabel = getServiceLabel({ id: serviceId }).map(result => result.data?.label);
+    }
+    return observables;
+  }),
+  withUrlState({
+    bind: [endpointTypesUrlParameter, technologiesUrlParameter],
     reducerName: 'setFilter',
     reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
-      technologies: technologies ? technologies : prevState.technologies
-    }),
-    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
-      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
-    }),
-    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
-      technologies: technologies == null ? null : technologies.join(',')
+      endpointTypes: endpointTypes || prevState.endpointTypes,
+      technologies: technologies || prevState.technologies
     })
   })
 )(Endpoints);
@@ -201,11 +206,12 @@ function Endpoints(props) {
     boundaryScope,
     endpointTypes,
     technologies,
-    setFilter
+    setFilter,
+    serviceLabel
   } = props;
 
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
-  const rightHeader = (
+  const rightHeader = ({ query }) => (
     <Fragment>
       {hasHttpType &&
         role.canConfigureServiceMapping && (
@@ -225,6 +231,10 @@ function Endpoints(props) {
         technologies={technologies}
         restrictedTechnologies={data.technologies}
         setFilter={setFilter}
+        query={query}
+        serviceName={serviceLabel}
+        buttonLabel="Endpoints"
+        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
       />
     </Fragment>
   );

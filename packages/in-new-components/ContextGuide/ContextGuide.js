@@ -5,15 +5,7 @@ import StackButton from 'in-new-components/Stack/StackButton';
 
 import locals from './ContextGuide.mless';
 
-export default function ContextGuide({
-  id,
-  serviceId,
-  applicationId,
-  endpointId,
-  boundaryScope,
-  timeConfig,
-  productArea
-}) {
+export default function ContextGuide({ id, serviceId, applicationId, endpointId, timeConfig, productArea }) {
   return (
     <>
       <StackButton
@@ -29,8 +21,6 @@ export default function ContextGuide({
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        boundaryScope={boundaryScope}
-        productArea={productArea}
         className={locals.rightButton}
       />
     </>

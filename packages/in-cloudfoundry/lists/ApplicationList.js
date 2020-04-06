@@ -56,6 +56,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'foundation',
+    label: 'Foundation',
+    getContent(item) {
+      return item.foundation != null ? item.foundation : valueMissingPlaceholder;
+    }
+  },
+  {
     id: 'organization',
     label: 'Organization',
     getContent(item) {

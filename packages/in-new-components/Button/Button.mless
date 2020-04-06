@@ -98,7 +98,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: rgba(244, 169, 160, 0.48);
+      background: #95dada;
     }
   }
 

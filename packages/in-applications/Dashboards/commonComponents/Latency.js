@@ -84,8 +84,10 @@ export default function Latency({
           }
         }
       }}
+      primaryContextMenuAction="analyze"
       additionalContextMenuButtons={[
         {
+          name: 'analyze',
           icon: 'lib_analyze',
           label: 'View in Analytics',
           getHref$: (highlightedTime, metricsToAdd) =>
@@ -98,7 +100,8 @@ export default function Latency({
                 filters: isSynthetic
                   ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
                   : [],
-                metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics)
+                metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics),
+                focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics)
               }
             )
         }
@@ -113,6 +116,13 @@ function mapMetricsToAdd(metrics) {
     metricsForLink.push({ metric: 'latency', aggregation: aggregation(metric) });
   });
   return metricsForLink;
+}
+function focusBasedOnMetrics(metrics) {
+  const metricsList = mapMetricsToAdd(metrics);
+  if (metricsList.length > 1 && (metricsList[0].aggregation === 'P99' && metricsList[1].aggregation === 'MAX')) {
+    return `latency_MAX`;
+  }
+  return `latency_${metricsList[0].aggregation}`;
 }
 
 function aggregation(metric) {

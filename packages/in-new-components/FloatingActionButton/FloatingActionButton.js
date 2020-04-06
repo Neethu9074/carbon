@@ -7,24 +7,13 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './FloatingActionButton.mless';
 
-export const positions = {
-  bottomRight: 'bottomRight'
-};
-
-export default function FloatingActionButton({
-  children,
-  iconType,
-  onClick,
-  position = positions.bottomRight,
-  withBoxShadow = false
-}) {
+export default function FloatingActionButton({ children, iconType, onClick, withBoxShadow }) {
   return (
     <button
       className={evaluateClassNames({
         [locals.button]: true,
         [locals.withShadow]: withBoxShadow,
-        [locals.hasIcon]: !!iconType,
-        [locals[position]]: position
+        [locals.hasIcon]: !!iconType
       })}
       onClick={e => (onClick ? onClick() : stopPropagationAndPreventDefault(e))}
     >
@@ -40,6 +29,5 @@ FloatingActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   iconType: PropTypes.string,
   onClick: PropTypes.func,
-  withBoxShadow: PropTypes.bool,
-  position: PropTypes.oneOf(Object.values(positions))
+  withBoxShadow: PropTypes.bool
 };

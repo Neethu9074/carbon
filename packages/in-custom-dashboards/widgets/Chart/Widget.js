@@ -43,7 +43,7 @@ export default connectTo(({ config }) => ({
   })
 }))(ChartWidget);
 
-function ChartWidget({ result, config, title, timeConfig, customHeight }) {
+function ChartWidget({ result, actions, config, title, timeConfig, isPreview, dragHandle, customHeight }) {
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -58,12 +58,21 @@ function ChartWidget({ result, config, title, timeConfig, customHeight }) {
   return (
     <ChartWrapper
       cardTitle={title}
-      cardUseMaxAvailableHeight
+      cardUseMaxAvailableHeight={!isPreview}
+      cardHeader={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
       timeConfig={timeConfig}
       y1={toAxisConfiguration('y1', config.y1)}
       y2={toAxisConfiguration('y2', config.y2)}
       metricsConfiguration={toMetricsConfiguration(config)}
+      primaryContextMenuAction={config.primaryContextMenuAction}
+      additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
+      automaticallySize={!isPreview && !customHeight}
       customHeight={customHeight}
     />
   );
@@ -78,6 +87,7 @@ function toAxisConfiguration(name, axis) {
     renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: (find(formatters, ({ id }) => id === axis.formatter) || defaultFormatter).formatter,
     labels: axis.metrics.map(({ label }) => label),
+    colors: axis.colors,
     metricIds: axis.metrics.map((definition, i) => getMetricId(name, i)),
     min: axis.min,
     max: axis.max

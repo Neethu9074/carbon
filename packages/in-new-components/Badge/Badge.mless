@@ -3,7 +3,7 @@
 :local {
   .badge {
     font-size: @lib__typography__body-small__font-size;
-    border-radius: @lib__typography__body-small__font-size;
+    border-radius: @lib__shapes__radius_small;
     padding: 0.0625rem 0.3125rem;
   }
 

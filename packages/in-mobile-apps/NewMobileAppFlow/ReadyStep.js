@@ -2,10 +2,10 @@ import React from 'react';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';
-import EntityWithType from 'in-new-components/EntityWithType';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
@@ -28,10 +28,10 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
 
       <Ul>
         <Li>
-          <EntityWithType label={mobileAppId} type="Key" />
+          <KeyValue label="Key" value={mobileAppId} accentuated />
         </Li>
         <Li>
-          <EntityWithType label={getReportingUrl()} type="Reporting URL" />
+          <KeyValue label="Reporting URL" value={getReportingUrl()} accentuated />
         </Li>
       </Ul>
 

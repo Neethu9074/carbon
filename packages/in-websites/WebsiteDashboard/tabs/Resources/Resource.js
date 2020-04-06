@@ -12,8 +12,8 @@ import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/Re
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
@@ -27,6 +27,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
+import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -397,6 +398,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
       </div>
 
       {content}
+      <Footer />
     </Fragment>
   );
 }

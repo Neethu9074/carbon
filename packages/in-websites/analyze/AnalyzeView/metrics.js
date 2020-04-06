@@ -158,6 +158,7 @@ export const availableMetrics = {
     )
   ],
   resourceLoad: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Resource Loads' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
       rawDataField: 'duration',
       tag: 'beacon.duration'
@@ -169,6 +170,7 @@ export const availableMetrics = {
     ...resourceSizeMetrics
   ],
   httpRequest: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Calls' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
       rawDataField: 'duration',
       tag: 'beacon.duration'
@@ -228,6 +230,7 @@ export const availableMetrics = {
     })
   ],
   error: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Occurrences' }),
     {
       ...uniqueUsers,
       // relabel the metric
@@ -245,6 +248,7 @@ export const availableMetrics = {
     }
   ],
   custom: [
+    newNumberMetric({ metric: 'beaconCount', label: 'Occurrences' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Duration' }), {
       rawDataField: 'duration',
       tag: 'beacon.duration'

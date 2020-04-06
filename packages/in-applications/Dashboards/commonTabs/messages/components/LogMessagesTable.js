@@ -102,7 +102,7 @@ export default function LogMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      rightHeader={
+      rightHeader={({ query }) => (
         <AnalyzeMessagesButton
           groupByTagName="log.message"
           applicationName={applicationName}
@@ -110,8 +110,9 @@ export default function LogMessagesTable({
           endpointName={endpointName}
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
+          query={query}
         />
-      }
+      )}
     />
   );
 }

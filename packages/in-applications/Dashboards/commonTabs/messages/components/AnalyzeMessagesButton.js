@@ -9,10 +9,10 @@ export default function AnalyzeMessagesButton({
   serviceName,
   endpointName,
   className,
-  boundaryScope
+  boundaryScope,
+  query
 }) {
   const groupByTag = { name: groupByTagName };
-
   return (
     <Button
       className={className}
@@ -23,7 +23,11 @@ export default function AnalyzeMessagesButton({
         endpointName,
         dataSource: 'calls',
         groupByTag,
-        boundaryScope
+        boundaryScope,
+        filters:
+          query.length > 0
+            ? [{ name: 'log.message', value: query, operator: 'CONTAINS', entity: 'NOT_APPLICABLE' }]
+            : null
       })}
     >
       Analyze Messages

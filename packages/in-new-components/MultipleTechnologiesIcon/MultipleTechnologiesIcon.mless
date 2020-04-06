@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: .5rem;
+    width: 2.25rem;
+  }
+
+  .remainderLabel {
+    color: @lib__colors__N600Light;
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
+
+  .entityIconSmall {
+    fill: @lib__colors__N600Light;
+    margin-right: .125rem;
+  }
+
+  .entityIcon {
+    fill: @lib__colors__N600Light;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Stack",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Stack.js"
+}

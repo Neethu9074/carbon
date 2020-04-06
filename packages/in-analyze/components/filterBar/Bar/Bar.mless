@@ -26,4 +26,10 @@
     margin-right: 0.5rem;
     fill: @lib__colors__N600Light;
   }
+
+  @media (min-width: 1280px) {
+    .options {
+      white-space: nowrap;
+    }
+  }
 }

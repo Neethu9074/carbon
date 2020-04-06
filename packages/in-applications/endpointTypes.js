@@ -14,7 +14,6 @@ export const endpointNameTranslations = {
   GRAPHQL: 'GraphQL',
   INTERNAL: 'Internal',
   UNDEFINED: 'Undefined',
-  UNKNOWN: 'Undefined',
   SELF: 'Self',
   SDK: 'SDK'
 };
@@ -53,6 +52,7 @@ export function getEndpointTypesComboBoxItems(restrict = null) {
   return Object.keys(endpointNameTranslations)
     .filter(k => restrict == null || restrict.indexOf(k) !== -1)
     .filter(k => k !== 'SELF') // self is a special case which we never want to expose in a combobox
+    .filter(k => k !== 'UNDEFINED')
     .sort()
     .reduce(
       (agg, k) =>

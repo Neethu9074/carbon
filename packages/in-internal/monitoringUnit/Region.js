@@ -115,6 +115,20 @@ export default connectTo(
             </DashboardSection>
           </Col>
         </Row>
+
+        <DashboardSection title="Profile Monitoring">
+          <Chart
+            snapshotId={ID_OF_REGION}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['acceptedProfiles'],
+              labels: ['Accepted Profiles'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
       </Fragment>
     );
   }

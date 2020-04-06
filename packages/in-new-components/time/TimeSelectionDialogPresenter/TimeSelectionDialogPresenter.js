@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import { retention$ } from 'in-subscription/application/getRetention';
 import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
 import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
 import { isView } from 'in-stores/navigation/navigation';
@@ -22,7 +22,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    containsPastLiveData: containsPastLiveData$(props.timeConfig, props.containsPastLiveData),
+    containsHistoricData: retention$(props.timeConfig, props.containsHistoricData),
     isApp20View: isView(
       analyze,
       applicationsList,
@@ -33,7 +33,7 @@ export default connectTo(
       serviceDashboard,
       newServiceView,
       endpointDashboard
-    )
+    ).map(data => data?.containsHistoricData)
   }),
   function TimeSelectionDialogPresenter(props) {
     return (

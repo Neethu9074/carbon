@@ -57,8 +57,10 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
         timeConfig: timeConfig,
         metrics: metricsConfiguration
       }}
+      primaryContextMenuAction="showEvents"
       additionalContextMenuButtons={[
         {
+          name: 'showEvents',
           icon: 'lib_events_inverted',
           label: 'View Events',
           getHref$: highlightedTime =>

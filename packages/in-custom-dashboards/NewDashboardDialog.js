@@ -20,6 +20,8 @@ export default compose(
     header: 'Create New Dashboard',
     headerIcon: 'lib_views_grid',
     inputLabel: 'Dashboard Name',
+    description:
+      'Created dashboards will only be accessible to you initially. You can choose to share the dashboard with your colleagues once the dashboard has been created.',
     confirmButtonLabel: 'Create',
     ...state,
     onChange: newValue =>

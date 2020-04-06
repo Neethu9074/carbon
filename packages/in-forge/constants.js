@@ -85,6 +85,9 @@ export const nonServicePlugins = {
   jvmRuntimePlatform: 'jvmRuntimePlatform',
   kafka: 'kafka',
   kafkaCluster: 'kafkaCluster',
+  kafkaConnectCluster: 'kafkaConnectCluster',
+  kafkaConnectConnector: 'kafkaConnectConnector',
+  kafkaConnectWorker: 'kafkaConnectWorker',
   kubernetesCluster: 'kubernetesCluster',
   kubernetesDeployment: 'kubernetesDeployment',
   kubernetesNamespace: 'kubernetesNamespace',
@@ -258,6 +261,11 @@ export const fullyQualifiedPlugins = {
   jvmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
   kafkaCluster: 'com.instana.forge.infrastructure.messaging.kafka.KafkaCluster',
+  kafkaConnectCluster:
+    'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.cluster.KafkaConnectCluster',
+  kafkaConnectConnector:
+    'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.connector.KafkaConnectConnector',
+  kafkaConnectWorker: 'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.worker.KafkaConnectWorker',
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod',
   kubernetesDeployment:

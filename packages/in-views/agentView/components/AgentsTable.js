@@ -1,15 +1,18 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
+import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
-import { compare as compareBoolean } from 'in-services/util/boolean';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { compare } from 'in-services/util/number';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
@@ -128,10 +131,10 @@ const cols = [
     type: 'custom',
     width: 120,
     typeArgs: {
-      comparator: compareBoolean,
+      comparator: (a, b) => compare(a.value, b.value),
       get(row) {
         return {
-          value: row.isReportingAtFocusedMoment,
+          value: row.reportingStatus,
           content: <ReportingIndicator row={row} />
         };
       }
@@ -141,16 +144,21 @@ const cols = [
 
 export default connectTo(
   {
-    timeConfig: timeConfig$
+    timeConfig: timeConfig$,
+    isInternalVisible: isInternalVisible$
   },
-  function AgentViewAgentsTable({ agentSnapshots, timeConfig }) {
+  function AgentViewAgentsTable({ agentSnapshots, timeConfig, isInternalVisible }) {
+    const showDetailedAgentStatus = agentMonitoringIssuesEnabled || isInternalVisible;
+
     const rows = [];
     agentSnapshots.get('online', emptyList).forEach(snapshot => {
+      const count = snapshot.get('monitoringIssuesTotalCount');
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
         timeConfig,
-        isReportingAtFocusedMoment: true
+        reportingStatus:
+          showDetailedAgentStatus && count && count > 0 ? ReportingStatus.DEGRADED : ReportingStatus.ONLINE
       });
     });
     agentSnapshots.get('offline', emptyList).forEach(snapshot => {
@@ -158,7 +166,7 @@ export default connectTo(
         key: snapshot.get('id'),
         snapshot: snapshot,
         timeConfig,
-        isReportingAtFocusedMoment: false
+        reportingStatus: ReportingStatus.OFFLINE
       });
     });
 

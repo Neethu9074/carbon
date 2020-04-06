@@ -120,6 +120,9 @@ export const WEBSITES_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'websites.alerting.
 export const WEBSITES_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG = 'websites.alerting.event.details.ViewEditConfig';
 
 export const APPLICATIONS_ALERTING_ADD_ALERT = 'applications.alerting.addAlert';
+export const APPLICATIONS_ALERTING_CLOSE_DIALOG = 'applications.alerting.closeDialog';
+export const APPLICATIONS_ALERTING_SWITCH_MODE = 'applications.alerting.switchMode';
+export const APPLICATIONS_ALERTING_CREATE_ALERT = 'applications.alerting.createAlert';
 export const APPLICATIONS_ALERTING_LIST_ALERT_PAUSED = 'applications.alerting.list.alert.paused';
 export const APPLICATIONS_ALERTING_LIST_ALERT_DELETED = 'applications.alerting.list.alert.deleted';
 export const APPLICATIONS_ALERTING_LIST_ALERT_RESUMED = 'applications.alerting.list.alert.resumed';
@@ -135,6 +138,18 @@ export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
   'applications.alerting.additionalProps.triggerChanged';
 export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
   'applications.alerting.additionalProps.descriptionChanged';
+export const APPLICATIONS_ALERTING_BLUEPRINT_CHANGED = 'applications.alerting.bluePrintChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.alerting.thresholdOperatorChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';
+export const APPLICATIONS_ALERTING_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
+  'applications.alerting.thresholdDeviationFactorChanged';
+export const APPLICATIONS_ALERTING_LOG_MSG_CHANGED = 'applications.alerting.logMessageChanged';
+export const APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED = 'applications.alerting.logLevelChanged';
+export const APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED = 'applications.alerting.logOperatorChanged';
+export const APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW = 'applications.alerting.logOpenMessageSelectView';
+export const APPLICATIONS_ALERTING_LOG_MSG_SELECTED = 'applications.alerting.logMessageSelected';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

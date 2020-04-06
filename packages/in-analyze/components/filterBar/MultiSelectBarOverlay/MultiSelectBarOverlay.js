@@ -73,13 +73,15 @@ export default function MultiSelectBarOverlay({
               [locals.listWithoutSelected]: !selectedItems
             })}
           >
-            {itemList.filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query)).map(item => (
-              <li key={item.key}>
-                <Tooltip content={`Click to filter by ${item.label}`}>
-                  <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
-                </Tooltip>
-              </li>
-            ))}
+            {itemList
+              .filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query))
+              .map((item, i) => (
+                <li key={`${item.key}${i}`}>
+                  <Tooltip content={`Click to filter by ${item.label}`}>
+                    <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
+                  </Tooltip>
+                </li>
+              ))}
           </ul>
         )}
 

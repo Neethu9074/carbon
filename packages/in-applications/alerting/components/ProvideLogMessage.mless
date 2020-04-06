@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    margin: 0.5rem;
+  }
+
+  .logMessageSelection {
+    display: flex;
+    align-items: flex-start;
+
+    > textarea {
+      width: 100%;
+      margin-right: 0.5rem;
+      background-color: @lib__colors__N100;
+    }
+  }
+}

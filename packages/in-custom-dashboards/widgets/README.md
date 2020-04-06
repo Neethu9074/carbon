@@ -23,8 +23,15 @@ Each widget needs to define the following exports.
    - `title`: This title must be used to render a `Card` as a wrapper around the
               widget. The responsibility to render cards falls to the widget because
               widgets might want to influence the presentation of cards.
+   - `actions`: An optional React element that manages the edit/remove/duplicate options.
+                When defined, it should be mounted, e.g. within the header of cards.
+   - `dragHandle`: An optional React element that renders a drag handle. When defined, it should be mounted,
+                   e.g. within the header of cards.
    - `config`: All the saved configuration options for this widget. This data is
                whatever was stored in the form created by `createForm`.
+   - `isPreview`: Optional bool to indicate whether the widget is rendered in a preview mode.
+                  Can be used to disable some behavior, e.g. avoiding `height: 100%` usage
+                  of cards.
  - `demo`: This is a demonstation/sample configuration for the widget that shows
            a common usage scenario.
  - `createForm`: Creates a [formalistic](https://github.com/bripkens/formalistic)
@@ -37,6 +44,9 @@ Each widget needs to define the following exports.
              `createForm(…)`.
    - `onChange`: Used to change values within `form`. The signature of `onChange` is
                  `onChange(['path', 'to', 'update'], formElement => …);`
+   - `widgetTitleFormGroup`: A React element to render the form group containing the widget
+                             title input field.
+   - `widgetPreview`: A react element containing the logic to render a widget preview.
  - `minimumWidth`: The minimum number of horizontal grid cells necessary in order to
                    render this widget. Users cannot configure the widget to use
                    fewer than these number of vertical cells.

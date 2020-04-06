@@ -1,5 +1,14 @@
-export default function Footer() {
-  // Keeping this module around in case we ever re-add
-  // floating actions buttons at the bottom of the screen.
-  return null;
+import React from 'react';
+
+import { floatingActionButtons$ } from 'in-new-components/FloatingActionButton/stores/floatingActionButtons';
+import connectTo from 'in-hoc/connectTo';
+
+import locals from './Footer.mless';
+
+export default connectTo(() => ({
+  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
+}))(Footer);
+
+function Footer({ hasFloatingFooter }) {
+  return hasFloatingFooter ? <footer className={locals.footer} /> : null;
 }

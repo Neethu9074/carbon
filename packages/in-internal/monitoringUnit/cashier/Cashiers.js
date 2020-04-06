@@ -181,6 +181,24 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
+        <Columize>
+          <DashboardSection title={'GenericReactorKafkaConsumer available capacity'}>
+            <Chart
+              snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                metrics: cashierusagetransfers.map(
+                  () =>
+                    'metrics.gauges.com.instana.backend.common.kafka.GenericReactorKafkaConsumer.usage_reporting.available-capacity'
+                ),
+                labels: cashierusagetransfersLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
 
         <h2>Cashier Ingest</h2>
         <Columize>

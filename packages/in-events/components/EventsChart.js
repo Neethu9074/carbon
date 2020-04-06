@@ -1,19 +1,20 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getNextValidRollup } from 'in-events/components/eventChartRollups';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import { MINIMUM_ROLLUP } from 'in-stores/metric';
-import theme from 'in-themes';
 
-export default getElementDimensions(function EventsChart({ width, timeConfig, query, eventType }) {
-  if (!width) {
-    return <div />;
-  }
+export default getElementDimensions(function EventsChartWidthWrapper(props) {
+  return <div>{props.width && <EventsChart {...props} />}</div>;
+});
 
+function EventsChart({ width, timeConfig, query, eventType }) {
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
     getBlockSizeMillis({
       windowSize: timeConfig.windowSize,
@@ -56,9 +57,10 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
         timeConfig: timeConfig,
         metrics: metricsConfiguration
       }}
+      primaryContextMenuAction={globalHighlightAction.name}
     />
   );
-});
+}
 
 function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push('Incidents');

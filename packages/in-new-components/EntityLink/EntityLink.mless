@@ -9,8 +9,8 @@
 
   .specialIndicator {
     position: absolute;
-    left: -6px;
-    top: 0.5rem;
+    left: 0.5625rem;
+    top: 1.75rem;
     height: 6px;
     width: 6px;
     background-color: @lib__colors__orange800;

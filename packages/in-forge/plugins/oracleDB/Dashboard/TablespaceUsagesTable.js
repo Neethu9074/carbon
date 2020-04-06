@@ -32,6 +32,16 @@ const cols = [
     }
   },
   {
+    title: 'Max Size',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.tablespace.get('maxSize');
+      },
+      getContent: bytes.detailed
+    }
+  },
+  {
     title: 'Used Percent',
     type: 'metric',
     typeArgs: {
@@ -45,16 +55,6 @@ const cols = [
       getTimeWindowAggregation() {
         return 'mean';
       }
-    }
-  },
-  {
-    title: 'Maximum Tablespace Size',
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.tablespace.get('maxSize');
-      },
-      getContent: bytes.detailed
     }
   },
   {
@@ -90,7 +90,7 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Tablespaces ${rows.length}`}
+      cardTitle={`Tablespaces (${rows.length})`}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

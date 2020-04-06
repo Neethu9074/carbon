@@ -198,16 +198,20 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href }) {
+export function DownloadButton({ href, title='Download' }) {
   return (
-    <Button target="_blank" href={href}>
-      Download
+    <Button target="_blank" href={href} icon="lib_actions_download">
+      {title}
     </Button>
   );
 }
 
 export function Bash(props) {
   return <Script {...props} pre={['#!/bin/bash', '']} />;
+}
+
+export function Cmd(props) {
+  return <Script {...props} pre={['@ECHO OFF', '']} />;
 }
 
 export function Script({ pre = [], lines, disabledErrorMessage }) {

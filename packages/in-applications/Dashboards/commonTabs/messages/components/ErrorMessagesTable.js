@@ -95,7 +95,7 @@ export default function ErrorMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
-      rightHeader={
+      rightHeader={({ query }) => (
         <AnalyzeMessagesButton
           groupByTagName="call.error.message"
           applicationName={applicationName}
@@ -103,8 +103,9 @@ export default function ErrorMessagesTable({
           endpointName={endpointName}
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
+          query={query}
         />
-      }
+      )}
     />
   );
 }

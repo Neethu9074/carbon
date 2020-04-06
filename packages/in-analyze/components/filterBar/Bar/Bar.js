@@ -16,7 +16,7 @@ export default function Bar({ children, showClearFilters = true, onClearFilters,
             Filters
           </span>
         )}
-        <div>{children}</div>
+        <div className={locals.options}>{children}</div>
       </div>
 
       {showClearFilters && (

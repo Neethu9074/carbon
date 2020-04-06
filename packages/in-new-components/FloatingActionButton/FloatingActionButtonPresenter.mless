@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+@spacing: 1rem;
+
+:local {
+  .container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: @spacing;
+    display: flex;
+    z-index: @z-index__sticky-header;
+
+    > *:not(:last-child) {
+      margin-right: @spacing;
+    }
+  }
+}

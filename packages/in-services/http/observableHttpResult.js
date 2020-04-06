@@ -30,6 +30,9 @@ function mapResponseStatusCode(statusCode) {
   if (statusCode === 404) {
     return 'NOT_FOUND';
   }
+  if (statusCode === 504) {
+    return 'TIMEOUT';
+  }
   if (statusCode >= 400 && statusCode < 500) {
     return 'CLIENT';
   }

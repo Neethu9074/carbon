@@ -32,6 +32,24 @@ export function createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix
   };
 }
 
+export function createQueryUrlParameter(pathSegment, matrixPrefix) {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}query`,
+    as: 'query',
+    initialState: ''
+  };
+}
+
+export function createLogQueryUrlParameter(pathSegment, matrixPrefix) {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}query`,
+    as: 'query',
+    initialState: ''
+  };
+}
+
 function createApplicationServiceEndpointParameters(path) {
   return {
     applicationId: {

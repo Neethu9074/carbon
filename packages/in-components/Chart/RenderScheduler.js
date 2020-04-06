@@ -182,7 +182,6 @@ export default class RenderScheduler {
   }
 
   clearOverdraw(config) {
-    config.clearTopOverdraw();
     config.clearBottomOverdraw();
     config.clearLeftOverdraw();
     config.clearRightOverdraw();

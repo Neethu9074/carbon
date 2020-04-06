@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { websitesAlertingEventDetailsViewEditConfig } from 'in-websites/eum-alerting/tracker';
+import { websitesAlertingEventDetailsViewEditConfig } from 'in-websites/alerting/tracker';
 import { goToAlertConfig } from 'in-websites/navigation/paths';
 import Button from 'in-new-components/Button';
 

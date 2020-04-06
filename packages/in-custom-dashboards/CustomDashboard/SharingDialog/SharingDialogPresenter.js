@@ -23,7 +23,7 @@ export default function SharingDialogPresenter(props) {
         />
         <Option
           label="Public Dashboard"
-          explanation="This dashboard will be accessible to everyone in your organization. You will be able to manage editing rights."
+          explanation="This dashboard will be accessible to everyone in your organization. Only you are be able to make changes."
           checked={!isPrivate}
           onChange={checked => setPrivate(!checked)}
         />

@@ -2,22 +2,24 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { percentage } from 'in-services/formatters/number';
 
 export default function ErrorRateAlertingBarChart({
   applicationId,
   timeConfig,
   tagFilters,
-  metricName,
   granularity,
   threshold,
   timeThreshold,
   alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
+  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -47,17 +49,17 @@ export default function ErrorRateAlertingBarChart({
         },
         renderer: Renderer.barWithThreshold,
         formatter: percentage.detailed,
-        labels: ['Historical data', 'Threshold', 'Expected Range', 'Violations'],
+        labels: [getMetricLabel('errorRate', 'errors'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
       }}
       getMetric={getApplicationMetrics}
-      metricsConfiguration={getMetricConfiguration(applicationId, metricName, tagFilters, timeConfig, granularity)}
+      getAlertsPreview={getApplicationMetricsAlertPreview}
+      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, granularity)}
       alertMetricConfiguration={getAlertsConfiguration(
         timeConfig,
-        [...tagFilters, getApplicationIdTagFilter(applicationId)],
-        metricName,
+        tagFiltersWithApplicationId,
         granularity,
         threshold,
         timeThreshold
@@ -70,7 +72,6 @@ export default function ErrorRateAlertingBarChart({
 
 ErrorRateAlertingBarChart.propTypes = {
   granularity: PropTypes.number.isRequired,
-  metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
@@ -79,44 +80,29 @@ ErrorRateAlertingBarChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool
 };
 
-function getMetricConfiguration(websiteId, metric, tagFilters, timeConfig, granularity) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getApplicationIdTagFilter(websiteId)];
-
+function getMetricConfiguration(tagFilters, timeConfig, granularity) {
   return {
     timeConfig,
-    tagFilters: tagFiltersWithWebsiteId,
+    tagFilters,
     metrics: {
-      errors: getMetricConfig(metric, granularity)
+      errors: {
+        metric: 'errors',
+        granularity: granularity,
+        aggregation: 'MEAN'
+      }
     }
   };
 }
 
-function getMetricConfig(metricName, granularity) {
-  const metricConfigs = {
-    errors: {
-      metric: 'errors',
-      granularity: granularity,
-      aggregation: 'MEAN'
-    }
-  };
-  return metricConfigs[metricName];
-}
-
-function getApplicationIdTagFilter(websiteId) {
+function getApplicationIdTagFilter(applicationId) {
   return {
     name: 'application.id',
     operator: 'EQUALS',
-    stringValue: websiteId
+    stringValue: applicationId
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, threshold, timeThreshold) {
-  const alertsConfig = {
-    metric,
-    aggregation: 'MEAN',
-    granularity // global metric granularity
-  };
-
+function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
@@ -125,7 +111,11 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, thr
       threshold,
       granularity, // local alerts/chart granularity
       metrics: {
-        alerts: alertsConfig
+        alerts: {
+          metric: 'errors',
+          aggregation: 'MEAN',
+          granularity // global metric granularity
+        }
       }
     };
   }

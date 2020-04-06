@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
-import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/eum-alerting/form/ruleFormData';
-import StatusCodeAlertingBarChart from 'in-websites/eum-alerting/chart/StatusCodeAlertingBarChart';
+import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
+import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import JsErrorsAlertingBarChart from 'in-websites/eum-alerting/chart/JsErrorsAlertingBarChart';
-import SlownessAlertingBarChart from 'in-websites/eum-alerting/chart/SlownessAlertingBarChart';
+import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
+import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import AlertTypeSwitch from 'in-websites/eum-alerting/components/AlertTypeSwitch';
+import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { alertingMetricsGranularity } from 'in-websites/eum-alerting/constants';
+import { alertingMetricsGranularity } from 'in-websites/alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
@@ -38,7 +38,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       <Card title="Trigger" withoutPadding darkFrame>
         <AlertTypeSwitch
           alertType={alertConfig.rule.alertType}
-          JsErrorsComponent={() => (
+          renderJsErrors={() => (
             <>
               <SelectedAlertTypeInfo
                 title="Error Message"
@@ -64,7 +64,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
               </ChartContainer>
             </>
           )}
-          StatusCodeComponent={() => (
+          renderStatusCode={() => (
             <>
               <SelectedAlertTypeInfo
                 title="HTTP Status Code"
@@ -88,7 +88,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
               </ChartContainer>
             </>
           )}
-          SlownessComponent={() => (
+          renderSlowness={() => (
             <ChartContainer headline="Last 24 hours">
               <SlownessAlertingBarChart
                 websiteId={alertConfig.websiteId}

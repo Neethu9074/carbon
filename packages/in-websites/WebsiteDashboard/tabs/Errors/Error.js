@@ -6,9 +6,9 @@ import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-we
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
@@ -26,6 +26,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
+import Footer from 'in-new-components/Footer';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -296,6 +297,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
       </div>
 
       {content}
+      <Footer />
     </Fragment>
   );
 }

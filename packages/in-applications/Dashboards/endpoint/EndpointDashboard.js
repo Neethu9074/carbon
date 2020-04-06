@@ -105,8 +105,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        boundaryScope={boundaryScope}
-        productArea="endpoint"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
@@ -116,6 +114,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         isSynthetic={isSynthetic}
         timeConfig={timeConfig}
         groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+        area="endpoint"
       />
     </>
   );

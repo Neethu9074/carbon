@@ -28,7 +28,7 @@ export default function DashboardSwitcherOverlayPresenter({
           <SearchInput placeholder="Search" query={query} onChange={q => setQuery(q)} />
 
           <Button
-            kind="subtle"
+            kind="action"
             icon="lib_openclose_add_circle_outline"
             className={locals.addDashboard}
             onClick={() => {

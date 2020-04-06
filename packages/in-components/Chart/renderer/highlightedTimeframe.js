@@ -15,7 +15,7 @@ export default function render(config, highlightedTimeframe) {
   const width = to - from;
 
   backBufferCtx.beginPath();
-  backBufferCtx.rect(from, 0, width, height);
+  backBufferCtx.rect(from, config.markerPaneHeight, width, height);
   backBufferCtx.fillStyle = 'rgba(0, 0, 0, 0.15)';
   backBufferCtx.fill();
 }
