@@ -26,25 +26,35 @@ export function toInteractiveElement(args) {
         onDefaultInteraction();
       }
     },
+    onKeyDown(e) {
+      if (isDefaultInteractionTrigger(e)) {
+        stopPropagationAndPreventDefault(e);
+      }
+    },
     onKeyUp(e) {
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-        return;
+      if (isDefaultInteractionTrigger(e)) {
+        onDefaultInteraction();
       }
-
-      if (isPrimaryInteractiveElement(e.target)) {
-        return;
-      }
-
-      // keyCode is deprecated and code is not yet supported everywhere
-      const code = e.code != null ? e.code : e.keyCode;
-      if (code !== keyCodes.return && code !== keyCodes.space) {
-        return;
-      }
-
-      stopPropagationAndPreventDefault(e);
-      onDefaultInteraction();
     }
   };
+}
+
+function isDefaultInteractionTrigger(e) {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+    return false;
+  }
+
+  if (isPrimaryInteractiveElement(e.target)) {
+    return false;
+  }
+
+  // keyCode is deprecated and code is not yet supported everywhere
+  const code = e.code != null ? e.code : e.keyCode;
+  if (code !== keyCodes.return && code !== keyCodes.space) {
+    return false;
+  }
+
+  return true;
 }
 
 function isPrimaryInteractiveElement(element) {
