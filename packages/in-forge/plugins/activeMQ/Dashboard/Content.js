@@ -52,7 +52,8 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
               labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
-              type: 'line'
+              type: 'stackedBar',
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
@@ -64,7 +65,8 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
               labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
-              type: 'line'
+              type: 'stackedBar',
+              aggregation: 'sum'
             }}
           />
         </DashboardSection>
