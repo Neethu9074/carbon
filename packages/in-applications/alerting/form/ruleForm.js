@@ -2,9 +2,9 @@ import { createField, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';
 
-export default function createRuleForm(rule = {}) {
+export default function createRuleForm(rule) {
+  const { alertType } = rule;
   const baseForm = createBaseForm(rule);
-  const alertType = baseForm.get('alertType').value;
 
   if (alertType === 'errorRate') {
     return baseForm;

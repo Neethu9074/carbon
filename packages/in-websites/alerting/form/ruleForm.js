@@ -2,20 +2,20 @@ import { createField, notBlankValidator, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';
 
-export default function createRuleForm(rule, thresholdType) {
+export default function createRuleForm(rule) {
   const { alertType } = rule;
   const baseForm = createBaseForm(rule);
 
   if (alertType === 'slowness') {
-    return createSlownessForm(baseForm, rule, thresholdType);
+    return extendForSlowness(baseForm, rule);
   }
 
   if (alertType === 'specificJsError') {
-    return createSpecificJsErrorForm(baseForm, rule);
+    return extendForSpecificJsError(baseForm, rule);
   }
 
   if (alertType === 'statusCode') {
-    return createSpecificStatusCodeForm(baseForm, rule);
+    return extendForSpecificStatusCode(baseForm, rule);
   }
 }
 
@@ -35,23 +35,7 @@ function createBaseForm(rule) {
     );
 }
 
-function createSlownessForm(baseForm, rule, thresholdType) {
-  if (thresholdType === 'staticThreshold') {
-    return createStaticThresholdForm(baseForm, rule);
-  }
-
-  if (thresholdType.startsWith('historicBaseline')) {
-    return createHistoricBaselineForm(baseForm, rule);
-  }
-
-  throw new Error(`Unknown threshold type ${thresholdType}.`);
-}
-
-function createStaticThresholdForm(baseForm, rule) {
-  return createHistoricBaselineForm(baseForm, rule);
-}
-
-function createHistoricBaselineForm(baseForm, rule) {
+function extendForSlowness(baseForm, rule) {
   return baseForm.put(
     'aggregation',
     createField({
@@ -60,7 +44,7 @@ function createHistoricBaselineForm(baseForm, rule) {
   );
 }
 
-function createSpecificJsErrorForm(baseForm, rule) {
+function extendForSpecificJsError(baseForm, rule) {
   return baseForm
     .put(
       'operator',
@@ -88,7 +72,7 @@ function createSpecificJsErrorForm(baseForm, rule) {
     );
 }
 
-function createSpecificStatusCodeForm(baseForm, rule) {
+function extendForSpecificStatusCode(baseForm, rule) {
   return baseForm
     .put(
       'operator',

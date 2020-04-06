@@ -13,18 +13,15 @@ export default function createBlueprintForm(form, alertType) {
     alertType
   );
 
-  const newRuleForm = createRuleForm(
-    {
-      ...form
-        .get('rule')
-        .remove('operator')
-        .remove('value')
-        .toJS(),
-      alertType,
-      metricName: metricNameForAlertType[alertType]
-    },
-    newThresholdForm.get('type').value
-  );
+  const newRuleForm = createRuleForm({
+    ...form
+      .get('rule')
+      .remove('operator')
+      .remove('value')
+      .toJS(),
+    alertType,
+    metricName: metricNameForAlertType[alertType]
+  });
 
   return form.put('rule', newRuleForm).put('threshold', newThresholdForm);
 }

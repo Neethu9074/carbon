@@ -63,7 +63,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
               reload();
             }
           }}
-          formData={generateFormData(error, tagFilters, websiteId)}
+          formData={generateFormData(websiteId, tagFilters, error)}
           websiteLabel={websiteLabel}
         />
       )}
@@ -81,7 +81,7 @@ CreateAlert.propTypes = {
   websiteErrorResult: PropTypes.object
 };
 
-function generateFormData(error, tagFilters, websiteId) {
+function generateFormData(websiteId, tagFilters, error) {
   return {
     tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
     rule: {

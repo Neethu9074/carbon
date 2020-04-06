@@ -108,7 +108,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
               const thresholdType = e.value || '';
 
               // reset to default value (happens in createRuleForm)
-              const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }, thresholdType);
+              const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null });
 
               const newThresholdForm = createThresholdForm(
                 {

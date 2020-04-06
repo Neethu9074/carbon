@@ -26,7 +26,7 @@ export const hiddenFieldNames = Object.freeze({
   alertByPercentageOfImpactedUsersEnabled: 'alertByPercentageOfImpactedUsersEnabled'
 });
 
-export default function alertFormDefinition(alertConfig = {}) {
+export default function alertFormDefinition(alertConfig) {
   const {
     tagFilters = [],
     alertChannelIds = [],
@@ -112,7 +112,7 @@ export default function alertFormDefinition(alertConfig = {}) {
         alertConfig.rule?.alertType
       )
     )
-    .put('rule', createRuleForm(alertConfig.rule ?? {}, getInitialThresholdType(alertConfig.threshold)))
+    .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put(
       'hiddenFields',
       createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)

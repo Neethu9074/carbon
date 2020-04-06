@@ -26,22 +26,7 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
       </FloatingActionButton>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
-          formData={{
-            applicationId,
-            tagFilters: [
-              {
-                name: 'service.id',
-                operator: 'EQUALS',
-                stringValue: serviceId
-              },
-              {
-                name: 'endpoint.id',
-                operator: 'EQUALS',
-                stringValue: endpointId
-              }
-            ].filter(({ stringValue }) => Boolean(stringValue)),
-            calculateThresholdOnBackend: true
-          }}
+          formData={generateFormData(applicationId, serviceId, endpointId)}
           onClose={() => setDialogOpen(false)}
           editMode
         />
@@ -57,3 +42,29 @@ CreateSmartAlert.propTypes = {
   location: propTypeLocation.isRequired,
   serviceId: PropTypes.string
 };
+
+function generateFormData(applicationId, serviceId, endpointId) {
+  return {
+    applicationId,
+    rule: {
+      alertType: 'errorRate'
+    },
+    threshold: {
+      type: 'staticThreshold',
+      value: 0.0
+    },
+    tagFilters: [
+      {
+        name: 'service.id',
+        operator: 'EQUALS',
+        stringValue: serviceId
+      },
+      {
+        name: 'endpoint.id',
+        operator: 'EQUALS',
+        stringValue: endpointId
+      }
+    ].filter(({ stringValue }) => Boolean(stringValue)),
+    calculateThresholdOnBackend: true
+  };
+}
