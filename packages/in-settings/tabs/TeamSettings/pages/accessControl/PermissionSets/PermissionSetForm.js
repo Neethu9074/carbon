@@ -5,6 +5,7 @@ import React from 'react';
 import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Applications';
+import InfraDfqFilter from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/InfraDfqFilter';
 import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sNamespaces';
 import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sClusters';
 import MobileApps from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/MobileApps';
@@ -51,6 +52,8 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
+
+      <InfraDfqFilter form={form} onChange={onChange} />
 
       <SectionHeading>Product Areas</SectionHeading>
       {productAreaPermissions.map(area => (
