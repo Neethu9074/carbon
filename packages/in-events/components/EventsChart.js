@@ -10,11 +10,11 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import { MINIMUM_ROLLUP } from 'in-stores/metric';
 
-export default getElementDimensions(function EventsChart({ width, timeConfig, query, eventType }) {
-  if (!width) {
-    return <div />;
-  }
+export default getElementDimensions(function EventsChartWidthWrapper(props) {
+  return <div>{props.width && <EventsChart {...props} />}</div>;
+});
 
+function EventsChart({ width, timeConfig, query, eventType }) {
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
     getBlockSizeMillis({
       windowSize: timeConfig.windowSize,
@@ -60,7 +60,7 @@ export default getElementDimensions(function EventsChart({ width, timeConfig, qu
       primaryContextMenuAction={globalHighlightAction.name}
     />
   );
-});
+}
 
 function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push('Incidents');
