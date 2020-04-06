@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getIssueDefinitionForSnapshotAndCode } from 'in-sdk/agentMonitoringIssueDefinition';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
+import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
