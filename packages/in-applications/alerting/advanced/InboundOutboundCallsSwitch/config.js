@@ -13,7 +13,7 @@ export const boundaryScopes = {
     ALL: {
       text: 'All Calls',
       icon: 'lib_application_boundary_all_calls',
-      dashboard: 'All calls performed within this application, by both consumers as well as internally.',
+      dashboard: 'Calls performed within this application, by both consumers as well as internally.',
       overrideDefault: 'The default scope for this application is All Calls. You can change this in Configuration.'
     }
   }
