@@ -32,7 +32,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               timeConfig={timeConfig}
               tagFilters={mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })}
               upsertTagFilter={newTagFilter => {
-                addFilter(form, newTagFilter, updateForm, advancedMode);
+                upsertFilter(form, newTagFilter, updateForm, advancedMode);
               }}
               addTagFilter={newTagFilter => {
                 addFilter(form, newTagFilter, updateForm, advancedMode);
@@ -44,12 +44,16 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
-              removeTagFilter={name => {
-                if (name !== applicationNameTag) {
+              removeTagFilter={(...args) => {
+                const tag = args[0];
+                const key = args[3];
+                if (tag !== applicationNameTag) {
                   updateForm(
                     form
                       .updateIn(['tagFilters'], f =>
-                        f.setValue(withoutTagFiltersForName(getTagFilters(form), name)).setTouched(true)
+                        f
+                          .setValue(withoutTagFiltersForNameAndValue(getTagFilters(form), { name: tag, value: key }))
+                          .setTouched(true)
                       )
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
@@ -57,7 +61,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                   applicationsAlertingFilterRemove({
                     ...getBlueprintObject(form),
                     mode: advancedMode ? 'Advanced' : 'Simple',
-                    filterName: name
+                    filterName: tag
                   });
                 }
               }}
@@ -118,7 +122,9 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               onRemoveTagFilter={tagFilter => {
                 updateForm(
                   form
-                    .updateIn(['tagFilters'], f => f.setValue(withoutTagFilter(form, tagFilter)).setTouched(true))
+                    .updateIn(['tagFilters'], f =>
+                      f.setValue(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter)).setTouched(true)
+                    )
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
                 applicationsAlertingFilterRemove({
@@ -145,9 +151,19 @@ AlertLocationFilters.propTypes = {
   applicationLabel: PropTypes.string.isRequired
 };
 
-function addFilter(form, newTagFilter, updateForm, advancedMode) {
-  const newTagFilters = withoutTagFilter(form, newTagFilter);
+function upsertFilter(form, newTagFilter, updateForm, advancedMode) {
+  const newTagFilters = withoutTagFiltersForName(getTagFilters(form), newTagFilter.name);
   newTagFilters.push(newTagFilter);
+  addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter);
+}
+
+function addFilter(form, newTagFilter, updateForm, advancedMode) {
+  const newTagFilters = getTagFilters(form).filter(tf => !Object.is(tf, newTagFilter));
+  newTagFilters.push(newTagFilter);
+  addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter);
+}
+
+function addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter) {
   updateForm(
     form
       .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
@@ -164,8 +180,15 @@ function withoutTagFiltersForName(tagFilters, name) {
   return tagFilters.filter(tf => tf.name !== name);
 }
 
-function withoutTagFilter(form, tagFilter) {
-  return getTagFilters(form).filter(tf => !Object.is(tf, tagFilter));
+function withoutTagFiltersForNameAndValue(tagFilters, tagFilter) {
+  const { name, key, value, stringValue, booleanValue, numberValue } = tagFilter;
+  const _value = stringValue ?? booleanValue ?? numberValue ?? value;
+  const _name = name ?? key;
+
+  return tagFilters.filter(tf => {
+    const tfValue = tf.stringValue ?? tf.booleanValue ?? tf.numberValue;
+    return !(tf.name === _name && tfValue === _value);
+  });
 }
 
 function mutateFiltersForView({ tagFilters, applicationLabel }) {
