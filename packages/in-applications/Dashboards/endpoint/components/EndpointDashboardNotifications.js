@@ -18,15 +18,11 @@ export default function EndpointDashboardNotifications({
   endpointId,
   boundaryScope,
   currentTab,
-  result
+  data
 }) {
-  if (!applicationId) {
-    return null;
-  }
-
-  const isSynthetic = get(result, ['data', 'synthetic'], false);
-  const label = get(result, ['data', 'label']);
-  const type = get(result, ['data', 'type']);
+  const isSynthetic = get(data, ['synthetic'], false);
+  const label = get(data, ['label']);
+  const type = get(data, ['type']);
   const isUnspecified = label === 'Unspecified';
   const isTooMayEndpoints = label === 'Others';
   const isHttpEndpoint = type === 'HTTP';
@@ -64,12 +60,14 @@ export default function EndpointDashboardNotifications({
           }
         />
       )}
+
       {isUnspecified && (
         <MessageBar
           title="Unspecified Endpoint"
           message="This endpoint groups all calls which could not be mapped to a meaningful endpoint name."
         />
       )}
+
       {isTooMayEndpoints && (
         <MessageBar
           title="Too many endpoints"
