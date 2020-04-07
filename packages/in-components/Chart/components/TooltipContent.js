@@ -60,7 +60,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
 
   const items = labels
     .map((label, i) => {
-      if (config.isLabelFiltered(label) || excludedLabelsFromTooltip.includes(label)) {
+      if (config.isFiltered(axisName, i) || excludedLabelsFromTooltip.includes(label)) {
         return null;
       }
       const dataPointsForAxis = dataPointsAtTime[axisName];

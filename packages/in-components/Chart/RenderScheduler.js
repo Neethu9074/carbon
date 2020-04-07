@@ -131,7 +131,7 @@ export default class RenderScheduler {
       return;
     }
 
-    const filteredIndices = this.getFilteredMetricIndices(axis, config);
+    const filteredIndices = this.getFilteredMetricIndices(axisName, axis, config);
 
     // all metrics are filtered, so don't try to paint anything
     if (filteredIndices.length === axis.metrics.length) {
@@ -171,10 +171,10 @@ export default class RenderScheduler {
     }
   }
 
-  getFilteredMetricIndices(axis, config) {
+  getFilteredMetricIndices(axisName, axis, config) {
     const filteredIndices = [];
     for (let i = 0; i < axis.metrics.length; i++) {
-      if (config.isLabelFiltered(axis.labels[i])) {
+      if (config.isFiltered(axisName, i)) {
         filteredIndices.push(i);
       }
     }
