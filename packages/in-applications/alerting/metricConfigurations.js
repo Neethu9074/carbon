@@ -4,11 +4,12 @@ export function getHistoricThresholdMetricsConfiguration({
   metric,
   tagFilters,
   timeConfig,
-  granularity
+  granularity,
+  boundaryScope
 }) {
   return Object.freeze({
     timeConfig,
-    tagFilters: [...tagFilters, getApplicationIdTagFilter(applicationId)],
+    tagFilters: [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })],
     metrics: {
       threshold: {
         metric,
@@ -19,7 +20,14 @@ export function getHistoricThresholdMetricsConfiguration({
   });
 }
 
-export function getBaselineMetricsConfiguration({ applicationId, aggregation, tagFilters, granularity, seasonality }) {
+export function getBaselineMetricsConfiguration({
+  applicationId,
+  aggregation,
+  tagFilters,
+  granularity,
+  seasonality,
+  boundaryScope
+}) {
   return Object.freeze({
     to: Date.now(),
     metrics: {
@@ -29,14 +37,14 @@ export function getBaselineMetricsConfiguration({ applicationId, aggregation, ta
         aggregation
       }
     },
-    tagFilters: [...tagFilters, getApplicationIdTagFilter(applicationId)],
+    tagFilters: [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })],
     seasonality
   });
 }
 
-function getApplicationIdTagFilter(applicationId) {
+export function getApplicationIdTagFilter({ applicationId, boundaryScope }) {
   return Object.freeze({
-    name: 'application.id',
+    name: boundaryScope === 'INBOUND' ? 'application.id' : 'boundary.application.id',
     operator: 'EQUALS',
     stringValue: applicationId
   });
