@@ -17,4 +17,18 @@
   .tabs {
     padding-bottom: 0;
   }
+
+  .lettering {
+    filter: brightness(0.1);
+  }
+
+  .itemContent {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .leftMargin {
+    margin-left: 0.5rem;
+  }
 }

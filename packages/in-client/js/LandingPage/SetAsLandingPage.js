@@ -1,7 +1,7 @@
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
 import connectTo from 'in-hoc/connectTo';
 
-const label = 'Make Homepage';
+const label = 'Make Default';
 const icon = 'lib_views_grid';
 
 export default connectTo(({ isLandingPage }) => ({
