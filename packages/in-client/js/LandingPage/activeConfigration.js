@@ -1,5 +1,5 @@
-import supportedLandingPages from 'in-client/js/LandingPage/supportedLandingPages';
 import { getLandingPage, getLandingPage$ } from 'in-client/js/LandingPage/persistence';
+import supportedLandingPages from 'in-client/js/LandingPage/supportedLandingPages';
 
 export function getActiveConfiguration() {
   return resolveLandingPage(getLandingPage() || getFirstDefaultPageKey());
