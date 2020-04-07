@@ -17,7 +17,7 @@ export default function LatencyDistributionChartPresenter({
   serviceId,
   endpointId,
   boundaryScope,
-  isSynthetic,
+  includeSyntheticCalls,
   callType
 }) {
   const buckets = subscription.data ? subscription.data : [];
@@ -57,7 +57,7 @@ export default function LatencyDistributionChartPresenter({
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              isSynthetic={isSynthetic}
+              includeSyntheticCalls={includeSyntheticCalls}
               callType={callType}
             />
           ))}
