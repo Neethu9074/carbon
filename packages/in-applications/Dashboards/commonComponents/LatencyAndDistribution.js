@@ -11,6 +11,7 @@ export default function LatencyAndDistribution({
   endpointId,
   timeConfig,
   boundaryScope,
+  includeSyntheticCalls,
   cardTitle,
   percentileGroupBy,
   callType
@@ -40,6 +41,7 @@ export default function LatencyAndDistribution({
           serviceId={serviceId}
           endpointId={endpointId}
           boundaryScope={boundaryScope}
+          includeSyntheticCalls={includeSyntheticCalls}
           timeConfig={timeConfig}
           groupByTag={percentileGroupBy}
         />
@@ -51,6 +53,7 @@ export default function LatencyAndDistribution({
           endpointId={endpointId}
           timeConfig={timeConfig}
           boundaryScope={boundaryScope}
+          includeSyntheticCalls={includeSyntheticCalls}
           callType={callType}
         />
       )}

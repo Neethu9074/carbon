@@ -9,6 +9,7 @@ export default function LatencyDistributionHistogram({
   serviceId,
   endpointId,
   boundaryScope,
+  includeSyntheticCalls,
   callType
 }) {
   return (
@@ -17,6 +18,7 @@ export default function LatencyDistributionHistogram({
       serviceId={serviceId}
       endpointId={endpointId}
       boundaryScope={boundaryScope}
+      includeSyntheticCalls={includeSyntheticCalls}
       callType={callType}
       subscription={getLatencyDistribution({
         maxLatencyBuckets: 10,
@@ -25,7 +27,8 @@ export default function LatencyDistributionHistogram({
           application: applicationId,
           service: serviceId,
           endpoint: endpointId,
-          applicationBoundaryScope: boundaryScope
+          applicationBoundaryScope: boundaryScope,
+          includeSyntheticCalls
         }
       })}
     />

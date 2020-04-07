@@ -17,7 +17,7 @@ export default function Bar({
   serviceId,
   endpointId,
   boundaryScope,
-  isSynthetic,
+  includeSyntheticCalls,
   callType
 }) {
   const filters = filterForLink(bucket, callType);
@@ -35,9 +35,7 @@ export default function Bar({
           {
             boundaryScope: boundaryScope,
             groupByTag: {},
-            filters: isSynthetic
-              ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
-              : [...filters]
+            filters: includeSyntheticCalls ? [{ name: 'include_synthetic', value: 'true' }, ...filters] : [...filters]
           }
         )}
       >
