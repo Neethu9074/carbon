@@ -19,14 +19,14 @@ export function createTimeZoneSubForm({ timeZone, label } = {}) {
     .put(
       'timeZone',
       createField({
-        value: timeZone || '',
+        value: timeZone || 'UTC',
         validator: timeZoneRequired
       })
     )
     .put(
       'label',
       createField({
-        value: label || '',
+        value: label || 'UTC',
         validator: notBlankValidator
       })
     );
