@@ -2,6 +2,15 @@ import { compose, withProps } from 'recompose';
 import { find, isEqual } from 'lodash';
 import React from 'react';
 
+import {
+  editDashboard,
+  shareDashboard,
+  deleteDashboard,
+  startAddWidget,
+  finishAddWidget,
+  startEditWidget,
+  finishEditWidget
+} from 'in-custom-dashboards/tracker';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
@@ -73,11 +82,13 @@ function CustomDashboardLoader(props) {
   );
 
   function onAddWidget() {
+    startAddWidget();
     addActiveDialog(
       <WidgetEditorDialog
         onSubmit={widget => {
           const newConfig = deepCopy(config);
           newConfig.widgets.push(widget);
+          finishAddWidget(widget.type);
           setConfig(newConfig);
         }}
       />
@@ -86,6 +97,7 @@ function CustomDashboardLoader(props) {
 
   function onEditWidget(id) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
+    startEditWidget(widget.type);
     addActiveDialog(
       <WidgetEditorDialog
         widget={widget}
@@ -93,6 +105,7 @@ function CustomDashboardLoader(props) {
           const newConfig = deepCopy(config);
           newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
           newConfig.widgets.push(widget);
+          finishEditWidget(widget.type);
           setConfig(newConfig);
         }}
       />
@@ -120,6 +133,7 @@ function CustomDashboardLoader(props) {
         onSubmit={accessRules => {
           const newConfig = deepCopy(config);
           newConfig.accessRules = accessRules;
+          shareDashboard(config.title);
           setConfig(newConfig);
         }}
       />
@@ -138,6 +152,7 @@ function CustomDashboardLoader(props) {
           </span>
         }
         onSubmit={() => {
+          deleteDashboard(config.title);
           close();
           removeCustomDashboard(config.id).subscribe(result => {
             if (result.progress.loading) {
@@ -187,6 +202,7 @@ function CustomDashboardLoader(props) {
 
   function onSaveConfiguration() {
     setSaving(true);
+    editDashboard(config.title);
     updateCustomDashboard(config).subscribe(result => {
       if (result.progress.loading) {
         return;

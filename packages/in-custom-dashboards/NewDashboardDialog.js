@@ -4,6 +4,7 @@ import React from 'react';
 
 import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
@@ -67,6 +68,7 @@ export default compose(
           response => {
             if (response.data) {
               const customDashboardId = response.data.id;
+              createDashboard(state.field.value);
               goToCustomDashboard(customDashboardId);
               close();
               return;
