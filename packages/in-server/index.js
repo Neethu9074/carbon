@@ -35,6 +35,8 @@ app.use((req, res, next) => {
   res.set('x-frame-options', 'deny');
   res.set('x-content-type-options', 'nosniff');
   res.set('x-xss-protection', '1; mode=block');
+  res.set('referrer-policy', 'same-origin');
+  res.set('x-permitted-cross-domain-policies', 'none');
   next();
 });
 
