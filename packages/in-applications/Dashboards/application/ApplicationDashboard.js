@@ -3,11 +3,11 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import CreateSmartAlert from '../../alerting/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
@@ -95,11 +95,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-      <UpstreamDownstreamButton
+      <ContextGuide
+        id={applicationId}
+        timeConfig={timeConfig}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        timeConfig={timeConfig}
+        productArea="application"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
