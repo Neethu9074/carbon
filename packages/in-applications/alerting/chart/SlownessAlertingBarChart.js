@@ -22,7 +22,7 @@ export default function SlownessAlertingBarChart({
   canReload
 }) {
   const baseline = threshold.baseline;
-  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
+  const tagFiltersWithApplicationId = [getApplicationIdTagFilter(applicationId), ...tagFilters];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart

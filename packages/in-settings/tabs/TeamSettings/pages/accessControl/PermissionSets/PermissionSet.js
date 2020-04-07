@@ -110,5 +110,11 @@ function createForm(permissionSet) {
       createField({
         value: permissionSet.get('mobileAppIds', List())
       })
+    )
+    .put(
+      'infraDfqFilter',
+      createField({
+        value: permissionSet.get('infraDfqFilter', '')
+      })
     );
 }

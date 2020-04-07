@@ -7,8 +7,8 @@ import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicati
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
+import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
-import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
@@ -34,7 +34,6 @@ export default connectTo(
     const metadata = event.get('metadata');
     const applicationName = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
-    const tagFiltersWithApplicationId = [getApplicationIdTagFilter(entityId), ...tagFilters];
     const sensitivity = alertConfig.threshold.deviationFactor;
     const operator = alertConfig.threshold.operator;
     const alertType = alertConfig.rule.alertType;
@@ -72,7 +71,7 @@ export default connectTo(
                 applicationId={entityId}
                 sensitivity={sensitivity}
                 timeConfig={timeConfig}
-                tagFilters={tagFiltersWithApplicationId}
+                tagFilters={tagFilters}
                 aggregation={aggregation}
                 granularity={alertingMetricsGranularity}
                 threshold={thresholdWithSeasonality}
@@ -100,7 +99,7 @@ export default connectTo(
             <div className={locals.domainContentWrapper}>
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: tagFiltersWithApplicationId,
+                  tagFilters: [getApplicationIdTagFilter(entityId), ...tagFilters],
                   applicationName
                 })}
                 disabled
