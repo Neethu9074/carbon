@@ -64,24 +64,17 @@ JsErrorsList.propTypes = {
   timeConfig: PropTypes.object.isRequired
 };
 
-function getTableData({
-  page = 1,
-  pageSize = 15,
-  orderBy = 'errorsAgg',
-  orderDirection = 'DESC',
-  timeConfig,
-  tagFilters
-}) {
+function getTableData({ timeConfig, tagFilters }) {
   return getWebsiteErrors({
     tagFilters,
     timeConfig,
     pagination: {
-      page,
-      pageSize
+      page: 1,
+      pageSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: 'errorsAgg',
+      direction: 'DESC'
     },
     metrics: {
       errorsAgg: {

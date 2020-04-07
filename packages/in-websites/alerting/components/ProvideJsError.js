@@ -18,11 +18,11 @@ import Button from 'in-new-components/Button/Button';
 import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 
-import locals from './ProvideManualPattern.mless';
+import locals from './ProvideJsError.mless';
 
 const debouncedErrorMsgChangedTracker = debounce(websitesAlertingJsErrorsMsgChanged, 300);
 
-export default function ProvideManualPattern({ form, timeConfig, onSelectJsError, mode, updateForm }) {
+export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }) {
   const operatorField = form.get('rule').get('operator');
   const ruleValueField = form.get('rule').get('value');
 
@@ -117,7 +117,7 @@ export default function ProvideManualPattern({ form, timeConfig, onSelectJsError
   );
 }
 
-ProvideManualPattern.propTypes = {
+ProvideJsError.propTypes = {
   form: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired,

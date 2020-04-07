@@ -14,6 +14,7 @@ import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRa
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
+import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
@@ -76,7 +77,9 @@ export default function AdvancedModeContainer(props) {
                       {
                         <ProvideLogMessage
                           form={form}
-                          timeConfig={timeConfig}
+                          timeConfig={{
+                            windowSize: alertingDialogItemPickerTimeframe
+                          }}
                           updateForm={updateForm}
                           onSelectLogMessage={setSliderState}
                           mode="Advanced"

@@ -63,7 +63,6 @@ export default function SimpleAlertConfigDialogStep1({
           form={form}
           updateForm={updateForm}
           onChange={onChange}
-          timeConfig={timeConfig}
           onSelectJsError={setJsErrorsListVisible}
         />
       )}

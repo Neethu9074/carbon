@@ -9,7 +9,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Label from 'in-components/form/Label';
 
-import locals from './ProvideManualPattern.mless';
+import locals from './ProvideJsError.mless';
 
 export default function ProvideStatusCode({ form, mode, updateForm }) {
   return (

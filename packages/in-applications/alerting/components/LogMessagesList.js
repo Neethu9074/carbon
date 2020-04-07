@@ -1,16 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-subscription/application/getLogMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
 import Pill from 'in-new-components/Pill';
 
 import locals from './LogMessagesList.mless';
+
+const columnDefinitions = [
+  {
+    id: 'logLevel',
+    label: 'Log Level',
+    width: 10,
+    getContent(item) {
+      return <Pill kind="lighter">{item.level}</Pill>;
+    }
+  },
+  {
+    id: 'logMessage',
+    label: 'Log Message',
+    getContent: item => LogRow(item),
+    noWrap: true,
+    ellipsis: '50vw'
+  }
+];
 
 export default function LogMessagesList({ form, timeConfig, onLogMessageSelect, slideOut }) {
   return (
@@ -20,11 +35,10 @@ export default function LogMessagesList({ form, timeConfig, onLogMessageSelect, 
         getHeader={() => ''}
         searchAttributes={[entity => entity.message]}
         getEntityName={config => config.message}
-        columnDefinitions={getColumnDefinitions(timeConfig)}
+        columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
             applicationId: form.get('applicationId').value,
-            tagFilters: form.get('tagFilters').value,
             timeConfig
           })
             .filter(tableData => tableData.data)
@@ -49,39 +63,26 @@ LogMessagesList.propTypes = {
   timeConfig: PropTypes.object.isRequired
 };
 
-function getTableData({
-  applicationId,
-  tagFilters,
-  timeConfig,
-  page = 1,
-  pageSize = 15,
-  orderBy = 'logsAgg',
-  orderDirection = 'DESC'
-}) {
+function getTableData({ applicationId, timeConfig }) {
   return getLogMessages({
-    tagFilters,
-    timeConfig,
     pagination: {
-      page,
-      pageSize
+      page: 1,
+      pageSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: 'logsAgg',
+      direction: 'DESC'
     },
     filter: {
+      label: '',
       timeConfig,
-      application: applicationId
+      application: applicationId,
+      applicationBoundaryScope: 'ALL' // TODO set respective boundary-scope
     },
     metrics: {
       logsAgg: {
         metric: 'logs',
         aggregation: 'SUM'
-      },
-      logs: {
-        metric: 'logs',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
       }
     }
   });
@@ -93,42 +94,4 @@ function LogRow(item) {
       <div className={locals.row}>{item.message}</div>
     </Tooltip>
   );
-}
-
-function getColumnDefinitions(timeConfig) {
-  return [
-    {
-      id: 'logMessage',
-      label: 'Log Message',
-      width: 75,
-      getContent: item => LogRow(item),
-      noWrap: true,
-      ellipsis: '50vw'
-    },
-    {
-      id: 'logLevel',
-      label: 'Log Level',
-      width: 10,
-      getContent(item) {
-        return <Pill kind="lighter">{item.level}</Pill>;
-      }
-    },
-    {
-      id: 'logsAgg',
-      label: 'Count',
-      defaultOrderDirection: 'DESC',
-      width: 15,
-      getContent(item, { result }) {
-        return (
-          <SparkChart
-            rollup={getSparkChartGranularity(timeConfig)}
-            timeConfig={getResolvedTimeConfig(timeConfig, result)}
-            metrics={item.metrics.logs}
-            metric={item.metrics.logsAgg}
-            tooltipFormatter={number.compact}
-          />
-        );
-      }
-    }
-  ];
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import ProvideManualPattern from 'in-websites/alerting/components/ProvideManualPattern';
+import { alertingDialogItemPickerTimeframe } from 'in-websites/alerting/constants';
+import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { modeSimple } from 'in-websites/alerting/constants';
 
 import locals from './SelectAlertForJsError.mless';
@@ -12,7 +13,13 @@ export default function SelectAlertForJsError(props) {
       <p className={locals.description}>
         You will be alerted every time matching JS Error messages occur more often than normal.
       </p>
-      <ProvideManualPattern {...props} mode={modeSimple} />
+      <ProvideJsError
+        {...props}
+        mode={modeSimple}
+        timeConfig={{
+          windowSize: alertingDialogItemPickerTimeframe
+        }}
+      />
     </div>
   );
 }
