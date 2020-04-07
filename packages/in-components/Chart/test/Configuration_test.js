@@ -36,7 +36,7 @@ describe('in-components/Chart/Configuration', () => {
       const config = new Config(getCanvasMock(), props);
       expect(config.filteredDataSeries).to.be.an.instanceof(Set);
       expect(config.filteredDataSeries.size).to.equal(1);
-      expect(config.filteredDataSeries.values().next().value).to.equal('b');
+      expect(config.filteredDataSeries.values().next().value).to.equal('y1-1');
     });
   });
 
@@ -91,7 +91,7 @@ describe('in-components/Chart/Configuration', () => {
       const config = new Config(getCanvasMock(), props);
 
       expect(config.filteredDataSeries.size).to.equal(1);
-      expect(config.filteredDataSeries.keys().next().value).to.equal('b');
+      expect(config.filteredDataSeries.keys().next().value).to.equal('y1-1');
 
       props.y1.forceDisabledMetrics = [];
 

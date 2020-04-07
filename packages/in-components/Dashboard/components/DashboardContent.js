@@ -1,6 +1,7 @@
 import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import AgentMonitoringIssueNotifications from 'in-components/Dashboard/components/AgentMonitoringIssueNotifications';
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
@@ -95,6 +96,7 @@ export default connectTo(
                 <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
               </div>
               <div className={locals.content}>
+                <AgentMonitoringIssueNotifications snapshot={snapshot} timeConfig={timeConfig} />
                 <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
               </div>
             </div>

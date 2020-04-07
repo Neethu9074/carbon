@@ -11,7 +11,7 @@ export default connectTo(
   function MetricAwareAxis({ chart, axisName, height, align, filteredDataSeries }) {
     const axis = chart.config[axisName];
 
-    if (!axis.labels || axis.labels.filter(v => !filteredDataSeries.has(v)).length == 0) {
+    if (!axis.labels || axis.labels.filter((v, i) => !filteredDataSeries.has(`${axisName}-${i}`)).length == 0) {
       return <div style={{ minWidth: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
     }
 
