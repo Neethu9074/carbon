@@ -19,6 +19,7 @@ import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
+import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
@@ -50,36 +51,39 @@ export default function Alerts({ applicationName, applicationId }) {
   }
 
   return (
-    <List
-      getHeader={() => header}
-      getEntityName={getEntityName}
-      columnDefinitions={getColumnDefinitions(applicationName)}
-      tableActions={
-        role.canConfigureCustomAlerts && {
-          delete: {
-            deleteEntity: config =>
-              deleteAlertConfig(config.id).tap(() => applicationsAlertingListAlertDeleted(config.id))
-          },
-          toggleEnabled: {
-            get: config => config.enabled,
-            toggle: config =>
-              config.enabled
-                ? disableAlertConfig(config.id).tap(() => applicationsAlertingListAlertPaused(config.id))
-                : enableAlertConfig(config.id).tap(() => applicationsAlertingListAlertResumed(config.id))
+    <>
+      <List
+        getHeader={() => header}
+        getEntityName={getEntityName}
+        columnDefinitions={getColumnDefinitions(applicationName)}
+        tableActions={
+          role.canConfigureCustomAlerts && {
+            delete: {
+              deleteEntity: config =>
+                deleteAlertConfig(config.id).tap(() => applicationsAlertingListAlertDeleted(config.id))
+            },
+            toggleEnabled: {
+              get: config => config.enabled,
+              toggle: config =>
+                config.enabled
+                  ? disableAlertConfig(config.id).tap(() => applicationsAlertingListAlertPaused(config.id))
+                  : enableAlertConfig(config.id).tap(() => applicationsAlertingListAlertResumed(config.id))
+            }
           }
         }
-      }
-      loadEntities={() => getAllAlertConfigs(applicationId).tap(alerts => setAlertsSize(alerts.length))}
-      pageSize={15}
-      searchAttributes={[entity => entity.name]}
-      noDataMessage="No alert configured."
-      onRowClick={config =>
-        mutateUrl(location => {
-          location.pathname = alertsTabDetailsFullyQualified;
-          setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
-        })
-      }
-    />
+        loadEntities={() => getAllAlertConfigs(applicationId).tap(alerts => setAlertsSize(alerts.length))}
+        pageSize={15}
+        searchAttributes={[entity => entity.name]}
+        noDataMessage="No alert configured."
+        onRowClick={config =>
+          mutateUrl(location => {
+            location.pathname = alertsTabDetailsFullyQualified;
+            setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
+          })
+        }
+      />
+      <Footer />
+    </>
   );
 }
 

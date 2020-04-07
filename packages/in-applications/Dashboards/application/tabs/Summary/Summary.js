@@ -12,6 +12,7 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -147,6 +148,7 @@ export default connectTo(
             />
           </Col>
         </Row>
+        <Footer />
       </Fragment>
     );
   }

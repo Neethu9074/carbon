@@ -18,7 +18,6 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
-import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
@@ -68,7 +67,6 @@ function ApplicationDashboard({
           applicationName: get(result, ['data', 'label'])
         })}
       />
-      <Footer />
     </>
   );
 }

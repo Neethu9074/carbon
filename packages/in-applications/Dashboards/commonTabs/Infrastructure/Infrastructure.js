@@ -25,6 +25,7 @@ import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import Footer from 'in-new-components/Footer/Footer';
 import PluginIcon from 'in-components/PluginIcon';
 import withUrlState from 'in-hoc/withUrlState';
 import { plugins } from 'in-forge/constants';
@@ -254,6 +255,7 @@ function Infrastructure({
         rightHeader={rightHeader}
         cardTitle="Infrastructure"
       />
+      <Footer />
     </Fragment>
   );
 }

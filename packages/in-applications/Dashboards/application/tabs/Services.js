@@ -26,6 +26,7 @@ import getServices from 'in-subscription/application/getServices';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
+import Footer from 'in-new-components/Footer/Footer';
 import withUrlState from 'in-hoc/withUrlState';
 
 const pathSegment = '/services';
@@ -256,6 +257,7 @@ function ServiceList(props) {
         endpointTypes={endpointTypes}
         technologies={technologies}
       />
+      <Footer />
     </Fragment>
   );
 }

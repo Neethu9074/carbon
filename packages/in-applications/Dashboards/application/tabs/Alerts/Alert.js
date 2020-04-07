@@ -30,6 +30,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Footer from 'in-new-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
@@ -120,6 +121,7 @@ function Alert({
           <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
         </Row>
       </div>
+      <Footer />
     </>
   );
 }
