@@ -4,11 +4,12 @@ import React from 'react';
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
+import Lettering from 'in-components/Lettering';
 
 import locals from './DashboardSwitcherPresenter.mless';
 
 export default function DashboardSwitcherPresenter(props) {
-  const { activeDashboardTitle } = props;
+  const { activeDashboardTitle, isCockpit } = props;
 
   return (
     <Overlay withoutWrapper content={DashboardSwitcherOverlayPresenter} props={props}>
@@ -20,7 +21,8 @@ export default function DashboardSwitcherPresenter(props) {
           kind="secondary"
           className={locals.button}
         >
-          {activeDashboardTitle || 'Loading…'}
+          {isCockpit && <Lettering className={locals.lettering} />}
+          {!isCockpit && (activeDashboardTitle || 'Loading…')}
         </DropdownButton>
       )}
     </Overlay>
