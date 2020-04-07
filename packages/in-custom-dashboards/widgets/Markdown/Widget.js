@@ -8,6 +8,8 @@ import { sanitize } from 'in-services/formatters/html';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './Widget.mless';
+
 export default compose(
   setPropTypes({
     title: rpt.string.isRequired,
@@ -30,7 +32,7 @@ function MarkdownWidget({ title, actions, html, isPreview, dragHandle }) {
       }
       useMaxAvailableHeight={!isPreview}
     >
-      <DangerousHtmlPresenter html={html} />
+      <DangerousHtmlPresenter className={locals.markdown} html={html} />
     </Card>
   );
 }
