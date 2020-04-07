@@ -43,6 +43,7 @@ function SelectListDialogContent({
   if (!errorMessage && numberOfItems === 0) {
     errorMessage = requiresAtLeastOneMessage;
   }
+
   return (
     <form
       onSubmit={e => {
@@ -95,7 +96,7 @@ function SelectListDialogContent({
       </FormGroup>
 
       <div className={locals.actions}>
-        <Button type="submit" kind={'secondary'} onClick={close}>
+        <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])}>
           Cancel
         </Button>
         <Button type="submit" kind={'primary'} disabled={requiresAtLeastOneMessage && numberOfItems === 0}>
@@ -129,6 +130,7 @@ function addToSelection(setSelectedItems, selectedItems, entity, limit, setError
     }
     return;
   }
+
   setSelectedItems(selectedItems.concat(entity.id));
   setErrorMessage(null);
 }
