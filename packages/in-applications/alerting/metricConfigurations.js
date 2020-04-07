@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export function getHistoricThresholdMetricsConfiguration({
   applicationId,
   aggregation,
@@ -49,3 +51,5 @@ export function getApplicationIdTagFilter({ applicationId, boundaryScope }) {
     stringValue: applicationId
   });
 }
+
+export const boundaryScopePropType = PropTypes.oneOf(['ALL', 'INBOUND']);

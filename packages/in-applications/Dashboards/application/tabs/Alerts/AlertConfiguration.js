@@ -48,6 +48,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 granularity={alertingMetricsGranularity}
                 threshold={alertConfig.threshold}
                 timeThreshold={alertConfig.timeThreshold}
+                boundaryScope={alertConfig.boundaryScope}
               />
             </ChartContainer>
           )}
@@ -62,6 +63,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 tagFilters={alertConfig.tagFilters}
                 aggregation={alertConfig.rule.aggregation}
                 granularity={alertingMetricsGranularity}
+                boundaryScope={alertConfig.boundaryScope}
               />
             </ChartContainer>
           )}
@@ -84,6 +86,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   granularity={alertingMetricsGranularity}
                   threshold={alertConfig.threshold}
                   timeThreshold={alertConfig.timeThreshold}
+                  boundaryScope={alertConfig.boundaryScope}
                 />
               </ChartContainer>
             </>
