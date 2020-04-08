@@ -213,6 +213,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           tagFilters={form.get('tagFilters').value}
           aggregation={form.get('rule').get('aggregation').value}
           granularity={granularity}
+          boundaryScope={form.get('boundaryScope').value}
           alertsPreviewEnabled
           canReload
         />

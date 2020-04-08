@@ -7,7 +7,14 @@ import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
 
-export default function CreateSmartAlert({ applicationLabel, applicationId, serviceId, endpointId, location }) {
+export default function CreateSmartAlert({
+  applicationId,
+  applicationLabel,
+  boundaryScope,
+  endpointId,
+  location,
+  serviceId
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <>
@@ -16,9 +23,6 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
         onClick={() => {
           setDialogOpen(true);
           applicationsAlertingAddAlert(location.pathname, applicationLabel);
-          if (location.pathname.includes('/application/alerts')) {
-            reload();
-          }
         }}
         withBoxShadow
       >
@@ -26,8 +30,14 @@ export default function CreateSmartAlert({ applicationLabel, applicationId, serv
       </FloatingActionButton>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
-          formData={generateFormData(applicationId, serviceId, endpointId)}
-          onClose={() => setDialogOpen(false)}
+          applicationLabel={applicationLabel}
+          formData={generateFormData({ applicationId, serviceId, endpointId, boundaryScope })}
+          onClose={() => {
+            setDialogOpen(false);
+            if (location.pathname.includes('/application/alerts')) {
+              reload();
+            }
+          }}
           editMode
         />
       )}
@@ -40,12 +50,14 @@ CreateSmartAlert.propTypes = {
   applicationLabel: PropTypes.string.isRequired,
   endpointId: PropTypes.string,
   location: propTypeLocation.isRequired,
-  serviceId: PropTypes.string
+  serviceId: PropTypes.string,
+  boundaryScope: PropTypes.string
 };
 
-function generateFormData(applicationId, serviceId, endpointId) {
+function generateFormData({ applicationId, serviceId, endpointId, boundaryScope }) {
   return {
     applicationId,
+    boundaryScope,
     rule: {
       alertType: 'errorRate'
     },

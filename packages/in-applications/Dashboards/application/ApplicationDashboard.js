@@ -83,7 +83,8 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location }) {
+function renderButtonLine(props) {
+  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location } = props;
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -119,6 +120,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
               endpointId={endpointId}
               applicationId={applicationId}
               location={location}
+              boundaryScope={boundaryScope}
             />
           </FloatingActionButtons>
         )}

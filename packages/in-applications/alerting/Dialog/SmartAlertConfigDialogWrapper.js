@@ -28,11 +28,12 @@ const timeConfig = {
   autoRefresh: false
 };
 
-export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formData }) {
+export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   return (
     <SmartAlertConfigDialog
+      applicationLabel={applicationLabel}
       editMode={editMode}
       form={form}
       updateForm={setForm}
@@ -74,11 +75,13 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formD
 }
 
 SmartAlertConfigDialogWrapper.propTypes = {
+  applicationLabel: PropTypes.string.isRequired,
   editMode: PropTypes.bool,
   formData: PropTypes.shape({
     applicationId: PropTypes.string.isRequired,
-    tagFilters: PropTypes.array,
-    calculateThresholdOnBackend: PropTypes.bool
+    boundaryScope: PropTypes.string,
+    calculateThresholdOnBackend: PropTypes.bool,
+    tagFilters: PropTypes.array
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };
