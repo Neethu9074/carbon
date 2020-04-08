@@ -159,6 +159,10 @@ export const APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED = 'applications.alerting.lo
 export const APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED = 'applications.alerting.logOperatorChanged';
 export const APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW = 'applications.alerting.logOpenMessageSelectView';
 export const APPLICATIONS_ALERTING_LOG_MSG_SELECTED = 'applications.alerting.logMessageSelected';
+export const APPLICATIONS_ALERTING_FILTER_ADD = 'applications.alerting.filter.add';
+export const APPLICATIONS_ALERTING_FILTER_REMOVE = 'applications.alerting.filter.remove';
+export const APPLICATIONS_ALERTING_FILTER_EDIT = 'applications.alerting.filter.edit';
+export const APPLICATIONS_ALERTING_FILTER_SET = 'applications.alerting.filter.set';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

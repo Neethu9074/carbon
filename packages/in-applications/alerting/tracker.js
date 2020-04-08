@@ -26,7 +26,11 @@ import {
   APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED,
   APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED,
   APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW,
-  APPLICATIONS_ALERTING_LOG_MSG_SELECTED
+  APPLICATIONS_ALERTING_LOG_MSG_SELECTED,
+  WEBSITES_ALERTING_FILTER_ADD,
+  WEBSITES_ALERTING_FILTER_REMOVE,
+  WEBSITES_ALERTING_FILTER_EDIT,
+  WEBSITES_ALERTING_FILTER_SET
 } from 'in-services/tracking/tracking';
 
 export const applicationsAlertingAddAlert = (pathname, websiteName) =>
@@ -69,3 +73,7 @@ export const applicationsAlertingLogLevelChanged = e => track(APPLICATIONS_ALERT
 export const applicationsAlertingLogOperatorChanged = e => track(APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED, e);
 export const applicationsAlertingLogOpenMsgSelectView = e => track(APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW, e);
 export const applicationsAlertingLogMsgSelected = e => track(APPLICATIONS_ALERTING_LOG_MSG_SELECTED, e);
+export const applicationsAlertingFilterAdd = e => track(WEBSITES_ALERTING_FILTER_ADD, e);
+export const applicationsAlertingFilterRemove = e => track(WEBSITES_ALERTING_FILTER_REMOVE, e);
+export const applicationsAlertingFilterEdit = e => track(WEBSITES_ALERTING_FILTER_EDIT, e);
+export const applicationsAlertingFilterSet = e => track(WEBSITES_ALERTING_FILTER_SET, e);
