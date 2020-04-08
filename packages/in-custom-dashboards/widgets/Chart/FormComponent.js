@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import DataSeriesFormComponent from 'in-custom-dashboards/widgets/Chart/DataSeriesFormComponent';
 import { renderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -15,7 +16,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
 export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFormGroup, widgetPreview }) {
-  const [showY2, setShowY2] = useState(form.get('y2').get('metrics').size > 0);
+  const showY2 = form.get('y2').get('metrics').size > 0;
 
   return (
     <Stack space="large">
@@ -32,7 +33,11 @@ export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFo
       <StackItem>
         <Header>Chart: Secondary Y Axis</Header>
         {showY2 && <AxisFormComponent axisName="y2" form={form} onChange={onChange} />}
-        {!showY2 && <Button onClick={() => setShowY2(true)}>Add secondary Y axis</Button>}
+        {!showY2 && (
+          <Button onClick={() => onChange(['y2', 'metrics'], f => f.push(createMetricForm()))}>
+            Add secondary Y axis
+          </Button>
+        )}
       </StackItem>
 
       <StackItem>
