@@ -1,9 +1,8 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, twoDecimalPlacesPerSecond } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -102,45 +101,41 @@ function getDetails(row) {
   if (row.connectorType === 'sink') {
     return (
       <div>
-        <DashboardSection title="Sink">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`partitionCount`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-            y2={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`sinkRecordReadRate`, `sinkRecordSendRate`],
-              labels: ['Record Read Rate/s', 'Record Send Rate/s'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`partitionCount`],
+            labels: ['Partition Count'],
+            type: 'line'
+          }}
+          y2={{
+            formatter: twoDecimalPlacesPerSecond,
+            tooltipFormatter: twoDecimalPlacesPerSecond,
+            metrics: [`sinkRecordReadRate`, `sinkRecordSendRate`],
+            labels: ['Record Read Rate', 'Record Send Rate'],
+            type: 'line'
+          }}
+        />
       </div>
     );
   }
   if (row.connectorType === 'source') {
     return (
       <div>
-        <DashboardSection title="Source">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`sourceRecordPollRate`, `sourceRecordWriteRate`],
-              labels: ['Record Poll Rate/s', 'Record Read Rate/s'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: twoDecimalPlacesPerSecond,
+            tooltipFormatter: twoDecimalPlacesPerSecond,
+            metrics: [`sourceRecordPollRate`, `sourceRecordWriteRate`],
+            labels: ['Record Poll Rate', 'Record Write Rate'],
+            type: 'line'
+          }}
+        />
       </div>
     );
   }
