@@ -20,6 +20,11 @@ export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFo
   return (
     <Stack space="large">
       <StackItem>
+        <Header>Customize the Widget</Header>
+        {widgetTitleFormGroup}
+      </StackItem>
+
+      <StackItem>
         <Header>Chart: Primary Y Axis</Header>
         <AxisFormComponent axisName="y1" form={form} onChange={onChange} />
       </StackItem>
@@ -28,11 +33,6 @@ export default function ChartWidgetFormComponent({ form, onChange, widgetTitleFo
         <Header>Chart: Secondary Y Axis</Header>
         {showY2 && <AxisFormComponent axisName="y2" form={form} onChange={onChange} />}
         {!showY2 && <Button onClick={() => setShowY2(true)}>Add secondary Y axis</Button>}
-      </StackItem>
-
-      <StackItem>
-        <Header>Customize the Widget</Header>
-        {widgetTitleFormGroup}
       </StackItem>
 
       <StackItem>

@@ -14,6 +14,11 @@ export default function MarkdownWidgetFormComponent({ form: field, onChange, wid
   return (
     <Stack space="large">
       <StackItem>
+        <Header>Customize the Widget</Header>
+        {widgetTitleFormGroup}
+      </StackItem>
+
+      <StackItem>
         <Header>What would you like to show?</Header>
         <FormGroup>
           <Label htmlFor="markdown-widget-markdown" hasError={!field.valid && field.touched}>
@@ -34,11 +39,6 @@ export default function MarkdownWidgetFormComponent({ form: field, onChange, wid
             to define arbitray text content for your dashboard.
           </HelpText>
         </FormGroup>
-      </StackItem>
-
-      <StackItem>
-        <Header>Customize the Widget</Header>
-        {widgetTitleFormGroup}
       </StackItem>
 
       <StackItem>
