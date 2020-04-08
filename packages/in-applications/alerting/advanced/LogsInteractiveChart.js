@@ -99,7 +99,6 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
               granularity={granularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
-              boundaryScope={form.get('boundaryScope').value}
               alertsPreviewEnabled
               canReload
             />

@@ -1,11 +1,8 @@
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import {
-  getHistoricThresholdMetricsConfiguration,
-  getBaselineMetricsConfiguration
-} from 'in-applications/alerting/Dialog/metricConfigurations';
 import getApplicationMetricsHistoricThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsHistoricThreshold';
+import { getHistoricThresholdMetricsConfiguration, getBaselineMetricsConfiguration } from './metricConfigurations';
 import getApplicationMetricsBaseline from 'in-applications/alerting/subscriptions/getApplicationMetricsBaseline';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';

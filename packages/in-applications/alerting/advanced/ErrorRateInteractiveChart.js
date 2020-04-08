@@ -106,7 +106,6 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
           granularity={granularity}
           threshold={threshold}
           timeThreshold={form.get('timeThreshold').toJS()}
-          boundaryScope={form.get('boundaryScope').value}
           alertsPreviewEnabled
           canReload
         />

@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -29,7 +30,6 @@ import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
   const { form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm } = props;

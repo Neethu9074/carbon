@@ -2,7 +2,6 @@ import React from 'react';
 
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
 import SideNav from 'in-new-components/SideNav';
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,6 +10,7 @@ import locals from './AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props) {
   const { form, onClose, onCreate, editMode, navItems, isSaving } = props;
+
   return (
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
@@ -31,9 +31,15 @@ export default function AdvancedModeContainer(props) {
         <Button className={locals.button} kind="secondary" onClick={() => onClose()}>
           Cancel
         </Button>
-        <SaveButton className={locals.button} kind="primary" onClick={() => onCreate()} isSaving={isSaving} form={form}>
+        <Button
+          className={locals.button}
+          onClick={() => onCreate()}
+          disabled={form.touched && !form.hierarchyValid}
+          icon={isSaving ? 'lib_actions_loading' : ''}
+          iconSpinning={isSaving}
+        >
           {editMode ? 'Save' : 'Create'}
-        </SaveButton>
+        </Button>
       </nav>
     </nav>
   );

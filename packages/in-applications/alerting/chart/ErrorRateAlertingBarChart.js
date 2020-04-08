@@ -1,36 +1,31 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { percentage } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function ErrorRateAlertingBarChart({
   applicationId,
-  boundaryScope,
   timeConfig,
   tagFilters,
   granularity,
   threshold,
   timeThreshold,
-  alertsPreviewEnabled,
-  canReload
+  alertsPreviewEnabled
 }) {
   const thresholdValue = threshold.value;
-  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
+  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter(applicationId)];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
-      canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
@@ -76,15 +71,13 @@ export default function ErrorRateAlertingBarChart({
 }
 
 ErrorRateAlertingBarChart.propTypes = {
-  alertsPreviewEnabled: PropTypes.bool,
-  applicationId: PropTypes.string.isRequired,
-  boundaryScope: boundaryScopePropType.isRequired,
-  canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
+  timeThreshold: PropTypes.object.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  timeThreshold: PropTypes.object.isRequired
+  applicationId: PropTypes.string.isRequired,
+  alertsPreviewEnabled: PropTypes.bool
 };
 
 function getMetricConfiguration(tagFilters, timeConfig, granularity) {
@@ -98,6 +91,14 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
         aggregation: 'MEAN'
       }
     }
+  };
+}
+
+function getApplicationIdTagFilter(applicationId) {
+  return {
+    name: 'application.id',
+    operator: 'EQUALS',
+    stringValue: applicationId
   };
 }
 

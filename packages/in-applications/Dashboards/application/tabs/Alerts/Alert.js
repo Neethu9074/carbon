@@ -82,7 +82,6 @@ function Alert({
     <>
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
-          applicationName={applicationName}
           formData={alertConfig}
           onClose={() => {
             setDialogOpen(false);
