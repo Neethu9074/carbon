@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const boundaryScopes = {
   inbound: 'INBOUND',
   all: 'ALL',
@@ -18,3 +20,5 @@ export const boundaryScopes = {
     }
   }
 };
+
+export const boundaryScopePropType = PropTypes.oneOf(['ALL', 'INBOUND']);

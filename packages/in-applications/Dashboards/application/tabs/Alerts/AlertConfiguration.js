@@ -11,6 +11,7 @@ import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChan
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
@@ -127,14 +128,6 @@ AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired,
   applicationName: PropTypes.string.isRequired
 };
-
-function getApplicationIdTagFilter(applicationId) {
-  return {
-    name: 'application.id',
-    operator: 'EQUALS',
-    stringValue: applicationId
-  };
-}
 
 function getDescription(alertConfigRule) {
   const operator = alertConfigRule.operator;

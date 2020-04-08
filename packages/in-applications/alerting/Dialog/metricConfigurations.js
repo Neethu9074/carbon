@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 
 export function getHistoricThresholdMetricsConfiguration({
   applicationId,
@@ -43,13 +43,3 @@ export function getBaselineMetricsConfiguration({
     seasonality
   });
 }
-
-export function getApplicationIdTagFilter({ applicationId, boundaryScope }) {
-  return Object.freeze({
-    name: boundaryScope === 'INBOUND' ? 'application.id' : 'boundary.application.id',
-    operator: 'EQUALS',
-    stringValue: applicationId
-  });
-}
-
-export const boundaryScopePropType = PropTypes.oneOf(['ALL', 'INBOUND']);

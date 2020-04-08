@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { getApplicationIdTagFilter, boundaryScopePropType } from 'in-applications/alerting/metricConfigurations';
+import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { millis } from 'in-services/formatters/number';

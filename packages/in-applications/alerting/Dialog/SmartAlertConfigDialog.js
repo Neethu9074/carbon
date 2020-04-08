@@ -4,7 +4,7 @@ import React from 'react';
 import {
   getHistoricThresholdMetricsConfiguration,
   getBaselineMetricsConfiguration
-} from 'in-applications/alerting/metricConfigurations';
+} from 'in-applications/alerting/Dialog/metricConfigurations';
 import getApplicationMetricsHistoricThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsHistoricThreshold';
 import getApplicationMetricsBaseline from 'in-applications/alerting/subscriptions/getApplicationMetricsBaseline';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
