@@ -88,13 +88,17 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                     slideInConfig: {
                       component: (
                         <JsErrorsList
-                          form={form}
+                          websiteId={form.get('websiteId').value}
+                          tagFilters={form.get('tagFilters').value}
                           timeConfig={timeConfig}
-                          onJsErrorSelect={(updatedForm, message) => {
+                          onJsErrorSelect={message => {
                             websitesAlertingJsErrorsErrorSelected({ message, mode });
                             updateForm(
-                              updatedForm
+                              form
                                 .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
+                                .updateIn(['rule', 'operator'], field =>
+                                  field.setValue(operators.EQUALS).setTouched(true)
+                                )
                                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                             );
                           }}

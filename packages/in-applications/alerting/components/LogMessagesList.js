@@ -27,7 +27,13 @@ const columnDefinitions = [
   }
 ];
 
-export default function LogMessagesList({ form, timeConfig, onLogMessageSelect, slideOut }) {
+export default function LogMessagesList({
+  applicationId,
+  applicationBoundaryScope,
+  timeConfig,
+  onLogMessageSelect,
+  slideOut
+}) {
   return (
     <>
       <List
@@ -38,7 +44,8 @@ export default function LogMessagesList({ form, timeConfig, onLogMessageSelect, 
         columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
-            applicationId: form.get('applicationId').value,
+            applicationId,
+            applicationBoundaryScope,
             timeConfig
           })
             .filter(tableData => tableData.data)
@@ -57,13 +64,14 @@ export default function LogMessagesList({ form, timeConfig, onLogMessageSelect, 
 }
 
 LogMessagesList.propTypes = {
-  form: PropTypes.object.isRequired,
+  applicationId: PropTypes.string.isRequired,
+  applicationBoundaryScope: PropTypes.string.isRequired,
   onLogMessageSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
 
-function getTableData({ applicationId, timeConfig }) {
+function getTableData({ applicationId, applicationBoundaryScope, timeConfig }) {
   return getLogMessages({
     pagination: {
       page: 1,
@@ -77,7 +85,7 @@ function getTableData({ applicationId, timeConfig }) {
       label: '',
       timeConfig,
       application: applicationId,
-      applicationBoundaryScope: 'ALL' // TODO set respective boundary-scope
+      applicationBoundaryScope
     },
     metrics: {
       logsAgg: {
