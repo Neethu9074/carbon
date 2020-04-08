@@ -49,6 +49,13 @@ const mockSubscription3 = {
   progress: { percentage: null, loading: false, note: null }
 };
 
+const loadingMock = {
+  time: 1583417899531,
+  adjustedWindowSize: null,
+  errors: [],
+  progress: { percentage: 0.2, loading: true, note: null }
+};
+
 export const standard = () => (
   <LatencyDistributionChartPresenter subscription={mockSubscription} height={154} width={410} />
 );
@@ -60,3 +67,5 @@ export const damned = () => (
 export const fack = () => (
   <LatencyDistributionChartPresenter subscription={mockSubscription3} height={154} width={410} />
 );
+
+export const loading = () => <LatencyDistributionChartPresenter subscription={loadingMock} height={154} width={410} />;
