@@ -47,14 +47,15 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               removeTagFilter={(...args) => {
                 const tag = args[0];
                 const key = args[3];
+
                 if (tag !== applicationNameTag) {
+                  const newTagFilters = key
+                    ? withoutTagFiltersForNameAndValue(getTagFilters(form), { name: tag, value: key })
+                    : withoutTagFiltersForName(getTagFilters(form), tag);
+
                   updateForm(
                     form
-                      .updateIn(['tagFilters'], f =>
-                        f
-                          .setValue(withoutTagFiltersForNameAndValue(getTagFilters(form), { name: tag, value: key }))
-                          .setTouched(true)
-                      )
+                      .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
 
