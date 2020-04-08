@@ -32,6 +32,7 @@ export const activity = {
 };
 
 export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
+export const twoDecimalPlacesPerSecond = d => twoDecimalPlaces(d) + '/s';
 
 export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';
 export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
