@@ -7,4 +7,15 @@
       line-height: 1rem;
     }
   }
+
+  .input {
+    width: 100%;
+
+    margin-right: 0.5rem;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

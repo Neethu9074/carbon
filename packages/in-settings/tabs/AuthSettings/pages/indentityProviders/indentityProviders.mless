@@ -1,6 +1,6 @@
 :local {
   .row {
-    max-width: 35rem;
+    max-width: 50rem;
 
     & + .row {
       margin-top: 0;

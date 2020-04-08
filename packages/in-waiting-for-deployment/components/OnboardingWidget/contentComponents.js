@@ -2,7 +2,7 @@ import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import CopyButton from 'in-waiting-for-deployment/components/OnboardingWidget/CopyButton';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
@@ -159,7 +159,7 @@ function RichCode(props) {
       ) : (
         button
       )}
-      <CopyToClipboardButton getText={() => content} disabledErrorMessage={disabledErrorMessage} />
+      <CopyToClipboardButtonInternal getText={() => content} disabledErrorMessage={disabledErrorMessage} />
       <a ref={link => setDownloadlink(link)} onClick={e => e.stopPropagation()}>
         <Button
           icon="lib_actions_download"
@@ -188,7 +188,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
       title={title || 'Configuration'}
       renderCustomCloseBehaviour={() => (
         <div className={locals.dialogHeader}>
-          <CopyToClipboardButton getText={() => content} disabledErrorMessage={disabledErrorMessage} />
+          <CopyToClipboardButtonInternal getText={() => content} disabledErrorMessage={disabledErrorMessage} />
           <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={close} />
         </div>
       )}
@@ -198,7 +198,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href, title='Download' }) {
+export function DownloadButton({ href, title = 'Download' }) {
   return (
     <Button target="_blank" href={href} icon="lib_actions_download">
       {title}
@@ -220,20 +220,20 @@ export function Script({ pre = [], lines, disabledErrorMessage }) {
       <pre className={locals.codeWrapper}>
         <code className={locals.code}>{renderValueLines([...pre, ...lines])}</code>
       </pre>
-      <CopyToClipboardButton getText={() => lines.join('\n')} disabledErrorMessage={disabledErrorMessage} />
+      <CopyToClipboardButtonInternal getText={() => lines.join('\n')} disabledErrorMessage={disabledErrorMessage} />
     </div>
   );
 }
 
-function CopyToClipboardButton(props) {
+function CopyToClipboardButtonInternal(props) {
   if (props.disabledErrorMessage) {
     return (
       <Tooltip themeStyle="light" content={props.disabledErrorMessage}>
-        <CopyButton {...props} disabled />
+        <CopyToClipboardButton {...props} disabled />
       </Tooltip>
     );
   }
-  return <CopyButton {...props} />;
+  return <CopyToClipboardButton {...props} />;
 }
 
 export function ValidatedInputFields({ fields, renderContent }) {

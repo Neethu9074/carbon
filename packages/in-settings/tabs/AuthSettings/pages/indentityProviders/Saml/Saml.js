@@ -1,15 +1,17 @@
 import { createField } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-import TouchedMessages from 'in-components/form/TouchedMessages';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
+import { token$ } from 'in-services/security/csrf';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { config } from 'in-services/config';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 
@@ -17,6 +19,7 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Saml.mless';
 
 export default function Saml() {
+  const [input] = useState(document.createElement('input'));
   return (
     <ApiItemView
       getObservables={() => ({
@@ -24,20 +27,21 @@ export default function Saml() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={saveItem}
-      render={render}
+      saveItem={() => {}}
+      input={input}
+      render={props => render({ ...props, input })}
     />
   );
 }
 
-function render({ form, setForm }) {
+function render({ form, input }) {
   return (
     <>
       <Title title="SAML Configuration" />
       <SubViewHeader>SAML Configuration</SubViewHeader>
       <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP)</h2>
 
-      <form>
+      <form method="post" encType="multipart/form-data">
         <p>
           Quick start guides are available in our documentation pages for{' '}
           <Link
@@ -61,7 +65,16 @@ function render({ form, setForm }) {
         <div className={indentityProvidersLocals.space} />
 
         <h2>Automatic setup</h2>
-        <Button kind="secondary" icon="lib_actions_download">
+        <Button
+          kind="secondary"
+          icon="lib_actions_download"
+          href$={token$.map(
+            csrfToken =>
+              `https://${config.butlerDomain}/ump/${config.tenant}/${
+                config.tenantUnit
+              }/authentication/saml/metadata/sp?csrfToken=${csrfToken}`
+          )}
+        >
           Configuration Metadata
         </Button>
         <ul className={locals.list}>
@@ -82,88 +95,16 @@ function render({ form, setForm }) {
 
         <Row className={indentityProvidersLocals.row}>
           <Col xs={12}>
-            {form.get('acsUrl').map(field => (
-              <FormGroup>
-                <Label htmlFor="saml_acs_url" hasError={!field.valid && field.touched}>
-                  ACS URL
-                </Label>
-
-                <Input
-                  type="text"
-                  id="saml_acs_url"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['acsUrl'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+            <CopyableText title="ACS URL" form={form} fieldName="samlSignInCallbackUrl" />
           </Col>
           <Col xs={12}>
-            {form.get('logoutUrl').map(field => (
-              <FormGroup>
-                <Label htmlFor="saml_logout_url" hasError={!field.valid && field.touched}>
-                  Logout URL
-                </Label>
-
-                <Input
-                  type="text"
-                  id="saml_logout_url"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['logoutUrl'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+            <CopyableText title="Logout URL" form={form} fieldName="samlSignOutCallbackUrl" />
           </Col>
           <Col xs={12}>
-            {form.get('entityId').map(field => (
-              <FormGroup>
-                <Label htmlFor="saml_sp_entity_id" hasError={!field.valid && field.touched}>
-                  Audience/SP Entity ID
-                </Label>
-
-                <Input
-                  type="text"
-                  id="saml_sp_entity_id"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['entityId'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+            <CopyableText title="Audience/SP Entity ID" form={form} fieldName="spEntityId" />
           </Col>
           <Col xs={12}>
-            {form.get('nameFormatId').map(field => (
-              <FormGroup>
-                <Label htmlFor="saml_name_format_id" hasError={!field.valid && field.touched}>
-                  Name ID Format
-                </Label>
-
-                <Input
-                  type="text"
-                  id="saml_name_format_id"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['nameFormatId'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+            <CopyableText title="Name ID Format" form={form} fieldName="nameIdFormat" />
           </Col>
         </Row>
 
@@ -178,46 +119,62 @@ function render({ form, setForm }) {
         <div className={indentityProvidersLocals.space} />
 
         <h2>Upload IdP Metadata</h2>
-        <Button kind="secondary" icon="lib_views_file">
+        <Button
+          kind="secondary"
+          icon="lib_views_file"
+          onClick={() => {
+            input.type = 'file';
+            input.accept = 'text/xml';
+            input.click();
+          }}
+        >
           Choose file…
         </Button>
-        <Button icon="lib_actions_upload">Upload & Activate</Button>
+        <Button
+          icon="lib_actions_upload"
+          onClick={() => {
+            const file = input && input.files && input.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.readAsText(file, 'UTF-8');
+              reader.onload = function(evt) {
+                saveItem(form, evt.target.result);
+              };
+            }
+          }}
+        >
+          Upload & Activate
+        </Button>
       </form>
     </>
   );
 }
 
-function saveItem(form) {
-  const acsUrl = form.get('acsUrl').value;
+function CopyableText({ title, form, fieldName }) {
+  return form.get(fieldName).map(field => (
+    <FormGroup>
+      <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
+        {title}
+      </Label>
+
+      <div className={locals.flexWrapper}>
+        <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
+        <CopyToClipboardButton getText={() => field.value} />
+      </div>
+    </FormGroup>
+  ));
+}
+
+function saveItem(_, idpMetadata) {
   return setConfig({
-    acsUrl
+    idpMetadata
   });
 }
 
-function enrichForm(form) {
+function enrichForm(form, { result: { config } }) {
   return form
-    .put(
-      'acsUrl',
-      createField({
-        value: ''
-      })
-    )
-    .put(
-      'logoutUrl',
-      createField({
-        value: ''
-      })
-    )
-    .put(
-      'entityId',
-      createField({
-        value: ''
-      })
-    )
-    .put(
-      'nameFormatId',
-      createField({
-        value: ''
-      })
-    );
+    .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
+    .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
+    .put('spEntityId', createField({ value: config.spEntityId || '' }))
+    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
 }

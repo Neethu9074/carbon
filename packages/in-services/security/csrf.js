@@ -1,4 +1,4 @@
-import { interval } from 'reactive-observables';
+import { create, interval } from 'reactive-observables';
 import { createLogger } from 'instalog';
 import { get, set } from 'lodash';
 
@@ -10,7 +10,10 @@ let token = get(window, ['instana', 'csrf', 'token']);
 // do not expose the CSRF token as a global
 set(window, ['instana', 'csrf'], null);
 
-export function getToken() {
+export const token$ = create();
+token$.emit(token);
+
+function getToken() {
   return token;
 }
 
@@ -26,7 +29,10 @@ export function init() {
     .flatMap(() => getCsrfToken())
     .merge(getCsrfToken())
     .subscribe(
-      _token => (token = _token),
+      _token => {
+        token = _token;
+        token$.emit(token);
+      },
       error => {
         // Deliberately logged on debug level to avoid error logging of this. In production
         // we gain insights into this via Instana's website monitoring. There is no need to
