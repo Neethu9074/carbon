@@ -368,7 +368,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '25';
+  const layerVersion = '26';
 
   let steps;
 
@@ -983,7 +983,9 @@ function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpo
       <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
+            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline'
+          )}`
         ]}
       />
       <Spacer />
