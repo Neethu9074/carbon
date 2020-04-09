@@ -87,7 +87,7 @@ function render({ form, input }) {
         <div className={indentityProvidersLocals.space} />
 
         <h2>Manual setup</h2>
-        <p>
+        <p className={locals.descriptionText}>
           {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
           creation of a SAML-app and manually entering the required values. The values required to connect to Instana
           are as follows:`}

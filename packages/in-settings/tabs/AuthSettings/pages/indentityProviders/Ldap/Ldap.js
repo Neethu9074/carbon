@@ -1,7 +1,9 @@
 import { createField } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { getConfigAsResultObservable, getTestResult, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import TemporaryMessage from 'in-new-components/TemporaryMessage';
+import { success, error } from 'in-new-components/Message/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -9,14 +11,17 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
+import locals from './Ldap.mless';
 
 export default function Ldap() {
+  const [testResultMessage, setTestResultMessage] = useState(null);
   return (
     <ApiItemView
       getObservables={() => ({
@@ -26,11 +31,13 @@ export default function Ldap() {
       onCancelClick={refresh}
       saveItem={saveItem}
       render={render}
+      testResultMessage={testResultMessage}
+      setTestResultMessage={setTestResultMessage}
     />
   );
 }
 
-function render({ form, setForm }) {
+function render({ form, setForm, testResultMessage, setTestResultMessage }) {
   return (
     <>
       <Title title="LDAP Configuration" />
@@ -89,21 +96,45 @@ function render({ form, setForm }) {
 
         <div className={indentityProvidersLocals.space} />
         <h3>Test configuration</h3>
+
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'testUser', 'Username')}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'testPassword', 'Password')}</Col>
+          <Col xs={6}>{createInput(form, setForm, 'testUser', 'Username', locals.formGroupWithoutMargin)}</Col>
+          <Col xs={6}>{createInput(form, setForm, 'testPassword', 'Password', locals.formGroupWithoutMargin)}</Col>
           <Col xs={12}>
             <DescriptionText>These credentials are not stored and are used once for testing only.</DescriptionText>
           </Col>
+          <Col xs={12}>
+            <Button
+              className={locals.testButton}
+              kind="secondary"
+              onClick={() => {
+                const config = getConfig(form);
+                const result$ = getTestResult(config);
+                result$.once(({ testPassed, reason }) =>
+                  setTestResultMessage(testPassed ? { text: reason, type: success } : { text: reason, type: error })
+                );
+                result$.errors().once(e => setTestResultMessage({ text: e, type: error }));
+              }}
+            >
+              Test configuration
+            </Button>
+          </Col>
         </Row>
+        {testResultMessage && (
+          <Row className={indentityProvidersLocals.row}>
+            <Col xs={12}>
+              <TemporaryMessage {...testResultMessage} duration={10000} />
+            </Col>
+          </Row>
+        )}
       </form>
     </>
   );
 }
 
-function createInput(form, setForm, fieldName, label) {
+function createInput(form, setForm, fieldName, label, className) {
   return form.get(fieldName).map(field => (
-    <FormGroup>
+    <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
         {label}
       </Label>
@@ -124,7 +155,11 @@ function createInput(form, setForm, fieldName, label) {
 }
 
 function saveItem(form) {
-  return setConfig({
+  return setConfig(getConfig(form));
+}
+
+function getConfig(form) {
+  return {
     base: form.get('base').value,
     emailField: form.get('emailField').value,
     emptyPass: form.get('emptyPass').value,
@@ -138,7 +173,7 @@ function saveItem(form) {
     userDnMapping: form.get('userDnMapping').value,
     userField: form.get('userField').value,
     userQueryTemplate: form.get('userQueryTemplate').value
-  });
+  };
 }
 
 function enrichForm(form, { result: { config } }) {

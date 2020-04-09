@@ -27,6 +27,16 @@ function getConfigAsResultObservableInternal() {
 
 // regular calls
 
+export function getTestResult(config) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/authentication/ldap/test`,
+    headers: getCsrfHeader(),
+    data: config
+  }).map(response => response.body);
+}
+
 export function setConfig(config) {
   return http({
     method: 'PUT',
