@@ -20,7 +20,8 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 
-const persistenceFormater = d => (d < 0 ? 'Not in progress' : twoDecimalPlaces(d) + 's');
+const persistenceFormatter = d => (d < 0 ? 'Not in progress' : twoDecimalPlaces(d) + 's');
+
 const latencyFormatter = (d, threshold) =>
   d < threshold ? 'Less than ' + msZeroDecimalPlaces(threshold) : msZeroDecimalPlaces(d);
 
@@ -172,7 +173,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           }}
           y2={{
             min: 0,
-            formatter: number,
+            formatter: number.detailed,
             metrics: ['mem_fragmentation_ratio'],
             labels: ['Fragmentation ratio'],
             type: 'line'
@@ -218,7 +219,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['rdb_current_bgsave_time_sec', 'aof_current_rewrite_time_sec'],
             labels: ['Duration of current rdb save', 'Duration of current aof log rewrite'],
-            formatter: persistenceFormater,
+            formatter: persistenceFormatter,
             type: 'line'
           }}
         />
