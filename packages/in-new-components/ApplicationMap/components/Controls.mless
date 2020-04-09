@@ -1,12 +1,33 @@
 @import '~in-themes/active.less';
 
 :local {
-  .bottomRightControls {
+  .horizontalControlsContainer {
     position: absolute;
-    bottom: 1rem;
-    right: 1.25rem;
-
     display: flex;
-    align-items: flex-end;
+    justify-content: flex-end;
+    bottom: 0rem;
+    padding-bottom: 0.75rem;
+    width: 100%;
+    padding-right: 4.2rem;
+    &.withFloatingFooter {
+      padding-right: 0;
+      justify-content: center;
+    }
+  }
+
+  .verticalControlsContainer {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    bottom: 0rem;
+    right: 0;
+    padding-right: 1rem;
+    padding-bottom: 0.75rem;
+    height: 100%;
+    &.withFloatingFooter {
+      padding-bottom: 0;
+      justify-content: center;
+    }
   }
 }

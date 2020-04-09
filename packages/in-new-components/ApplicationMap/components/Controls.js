@@ -1,47 +1,72 @@
 import React from 'react';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
+import { floatingActionButtons$ } from 'in-new-components/FloatingActionButton/stores/floatingActionButtons';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
 import NodeSizeButton from 'in-new-components/ApplicationMap/components/NodeSizeButton';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
+import evaluateClassNames from 'in-services/util/classnames';
 import Button from 'in-new-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Controls.mless';
 
-export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
+export default connectTo(() => ({
+  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
+}))(Controls);
+
+function Controls({ serviceLocatorUid, onChangeUrlProperties, hasFloatingFooter }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-
   return (
-    <div className={locals.bottomRightControls}>
-      <ButtonGroup>
-        <NodeSizeButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
+    <>
+      <div
+        className={evaluateClassNames({
+          [locals.horizontalControlsContainer]: true,
+          [locals.withFloatingFooter]: hasFloatingFooter
+        })}
+      >
+        <ButtonGroup>
+          <NodeSizeButton
+            eventBusServiceLocator={eventBusServiceLocator}
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
 
-        <LayoutButton
-          appendRight
-          icon="lib_actions_force_layout"
+          <LayoutButton
+            appendRight
+            icon="lib_actions_force_layout"
+            eventBusServiceLocator={eventBusServiceLocator}
+            layouter="force"
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
+          <LayoutButton
+            appendLeft
+            icon="lib_actions_flow_layout"
+            eventBusServiceLocator={eventBusServiceLocator}
+            layouter="flow"
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
+        </ButtonGroup>
+
+        <ParticlesButton
           eventBusServiceLocator={eventBusServiceLocator}
-          layouter="force"
           onChangeUrlProperties={onChangeUrlProperties}
         />
-        <LayoutButton
-          appendLeft
-          icon="lib_actions_flow_layout"
-          eventBusServiceLocator={eventBusServiceLocator}
-          layouter="flow"
-          onChangeUrlProperties={onChangeUrlProperties}
-        />
-      </ButtonGroup>
 
-      <ParticlesButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-
-      <ButtonGroup vertical>
-        <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
-        <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
         <TrafficButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-      </ButtonGroup>
-    </div>
+      </div>
+      <div
+        className={evaluateClassNames({
+          [locals.verticalControlsContainer]: true,
+          [locals.withFloatingFooter]: hasFloatingFooter
+        })}
+      >
+        <ButtonGroup vertical>
+          <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+        </ButtonGroup>
+      </div>
+    </>
   );
 
   function zoomIn(serviceLocatorUid) {
