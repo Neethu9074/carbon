@@ -85,7 +85,7 @@ function generateFormData(websiteId, tagFilters, error) {
   return {
     tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
     rule: {
-      alertType: 'specificJsError',
+      alertType: 'slowness',
       operator: 'EQUALS',
       value: error ? error.message : ''
     },

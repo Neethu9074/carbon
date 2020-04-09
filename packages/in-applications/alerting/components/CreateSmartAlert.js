@@ -59,7 +59,7 @@ function generateFormData({ applicationId, serviceId, endpointId, boundaryScope 
     applicationId,
     boundaryScope,
     rule: {
-      alertType: 'errorRate'
+      alertType: 'slowness'
     },
     threshold: {
       type: 'staticThreshold',
