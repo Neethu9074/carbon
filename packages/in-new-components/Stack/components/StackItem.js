@@ -26,7 +26,7 @@ export default function StackItem({
 }) {
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo?.type;
-  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes'));
+  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes') || !s.startsWith('openshift'));
 
   return (
     <Li href$={dashboardLink(id, type)} noAlternatingBg>
