@@ -12,6 +12,8 @@ export function getIconByPlugin(plugin) {
       return 'lib_kubernetes_node';
     case plugins.kubernetesDeployment:
       return 'lib_kubernetes_workload';
+    case plugins.openshiftDeploymentConfig:
+      return 'lib_kubernetes_workload';
     case plugins.kubernetesNamespace:
       return 'lib_kubernetes_namespace';
     case 'kubernetesService':
