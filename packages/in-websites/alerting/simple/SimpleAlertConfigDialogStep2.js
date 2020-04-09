@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
+import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
 

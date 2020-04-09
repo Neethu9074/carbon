@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SelectAlertForStatusCode from 'in-websites/alerting/simple/SelectAlertForStatusCode/SelectAlertForStatusCode';
-import SimpleModeStepContentWrapper from 'in-new-components/Alerting/components/SimpleModeStepContentWrapper';
 import SelectAlertForJsError from 'in-websites/alerting/simple/SelectAlertForJsError/SelectAlertForJsError';
+import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
 import { blueprintConfig, alertTypes } from 'in-websites/alerting/data/blueprintConfig';

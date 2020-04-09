@@ -4,11 +4,11 @@ import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import Button from 'in-new-components/Button';
 
 export default {
-  title: 'Atoms|StepProgressBar',
+  title: 'Molecules|StepProgressBar',
   component: StepProgressBar
 };
 
-const stepTitles = ['Step1: Lorem', 'Step2: Ipsum', 'Step3: dolor', 'Step4: dolor'];
+const stepTitles = ['Step1: Lorem', 'Step2: Ipsum', 'Step3: dolor', 'Step4: sit', 'Step5: amet'];
 
 const divider = {
   marginTop: '2rem'
