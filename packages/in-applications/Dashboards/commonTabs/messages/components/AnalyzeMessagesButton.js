@@ -26,7 +26,7 @@ export default function AnalyzeMessagesButton({
         boundaryScope,
         filters:
           query.length > 0
-            ? [{ name: 'log.message', value: query, operator: 'CONTAINS', entity: 'NOT_APPLICABLE' }]
+            ? [{ name: groupByTagName, value: query, operator: 'CONTAINS', entity: 'NOT_APPLICABLE' }]
             : null
       })}
     >
