@@ -1,7 +1,7 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export const getStack = createResultSubscriptionFactory({
-  eventId: 'getStack'
+export const getStackForInfrastructure = createResultSubscriptionFactory({
+  eventId: 'getStackForInfrastructure'
 });
 
 export const getStackForApplication = createResultSubscriptionFactory({
