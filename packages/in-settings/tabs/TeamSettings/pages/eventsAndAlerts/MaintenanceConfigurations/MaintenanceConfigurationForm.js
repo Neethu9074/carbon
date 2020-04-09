@@ -164,10 +164,10 @@ export default function MaintenanceConfigurationForm(props) {
 
         <Row>
           <Col cols={5}>
-            <DateWithTime label="Start time" path="start" {...props} />
+            <DateWithTime label="Start Time" path="start" {...props} />
           </Col>
           <Col cols={5}>
-            <DateWithTime label="End time" path="end" {...props} />
+            <DateWithTime label="End Time" path="end" {...props} />
           </Col>
           <Col cols={2}>
             <Button

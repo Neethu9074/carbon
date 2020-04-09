@@ -241,6 +241,7 @@ function EventForm({
                         value={field.value}
                         options={severityOptions}
                         onChange={e => onChange('severity', e ? e.value : '')}
+                        clearable={false}
                       />
                       <TouchedMessages field={field} />
                     </FormGroup>
@@ -263,7 +264,7 @@ function EventForm({
                   {form.get('gracePeriod').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-grace-period" hasError={!field.valid && field.touched}>
-                        Grace period
+                        Grace Period
                       </Label>
                       <Helpify helpText="Period to wait before closing the issue once conditions are no longer met.">
                         <ComboBox
@@ -272,6 +273,7 @@ function EventForm({
                           className={locals.helpified}
                           options={getOptionsWithAdditionalValueIfMissing(gracePeriodOptions, field.value)}
                           onChange={e => onChange('gracePeriod', (e = e ? e.value : ''))}
+                          clearable={false}
                         />
                         <TouchedMessages field={field} />
                       </Helpify>
@@ -299,7 +301,7 @@ function EventForm({
       {form.get('dataSource').map(field => (
         <FormGroup>
           <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            Data source
+            Data Source
           </Label>
           <ComboBox
             name="event-data-source"
@@ -310,6 +312,7 @@ function EventForm({
                 return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
               });
             }}
+            clearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>
@@ -500,7 +503,7 @@ function EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange) {
   return form.get('entityType').map(field => (
     <FormGroup>
       <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
-        Entity type
+        Entity Type
       </Label>
       <ComboBox
         name="event-entity-type"
@@ -512,6 +515,7 @@ function EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange) {
             onChange('entityType', e ? e.value : '');
           }
         }}
+        clearable={false}
       />
       <TouchedMessages field={field} />
     </FormGroup>
@@ -529,7 +533,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
         plugin={form.get('entityType').value}
         value={form.get('metricName').value}
         metrics={form.get('dataSource').value === dataSourceCustom ? customMetrics : null}
-        useComboBox
+        clearable={false}
         onChange={e => {
           if ((field.value && !e) || (e && e.value != field.value)) {
             let selectedMetric = e ? e.value : '';
@@ -661,6 +665,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={matchingEntityType.value}
               options={entityTypeOptions}
               onChange={e => onChange('matchingEntityType', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={matchingEntityType} />
           </FormGroup>
@@ -675,6 +680,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={matchingOperator.value}
               options={entityLabelOperatorOptions}
               onChange={e => onChange('matchingOperator', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={matchingOperator} />
           </FormGroup>
@@ -706,6 +712,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={offlineDuration.value}
               options={offlineDurationOptions}
               onChange={e => onChange('offlineDuration', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={offlineDuration} />
           </FormGroup>
@@ -731,13 +738,14 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             {form.get('window').map(field => (
               <FormGroup>
                 <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
-                  Time window
+                  Time Window
                 </Label>
                 <ComboBox
                   name="event-window"
                   value={field.value}
                   options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
                   onChange={e => onChange('window', e ? e.value : '')}
+                  clearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -756,6 +764,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
                   value={field.value}
                   options={rollupOptions}
                   onChange={e => onChange('rollup', e ? e.value : '')}
+                  clearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -774,6 +783,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
                   value={field.value}
                   options={aggregationOptions}
                   onChange={e => onChange('aggregation', e ? e.value : e)}
+                  clearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -791,6 +801,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
                 value={field.value}
                 options={conditionOperatorOptions}
                 onChange={e => onChange('conditionOperator', e ? e.value : e)}
+                clearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
@@ -819,9 +830,9 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
 }
 
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
-  const entityType = form.get('entityType').value;
+  const entityType = form.get('entityType')?.value;
 
-  if (isDeprecatedEntityType(entityType)) {
+  if (entityType && isDeprecatedEntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
       label: getSingular(entityType) + ' (deprecated)'

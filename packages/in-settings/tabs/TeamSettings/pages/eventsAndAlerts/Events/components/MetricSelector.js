@@ -5,10 +5,18 @@ import ComboBox from 'in-components/ComboBox';
 
 import locals from './MetricSelector.mless';
 
-export default function MetricSelector({ id, plugin, onChange, value, metrics }) {
+export default function MetricSelector({ id, plugin, onChange, value, metrics, clearable = true }) {
   const metricsList = Array.isArray(metrics) ? metrics.slice() : getPlainMetricList(plugin);
 
-  return <ComboBox name={id} value={value} options={limitMetricDefinitionItemWidth(metricsList)} onChange={onChange} />;
+  return (
+    <ComboBox
+      name={id}
+      value={value}
+      options={limitMetricDefinitionItemWidth(metricsList)}
+      onChange={onChange}
+      clearable={clearable}
+    />
+  );
 }
 
 function limitMetricDefinitionItemWidth(metricsList) {
