@@ -66,54 +66,6 @@ function render({ form, setForm }) {
             ))}
           </Col>
         </Row>
-
-        <div className={indentityProvidersLocals.space} />
-        <h2>On-premise configuration</h2>
-        <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>
-            {form.get('clientId').map(field => (
-              <FormGroup>
-                <Label htmlFor="google_sso_client_id" hasError={!field.valid && field.touched}>
-                  Client ID
-                </Label>
-
-                <Input
-                  type="text"
-                  id="google_sso_client_id"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['clientId'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-
-          <Col xs={6}>
-            {form.get('clientSecret').map(field => (
-              <FormGroup>
-                <Label htmlFor="google_sso_client_secret" hasError={!field.valid && field.touched}>
-                  Client Secret
-                </Label>
-
-                <Input
-                  type="text"
-                  id="google_sso_client_secret"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['clientSecret'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
       </form>
     </>
   );
@@ -121,30 +73,15 @@ function render({ form, setForm }) {
 
 function saveItem(form) {
   return setConfig({
-    filter: form.get('filter').value,
-    clientId: form.get('clientId').value,
-    clientSecret: form.get('clientSecret').value
+    filter: form.get('filter').value
   });
 }
 
 function enrichForm(form, { result: { config } }) {
-  return form
-    .put(
-      'filter',
-      createField({
-        value: config.filter
-      })
-    )
-    .put(
-      'clientId',
-      createField({
-        value: config.clientId
-      })
-    )
-    .put(
-      'clientSecret',
-      createField({
-        value: config.clientSecret
-      })
-    );
+  return form.put(
+    'filter',
+    createField({
+      value: config.filter
+    })
+  );
 }

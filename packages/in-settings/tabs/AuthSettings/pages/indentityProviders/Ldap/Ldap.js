@@ -57,11 +57,32 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
 
       <form>
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={12}>{createInput(form, setForm, 'url', 'URL')}</Col>
+          <Col xs={12}>
+            <FormInput form={form} setForm={setForm} fieldName="url" label="URL" />
+          </Col>
         </Row>
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'roUser', 'User')}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'roPassword', 'Password')}</Col>
+          <Col xs={6}>
+            <FormInput
+              className={locals.formGroupWithoutMargin}
+              form={form}
+              setForm={setForm}
+              label="User"
+              fieldName="roUser"
+              disabled={form.get('emptyPass').value}
+            />
+          </Col>
+          <Col xs={6}>
+            <FormInput
+              className={locals.formGroupWithoutMargin}
+              form={form}
+              setForm={setForm}
+              label="Password"
+              fieldName="roPassword"
+              type="password"
+              disabled={form.get('emptyPass').value}
+            />
+          </Col>
           <Col xs={12}>
             {form.get('emptyPass').map(field => (
               <CheckboxFancy
@@ -76,30 +97,61 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
         <div className={indentityProvidersLocals.space} />
 
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'base', 'Base')}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'groupQuery', 'Group Query')}</Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="base" label="Base" />
+          </Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="groupQuery" label="Group Query" />
+          </Col>
         </Row>
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'groupMemberField', 'Group Member Field')}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'userQueryTemplate', 'User Query Template')}</Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="groupMemberField" label="Group Member Field" />
+          </Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="userQueryTemplate" label="User Query Template" />
+          </Col>
         </Row>
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'emailField', 'Email Field')}</Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="emailField" label="Email Field" />
+          </Col>
         </Row>
 
         <div className={indentityProvidersLocals.space} />
         <h3>Optional settings</h3>
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'userDnMapping', 'User Dn Mapping')}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'userField', 'User Field')}</Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="userDnMapping" label="User Dn Mapping" />
+          </Col>
+          <Col xs={6}>
+            <FormInput form={form} setForm={setForm} fieldName="userField" label="User Field" />
+          </Col>
         </Row>
 
         <div className={indentityProvidersLocals.space} />
         <h3>Test configuration</h3>
 
         <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>{createInput(form, setForm, 'testUser', 'Username', locals.formGroupWithoutMargin)}</Col>
-          <Col xs={6}>{createInput(form, setForm, 'testPassword', 'Password', locals.formGroupWithoutMargin)}</Col>
+          <Col xs={6}>
+            <FormInput
+              className={locals.formGroupWithoutMargin}
+              form={form}
+              setForm={setForm}
+              fieldName="testUser"
+              label="Username"
+            />
+          </Col>
+          <Col xs={6}>
+            <FormInput
+              className={locals.formGroupWithoutMargin}
+              form={form}
+              setForm={setForm}
+              fieldName="testPassword"
+              label="Password"
+              type="password"
+            />
+          </Col>
           <Col xs={12}>
             <DescriptionText>These credentials are not stored and are used once for testing only.</DescriptionText>
           </Col>
@@ -132,7 +184,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
   );
 }
 
-function createInput(form, setForm, fieldName, label, className) {
+function FormInput({ form, type, setForm, fieldName, label, className, disabled }) {
   return form.get(fieldName).map(field => (
     <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
@@ -141,8 +193,9 @@ function createInput(form, setForm, fieldName, label, className) {
 
       <Input
         id={`ldap_${fieldName}`}
-        type="text"
+        type={type || 'text'}
         value={field.value}
+        disabled={disabled}
         onChange={e => {
           setForm(form.updateIn([fieldName], f => f.setValue(e.target.value).setTouched(true)));
         }}
