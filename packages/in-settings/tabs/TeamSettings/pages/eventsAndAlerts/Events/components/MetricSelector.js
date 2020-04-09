@@ -1,113 +1,24 @@
-import Downshift from 'downshift';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
-import { escapeSpecialChars } from 'in-services/util/regex';
 import { getPlainMetricList } from 'in-sdk/metrics';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import ComboBox from 'in-components/ComboBox';
 
 import locals from './MetricSelector.mless';
 
-export default function MetricSelector({ plugin, onChange, value, metrics }) {
+export default function MetricSelector({ id, plugin, onChange, value, metrics }) {
   const metricsList = Array.isArray(metrics) ? metrics.slice() : getPlainMetricList(plugin);
-  const parentItemForValue = metricsList.find(it => it.value === value);
 
-  return (
-    <AutoComplete
-      value={value}
-      resultsToShow={100}
-      options={metricsList}
-      onChange={onChange}
-      item={parentItemForValue}
-    />
-  );
+  return <ComboBox name={id} value={value} options={limitMetricDefinitionItemWidth(metricsList)} onChange={onChange} />;
 }
-const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) => (
-  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} selectedItem={item}>
-    {({
-      getInputProps,
-      getItemProps,
-      getMenuProps,
-      isOpen,
-      inputValue,
-      highlightedIndex,
-      selectedItem,
-      openMenu,
-      getToggleButtonProps
-    }) => {
-      const lowerCaseInputValue = inputValue.toLowerCase();
-      const filteredOptions = options.filter(
-        item => !inputValue || item.label.toLowerCase().includes(lowerCaseInputValue)
-      );
 
-      return (
-        <div className={locals.wrapper}>
-          <div
-            className={evaluateClassNames({
-              [locals.inputGroup]: true,
-              [locals.inputGroupOpen]: isOpen
-            })}
-          >
-            <input className={locals.input} {...getInputProps({ onFocus: openMenu })} placeholder={placeholder} />
-            <SvgIcon
-              className={locals.toggleButton}
-              {...getToggleButtonProps()}
-              type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-            />
-          </div>
-          {filteredOptions.length > 0 && (
-            <ul
-              className={evaluateClassNames({
-                [locals.list]: isOpen,
-                [locals.listClosed]: !isOpen
-              })}
-              {...getMenuProps()}
-            >
-              {isOpen
-                ? filteredOptions.slice(0, resultsToShow).map((item, index) => (
-                    <li
-                      className={locals.listItem}
-                      {...getItemProps({
-                        key: item.label,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor: highlightedIndex === index ? '#edf5ff' : 'white',
-                          fontWeight: selectedItem === item ? 'bold' : 'normal'
-                        }
-                      })}
-                    >
-                      {getHighlightedText(item.label, inputValue)}
-                    </li>
-                  ))
-                : null}
-            </ul>
-          )}
-        </div>
-      );
-    }}
-  </Downshift>
-);
-
-function getHighlightedText(text, highlight) {
-  if (!highlight) {
-    return text;
-  }
-
-  const parts = text.split(new RegExp(`(${escapeSpecialChars(highlight)})`, 'gi'));
-
-  return (
-    <span>
-      {parts.map((part, i) => (
-        <span
-          key={i}
-          className={evaluateClassNames({
-            [locals.higlightedText]: part.toLowerCase() === highlight.toString().toLowerCase()
-          })}
-        >
-          {part}
-        </span>
-      ))}
-    </span>
-  );
+function limitMetricDefinitionItemWidth(metricsList) {
+  return metricsList.map(metricDef => {
+    if (metricDef.origLabel) {
+      // ensure this item was not already wrapped
+      return metricDef;
+    }
+    metricDef.origLabel = metricDef.label;
+    metricDef.label = <span className={locals.item}>{metricDef.label}</span>;
+    return metricDef;
+  });
 }
