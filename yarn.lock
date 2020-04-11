@@ -7727,10 +7727,10 @@ form-data@~2.3.2:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
-formalistic@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/formalistic/-/formalistic-1.10.0.tgz#19f9adb8fd0d62e85d96ee81ef5caeb6fa398189"
-  integrity sha512-EhiMK1CWM/OOXLwxNCU7jQnQcvU93HjuEtfJ9BbmIFQiDZj1NHBV2xvOA9ElH3IQcSTQ61Gayl9BBX80FO0KiA==
+formalistic@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/formalistic/-/formalistic-1.11.0.tgz#ec6e07e18a38a4d6e5eb67d1f90c2f899026da1e"
+  integrity sha512-eIraT9x0NFB/t05IC64YwT0Mi84P9L4rrVHeog3yuLmIJ7UFQtnWvfMfRT5xNgnun5v8GjDIjELaeQoJimM1Og==
 
 format@^0.2.2:
   version "0.2.2"
