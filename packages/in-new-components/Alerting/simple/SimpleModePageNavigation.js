@@ -104,25 +104,11 @@ function validateStep(step, stepConfigs, form, updateForm) {
 
   let valid = true;
   fieldsToValidate.forEach(fieldPath => {
-    const field = getIn(form, fieldPath);
+    const field = form.getIn(fieldPath);
     if (field && !field.valid) {
       updateForm(form.updateIn(fieldPath, f => f.setTouched(true)));
       valid = false;
     }
   });
   return valid;
-}
-
-// TODO replace with respective formalistic getIn function as soon as supported
-function getIn(form, path) {
-  if (!path || path.length === 0) {
-    return null;
-  }
-
-  let i = 0;
-  let field = form;
-  while (field && i < path.length) {
-    field = field.get(path[i++]);
-  }
-  return field;
 }
