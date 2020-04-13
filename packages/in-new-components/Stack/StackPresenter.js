@@ -13,7 +13,7 @@ import locals from './StackPresenter.mless';
 
 const preferredContextGuideTabSettingsKey = 'preferredContextGuideTab';
 
-export default function StackPresenter({ stack, isLoading, productArea }) {
+export default function StackPresenter({ applicationId, stack, isLoading, productArea }) {
   useEffect(() => {
     disableBodyScroll();
 
@@ -28,7 +28,7 @@ export default function StackPresenter({ stack, isLoading, productArea }) {
     return <EmptyStackPane productArea={productArea} />;
   }
 
-  return <NavigableStack stack={stack} />;
+  return <NavigableStack applicationId={applicationId} stack={stack} />;
 }
 
 const Loader = () => (
@@ -63,7 +63,7 @@ const EmptyStackPane = ({ productArea }) => {
   );
 };
 
-const NavigableStack = ({ stack }) => {
+const NavigableStack = ({ applicationId, stack }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(getInitialTabIndexFn(stack));
 
   const { key } = tabList[activeTabIndex];
@@ -77,7 +77,7 @@ const NavigableStack = ({ stack }) => {
   return (
     <>
       <InlineTabNavigation tabList={enrichedTabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
-      <StackPane groups={stack[key].groups} tab={key} activeTabIndex={activeTabIndex} />
+      <StackPane applicationId={applicationId} groups={stack[key].groups} tab={key} activeTabIndex={activeTabIndex} />
     </>
   );
 };

@@ -5,11 +5,11 @@ import ScrollHints from 'in-components/ScrollHints';
 
 import locals from './StackPane.mless';
 
-export default function StackPane({ groups, tab }) {
+export default function StackPane({ applicationId, groups, tab }) {
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={groups.length}>
       {groups.map(group => (
-        <StackGroup key={`${group.relationship}.${group.type}`} group={group} tab={tab} />
+        <StackGroup key={`${group.relationship}.${group.type}`} applicationId={applicationId} group={group} tab={tab} />
       ))}
     </ScrollHints>
   );

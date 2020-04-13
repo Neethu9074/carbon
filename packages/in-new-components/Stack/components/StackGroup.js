@@ -7,7 +7,7 @@ import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from './StackGroup.mless';
 
-export default function StackGroup({ group: { relationship, type, items, itemCount }, tab }) {
+export default function StackGroup({ applicationId, group: { relationship, type, items, itemCount }, tab }) {
   const numMoreItems = itemCount - items.length;
   return (
     <div>
@@ -16,7 +16,7 @@ export default function StackGroup({ group: { relationship, type, items, itemCou
       </div>
       <Ul framed="topBottom">
         {items.map(item => (
-          <StackItem key={item.id} item={item} tab={tab} />
+          <StackItem key={item.id} applicationId={applicationId} item={item} tab={tab} />
         ))}
         {numMoreItems > 0 && (
           <Li className={locals.moreItems} noAlternatingBg>

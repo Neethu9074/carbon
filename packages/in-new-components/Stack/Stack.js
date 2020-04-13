@@ -24,13 +24,20 @@ export default connectTo(
   ({ id, applicationId, timeConfig, productArea }) => ({
     stackResult: getStackResult({ id, applicationId, timeConfig, productArea })
   }),
-  function Stack({ stackResult, productArea }) {
+  function Stack({ applicationId, stackResult, productArea }) {
     const isLoading = stackResult.progress && stackResult.progress.loading;
 
     if (stackResult.errors.length > 0) {
       return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
 
-    return <StackPresenter stack={stackResult.data} isLoading={isLoading} productArea={productArea} />;
+    return (
+      <StackPresenter
+        applicationId={applicationId}
+        stack={stackResult.data}
+        isLoading={isLoading}
+        productArea={productArea}
+      />
+    );
   }
 );
