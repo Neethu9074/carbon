@@ -7,7 +7,7 @@ const getRetention = createResultSubscriptionFactory({
 });
 export default getRetention;
 
-export function retention$(timeConfig, defaultValue) {
+export function retention$(timeConfig, defaultValue = { containsHistoricData: false, retention: 7 }) {
   return getRetention({ timeConfig: timeConfig })
     .map(result => result?.data || defaultValue)
     .distinct();

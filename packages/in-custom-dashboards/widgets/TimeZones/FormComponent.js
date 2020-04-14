@@ -33,6 +33,11 @@ export default function TimeZoneWidgetFormComponent({
   return (
     <Stack space="large">
       <StackItem>
+        <Header>Customize the Widget</Header>
+        {widgetTitleFormGroup}
+      </StackItem>
+
+      <StackItem>
         <Header>What would you like to show?</Header>
         <TouchedMessages field={timeZonesForm} />
 
@@ -131,11 +136,6 @@ export default function TimeZoneWidgetFormComponent({
         >
           Add Time Zone
         </Button>
-      </StackItem>
-
-      <StackItem>
-        <Header>Customize the Widget</Header>
-        {widgetTitleFormGroup}
       </StackItem>
 
       <StackItem>

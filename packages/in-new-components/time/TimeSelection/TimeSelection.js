@@ -29,7 +29,6 @@ const largeDataSupportedViews = [isApplicationsView, isAnalyzeView];
 
 export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
   retention$(timeConfig)
-    .filter(Boolean)
     .flatMap(
       data =>
         data.containsHistoricData
@@ -119,8 +118,15 @@ function LiveModeToggle({ isLive, darkTheme }) {
   );
 }
 
-function TimeSelectionDialogPresenterWrapper({ timeConfig, close }) {
-  return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} closeOverlay={close} />;
+function TimeSelectionDialogPresenterWrapper({ timeConfig, close, historicOrLargeDataResult }) {
+  return (
+    <TimeSelectionDialogPresenter
+      timeConfig={timeConfig}
+      onChange={onChange}
+      closeOverlay={close}
+      historicOrLargeDataResult={historicOrLargeDataResult}
+    />
+  );
 
   function onChange(timeConfig) {
     close();

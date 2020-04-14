@@ -51,7 +51,7 @@ const columnDefinitions = [
       if (hasError(rolesResult)) {
         return null;
       }
-      const userRole = rolesResult.data.filter(role => role.id !== user.roleId)[0];
+      const userRole = rolesResult.data.filter(role => role.id === user.roleId)[0];
       if (!userRole) {
         return null;
       }
