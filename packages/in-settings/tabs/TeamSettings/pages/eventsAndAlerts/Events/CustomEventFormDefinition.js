@@ -365,8 +365,8 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
     form = form.remove('systemRule');
     form = removeAllEntityVerificationFields(form);
   } else if (previousDataSource) {
-    form = form.updateIn(['entityType'], field => field.setValue(''));
-    form = form.updateIn(['metricName'], field => field.setValue(''));
+    form = form.updateIn(['entityType'], field => field.setValue(null));
+    form = form.updateIn(['metricName'], field => field.setValue(null));
   }
 
   if (previousDataSource !== nextDataSource) {

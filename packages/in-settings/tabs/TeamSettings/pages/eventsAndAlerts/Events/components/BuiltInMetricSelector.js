@@ -3,10 +3,10 @@ import React from 'react';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
-import locals from './MetricSelector.mless';
+import locals from './BuiltInMetricSelector.mless';
 
-export default function MetricSelector({ id, plugin, onChange, value, metrics, clearable = true }) {
-  const metricsList = Array.isArray(metrics) ? metrics.slice() : getPlainMetricList(plugin);
+export default function BuiltInMetricSelector({ id, plugin, onChange, value, clearable = true }) {
+  const metricsList = getPlainMetricList(plugin);
 
   return (
     <ComboBox
