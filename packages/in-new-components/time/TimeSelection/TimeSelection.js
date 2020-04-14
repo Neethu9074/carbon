@@ -9,11 +9,11 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { retention$ } from 'in-subscription/application/getRetention';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
-import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
+import getSamplingLevel from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
+import getRetention from 'in-subscription/application/getRetention';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -21,35 +21,34 @@ import ToggleButton from 'in-new-components/ToggleButton';
 import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { emptyObject } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
 import locals from './TimeSelection.mless';
 
-const largeDataSupportedViews = [isApplicationsView, isAnalyzeView];
-
 export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
-  retention$(timeConfig)
-    .flatMap(
-      data =>
-        data.containsHistoricData
-          ? // if the selected timeframe contains historic data,
-            // there's no need to query for the sampling level
-            just(data)
-          : // if not, query the sampling level on large data supported views
-            isView.apply(this, largeDataSupportedViews).flatMap(
-              supportLargeData =>
-                supportLargeData
-                  ? getSamplingLevel$(timeConfig).flatMap(samplingLevel =>
-                      just({
-                        containsHistoricData: false,
-                        retention: data.retention,
-                        samplingLevel
-                      })
-                    )
-                  : just(data)
-            )
-    )
-    .startWith(false)
+  getRetention({ timeConfig })
+    .map(result => result?.data)
+    .filter(Boolean)
+    .flatMap(data => {
+      if (data.containsHistoricData) {
+        // if the selected timeframe contains historic data,
+        // there's no need to query for the sampling level
+        return just(data);
+      }
+
+      // if not, query the sampling level on large data supported views
+      return isView(isApplicationsView, isAnalyzeView).flatMap(supportsLargeData => {
+        if (!supportsLargeData) {
+          return just(data);
+        }
+
+        return getSamplingLevel({ timeConfig }).map(result => ({
+          ...data,
+          samplingLevel: result?.data
+        }));
+      });
+    })
 );
 
 export default connect({
@@ -77,7 +76,7 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
 }
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataResult, darkTheme, refSetter }) {
-  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult;
+  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult || emptyObject;
   const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
     <div

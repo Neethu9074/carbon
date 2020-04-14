@@ -1,9 +1,5 @@
 import React from 'react';
 
-import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
-import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
-import { isView } from 'in-stores/navigation/navigation';
-import { analyze } from 'in-analyze/navigation/paths';
 import {
   applicationsList,
   applicationDashboard,
@@ -14,13 +10,16 @@ import {
   newServiceView,
   endpointDashboard
 } from 'in-applications/navigation/paths';
+import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
+import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
+import { isView } from 'in-stores/navigation/navigation';
+import { analyze } from 'in-analyze/navigation/paths';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './TimeSelectionDialogPresenter.mless';
 
-import connectTo from 'in-hoc/connectTo';
-
 export default connectTo(
-  () => ({
+  {
     isApp20View: isView(
       analyze,
       applicationsList,
@@ -32,13 +31,14 @@ export default connectTo(
       newServiceView,
       endpointDashboard
     )
-  }),
+  },
   function TimeSelectionDialogPresenter(props) {
+    const containsHistoricData = props.historicOrLargeDataResult?.containsHistoricData ?? props.containsHistoricData;
     return (
       <div>
         <section className={locals.wrapper}>
-          <CustomTime {...props} />
-          <Presets {...props} />
+          <CustomTime {...props} containsHistoricData={containsHistoricData} />
+          <Presets {...props} containsHistoricData={containsHistoricData} />
         </section>
       </div>
     );

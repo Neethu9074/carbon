@@ -5,6 +5,7 @@ import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
+import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -26,7 +27,7 @@ export default connectTo(
     adjustedWindowSize
   }) {
     let counter = '';
-    const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult;
+    const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult ?? emptyObject;
 
     if (itemType == 'Group') {
       counter = formatCounter(nbRows, 'Group');
