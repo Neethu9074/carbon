@@ -104,10 +104,14 @@ function validateStep(step, stepConfigs, form, updateForm) {
 
   let valid = true;
   fieldsToValidate.forEach(fieldPath => {
-    const field = form.getIn(fieldPath);
-    if (field && !field.valid) {
-      updateForm(form.updateIn(fieldPath, f => f.setTouched(true)));
-      valid = false;
+    try {
+      const field = form.getIn(fieldPath);
+      if (field && !field.valid) {
+        updateForm(form.updateIn(fieldPath, f => f.setTouched(true)));
+        valid = false;
+      }
+    } catch (ignore) {
+      // don't validate if field not present
     }
   });
   return valid;
