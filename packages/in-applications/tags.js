@@ -54,7 +54,8 @@ export const customServiceMappingTagKeys = [
   'process.name',
   'ruby.name',
   'service.default_name',
-  'springboot.name'
+  'springboot.name',
+  'tanzu.foundation.name'
 ];
 
 export const callAnalysisBlacklistedTags = [

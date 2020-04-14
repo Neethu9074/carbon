@@ -142,6 +142,8 @@ import './sparkApplication';
 import './sparkStandalone';
 import './springbootApplicationContainer';
 import './statsd';
+import './tanzuFoundation';
+import './tanzuFoundationMember';
 import './tibcoEMS';
 import './tomcatApplicationContainer';
 import './unmonitoredHost';
