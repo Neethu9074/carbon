@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { retention$ } from 'in-subscription/application/getRetention';
 import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
 import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
 import { isView } from 'in-stores/navigation/navigation';
@@ -21,10 +20,7 @@ import locals from './TimeSelectionDialogPresenter.mless';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  props => ({
-    containsHistoricData: retention$(props.timeConfig, props.containsHistoricData).map(
-      data => data?.containsHistoricData
-    ),
+  () => ({
     isApp20View: isView(
       analyze,
       applicationsList,

@@ -12,14 +12,14 @@ export default connectTo(
   props => ({
     getRetention:
       !props.hideTimeIcon &&
-      retention$(
-        { windowSize: props.newTimeframe.windowSize, to: props.newTimeframe.to, focusedMoment: props.newTimeframe.to },
-        false
-      )
+      retention$({
+        windowSize: props.newTimeframe.windowSize,
+        to: props.newTimeframe.to,
+        focusedMoment: props.newTimeframe.to
+      })
   }),
   function SelectableItem({ timeConfig, newTimeframe, onChange, getRetention, hideTimeIcon = false }) {
     const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
-    const { containsHistoricData, retention } = getRetention;
     return (
       <a
         className={evaluateClassNames({
@@ -34,13 +34,13 @@ export default connectTo(
         }}
       >
         {newTimeframe.label || format(newTimeframe)}
-        {containsHistoricData &&
-          !hideTimeIcon && (
+        {!hideTimeIcon &&
+          getRetention.containsHistoricData && (
             <TimeIcon
               theme={isActive ? 'dark' : 'light'}
               className={locals.timeIcon}
+              retention={getRetention.retention}
               containsHistoricData
-              retention={retention}
             />
           )}
       </a>
