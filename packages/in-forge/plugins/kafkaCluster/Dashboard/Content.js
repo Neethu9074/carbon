@@ -9,12 +9,12 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
-import ClusterConsumerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterConsumerClientQuotasTable';
-import ClusterProducerClientQuotasTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterProducerClientQuotasTable';
-import ConsumerGroupTopicLagsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupTopicLagsTable.js';
-import ClusterNodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesPartitionsTable.js';
-import ClusterTopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterTopicsTable.js';
-import ClusterNodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/ClusterNodesTable.js';
+import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable.js';
+import NodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesPartitionsTable.js';
+import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
+import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
+import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js';
+import NodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesTable.js';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
@@ -146,12 +146,17 @@ export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <ClusterNodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      <ClusterNodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      <ClusterTopicsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ConsumerGroupTopicLagsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      <ClusterConsumerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ClusterProducerClientQuotasTable snapshot={snapshot} timeConfig={timeConfig} />
+      {/* NODES*/}
+      <NodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <NodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+
+      {/* TOPICS */}
+      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ConsumerGroupsLagPerTopicTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+
+      {/* CLIENTS */}
+      <ProducersTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ConsumersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
