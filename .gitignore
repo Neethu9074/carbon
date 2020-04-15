@@ -17,3 +17,4 @@ ui-client.iml
 git-env.properties
 /licenses.txt
 /.idea/
+!/.vscode/extensions.json
