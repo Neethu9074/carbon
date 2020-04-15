@@ -40,7 +40,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               setTagFilters={newTagFilters => {
                 updateForm(
                   form
-                    .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
+                    .updateIn(['tagFilters'], f => f.setValue(withoutViewOnlyFilters(newTagFilters)).setTouched(true))
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
@@ -79,12 +79,15 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                       });
                       updateForm(
                         form
-                          .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
+                          .updateIn(['tagFilters'], f =>
+                            f.setValue(withoutViewOnlyFilters(tagFilters)).setTouched(true)
+                          )
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
+                    forAnalyzeCalls
                   />
                 );
               }}
@@ -106,7 +109,9 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     setTagFilters={tagFilters => {
                       updateForm(
                         form
-                          .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
+                          .updateIn(['tagFilters'], f =>
+                            f.setValue(withoutViewOnlyFilters(tagFilters)).setTouched(true)
+                          )
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
                       applicationsAlertingFilterEdit({
@@ -190,6 +195,10 @@ function withoutTagFiltersForNameAndValue(tagFilters, tagFilter) {
     const tfValue = tf.stringValue ?? tf.booleanValue ?? tf.numberValue;
     return !(tf.name === _name && tfValue === _value);
   });
+}
+
+function withoutViewOnlyFilters(tagFilters) {
+  return tagFilters.filter(tf => tf.name !== applicationNameTag);
 }
 
 function mutateFiltersForView({ tagFilters, applicationLabel }) {

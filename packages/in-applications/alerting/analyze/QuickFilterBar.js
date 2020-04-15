@@ -16,9 +16,9 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, onMoreClick, timeConfig } = props;
+  const { tagFilters, onMoreClick, timeConfig, withoutFiltersLabel } = props;
   return (
-    <Bar showClearFilters={false}>
+    <Bar showClearFilters={false} withoutFiltersLabel={withoutFiltersLabel}>
       <AnalyzeSelectBarItem
         {...props}
         timeConfig={timeConfig}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -10,7 +11,6 @@ import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
-import theme from 'in-themes';
 
 import locals from './TagFilterListPresenter.mless';
 
