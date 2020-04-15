@@ -3,9 +3,9 @@ import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
+import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { number } from 'in-services/formatters/number';
@@ -111,21 +111,10 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
 }
 
 function getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope }) {
-  const tagFilters = [];
-  tagFilters.push(getApplicationIdTagFilter({ applicationId, boundaryScope }));
-  tagFilters.push(createStringTagFilter('log.message', logMessageOperator, logMessage));
-  if (logLevel !== 'ANY') {
-    tagFilters.push(createStringTagFilter('log.level', 'EQUALS', logLevel));
-  }
-  return tagFilters;
-}
-
-function createStringTagFilter(name, operator, stringValue) {
-  return {
-    name,
-    operator,
-    stringValue
-  };
+  return [
+    getApplicationIdTagFilter({ applicationId, boundaryScope }),
+    ...getLogLevelTagFilters(logMessage, logMessageOperator, logLevel)
+  ];
 }
 
 function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
