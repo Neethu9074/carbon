@@ -11,7 +11,7 @@ import locals from './LogMessagesList.mless';
 
 const columnDefinitions = [
   {
-    id: 'logLevel',
+    id: 'level',
     label: 'Log Level',
     width: 10,
     getContent(item) {
@@ -19,7 +19,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'logMessage',
+    id: 'message',
     label: 'Log Message',
     getContent: item => LogRow(item),
     noWrap: true,

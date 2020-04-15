@@ -10,7 +10,7 @@ import locals from './JsErrorsList.mless';
 
 const columnDefinitions = [
   {
-    id: 'errorMessage',
+    id: 'message',
     label: 'Error Message',
     getContent: error => ErrorRow(error)
   }
