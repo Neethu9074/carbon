@@ -11,7 +11,9 @@ import {
 } from 'in-settings/navigation/paths';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { getAlertConfig as getApplicationsAlertConfig } from 'in-applications/navigation/paths';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
+import { getAlertConfig as getWebsiteAlertConfig } from 'in-websites/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -174,11 +176,20 @@ const columnDefinitions = [
     label: 'Name',
     width: 50,
     getContent(entity) {
+      const { entityId, label, type, id } = entity;
+      let url;
+      if (type === 'WebsiteSmartAlert') {
+        url = getWebsiteAlertConfig(id, entityId);
+      } else if (type === 'ApplicationSmartAlert') {
+        url = getApplicationsAlertConfig(id, entityId);
+      } else {
+        url = getEntityIdView(teamSettingsAlertingConfigurations, id);
+      }
       return (
-        <Tooltip content={entity.label} align="topLeft" delay={500}>
+        <Tooltip content={label} align="topLeft" delay={500}>
           <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
-              {entity.label}
+            <Link href$={url} ellipsis>
+              {label}
             </Link>
           </WithSubscript>
         </Tooltip>
@@ -189,16 +200,16 @@ const columnDefinitions = [
     id: 'kind',
     label: 'Type',
     ellipsis: true,
-    getContent() {
-      return 'Alert';
+    getContent({ type }) {
+      return type;
     }
   },
   {
     id: 'enabled',
     label: 'Status',
     ellipsis: true,
-    getContent(entity) {
-      if (entity.enabled) {
+    getContent({ enabled }) {
+      if (enabled) {
         return toTitleCase('Enabled');
       }
       return toTitleCase('Disabled');
@@ -214,9 +225,9 @@ function Icon() {
   );
 }
 
-function getSubscript(entity) {
+function getSubscript({ invalid }) {
   return (
-    entity.invalid && (
+    invalid && (
       <span key="invalid" className={locals.invalid}>
         Invalid Query
       </span>

@@ -203,9 +203,19 @@ export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
 
 export function goToAlertConfig(alertConfigId, alertConfigVersion, websiteId) {
   mutateUrl(location => {
-    location.pathname = alertsTabDetailsFullyQualified;
-    setOrDeleteMatrixKey(location, websitePath, websiteIdMatrixParam, websiteId);
-    setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, alertConfigId);
-    setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+    fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
   });
+}
+
+export function getAlertConfig(alertConfigId, websiteId) {
+  return getModifiedUrlStream(params => {
+    fillAlertTabSpecificValues(params, websiteId, alertConfigId, null);
+  });
+}
+
+function fillAlertTabSpecificValues(params, websiteId, alertConfigId, alertConfigVersion) {
+  params.pathname = alertsTabDetailsFullyQualified;
+  setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParam, websiteId);
+  setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }
