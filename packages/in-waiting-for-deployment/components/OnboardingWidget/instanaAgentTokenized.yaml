@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 ---
 apiVersion: v1
 kind: Secret
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 type: Opaque
 data:
   key: ${agentKey}
@@ -35,7 +35,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 data:
   configuration.yaml: |
     # Manual a-priori configuration. Configuration will be only used when the sensor
@@ -79,7 +79,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 spec:
   selector:
     matchLabels:
@@ -88,7 +88,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.0.26
+        app.kubernetes.io/version: 1.0.27
     spec:
       serviceAccountName: instana-agent
       hostIPC: true
@@ -102,11 +102,11 @@ spec:
             - name: INSTANA_AGENT_LEADER_ELECTOR_PORT
               value: "42655"
             - name: INSTANA_ZONE
-              value: '${zoneName}'
+              value: "${zoneName}"
             - name: INSTANA_KUBERNETES_CLUSTER_NAME
-              value: '${clusterName}'
+              value: "${clusterName}"
             - name: INSTANA_AGENT_ENDPOINT
-              value: ${agentEndpoint}
+              value: "${agentEndpoint}"
             - name: INSTANA_AGENT_ENDPOINT_PORT
               value: "${agentEndpointPort}"
             - name: INSTANA_AGENT_KEY
@@ -215,7 +215,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 rules:
 - nonResourceURLs:
     - "/version"
@@ -235,6 +235,8 @@ rules:
   resources:
     - "deployments"
     - "replicasets"
+    - "daemonsets"
+    - "statefulsets"
   verbs: ["get", "list", "watch"]
 - apiGroups: [""]
   resources:
@@ -252,6 +254,10 @@ rules:
   resources:
     - "endpoints"
   verbs: ["create", "update", "patch"]
+- apiGroups: ["networking.k8s.io"]
+  resources:
+    - "ingresses"
+  verbs: ["get", "list", "watch"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -259,7 +265,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.0.26
+    app.kubernetes.io/version: 1.0.27
 subjects:
 - kind: ServiceAccount
   name: instana-agent
