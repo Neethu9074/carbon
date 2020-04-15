@@ -27,16 +27,18 @@ import {
   APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED,
   APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW,
   APPLICATIONS_ALERTING_LOG_MSG_SELECTED,
-  WEBSITES_ALERTING_FILTER_ADD,
-  WEBSITES_ALERTING_FILTER_REMOVE,
-  WEBSITES_ALERTING_FILTER_EDIT,
-  WEBSITES_ALERTING_FILTER_SET
+  APPLICATIONS_ALERTING_FILTER_ADD,
+  APPLICATIONS_ALERTING_FILTER_REMOVE,
+  APPLICATIONS_ALERTING_FILTER_EDIT,
+  APPLICATIONS_ALERTING_FILTER_SET,
+  APPLICATIONS_ALERTING_STEP_SWITCH
 } from 'in-services/tracking/tracking';
 
 export const applicationsAlertingAddAlert = (pathname, websiteName) =>
   track(APPLICATIONS_ALERTING_ADD_ALERT, { pathname, websiteName });
 
 export const applicationsAlertingCloseDialog = e => track(APPLICATIONS_ALERTING_CLOSE_DIALOG, e);
+export const applicationsAlertingStepSwitch = e => track(APPLICATIONS_ALERTING_STEP_SWITCH, e);
 export const applicationsAlertingSwitchMode = e => track(APPLICATIONS_ALERTING_SWITCH_MODE, e);
 export const applicationsAlertingAlertCreated = e => track(APPLICATIONS_ALERTING_CREATE_ALERT, e);
 
@@ -73,7 +75,7 @@ export const applicationsAlertingLogLevelChanged = e => track(APPLICATIONS_ALERT
 export const applicationsAlertingLogOperatorChanged = e => track(APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED, e);
 export const applicationsAlertingLogOpenMsgSelectView = e => track(APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW, e);
 export const applicationsAlertingLogMsgSelected = e => track(APPLICATIONS_ALERTING_LOG_MSG_SELECTED, e);
-export const applicationsAlertingFilterAdd = e => track(WEBSITES_ALERTING_FILTER_ADD, e);
-export const applicationsAlertingFilterRemove = e => track(WEBSITES_ALERTING_FILTER_REMOVE, e);
-export const applicationsAlertingFilterEdit = e => track(WEBSITES_ALERTING_FILTER_EDIT, e);
-export const applicationsAlertingFilterSet = e => track(WEBSITES_ALERTING_FILTER_SET, e);
+export const applicationsAlertingFilterAdd = e => track(APPLICATIONS_ALERTING_FILTER_ADD, e);
+export const applicationsAlertingFilterRemove = e => track(APPLICATIONS_ALERTING_FILTER_REMOVE, e);
+export const applicationsAlertingFilterEdit = e => track(APPLICATIONS_ALERTING_FILTER_EDIT, e);
+export const applicationsAlertingFilterSet = e => track(APPLICATIONS_ALERTING_FILTER_SET, e);

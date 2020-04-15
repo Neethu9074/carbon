@@ -69,7 +69,6 @@ function AlertConfigDialogPresenter(props) {
     setSliderState: setSliderState,
     setSimpleModeStep: setSimpleModeStep
   });
-
   return (
     <BigHeaderDialogWithSlideInView
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}

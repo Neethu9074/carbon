@@ -147,6 +147,7 @@ export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
   'applications.alerting.additionalProps.triggerChanged';
 export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
   'applications.alerting.additionalProps.descriptionChanged';
+export const APPLICATIONS_ALERTING_STEP_SWITCH = 'applications.alerting.stepSwitch';
 export const APPLICATIONS_ALERTING_BLUEPRINT_CHANGED = 'applications.alerting.bluePrintChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.alerting.thresholdOperatorChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';

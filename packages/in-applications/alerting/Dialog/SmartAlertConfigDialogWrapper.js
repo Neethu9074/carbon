@@ -16,6 +16,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applic
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
+import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
@@ -40,7 +41,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       granularity={granularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       advancedModeElement={AdvancedModeContainer}
-      simpleModeElement={() => null}
+      simpleModeElement={SimpleModeContainer}
       setForm={setForm}
       timeConfig={timeConfig}
       trackModeSwitch={(simpleMode, step) => {
