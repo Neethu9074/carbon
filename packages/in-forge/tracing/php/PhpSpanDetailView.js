@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { kiloBytesTwoDecimalPlaces, micros } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
-import { kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function HttpSpanDetailView({ span }) {
   const params = span.getIn(['data', 'http', 'params']);
@@ -27,6 +27,10 @@ export default function HttpSpanDetailView({ span }) {
         <Di title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
         <Di title="Wordpress Current User">{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
         <Di title="Peak Memory Usage">{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
+        <Di title="Total Compile Time">
+          {span.getIn(['data', 'compile', 'time']) &&
+            micros.fixedCompact(parseInt(span.getIn(['data', 'compile', 'time'])))}
+        </Di>
         {getCustomHeaders(span)}
       </Dl>
     </div>
