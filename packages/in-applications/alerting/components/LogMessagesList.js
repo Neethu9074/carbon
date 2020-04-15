@@ -3,6 +3,7 @@ import React from 'react';
 
 import getLogMessages from 'in-subscription/application/getLogMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
 import Pill from 'in-new-components/Pill';
@@ -68,7 +69,7 @@ LogMessagesList.propTypes = {
   applicationBoundaryScope: PropTypes.string.isRequired,
   onLogMessageSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };
 
 function getTableData({ applicationId, applicationBoundaryScope, timeConfig }) {

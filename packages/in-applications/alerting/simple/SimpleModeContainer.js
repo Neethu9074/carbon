@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
+import SimpleAlertConfigDialogStep2 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep2';
 import SimpleModePageNavigation from 'in-new-components/Alerting/simple/SimpleModePageNavigation';
 import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 
 const stepConfigs = [
   {
@@ -22,9 +24,12 @@ const stepConfigs = [
 export default function SimpleModeContainer({
   editMode,
   form,
+  granularity,
   onChange,
   onClose,
   setSliderState,
+  timeConfig,
+  applicationLabel,
   onCreate,
   setSimpleModeStep,
   updateForm
@@ -44,7 +49,15 @@ export default function SimpleModeContainer({
           case 0:
             return <p>TODO</p>;
           case 1:
-            return <p>TODO</p>;
+            return (
+              <SimpleAlertConfigDialogStep2
+                form={form}
+                timeConfig={timeConfig}
+                updateForm={updateForm}
+                applicationLabel={applicationLabel}
+                granularity={granularity}
+              />
+            );
           case 2:
             return (
               <SimpleAlertConfigDialogStep3 form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
@@ -58,10 +71,13 @@ export default function SimpleModeContainer({
 SimpleModeContainer.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
+  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   setSliderState: PropTypes.func.isRequired,
   setSimpleModeStep: PropTypes.func.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
+  applicationLabel: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired
 };

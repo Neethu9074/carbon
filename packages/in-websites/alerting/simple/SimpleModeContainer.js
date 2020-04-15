@@ -86,7 +86,7 @@ SimpleModeContainer.propTypes = {
   onCreate: PropTypes.func.isRequired,
   setSliderState: PropTypes.func.isRequired,
   setSimpleModeStep: PropTypes.func.isRequired,
-  timeConfig: PropTypes.any,
-  websiteLabel: PropTypes.any,
+  timeConfig: PropTypes.object.isRequired,
+  websiteLabel: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired
 };

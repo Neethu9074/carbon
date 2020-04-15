@@ -8,6 +8,7 @@ import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBa
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
@@ -92,7 +93,7 @@ LogsAlertingBarChart.propTypes = {
   logMessageOperator: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

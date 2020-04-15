@@ -19,7 +19,7 @@ export const urlParameters = [
   { name: urlQueryKeys.autoRefresh }
 ];
 
-export const timeConfigShape = rpt.shape({
+export const propTypeTimeConfig = rpt.shape({
   windowSize: rpt.number.isRequired,
   to: rpt.number,
   focusedMoment: rpt.number,

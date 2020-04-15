@@ -8,6 +8,7 @@ import getApplicationMetrics from 'in-subscription/application/getApplicationMet
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
@@ -110,7 +111,7 @@ SlownessAlertingBarChart.propTypes = {
   sensitivity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

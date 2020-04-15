@@ -34,8 +34,8 @@ import {
   APPLICATIONS_ALERTING_STEP_SWITCH
 } from 'in-services/tracking/tracking';
 
-export const applicationsAlertingAddAlert = (pathname, websiteName) =>
-  track(APPLICATIONS_ALERTING_ADD_ALERT, { pathname, websiteName });
+export const applicationsAlertingAddAlert = (pathname, applicationName) =>
+  track(APPLICATIONS_ALERTING_ADD_ALERT, { pathname, applicationName });
 
 export const applicationsAlertingCloseDialog = e => track(APPLICATIONS_ALERTING_CLOSE_DIALOG, e);
 export const applicationsAlertingStepSwitch = e => track(APPLICATIONS_ALERTING_STEP_SWITCH, e);

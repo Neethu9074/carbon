@@ -13,6 +13,7 @@ import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBar
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -117,7 +118,7 @@ LogsInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };
 
 function hasLogMessageSelected(form) {

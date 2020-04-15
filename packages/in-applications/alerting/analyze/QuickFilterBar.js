@@ -16,7 +16,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, onMoreClick, timeConfig, withoutFiltersLabel } = props;
+  const { tagFilters, onMoreClick, timeConfig, withoutFiltersLabel, withoutLatencyItem } = props;
   return (
     <Bar showClearFilters={false} withoutFiltersLabel={withoutFiltersLabel}>
       <AnalyzeSelectBarItem
@@ -63,16 +63,18 @@ export default function QuickFilterBar(props) {
           <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
         )}
       />
-      <NumberBarItem
-        {...props}
-        tagFilters={tagFilters}
-        tag="call.latency"
-        singularLabel="Latency"
-        formatter={millis.fixedCompact}
-        unit="ms"
-        showRange
-        minValue="1"
-      />
+      {!withoutLatencyItem && (
+        <NumberBarItem
+          {...props}
+          tagFilters={tagFilters}
+          tag="call.latency"
+          singularLabel="Latency"
+          formatter={millis.fixedCompact}
+          unit="ms"
+          showRange
+          minValue="1"
+        />
+      )}
       <BooleanBarItem
         {...props}
         timeConfig={timeConfig}

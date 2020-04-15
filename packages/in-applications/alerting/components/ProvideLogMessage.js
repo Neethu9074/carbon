@@ -13,6 +13,7 @@ import { ruleLogMessageOperatorOptions, ruleLogLevelOptions } from 'in-applicati
 import LogMessagesList from 'in-applications/alerting/components/LogMessagesList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
@@ -152,5 +153,5 @@ ProvideLogMessage.propTypes = {
   mode: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired,
   onSelectLogMessage: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };

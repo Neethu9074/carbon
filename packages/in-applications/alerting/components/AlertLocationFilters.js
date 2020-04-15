@@ -19,11 +19,19 @@ import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 import QuickFilterBar from 'in-applications/alerting/analyze/QuickFilterBar';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 
 const applicationNameTag = 'application.name';
 const notContainedInTagSuggestions = ['application.id', 'application.name', 'service.id', 'endpoint.id'];
 
-export default function AlertLocationFilters({ advancedMode, form, timeConfig, applicationLabel, updateForm }) {
+export default function AlertLocationFilters({
+  advancedMode,
+  form,
+  timeConfig,
+  applicationLabel,
+  updateForm,
+  withoutLatencyItem
+}) {
   const tagSuggestions = getAnalyzeFilterTagKeys().filter(tag => !notContainedInTagSuggestions.includes(tag));
 
   return (
@@ -89,6 +97,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
               removeBarBackgroundColor
               hideClearFiltersButton
               withoutFiltersLabel
+              withoutLatencyItem={withoutLatencyItem}
             />
           }
           tagFilterList={
@@ -135,7 +144,7 @@ AlertLocationFilters.propTypes = {
   advancedMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   applicationLabel: PropTypes.string.isRequired
 };
 

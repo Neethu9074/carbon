@@ -9,6 +9,7 @@ import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUti
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { percentage } from 'in-services/formatters/number';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import theme from 'in-themes';
 
 export default function ErrorRateAlertingBarChart({
@@ -83,7 +84,7 @@ ErrorRateAlertingBarChart.propTypes = {
   granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 
