@@ -8,6 +8,10 @@ import {
   applicationsAlertingFilterRemove,
   applicationsAlertingFilterEdit
 } from 'in-applications/alerting/tracker';
+import {
+  convertToApplicationAreaSpecificTagFilter,
+  getTagFilterListForBackendSubscription
+} from 'in-analyze/applicationFilter';
 import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -30,7 +34,9 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
           quickFilterBar={
             <QuickFilterBar
               timeConfig={timeConfig}
-              tagFilters={mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })}
+              tagFilters={convertToApplicationAreaSpecificTagFilter(
+                mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })
+              )}
               upsertTagFilter={newTagFilter => {
                 upsertFilter(form, newTagFilter, updateForm, advancedMode);
               }}
@@ -38,11 +44,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                 addFilter(form, newTagFilter, updateForm, advancedMode);
               }}
               setTagFilters={newTagFilters => {
-                updateForm(
-                  form
-                    .updateIn(['tagFilters'], f => f.setValue(withoutViewOnlyFilters(newTagFilters)).setTouched(true))
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                );
+                updateTagfilterForm(newTagFilters, updateForm, form);
               }}
               removeTagFilter={(...args) => {
                 const tag = args[0];
@@ -53,11 +55,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     ? withoutTagFiltersForNameAndValue(getTagFilters(form), { name: tag, value: key })
                     : withoutTagFiltersForName(getTagFilters(form), tag);
 
-                  updateForm(
-                    form
-                      .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
-                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                  );
+                  updateTagfilterForm(newTagFilters, updateForm, form);
 
                   applicationsAlertingFilterRemove({
                     ...getBlueprintObject(form),
@@ -77,13 +75,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                         mode: advancedMode ? 'Advanced' : 'Simple',
                         tagFilters
                       });
-                      updateForm(
-                        form
-                          .updateIn(['tagFilters'], f =>
-                            f.setValue(withoutViewOnlyFilters(tagFilters)).setTouched(true)
-                          )
-                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                      );
+                      updateTagfilterForm(tagFilters, updateForm, form);
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
@@ -107,13 +99,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      updateForm(
-                        form
-                          .updateIn(['tagFilters'], f =>
-                            f.setValue(withoutViewOnlyFilters(tagFilters)).setTouched(true)
-                          )
-                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                      );
+                      updateTagfilterForm(tagFilters, updateForm, form);
                       applicationsAlertingFilterEdit({
                         ...getBlueprintObject(form),
                         mode: advancedMode ? 'Advanced' : 'Simple',
@@ -126,20 +112,16 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, a
                 );
               }}
               onRemoveTagFilter={tagFilter => {
-                updateForm(
-                  form
-                    .updateIn(['tagFilters'], f =>
-                      f.setValue(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter)).setTouched(true)
-                    )
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                );
+                updateTagfilterForm(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter), updateForm, form);
                 applicationsAlertingFilterRemove({
                   ...getBlueprintObject(form),
                   mode: advancedMode ? 'Advanced' : 'Simple',
                   filterName: tagFilter.name
                 });
               }}
-              tagFilters={mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })}
+              tagFilters={getTagFilterListForBackendSubscription(
+                mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })
+              )}
               readonlyFilterNames={[applicationNameTag]}
             />
           }
@@ -160,26 +142,32 @@ AlertLocationFilters.propTypes = {
 function upsertFilter(form, newTagFilter, updateForm, advancedMode) {
   const newTagFilters = withoutTagFiltersForName(getTagFilters(form), newTagFilter.name);
   newTagFilters.push(newTagFilter);
-  addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter);
+  addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, advancedMode, newTagFilter);
 }
 
 function addFilter(form, newTagFilter, updateForm, advancedMode) {
   const newTagFilters = getTagFilters(form).filter(tf => !Object.is(tf, newTagFilter));
   newTagFilters.push(newTagFilter);
-  addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter);
+  addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, advancedMode, newTagFilter);
 }
 
-function addNewTagFiltersToForm(updateForm, form, newTagFilters, advancedMode, newTagFilter) {
-  updateForm(
-    form
-      .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
-      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-  );
+function addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, advancedMode, newTagFilter) {
+  updateTagfilterForm(newTagFilters, updateForm, form);
   applicationsAlertingFilterAdd({
     ...getBlueprintObject(form),
     mode: advancedMode ? 'Advanced' : 'Simple',
     filterName: newTagFilter.name
   });
+}
+
+function updateTagfilterForm(newTagFilters, updateForm, form) {
+  const backendTagFilters = getTagFilterListForBackendSubscription(newTagFilters);
+  const tagFilters = withoutViewOnlyFilters(backendTagFilters);
+  updateForm(
+    form
+      .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
+      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+  );
 }
 
 function withoutTagFiltersForName(tagFilters, name) {
