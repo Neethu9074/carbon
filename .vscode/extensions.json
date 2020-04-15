@@ -5,6 +5,7 @@
     "instana.copy-packages-relative-path",
     "EditorConfig.EditorConfig",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "amatiasq.sort-imports"
   ]
 }

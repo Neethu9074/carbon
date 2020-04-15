@@ -205,7 +205,9 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 
 #### VS Code
 
-- Install the "Prettier - Code formatter" code extension.
+Install the "Prettier - Code formatter" code extension and the `sort-imports` extension. Both of these are in our
+suggested extensions, i.e. VS Code should prompt you to install these once you open up the ui-client repo in
+VS Code.
 
 #### IntelliJ & Co
 
