@@ -8,8 +8,8 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
-import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable.js';
-import NodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesPartitionsTable.js';
+import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable';
+import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/PartitionsPerNodeTable';
 import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
 import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
@@ -33,10 +33,6 @@ export default connectTo(
     return (
       <div>
         <ClusterSummary snapshot={snapshot} />
-
-        {/* CLIENTS */}
-        <ProducersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />
-        <ConsumersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />
 
         <DashboardSection title="Average Request Latency vs Throughput">
           <Chart
@@ -160,13 +156,14 @@ export default connectTo(
           />
         </DashboardSection>
 
-        {/* NODES*/}
         <NodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-        <NodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+        <PartitionsPerNodeTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
 
-        {/* TOPICS */}
         <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
         <ConsumerGroupsLagPerTopicTable snapshot={snapshot} timeConfig={timeConfig} />
+
+        {clientSnapshots && <ProducersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />}
+        {clientSnapshots && <ConsumersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />}
       </div>
     );
   }

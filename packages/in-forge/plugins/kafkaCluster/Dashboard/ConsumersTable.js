@@ -15,7 +15,7 @@ const cols = [
     }
   },
   {
-    title: 'Consumer',
+    title: 'ID',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +31,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.consumer.${row.name}.consumedByteRate`;
+        return `kafkaClient.consumer.${row.key}.consumedByteRate`;
       },
       getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -47,7 +47,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.consumer.${row.name}.consumerFetchThrottleTime`;
+        return `kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`;
       },
       getContent: ms.compact,
       getTimeWindowAggregation() {
@@ -57,22 +57,24 @@ const cols = [
   }
 ];
 
-export default function ConsumersTable({ jvmSnapshots }) {
+export default function ConsumersTable({ clientSnapshots, timeConfig }) {
   let rows = [];
 
-  if (jvmSnapshots) {
-    rows = jvmSnapshots.map(jvmSnapshot => {
-      jvmSnapshot.getIn(['data', 'kafkaClient.consumer.clientIds']).map(consumer => ({
-        key: 'consumer',
+  clientSnapshots.forEach(jvmSnapshot => {
+    const ids = jvmSnapshot.getIn(['data', 'kafkaClient.consumer.clientIds']);
+    ids.forEach(consumerId => {
+      rows.push({
+        key: String(consumerId),
+        name: String(consumerId.split('#')[1]),
         snapshotId: jvmSnapshot.get('id'),
-        name: consumer
-      }));
+        timeConfig
+      });
     });
-  }
+  });
 
-  // if(rows.length === 0) {
-  //   return null;
-  // }
+  if (rows.length === 0) {
+    return null;
+  }
 
   return (
     <Table
@@ -93,14 +95,14 @@ function getDetails(row) {
       y1={{
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-        metrics: [`kafkaClient.consumer.${row.name}.consumedByteRate`],
+        metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
         labels: ['Byte Rate'],
         type: 'line'
       }}
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.consumer.${row.name}.consumerFetchThrottleTime`],
+        metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
         labels: ['Throttling'],
         type: 'line'
       }}

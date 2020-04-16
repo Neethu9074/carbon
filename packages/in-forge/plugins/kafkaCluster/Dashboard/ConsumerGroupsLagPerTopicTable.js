@@ -58,7 +58,7 @@ export default function ConsumerGroupsLagPerTopicTable({ snapshot, timeConfig })
   return (
     <Table
       withoutPadding
-      cardTitle={`Consumer Groups Lag per Topic (${rows.length})`}
+      cardTitle={`Consumer Groups Lag Per Topic (${rows.length})`}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

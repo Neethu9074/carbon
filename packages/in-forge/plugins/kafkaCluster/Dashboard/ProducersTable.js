@@ -15,7 +15,7 @@ const cols = [
     }
   },
   {
-    title: 'Producer',
+    title: 'ID',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +31,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.name}.producerOutgoingByteRate`;
+        return `kafkaClient.producer.${row.key}.producerOutgoingByteRate`;
       },
       getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -47,7 +47,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.name}.produceThrottleTime`;
+        return `kafkaClient.producer.${row.key}.produceThrottleTime`;
       },
       getContent: ms.compact,
       getTimeWindowAggregation() {
@@ -57,29 +57,31 @@ const cols = [
   }
 ];
 
-export default function ProducersTable({ clientSnapshots }) {
+export default function ProducersTable({ clientSnapshots, timeConfig }) {
   let rows = [];
 
-  if (clientSnapshots) {
-    rows = clientSnapshots.map(jvmSnapshot => {
-      jvmSnapshot.getIn(['data', 'kafkaClient.producer.clientIds']).map(producer => ({
-        key: 'producer',
+  clientSnapshots.forEach(jvmSnapshot => {
+    const ids = jvmSnapshot.getIn(['data', 'kafkaClient.producer.clientIds']);
+    ids.forEach(producerId => {
+      rows.push({
+        key: String(producerId),
+        name: String(producerId.split('#')[1]),
         snapshotId: jvmSnapshot.get('id'),
-        name: producer
-      }));
+        timeConfig
+      });
     });
-  }
+  });
 
-  // if(rows.length === 0) {
-  //   return null;
-  // }
+  if (rows.length === 0) {
+    return null;
+  }
 
   return (
     <Table
       withoutPadding
       cardTitle={`Producers (` + rows.length + `)`}
-      cols={cols}
       rows={rows}
+      cols={cols}
       getRowDetails={getDetails}
     />
   );
@@ -93,14 +95,14 @@ function getDetails(row) {
       y1={{
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-        metrics: [`kafkaClient.producer.${row.name}.producerOutgoingByteRate`],
+        metrics: [`kafkaClient.producer.${row.key}.producerOutgoingByteRate`],
         labels: ['Byte Rate'],
         type: 'line'
       }}
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.producer.${row.name}.produceThrottleTime`],
+        metrics: [`kafkaClient.producer.${row.key}.produceThrottleTime`],
         labels: ['Throttling'],
         type: 'line'
       }}
