@@ -70,7 +70,13 @@ export default function StatusCodeAlertingBarChart({
         ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['statusCode', 'threshold'],
-        nonToggleableSeries: new Map([['statusCode', null], ['threshold', null]])
+        nonToggleableSeries: new Map([
+          ['statusCode', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
       getAlertsPreview={metricConfig => getAlertsPreview(metricName, metricConfig)}
