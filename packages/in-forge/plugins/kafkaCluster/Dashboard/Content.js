@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {
-  twoDecimalPlaces,
-  zeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
+  number,
+  bytes,
   msZeroDecimalPlaces,
   msTwoDecimalPlaces,
   percentageZeroDecimalPlaces
@@ -11,6 +10,7 @@ import {
 
 import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable.js';
 import NodesPartitionsTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesPartitionsTable.js';
+import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
 import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
 import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js';
@@ -18,145 +18,156 @@ import NodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesTable.js';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
-export default function KafkaClusterDashboard({ snapshot, timeConfig }) {
-  return (
-    <div>
-      <ClusterSummary snapshot={snapshot} />
+export default connectTo(
+  props => ({
+    clientSnapshots: timeConfig$
+      .flatMap(timeConfig => createClusterClientsSubscription({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(getSnapshots)
+  }),
 
-      <DashboardSection title="Average Request Latency vs Throughput">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: twoDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['broker.produceRequests', 'broker.fetchConsumerRequests', 'broker.fetchFollowerRequests'],
-            labels: ['Produce Throughput', 'Fetch Consumer Throughput', 'Fetch Follower Throughput'],
-            type: 'line'
-          }}
-          y2={{
-            formatter: msZeroDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
-            metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
-            labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="All Brokers Traffic">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: bytesTwoDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
-            labels: ['In', 'Out', 'Rejected'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="All Brokers Messages In">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: ['broker.messagesIn'],
-            labels: ['Count'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="All Brokers Failures">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: ['broker.failedFetch', 'broker.failedProduce'],
-            labels: ['Fetch', 'Produce'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="All Brokers state metrics">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: [
-              'broker.underReplicatedPartitions',
-              'broker.offlinePartitionsCount',
-              'broker.leaderElections',
-              'broker.uncleanLeaderElections',
-              'broker.isrShrinks',
-              'broker.isrExpansions',
-              'broker.activeControllerCount'
-            ],
-            labels: [
-              'Under-replicated Partitions',
-              'Offline Partitions',
-              'Leader Elections',
-              'Unclean Leader Elections',
-              'ISR Shrinks',
-              'ISR Expansions',
-              'Active controller count'
-            ],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Average Idle Time Percentage">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: percentageZeroDecimalPlaces,
-            tooltipFormatter: percentageZeroDecimalPlaces,
-            metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
-            labels: ['Network Processor', 'Request Handler'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Log Flushing">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: msTwoDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
-            metrics: ['logflush.mean'],
-            labels: ['Mean'],
-            type: 'line'
-          }}
-          y2={{
-            formatter: msZeroDecimalPlaces,
-            tooltipFormatter: msZeroDecimalPlaces,
-            metrics: ['logflush.inv'],
-            labels: ['Flushes'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+  function KafkaClusterDashboard({ snapshot, clientSnapshots, timeConfig }) {
+    return (
+      <div>
+        <ClusterSummary snapshot={snapshot} />
 
-      {/* NODES*/}
-      <NodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
-      <NodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+        {/* CLIENTS */}
+        <ProducersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />
+        <ConsumersTable clientSnapshots={clientSnapshots} timeConfig={timeConfig} />
 
-      {/* TOPICS */}
-      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ConsumerGroupsLagPerTopicTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+        <DashboardSection title="Average Request Latency vs Throughput">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.detailed,
+              tooltipFormatter: number.detailed,
+              metrics: ['broker.produceRequests', 'broker.fetchConsumerRequests', 'broker.fetchFollowerRequests'],
+              labels: ['Produce Throughput', 'Fetch Consumer Throughput', 'Fetch Follower Throughput'],
+              type: 'line'
+            }}
+            y2={{
+              formatter: msZeroDecimalPlaces,
+              tooltipFormatter: msTwoDecimalPlaces,
+              metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
+              labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="All Brokers Traffic">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytes.detailed,
+              tooltipFormatter: bytes.detailed,
+              metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
+              labels: ['In', 'Out', 'Rejected'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="All Brokers Messages In">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              tooltipFormatter: number.compact,
+              metrics: ['broker.messagesIn'],
+              labels: ['Count'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="All Brokers Failures">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              tooltipFormatter: number.compact,
+              metrics: ['broker.failedFetch', 'broker.failedProduce'],
+              labels: ['Fetch', 'Produce'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="All Brokers state metrics">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              tooltipFormatter: number.compact,
+              metrics: [
+                'broker.underReplicatedPartitions',
+                'broker.offlinePartitionsCount',
+                'broker.leaderElections',
+                'broker.uncleanLeaderElections',
+                'broker.isrShrinks',
+                'broker.isrExpansions',
+                'broker.activeControllerCount'
+              ],
+              labels: [
+                'Under-replicated Partitions',
+                'Offline Partitions',
+                'Leader Elections',
+                'Unclean Leader Elections',
+                'ISR Shrinks',
+                'ISR Expansions',
+                'Active controller count'
+              ],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Average Idle Time Percentage">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: percentageZeroDecimalPlaces,
+              tooltipFormatter: percentageZeroDecimalPlaces,
+              metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
+              labels: ['Network Processor', 'Request Handler'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Log Flushing">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: msTwoDecimalPlaces,
+              tooltipFormatter: msTwoDecimalPlaces,
+              metrics: ['logflush.mean'],
+              labels: ['Mean'],
+              type: 'line'
+            }}
+            y2={{
+              formatter: msZeroDecimalPlaces,
+              tooltipFormatter: msZeroDecimalPlaces,
+              metrics: ['logflush.inv'],
+              labels: ['Flushes'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
 
-      {/* CLIENTS */}
-      <ProducersTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ConsumersTable snapshot={snapshot} timeConfig={timeConfig} />
-    </div>
-  );
-}
+        {/* NODES*/}
+        <NodesTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+        <NodesPartitionsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+
+        {/* TOPICS */}
+        <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
+        <ConsumerGroupsLagPerTopicTable snapshot={snapshot} timeConfig={timeConfig} />
+      </div>
+    );
+  }
+);
