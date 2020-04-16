@@ -19,21 +19,22 @@ const timeConfig = {
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
   const [form, setForm] = useState(() => alertFormDefinition(formData));
+  const [isSaving, setIsSaving] = useState(false);
   const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
-
   return (
     <AlertConfigDialogWithThreshold
       updateForm={setForm}
       form={form}
       onChange={createOnChange(setForm, form)}
       onClose={onClose}
-      onCreate={() => createAlert(form, setForm, onClose, editMode)}
+      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
       timeConfig={timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
       granularity={alertingMetricsGranularity}
       calculateThresholdOnBackend={calculateThresholdOnBackend}
       doCalculateThresholdOnBackend={load => setCalculateThresholdOnBackend(load)}
+      isSaving={isSaving}
     />
   );
 }
@@ -66,7 +67,9 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode) {
+function createAlert(form, setForm, onClose, editMode, setIsSaving) {
+  setIsSaving(true);
+
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     return;
@@ -79,6 +82,7 @@ function createAlert(form, setForm, onClose, editMode) {
       () => onClose(),
       error => {
         logger.error(`failed to update alertConfig: ${websiteAlertConfig} ${error.message}`, error);
+        setIsSaving(false);
       }
     );
   } else {
@@ -86,6 +90,7 @@ function createAlert(form, setForm, onClose, editMode) {
       () => onClose(),
       error => {
         logger.error(`failed to save alertConfig: ${websiteAlertConfig} ${error.message}`, error);
+        setIsSaving(false);
       }
     );
   }

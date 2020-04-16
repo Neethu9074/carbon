@@ -32,7 +32,8 @@ export default function SimpleModeContainer({
   websiteLabel,
   onCreate,
   setSimpleModeStep,
-  updateForm
+  updateForm,
+  isSaving
 }) {
   return (
     <SimpleModePageNavigation
@@ -40,6 +41,7 @@ export default function SimpleModeContainer({
       editMode={editMode}
       onClose={onClose}
       onCreate={onCreate}
+      isSaving={isSaving}
       setSimpleModeStep={setSimpleModeStep}
       updateForm={updateForm}
       stepConfigs={stepConfigs}
@@ -88,5 +90,6 @@ SimpleModeContainer.propTypes = {
   setSimpleModeStep: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired,
   websiteLabel: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool
 };

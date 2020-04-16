@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SimpleModePageNavigation.mless';
@@ -16,7 +17,8 @@ export default function SimpleModePageNavigation({
   updateForm,
   renderStep,
   stepConfigs,
-  onStepChanged
+  onStepChanged,
+  isSaving
 }) {
   const [step, setStep] = useState(0);
 
@@ -65,9 +67,9 @@ export default function SimpleModePageNavigation({
           <Button className={locals.button} kind="secondary" onClick={() => backOrCancel(step)}>
             {step === 0 ? 'Cancel' : 'Back'}
           </Button>
-          <Button type="submit" className={locals.button} disabled={form.touched && !form.hierarchyValid}>
+          <SaveButton type="submit" kind="primary" className={locals.button} form={form} isSaving={isSaving}>
             {step === stepConfigs.length - 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
-          </Button>
+          </SaveButton>
         </div>
       </form>
     </>
@@ -88,7 +90,8 @@ SimpleModePageNavigation.propTypes = {
       validateIntermediately: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
     })
   ).isRequired,
-  onStepChanged: PropTypes.func
+  onStepChanged: PropTypes.func,
+  isSaving: PropTypes.bool
 };
 
 function mapTitles(stepConfigs) {

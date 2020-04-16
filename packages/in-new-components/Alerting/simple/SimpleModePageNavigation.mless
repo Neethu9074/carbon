@@ -7,6 +7,6 @@
   }
 
   .button {
-    width: 4.375rem;
+    width: 6.25rem;
   }
 }
