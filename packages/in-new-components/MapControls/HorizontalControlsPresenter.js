@@ -1,0 +1,29 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { floatingActionButtons$ } from '../FloatingActionButton/stores/floatingActionButtons';
+import evaluateClassNames from 'in-services/util/classnames';
+import connectTo from 'in-hoc/connectTo';
+
+import locals from './HorizontalControlsPresenter.mless';
+
+export default connectTo(() => ({
+  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
+}))(HorizontalControlsPresenter);
+
+function HorizontalControlsPresenter({ children, position = 'bottomMiddle' }) {
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals[position]]: position
+      })}
+    >
+      {children}
+    </div>
+  );
+}
+
+HorizontalControlsPresenter.propTypes = {
+  children: PropTypes.node.isRequired,
+  position: PropTypes.oneOf(['bottomLeft', 'bottomMiddle', 'bottomRight', 'topLeft', 'topMiddle', 'topRight'])
+};

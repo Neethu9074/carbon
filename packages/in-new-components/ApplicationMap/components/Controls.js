@@ -1,31 +1,20 @@
 import React from 'react';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
-import { floatingActionButtons$ } from 'in-new-components/FloatingActionButton/stores/floatingActionButtons';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
+import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
+import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
 import NodeSizeButton from 'in-new-components/ApplicationMap/components/NodeSizeButton';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
-import evaluateClassNames from 'in-services/util/classnames';
 import Button from 'in-new-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './Controls.mless';
-
-export default connectTo(() => ({
-  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
-}))(Controls);
-
-function Controls({ serviceLocatorUid, onChangeUrlProperties, hasFloatingFooter }) {
+export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
   return (
     <>
-      <div
-        className={evaluateClassNames({
-          [locals.horizontalControlsContainer]: true,
-          [locals.withFloatingFooter]: hasFloatingFooter
-        })}
-      >
+      <HorizontalControlsPresenter position="topLeft">
         <ButtonGroup>
           <NodeSizeButton
             eventBusServiceLocator={eventBusServiceLocator}
@@ -54,18 +43,13 @@ function Controls({ serviceLocatorUid, onChangeUrlProperties, hasFloatingFooter 
         />
 
         <TrafficButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-      </div>
-      <div
-        className={evaluateClassNames({
-          [locals.verticalControlsContainer]: true,
-          [locals.withFloatingFooter]: hasFloatingFooter
-        })}
-      >
+      </HorizontalControlsPresenter>
+      <VerticalControlsPresenter position="leftTop">
         <ButtonGroup vertical>
           <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
         </ButtonGroup>
-      </div>
+      </VerticalControlsPresenter>
     </>
   );
 

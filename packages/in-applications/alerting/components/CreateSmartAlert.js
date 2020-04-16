@@ -4,17 +4,28 @@ import PropTypes from 'prop-types';
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getApplication from 'in-subscription/application/getApplication';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
+import connectTo from 'in-hoc/connectTo';
 
-export default function CreateSmartAlert({
-  applicationId,
-  applicationLabel,
-  boundaryScope,
-  endpointId,
-  location,
-  serviceId
-}) {
+export default connectTo(({ applicationLabel, applicationId, serviceId, endpointId }) => {
+  const observables = {};
+  if (!applicationLabel && applicationId) {
+    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
+  }
+  if (serviceId) {
+    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
+  }
+  if (endpointId) {
+    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
+  }
+  return observables;
+})(CreateSmartAlert);
+
+function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endpointLabel, location, serviceLabel }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <>
@@ -31,7 +42,7 @@ export default function CreateSmartAlert({
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
           applicationLabel={applicationLabel}
-          formData={generateFormData({ applicationId, serviceId, endpointId, boundaryScope })}
+          formData={generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope })}
           onClose={() => {
             setDialogOpen(false);
             if (location.pathname.includes('/application/alerts')) {
@@ -46,14 +57,14 @@ export default function CreateSmartAlert({
 
 CreateSmartAlert.propTypes = {
   applicationId: PropTypes.string.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
-  endpointId: PropTypes.string,
+  applicationLabel: PropTypes.string,
+  endpointLabel: PropTypes.string,
   location: propTypeLocation.isRequired,
-  serviceId: PropTypes.string,
+  serviceLabel: PropTypes.string,
   boundaryScope: PropTypes.string
 };
 
-function generateFormData({ applicationId, serviceId, endpointId, boundaryScope }) {
+function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
   return {
     applicationId,
     boundaryScope,
@@ -66,16 +77,20 @@ function generateFormData({ applicationId, serviceId, endpointId, boundaryScope 
     },
     tagFilters: [
       {
-        name: 'service.id',
+        name: 'service.name',
         operator: 'EQUALS',
-        stringValue: serviceId
+        stringValue: serviceLabel
       },
       {
-        name: 'endpoint.id',
+        name: 'endpoint.name',
         operator: 'EQUALS',
-        stringValue: endpointId
+        stringValue: endpointLabel
       }
     ].filter(({ stringValue }) => Boolean(stringValue)),
     calculateThresholdOnBackend: true
   };
+}
+
+function getLabel(result) {
+  return result?.data?.label ?? null;
 }

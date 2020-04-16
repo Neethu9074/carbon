@@ -1,0 +1,63 @@
+:local {
+  .verticalControlsContainer {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .left {
+    left: 0;
+    padding-left: 1rem;
+  }
+
+  .right {
+    right: 0;
+    padding-right: 1rem;
+  }
+
+  .rightTop {
+    .verticalControlsContainer();
+    .right();
+    top: 0rem;
+    padding-top: 4rem;
+    justify-content: flex-start;
+  }
+
+  .rightMiddle {
+    .verticalControlsContainer();
+    .right();
+    justify-content: center;
+  }
+
+  .rightBottom {
+    .verticalControlsContainer();
+    .right();
+    bottom: 0rem;
+    padding-bottom: 4rem;
+    justify-content: flex-end;
+  }
+
+  .leftTop {
+    .verticalControlsContainer();
+    .left();
+    top: 0rem;
+    padding-top: 4rem;
+    justify-content: flex-start;
+  }
+
+  .leftMiddle {
+    .verticalControlsContainer();
+    .left();
+    justify-content: center;
+  }
+
+  .leftBottom {
+    .verticalControlsContainer();
+    .left();
+    bottom: 0rem;
+    padding-bottom: 4rem;
+    justify-content: flex-end;
+  }
+}

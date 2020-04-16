@@ -6,12 +6,12 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
-import CreateSmartAlert from '../../alerting/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';

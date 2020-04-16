@@ -8,9 +8,12 @@ import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applicat
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
+import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ServiceContext from 'in-applications/components/ServiceContext';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -22,6 +25,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 
 export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard({ location, timeConfig }) {
   const props = {
@@ -55,6 +59,19 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
         filterTabByResult={filterTabByResult}
         props={props}
       />
+
+      {role.canConfigureCustomAlerts &&
+        applicationSmartAlertsEnabled && (
+          <FloatingActionButtons>
+            <CreateSmartAlert
+              serviceId={props.serviceId}
+              endpointId={props.endpointId}
+              applicationId={props.applicationId}
+              location={location}
+              boundaryScope={props.boundaryScope}
+            />
+          </FloatingActionButtons>
+        )}
 
       <Footer />
     </>

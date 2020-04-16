@@ -1,0 +1,23 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import evaluateClassNames from 'in-services/util/classnames';
+
+import locals from './VerticalControlsPresenter.mless';
+
+export default function VerticalControlsPresenter({ children, position = 'rightMiddle' }) {
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals[position]]: position
+      })}
+    >
+      {children}
+    </div>
+  );
+}
+
+VerticalControlsPresenter.propTypes = {
+  children: PropTypes.node.isRequired,
+  position: PropTypes.oneOf(['leftBottom', 'leftMiddle', 'leftTop', 'rightBottom', 'rightMiddle', 'rightTop'])
+};
