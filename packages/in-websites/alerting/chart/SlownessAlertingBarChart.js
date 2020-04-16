@@ -70,7 +70,13 @@ export default function SlownessAlertingBarChart({
         metricIds: ['onLoadTime', 'threshold'],
         labels: [getMetricLabel(alertTypes.slowness, onLoadTime), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        nonToggleableSeries: new Map([['onLoadTime', null], ['threshold', null], ['alerts', null]])
+        nonToggleableSeries: new Map([
+          ['onLoadTime', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getWebsiteMetrics}
       getAlertsPreview={getWebsiteMetricAlertsPreview}

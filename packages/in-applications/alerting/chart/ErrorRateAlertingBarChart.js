@@ -57,7 +57,12 @@ export default function ErrorRateAlertingBarChart({
         labels: [getMetricLabel('errorRate', 'errors'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
-        nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
+        nonToggleableSeries: new Map([
+          ['errors', null],
+          ['threshold', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}

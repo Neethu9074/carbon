@@ -71,7 +71,13 @@ export default function SlownessAlertingBarChart({
         metricIds: ['latency', 'threshold'],
         labels: [getMetricLabel('slowness', 'latency'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        nonToggleableSeries: new Map([['latency', null], ['threshold', null], ['alerts', null]])
+        nonToggleableSeries: new Map([
+          ['latency', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}

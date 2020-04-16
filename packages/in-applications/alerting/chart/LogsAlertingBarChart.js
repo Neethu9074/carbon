@@ -63,7 +63,13 @@ export default function LogsAlertingBarChart({
         labels: [getMetricLabel('logs', 'calls'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['logs', 'threshold'],
-        nonToggleableSeries: new Map([['logs', null], ['threshold', null]])
+        nonToggleableSeries: new Map([
+          ['logs', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
