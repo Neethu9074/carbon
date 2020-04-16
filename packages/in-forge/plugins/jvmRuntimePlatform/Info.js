@@ -10,9 +10,6 @@ export default function JVMInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Producers">{data.get('kafkaClient.producer.clientIds')}</DescriptionItem>
-      <DescriptionItem title="Consumers">{data.get('kafkaClient.consumer.clientIds')}</DescriptionItem>
-
       <DescriptionItem title="Java Version">
         {data.get('jvm.version')} {data.get('jvm.build')}
       </DescriptionItem>
