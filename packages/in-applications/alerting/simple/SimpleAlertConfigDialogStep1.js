@@ -2,22 +2,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
+import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
-import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
-import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
-import { alertingDialogItemPickerTimeframe, modeSimple } from 'in-websites/alerting/constants';
-import { blueprintConfig, alertTypes } from 'in-websites/alerting/data/blueprintConfig';
-import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
-import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
-import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';
-import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import { applicationsAlertingBlueprintChanged } from 'in-applications/alerting/tracker';
+import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
+import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
+import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
+import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Menu from 'in-new-components/Alerting/components/Menu';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
   granularity,
-  onChange,
-  setJsErrorsListVisible,
+  setLogMessagesListVisible,
   timeConfig,
   updateForm
 }) {
@@ -28,7 +27,7 @@ export default function SimpleAlertConfigDialogStep1({
   const thresholdBaseline = form.get('threshold').get('baseline');
 
   if (
-    alertType === alertTypes.slowness &&
+    alertType === 'slowness' &&
     thresholdTypeValue.startsWith('historicBaseline') &&
     thresholdBaseline &&
     thresholdBaseline.value &&
@@ -53,7 +52,7 @@ export default function SimpleAlertConfigDialogStep1({
             )
           );
 
-          websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
+          applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
         initialItemSelected={getIndexSelectedConf()}
         addRightSeparator
@@ -61,32 +60,33 @@ export default function SimpleAlertConfigDialogStep1({
 
       <AlertTypeSwitch
         alertType={alertType}
-        renderJsErrors={() => (
+        renderLogs={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alert for Specific JS Errors"
-            description="You will be alerted every time matching JS Error messages occur more often than normal."
+            title="Alert for Specific Log Messages"
+            description="You will be alerted every time a significant amount of log messages matching the specified message are encountered in a 10 minute window."
           >
-            <ProvideStatusCode
+            <ProvideLogMessage
               form={form}
               updateForm={updateForm}
-              onSelectJsError={setJsErrorsListVisible}
+              onSelectLogMessage={setLogMessagesListVisible}
+              mode="SimpleMode"
               timeConfig={{
                 windowSize: alertingDialogItemPickerTimeframe
               }}
-              mode={modeSimple}
             />
           </SelectedBlueprintPresenter>
         )}
         renderSlowness={() => (
-          <BlueprintDescription config={blueprintConfig.find(configTypeEqualsAlertType)} isSimpleMode />
-        )}
-        renderStatusCode={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alert for Specific Status Codes"
-            description="You will be alerted every time matching HTTP Status Codes occur more often than normal."
-          >
-            <ProvideStatusCode form={form} onChange={onChange} updateForm={updateForm} mode={modeSimple} />
-          </SelectedBlueprintPresenter>
+            title="Latency is higher than expected"
+            description="Receive an alert when the latency is higher (your services/endpoints are slower) than expected (from historical data)."
+          />
+        )}
+        renderErrorRate={() => (
+          <SelectedBlueprintPresenter
+            title="Error Rate is higher than expected"
+            description="Receive an alert when the error rate is higher than expected (when compared to your historical data of these services/endpoints)."
+          />
         )}
       />
 
@@ -106,8 +106,7 @@ export default function SimpleAlertConfigDialogStep1({
 SimpleAlertConfigDialogStep1.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  setJsErrorsListVisible: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  setLogMessagesListVisible: PropTypes.func.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   updateForm: PropTypes.func.isRequired
 };

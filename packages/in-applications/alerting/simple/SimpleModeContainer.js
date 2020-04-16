@@ -3,6 +3,7 @@ import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
 import SimpleAlertConfigDialogStep2 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep2';
+import SimpleAlertConfigDialogStep1 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep1';
 import SimpleModePageNavigation from 'in-new-components/Alerting/simple/SimpleModePageNavigation';
 import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -47,7 +48,15 @@ export default function SimpleModeContainer({
       renderStep={step => {
         switch (step) {
           case 0:
-            return <p>TODO</p>;
+            return (
+              <SimpleAlertConfigDialogStep1
+                form={form}
+                timeConfig={timeConfig}
+                updateForm={updateForm}
+                granularity={granularity}
+                setLogMessagesListVisible={setSliderState}
+              />
+            );
           case 1:
             return (
               <SimpleAlertConfigDialogStep2

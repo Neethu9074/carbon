@@ -11,7 +11,7 @@ export const blueprintConfig = Object.freeze([
     name: 'High Error Rate',
     headline: 'Error Rate is higher than expected',
     text:
-      'Receive an alert when the error rate is higher than expected (when compared to your historical data of these services/endpoints)'
+      'Receive an alert when the error rate is higher than expected (when compared to your historical data of these services/endpoints).'
   },
   {
     type: 'logs',
