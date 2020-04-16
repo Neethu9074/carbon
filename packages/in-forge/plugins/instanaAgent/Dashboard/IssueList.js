@@ -100,7 +100,7 @@ export default compose(
         snapshotId,
         pagination: {
           cursor,
-          retrievalSize: 250 // We don't yet have regular tables that support pagination, so just fetch a big number
+          retrievalSize: 200 // We don't yet have regular tables that support pagination, so just fetch a big number
         }
       });
     }
