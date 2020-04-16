@@ -1,17 +1,17 @@
+import { compose } from 'recompose';
 import React from 'react';
 
-import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
+import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
-import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import cursorPaginated from 'in-hoc/cursorPaginated';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './IssueList.mless';
@@ -53,12 +53,11 @@ const cols = [
         return getSnapshot(row.key, getTimeConfigAtMoment(row.timestamp))
           .startWith(null)
           .map(snapshot => {
-            const args = row.arguments ? row.arguments.toJS() : {};
             const issueDefinition = getIssueDefinitionForSnapshotAndCode(snapshot, row.code);
 
             return {
               value: row.code,
-              content: <issueDefinition.issueDescription.Component {...args} />
+              content: <issueDefinition.issueDescription.Component {...row.arguments} />
             };
           });
       }
@@ -91,38 +90,49 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  ({ snapshot, timeConfig }) => {
-    const snapshotId = snapshot.get('id');
-    return {
-      result: getMonitoringIssuesForSnapshot({ timeConfig, snapshotId })
-    };
-  },
-  function IssueList({ result, timeConfig }) {
-    if (!result || result.getIn(['progress', 'loading']) || result.getIn(['errors']).length > 0) {
-      // Might want to give an error message instead, but for now settle with not showing the list
-      return null;
-    }
-
-    const rows = [];
-    result.get('data', emptyList).forEach(event => {
-      rows.push({
-        key: event.get('entityId'),
-        code: event.getIn(['metadata', 'agent_monitoring_code']),
-        arguments: event.getIn(['metadata', 'agent_monitoring_arguments']),
-        timestamp: timeConfig.focusedMoment || Date.now()
+export default compose(
+  cursorPaginated({
+    getResettingProps: () => ['snapshot', 'timeConfig'],
+    get: ({ snapshot, timeConfig, cursor }) => {
+      const snapshotId = snapshot.get('id');
+      return getMonitoringIssuesForAgentSnapshot({
+        timeConfig,
+        snapshotId,
+        pagination: {
+          cursor,
+          retrievalSize: 250 // We don't yet have regular tables that support pagination, so just fetch a big number
+        }
       });
-    });
+    }
+  })
+)(IssueList);
 
-    return (
-      <Table
-        cardTitle="Issues"
-        withoutPadding
-        cols={cols}
-        rows={rows}
-        initialSortColumn={0}
-        initialSortDirection="desc"
-      />
-    );
+function IssueList(props) {
+  const { items, timeConfig } = props;
+
+  if (!items) {
+    // Might want to give an error message instead, but for now settle with not showing the list
+    return null;
   }
-);
+
+  const rows = [];
+  items.forEach(event => {
+    rows.push({
+      key: event.entityId,
+      code: event.metadata['agent_monitoring_code'],
+      arguments: event.metadata['agent_monitoring_arguments'],
+      timestamp: timeConfig.focusedMoment || Date.now()
+    });
+  });
+
+  return (
+    <Table
+      cardTitle="Issues"
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      initialSortColumn={0}
+      initialSortDirection="desc"
+    />
+  );
+}
