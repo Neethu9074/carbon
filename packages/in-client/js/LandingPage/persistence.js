@@ -1,4 +1,4 @@
-import { getSetting$, setSingle, getSingle } from 'in-services/settings/settings';
+import { getSetting$, setSingle, getSingle } from 'in-services/settings/perUnitSettings';
 
 const settingsKey = 'landingPage';
 
