@@ -312,9 +312,11 @@ function EventForm({
             value={field.value}
             options={dataSourceOptions}
             onChange={e => {
-              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
-                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
-              });
+              if ((field.value && !e) || (e && e.value !== field.value)) {
+                onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                  return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
+                });
+              }
             }}
             clearable={false}
           />
@@ -334,7 +336,7 @@ function EventForm({
                 value={field.value}
                 options={systemRuleOptions(systemRules)}
                 onChange={e => {
-                  if (e && e.value != field.value) {
+                  if (e && e.value !== field.value) {
                     onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
                       return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
                     });
@@ -381,7 +383,7 @@ function EventForm({
                       value={form.get('metricName').value}
                       clearable={false}
                       onChange={e => {
-                        if ((field.value && !e) || (e && e.value != field.value)) {
+                        if ((field.value && !e) || (e && e.value !== field.value)) {
                           let selectedMetric = e ? e.value : '';
                           onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
                             if (isPercentile(updatedForm)) {
@@ -399,8 +401,11 @@ function EventForm({
 
                             const metricInfo = getBuiltInMetricInfo(metricItem);
 
-                            updatedForm = updatedForm.updateIn(['formatter'], f => f.setValue(metricInfo.formatter));
-                            updatedForm = updatedForm.updateIn(['label'], f => f.setValue(metricInfo.label));
+                            updatedForm = updatedForm
+                              .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                              .updateIn(['label'], f => f.setValue(metricInfo.label))
+                              .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                              .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
 
                             return updatedForm;
                           });
@@ -434,7 +439,7 @@ function EventForm({
                     value={form.get('metricName').value}
                     metrics={customMetrics}
                     onChange={e => {
-                      if ((field.value && !e) || (e && e.value != field.value)) {
+                      if ((field.value && !e) || (e && e.value !== field.value)) {
                         let selectedMetric = e ? e.value : '';
                         onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
                           updatedForm = updatedForm.remove('rollup');
@@ -584,7 +589,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
         value={field.value}
         options={pluginsWithMetricDefinitions}
         onChange={e => {
-          if ((field.value && !e) || (e && e.value != field.value)) {
+          if ((field.value && !e) || (e && e.value !== field.value)) {
             onChange('entityType', e ? e.value : null, updatedForm => {
               return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
             });
