@@ -49,7 +49,9 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
       {axis.labels.map((label, i) => {
         const dataSeriesName = `${axisName}-${i}`;
         const isDisabled = filteredDataSeries && filteredDataSeries.has(dataSeriesName);
-        const isToggleable = !axis.nonToggleableSeries || !axis.nonToggleableSeries.has(label);
+        const isToggleable =
+          !axis.nonToggleableSeries ||
+          !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
         const timeShift = (axis.timeShifts && axis.timeShifts[i]) || defaultTimeShift;
 
         const content = (
