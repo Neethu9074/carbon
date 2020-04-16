@@ -46,24 +46,26 @@ stage('Checkout') {
 
 stage('Build') {
   node {
-    try {
-      awsCodeBuild credentialsType: 'jenkins',
-        credentialsId: 'codebuild',
-        projectName:
-        'ui-client',
-        region: 'us-west-2',
-        sourceControlType: 'project',
-        sourceVersion: gitCommitId,
-        envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '} ]'
+    timeout(time: 20, unit: 'MINUTES') {
+      try {
+        awsCodeBuild credentialsType: 'jenkins',
+          credentialsId: 'codebuild',
+          projectName:
+          'ui-client',
+          region: 'us-west-2',
+          sourceControlType: 'project',
+          sourceVersion: gitCommitId,
+          envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '} ]'
 
-      if ( currentBuild.currentResult == 'SUCCESS' ) {
-        slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
-        setBuildStatus('Build successful', 'SUCCESS')
+        if ( currentBuild.currentResult == 'SUCCESS' ) {
+          slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
+          setBuildStatus('Build successful', 'SUCCESS')
+        }
+      } catch (e) {
+        setBuildStatus('Build Failure', 'FAILURE')
+        slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
+        throw e
       }
-    } catch (e) {
-      setBuildStatus('Build Failure', 'FAILURE')
-      slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
-      throw e
     }
   }
 }
@@ -71,45 +73,49 @@ stage('Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  def deployments = [:]
+  timeout(time: 10, unit: 'MINUTES') {
+    def deployments = [:]
 
-  deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployReleaseFullstack ) {
-      node {
-        echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
+    deployments['deploy-release'] = {
+      if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployReleaseFullstack ) {
+        node {
+          echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
-        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'release'),
-          string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH', value: env.BRANCH_NAME)
-        ]
+          build job: '/deployment/fullstack-deploy-ui-client', parameters: [
+            string(name: 'ENVIRONMENT', value: 'release'),
+            string(name: 'VERSION', value: instanaVersion),
+            string(name: 'BRANCH', value: env.BRANCH_NAME)
+          ]
 
-        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
+          slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
+        }
       }
     }
-  }
 
-  parallel deployments
+    parallel deployments
+  }
 }
 
 stage('Storybook') {
   if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release-')) {
     node {
-      try {
-        awsCodeBuild credentialsType: 'jenkins',
-          credentialsId: 'codebuild',
-          projectName:
-          'ui-client-storybook',
-          region: 'us-west-2',
-          sourceControlType: 'project',
-          sourceVersion: gitCommitId
+      timeout(time: 10, unit: 'MINUTES') {
+        try {
+          awsCodeBuild credentialsType: 'jenkins',
+            credentialsId: 'codebuild',
+            projectName:
+            'ui-client-storybook',
+            region: 'us-west-2',
+            sourceControlType: 'project',
+            sourceVersion: gitCommitId
 
-        if ( currentBuild.currentResult == 'SUCCESS' ) {
-          slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+          if ( currentBuild.currentResult == 'SUCCESS' ) {
+            slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+          }
+        } catch (e) {
+          slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
+          throw e
         }
-      } catch (e) {
-        slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
-        throw e
       }
     }
   }
