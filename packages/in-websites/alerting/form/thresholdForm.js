@@ -21,7 +21,7 @@ function createBaseForm(threshold) {
     .put(
       'type',
       createField({
-        value: threshold.type ?? 'staticThreshold'
+        value: threshold.type ?? 'historicBaseline'
       })
     )
     .put(

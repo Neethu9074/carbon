@@ -85,15 +85,17 @@ function generateFormData(websiteId, tagFilters, error) {
   return {
     tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
     rule: {
-      alertType: 'slowness',
+      alertType: error?.message ? 'specificJsError' : 'slowness',
       operator: 'EQUALS',
-      value: error ? error.message : ''
+      value: error?.message ?? null,
+      metricName: error?.message ? 'errors' : 'onLoadTime'
     },
     threshold: {
-      type: 'staticThreshold',
+      type: error?.message ? 'staticThreshold' : 'historicBaseline',
+      seasonality: error?.message ?? 'DAILY',
       value: 0.0
     },
     websiteId,
-    calculateThresholdOnBackend: Boolean(error)
+    calculateThresholdOnBackend: true
   };
 }

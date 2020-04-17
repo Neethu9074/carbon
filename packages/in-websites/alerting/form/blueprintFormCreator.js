@@ -27,7 +27,7 @@ export default function createBlueprintForm(form, alertType) {
 }
 
 function getThresholdTypeForAlertType(alertType, threshold) {
-  if (alertType === 'specificJsError' || 'statusCode') {
+  if (alertType === 'specificJsError' || alertType === 'statusCode') {
     return 'staticThreshold';
   }
   if (alertType === 'slowness') {

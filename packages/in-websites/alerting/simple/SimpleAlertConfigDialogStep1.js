@@ -11,6 +11,7 @@ import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import Menu from 'in-new-components/Alerting/components/Menu';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -66,7 +67,7 @@ export default function SimpleAlertConfigDialogStep1({
             title="Automatic Alert for Specific JS Errors"
             description="You will be alerted every time matching JS Error messages occur more often than normal."
           >
-            <ProvideStatusCode
+            <ProvideJsError
               form={form}
               updateForm={updateForm}
               onSelectJsError={setJsErrorsListVisible}

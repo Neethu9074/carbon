@@ -69,11 +69,14 @@ function generateFormData({ applicationId, serviceLabel, endpointLabel, boundary
     applicationId,
     boundaryScope,
     rule: {
-      alertType: 'slowness'
+      alertType: 'slowness',
+      operator: 'EQUALS',
+      metricName: 'latency'
     },
     threshold: {
-      type: 'staticThreshold',
-      value: 0.0
+      type: 'historicBaseline',
+      value: 0.0,
+      seasonality: 'DAILY'
     },
     tagFilters: [
       {

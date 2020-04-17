@@ -15,7 +15,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
+          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' })),
         'slowness'
       );
@@ -41,8 +41,11 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
         'slowness'
       );
 
-      it('should contain fields: alertType, metricName, aggregation, alertType, metricName', () => {
+      it('rule-form should contain fields: alertType, metricName', () => {
         expect(blueprintForm.get('rule').toJS()).to.have.keys('alertType', 'metricName', 'aggregation');
+      });
+
+      it('threshold-form should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
         expect(blueprintForm.get('threshold').toJS()).to.have.keys(
           'type',
           'operator',
