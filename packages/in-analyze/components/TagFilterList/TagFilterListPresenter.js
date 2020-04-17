@@ -8,6 +8,7 @@ import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import evaluateClassNames from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
+import EntityIndicator from '../EntityIndicator';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
@@ -21,7 +22,8 @@ export default function TagFilterListPresenter({
   onRemoveTagFilter,
   readonlyFilterNames = emptyArray,
   readonly,
-  disabled
+  disabled,
+  showEntityIndicator
 }) {
   if (tagFilters.length === 0) {
     return null;
@@ -38,6 +40,7 @@ export default function TagFilterListPresenter({
           readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
           disabled={disabled}
           withPadding={readonlyFilterNames.includes(tagFilter.name) && tagFilters.length > 1}
+          showEntityIndicator={showEntityIndicator}
         />
       ))}
     </ul>
@@ -45,6 +48,7 @@ export default function TagFilterListPresenter({
 }
 
 TagFilterListPresenter.propTypes = {
+  showEntityIndicator: PropTypes.bool,
   disabled: PropTypes.bool,
   readonlyFilterNames: PropTypes.arrayOf(PropTypes.string),
   implicitTagFilters: PropTypes.array,
@@ -54,7 +58,15 @@ TagFilterListPresenter.propTypes = {
   tagFilters: PropTypes.array
 };
 
-function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled, withPadding }) {
+function TagFilterPresenter({
+  tagFilter,
+  onTagFilterClick,
+  onRemoveTagFilter,
+  readonly,
+  disabled,
+  withPadding,
+  showEntityIndicator
+}) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
   const tagType = (node && node.type) || 'STRING';
 
@@ -79,6 +91,7 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, re
           [locals.disabled]: disabled
         })}
       >
+        {showEntityIndicator && <EntityIndicator type={tagFilter.name} groupedByEntity={tagFilter.entity} />}
         <SvgIcon className={locals.icon} type={getIcon(tagFilter)} />
         <Tag tagFilter={tagFilter} tagType={tagType} /> <Operator tagFilter={tagFilter} tagType={tagType} />{' '}
         <Value tagFilter={tagFilter} tagType={tagType} />
