@@ -3,11 +3,14 @@ import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  thresholdOperatorOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { thresholdOperatorOptions } from 'in-applications/alerting/form/thresholdFormData';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
@@ -52,7 +55,7 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
                 className={locals.narrowControl}
                 name="thresholdOperator"
                 value={form.get('threshold').get('operator').value}
-                options={thresholdOperatorOptions}
+                options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
                 onChange={e => {
                   const value = (e && e.value) || '';
                   onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));

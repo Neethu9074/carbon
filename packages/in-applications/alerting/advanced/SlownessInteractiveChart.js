@@ -15,10 +15,13 @@ import {
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
 import {
+  thresholdTypeOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
+import {
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions
 } from 'in-applications/alerting/form/ruleFormData';
-import { thresholdOperatorOptions, thresholdTypeOptions } from 'in-applications/alerting/form/thresholdFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
@@ -87,7 +90,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             className={locals.narrowControl}
             name="thresholdOperator"
             value={form.get('threshold').get('operator').value}
-            options={thresholdOperatorOptions}
+            options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));

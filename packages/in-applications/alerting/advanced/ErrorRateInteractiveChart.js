@@ -8,10 +8,13 @@ import {
   getValueRoundedToDecimals,
   round
 } from 'in-new-components/Alerting/utils/formatUtils';
+import {
+  thresholdOperatorOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { thresholdOperatorOptions } from 'in-applications/alerting/form/thresholdFormData';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
@@ -53,7 +56,7 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
             className={locals.narrowControl}
             name="thresholdOperator"
             value={form.get('threshold').get('operator').value}
-            options={thresholdOperatorOptions}
+            options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
