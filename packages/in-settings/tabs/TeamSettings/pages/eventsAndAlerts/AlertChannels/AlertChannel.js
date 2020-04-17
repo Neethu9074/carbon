@@ -197,14 +197,18 @@ const columnDefinitions = [
   {
     id: 'kind',
     label: 'Type',
-    ellipsis: true,
     getContent({ type }) {
-      return type;
+      const types = {
+        ApplicationSmartAlert: 'Application SmartAlert',
+        WebsiteSmartAlert: 'Website SmartAlert',
+      };
+      return types[type] || type;
     }
   },
   {
     id: 'enabled',
     label: 'Status',
+    width: 20,
     ellipsis: true,
     getContent({ enabled }) {
       if (enabled) {
