@@ -12,6 +12,7 @@ import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator'
 import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
+import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import Menu from 'in-new-components/Alerting/components/Menu';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -35,9 +36,17 @@ export default function SimpleAlertConfigDialogStep1({
     thresholdBaseline.value &&
     thresholdBaseline.value.length === 0
   ) {
+    const newThresholdForm = createThresholdForm(
+      {
+        ...form.get('threshold').toJS(),
+        type: 'staticThreshold'
+      },
+      alertType
+    );
+
     updateForm(
       form
-        .updateIn(['threshold', 'type'], f => f.setValue('staticThreshold').setTouched(true))
+        .put('threshold', newThresholdForm)
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }

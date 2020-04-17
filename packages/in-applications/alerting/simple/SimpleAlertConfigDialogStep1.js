@@ -10,6 +10,7 @@ import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMes
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import Menu from 'in-new-components/Alerting/components/Menu';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 
@@ -33,9 +34,17 @@ export default function SimpleAlertConfigDialogStep1({
     thresholdBaseline.value &&
     thresholdBaseline.value.length === 0
   ) {
+    const newThresholdForm = createThresholdForm(
+      {
+        ...form.get('threshold').toJS(),
+        type: 'staticThreshold'
+      },
+      alertType
+    );
+
     updateForm(
       form
-        .updateIn(['threshold', 'type'], f => f.setValue('staticThreshold').setTouched(true))
+        .put('threshold', newThresholdForm)
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
