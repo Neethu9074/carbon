@@ -24,6 +24,7 @@ import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/Smart
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
+import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import getApplication from 'in-subscription/application/getApplication';
@@ -68,6 +69,7 @@ function Alert({
   alertConfigVersionsError,
   setRevision,
   triggerReload,
+  timeConfig,
   applicationName
 }) {
   if (alertConfigError || alertConfigVersionsError) {
@@ -119,7 +121,9 @@ function Alert({
           <Col xs={6}>
             <AlertConfiguration alertConfig={alertConfig} applicationName={applicationName} />
           </Col>
-          <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
+          <Col xs={6}>
+            <AlertHistoryList alertConfigId={alertConfig.id} timeConfig={timeConfig} />
+          </Col>
         </Row>
       </div>
       <Footer />
