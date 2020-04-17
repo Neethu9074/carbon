@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/process/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/process/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/process/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/process/kpiDefinitions';
@@ -16,6 +17,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   tableDefinition,
 
   getContext(snapshot) {
