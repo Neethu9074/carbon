@@ -117,6 +117,7 @@ export default function AlertLocationFilters({
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
+                    forAnalyzeCalls
                   />
                 );
               }}
@@ -132,6 +133,7 @@ export default function AlertLocationFilters({
                 mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })
               )}
               readonlyFilterNames={[applicationNameTag]}
+              showEntityIndicator
             />
           }
         />
