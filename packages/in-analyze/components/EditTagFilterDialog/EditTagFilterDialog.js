@@ -15,11 +15,11 @@ import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDia
 import { applicationSourceOrDestinationTracker } from 'in-applications/tracker';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { positiveNumberValidator } from 'in-services/validators/number';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
@@ -58,18 +58,22 @@ export default compose(
       sourceEntityAvailability: getSourceEntityAvailability(form.get('tag').value, timeConfig),
       onClose: close,
       editMode: Boolean(tagFilter),
-      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], [])
-        // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
-        .filter(
-          operator =>
-            (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
-        )
-        // restrict id tag operators to EQUALS, NOT_EQUAL, IS_EMPTY and NOT_EMPTY
-        .filter(
-          operator =>
-            !isIdTag(form.get('tag').value) ||
-            (operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY')
-        ),
+      operatorSuggestions:
+        form.get('tag').value === 'call.http.status' // Remove this once tag matchers on numbers are defined
+          ? [operators.EQUALS, operators.NOT_EQUALS]
+          : get(TAG_TYPES, [selectedTagType, 'operators'], [])
+              // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
+              .filter(
+                operator =>
+                  (form.get('key') && !isBlank(form.get('key').value)) ||
+                  (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
+              )
+              // restrict id tag operators to EQUALS, NOT_EQUAL, IS_EMPTY and NOT_EMPTY
+              .filter(
+                operator =>
+                  !isIdTag(form.get('tag').value) ||
+                  (operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY')
+              ),
       onRemoveTagFilter: () => {
         if (removeTagFilter) {
           removeTagFilter(tagFilter);
