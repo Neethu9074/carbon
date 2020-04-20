@@ -156,6 +156,11 @@ function getEntityName(entity) {
   return entity.label;
 }
 
+const typeLabels = Object.freeze({
+  ApplicationSmartAlert: 'Application SmartAlert',
+  WebsiteSmartAlert: 'Website SmartAlert'
+});
+
 const columnDefinitions = [
   {
     id: 'icon',
@@ -198,11 +203,7 @@ const columnDefinitions = [
     id: 'kind',
     label: 'Type',
     getContent({ type }) {
-      const types = {
-        ApplicationSmartAlert: 'Application SmartAlert',
-        WebsiteSmartAlert: 'Website SmartAlert',
-      };
-      return types[type] || type;
+      return typeLabels[type] || type;
     }
   },
   {
