@@ -54,6 +54,19 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
       />
     );
   }
+  if (alertType === alertTypes.specificStatusCode) {
+    return (
+      <GoToAnalyzeButton
+        websiteLabel={websiteLabel}
+        tagFilters={[...tagFiltersWithWebsiteId, getStatusCodeTagFilter(alertConfig.rule)]}
+        timeConfig={timeConfig}
+        icon="lib_website_ajax"
+        group={defaultGroupings.httpRequest}
+        beaconType="httpRequest"
+        title="Analyze HTTP Requests"
+      />
+    );
+  }
 
   // yet unsupported alert type
   return null;
@@ -93,6 +106,14 @@ function getWebsiteIdTagFilter(websiteId) {
 function getErrorMessageTagFilter(alertRule) {
   return {
     name: 'beacon.error.message',
+    operator: alertRule.operator,
+    stringValue: alertRule.value
+  };
+}
+
+function getStatusCodeTagFilter(alertRule) {
+  return {
+    name: 'beacon.http.status',
     operator: alertRule.operator,
     stringValue: alertRule.value
   };
