@@ -105,10 +105,10 @@ export default function AlertLocationFilters({
               onTagFilterClick={tagFilter => {
                 addActiveDialog(
                   <ApplicationEditTagFilterDialog
-                    tagFilter={tagFilter}
+                    tagFilter={convertToApplicationAreaSpecificTagFilter([tagFilter])?.[0]}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      updateTagfilterForm(tagFilters, updateForm, form);
+                      updateTagfilterForm(withoutTagFiltersForNameAndValue(tagFilters, tagFilter), updateForm, form);
                       applicationsAlertingFilterEdit({
                         ...getBlueprintObject(form),
                         mode: advancedMode ? 'Advanced' : 'Simple',
