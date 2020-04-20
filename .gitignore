@@ -18,3 +18,7 @@ git-env.properties
 /licenses.txt
 /.idea/
 !/.vscode/extensions.json
+!/.vscode/launch.json
+!/.vscode/tasks.json
+!/.vscode/javascript.code-snippets
+!/.vscode/settings.json

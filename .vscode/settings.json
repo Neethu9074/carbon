@@ -1,0 +1,26 @@
+{
+  "typescript.validate.enable": false,
+  "tslint.enable": false,
+  "typescript.autoImportSuggestions.enabled": false,
+  "typescript.format.enable": false,
+  "javascript.validate.enable": false,
+  "npm.packageManager": "yarn",
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "target/**": true,
+    "storybookTarget/**": true
+  },
+  "files.associations": {
+    "*.mless": "less",
+    "*.js.snap": "javascript"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

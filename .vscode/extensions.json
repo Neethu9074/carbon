@@ -6,6 +6,7 @@
     "EditorConfig.EditorConfig",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "amatiasq.sort-imports"
+    "amatiasq.sort-imports",
+    "sainoba.px-to-rem"
   ]
 }

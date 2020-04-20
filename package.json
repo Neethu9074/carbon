@@ -12,7 +12,7 @@
     "test": "yarn run test:unit && yarn run test:lint && yarn run test:flow",
     "test:lint": "eslint gulpfile.js packages",
     "test:lint:quiet": "eslint --quiet gulpfile.js packages",
-    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/mocha --timeout 6000 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.js' -not -path '*/node_modules/*') --exit",
+    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/mocha --timeout 6000 --require ./packages/in-test/testHarness --reporter dot --exclude '**/node_modules/**' 'packages/**/*_test.js' --exit",
     "test:flow": "flow check",
     "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ uglifyjs ./target/assets/bundle/_ -o /dev/null",
     "check:licenses": "license-checker --production > licenses.txt",
