@@ -457,8 +457,11 @@ function EventForm({
 
                           const metricInfo = getCustomMetricInfo(customMetrics, selectedMetric);
 
-                          updatedForm = updatedForm.updateIn(['formatter'], f => f.setValue(metricInfo.formatter));
-                          updatedForm = updatedForm.updateIn(['label'], f => f.setValue(metricInfo.label));
+                          updatedForm = updatedForm
+                            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                            .updateIn(['label'], f => f.setValue(metricInfo.label))
+                            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
 
                           return updatedForm;
                         });
