@@ -14,6 +14,7 @@ import {
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
+import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -86,6 +87,7 @@ export default function Alerts({ websiteLabel, websiteId }) {
           mutateUrl(location => {
             location.pathname = alertsTabDetailsFullyQualified;
             setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
+            setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
           })
         }
       />

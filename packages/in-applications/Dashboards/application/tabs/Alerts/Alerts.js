@@ -15,6 +15,7 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { getMetricLabel, getBlueprintLabel } from 'in-applications/alerting/form/formUtils';
+import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -79,6 +80,7 @@ export default function Alerts({ applicationName, applicationId }) {
           mutateUrl(location => {
             location.pathname = alertsTabDetailsFullyQualified;
             setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
+            setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
           })
         }
       />
