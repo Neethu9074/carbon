@@ -3,7 +3,6 @@ import React from 'react';
 import { fromJS } from 'immutable';
 
 import {
-  getEntityHref,
   getEntityIdView,
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingConfigurations,
@@ -141,7 +140,6 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
               loadEntities={() => getAlertsForAlertChannelId(entityId)}
               initialOrderBy="label"
               searchAttributes={['label']}
-              getDetailsHref={entity => getEntityHref(teamSettingsAlertingConfigurations, entity.id)}
             />
           )}
         </Col>
