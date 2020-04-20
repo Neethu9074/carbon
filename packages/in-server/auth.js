@@ -11,7 +11,7 @@ exports.getCurrentUser = req => {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: req.uiBackendBaseUrl + '/checkUserAccessPermitted',
+        url: req.uiBackendBaseUrl + '/api/checkUserAccessPermitted',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${cookieValue}`
         },

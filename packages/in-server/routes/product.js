@@ -98,7 +98,9 @@ router.get('/', (req, res) => {
         errorPages.send403(req, res);
         return;
       } else if (statusCode < 200 || statusCode > 299) {
-        console.error('Undefined state: Server returned unknown status code ' + statusCode);
+        console.error(
+          `Server returned unknown status code ${statusCode} while trying to receive user info with user cookie.`
+        );
         errorPages.send500(req, res);
         return;
       }

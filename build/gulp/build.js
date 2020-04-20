@@ -124,15 +124,15 @@ function webpackBuild(cb) {
 
 function writeTryBuildServerConfigFile(cb) {
   var config = {
-    baseUrl: 'https://local-instana.instana.io:4000',
-    uiBackendBaseUrl: 'http://127.0.0.1:8080',
+    baseUrl: 'https://local-instana.pink.instana.rocks:4000',
+    uiBackendBaseUrl: 'https://test-instana.pink.instana.rocks',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',
-    butlerBaseUrl: 'http://127.0.0.1:8480',
+    butlerBaseUrl: 'https://test-instana.pink.instana.rocks',
     port: 3131,
     adminPort: 3132,
     bindAddress: '0.0.0.0',
     cookie: {
-      name: 'in-token-test'
+      name: 'in-token'
     },
     mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
     eum: {
@@ -141,8 +141,8 @@ function writeTryBuildServerConfigFile(cb) {
     },
     zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     clientConfig: buildUtil.getDevModeConfig({
-      uiBackendUrl: 'https://test-instana.instana.io',
-      butlerUrl: 'https://test-instana.instana.io',
+      uiBackendUrl: 'https://test-instana.pink.instana.rocks',
+      butlerUrl: 'https://test-instana.pink.instana.rocks',
       tenant: 'instana',
       tenantUnit: 'test',
       region: 'us-west-2',
@@ -172,22 +172,23 @@ function startTryBuildProxy(cb) {
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
     proxy: {
       '/': 'http://127.0.0.1:3131',
-      '/api/': 'https://test-instana.instana.io/api/',
-      '/auth/': 'https://test-instana.instana.io/auth/',
-      '/ump': 'https://test-instana.instana.io/ump',
-      '/assets/': 'https://test-instana.instana.io/assets/',
+      '/api/': 'https://test-instana.pink.instana.rocks/api/',
+      '/auth/': 'https://test-instana.pink.instana.rocks/auth/',
+      '/ump': 'https://test-instana.pink.instana.rocks/ump',
+      '/assets/': 'https://test-instana.pink.instana.rocks/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-      '/integrations/': 'https://test-instana.instana.io/integrations/',
-      '/tos-privacy-agreement/storeUserAcceptance': 'http://127.0.0.1:8480/tos-privacy-agreement/storeUserAcceptance'
+      '/integrations/': 'https://test-instana.pink.instana.rocks/integrations/',
+      '/tos-privacy-agreement/storeUserAcceptance':
+        'https://test-instana.pink.instana.rocks/tos-privacy-agreement/storeUserAcceptance'
     },
     websocketProxy: {
-      '/api/data/': 'https://test-instana.instana.io'
+      '/api/data/': 'https://test-instana.pink.instana.rocks'
     }
   });
   cb();
 }
 
 function openTryBuildUrlInBrowser(cb) {
-  buildUtil.openBrowser('https://local-instana.instana.io:4000');
+  buildUtil.openBrowser('https://local-instana.pink.instana.rocks:4000');
   cb();
 }
