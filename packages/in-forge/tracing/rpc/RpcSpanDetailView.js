@@ -14,7 +14,9 @@ export default function RpcSpanDetailView({ span }) {
       <Di title="Call Type">{span.getIn(['data', 'rpc', 'call_type'])}</Di>
       <Di title="Parameters">{span.getIn(['data', 'rpc', 'params'])}</Di>
       <Di title="Baggage">{span.getIn(['data', 'rpc', 'baggage'])}</Di>
-      <ErrorDescriptionItem error={span.getIn(['data', 'rpc', 'error'])} />
+      <ErrorDescriptionItem
+        error={span.getIn(['data', 'rpc', 'error']) || span.getIn(['data', 'sdk', 'custom', 'tags', 'message'])}
+      />
       <CustomDataDescriptionItem span={span} />
     </Dl>
   );

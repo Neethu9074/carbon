@@ -10,9 +10,14 @@ import Card from 'in-new-components/Card';
 
 import locals from './CustomDataDescriptionItem.mless';
 
+const blacklistedTags = [
+  // span.data.sdk.custom.tags.messages is to be rendered by the individual SDK span plug-in.
+  'message'
+];
+
 export default function CustomDataDescriptionItem({ span }) {
-  const custom = span.getIn(['data', 'sdk', 'custom', 'tags']);
-  if (!custom) {
+  const custom = span.getIn(['data', 'sdk', 'custom', 'tags']).filter((value, key) => !blacklistedTags.includes(key));
+  if (!custom || custom.isEmpty()) {
     return null;
   }
 

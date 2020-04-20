@@ -31,7 +31,7 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
   }
 
   const status = span.getIn(['data', 'http', 'status']);
-  const error = span.getIn(['data', 'http', 'error']);
+  const error = span.getIn(['data', 'http', 'error']) || span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
   const params = span.getIn(['data', 'http', 'params']);
   const traceContextState = span.getIn(['data', 'tc', 's'], emptyList);
 
