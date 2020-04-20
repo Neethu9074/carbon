@@ -116,7 +116,11 @@ function AxisFormComponent({ axisName, form, onChange }) {
                 id={`${axisName}-chart-configurator-min`}
                 value={field.value || ''}
                 type="number"
-                onChange={e => onChange([axisName, 'min'], field => field.setValue(e.target.value).setTouched(true))}
+                onChange={e =>
+                  onChange([axisName, 'min'], field =>
+                    field.setValue(e.target.value.length !== 0 ? Number(e.target.value) : undefined).setTouched(true)
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} />
@@ -134,7 +138,11 @@ function AxisFormComponent({ axisName, form, onChange }) {
                 id={`${axisName}-chart-configurator-max`}
                 value={field.value || ''}
                 type="number"
-                onChange={e => onChange([axisName, 'max'], field => field.setValue(e.target.value).setTouched(true))}
+                onChange={e =>
+                  onChange([axisName, 'max'], field =>
+                    field.setValue(e.target.value.length !== 0 ? Number(e.target.value) : undefined).setTouched(true)
+                  )
+                }
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} />

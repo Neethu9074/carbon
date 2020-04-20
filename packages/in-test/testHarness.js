@@ -6,8 +6,6 @@
 // Set our default time zone so that tests with date formatting are predictable.
 process.env.TZ = 'Europe/Berlin';
 
-require('core-js/stable');
-
 const Adapter = require('enzyme-adapter-react-16');
 const Enzyme = require('enzyme');
 const { JSDOM } = require('jsdom');

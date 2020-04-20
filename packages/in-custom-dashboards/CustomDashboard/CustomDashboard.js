@@ -14,6 +14,7 @@ import {
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
+import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import ConfirmationDialog from 'in-new-components/BigHeaderDialog/ConfirmationDialog';
@@ -78,6 +79,7 @@ function CustomDashboardLoader(props) {
       onRemoveWidget={onRemoveWidget}
       onDiscardChanges={onDiscardChanges}
       onShare={onShare}
+      onEditAsJson={onEditAsJson}
     />
   );
 
@@ -124,6 +126,10 @@ function CustomDashboardLoader(props) {
     const newConfig = deepCopy(config);
     newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
     setConfig(newConfig);
+  }
+
+  function onEditAsJson() {
+    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} />);
   }
 
   function onShare() {

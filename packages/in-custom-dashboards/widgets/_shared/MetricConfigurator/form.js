@@ -1,6 +1,10 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
+import { buildEnumValidator } from 'in-services/validators/enum';
 
 export function createForm(savedState, { withLabelConfiguration = false } = {}) {
   let form = createMapForm()
@@ -8,28 +12,33 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
       'source',
       createField({
         value: (savedState && savedState.source) || '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(Object.keys(sources))
+        )
       })
     )
     .put(
       'metric',
       createField({
         value: (savedState && savedState.metric) || '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'aggregation',
       createField({
         value: (savedState && savedState.aggregation) || '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'timeShift',
       createField({
         value: (savedState && savedState.timeShift) || 0,
-        validator: timeShiftValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, timeShiftValidator)
       })
     );
 
@@ -38,13 +47,13 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
       'label',
       createField({
         value: (savedState && savedState.label) || '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
   }
 
-  if (savedState && savedState.source) {
-    form = sources[savedState.source].createForm(form, savedState);
+  if (form.get('source').valid) {
+    form = sources[form.get('source').value].createForm(form, savedState);
   }
 
   return form;

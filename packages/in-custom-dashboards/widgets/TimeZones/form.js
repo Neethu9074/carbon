@@ -1,9 +1,17 @@
 import { createMapForm, createField, createListForm, notBlankValidator } from 'formalistic';
+
+import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { isBlank } from 'in-services/util/string';
 
 export function createForm(savedState) {
   let listForm = createListForm({
-    validator: atLeastOneTimeZoneRequiredValidator,
+    validator: composeAndShortCircuitOnError(
+      notUndefinedValidator,
+      arrayValidator,
+      atLeastOneTimeZoneRequiredValidator
+    ),
     items: (savedState || []).map(createTimeZoneSubForm)
   });
 
@@ -20,14 +28,14 @@ export function createTimeZoneSubForm({ timeZone, label } = {}) {
       'timeZone',
       createField({
         value: timeZone || 'UTC',
-        validator: timeZoneRequired
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, timeZoneRequired)
       })
     )
     .put(
       'label',
       createField({
         value: label || 'UTC',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }

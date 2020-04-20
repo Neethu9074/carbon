@@ -54,3 +54,5 @@ export const formatters = [
     formatter: siPrefix.detailed
   }
 ];
+
+export const allFormatterIds = Object.values(formatters).map(c => c.id);

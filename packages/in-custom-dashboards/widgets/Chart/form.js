@@ -1,9 +1,12 @@
 import { createMapForm, notBlankValidator, createField, createListForm } from 'formalistic';
 
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
-import { defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { numericValidator } from 'in-services/validators/number';
+import { defaultFormatter, allFormatterIds } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { stringValidator, numberValidator, arrayValidator } from 'in-services/validators/jsonType';
+import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { buildEnumValidator } from 'in-services/validators/enum';
 
 export function createForm(savedState) {
   return createMapForm()
@@ -12,7 +15,12 @@ export function createForm(savedState) {
       createField({
         // Not configurable for some time
         value: 'TIME_SERIES',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(['TIME_SERIES'])
+        )
       })
     )
     .put('y1', createAxisForm(savedState && savedState.y1, true))
@@ -21,10 +29,10 @@ export function createForm(savedState) {
 
 function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
   let metricsForm = createListForm({
-    validator: requiresAtLeastOneMetric && atLeastOneMetricValidator
+    validator: requiresAtLeastOneMetric && composeAndShortCircuitOnError(arrayValidator, atLeastOneMetricValidator)
   });
 
-  if (savedState && savedState.metrics) {
+  if (savedState && savedState.metrics instanceof Array) {
     savedState.metrics.forEach(metricSavedState => {
       metricsForm = metricsForm.push(createMetricForm(metricSavedState));
     });
@@ -35,28 +43,38 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
       'formatter',
       createField({
         value: (savedState && savedState.formatter) || defaultFormatter.id,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(allFormatterIds)
+        )
       })
     )
     .put(
       'renderer',
       createField({
         value: (savedState && savedState.renderer) || defaultRenderer.id,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(allRendererIds)
+        )
       })
     )
     .put(
       'min',
       createField({
         value: getOptNumber(savedState && savedState.min),
-        validator: numericValidator
+        validator: numberValidator
       })
     )
     .put(
       'max',
       createField({
         value: getOptNumber(savedState && savedState.max),
-        validator: numericValidator
+        validator: numberValidator
       })
     )
     .put('metrics', metricsForm);

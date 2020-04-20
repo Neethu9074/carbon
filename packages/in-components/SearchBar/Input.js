@@ -1,7 +1,3 @@
-/* eslint-disable react/no-find-dom-node */
-import CodeMirror from 'codemirror/lib/codemirror.js';
-// the order is important here
-import 'codemirror/lib/codemirror.css';
 import RoEmitter from 'roemitter';
 import ReactDOM from 'react-dom';
 import React from 'react';
@@ -16,6 +12,7 @@ import getElementDimensions from 'in-hoc/getElementDimensions';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { applyTransform } from 'in-services/util/dom';
 import 'in-components/SearchBar/misc/codeMirrorModes';
+import CodeMirror from 'in-components/CodeMirror';
 import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 

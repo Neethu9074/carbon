@@ -39,3 +39,5 @@ export const renderer = [
     renderer: Renderer.point
   }
 ];
+
+export const allRendererIds = Object.values(renderer).map(c => c.id);
