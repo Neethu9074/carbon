@@ -44,6 +44,7 @@ const cols = [
 
 export default function ConsumerGroupsLagPerTopicTable({ snapshot, timeConfig }) {
   let rows = snapshot.getIn(['data', 'broker.lagData.itemsNames'], emptyList);
+  const snapshotId = snapshot.get('id');
 
   rows = rows.toArray().map(row => {
     let [consumerGroup, topic] = row.split('#');
@@ -51,6 +52,7 @@ export default function ConsumerGroupsLagPerTopicTable({ snapshot, timeConfig })
       key: row,
       consumerGroup,
       topic,
+      snapshotId,
       timeConfig
     };
   });
