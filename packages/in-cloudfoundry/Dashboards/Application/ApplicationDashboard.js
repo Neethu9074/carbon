@@ -146,7 +146,7 @@ function renderMetaInformation({ result }) {
       )}
       {foundation && (
         <Tooltip themeStyle="light" content={`Foundation: ${foundation}`}>
-          <WithIcon className={locals.icon} icon="lib_cloudfoundry_application">
+          <WithIcon className={locals.icon} icon="lib_cloudfoundry_foundation">
             <span className={locals.label}>{foundation}</span>
           </WithIcon>
         </Tooltip>
