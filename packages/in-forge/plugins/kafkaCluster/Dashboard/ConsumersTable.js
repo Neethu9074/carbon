@@ -2,16 +2,24 @@ import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, ms } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Producer',
+    title: 'JVM',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      }
+    }
+  },
+  {
+    title: 'ID',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.clientName;
+        return row.name;
       }
     }
   },
@@ -23,7 +31,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.key}.producerOutgoingByteRate`;
+        return `kafkaClient.consumer.${row.key}.consumedByteRate`;
       },
       getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -39,7 +47,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.key}.produceThrottleTime`;
+        return `kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`;
       },
       getContent: ms.compact,
       getTimeWindowAggregation() {
@@ -49,29 +57,29 @@ const cols = [
   }
 ];
 
-export default function ClusterProducerClientQuotasTable({ snapshot, timeConfig }) {
-  const clientIds = snapshot
-    .getIn(['data', 'kafkaClient.producer.clientIds'], emptyList)
-    .toArray()
-    .sort();
-  if (clientIds.length === 0) {
+export default function ConsumersTable({ clientSnapshots, timeConfig }) {
+  let rows = [];
+
+  clientSnapshots.forEach(jvmSnapshot => {
+    const ids = jvmSnapshot.getIn(['data', 'kafkaClient.consumer.clientIds']);
+    ids.forEach(consumerId => {
+      rows.push({
+        key: String(consumerId),
+        name: String(consumerId.split('#')[1]),
+        snapshotId: jvmSnapshot.get('id'),
+        timeConfig
+      });
+    });
+  });
+
+  if (rows.length === 0) {
     return null;
   }
-
-  const rows = clientIds.map(clientId => {
-    let clientName = clientId.split('#')[1];
-    return {
-      key: clientId,
-      clientName: clientName,
-      timeConfig,
-      snapshotId: snapshot.get('id')
-    };
-  });
 
   return (
     <Table
       withoutPadding
-      cardTitle={`Producers (` + rows.length + `)`}
+      cardTitle={`Consumers (` + rows.length + `)`}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -87,14 +95,14 @@ function getDetails(row) {
       y1={{
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-        metrics: [`kafkaClient.producer.${row.key}.producerOutgoingByteRate`],
+        metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
         labels: ['Byte Rate'],
         type: 'line'
       }}
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.producer.${row.key}.produceThrottleTime`],
+        metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
         labels: ['Throttling'],
         type: 'line'
       }}
