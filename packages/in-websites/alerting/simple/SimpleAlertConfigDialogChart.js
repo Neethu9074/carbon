@@ -5,7 +5,6 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
@@ -31,7 +30,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
                 }}
                 metricName={form.get('rule').get('metricName').value}
                 granularity={granularity}
-                threshold={getThresholdWithFixedType(form.get('threshold').toJS())}
+                threshold={form.get('threshold').toJS()}
                 timeThreshold={form.get('timeThreshold').toJS()}
                 alertsPreviewEnabled
                 canReload
@@ -46,7 +45,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
         <div className={locals.placeholder}>
           <StatusCodeAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}
-            threshold={getThresholdWithFixedType(form.get('threshold').toJS())}
+            threshold={form.get('threshold').toJS()}
             timeThreshold={form.get('timeThreshold').toJS()}
             timeConfig={timeConfig}
             tagFilters={form.get(fieldNames.tagFilters).value}
@@ -66,7 +65,7 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
         <div className={locals.placeholder}>
           <SlownessAlertingBarChart
             websiteId={form.get(fieldNames.websiteId).value}
-            threshold={getThresholdWithFixedType(form.get('threshold').toJS())}
+            threshold={form.get('threshold').toJS()}
             timeThreshold={form.get('timeThreshold').toJS()}
             sensitivity={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)}
             timeConfig={timeConfig}

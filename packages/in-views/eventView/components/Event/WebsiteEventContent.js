@@ -46,7 +46,6 @@ export default connectTo(
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
     const threshold = alertConfig.threshold;
-    const thresholdWithSeasonality = { ...threshold, type: getThresholdTypeWithSeasonality(threshold) };
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -103,7 +102,7 @@ export default connectTo(
                   tagFilters={tagFilters}
                   aggregation={aggregation}
                   granularity={alertingMetricsGranularity}
-                  threshold={thresholdWithSeasonality}
+                  threshold={threshold}
                   timeThreshold={alertConfig.timeThreshold}
                 />
               )}
@@ -149,11 +148,4 @@ function getStatusCodeTagFilter(alertRule) {
     operator: alertRule.operator,
     stringValue: alertRule.value
   };
-}
-
-function getThresholdTypeWithSeasonality(thresholdRule) {
-  if (thresholdRule.type === 'historicBaseline') {
-    return `${thresholdRule.type}.${thresholdRule.seasonality.toUpperCase()}`;
-  }
-  return thresholdRule.type;
 }

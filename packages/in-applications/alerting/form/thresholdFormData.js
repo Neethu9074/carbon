@@ -6,12 +6,6 @@ export const thresholdTypeOptions = Object.freeze([
   { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
 ]);
 
-export function getInitialThresholdType(threshold) {
-  return threshold && threshold.type && threshold.type === 'historicBaseline'
-    ? `${threshold.type}.${threshold.seasonality}`
-    : 'staticThreshold';
-}
-
 export const metricNameForAlertType = Object.freeze({
   errorRate: 'errors',
   slowness: 'latency',

@@ -19,7 +19,6 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
@@ -46,7 +45,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)

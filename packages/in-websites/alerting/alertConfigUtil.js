@@ -1,6 +1,5 @@
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 
 export default function toAlertConfig(form) {
@@ -14,7 +13,7 @@ export default function toAlertConfig(form) {
     description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
-    threshold: getThresholdWithFixedType(form.get('threshold').toJS()),
+    threshold: form.get('threshold').toJS(),
     timeThreshold: getTimeThreshold(form)
   });
 }

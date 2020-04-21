@@ -45,7 +45,7 @@ function createSlownessForm(baseForm, threshold) {
     return createThresholdFormStaticThreshold(baseForm, threshold);
   }
 
-  if (thresholdType.startsWith('historicBaseline')) {
+  if (thresholdType === 'historicBaseline') {
     return createThresholdFormHistoricBaseline(baseForm, threshold);
   }
 }

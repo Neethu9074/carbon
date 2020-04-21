@@ -20,7 +20,6 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-we
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
@@ -48,7 +47,7 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
   const percentageMetric = isPercentageMetric(metricName);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)

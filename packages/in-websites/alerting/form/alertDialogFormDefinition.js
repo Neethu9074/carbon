@@ -1,7 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
-import { getInitialThresholdType } from 'in-websites/alerting/form/thresholdFormData';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
@@ -105,13 +104,7 @@ export default function alertFormDefinition(alertConfig) {
       })
     )
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put(
-      'threshold',
-      createThresholdForm(
-        { ...alertConfig.threshold, type: getInitialThresholdType(alertConfig.threshold) } ?? {},
-        alertConfig.rule?.alertType
-      )
-    )
+    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put(
       'hiddenFields',
