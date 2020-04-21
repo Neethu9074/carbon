@@ -18,8 +18,8 @@ export default class Scales {
   update() {
     this.xBackBuffer.setRangeTo(this.config.backBufferWidth);
 
-    calculateAxisMinMax(this.config.y1, this.filteredDataSeries);
-    calculateAxisMinMax(this.config.y2, this.filteredDataSeries);
+    calculateAxisMinMax('y1', this.config.y1, this.filteredDataSeries);
+    calculateAxisMinMax('y2', this.config.y2, this.filteredDataSeries);
 
     if (this.config.shareMaxAxisDomain && this.config.y2) {
       const maxValueOfBothAxis = Math.max(this.config.y1.maxValue, this.config.y2.maxValue);
@@ -46,7 +46,7 @@ export default class Scales {
   }
 }
 
-export function calculateAxisMinMax(axis, filteredDataSeries) {
+export function calculateAxisMinMax(axisName, axis, filteredDataSeries) {
   if (!axis) {
     return;
   }
@@ -59,7 +59,7 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
   const metrics = axis.metrics || [];
   const maxValue = (axis.valuesDependOnEachOther
     ? calculateMaxValueForStackedMetrics
-    : calculateMaxValueIndependetMetrics)(axis, metrics, filteredDataSeries);
+    : calculateMaxValueIndependetMetrics)(axisName, axis, metrics, filteredDataSeries);
 
   if (axis.getMax != null) {
     return (axis.maxValue = axis.getMax(maxValue));
@@ -72,10 +72,10 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
   axis.maxValue = maxValue;
 }
 
-function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
+function calculateMaxValueForStackedMetrics(axisName, axis, metrics, filteredDataSeries) {
   const metricMapByTimestamp = new Map();
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-    const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+    const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
     if (isIgnoredIndex) {
       continue;
     }
@@ -113,10 +113,10 @@ function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
   return maxValue;
 }
 
-function calculateMaxValueIndependetMetrics(axis, metrics, filteredDataSeries) {
+function calculateMaxValueIndependetMetrics(axisName, axis, metrics, filteredDataSeries) {
   let maxValue = 0;
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-    const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+    const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
     if (isIgnoredIndex) {
       continue;
     }

@@ -184,8 +184,8 @@ export default class extends React.Component {
     const config = this.props.chart.config;
     return {
       renderedMetrics: [
-        ...getNonFilteredMetricsForaxis(config.y1, config.filteredDataSeries),
-        ...getNonFilteredMetricsForaxis(config.y2, config.filteredDataSeries)
+        ...getNonFilteredMetricsForaxis('y1', config.y1, config.filteredDataSeries),
+        ...getNonFilteredMetricsForaxis('y2', config.y2, config.filteredDataSeries)
       ]
       // add more properties, depending on the use case
     };
@@ -248,12 +248,12 @@ function createIconButton(config) {
   return button;
 }
 
-function getNonFilteredMetricsForaxis(axis, filteredDataSeries) {
+function getNonFilteredMetricsForaxis(axisName, axis, filteredDataSeries) {
   if (!axis) {
     return [];
   }
   return axis.labels
-    .filter(label => !filteredDataSeries.has(label))
+    .filter((label, i) => !filteredDataSeries.has(`${axisName}-${i}`))
     .map(label => axis.labels.indexOf(label))
     .map(i => (axis.metricIds || axis.labels)[i]);
 }
