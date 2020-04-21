@@ -105,10 +105,10 @@ export default function AlertLocationFilters({
               onTagFilterClick={tagFilter => {
                 addActiveDialog(
                   <ApplicationEditTagFilterDialog
-                    tagFilter={tagFilter}
+                    tagFilter={convertToApplicationAreaSpecificTagFilter([tagFilter])?.[0]}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      updateTagfilterForm(tagFilters, updateForm, form);
+                      updateTagfilterForm(withoutTagFiltersForNameAndValue(tagFilters, tagFilter), updateForm, form);
                       applicationsAlertingFilterEdit({
                         ...getBlueprintObject(form),
                         mode: advancedMode ? 'Advanced' : 'Simple',
@@ -117,6 +117,7 @@ export default function AlertLocationFilters({
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
+                    forAnalyzeCalls
                   />
                 );
               }}
@@ -132,6 +133,7 @@ export default function AlertLocationFilters({
                 mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })
               )}
               readonlyFilterNames={[applicationNameTag]}
+              showEntityIndicator
             />
           }
         />

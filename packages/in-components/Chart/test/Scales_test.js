@@ -115,7 +115,7 @@ describe('in-components/Chart/Scales', () => {
         labels: ['Metric1'],
         max: 42
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.maxValue).to.equal(42);
     });
 
@@ -124,7 +124,7 @@ describe('in-components/Chart/Scales', () => {
         metrics: [[], []],
         labels: ['M1', 'M2']
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(1);
     });
@@ -134,7 +134,7 @@ describe('in-components/Chart/Scales', () => {
         metrics: [[[0, 0]], [[0, 0]]],
         labels: ['M1', 'M2']
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(1);
     });
@@ -144,7 +144,7 @@ describe('in-components/Chart/Scales', () => {
         metrics: [[[0, 1], [0, 10], [0, 9], [0, 3]], [[0, -1], [0, 2], [0, 11], [0, 0]]],
         labels: ['M1', 'M2']
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(11);
     });
@@ -154,7 +154,7 @@ describe('in-components/Chart/Scales', () => {
         metrics: [[[0, 1], [0, 10], [0, 9], [0, 3]], [[0, -1], [0, 2], [0, 11], [0, 0]]],
         labels: ['M1', 'M2']
       };
-      calculateAxisMinMax(axis, new Map([['M2', true]]));
+      calculateAxisMinMax('y1', axis, new Map([['y1-1', true]]));
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(10);
     });
@@ -165,7 +165,7 @@ describe('in-components/Chart/Scales', () => {
         labels: ['M1', 'M2'],
         valuesDependOnEachOther: true
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(12);
     });
@@ -177,7 +177,7 @@ describe('in-components/Chart/Scales', () => {
         valuesDependOnEachOther: true,
         valuesNeedToBeStacked: true
       };
-      calculateAxisMinMax(axis, new Map());
+      calculateAxisMinMax('y1', axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(21);
     });
@@ -190,7 +190,7 @@ describe('in-components/Chart/Scales', () => {
           valuesDependOnEachOther: true,
           calculateStackDifferences: true
         };
-        calculateAxisMinMax(axis, new Map());
+        calculateAxisMinMax('y1', axis, new Map());
         expect(axis.minValue).to.equal(0);
         expect(axis.maxValue).to.equal(17);
       });
@@ -202,7 +202,7 @@ describe('in-components/Chart/Scales', () => {
           valuesDependOnEachOther: true,
           calculateStackDifferences: true
         };
-        calculateAxisMinMax(axis, new Map());
+        calculateAxisMinMax('y1', axis, new Map());
         expect(axis.minValue).to.equal(0);
         expect(axis.maxValue).to.equal(101);
       });
