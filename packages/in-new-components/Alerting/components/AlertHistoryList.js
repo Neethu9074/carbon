@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -9,10 +10,11 @@ import ListTitle from 'in-new-components/lists/Title';
 import { Li, Ul } from 'in-new-components/lists/List';
 import WithIcon from 'in-new-components/WithIcon';
 import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 import locals from 'in-events/components/EventsListRowDense.mless';
 
-export const AlertHistoryListPresenter = ({ rawEvents }) => {
+export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
   const { data = {}, progress = {} } = rawEvents;
   const { loading } = progress;
   if (loading) {
@@ -29,13 +31,22 @@ export const AlertHistoryListPresenter = ({ rawEvents }) => {
       <ListTitle>Alerts Created ({totalRepresentedItemCount})</ListTitle>
       <Ul>
         {items.map(e => {
+          const href$ = getEventsViewFilteredBy({
+            eventId: e.id,
+            eventTypeFilter: 'issue',
+            applicationId: e.type === 'Application Smart Alert' ? e.entityId : null,
+            timeConfig
+          });
+
           return (
             <Li key={e.id}>
-              <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
-                <div className={locals.label}>
-                  <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
-                </div>
-              </WithIcon>
+              <Link href$={href$} ellipsis>
+                <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
+                  <div className={locals.label}>
+                    <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
+                  </div>
+                </WithIcon>
+              </Link>
             </Li>
           );
         })}
