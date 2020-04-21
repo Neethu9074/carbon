@@ -22,7 +22,13 @@ paths.devWaitingHtmlSrc = path.join(paths.packageDir, 'in-client', 'waiting.html
 paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon-*');
 paths.appleTouchIconSrc = path.join(paths.packageDir, 'in-client', 'apple-*');
 
-paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**/*');
+paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**', '*');
+paths.allServerSourcesIgnoreRules = [
+  path.join('**', '__mocks__', '**', '*'),
+  path.join('**', 'test', '**', '*'),
+  path.join('**', 'coverage', '**', '*'),
+  path.join('**', 'README.md')
+];
 paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');
 
 // ## Target Files:

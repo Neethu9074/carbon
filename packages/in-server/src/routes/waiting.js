@@ -7,11 +7,11 @@ const fs = require('fs');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { activeResolver } = require('../services/resolvers/index');
 const { getCsp, findMaxNonces } = require('../services/csp');
-const buildInformation = require('../assets/build.json');
-const checkSumMod = require('../services/checksum');
-const serverConfig = require('../serverConfig.js');
+const buildInformation = require('../../assets/build.json');
 const { getCsrfToken } = require('../services/csrf');
 const configResolver = require('../services/config');
+const checkSumMod = require('../services/checksum');
+const serverConfig = require('../serverConfig.js');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());

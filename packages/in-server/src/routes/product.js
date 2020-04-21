@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getCsp, findMaxNonces } = require('../services/csp');
-const buildInformation = require('../assets/build.json');
+const buildInformation = require('../../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');

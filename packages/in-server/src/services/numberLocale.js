@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const formatLocaleDir = path.join(__dirname, '..', 'node_modules', 'd3-format', 'locale');
+const formatLocaleDir = path.join(__dirname, '..', '..', 'node_modules', 'd3-format', 'locale');
 const supportedNumberLocales = fs.readdirSync(formatLocaleDir).reduce((agg, fileName) => {
   const fileContent = fs.readFileSync(path.join(formatLocaleDir, fileName), { encoding: 'utf8' });
   // stringify/parse to get rid of all extract whitespace

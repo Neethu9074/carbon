@@ -42,10 +42,13 @@ phases:
       # Install project dependencies
       - npm install -g yarn
       - yarn
+      - cd packages/in-server && yarn && cd ../..
   build:
     commands:
-      # Test
+      # Test Client-Side
       - yarn run test
+      # Test Server-Side
+      - cd packages/in-server && yarn run test && cd ../..
       # Build static files
       - yarn run build
       # Verify that CSS files are compressed in build artifacts

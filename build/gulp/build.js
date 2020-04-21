@@ -46,7 +46,11 @@ gulp.task('try-build', cb => {
 });
 
 function copyServerSources() {
-  return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
+  return gulp
+    .src(paths.allServerSourcesSelector, {
+      ignore: paths.allServerSourcesIgnoreRules
+    })
+    .pipe(gulp.dest(paths.targetDir));
 }
 
 function minifyCss() {
@@ -136,8 +140,9 @@ function writeTryBuildServerConfigFile(cb) {
     },
     mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
     eum: {
-      apiKey: 'S8sh0aF6Q9yH1Z6gMNWpFw',
-      domain: '//eum-test-fullstack-0-us-west-2.instana.io'
+      apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
+      domain: 'pink.instana.rocks/eum/',
+      retrievalDomain: 'pink.instana.rocks/eum'
     },
     zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     clientConfig: buildUtil.getDevModeConfig({

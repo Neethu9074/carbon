@@ -5,8 +5,11 @@ const fs = require('fs');
 const possibleConfigFileLocations = [
   '/etc/instana/ui-client/config.yaml',
   '/etc/instana/ui-client/config.json',
-  path.join(__dirname, 'serverConfig.yaml'),
-  path.join(__dirname, 'serverConfig.json')
+  path.join(__dirname, '..', 'serverConfig.yaml'),
+  path.join(__dirname, '..', 'serverConfig.json'),
+  // To allow us to get rid of the term "serverConfig / clientConfig"
+  path.join(__dirname, '..', 'config.yaml'),
+  path.join(__dirname, '..', 'config.json')
 ];
 
 const configFileContent = getConfigFileContent();
