@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -21,7 +23,7 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
     return (
       <>
         <ListTitle>Alerts Created</ListTitle>
-        <p>Loading ...</p>
+        <LoadingList />
       </>
     );
   }
@@ -29,31 +31,34 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
   return (
     <>
       <ListTitle>Alerts Created ({totalRepresentedItemCount})</ListTitle>
-      <Ul>
-        {items.map(e => {
-          const viewFilterParams = {
-            eventId: e.id,
-            eventTypeFilter: 'issue',
-            timeConfig
-          };
-          if (e.entityType === 'App20') {
-            viewFilterParams.applicationId = e.entityId;
-          }
-          const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
+      {items.length > 0 && (
+        <Ul>
+          {items.map(e => {
+            const viewFilterParams = {
+              eventId: e.id,
+              eventTypeFilter: 'issue',
+              timeConfig
+            };
+            if (e.entityType === 'App20') {
+              viewFilterParams.applicationId = e.entityId;
+            }
+            const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
 
-          return (
-            <Li key={e.id}>
-              <Link href$={analyseEvent$} ellipsis>
-                <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
-                  <div className={locals.label}>
-                    <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
-                  </div>
-                </WithIcon>
-              </Link>
-            </Li>
-          );
-        })}
-      </Ul>
+            return (
+              <Li key={e.id}>
+                <Link href$={analyseEvent$} ellipsis>
+                  <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
+                    <div className={locals.label}>
+                      <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
+                    </div>
+                  </WithIcon>
+                </Link>
+              </Li>
+            );
+          })}
+        </Ul>
+      )}
+      {items.length === 0 && <EmptyList />}
     </>
   );
 };
