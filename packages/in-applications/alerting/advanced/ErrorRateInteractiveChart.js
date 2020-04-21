@@ -16,9 +16,11 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-ap
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
+import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -49,6 +51,16 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
   return (
     <div className={locals.container}>
       <div className={locals.controls}>
+        <FormGroup>
+          <Label htmlFor="errorRate">Metric</Label>
+          <Input
+            id="errorRate"
+            className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+            name="errorRate"
+            value={ruleMetricNameOptions.errorRate[0].label}
+            disabled
+          />
+        </FormGroup>
         <FormGroup>
           <Label htmlFor="thresholdOperator">Operator</Label>
           <ComboBox
