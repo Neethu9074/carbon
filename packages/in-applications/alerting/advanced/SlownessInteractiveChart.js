@@ -5,7 +5,7 @@ import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
-  applicationsAlertingAggregationChanged,
+  applicationsAlertingThresholdAggregationChanged,
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdTypeChanged
 } from 'in-applications/alerting/tracker';
@@ -89,7 +89,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
-              applicationsAlertingAggregationChanged({ ...getBlueprintObject(form), value });
+              applicationsAlertingThresholdAggregationChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue="P90"
             clearable={false}
