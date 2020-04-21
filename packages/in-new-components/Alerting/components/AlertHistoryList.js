@@ -6,9 +6,7 @@ import { Li, Ul } from 'in-new-components/lists/List';
 import WithIcon from 'in-new-components/WithIcon';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import connect from 'in-hoc/connectTo';
-import { timeConfig$ } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
-import { alertingDialogChartTimeframe } from 'in-websites/alerting/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import locals from 'in-events/components/EventsListRowDense.mless';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -69,7 +67,7 @@ const AlertHistoryList = connect(({ alertConfigId, timeConfig }) => {
         by: 'start',
         direction: 'DESC'
       }
-    }).startWith(pendingResult),
+    }).startWith(pendingResult)
   };
 })(AlertHistoryListPresenter);
 
