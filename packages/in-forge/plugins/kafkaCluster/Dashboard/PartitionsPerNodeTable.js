@@ -9,7 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: 'Node',
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -91,7 +91,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function ClusterNodesPartitionsTable({ clusterNodes, timeConfig }) {
+  function PartitionsPerNodeTable({ clusterNodes, timeConfig }) {
     if (clusterNodes == null || clusterNodes.length === 0) {
       return null;
     }
@@ -104,6 +104,6 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Cluster Nodes (${rows.length}) - Partitions`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Partitions Per Node`} cols={cols} rows={rows} />;
   }
 );
