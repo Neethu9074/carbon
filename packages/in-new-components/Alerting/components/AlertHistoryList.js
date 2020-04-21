@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
+import { formatDateTime } from 'in-services/formatters/date';
+import { pendingResult } from 'in-services/fixedObjects';
+import getRawEvents from 'in-subscription/getRawEvents';
 import ListTitle from 'in-new-components/lists/Title';
 import { Li, Ul } from 'in-new-components/lists/List';
 import WithIcon from 'in-new-components/WithIcon';
-import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import connect from 'in-hoc/connectTo';
-import getRawEvents from 'in-subscription/getRawEvents';
-import { pendingResult } from 'in-services/fixedObjects';
+
 import locals from 'in-events/components/EventsListRowDense.mless';
-import { formatDateTime } from 'in-services/formatters/date';
 
 export const AlertHistoryListPresenter = ({ rawEvents }) => {
   const { data = {}, progress = {} } = rawEvents;
