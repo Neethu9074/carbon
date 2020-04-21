@@ -18,7 +18,7 @@ export const AlertHistoryListPresenter = ({ rawEvents }) => {
   if (loading) {
     return (
       <>
-        <ListTitle>Alerts created</ListTitle>
+        <ListTitle>Alerts Created</ListTitle>
         <p>Loading ...</p>
       </>
     );
@@ -26,7 +26,7 @@ export const AlertHistoryListPresenter = ({ rawEvents }) => {
   const { items = [], totalRepresentedItemCount } = data;
   return (
     <>
-      <ListTitle>Alerts created ({totalRepresentedItemCount})</ListTitle>
+      <ListTitle>Alerts Created ({totalRepresentedItemCount})</ListTitle>
       <Ul>
         {items.map(e => {
           return (

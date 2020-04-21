@@ -33,7 +33,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
   return (
     <>
-      <ListTitle>Alert configuration</ListTitle>
+      <ListTitle>Alert Configuration</ListTitle>
 
       <Card title="Trigger" withoutPadding darkFrame>
         <AlertTypeSwitch
