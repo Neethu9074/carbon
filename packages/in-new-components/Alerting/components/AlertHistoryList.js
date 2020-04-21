@@ -31,16 +31,19 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
       <ListTitle>Alerts Created ({totalRepresentedItemCount})</ListTitle>
       <Ul>
         {items.map(e => {
-          const href$ = getEventsViewFilteredBy({
+          const viewFilterParams = {
             eventId: e.id,
             eventTypeFilter: 'issue',
-            applicationId: e.type === 'Application Smart Alert' ? e.entityId : null,
             timeConfig
-          });
+          };
+          if (e.entityType === 'App20') {
+            viewFilterParams.applicationId = e.entityId;
+          }
+          const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
 
           return (
             <Li key={e.id}>
-              <Link href$={href$} ellipsis>
+              <Link href$={analyseEvent$} ellipsis>
                 <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
                   <div className={locals.label}>
                     <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
