@@ -20,7 +20,8 @@ import {
 } from 'in-applications/alerting/form/thresholdFormData';
 import {
   ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions
+  ruleAggregationOptions,
+  ruleMetricNameOptions
 } from 'in-applications/alerting/form/ruleFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
@@ -28,6 +29,7 @@ import ChartContainer from 'in-new-components/Alerting/components/ChartContainer
 import { createSlownessForm } from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -60,6 +62,16 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
   return (
     <div className={locals.container}>
       <div className={locals.controls}>
+        <FormGroup>
+          <Label htmlFor="latency">Metric</Label>
+          <Input
+            id="latency"
+            className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+            name="latency"
+            value={ruleMetricNameOptions.slowness[0].label}
+            disabled
+          />
+        </FormGroup>
         <FormGroup>
           <Label htmlFor={'ruleAggregation'}>Aggregation</Label>
           <ComboBox

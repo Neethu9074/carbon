@@ -12,9 +12,11 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -47,6 +49,16 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
       {hasLogMessageSelected(form) ? (
         <>
           <div className={locals.controls}>
+            <FormGroup>
+              <Label htmlFor="logsCount">Metric</Label>
+              <Input
+                id="logsCount"
+                className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+                name="logsCount"
+                value={ruleMetricNameOptions.logs[0].label}
+                disabled
+              />
+            </FormGroup>
             <FormGroup>
               <Label htmlFor="thresholdOperator">Operator</Label>
               <ComboBox
