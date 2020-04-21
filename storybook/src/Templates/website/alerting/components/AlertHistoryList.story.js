@@ -18,29 +18,36 @@ export const empty = () => <AlertHistoryListPresenter rawEvents={rawEventsWhileE
 const rawEventsWhileLoading = { progress: { loading: true } };
 export const Loading = () => <AlertHistoryListPresenter rawEvents={rawEventsWhileLoading} />;
 
-const severities = [0, 1, 5, 6, 10];
-const event = severities.map(s => ({
+const severities = [0, 5, 6, 10];
+const events = severities.map(s => ({
   type: 'issue',
   entityId: 'XkLX4CD7RfKLYa70wqZSdQ',
   severity: s,
-  start: 1587074400000 + 1000 * s,
+  start: 1587074400000 + 1000 * s
 }));
-const issuesWithAllSeverities = event.map(item => ({...item, type: 'incident'}));
 
-const incidentsWithAllSeverities = issuesWithAllSeverities.map(event => ({...event, type: 'incident'}));
+function withType(type) {
+  return event => ({ ...event, type });
+}
 
-const issuesWithAllSeveritiesEvents = {
-  data: {
-    items: [...issuesWithAllSeverities],
-    totalRepresentedItemCount: issuesWithAllSeverities.length
-  }
-};
-export const issues = () => <AlertHistoryListPresenter rawEvents={issuesWithAllSeveritiesEvents} />;
+export const issues = () => (
+  <AlertHistoryListPresenter
+    rawEvents={{
+      data: {
+        items: events.map(withType('issue')),
+        totalRepresentedItemCount: events.length
+      }
+    }}
+  />
+);
 
-const incidentsWithAllSeveritiesEvents = {
-  data: {
-    items: [...incidentsWithAllSeverities],
-    totalRepresentedItemCount: incidentsWithAllSeverities.length
-  }
-};
-export const incidents = () => <AlertHistoryListPresenter rawEvents={incidentsWithAllSeveritiesEvents} />;
+export const incidents = () => (
+  <AlertHistoryListPresenter
+    rawEvents={{
+      data: {
+        items: events.map(withType('incident')),
+        totalRepresentedItemCount: incidents.length
+      }
+    }}
+  />
+);
