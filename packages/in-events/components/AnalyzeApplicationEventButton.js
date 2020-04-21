@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
+import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { translateDemocratisationFiltersToAnalyzeFilters } from 'in-applications/tags';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -29,6 +30,7 @@ function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
     <Button
       kind="primary"
       icon="lib_application_call"
+      onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
       href$={getLinkToAnalyze({
         applicationName,
         dataSource: dataSource,
