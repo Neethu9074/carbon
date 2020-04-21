@@ -15,7 +15,6 @@ import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
@@ -121,6 +120,5 @@ function toAlertConfig(form) {
   const alertConfig = form.remove('hiddenFields').toJS();
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
-  alertConfig.threshold = getThresholdWithFixedType(alertConfig.threshold);
   return alertConfig;
 }

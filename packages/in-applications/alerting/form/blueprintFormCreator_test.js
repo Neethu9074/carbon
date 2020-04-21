@@ -27,13 +27,13 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
         expect(blueprintForm.get('threshold').get('type').value).to.equal('staticThreshold');
       });
     });
-    context('when thresholdType is historicBaseline.', () => {
+    context('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put(
             'threshold',
             thresholdCreateSlownessForm({
-              type: 'historicBaseline.DAILY',
+              type: 'historicBaseline',
               baseline: [1, 2, 3]
             })
           )
@@ -57,7 +57,10 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
       });
 
       it('should have thresholdType "historicBaseline"', () => {
-        expect(blueprintForm.get('threshold').get('type').value).to.equal('historicBaseline.DAILY');
+        expect(blueprintForm.get('threshold').get('type').value).to.equal('historicBaseline');
+      });
+      it('should have seasonality "DAILY"', () => {
+        expect(blueprintForm.get('threshold').get('seasonality').value).to.equal('DAILY');
       });
     });
     it('should have metricName "latency"', () => {

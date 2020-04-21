@@ -15,7 +15,6 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
@@ -41,7 +40,7 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
   const [doDebounce, setDoDebounce] = useState(false);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, true)

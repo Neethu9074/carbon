@@ -36,8 +36,5 @@ function getThresholdTypeForAlertType(alertType, threshold) {
 }
 
 function getSlownessThresholdType(threshold) {
-  if (threshold.baseline && threshold.baseline?.length > 0) {
-    return 'historicBaseline.DAILY';
-  }
-  return 'staticThreshold';
+  return threshold.baseline && threshold.baseline.length > 0 ? 'historicBaseline' : 'staticThreshold';
 }

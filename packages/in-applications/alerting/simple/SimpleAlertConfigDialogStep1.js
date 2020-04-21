@@ -29,7 +29,7 @@ export default function SimpleAlertConfigDialogStep1({
 
   if (
     alertType === 'slowness' &&
-    thresholdTypeValue.startsWith('historicBaseline') &&
+    thresholdTypeValue === 'historicBaseline' &&
     thresholdBaseline &&
     thresholdBaseline.value &&
     thresholdBaseline.value.length === 0

@@ -11,7 +11,6 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-ap
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
@@ -38,7 +37,7 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
   const [doDebounce, setDoDebounce] = useState(false);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, true)
