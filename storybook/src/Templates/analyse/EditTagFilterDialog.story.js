@@ -1,17 +1,17 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
-import DialogRoot from '../_helpers/DialogRoot';
 
-storiesOf('Analyse/EditTagFilterDialog', module)
-  .addDecorator(withKnobs)
-  .add('Default', () => <Default />);
+export default {
+  title: 'Templates|analyze/EditTagFilterDialogPresenter',
+  component: EditTagFilterDialogPresenter,
+  decorators: [withKnobs]
+};
 
-function Default() {
+export function Default() {
   const form = createMapForm()
     .put(
       'tag',
@@ -51,22 +51,20 @@ function Default() {
   const keySuggestions = [];
 
   return (
-    <DialogRoot>
-      <EditTagFilterDialogPresenter
-        editMode={boolean('Edit Mode?', true)}
-        onRemoveTagFilter={action('onRemoveTagFilter')}
-        form={form}
-        tagSuggestions={tagSuggestions}
-        selectedTagType={selectedTagType}
-        onTagChange={action('onTagChange')}
-        operatorSuggestions={operatorSuggestions}
-        onOperatorChange={action('onOperatorChange')}
-        keySuggestions={keySuggestions}
-        onKeyChange={action('onKeyChange')}
-        valueSuggestions={valueSuggestions}
-        onValueChange={action('onValueChange')}
-        onSubmit={action('onSubmit')}
-      />
-    </DialogRoot>
+    <EditTagFilterDialogPresenter
+      editMode={boolean('Edit Mode?', true)}
+      onRemoveTagFilter={action('onRemoveTagFilter')}
+      form={form}
+      tagSuggestions={tagSuggestions}
+      selectedTagType={selectedTagType}
+      onTagChange={action('onTagChange')}
+      operatorSuggestions={operatorSuggestions}
+      onOperatorChange={action('onOperatorChange')}
+      keySuggestions={keySuggestions}
+      onKeyChange={action('onKeyChange')}
+      valueSuggestions={valueSuggestions}
+      onValueChange={action('onValueChange')}
+      onSubmit={action('onSubmit')}
+    />
   );
 }

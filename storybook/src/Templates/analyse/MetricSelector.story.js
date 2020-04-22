@@ -1,18 +1,18 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/MetricSelectorPresenter';
 import { availableMetrics, defaultMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
-import DialogRoot from '../_helpers/DialogRoot';
 
-storiesOf('Analyse/MetricSelector', module)
-  .addDecorator(withKnobs)
-  .add('Default', () => <Default />);
+export default {
+  title: 'Templates|analyze/MetricSelector',
+  component: MetricSelectorPresenter,
+  decorators: [withKnobs]
+};
 
-function Default() {
+export function Default() {
   const newMetricForm = createMapForm()
     .put(
       'metric',
@@ -47,19 +47,17 @@ function Default() {
   }).setTouched(boolean('Form Touched?', false), { recurse: true });
 
   return (
-    <DialogRoot>
-      <MetricSelectorPresenter
-        title="Select Da Metrics"
-        newMetricForm={newMetricForm}
-        availableMetrics={availableMetrics.pageLoad}
-        selectedMetricsForm={selectedMetricsForm}
-        onMetricChange={action('onMetricChange')}
-        onAggregationChange={action('onAggregationChange')}
-        onRemoveMetric={action('onRemoveMetric')}
-        onAddMetric={action('onAddMetric')}
-        onSave={action('onSave')}
-        onSwitchMetricPosition={action('onSwitchMetricPosition')}
-      />
-    </DialogRoot>
+    <MetricSelectorPresenter
+      title="Select Da Metrics"
+      newMetricForm={newMetricForm}
+      availableMetrics={availableMetrics.pageLoad}
+      selectedMetricsForm={selectedMetricsForm}
+      onMetricChange={action('onMetricChange')}
+      onAggregationChange={action('onAggregationChange')}
+      onRemoveMetric={action('onRemoveMetric')}
+      onAddMetric={action('onAddMetric')}
+      onSave={action('onSave')}
+      onSwitchMetricPosition={action('onSwitchMetricPosition')}
+    />
   );
 }

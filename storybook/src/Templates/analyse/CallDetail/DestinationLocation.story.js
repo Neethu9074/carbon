@@ -1,29 +1,22 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import {
-  SourceLocation,
-  DestinationLocation
-} from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
+import { DestinationLocation } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
 
-storiesOf('Analyse/CallDetail/LocationComponent', module)
-  .add('default source', () => <SourceLocation service={sourceService} snapshotId={snapshotId} entity={entity} />)
-  .add('default destination', () => (
+export default {
+  title: 'Templates|CallDetail/DestinationLocation',
+  component: DestinationLocation
+};
+
+export function Default() {
+  return (
     <DestinationLocation
       service={destinationService}
       endpoint={destinationEndpoint}
       entity={entity}
       snapshotId={snapshotId}
     />
-  ));
-
-const sourceService = {
-  id: '5042d146667518a1a5017644946b8650aafca44c',
-  label: 'shop',
-  types: [],
-  technologies: [],
-  entityType: 'SERVICE'
-};
+  );
+}
 
 const destinationService = {
   id: '5042d146667518a1a5017644946b8650aafca44c',

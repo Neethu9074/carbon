@@ -1,14 +1,21 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
 
-storiesOf('Analyse/CallDetail/InfraEntityLink', module)
-  .add('default', () => (
-    <InfrastructureEntityLinkPresenter entity={entity} snapshot={snapshot} plugin="nodeJsRuntimePlatform" />
-  ))
-  .add('correlation missing', () => <InfrastructureEntityLinkPresenter />)
-  .add('loading', () => <InfrastructureEntityLinkPresenter snapshot={{ progress: { loading: true } }} />);
+export default {
+  title: 'Templates|analyze/CallDetail/InfraEntityLink',
+  component: InfrastructureEntityLinkPresenter
+};
+
+export function Default() {
+  return <InfrastructureEntityLinkPresenter entity={entity} snapshot={snapshot} plugin="nodeJsRuntimePlatform" />;
+}
+export function CorrelationMissing() {
+  return <InfrastructureEntityLinkPresenter />;
+}
+export function Loading() {
+  return <InfrastructureEntityLinkPresenter snapshot={{ progress: { loading: true } }} />;
+}
 
 const entity = {
   id: 'SnPyGceVfHY1nwTjo-o_7SbMqLk',

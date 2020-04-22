@@ -1,16 +1,16 @@
 import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import Root from '../_helpers/Root';
 
-storiesOf('Analyse/TagFilterList', module)
-  .addDecorator(withKnobs)
-  .add('Default', () => <Default />);
+export default {
+  title: 'Templates|analyze/TagFilterList',
+  component: TagFilterListPresenter,
+  decorators: [withKnobs]
+};
 
-function Default() {
+export function Default() {
   const tagFilters = [];
 
   if (boolean('With Boolean Filter?', true)) {
@@ -76,12 +76,10 @@ function Default() {
   }
 
   return (
-    <Root>
-      <TagFilterListPresenter
-        tagFilters={tagFilters}
-        onTagFilterClick={action('onTagFilterClick')}
-        onRemoveTagFilter={action('onRemoveTagFilter')}
-      />
-    </Root>
+    <TagFilterListPresenter
+      tagFilters={tagFilters}
+      onTagFilterClick={action('onTagFilterClick')}
+      onRemoveTagFilter={action('onRemoveTagFilter')}
+    />
   );
 }

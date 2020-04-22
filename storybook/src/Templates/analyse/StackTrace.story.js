@@ -1,40 +1,25 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import ExpandableStackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 
-import Root from '../_helpers/Root';
+export default {
+  title: 'Templates|analyze/StackTraceBehavior',
+  component: StackTraceBehavior
+};
 
-storiesOf('Analyse/StackTrace', module)
-  .add('StackTrace direct', () => <StackTraceDirect />)
-  .add('Expandable StackTrace', () => <ExpandingStackTrace />);
-
-function StackTraceDirect() {
+export function StackTraceDirect() {
   const logs = callExample.logs;
 
   return (
-    <Root>
+    <>
       {logs.map((log, i) => (
         <StackTraceBehavior key={i} stackTrace={log.stackTrace} call={callExample} />
       ))}
-    </Root>
+    </>
   );
 }
 
-function ExpandingStackTrace() {
-  const logs = callExample.logs;
-
-  return (
-    <Root>
-      {logs.map((log, i) => (
-        <ExpandableStackTrace key={i} log={log} call={callExample} />
-      ))}
-    </Root>
-  );
-}
-
-const callExample = {
+export const callExample = {
   id: '102e510838b4fd97',
   label: 'GET /productsearch',
   start: 1560842704107,
