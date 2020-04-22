@@ -3,7 +3,6 @@ import 'in-forge';
 
 // ensure that some expected global variables exist
 import './globals';
-import './components/productNotifications/DashboardNotification.story';
 import './components/productNotifications/TraceValidationResult.story';
 import './components/time/TimeSelectionDialogPresenter.story';
 import './analyse/TraceDetail/ErroneousTraceIndicator.story';

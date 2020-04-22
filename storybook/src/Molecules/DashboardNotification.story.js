@@ -1,28 +1,26 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
 
-import Root from '../../_helpers/Root';
+export default {
+  title: 'Molecules|DashboardNotification',
+  component: DashboardNotification
+};
 
-storiesOf('Components/Product Notifications/Dashboard Notification', module)
-  .add('Kinds', () => <KindsStory />)
-  .add('Content', () => <ContentStory />);
-
-function KindsStory() {
+export function KindsStory() {
   return (
-    <Root>
+    <>
       <DashboardNotification type="neutral">this is a neutral message</DashboardNotification>
       <DashboardNotification type="info">this is an info</DashboardNotification>
       <DashboardNotification type="warning">this is a warning</DashboardNotification>
       <DashboardNotification type="danger">this is an error</DashboardNotification>
-    </Root>
+    </>
   );
 }
 
-function ContentStory() {
+export function ContentStory() {
   return (
-    <Root>
+    <>
       <DashboardNotification type="info">you can place just text in here </DashboardNotification>
       <DashboardNotification type="info">
         <strong>OR</strong>
@@ -31,6 +29,6 @@ function ContentStory() {
         <p>both!!</p>
         box
       </DashboardNotification>
-    </Root>
+    </>
   );
 }
