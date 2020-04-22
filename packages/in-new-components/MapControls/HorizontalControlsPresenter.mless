@@ -1,0 +1,59 @@
+:local {
+  .horizontalControlsContainer {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    z-index: 1; // a vertical container can overlay the very left/right side, so we want ensure that left/right aligned controls are still clickable
+  }
+
+  .bottom {
+    bottom: 0rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .top {
+    top: 0rem;
+    padding-top: 0.75rem;
+  }
+
+  .bottomMiddle {
+    .horizontalControlsContainer();
+    .bottom();
+    justify-content: center;
+  }
+
+  .bottomLeft {
+    .horizontalControlsContainer();
+    .bottom();
+    padding-left: 1rem;
+    justify-content: flex-start;
+  }
+
+  .bottomRight {
+    .horizontalControlsContainer();
+    .bottom();
+    padding-right: 1rem;
+    justify-content: flex-end;
+  }
+
+  .topMiddle {
+    .horizontalControlsContainer();
+    .top();
+    justify-content: center;
+  }
+
+  .topLeft {
+    .horizontalControlsContainer();
+    .top();
+    padding-left: 1rem;
+    justify-content: flex-start;
+  }
+
+  .topRight {
+    .horizontalControlsContainer();
+    .top();
+    padding-right: 1rem;
+    justify-content: flex-end;
+  }
+}

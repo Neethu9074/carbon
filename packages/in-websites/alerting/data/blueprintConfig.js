@@ -8,12 +8,6 @@ export const alertTypes = Object.freeze({
 
 export const blueprintConfig = Object.freeze([
   {
-    type: alertTypes.specificJsError,
-    name: 'JS Errors',
-    headline: 'Specific JS Errors',
-    text: 'Alert on known JS Errors by selecting one or multiple JS Errors that have been monitored before.'
-  },
-  {
     type: alertTypes.slowness,
     name: 'Slowness',
     headline: 'onLoad Time',
@@ -29,6 +23,12 @@ export const blueprintConfig = Object.freeze([
         <li>Running all scripts that need to run on page load</li>
       <ul>
     `
+  },
+  {
+    type: alertTypes.specificJsError,
+    name: 'JS Errors',
+    headline: 'Specific JS Errors',
+    text: 'Alert on known JS Errors by selecting one or multiple JS Errors that have been monitored before.'
   },
   {
     type: alertTypes.specificStatusCode,

@@ -13,20 +13,17 @@ export default function createBlueprintForm(form, alertType) {
     alertType
   );
 
-  const newRuleForm = createRuleForm(
-    {
-      ...form
-        .get('rule')
-        .remove('operator')
-        .remove('value')
-        .remove('message')
-        .remove('level')
-        .toJS(),
-      alertType,
-      metricName: metricNameForAlertType[alertType]
-    },
-    newThresholdForm.get('type').value
-  );
+  const newRuleForm = createRuleForm({
+    ...form
+      .get('rule')
+      .remove('operator')
+      .remove('value')
+      .remove('message')
+      .remove('level')
+      .toJS(),
+    alertType,
+    metricName: metricNameForAlertType[alertType]
+  });
 
   return form.put('rule', newRuleForm).put('threshold', newThresholdForm);
 }
@@ -41,8 +38,5 @@ function getThresholdTypeForAlertType(alertType, threshold) {
 }
 
 function getSlownessThresholdType(threshold) {
-  if (threshold.baseline && threshold.baseline.length > 0) {
-    return 'historicBaseline.DAILY';
-  }
-  return 'staticThreshold';
+  return threshold.baseline && threshold.baseline.length > 0 ? 'historicBaseline' : 'staticThreshold';
 }

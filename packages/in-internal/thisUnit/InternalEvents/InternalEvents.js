@@ -1,6 +1,7 @@
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
+import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -13,7 +14,6 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import Code from 'in-components/Code';
 
 import locals from './InternalEvents.mless';
 
@@ -26,7 +26,7 @@ export default compose(
         timeConfig,
         pagination: {
           cursor,
-          retrievalSize: 5 // Low retrieval size because might fetch relatively large logs
+          retrievalSize: 10
         },
         order: {
           by: 'start',
@@ -38,7 +38,7 @@ export default compose(
 )(InternalEventsList);
 
 function InternalEventsList(props) {
-  const { items, loadMore, canLoadMore } = props;
+  const { items, loadMore, canLoadMore, timeConfig } = props;
 
   if (!items) {
     return (
@@ -55,7 +55,7 @@ function InternalEventsList(props) {
       {items.map(event => (
         <Row key={event.id} verticallyStretchColumns>
           <Col lg={12}>
-            <Event event={event} />
+            <Event event={event} timeConfig={timeConfig} />
           </Col>
         </Row>
       ))}
@@ -78,13 +78,13 @@ function InternalEventsList(props) {
   );
 }
 
-function Event({ event }) {
+function Event({ event, timeConfig }) {
   const cardPreview = (
     <>
-      <Tooltip align="topMiddle" content="Timestamp of issue">
-        <span className={locals.duration}>{formatDateTime(event.timestamp)}</span>
+      <Tooltip align="topMiddle" content="Triggering time of issue">
+        <span className={locals.duration}>{formatDateTime(event.triggeringTime)}</span>
       </Tooltip>
-      <span className={locals.title}>{event.title + ' - ' + event.errorText}</span>
+      <span className={locals.title}>{event.type + ' - ' + event.state}</span>
     </>
   );
 
@@ -102,27 +102,40 @@ function Event({ event }) {
               eventId: event.id
             })}
           >
-            {event.title + ' - ' + event.errorText}
+            {event.type + ' - ' + event.state}
           </Link>
         </Col>
       </Row>
       <Row verticallyStretchColumns>
-        <Col lg={1}>
-          <span className={locals.title}>PID:</span>
-        </Col>
-        <Col>
-          <span className={locals.text}>{event.pid}</span>
+        <Col lg={2}>
+          <EntityWithParentInformation
+            entityId={event.entityId}
+            entityType={event.entityType}
+            metadata={event.metadata}
+            timeConfig={timeConfig}
+          />
         </Col>
       </Row>
-      {event.logs &&
-        Object.keys(event.logs).map(log => (
-          <Row key={log} verticallyStretchColumns>
-            <Col lg={12}>
-              <span className={locals.logTitle}>{log}:</span>
-              <Code className={locals.log} showLineNumbers={false} code={event.logs[log]} />
+      {event.metadata && (
+        <Fragment>
+          <Row verticallyStretchColumns>
+            <Col lg={1}>
+              <span className={locals.title}>Category:</span>
+            </Col>
+            <Col>
+              <span className={locals.text}>{event.metadata['agent_monitoring_category']}</span>
             </Col>
           </Row>
-        ))}
+          <Row verticallyStretchColumns>
+            <Col lg={1}>
+              <span className={locals.title}>Code:</span>
+            </Col>
+            <Col>
+              <span className={locals.text}>{event.metadata['agent_monitoring_code']}</span>
+            </Col>
+          </Row>
+        </Fragment>
+      )}
     </ExpandableCard>
   );
 }

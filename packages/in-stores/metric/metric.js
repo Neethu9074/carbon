@@ -38,8 +38,11 @@ export const sensibleGranularities = [
   5 * minute,
   10 * minute,
   hour,
-  5 * hour,
-  10 * hour,
+  // Choosing granularities as divisors of 24 for easier comparison between days
+  4 * hour,
+  6 * hour,
+  8 * hour,
+  12 * hour,
   day,
   5 * day,
   10 * day

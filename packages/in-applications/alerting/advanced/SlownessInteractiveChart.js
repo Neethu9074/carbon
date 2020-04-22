@@ -5,7 +5,7 @@ import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
-  applicationsAlertingAggregationChanged,
+  applicationsAlertingThresholdAggregationChanged,
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdTypeChanged
 } from 'in-applications/alerting/tracker';
@@ -15,17 +15,22 @@ import {
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
 import {
+  thresholdTypeOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
+import {
   ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions
+  ruleAggregationOptions,
+  ruleMetricNameOptions
 } from 'in-applications/alerting/form/ruleFormData';
-import { thresholdOperatorOptions, thresholdTypeOptions } from 'in-applications/alerting/form/thresholdFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { createSlownessForm } from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -49,7 +54,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
     baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || []
   };
@@ -57,6 +62,16 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
   return (
     <div className={locals.container}>
       <div className={locals.controls}>
+        <FormGroup>
+          <Label htmlFor="latency">Metric</Label>
+          <Input
+            id="latency"
+            className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+            name="latency"
+            value={ruleMetricNameOptions.slowness[0].label}
+            disabled
+          />
+        </FormGroup>
         <FormGroup>
           <Label htmlFor={'ruleAggregation'}>Aggregation</Label>
           <ComboBox
@@ -73,7 +88,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
-              applicationsAlertingAggregationChanged({ ...getBlueprintObject(form), value });
+              applicationsAlertingThresholdAggregationChanged({ ...getBlueprintObject(form), value });
             }}
             defaultValue="P90"
             clearable={false}
@@ -86,7 +101,7 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             className={locals.narrowControl}
             name="thresholdOperator"
             value={form.get('threshold').get('operator').value}
-            options={thresholdOperatorOptions}
+            options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
@@ -102,10 +117,12 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
             id="thresholdType"
             className={locals.wideControl}
             name="thresholdType"
-            value={form.get('threshold').get('type').value}
+            value={getThresholdComboBoxValue(form)}
             options={thresholdTypeOptions}
             onChange={e => {
-              const thresholdType = e.value || '';
+              const value = e.value || '';
+              const valueParts = value.split('.');
+              const thresholdType = valueParts[0];
 
               let newThresholdForm = createSlownessForm({
                 ...form.get('threshold').toJS(),
@@ -113,8 +130,8 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                 operator: null // reset to default value (happens in createSlownessForm)
               });
 
-              if (thresholdType.includes('historicBaseline.')) {
-                const seasonality = thresholdType === 'historicBaseline.DAILY' ? 'DAILY' : 'WEEKLY';
+              if (valueParts.length > 1) {
+                const seasonality = valueParts[1];
                 newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
                   f.setValue(seasonality).setTouched()
                 );
@@ -132,7 +149,10 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
 
-              applicationsAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
+              applicationsAlertingThresholdTypeChanged({
+                ...getBlueprintObject(form),
+                value: thresholdType
+              });
             }}
             defaultValue="staticThreshold"
             clearable={false}
@@ -213,12 +233,21 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
           tagFilters={form.get('tagFilters').value}
           aggregation={form.get('rule').get('aggregation').value}
           granularity={granularity}
+          boundaryScope={form.get('boundaryScope').value}
           alertsPreviewEnabled
           canReload
         />
       </ChartContainer>
     </div>
   );
+}
+
+function getThresholdComboBoxValue(form) {
+  let result = form.get('threshold').get('type').value;
+  if (form.get('threshold').get('seasonality')) {
+    result += '.' + form.get('threshold').get('seasonality').value;
+  }
+  return result;
 }
 
 function getAggregationValueAndUpdateFormIfNeeded(form, updateForm) {
@@ -236,7 +265,7 @@ function getAggregationValueAndUpdateFormIfNeeded(form, updateForm) {
 }
 
 function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form.get('threshold'), 'type') === 'historicBaseline.WEEKLY') {
+  if (getFormValueOrDefault(form.get('threshold'), 'seasonality') === 'WEEKLY') {
     return ruleAggregationForWeeklySeasonalityOptions;
   }
   return ruleAggregationOptions;
@@ -247,6 +276,6 @@ SlownessInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   updateForm: PropTypes.func.isRequired
 };

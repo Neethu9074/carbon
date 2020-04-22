@@ -4,6 +4,15 @@ export function track(event, payload) {
   trackInternal(event, payload);
 }
 
+export const CUSTOM_DASHBOARD_CREATE = 'custom.dashboard.create';
+export const CUSTOM_DASHBOARD_SHARE = 'custom.dashboard.share';
+export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
+export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
+export const CUSTOM_DASHBOARD_EDIT_WIDGET_START = 'custom.dashboard.edit.widget.start';
+export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
+
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
 export const ANALYZE_DETAIL_CALL_CLICK = 'analyze.detail.call.click';
 export const ANALYZE_FILTER_ADDED = 'analyze.filter.added';
@@ -138,10 +147,11 @@ export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED =
   'applications.alerting.additionalProps.triggerChanged';
 export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
   'applications.alerting.additionalProps.descriptionChanged';
+export const APPLICATIONS_ALERTING_STEP_SWITCH = 'applications.alerting.stepSwitch';
 export const APPLICATIONS_ALERTING_BLUEPRINT_CHANGED = 'applications.alerting.bluePrintChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.alerting.thresholdOperatorChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';
-export const APPLICATIONS_ALERTING_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
   'applications.alerting.thresholdDeviationFactorChanged';
@@ -150,6 +160,13 @@ export const APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED = 'applications.alerting.lo
 export const APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED = 'applications.alerting.logOperatorChanged';
 export const APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW = 'applications.alerting.logOpenMessageSelectView';
 export const APPLICATIONS_ALERTING_LOG_MSG_SELECTED = 'applications.alerting.logMessageSelected';
+export const APPLICATIONS_ALERTING_FILTER_ADD = 'applications.alerting.filter.add';
+export const APPLICATIONS_ALERTING_FILTER_REMOVE = 'applications.alerting.filter.remove';
+export const APPLICATIONS_ALERTING_FILTER_EDIT = 'applications.alerting.filter.edit';
+export const APPLICATIONS_ALERTING_FILTER_SET = 'applications.alerting.filter.set';
+export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.alerting.event.details.goToAnalyze';
+export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
+  'applications.alerting.event.details.ViewEditConfig';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

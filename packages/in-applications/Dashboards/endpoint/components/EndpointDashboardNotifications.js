@@ -2,31 +2,50 @@ import { get } from 'lodash';
 import React from 'react';
 
 import InboundOrAllCallsNotification from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsNotification';
-import { configureSyntheticEndpointsView, configureEndpointsView } from 'in-applications/navigation/paths';
-import { getEndpointDashboard } from 'in-applications/navigation/paths';
+import {
+  configureEndpointsView,
+  configureSyntheticEndpointsView,
+  getEndpointDashboard
+} from 'in-applications/navigation/paths';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import locals from './EndpointDashboardNotifications.mless';
 import { switchScope } from 'in-applications/constants';
+import { emptyObject } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
-import locals from './EndpointDashboardNotifications.mless';
-
-export default function EndpointDashboardNotifications({
+export default connect(({ applicationId, serviceId, endpointId }) => {
+  const observables = {};
+  if (applicationId) {
+    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
+  }
+  if (serviceId) {
+    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
+  }
+  if (endpointId) {
+    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
+  }
+  return observables;
+})(function EndpointDashboardNotifications({
   applicationId,
+  applicationLabel,
   serviceId,
+  serviceLabel,
   endpointId,
+  endpointLabel,
   boundaryScope,
   currentTab,
-  result
+  data
 }) {
-  if (!applicationId) {
-    return null;
-  }
-
-  const isSynthetic = get(result, ['data', 'synthetic'], false);
-  const label = get(result, ['data', 'label']);
-  const type = get(result, ['data', 'type']);
+  const syntheticType = get(data, ['syntheticType'], 'NON_SYNTHETIC');
+  const label = get(data, ['label']);
+  const type = get(data, ['type']);
   const isUnspecified = label === 'Unspecified';
   const isTooMayEndpoints = label === 'Others';
   const isHttpEndpoint = type === 'HTTP';
@@ -50,26 +69,40 @@ export default function EndpointDashboardNotifications({
           </div>
         )}
 
-      {isSynthetic && (
+      {syntheticType === 'SYNTHETIC' && (
         <MessageBar
           title="Synthetic Endpoint"
           message="Calls to synthetic endpoints do not contribute to service or application KPIs."
-          link={
-            <Link
-              className={locals.link}
-              href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
-            >
-              Configure Synthetic Endpoints
-            </Link>
-          }
+          link={<ConfigureSyntheticEndpoints />}
         />
       )}
+
+      {syntheticType === 'MIXED' && (
+        <MessageBar
+          title="Endpoint also receiving synthetic calls"
+          message={
+            <SyntheticCallsLink
+              textBefore="The "
+              linkText="synthetic calls"
+              textAfter=" do not contribute to the endpoint, service or application KPIs."
+              applicationLabel={applicationLabel}
+              serviceLabel={serviceLabel}
+              endpointLabel={endpointLabel}
+              boundaryScope={boundaryScope}
+              data={data}
+            />
+          }
+          link={<ConfigureSyntheticEndpoints />}
+        />
+      )}
+
       {isUnspecified && (
         <MessageBar
           title="Unspecified Endpoint"
           message="This endpoint groups all calls which could not be mapped to a meaningful endpoint name."
         />
       )}
+
       {isTooMayEndpoints && (
         <MessageBar
           title="Too many endpoints"
@@ -93,6 +126,44 @@ export default function EndpointDashboardNotifications({
       )}
     </div>
   );
+});
+
+function ConfigureSyntheticEndpoints() {
+  return (
+    <Link className={locals.link} href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}>
+      Configure Synthetic Endpoints
+    </Link>
+  );
+}
+
+function SyntheticCallsLink({
+  textBefore,
+  linkText,
+  textAfter,
+  applicationLabel,
+  serviceLabel,
+  endpointLabel,
+  boundaryScope
+}) {
+  return (
+    <span>
+      {textBefore}
+      <Link
+        href$={getLinkToAnalyze({
+          applicationName: applicationLabel,
+          serviceName: serviceLabel,
+          endpointName: endpointLabel,
+          boundaryScope: boundaryScope,
+          dataSource: 'calls',
+          filters: [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }],
+          groupByTag: emptyObject
+        })}
+      >
+        {linkText}
+      </Link>
+      {textAfter}
+    </span>
+  );
 }
 
 function MessageBar({ title, message, link }) {
@@ -107,4 +178,8 @@ function MessageBar({ title, message, link }) {
       </Message>
     </div>
   );
+}
+
+function getLabel(result) {
+  return get(result, ['data', 'label'], null);
 }

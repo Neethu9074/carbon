@@ -3,16 +3,21 @@ import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  thresholdOperatorOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { thresholdOperatorOptions } from 'in-applications/alerting/form/thresholdFormData';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -32,7 +37,7 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
   const [doDebounce, setDoDebounce] = useState(false);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, true)
@@ -45,13 +50,23 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
         <>
           <div className={locals.controls}>
             <FormGroup>
+              <Label htmlFor="logsCount">Metric</Label>
+              <Input
+                id="logsCount"
+                className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+                name="logsCount"
+                value={ruleMetricNameOptions.logs[0].label}
+                disabled
+              />
+            </FormGroup>
+            <FormGroup>
               <Label htmlFor="thresholdOperator">Operator</Label>
               <ComboBox
                 id="thresholdOperator"
                 className={locals.narrowControl}
                 name="thresholdOperator"
                 value={form.get('threshold').get('operator').value}
-                options={thresholdOperatorOptions}
+                options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
                 onChange={e => {
                   const value = (e && e.value) || '';
                   onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
@@ -99,6 +114,7 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
               granularity={granularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
+              boundaryScope={form.get('boundaryScope').value}
               alertsPreviewEnabled
               canReload
             />
@@ -116,7 +132,7 @@ LogsInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };
 
 function hasLogMessageSelected(form) {

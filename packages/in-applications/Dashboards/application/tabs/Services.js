@@ -26,6 +26,7 @@ import getServices from 'in-subscription/application/getServices';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
+import Footer from 'in-new-components/Footer/Footer';
 import withUrlState from 'in-hoc/withUrlState';
 
 const pathSegment = '/services';
@@ -65,27 +66,26 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'Type',
-    sortable: false,
+    id: 'types',
+    label: 'Types',
+    defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
       return (
         <Fragment>
-          {item.service.types
-            .slice()
-            .sort()
-            .map(type => (
-              <Badge color={getColor(type)} key={type}>
-                {type}
-              </Badge>
-            ))}
+          {item.service.types.slice().map(type => (
+            <Badge color={getColor(type)} key={type}>
+              {type}
+            </Badge>
+          ))}
         </Fragment>
       );
     }
   },
   {
-    id: 'Technology',
-    sortable: false,
+    id: 'technologies',
+    label: 'Technologies',
+    defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.service.technologies} />;
@@ -256,6 +256,7 @@ function ServiceList(props) {
         endpointTypes={endpointTypes}
         technologies={technologies}
       />
+      <Footer />
     </Fragment>
   );
 }

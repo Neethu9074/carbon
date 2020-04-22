@@ -18,7 +18,7 @@ export default function StepProgressBar({ stepTitles, step = 0 }) {
         <div
           className={locals.barInner}
           style={{
-            width: `${getWidthInPercent(step, stepTitles)}%`,
+            width: `${getWidthInPercent(stepTitles, step)}%`,
             backgroundColor: colors[step % colors.length]
           }}
         />
@@ -39,7 +39,7 @@ export default function StepProgressBar({ stepTitles, step = 0 }) {
   );
 }
 
-function getWidthInPercent(step, stepTitles) {
+function getWidthInPercent(stepTitles, step) {
   return 100 * ((step + 1) / stepTitles.length);
 }
 

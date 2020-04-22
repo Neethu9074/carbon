@@ -35,9 +35,13 @@
     width: 6rem;
   }
 
+  .disabledControl:disabled {
+    color: @lib__colors__N900Primary;
+  }
+
   .controls {
     display: grid;
-    grid-template-columns: repeat(4, min-content);
+    grid-template-columns: repeat(5, min-content);
     column-gap: 0.5rem;
     padding: 1rem 0.5rem 0 0.5rem;
   }

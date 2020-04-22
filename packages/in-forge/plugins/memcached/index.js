@@ -8,7 +8,7 @@ registerSnapshotDefinition({
   plugin: plugins.memcached,
   pluginName: {
     singular: 'Memcached Nodes',
-    plural: 'Memcacheds Nodes'
+    plural: 'Memcached Nodes'
   },
   iconSvgPath,
   kpiDefinitions,

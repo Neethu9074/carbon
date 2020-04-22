@@ -10,7 +10,7 @@ import { getCustomDashboards } from 'in-custom-dashboards/api';
 import { navigationParameters$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
-const systemOverviewTitle = 'System Overview';
+const systemOverviewTitle = 'Instana';
 const loadingTitle = 'Loading…';
 
 export default compose(
@@ -19,7 +19,7 @@ export default compose(
     navigationParameters: navigationParameters$
   }),
   withProps(({ result, navigationParameters, titleOverwrite }) => ({
-    activeDashboardTitle: determineActiveDashboard(result, navigationParameters, titleOverwrite),
+    ...determineActiveDashboard(result, navigationParameters, titleOverwrite),
     isLoadingMore: result.progress.loading,
     customDashboards: result && result.data,
     onCreateNewDashboard
@@ -27,31 +27,35 @@ export default compose(
 )(DashboardSwitcherPresenter);
 
 function determineActiveDashboard(result, navigationParameters, titleOverwrite) {
+  const activeDashboard = {
+    activeDashboardTitle: loadingTitle,
+    isCockpit: false
+  };
+
   if (titleOverwrite) {
-    return titleOverwrite;
+    activeDashboard.activeDashboardTitle = titleOverwrite;
   } else if (navigationParameters.pathname !== viewPathFullyQualified) {
-    return systemOverviewTitle;
-  } else if (!result.data) {
-    return loadingTitle;
-  }
+    activeDashboard.activeDashboardTitle = systemOverviewTitle;
+    activeDashboard.isCockpit = true;
+  } else if (result.data) {
+    const customDashboardId = getMatrixParameter(
+      navigationParameters,
+      dashboardIdUrlParameter.path,
+      dashboardIdUrlParameter.name
+    );
 
-  const customDashboardId = getMatrixParameter(
-    navigationParameters,
-    dashboardIdUrlParameter.path,
-    dashboardIdUrlParameter.name
-  );
-  if (!customDashboardId) {
-    return loadingTitle;
-  }
-
-  for (let i = 0; i < result.data.length; i++) {
-    const customDashboard = result.data[i];
-    if (customDashboard.id === customDashboardId) {
-      return customDashboard.title;
+    if (customDashboardId) {
+      for (let i = 0; i < result.data.length; i++) {
+        const customDashboard = result.data[i];
+        if (customDashboard.id === customDashboardId) {
+          activeDashboard.activeDashboardTitle = customDashboard.title;
+          break;
+        }
+      }
     }
   }
 
-  return loadingTitle;
+  return activeDashboard;
 }
 
 function onCreateNewDashboard() {

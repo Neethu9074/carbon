@@ -15,7 +15,7 @@ import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
+import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
@@ -28,18 +28,19 @@ const timeConfig = {
   autoRefresh: false
 };
 
-export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formData }) {
+export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   return (
     <SmartAlertConfigDialog
+      applicationLabel={applicationLabel}
       editMode={editMode}
       form={form}
       updateForm={setForm}
       granularity={granularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       advancedModeElement={AdvancedModeContainer}
-      simpleModeElement={() => null}
+      simpleModeElement={SimpleModeContainer}
       setForm={setForm}
       timeConfig={timeConfig}
       trackModeSwitch={(simpleMode, step) => {
@@ -74,11 +75,13 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, formD
 }
 
 SmartAlertConfigDialogWrapper.propTypes = {
+  applicationLabel: PropTypes.string.isRequired,
   editMode: PropTypes.bool,
   formData: PropTypes.shape({
     applicationId: PropTypes.string.isRequired,
-    tagFilters: PropTypes.array,
-    calculateThresholdOnBackend: PropTypes.bool
+    boundaryScope: PropTypes.string,
+    calculateThresholdOnBackend: PropTypes.bool,
+    tagFilters: PropTypes.array
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };
@@ -117,6 +120,5 @@ function toAlertConfig(form) {
   const alertConfig = form.remove('hiddenFields').toJS();
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
-  alertConfig.threshold = getThresholdWithFixedType(alertConfig.threshold);
   return alertConfig;
 }

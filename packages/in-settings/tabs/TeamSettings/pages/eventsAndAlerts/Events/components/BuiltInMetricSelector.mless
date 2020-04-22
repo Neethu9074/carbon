@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .item {
+    max-width: 42rem;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

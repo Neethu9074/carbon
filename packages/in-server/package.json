@@ -6,13 +6,14 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node . | bunyan"
+    "start": "node . | bunyan",
+    "test": "jest --testTimeout 5000",
+    "test:watch": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/instana/in-client.git"
+    "url": "https://github.com/instana/ui-client.git"
   },
-  "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "@instana/collector": "latest",
     "admin": "^1.4.0",
@@ -20,7 +21,6 @@
     "admin-plugin-environment": "^1.0.0",
     "admin-plugin-healthcheck": "^1.1.0",
     "admin-plugin-index": "^1.1.1",
-    "admin-plugin-report": "^1.0.1",
     "admin-plugin-terminate": "^1.0.0",
     "bunyan": "1.8.1",
     "cookie-parser": "^1.3.5",
@@ -28,17 +28,20 @@
     "express": "^4.13.3",
     "handlebars": "^4.0.2",
     "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0",
     "node-uuid": "^1.4.3",
     "pg": "^7.12.1",
     "request": "^2.65.0",
     "request-promise": "^4.2.2"
   },
-  "publishConfig": {
-    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
-  },
   "keywords": [
     "ui",
     "ui-client",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "fetch-mock-jest": "^1.2.7",
+    "jest": "^25.3.0",
+    "superagent": "^5.2.2"
+  }
 }

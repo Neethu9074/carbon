@@ -5,6 +5,7 @@ import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBu
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-subscription/application/getApplication';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getButtonKindBySeverity } from 'in-stores/events';
@@ -39,7 +40,10 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         className={locals.button}
         kind="subtle"
         icon="lib_views_stats"
-        href$={getServiceDashboard(node.id, { applicationId, boundaryScope: boundaryScopes.all })}
+        href$={getServiceDashboard(node.id, {
+          applicationId,
+          boundaryScope: boundaryScopes.all
+        })}
       >
         Go to Dashboard
       </Button>
@@ -63,7 +67,8 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           // the dependency map shows services using all calls of the application
           // so link to Analyze should always use boundaryScopes.all
           boundaryScope: boundaryScopes.all,
-          dataSource: 'calls'
+          dataSource: 'calls',
+          groupByTag: getConfigByDataSource('calls').defaultGrouping
         })}
       >
         Go to Analytics

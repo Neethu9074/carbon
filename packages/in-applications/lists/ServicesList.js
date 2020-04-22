@@ -65,16 +65,16 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'Type',
-    sortable: false,
+    id: 'types',
+    label: 'Types',
     noWrap: true,
     getContent(item) {
       return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
     }
   },
   {
-    id: 'Technology',
-    sortable: false,
+    id: 'technologies',
+    label: 'Technologies',
     noWrap: true,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.service.technologies} />;

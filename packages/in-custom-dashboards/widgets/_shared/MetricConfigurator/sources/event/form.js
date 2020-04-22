@@ -1,11 +1,17 @@
 import { createField, notBlankValidator } from 'formalistic';
 
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
+import { buildEnumValidator } from 'in-services/validators/enum';
+
 export function createForm(form, savedState) {
   return form
     .put(
       'dynamicFocusQuery',
       createField({
-        value: (savedState && savedState.dynamicFocusQuery) || ''
+        value: (savedState && savedState.dynamicFocusQuery) || '',
+        validator: composeAndShortCircuitOnError(stringValidator)
       })
     )
     .put(
@@ -14,7 +20,12 @@ export function createForm(form, savedState) {
         // Metric selection not necessary because there is only one metric.
         // Therefore hard coded
         value: 'eventCount',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(['eventCount'])
+        )
       })
     )
     .put(
@@ -23,7 +34,12 @@ export function createForm(form, savedState) {
         // Aggregation selection not necessary because there is only one metric.
         // Therefore hard coded
         value: 'DISTINCT_COUNT',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(['DISTINCT_COUNT'])
+        )
       })
     );
 }

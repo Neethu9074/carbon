@@ -38,8 +38,9 @@ import {
   formatterTypeToDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
+import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
+import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
@@ -71,6 +72,9 @@ import { validate } from 'in-api/search';
 import Link from 'in-components/Link';
 
 import locals from './CustomEventForm.mless';
+
+const undefinedMetricFormatter = 'UNDEFINED';
+const unknownMetricLabel = 'UNKNOWN';
 
 const previewStartDate = Date.now();
 
@@ -241,6 +245,7 @@ function EventForm({
                         value={field.value}
                         options={severityOptions}
                         onChange={e => onChange('severity', e ? e.value : '')}
+                        clearable={false}
                       />
                       <TouchedMessages field={field} />
                     </FormGroup>
@@ -263,7 +268,7 @@ function EventForm({
                   {form.get('gracePeriod').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-grace-period" hasError={!field.valid && field.touched}>
-                        Grace period
+                        Grace Period
                       </Label>
                       <Helpify helpText="Period to wait before closing the issue once conditions are no longer met.">
                         <ComboBox
@@ -272,6 +277,7 @@ function EventForm({
                           className={locals.helpified}
                           options={getOptionsWithAdditionalValueIfMissing(gracePeriodOptions, field.value)}
                           onChange={e => onChange('gracePeriod', (e = e ? e.value : ''))}
+                          clearable={false}
                         />
                         <TouchedMessages field={field} />
                       </Helpify>
@@ -299,35 +305,180 @@ function EventForm({
       {form.get('dataSource').map(field => (
         <FormGroup>
           <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            Data source
+            Data Source
           </Label>
           <ComboBox
             name="event-data-source"
             value={field.value}
             options={dataSourceOptions}
             onChange={e => {
-              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
-                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
-              });
+              if ((field.value && !e) || (e && e.value !== field.value)) {
+                onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                  return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
+                });
+              }
             }}
+            clearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
 
-      {form.get('dataSource').value === dataSourceSystem && ConditionsForSystemRuleSource(form, systemRules, onChange)}
+      {isSystemRuleDataSourceSelected(form) && (
+        <>
+          {form.get('systemRule').map(field => (
+            <FormGroup>
+              <Label htmlFor="event-system-rule" hasError={!field.valid && field.touched}>
+                System Rule
+              </Label>
+              <ComboBox
+                name="event-system-rule"
+                value={field.value}
+                options={systemRuleOptions(systemRules)}
+                onChange={e => {
+                  if (e && e.value !== field.value) {
+                    onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
+                      return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+                    });
+                  }
+                }}
+                clearable={false}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
 
-      {form.get('systemRule') &&
-        form.get('systemRule').value === entityVerification.id && (
-          <ObserveHostHasMatchingEntitiesRunningFormGroup
-            form={form}
-            entityTypes={getEntityTypeOptions()}
-            onChange={onChange}
-          />
-        )}
+          {form.get('systemRule') &&
+            form.get('systemRule').value === entityVerification.id && (
+              <ObserveHostHasMatchingEntitiesRunningFormGroup
+                form={form}
+                entityTypes={getEntityTypeOptions()}
+                onChange={onChange}
+              />
+            )}
+        </>
+      )}
 
-      {(form.get('dataSource').value === dataSourceBuiltIn || form.get('dataSource').value === dataSourceCustom) &&
-        ConditionsForNonSystemSource(form, pluginsWithMetricDefinitions, onChange, customMetrics, isPercentileMetric)}
+      {isBuiltInDataSourceSelected(form) && (
+        <>
+          <Row>
+            <Col cols={6}>
+              <EntityTypeFormGroup
+                form={form}
+                pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
+                onChange={onChange}
+              />
+            </Col>
+
+            <Col cols={6}>
+              {form.get('entityType').value &&
+                form.get('metricName').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
+                      Metric
+                    </Label>
+                    <BuiltInMetricSelector
+                      id="event-metricName"
+                      plugin={form.get('entityType').value}
+                      value={form.get('metricName').value}
+                      clearable={false}
+                      onChange={e => {
+                        if ((field.value && !e) || (e && e.value !== field.value)) {
+                          let selectedMetric = e ? e.value : '';
+                          onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                            if (isPercentile(updatedForm)) {
+                              updatedForm = updatedForm.remove('window').remove('aggregation');
+                              updatedForm = putRollupField(updatedForm, eventSpec);
+                            } else {
+                              updatedForm = updatedForm.remove('rollup');
+                              updatedForm = putWindowField(updatedForm, eventSpec);
+                              updatedForm = putAggregationField(updatedForm, eventSpec);
+                            }
+
+                            const entityType = form.get('entityType').value;
+                            const buildInMetricsList = getPlainMetricList(entityType);
+                            const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
+
+                            const metricInfo = getBuiltInMetricInfo(metricItem);
+
+                            updatedForm = updatedForm
+                              .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                              .updateIn(['label'], f => f.setValue(metricInfo.label))
+                              .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                              .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+
+                            return updatedForm;
+                          });
+                        }
+                      }}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+            </Col>
+          </Row>
+
+          {form.get('entityType').value &&
+            form.get('metricName').value && (
+              <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+            )}
+        </>
+      )}
+
+      {isCustomDataSourceSelected(form) && (
+        <>
+          <Row>
+            <Col cols={12}>
+              {form.get('metricName').map(field => (
+                <FormGroup>
+                  <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
+                    Metric
+                  </Label>
+                  <CustomMetricSelector
+                    id="event-metricName"
+                    value={form.get('metricName').value}
+                    metrics={customMetrics}
+                    onChange={e => {
+                      if ((field.value && !e) || (e && e.value !== field.value)) {
+                        let selectedMetric = e ? e.value : '';
+                        onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                          updatedForm = updatedForm.remove('rollup');
+                          updatedForm = putWindowField(updatedForm, eventSpec);
+                          updatedForm = putAggregationField(updatedForm, eventSpec);
+
+                          // manually update the hidden hidden entityType field in case of custom metrics
+                          updatedForm = updatedForm.updateIn(['entityType'], f => {
+                            const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
+                            if (metricItem == null) {
+                              return f.setValue('');
+                            }
+                            return f.setValue(metricItem.entityType);
+                          });
+
+                          const metricInfo = getCustomMetricInfo(customMetrics, selectedMetric);
+
+                          updatedForm = updatedForm
+                            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                            .updateIn(['label'], f => f.setValue(metricInfo.label))
+                            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+
+                          return updatedForm;
+                        });
+                      }
+                    }}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          </Row>
+
+          {form.get('metricName').value && (
+            <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+          )}
+        </>
+      )}
 
       <SectionHeading>3. Scope</SectionHeading>
       <Row>
@@ -430,37 +581,20 @@ function EventForm({
   );
 }
 
-function createIssueForPreview(form) {
-  return fromJS({
-    id: 'uuid',
-    start: previewStartDate,
-    end: null,
-    problem: {
-      fixSuggestion: form.get('description').value,
-      id: 'uuid',
-      problemText: form.get('name').value,
-      snapshotId: 'snapshotId',
-      severity: form.get('severity').value
-    },
-    state: 'open',
-    type: 'issue'
-  });
-}
-
-function ConditionsForSystemRuleSource(form, systemRules, onChange) {
-  return form.get('systemRule').map(field => (
+function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
+  return form.get('entityType').map(field => (
     <FormGroup>
-      <Label htmlFor="event-system-rule" hasError={!field.valid && field.touched}>
-        System Rule
+      <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
+        Entity Type
       </Label>
       <ComboBox
-        name="event-system-rule"
+        name="event-entity-type"
         value={field.value}
-        options={systemRuleOptions(systemRules)}
+        options={pluginsWithMetricDefinitions}
         onChange={e => {
-          if (e && e.value != field.value) {
-            onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
-              return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+          if ((field.value && !e) || (e && e.value !== field.value)) {
+            onChange('entityType', e ? e.value : null, updatedForm => {
+              return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
             });
           }
         }}
@@ -471,122 +605,104 @@ function ConditionsForSystemRuleSource(form, systemRules, onChange) {
   ));
 }
 
-function ConditionsForNonSystemSource(form, pluginsWithMetricDefinitions, onChange, customMetrics, isPercentileMetric) {
+function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
   return (
-    <Fragment>
+    <FormGroup noFlex>
       <Row>
-        <Col cols={!isBuiltInMetric(form) ? 12 : 6}>
-          {isBuiltInMetric(form)
-            ? EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange)
-            : MetricSelectionFormGroup(form, customMetrics, onChange)}
+        {!isPercentileMetric && (
+          <Col cols={3}>
+            {form.get('window').map(field => (
+              <FormGroup>
+                <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
+                  Time Window
+                </Label>
+                <ComboBox
+                  name="event-window"
+                  value={field.value}
+                  options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
+                  onChange={e => onChange('window', e ? e.value : '')}
+                  clearable={false}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
+        )}
+        {isPercentileMetric && (
+          <Col cols={3}>
+            {form.get('rollup').map(field => (
+              <FormGroup>
+                <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
+                  Window Size
+                </Label>
+                <ComboBox
+                  name="event-rollup"
+                  value={field.value}
+                  options={rollupOptions}
+                  onChange={e => onChange('rollup', e ? e.value : '')}
+                  clearable={false}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
+        )}
+        {!isPercentileMetric && (
+          <Col cols={3}>
+            {form.get('aggregation').map(field => (
+              <FormGroup>
+                <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
+                  Aggregation
+                </Label>
+                <ComboBox
+                  name="event-aggregation"
+                  value={field.value}
+                  options={aggregationOptions}
+                  onChange={e => onChange('aggregation', e ? e.value : e)}
+                  clearable={false}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+          </Col>
+        )}
+        <Col cols={3}>
+          {form.get('conditionOperator').map(field => (
+            <FormGroup>
+              <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
+                Operator
+              </Label>
+              <ComboBox
+                name="event-conditionOperator"
+                value={field.value}
+                options={conditionOperatorOptions}
+                onChange={e => onChange('conditionOperator', e ? e.value : e)}
+                clearable={false}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
         </Col>
-
-        <Col cols={6}>
-          {isBuiltInMetric(form) &&
-            form.get('entityType').value &&
-            MetricSelectionFormGroup(form, customMetrics, onChange)}
+        <Col cols={3}>
+          {form.get('conditionValue').map(field => (
+            <FormGroup>
+              <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
+                {formatterTypeToDefinition(form.get('formatter').value)}
+              </Label>
+              <Input
+                id="event-conditionValue"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('conditionValue', e.target.value)}
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
         </Col>
       </Row>
-
-      {shouldRenderThresholds(form) && ThresholdsFormGroup(isPercentileMetric, form, onChange)}
-    </Fragment>
+    </FormGroup>
   );
-}
-function isBuiltInMetric(form) {
-  return form.get('dataSource').value === dataSourceBuiltIn;
-}
-
-function EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange) {
-  return form.get('entityType').map(field => (
-    <FormGroup>
-      <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
-        Entity type
-      </Label>
-      <ComboBox
-        name="event-entity-type"
-        value={field.value}
-        options={pluginsWithMetricDefinitions}
-        onChange={e => {
-          if ((field.value && !e) || (e && e.value != field.value)) {
-            onChange('metricName', '');
-            onChange('entityType', e ? e.value : '');
-          }
-        }}
-      />
-      <TouchedMessages field={field} />
-    </FormGroup>
-  ));
-}
-
-function MetricSelectionFormGroup(form, customMetrics, onChange) {
-  return form.get('metricName').map(field => (
-    <FormGroup>
-      <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-        Metric
-      </Label>
-      <MetricSelector
-        id="event-metricName"
-        plugin={form.get('entityType').value}
-        value={form.get('metricName').value}
-        metrics={form.get('dataSource').value === dataSourceCustom ? customMetrics : null}
-        useComboBox
-        onChange={e => {
-          if ((field.value && !e) || (e && e.value != field.value)) {
-            let selectedMetric = e ? e.value : '';
-            onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
-              if (isPercentile(updatedForm)) {
-                updatedForm = updatedForm.remove('window').remove('aggregation');
-                updatedForm = putRollupField(updatedForm, eventSpec);
-              } else {
-                updatedForm = updatedForm.remove('rollup');
-                updatedForm = putWindowField(updatedForm, eventSpec);
-                updatedForm = putAggregationField(updatedForm, eventSpec);
-              }
-
-              if (form.get('dataSource').value === dataSourceCustom) {
-                // manually update the hidden hidden entityType field in case of custom metrics
-                updatedForm = updatedForm.updateIn(['entityType'], f => {
-                  const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
-                  if (metricItem == null) {
-                    return f.setValue('');
-                  }
-                  return f.setValue(metricItem.entityType);
-                });
-              }
-
-              let metricFormatter = 'UNDEFINED';
-              let metricLabel = 'UNKNOWN';
-              if (form.get('dataSource').value === dataSourceCustom) {
-                const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
-                if (metricItem != null) {
-                  metricFormatter = metricItem.formatter;
-                  metricLabel = metricItem.origLabel || metricItem.label;
-                }
-              } else if (form.get('dataSource').value === dataSourceBuiltIn) {
-                const entityType = form.get('entityType').value;
-                const buildInMetricsList = getPlainMetricList(entityType);
-                const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
-                if (metricItem != null) {
-                  metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
-                  metricLabel = metricItem.origLabel || metricItem.label;
-                }
-              }
-
-              updatedForm = updatedForm.updateIn(['formatter'], f => {
-                return f.setValue(metricFormatter);
-              });
-              updatedForm = updatedForm.updateIn(['label'], f => {
-                return f.setValue(metricLabel);
-              });
-
-              return updatedForm;
-            });
-          }
-        }}
-      />
-      <TouchedMessages field={field} />
-    </FormGroup>
-  ));
 }
 
 function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
@@ -661,6 +777,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={matchingEntityType.value}
               options={entityTypeOptions}
               onChange={e => onChange('matchingEntityType', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={matchingEntityType} />
           </FormGroup>
@@ -675,6 +792,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={matchingOperator.value}
               options={entityLabelOperatorOptions}
               onChange={e => onChange('matchingOperator', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={matchingOperator} />
           </FormGroup>
@@ -706,6 +824,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
               value={offlineDuration.value}
               options={offlineDurationOptions}
               onChange={e => onChange('offlineDuration', e ? e.value : '')}
+              clearable={false}
             />
             <TouchedMessages field={offlineDuration} />
           </FormGroup>
@@ -715,113 +834,37 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
   );
 }
 
-function shouldRenderThresholds(form) {
-  return (
-    form.get('dataSource').value === dataSourceCustom ||
-    (form.get('dataSource').value === dataSourceBuiltIn && form.get('entityType').value)
-  );
+function getBuiltInMetricInfo(metricItem) {
+  let formatter = undefinedMetricFormatter;
+  let label = unknownMetricLabel;
+  if (metricItem != null) {
+    formatter = numberFormatterToFormatterType(metricItem.formatter);
+    label = metricItem.origLabel || metricItem.label;
+  }
+  return {
+    formatter,
+    label
+  };
 }
 
-function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
-  return (
-    <FormGroup noFlex>
-      <Row>
-        {!isPercentileMetric && (
-          <Col cols={3}>
-            {form.get('window').map(field => (
-              <FormGroup>
-                <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
-                  Time window
-                </Label>
-                <ComboBox
-                  name="event-window"
-                  value={field.value}
-                  options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
-                  onChange={e => onChange('window', e ? e.value : '')}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        {isPercentileMetric && (
-          <Col cols={3}>
-            {form.get('rollup').map(field => (
-              <FormGroup>
-                <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
-                  Window Size
-                </Label>
-                <ComboBox
-                  name="event-rollup"
-                  value={field.value}
-                  options={rollupOptions}
-                  onChange={e => onChange('rollup', e ? e.value : '')}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        {!isPercentileMetric && (
-          <Col cols={3}>
-            {form.get('aggregation').map(field => (
-              <FormGroup>
-                <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
-                  Aggregation
-                </Label>
-                <ComboBox
-                  name="event-aggregation"
-                  value={field.value}
-                  options={aggregationOptions}
-                  onChange={e => onChange('aggregation', e ? e.value : e)}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        <Col cols={3}>
-          {form.get('conditionOperator').map(field => (
-            <FormGroup>
-              <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
-                Operator
-              </Label>
-              <ComboBox
-                name="event-conditionOperator"
-                value={field.value}
-                options={conditionOperatorOptions}
-                onChange={e => onChange('conditionOperator', e ? e.value : e)}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
-        <Col cols={3}>
-          {form.get('conditionValue').map(field => (
-            <FormGroup>
-              <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-                {formatterTypeToDefinition(form.get('formatter').value)}
-              </Label>
-              <Input
-                id="event-conditionValue"
-                type="text"
-                value={field.value}
-                onChange={e => onChange('conditionValue', e.target.value)}
-                hasError={!field.valid && field.touched}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
-    </FormGroup>
-  );
+function getCustomMetricInfo(customMetrics, selectedMetric) {
+  let formatter = undefinedMetricFormatter;
+  let label = unknownMetricLabel;
+  const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
+  if (metricItem != null) {
+    formatter = metricItem.formatter;
+    label = metricItem.origLabel || metricItem.label;
+  }
+  return {
+    formatter,
+    label
+  };
 }
 
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
-  const entityType = form.get('entityType').value;
+  const entityType = form.get('entityType')?.value;
 
-  if (isDeprecatedEntityType(entityType)) {
+  if (entityType && isDeprecatedEntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
       label: getSingular(entityType) + ' (deprecated)'
@@ -932,6 +975,35 @@ function isPercentile(form) {
   const metricName = form.get('metricName').value;
   const entityType = form.get('entityType').value;
   return isMetricPercentile(entityType, metricName);
+}
+
+function createIssueForPreview(form) {
+  return fromJS({
+    id: 'uuid',
+    start: previewStartDate,
+    end: null,
+    problem: {
+      fixSuggestion: form.get('description').value,
+      id: 'uuid',
+      problemText: form.get('name').value,
+      snapshotId: 'snapshotId',
+      severity: form.get('severity').value
+    },
+    state: 'open',
+    type: 'issue'
+  });
+}
+
+function isBuiltInDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceBuiltIn;
+}
+
+function isCustomDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceCustom;
+}
+
+function isSystemRuleDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceSystem;
 }
 
 const severityWarning = '5';

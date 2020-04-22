@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import { operators } from 'in-analyze/applicationFilter';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
 
@@ -12,13 +10,13 @@ import locals from './JsErrorsList.mless';
 
 const columnDefinitions = [
   {
-    id: 'errorMessage',
+    id: 'message',
     label: 'Error Message',
     getContent: error => ErrorRow(error)
   }
 ];
 
-export default function JsErrorsList({ form, timeConfig, onJsErrorSelect, slideOut }) {
+export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsErrorSelect, slideOut }) {
   return (
     <>
       <List
@@ -30,11 +28,11 @@ export default function JsErrorsList({ form, timeConfig, onJsErrorSelect, slideO
         loadEntities={() =>
           getTableData({
             tagFilters: [
-              ...form.get(fieldNames.tagFilters).value,
+              ...tagFilters,
               {
                 name: 'beacon.website.id',
                 operator: 'EQUALS',
-                stringValue: form.get(fieldNames.websiteId).value
+                stringValue: websiteId
               }
             ],
             timeConfig
@@ -45,10 +43,7 @@ export default function JsErrorsList({ form, timeConfig, onJsErrorSelect, slideO
         pageSize={10}
         noDataMessage="No alert configured."
         onRowClick={error => {
-          onJsErrorSelect(
-            form.updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS)),
-            error.message
-          );
+          onJsErrorSelect(error.message);
           slideOut();
         }}
       />
@@ -58,30 +53,24 @@ export default function JsErrorsList({ form, timeConfig, onJsErrorSelect, slideO
 }
 
 JsErrorsList.propTypes = {
-  form: PropTypes.object.isRequired,
+  websiteId: PropTypes.string.isRequired,
+  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
   onJsErrorSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
 
-function getTableData({
-  page = 1,
-  pageSize = 15,
-  orderBy = 'errorsAgg',
-  orderDirection = 'DESC',
-  timeConfig,
-  tagFilters
-}) {
+function getTableData({ timeConfig, tagFilters }) {
   return getWebsiteErrors({
     tagFilters,
     timeConfig,
     pagination: {
-      page,
-      pageSize
+      page: 1,
+      pageSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: 'errorsAgg',
+      direction: 'DESC'
     },
     metrics: {
       errorsAgg: {

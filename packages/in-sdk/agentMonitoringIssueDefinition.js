@@ -2,6 +2,23 @@ import React from 'react';
 
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 
+export const SENSOR = {
+  suffix: 'not monitored',
+  alert_prefix: 'Missing metrics.'
+};
+export const TRACER = {
+  suffix: 'not traced',
+  alert_prefix: 'Missing tracing.'
+};
+export const PROFILER = {
+  suffix: 'not profiled',
+  alert_prefix: 'Missing profiles.'
+};
+export const UNKNOWN = {
+  suffix: 'not monitored',
+  alert_prefix: 'Missing data.'
+};
+
 function fallbackAgentMonitoringIssueDefinition(code) {
   return {
     issueDescription: {
@@ -18,7 +35,7 @@ function fallbackAgentMonitoringIssueDefinition(code) {
   };
 }
 
-export function getIssueDefinitionForSnapshotAndCode(snapshotOrPlugin, code) {
+export default function getIssueDefinitionForSnapshotAndCode(snapshotOrPlugin, code) {
   // snapshotOrPlugin might be undefined / null, make sure to properly check.
   const plugin =
     snapshotOrPlugin && typeof snapshotOrPlugin === 'object' ? snapshotOrPlugin.get('plugin') : snapshotOrPlugin;

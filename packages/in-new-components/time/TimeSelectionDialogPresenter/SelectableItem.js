@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { retention$ } from 'in-subscription/application/getRetention';
+import getRetention from 'in-subscription/application/getRetention';
 import { format } from 'in-new-components/time/timeframeFormatter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
@@ -10,16 +10,18 @@ import locals from './SelectableItem.mless';
 
 export default connectTo(
   props => ({
-    getRetention:
+    retentionResult:
       !props.hideTimeIcon &&
-      retention$(
-        { windowSize: props.newTimeframe.windowSize, to: props.newTimeframe.to, focusedMoment: props.newTimeframe.to },
-        false
-      )
+      getRetention({
+        timeConfig: {
+          windowSize: props.newTimeframe.windowSize,
+          to: props.newTimeframe.to,
+          focusedMoment: props.newTimeframe.to
+        }
+      })
   }),
-  function SelectableItem({ timeConfig, newTimeframe, onChange, getRetention, hideTimeIcon = false }) {
+  function SelectableItem({ timeConfig, newTimeframe, onChange, retentionResult, hideTimeIcon = false }) {
     const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
-    const { containsHistoricData, retention } = getRetention;
     return (
       <a
         className={evaluateClassNames({
@@ -34,13 +36,13 @@ export default connectTo(
         }}
       >
         {newTimeframe.label || format(newTimeframe)}
-        {containsHistoricData &&
+        {retentionResult?.data?.containsHistoricData &&
           !hideTimeIcon && (
             <TimeIcon
               theme={isActive ? 'dark' : 'light'}
               className={locals.timeIcon}
               containsHistoricData
-              retention={retention}
+              retention={retentionResult.data.retention}
             />
           )}
       </a>

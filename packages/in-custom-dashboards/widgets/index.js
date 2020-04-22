@@ -8,7 +8,7 @@ import * as bigNumber from 'in-custom-dashboards/widgets/BigNumber';
 import * as markdown from 'in-custom-dashboards/widgets/Markdown';
 import * as chart from 'in-custom-dashboards/widgets/Chart';
 
-export default {
+const all = {
   [markdown.type]: markdown,
   [timeZones.type]: timeZones,
   [platformsTopList.type]: platformsTopList,
@@ -19,3 +19,6 @@ export default {
   [chart.type]: chart,
   [eventChartCard.type]: eventChartCard
 };
+export default all;
+
+export const enabledWidgets = Object.fromEntries(Object.entries(all).filter(entry => entry[1].enabled));

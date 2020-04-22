@@ -54,7 +54,8 @@ export const customServiceMappingTagKeys = [
   'process.name',
   'ruby.name',
   'service.default_name',
-  'springboot.name'
+  'springboot.name',
+  'tanzu.foundation.name'
 ];
 
 export const callAnalysisBlacklistedTags = [
@@ -148,7 +149,9 @@ export function getApplicationCreationTagKeys() {
     const tag = tagMap[keys[i]];
     if (
       tag.type &&
-      (tag.type === TAG_TYPES.STRING.technicalName || tag.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) &&
+      (tag.type === TAG_TYPES.STRING.technicalName ||
+        tag.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName ||
+        tag.name === 'call.http.status') &&
       !applicationCreationBlacklist[tag.fullyQualifiedName] &&
       !isBeaconTag(tag.fullyQualifiedName)
     ) {

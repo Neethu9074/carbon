@@ -1,0 +1,67 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Client Unit Tests",
+      "args": [
+        "--max-old-space-size=4096",
+        "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+        "--timeout",
+        "999999",
+        "--require",
+        "${workspaceFolder}/packages/in-test/testHarness",
+        "--colors",
+        "--reporter",
+        "dot",
+        "--exclude",
+        "**/node_modules/**",
+        "--exit",
+        "${workspaceFolder}/packages/**/*_test.js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "IS_TEST": "true"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Server Unit Tests",
+      "cwd": "${workspaceFolder}/packages/in-server",
+      "args": [
+        "node_modules/.bin/jest",
+        "--testTimeout",
+        "999999",
+        "--color",
+        "--coverage",
+        "test/*"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Server Unit Tests (watch)",
+      "cwd": "${workspaceFolder}/packages/in-server",
+      "args": [
+        "node_modules/.bin/jest",
+        "--testTimeout",
+        "999999",
+        "--watch",
+        "--color",
+        "--coverage",
+        "test/*"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
+

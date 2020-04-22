@@ -66,9 +66,9 @@ export default connectTo(
         >
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
 
-          {this.renderTooltipAndContextMenu()}
-
           <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />
+
+          {this.renderTooltipAndContextMenu()}
         </div>
       );
     }

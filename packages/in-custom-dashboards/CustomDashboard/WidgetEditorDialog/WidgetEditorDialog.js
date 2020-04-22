@@ -2,10 +2,14 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
 
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
+import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { type as defaultType } from 'in-custom-dashboards/widgets/BigNumber';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { buildEnumValidator } from 'in-services/validators/enum';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
-import widgets from 'in-custom-dashboards/widgets';
+import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 
 export default compose(
   withState('form', 'setForm', ({ widget }) => getInitialFormState(widget)),
@@ -37,53 +41,66 @@ export default compose(
   }))
 )(WidgetEditorDialogPresenter);
 
-function getInitialFormState(widget) {
+export function getInitialFormState(widget) {
   const type = widget?.type ?? defaultType;
-
-  return createMapForm()
+  let form = createMapForm()
     .put(
       'id',
       createField({
-        value: widget?.id ?? generateUniqueShortId()
+        value: widget?.id ?? generateUniqueShortId(),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'width',
       createField({
-        value: widget?.width ?? 1
+        value: widget?.width ?? 1,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
       })
     )
     .put(
       'height',
       createField({
-        value: widget?.height ?? 1
+        value: widget?.height ?? 1,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
       })
     )
     .put(
       'x',
       createField({
-        value: widget?.x ?? 0
+        value: widget?.x ?? 0,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
       })
     )
     .put(
       'y',
       createField({
-        value: widget?.y ?? 0
+        value: widget?.y ?? 0,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
       })
     )
     .put(
       'title',
       createField({
         value: widget?.title ?? '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
       'type',
       createField({
         value: type,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          buildEnumValidator(Object.keys(enabledWidgets))
+        )
       })
-    )
-    .put('config', widgets[type].createForm(widget?.config));
+    );
+
+  if (form.get('type').valid) {
+    form = form.put('config', widgets[form.get('type').value].createForm(widget?.config));
+  }
+
+  return form;
 }

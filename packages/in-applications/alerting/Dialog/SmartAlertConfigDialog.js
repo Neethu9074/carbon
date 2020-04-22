@@ -1,11 +1,15 @@
 import { empty } from 'reactive-observables';
 import React from 'react';
 
+import {
+  getHistoricThresholdMetricsConfiguration,
+  getBaselineMetricsConfiguration
+} from 'in-applications/alerting/Dialog/metricConfigurations';
 import getApplicationMetricsHistoricThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsHistoricThreshold';
-import { getHistoricThresholdMetricsConfiguration, getBaselineMetricsConfiguration } from './metricConfigurations';
 import getApplicationMetricsBaseline from 'in-applications/alerting/subscriptions/getApplicationMetricsBaseline';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
@@ -115,8 +119,5 @@ function getLogTagFilters(form) {
   const message = form.get('rule').get('message').value;
   const level = form.get('rule').get('level').value;
 
-  const logMessageFilter = { name: 'log.message', operator: operator, stringValue: message };
-  const logLevelFilter = { name: 'log.level', operator: 'EQUALS', stringValue: level };
-
-  return [...form.get('tagFilters').toJS(), logLevelFilter, logMessageFilter];
+  return [...form.get('tagFilters').toJS(), ...getLogLevelTagFilters(message, operator, level)];
 }

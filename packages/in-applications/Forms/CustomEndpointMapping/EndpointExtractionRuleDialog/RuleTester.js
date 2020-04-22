@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
-import { build, parse } from 'in-services/validators/urlPath';
+import { build, parse, validate } from 'in-services/validators/urlPath';
 import { testRules } from 'in-api/endpointConfiguration';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
@@ -104,7 +104,17 @@ export default class RuleTester extends React.Component {
     const testCases = form.get('testCases').map(testCaseField => testCaseField.value);
     const query = form.get('query').value;
 
-    if (testCases.size === 0 || !query) {
+    if (testCases.length === 0 || !query) {
+      this.setState({
+        testResult: null,
+        loading: false,
+        error: false
+      });
+      return;
+    }
+
+    const parsedQuery = parse(query);
+    if (validate(parsedQuery)) {
       this.setState({
         testResult: null,
         loading: false,
@@ -116,7 +126,7 @@ export default class RuleTester extends React.Component {
     let rulesToCheck = this.getRulesToCheck(testCases);
     rulesToCheck.push({
       enabled: true,
-      pathSegments: parse(query),
+      pathSegments: parsedQuery,
       testCases
     });
 

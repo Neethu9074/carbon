@@ -50,7 +50,8 @@ function AlertConfigDialogPresenter(props) {
     withTrackClose,
     withTrackCreate,
     setSliderState,
-    setSimpleModeStep
+    setSimpleModeStep,
+    updateForm
   } = props;
 
   const SimpleMode = simpleModeElement({
@@ -68,7 +69,6 @@ function AlertConfigDialogPresenter(props) {
     setSliderState: setSliderState,
     setSimpleModeStep: setSimpleModeStep
   });
-
   return (
     <BigHeaderDialogWithSlideInView
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}
@@ -83,6 +83,7 @@ function AlertConfigDialogPresenter(props) {
         !editMode && (
           <Button
             onClick={() => {
+              resetFormDirtyState();
               trackModeSwitch(simpleMode, simpleModeStep, form);
               setSimpleMode(!simpleMode);
             }}
@@ -103,4 +104,14 @@ function AlertConfigDialogPresenter(props) {
       </div>
     </BigHeaderDialogWithSlideInView>
   );
+
+  /**
+   * Reset the dirty state of the form, to be in a clean state in teh respective mode.
+   * This prevents that buttons are disabled when violators evaluate to false and dirty state is true.
+   */
+  function resetFormDirtyState() {
+    if (!form.hierarchyValid) {
+      updateForm(form.setTouched(false, { recurse: true }));
+    }
+  }
 }

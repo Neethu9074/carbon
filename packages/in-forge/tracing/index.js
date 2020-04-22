@@ -64,6 +64,7 @@ import './jaeger';
 import './java.http';
 import './java.rmi.entry';
 import './java.rmi.exit';
+import './jboss.scheduler';
 import './jdbc';
 import './jersey.client';
 import './jersey';

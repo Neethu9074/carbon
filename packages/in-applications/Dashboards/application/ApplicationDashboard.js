@@ -3,22 +3,21 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import CreateSmartAlert from '../../alerting/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
-import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
@@ -68,7 +67,6 @@ function ApplicationDashboard({
           applicationName: get(result, ['data', 'label'])
         })}
       />
-      <Footer />
     </>
   );
 }
@@ -85,7 +83,8 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location }) {
+function renderButtonLine(props) {
+  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope, label, location } = props;
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -95,11 +94,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-      <UpstreamDownstreamButton
+      <ContextGuide
+        id={applicationId}
+        timeConfig={timeConfig}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        timeConfig={timeConfig}
+        productArea="application"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
@@ -119,6 +120,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, timeConfig, bo
               endpointId={endpointId}
               applicationId={applicationId}
               location={location}
+              boundaryScope={boundaryScope}
             />
           </FloatingActionButtons>
         )}

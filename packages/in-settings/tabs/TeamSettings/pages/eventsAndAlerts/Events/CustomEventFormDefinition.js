@@ -349,7 +349,7 @@ export function updateFormDefinitionForSystemRule(form, previousDataSource, even
 }
 
 export function updateFormDefinitionForDataSource(form, previousDataSource, event, systemRules) {
-  const nextDataSource = form.get('dataSource') ? form.get('dataSource').value : null;
+  const nextDataSource = form.get('dataSource')?.value;
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
     const { ruleType } = getRuleAttributes(getMutableEvent(event));
@@ -364,6 +364,9 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
     form = putAllDataSourceFields(form, event);
     form = form.remove('systemRule');
     form = removeAllEntityVerificationFields(form);
+  } else if (previousDataSource) {
+    form = form.updateIn(['entityType'], field => field.setValue(null));
+    form = form.updateIn(['metricName'], field => field.setValue(null));
   }
 
   if (previousDataSource !== nextDataSource) {

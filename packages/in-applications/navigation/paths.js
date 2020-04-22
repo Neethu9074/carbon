@@ -143,9 +143,19 @@ function getDashboard({
 
 export function goToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
   mutateUrl(location => {
-    location.pathname = alertsTabDetailsFullyQualified;
-    setOrDeleteMatrixKey(location, applicationDashboard, applicationIdMatrixParam, applicationId);
-    setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, alertConfigId);
-    setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+    fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
   });
+}
+
+export function getAlertConfig(alertConfigId, applicationId) {
+  return getModifiedUrlStream(params => {
+    fillAlertTabSpecificValues(params, applicationId, alertConfigId, null);
+  });
+}
+
+function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertConfigVersion) {
+  params.pathname = alertsTabDetailsFullyQualified;
+  setOrDeleteMatrixKey(params, applicationDashboard, applicationIdMatrixParam, applicationId);
+  setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
 }

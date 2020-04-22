@@ -39,15 +39,19 @@ export default class Config {
   }
 
   getFilteredMetrics(props, key) {
-    return new Set([props.y1, props.y2].filter(Boolean).flatMap(axis => this.getMetricsForAxis(axis, key)));
+    let filteredMetrics = this.getMetricsForAxis('y1', props.y1, key);
+    if (props.y2) {
+      filteredMetrics = filteredMetrics.concat(this.getMetricsForAxis('y2', props.y2, key));
+    }
+    return new Set(filteredMetrics);
   }
 
-  getMetricsForAxis(axis, key) {
+  getMetricsForAxis(axisName, axis, key) {
     const disabledLabels = [];
     if (axis[key]) {
       for (let mId = 0; mId < axis.metricIds.length; mId++) {
         if (axis[key].indexOf(axis.metricIds[mId]) >= 0) {
-          disabledLabels.push(axis.labels[mId]);
+          disabledLabels.push(`${axisName}-${mId}`);
         }
       }
     }
@@ -65,8 +69,8 @@ export default class Config {
     this.filteredDataSeries$.emit(this.filteredDataSeries);
   }
 
-  isLabelFiltered(label) {
-    return this.filteredDataSeries.has(label);
+  isFiltered(axisName, index) {
+    return this.filteredDataSeries.has(`${axisName}-${index}`);
   }
 
   update(props) {

@@ -157,6 +157,14 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle="Cluster Nodes" cols={cols} rows={rows} initialSortColumn={2} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={`Cluster Nodes (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={2}
+      />
+    );
   }
 );

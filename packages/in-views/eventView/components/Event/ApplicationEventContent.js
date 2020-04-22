@@ -43,7 +43,6 @@ export default connectTo(
     const aggregation = alertConfig.rule.aggregation;
     const threshold = alertConfig.threshold;
     const timeThreshold = alertConfig.timeThreshold;
-    const thresholdWithSeasonality = { ...threshold, type: getThresholdTypeWithSeasonality(threshold) };
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -88,7 +87,7 @@ export default connectTo(
                   tagFilters={tagFilters}
                   aggregation={aggregation}
                   granularity={alertingMetricsGranularity}
-                  threshold={thresholdWithSeasonality}
+                  threshold={threshold}
                   timeThreshold={timeThreshold}
                 />
               )}
@@ -132,11 +131,4 @@ function getApplicationIdTagFilter(applicationId) {
     operator: 'EQUALS',
     stringValue: applicationId
   };
-}
-
-function getThresholdTypeWithSeasonality(thresholdRule) {
-  if (thresholdRule.type === 'historicBaseline') {
-    return `${thresholdRule.type}.${thresholdRule.seasonality.toUpperCase()}`;
-  }
-  return thresholdRule.type;
 }

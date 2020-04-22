@@ -30,7 +30,7 @@ export function getAlertsForAlertChannelId(alertChannelId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/alerts/infos`,
+    url: '/api/events/settings/alert-configs/infos',
     queryParams: {
       integrationId: alertChannelId
     }

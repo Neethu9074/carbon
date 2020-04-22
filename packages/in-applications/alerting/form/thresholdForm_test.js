@@ -12,9 +12,9 @@ describe('in-applications/alerting/form/thresholdForm', () => {
       });
     });
 
-    context('when thresholdType includes historicBaseline.', () => {
+    context('when thresholdType includes historicBaseline', () => {
       it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
-        const thresholdForm = createSlownessForm({ type: 'historicBaseline.' }).toJS();
+        const thresholdForm = createSlownessForm({ type: 'historicBaseline' }).toJS();
         expect(thresholdForm).to.have.keys(
           'type',
           'operator',

@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import rpt from 'prop-types';
 
+import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
+import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
+import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
-import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { cockpitLink$ } from 'in-cockpit/navigation/paths';
 import SearchInput from 'in-new-components/SearchInput';
-import { noop } from 'in-services/util/function';
+import Lettering from 'in-components/Lettering';
 import Button from 'in-new-components/Button';
+import Pill from 'in-new-components/Pill';
+import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
 
-export default function DashboardSwitcherOverlayPresenter({
+export default connectTo({
+  activeLandingPageConfiguration: getActiveConfiguration$()
+})(DashboardSwitcherOverlayPresenter);
+
+function DashboardSwitcherOverlayPresenter({
   customDashboards,
   isLoadingMore,
   onCreateNewDashboard,
-  close
+  close,
+  activeLandingPageConfiguration
 }) {
   const [query, setQuery] = useState('');
 
@@ -40,24 +50,12 @@ export default function DashboardSwitcherOverlayPresenter({
           </Button>
         </Li>
 
-        <Li href$={cockpitLink$}>System Overview</Li>
-
-        {(isLoadingMore || customDashboards.length > 0) && (
-          <Li noAlternatingBg className={locals.tabs}>
-            <InlineTabNavigation
-              activeTabIndex={0}
-              onTabSelect={noop}
-              tabList={[
-                {
-                  text: 'All Dashboards'
-                }
-              ]}
-            />
-          </Li>
-        )}
-
+        <DashboardList
+          customDashboards={customDashboards}
+          query={query}
+          activeLandingPageConfiguration={activeLandingPageConfiguration}
+        />
         {isLoadingMore && <HorizontalIndicatorLi progress={indeterminateProgress} />}
-        <DashboardList customDashboards={customDashboards} query={query} />
         {isLoadingMore && <LoadingSkeletonLi />}
       </Ul>
     </div>
@@ -65,6 +63,9 @@ export default function DashboardSwitcherOverlayPresenter({
 }
 
 DashboardSwitcherOverlayPresenter.propTypes = {
+  // Loaded via connectTo
+  activeLandingPageConfiguration: rpt.any,
+
   isLoadingMore: rpt.bool,
   onCreateNewDashboard: rpt.func.isRequired,
   close: rpt.func.isRequired,
@@ -76,22 +77,48 @@ DashboardSwitcherOverlayPresenter.propTypes = {
   )
 };
 
-function DashboardList({ customDashboards, query }) {
-  if (!customDashboards) {
-    return null;
-  }
+function DashboardList({ customDashboards, query, activeLandingPageConfiguration }) {
+  let items = (customDashboards || [])
+    .map(({ id, title }) => ({
+      id,
+      title,
+      isDefault: isCustomDashboardLandingPage(activeLandingPageConfiguration?.pageKey, id),
+      href$: getCustomDashboardLink(id)
+    }))
+    .sort((a, b) => compareIgnoreCase(a.title, b.title));
 
-  let items = customDashboards.slice();
+  // This should always be the first item in the list.
+  items.unshift({
+    id: 'standard-system-overview',
+    title: 'Instana',
+    isDefault: isCockpitLandingPage(activeLandingPageConfiguration?.pageKey),
+    titleElement: (
+      <>
+        <Lettering className={locals.lettering} />
+        <Pill color={theme.lib.colors.deepPurple800} className={locals.leftMargin}>
+          built-in
+        </Pill>
+      </>
+    ),
+    href$: cockpitLink$
+  });
+
   if (isNotBlank(query)) {
     items = items.filter(({ title }) => containsIgnoreCase(title, query));
   }
-  items = items.sort((a, b) => compareIgnoreCase(a.title, b.title));
 
   return (
     <>
-      {items.map(({ id, title }) => (
-        <Li key={id} href$={getCustomDashboardLink(id)}>
-          {title}
+      {items.map(({ id, title, titleElement, href$, isDefault }) => (
+        <Li key={id} href$={href$} noAlternatingBg>
+          <div className={locals.itemContent}>
+            {titleElement || title}
+            {isDefault && (
+              <Pill color={theme.lib.colors.blue800} className={locals.leftMargin}>
+                default
+              </Pill>
+            )}
+          </div>
         </Li>
       ))}
     </>

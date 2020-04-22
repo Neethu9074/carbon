@@ -98,7 +98,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
           type: 'summary',
           snapshotId,
           timeConfig,
-          color: '#F75C03',
+          color: '#f75c03',
           setPinnedMetrics,
           pinnedMetrics,
           metrics: [

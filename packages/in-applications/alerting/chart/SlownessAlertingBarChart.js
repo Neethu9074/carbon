@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { millis } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 export default function SlownessAlertingBarChart({
   applicationId,
+  boundaryScope,
   aggregation,
   sensitivity,
   timeConfig,
@@ -22,7 +26,7 @@ export default function SlownessAlertingBarChart({
   canReload
 }) {
   const baseline = threshold.baseline;
-  const tagFiltersWithApplicationId = [getApplicationIdTagFilter(applicationId), ...tagFilters];
+  const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -68,7 +72,13 @@ export default function SlownessAlertingBarChart({
         metricIds: ['latency', 'threshold'],
         labels: [getMetricLabel('slowness', 'latency'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
-        nonToggleableSeries: new Map([['latency', null], ['threshold', null], ['alerts', null]])
+        nonToggleableSeries: new Map([
+          ['latency', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
@@ -98,25 +108,18 @@ export default function SlownessAlertingBarChart({
 }
 
 SlownessAlertingBarChart.propTypes = {
-  applicationId: PropTypes.string.isRequired,
   aggregation: PropTypes.string.isRequired,
-  threshold: PropTypes.object.isRequired,
-  timeThreshold: PropTypes.object.isRequired,
-  sensitivity: PropTypes.number,
-  granularity: PropTypes.number.isRequired,
-  tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
-  canReload: PropTypes.bool
+  applicationId: PropTypes.string.isRequired,
+  boundaryScope: boundaryScopePropType.isRequired,
+  canReload: PropTypes.bool,
+  granularity: PropTypes.number.isRequired,
+  sensitivity: PropTypes.number,
+  tagFilters: PropTypes.array.isRequired,
+  threshold: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
+  timeThreshold: PropTypes.object.isRequired
 };
-
-function getApplicationIdTagFilter(applicationId) {
-  return {
-    name: 'application.id',
-    operator: 'EQUALS',
-    stringValue: applicationId
-  };
-}
 
 function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {

@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .monitoringIssuesMessageContent {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .monitoringIssuesMessageButton {
+  margin-left: auto;
+  }
+}

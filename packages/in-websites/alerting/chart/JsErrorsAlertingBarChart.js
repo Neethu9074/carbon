@@ -62,7 +62,13 @@ export default function JsErrorsAlertingBarChart({
         labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
-        nonToggleableSeries: new Map([['errors', null], ['threshold', null]])
+        nonToggleableSeries: new Map([
+          ['errors', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
       getAlertsPreview={metricConfig => getAlertsPreview(metricName, metricConfig)}

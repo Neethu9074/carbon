@@ -1,0 +1,11 @@
+:local {
+  .markdown {
+    p {
+      margin-top: 0;
+    }
+
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

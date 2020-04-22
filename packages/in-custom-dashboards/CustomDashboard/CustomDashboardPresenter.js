@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-new-components/MoreMenu';
@@ -39,6 +40,15 @@ function CustomDashboardPresenter(props) {
     onDuplicateWidget
   } = props;
 
+  let titleOverwrite = config?.title;
+  if (result?.errors?.length > 0) {
+    if (result.errors[0]?.code === 'NOT_FOUND') {
+      titleOverwrite = 'Dashboard not found';
+    } else {
+      titleOverwrite = 'Failure';
+    }
+  }
+
   return (
     <LocallyChangedTheme theme={lightV2}>
       <WithTvMode>
@@ -65,7 +75,7 @@ function CustomDashboardPresenter(props) {
                   <>
                     <DashboardHeader
                       theme={themes.light}
-                      label={<DashboardSwitcher titleOverwrite={config && config.title} />}
+                      label={<DashboardSwitcher titleOverwrite={titleOverwrite} />}
                       renderButtonLine={config && (() => <ButtonLine {...props} />)}
                       renderButtonLineSecondary={
                         config &&
@@ -82,7 +92,6 @@ function CustomDashboardPresenter(props) {
                 }
               >
                 {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
-                {result && <DashboardErroneousResultPresenter errors={result.errors} />}
                 {config && (
                   <div className={locals.wrapper}>
                     <Grid
@@ -98,6 +107,16 @@ function CustomDashboardPresenter(props) {
                       isDraggable={editable}
                     />
                   </div>
+                )}
+
+                {result?.errors?.[0]?.code === 'NOT_FOUND' ? (
+                  <EntityPageMainNotificationLightCardV2
+                    icon="lib_missing_data"
+                    title="Dashboard not found"
+                    explanation="This dashboard does not exist or you do not have access to it."
+                  />
+                ) : (
+                  <DashboardErroneousResultPresenter errors={result?.errors} />
                 )}
               </Sticky>
             )}
@@ -139,7 +158,8 @@ function SecondaryButtonLine({
   onRenameDashboard,
   onDuplicateDashboard,
   editable,
-  onShare
+  onShare,
+  onEditAsJson
 }) {
   return (
     <>
@@ -166,6 +186,11 @@ function SecondaryButtonLine({
         {editable && (
           <MoreMenuButton icon="lib_actions_edit" onClick={onRenameDashboard}>
             Edit Name
+          </MoreMenuButton>
+        )}
+        {editable && (
+          <MoreMenuButton icon="lib_views_file" onClick={onEditAsJson}>
+            Edit As JSON
           </MoreMenuButton>
         )}
         <MoreMenuButton icon="lib_views_popup" onClick={onDuplicateDashboard}>

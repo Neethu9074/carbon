@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getStack, getStackForApplication, getStackForService } from 'in-new-components/Stack/subscriptions/getStack';
+import {
+  getStackForInfrastructure,
+  getStackForApplication,
+  getStackForService
+} from 'in-new-components/Stack/subscriptions/getStack';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
 import connectTo from 'in-hoc/connectTo';
@@ -12,7 +16,7 @@ function getStackResult({ id, applicationId, timeConfig, productArea }) {
     case 'service':
       return getStackForService({ id, applicationId, timeConfig });
     default:
-      return getStack({ id, timeConfig });
+      return getStackForInfrastructure({ id, timeConfig });
   }
 }
 
@@ -20,13 +24,20 @@ export default connectTo(
   ({ id, applicationId, timeConfig, productArea }) => ({
     stackResult: getStackResult({ id, applicationId, timeConfig, productArea })
   }),
-  function Stack({ stackResult, productArea }) {
+  function Stack({ applicationId, stackResult, productArea }) {
     const isLoading = stackResult.progress && stackResult.progress.loading;
 
     if (stackResult.errors.length > 0) {
       return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
 
-    return <StackPresenter stack={stackResult.data} isLoading={isLoading} productArea={productArea} />;
+    return (
+      <StackPresenter
+        applicationId={applicationId}
+        stack={stackResult.data}
+        isLoading={isLoading}
+        productArea={productArea}
+      />
+    );
   }
 );

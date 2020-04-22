@@ -368,7 +368,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '25';
+  const layerVersion = '26';
 
   let steps;
 

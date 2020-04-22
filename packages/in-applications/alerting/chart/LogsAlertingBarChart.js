@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
+import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 export default function LogsAlertingBarChart({
   applicationId,
+  boundaryScope,
   logMessage,
   logMessageOperator,
   logLevel,
@@ -19,12 +23,13 @@ export default function LogsAlertingBarChart({
   granularity,
   threshold,
   timeThreshold,
-  alertsPreviewEnabled
+  alertsPreviewEnabled,
+  canReload
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithApplicationId = [
     ...tagFilters,
-    ...getRequiredTagFilters(applicationId, logMessage, logMessageOperator, logLevel)
+    ...getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope })
   ];
   return (
     <AlertingBarChartWrapper
@@ -32,6 +37,7 @@ export default function LogsAlertingBarChart({
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
+      canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
@@ -58,7 +64,13 @@ export default function LogsAlertingBarChart({
         labels: [getMetricLabel('logs', 'calls'), 'Threshold', 'Expected Range', 'Violations'],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['logs', 'threshold'],
-        nonToggleableSeries: new Map([['logs', null], ['threshold', null]])
+        nonToggleableSeries: new Map([
+          ['logs', null],
+          ['threshold', null],
+          ['alerts', null],
+          ['Expected Range', null],
+          ['Violations', null]
+        ])
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
@@ -77,16 +89,18 @@ export default function LogsAlertingBarChart({
 }
 
 LogsAlertingBarChart.propTypes = {
+  alertsPreviewEnabled: PropTypes.bool,
   applicationId: PropTypes.string.isRequired,
+  boundaryScope: boundaryScopePropType.isRequired,
+  canReload: PropTypes.bool,
+  granularity: PropTypes.number.isRequired,
+  logLevel: PropTypes.string.isRequired,
   logMessage: PropTypes.string.isRequired,
   logMessageOperator: PropTypes.string.isRequired,
-  logLevel: PropTypes.string.isRequired,
-  granularity: PropTypes.number.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeThreshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  alertsPreviewEnabled: PropTypes.bool
+  timeConfig: propTypeTimeConfig.isRequired,
+  timeThreshold: PropTypes.object.isRequired
 };
 
 function getMetricConfiguration(tagFilters, timeConfig, granularity) {
@@ -103,22 +117,11 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
   };
 }
 
-function getRequiredTagFilters(applicationId, logMessage, logMessageOperator, logLevel) {
-  const tagFilters = [];
-  tagFilters.push(createStringTagFilter('application.id', 'EQUALS', applicationId));
-  tagFilters.push(createStringTagFilter('log.message', logMessageOperator, logMessage));
-  if (logLevel !== 'ANY') {
-    tagFilters.push(createStringTagFilter('log.level', 'EQUALS', logLevel));
-  }
-  return tagFilters;
-}
-
-function createStringTagFilter(name, operator, stringValue) {
-  return {
-    name,
-    operator,
-    stringValue
-  };
+function getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope }) {
+  return [
+    getApplicationIdTagFilter({ applicationId, boundaryScope }),
+    ...getLogLevelTagFilters(logMessage, logMessageOperator, logLevel)
+  ];
 }
 
 function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {

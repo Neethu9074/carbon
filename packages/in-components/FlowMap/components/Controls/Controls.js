@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 
+import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
+import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import MapButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import Button from 'in-new-components/MapControls/Button';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './Controls.mless';
 
 export const SIGNALS = {
   PARTICLES: 'particles',
@@ -26,16 +26,16 @@ export default function Controls({ serviceLocatorUid }) {
 
   return (
     <Fragment>
-      <div className={locals.topLeftControls}>
+      <HorizontalControlsPresenter position="topLeft">
         <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
-      </div>
-      <div className={locals.bottomRightControls}>
+      </HorizontalControlsPresenter>
+      <VerticalControlsPresenter position="leftTop">
         <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         <MapButtonGroup vertical>
           <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
         </MapButtonGroup>
-      </div>
+      </VerticalControlsPresenter>
     </Fragment>
   );
 

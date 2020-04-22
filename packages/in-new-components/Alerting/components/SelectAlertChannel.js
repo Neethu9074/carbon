@@ -31,9 +31,13 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
                 slideInConfig: {
                   component: (
                     <SelectListDialogContent
+                      reloadKey={Math.random()} // Force component to rerender. This is needed to not have an old state when deselcting an item
                       form={form}
                       onSubmit={selectedIds => {
-                        onChange(['alertChannelIds'], field => field.setValue(selectedIds).setTouched(true));
+                        const currentAlertChannelIds = form.get('alertChannelIds').value ?? [];
+                        onChange(['alertChannelIds'], field =>
+                          field.setValue(currentAlertChannelIds.concat(selectedIds)).setTouched(true)
+                        );
                         setAlertChannelsVisible({ isVisible: false });
                       }}
                     />
@@ -54,9 +58,10 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
   );
 }
 
-function SelectListDialogContent({ form, onSubmit }) {
+function SelectListDialogContent({ form, onSubmit, reloadKey }) {
   return (
     <SelectListDialogContentComponent
+      key={reloadKey}
       listComponent={AlertChannels}
       listComponentRightHeader={noRightHeader}
       hiddenIds={form.get('alertChannelIds').value}

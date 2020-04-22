@@ -8,14 +8,19 @@ import {
   getValueRoundedToDecimals,
   round
 } from 'in-new-components/Alerting/utils/formatUtils';
+import {
+  thresholdOperatorOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import { thresholdOperatorOptions } from 'in-applications/alerting/form/thresholdFormData';
-import { getThresholdWithFixedType } from 'in-new-components/Alerting/utils/formUtils';
+import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { joinClassNames } from 'in-services/util/classnames';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -35,7 +40,7 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
   const [doDebounce, setDoDebounce] = useState(false);
 
   const threshold = {
-    ...getThresholdWithFixedType(form.get('threshold').toJS()),
+    ...form.get('threshold').toJS(),
     value:
       (doDebounce
         ? getThresholdValueForPercentageMetric(tempThreshold, true)
@@ -46,13 +51,23 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
     <div className={locals.container}>
       <div className={locals.controls}>
         <FormGroup>
+          <Label htmlFor="errorRate">Metric</Label>
+          <Input
+            id="errorRate"
+            className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+            name="errorRate"
+            value={ruleMetricNameOptions.errorRate[0].label}
+            disabled
+          />
+        </FormGroup>
+        <FormGroup>
           <Label htmlFor="thresholdOperator">Operator</Label>
           <ComboBox
             id="thresholdOperator"
             className={locals.narrowControl}
             name="thresholdOperator"
             value={form.get('threshold').get('operator').value}
-            options={thresholdOperatorOptions}
+            options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
             onChange={e => {
               const value = (e && e.value) || '';
               onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
@@ -106,6 +121,7 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
           granularity={granularity}
           threshold={threshold}
           timeThreshold={form.get('timeThreshold').toJS()}
+          boundaryScope={form.get('boundaryScope').value}
           alertsPreviewEnabled
           canReload
         />
@@ -119,5 +135,5 @@ ErrorRateInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };

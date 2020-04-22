@@ -1,4 +1,3 @@
-import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -18,17 +17,19 @@ import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCode
 import SlownessInteractiveChart from 'in-websites/alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/alerting/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
-import ProvideManualPattern from 'in-websites/alerting/components/ProvideManualPattern';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
 import TimeThresholdConfig from 'in-websites/alerting/advanced/TimeThresholdConfig';
+import { alertingDialogItemPickerTimeframe } from 'in-websites/alerting/constants';
 import BlueprintSelection from 'in-websites/alerting/advanced/BlueprintSelection';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
   const { form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm } = props;
@@ -63,9 +64,11 @@ export default function AdvancedModeContainer(props) {
                 renderJsErrors={() => (
                   <>
                     <Card title="JS Error Message" withoutPadding darkFrame>
-                      <ProvideManualPattern
+                      <ProvideJsError
                         form={form}
-                        timeConfig={timeConfig}
+                        timeConfig={{
+                          windowSize: alertingDialogItemPickerTimeframe
+                        }}
                         updateForm={updateForm}
                         onSelectJsError={setSliderState}
                         mode={modeAdvanced}

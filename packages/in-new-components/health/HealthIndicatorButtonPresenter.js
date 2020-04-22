@@ -22,7 +22,7 @@ export default function HealthIndicatorButtonPresenter({
   }
 
   return (
-    <Button kind={kind} icon={icon} onClick={onClick} href$={href$} refSetter={refSetter}>
+    <Button kind={kind} icon={icon} onClick={onClick} href$={href$} refSetter={refSetter} disabled={!onClick && !href$}>
       {openIssues}
     </Button>
   );

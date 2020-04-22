@@ -2,7 +2,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
-import { kubernetesPlugins } from '../constants.js';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
@@ -161,15 +161,17 @@ export function getDeploymentConfigDashboard(
 
 export function getDashboardForEntity(snapshotId, plugin) {
   switch (plugin) {
-    case kubernetesPlugins.pod:
+    case fullyQualifiedPlugins.kubernetesPod:
       return getPodDashboard(snapshotId);
-    case kubernetesPlugins.service:
+    case fullyQualifiedPlugins.kubernetesService:
       return getServiceDashboard(snapshotId);
-    case kubernetesPlugins.deployment:
+    case fullyQualifiedPlugins.kubernetesDeployment:
       return getDeploymentDashboard(snapshotId);
-    case kubernetesPlugins.namespace:
+    case fullyQualifiedPlugins.openshiftDeploymentConfig:
+      return getDeploymentConfigDashboard(snapshotId);
+    case fullyQualifiedPlugins.kubernetesNamespace:
       return getNamespaceDashboard(snapshotId);
-    case kubernetesPlugins.cluster:
+    case fullyQualifiedPlugins.kubernetesCluster:
       return getClusterDashboard(snapshotId);
   }
 }

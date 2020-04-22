@@ -29,11 +29,7 @@ export default function BigHeaderDialog({
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
-      <section
-        className={joinClassNames(locals.dialog, className)}
-        onClick={stopPropagation}
-        onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
-      >
+      <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
         {!headless && (
           <Header
             icon={titleIconType}
@@ -50,6 +46,7 @@ export default function BigHeaderDialog({
             [locals.withoutPadding]: withoutBodyPadding,
             [locals.showOverflow]: showOverflow
           })}
+          onScroll={e => setScrollshadow(e.currentTarget?.scrollTop > 0)}
         >
           {children}
         </div>

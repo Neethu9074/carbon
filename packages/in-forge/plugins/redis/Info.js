@@ -2,13 +2,14 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import MetricValue from 'in-components/MetricValue';
 
 const secondsFormatter = d => d + 's';
 const secondsAgoFormatter = d => d + 's ago';
 const syncInProgressFormatter = d => yesOrNo(d > 0);
+const bytesTwoDecimalPlacesPositiveFormatter = d => (d > 0 ? bytesTwoDecimalPlaces(d) : '-');
 
 export default function RedisInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -20,7 +21,9 @@ export default function RedisInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
-      <DescriptionItem title="Max Memory">{bytesZeroDecimalPlaces(data.get('max_memory'))}</DescriptionItem>
+      <DescriptionItem title="Max Memory">
+        {bytesTwoDecimalPlacesPositiveFormatter(data.get('max_memory'))}
+      </DescriptionItem>
       <DescriptionItem title="Max Clients">{data.get('maxclients')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Role">{role}</DescriptionItem>

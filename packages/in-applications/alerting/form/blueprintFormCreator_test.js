@@ -15,7 +15,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
+          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' })),
         'slowness'
       );
@@ -27,13 +27,13 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
         expect(blueprintForm.get('threshold').get('type').value).to.equal('staticThreshold');
       });
     });
-    context('when thresholdType is historicBaseline.', () => {
+    context('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put(
             'threshold',
             thresholdCreateSlownessForm({
-              type: 'historicBaseline.DAILY',
+              type: 'historicBaseline',
               baseline: [1, 2, 3]
             })
           )
@@ -41,8 +41,11 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
         'slowness'
       );
 
-      it('should contain fields: alertType, metricName, aggregation, alertType, metricName', () => {
+      it('rule-form should contain fields: alertType, metricName', () => {
         expect(blueprintForm.get('rule').toJS()).to.have.keys('alertType', 'metricName', 'aggregation');
+      });
+
+      it('threshold-form should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
         expect(blueprintForm.get('threshold').toJS()).to.have.keys(
           'type',
           'operator',
@@ -54,7 +57,10 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
       });
 
       it('should have thresholdType "historicBaseline"', () => {
-        expect(blueprintForm.get('threshold').get('type').value).to.equal('historicBaseline.DAILY');
+        expect(blueprintForm.get('threshold').get('type').value).to.equal('historicBaseline');
+      });
+      it('should have seasonality "DAILY"', () => {
+        expect(blueprintForm.get('threshold').get('seasonality').value).to.equal('DAILY');
       });
     });
     it('should have metricName "latency"', () => {

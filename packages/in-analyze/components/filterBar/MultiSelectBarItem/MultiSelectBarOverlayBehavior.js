@@ -83,9 +83,7 @@ function MultiSelectBarOverlayBehavior({
 
   if (existingTagFilters) {
     selectedItems = existingTagFilters
-      .filter(existingFilter => {
-        return items.some(item => existingFilter.value === item.key);
-      })
+      .filter(existingFilter => items.some(item => existingFilter.value === item.key))
       .map(item => ({ key: item.value, label: item.value }));
   }
 

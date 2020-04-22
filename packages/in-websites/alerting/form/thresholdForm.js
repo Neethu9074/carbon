@@ -21,7 +21,7 @@ function createBaseForm(threshold) {
     .put(
       'type',
       createField({
-        value: threshold.type ?? 'staticThreshold'
+        value: threshold.type ?? 'historicBaseline'
       })
     )
     .put(
@@ -45,7 +45,7 @@ function createSlownessForm(baseForm, threshold) {
     return createThresholdFormStaticThreshold(baseForm, threshold);
   }
 
-  if (thresholdType.startsWith('historicBaseline')) {
+  if (thresholdType === 'historicBaseline') {
     return createThresholdFormHistoricBaseline(baseForm, threshold);
   }
 }

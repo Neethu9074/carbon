@@ -9,12 +9,13 @@ A small Node.js app responsible for serving of the ui-client.
  - `/tos-privacy-agreement/checkUserAcceptance`
  - `/tos-privacy-agreement/checkUserAccessPermitted`
  - `/tos-privacy-agreement/csrf/token`
- - `/tenants/${tenant}/unit/${unit}/acceptors` (TODO whitelisting in LB? Move to other path prefix for whitelisting?)
+ - `/tos-privacy-agreement/acceptors`
 
 ### Groundskeeper
  - `/internal/units`
 
 ### ui-backend
+  - `/api/ping`
   - `/api/application-monitoring/catalog/tags`
   - `/api/csrf/token`
   - `/api/infrastructure-monitoring/monitoring-state`

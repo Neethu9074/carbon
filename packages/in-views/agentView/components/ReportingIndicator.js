@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import * as ReportingStatusCategories from './ReportingStatusCategories';
+import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -52,7 +52,7 @@ function getTooltipText(row) {
 
     const rows = [];
     monitoringIssuesByCategory.forEach((entityList, eventCategory) => {
-      const category = ReportingStatusCategories[eventCategory] || ReportingStatusCategories.UNKNOWN;
+      const category = IssueCategories[eventCategory] || IssueCategories.UNKNOWN;
       entityList.forEach((issueCount, plugin) => {
         rows.push(
           <Fragment key={plugin}>

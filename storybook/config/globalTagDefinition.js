@@ -228,5 +228,6 @@ window.instana.tags = [
   { name: 'beacon.initiator', type: 'STRING', category: 'WEBSITE_MONITORING' },
   { name: 'trace.erroneous', type: 'BOOLEAN', category: 'TRACE' },
   { name: 'beacon.url', type: 'STRING', category: 'WEBSITE_MONITORING' },
-  { name: 'beacon.timing.response', type: 'NUMBER', category: 'WEBSITE_MONITORING' }
+  { name: 'beacon.timing.response', type: 'NUMBER', category: 'WEBSITE_MONITORING' },
+  { name: 'tanzu.foundation.name', type: 'STRING', category: 'SYSTEM' }
 ];

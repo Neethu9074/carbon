@@ -1,8 +1,10 @@
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
+import React from 'react';
 
 import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
@@ -20,8 +22,12 @@ export default compose(
     header: 'Create New Dashboard',
     headerIcon: 'lib_views_grid',
     inputLabel: 'Dashboard Name',
-    description:
-      'Created dashboards will only be accessible to you initially. You can choose to share the dashboard with your colleagues once the dashboard has been created.',
+    additionalFields: (
+      <p>
+        Created dashboards will only be accessible to you initially. You can choose to share the dashboard with your
+        colleagues once the dashboard has been created.
+      </p>
+    ),
     confirmButtonLabel: 'Create',
     ...state,
     onChange: newValue =>
@@ -62,6 +68,7 @@ export default compose(
           response => {
             if (response.data) {
               const customDashboardId = response.data.id;
+              createDashboard(state.field.value);
               goToCustomDashboard(customDashboardId);
               close();
               return;

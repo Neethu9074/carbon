@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    width: 6.25rem;
+  }
+}

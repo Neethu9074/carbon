@@ -21,12 +21,14 @@ export default connectTo(
         <MetricSeries
           chart={chart}
           axis={chart.config.y1}
+          axisName="y1"
           filteredDataSeries={filteredDataSeries}
           config={chart.config}
         />
         <MetricSeries
           chart={chart}
           axis={chart.config.y2}
+          axisName="y2"
           filteredDataSeries={filteredDataSeries}
           config={chart.config}
         />
@@ -35,7 +37,7 @@ export default connectTo(
   }
 );
 
-function MetricSeries({ chart, axis, config, filteredDataSeries }) {
+function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
   if (!axis) {
     return null;
   }
@@ -45,8 +47,11 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
   return (
     <ul className={locals.metricList}>
       {axis.labels.map((label, i) => {
-        const isDisabled = filteredDataSeries && filteredDataSeries.has(label);
-        const isToggleable = !axis.nonToggleableSeries || !axis.nonToggleableSeries.has(axis.metricIds[i]);
+        const dataSeriesName = `${axisName}-${i}`;
+        const isDisabled = filteredDataSeries && filteredDataSeries.has(dataSeriesName);
+        const isToggleable =
+          !axis.nonToggleableSeries ||
+          !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
         const timeShift = (axis.timeShifts && axis.timeShifts[i]) || defaultTimeShift;
 
         const content = (
@@ -59,7 +64,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
             })}
             onClick={() => {
               if (isToggleable) {
-                config.toggleDataSeries(label);
+                config.toggleDataSeries(dataSeriesName);
                 chart.requestRender();
               }
             }}

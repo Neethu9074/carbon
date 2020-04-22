@@ -1,8 +1,15 @@
 import { createMapForm, notBlankValidator, createField } from 'formalistic';
 
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { defaultFormatter, allFormatterIds } from 'in-custom-dashboards/widgets/_shared/formatters';
+import * as allComparisonColors from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { green, red } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
+import { buildEnumValidator } from 'in-services/validators/enum';
+
+const validComparisonColors = Object.values(allComparisonColors).map(c => c.id);
 
 export function createForm(savedState) {
   return createMapForm()
@@ -10,21 +17,45 @@ export function createForm(savedState) {
       'formatter',
       createField({
         value: savedState?.formatter ?? defaultFormatter.id,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          // Not blank validator is in here for a better UX when using
+          // the visual dialog. The enum validator exists when editing
+          // as JSON.
+          notBlankValidator,
+          buildEnumValidator(allFormatterIds)
+        )
       })
     )
     .put(
       'comparisonDecreaseColor',
       createField({
         value: savedState?.comparisonDecreaseColor ?? green.id,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          // Not blank validator is in here for a better UX when using
+          // the visual dialog. The enum validator exists when editing
+          // as JSON.
+          notBlankValidator,
+          buildEnumValidator(validComparisonColors)
+        )
       })
     )
     .put(
       'comparisonIncreaseColor',
       createField({
         value: savedState?.comparisonIncreaseColor ?? red.id,
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          // Not blank validator is in here for a better UX when using
+          // the visual dialog. The enum validator exists when editing
+          // as JSON.
+          notBlankValidator,
+          buildEnumValidator(validComparisonColors)
+        )
       })
     )
     .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration));

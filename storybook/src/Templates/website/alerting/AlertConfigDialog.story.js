@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/alerting/constants';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
+import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
+import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',
@@ -16,10 +18,24 @@ const timeConfig = {
   windowSize: alertingDialogChartTimeframe,
   autoRefresh: false
 };
+function createOnChange(setForm, externalForm) {
+  return (form, fieldName, fieldValue, ...atomicAddFields) => {
+    // Alternative (new and desired) method signature
+    if (form instanceof Array) {
+      const path = form;
+      const fn = fieldName;
+      setForm(externalForm.updateIn(path, fn));
+      return;
+    }
 
-function onChange(setForm) {
-  return (form, fieldName, fieldValue) => {
-    setForm(form.updateIn([fieldName], field => field.setValue(fieldValue).setTouched(true, { recurse: true })));
+    // old signature, we want to get rid of this
+    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+    if (atomicAddFields.length > 0) {
+      atomicAddFields.forEach(
+        ({ name, value }) => (updatedForm = updatedForm.updateIn([name], field => field.setValue(value)))
+      );
+    }
+    setForm(updatedForm);
   };
 }
 
@@ -29,12 +45,15 @@ export const AlertConfigDialog = () => {
   return (
     <AlertConfigDialogPresenter
       form={form}
-      onChange={onChange(setForm)}
+      updateForm={setForm}
+      onChange={createOnChange(setForm, form)}
       onClose={action('close')}
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
       granularity={alertingMetricsGranularity}
+      simpleModeElement={SimpleModeContainer}
+      advancedModeElement={AdvancedModeContainer}
     />
   );
 };
@@ -45,11 +64,14 @@ export const SimpleDialogEditMode = () => {
   return (
     <AlertConfigDialogPresenter
       form={form}
-      onChange={onChange(setForm)}
+      updateForm={setForm}
+      onChange={createOnChange(setForm, form)}
       onClose={action('close')}
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
+      simpleModeElement={SimpleModeContainer}
+      advancedModeElement={AdvancedModeContainer}
       editMode
     />
   );

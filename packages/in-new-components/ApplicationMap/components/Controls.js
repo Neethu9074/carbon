@@ -2,46 +2,55 @@ import React from 'react';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
+import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
+import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
 import NodeSizeButton from 'in-new-components/ApplicationMap/components/NodeSizeButton';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import Button from 'in-new-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './Controls.mless';
-
 export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-
   return (
-    <div className={locals.bottomRightControls}>
-      <ButtonGroup>
-        <NodeSizeButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
+    <>
+      <HorizontalControlsPresenter position="topLeft">
+        <ButtonGroup>
+          <NodeSizeButton
+            eventBusServiceLocator={eventBusServiceLocator}
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
 
-        <LayoutButton
-          appendRight
-          icon="lib_actions_force_layout"
+          <LayoutButton
+            appendRight
+            icon="lib_actions_force_layout"
+            eventBusServiceLocator={eventBusServiceLocator}
+            layouter="force"
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
+          <LayoutButton
+            appendLeft
+            icon="lib_actions_flow_layout"
+            eventBusServiceLocator={eventBusServiceLocator}
+            layouter="flow"
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
+        </ButtonGroup>
+
+        <ParticlesButton
           eventBusServiceLocator={eventBusServiceLocator}
-          layouter="force"
           onChangeUrlProperties={onChangeUrlProperties}
         />
-        <LayoutButton
-          appendLeft
-          icon="lib_actions_flow_layout"
-          eventBusServiceLocator={eventBusServiceLocator}
-          layouter="flow"
-          onChangeUrlProperties={onChangeUrlProperties}
-        />
-      </ButtonGroup>
 
-      <ParticlesButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-
-      <ButtonGroup vertical>
-        <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
-        <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
         <TrafficButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-      </ButtonGroup>
-    </div>
+      </HorizontalControlsPresenter>
+      <VerticalControlsPresenter position="leftTop">
+        <ButtonGroup vertical>
+          <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+        </ButtonGroup>
+      </VerticalControlsPresenter>
+    </>
   );
 
   function zoomIn(serviceLocatorUid) {

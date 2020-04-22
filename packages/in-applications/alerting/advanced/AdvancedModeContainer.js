@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -12,18 +13,21 @@ import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerti
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
+import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
+import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
+import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
-  const { form, timeConfig, granularity, onChange, setSliderState, updateForm } = props;
+  const { form, timeConfig, granularity, onChange, setSliderState, updateForm, applicationLabel } = props;
+
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -32,7 +36,17 @@ export default function AdvancedModeContainer(props) {
           scrollId: '1',
           label: 'Scope',
           title: 'Scope: Where is the condition happening?',
-          content: <h1>TODO: Add filters here</h1>,
+          content: (
+            <>
+              <AlertLocationFilters
+                form={form}
+                applicationLabel={applicationLabel}
+                timeConfig={timeConfig}
+                updateForm={updateForm}
+              />
+              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
+            </>
+          ),
           checked: true
         },
         {
@@ -76,7 +90,9 @@ export default function AdvancedModeContainer(props) {
                       {
                         <ProvideLogMessage
                           form={form}
-                          timeConfig={timeConfig}
+                          timeConfig={{
+                            windowSize: alertingDialogItemPickerTimeframe
+                          }}
                           updateForm={updateForm}
                           onSelectLogMessage={setSliderState}
                           mode="Advanced"
@@ -118,7 +134,7 @@ export default function AdvancedModeContainer(props) {
             <AlertPropertiesContainer
               form={form}
               onChange={onChange}
-              label={form.get('name').value}
+              label={applicationLabel}
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               getTitlePlaceholder={getTitlePlaceholder}
               trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}

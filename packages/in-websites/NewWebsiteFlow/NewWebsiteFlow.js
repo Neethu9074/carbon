@@ -25,7 +25,7 @@ export default class NewWebsiteFlow extends React.PureComponent {
       saveError: null,
       saveResult: null,
       loading: false,
-      trackSessions: false
+      trackSessions: true
     };
   }
 

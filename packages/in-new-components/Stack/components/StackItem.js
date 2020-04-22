@@ -21,15 +21,16 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './StackItem.mless';
 
 export default function StackItem({
+  applicationId,
   item: { id, type, label, shortLabel, healthInfo, metrics, endpointTypes, technologies },
   tab
 }) {
   const isAp = tab === 'application';
   const hasHealthInfo = healthInfo?.type;
-  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes'));
+  const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes') || !s.startsWith('openshift'));
 
   return (
-    <Li href$={dashboardLink(id, type)} noAlternatingBg>
+    <Li href$={dashboardLink(id, applicationId, type)} noAlternatingBg>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
           {hasHealthInfo ? (
@@ -53,11 +54,11 @@ export default function StackItem({
   );
 }
 
-const dashboardLink = (id, type) => {
+const dashboardLink = (id, applicationId, type) => {
   if (type === 'application') {
     return getApplicationDashboard(id);
   } else if (type === 'service') {
-    return getServiceDashboard(id);
+    return getServiceDashboard(id, { applicationId });
   }
   return getDashboardLink(id, { pathname: physicalDashboardPath });
 };
