@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { zeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
+import { number, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -24,7 +23,7 @@ const cols = [
       getValue(row) {
         return row.partitionCount;
       },
-      getContent: zeroDecimalPlaces
+      getContent: number.compact
     }
   },
   {
@@ -85,7 +84,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.messagesInPerSec`;
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -101,7 +100,7 @@ const cols = [
       getMetricName(row) {
         return `broker.topicData.${row.key}.inSyncReplicasCount`;
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -137,54 +136,46 @@ export default function TopicsTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   const key = row.key;
   return (
-    <Fragment>
+    <div>
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          formatter: bytesPerSecondTwoDecimalPlaces,
+          tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
+          metrics: [
+            `broker.topicData.${key}.bytesInPerSec`,
+            `broker.topicData.${key}.bytesOutPerSec`,
+            `broker.topicData.${key}.bytesRejectedPerSec`
+          ],
+          labels: ['Bytes In', 'Bytes Out', 'Bytes Rejected'],
+          type: 'line'
+        }}
+      />
       <Columize>
-        <DashboardSection title="Broker Messages In">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`broker.topicData.${key}.messagesInPerSec`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="In-Sync Replicas">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`broker.topicData.${key}.inSyncReplicasCount`],
-              labels: ['Count'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [`broker.topicData.${key}.messagesInPerSec`],
+            labels: ['Messages In'],
+            type: 'line'
+          }}
+        />
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [`broker.topicData.${key}.inSyncReplicasCount`],
+            labels: ['In-Sync Replicas'],
+            type: 'line'
+          }}
+        />
       </Columize>
-      <Columize>
-        <DashboardSection title="Broker Traffic">
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: bytesPerSecondTwoDecimalPlaces,
-              tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-              metrics: [
-                `broker.topicData.${key}.bytesInPerSec`,
-                `broker.topicData.${key}.bytesOutPerSec`,
-                `broker.topicData.${key}.bytesRejectedPerSec`
-              ],
-              labels: ['In', 'Out', 'Rejected'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
-    </Fragment>
+    </div>
   );
 }
