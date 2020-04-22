@@ -6,9 +6,9 @@ import {
   hideWebsiteDetailsInTraceView,
   navigateToPageLoadFromBackendTrace
 } from 'in-websites/tracker';
+import { getCorrelatedWebsiteBeacons } from 'in-analyze/TraceDetail/tabs/Summary/websiteCorrelation';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -20,23 +20,9 @@ import locals from './WebsiteMonitoringData.mless';
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
 export default compose(
-  connect(({ correlationId, startTime }) => {
+  connect(({ correlationId, traceId, startTime }) => {
     return {
-      result: getWebsiteBeacons({
-        tagFilters: [{ name: 'beacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: 1000 * 60 * 60,
-          to: startTime + 1000 * 60 * 30,
-          focusedMoment: startTime + 1000 * 60 * 30
-        },
-        order: {
-          by: 'beacon.timestamp',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      })
+      result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
     };
   }),
   withState('showDetails', 'setShowDetails', get(localStorageKey) !== 'false'),

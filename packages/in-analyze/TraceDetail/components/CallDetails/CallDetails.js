@@ -4,13 +4,13 @@ import React from 'react';
 
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import ServiceComponent from 'in-analyze/TraceDetail/components/CallDetails/components/ServiceComponent';
+import { getCorrelatedWebsiteBeacons } from 'in-analyze/TraceDetail/tabs/Summary/websiteCorrelation';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
 import IsSynthetic from 'in-analyze/TraceDetail/components/CallDetails/components/IsSynthetic';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { pendingResult } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
@@ -41,20 +41,10 @@ export default compose(
       websiteBeaconResult: correlationInformation$
         .filter(({ correlationType }) => correlationType === traceIdCorrelationType || correlationType === 'web')
         .flatMap(({ correlationId }) =>
-          getWebsiteBeacons({
-            tagFilters: [{ name: 'beacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
-            timeConfig: {
-              windowSize: 1000 * 60 * 60,
-              to: startTime + 1000 * 60 * 30,
-              focusedMoment: startTime + 1000 * 60 * 30
-            },
-            order: {
-              by: 'beacon.timestamp',
-              direction: 'DESC'
-            },
-            pagination: {
-              retrievalSize: 1
-            }
+          getCorrelatedWebsiteBeacons({
+            traceId,
+            correlationId,
+            startTime
           })
         ),
       mobileAppBeaconResult: correlationInformation$
