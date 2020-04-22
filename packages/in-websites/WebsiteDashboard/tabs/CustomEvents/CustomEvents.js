@@ -5,16 +5,18 @@ import {
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { getLinkToCustomEvent, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getLinkToCustomEvent } from 'in-websites/navigation/paths';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -95,7 +97,21 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: '/customEvents'
 });
 
-export default function Pages({ timeConfig, tagFilters, websiteId, pageId }) {
+export default function CustomEvents({ timeConfig, tagFilters, websiteId, websiteLabel, pageId }) {
+  const rightHeader = (
+    <Button
+      kind="secondary"
+      href$={getLinkToAnalyze({
+        beaconType: 'custom',
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+        group: defaultGroupings.custom
+      })}
+      style={{ marginRight: '0.5rem' }}
+    >
+      Analyze Custom Events
+    </Button>
+  );
+
   return (
     <ServerTableWithUrlState
       get={getTableData}
@@ -103,6 +119,7 @@ export default function Pages({ timeConfig, tagFilters, websiteId, pageId }) {
       pageId={pageId}
       tagFilters={tagFilters}
       timeConfig={timeConfig}
+      rightHeader={rightHeader}
     />
   );
 }
