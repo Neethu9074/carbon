@@ -49,7 +49,6 @@ import './components/KpiGridRow.story';
 import './components/SparkChart.story';
 import './components/StackTrace.story';
 import './x_old_components/Code.story';
-import './layout/StickySidebar.story';
 import './utilities/Typography.story';
 import './x_old_components/Kpi.story';
 import './components/Checkbox.story';
@@ -72,12 +71,9 @@ import './utilities/Shapes.story';
 import './components/Axis.story';
 import './components/Card.story';
 import './components/Pill.story';
-import './layout/Sidebar.story';
 import './utilities/Icon.story';
 import './globalTagDefinition';
-import './layout/Sticky.story';
 import './content/List.story';
-import './layout/Grid.story';
 import './terms/Terms.story';
 
 // Ensure that base CSS is loaded and added to the DOM.

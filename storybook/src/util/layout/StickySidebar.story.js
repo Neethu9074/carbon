@@ -1,17 +1,15 @@
-import { storiesOf } from '@storybook/react';
 import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 
-storiesOf('layout/Sticky Sidebar', module)
-  .add('Tall Sidebar', () => <SidebarTaller />)
-  .add('Short Sidebar', () => <SidebarShorter />)
-  .add('Short Content, Tall Sidebar', () => <SidebarTallerContentShort />)
-  .add('Short Content, Short Sidebar', () => <SidebarShorterContentShort />);
+export default {
+  title: 'Templates|layout/StickySidebar',
+  component: StickySidebarContainer
+};
 
-function SidebarTaller() {
+export function SidebarTaller() {
   return (
     <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}>
       <h1>When The Sidebar Is Taller Than The Viewport</h1>
@@ -20,7 +18,7 @@ function SidebarTaller() {
   );
 }
 
-function SidebarShorter() {
+export function SidebarShorter() {
   return (
     <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
       <h1>When Sidebar Is Shorter Than The Viewport</h1>
@@ -29,7 +27,7 @@ function SidebarShorter() {
   );
 }
 
-function SidebarTallerContentShort() {
+export function SidebarTallerContentShort() {
   return (
     <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}>
       <h1>When The Sidebar Is Taller Than The Viewport</h1>
@@ -38,7 +36,7 @@ function SidebarTallerContentShort() {
   );
 }
 
-function SidebarShorterContentShort() {
+export function SidebarShorterContentShort() {
   return (
     <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
       <h1>When The Content And The Sidebar Are Both Shorter Than The Viewport</h1>

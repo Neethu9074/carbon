@@ -1,11 +1,13 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import Sidebar from 'in-new-components/layout/Sidebar';
 
-storiesOf('layout/Sidebar', module).add('default', () => <SingleHeader />);
+export default {
+  title: 'Templates|forms/Sidebar',
+  component: Sidebar
+};
 
-function SingleHeader() {
+export function SingleHeader() {
   return (
     <div>
       <div style={{ background: '#eee', height: '50px', zIndex: 2 }}>Before</div>

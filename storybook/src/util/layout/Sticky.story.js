@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import Sticky from 'in-components/Sticky';
@@ -7,16 +6,15 @@ const headerLevel1 = <div style={{ height: `60px`, background: '#AA3939' }}>Head
 
 const headerLevel2 = <div style={{ height: `60px`, background: '#AA6C39' }}>Header Level 2</div>;
 
-storiesOf('layout/Sticky', module)
-  .add('Single Header', () => <SingleHeader />)
-  .add('Double Header', () => <DoubleHeader />)
-  .add('Double Header Idention', () => <DoubleHeaderIndention />);
+export default {
+  title: 'Templates|layout/Sticky'
+};
 
-function SingleHeader() {
+export function SingleHeader() {
   return <Sticky header={headerLevel1}>{dummyContent}</Sticky>;
 }
 
-function DoubleHeader() {
+export function DoubleHeader() {
   return (
     <Sticky header={headerLevel1}>
       <Sticky header={headerLevel2}>{dummyContent}</Sticky>
@@ -24,7 +22,7 @@ function DoubleHeader() {
   );
 }
 
-function DoubleHeaderIndention() {
+export function DoubleHeaderIndention() {
   return (
     <Sticky header={headerLevel1}>
       <div style={{ marginLeft: '120px' }}>

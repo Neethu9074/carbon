@@ -1,13 +1,12 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-storiesOf('layout/Grid', module)
-  .add('Grid', () => <MixedGrid />)
-  .add('Responsive Grid', () => <ResponsiveGrid />);
+export default {
+  title: 'Templates|layout/Grid'
+};
 
-function MixedGrid() {
+export function MixedGrid() {
   return (
     <div>
       <Row>
@@ -44,7 +43,7 @@ function MixedGrid() {
   );
 }
 
-function ResponsiveGrid() {
+export function ResponsiveGrid() {
   return (
     <div>
       <Row>
