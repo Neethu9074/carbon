@@ -21,7 +21,6 @@ import './components/TechnologyIndicator.story';
 import './content/table/SharedComponents.story';
 import './components/time/TimePresenter.story';
 import './components/EntityVersionList.story';
-import './selfService/OnboardingWidget.story';
 import './components/overlays/Overlay.story';
 import './components/ProblemIndicator.story';
 import './x_old_components/form/Input.story';

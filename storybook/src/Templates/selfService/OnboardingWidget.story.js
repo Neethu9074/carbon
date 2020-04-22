@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
@@ -7,13 +6,12 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import DialogPresenter from 'in-components/DialogPresenter';
 
 export default {
-  title: 'Self Service/Onboarding Widget',
+  title: 'Templates|selfService/GroupOnboardingWidget',
   component: OnboardingWidgetPresenter
 };
 
-storiesOf('Self Service/Onboarding Widget', module)
-  .addParameters({ component: OnboardingWidgetPresenter })
-  .add('without backend', () => (
+export function WithoutBackend() {
+  return (
     <Wrapper
       isBackendAvailable={false}
       isRestricted
@@ -22,8 +20,10 @@ storiesOf('Self Service/Onboarding Widget', module)
         children: 'Sign in to Instana'
       })}
     />
-  ))
-  .add('with backend before redirect', () => (
+  );
+}
+export function WithBackendBeforeRedirect() {
+  return (
     <Wrapper
       isBackendAvailable
       isRestricted
@@ -33,8 +33,10 @@ storiesOf('Self Service/Onboarding Widget', module)
         children: 'Sign in to Instana'
       })}
     />
-  ))
-  .add('with backend after redirect', () => (
+  );
+}
+export function WithBackendAfterRedirect() {
+  return (
     <Wrapper
       isBackendAvailable
       getRedirectButtonProperties={() => ({
@@ -42,8 +44,10 @@ storiesOf('Self Service/Onboarding Widget', module)
         children: 'Go to Instana!'
       })}
     />
-  ))
-  .add('with deployed agent', () => (
+  );
+}
+export function WithDeployedAgent() {
+  return (
     <Wrapper
       isBackendAvailable
       isAgentDeployed
@@ -53,7 +57,8 @@ storiesOf('Self Service/Onboarding Widget', module)
         children: 'Go to Instana!'
       })}
     />
-  ));
+  );
+}
 
 function Wrapper(props) {
   const [selectedEntryIndex, onEntrySelected] = useState(0);
