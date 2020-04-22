@@ -1,13 +1,13 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import FlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
 
-storiesOf('Profiling', module)
-  .addParameters({ component: FlameGraph })
-  .add('Flame Graph', () => <FlameGraphStory />);
+export default {
+  title: 'Molecules|FlameGraph',
+  component: FlameGraph
+};
 
-function FlameGraphStory() {
+export function Default() {
   return (
     <FlameGraph
       profile={{
@@ -36,13 +36,13 @@ function FlameGraphStory() {
                         methodName: 'foo',
                         fileName: 'bar',
                         fileLine: 42,
-                        percent: 60
+                        percent: 20
                       }
                     ],
                     methodName: 'foo',
                     fileName: 'bar',
                     fileLine: 42,
-                    percent: 60
+                    percent: 20
                   }
                 ],
                 methodName: 'foo',

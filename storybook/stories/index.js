@@ -50,7 +50,6 @@ import './components/KpiGridRow.story';
 import './components/SparkChart.story';
 import './components/StackTrace.story';
 import './x_old_components/Code.story';
-import './profiling/FlameGraph.story';
 import './layout/StickySidebar.story';
 import './utilities/Typography.story';
 import './x_old_components/Kpi.story';
