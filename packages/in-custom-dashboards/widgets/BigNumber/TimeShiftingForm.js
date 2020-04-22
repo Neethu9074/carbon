@@ -35,11 +35,17 @@ export default function TimeShiftingForm({ form, onChange }) {
               }}
               hasError={!timeShiftField.valid && timeShiftField.touched}
             >
-              {timeShifts.map(({ offset, label }) => (
-                <option key={offset} value={offset}>
-                  {label}
-                </option>
-              ))}
+              {timeShifts
+                .filter(
+                  // Some options may not be selected, but if a configuration is already persisted with this
+                  // option, then we do allow it temporarily.
+                  ({ offset, disallowSelection }) => disallowSelection !== true || offset === timeShiftField.value
+                )
+                .map(({ offset, label }) => (
+                  <option key={offset} value={offset}>
+                    {label}
+                  </option>
+                ))}
             </Select>
             <TouchedMessages field={timeShiftField} />
           </FormGroup>
