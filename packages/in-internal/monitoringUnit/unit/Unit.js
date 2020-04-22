@@ -3,6 +3,7 @@ import React from 'react';
 
 import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/InfrastructureDataStatistics';
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
+import ProfileDataStatistics from 'in-internal/monitoringUnit/unit/ProfileDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
@@ -105,6 +106,17 @@ export default connectTo(({ location }) => {
                 )}
               />
               <Route
+                path="/internal/monitoringUnit/unit/profileDataStatistics"
+                render={() => (
+                  <ProfileDataStatistics
+                    timeConfig={timeConfig}
+                    tenantUnitId={tenantUnitId}
+                    tenant={tenant}
+                    unit={unit}
+                  />
+                )}
+              />
+              <Route
                 path="/internal/monitoringUnit/unit/stan"
                 render={() => <Stan timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
               />
@@ -148,6 +160,10 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label="Infrastructure"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
+      />
+      <LinkListItem
+        label="Profile"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
       />
       {isInstanaEmail && (
         <LinkListItem
