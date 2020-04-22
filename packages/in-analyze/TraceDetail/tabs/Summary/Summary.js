@@ -196,15 +196,17 @@ class Summary extends React.Component {
           </Row>
 
           {hasWebsiteCorrelationId && (
-            <WebsiteMonitoringData correlationId={trace.eumCorrelationId} startTime={trace.startTime} />
+            <WebsiteMonitoringData
+              traceId={traceId}
+              correlationId={trace.eumCorrelationId}
+              startTime={trace.startTime}
+            />
           )}
-          {hasMobileCorrelationId && (
-            <MobileAppMonitoringData correlationId={trace.eumCorrelationId} startTime={trace.startTime} />
-          )}
+          {hasMobileCorrelationId && <MobileAppMonitoringData traceId={traceId} startTime={trace.startTime} />}
           {missingEumCorrelation && (
             <div>
-              <WebsiteMonitoringData correlationId={traceId} startTime={trace.startTime} />
-              <MobileAppMonitoringData correlationId={traceId} startTime={trace.startTime} />
+              <WebsiteMonitoringData traceId={traceId} correlationId={traceId} startTime={trace.startTime} />
+              <MobileAppMonitoringData traceId={traceId} startTime={trace.startTime} />
             </div>
           )}
 
