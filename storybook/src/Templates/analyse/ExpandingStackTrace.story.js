@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ExpandableStackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
-import { callExample } from './ExpandingStackTrace.story.js';
+import { callExample } from './StackTrace.story.js';
 
 export default {
   title: 'Templates|analyze/ExpandableStackTrace',
