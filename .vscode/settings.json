@@ -3,7 +3,6 @@
   "tslint.enable": false,
   "typescript.autoImportSuggestions.enabled": false,
   "typescript.format.enable": false,
-  "javascript.validate.enable": false,
   "npm.packageManager": "yarn",
   "search.exclude": {
     "**/node_modules/**": true,

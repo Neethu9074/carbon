@@ -9,5 +9,20 @@
   "Import CSS module locals": {
     "prefix": "implocals",
     "body": "import locals from './$TM_FILENAME_BASE.mless';"
+  },
+  "classNameLocals": {
+    "prefix": "cnl",
+    "body": ["className={locals.$0}"],
+    "description": "Add className."
+  },
+  "classNameJoin": {
+    "prefix": "cnj",
+    "body": ["className={joinClassNames(locals.$1, locals.$0)}"],
+    "description": "Join several classnames."
+  },
+  "classNameEvaluate": {
+    "prefix": "cne",
+    "body": ["className={evaluateClassNames({\n[locals.$1]: $2, \n[locals.$3]: $4})}"],
+    "description": "Evaluate class names by condition."
   }
 }

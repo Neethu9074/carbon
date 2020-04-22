@@ -7,6 +7,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "amatiasq.sort-imports",
-    "sainoba.px-to-rem"
+    "sainoba.px-to-rem",
+    "dsznajder.es7-react-js-snippets",
+    "suming.react-proptypes-generate"
   ]
 }
