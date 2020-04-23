@@ -1,16 +1,17 @@
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 
-export function getHistoricThresholdMetricsConfiguration({
+export function getMetricsConfiguration({
   applicationId,
   aggregation,
   metric,
   tagFilters,
-  timeConfig,
   granularity,
-  boundaryScope
+  boundaryScope,
+  seasonality = null,
+  fallbackOnError = false
 }) {
   return Object.freeze({
-    timeConfig,
+    to: Date.now(),
     tagFilters: [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })],
     metrics: {
       threshold: {
@@ -18,28 +19,8 @@ export function getHistoricThresholdMetricsConfiguration({
         granularity,
         aggregation
       }
-    }
-  });
-}
-
-export function getBaselineMetricsConfiguration({
-  applicationId,
-  aggregation,
-  tagFilters,
-  granularity,
-  seasonality,
-  boundaryScope
-}) {
-  return Object.freeze({
-    to: Date.now(),
-    metrics: {
-      baseline: {
-        metric: 'latency',
-        granularity,
-        aggregation
-      }
     },
-    tagFilters: [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })],
-    seasonality
+    seasonality,
+    fallbackOnError
   });
 }

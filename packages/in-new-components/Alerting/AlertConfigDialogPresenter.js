@@ -16,11 +16,12 @@ export default compose(
     simpleModeElement: PropTypes.func.isRequired,
     trackModeSwitch: PropTypes.func.isRequired,
     withTrackClose: PropTypes.func.isRequired,
-    withTrackCreate: PropTypes.func.isRequired
+    withTrackCreate: PropTypes.func.isRequired,
+    simpleMode: PropTypes.bool.isRequired,
+    setSimpleMode: PropTypes.func.isRequired
   }),
   withState('slideInViewVisible', 'setSlideInViewVisible', false),
   withState('slideInConfig', 'setSlideInConfig', null),
-  withState('simpleMode', 'setSimpleMode', props => !props.editMode),
   withState('simpleModeStep', 'setSimpleModeStep', 0),
   withProps(props => {
     return {
@@ -85,7 +86,9 @@ function AlertConfigDialogPresenter(props) {
             onClick={() => {
               resetFormDirtyState();
               trackModeSwitch(simpleMode, simpleModeStep, form);
-              setSimpleMode(!simpleMode);
+              const newMode = !simpleMode;
+              setSimpleMode(newMode);
+              updateChartForBaselineSupportedBlueprint(newMode);
             }}
             kind="action"
           >
@@ -112,6 +115,23 @@ function AlertConfigDialogPresenter(props) {
   function resetFormDirtyState() {
     if (!form.hierarchyValid) {
       updateForm(form.setTouched(false, { recurse: true }));
+    }
+  }
+
+  /**
+   * Trigger update of the chart when switching back to Simple Mode, and a baseline-supported blueprint is selected.
+   * So that the re re-request the threshold/baseline according to the fallback logic.
+   * In all other cases, it is currently not needed to refresh the chart, because there is no baseline (yet).
+   * @param simpleMode Whether simple mode is active or not.
+   */
+  function updateChartForBaselineSupportedBlueprint(simpleMode) {
+    if (!simpleMode) {
+      return;
+    }
+
+    const alertType = form.get('rule').get('alertType').value;
+    if (alertType === 'slowness') {
+      updateForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
     }
   }
 }
