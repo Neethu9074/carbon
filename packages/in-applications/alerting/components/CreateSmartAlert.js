@@ -27,6 +27,11 @@ export default connectTo(({ applicationLabel, applicationId, serviceId, endpoint
 
 function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endpointLabel, location, serviceLabel }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  if (location.pathname.includes('/application/configuration')) {
+    return null;
+  }
+
   return (
     <>
       <FloatingActionButton
