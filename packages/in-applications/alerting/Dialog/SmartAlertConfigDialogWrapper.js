@@ -13,8 +13,8 @@ import {
 } from 'in-applications/alerting/constants';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
+import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
-import SmartAlertConfigDialog from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';

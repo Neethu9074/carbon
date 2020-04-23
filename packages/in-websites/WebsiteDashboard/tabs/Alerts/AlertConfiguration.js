@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { alertingMetricsGranularity, alertingDialogChartTimeframe } from 'in-websites/alerting/constants';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
-import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { alertingMetricsGranularity } from 'in-websites/alerting/constants';
+import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
@@ -21,14 +21,12 @@ import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
 
-const oneDay = 24 * 60 * 60 * 1000;
-
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const tagFilters = alertConfig.tagFilters;
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(alertConfig.websiteId), ...tagFilters];
 
   const timeConfig = {
-    windowSize: oneDay
+    windowSize: alertingDialogChartTimeframe
   };
 
   return (
