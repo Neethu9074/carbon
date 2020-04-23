@@ -14,4 +14,18 @@
   .value {
     text-align: right;
   }
+
+  .root {
+    position: relative;
+  }
+
+  .root:hover .clipboard {
+    display: block;
+  }
+
+  .clipboard {
+    display: none;
+    position: absolute;
+    right: 0.5rem;
+  }
 }
