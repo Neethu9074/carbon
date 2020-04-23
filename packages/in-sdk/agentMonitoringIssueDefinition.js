@@ -4,7 +4,7 @@ import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 
 export const SENSOR = {
   suffix: 'not monitored',
-  alert_prefix: 'Missing metrics.'
+  alert_prefix: 'Monitoring issues.'
 };
 export const TRACER = {
   suffix: 'not traced',
@@ -16,7 +16,7 @@ export const PROFILER = {
 };
 export const UNKNOWN = {
   suffix: 'not monitored',
-  alert_prefix: 'Missing data.'
+  alert_prefix: 'Monitoring issues.'
 };
 
 function fallbackAgentMonitoringIssueDefinition(code) {
