@@ -21,6 +21,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import { alertsTab, alertsTabListFullyQualified } from 'in-websites/navigation/paths';
+import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
@@ -65,6 +66,7 @@ function Alert({
   alertConfigVersionsError,
   setRevision,
   triggerReload,
+  timeConfig,
   websiteLabel
 }) {
   if (alertConfigError || alertConfigVersionsError) {
@@ -116,7 +118,9 @@ function Alert({
           <Col xs={6}>
             <AlertConfiguration alertConfig={alertConfig} websiteLabel={websiteLabel} />
           </Col>
-          <Col xs={6}>{/* TODO: implement a list of created events */}</Col>
+          <Col xs={6}>
+            <AlertHistoryList alertConfigId={alertConfig.id} timeConfig={timeConfig} />
+          </Col>
         </Row>
       </div>
       <Footer />

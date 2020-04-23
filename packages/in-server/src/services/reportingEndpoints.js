@@ -70,7 +70,7 @@ function getFallbackReportingConfig(tenant, unit) {
     agentEndpoint: resolveAgentEndpoint(tenant, unit),
     port: resolveAgentEndpointPort()
   };
-  fallbackConfig.serverlessEndpoint = `${fallbackConfig.agentEndpoint}:${fallbackConfig.agentEndpointPort}`;
+  fallbackConfig.serverlessEndpoint = `${fallbackConfig.agentEndpoint}:${fallbackConfig.port}`;
   return fallbackConfig;
 }
 
