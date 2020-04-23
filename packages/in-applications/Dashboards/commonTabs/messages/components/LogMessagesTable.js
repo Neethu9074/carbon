@@ -111,6 +111,7 @@ export default function LogMessagesTable({
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
           query={query}
+          includeInternal
         />
       )}
     />
@@ -165,6 +166,8 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
     ? { name: 'log.message', value: message }
     : { name: 'log.message', operator: 'IS_EMPTY' };
 
+  const includeInternalFilter = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
+
   return (
     <Link
       href$={getLinkToAnalyze({
@@ -173,7 +176,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [logMessageFilter],
+        filters: [logMessageFilter, includeInternalFilter],
         boundaryScope
       })}
     >

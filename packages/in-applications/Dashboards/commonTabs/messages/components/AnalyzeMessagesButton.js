@@ -10,9 +10,17 @@ export default function AnalyzeMessagesButton({
   endpointName,
   className,
   boundaryScope,
-  query
+  query,
+  includeInternal
 }) {
   const groupByTag = { name: groupByTagName };
+  const filters = [];
+  if (query.length > 0) {
+    filters.push({ name: groupByTagName, value: query, operator: 'CONTAINS' });
+  }
+  if (includeInternal) {
+    filters.push({ name: 'include_internal', value: 'true', operator: 'EQUALS' });
+  }
   return (
     <Button
       className={className}
@@ -24,10 +32,7 @@ export default function AnalyzeMessagesButton({
         dataSource: 'calls',
         groupByTag,
         boundaryScope,
-        filters:
-          query.length > 0
-            ? [{ name: groupByTagName, value: query, operator: 'CONTAINS', entity: 'NOT_APPLICABLE' }]
-            : null
+        filters
       })}
     >
       Analyze Messages
