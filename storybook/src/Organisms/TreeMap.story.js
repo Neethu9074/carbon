@@ -1,85 +1,70 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import ResultAwareTreeMap from 'in-new-components/TreeMap/ResultAwareTreeMap';
-import Section from '../_helpers/Section';
 
-import Root from '../_helpers/Root';
+export default {
+  title: 'Organisms|TreeMap',
+  component: ResultAwareTreeMap
+};
 
-storiesOf('Components/TreeMap', module)
-  .add('Loading', () => <LoadingTreeMap />)
-  .add('Error', () => <ErrorTreeMap />)
-  .add('Tree Map - Simple', () => <SimpleTreeMap />)
-  .add('Tree Map - Complex', () => <ComplexTreeMap />);
+export function LoadingTreeMap() {
+  return <ResultAwareTreeMap result={{ progress: { loading: true } }} />;
+}
 
-function LoadingTreeMap() {
+export function ErrorTreeMap() {
   return (
-    <Root>
-      <ResultAwareTreeMap result={{ progress: { loading: true } }} />
-    </Root>
+    <ResultAwareTreeMap result={{ progress: { loading: false }, errors: [{ message: 'something went wrong' }] }} />
   );
 }
 
-function ErrorTreeMap() {
+export function SimpleTreeMap() {
   return (
-    <Root>
-      <ResultAwareTreeMap result={{ progress: { loading: false }, errors: [{ message: 'something went wrong' }] }} />
-    </Root>
-  );
-}
-
-function SimpleTreeMap() {
-  return (
-    <Root>
-      <Section title="Simple">
-        <ResultAwareTreeMap
-          result={{
-            progress: { loading: false },
-            errors: [],
-            data: getSampleDataSimple()
-          }}
-          treeMapRendererProps={{
-            mapData: d => d.treeMapData.root
-          }}
-        />
-      </Section>
-
-      <Section title="Simple with 0 values">
-        <ResultAwareTreeMap
-          result={{
-            progress: { loading: false },
-            errors: [],
-            data: getSampleDataSimple(true)
-          }}
-          treeMapRendererProps={{
-            mapData: d => d.treeMapData.root
-          }}
-        />
-      </Section>
-    </Root>
-  );
-}
-
-function ComplexTreeMap() {
-  return (
-    <Root>
-      <FullHeightWrapper
-        render={customHeight => (
-          <ResultAwareTreeMap
-            result={{
-              progress: { loading: false },
-              errors: [],
-              data: getSampleDataComplex()
-            }}
-            treeMapRendererProps={{
-              mapData: d => d.treeMapData.root,
-              customHeight
-            }}
-          />
-        )}
+    <>
+      <h2>Simple</h2>
+      <ResultAwareTreeMap
+        result={{
+          progress: { loading: false },
+          errors: [],
+          data: getSampleDataSimple()
+        }}
+        treeMapRendererProps={{
+          mapData: d => d.treeMapData.root
+        }}
       />
-    </Root>
+
+      <h2>Simple with 0 vlaues</h2>
+      <ResultAwareTreeMap
+        result={{
+          progress: { loading: false },
+          errors: [],
+          data: getSampleDataSimple(true)
+        }}
+        treeMapRendererProps={{
+          mapData: d => d.treeMapData.root
+        }}
+      />
+    </>
+  );
+}
+
+export function ComplexTreeMap() {
+  return (
+    <FullHeightWrapper
+      render={customHeight => (
+        <ResultAwareTreeMap
+          result={{
+            progress: { loading: false },
+            errors: [],
+            data: getSampleDataComplex()
+          }}
+          treeMapRendererProps={{
+            mapData: d => d.treeMapData.root,
+            customHeight
+          }}
+        />
+      )}
+    />
   );
 }
 
