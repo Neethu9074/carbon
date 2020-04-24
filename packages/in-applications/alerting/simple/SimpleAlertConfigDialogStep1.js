@@ -71,8 +71,8 @@ export default function SimpleAlertConfigDialogStep1({
         alertType={alertType}
         renderLogs={() => (
           <SelectedBlueprintPresenter
-            title="Alert for Specific Log Messages"
-            description="You will be alerted every time a significant amount of log messages matching the specified message are encountered in a 10 minute window."
+            title="Automatic Alerts for Error and Warning Logs"
+            description="Receive an alert when the number of calls logging matching error and warning messages is higher than expected."
           >
             <ProvideLogMessage
               form={form}
@@ -87,14 +87,14 @@ export default function SimpleAlertConfigDialogStep1({
         )}
         renderSlowness={() => (
           <SelectedBlueprintPresenter
-            title="Latency is higher than expected"
-            description="Receive an alert when the latency is higher (your services/endpoints are slower) than expected (from historical data)."
+            title="Automatic Alerts for Slow Calls"
+            description="Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual."
           />
         )}
         renderErrorRate={() => (
           <SelectedBlueprintPresenter
-            title="Error Rate is higher than expected"
-            description="Receive an alert when the error rate is higher than expected (when compared to your historical data of these services/endpoints)."
+            title="Automatic Alerts for Erroneous Calls"
+            description="Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal."
           />
         )}
       />
