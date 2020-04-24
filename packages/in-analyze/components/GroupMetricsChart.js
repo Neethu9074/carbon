@@ -57,8 +57,9 @@ function GroupMetricsChart({
   }
 
   if (focusedMetric) {
-    const toDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focusedMetric));
-    selectedChart = toDisplay[0].key;
+    const chartToDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focusedMetric));
+    selectedChart =
+      chartToDisplay.length !== 0 ? chartToDisplay[0].key : chartDefinitionsAvailableForPresentation[0].key;
   }
 
   // Render chart selector and chart.
