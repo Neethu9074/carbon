@@ -73,7 +73,7 @@ export default function SimpleAlertConfigDialogStep1({
         alertType={alertType}
         renderJsErrors={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alerts for Specific JS Errors"
+            title="Automatic Alerts for JS Errors"
             description="You will be alerted every time matching JS Error messages occur more often than normal."
           >
             <ProvideJsError
@@ -92,7 +92,7 @@ export default function SimpleAlertConfigDialogStep1({
         )}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alerts for Specific HTTP Status Codes"
+            title="Automatic Alerts for HTTP Status Codes"
             description="You will be alerted every time matching HTTP Status Codes occur more often than normal."
           >
             <ProvideStatusCode form={form} onChange={onChange} updateForm={updateForm} mode={modeSimple} />
