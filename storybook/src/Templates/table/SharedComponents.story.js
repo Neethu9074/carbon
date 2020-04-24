@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import {
@@ -21,18 +20,34 @@ import {
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
 
-import Root from '../../_helpers/Root';
+export default {
+  title: 'Templates|table/Table',
+  component: Table
+};
 
-storiesOf('Content/Table/Shared Components', module)
-  .add('Overview', () => <Overview />)
-  .add('Loading State', () => <LoadingState />)
-  .add('Tree Table With Load More', () => <TreeTableWithLoadMore />)
-  .add('Table With Large Cell Content', () => <TableWithLargeCellContent />)
-  .add('Table With Configurable Cell Content', () => <TableWithConfigurableCellContent />);
+export function Overview() {
+  return <OverviewStory />;
+}
 
-function Overview() {
+export function Loading() {
+  return <LoadingState />;
+}
+
+export function TreeTableWithLoadMore() {
+  return <TreeTableWithLoadMoreStory />;
+}
+
+export function TableWithLargeCellContent() {
+  return <TableWithLargeCellContentStory />;
+}
+
+export function TableWithConfigurableCellContent() {
+  return <TableWithConfigurableCellContentStory />;
+}
+
+function OverviewStory() {
   return (
-    <Root>
+    <>
       <Row>
         <Col xs={6}>
           <Table>
@@ -135,13 +150,13 @@ function Overview() {
           </Table>
         </Col>
       </Row>
-    </Root>
+    </>
   );
 }
 
 function LoadingState() {
   return (
-    <Root>
+    <>
       <Row>
         <Col xs={6}>
           <Table>
@@ -193,13 +208,13 @@ function LoadingState() {
           </Table>
         </Col>
       </Row>
-    </Root>
+    </>
   );
 }
 
-function TreeTableWithLoadMore() {
+function TreeTableWithLoadMoreStory() {
   return (
-    <Root>
+    <>
       <Row>
         <Col xs={6}>
           <Table>
@@ -267,13 +282,13 @@ function TreeTableWithLoadMore() {
           </Table>
         </Col>
       </Row>
-    </Root>
+    </>
   );
 }
 
-function TableWithLargeCellContent() {
+function TableWithLargeCellContentStory() {
   return (
-    <Root>
+    <>
       <Table>
         <Thead>
           <Tr>
@@ -317,13 +332,13 @@ function TableWithLargeCellContent() {
           </Tr>
         </Tbody>
       </Table>
-    </Root>
+    </>
   );
 }
 
-function TableWithConfigurableCellContent() {
+function TableWithConfigurableCellContentStory() {
   return (
-    <Root>
+    <>
       <Table>
         <Thead>
           <Tr size="minimal">
@@ -358,6 +373,6 @@ function TableWithConfigurableCellContent() {
           </Tr>
         </Tbody>
       </Table>
-    </Root>
+    </>
   );
 }

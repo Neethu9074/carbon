@@ -1,26 +1,14 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
-import Root from '../_helpers/Root';
 
-storiesOf('Releases/Release Status Row', module).add('sortDirection ASC', () => <MarkerRowAsc />);
-storiesOf('Releases/Release Status Row', module).add('sortDirection DESC', () => <MarkerRowDsc />);
+export default {
+  title: 'Molecules|ReleaseStatusRow',
+  component: ReleaseStatusRow
+};
 
-function MarkerRowAsc() {
-  return (
-    <Root>
-      <ReleaseStatusRow rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="asc" />
-    </Root>
-  );
-}
-
-function MarkerRowDsc() {
-  return (
-    <Root>
-      <ReleaseStatusRow rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="desc" />
-    </Root>
-  );
+export function MarkerRowAsc() {
+  return <ReleaseStatusRow rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="asc" />;
 }
 
 function startDate(minutes) {

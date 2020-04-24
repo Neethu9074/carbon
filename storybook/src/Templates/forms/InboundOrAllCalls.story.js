@@ -6,7 +6,8 @@ import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonCompone
 import { boundaryScopes } from 'in-applications/constants';
 
 export default {
-  title: 'Templates|forms/InboundOrAllCallsChoice'
+  title: 'Templates|forms/InboundOrAllCallsChoice',
+  component: InboundOrAllCallsChoiceHorizontal
 };
 
 export function Default() {
