@@ -46,7 +46,7 @@ export default connectTo(
             const args = row.arguments ? row.arguments.toJS() : {};
             const issueDefinition = getIssueDefinitionForSnapshotAndCode(plugin, row.code);
             return (
-              <Message withIcon type={warning}>
+              <Message withIcon type={warning} className={locals.monitoringMessage}>
                 <div className={locals.monitoringIssuesMessageContent}>
                   <span>
                     <strong>{row.category.alert_prefix}</strong>{' '}
