@@ -1,8 +1,23 @@
 import { number } from '@storybook/addon-knobs/react';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
+
+export function Default() {
+  return <LoadingStates progress={prepProgress} />;
+}
+export function QueryRunning() {
+  return <LoadingStates progress={runningProgress} />;
+}
+export function QueryFailedServer() {
+  return <LoadingStates progress={failedProgress} errors={errorServer} />;
+}
+export function QueryFailedClient() {
+  return <LoadingStates progress={failedProgress} errors={errorClient} />;
+}
+export function QueryFailedTimeOut() {
+  return <LoadingStates progress={failedProgress} errors={errorOther} />;
+}
 
 const prepProgress = {
   loading: true
@@ -44,10 +59,7 @@ const failedProgress = {
   percentage: null
 };
 
-storiesOf('Components/Loading/Analyze Loading States', module)
-  .addParameters({ component: LoadingStates })
-  .add('Default', () => <LoadingStates progress={prepProgress} />)
-  .add('Query Running', () => <LoadingStates progress={runningProgress} />)
-  .add('Query Failed, Server', () => <LoadingStates progress={failedProgress} errors={errorServer} />)
-  .add('Query Failed, Client', () => <LoadingStates progress={failedProgress} errors={errorClient} />)
-  .add('Query Failed, Time out', () => <LoadingStates progress={failedProgress} errors={errorOther} />);
+export default {
+  title: 'Molecules|Loading/LoadingTraces',
+  component: LoadingStates
+};

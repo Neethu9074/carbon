@@ -8,7 +8,7 @@ import Section from '../../stories/_helpers/Section';
 import Root from '../../stories/_helpers/Root';
 
 export default {
-  title: 'Molecules|Loading',
+  title: 'Molecules|Loading/Loading',
   decorators: [withKnobs]
 };
 
