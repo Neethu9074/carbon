@@ -28,6 +28,17 @@ export function getAlertChannelsByIdsMutable(ids) {
   }).map(response => response.body);
 }
 
+export function getAlertChannelsInfosMutable(ids) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/events/settings/alertingChannels/infos',
+    queryParams: {
+      ids: ids ? ids : []
+    }
+  }).map(response => response.body);
+}
+
 export function getAlertChannel(id) {
   return http({
     method: 'GET',
