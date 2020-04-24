@@ -1,19 +1,19 @@
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import GeoHeatMapPresenter from 'in-new-components/GeoHeatMap/GeoHeatMapPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { number } from 'in-services/formatters/number';
 
-import Root from '../_helpers/Root';
+export default {
+  title: 'Molecules|GeoHeatMap',
+  component: GeoHeatMapPresenter
+};
 
-storiesOf('Websites/GeoHeatMap', module).add('default', () => <Default />);
-
-function Default() {
+export function Default() {
   return (
-    <Root>
+    <>
       <Row>
         <Col xs={6}>
           <GeoHeatMapPresenter valueFormatter={number.compact} mapCode="world" height={300} result={pendingResult} />
@@ -105,6 +105,6 @@ function Default() {
           />
         </Col>
       </Row>
-    </Root>
+    </>
   );
 }
