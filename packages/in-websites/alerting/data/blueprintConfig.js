@@ -10,7 +10,7 @@ export const blueprintConfig = Object.freeze([
   {
     type: alertTypes.slowness,
     name: 'Slowness',
-    headline: 'onLoad Time',
+    headline: 'Automatic Alerts for onLoad Time',
     text: `
       <p>
       OnLoad Time measures the time passed in between the user navigating to a website and being able to interact with the website.
@@ -27,13 +27,13 @@ export const blueprintConfig = Object.freeze([
   {
     type: alertTypes.specificJsError,
     name: 'JS Errors',
-    headline: 'Specific JS Errors',
+    headline: 'Automatic Alerts for JS Errors',
     text: 'Alert on known JS Errors by selecting one or multiple JS Errors that have been monitored before.'
   },
   {
     type: alertTypes.specificStatusCode,
     name: 'HTTP Status Codes',
-    headline: 'Specific HTTP Status Codes',
+    headline: 'Automatic Alerts for HTTP Status Codes',
     text: 'Alert on known HTTP Status Codes by selecting one or multiple Status Codes that have been monitored before.'
   }
 ]);

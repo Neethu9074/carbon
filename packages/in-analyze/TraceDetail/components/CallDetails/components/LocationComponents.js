@@ -38,7 +38,7 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
   );
 };
 
-export const DestinationLocation = ({ location, endpoint, service, snapshotId, entity, span }) => {
+export const DestinationLocation = ({ location, endpoint, service, snapshotId, entity, span, inProcessCall }) => {
   return (
     <div
       className={evaluateClassNames({
@@ -48,7 +48,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
       })}
     >
       <div className={locals.serviceLineInfo}>
-        <span className={locals.locationText}>{span && span.kind === 'INTERMEDIATE' ? 'IN' : location}</span>
+        <span className={locals.locationText}>{inProcessCall ? 'IN' : location}</span>
         <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
           <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" />
           {endpoint.label}

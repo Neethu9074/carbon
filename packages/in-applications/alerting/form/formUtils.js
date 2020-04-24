@@ -25,7 +25,7 @@ export function getBlueprintLabel(alertType) {
     case 'statusCode':
       return 'Status Code';
     default:
-      return '';
+      throw Error('Unsupported alertType: ' + alertType);
   }
 }
 
@@ -62,27 +62,25 @@ export function getTitlePlaceholder(form) {
   const alertType = ruleForm.get('alertType').value;
   switch (alertType) {
     case 'errorRate':
-      return `Error Rate is higher than expected`;
-    case 'slowness': {
-      const aggregation = ruleForm.get('aggregation').value;
-      const operator = form.get('threshold').get('operator').value;
-      return `Latency (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
-    }
+      return 'Erroneous call rate is higher than normal';
+    case 'slowness':
+      return 'Calls are slower than usual';
     case 'logs': {
       const message = ruleForm.get('message').value;
       const operator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
+
       if (operator === operators.NOT_EMPTY) {
         if (level === 'ANY') {
-          return 'Any Log Message';
+          return 'Too many calls logging messages';
         }
-        return `Any ${getLogLevelRuleOperatorLabel(level)} Log Message`;
+        return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages`;
       }
 
       if (level === 'ANY') {
-        return `Log Messages: ${message}`;
+        return `Too many calls logging messages: "${message}"`;
       }
-      return `${getLogLevelRuleOperatorLabel(level)} Log Messages: ${message}`;
+      return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages: "${message}"`;
     }
     case 'statusCode': {
       const value = ruleForm.get('value').value;
@@ -92,7 +90,7 @@ export function getTitlePlaceholder(form) {
       )} the expectation.`;
     }
     default:
-      return '';
+      throw Error('Unsupported alertType: ' + alertType);
   }
 }
 
@@ -104,26 +102,38 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
-      return `The error rate is ${getOperatorText(operator)} ${getValueRoundedToDecimals(thresholdValue, true)}%.`;
+      return `The erroneous call rate is ${getHigherOrLowerOperatorText(operator)} ${getValueRoundedToDecimals(
+        thresholdValue,
+        true
+      )}%.`;
     }
     case 'slowness': {
       const aggregation = ruleForm.get('aggregation').value;
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The latency (${getAggregationText(aggregation)}) is ${getOperatorText(operator)} ${thresholdValue} ms.`;
+        return `Calls are ${getSlowerOrBelowOperatorText(
+          operator
+        )} ${thresholdValue} ms based on latency (${getAggregationText(aggregation)}).`;
       }
-      return `The latency (${getAggregationText(aggregation)}) is ${getSimpleOperatorText(operator)} the expectation.`;
+      return `Calls are ${getSlowerOrBelowOperatorText(
+        operator
+      )} the expectation based on latency (${getAggregationText(aggregation)}).`;
     }
     case 'logs': {
       const message = ruleForm.get('message').value;
       const operator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
+      const thresholdValue = thresholdForm.get('value').value;
       if (operator === operators.NOT_EMPTY) {
-        return `${levelText} log messages have been detected.`;
+        return `Number of calls logging ${levelText} messages is ${getHigherOrLowerOperatorText(
+          operator
+        )} ${thresholdValue}.`;
       }
-      return `${levelText} log messages which ${operatorDescriptionValues[operator]} "${message}" have been detected.`;
+      return `Number of calls logging ${levelText} messages which ${
+        operatorDescriptionValues[operator]
+      } "${message}" is ${getHigherOrLowerOperatorText(operator)} ${thresholdValue}.`;
     }
     case 'statusCode': {
       const value = ruleForm.get('value').value;
@@ -131,10 +141,36 @@ export function getDescriptionPlaceholder(form) {
       return `HTTP Status codes which ${operatorDescriptionValues[operator]} "${value}" have been detected.`;
     }
     default:
-      return '';
+      throw Error('Unsupported alertType: ' + alertType);
   }
 }
 
-function getSimpleOperatorText(operator) {
-  return isGreaterOperator(operator) ? 'above' : 'below';
+function getHigherOrLowerOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return 'higher than';
+    case '>=':
+      return 'higher or equal to';
+    case '<':
+      return 'lower than';
+    case '<=':
+      return 'lower or equal to';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
+}
+
+function getSlowerOrBelowOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return 'slower than';
+    case '>=':
+      return 'slower or equal to';
+    case '<':
+      return 'below';
+    case '<=':
+      return 'below or equal to';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
 }

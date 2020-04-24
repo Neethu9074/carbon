@@ -68,6 +68,11 @@
     }
   }
 
+  .noText {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
+
   .disabled,
   .disabled:focus,
   .disabled:hover {
