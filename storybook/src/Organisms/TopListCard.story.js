@@ -1,5 +1,4 @@
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React, { Fragment } from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
@@ -7,18 +6,20 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
-import Root from '../_helpers/Root';
 
 const onChangeMetric = action('onChangeMetric');
 
 const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
 const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 
-storiesOf('Components/Top-List Card', module).add('default', () => <Default />);
+export default {
+  title: 'Organisms|TopListCard',
+  component: TopListCardPresenter
+};
 
-function Default() {
+export function Default() {
   return (
-    <Root>
+    <>
       <Row>
         <Col lg={6}>
           <h3>Indeterminate Loading</h3>
@@ -146,7 +147,7 @@ function Default() {
           />
         </Col>
       </Row>
-    </Root>
+    </>
   );
 }
 
