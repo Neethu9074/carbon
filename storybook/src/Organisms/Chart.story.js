@@ -1,20 +1,16 @@
-import { storiesOf } from '@storybook/react';
+import { just, interval } from 'reactive-observables';
 import React, { useState } from 'react';
+import theme from 'in-themes';
 
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
-import { just, interval } from 'reactive-observables';
 import { compare } from 'in-services/util/number';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
-
-import Section from '../_helpers/Section';
-import Root from '../_helpers/Root';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -22,45 +18,25 @@ const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
 const now = Date.now();
 
-storiesOf('Components/Chart', module)
-  .add('Missing Data', () => <MissingData />)
-  .add('Simple', () => <Simple />)
-  .add('Error / Loading', () => <States />)
-  .add('Multiple Series', () => <MultipleSeries />)
-  .add('Long Series Labels', () => <LongSeriesLabels />)
-  .add('Dual Axis', () => <DualAxis />)
-  .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
-  .add('Gaps', () => <Gaps />)
-  .add('Bar', () => <Bar />)
-  .add('Bar with threshold', () => <BarWithThreshold />)
-  .add('Bar with baseline', () => <BarWithBaseline />)
-  .add('Area', () => <Area />)
-  .add('StackedArea', () => <StackedArea />)
-  .add('StackedBar', () => <StackedBar />)
-  .add('Integral', () => <Integral />)
-  .add('Points', () => <Points />)
-  .add('CountErrorBar', () => <CountErrorBar />)
-  .add('MissingMetrics', () => <MissingMetrics />)
-  .add('MissingDataPoint', () => <MissingDataPoint />)
-  .add('SharedAxis', () => <SharedAxis />)
-  .add('Resize', () => <Resize />)
-  .add('With custom icons in legend', () => <WithCustomIconsInLegend />)
-  .add('With Legend aligned to left side of chart', () => <WithLegendAlignedToLeftSideOfChart />);
+export default {
+  title: 'Organisms|Chart',
+  component: ResultAwareChart
+};
 
-function MissingData() {
+export function MissingData() {
   return (
-    <Root>
+    <>
       <ResultAwareChart config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
-    </Root>
+    </>
   );
 }
 
-function Simple() {
+export function Simple() {
   const timeframe = generateTimeframe(oneHour);
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -85,26 +61,26 @@ function Simple() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function States() {
+export function States() {
   return (
-    <Root>
+    <>
       <ResultAwareChart result={constructResult('Some error happened.', false)} config={{}} />
       <br />
       <ResultAwareChart result={constructResult(null, true)} config={{}} />
-    </Root>
+    </>
   );
 }
 
-function MultipleSeries() {
+export function MultipleSeries() {
   const timeframe = generateTimeframe(oneMinute);
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -117,16 +93,16 @@ function MultipleSeries() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function LongSeriesLabels() {
+export function LongSeriesLabels() {
   const timeframe = generateTimeframe(oneMinute);
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -148,16 +124,16 @@ function LongSeriesLabels() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function DualAxis() {
+export function DualAxis() {
   const timeframe = generateTimeframe(oneMinute);
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -176,16 +152,16 @@ function DualAxis() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function DualAxisDifferentMetricCount() {
+export function DualAxisDifferentMetricCount() {
   const timeframe = generateTimeframe(oneMinute);
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -204,13 +180,13 @@ function DualAxisDifferentMetricCount() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function Gaps() {
+export function Gaps() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -222,13 +198,13 @@ function Gaps() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function Bar() {
+export function Bar() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -241,15 +217,15 @@ function Bar() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
 const metricsBarWithThreshold = [generateMetrics(12, 100, oneMinute)];
-function BarWithThreshold() {
+export function BarWithThreshold() {
   const [threshold, setThreshold] = useState(32);
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -282,16 +258,16 @@ function BarWithThreshold() {
           onChange={e => setThreshold(Number(e && e.target.value))}
         />
       </FormGroup>
-    </Root>
+    </>
   );
 }
 
 const metricsBarWithBaseline = [generateMetrics(144, 100, oneDay)];
 const baselineBarWithBaseline = generateBaselineForMetric(metricsBarWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
-function BarWithBaseline() {
+export function BarWithBaseline() {
   const [sensitivity, setSensitivity] = useState(1.0);
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -327,13 +303,13 @@ function BarWithBaseline() {
           onChange={e => setSensitivity(Number(e && e.target.value))}
         />
       </FormGroup>
-    </Root>
+    </>
   );
 }
 
-function Area() {
+export function Area() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -345,13 +321,13 @@ function Area() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function StackedArea() {
+export function StackedArea() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -374,13 +350,13 @@ function StackedArea() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function StackedBar() {
+export function StackedBar() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -392,13 +368,13 @@ function StackedBar() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function Integral() {
+export function Integral() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -462,13 +438,13 @@ function Integral() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function CountErrorBar() {
+export function CountErrorBar() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -481,13 +457,13 @@ function CountErrorBar() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function MissingMetrics() {
+export function MissingMetrics() {
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -521,11 +497,11 @@ function MissingMetrics() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function MissingDataPoint() {
+export function MissingDataPoint() {
   let dataSeries1 = generateMetrics(60, 20, oneMinute);
   dataSeries1[0] = undefined;
   dataSeries1[10] = undefined;
@@ -544,7 +520,7 @@ function MissingDataPoint() {
   dataSeries2[dataSeries2.length - 1] = undefined;
 
   return (
-    <Root>
+    <>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -652,116 +628,106 @@ function MissingDataPoint() {
           }
         }}
       />
-    </Root>
+    </>
   );
 }
 
-function SharedAxis() {
+export function SharedAxis() {
   return (
-    <Root>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        shareMaxAxisDomain: true,
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.line,
+          labels: ['A', 'B'],
+          metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
+        },
+        y2: {
+          renderer: Renderer.line,
+          labels: ['C', 'D'],
+          metrics: [generateMetrics(60, 50, oneMinute), generateMetrics(60, 70, oneMinute)]
+        }
+      }}
+    />
+  );
+}
+export function WithCustomIconsInLegend() {
+  return (
+    <>
+      <h2>Icons with defined chart colors</h2>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
-          shareMaxAxisDomain: true,
           timeConfig: generateTimeframe(oneMinute),
           y1: {
-            renderer: Renderer.line,
-            labels: ['A', 'B'],
-            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
+            renderer: Renderer.stackedBar,
+            labels: ['foo', 'bar', 'baz'],
+            icons: {
+              types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
+            },
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+          }
+        }}
+      />
+      <h2>Icons with custom colors</h2>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedBar,
+            labels: ['foo', 'bar', 'baz'],
+            icons: {
+              types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
+              colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
+            },
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+          }
+        }}
+      />
+    </>
+  );
+}
+
+export function WithLegendAlignedToLeftSideOfChart() {
+  return (
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        alignLegendToLeftSideOfChart: true,
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.stackedBar,
+          labels: ['foo', 'bar', 'baz'],
+          icons: {
+            types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
           },
-          y2: {
-            renderer: Renderer.line,
-            labels: ['C', 'D'],
-            metrics: [generateMetrics(60, 50, oneMinute), generateMetrics(60, 70, oneMinute)]
-          }
-        }}
-      />
-    </Root>
-  );
-}
-function WithCustomIconsInLegend() {
-  return (
-    <>
-      <Section title="Icons with defined chart colors">
-        <ResultAwareChart
-          result={constructResult(null, false)}
-          config={{
-            timeConfig: generateTimeframe(oneMinute),
-            y1: {
-              renderer: Renderer.stackedBar,
-              labels: ['foo', 'bar', 'baz'],
-              icons: {
-                types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
-              },
-              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
-            }
-          }}
-        />
-      </Section>
-      <Section title="Icons with custom colors">
-        <ResultAwareChart
-          result={constructResult(null, false)}
-          config={{
-            timeConfig: generateTimeframe(oneMinute),
-            y1: {
-              renderer: Renderer.stackedBar,
-              labels: ['foo', 'bar', 'baz'],
-              icons: {
-                types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
-                colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
-              },
-              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
-            }
-          }}
-        />
-      </Section>
-    </>
+          metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+        }
+      }}
+    />
   );
 }
 
-function WithLegendAlignedToLeftSideOfChart() {
+export function Points() {
   return (
-    <>
-      <Section title="Icons with defined chart colors">
-        <ResultAwareChart
-          result={constructResult(null, false)}
-          config={{
-            alignLegendToLeftSideOfChart: true,
-            timeConfig: generateTimeframe(oneMinute),
-            y1: {
-              renderer: Renderer.stackedBar,
-              labels: ['foo', 'bar', 'baz'],
-              icons: {
-                types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
-              },
-              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
-            }
-          }}
-        />
-      </Section>
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.point,
+          labels: ['Count'],
+          metrics: [generateMetrics(30, 4, oneMinute)]
+        }
+      }}
+    />
   );
 }
 
-function Points() {
-  return (
-    <Root>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.point,
-            labels: ['Count'],
-            metrics: [generateMetrics(30, 4, oneMinute)]
-          }
-        }}
-      />
-    </Root>
-  );
-}
-
-const Resize = connectTo(
+export const Resize = connectTo(
   () => {
     return {
       metrics: just(generateMetrics(20, 10, oneHour)),
@@ -774,22 +740,20 @@ const Resize = connectTo(
     const timeframe = generateTimeframe(oneHour);
 
     return (
-      <Root>
-        <div style={{ width: size.width }}>
-          <ResultAwareChart
-            result={constructResult(null, false)}
-            config={{
-              customHeight: size.height,
-              timeframe,
-              y1: {
-                renderer: Renderer.line,
-                labels: ['Calls'],
-                metrics: [metrics]
-              }
-            }}
-          />
-        </div>
-      </Root>
+      <div style={{ width: size.width }}>
+        <ResultAwareChart
+          result={constructResult(null, false)}
+          config={{
+            customHeight: size.height,
+            timeframe,
+            y1: {
+              renderer: Renderer.line,
+              labels: ['Calls'],
+              metrics: [metrics]
+            }
+          }}
+        />
+      </div>
     );
   }
 );
