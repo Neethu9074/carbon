@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import { just } from 'reactive-observables';
 import { range } from 'lodash';
 import React from 'react';
@@ -6,32 +5,13 @@ import React from 'react';
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
-import Root from '../../_helpers/Root';
 
-storiesOf('Components/health/OpenIssuesListPresenter', module)
-  .add('loading', () => <LoadingIndeterminate />)
-  .add('error', () => <Errors />)
-  .add('design library case', () => <DesignLibraryCase />)
-  .add('Markdown description', () => <MarkdownDescription />)
-  .add('Long Fix Suggestion', () => <LongFixSuggestion />)
-  .add('Large number of issues', () => <LargeNumberOfIsses />);
+export default {
+  title: 'Molecules|health/OpenIssues',
+  component: OpenIssuesListPresenter
+};
 
-function Wrapper({ children }) {
-  return (
-    <Root>
-      <div
-        style={{
-          maxWidth: '25rem',
-          border: '1px solid #DFE4E8'
-        }}
-      >
-        {children}
-      </div>
-    </Root>
-  );
-}
-
-function DesignLibraryCase() {
+export function DesignLibraryCase() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
@@ -42,7 +22,7 @@ function DesignLibraryCase() {
   );
 }
 
-function LongFixSuggestion() {
+export function LongFixSuggestion() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
@@ -59,7 +39,7 @@ function LongFixSuggestion() {
   );
 }
 
-function MarkdownDescription() {
+export function MarkdownDescription() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
@@ -86,7 +66,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
   );
 }
 
-function LargeNumberOfIsses() {
+export function LargeNumberOfIsses() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
@@ -105,7 +85,7 @@ function LargeNumberOfIsses() {
   );
 }
 
-function LoadingIndeterminate() {
+export function LoadingIndeterminate() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter openIssuesResult={pendingResult} />
@@ -113,7 +93,7 @@ function LoadingIndeterminate() {
   );
 }
 
-function Errors() {
+export function Errors() {
   return (
     <Wrapper>
       <OpenIssuesListPresenter
@@ -147,4 +127,16 @@ function getIssue({
       severity
     }
   };
+}
+function Wrapper({ children }) {
+  return (
+    <div
+      style={{
+        maxWidth: '25rem',
+        border: '1px solid #DFE4E8'
+      }}
+    >
+      {children}
+    </div>
+  );
 }
