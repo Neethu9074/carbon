@@ -1,17 +1,18 @@
-import { storiesOf } from '@storybook/react';
 import { range } from 'lodash';
 import React from 'react';
 
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Root from '../../_helpers/Root';
 
-storiesOf('Components/overlays/Overlay', module).add('default', () => <Default />);
+export default {
+  title: 'Atoms|layout/Overlay',
+  component: Overlay
+};
 
-function Default() {
+export function Default() {
   return (
-    <Root>
+    <>
       {range(0, 6).map(y => (
         <Row key={y}>
           {range(0, 12).map(x => (
@@ -23,7 +24,7 @@ function Default() {
       ))}
 
       <OverlayPresenter />
-    </Root>
+    </>
   );
 }
 
