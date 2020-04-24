@@ -31,21 +31,21 @@ export default getElementDimensions(
 
     render() {
       const { technologies, getHref$ } = this.props;
-      if (!technologies || technologies.length === 0) {
-        // always return a valid dom element, the getClientDimension hoc can attach to
-        return <div />;
-      }
 
       return (
         <ul className={locals.list}>
-          {technologies.slice().map(pluginOrGroupType => (
-            <TechnologyIndicator
-              getHref$={getHref$}
-              key={pluginOrGroupType}
-              pluginOrGroupType={pluginOrGroupType}
-              showTechnologyLabel={this.state.showTechnologyLabel}
-            />
-          ))}
+          {technologies &&
+            technologies.length > 0 &&
+            technologies
+              .slice()
+              .map(pluginOrGroupType => (
+                <TechnologyIndicator
+                  getHref$={getHref$}
+                  key={pluginOrGroupType}
+                  pluginOrGroupType={pluginOrGroupType}
+                  showTechnologyLabel={this.state.showTechnologyLabel}
+                />
+              ))}
         </ul>
       );
     }

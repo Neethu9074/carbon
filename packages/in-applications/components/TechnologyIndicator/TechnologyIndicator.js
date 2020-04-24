@@ -13,7 +13,14 @@ export default function TechnologyIndicator({ pluginOrGroupType, getHref$, showT
     return null;
   }
 
-  let content = <TechnologyLabelWithIcon plugin={pluginOrGroupType} label={label} is10Icon />;
+  let content = (
+    <TechnologyLabelWithIcon
+      plugin={pluginOrGroupType}
+      label={label}
+      showTechnologyLabel={showTechnologyLabel}
+      is10Icon
+    />
+  );
 
   if (getHref$) {
     content = (
