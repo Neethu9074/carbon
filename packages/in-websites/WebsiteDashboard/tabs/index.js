@@ -11,6 +11,7 @@ import Alerts from 'in-websites/WebsiteDashboard/tabs/Alerts';
 import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
 import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 import Ajax from 'in-websites/WebsiteDashboard/tabs/Ajax';
+import { role } from 'in-stores/user';
 
 export const websiteTabs = [
   {
@@ -68,7 +69,7 @@ export const websiteTabs = [
     path: `${websitePathFullyQualified}/alerts`,
     component: Alerts
   },
-  {
+  role.canConfigureEumApplications && {
     label: 'Configuration',
     path: `${websitePathFullyQualified}/configuration`,
     component: Configuration,
