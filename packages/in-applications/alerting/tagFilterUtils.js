@@ -15,6 +15,10 @@ export function getLogLevelTagFilters(message, operator, level) {
   return tagFilters;
 }
 
+export function getStatusCodeTagFilter(statusCode, operator) {
+  return createStringTagFilter('call.http.status', operator, statusCode);
+}
+
 function createStringTagFilter(name, operator, stringValue) {
   return Object.freeze({
     name,

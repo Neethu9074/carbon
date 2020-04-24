@@ -1,4 +1,4 @@
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -16,6 +16,10 @@ export default function createRuleForm(rule) {
 
   if (alertType === 'logs') {
     return extendForLogs(baseForm, rule);
+  }
+
+  if (alertType === 'statusCode') {
+    return extendForStatusCode(baseForm, rule);
   }
 }
 
@@ -74,6 +78,23 @@ function extendForLogs(baseForm, rule) {
       'level',
       createField({
         value: rule.level ?? 'ERROR'
+      })
+    );
+}
+
+function extendForStatusCode(baseForm, rule) {
+  return baseForm
+    .put(
+      'operator',
+      createField({
+        value: rule.operator ?? operators.STARTS_WITH
+      })
+    )
+    .put(
+      'value',
+      createField({
+        value: rule.value ?? '4',
+        validator: notBlankValidator
       })
     );
 }

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
@@ -81,6 +82,24 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   applicationId={alertConfig.applicationId}
                   logMessage={alertConfig.rule.message}
                   logMessageOperator={alertConfig.rule.operator}
+                  logLevel={alertConfig.rule.level}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={alertingMetricsGranularity}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
+                  boundaryScope={alertConfig.boundaryScope}
+                />
+              </ChartContainer>
+            </>
+          )}
+          renderStatusCode={() => (
+            <>
+              <ChartContainer headline="Last 24 hours">
+                <StatusCodeAlertingBarChart
+                  applicationId={alertConfig.applicationId}
+                  statusCode={alertConfig.rule.value}
+                  statusCodeOperator={alertConfig.rule.operator}
                   logLevel={alertConfig.rule.level}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}

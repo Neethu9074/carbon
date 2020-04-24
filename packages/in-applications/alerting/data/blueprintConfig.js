@@ -19,5 +19,11 @@ export const blueprintConfig = Object.freeze([
     headline: 'Specific Log Messages',
     text:
       'Receive an alert when a known log message (that has been monitored before) or a message matching a string pattern is observed.'
+  },
+  {
+    type: 'statusCode',
+    name: 'HTTP Status Code',
+    headline: 'Specific Status Codes',
+    text: 'Receive an alert when a known status code is observed.'
   }
 ]);

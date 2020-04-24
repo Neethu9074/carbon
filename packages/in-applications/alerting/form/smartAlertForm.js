@@ -1,6 +1,11 @@
 import { createMapForm, createField } from 'formalistic';
 
-import { createSlownessForm, createErrorRateForm, createLogsForm } from 'in-applications/alerting/form/thresholdForm';
+import {
+  createSlownessForm,
+  createErrorRateForm,
+  createLogsForm,
+  createStatusCodeForm
+} from 'in-applications/alerting/form/thresholdForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
@@ -116,6 +121,10 @@ export function createSmartAlertForm(alertConfig) {
 
   if (alertType === 'logs') {
     return form.put('threshold', createLogsForm(alertConfig.threshold));
+  }
+
+  if (alertType === 'statusCode') {
+    return form.put('threshold', createStatusCodeForm(alertConfig.threshold));
   }
 }
 

@@ -167,6 +167,7 @@ export const APPLICATIONS_ALERTING_FILTER_SET = 'applications.alerting.filter.se
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.alerting.event.details.goToAnalyze';
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
   'applications.alerting.event.details.ViewEditConfig';
+export const APPLICATIONS_ALERTING_STATUS_CODE_CHANGED = 'applications.alerting.statusCodeChanged';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

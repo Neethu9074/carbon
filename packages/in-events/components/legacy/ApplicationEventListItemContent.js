@@ -16,6 +16,7 @@ import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplicationEventListItemContent.mless';
+import StatusCodeAlertingBarChart from '../../../in-applications/alerting/chart/StatusCodeAlertingBarChart';
 
 export default connectTo(
   ({ event }) => {
@@ -83,6 +84,19 @@ export default connectTo(
                 logMessage={alertConfig.rule.message}
                 logMessageOperator={alertConfig.rule.operator}
                 logLevel={alertConfig.rule.level}
+                operator={operator}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                granularity={alertingMetricsGranularity}
+                threshold={threshold}
+                timeThreshold={timeThreshold}
+              />
+            )}
+            renderStatusCode={() => (
+              <StatusCodeAlertingBarChart
+                applicationId={entityId}
+                statusCode={alertConfig.rule.value}
+                statusCodeOperator={alertConfig.rule.operator}
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}

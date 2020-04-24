@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
@@ -77,6 +78,29 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
           )}
         </>
       )}
+      renderStatusCode={() => (
+        <>
+          {hasStatusCodeSelected(form) ? (
+            <div className={locals.placeholder}>
+              <StatusCodeAlertingBarChart
+                applicationId={applicationId}
+                statusCode={rule.value}
+                statusCodeOperator={rule.operator}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                granularity={granularity}
+                threshold={threshold}
+                timeThreshold={timeThreshold}
+                boundaryScope={boundaryScope}
+                alertsPreviewEnabled
+                canReload
+              />
+            </div>
+          ) : (
+            <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
+          )}
+        </>
+      )}
     />
   );
 }
@@ -89,4 +113,8 @@ SimpleAlertConfigDialogChart.propTypes = {
 
 function hasLogMessageSelected(form) {
   return !!(form && form.get('rule').get('message').value);
+}
+
+function hasStatusCodeSelected(form) {
+  return !!(form && form.get('rule').get('value').value);
 }

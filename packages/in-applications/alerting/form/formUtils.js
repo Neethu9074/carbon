@@ -1,5 +1,9 @@
+import {
+  ruleMetricNameOptions,
+  getLogLevelRuleOperatorLabel,
+  getStatusCodeLabel
+} from 'in-applications/alerting/form/ruleFormData';
 import { isGreaterOperator, getAggregationText, getOperatorText } from 'in-new-components/Alerting/utils/formUtils';
-import { ruleMetricNameOptions, getLogLevelRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -18,6 +22,8 @@ export function getBlueprintLabel(alertType) {
       return 'Slowness';
     case 'logs':
       return 'Log Message';
+    case 'statusCode':
+      return 'Status Code';
     default:
       return '';
   }
@@ -78,6 +84,13 @@ export function getTitlePlaceholder(form) {
       }
       return `${getLogLevelRuleOperatorLabel(level)} Log Messages: ${message}`;
     }
+    case 'statusCode': {
+      const value = ruleForm.get('value').value;
+      const operator = ruleForm.get('operator').value;
+      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(value)} is ${getSimpleOperatorText(
+        operator
+      )} the expectation.`;
+    }
     default:
       return '';
   }
@@ -111,6 +124,11 @@ export function getDescriptionPlaceholder(form) {
         return `${levelText} log messages have been detected.`;
       }
       return `${levelText} log messages which ${operatorDescriptionValues[operator]} "${message}" have been detected.`;
+    }
+    case 'statusCode': {
+      const value = ruleForm.get('value').value;
+      const operator = ruleForm.get('operator').value;
+      return `HTTP Status codes which ${operatorDescriptionValues[operator]} "${value}" have been detected.`;
     }
     default:
       return '';
