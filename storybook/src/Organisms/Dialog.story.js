@@ -1,24 +1,20 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
+import theme from 'in-themes';
 import React from 'react';
 
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
-import DialogRoot from '../_helpers/DialogRoot';
+import DialogRoot from '../../stories/_helpers/DialogRoot';
 import Dialog from 'in-new-components/Dialog';
 
-import theme from 'in-themes';
+export default {
+  title: 'Organisms|Dialog',
+  component: Dialog,
+  decorators: [withKnobs]
+};
 
-storiesOf('Components/Dialog', module)
-  .addDecorator(withKnobs)
-  .add('default', () => <Default />)
-  .add('without body padding', () => <WithoutBodyPadding />)
-  .add('show overflow', () => <ShowOverflow />)
-  .add('with custom close behaviour', () => <WithCustomCloseBehaviour />)
-  .add('headless', () => <Headless />);
-
-function Default() {
+export function Default() {
   return (
     <DialogRoot>
       <Dialog title={text('Title', 'Some title')} onClose={action('onClose')}>
@@ -30,7 +26,7 @@ function Default() {
   );
 }
 
-function WithCustomCloseBehaviour() {
+export function WithCustomCloseBehaviour() {
   return (
     <DialogRoot>
       <Dialog
@@ -49,7 +45,7 @@ function WithCustomCloseBehaviour() {
   );
 }
 
-function WithoutBodyPadding() {
+export function WithoutBodyPadding() {
   return (
     <DialogRoot>
       <Dialog title={text('Title', 'Some title')} onClose={action('onClose')} withoutBodyPadding>
@@ -61,7 +57,7 @@ function WithoutBodyPadding() {
   );
 }
 
-function ShowOverflow() {
+export function ShowOverflow() {
   const tagSuggestions = ['agent.tag', 'call.latency', 'call.name', 'docker.label', 'call.erroneous'];
   const keySuggestions = [];
 
@@ -99,7 +95,7 @@ function ShowOverflow() {
   );
 }
 
-function Headless() {
+export function Headless() {
   return (
     <DialogRoot>
       <Dialog headless>
