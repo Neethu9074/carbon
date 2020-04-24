@@ -4,6 +4,7 @@ import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
+import { role } from 'in-stores/user';
 
 export const mobileAppTabs = [
   {
@@ -28,7 +29,7 @@ export const mobileAppTabs = [
     component: Views,
     mobileAppOnly: true
   },
-  {
+  role.canConfigureMobileAppMonitoring && {
     label: 'Configuration',
     path: `${mobileAppPathFullyQualified}/configuration`,
     component: Configuration,
