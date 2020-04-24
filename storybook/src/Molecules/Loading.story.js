@@ -4,8 +4,6 @@ import React from 'react';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Section from '../../stories/_helpers/Section';
-import Root from '../../stories/_helpers/Root';
 
 export default {
   title: 'Molecules|Loading/Loading',
@@ -14,39 +12,35 @@ export default {
 
 export function LoadingStory() {
   return (
-    <Root>
-      <Section title="Infinite Bar">
-        <HorizontalIndicator
-          progress={{
-            loading: true
-          }}
-        />
-      </Section>
-      <Section title="Progress Bar">
-        <HorizontalIndicator
-          progress={{
-            loading: true,
-            percentage: number('Percentage', 0.5, {
-              range: true,
-              min: 0,
-              max: 1,
-              step: 0.01
-            })
-          }}
-        />
-      </Section>
+    <>
+      <h2>Infinite Bar</h2>
+      <HorizontalIndicator
+        progress={{
+          loading: true
+        }}
+      />
 
-      <Section title="Infinite Circle default">
-        <InfiniteCircle width={400} height={100} />
-      </Section>
+      <h2>Progress Bar</h2>
+      <HorizontalIndicator
+        progress={{
+          loading: true,
+          percentage: number('Percentage', 0.5, {
+            range: true,
+            min: 0,
+            max: 1,
+            step: 0.01
+          })
+        }}
+      />
 
-      <Section title="Infinite Circle small">
-        <InfiniteCircle width={72} height={24} />
-      </Section>
+      <h2>Infinite Circle default</h2>
+      <InfiniteCircle width={400} height={100} />
 
-      <Section title="Page Loading">
-        <LoadingIndicator type="dark" />
-      </Section>
-    </Root>
+      <h2>Infinite Circle small</h2>
+      <InfiniteCircle width={72} height={24} />
+
+      <h2>Page Loading</h2>
+      <LoadingIndicator type="dark" />
+    </>
   );
 }

@@ -2,8 +2,6 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import Section from '../../stories/_helpers/Section';
-import Root from '../../stories/_helpers/Root';
 
 export default {
   title: 'Molecules|Errors'
@@ -11,22 +9,20 @@ export default {
 
 export function ErrorsStory() {
   return (
-    <Root>
-      <Section title="Erroneous Result Presenter single message">
-        <ErroneousResultPresenter errors={[{ message: 'A backend error occured' }]} />
-      </Section>
-      <Section title="Erroneous Result Presenter multi messages">
-        <ErroneousResultPresenter
-          errors={[{ message: 'A backend error occured' }, { message: 'This is another error message' }]}
-        />
-      </Section>
+    <>
+      <h2>Erroneous Result Presenter single message</h2>
+      <ErroneousResultPresenter errors={[{ message: 'A backend error occured' }]} />
 
-      <Section title="No Data available default">
-        <NoDataAvailable width={400} height={100} />
-      </Section>
-      <Section title="No Data available small">
-        <NoDataAvailable width={72} height={24} />
-      </Section>
-    </Root>
+      <h2>Erroneous Result Presenter multi messages</h2>
+      <ErroneousResultPresenter
+        errors={[{ message: 'A backend error occured' }, { message: 'This is another error message' }]}
+      />
+
+      <h2>No Data available default</h2>
+      <NoDataAvailable width={400} height={100} />
+
+      <h2>No Data available small</h2>
+      <NoDataAvailable width={72} height={24} />
+    </>
   );
 }

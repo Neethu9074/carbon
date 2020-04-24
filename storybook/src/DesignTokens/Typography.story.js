@@ -1,8 +1,6 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import Example from '../../stories/_helpers/Example';
-
 const lorem = (
   <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum fuga eveniet omnis, eius laudantium distinctio ut
@@ -119,4 +117,8 @@ export function Overview() {
       </dl>
     </>
   );
+}
+
+function Example({ children }) {
+  return <div style={{ paddingLeft: '1rem', marginLeft: '1rem', borderLeft: '1px solid #563d7c' }}>{children}</div>;
 }

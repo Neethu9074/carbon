@@ -3,7 +3,6 @@ import React from 'react';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
-import Section from '../../stories/_helpers/Section';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -23,80 +22,61 @@ export function Loading() {
 function Headers({ additionalProps }) {
   return (
     <div style={{ background: '#e0e0e0', padding: '0 3rem' }}>
-      <Section title="Raw">
+      <h2>Raw</h2>
+      <DashboardHeader {...additionalProps} icon="lib_application" label="Instana Demo - Discount Application 0.0.1" />
+
+      <h2>With meta information</h2>
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_website"
+        label="Robot Shop"
+        renderMetaInformation={renderMetaInformation}
+      />
+
+      <h2>With buttons</h2>
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_kubernetes"
+        label="k8s-demo"
+        renderButtonLine={renderButtonLine}
+      />
+
+      <h2>With context</h2>
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_application_trace"
+        label="42 Traces"
+        contextConfigurations={[{ renderContext: () => 'Analyze', contextIcon: 'lib_analyze_inverted' }]}
+      />
+      <Spacer />
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_application_trace"
+        label="42 Traces"
+        contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
+      />
+
+      <h2>Themes</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <DashboardHeader
           {...additionalProps}
-          icon="lib_application"
-          label="Instana Demo - Discount Application 0.0.1"
-        />
-      </Section>
-      <Section title="With meta information">
-        <DashboardHeader
-          {...additionalProps}
+          theme={themes.default}
           icon="lib_website"
           label="Robot Shop"
-          renderMetaInformation={renderMetaInformation}
-        />
-      </Section>
-      <Section title="With buttons">
-        <DashboardHeader
-          {...additionalProps}
-          icon="lib_kubernetes"
-          label="k8s-demo"
           renderButtonLine={renderButtonLine}
-        />
-      </Section>
-      <Section title="With context">
-        <DashboardHeader
-          {...additionalProps}
-          icon="lib_application_trace"
-          label="42 Traces"
-          contextConfigurations={[{ renderContext: () => 'Analyze', contextIcon: 'lib_analyze_inverted' }]}
         />
         <Spacer />
         <DashboardHeader
           {...additionalProps}
-          icon="lib_application_trace"
-          label="42 Traces"
-          contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
+          theme={themes.light}
+          icon="lib_website"
+          label="Robot Shop"
+          renderButtonLine={renderButtonLine}
         />
-      </Section>
-      <Section title="Themes">
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <DashboardHeader
-            {...additionalProps}
-            theme={themes.default}
-            icon="lib_website"
-            label="Robot Shop"
-            renderButtonLine={renderButtonLine}
-          />
-          <Spacer />
-          <DashboardHeader
-            {...additionalProps}
-            theme={themes.light}
-            icon="lib_website"
-            label="Robot Shop"
-            renderButtonLine={renderButtonLine}
-          />
-          <Spacer />
-          <DashboardHeader
-            {...additionalProps}
-            theme={themes.dark}
-            icon="lib_infrastructure"
-            label="instana-mc-demo"
-            contextConfigurations={[
-              {
-                renderContext: () => 'Infrastructure Map',
-                contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
-              }
-            ]}
-            renderButtonLine={renderButtonLine}
-          />
-        </div>
-      </Section>
-      <Section title="Full example">
+        <Spacer />
         <DashboardHeader
           {...additionalProps}
+          theme={themes.dark}
           icon="lib_infrastructure"
           label="instana-mc-demo"
           contextConfigurations={[
@@ -105,10 +85,24 @@ function Headers({ additionalProps }) {
               contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
             }
           ]}
-          renderMetaInformation={renderMetaInformation}
           renderButtonLine={renderButtonLine}
         />
-      </Section>
+      </div>
+
+      <h2>Full example</h2>
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_infrastructure"
+        label="instana-mc-demo"
+        contextConfigurations={[
+          {
+            renderContext: () => 'Infrastructure Map',
+            contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+          }
+        ]}
+        renderMetaInformation={renderMetaInformation}
+        renderButtonLine={renderButtonLine}
+      />
     </div>
   );
 }

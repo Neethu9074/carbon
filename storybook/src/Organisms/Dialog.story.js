@@ -5,7 +5,6 @@ import theme from 'in-themes';
 import React from 'react';
 
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
-import DialogRoot from '../../stories/_helpers/DialogRoot';
 import Dialog from 'in-new-components/Dialog';
 
 export default {
@@ -16,44 +15,35 @@ export default {
 
 export function Default() {
   return (
-    <DialogRoot>
-      <Dialog title={text('Title', 'Some title')} onClose={action('onClose')}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </Dialog>
-    </DialogRoot>
+    <Dialog title={text('Title', 'Some title')} onClose={action('onClose')}>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </Dialog>
   );
 }
 
 export function WithCustomCloseBehaviour() {
   return (
-    <DialogRoot>
-      <Dialog
-        title={text('Title', 'Some title')}
-        renderCustomCloseBehaviour={() => (
-          <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
-            Custom close
-          </span>
-        )}
-      >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </Dialog>
-    </DialogRoot>
+    <Dialog
+      title={text('Title', 'Some title')}
+      renderCustomCloseBehaviour={() => (
+        <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
+          Custom close
+        </span>
+      )}
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </Dialog>
   );
 }
 
 export function WithoutBodyPadding() {
   return (
-    <DialogRoot>
-      <Dialog title={text('Title', 'Some title')} onClose={action('onClose')} withoutBodyPadding>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </Dialog>
-    </DialogRoot>
+    <Dialog title={text('Title', 'Some title')} onClose={action('onClose')} withoutBodyPadding>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </Dialog>
   );
 }
 
@@ -79,30 +69,25 @@ export function ShowOverflow() {
     .setTouched(boolean('Form Touched?', false), { recurse: true });
 
   return (
-    <DialogRoot>
-      <Dialog title={text('Title', 'Some title')} onClose={action('onClose')} withoutBodyPadding>
-        <EditGroupDialogPresenter
-          help="Select a tag by which your calls should be grouped."
-          form={form}
-          tagSuggestions={tagSuggestions}
-          onTagChange={action('onTagChange')}
-          keySuggestions={keySuggestions}
-          onKeyChange={action('onKeyChange')}
-          onSubmit={action('onSubmit')}
-        />
-      </Dialog>
-    </DialogRoot>
+    <Dialog title={text('Title', 'Some title')} onClose={action('onClose')} withoutBodyPadding>
+      <EditGroupDialogPresenter
+        help="Select a tag by which your calls should be grouped."
+        form={form}
+        tagSuggestions={tagSuggestions}
+        onTagChange={action('onTagChange')}
+        keySuggestions={keySuggestions}
+        onKeyChange={action('onKeyChange')}
+        onSubmit={action('onSubmit')}
+      />
+    </Dialog>
   );
 }
 
 export function Headless() {
   return (
-    <DialogRoot>
-      <Dialog headless>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
-        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
-        consequuntur?
-      </Dialog>
-    </DialogRoot>
+    <Dialog headless>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
+      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
+    </Dialog>
   );
 }

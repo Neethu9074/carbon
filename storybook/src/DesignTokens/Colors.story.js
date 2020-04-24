@@ -1,10 +1,7 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
-import theme from 'in-themes';
-
-import Section from '../../stories/_helpers/Section';
-import Root from '../../stories/_helpers/Root';
 
 export default {
   title: 'DesignTokens|Colors',
@@ -13,7 +10,7 @@ export default {
 
 export const Colors = () => {
   return (
-    <Root>
+    <>
       <Palette title="Primary">
         {[['primary1', theme.lib.colors.primary1], ['primary2', theme.lib.colors.primary2]].map(mapToRect)}
       </Palette>
@@ -80,7 +77,7 @@ export const Colors = () => {
           .map(type => [type, getColor(type)])
           .map(mapToRect)}
       </Palette>
-    </Root>
+    </>
   );
 };
 
@@ -90,9 +87,10 @@ function mapToRect(config) {
 
 function Palette({ title, children }) {
   return (
-    <Section title={title}>
+    <>
+      <h2>{title}</h2>
       <div style={{ display: 'flex', alignItems: 'center' }}>{children}</div>
-    </Section>
+    </>
   );
 }
 
