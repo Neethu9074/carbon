@@ -1,19 +1,15 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
 import { plugins } from 'in-forge/constants';
 
-import Root from '../_helpers/Root';
+export default {
+  title: 'Organisms|EntityVersionList',
+  component: EntityVersionListPresenter
+};
 
-storiesOf('Components/Entity Version List', module).add('Entity Version List', () => <DefaultStory />);
-
-function DefaultStory() {
-  return (
-    <Root>
-      <EntityVersionListPresenter plugin={plugins.kubernetesCluster} versions={getItems(6)} />
-    </Root>
-  );
+export function Default() {
+  return <EntityVersionListPresenter plugin={plugins.kubernetesCluster} versions={getItems(6)} />;
 }
 
 function getItems(numItems) {
