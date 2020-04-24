@@ -46,7 +46,7 @@
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('trackSessions');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
-    ineum('beaconBatchingTime', 3000);
+    ineum('beaconBatchingTime', 1000);
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api(-js)?\.mixpanel\.com.*/i]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
@@ -56,14 +56,13 @@
     ineum('meta', 'tenant', window.instana.config.tenant);
     ineum('meta', 'unit', window.instana.config.tenantUnit);
     ineum('meta', 'region', window.instana.config.region);
-
-    Object.keys(window.instana.config.featureFlags).forEach(function(featureFlagName) {
-      ineum('meta', 'featureFlag.' + featureFlagName, String(window.instana.config.featureFlags[featureFlagName]));
-    });
-
-    Object.keys(window.instana.config.configuration).forEach(function(configName) {
-      ineum('meta', 'config.' + configName, String(window.instana.config.configuration[configName]));
-    });
+    ineum('meta', 'instanaRegion', window.instana.config.instanaRegion);
+    if (window.instana.termsAndPrivacySettings) {
+      ineum('meta', 'allAnalyticsServices', window.instana.termsAndPrivacySettings.allAnalyticsServices);
+      ineum('meta', 'allSupportAndResearchServices', window.instana.termsAndPrivacySettings.allSupportAndResearchServices);
+      ineum('meta', 'productTips', window.instana.termsAndPrivacySettings.productTips);
+      ineum('meta', 'testingGroup', window.instana.termsAndPrivacySettings.testingGroup);
+    }
   </script>
   {{/if}}
 
