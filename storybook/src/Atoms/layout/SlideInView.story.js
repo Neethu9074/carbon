@@ -1,5 +1,4 @@
 import { text } from '@storybook/addon-knobs/react';
-import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
 import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
@@ -13,12 +12,13 @@ const styles = {
 };
 const CenterDecorator = storyFn => <div style={styles}>{storyFn()}</div>;
 
-storiesOf('Components/SlideInView', module)
-  .addParameters({ component: SlideInView })
-  .addDecorator(CenterDecorator)
-  .add('default', () => <Default />);
+export default {
+  title: 'Atoms|layout/SlideInView',
+  component: SlideInView,
+  decorators: [CenterDecorator]
+};
 
-function Default() {
+export function Default() {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
     <>
