@@ -14,7 +14,7 @@ export default function EntityVersionListing({ versions }) {
   return (
     <Fragment>
       <div className={locals.listHeading}>Available time ranges</div>
-      <Ul>
+      <Ul className={locals.list}>
         {clusters.map((clusterVersions, iC) => {
           const clusterFrom = clusterVersions[clusterVersions.length - 1].from;
           const clusterTo = clusterVersions[0].to;
