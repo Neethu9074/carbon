@@ -3,8 +3,8 @@ import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-applications/alerting/form/ruleFormData';
-import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
+import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { operators } from 'in-analyze/applicationFilter';
 
 const operatorDescriptionValues = {
