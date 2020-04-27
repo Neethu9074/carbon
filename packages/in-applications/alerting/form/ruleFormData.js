@@ -27,7 +27,7 @@ export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
 export const ruleLogLevelOptions = Object.freeze([
   { value: 'ERROR', label: 'Error' },
   { value: 'WARN', label: 'Warning' },
-  { value: 'ANY', label: 'Error or Warning' }
+  { value: 'ANY', label: 'Error and Warning' }
 ]);
 
 export const ruleLogMessageOperatorOptions = Object.freeze([

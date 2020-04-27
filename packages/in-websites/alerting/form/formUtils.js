@@ -1,5 +1,5 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/alerting/constants';
-import { isGreaterOperator, getAggregationText, getOperatorText } from 'in-new-components/Alerting/utils/formUtils';
+import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { getStatusCodeLabel } from 'in-websites/alerting/form/ruleFormData';
 import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
@@ -21,7 +21,7 @@ export function getTitlePlaceholder(form) {
         return `Any JS Errors`;
       }
       const errorMessage = ruleForm.get('value').value;
-      return `JS Error(s): ${errorMessage}`;
+      return `JS Error(s): "${errorMessage}"`;
     }
     case alertTypes.specificStatusCode: {
       const statusCodeString = ruleForm.get('value').value;
@@ -33,7 +33,7 @@ export function getTitlePlaceholder(form) {
       return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
     }
     default:
-      return '';
+      throw Error('Unsupported alertType: ' + alertType);
   }
 }
 
@@ -55,9 +55,9 @@ export function getDescriptionPlaceholder(form) {
     case alertTypes.specificStatusCode: {
       const statusCodeString = ruleForm.get('value').value;
       const operator = thresholdForm.get('operator').value;
-      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(statusCodeString)} is ${getSimpleOperatorText(
-        operator
-      )} the expectation.`;
+      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
+        statusCodeString
+      )} is ${getSimpleAboveOrBelowOperatorText(operator)} the expectation.`;
     }
     case alertTypes.slowness: {
       const aggregation = ruleForm.get('aggregation').value;
@@ -65,16 +65,16 @@ export function getDescriptionPlaceholder(form) {
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The onLoad Time (${getAggregationText(aggregation)}) is ${getOperatorText(
+        return `The onLoad Time (${getAggregationText(aggregation)}) is ${getGreaterOrLessOperatorText(
           operator
         )} ${thresholdValue} ms.`;
       }
-      return `The onLoad Time (${getAggregationText(aggregation)}) is ${getSimpleOperatorText(
+      return `The onLoad Time (${getAggregationText(aggregation)}) is ${getSimpleAboveOrBelowOperatorText(
         operator
       )} the expectation.`;
     }
     default:
-      return '';
+      throw Error('Unsupported alertType: ' + alertType);
   }
 }
 
@@ -111,6 +111,25 @@ function fillStatusCodeValue(statusCode) {
   return statusCode;
 }
 
-function getSimpleOperatorText(operator) {
+function getGreaterOrLessOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return 'greater than';
+    case '>=':
+      return 'greater or equal to';
+    case '<':
+      return 'less than';
+    case '<=':
+      return 'less or equal to';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
+}
+
+function getSimpleAboveOrBelowOperatorText(operator) {
   return isGreaterOperator(operator) ? 'above' : 'below';
+}
+
+function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
 }

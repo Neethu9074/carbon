@@ -9,6 +9,7 @@ import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getApplication from 'in-subscription/application/getApplication';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { reload } from 'in-settings/components/List';
+import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ applicationLabel, applicationId, serviceId, endpointId }) => {
@@ -27,6 +28,11 @@ export default connectTo(({ applicationLabel, applicationId, serviceId, endpoint
 
 function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endpointLabel, location, serviceLabel }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  if (isBlank(applicationId) || isBlank(applicationLabel)) {
+    return null;
+  }
+
   return (
     <>
       <FloatingActionButton
