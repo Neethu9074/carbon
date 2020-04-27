@@ -60,7 +60,7 @@ export default compose(
       editMode: Boolean(tagFilter),
       operatorSuggestions:
         form.get('tag').value === 'call.http.status' // Remove this once tag matchers on numbers are defined
-          ? [operators.EQUALS, operators.NOT_EQUALS]
+          ? [operators.EQUALS, operators.NOT_EQUAL]
           : get(TAG_TYPES, [selectedTagType, 'operators'], [])
               // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
               .filter(
