@@ -2,10 +2,10 @@ import { withProps } from 'recompose';
 
 import { getTagFilterListForBackendSubscription, entityTypes } from 'in-analyze/applicationFilter';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
+import { findSubTreeByFullyQualifiedName, isIdTag } from 'in-applications/tags';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { mapDataHO, noResultObservable } from 'in-services/util/result';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 
 const mapResultData = mapDataHO(data => data.suggestions);
@@ -61,7 +61,7 @@ export function getValueSuggestions({ tagFilters, timeConfig, form }) {
     !node ||
     node.type === TAG_TYPES.NUMBER.technicalName || // no value suggestion for number type tag
     node.type === TAG_TYPES.BOOLEAN.technicalName || // no value suggestion for boolean type tag
-    node.name === 'trace.id' // no value suggestion for trace.id tag
+    isIdTag(node.name) // no value suggestion for id tags
   ) {
     return noResultObservable();
   }
