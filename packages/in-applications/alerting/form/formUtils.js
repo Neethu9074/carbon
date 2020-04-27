@@ -3,7 +3,7 @@ import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-applications/alerting/form/ruleFormData';
-import { isGreaterOperator, getAggregationText, getOperatorText } from 'in-new-components/Alerting/utils/formUtils';
+import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -85,7 +85,7 @@ export function getTitlePlaceholder(form) {
     case 'statusCode': {
       const value = ruleForm.get('value').value;
       const operator = ruleForm.get('operator').value;
-      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(value)} is ${getSimpleOperatorText(
+      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(value)} is ${getHigherOrLowerOperatorText(
         operator
       )} the expectation.`;
     }
