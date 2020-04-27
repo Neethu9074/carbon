@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import AlertChannels from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
-import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
+import AlertChannelsOverview from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsOverview';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
 export default function AlertChannelsViewer({ alertChannelIds }) {
   return (
     <>
-      <AlertChannels
+      <AlertChannelsOverview
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
         hasRowNavigation={false}
@@ -28,7 +28,7 @@ const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(f
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getAlertChannelsByIdsMutable(selectedChannels).startWith(null);
+  return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
 });
 
 AlertChannelsViewer.propTypes = {
