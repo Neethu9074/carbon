@@ -6,8 +6,8 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Menu.mless';
 
-export default function Menu({ addRightSeparator = false, itemLabels, onItemClick, initialItemSelected = 0 }) {
-  validateinitialItemSelected(initialItemSelected, itemLabels);
+export default function Menu({ addRightSeparator = false, items, onItemClick, initialItemSelected }) {
+  validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
     return initialItemSelected;
@@ -21,19 +21,19 @@ export default function Menu({ addRightSeparator = false, itemLabels, onItemClic
       })}
     >
       <ul className={locals.list}>
-        {itemLabels.map((label, i) => (
+        {items.map((item, i) => (
           <li
             key={i}
             className={evaluateClassNames({
               [locals.item]: true,
-              [locals.selected]: itemSelected === i
+              [locals.selected]: itemSelected.type === item.type
             })}
             onClick={() => {
-              setItemSelected(i);
-              onItemClick(i, label);
+              setItemSelected(item);
+              onItemClick(item);
             }}
           >
-            {label}
+            {item.name}
           </li>
         ))}
       </ul>
@@ -43,17 +43,24 @@ export default function Menu({ addRightSeparator = false, itemLabels, onItemClic
 
 Menu.propTypes = {
   addRightSeparator: PropTypes.bool,
-  itemLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
   onItemClick: PropTypes.func.isRequired,
-  initialItemSelected: PropTypes.number
+  initialItemSelected: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
 };
 
-function validateinitialItemSelected(initialItemSelected, itemLabels) {
+function validateInitialItemSelected(initialItemSelected, items) {
   if (__DEV__) {
-    const maxLen = itemLabels.length - 1;
     invariant(
-      initialItemSelected >= 0 && initialItemSelected <= maxLen,
-      `initialItemSelected with value "${initialItemSelected}" is out of range. I must be >=0 and <=${maxLen}`
+      items.find(item => item.type === initialItemSelected.type),
+      `The given initialItemSelected with type "${initialItemSelected.type}" is not present in the list of items.`
     );
   }
 }
