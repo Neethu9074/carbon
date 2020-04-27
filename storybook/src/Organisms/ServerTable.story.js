@@ -94,6 +94,35 @@ export function Empty() {
   );
 }
 
+export function EmptyWithNoDataAvailableRenderer() {
+  return (
+    <>
+      <h2>Empty with special renderer</h2>
+      <p>When no rows exist, then we can tweak the table to look like this.</p>
+      <WrappedTable
+        noDataMessage={'Empty bottle.'}
+        renderNoDataAvailable={text => (
+          <p>
+            Own renderer, can render given custom message: <strong>{text}</strong>{' '}
+          </p>
+        )}
+        result={{
+          progress: {
+            loading: false
+          },
+          errors: [],
+          data: {
+            items: [],
+            page: 1,
+            pageSize: 10,
+            totalHits: 0
+          }
+        }}
+      />
+    </>
+  );
+}
+
 export function WithData() {
   return (
     <>
