@@ -132,7 +132,9 @@ export default function Grid({
               id={getWidgetId(widget.id)}
               style={disabledTransitions ? disabledTransitionStyle : undefined}
             >
-              <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`}>{content}</ErrorBoundary>
+              <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`} meta={widget}>
+                {content}
+              </ErrorBoundary>
             </div>
           );
         })}

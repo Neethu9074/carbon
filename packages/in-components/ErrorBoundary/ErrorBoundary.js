@@ -19,7 +19,8 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     ineum('reportError', error, {
-      componentStack: info.componentStack
+      componentStack: info.componentStack,
+      meta: this.props.meta
     });
 
     const message = ['An unhandled error occurred within the React component tree'];
