@@ -7,6 +7,7 @@ import {
   getTagType,
   requiresSecondLevelName,
   isLatencyTag,
+  isIdTag,
   getTagEntity,
   getSourceEntityAvailability
 } from 'in-applications/tags';
@@ -62,6 +63,12 @@ export default compose(
         .filter(
           operator =>
             (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
+        )
+        // restrict id tag operators to EQUALS, NOT_EQUAL, IS_EMPTY and NOT_EMPTY
+        .filter(
+          operator =>
+            !isIdTag(form.get('tag').value) ||
+            (operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY')
         ),
       onRemoveTagFilter: () => {
         if (removeTagFilter) {

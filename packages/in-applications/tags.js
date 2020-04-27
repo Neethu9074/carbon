@@ -388,3 +388,7 @@ function getApplicationNameAnalyzeFilter(applicationName) {
     value: applicationName
   };
 }
+
+export function isIdTag(tagName) {
+  return tagName.endsWith('.id') || tagName.endsWith('.snapshotId');
+}
