@@ -13,6 +13,8 @@ import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SelectAlertChannel.mless';
+import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
+import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 
 export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
   return (
@@ -21,7 +23,7 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
         hasRowNavigation={false}
-        noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
+        renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         rightHeader={
           <Button
@@ -70,7 +72,6 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
       }
-      requiresAtLeastOneMessage="Please select at least one alert channel."
       pageSize={5}
       listFormGroupClassOverwrites={locals.alertChannelsList}
       tableScrollWrapperClassOverwrites={locals.alertChannelsList}
