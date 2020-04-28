@@ -5,6 +5,7 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import AlertChannelsOverview from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsOverview';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 
 export default function AlertChannelsViewer({ alertChannelIds }) {
   return (
@@ -13,7 +14,7 @@ export default function AlertChannelsViewer({ alertChannelIds }) {
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
         hasRowNavigation={false}
-        noDataMessage="No Alert Channel has been selected."
+        renderNoDataAvailable={() => <NoChannelSelected />}
         isSearchable={false}
         getHeader={() => null}
         rightHeader={null}
