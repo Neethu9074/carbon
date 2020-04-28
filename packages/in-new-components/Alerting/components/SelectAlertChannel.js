@@ -7,13 +7,13 @@ import AlertChannels, {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SelectAlertChannel.mless';
-import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 
 export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
   return (

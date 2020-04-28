@@ -3,9 +3,9 @@ import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertChannelsOverview from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsOverview';
+import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 
 export default function AlertChannelsViewer({ alertChannelIds }) {
   return (
