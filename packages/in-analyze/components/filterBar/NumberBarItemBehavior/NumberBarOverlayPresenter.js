@@ -4,9 +4,9 @@ import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Button from 'in-new-components/Button';
 
 import locals from './NumberBarOverlayPresenter.mless';
 
@@ -93,7 +93,7 @@ function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit,
   return form.get(fieldId).map(field => (
     <FormGroup withoutBottomMargin>
       <Label htmlFor={`filter-${fieldId}`} hasError={!field.valid && field.touched}>
-        {label}
+        {label} {unit && `(${unit})`}
       </Label>
       <span className={locals.inputWithUnit}>
         <Input
@@ -105,7 +105,6 @@ function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit,
           autoFocus={autoFocus}
           min={minValue || '0'}
         />
-        {unit && <span>{unit}</span>}
       </span>
       <TouchedMessages field={field} />
     </FormGroup>
