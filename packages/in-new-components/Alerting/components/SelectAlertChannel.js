@@ -13,7 +13,6 @@ import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './SelectAlertChannel.mless';
-import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
 import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 
 export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
