@@ -70,7 +70,7 @@ export default function AlertHeader({
 
     deletion$.once(() => {
       if (onConfigDeleted) {
-        onConfigDeleted(alertConfig.id);
+        onConfigDeleted({ alertConfigId: alertConfig.id });
       }
       mutateUrl(location => {
         location.pathname = fullyQualifiedAlertsList;
@@ -117,7 +117,7 @@ export default function AlertHeader({
               setRevision={revision => {
                 setRevision(revision);
                 if (onConfigRevisionChanged) {
-                  onConfigRevisionChanged(revision);
+                  onConfigRevisionChanged({ revision });
                 }
               }}
               alertRevision={alertRevision}
