@@ -372,7 +372,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '27';
+    const nodejsLayerVersion = '28';
 
     steps = (
       <Fragment>
@@ -418,7 +418,10 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
-                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion}`]} />(
+                <Script
+                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion}`]}
+                />
+                (
                 <TextWithLink
                   text="See"
                   linkText="AWS docs"
@@ -560,7 +563,10 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
-                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion}`]} />(
+                <Script
+                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion}`]}
+                />
+                (
                 <TextWithLink
                   text="See"
                   linkText="AWS docs"
