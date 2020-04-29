@@ -54,6 +54,8 @@ function getEnrichedAnalyzeFilteres(alertConfig, applicationId) {
     analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold));
   } else if (alertType === 'logs') {
     analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
+  } else if (alertType === 'statusCode') {
+    analyzeFilters.push(getStatusCodeAnalyzeFilter(alertConfig.rule));
   }
   return analyzeFilters;
 }
@@ -99,6 +101,14 @@ function getThresholdLatencyAnalyzeFilter(threshold) {
     name: 'call.latency',
     operator: analyzeThreshold.operator,
     value: analyzeThreshold.value
+  };
+}
+
+function getStatusCodeAnalyzeFilter(rule) {
+  return {
+    name: 'call.http.status',
+    operator: rule.operator,
+    value: rule.value
   };
 }
 
