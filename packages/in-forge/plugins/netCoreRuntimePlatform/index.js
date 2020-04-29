@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/netCoreRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/netCoreRuntimePlatform/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/netCoreRuntimePlatform/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/netCoreRuntimePlatform/iconPath';
@@ -13,6 +14,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: '.NET Core'
   }
