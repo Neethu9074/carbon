@@ -1,33 +1,18 @@
-import { createField, createMapForm, createListForm, notBlankValidator, composeValidators } from 'formalistic';
+import { composeValidators, createField, createListForm, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
-import {
-  createNewServiceConfig,
-  updateServiceConfig,
-  addServiceConfig,
-  getServiceConfigs
-} from 'in-api/serviceConfiguration';
-import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
-import RemoveSection from 'in-applications/Forms/CustomServiceMapping/Remove';
+import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
+import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
-import FormGroup from 'in-components/form/FormGroup';
+import BasicForm from 'in-applications/Forms/BasicForm';
 import { isBlank } from 'in-services/util/string';
-import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
-import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
-import Pill from 'in-new-components/Pill';
-import theme from 'in-themes';
 
 import locals from './CustomServiceMappingDialog.mless';
 
@@ -41,18 +26,19 @@ export default function CustomServiceMappingDialog() {
       getEntity={() =>
         getServiceConfigs().map(result => {
           if (result.data) {
-            return assign({}, result, { data: result.data[0] || createNewServiceConfig() });
+            return assign({}, result, { data: result.data || createNewServiceConfigs() });
           }
           return result;
         })
       }
-      updateEntity={serviceExtractionConfig => {
-        const isNewConfig = !serviceExtractionConfig.id ? true : false;
-        serviceExtractionConfig.id = serviceExtractionConfig.id || generateUniqueShortId();
-        return isNewConfig ? addServiceConfig(serviceExtractionConfig) : updateServiceConfig(serviceExtractionConfig);
+      updateEntity={serviceConfigs => {
+        serviceConfigs.map(
+          serviceConfig => (serviceConfig.id = serviceConfig.id === [] ? serviceConfig.id : generateUniqueShortId())
+        );
+        return replaceAllServiceConfigs(serviceConfigs);
       }}
       getInitialForm={getInitialForm}
-      renderFormContent={(serviceConfig, form, setValue, updateForm) => {
+      renderFormContent={(serviceConfigs, form, setValue, updateForm) => {
         return (
           <Fragment>
             <Steps
@@ -91,124 +77,30 @@ export default function CustomServiceMappingDialog() {
                       <div className={locals.addRuleButtonWrapper}>
                         <Button
                           kind="action"
-                          onClick={() => addMatchSpecification(form, updateForm)}
+                          onClick={() => updateForm(form.push(getServiceConfigForm(serviceConfigs)))}
                           icon="lib_openclose_add_circle_outline"
                         >
-                          Add Tag
+                          Add Custom Service Rule
                         </Button>
                       </div>
 
-                      {form.get('matchSpecification').map((matchSpecification, i) => (
-                        <div key={i}>
-                          <div>
-                            {i > 0 && (
-                              <div>
-                                <Pill className={locals.operatorPill} color={theme.lib.colors.N400}>
-                                  AND
-                                </Pill>
-                              </div>
-                            )}
-                          </div>
-                          <div className={locals.matchSpecification}>
-                            {matchSpecification.get('key').map(field => (
-                              <FormGroup className={locals.matchSpecificationGroupKey}>
-                                <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                                  Tag
-                                </Label>
-                                <Select
-                                  id={`match-${i}-key`}
-                                  value={field.value}
-                                  onChange={e => {
-                                    let updatedForm = form.updateIn(['matchSpecification', i, 'key'], field =>
-                                      field.setValue(e.target.value).setTouched(true)
-                                    );
-                                    if (getTagType(e.target.value) === 'KEY_VALUE_PAIR') {
-                                      updatedForm = updatedForm.updateIn(
-                                        ['matchSpecification', i],
-                                        matchSpecification =>
-                                          matchSpecification.put(
-                                            'secondLevelName',
-                                            createField({
-                                              value: '',
-                                              validator: notBlankValidator
-                                            })
-                                          )
-                                      );
-                                    } else {
-                                      updatedForm = updatedForm.updateIn(
-                                        ['matchSpecification', i],
-                                        matchSpecification => matchSpecification.remove('secondLevelName')
-                                      );
-                                    }
-                                    updateForm(updatedForm);
-                                  }}
-                                  autoComplete="off"
-                                  hasError={!field.valid && field.touched}
-                                >
-                                  {getCustomServiceMappingTagValuesAsOptions()}
-                                </Select>
-                                <TouchedMessages field={field} />
-                              </FormGroup>
-                            ))}
-
-                            {matchSpecification.get('secondLevelName') &&
-                              matchSpecification.get('secondLevelName').map(field => {
-                                const key = matchSpecification.get('key').value;
-                                if (getTagType(key) !== 'KEY_VALUE_PAIR') {
-                                  return null;
-                                }
-
-                                return (
-                                  <FormGroup className={locals.matchSpecificationGroupValue}>
-                                    <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                                      Key
-                                    </Label>
-                                    <Input
-                                      type="text"
-                                      id={`match-${i}-secondLevelName`}
-                                      value={field.value}
-                                      onChange={e =>
-                                        setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
-                                      }
-                                      autoComplete="off"
-                                      hasError={!field.valid && field.touched}
-                                    />
-                                    <TouchedMessages field={field} />
-                                  </FormGroup>
-                                );
-                              })}
-
-                            {form.get('matchSpecification').size > 1 && (
-                              <Tooltip content="Remove this match condition">
-                                <SvgIcon
-                                  className={locals.removeMatchRuleIcon}
-                                  type="lib_openclose_cancel"
-                                  onClick={() => removeMatchSpecification(i, form, updateForm)}
-                                  tabIndex={0}
-                                  aria-label="Remove this match condition"
-                                />
-                              </Tooltip>
-                            )}
-                          </div>
-                        </div>
-                      ))}
+                      <DragAndDropRuleList
+                        form={form}
+                        onSave={_serviceConfigs => updateForm(_serviceConfigs)}
+                        onRemove={i => updateForm(form.remove(i))}
+                        switchIndices={(sourceIndex, destinationIndex) =>
+                          updateForm(form.remove(sourceIndex).insert(destinationIndex, form.get(sourceIndex)))
+                        }
+                        addMatchSpecification={addMatchSpecification}
+                        removeMatchSpecification={removeMatchSpecification}
+                        updateForm={updateForm}
+                        setValue={setValue}
+                      />
                     </div>
                   )
                 }
               ]}
             />
-
-            {form.get('matchSpecification').size > 0 &&
-              form
-                .get('matchSpecification')
-                .get(0)
-                .get('key').value && (
-                <div>
-                  <div className={locals.previewLabel}>Preview</div>
-                  <div className={locals.previewValue}>{getPreview(form)}</div>
-                </div>
-              )}
-            {serviceConfig.id && <RemoveSection serviceConfig={serviceConfig} />}
           </Fragment>
         );
       }}
@@ -216,68 +108,41 @@ export default function CustomServiceMappingDialog() {
   );
 }
 
-function getPreview(form) {
-  return form
-    .get('matchSpecification')
-    .items.filter(matchSpecification => matchSpecification.get('key').value)
-    .map(matchSpecification => {
-      const key = matchSpecification.get('key').value;
-      const secondLevel = matchSpecification.get('secondLevelName');
-      return secondLevel && secondLevel.value ? `{${key}.${secondLevel.value}}` : `{${key}}`;
-    })
-    .join('-');
+function getInitialForm(serviceConfigs) {
+  return serviceConfigs.reduce(
+    (form, serviceConfig) => form.push(getServiceConfigForm(serviceConfig)),
+    createListForm({})
+  );
 }
 
-function getCustomServiceMappingTagValuesAsOptions() {
-  return [{ value: '', label: 'Please select' }]
-    .concat(customServiceMappingTagKeys.map(key => ({ label: key, value: key })))
-    .map(tag => (
-      <option key={tag.label} value={tag.value}>
-        {tag.label}
-      </option>
-    ));
-}
-
-function addMatchSpecification(form, updateForm) {
-  const additionalSubForm = getMatchSpecificationForm({});
-  updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
-}
-
-function removeMatchSpecification(i, form, updateForm) {
-  updateForm(form.updateIn(['matchSpecification'], list => list.remove(i).setTouched(true)));
-}
-
-function getInitialForm(serviceConfig) {
+export function getServiceConfigForm(serviceConfig = {}) {
   return createMapForm()
-    .put(
-      'id',
-      createField({
-        value: serviceConfig.id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: get(serviceConfig, 'name', 'custom rule name'),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'label',
-      createField({
-        value: serviceConfig.label,
-        validator: notBlankValidator
-      })
-    )
+    .put('id', createField({ value: get(serviceConfig, 'id', []) }))
+    .put('name', createField({ value: get(serviceConfig, 'name', []) }))
+    .put('enabled', createField({ value: get(serviceConfig, 'enabled', true) }))
     .put(
       'matchSpecification',
       get(serviceConfig, 'matchSpecification', [{}]).reduce(
         (form, matchSpecification) => form.push(getMatchSpecificationForm(matchSpecification)),
-        createListForm({
-          validator: matchSpecificationValidator
-        })
+        createListForm({})
       )
     );
+}
+
+function addMatchSpecification(form, serviceConfigIndex, updateForm) {
+  const updatedForm = form.updateIn([serviceConfigIndex, 'matchSpecification'], list =>
+    list.push(getMatchSpecificationForm({})).setTouched(true)
+  );
+  updateForm(updatedForm);
+  return updatedForm;
+}
+
+function removeMatchSpecification(i, form, serviceConfigIndex, updateForm) {
+  const updatedForm = form.updateIn([serviceConfigIndex, 'matchSpecification'], list =>
+    list.remove(i).setTouched(true)
+  );
+  updateForm(updatedForm);
+  return updatedForm;
 }
 
 function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
@@ -312,6 +177,5 @@ function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*')
       })
     );
   }
-
   return form;
 }

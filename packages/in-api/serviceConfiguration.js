@@ -12,6 +12,15 @@ export function getServiceConfigs() {
   }).map(mapFromServerResponse);
 }
 
+export function replaceAllServiceConfigs(configs) {
+  return http({
+    method: 'PUT',
+    url: `/api/serviceConfigs`,
+    headers: getCsrfHeader(),
+    data: configs.map(config => enrichWithLabel(fillEmptyValues(mapToServerResponse(config))))
+  }).map(response => deepFreeze(response.body));
+}
+
 export function addServiceConfig(config) {
   return http({
     method: 'POST',
@@ -40,18 +49,20 @@ export function deleteServiceConfig(id) {
   });
 }
 
-export function createNewServiceConfig() {
-  return {
-    name: 'custom rule name',
-    label: 'custom rule label',
-    enabled: true,
-    matchSpecification: [
-      {
-        key: '',
-        value: '.*' // default value not editable by user
-      }
-    ]
-  };
+export function createNewServiceConfigs() {
+  return [
+    {
+      name: 'custom rule name',
+      label: 'custom rule label',
+      enabled: true,
+      matchSpecification: [
+        {
+          key: '',
+          value: '.*' // default value not editable by user
+        }
+      ]
+    }
+  ];
 }
 
 function mapToServerResponse(config) {
