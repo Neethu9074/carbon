@@ -6,7 +6,7 @@ registerSnapshotDefinition({
   plugin: plugins.awsEcsTaskDefinition,
   pluginName: {
     singular: 'AWS ECS Task Definition',
-    plural: 'AWS ECS Tasks Definition'
+    plural: 'AWS ECS Task Definitions'
   },
   iconSvgPath
 });
