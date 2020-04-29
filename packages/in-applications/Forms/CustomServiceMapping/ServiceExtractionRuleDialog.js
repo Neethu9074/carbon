@@ -35,7 +35,7 @@ class BasicDialog extends React.Component {
     const serviceConfiguration = form.get(serviceConfigIndex);
 
     return (
-      <form onSubmit={e => this.onSubmit(e, form)}>
+      <form onSubmit={e => this.onSubmit(e, form, serviceConfigIndex)}>
         <div className={locals.queryFormSection}>
           <div className={locals.helpText}>{'Name Rule'}</div>
           {serviceConfiguration.get('name').map(field => (
@@ -168,7 +168,11 @@ class BasicDialog extends React.Component {
           <div className={locals.addRuleButtonWrapper}>
             <Button
               kind="action"
-              onClick={() => this.setState({ form: addMatchSpecification(form, serviceConfigIndex, updateForm) })}
+              onClick={() =>
+                this.setState({
+                  form: addMatchSpecification(form, serviceConfigIndex, updateForm)
+                })
+              }
               icon="lib_openclose_add_circle_outline"
             >
               Add Tag
@@ -177,7 +181,7 @@ class BasicDialog extends React.Component {
         </div>
 
         <div className={locals.footer}>
-          <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
+          <Button kind="create" type="submit" disabled={!form.get(serviceConfigIndex).hierarchyValid}>
             OK
           </Button>
           {onRemove && (
@@ -199,13 +203,11 @@ class BasicDialog extends React.Component {
     );
   }
 
-  onSubmit(e, form) {
+  onSubmit(e, form, serviceConfigIndex) {
     e.preventDefault();
 
-    if (!form.hierarchyValid) {
-      this.setState({
-        form: this.state.form.setTouched(true, { recurse: true })
-      });
+    if (!form.get(serviceConfigIndex).hierarchyValid) {
+      this.setState({ form: this.state.form.setTouched(true, { recurse: true }) });
       return;
     }
 

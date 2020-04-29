@@ -118,7 +118,7 @@ function getInitialForm(serviceConfigs) {
 export function getServiceConfigForm(serviceConfig = {}) {
   return createMapForm()
     .put('id', createField({ value: get(serviceConfig, 'id', []) }))
-    .put('name', createField({ value: get(serviceConfig, 'name', []) }))
+    .put('name', createField({ value: get(serviceConfig, 'name', 'Rule') }))
     .put('enabled', createField({ value: get(serviceConfig, 'enabled', true) }))
     .put(
       'matchSpecification',
