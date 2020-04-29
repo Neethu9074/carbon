@@ -114,14 +114,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'DaemonSet',
-          keyWords: 'kubernetesdeamonsetk8s',
-          Content: K8sDaemonSetContent
-        },
-        {
           label: 'Helm chart',
           keyWords: 'kuberneteshelmchartk8s',
           Content: K8sHelmChartContent
+        },
+        {
+          label: 'DaemonSet',
+          keyWords: 'kubernetesdeamonsetk8s',
+          Content: K8sDaemonSetContent
         },
         {
           label: 'Azure Kubernetes Service (AKS)',
