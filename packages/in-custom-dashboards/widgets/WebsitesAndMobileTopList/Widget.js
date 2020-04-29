@@ -15,7 +15,6 @@ import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
@@ -49,8 +48,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           Add Website
         </Button>
       )}
-      {mobileAppMonitoringEnabled &&
-        hasMobileAppsAccess &&
+      {hasMobileAppsAccess &&
         role.canConfigureMobileAppMonitoring && (
           <Button
             kind="action"
@@ -81,7 +79,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     EmptyStateComponent: EmptyStateContent
   };
 
-  if (!mobileAppMonitoringEnabled || !hasMobileAppsAccess) {
+  if (!hasMobileAppsAccess) {
     return (
       <TopListWidget
         {...generalProps}
