@@ -11,13 +11,13 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-ap
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
+import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -32,7 +32,13 @@ export default compose(
   }))
 )(LogsInteractiveChart);
 
-function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function LogsInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -103,22 +109,30 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
             </FormGroup>
           </div>
 
-          <ChartContainer headline="Last 24 hours">
-            <LogsAlertingBarChart
-              applicationId={form.get('applicationId').value}
-              logMessage={form.get('rule').get('message').value}
-              logMessageOperator={form.get('rule').get('operator').value}
-              logLevel={form.get('rule').get('level').value}
-              timeConfig={timeConfig}
-              tagFilters={form.get('tagFilters').value}
-              granularity={granularity}
-              threshold={threshold}
-              timeThreshold={form.get('timeThreshold').toJS()}
-              boundaryScope={form.get('boundaryScope').value}
-              alertsPreviewEnabled
-              canReload
-            />
-          </ChartContainer>
+          <TimeConfigSelector
+            configs={timeConfigs}
+            onTimeConfigChange={onTimeConfigChange}
+            indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+            className={locals.chartContainer}
+            headerTransparent
+          >
+            {({ timeConfig, granularity }) => (
+              <LogsAlertingBarChart
+                applicationId={form.get('applicationId').value}
+                logMessage={form.get('rule').get('message').value}
+                logMessageOperator={form.get('rule').get('operator').value}
+                logLevel={form.get('rule').get('level').value}
+                timeConfig={timeConfig}
+                tagFilters={form.get('tagFilters').value}
+                granularity={granularity}
+                threshold={threshold}
+                timeThreshold={form.get('timeThreshold').toJS()}
+                boundaryScope={form.get('boundaryScope').value}
+                alertsPreviewEnabled
+                canReload
+              />
+            )}
+          </TimeConfigSelector>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a Log Message to see when this alert triggers" />
@@ -130,9 +144,9 @@ function LogsInteractiveChart({ form, timeConfig, onChange, granularity, debounc
 LogsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };
 
 function hasLogMessageSelected(form) {

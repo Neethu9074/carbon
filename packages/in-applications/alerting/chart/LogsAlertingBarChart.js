@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function LogsAlertingBarChart({
   applicationId,
@@ -136,7 +137,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
         alerts: {
           metric: 'calls',
           aggregation: 'SUM',
-          granularity // global metric granularity
+          granularity: alertingMetricsGranularity // global metric granularity
         }
       }
     };

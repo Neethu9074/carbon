@@ -6,6 +6,7 @@ import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptio
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { getMetricsConfiguration } from 'in-applications/alerting/Dialog/metricConfigurations';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
@@ -14,11 +15,11 @@ import connectTo from 'in-hoc/connectTo';
 
 export const SmartAlertConfigDialog = compose(
   withState('simpleMode', 'setSimpleMode', props => !props.editMode),
-  connectTo(({ form, updateForm, granularity, simpleMode }) => {
+  connectTo(({ form, updateForm, simpleMode }) => {
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, granularity, simpleMode)
+      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
     };

@@ -11,13 +11,13 @@ import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/Ti
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
-import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
@@ -26,7 +26,17 @@ import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
 
 export default function AdvancedModeContainer(props) {
-  const { form, timeConfig, granularity, onChange, setSliderState, updateForm, applicationLabel } = props;
+  const {
+    form,
+    timeConfig,
+    granularity,
+    onChange,
+    setSliderState,
+    updateForm,
+    applicationLabel,
+    onTimeConfigChange,
+    indexInitialSelectedTimeConfig
+  } = props;
 
   return (
     <GlobalAdvancedModeContainer
@@ -65,6 +75,8 @@ export default function AdvancedModeContainer(props) {
                     timeConfig={timeConfig}
                     granularity={granularity}
                     onChange={onChange}
+                    onTimeConfigChange={onTimeConfigChange}
+                    indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                   />
                 )}
                 renderSlowness={() => (
@@ -75,6 +87,8 @@ export default function AdvancedModeContainer(props) {
                       granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
+                      onTimeConfigChange={onTimeConfigChange}
+                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                     {showInsufficientBaselineDataMessage(form) && (
                       <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
@@ -104,6 +118,8 @@ export default function AdvancedModeContainer(props) {
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
+                      onTimeConfigChange={onTimeConfigChange}
+                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                   </>
                 )}

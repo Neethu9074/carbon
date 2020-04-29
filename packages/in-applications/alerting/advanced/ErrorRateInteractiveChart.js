@@ -15,12 +15,12 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
+import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -35,7 +35,13 @@ export default compose(
   }))
 )(ErrorRateInteractiveChart);
 
-function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function ErrorRateInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -113,19 +119,27 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
         </FormGroup>
       </div>
 
-      <ChartContainer headline="Last 24 hours">
-        <ErrorRateAlertingBarChart
-          applicationId={form.get('applicationId').value}
-          timeConfig={timeConfig}
-          tagFilters={form.get('tagFilters').value}
-          granularity={granularity}
-          threshold={threshold}
-          timeThreshold={form.get('timeThreshold').toJS()}
-          boundaryScope={form.get('boundaryScope').value}
-          alertsPreviewEnabled
-          canReload
-        />
-      </ChartContainer>
+      <TimeConfigSelector
+        configs={timeConfigs}
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        className={locals.chartContainer}
+        headerTransparent
+      >
+        {({ timeConfig, granularity }) => (
+          <ErrorRateAlertingBarChart
+            applicationId={form.get('applicationId').value}
+            timeConfig={timeConfig}
+            tagFilters={form.get('tagFilters').value}
+            granularity={granularity}
+            threshold={threshold}
+            timeThreshold={form.get('timeThreshold').toJS()}
+            boundaryScope={form.get('boundaryScope').value}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </TimeConfigSelector>
     </div>
   );
 }
@@ -133,7 +147,7 @@ function ErrorRateInteractiveChart({ form, timeConfig, onChange, granularity, de
 ErrorRateInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };

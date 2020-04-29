@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
-import { alertingDialogItemPickerTimeframe, modeSimple } from 'in-websites/alerting/constants';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';
@@ -13,14 +12,15 @@ import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import Menu from 'in-new-components/Alerting/components/Menu';
+import { modeSimple } from 'in-websites/alerting/constants';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
-  granularity,
   onChange,
   setJsErrorsListVisible,
-  timeConfig,
-  updateForm
+  updateForm,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
   const alertType = form.get('rule').get('alertType').value;
   const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
@@ -41,7 +41,6 @@ export default function SimpleAlertConfigDialogStep1({
         initialItemSelected={selectedBlueprintConfig}
         addRightSeparator
       />
-
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
@@ -70,17 +69,11 @@ export default function SimpleAlertConfigDialogStep1({
           </SelectedBlueprintPresenter>
         )}
       />
-
-      <SimpleAlertConfigDialogChart form={form} granularity={granularity} timeConfig={timeConfig} />
+      <SimpleAlertConfigDialogChart
+        form={form}
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      />
     </SimpleModeStepContentWrapper>
   );
 }
-
-SimpleAlertConfigDialogStep1.propTypes = {
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  setJsErrorsListVisible: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
-};

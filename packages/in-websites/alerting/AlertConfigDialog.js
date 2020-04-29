@@ -3,35 +3,38 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
-import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/alerting/constants';
+import { timeConfigs, createTimeConfig } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
-
-const timeConfig = {
-  to: null,
-  focusedMoment: null,
-  windowSize: alertingDialogChartTimeframe,
-  autoRefresh: false
-};
+const initialTimeConfig = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
+  const [granularity, setGranularity] = useState(timeConfigs[initialTimeConfig].granularity);
+  const [timeConfig, setTimeConfig] = useState(createTimeConfig(timeConfigs[0].windowSize));
+  const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [isSaving, setIsSaving] = useState(false);
-  const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
+
   return (
     <AlertConfigDialogWithThreshold
       updateForm={setForm}
       form={form}
       onChange={createOnChange(setForm, form)}
+      onTimeConfigChange={({ windowSize, granularity }) => {
+        setTimeConfig(createTimeConfig(windowSize));
+        setGranularity(granularity);
+        setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
+      }}
+      indexInitialSelectedTimeConfig={timeConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
       timeConfig={timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
-      granularity={alertingMetricsGranularity}
+      granularity={granularity}
       calculateThresholdOnBackend={calculateThresholdOnBackend}
       doCalculateThresholdOnBackend={load => setCalculateThresholdOnBackend(load)}
       isSaving={isSaving}

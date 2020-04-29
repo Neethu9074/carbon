@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
@@ -24,7 +23,6 @@ const stepConfigs = [
 export default function SimpleModeContainer({
   editMode,
   form,
-  granularity,
   onChange,
   onClose,
   setSliderState,
@@ -33,7 +31,9 @@ export default function SimpleModeContainer({
   onCreate,
   setSimpleModeStep,
   updateForm,
-  isSaving
+  isSaving,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
   return (
     <SimpleModePageNavigation
@@ -54,9 +54,9 @@ export default function SimpleModeContainer({
                 form={form}
                 updateForm={updateForm}
                 onChange={onChange}
-                timeConfig={timeConfig}
                 setJsErrorsListVisible={setSliderState}
-                granularity={granularity}
+                onTimeConfigChange={onTimeConfigChange}
+                indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
           case 1:
@@ -66,7 +66,8 @@ export default function SimpleModeContainer({
                 timeConfig={timeConfig}
                 updateForm={updateForm}
                 websiteLabel={websiteLabel}
-                granularity={granularity}
+                onTimeConfigChange={onTimeConfigChange}
+                indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
           case 2:
@@ -78,18 +79,3 @@ export default function SimpleModeContainer({
     />
   );
 }
-
-SimpleModeContainer.propTypes = {
-  editMode: PropTypes.bool,
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  setSliderState: PropTypes.func.isRequired,
-  setSimpleModeStep: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool
-};

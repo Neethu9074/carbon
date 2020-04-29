@@ -17,6 +17,7 @@ import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/ge
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteMetricsThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsThreshold';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
@@ -29,11 +30,11 @@ import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = compose(
   withState('simpleMode', 'setSimpleMode', props => !props.editMode),
-  connectTo(({ form, granularity, updateForm, simpleMode }) => {
+  connectTo(({ form, updateForm, simpleMode }) => {
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, granularity, simpleMode)
+      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
     };

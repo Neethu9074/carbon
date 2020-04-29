@@ -5,6 +5,7 @@ import React from 'react';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -161,7 +162,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, err
   const alertsConfig = {
     metric,
     aggregation: metric === errorCount ? 'SUM' : 'MEAN',
-    granularity // global metric granularity
+    granularity: alertingMetricsGranularity // global metric granularity
   };
 
   if (metric === errorRate) {

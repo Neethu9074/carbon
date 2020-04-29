@@ -7,6 +7,7 @@ import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateA
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
@@ -15,7 +16,6 @@ import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBar
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
-import { alertingMetricsGranularity } from 'in-applications/alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';

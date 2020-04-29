@@ -24,8 +24,9 @@ import {
 } from 'in-websites/alerting/form/ruleFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
+import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -44,7 +45,14 @@ export default compose(
   }))
 )(SlownessInteractiveChart);
 
-function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
+function SlownessInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  updateForm,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
   const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
     getFormValueOrDefault(form.get('threshold'), 'deviationFactor')
@@ -216,24 +224,32 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
         )}
       </div>
 
-      <ChartContainer headline="Last 24 hours">
-        <SlownessAlertingBarChart
-          websiteId={form.get('websiteId').value}
-          threshold={threshold}
-          timeThreshold={form.get('timeThreshold').toJS()}
-          sensitivity={Number(
-            doDebounceDeviationFactor
-              ? tempThresholdDeviationFactor
-              : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-          )}
-          timeConfig={timeConfig}
-          tagFilters={form.get('tagFilters').value}
-          aggregation={form.get('rule').get('aggregation').value}
-          granularity={granularity}
-          alertsPreviewEnabled
-          canReload
-        />
-      </ChartContainer>
+      <TimeConfigSelector
+        configs={timeConfigs}
+        className={locals.chartContainer}
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        headerTransparent
+      >
+        {({ timeConfig, granularity }) => (
+          <SlownessAlertingBarChart
+            websiteId={form.get('websiteId').value}
+            threshold={threshold}
+            timeThreshold={form.get('timeThreshold').toJS()}
+            sensitivity={Number(
+              doDebounceDeviationFactor
+                ? tempThresholdDeviationFactor
+                : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+            )}
+            timeConfig={timeConfig}
+            tagFilters={form.get('tagFilters').value}
+            aggregation={form.get('rule').get('aggregation').value}
+            granularity={granularity}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </TimeConfigSelector>
     </div>
   );
 }
@@ -270,8 +286,8 @@ function getAggregationOptions(form) {
 SlownessInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
   updateForm: PropTypes.func.isRequired
 };

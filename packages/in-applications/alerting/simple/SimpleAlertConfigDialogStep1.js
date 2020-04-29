@@ -1,24 +1,22 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { applicationsAlertingBlueprintChanged } from 'in-applications/alerting/tracker';
-import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Menu from 'in-new-components/Alerting/components/Menu';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
-  granularity,
   setLogMessagesListVisible,
-  timeConfig,
-  updateForm
+  updateForm,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
   const alertType = form.get('rule').get('alertType').value;
   const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
@@ -72,15 +70,11 @@ export default function SimpleAlertConfigDialogStep1({
         )}
       />
 
-      <SimpleAlertConfigDialogChart form={form} granularity={granularity} timeConfig={timeConfig} />
+      <SimpleAlertConfigDialogChart
+        form={form}
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      />
     </SimpleModeStepContentWrapper>
   );
 }
-
-SimpleAlertConfigDialogStep1.propTypes = {
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  setLogMessagesListVisible: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  updateForm: PropTypes.func.isRequired
-};

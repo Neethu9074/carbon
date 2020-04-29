@@ -19,9 +19,10 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
+import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
+import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -37,7 +38,14 @@ export default compose(
   }))
 )(StatusCodeInteractiveChart);
 
-function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
+function StatusCodeInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  updateForm,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -132,33 +140,41 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
         </FormGroup>
       </div>
 
-      <ChartContainer headline="Last 24 hours">
-        <StatusCodeAlertingBarChart
-          websiteId={form.get('websiteId').value}
-          threshold={threshold}
-          timeThreshold={form.get('timeThreshold').toJS()}
-          timeConfig={timeConfig}
-          tagFilters={form.get('tagFilters').value}
-          numeratorFilter={{
-            name: 'beacon.http.status',
-            operator: form.get('rule').get('operator').value,
-            stringValue: form.get('rule').get('value').value
-          }}
-          metricName={metricName}
-          granularity={granularity}
-          alertsPreviewEnabled
-          canReload
-        />
-      </ChartContainer>
+      <TimeConfigSelector
+        configs={timeConfigs}
+        className={locals.chartContainer}
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        headerTransparent
+      >
+        {({ timeConfig, granularity }) => (
+          <StatusCodeAlertingBarChart
+            websiteId={form.get('websiteId').value}
+            threshold={threshold}
+            timeThreshold={form.get('timeThreshold').toJS()}
+            timeConfig={timeConfig}
+            tagFilters={form.get('tagFilters').value}
+            numeratorFilter={{
+              name: 'beacon.http.status',
+              operator: form.get('rule').get('operator').value,
+              stringValue: form.get('rule').get('value').value
+            }}
+            metricName={metricName}
+            granularity={granularity}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </TimeConfigSelector>
     </div>
   );
 }
 
 StatusCodeInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
   debounceOnChange$: PropTypes.object,
   updateForm: PropTypes.func.isRequired
 };

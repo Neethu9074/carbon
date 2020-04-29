@@ -86,15 +86,16 @@ export default function LightCard({
 
 LightCard.propTypes = {
   bodyClassName: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   className: PropTypes.string,
   darkFrame: PropTypes.bool,
   framed: PropTypes.bool,
   header: PropTypes.node,
+  headerClassName: PropTypes.string,
   label: PropTypes.string,
   onHeaderBackgroundClicked: PropTypes.func,
-  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  title: PropTypes.string,
+  titleSubContent: PropTypes.node,
   useMaxAvailableHeight: PropTypes.bool,
   withoutPadding: PropTypes.bool
 };
