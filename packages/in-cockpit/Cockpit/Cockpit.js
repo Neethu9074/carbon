@@ -1,12 +1,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled
-} from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
@@ -345,7 +340,7 @@ function getPlatformCardIcon() {
 }
 
 function getWebsiteAndMobileIcon() {
-  if (!hasMobileAppsAccess || !mobileAppMonitoringEnabled) {
+  if (!hasMobileAppsAccess) {
     return 'lib_website';
   }
   if (!hasWebsitesAccess) {
@@ -355,7 +350,7 @@ function getWebsiteAndMobileIcon() {
 }
 
 function getWebsiteAndMobileLabel() {
-  if (!hasMobileAppsAccess || !mobileAppMonitoringEnabled) {
+  if (!hasMobileAppsAccess) {
     return 'Websites';
   }
   if (!hasWebsitesAccess) {

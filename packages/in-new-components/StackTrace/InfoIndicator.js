@@ -5,11 +5,11 @@ import Link from 'in-components/Link';
 
 import locals from './InfoIndicator.mless';
 
-export default function InfoIndicator({ href, href$, children, target }) {
+export default function InfoIndicator({ href, href$, children, target, external }) {
   return (
     <Tooltip content={<div className={locals.content}>{children}</div>}>
       {href || href$ ? (
-        <Link href={href} href$={href$} target={target} className={locals.indicator}>
+        <Link href={href} href$={href$} target={target} external={external} className={locals.indicator}>
           ?
         </Link>
       ) : (

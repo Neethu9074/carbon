@@ -32,7 +32,6 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -125,37 +124,36 @@ function AnalyzeHeader({ dataSource, renderQuickFilterBar, isGrouped }) {
               />
             </SecondLevelNavigationGroup>
           )}
-          {hasMobileAppsAccess &&
-            mobileAppMonitoringEnabled && (
-              <SecondLevelNavigationGroup
-                label="Mobile Apps"
-                withSeparator
-                {...secondLevelActive(['sessionStart', 'httpRequest', 'custom'], 'mobileApp', dataSource)}
-              >
-                <SecondLevelNavigationItem
-                  href$={getLinkToMobileAppAnalyze({
-                    group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
-                    beaconType: 'sessionStart'
-                  })}
-                  {...getProps('sessionStart', 'mobileApp', dataSource)}
-                  addGroupSeparator={hasApplicationsAccess || hasWebsitesAccess}
-                />
-                <SecondLevelNavigationItem
-                  href$={getLinkToMobileAppAnalyze({
-                    group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
-                    beaconType: 'httpRequest'
-                  })}
-                  {...getProps('httpRequest', 'mobileApp', dataSource)}
-                />
-                <SecondLevelNavigationItem
-                  href$={getLinkToMobileAppAnalyze({
-                    group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
-                    beaconType: 'custom'
-                  })}
-                  {...getProps('custom', 'mobileApp', dataSource)}
-                />
-              </SecondLevelNavigationGroup>
-            )}
+          {hasMobileAppsAccess && (
+            <SecondLevelNavigationGroup
+              label="Mobile Apps"
+              withSeparator
+              {...secondLevelActive(['sessionStart', 'httpRequest', 'custom'], 'mobileApp', dataSource)}
+            >
+              <SecondLevelNavigationItem
+                href$={getLinkToMobileAppAnalyze({
+                  group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+                  beaconType: 'sessionStart'
+                })}
+                {...getProps('sessionStart', 'mobileApp', dataSource)}
+                addGroupSeparator={hasApplicationsAccess || hasWebsitesAccess}
+              />
+              <SecondLevelNavigationItem
+                href$={getLinkToMobileAppAnalyze({
+                  group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+                  beaconType: 'httpRequest'
+                })}
+                {...getProps('httpRequest', 'mobileApp', dataSource)}
+              />
+              <SecondLevelNavigationItem
+                href$={getLinkToMobileAppAnalyze({
+                  group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+                  beaconType: 'custom'
+                })}
+                {...getProps('custom', 'mobileApp', dataSource)}
+              />
+            </SecondLevelNavigationGroup>
+          )}
           <SecondLevelNavigationGroup
             label="Profiles"
             withSeparator

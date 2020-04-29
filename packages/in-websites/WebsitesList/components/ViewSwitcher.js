@@ -6,12 +6,11 @@ import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader
 import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 
 export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
-  const hasAccessToBothAreas = hasWebsitesAccess && hasMobileAppsAccess && mobileAppMonitoringEnabled;
+  const hasAccessToBothAreas = hasWebsitesAccess && hasMobileAppsAccess;
 
   let header;
   if (hasAccessToBothAreas) {
