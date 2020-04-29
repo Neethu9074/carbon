@@ -7,7 +7,7 @@ import locals from 'in-new-components/Alerting/components/channels/NoChannelSele
 
 export default function NoChannelSelected({
   height = 80, // default height of an empty row with icon
-  text = 'Currently you have not selected an alert channel and will not receive any alerts.'
+  text = 'Currently, you have not selected an alert channel and will not receive any alerts.'
 }) {
   return (
     <BasicWrapper
