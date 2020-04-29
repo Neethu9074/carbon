@@ -92,11 +92,6 @@ function wrapProps(result, props) {
     cardHeader: undefined
   });
 
-  propsClone.cardHeader = props.cardHeader;
-
-  propsClone.timeConfig = getResolvedTimeConfig(propsClone.timeConfig, result);
-  propsClone.granularity = propsClone.granularity || getChartGranularity(propsClone.timeConfig);
-
   propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id] || []);
   propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
   determineTimeShifts(propsClone.y1, props.metricsConfiguration.metrics, propsClone.timeConfig);
@@ -107,6 +102,13 @@ function wrapProps(result, props) {
     determineTimeShifts(propsClone.y2, props.metricsConfiguration.metrics, propsClone.timeConfig);
   }
 
+  // result.time depends on the time configuration send to the backend. We use it to fixate the
+  // time config for the chart. We never want to show a time axis that is time shifting aware.
+  // This change ensures that the axis always represents the current time window.
+  const smallestTimeShift = getSmallestTimeShift(propsClone.y1, propsClone.y2);
+  propsClone.timeConfig = getResolvedTimeConfig(propsClone.timeConfig, result.time - smallestTimeShift);
+  propsClone.granularity = propsClone.granularity || getChartGranularity(propsClone.timeConfig);
+  propsClone.cardHeader = props.cardHeader;
   propsClone.customChartComponent = props.customChartComponent;
 
   return propsClone;
@@ -127,4 +129,30 @@ function determineTimeShifts(axis, metrics, timeConfig) {
     // Remove the timeShifts field. This allows the chart to skip time shift adjustment logic.
     axis.timeShifts = null;
   }
+}
+
+// Time shifts are always negative, e.g. last hour is 1000 * 60 * 60 * -1. This in turn
+// means that the smallest time shift is the largest number
+function getSmallestTimeShift(y1, y2) {
+  let smallestTimeShift = undefined;
+  if (!y1.timeShifts) {
+    return 0;
+  }
+  smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, smallestTimeShift);
+
+  if (!y2) {
+    return smallestTimeShift;
+  } else if (!y2.timeShifts) {
+    return 0;
+  }
+  return y2.timeShifts.reduce(getSmallestTimeShiftReducer, smallestTimeShift);
+}
+
+function getSmallestTimeShiftReducer(agg, timeShift) {
+  if (timeShift == null) {
+    return agg;
+  } else if (agg == null) {
+    return timeShift.offset;
+  }
+  return Math.max(timeShift.offset, agg);
 }

@@ -28,6 +28,10 @@ export default class Scales {
     }
 
     this.updateAxisScale(this.config.y1, this.y1);
+    // Chart is updated and receives a second axis. Lazily create the scale for this axis.
+    if (this.config.y2 && !this.y2) {
+      this.y2 = createScale();
+    }
     this.updateAxisScale(this.config.y2, this.y2);
   }
 
