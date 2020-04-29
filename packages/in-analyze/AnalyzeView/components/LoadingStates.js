@@ -1,10 +1,9 @@
-import { uniq } from 'lodash';
+import theme from 'in-themes';
 import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { describeArc } from 'in-new-components/Loading/InfiniteCircle';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 import locals from './LoadingStates.mless';
 
@@ -51,7 +50,10 @@ function QueryRunning({ progress }) {
 }
 
 function QueryFailed({ errors }) {
-  const error = getError(errors);
+  const [error] = errors.map(e => {
+    const [description, status] = e.message.split(':').reverse();
+    return { code: e.code, status: status, description: description };
+  });
 
   switch (error.code) {
     case 'TIMEOUT':
@@ -116,17 +118,4 @@ function LoadingCircle({ percentage }) {
       <SvgIcon size="xl" className={locals.traceIcon} type="lib_application_trace" />
     </div>
   );
-}
-
-const errorCodes = ['SERVER', 'CLIENT', 'VALIDATION', 'TIMEOUT'];
-
-function getError(errors) {
-  const filtered = errors.filter(e => errorCodes.includes(e.code));
-  const [error] = uniq(
-    filtered.map(e => {
-      const [status, description] = e.message.split(':');
-      return { code: e.code, status: status, description: description };
-    })
-  );
-  return error;
 }
