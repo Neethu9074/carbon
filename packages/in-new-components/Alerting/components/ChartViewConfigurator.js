@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
+import { createTimeConfigForWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
 import evaluateClassNames from 'in-services/util/classnames';
 import LightCard from 'in-new-components/Card/LightCard';
 
-import locals from './TimeConfigSelector.mless';
+import locals from './ChartViewConfigurator.mless';
 
-export default function TimeConfigSelector({
-  configs = [],
+export default function ChartViewConfigurator({
   indexInitialSelectedTimeConfig = 0,
   children,
   className,
@@ -17,7 +18,7 @@ export default function TimeConfigSelector({
   framed = false,
   onTimeConfigChange
 }) {
-  const [selectedTimeConfig, setSelectedTimeConfig] = useState(configs[indexInitialSelectedTimeConfig]);
+  const selectedTimeConfig = chartViewConfigs[indexInitialSelectedTimeConfig];
   return (
     <>
       <LightCard
@@ -29,13 +30,10 @@ export default function TimeConfigSelector({
         headerClassName={headerTransparent ? locals.headerTransparent : null}
         header={
           <ButtonGroup
-            buttonPropsList={configs.map(timeConfig => ({
+            buttonPropsList={chartViewConfigs.map(timeConfig => ({
               text: timeConfig.label,
               key: timeConfig.label,
-              onClick: () => {
-                setSelectedTimeConfig(timeConfig);
-                onTimeConfigChange?.(timeConfig);
-              }
+              onClick: () => onTimeConfigChange(timeConfig)
             }))}
             activeKey={selectedTimeConfig.label}
           />
@@ -44,12 +42,7 @@ export default function TimeConfigSelector({
         darkFrame
       >
         {children({
-          timeConfig: {
-            to: null,
-            focusedMoment: null,
-            windowSize: selectedTimeConfig.windowSize,
-            autoRefresh: false
-          },
+          timeConfig: createTimeConfigForWindowSize(selectedTimeConfig.windowSize),
           granularity: selectedTimeConfig.granularity
         })}
       </LightCard>
@@ -57,19 +50,12 @@ export default function TimeConfigSelector({
   );
 }
 
-TimeConfigSelector.propTypes = {
-  configs: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      windowSize: PropTypes.number.isRequired,
-      granularity: PropTypes.number.isRequired
-    })
-  ).isRequired,
+ChartViewConfigurator.propTypes = {
   children: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number,
   className: PropTypes.string,
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  onTimeConfigChange: PropTypes.func
+  onTimeConfigChange: PropTypes.func.isRequired
 };

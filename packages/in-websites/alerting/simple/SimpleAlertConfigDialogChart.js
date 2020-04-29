@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 
@@ -15,11 +14,10 @@ import locals from './SimpleAlertConfigDialogChart.mless';
 
 export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange, indexInitialSelectedTimeConfig }) {
   return (
-    <TimeConfigSelector
-      configs={timeConfigs}
+    <ChartViewConfigurator
       onTimeConfigChange={onTimeConfigChange}
       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
-      className={locals.position}
+      className={locals.offset}
       framed
     >
       {({ timeConfig, granularity }) => (
@@ -89,7 +87,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
           )}
         />
       )}
-    </TimeConfigSelector>
+    </ChartViewConfigurator>
   );
 }
 

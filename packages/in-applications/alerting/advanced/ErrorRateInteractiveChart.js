@@ -15,9 +15,8 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -119,8 +118,7 @@ function ErrorRateInteractiveChart({
         </FormGroup>
       </div>
 
-      <TimeConfigSelector
-        configs={timeConfigs}
+      <ChartViewConfigurator
         onTimeConfigChange={onTimeConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         className={locals.chartContainer}
@@ -139,7 +137,7 @@ function ErrorRateInteractiveChart({
             canReload
           />
         )}
-      </TimeConfigSelector>
+      </ChartViewConfigurator>
     </div>
   );
 }

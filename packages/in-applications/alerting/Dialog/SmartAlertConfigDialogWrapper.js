@@ -7,9 +7,9 @@ import {
   applicationsAlertingSwitchMode,
   applicationsAlertingAlertCreated
 } from 'in-applications/alerting/tracker';
+import { chartViewConfigs, createTimeConfigForWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
-import { timeConfigs, createTimeConfig } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
@@ -21,8 +21,10 @@ const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDia
 const initialTimeConfigIndex = 0;
 
 export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
-  const [granularity, setGranularity] = useState(timeConfigs[initialTimeConfigIndex].granularity);
-  const [timeConfig, setTimeConfig] = useState(createTimeConfig(timeConfigs[initialTimeConfigIndex].windowSize));
+  const [granularity, setGranularity] = useState(chartViewConfigs[initialTimeConfigIndex].granularity);
+  const [timeConfig, setTimeConfig] = useState(() =>
+    createTimeConfigForWindowSize(chartViewConfigs[initialTimeConfigIndex].windowSize)
+  );
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   return (
@@ -34,11 +36,11 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       granularity={granularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onTimeConfigChange={({ windowSize, granularity }) => {
-        setTimeConfig(createTimeConfig(windowSize));
+        setTimeConfig(createTimeConfigForWindowSize(windowSize));
         setGranularity(granularity);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
       }}
-      indexInitialSelectedTimeConfig={timeConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
+      indexInitialSelectedTimeConfig={chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
       advancedModeElement={AdvancedModeContainer}
       simpleModeElement={SimpleModeContainer}
       setForm={setForm}

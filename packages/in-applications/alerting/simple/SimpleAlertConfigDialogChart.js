@@ -3,11 +3,10 @@ import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -20,8 +19,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
   const boundaryScope = form.get('boundaryScope').value;
 
   return (
-    <TimeConfigSelector
-      configs={timeConfigs}
+    <ChartViewConfigurator
       onTimeConfigChange={onTimeConfigChange}
       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       className={locals.position}
@@ -88,7 +86,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
           )}
         />
       )}
-    </TimeConfigSelector>
+    </ChartViewConfigurator>
   );
 }
 

@@ -7,7 +7,7 @@
     min-height: 13.75rem;
   }
 
-  .position {
+  .offset {
     margin-top: 0.5rem;
   }
 }

@@ -18,12 +18,11 @@ import {
 } from 'in-websites/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { errorCount, errorRate } from 'in-websites/alerting/constants';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -141,8 +140,7 @@ function JsErrorsInteractiveChart({
             </FormGroup>
           </div>
 
-          <TimeConfigSelector
-            configs={timeConfigs}
+          <ChartViewConfigurator
             onTimeConfigChange={onTimeConfigChange}
             indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
             className={locals.chartContainer}
@@ -166,7 +164,7 @@ function JsErrorsInteractiveChart({
                 canReload
               />
             )}
-          </TimeConfigSelector>
+          </ChartViewConfigurator>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a JS Error to see when this alert triggers" />

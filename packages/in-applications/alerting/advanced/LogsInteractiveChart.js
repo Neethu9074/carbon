@@ -11,10 +11,9 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-ap
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -109,8 +108,7 @@ function LogsInteractiveChart({
             </FormGroup>
           </div>
 
-          <TimeConfigSelector
-            configs={timeConfigs}
+          <ChartViewConfigurator
             onTimeConfigChange={onTimeConfigChange}
             indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
             className={locals.chartContainer}
@@ -132,7 +130,7 @@ function LogsInteractiveChart({
                 canReload
               />
             )}
-          </TimeConfigSelector>
+          </ChartViewConfigurator>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a Log Message to see when this alert triggers" />

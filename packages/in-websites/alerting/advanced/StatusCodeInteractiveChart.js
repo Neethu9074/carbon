@@ -17,12 +17,11 @@ import {
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
@@ -140,8 +139,7 @@ function StatusCodeInteractiveChart({
         </FormGroup>
       </div>
 
-      <TimeConfigSelector
-        configs={timeConfigs}
+      <ChartViewConfigurator
         className={locals.chartContainer}
         onTimeConfigChange={onTimeConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
@@ -165,7 +163,7 @@ function StatusCodeInteractiveChart({
             canReload
           />
         )}
-      </TimeConfigSelector>
+      </ChartViewConfigurator>
     </div>
   );
 }

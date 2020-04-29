@@ -3,7 +3,7 @@ export const alertingEventDetailsChartTimeframe = 12 * 60 * 60 * 1000;
 export const alertingDialogChartTimeframe = 24 * 60 * 60 * 1000;
 export const alertingMetricsGranularity = 10 * 60 * 1000;
 
-export const timeConfigs = Object.freeze([
+export const chartViewConfigs = Object.freeze([
   {
     label: 'Last 24 hours',
     windowSize: 24 * 60 * 60 * 1000,
@@ -16,11 +16,15 @@ export const timeConfigs = Object.freeze([
   }
 ]);
 
-export function createTimeConfig(windowSize) {
+export function createTimeConfigForWindowSize(windowSize) {
   return {
     to: null,
     focusedMoment: null,
     windowSize,
     autoRefresh: false
   };
+}
+
+export function getIndexOfTimeConfig(timeConfig) {
+  return chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig?.windowSize);
 }

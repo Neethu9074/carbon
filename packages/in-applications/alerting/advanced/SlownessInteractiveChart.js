@@ -24,10 +24,9 @@ import {
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-applications/alerting/form/thresholdFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { createSlownessForm } from 'in-applications/alerting/form/thresholdForm';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -226,8 +225,7 @@ function SlownessInteractiveChart({
         )}
       </div>
 
-      <TimeConfigSelector
-        configs={timeConfigs}
+      <ChartViewConfigurator
         onTimeConfigChange={onTimeConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         className={locals.chartContainer}
@@ -252,7 +250,7 @@ function SlownessInteractiveChart({
             canReload
           />
         )}
-      </TimeConfigSelector>
+      </ChartViewConfigurator>
     </div>
   );
 }

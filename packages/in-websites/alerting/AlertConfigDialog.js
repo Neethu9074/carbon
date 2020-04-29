@@ -2,8 +2,12 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  chartViewConfigs,
+  createTimeConfigForWindowSize,
+  getIndexOfTimeConfig
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
-import { timeConfigs, createTimeConfig } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
@@ -12,8 +16,8 @@ const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialTimeConfig = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
-  const [granularity, setGranularity] = useState(timeConfigs[initialTimeConfig].granularity);
-  const [timeConfig, setTimeConfig] = useState(createTimeConfig(timeConfigs[0].windowSize));
+  const [granularity, setGranularity] = useState(chartViewConfigs[initialTimeConfig].granularity);
+  const [timeConfig, setTimeConfig] = useState(() => createTimeConfigForWindowSize(chartViewConfigs[0].windowSize));
   const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [isSaving, setIsSaving] = useState(false);
@@ -24,11 +28,11 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       form={form}
       onChange={createOnChange(setForm, form)}
       onTimeConfigChange={({ windowSize, granularity }) => {
-        setTimeConfig(createTimeConfig(windowSize));
+        setTimeConfig(createTimeConfigForWindowSize(windowSize));
         setGranularity(granularity);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
       }}
-      indexInitialSelectedTimeConfig={timeConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
+      indexInitialSelectedTimeConfig={getIndexOfTimeConfig(timeConfig)}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
       timeConfig={timeConfig}

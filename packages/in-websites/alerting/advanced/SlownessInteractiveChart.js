@@ -22,11 +22,10 @@ import {
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions
 } from 'in-websites/alerting/form/ruleFormData';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
-import TimeConfigSelector from 'in-new-components/Alerting/components/TimeConfigSelector';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
-import { timeConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -224,8 +223,7 @@ function SlownessInteractiveChart({
         )}
       </div>
 
-      <TimeConfigSelector
-        configs={timeConfigs}
+      <ChartViewConfigurator
         className={locals.chartContainer}
         onTimeConfigChange={onTimeConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
@@ -249,7 +247,7 @@ function SlownessInteractiveChart({
             canReload
           />
         )}
-      </TimeConfigSelector>
+      </ChartViewConfigurator>
     </div>
   );
 }
