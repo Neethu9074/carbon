@@ -16,7 +16,7 @@ const blacklistedTags = [
 ];
 
 export default function CustomDataDescriptionItem({ span }) {
-  const custom = span.getIn(['data', 'sdk', 'custom', 'tags']).filter((value, key) => !blacklistedTags.includes(key));
+  const custom = span.getIn(['data', 'sdk', 'custom', 'tags'])?.filter((value, key) => !blacklistedTags.includes(key));
   if (!custom || custom.isEmpty()) {
     return null;
   }
