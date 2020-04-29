@@ -2,7 +2,7 @@ import { find } from 'lodash';
 import React from 'react';
 
 import CheckboxBarOverlay from 'in-analyze/components/filterBar/CheckboxBarOverlay/CheckboxBarOverlay';
-import { operators, entityTypes } from 'in-analyze/applicationFilter';
+import { operators } from 'in-analyze/applicationFilter';
 
 export default function CheckboxBarItemBehavior({ tagFilters, tag, removeTagFilter, upsertTagFilter }) {
   const existingSyntheticFilter = find(
@@ -24,8 +24,7 @@ export default function CheckboxBarItemBehavior({ tagFilters, tag, removeTagFilt
           upsertTagFilter({
             name: newItem,
             stringValue: 'true',
-            operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
+            operator: operators.EQUALS
           });
         } else if (newItem === existingSyntheticFilter.name) {
           removeTagFilter(newItem, operators.EQUALS);
@@ -36,8 +35,7 @@ export default function CheckboxBarItemBehavior({ tagFilters, tag, removeTagFilt
           upsertTagFilter({
             name: newItem,
             stringValue: 'true',
-            operator: operators.EQUALS,
-            entity: 'DESTINATION'
+            operator: operators.EQUALS
           });
         } else if (newItem === existingInternalFilter.name) {
           removeTagFilter(newItem, operators.EQUALS);
