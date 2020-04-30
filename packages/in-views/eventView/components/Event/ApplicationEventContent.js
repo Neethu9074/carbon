@@ -109,8 +109,8 @@ export default connectTo(
               renderStatusCode={() => (
                 <StatusCodeAlertingBarChart
                   applicationId={entityId}
-                  statusCode={alertConfig.rule.value}
-                  statusCodeOperator={alertConfig.rule.operator}
+                  statusCodeStart={alertConfig.rule.statusCodeStart}
+                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}

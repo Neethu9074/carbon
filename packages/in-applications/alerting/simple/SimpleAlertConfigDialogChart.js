@@ -84,8 +84,8 @@ export default function SimpleAlertConfigDialogChart({ form, granularity, timeCo
             <div className={locals.placeholder}>
               <StatusCodeAlertingBarChart
                 applicationId={applicationId}
-                statusCode={rule.value}
-                statusCodeOperator={rule.operator}
+                statusCodeStart={rule.statusCodeStart}
+                statusCodeEnd={rule.statusCodeEnd}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 granularity={granularity}

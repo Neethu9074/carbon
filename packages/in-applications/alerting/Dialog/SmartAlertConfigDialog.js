@@ -46,7 +46,6 @@ function resolveThresholdRequest(form, granularity, fallbackOnError) {
         })
       );
     case 'logs': {
-      // logs count
       const rule = form.get('rule').toJS();
 
       if (isBlank(rule.message)) {
@@ -128,8 +127,8 @@ function getLogTagFilters(form) {
 }
 
 function getStatusTagFilter(form) {
-  const operator = form.get('rule').get('operator').value;
-  const value = form.get('rule').get('value').value;
+  const statusCodeStart = form.get('rule').get('statusCodeStart').value;
+  const statusCodeEnd = form.get('rule').get('statusCodeEnd').value;
 
-  return [...form.get('tagFilters').toJS(), ...getStatusCodeTagFilter(value, operator)];
+  return [...form.get('tagFilters').toJS(), ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)];
 }

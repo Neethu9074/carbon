@@ -29,12 +29,10 @@ export default function createBlueprintForm(form, alertType) {
 }
 
 function getThresholdTypeForAlertType(alertType, threshold) {
-  if (alertType === 'errorRate' || alertType === 'logs' || alertType === 'statusCode') {
-    return 'staticThreshold';
-  }
   if (alertType === 'slowness') {
     return getSlownessThresholdType(threshold);
   }
+  return 'staticThreshold';
 }
 
 function getSlownessThresholdType(threshold) {

@@ -55,7 +55,7 @@ function getEnrichedAnalyzeFilteres(alertConfig, applicationId) {
   } else if (alertType === 'logs') {
     analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
   } else if (alertType === 'statusCode') {
-    analyzeFilters.push(getStatusCodeAnalyzeFilter(alertConfig.rule));
+    analyzeFilters = analyzeFilters.concat(getStatusCodeAnalyzeFilter(alertConfig.rule));
   }
   return analyzeFilters;
 }
@@ -105,11 +105,26 @@ function getThresholdLatencyAnalyzeFilter(threshold) {
 }
 
 function getStatusCodeAnalyzeFilter(rule) {
-  return {
-    name: 'call.http.status',
-    operator: rule.operator,
-    value: rule.value
-  };
+  const analyzeFilters = [];
+  if (rule.statusCodeStart === rule.statusCodeEnd) {
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'EQUALS',
+      value: rule.statusCodeStart
+    });
+  } else {
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'GREATER_OR_EQUAL_THAN',
+      value: rule.statusCodeStart
+    });
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'LESS_OR_EQUAL_THAN',
+      value: rule.statusCodeEnd
+    });
+  }
+  return analyzeFilters;
 }
 
 function getLogCallsAnalyzeFilters(rule) {

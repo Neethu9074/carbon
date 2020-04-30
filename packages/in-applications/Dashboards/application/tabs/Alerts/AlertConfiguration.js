@@ -98,8 +98,8 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               <ChartContainer headline="Last 24 hours">
                 <StatusCodeAlertingBarChart
                   applicationId={alertConfig.applicationId}
-                  statusCode={alertConfig.rule.value}
-                  statusCodeOperator={alertConfig.rule.operator}
+                  statusCodeStart={alertConfig.rule.statusCodeStart}
+                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
                   logLevel={alertConfig.rule.level}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}

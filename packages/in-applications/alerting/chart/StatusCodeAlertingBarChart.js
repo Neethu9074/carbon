@@ -14,8 +14,8 @@ import theme from 'in-themes';
 
 export default function StatusCodeAlertingBarChart({
   applicationId,
-  statusCode,
-  statusCodeOperator,
+  statusCodeStart,
+  statusCodeEnd,
   boundaryScope,
   timeConfig,
   tagFilters,
@@ -29,7 +29,7 @@ export default function StatusCodeAlertingBarChart({
   const tagFiltersWithApplicationId = [
     ...tagFilters,
     getApplicationIdTagFilter({ applicationId, boundaryScope }),
-    getStatusCodeTagFilter(statusCode, statusCodeOperator)
+    ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)
   ];
   return (
     <AlertingBarChartWrapper
@@ -90,8 +90,8 @@ export default function StatusCodeAlertingBarChart({
 StatusCodeAlertingBarChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   applicationId: PropTypes.string.isRequired,
-  statusCode: PropTypes.string.isRequired,
-  statusCodeOperator: PropTypes.string.isRequired,
+  statusCodeStart: PropTypes.number.isRequired,
+  statusCodeEnd: PropTypes.number.isRequired,
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,

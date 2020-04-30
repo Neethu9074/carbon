@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -16,7 +17,6 @@ import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplicationEventListItemContent.mless';
-import StatusCodeAlertingBarChart from '../../../in-applications/alerting/chart/StatusCodeAlertingBarChart';
 
 export default connectTo(
   ({ event }) => {
@@ -95,8 +95,8 @@ export default connectTo(
             renderStatusCode={() => (
               <StatusCodeAlertingBarChart
                 applicationId={entityId}
-                statusCode={alertConfig.rule.value}
-                statusCodeOperator={alertConfig.rule.operator}
+                statusCodeStart={alertConfig.rule.statusCodeStart}
+                statusCodeEnd={alertConfig.rule.statusCodeEnd}
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}

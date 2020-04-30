@@ -15,8 +15,15 @@ export function getLogLevelTagFilters(message, operator, level) {
   return tagFilters;
 }
 
-export function getStatusCodeTagFilter(statusCode, operator) {
-  return createStringTagFilter('call.http.status', operator, statusCode);
+export function getStatusCodeTagFilter(statusCodeStart, statusCodeEnd) {
+  const tagFilters = [];
+  if (statusCodeStart === statusCodeEnd) {
+    tagFilters.push(createStringTagFilter('call.http.status', 'EQUALS', statusCodeStart));
+  } else {
+    tagFilters.push(createStringTagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', statusCodeStart));
+    tagFilters.push(createStringTagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', statusCodeEnd));
+  }
+  return tagFilters;
 }
 
 function createStringTagFilter(name, operator, stringValue) {

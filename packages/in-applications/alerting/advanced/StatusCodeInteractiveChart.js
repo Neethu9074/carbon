@@ -108,8 +108,8 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
             <StatusCodeAlertingBarChart
               applicationId={form.get('applicationId').value}
               threshold={threshold}
-              statusCode={form.get('rule').get('value').value}
-              statusCodeOperator={form.get('rule').get('operator').value}
+              statusCodeStart={form.get('rule').get('statusCodeStart').value}
+              statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
               timeThreshold={form.get('timeThreshold').toJS()}
               timeConfig={timeConfig}
               tagFilters={form.get('tagFilters').value}

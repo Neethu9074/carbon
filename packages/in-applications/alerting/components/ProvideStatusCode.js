@@ -5,7 +5,6 @@ import { applicationsAlertingStatusCodeChanged } from 'in-applications/alerting/
 import { ruleStatusCodeValueOptions } from 'in-applications/alerting/form/ruleFormData';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Label from 'in-components/form/Label';
 
@@ -30,8 +29,10 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                 applicationsAlertingStatusCodeChanged(mode);
                 updateForm(
                   form
-                    .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))
-                    .updateIn(['rule', 'operator'], f => f.setValue(getOperatorForStatusCode(e.value)).setTouched(true))
+                    .updateIn(['rule', 'statusCodeStart'], f =>
+                      f.setValue(getStartForStatusCode(e.value)).setTouched(true)
+                    )
+                    .updateIn(['rule', 'statusCodeEnd'], f => f.setValue(getEndForStatusCode(e.value)).setTouched(true))
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
@@ -52,6 +53,18 @@ ProvideStatusCode.propTypes = {
   updateForm: PropTypes.func.isRequired
 };
 
-function getOperatorForStatusCode(statusCode) {
-  return statusCode && statusCode.length === 3 ? operators.EQUALS : operators.STARTS_WITH;
+function getStartForStatusCode(statusCode) {
+  if (statusCode && statusCode.length === 3) {
+    return statusCode;
+  } else if (statusCode && statusCode.length === 1) {
+    return statusCode * 100;
+  }
+}
+
+function getEndForStatusCode(statusCode) {
+  if (statusCode && statusCode.length === 3) {
+    return statusCode;
+  } else if (statusCode && statusCode.length === 1) {
+    return statusCode * 100 + 99;
+  }
 }
