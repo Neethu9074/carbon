@@ -1,10 +1,10 @@
 import { createLogger } from 'instalog';
 import SockJS from 'sockjs-client';
 
-import { track, CONNECTION_LOST, CONNECTION_ESTABLISHED } from 'in-services/tracking/tracking';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
 import { combineDataAndError } from 'in-services/util/ro';
+import { ineum } from 'in-services/tracking/ineum';
 import { isSafari } from 'in-services/browser';
 import { isSignedIn } from 'in-api/account';
 
@@ -25,8 +25,10 @@ export default class ConnectionLostState extends AbstractState {
     if (isInitialEnter) {
       isInitialEnter = false;
     } else {
-      track(CONNECTION_LOST, {
-        transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+      ineum('reportEvent', 'connection.lost', {
+        meta: {
+          transport: this.sharedState.socket?.transport
+        }
       });
     }
 
@@ -131,8 +133,10 @@ export default class ConnectionLostState extends AbstractState {
   onOpen = () => {
     removeMessage('connectionStatus');
     this.sendConnectionSettings();
-    track(CONNECTION_ESTABLISHED, {
-      transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+    ineum('reportEvent', 'connection.established', {
+      meta: {
+        transport: this.sharedState.socket?.transport
+      }
     });
     this.transitionTo('connected');
   };
