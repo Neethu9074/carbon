@@ -83,11 +83,17 @@ export function getTitlePlaceholder(form) {
       return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages: "${message}"`;
     }
     case 'statusCode': {
-      const value = ruleForm.get('value').value;
-      const operator = ruleForm.get('operator').value;
-      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(value)} is ${getHigherOrLowerOperatorText(
-        operator
-      )} the expectation.`;
+      const statusCodeStart = ruleForm.get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const thresholdForm = form.get('threshold');
+      const operator = thresholdForm.get('operator').value;
+      if (statusCodeStart === statusCodeEnd) {
+        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
+          statusCodeStart
+        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      }
+      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
+      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -138,9 +144,17 @@ export function getDescriptionPlaceholder(form) {
       } "${message}" is ${getHigherOrLowerOperatorText(operator)} ${thresholdValue}.`;
     }
     case 'statusCode': {
-      const value = ruleForm.get('value').value;
-      const operator = ruleForm.get('operator').value;
-      return `HTTP Status codes which ${operatorDescriptionValues[operator]} "${value}" have been detected.`;
+      const statusCodeStart = ruleForm.get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const thresholdForm = form.get('threshold');
+      const operator = thresholdForm.get('operator').value;
+      if (statusCodeStart === statusCodeEnd) {
+        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
+          statusCodeStart
+        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      }
+      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
+      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);

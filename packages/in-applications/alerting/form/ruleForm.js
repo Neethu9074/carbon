@@ -1,4 +1,4 @@
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -85,16 +85,15 @@ function extendForLogs(baseForm, rule) {
 function extendForStatusCode(baseForm, rule) {
   return baseForm
     .put(
-      'operator',
+      'statusCodeStart',
       createField({
-        value: rule.operator ?? operators.STARTS_WITH
+        value: rule.statusCodeStart ?? 400
       })
     )
     .put(
-      'value',
+      'statusCodeEnd',
       createField({
-        value: rule.value ?? '4',
-        validator: notBlankValidator
+        value: rule.statusCodeEnd ?? 499
       })
     );
 }

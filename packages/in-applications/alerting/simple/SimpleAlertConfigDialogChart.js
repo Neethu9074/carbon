@@ -125,5 +125,5 @@ function hasLogMessageSelected(form) {
 }
 
 function hasStatusCodeSelected(form) {
-  return !!(form && form.get('rule').get('value').value);
+  return !!(form && form.get('rule').get('statusCodeStart').value && form.get('rule').get('statusCodeEnd').value);
 }

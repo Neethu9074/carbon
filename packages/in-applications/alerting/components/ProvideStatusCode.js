@@ -15,7 +15,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
     <div className={locals.container}>
       {form
         .get('rule')
-        .get('value')
+        .get('statusCodeStart')
         .map(field => (
           <FormGroup>
             <Label htmlFor={'ruleValue'} hasError={!field.valid && field.touched}>
