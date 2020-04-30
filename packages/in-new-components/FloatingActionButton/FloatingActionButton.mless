@@ -7,9 +7,12 @@
     border: none;
     color: @lib__colors__white;
     padding: 0.75rem;
+    transition: background-color 250ms;
 
     &:hover {
       cursor: pointer;
+      background-color: #148cc8;
+      text-decoration: none;
     }
   }
 

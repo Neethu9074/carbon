@@ -97,17 +97,17 @@ function Alert({
           setRevision={setRevision}
           openDialog={() => {
             setDialogOpen(true);
-            websitesAlertingAlertEdit(alertConfig.id);
+            websitesAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
           fullyQualifiedAlertsList={alertsTabListFullyQualified}
           doEnableConfig$={enableAlertConfig}
           doDisableConfig$={disableAlertConfig}
           doDeleteConfig$={deleteAlertConfig}
-          onConfigStateChanged={(configId, enabled) => {
+          onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
-              websitesAlertingAlertPaused(configId);
+              websitesAlertingAlertPaused({ alertConfigId });
             } else {
-              websitesAlertingAlertResumed(configId);
+              websitesAlertingAlertResumed({ alertConfigId });
             }
           }}
           onConfigDeleted={websitesAlertingAlertDeleted}

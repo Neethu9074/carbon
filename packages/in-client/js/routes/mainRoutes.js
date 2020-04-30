@@ -9,13 +9,7 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled,
-  internalMonitoringUnit
-} from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled, customDashboardsEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
@@ -62,7 +56,7 @@ export default (
     {pcfEnabled && cloudfoundryRoutes}
     {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
-    {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
+    {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsEnabled && customDashboardsRoutes}
     {cockpitRoutes}

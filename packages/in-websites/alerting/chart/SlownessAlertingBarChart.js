@@ -4,6 +4,7 @@ import React from 'react';
 
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -25,6 +26,7 @@ export default function SlownessAlertingBarChart({
 }) {
   const baseline = threshold.baseline;
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
+
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -138,7 +140,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity
         alerts: {
           metric: onLoadTime,
           aggregation,
-          granularity // global metric granularity
+          granularity: alertingMetricsGranularity // global metric granularity
         }
       }
     };

@@ -7,10 +7,7 @@ import {
   applicationsAlertingSwitchMode,
   applicationsAlertingAlertCreated
 } from 'in-applications/alerting/tracker';
-import {
-  alertingDialogChartTimeframe,
-  alertingMetricsGranularity as granularity
-} from 'in-applications/alerting/constants';
+import { chartViewConfigs, createTimeConfigForWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
@@ -21,14 +18,13 @@ import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
-const timeConfig = {
-  to: null,
-  focusedMoment: null,
-  windowSize: alertingDialogChartTimeframe,
-  autoRefresh: false
-};
+const initialTimeConfigIndex = 0;
 
 export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
+  const [granularity, setGranularity] = useState(chartViewConfigs[initialTimeConfigIndex].granularity);
+  const [timeConfig, setTimeConfig] = useState(() =>
+    createTimeConfigForWindowSize(chartViewConfigs[initialTimeConfigIndex].windowSize)
+  );
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   return (
@@ -39,6 +35,12 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       updateForm={setForm}
       granularity={granularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
+      onTimeConfigChange={({ windowSize, granularity }) => {
+        setTimeConfig(createTimeConfigForWindowSize(windowSize));
+        setGranularity(granularity);
+        setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
+      }}
+      indexInitialSelectedTimeConfig={chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
       advancedModeElement={AdvancedModeContainer}
       simpleModeElement={SimpleModeContainer}
       setForm={setForm}

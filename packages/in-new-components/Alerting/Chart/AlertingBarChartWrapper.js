@@ -1,10 +1,9 @@
 import { just, combineLatest, create } from 'reactive-observables';
 import React from 'react';
 
-// import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
 import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 

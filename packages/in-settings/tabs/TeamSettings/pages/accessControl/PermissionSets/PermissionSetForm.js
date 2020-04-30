@@ -13,7 +13,6 @@ import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissi
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getK8sNamespaces, getK8sClusters } from 'in-api/permissionSets';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -164,33 +163,31 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
       />
       <TouchedMessages field={form.get('websiteIds')} />
 
-      {mobileAppMonitoringEnabled && (
-        <>
-          <MobileApps
-            setTitle={false}
-            loadEntities={() => getSelectedMobileApps(selectedMobileApps)}
-            hasRowNavigation={false}
-            noDataMessage="No Mobile App Selected"
-            tableActions={mobileAppSelectionTableActions(form, setForm)}
-            rightHeader={
-              <SelectListDialogButton
-                form={form}
-                onSubmit={selectedIds => submitMobileAppSelection(form, setForm, selectedIds)}
-                title="Add Mobile App"
-                label="Add Mobile App"
-                listComponent={MobileApps}
-                listComponentRightHeader={noRightHeader}
-                hiddenIds={selectedMobileApps}
-                createSubmitLabel={numberOfItems =>
-                  numberOfItems > 0 ? `Add ${numberOfItems} Mobile App${numberOfItems > 1 ? 's' : ''}` : 'Add'
-                }
-                requiresAtLeastOneMessage="Please select at least one mobile app."
-              />
-            }
-          />
-          <TouchedMessages field={form.get('mobileAppIds')} />
-        </>
-      )}
+      <>
+        <MobileApps
+          setTitle={false}
+          loadEntities={() => getSelectedMobileApps(selectedMobileApps)}
+          hasRowNavigation={false}
+          noDataMessage="No Mobile App Selected"
+          tableActions={mobileAppSelectionTableActions(form, setForm)}
+          rightHeader={
+            <SelectListDialogButton
+              form={form}
+              onSubmit={selectedIds => submitMobileAppSelection(form, setForm, selectedIds)}
+              title="Add Mobile App"
+              label="Add Mobile App"
+              listComponent={MobileApps}
+              listComponentRightHeader={noRightHeader}
+              hiddenIds={selectedMobileApps}
+              createSubmitLabel={numberOfItems =>
+                numberOfItems > 0 ? `Add ${numberOfItems} Mobile App${numberOfItems > 1 ? 's' : ''}` : 'Add'
+              }
+              requiresAtLeastOneMessage="Please select at least one mobile app."
+            />
+          }
+        />
+        <TouchedMessages field={form.get('mobileAppIds')} />
+      </>
     </fieldset>
   );
 }

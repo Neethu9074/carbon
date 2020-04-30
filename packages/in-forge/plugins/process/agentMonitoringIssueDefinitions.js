@@ -48,5 +48,14 @@ export default {
     },
     explanationLinkLabel: `Docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/python/`
+  },
+  ruby_sensor_not_installed: {
+    issueDescription: {
+      Component: function rubySensorNotInstalled() {
+        return <span>The Ruby Sensor is not installed or the Sensor failed to register itself with the agent</span>;
+      }
+    },
+    explanationLinkLabel: `Docs`,
+    explanationLinkHref: `https://docs.instana.io/ecosystem/ruby/`
   }
 };

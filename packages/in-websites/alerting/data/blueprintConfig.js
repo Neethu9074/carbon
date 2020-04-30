@@ -28,13 +28,13 @@ export const blueprintConfig = Object.freeze([
     type: alertTypes.specificJsError,
     name: 'JS Errors',
     headline: 'Automatic Alerts for JS Errors',
-    text: 'Alert on known JS Errors by selecting one or multiple JS Errors that have been monitored before.'
+    text: 'Receive an alert every time when matching JS Error messages occur more often than usual.'
   },
   {
     type: alertTypes.specificStatusCode,
     name: 'HTTP Status Codes',
     headline: 'Automatic Alerts for HTTP Status Codes',
-    text: 'Alert on known HTTP Status Codes by selecting one or multiple Status Codes that have been monitored before.'
+    text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.'
   }
 ]);
 

@@ -13,12 +13,15 @@ export default function BlueprintSelection({
   updateFormForSelectedBlueprint,
   form
 }) {
-  const [config, setConfig] = useState(getConfigByType());
+  const alertType = form.get('rule').get('alertType').value;
+  const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
+
+  const [config, setConfig] = useState(selectedBlueprintConfig);
   const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
 
   return (
     <ExpandableCard
-      label={getConfigByType().name}
+      label={selectedBlueprintConfig.name}
       title="Selected Blueprint"
       bodyWithoutPadding
       openByDefault
@@ -26,13 +29,13 @@ export default function BlueprintSelection({
     >
       <div className={locals.container}>
         <Menu
-          itemLabels={blueprintConfig.map(({ name }) => name)}
-          onItemClick={index => {
+          items={blueprintConfig}
+          onItemClick={item => {
             setSelectButtonDisabled(false);
-            setConfig(blueprintConfig[index]);
-            trackBlueprintChange(blueprintConfig[index].type);
+            setConfig(item);
+            trackBlueprintChange(item.type);
           }}
-          initialItemSelected={blueprintConfig.findIndex(configTypeEqualsAlertType)}
+          initialItemSelected={selectedBlueprintConfig}
         />
         <div className={locals.spanTwoColumns}>
           <BlueprintDescription
@@ -47,14 +50,6 @@ export default function BlueprintSelection({
       </div>
     </ExpandableCard>
   );
-
-  function getConfigByType() {
-    return blueprintConfig.find(configTypeEqualsAlertType);
-  }
-
-  function configTypeEqualsAlertType({ type }) {
-    return form.get('rule').get('alertType').value === type;
-  }
 }
 
 BlueprintSelection.propTypes = {

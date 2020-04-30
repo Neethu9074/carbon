@@ -4,7 +4,7 @@ export default [
   {
     label: 'DB Time/Second',
     metric: 'stats.dbTime',
-    formatter: micros
+    formatter: micros.detailed
   },
   {
     label: 'DB CPU Time/DB Ratio',

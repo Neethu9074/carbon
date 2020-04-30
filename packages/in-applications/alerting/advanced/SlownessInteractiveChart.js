@@ -15,22 +15,21 @@ import {
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
 import {
-  thresholdTypeOptions,
-  enrichThresholdOperatorOptionsForApiConfigs
-} from 'in-applications/alerting/form/thresholdFormData';
-import {
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions,
   ruleMetricNameOptions
 } from 'in-applications/alerting/form/ruleFormData';
+import {
+  thresholdTypeOptions,
+  enrichThresholdOperatorOptionsForApiConfigs
+} from 'in-applications/alerting/form/thresholdFormData';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { createSlownessForm } from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -45,7 +44,14 @@ export default compose(
   }))
 )(SlownessInteractiveChart);
 
-function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$, updateForm }) {
+function SlownessInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  updateForm,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
   const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
     getFormValueOrDefault(form.get('threshold'), 'deviationFactor')
@@ -219,25 +225,32 @@ function SlownessInteractiveChart({ form, timeConfig, onChange, granularity, deb
         )}
       </div>
 
-      <ChartContainer headline="Last 24 hours">
-        <SlownessAlertingBarChart
-          applicationId={form.get('applicationId').value}
-          threshold={threshold}
-          timeThreshold={form.get('timeThreshold').toJS()}
-          sensitivity={Number(
-            doDebounceDeviationFactor
-              ? tempThresholdDeviationFactor
-              : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-          )}
-          timeConfig={timeConfig}
-          tagFilters={form.get('tagFilters').value}
-          aggregation={form.get('rule').get('aggregation').value}
-          granularity={granularity}
-          boundaryScope={form.get('boundaryScope').value}
-          alertsPreviewEnabled
-          canReload
-        />
-      </ChartContainer>
+      <ChartViewConfigurator
+        onTimeConfigChange={onTimeConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        className={locals.chartContainer}
+        headerTransparent
+      >
+        {({ timeConfig, granularity }) => (
+          <SlownessAlertingBarChart
+            applicationId={form.get('applicationId').value}
+            threshold={threshold}
+            timeThreshold={form.get('timeThreshold').toJS()}
+            sensitivity={Number(
+              doDebounceDeviationFactor
+                ? tempThresholdDeviationFactor
+                : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+            )}
+            timeConfig={timeConfig}
+            tagFilters={form.get('tagFilters').value}
+            aggregation={form.get('rule').get('aggregation').value}
+            granularity={granularity}
+            boundaryScope={form.get('boundaryScope').value}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </ChartViewConfigurator>
     </div>
   );
 }
@@ -274,8 +287,8 @@ function getAggregationOptions(form) {
 SlownessInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };

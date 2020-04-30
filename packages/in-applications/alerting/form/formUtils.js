@@ -122,17 +122,19 @@ export function getDescriptionPlaceholder(form) {
     }
     case 'logs': {
       const message = ruleForm.get('message').value;
-      const operator = ruleForm.get('operator').value;
+      const ruleOperator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
+      const operator = thresholdForm.get('operator').value;
       const thresholdValue = thresholdForm.get('value').value;
+
       if (operator === operators.NOT_EMPTY) {
         return `Number of calls logging ${levelText} messages is ${getHigherOrLowerOperatorText(
           operator
         )} ${thresholdValue}.`;
       }
       return `Number of calls logging ${levelText} messages which ${
-        operatorDescriptionValues[operator]
+        operatorDescriptionValues[ruleOperator]
       } "${message}" is ${getHigherOrLowerOperatorText(operator)} ${thresholdValue}.`;
     }
     case 'statusCode': {

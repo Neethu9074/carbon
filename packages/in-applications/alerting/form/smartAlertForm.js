@@ -59,17 +59,7 @@ export function createSmartAlertForm(alertConfig) {
     .put(
       'alertChannelIds',
       createField({
-        value: alertConfig.alertChannelIds ?? [],
-        validator: array => {
-          if (!array || array.length === 0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please select at least one Alert Channel'
-              }
-            ];
-          }
-        }
+        value: alertConfig.alertChannelIds ?? []
       })
     )
     .put(

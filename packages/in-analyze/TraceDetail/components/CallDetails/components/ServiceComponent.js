@@ -73,15 +73,17 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             span={intermediateSpan}
             inProcessCall
           />
-          <ExpandableGroup
-            title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-            defaultExpanded
-          >
-            <SpanDetails call={call} span={intermediateSpan} />
-            {intermediateSpan.stackTrace.length > 0 && (
-              <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
-            )}
-          </ExpandableGroup>
+          {hasNonEmptyData(intermediateSpan) && (
+            <ExpandableGroup
+              title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+              defaultExpanded
+            >
+              <SpanDetails call={call} span={intermediateSpan} />
+              {intermediateSpan.stackTrace.length > 0 && (
+                <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
+              )}
+            </ExpandableGroup>
+          )}
           <ExpandableGroup
             title={
               <div className={locals.infraTitle}>
@@ -161,7 +163,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                           <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                         </ExpandableGroup>
                       )}
-                    {exitSpan && (
+                    {hasNonEmptyData(exitSpan) && (
                       <ExpandableGroup
                         title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
                         defaultExpanded
@@ -224,7 +226,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             </div>
             <div className={locals.destinationChildren}>
-              {entrySpan && (
+              {hasNonEmptyData(entrySpan) && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
                   defaultExpanded
@@ -322,6 +324,9 @@ function getEntity(call, location) {
 }
 
 function getSpan(call, kind) {
-  let span = find(call.spans, _span => _span.kind === kind);
-  return span && span.data && Object.keys(span.data).length > 0 ? span : null;
+  return find(call.spans, _span => _span.kind === kind);
+}
+
+function hasNonEmptyData(span) {
+  return span && span.data && Object.keys(span.data).length > 0;
 }

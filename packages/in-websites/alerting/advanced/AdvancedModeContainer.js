@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -13,13 +14,13 @@ import {
 } from 'in-websites/alerting/form/formUtils';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
 import SlownessInteractiveChart from 'in-websites/alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/alerting/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
 import TimeThresholdConfig from 'in-websites/alerting/advanced/TimeThresholdConfig';
-import { alertingDialogItemPickerTimeframe } from 'in-websites/alerting/constants';
 import BlueprintSelection from 'in-websites/alerting/advanced/BlueprintSelection';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
@@ -29,10 +30,19 @@ import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
-  const { form, websiteLabel, timeConfig, onChange, setSliderState, granularity, updateForm } = props;
+  const {
+    form,
+    websiteLabel,
+    timeConfig,
+    onChange,
+    setSliderState,
+    granularity,
+    updateForm,
+    onTimeConfigChange,
+    indexInitialSelectedTimeConfig
+  } = props;
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -80,6 +90,8 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       timeConfig={timeConfig}
                       granularity={granularity}
+                      onTimeConfigChange={onTimeConfigChange}
+                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                   </>
                 )}
@@ -94,6 +106,8 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       timeConfig={timeConfig}
                       granularity={granularity}
+                      onTimeConfigChange={onTimeConfigChange}
+                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                   </>
                 )}
@@ -106,6 +120,8 @@ export default function AdvancedModeContainer(props) {
                         granularity={granularity}
                         onChange={onChange}
                         updateForm={updateForm}
+                        onTimeConfigChange={onTimeConfigChange}
+                        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                       />
                       {showInsufficientBaselineDataMessage(form) && (
                         <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>

@@ -27,7 +27,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
-      normalizeTimeShiftedTimestamps(result, config);
+      config = normalizeTimeShiftedTimestamps(result, config);
       const CustomChartComponent = config.customChartComponent;
       content = CustomChartComponent ? (
         <CustomChartComponent renderLegend={renderLegend} {...config} />
@@ -64,22 +64,33 @@ function containsOnlyEmptyData(metrics) {
 }
 
 function normalizeTimeShiftedTimestamps(result, config) {
-  normalizeTimeShiftedTimestampsForAxis(result, config.y1);
+  const copiedConfig = {
+    ...config
+  };
+  copiedConfig.y1 = normalizeTimeShiftedTimestampsForAxis(result, config.y1);
   if (config.y2) {
-    normalizeTimeShiftedTimestampsForAxis(result, config.y2);
+    copiedConfig.y2 = normalizeTimeShiftedTimestampsForAxis(result, config.y2);
   }
+
+  return copiedConfig;
 }
 
 function normalizeTimeShiftedTimestampsForAxis(result, axis) {
   if (!axis.timeShifts) {
-    return;
+    return axis;
   }
 
-  axis.timeShifts.forEach(({ offset }, i) => {
+  const copiedAxis = {
+    ...axis
+  };
+
+  copiedAxis.metrics = axis.timeShifts.map(({ offset }, i) => {
     if (offset === 0) {
-      return;
+      return axis.metrics[i];
     }
 
-    axis.metrics[i] = axis.metrics[i].map(([ts, v]) => [ts - offset, v]);
+    return axis.metrics[i].map(([ts, v]) => [ts - offset, v]);
   });
+
+  return copiedAxis;
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-websites/alerting/constants';
+import {
+  alertingMetricsGranularity,
+  alertingEventDetailsChartTimeframe
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';

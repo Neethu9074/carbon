@@ -28,7 +28,7 @@ function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded,
           {!page && (
             <Link
               external
-              href="https://docs.instana.io/products/website_monitoring/api/#page"
+              href="https://docs.instana.io/website_monitoring/api/#page"
               className={locals.learnHow}
             >
               Learn how to define pages

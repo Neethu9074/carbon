@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { alertingMetricsGranularity, alertingDialogChartTimeframe } from 'in-websites/alerting/constants';
+import {
+  alertingDialogChartTimeframe,
+  alertingMetricsGranularity
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';

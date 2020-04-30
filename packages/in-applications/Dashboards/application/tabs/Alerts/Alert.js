@@ -100,17 +100,17 @@ function Alert({
           setRevision={setRevision}
           openDialog={() => {
             setDialogOpen(true);
-            applicationsAlertingAlertEdit(alertConfig.id);
+            applicationsAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
           fullyQualifiedAlertsList={alertsTabListFullyQualified}
           doEnableConfig$={enableAlertConfig}
           doDisableConfig$={disableAlertConfig}
           doDeleteConfig$={deleteAlertConfig}
-          onConfigStateChanged={(configId, enabled) => {
+          onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
-              applicationsAlertingAlertPaused(configId);
+              applicationsAlertingAlertPaused({ alertConfigId });
             } else {
-              applicationsAlertingAlertResumed(configId);
+              applicationsAlertingAlertResumed({ alertConfigId });
             }
           }}
           onConfigDeleted={applicationsAlertingAlertDeleted}

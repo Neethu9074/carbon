@@ -23,14 +23,22 @@ function getIndicator(websiteId, line) {
   }
 
   let href$;
+  let href;
+  let external = false;
+  let explanation;
   if (role.canConfigureEumApplications && translationStatus.linkToConfigurationDialog) {
     href$ = getLinkToWebsite(websiteId, {
       tabPath: '/configuration/jsStackTraceTranslation'
     });
+    explanation = 'Click to configure file download.';
+  } else if (translationStatus.linkToExternalPage) {
+    href = translationStatus.linkToExternalPage;
+    external = true;
+    explanation = 'Click to learn more.';
   }
 
   return (
-    <InfoIndicator href$={href$}>
+    <InfoIndicator href$={href$} href={href} external={external}>
       {translationStatus.explanation}
       {isNotBlank(translationStatus.translationExplanation) &&
         translationStatus.translationExplanation !== 'null' && (
@@ -39,10 +47,10 @@ function getIndicator(websiteId, line) {
             <strong>translationStatus.translationExplanation</strong>
           </Fragment>
         )}
-      {href$ && (
+      {explanation && (
         <Fragment>
           <br />
-          <strong>Click to configure file download.</strong>
+          <strong>{explanation}</strong>
         </Fragment>
       )}
     </InfoIndicator>

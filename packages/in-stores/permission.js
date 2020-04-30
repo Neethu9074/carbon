@@ -1,4 +1,4 @@
-import { isRbacEnabled, mobileAppMonitoringEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
@@ -25,8 +25,8 @@ export const productAreaPermissions = getProductAreaPermissions();
 function getProductAreaPermissions() {
   return [
     { value: ACCESS_WEBSITES, label: 'Websites' },
-    mobileAppMonitoringEnabled && { value: ACCESS_MOBILE_APPS, label: 'Mobile Apps' },
+    { value: ACCESS_MOBILE_APPS, label: 'Mobile Apps' },
     { value: ACCESS_APPLICATIONS, label: 'Applications' },
     { value: ACCESS_KUBERNETES, label: 'Kubernetes' }
-  ].filter(Boolean);
+  ];
 }

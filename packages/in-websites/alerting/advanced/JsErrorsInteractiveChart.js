@@ -18,9 +18,9 @@ import {
 } from 'in-websites/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { errorCount, errorRate } from 'in-websites/alerting/constants';
@@ -39,7 +39,14 @@ export default compose(
   }))
 )(JsErrorsInteractiveChart);
 
-function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, granularity, debounceOnChange$ }) {
+function JsErrorsInteractiveChart({
+  form,
+  onChange,
+  updateForm,
+  debounceOnChange$,
+  onTimeConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -133,24 +140,31 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
             </FormGroup>
           </div>
 
-          <ChartContainer headline="Last 24 hours">
-            <JsErrorsAlertingBarChart
-              websiteId={form.get(fieldNames.websiteId).value}
-              timeConfig={timeConfig}
-              tagFilters={form.get(fieldNames.tagFilters).value}
-              errorFilter={{
-                name: 'beacon.error.message',
-                operator: form.get('rule').get('operator').value,
-                stringValue: form.get('rule').get('value').value
-              }}
-              metricName={metricName}
-              granularity={granularity}
-              threshold={threshold}
-              timeThreshold={form.get('timeThreshold').toJS()}
-              alertsPreviewEnabled
-              canReload
-            />
-          </ChartContainer>
+          <ChartViewConfigurator
+            onTimeConfigChange={onTimeConfigChange}
+            indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+            className={locals.chartContainer}
+            headerTransparent
+          >
+            {({ timeConfig, granularity }) => (
+              <JsErrorsAlertingBarChart
+                websiteId={form.get(fieldNames.websiteId).value}
+                timeConfig={timeConfig}
+                tagFilters={form.get(fieldNames.tagFilters).value}
+                errorFilter={{
+                  name: 'beacon.error.message',
+                  operator: form.get('rule').get('operator').value,
+                  stringValue: form.get('rule').get('value').value
+                }}
+                metricName={metricName}
+                granularity={granularity}
+                threshold={threshold}
+                timeThreshold={form.get('timeThreshold').toJS()}
+                alertsPreviewEnabled
+                canReload
+              />
+            )}
+          </ChartViewConfigurator>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a JS Error to see when this alert triggers" />
@@ -162,9 +176,9 @@ function JsErrorsInteractiveChart({ form, timeConfig, onChange, updateForm, gran
 JsErrorsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  onTimeConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
   updateForm: PropTypes.func.isRequired
 };
 
