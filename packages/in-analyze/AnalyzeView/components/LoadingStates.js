@@ -57,6 +57,7 @@ function QueryFailed({ errors }) {
 
   switch (error.code) {
     case 'TIMEOUT':
+    case 'GATEWAY_TIMEOUT':
       return (
         <div className={locals.stateWrapper}>
           <div className={locals.bigIconContainer}>
