@@ -90,19 +90,19 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               </>
             )}
             renderStatusCode={() => (
-                <StatusCodeAlertingBarChart
-                  applicationId={alertConfig.applicationId}
-                  statusCodeStart={alertConfig.rule.statusCodeStart}
-                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
-                  logLevel={alertConfig.rule.level}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  granularity={alertingMetricsGranularity}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
-                  boundaryScope={alertConfig.boundaryScope}
-                />
-              )}
+              <StatusCodeAlertingBarChart
+                applicationId={alertConfig.applicationId}
+                statusCodeStart={alertConfig.rule.statusCodeStart}
+                statusCodeEnd={alertConfig.rule.statusCodeEnd}
+                logLevel={alertConfig.rule.level}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                granularity={granularity}
+                threshold={alertConfig.threshold}
+                timeThreshold={alertConfig.timeThreshold}
+                boundaryScope={alertConfig.boundaryScope}
+              />
+            )}
           />
         )}
       </ChartViewConfigurator>
