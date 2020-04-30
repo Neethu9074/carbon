@@ -51,7 +51,7 @@ export default function AlertHeader({
       }
 
       // setting the revision will cause a reload of the page. a missing created data will fetch the newest version
-      setRevision({ id: alertConfig.id });
+      setRevision(null);
     });
 
     toggle$.errors().once(error => {
@@ -185,7 +185,7 @@ export default function AlertHeader({
       {isNotLatestRevision && (
         <Message withIcon>
           You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the
-          <Button className={locals.latestButton} kind="action" onClick={() => setRevision({ id: alertConfig.id })}>
+          <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
             latest revision
           </Button>
           if you want to make changes.
