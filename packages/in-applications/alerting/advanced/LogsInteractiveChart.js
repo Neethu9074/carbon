@@ -113,6 +113,7 @@ function LogsInteractiveChart({
             indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
             className={locals.chartContainer}
             headerTransparent
+            title="Last 24 hours"
           >
             {({ timeConfig, granularity }) => (
               <LogsAlertingBarChart

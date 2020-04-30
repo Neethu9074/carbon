@@ -12,6 +12,7 @@ import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertin
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -57,43 +58,49 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                   svgIconType="lib_help_error_warning"
                 />
 
-                <JsErrorsAlertingBarChart
-                  {...alertConfig}
-                  timeConfig={timeConfig}
-                  errorFilter={{
-                    name: 'beacon.error.message',
-                    operator: operator,
-                    stringValue: value
-                  }}
-                  metricName={metricName}
-                  granularity={granularity}
-                />
+                <ChartContainer headline="Last 24 hours">
+                  <JsErrorsAlertingBarChart
+                    {...alertConfig}
+                    timeConfig={timeConfig}
+                    errorFilter={{
+                      name: 'beacon.error.message',
+                      operator: operator,
+                      stringValue: value
+                    }}
+                    metricName={metricName}
+                    granularity={granularity}
+                  />
+                </ChartContainer>
               </>
             )}
             renderStatusCode={() => (
               <>
                 <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
-                <StatusCodeAlertingBarChart
-                  {...alertConfig}
-                  timeConfig={timeConfig}
-                  numeratorFilter={{
-                    name: 'beacon.http.status',
-                    operator: operator,
-                    stringValue: value
-                  }}
-                  metricName={metricName}
-                  granularity={granularity}
-                />
+                <ChartContainer headline="Last 24 hours">
+                  <StatusCodeAlertingBarChart
+                    {...alertConfig}
+                    timeConfig={timeConfig}
+                    numeratorFilter={{
+                      name: 'beacon.http.status',
+                      operator: operator,
+                      stringValue: value
+                    }}
+                    metricName={metricName}
+                    granularity={granularity}
+                  />
+                </ChartContainer>
               </>
             )}
             renderSlowness={() => (
-              <SlownessAlertingBarChart
-                {...alertConfig}
-                sensitivity={deviationFactor}
-                timeConfig={timeConfig}
-                aggregation={aggregation}
-                granularity={granularity}
-              />
+              <ChartContainer headline="Last 24 hours">
+                <SlownessAlertingBarChart
+                  {...alertConfig}
+                  sensitivity={deviationFactor}
+                  timeConfig={timeConfig}
+                  aggregation={aggregation}
+                  granularity={granularity}
+                />
+              </ChartContainer>
             )}
           />
         )}
