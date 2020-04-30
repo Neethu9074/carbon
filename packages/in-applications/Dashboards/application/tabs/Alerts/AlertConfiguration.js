@@ -14,6 +14,7 @@ import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ru
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
+import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -53,21 +54,25 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           <AlertTypeSwitch
             alertType={alertType}
             renderErrorRate={() => (
-              <ErrorRateAlertingBarChart
-                {...alertConfig}
-                timeConfig={timeConfig}
-                tagFilters={tagFilters}
-                granularity={granularity}
-              />
+              <ChartContainer headline="Last 24 hours">
+                <ErrorRateAlertingBarChart
+                  {...alertConfig}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={granularity}
+                />
+              </ChartContainer>
             )}
             renderSlowness={() => (
-              <SlownessAlertingBarChart
-                {...alertConfig}
-                sensitivity={deviationFactor}
-                timeConfig={timeConfig}
-                aggregation={aggregation}
-                granularity={granularity}
-              />
+              <ChartContainer headline="Last 24 hours">
+                <SlownessAlertingBarChart
+                  {...alertConfig}
+                  sensitivity={deviationFactor}
+                  timeConfig={timeConfig}
+                  aggregation={aggregation}
+                  granularity={granularity}
+                />
+              </ChartContainer>
             )}
             renderLogs={() => (
               <>
@@ -77,15 +82,17 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   badges={getLogLevelAsList(level)}
                 />
 
-                <LogsAlertingBarChart
-                  {...alertConfig}
-                  logMessage={message}
-                  logMessageOperator={operator}
-                  logLevel={level}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  granularity={granularity}
-                />
+                <ChartContainer headline="Last 24 hours">
+                  <LogsAlertingBarChart
+                    {...alertConfig}
+                    logMessage={message}
+                    logMessageOperator={operator}
+                    logLevel={level}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={granularity}
+                  />
+                </ChartContainer>
               </>
             )}
           />

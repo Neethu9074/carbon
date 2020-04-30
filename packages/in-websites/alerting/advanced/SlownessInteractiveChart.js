@@ -228,6 +228,7 @@ function SlownessInteractiveChart({
         onChartConfigChange={onChartConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         headerTransparent
+        title="Last 24 hours"
       >
         {({ timeConfig, granularity }) => (
           <SlownessAlertingBarChart
