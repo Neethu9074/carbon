@@ -35,7 +35,7 @@ function LogsInteractiveChart({
   form,
   onChange,
   debounceOnChange$,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
@@ -109,7 +109,7 @@ function LogsInteractiveChart({
           </div>
 
           <ChartViewConfigurator
-            onTimeConfigChange={onTimeConfigChange}
+            onChartConfigChange={onChartConfigChange}
             indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
             className={locals.chartContainer}
             headerTransparent
@@ -143,7 +143,7 @@ LogsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };
 

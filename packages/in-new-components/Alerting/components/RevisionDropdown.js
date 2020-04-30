@@ -16,7 +16,7 @@ export default function RevisionDropdown({ alertConfig, alertConfigVersions, set
       renderItemContent={(item, i) => renderItemContent(item, i, alertConfig, alertConfigVersions)}
       onClick={revision => {
         if (revision.created !== alertConfig.created) {
-          setRevision(revision);
+          setRevision(revision.created);
         }
       }}
     />

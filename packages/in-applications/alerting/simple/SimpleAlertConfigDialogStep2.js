@@ -11,7 +11,7 @@ export default function SimpleAlertConfigDialogStep2({
   timeConfig,
   applicationLabel,
   updateForm,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   return (
@@ -28,7 +28,7 @@ export default function SimpleAlertConfigDialogStep2({
 
       <SimpleAlertConfigDialogChart
         form={form}
-        onTimeConfigChange={onTimeConfigChange}
+        onChartConfigChange={onChartConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       />
     </SimpleModeStepContentWrapper>

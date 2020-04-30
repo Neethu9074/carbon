@@ -42,7 +42,7 @@ function StatusCodeInteractiveChart({
   onChange,
   debounceOnChange$,
   updateForm,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
@@ -141,7 +141,7 @@ function StatusCodeInteractiveChart({
 
       <ChartViewConfigurator
         className={locals.chartContainer}
-        onTimeConfigChange={onTimeConfigChange}
+        onChartConfigChange={onChartConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         headerTransparent
       >
@@ -171,7 +171,7 @@ function StatusCodeInteractiveChart({
 StatusCodeInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
   debounceOnChange$: PropTypes.object,
   updateForm: PropTypes.func.isRequired

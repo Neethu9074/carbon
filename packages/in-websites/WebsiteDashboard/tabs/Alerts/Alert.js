@@ -16,30 +16,28 @@ import {
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
+import { alertsTab, alertsTabListFullyQualified, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
-import { alertsTab, alertsTabListFullyQualified } from 'in-websites/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getWebsite from 'in-subscription/website/getWebsite';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
-  withState('revision', 'setRevision', undefined),
   withState('reload', 'triggerReload', undefined),
-  connectTo(({ revision, location }) => {
+  connectTo(({ location }) => {
     const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
     const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
-    const alertConfig$ = revision
-      ? getAlertConfig(revision.id, revision.created)
-      : getAlertConfig(alertConfigId, alertConfigCreated);
+    const alertConfig$ = getAlertConfig(alertConfigId, alertConfigCreated);
     const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
     const websiteLabel$ = alertConfig$.flatMap(({ websiteId }) =>
       getWebsite({ id: websiteId }).map(({ data }) => data && data.label)
@@ -64,7 +62,6 @@ function Alert({
   alertConfigError,
   alertConfigVersions,
   alertConfigVersionsError,
-  setRevision,
   triggerReload,
   timeConfig,
   websiteLabel
@@ -77,13 +74,23 @@ function Alert({
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  function setRevision(created) {
+    mutateUrl(location => {
+      location.pathname = alertsTabDetailsFullyQualified;
+      setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
+    });
+    if (!created) {
+      triggerReload(Math.random());
+    }
+  }
+
   return (
     <>
       {dialogOpen && (
         <AlertConfigDialog
           onClose={() => {
             setDialogOpen(false);
-            triggerReload(Math.random());
+            setRevision(null);
           }}
           formData={alertConfig}
           websiteLabel={websiteLabel}

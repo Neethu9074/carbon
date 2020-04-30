@@ -17,7 +17,8 @@ export function getApplicationsWithDefaults({
   applicationId,
   serviceId,
   endpointId,
-  contextScope
+  contextScope,
+  tagFilters
 }) {
   return getApplications({
     pagination: {
@@ -76,6 +77,7 @@ export function getApplicationsWithDefaults({
       endpoint: endpointId,
       timeConfig
     },
-    contextScope: contextScope ? contextScope : 'NONE'
+    contextScope: contextScope ? contextScope : 'NONE',
+    tagFilters: tagFilters ? [...tagFilters] : null
   });
 }

@@ -2,8 +2,8 @@ import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
+import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
-import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
@@ -12,6 +12,7 @@ import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
+import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -23,7 +24,6 @@ import { clusterTabChange } from 'in-kubernetes/tracker';
 import icons from 'in-components/SvgIcon/registry.json';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
-import { plugins } from 'in-forge/constants';
 
 export default function ClusterDashboard({ location }) {
   const props = {
@@ -85,9 +85,20 @@ function Header(props) {
 }
 
 function renderButtonLine({ clusterId, timeConfig, result }) {
+  let clusterName = result.data?.label;
+  const clusterNameSuffix = ' (cluster)';
+  if (clusterName.endsWith(clusterNameSuffix)) {
+    clusterName = clusterName.replace(clusterNameSuffix, '');
+  }
+
   return (
     <>
-      <DashboardButtonLine snapshotId={clusterId} timeConfig={timeConfig} />
+      <DashboardButtonLine
+        snapshotId={clusterId}
+        plugin={fullyQualifiedPlugins.kubernetesCluster}
+        timeConfig={timeConfig}
+        tagFilters={getFilters(clusterName)}
+      />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
         groupByTag={{ name: 'kubernetes.namespace' }}

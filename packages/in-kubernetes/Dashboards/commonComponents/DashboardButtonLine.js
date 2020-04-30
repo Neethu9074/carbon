@@ -2,9 +2,9 @@ import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import StackButton from 'in-new-components/Stack/StackButton';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 
-export default function DashboardButtonLine({ snapshotId, timeConfig }) {
+export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin }) {
   return (
     <>
       <EntityHealthIndicator
@@ -12,7 +12,7 @@ export default function DashboardButtonLine({ snapshotId, timeConfig }) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
       />
-      <StackButton id={snapshotId} timeConfig={timeConfig} />
+      <ContextGuide id={snapshotId} plugin={plugin} timeConfig={timeConfig} tagFilters={tagFilters} />
     </>
   );
 }

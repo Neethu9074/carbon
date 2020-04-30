@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
@@ -12,6 +12,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import EntityVersionList from 'in-new-components/EntityVersionList';
+import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -20,7 +21,6 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { deploymentTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
-import { plugins } from 'in-forge/constants';
 
 export default function DeploymentDashboard({ location }) {
   const props = {
@@ -86,13 +86,21 @@ function Header(props) {
 }
 
 function renderButtonLine({ deploymentId, timeConfig, result }) {
+  const clusterName = result.data?.clusterId;
+  const namespaceName = result.data?.namespace;
+  const deploymentName = result.data?.name;
   return (
     <>
-      <DashboardButtonLine snapshotId={deploymentId} timeConfig={timeConfig} />
+      <DashboardButtonLine
+        snapshotId={deploymentId}
+        timeConfig={timeConfig}
+        plugin={fullyQualifiedPlugins.kubernetesDeployment}
+        tagFilters={getFilters(clusterName, namespaceName, deploymentName)}
+      />
       <AnalyzeCallsButton
-        clusterName={get(result, ['data', 'clusterId'])}
-        namespaceName={get(result, ['data', 'namespace'])}
-        deploymentName={get(result, ['data', 'name'])}
+        clusterName={clusterName}
+        namespaceName={namespaceName}
+        deploymentName={deploymentName}
         groupByTag={{ name: 'kubernetes.pod.name' }}
         timeConfig={timeConfig}
       />

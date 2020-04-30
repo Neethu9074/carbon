@@ -18,27 +18,37 @@ export default function UpstreamDownstreamPane({
   endpointId,
   itemsApplication,
   resultApplication,
-  close
+  close,
+  tagFilters,
+  snapshotId,
+  plugin
 }) {
-  if (!items.length && !itemsApplication.length) {
-    return <EmptyPane serviceId={serviceId} endpointId={endpointId} activeTab={activeTab} />;
+  if (!items?.length && !itemsApplication?.length) {
+    return (
+      <EmptyPane serviceId={serviceId} endpointId={endpointId} activeTab={activeTab} applicationId={applicationId} />
+    );
   }
 
   return (
     <ScrollHints className={locals.pane} contentChangeMarker={items.length}>
-      <UpstreamDownstreamGroup
-        applicationId={applicationId}
-        activeTab={activeTab}
-        endpointId={endpointId}
-        items={items}
-        label={label}
-        result={result}
-        serviceId={serviceId}
-        timeConfig={timeConfig}
-        itemType={relationships.SERVICE}
-        close={close}
-      />
-      {itemsApplication.length > 0 && (
+      {items?.length > 0 && (
+        <UpstreamDownstreamGroup
+          applicationId={applicationId}
+          activeTab={activeTab}
+          endpointId={endpointId}
+          items={items}
+          label={label}
+          result={result}
+          serviceId={serviceId}
+          timeConfig={timeConfig}
+          itemType={relationships.SERVICE}
+          close={close}
+          tagFilters={tagFilters}
+          snapshotId={snapshotId}
+          plugin={plugin}
+        />
+      )}
+      {itemsApplication?.length > 0 && (
         <UpstreamDownstreamGroup
           applicationId={applicationId}
           activeTab={activeTab}
@@ -50,20 +60,25 @@ export default function UpstreamDownstreamPane({
           timeConfig={timeConfig}
           itemType={relationships.APPLICATION}
           close={close}
+          tagFilters={tagFilters}
+          snapshotId={snapshotId}
+          plugin={plugin}
         />
       )}
     </ScrollHints>
   );
 }
 
-const EmptyPane = ({ serviceId, endpointId, activeTab }) => {
+const EmptyPane = ({ serviceId, endpointId, applicationId, activeTab }) => {
   let entityType;
   if (endpointId != null) {
     entityType = 'endpoint';
   } else if (serviceId != null) {
     entityType = 'service';
-  } else {
+  } else if (applicationId != null && !serviceId && !endpointId) {
     entityType = 'application';
+  } else {
+    entityType = 'entity';
   }
 
   return (

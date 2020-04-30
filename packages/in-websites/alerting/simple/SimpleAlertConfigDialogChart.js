@@ -12,10 +12,10 @@ import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
-export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange, indexInitialSelectedTimeConfig }) {
+export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange, indexInitialSelectedTimeConfig }) {
   return (
     <ChartViewConfigurator
-      onTimeConfigChange={onTimeConfigChange}
+      onChartConfigChange={onChartConfigChange}
       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       className={locals.offset}
       framed
@@ -93,7 +93,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
 
 SimpleAlertConfigDialogChart.propTypes = {
   form: PropTypes.object.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };
 

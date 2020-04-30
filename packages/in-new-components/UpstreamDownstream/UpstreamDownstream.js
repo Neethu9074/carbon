@@ -1,36 +1,50 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import UpstreamDownstreamPresenter from 'in-new-components/UpstreamDownstream/UpstreamDownstreamPresenter';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
+import getApplications from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import getServices from 'in-subscription/application/getServices';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
-import getApplications from 'in-subscription/application/getApplications';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeConfig }) => ({
-    upstream: getStreamData({ timeConfig, applicationId, serviceId, endpointId, contextScope: relationships.UPSTREAM }),
+  ({ applicationId, serviceId, endpointId, timeConfig, tagFilters }) => ({
+    upstream: getStreamData({
+      timeConfig,
+      applicationId,
+      serviceId,
+      endpointId,
+      contextScope: relationships.UPSTREAM,
+      tagFilters,
+      tagFilterEntity: entityTypes.DESTINATION
+    }),
     downstream: getStreamData({
       timeConfig,
       applicationId,
       serviceId,
       endpointId,
-      contextScope: relationships.DOWNSTREAM
+      contextScope: relationships.DOWNSTREAM,
+      tagFilters,
+      tagFilterEntity: entityTypes.SOURCE
     }),
     upstreamApplications: getStreamDataApplication({
       timeConfig,
       applicationId,
       serviceId,
       endpointId,
-      contextScope: relationships.UPSTREAM
+      contextScope: relationships.UPSTREAM,
+      tagFilters,
+      tagFilterEntity: entityTypes.DESTINATION
     }),
     downstreamApplications: getStreamDataApplication({
       timeConfig,
       applicationId,
       serviceId,
       endpointId,
-      contextScope: relationships.DOWNSTREAM
+      contextScope: relationships.DOWNSTREAM,
+      tagFilters,
+      tagFilterEntity: entityTypes.SOURCE
     })
   }),
   function UpstreamDownstream({
@@ -44,7 +58,10 @@ export default connectTo(
     downstream,
     upstreamApplications,
     downstreamApplications,
-    close
+    close,
+    tagFilters,
+    snapshotId,
+    plugin
   }) {
     const stream = activeTabIndex === 0 ? upstream : downstream;
     const streamApplications = activeTabIndex === 0 ? upstreamApplications : downstreamApplications;
@@ -56,13 +73,16 @@ export default connectTo(
           resultApplication={streamApplications}
           activeTabIndex={activeTabIndex}
           onTabSelect={onTabSelect}
-          items={get(stream, ['data', 'items'], [])}
-          itemsApplication={get(streamApplications, ['data', 'items'], [])}
+          items={stream.data?.items}
+          itemsApplication={streamApplications.data?.items}
           timeConfig={timeConfig}
           serviceId={serviceId}
           applicationId={applicationId}
           endpointId={endpointId}
           close={close}
+          tagFilters={tagFilters}
+          snapshotId={snapshotId}
+          plugin={plugin}
         />
       </>
     );
@@ -82,8 +102,19 @@ function getStreamData({
   endpointTypes = [],
   technologies = [],
   timeConfig,
-  contextScope
+  contextScope,
+  tagFilters,
+  tagFilterEntity
 }) {
+  let tagFiltersWithEntity;
+  if (tagFilters) {
+    tagFiltersWithEntity = tagFilters.map(tagFilter => ({
+      ...tagFilter,
+      entity: tagFilterEntity,
+      stringValue: tagFilter.value
+    }));
+  }
+
   const granularity = getSparkChartGranularity(timeConfig);
   return getServices({
     pagination: { page, pageSize },
@@ -106,6 +137,7 @@ function getStreamData({
       errors: { metric: 'errors', aggregation: 'MEAN', granularity },
       maxSeverity: { metric: 'maxSeverity', aggregation: 'MAX' }
     },
+    tagFilters: tagFilters ? [...tagFiltersWithEntity] : null,
     filter: {
       label: query,
       application: applicationId,
@@ -130,8 +162,19 @@ function getStreamDataApplication({
   serviceId,
   endpointId,
   timeConfig,
-  contextScope
+  contextScope,
+  tagFilters,
+  tagFilterEntity
 }) {
+  let tagFiltersWithEntity;
+  if (tagFilters) {
+    tagFiltersWithEntity = tagFilters.map(tagFilter => ({
+      ...tagFilter,
+      entity: tagFilterEntity,
+      stringValue: tagFilter.value
+    }));
+  }
+
   const granularity = getSparkChartGranularity(timeConfig);
   return getApplications({
     pagination: { page, pageSize },
@@ -154,6 +197,7 @@ function getStreamDataApplication({
       errors: { metric: 'errors', aggregation: 'MEAN', granularity },
       maxSeverity: { metric: 'maxSeverity', aggregation: 'MAX' }
     },
+    tagFilters: tagFilters ? [...tagFiltersWithEntity] : null,
     filter: {
       label: query,
       application: applicationId,

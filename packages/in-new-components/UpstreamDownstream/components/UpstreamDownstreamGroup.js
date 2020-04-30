@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
-import { getApplicationList, getServiceList } from 'in-applications/navigation/paths';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
+import { getApplicationList, getServiceList } from 'in-applications/navigation/paths';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import { capitalize } from 'in-services/formatters/string';
 import { Ul } from 'in-new-components/lists/List';
@@ -19,7 +19,10 @@ export default function UpstreamDownstreamGroup({
   applicationId,
   serviceId,
   endpointId,
-  itemType
+  itemType,
+  tagFilters,
+  snapshotId,
+  plugin
 }) {
   const [selectedMetric, onChangeMetric] = useState('errors');
   const totalHits = result.data.totalHits;
@@ -59,24 +62,92 @@ export default function UpstreamDownstreamGroup({
       </Ul>
       <div className={locals.seeAll}>
         {itemType == relationships.APPLICATION
-          ? getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId)
-          : getSeeAllServicesLink(totalHits, activeTab, applicationId, serviceId, endpointId)}
+          ? getSeeAllApplicationsLink(
+              totalHits,
+              activeTab,
+              applicationId,
+              serviceId,
+              endpointId,
+              tagFilters,
+              snapshotId,
+              plugin
+            )
+          : getSeeAllServicesLink(
+              totalHits,
+              activeTab,
+              applicationId,
+              serviceId,
+              endpointId,
+              tagFilters,
+              snapshotId,
+              plugin
+            )}
       </div>
     </div>
   );
 }
 
-function getSeeAllApplicationsLink(totalHits, activeTab, applicationId, serviceId, endpointId) {
+function getSeeAllApplicationsLink(
+  totalHits,
+  activeTab,
+  applicationId,
+  serviceId,
+  endpointId,
+  tagFilters,
+  snapshotId,
+  plugin
+) {
+  let tagFilterEntity = activeTab === 'UPSTREAM' ? 'DESTINATION' : 'SOURCE';
+  let tagFiltersWithEntity;
+  if (tagFilters) {
+    tagFiltersWithEntity = tagFilters.map(tagFilter => ({ ...tagFilter, entity: tagFilterEntity }));
+  }
+
   return (
-    <Link href$={getApplicationList({ applicationId, serviceId, endpointId, contextScope: activeTab })}>
+    <Link
+      href$={getApplicationList({
+        applicationId,
+        serviceId,
+        endpointId,
+        contextScope: activeTab,
+        tagFilters: tagFiltersWithEntity,
+        snapshotId,
+        plugin
+      })}
+    >
       {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Applications` : 'See Application'}
     </Link>
   );
 }
 
-function getSeeAllServicesLink(totalHits, activeTab, applicationId, serviceId, endpointId) {
+function getSeeAllServicesLink(
+  totalHits,
+  activeTab,
+  applicationId,
+  serviceId,
+  endpointId,
+  tagFilters,
+  snapshotId,
+  plugin
+) {
+  let tagFilterEntity = activeTab === 'UPSTREAM' ? 'DESTINATION' : 'SOURCE';
+  let tagFiltersWithEntity;
+  if (tagFilters) {
+    tagFiltersWithEntity = tagFilters.map(tagFilter => ({ ...tagFilter, entity: tagFilterEntity }));
+  }
+
   return (
-    <Link href$={getServiceList({ applicationId, serviceId, endpointId, contextScope: activeTab })}>
+    <Link
+      href$={getServiceList({
+        applicationId,
+        serviceId,
+        endpointId,
+        contextScope: activeTab,
+        tagFilters: tagFiltersWithEntity,
+        snapshotId,
+        plugin
+      })}
+    >
       {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
     </Link>
   );

@@ -1,15 +1,17 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
+import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
@@ -17,11 +19,9 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
-import StackButton from 'in-new-components/Stack/StackButton';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
-import { plugins } from 'in-forge/constants';
 
 export default function ServiceDashboard({ location }) {
   const props = {
@@ -101,16 +101,25 @@ function renderMetaInformation({ result }) {
   );
 }
 
-function renderButtonLine(props) {
+function renderButtonLine({ snapshotId, timeConfig, result, serviceId }) {
+  const clusterName = result.data?.clusterName;
+  const namespaceName = result.data?.namespace;
+  const serviceName = result.data?.name;
   return (
     <>
-      <StackButton id={props.serviceId} timeConfig={props.timeConfig} />
+      <ContextGuide
+        id={snapshotId}
+        timeConfig={timeConfig}
+        plugin={fullyQualifiedPlugins.kubernetesService}
+        tagFilters={getFilters(clusterName, namespaceName, null, null, serviceName)}
+        serviceId={serviceId}
+      />
       <AnalyzeCallsButton
-        clusterName={get(props.result, ['data', 'clusterName'])}
-        namespaceName={get(props.result, ['data', 'namespace'])}
-        serviceName={get(props.result, ['data', 'name'])}
+        clusterName={clusterName}
+        namespaceName={namespaceName}
+        serviceName={serviceName}
         groupByTag={{ name: 'kubernetes.pod.name' }}
-        timeConfig={props.timeConfig}
+        timeConfig={timeConfig}
       />
     </>
   );

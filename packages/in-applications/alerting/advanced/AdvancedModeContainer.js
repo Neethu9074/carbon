@@ -36,7 +36,7 @@ export default function AdvancedModeContainer(props) {
     setSliderState,
     updateForm,
     applicationLabel,
-    onTimeConfigChange,
+    onChartConfigChange,
     indexInitialSelectedTimeConfig
   } = props;
 
@@ -77,7 +77,7 @@ export default function AdvancedModeContainer(props) {
                     timeConfig={timeConfig}
                     granularity={granularity}
                     onChange={onChange}
-                    onTimeConfigChange={onTimeConfigChange}
+                    onChartConfigChange={onChartConfigChange}
                     indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                   />
                 )}
@@ -89,7 +89,7 @@ export default function AdvancedModeContainer(props) {
                       granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
-                      onTimeConfigChange={onTimeConfigChange}
+                      onChartConfigChange={onChartConfigChange}
                       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                     {showInsufficientBaselineDataMessage(form) && (
@@ -120,7 +120,7 @@ export default function AdvancedModeContainer(props) {
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
-                      onTimeConfigChange={onTimeConfigChange}
+                      onChartConfigChange={onChartConfigChange}
                       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
                     />
                   </>

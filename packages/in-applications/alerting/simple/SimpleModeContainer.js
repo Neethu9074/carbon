@@ -31,7 +31,7 @@ export default function SimpleModeContainer({
   onCreate,
   setSimpleModeStep,
   updateForm,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   return (
@@ -52,7 +52,7 @@ export default function SimpleModeContainer({
                 form={form}
                 updateForm={updateForm}
                 setLogMessagesListVisible={setSliderState}
-                onTimeConfigChange={onTimeConfigChange}
+                onChartConfigChange={onChartConfigChange}
                 indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
@@ -63,7 +63,7 @@ export default function SimpleModeContainer({
                 timeConfig={timeConfig}
                 updateForm={updateForm}
                 applicationLabel={applicationLabel}
-                onTimeConfigChange={onTimeConfigChange}
+                onChartConfigChange={onChartConfigChange}
                 indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
