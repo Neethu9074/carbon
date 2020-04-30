@@ -20,29 +20,27 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
+import { alertsTabDetailsFullyQualified, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
-import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import getApplication from 'in-subscription/application/getApplication';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { alertsTab } from 'in-applications/navigation/paths';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
-  withState('revision', 'setRevision', undefined),
   withState('reload', 'triggerReload', undefined),
-  connectTo(({ revision, location }) => {
+  connectTo(({ location }) => {
     const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
     const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
-    const alertConfig$ = revision
-      ? getAlertConfig(revision.id, revision.created)
-      : getAlertConfig(alertConfigId, alertConfigCreated);
+    const alertConfig$ = getAlertConfig(alertConfigId, alertConfigCreated);
     const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
     const applicationName$ = alertConfig$.flatMap(({ applicationId }) =>
       getApplication({ id: applicationId }).map(({ data }) => data && data.label)
@@ -67,7 +65,6 @@ function Alert({
   alertConfigError,
   alertConfigVersions,
   alertConfigVersionsError,
-  setRevision,
   triggerReload,
   timeConfig,
   applicationName
@@ -80,6 +77,16 @@ function Alert({
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  function setRevision(created) {
+    mutateUrl(location => {
+      location.pathname = alertsTabDetailsFullyQualified;
+      setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
+    });
+    if (!created) {
+      triggerReload(Math.random());
+    }
+  }
+
   return (
     <>
       {dialogOpen && (
@@ -88,7 +95,7 @@ function Alert({
           formData={alertConfig}
           onClose={() => {
             setDialogOpen(false);
-            triggerReload(Math.random());
+            setRevision(null);
           }}
           editMode
         />
