@@ -17,10 +17,13 @@ export default connectTo(
   function UpstreamDownstreamButton({
     timeConfig,
     isInternalVisible,
+    snapshotId,
     endpointId,
     serviceId,
     applicationId,
-    className
+    className,
+    tagFilters,
+    plugin
   }) {
     const [activeTabIndex, onTabSelect] = useState(0);
 
@@ -33,10 +36,13 @@ export default connectTo(
               timeConfig={timeConfig}
               activeTabIndex={activeTabIndex}
               onTabSelect={onTabSelect}
+              snapshotId={snapshotId}
               serviceId={serviceId}
               applicationId={applicationId}
               endpointId={endpointId}
               close={close}
+              tagFilters={tagFilters}
+              plugin={plugin}
             />
           )}
           behindSidebar

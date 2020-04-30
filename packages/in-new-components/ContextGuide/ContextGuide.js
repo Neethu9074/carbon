@@ -5,7 +5,16 @@ import StackButton from 'in-new-components/Stack/StackButton';
 
 import locals from './ContextGuide.mless';
 
-export default function ContextGuide({ id, serviceId, applicationId, endpointId, timeConfig, productArea }) {
+export default function ContextGuide({
+  id,
+  serviceId,
+  applicationId,
+  endpointId,
+  timeConfig,
+  productArea,
+  tagFilters,
+  plugin
+}) {
   return (
     <>
       <StackButton
@@ -17,11 +26,14 @@ export default function ContextGuide({ id, serviceId, applicationId, endpointId,
         noAutoMargin
       />
       <UpstreamDownstreamButton
+        snapshotId={id}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
         className={locals.rightButton}
+        tagFilters={tagFilters}
+        plugin={plugin}
       />
     </>
   );

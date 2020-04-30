@@ -19,7 +19,10 @@ export default function UpstreamDownstreamPresenter({
   endpointId,
   close,
   resultApplication,
-  itemsApplication
+  itemsApplication,
+  tagFilters,
+  snapshotId,
+  plugin
 }) {
   const isLoading =
     (result.progress && result.progress.loading) || (resultApplication.progress && resultApplication.progress.loading);
@@ -49,6 +52,9 @@ export default function UpstreamDownstreamPresenter({
             timeConfig={timeConfig}
             endpointId={endpointId}
             close={close}
+            tagFilters={tagFilters}
+            snapshotId={snapshotId}
+            plugin={plugin}
           />
         </>
       )}

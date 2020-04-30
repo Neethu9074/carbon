@@ -1,295 +1,75 @@
 import { compose } from 'recompose';
-import theme from 'in-themes';
-import { get } from 'lodash';
-import React from 'react';
 
 import {
   applicationId as applicationIdMatrixParam,
   serviceId as serviceIdMatrixParam,
   endpointId as endpointIdMatrixParam,
   contextScope as contextScopeMatrixParam,
-  applicationListPrefix as matrixPrefix
+  tagFilters as tagFiltersMatrixParam,
+  snapshotId as snapshotIdMatrixParam,
+  plugin as pluginMatrixParam
 } from 'in-applications/navigation/matrix';
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
-import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
-import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
-import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { boundaryScopes } from 'in-applications/constants';
+import { serializeTagFilters, deserializeTagFilters } from 'in-mobile-apps/navigation/matrix';
+import ApplicationsListPresenter from 'in-applications/lists/ApplicationsListPresenter';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
-import Footer from 'in-new-components/Footer';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
-import Sticky from 'in-components/Sticky';
+import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
-import Title from 'in-components/Title';
-import Link from 'in-components/Link';
-import { role } from 'in-stores/user';
 
-import locals from './ApplicationsList.mless';
-
-const pathSegment = applicationsList;
-
-const columnDefinitions = [
-  {
-    id: 'applicationLabel',
-    label: 'Name',
-    getContent(item) {
-      return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
-        </SeverityIndicatorCellContentWrapper>
-      );
-    }
-  },
-  {
-    id: 'boundaryScope',
-    label: 'Scope',
-    sortable: false,
-    getContent(item) {
-      const href$ = getApplicationDashboard(item.application.id);
-      const iconColor = href$ && theme.lib.colors.blue800;
-      if (item.application.boundaryScope) {
-        return (
-          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-            <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
-          </Tooltip>
-        );
-      }
-      return null;
-    }
-  },
-  {
-    id: 'services',
-    label: 'Services',
-    defaultOrderDirection: 'DESC',
-    getContent(item) {
-      const count = get(item, ['metrics', 'services', 0, 1], 0);
-      return <EntityCounter count={count} />;
-    }
-  },
-  {
-    id: 'callsAgg',
-    label: 'Calls',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="SUM"
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
-          tooltipFormatter={number.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'latencyAgg',
-    label: 'Latency',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.latency}
-          metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFixed.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.detailed}
-        />
-      );
-    }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <ApplicationEntityHealthIndicatorBehavior
-          applicationId={item.application.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
-          inContentArea
-        />
-      );
-    }
-  }
-];
-
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
-  columnDefinitions,
-  defaultOrderBy: 'callsAgg',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
-});
-
-const rightHeader = role.canConfigureApplications && (
-  <Button
-    className={locals.button}
-    kind="action"
-    href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-    onClick={() => applicationOpenSubmitFormTracker()}
-    icon="lib_openclose_add_circle_outline"
-  >
-    Create Application Perspective
-  </Button>
-);
+const pathSegment = '/applications';
+const matrixPrefix = 'app.';
 
 export default compose(
   connectTo({
     timeConfig: timeConfig$
   }),
-  withUrlDependingState({
-    getPathSegment: () => applicationsList,
-    getMatrixPrefix: () => matrixPrefix,
-    boundKeys: [applicationIdMatrixParam, serviceIdMatrixParam, endpointIdMatrixParam, contextScopeMatrixParam],
-    getInitialState: () => ({
-      [applicationIdMatrixParam]: '',
-      [serviceIdMatrixParam]: '',
-      [endpointIdMatrixParam]: '',
-      [contextScopeMatrixParam]: ''
-    }),
+  withUrlState({
+    bind: [
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${applicationIdMatrixParam}`,
+        as: 'applicationId',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${serviceIdMatrixParam}`,
+        as: 'serviceId',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${endpointIdMatrixParam}`,
+        as: 'endpointId',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${contextScopeMatrixParam}`,
+        as: 'contextScope',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${snapshotIdMatrixParam}`,
+        as: 'snapshotId',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${pluginMatrixParam}`,
+        as: 'plugin',
+        initialState: ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${tagFiltersMatrixParam}`,
+        as: 'tagFilters',
+        initialState: [],
+        parser: deserializeTagFilters,
+        serializer: serializeTagFilters
+      }
+    ],
     reducerName: 'setFilter',
-    reducer: (prevState, nextState) => ({
-      [applicationIdMatrixParam]:
-        nextState[applicationIdMatrixParam] != null
-          ? nextState[applicationIdMatrixParam]
-          : prevState[applicationIdMatrixParam],
-      [serviceIdMatrixParam]:
-        nextState[serviceIdMatrixParam] != null ? nextState[serviceIdMatrixParam] : prevState[serviceIdMatrixParam],
-      [endpointIdMatrixParam]:
-        nextState[endpointIdMatrixParam] != null ? nextState[endpointIdMatrixParam] : prevState[endpointIdMatrixParam],
-      [contextScopeMatrixParam]:
-        nextState[contextScopeMatrixParam] != null
-          ? nextState[contextScopeMatrixParam]
-          : prevState[contextScopeMatrixParam]
-    })
+    reducer: (prev, next) => ({ ...prev, ...next })
   })
-)(ApplicationsList);
-
-function ApplicationsList({
-  timeConfig,
-  setFilter,
-  [applicationIdMatrixParam]: applicationId,
-  [serviceIdMatrixParam]: serviceId,
-  [endpointIdMatrixParam]: endpointId,
-  [contextScopeMatrixParam]: contextScope
-}) {
-  const scopeNotification = (applicationId || serviceId || endpointId) &&
-    contextScope && (
-      <ScopeNotification
-        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
-        productArea="application"
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        contextScope={contextScope}
-        onClose={() =>
-          setFilter({
-            [applicationIdMatrixParam]: '',
-            [serviceIdMatrixParam]: '',
-            [endpointIdMatrixParam]: '',
-            [contextScopeMatrixParam]: ''
-          })
-        }
-      />
-    );
-
-  return (
-    <Sticky header={<ViewSwitcher />}>
-      <LeftRightPadding>
-        <Title title="Applications" />
-
-        <WithEmptyStateFallback
-          getHasDataToRender={getHasDataToRender}
-          FallbackComponent={ApplicationsNoDataNotification}
-        >
-          <ServerTableWithUrlState
-            get={getTableData}
-            timeConfig={timeConfig}
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            contextScope={contextScope}
-            scopeNotification={scopeNotification}
-            rightHeader={rightHeader}
-          />
-        </WithEmptyStateFallback>
-      </LeftRightPadding>
-
-      <Footer />
-    </Sticky>
-  );
-}
-
-function getTableData({
-  query,
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
-  timeConfig,
-  applicationId,
-  serviceId,
-  endpointId,
-  contextScope
-}) {
-  return getApplicationsWithDefaults({
-    timeConfig,
-    query,
-    page,
-    pageSize,
-    orderBy,
-    orderDirection,
-    applicationId,
-    serviceId,
-    endpointId,
-    contextScope
-  });
-}
-
-function getHasDataToRender() {
-  return timeConfig$
-    .flatMap(timeConfig => getApplicationsWithDefaults({ timeConfig }))
-    .map(result => !result.data || result.data.totalHits > 0);
-}
+)(ApplicationsListPresenter);

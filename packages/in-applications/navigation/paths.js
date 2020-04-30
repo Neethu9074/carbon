@@ -8,9 +8,13 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam,
   serviceListPrefix as serviceListMatrixPrefix,
-  applicationListPrefix as applicationListMatrixPrefix
+  applicationListPrefix as applicationListMatrixPrefix,
+  tagFilters as tagFiltersMatrixParam,
+  snapshotId as matrixSnapshotId,
+  plugin as matrixPlugin
 } from 'in-applications/navigation/matrix';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
+import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -40,30 +44,84 @@ export const isApplicationsView = getRootPathPredicate(
   endpointDashboard
 );
 
-export function getApplicationList({ timeConfig, applicationId, serviceId, endpointId, contextScope }) {
+export function getApplicationList({
+  timeConfig,
+  applicationId,
+  serviceId,
+  endpointId,
+  contextScope,
+  tagFilters,
+  snapshotId,
+  plugin
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = applicationsList;
+    let tagFilter = null;
+
     setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixContextScope, contextScope);
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixSnapshotId, snapshotId);
+    setOrDeleteMatrixKey(params, applicationsList, applicationListMatrixPrefix + matrixPlugin, plugin);
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);
     }
+
+    if (tagFilters) {
+      tagFilter = tagFilter || [];
+      tagFilter.push(...tagFilters);
+    }
+
+    if (tagFilter != null) {
+      setOrDeleteMatrixKey(
+        params,
+        applicationsList,
+        applicationListMatrixPrefix + tagFiltersMatrixParam,
+        getTagFilterToUrlString(tagFilter)
+      );
+    }
   });
 }
 
-export function getServiceList({ timeConfig, applicationId, serviceId, endpointId, contextScope }) {
+export function getServiceList({
+  timeConfig,
+  applicationId,
+  serviceId,
+  endpointId,
+  contextScope,
+  tagFilters,
+  snapshotId,
+  plugin
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = servicesList;
+    let tagFilter = null;
+
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixContextScope, contextScope);
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixSnapshotId, snapshotId);
+    setOrDeleteMatrixKey(params, servicesList, serviceListMatrixPrefix + matrixPlugin, plugin);
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);
+    }
+
+    if (tagFilters) {
+      tagFilter = tagFilter || [];
+      tagFilter.push(...tagFilters);
+    }
+
+    if (tagFilter != null) {
+      setOrDeleteMatrixKey(
+        params,
+        servicesList,
+        serviceListMatrixPrefix + tagFiltersMatrixParam,
+        getTagFilterToUrlString(tagFilter)
+      );
     }
   });
 }

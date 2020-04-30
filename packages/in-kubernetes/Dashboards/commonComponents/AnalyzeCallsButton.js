@@ -27,7 +27,7 @@ export default function AnalyzeCallsButton({
   );
 }
 
-function getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName) {
+export function getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName) {
   const filters = [];
 
   if (clusterName) {
