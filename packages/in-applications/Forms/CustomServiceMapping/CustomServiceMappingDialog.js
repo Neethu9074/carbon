@@ -74,16 +74,6 @@ export default function CustomServiceMappingDialog() {
                         will be mapped to that service.
                       </DescriptionText>
 
-                      <div className={locals.addRuleButtonWrapper}>
-                        <Button
-                          kind="action"
-                          onClick={() => updateForm(form.push(getServiceConfigForm(serviceConfigs)))}
-                          icon="lib_openclose_add_circle_outline"
-                        >
-                          Add Custom Service Rule
-                        </Button>
-                      </div>
-
                       <DragAndDropRuleList
                         form={form}
                         onSave={_serviceConfigs => updateForm(_serviceConfigs)}
@@ -96,6 +86,15 @@ export default function CustomServiceMappingDialog() {
                         updateForm={updateForm}
                         setValue={setValue}
                       />
+                      <div className={locals.addRuleButtonWrapper}>
+                        <Button
+                          kind="action"
+                          onClick={() => updateForm(form.push(getServiceConfigForm(serviceConfigs)))}
+                          icon="lib_openclose_add_circle_outline"
+                        >
+                          Add Custom Service Rule
+                        </Button>
+                      </div>
                     </div>
                   )
                 }
