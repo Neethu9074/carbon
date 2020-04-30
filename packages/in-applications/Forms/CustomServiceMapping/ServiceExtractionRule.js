@@ -7,7 +7,8 @@ export default function ServiceExtractionRule({
   reorderable,
   onToggleEnable,
   isInstanaDefaultRule = false,
-  onClick,
+  onEdit,
+  onRemove,
   preview
 }) {
   return (
@@ -18,7 +19,8 @@ export default function ServiceExtractionRule({
       reorderable={reorderable}
       isInstanaDefaultRule={isInstanaDefaultRule}
       onToggleEnable={onToggleEnable}
-      onEdit={() => onClick(serviceConfig)}
+      onEdit={() => onEdit(serviceConfig)}
+      onRemove={() => onRemove(serviceConfig)}
     />
   );
 }

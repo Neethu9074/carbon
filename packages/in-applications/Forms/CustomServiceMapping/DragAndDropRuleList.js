@@ -47,7 +47,8 @@ export default class DragAndDropRuleList extends React.Component {
                         reorderable
                         serviceConfig={serviceConfig.toJS()}
                         onToggleEnable={enabled => setValue([index, 'enabled'], enabled, form)}
-                        onClick={e => this.onServiceExtractionRuleClicked(index, e)}
+                        onEdit={e => this.onServiceExtractionRuleClicked(index, e)}
+                        onRemove={() => this.props.onRemove(index)}
                         preview={getPreview(serviceConfig)}
                       />
                     </div>

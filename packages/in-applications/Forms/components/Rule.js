@@ -26,7 +26,8 @@ export default class Rule extends React.Component {
       reorderable,
       isInstanaDefaultRule,
       onToggleEnable,
-      onEdit
+      onEdit,
+      onRemove
     } = this.props;
     const { expand } = this.state;
 
@@ -54,11 +55,20 @@ export default class Rule extends React.Component {
             {isInstanaDefaultRule ? (
               <div className={locals.iconPlaceholder} />
             ) : (
-              <SvgIcon
-                className={locals.icon}
-                type="lib_actions_edit"
-                onClick={isInstanaDefaultRule ? null : () => onEdit()}
-              />
+              <>
+                <SvgIcon
+                  className={locals.icon}
+                  type="lib_actions_edit"
+                  onClick={isInstanaDefaultRule ? null : () => onEdit()}
+                />
+                {onRemove && (
+                  <SvgIcon
+                    className={locals.icon}
+                    type="lib_actions_delete"
+                    onClick={isInstanaDefaultRule ? null : () => onRemove()}
+                  />
+                )}
+              </>
             )}
             <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
             {expandableContent ? (
