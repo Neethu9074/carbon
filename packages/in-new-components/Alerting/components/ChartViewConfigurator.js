@@ -16,9 +16,9 @@ export default function ChartViewConfigurator({
   title,
   headerTransparent,
   framed = false,
-  onTimeConfigChange
+  onChartConfigChange
 }) {
-  const selectedTimeConfig = chartViewConfigs[indexInitialSelectedTimeConfig];
+  const selectedChartConfig = chartViewConfigs[indexInitialSelectedTimeConfig];
   return (
     <>
       <LightCard
@@ -30,20 +30,20 @@ export default function ChartViewConfigurator({
         headerClassName={headerTransparent ? locals.headerTransparent : null}
         header={
           <ButtonGroup
-            buttonPropsList={chartViewConfigs.map(timeConfig => ({
-              text: timeConfig.label,
-              key: timeConfig.label,
-              onClick: () => onTimeConfigChange(timeConfig)
+            buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({
+              text: chartConfig.label,
+              key: chartConfig.label,
+              onClick: () => onChartConfigChange({ ...chartConfig, index })
             }))}
-            activeKey={selectedTimeConfig.label}
+            activeKey={selectedChartConfig.label}
           />
         }
         framed={framed}
         darkFrame
       >
         {children({
-          timeConfig: createTimeConfigForWindowSize(selectedTimeConfig.windowSize),
-          granularity: selectedTimeConfig.granularity
+          timeConfig: createTimeConfigForWindowSize(selectedChartConfig.windowSize),
+          granularity: selectedChartConfig.granularity
         })}
       </LightCard>
     </>
@@ -57,5 +57,5 @@ ChartViewConfigurator.propTypes = {
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  onTimeConfigChange: PropTypes.func.isRequired
+  onChartConfigChange: PropTypes.func.isRequired
 };

@@ -44,7 +44,7 @@ function JsErrorsInteractiveChart({
   onChange,
   updateForm,
   debounceOnChange$,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
@@ -141,7 +141,7 @@ function JsErrorsInteractiveChart({
           </div>
 
           <ChartViewConfigurator
-            onTimeConfigChange={onTimeConfigChange}
+            onChartConfigChange={onChartConfigChange}
             indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
             className={locals.chartContainer}
             headerTransparent
@@ -177,7 +177,7 @@ JsErrorsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
   updateForm: PropTypes.func.isRequired
 };

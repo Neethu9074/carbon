@@ -49,7 +49,7 @@ function SlownessInteractiveChart({
   onChange,
   debounceOnChange$,
   updateForm,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
@@ -226,7 +226,7 @@ function SlownessInteractiveChart({
       </div>
 
       <ChartViewConfigurator
-        onTimeConfigChange={onTimeConfigChange}
+        onChartConfigChange={onChartConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         className={locals.chartContainer}
         headerTransparent
@@ -289,6 +289,6 @@ SlownessInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };

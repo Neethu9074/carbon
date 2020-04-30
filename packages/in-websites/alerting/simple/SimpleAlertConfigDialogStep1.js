@@ -19,7 +19,7 @@ export default function SimpleAlertConfigDialogStep1({
   onChange,
   setJsErrorsListVisible,
   updateForm,
-  onTimeConfigChange,
+  onChartConfigChange,
   indexInitialSelectedTimeConfig
 }) {
   const alertType = form.get('rule').get('alertType').value;
@@ -71,7 +71,7 @@ export default function SimpleAlertConfigDialogStep1({
       />
       <SimpleAlertConfigDialogChart
         form={form}
-        onTimeConfigChange={onTimeConfigChange}
+        onChartConfigChange={onChartConfigChange}
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       />
     </SimpleModeStepContentWrapper>

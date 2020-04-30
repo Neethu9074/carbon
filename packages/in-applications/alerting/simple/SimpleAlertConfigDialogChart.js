@@ -10,7 +10,7 @@ import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
-export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange, indexInitialSelectedTimeConfig }) {
+export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange, indexInitialSelectedTimeConfig }) {
   const applicationId = form.get('applicationId').value;
   const rule = form.get('rule').toJS();
   const tagFilters = form.get('tagFilters').value;
@@ -20,7 +20,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
 
   return (
     <ChartViewConfigurator
-      onTimeConfigChange={onTimeConfigChange}
+      onChartConfigChange={onChartConfigChange}
       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       className={locals.position}
       framed
@@ -92,7 +92,7 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
 
 SimpleAlertConfigDialogChart.propTypes = {
   form: PropTypes.object.isRequired,
-  onTimeConfigChange: PropTypes.func.isRequired,
+  onChartConfigChange: PropTypes.func.isRequired,
   indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };
 

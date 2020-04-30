@@ -13,11 +13,13 @@ import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefini
 import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
-const initialTimeConfig = 0;
+const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
-  const [granularity, setGranularity] = useState(chartViewConfigs[initialTimeConfig].granularity);
-  const [timeConfig, setTimeConfig] = useState(() => createTimeConfigForWindowSize(chartViewConfigs[0].windowSize));
+  const [granularity, setGranularity] = useState(chartViewConfigs[initialChartConfigIndex].granularity);
+  const [timeConfig, setTimeConfig] = useState(() =>
+    createTimeConfigForWindowSize(chartViewConfigs[initialChartConfigIndex].windowSize)
+  );
   const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [isSaving, setIsSaving] = useState(false);
@@ -27,7 +29,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       updateForm={setForm}
       form={form}
       onChange={createOnChange(setForm, form)}
-      onTimeConfigChange={({ windowSize, granularity }) => {
+      onChartConfigChange={({ windowSize, granularity }) => {
         setTimeConfig(createTimeConfigForWindowSize(windowSize));
         setGranularity(granularity);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));

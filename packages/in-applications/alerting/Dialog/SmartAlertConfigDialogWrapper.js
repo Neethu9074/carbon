@@ -18,12 +18,12 @@ import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
-const initialTimeConfigIndex = 0;
+const initialChartConfigIndex = 0;
 
 export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
-  const [granularity, setGranularity] = useState(chartViewConfigs[initialTimeConfigIndex].granularity);
+  const [granularity, setGranularity] = useState(chartViewConfigs[initialChartConfigIndex].granularity);
   const [timeConfig, setTimeConfig] = useState(() =>
-    createTimeConfigForWindowSize(chartViewConfigs[initialTimeConfigIndex].windowSize)
+    createTimeConfigForWindowSize(chartViewConfigs[initialChartConfigIndex].windowSize)
   );
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
@@ -35,7 +35,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       updateForm={setForm}
       granularity={granularity}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
-      onTimeConfigChange={({ windowSize, granularity }) => {
+      onChartConfigChange={({ windowSize, granularity }) => {
         setTimeConfig(createTimeConfigForWindowSize(windowSize));
         setGranularity(granularity);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
