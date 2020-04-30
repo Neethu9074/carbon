@@ -86,30 +86,31 @@ export default function SimpleAlertConfigDialogChart({ form, onTimeConfigChange,
             </>
           )}
           renderStatusCode={() => (
-        <>
-          {hasStatusCodeSelected(form) ? (
-            <div className={locals.placeholder}>
-              <StatusCodeAlertingBarChart
-                applicationId={applicationId}
-                statusCodeStart={rule.statusCodeStart}
-                statusCodeEnd={rule.statusCodeEnd}
-                timeConfig={timeConfig}
-                tagFilters={tagFilters}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
-                boundaryScope={boundaryScope}
-                alertsPreviewEnabled
-                canReload
-              />
-            </div>
-          ) : (
-            <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
+            <>
+              {hasStatusCodeSelected(form) ? (
+                <div className={locals.placeholder}>
+                  <StatusCodeAlertingBarChart
+                    applicationId={applicationId}
+                    statusCodeStart={rule.statusCodeStart}
+                    statusCodeEnd={rule.statusCodeEnd}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={granularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                    boundaryScope={boundaryScope}
+                    alertsPreviewEnabled
+                    canReload
+                  />
+                </div>
+              ) : (
+                <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
+              )}
+            </>
           )}
-        </>
-      )}
         />
       )}
+    </ChartViewConfigurator>
   );
 }
 
