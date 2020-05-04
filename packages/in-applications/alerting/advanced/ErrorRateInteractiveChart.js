@@ -123,7 +123,6 @@ function ErrorRateInteractiveChart({
         indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
         className={locals.chartContainer}
         headerTransparent
-        title="Last 24 hours"
       >
         {({ timeConfig, granularity }) => (
           <ErrorRateAlertingBarChart

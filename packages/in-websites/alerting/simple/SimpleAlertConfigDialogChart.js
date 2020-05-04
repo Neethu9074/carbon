@@ -19,7 +19,6 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
       className={locals.offset}
       framed
-      title="Last 24 hours"
     >
       {({ timeConfig, granularity }) => (
         <AlertTypeSwitch
