@@ -8,6 +8,7 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="ARN">{data.get('arn')}</DescriptionItem>
+      <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
     </DescriptionList>
   );
 }

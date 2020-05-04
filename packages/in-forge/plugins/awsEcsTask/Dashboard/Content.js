@@ -1,5 +1,8 @@
 import React from 'react';
 
-export default function AwsEcsTaskDashboard() {
-  return <div>AWS ECS Task Dashboard</div>;
+import DashboardContainerList from './DashboardContainerList';
+
+export default function AwsEcsTaskDashboard({ snapshot }) {
+  const snapshotId = snapshot.get('id');
+  return <DashboardContainerList snapshotId={snapshotId} />;
 }
