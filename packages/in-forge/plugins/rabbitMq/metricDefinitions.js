@@ -1,5 +1,5 @@
 import { number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -38,7 +38,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'fd_used'),
+    metric: getMetricMatchDefinition('node_map', 'fd_used', 'Node'),
     label: 'File descriptors used',
     min: 0,
     category: ['Nodes'],
@@ -46,7 +46,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'fd_total'),
+    metric: getMetricMatchDefinition('node_map', 'fd_total', 'Node'),
     label: 'Total file descriptors',
     min: 0,
     category: ['Nodes'],
@@ -54,7 +54,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'mem_used'),
+    metric: getMetricMatchDefinition('node_map', 'mem_used', 'Node'),
     label: 'Memory Used',
     min: 0,
     category: ['Nodes'],
@@ -62,7 +62,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'mem_limit'),
+    metric: getMetricMatchDefinition('node_map', 'mem_limit', 'Node'),
     label: 'Memory limit',
     min: 0,
     category: ['Nodes'],
@@ -70,7 +70,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'proc_used'),
+    metric: getMetricMatchDefinition('node_map', 'proc_used', 'Node'),
     label: 'Erlang processes used',
     min: 0,
     category: ['Nodes'],
@@ -78,7 +78,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'proc_total'),
+    metric: getMetricMatchDefinition('node_map', 'proc_total', 'Node'),
     label: 'Maximum number of Erlang processes',
     min: 0,
     category: ['Nodes'],
@@ -86,7 +86,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'disk_free'),
+    metric: getMetricMatchDefinition('node_map', 'disk_free', 'Node'),
     label: 'Disk free space',
     min: 0,
     category: ['Nodes'],
@@ -94,7 +94,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'disk_free_limit'),
+    metric: getMetricMatchDefinition('node_map', 'disk_free_limit', 'Node'),
     label: 'Disk alarm threshold',
     min: 0,
     category: ['Nodes'],
@@ -102,7 +102,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'sockets_total'),
+    metric: getMetricMatchDefinition('node_map', 'sockets_total', 'Node'),
     label: 'Total sockets',
     min: 0,
     category: ['Nodes'],
@@ -110,7 +110,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('node_map', 'sockets_used'),
+    metric: getMetricMatchDefinition('node_map', 'sockets_used', 'Node'),
     label: 'Sockets used',
     min: 0,
     category: ['Nodes'],
@@ -118,7 +118,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('queue_map', 'messages_ready'),
+    metric: getMetricMatchDefinition('queue_map', 'messages_ready', 'Queue'),
     label: 'Messages ready',
     min: 0,
     category: ['Queues'],
@@ -126,7 +126,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('queue_map', 'messages_unacknowledged'),
+    metric: getMetricMatchDefinition('queue_map', 'messages_unacknowledged', 'Queue'),
     label: 'Messages unacknowledged',
     min: 0,
     category: ['Queues'],
@@ -134,7 +134,7 @@ export default [
     isAvailable
   },
   {
-    metric: getMetricMatch('queue_map', 'messages'),
+    metric: getMetricMatchDefinition('queue_map', 'messages', 'Queue'),
     label: 'Messages total',
     min: 0,
     category: ['Queues'],

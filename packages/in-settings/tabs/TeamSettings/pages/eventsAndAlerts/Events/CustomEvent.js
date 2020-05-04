@@ -1,11 +1,11 @@
 import React from 'react';
 
 import {
-  createCustomSytemRuleBasedEventSpecification,
+  createCustomSystemRuleBasedEventSpecification,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  createCustomSytemRuleBasedEventSpecificationForEntityVerification
+  createCustomSystemRuleBasedEventSpecificationForEntityVerification
 } from 'in-api/eventSpecifications';
 import {
   dataSourceSystem,
@@ -17,6 +17,7 @@ import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { fromDynamicMetricStringValue } from 'in-sdk/metrics/metrics';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -93,13 +94,10 @@ const Form = entityForm(function DetailsForm(props) {
 });
 
 function save(event, form) {
-  const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
-  const query = serializeQuery(form);
   const isTriggering = form.get('triggering').value;
-  const severity = form.get('severity') ? Number(form.get('severity').value) : 0;
-  const entityType = form.get('entityType') ? form.get('entityType').value : null;
+  const severity = Number(form.get('severity')?.value ?? 0);
+  const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
-  const systemRule = form.get('systemRule') && form.get('systemRule').value;
 
   submitEventTracker({
     scopeType,
@@ -108,68 +106,86 @@ function save(event, form) {
     severity: getSeverityText(severity)
   });
 
+  const eventSpecification = getEventSpecification(event, form);
+  return saveCustomEventSpecification(eventSpecification);
+}
+
+function getEventSpecification(event, form) {
+  const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
+  const query = serializeQuery(form);
+
   if (ruleType === 'system') {
+    const systemRule = form.get('systemRule')?.value;
+
     if (systemRule === entityVerification.id) {
-      return saveCustomEventSpecification(
-        createCustomSytemRuleBasedEventSpecificationForEntityVerification(
-          event ? event.get('id') : null,
-          form.get('name').value,
-          'host',
-          query,
-          form.get('triggering').value,
-          form.get('description').value,
-          form.get('gracePeriod').value,
-          event ? event.get('enabled') : true,
-          form.get('severity') ? Number(form.get('severity').value) : 0,
-          form.get('matchingEntityType') ? form.get('matchingEntityType').value : null,
-          form.get('matchingOperator') ? form.get('matchingOperator').value : null,
-          form.get('matchingEntityLabel') ? form.get('matchingEntityLabel').value : null,
-          form.get('offlineDuration') ? Number(form.get('offlineDuration').value) : null
-        )
+      return createCustomSystemRuleBasedEventSpecificationForEntityVerification(
+        event ? event.get('id') : null,
+        form.get('name').value,
+        'host',
+        query,
+        form.get('triggering').value,
+        form.get('description').value,
+        form.get('gracePeriod').value,
+        event ? event.get('enabled') : true,
+        Number(form.get('severity')?.value ?? 0),
+        form.get('matchingEntityType')?.value ?? null,
+        form.get('matchingOperator')?.value ?? null,
+        form.get('matchingEntityLabel')?.value ?? null,
+        Number(form.get('offlineDuration')?.value ?? 0)
       );
     }
 
-    return saveCustomEventSpecification(
-      createCustomSytemRuleBasedEventSpecification(
-        event ? event.get('id') : null,
-        form.get('name').value,
-        // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
-        // attribute at all but the back end validation requires a value.
-        'any',
-        query,
-        form.get('triggering').value,
-        form.get('description').value,
-        form.get('gracePeriod').value,
-        event ? event.get('enabled') : true,
-        ruleType,
-        form.get('severity') ? Number(form.get('severity').value) : 0,
-        form.get('systemRule') ? form.get('systemRule').value : null
-      )
+    return createCustomSystemRuleBasedEventSpecification(
+      event ? event.get('id') : null,
+      form.get('name').value,
+      // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
+      // attribute at all but the back end validation requires a value.
+      'any',
+      query,
+      form.get('triggering').value,
+      form.get('description').value,
+      form.get('gracePeriod').value,
+      event ? event.get('enabled') : true,
+      ruleType,
+      Number(form.get('severity')?.value ?? 0),
+      form.get('systemRule')?.value ?? null
     );
   } else {
-    const formatterType = form.get('formatter') ? form.get('formatter').value : null;
-    let conditionValue = Number(form.get('conditionValue').value);
+    const formatterType = form.get('formatter')?.value ?? null;
+    let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
     conditionValue = unmapConditionValue(conditionValue, formatterType);
 
-    return saveCustomEventSpecification(
-      createCustomThresholdBasedEventSpecification(
-        event ? event.get('id') : null,
-        form.get('name').value,
-        form.get('entityType') ? form.get('entityType').value : null,
-        query,
-        form.get('triggering').value,
-        form.get('description').value,
-        form.get('gracePeriod').value,
-        event ? event.get('enabled') : true,
-        ruleType,
-        form.get('metricName') ? form.get('metricName').value : null,
-        form.get('rollup') ? Number(form.get('rollup').value) : null,
-        form.get('window') ? Number(form.get('window').value) : null,
-        form.get('aggregation') ? form.get('aggregation').value : null,
-        form.get('conditionOperator') ? form.get('conditionOperator').value : null,
-        conditionValue,
-        form.get('severity') ? Number(form.get('severity').value) : 0
-      )
+    let metricName = form.get('metricName')?.value ?? null;
+    let metricPattern = null;
+    if (form.containsKey('metricPatternOperator') && form.containsKey('metricPatternPlaceholder')) {
+      const metric = fromDynamicMetricStringValue(metricName);
+      metricPattern = {
+        prefix: metric.prefix,
+        postfix: metric.postfix,
+        operator: form.get('metricPatternOperator').value,
+        placeholder: form.get('metricPatternPlaceholder').value
+      };
+      metricName = null;
+    }
+
+    return createCustomThresholdBasedEventSpecification(
+      event ? event.get('id') : null,
+      form.get('name').value,
+      form.get('entityType')?.value ?? null,
+      query,
+      form.get('triggering').value,
+      form.get('description').value,
+      form.get('gracePeriod').value,
+      event ? event.get('enabled') : true,
+      ruleType,
+      metricName,
+      metricPattern,
+      form.get('rollup') ? Number(form.get('rollup').value) : null,
+      form.get('window') ? Number(form.get('window').value) : null,
+      form.get('aggregation')?.value ?? null,
+      form.get('conditionOperator')?.value ?? null,
+      conditionValue,
+      Number(form.get('severity')?.value ?? 0)
     );
   }
 }
