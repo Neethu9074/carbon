@@ -70,31 +70,6 @@ export function getEntityTypeOptions() {
     });
 }
 
-export function formatterTypeToLabel(formatterType) {
-  switch (formatterType) {
-    case 'MILLIS':
-      return 'ms';
-    case 'MICROS':
-      return 'µs';
-    case 'SECONDS':
-      return 's';
-    case 'MINUTES':
-      return 'min';
-    case 'PERCENTAGE':
-      return '%';
-    case 'RATE':
-      return '/s';
-    case 'BYTE_RATE':
-      return 'Bytes/s';
-    case 'BYTES':
-      return 'Bytes';
-    case 'UNDEFINED':
-    case 'NUMBER':
-    default:
-      return '';
-  }
-}
-
 export function formatterTypeToDefinition(formatterType) {
   switch (formatterType) {
     case 'MILLIS':
@@ -111,8 +86,12 @@ export function formatterTypeToDefinition(formatterType) {
       return 'Rate per second';
     case 'BYTE_RATE':
       return 'Bytes per second';
+    case 'KILO_BYTE_RATE':
+      return 'Kilobytes per second';
     case 'BYTES':
       return 'Bytes';
+    case 'KILO_BYTES':
+      return 'Kilobytes';
     case 'NUMBER':
       return 'Count';
     case 'UNDEFINED':

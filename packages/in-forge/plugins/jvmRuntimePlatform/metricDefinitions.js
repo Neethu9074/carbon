@@ -1,5 +1,9 @@
 import { siPrefix, micros, millis, number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getMetricMatch, getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
+
+function getLabel(postfix) {
+  return (snapshot, match) => (match?.length > 1 ? `${match[1]} ${postfix}` : postfix);
+}
 
 export default [
   {
@@ -27,27 +31,22 @@ export default [
     formatter: bytes
   },
   {
-    metric: getMetricMatch('gc', 'time'),
-    label(snapshot, metricMatch) {
-      // TODO: use correct labeling
-      return metricMatch + 'Time';
-    },
+    metric: getMetricMatchDefinition('gc', 'time', 'Garbage Collection'),
+    label: getLabel('Time'),
+    category: ['GC'],
     min: 0,
     formatter: millis.forcedFixedCompact
   },
   {
-    metric: getMetricMatch('gc', 'inv'),
-    label(snapshot, metricMatch) {
-      // TODO: use correct labeling
-      return metricMatch + 'Invocations';
-    },
+    metric: getMetricMatchDefinition('gc', 'inv', 'Garbage Collection'),
+    label: getLabel('Invocations'),
+    category: ['GC'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('jmx'),
+    metric: getMetricMatch('jmx'), // custom metric
     label(snapshot, metricMatch) {
-      // TODO: use correct labeling
       return metricMatch;
     },
     min: 0,
@@ -56,13 +55,13 @@ export default [
   {
     metric: 'threads.deadlocked',
     label: 'Number of threads deadlocked',
+    category: ['Threads'],
     formatter: number
   },
   {
-    metric: getMetricMatch('pools', 'Perm Gen'),
-    label(snapshot, metricMatch) {
-      return metricMatch + ' Perm Gen';
-    },
+    metric: getMetricMatchDefinition('pools', 'Perm Gen', 'Pool'),
+    label: getLabel('Perm Gen'),
+    category: ['Pools'],
     formatter: bytes
   }
   // TODO: Implement MemoryPoolsTable metricss

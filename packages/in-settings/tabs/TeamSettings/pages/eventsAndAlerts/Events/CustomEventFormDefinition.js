@@ -1,9 +1,15 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
+import {
+  getAllBuiltInMetrics,
+  isBuiltInPlainMetric,
+  isMetricPercentile,
+  isBuiltInDynamicMetric,
+  toDynamicMetricStringValue
+} from 'in-sdk/metrics';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
-import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { isBlank } from 'in-services/util/string';
@@ -31,9 +37,9 @@ export function createEventFormDefinition(event, isCreate) {
   const mutableEvent = getMutableEvent(event);
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
-  const { ruleType, metricName, severity } = ruleAttributes;
+  const { ruleType, severity } = ruleAttributes;
 
-  const dataSource = getDataSourceFromEventSpecification(ruleType, entityType, metricName);
+  const dataSource = getDataSourceFromEventSpecification(entityType, ruleAttributes);
   const { applyOn, applicationName, applicationIds } = isCreate
     ? { applyOn: null, applicationName: null, applicationIds: [] }
     : parseQuery(query);
@@ -122,6 +128,8 @@ function putAllDataSourceFields(form, event) {
   const { entityType } = mutableEvent;
   const {
     metricName,
+    metricPlaceholderValue,
+    metricPlaceholderOperator,
     metricLabel,
     metricFormat,
     conditionOperator,
@@ -132,7 +140,7 @@ function putAllDataSourceFields(form, event) {
 
   // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
   if (event && formatter === 'UNDEFINED') {
-    const metricList = getPlainMetricList(entityType);
+    const metricList = getAllBuiltInMetrics(entityType);
     const metricItem = find(metricList, _metric => _metric.value === metricName);
 
     if (metricItem) {
@@ -166,6 +174,7 @@ function putAllDataSourceFields(form, event) {
         }
       })
     )
+
     .put(
       'conditionOperator',
       createField({
@@ -221,7 +230,33 @@ function putAllDataSourceFields(form, event) {
     form = putWindowField(form, event);
     form = putAggregationField(form, event);
   }
+
+  if (isBuiltInDynamicMetric(entityType, metricName)) {
+    form = putMetricPatternOperator(form, metricPlaceholderOperator);
+    form = putMetricPatternPlaceholder(form, metricPlaceholderValue);
+  }
+
   return form;
+}
+
+export function putMetricPatternOperator(form, metricPlaceholderOperator) {
+  return form.put(
+    'metricPatternOperator',
+    createField({
+      value: metricPlaceholderOperator ?? '',
+      validator: notBlankValidator
+    })
+  );
+}
+
+export function putMetricPatternPlaceholder(form, metricPlaceholderValue) {
+  return form.put(
+    'metricPatternPlaceholder',
+    createField({
+      value: metricPlaceholderValue ?? '',
+      validator: notBlankValidator
+    })
+  );
 }
 
 function putAllEntityVerificationFields(form, event) {
@@ -290,6 +325,23 @@ export function putAggregationField(form, event) {
   );
 }
 
+function removeAllDataSourceFields(form) {
+  form = removeAllEntityVerificationFields(form);
+  form = removeAllMetricPatternFields(form);
+  return form
+    .remove('entityType')
+    .remove('metricName')
+    .remove('metricPatternOperator')
+    .remove('metricPatternPlaceholder')
+    .remove('conditionOperator')
+    .remove('conditionValue')
+    .remove('formatter')
+    .remove('label')
+    .remove('rollup')
+    .remove('window')
+    .remove('aggregation');
+}
+
 function removeAllEntityVerificationFields(form) {
   return form
     .remove('matchingEntityType')
@@ -298,17 +350,8 @@ function removeAllEntityVerificationFields(form) {
     .remove('offlineDuration');
 }
 
-function removeAllDataSourceFields(form) {
-  return form
-    .remove('entityType')
-    .remove('metricName')
-    .remove('conditionOperator')
-    .remove('conditionValue')
-    .remove('formatter')
-    .remove('label')
-    .remove('rollup')
-    .remove('window')
-    .remove('aggregation');
+function removeAllMetricPatternFields(form) {
+  return form.remove('metricPatternOperator').remove('metricPatternPlaceholder');
 }
 
 function putSystemRuleSelection(form, ruleAttributes, systemRules) {
@@ -365,6 +408,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
     form = form.remove('systemRule');
     form = removeAllEntityVerificationFields(form);
   } else if (previousDataSource) {
+    form = removeAllMetricPatternFields(form);
     form = form.updateIn(['entityType'], field => field.setValue(null));
     form = form.updateIn(['metricName'], field => field.setValue(null));
   }
@@ -448,12 +492,16 @@ export function removeQueryFields(form) {
   return form.remove('query').remove('validationResult');
 }
 
-export function getDataSourceFromEventSpecification(ruleType, entityType, metricName) {
+export function getDataSourceFromEventSpecification(entityType, ruleAttributes) {
+  const { ruleType, metricName } = ruleAttributes;
+
   if (ruleType === 'system' || ruleType === ruleTypeEntityVerification) {
     return dataSourceSystem;
   }
   if (entityType && metricName) {
-    return isBuiltInMetric(entityType, metricName) ? dataSourceBuiltIn : dataSourceCustom;
+    return isBuiltInPlainMetric(entityType, metricName) || isBuiltInDynamicMetric(entityType, metricName)
+      ? dataSourceBuiltIn
+      : dataSourceCustom;
   }
 }
 
@@ -470,6 +518,8 @@ function getRuleAttributes(event) {
 
   let ruleType,
     metricName,
+    metricPlaceholderValue,
+    metricPlaceholderOperator,
     rollup,
     window,
     aggregation,
@@ -485,7 +535,17 @@ function getRuleAttributes(event) {
     offlineDuration;
   if (rules && rules.length === 1) {
     ruleType = rules[0].ruleType;
-    metricName = rules[0].metricName;
+
+    if (rules[0].metricName) {
+      metricName = rules[0].metricName;
+    } else if (rules[0].metricPattern) {
+      const metricPattern = rules[0].metricPattern;
+      metricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
+      metricName = `${metricPattern.prefix}.*.${metricPattern.postfix}`;
+      metricPlaceholderValue = metricPattern.placeholder;
+      metricPlaceholderOperator = metricPattern.operator;
+    }
+
     rollup = rules[0].rollup;
     window = rules[0].window;
     aggregation = rules[0].aggregation;
@@ -511,6 +571,8 @@ function getRuleAttributes(event) {
   return {
     ruleType,
     metricName,
+    metricPlaceholderValue,
+    metricPlaceholderOperator,
     rollup,
     window,
     aggregation,
@@ -528,6 +590,10 @@ function getRuleAttributes(event) {
 }
 
 function getRuleAttribute(event, key, fallback) {
+  if (!event) {
+    return fallback;
+  }
+
   const fromRules = event.getIn(['rules', '0', key]);
   if (fromRules != null) {
     return fromRules;

@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { getPlainMetricList } from 'in-sdk/metrics';
+import { getAllBuiltInMetrics } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
 import locals from './BuiltInMetricSelector.mless';
 
 export default function BuiltInMetricSelector({ id, plugin, onChange, value, clearable = true }) {
-  const metricsList = getPlainMetricList(plugin);
-
+  const metricsList = getAllBuiltInMetrics(plugin);
   return (
     <ComboBox
       name={id}

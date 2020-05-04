@@ -425,6 +425,14 @@ function isByteRateFormatter(numberFormatter) {
   );
 }
 
+function isKiloByteRateFormatter(numberFormatter) {
+  return (
+    numberFormatter === kiloBytes.perSecond ||
+    numberFormatter === kiloBytesZeroDecimalPlaces ||
+    numberFormatter === kiloBytesTwoDecimalPlaces
+  );
+}
+
 export function numberFormatterToFormatterType(numberFormatter) {
   if (isMillisFormatter(numberFormatter)) {
     return 'MILLIS';
@@ -438,10 +446,14 @@ export function numberFormatterToFormatterType(numberFormatter) {
     return 'RATE';
   } else if (isByteRateFormatter(numberFormatter)) {
     return 'BYTE_RATE';
+  } else if (isKiloByteRateFormatter(numberFormatter)) {
+    return 'KILO_BYTE_RATE';
   } else if (numberFormatter === number) {
     return 'NUMBER';
   } else if (numberFormatter === bytes) {
     return 'BYTES';
+  } else if (numberFormatter === kiloBytes) {
+    return 'KILO_BYTES';
   } else {
     return 'UNDEFINED';
   }
@@ -458,8 +470,12 @@ export function valueWithFormatterToReadableString(value, valueFormat) {
     return millis.compact(value);
   } else if (valueFormat === 'BYTES') {
     return bytes.detailed(value);
+  } else if (valueFormat === 'KILO_BYTES') {
+    return kiloBytes.detailed(value);
   } else if (valueFormat === 'BYTE_RATE') {
     return bytes.perSecond.detailed(value);
+  } else if (valueFormat === 'KILO_BYTE_RATE') {
+    return kiloBytes.perSecond.detailed(value);
   } else if (valueFormat === 'RATE') {
     return number.perSecond.detailed(value);
   }

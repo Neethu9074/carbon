@@ -1,5 +1,5 @@
 import { millis, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -8,62 +8,81 @@ export default [
       'threadPool.totalThreads',
       'threadPool.hoggingThreads',
       'threadPool.standbyThreads',
-      'threadPool.stuckThreads',
-
+      'threadPool.stuckThreads'
+    ],
+    labels: ['Idle Threads', 'Total Threads', 'Hogging Threads', 'Stand by Threads', 'Stuck Threads'],
+    category: ['Thread Pools'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
       'serverLogMessages.warnings',
       'serverLogMessages.errors',
       'serverLogMessages.alerts',
       'serverLogMessages.criticals',
-      'serverLogMessages.emergencies',
-
-      getMetricMatch('webApps', 'activeSessions'),
-      getMetricMatch('webApps', 'createdSessions'),
-
-      getMetricMatch('datasources', 'availableConnections'),
-      getMetricMatch('datasources', 'currentActiveConnections'),
-      getMetricMatch('datasources', 'connectionsInPool'),
-      getMetricMatch('datasources', 'requestsWaitingForConnection'),
-      getMetricMatch('datasources', 'connectionsCreated'),
-      getMetricMatch('datasources', 'leakedConnections'),
-      getMetricMatch('datasources', 'stateCode'),
-
-      getMetricMatch('jmsDestinations', 'messagesPendingCount'),
-      getMetricMatch('jmsDestinations', 'messagesCurrentCount'),
-      getMetricMatch('jmsDestinations', 'messagesReceivedCount'),
-
-      getMetricMatch('servlets', 'requests')
+      'serverLogMessages.emergencies'
+    ],
+    labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
+    category: ['Server Log Messages'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getMetricMatchDefinition('webApps', 'activeSessions', 'Web App'),
+      getMetricMatchDefinition('webApps', 'createdSessions', 'Web App')
+    ],
+    labels: ['Active Sessions', 'Created Sessions'],
+    category: ['Web Apps'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getMetricMatchDefinition('datasources', 'availableConnections', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'currentActiveConnections', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'connectionsInPool', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'requestsWaitingForConnection', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'connectionsCreated', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'leakedConnections', 'Data Source'),
+      getMetricMatchDefinition('datasources', 'stateCode', 'Data Source')
     ],
     labels: [
-      'Idle Threads',
-      'Total Threads',
-      'Hogging Threads',
-      'Stand by Threads',
-      'Stuck Threads',
-      'Warning',
-      'Error',
-      'Alert',
-      'Critical',
-      'Emergency',
-      'Active Sessions',
-      'Created Sessions',
       'Available Connections',
       'Current Active Connections',
       'Connections in Pool',
       'Requests Waiting for Connection',
       'Connections Created',
       'Leaked Connections',
-      'State code',
-      'Pending Messages',
-      'Current Messages ',
-      'Received Messages',
-      'Requests'
+      'State code'
     ],
+    category: ['Data Sources'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('servlets', 'avgResponseTime'),
+    metrics: [
+      getMetricMatchDefinition('jmsDestinations', 'messagesPendingCount', 'JMS Destination'),
+      getMetricMatchDefinition('jmsDestinations', 'messagesCurrentCount', 'JMS Destination'),
+      getMetricMatchDefinition('jmsDestinations', 'messagesReceivedCount', 'JMS Destination')
+    ],
+    labels: ['Pending Messages', 'Current Messages ', 'Received Messages'],
+    category: ['JMS'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getMetricMatchDefinition('servlets', 'requests', 'Servlet')],
+    labels: ['Requests'],
+    category: ['Servlets'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatchDefinition('servlets', 'avgResponseTime', 'Servlet'),
     label: 'Average Response Time',
+    category: ['Servlets'],
     min: 0,
     formatter: millis
   }
