@@ -8,6 +8,8 @@ import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProcessTopList.mless';
+import Tooltip from '../../../../in-components/Tooltip';
+import { shorten } from 'in-services/util/string';
 
 const cols = [
   {
@@ -34,7 +36,12 @@ const cols = [
       },
       withHierarchy: true,
       getFallbackContent(row) {
-        return <span className={locals.label}>{row.gpuProcess.get('name')}</span>;
+        const processName = row.gpuProcess.get('name');
+        return (
+          <Tooltip content={processName}>
+            <span className={locals.label}>{shorten(processName, 100)}</span>
+          </Tooltip>
+        );
       },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {
