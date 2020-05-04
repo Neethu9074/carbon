@@ -16,6 +16,9 @@ const store = createStore({
 export const navigationParameters = store.observable;
 export const navigationParameters$ = navigationParameters;
 
+// Synchronously set the page name to ensure that the page load beacon does carry the right page name.
+ineum('page', history.location.pathname);
+
 history.listen(location => {
   ineum('page', location.pathname);
   store.mutateTo(cloneLocation(location));
