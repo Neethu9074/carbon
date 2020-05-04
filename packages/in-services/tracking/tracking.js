@@ -30,9 +30,6 @@ export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 
-export const CONNECTION_LOST = 'connection.lost';
-export const CONNECTION_ESTABLISHED = 'connection.established';
-
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
