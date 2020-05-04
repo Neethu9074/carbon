@@ -1,15 +1,6 @@
 import React, { Fragment } from 'react';
 
-import {
-  percentage,
-  bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  kiloBytesTwoDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  withSiMultiplyPrefixZeroDecimalPlaces,
-  withSiMultiplyPrefixThreeDecimalPlaces
-} from 'in-services/formatters/number';
+import { percentage, bytes, kiloBytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -60,7 +51,7 @@ const capacityColumn = {
     getValue(row) {
       return row.filesystem.get('capacity');
     },
-    getContent: kiloBytesTwoDecimalPlaces
+    getContent: kiloBytes.detailed
   }
 };
 const usedColumn = {
@@ -89,7 +80,7 @@ const leakedColumn = {
     getMetricName(row) {
       return `fs.${row.key}.leaked`;
     },
-    getContent: kiloBytesTwoDecimalPlaces,
+    getContent: kiloBytes.detailed,
     getTimeWindowAggregation() {
       return 'mean';
     }
@@ -168,8 +159,8 @@ function getDetails(row) {
           y1={{
             min: 0,
             max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
-            formatter: kiloBytesZeroDecimalPlaces,
-            tooltipFormatter: kiloBytesTwoDecimalPlaces,
+            formatter: kiloBytes.detailed,
+            tooltipFormatter: kiloBytes.detailed,
             metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
             labels: ['Free', 'Leaked'],
             type: 'line'
@@ -181,7 +172,7 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+            formatter: withSiMultiplyPrefixThreeDecimalPlaces,
             tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
             metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
             labels: ['Reads/s', 'Writes/s'],
@@ -189,10 +180,10 @@ function getDetails(row) {
           }}
           y2={{
             min: 0,
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
+            formatter: bytes.detailed,
+            tooltipFormatter: bytes.detailed,
             metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
-            labels: ['Bytes Read/s', 'Bytes Write/s'],
+            labels: ['Bytes Read/s', 'Bytes Written/s'],
             type: 'line'
           }}
         />
@@ -209,7 +200,7 @@ function getDetails(row) {
               labels: ['Inode Usage'],
               type: 'line',
               formatter: percentage,
-              tooltipFormatter: percentageZeroDecimalPlaces
+              tooltipFormatter: percentage.compact
             }}
             y2={{
               min: 0,
@@ -217,7 +208,7 @@ function getDetails(row) {
               metrics: ['fs.' + row.key + '.ifree'],
               labels: ['Inode Free'],
               type: 'line',
-              formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces,
               tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
             }}
           />
