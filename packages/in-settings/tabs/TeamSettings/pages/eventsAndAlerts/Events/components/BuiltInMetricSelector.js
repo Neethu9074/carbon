@@ -8,24 +8,19 @@ import locals from './BuiltInMetricSelector.mless';
 export default function BuiltInMetricSelector({ id, plugin, onChange, value, clearable = true }) {
   const metricsList = getAllBuiltInMetrics(plugin);
   return (
-    <ComboBox
-      name={id}
-      value={value}
-      options={limitMetricDefinitionItemWidth(metricsList)}
-      onChange={onChange}
-      clearable={clearable}
-    />
+    <ComboBox name={id} value={value} options={formatItem(metricsList)} onChange={onChange} clearable={clearable} />
   );
 }
 
-function limitMetricDefinitionItemWidth(metricsList) {
+function formatItem(metricsList) {
   return metricsList.map(metricDef => {
-    if (metricDef.origLabel) {
-      // ensure this item was not already wrapped
-      return metricDef;
-    }
     metricDef.origLabel = metricDef.label;
-    metricDef.label = <span className={locals.item}>{metricDef.label}</span>;
+    metricDef.label = (
+      <div className={locals.item}>
+        {metricDef.label}
+        <span className={locals.subtleMetric}>({metricDef.metricLabel})</span>
+      </div>
+    );
     return metricDef;
   });
 }

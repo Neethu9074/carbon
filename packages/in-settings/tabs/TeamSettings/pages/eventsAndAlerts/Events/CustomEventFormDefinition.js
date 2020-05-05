@@ -243,7 +243,7 @@ export function putMetricPatternOperator(form, metricPlaceholderOperator) {
   return form.put(
     'metricPatternOperator',
     createField({
-      value: metricPlaceholderOperator ?? '',
+      value: metricPlaceholderOperator ?? 'is',
       validator: notBlankValidator
     })
   );
@@ -275,7 +275,7 @@ function putAllEntityVerificationFields(form, event) {
     .put(
       'matchingOperator',
       createField({
-        value: matchingOperator,
+        value: matchingOperator ?? 'is',
         validator: notBlankValidator
       })
     )
