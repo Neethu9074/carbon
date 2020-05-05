@@ -24,27 +24,39 @@ export default connectTo(
           </ImageButton>
         ) : null}
 
-        <ImageButton iconType="lib_actions_settings" onClick={() => addActiveDialog(<LogLevel snapshot={snapshot} />)}>
-          Change Log Level
-        </ImageButton>
+        {role.canConfigureAgents ? (
+          <ImageButton
+            iconType="lib_actions_settings"
+            onClick={() => addActiveDialog(<LogLevel snapshot={snapshot} />)}
+          >
+            Change Log Level
+          </ImageButton>
+        ) : null}
 
-        <ImageButton iconType="lib_actions_refresh" onClick={() => updateAgent(snapshot)}>
-          Update Agent
-        </ImageButton>
-        {isInternalVisible ? (
+        {role.canConfigureAgents ? (
+          <ImageButton iconType="lib_actions_refresh" onClick={() => updateAgent(snapshot)}>
+            Update Agent
+          </ImageButton>
+        ) : null}
+
+        {isInternalVisible && role.canConfigureAgents ? (
           // Resetting the sensors is a feature that we almost never use, restrict it to instana engineer
           <ImageButton iconType="lib_actions_refresh" onClick={() => resetSensors(snapshot)}>
             Reset Sensors
           </ImageButton>
         ) : null}
 
-        <ImageButton iconType="lib_actions_refresh" onClick={() => resetAgent(snapshot)}>
-          Reset Agent
-        </ImageButton>
+        {role.canConfigureAgents ? (
+          <ImageButton iconType="lib_actions_refresh" onClick={() => resetAgent(snapshot)}>
+            Reset Agent
+          </ImageButton>
+        ) : null}
 
-        <ImageButton iconType="lib_actions_refresh" onClick={() => rebootAgent(snapshot)}>
-          Reboot Agent
-        </ImageButton>
+        {role.canConfigureAgents ? (
+          <ImageButton iconType="lib_actions_refresh" onClick={() => rebootAgent(snapshot)}>
+            Reboot Agent
+          </ImageButton>
+        ) : null}
       </div>
     );
   }
