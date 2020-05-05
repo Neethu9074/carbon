@@ -21,8 +21,7 @@ export default getElementDimensions(
 
     UNSAFE_componentWillUpdate(nextProps) {
       if (this.props.flowMapState && !nextProps.flowMapState) {
-        this.flowMap.dispose();
-        this.flowMap = null;
+        this.disposeFlowMapIfPresent();
       } else if (!this.props.flowMapState && nextProps.flowMapState) {
         if (!this.flowMap) {
           this.initFlowMap(nextProps);
@@ -53,26 +52,7 @@ export default getElementDimensions(
     }
 
     componentWillUnmount() {
-      if (this.flowMap) {
-        this.flowMap.dispose();
-      }
-    }
-
-    initFlowMap(props) {
-      if (isWebGLSupported() && this.webGlContext) {
-        if (this.flowMap) {
-          this.flowMap.dispose();
-        }
-        this.flowMap = new FlowMap({
-          canvas: this.canvas,
-          overlayReactComponent: this.overlayReactComponent,
-          expandNodeLeft: props.expandNodeLeft,
-          expandNodeRight: props.expandNodeRight,
-          expandChildLeft: props.expandChildLeft,
-          expandChildRight: props.expandChildRight,
-          loadMore: props.loadMore
-        });
-      }
+      this.disposeFlowMapIfPresent();
     }
 
     render() {
@@ -89,6 +69,28 @@ export default getElementDimensions(
         </div>
       );
     }
+
+    initFlowMap(props) {
+      if (isWebGLSupported() && this.webGlContext) {
+        this.disposeFlowMapIfPresent();
+        this.flowMap = new FlowMap({
+          canvas: this.canvas,
+          overlayReactComponent: this.overlayReactComponent,
+          expandNodeLeft: props.expandNodeLeft,
+          expandNodeRight: props.expandNodeRight,
+          expandChildLeft: props.expandChildLeft,
+          expandChildRight: props.expandChildRight,
+          loadMore: props.loadMore
+        });
+      }
+    }
+
+    disposeFlowMapIfPresent = () => {
+      if (this.flowMap) {
+        this.flowMap.dispose();
+        this.flowMap = null;
+      }
+    };
 
     showHelpIfWebGLCantBeSetup = () => {
       if (!isWebGLSupported()) {
