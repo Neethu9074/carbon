@@ -76,7 +76,8 @@ export default function Errors({
                       metric: 'latency',
                       aggregation: 'MEAN'
                     }
-                  ]
+                  ],
+                  focusedMetric: 'errors_MEAN'
                 }
               )
           }
