@@ -5,11 +5,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import { shorten } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProcessTopList.mless';
-import Tooltip from '../../../../in-components/Tooltip';
-import { shorten } from 'in-services/util/string';
 
 const cols = [
   {
