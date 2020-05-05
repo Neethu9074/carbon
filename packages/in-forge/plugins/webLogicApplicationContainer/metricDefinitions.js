@@ -1,5 +1,5 @@
 import { millis, number } from 'in-services/formatters/number';
-import { getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -30,8 +30,8 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('webApps', 'activeSessions', 'Web App'),
-      getMetricMatchDefinition('webApps', 'createdSessions', 'Web App')
+      getDynamicMetricMatch('webApps', 'activeSessions', 'Web App'),
+      getDynamicMetricMatch('webApps', 'createdSessions', 'Web App')
     ],
     labels: ['Active Sessions', 'Created Sessions'],
     category: ['Web Apps'],
@@ -40,13 +40,13 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('datasources', 'availableConnections', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'currentActiveConnections', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'connectionsInPool', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'requestsWaitingForConnection', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'connectionsCreated', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'leakedConnections', 'Data Source'),
-      getMetricMatchDefinition('datasources', 'stateCode', 'Data Source')
+      getDynamicMetricMatch('datasources', 'availableConnections', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'currentActiveConnections', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'connectionsInPool', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'requestsWaitingForConnection', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'connectionsCreated', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'leakedConnections', 'Data Source'),
+      getDynamicMetricMatch('datasources', 'stateCode', 'Data Source')
     ],
     labels: [
       'Available Connections',
@@ -63,9 +63,9 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('jmsDestinations', 'messagesPendingCount', 'JMS Destination'),
-      getMetricMatchDefinition('jmsDestinations', 'messagesCurrentCount', 'JMS Destination'),
-      getMetricMatchDefinition('jmsDestinations', 'messagesReceivedCount', 'JMS Destination')
+      getDynamicMetricMatch('jmsDestinations', 'messagesPendingCount', 'JMS Destination'),
+      getDynamicMetricMatch('jmsDestinations', 'messagesCurrentCount', 'JMS Destination'),
+      getDynamicMetricMatch('jmsDestinations', 'messagesReceivedCount', 'JMS Destination')
     ],
     labels: ['Pending Messages', 'Current Messages ', 'Received Messages'],
     category: ['JMS'],
@@ -73,14 +73,14 @@ export default [
     formatter: number
   },
   {
-    metrics: [getMetricMatchDefinition('servlets', 'requests', 'Servlet')],
+    metrics: [getDynamicMetricMatch('servlets', 'requests', 'Servlet')],
     labels: ['Requests'],
     category: ['Servlets'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatchDefinition('servlets', 'avgResponseTime', 'Servlet'),
+    metric: getDynamicMetricMatch('servlets', 'avgResponseTime', 'Servlet'),
     label: 'Average Response Time',
     category: ['Servlets'],
     min: 0,

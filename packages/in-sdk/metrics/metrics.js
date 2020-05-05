@@ -16,6 +16,7 @@ export {
 
 import { getCategories, getDynamicMetricCategories } from 'in-sdk/metrics';
 
+const dynamicMetricNoPostfixItemDelimiter = '.*';
 const dynamicMetricItemDelimiter = '.*.';
 
 export function getPlainMetricList(plugin) {
@@ -88,7 +89,7 @@ export function getDynamicMetricPlaceholderLabel(plugin, metricStringValue) {
 
   if (metricItem) {
     const item = metricList.find(
-      item => item.value.pre === metricItem.prefix && item.value.post === metricItem.postfix
+      ({ value }) => value.pre === metricItem.prefix && (!value.post || value.post === metricItem.postfix)
     );
     if (item) {
       return item.value.placeholderLabel;
@@ -99,16 +100,24 @@ export function getDynamicMetricPlaceholderLabel(plugin, metricStringValue) {
 }
 
 export function toDynamicMetricStringValue(prefix, postfix) {
-  return `${prefix}${dynamicMetricItemDelimiter}${postfix}`;
+  return postfix
+    ? `${prefix}${dynamicMetricItemDelimiter}${postfix}`
+    : `${prefix}${dynamicMetricNoPostfixItemDelimiter}`;
 }
 
 export function fromDynamicMetricStringValue(metricStringValue) {
-  const delimiterIndex = metricStringValue.indexOf(dynamicMetricItemDelimiter);
-  const prefix = metricStringValue.substring(0, delimiterIndex);
-  const postfix = metricStringValue.substring(
-    delimiterIndex + dynamicMetricItemDelimiter.length,
-    metricStringValue.length
-  );
+  let delimiterIndex = metricStringValue.indexOf(dynamicMetricItemDelimiter);
+  let prefix;
+  let postfix;
+  if (delimiterIndex === -1) {
+    // no postfix
+    delimiterIndex = metricStringValue.indexOf(dynamicMetricNoPostfixItemDelimiter);
+    prefix = metricStringValue.substring(0, delimiterIndex);
+  } else {
+    prefix = metricStringValue.substring(0, delimiterIndex);
+    postfix = metricStringValue.substring(delimiterIndex + dynamicMetricItemDelimiter.length, metricStringValue.length);
+  }
+
   return {
     prefix,
     postfix
