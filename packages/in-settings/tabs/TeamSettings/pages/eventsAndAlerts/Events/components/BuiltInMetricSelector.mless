@@ -8,4 +8,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  .subtleMetric {
+    font-weight: 100;
+    color: @lib__colors__N500;
+    margin-left: 0.25rem;
+  }
 }

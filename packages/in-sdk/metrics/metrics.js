@@ -26,19 +26,18 @@ export function getPlainMetricList(plugin) {
   }
   const metrics = [];
   for (const categoryNode of categoryTree) {
-    collectMetrics(metrics, categoryNode, categoryNode.label, getPlainMetricLabel);
+    collectMetrics(metrics, categoryNode, categoryNode.label, getLabel);
   }
   return metrics;
 }
 
-function getPlainMetricLabel(categoryLabel, label, metricName) {
-  let result;
-  if (!label.includes(metricName)) {
-    result = `${label} (${metricName})`;
-  }
+function getLabel(categoryLabel, label) {
+  const metricLabel = typeof label === 'string' ? label : label();
 
-  result = includeCategoryLabel(categoryLabel, result);
-  return result;
+  if (categoryLabel && typeof categoryLabel === 'string' && categoryLabel != metricLabel) {
+    return `${categoryLabel} ⭢ ${metricLabel}`;
+  }
+  return metricLabel;
 }
 
 function getDynamicMetricList(plugin) {
@@ -48,7 +47,7 @@ function getDynamicMetricList(plugin) {
   }
   const metrics = [];
   for (const categoryNode of categoryTree) {
-    collectMetrics(metrics, categoryNode, categoryNode.label, getDynamicMetricLabel);
+    collectMetrics(metrics, categoryNode, categoryNode.label, getLabel, getDynamicMetricLabel);
   }
   return metrics;
 }
@@ -62,25 +61,11 @@ function getDynamicMetricStringValueList(plugin) {
   });
 }
 
-function getDynamicMetricLabel(categoryLabel, label, metricObj) {
-  const metricLabel = typeof label === 'string' ? label : label();
-
-  let result;
+function getDynamicMetricLabel(metricObj) {
   if (metricObj.post) {
-    result = `${metricLabel} (${metricObj.pre}.{${metricObj.placeholderLabel.toLowerCase()}}.${metricObj.post})`;
-  } else {
-    result = `${metricLabel} (${metricObj.pre}.{${metricObj.placeholderLabel.toLowerCase()}})`;
+    return `${metricObj.pre}.{${metricObj.placeholderLabel.toLowerCase()}}.${metricObj.post}`;
   }
-
-  result = includeCategoryLabel(categoryLabel, result);
-  return result;
-}
-
-function includeCategoryLabel(categoryLabel, label) {
-  if (categoryLabel && typeof categoryLabel === 'string') {
-    label = `${categoryLabel} 🠆 ${label}`;
-  }
-  return label;
+  return `${metricObj.pre}.{${metricObj.placeholderLabel.toLowerCase()}}`;
 }
 
 export function getDynamicMetricPlaceholderLabel(plugin, metricStringValue) {
@@ -153,25 +138,27 @@ export function containsMetricInList(metricList, metricName) {
   return false;
 }
 
-export function createMetricListItem(metricName, formatter, label) {
+export function createMetricListItem(metricName, formatter, label, metricLabel) {
   return {
     value: metricName,
     formatter,
-    label
+    label,
+    metricLabel
   };
 }
 
-function collectMetrics(allOptions, categoryNode, categoryLabel, labelFormatter) {
+function collectMetrics(allOptions, categoryNode, categoryLabel, labelFormatter, metricLabelFormatter = v => v) {
   if (categoryNode.type === 'metric') {
     const metricItem = createMetricListItem(
       categoryNode.metric,
       categoryNode.formatter,
-      labelFormatter(categoryLabel, categoryNode.label, categoryNode.metric)
+      labelFormatter(categoryLabel, categoryNode.label, categoryNode.metric),
+      metricLabelFormatter(categoryNode.metric)
     );
     allOptions.push(metricItem);
   } else {
     for (const childNode of categoryNode.children) {
-      collectMetrics(allOptions, childNode, categoryLabel, labelFormatter);
+      collectMetrics(allOptions, childNode, categoryLabel, labelFormatter, metricLabelFormatter);
     }
   }
 }
