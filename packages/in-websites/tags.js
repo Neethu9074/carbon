@@ -38,6 +38,7 @@ export const dataSourceTitles = {
 };
 
 export const defaultGroupings = {
+  none: {},
   pageLoad: {
     groupbyTag: 'beacon.location.path'
   },

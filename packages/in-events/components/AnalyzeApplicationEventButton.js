@@ -14,9 +14,16 @@ export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const entityId = event.get('entityId');
   const applicationName = metadata.get('entityLabel');
   const timeConfig = getTimeConfigFromEvent(event);
-  let analyzeFilters = getEnrichedAnalyzeFilteres(alertConfig, entityId);
+  const analyzeFilters = getEnrichedAnalyzeFilteres(alertConfig, entityId);
 
-  return <GoToAnalyzeButton applicationName={applicationName} filters={analyzeFilters} timeConfig={timeConfig} />;
+  return (
+    <GoToAnalyzeButton
+      applicationName={applicationName}
+      filters={analyzeFilters}
+      timeConfig={timeConfig}
+      alertType={alertConfig.rule.alertType}
+    />
+  );
 }
 
 AnalyzeApplicationEventButton.propTypes = {
@@ -24,8 +31,10 @@ AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired
 };
 
-function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
+function GoToAnalyzeButton({ applicationName, filters, timeConfig, alertType }) {
   const dataSource = 'calls';
+  const disableDefaultGrouping = ['errorRate', 'slowness'].includes(alertType);
+  const groupByTag = disableDefaultGrouping ? {} : getConfigByDataSource(dataSource).defaultGrouping;
   return (
     <Button
       kind="primary"
@@ -33,9 +42,9 @@ function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
       onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
       href$={getLinkToAnalyze({
         applicationName,
-        dataSource: dataSource,
+        dataSource,
         filters: translateDemocratisationFiltersToAnalyzeFilters({ applicationName, filters }),
-        groupByTag: getConfigByDataSource(dataSource).defaultGrouping,
+        groupByTag,
         timeConfig
       })}
     >
