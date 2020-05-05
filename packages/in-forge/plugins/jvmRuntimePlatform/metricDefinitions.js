@@ -1,5 +1,5 @@
 import { siPrefix, micros, millis, number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch, getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { getMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 function getLabel(postfix) {
   return (snapshot, match) => (match?.length > 1 ? `${match[1]} ${postfix}` : postfix);
@@ -31,14 +31,14 @@ export default [
     formatter: bytes
   },
   {
-    metric: getMetricMatchDefinition('gc', 'time', 'Garbage Collection'),
+    metric: getDynamicMetricMatch('gc', 'time', 'Garbage Collection'),
     label: getLabel('Time'),
     category: ['GC'],
     min: 0,
     formatter: millis.forcedFixedCompact
   },
   {
-    metric: getMetricMatchDefinition('gc', 'inv', 'Garbage Collection'),
+    metric: getDynamicMetricMatch('gc', 'inv', 'Garbage Collection'),
     label: getLabel('Invocations'),
     category: ['GC'],
     min: 0,
@@ -59,10 +59,9 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatchDefinition('pools', 'Perm Gen', 'Pool'),
-    label: getLabel('Perm Gen'),
+    metric: getDynamicMetricMatch('pools', null, 'Pool'),
+    label: getLabel('Pool'),
     category: ['Pools'],
     formatter: bytes
   }
-  // TODO: Implement MemoryPoolsTable metricss
 ];

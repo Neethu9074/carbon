@@ -1,5 +1,5 @@
 import { siMultiplyPrefix, siPrefix, number, millis, bytes, ms } from 'in-services/formatters/number';
-import { getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -84,21 +84,21 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatchDefinition('index', 'document_count', 'Index'),
+    metric: getDynamicMetricMatch('index', 'document_count', 'Index'),
     label: 'Documents',
     category: ['Index'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatchDefinition('index', 'deleted_count', 'Index'),
+    metric: getDynamicMetricMatch('index', 'deleted_count', 'Index'),
     label: 'Deletions',
     category: ['Index'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatchDefinition('index', 'size', 'Index'),
+    metric: getDynamicMetricMatch('index', 'size', 'Index'),
     label: 'Size',
     category: ['Index'],
     min: 0,

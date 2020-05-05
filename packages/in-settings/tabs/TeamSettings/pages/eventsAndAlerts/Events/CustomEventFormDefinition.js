@@ -541,7 +541,6 @@ function getRuleAttributes(event) {
     } else if (rules[0].metricPattern) {
       const metricPattern = rules[0].metricPattern;
       metricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
-      metricName = `${metricPattern.prefix}.*.${metricPattern.postfix}`;
       metricPlaceholderValue = metricPattern.placeholder;
       metricPlaceholderOperator = metricPattern.operator;
     }

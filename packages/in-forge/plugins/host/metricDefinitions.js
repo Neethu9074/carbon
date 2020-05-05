@@ -6,7 +6,7 @@ import {
   siMultiplyPrefix,
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { getMetricMatchDefinition } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { isWindows, isLinux } from 'in-forge/plugins/host/hostUtils';
 
 const availableCpuMetricSuffixes = {
@@ -146,7 +146,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getMetricMatchDefinition('fs', 'free', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
     label: getFilesystemLabel('Free'),
     category: ['Filesystem'],
     min: 0,
@@ -154,7 +154,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatchDefinition('fs', 'free', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
     label: getFilesystemLabel('Used'),
     category: ['Filesystem'],
     min: 0,
@@ -162,7 +162,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getMetricMatchDefinition('fs', 'leaked', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'leaked', 'Device'),
     label: getFilesystemLabel('Leaked'),
     category: ['Filesystem'],
     min: 0,
@@ -170,7 +170,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatchDefinition('fs', 'inodeUsage', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'inodeUsage', 'Device'),
     label: getFilesystemLabel('Inode usage'),
     category: ['Filesystem'],
     min: 0,
@@ -181,7 +181,7 @@ export default [
     }
   },
   {
-    metric: getMetricMatchDefinition('fs', 'ifree', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'ifree', 'Device'),
     label: getFilesystemLabel('iFree'),
     category: ['Filesystem'],
     min: 0,
@@ -192,28 +192,28 @@ export default [
     }
   },
   {
-    metric: getMetricMatchDefinition('fs', 'reads', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'reads', 'Device'),
     label: getFilesystemLabel('Reads/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatchDefinition('fs', 'writes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'writes', 'Device'),
     label: getFilesystemLabel('Writes/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatchDefinition('fs', 'readBytes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'readBytes', 'Device'),
     label: getFilesystemLabel('Bytes Read/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatchDefinition('fs', 'writeBytes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'writeBytes', 'Device'),
     label: getFilesystemLabel('Bytes Written/s'),
     category: ['Filesystem'],
     min: 0,
@@ -221,8 +221,8 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('gpus', 'gpuUtilization', 'GPU UUID'),
-      getMetricMatchDefinition('gpus', 'temperature', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'gpuUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'temperature', 'GPU UUID')
     ],
     labels: ['GPU Usage', 'Temperature'],
     category: ['GPU'],
@@ -231,9 +231,9 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('gpus', 'encoderUtilization', 'GPU UUID'),
-      getMetricMatchDefinition('gpus', 'decoderUtilization', 'GPU UUID'),
-      getMetricMatchDefinition('gpus', 'memoryUtilization', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'encoderUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'decoderUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'memoryUtilization', 'GPU UUID')
     ],
     labels: ['Encoder', 'Decoder', 'Memory Used'],
     category: ['GPU'],
@@ -242,8 +242,8 @@ export default [
   },
   {
     metrics: [
-      getMetricMatchDefinition('gpus', 'transmitted', 'GPU UUID'),
-      getMetricMatchDefinition('gpus', 'received', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'transmitted', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'received', 'GPU UUID')
     ],
     labels: ['Transmitted/s', 'Received/s'],
     category: ['GPU'],

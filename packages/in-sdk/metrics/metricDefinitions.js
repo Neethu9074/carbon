@@ -311,7 +311,14 @@ export function getMetricMatch(pre, post) {
   return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
 }
 
-export function getMetricMatchDefinition(pre, post, placeholderLabel) {
+/**
+ * Dynamic built-in metrics using this match-definition are also included as built-in metrics for Custom Events.
+ * As of now, only a single placeholder is supported.
+ * @param pre The mandatory prefix of the metric.
+ * @param post The optional postfix of the metric.
+ * @param placeholderLabel The label of the placeholder in the metric-pattern, to explain what it represents.
+ */
+export function getDynamicMetricMatch(pre, post, placeholderLabel) {
   const patternString = post ? `^${pre}\\.(.*)\\.${post}$` : `^${pre}\\.(.*)$`;
   return {
     pattern: new RegExp(patternString, 'i'),
