@@ -5,6 +5,7 @@ import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
+import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
@@ -51,12 +52,12 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
         <span className={locals.locationText}>{inProcessCall ? 'IN' : location}</span>
         <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
           <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" />
-          {endpoint.label}
+          {shortenedLabel(endpoint.label)}
         </Link>
         <span className={locals.text}>of</span>
         <Link className={locals.link} href$={getServiceDashboard(service.id)}>
           <SvgIcon className={locals.entityIcon} type="lib_application_service" />
-          {service.label}
+          {shortenedLabel(service.label)}
         </Link>
       </div>
       {correctTooltip(location, entity, snapshotId)}
@@ -77,7 +78,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
           <Fragment>
             <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId, { pageId: beacon.page })}>
               <SvgIcon type="lib_document" size="s" className={locals.icon} />
-              {beacon.page}
+              {shortenedLabel(beacon.page)}
             </Link>
             <span className={locals.text}>on</span>
           </Fragment>
@@ -86,7 +87,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
         )}
         <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
           <SvgIcon className={locals.entityIcon} type="lib_website" />
-          {beacon.websiteLabel}
+          {shortenedLabel(beacon.websiteLabel)}
         </Link>
       </div>
     </div>
@@ -106,7 +107,7 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
           <Fragment>
             <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId, { viewId: beacon.view })}>
               <SvgIcon type="lib_mobile_app_view" size="s" className={locals.icon} />
-              {beacon.view}
+              {shortenedLabel(beacon.view)}
             </Link>
             <span className={locals.text}>on</span>
           </Fragment>
@@ -115,7 +116,7 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
         )}
         <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
           <SvgIcon className={locals.entityIcon} type="lib_mobile_app" />
-          {beacon.mobileAppLabel}
+          {shortenedLabel(beacon.mobileAppLabel)}
         </Link>
       </div>
     </div>
@@ -136,4 +137,8 @@ function correctTooltip(location, entity, snapshotId) {
       </Tooltip>
     );
   }
+}
+
+function shortenedLabel(label) {
+  return label.length > 34 ? shorten(label, 34) : label;
 }

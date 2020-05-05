@@ -367,6 +367,41 @@
       background: @lib__colors__N400;
     }
   }
+
+  .fixedInline {
+    height: 1.75rem;
+    width: 1.75rem;
+
+    .buttonStyle(
+        // bg
+          @lib__colors__N050,
+        // hover bg
+          @lib__colors__N100,
+        // font
+          @lib__colors__N800Dark,
+        // hover font
+          @lib__colors__N800Dark,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
+
+    border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      border: 1px solid @lib__colors__N500;
+    }
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: @lib__colors__N400;
+      border: 1px solid #e2e4e6;
+      background: #fcfcfd;
+    }
+  }
 }
 
 .buttonStyle(@bg, @hoverBg, @font, @hoverFont, @fontSize, @fontWeight) {
