@@ -35,7 +35,7 @@ export default function CustomDataDescriptionItem({ span }) {
             <CopyToClipboard targetId={name}>
               {refSetter => (
                 <span ref={refSetter}>
-                  <Button kind="secondary" icon="lib_views_popup" iconSize="xs" />
+                  <Button kind="fixedInline" icon="lib_views_popup" iconSize="xs" />
                 </span>
               )}
             </CopyToClipboard>

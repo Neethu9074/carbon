@@ -17,7 +17,8 @@ export const kinds = [
   'create',
   'danger',
   'warning',
-  'info'
+  'info',
+  'fixedInline'
 ];
 export const sizes = ['normal', 'compact'];
 
@@ -46,10 +47,6 @@ export default function ButtonPresenter({
 }) {
   let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
     ''}`;
-
-  if (!children) {
-    classes = `${classes} ${locals.noText}`;
-  }
 
   if (className) {
     classes = `${classes} ${className}`;

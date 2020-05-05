@@ -31,13 +31,18 @@ export default connectTo(
     const plugin = snapshot.get('plugin');
     const monitoringIssuesList =
       monitoringIssuesResult &&
-      monitoringIssuesResult.map(event => ({
-        key: event.get('entityId'),
-        category: IssueCategories[event.getIn(['metadata', 'agent_monitoring_category'])] || IssueCategories.UNKNOWN,
-        code: event.getIn(['metadata', 'agent_monitoring_code']),
-        arguments: event.getIn(['metadata', 'agent_monitoring_arguments']),
-        timestamp: timeConfig.focusedMoment || Date.now()
-      }));
+      monitoringIssuesResult.map(event => {
+        const monitoring_args = event.get('metadata')?.has('agent_monitoring_arguments')
+          ? event.getIn(['metadata', 'agent_monitoring_arguments'])
+          : event.getIn(['metadata', 'agent_monitoring_args']);
+        return {
+          key: event.get('entityId'),
+          category: IssueCategories[event.getIn(['metadata', 'agent_monitoring_category'])] || IssueCategories.UNKNOWN,
+          code: event.getIn(['metadata', 'agent_monitoring_code']),
+          arguments: monitoring_args,
+          timestamp: timeConfig.focusedMoment || Date.now()
+        };
+      });
 
     return (
       <Fragment>

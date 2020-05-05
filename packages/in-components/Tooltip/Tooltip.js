@@ -58,7 +58,7 @@ export default class extends React.PureComponent {
   }
 
   removeListeners = () => {
-    if (this.domNode && this.shouldShowTooltip()) {
+    if (this.domNode) {
       this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
       this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
     }

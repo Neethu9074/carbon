@@ -6,6 +6,7 @@
     border: 1px solid @lib__colors__N600Light;
     border-radius: 3px;
     padding: 0.75rem;
+    overflow: hidden;
   }
   .serviceLineInfo {
     display: flex;
