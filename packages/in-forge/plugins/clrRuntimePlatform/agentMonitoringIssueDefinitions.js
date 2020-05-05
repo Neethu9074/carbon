@@ -7,28 +7,40 @@ export default {
         const missing = Array.isArray(missingEnvKeys) ? missingEnvKeys.join(', ') : missingEnvKeys;
         return (
           <span>
-            The following environment variable(s) necessary to enable the .NET Sensor are absent: <code>{missing}</code>
+            The process environment for this .NET Core application is not correctly configured for Instana to be able to
+            monitor it. The following environment variables must be set on the .NET Core process: <code>{missing}</code>
+            . Refer to the documentation for the right values to be set.
           </span>
         );
       }
     },
     explanationLinkLabel: `Docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/dot-net/#tracing`
+    explanationLinkHref: `https://docs.instana.io/ecosystem/dot-net/#clr_env_var_not_defined`
   },
   clr_env_var_invalid_value: {
     issueDescription: {
-      Component: function clrEnvVarInvalidValue({ invalidEnvKey, invalidEnvValue }) {
+      Component: function clrEnvVarInvalidValue({ invalidEnvKey, invalidEnvValue, competitor }) {
+        if (competitor) {
+          return (
+            <span>
+              It seems that another tool is monitoring this .NET Core process, likely {competitor}. The Instana host
+              agent has detected this based on the value of the <code>{invalidEnvKey}</code> environment variable. For
+              Instana to be able to trace this .NET Core process, you need to disable the other monitoring tool.
+            </span>
+          );
+        }
+
         return (
           <span>
-            The .NET Sensor is not correctly configured. Environment variable <code>{invalidEnvKey}</code> is set to
-            value &quot;
-            <code>{invalidEnvValue}</code>
-            &quot;
+            The process environment for this .NET Core application is not correctly configured for Instana to be able to
+            monitor it. The environment variable <code>{invalidEnvKey}</code> has the wrong value{' '}
+            <code>{invalidEnvValue}</code>. Refer to the documentation for guidance on which value to set to the{' '}
+            <code>{invalidEnvKey}</code> environment variable.
           </span>
         );
       }
     },
     explanationLinkLabel: `Docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/dot-net/#tracing`
+    explanationLinkHref: `https://docs.instana.io/ecosystem/dot-net/#clr_env_var_invalid_value`
   }
 };
