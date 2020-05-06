@@ -269,16 +269,17 @@ export function ValidatedInputFields({ fields, renderContent }) {
 function createForm(fields) {
   function createValidation(field) {
     return str => {
-      const error = notBlankValidator(str);
-      if (error && error.length > 0) {
-        return error;
-      }
-      const validate = field.validate;
-      if (validate && !validate.validator(str)) {
+      const validator = field.validate;
+      const defaultValidator = {
+        validator: notBlankValidator,
+        validationMessage: `The field \'${field.name}\' cannot be blank`
+      };
+      const error = !validator.validator(str) || !defaultValidator.validator(str);
+      if (!!error) {
         return [
           {
             severity: 'error',
-            message: validate.validationMessage
+            message: validator.validationMessage
           }
         ];
       }

@@ -29,10 +29,19 @@ function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
 }
 
-const agentReleaseVersionRegex = new RegExp(/^instana-agent-\d\.\d{1,3}\.\d+$/);
+const clusterNameValidator = {
+  validator: validateClusterName,
+  validationMessage: 'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
+}
+
+const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
 function validateAgentReleaseVersion(agentReleaseVersion) {
   return agentReleaseVersionRegex.test(agentReleaseVersion);
+}
+
+function validateNotEmpty(value) {
+  return !!value
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
@@ -863,7 +872,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -909,7 +918,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -979,83 +988,181 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
 function CfAndBoshContent({ agentKey, agentEndpoint }) {
   return (
-    <ValidatedInputFields
-      fields={[
-        {
-          name: 'foundationName',
-          placeholder: "Foundation name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The foundation name is invalid' }
-        },
-        {
-          name: 'agentReleaseVersion',
-          placeholder: "Agent release, e.g. 'instana-agent-0.0.1'",
-          validate: {
-            validator: validateAgentReleaseVersion,
-            validationMessage: 'The agent release version is invalid'
+    <>
+      <ValidatedInputFields
+        fields={[
+          {
+            name: 'foundationName',
+            placeholder: "Foundation name, e.g., 'prod'",
+            validate: {
+              validator: validateClusterName,
+              validationMessage: 'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
+            }
+          },
+          {
+            name: 'agentReleaseVersion',
+            placeholder: "Release version, e.g. '0.0.1'",
+            validate: {
+              validator: validateAgentReleaseVersion,
+              validationMessage: 'The agent release version must be a valid semantic version'
+            }
+          },
+          {
+            name: 'clientId',
+            placeholder: 'UAA client id, e.g., \'my-client-id\'',
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client id cannot be blank'
+            }
+          },
+          {
+            name: 'clientSecret',
+            placeholder: 'UAA client secret, e.g., \'my-client-secret\'',
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client secret cannot be blank'
+            }
           }
-        }
-      ]}
-      renderContent={({
-        foundationName,
-        foundationNameInput,
-        foundationNameValidationMessage,
-        agentReleaseVersion,
-        agentReleaseVersionInput,
-        agentReleaseVersionValidationMessage
-      }) => (
-        <>
-          <Description lines={['Apply the following as BOSH runtime configuration to your BOSH director:']} />
-          <Row>
-            {foundationNameInput}
-            {agentReleaseVersionInput}
-          </Row>
-          <Row>
-            <YAMLFile
-              title="runtime-config.yml"
-              disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage}
-              content={
-                `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n\naddons:\n` +
-                '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
-                `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
-                `        mode: APM\n        key: ${agentKey}\n        endpoint: ${agentEndpoint}\n` +
-                `        zone: '${foundationName}'\n` +
-                '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: redis\n      release: redis-service\n' +
-                '- name: instana-agent-configuration-pivotal-rabbitmq\n  jobs:\n  - name: instana-agent-configuration-pivotal-rabbitmq\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: rabbitmq-server\n      release: cf-rabbitmq\n' +
-                '- name: instana-agent-configuration-pivotal-mysql\n  jobs:\n  - name: instana-agent-configuration-pivotal-mysql-v2\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: mysql\n      release: dedicated-mysql\n' +
-                '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: pxc-mysql\n      release: pxc\n'
-              }
-            />
-          </Row>
-          <HelpBox title="How to set up BOSH runtime configurations">
-            <TextWithLink
-              text="For more information on how to set up BOSH runtime configurations, refer to the "
-              linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
-              href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
-            />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Supported Stemcells">
-            <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Dynamic agents">
-            <TextWithLink
-              text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
-              href="https://docs.instana.io/ecosystem/cloudfoundry/"
-              linkText="Instana Cloud Foundry documentation."
-            />
-          </HelpBox>
-        </>
-      )}
-    />
+        ]}
+        renderContent={({
+          foundationName,
+          foundationNameInput,
+          foundationNameValidationMessage,
+          agentReleaseVersion,
+          agentReleaseVersionInput,
+          agentReleaseVersionValidationMessage,
+          clientId,
+          clientIdInput,
+          clientIdValidationMessage,
+          clientSecret,
+          clientSecretInput,
+          clientSecretValidationMessage
+        }) => {
+          return (
+          <>
+            <HelpBox title="Supported Stemcells">
+              <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
+            <Description lines={['Download the following BOSH releases']} />
+              <DownloadButton
+                title="Download 'instana-agent' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+              />
+              <DownloadButton
+                title="Download 'instana-leadership-election' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+              />
+              <Spacer />
+              <Description lines={['Upload the Instana BOSH releases to your BOSH director']} />
+              <Bash
+                lines={[
+                  `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
+                  `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`,
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Create the Instana UAA client">
+              <Description lines={['Create in the foundation\'s User Account and Authentication (UAA), a client with \'cloud_controller.admin_read_only\' authority:']} />
+              <Row>
+                {clientIdInput}
+                {clientSecretInput}
+              </Row>
+              <TextWithLink
+                text="The easiest way to create the required UAA client, is to use the "
+                linkText="uaac tool."
+                href="https://github.com/cloudfoundry/cf-uaac"
+              />
+              <Description lines={['Replace in the commands below \'<uaa-api-endpoint>\' with your UAA API endpoint and \'<clients.admin-secret>\' with your UAA client with \'clients.admin\' or \'clients.write\' authority']} />
+              <Bash
+                lines={[
+                  'uaac target <uaa-api-endpoint>',
+                  'uaac token client get -s <clients.admin-secret>',
+                  `uaac client add \'${clientId}\' \\`,
+                  '  --name \'Instana Cloud Foundry Client\' \\',
+                  '  --autoapprove true \\',
+                  '  --authorized_grant_types client_credentials \\',
+                  '  --authorities \'cloud_controller.admin_read_only\' \\',
+                  `  --secret \'${clientSecret}\' \\` 
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Instana BOSH addon">
+              <TextWithLink
+                text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
+                linkText="&quot;BOSH Runtime Configurations&quot; documentation."
+                href="https://bosh.io/docs/runtime-config/"
+              />
+              <Spacer />
+              <Description lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']} />
+              <Row>
+                {foundationNameInput}
+                {agentReleaseVersionInput}
+              </Row>
+              <Spacer />
+              <Description lines={['Apply the following as BOSH runtime configurations to your BOSH director:']} />
+              <Row>
+                <YAMLFile
+                  title="runtime-config.yml"
+                  disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage || clientIdValidationMessage || clientSecretValidationMessage}
+                  content={
+                    `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n` +
+                    `- name: instana-leadership-election\n  version: ${agentReleaseVersion}\n` +
+                    'addons:\n' +
+                    '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
+                    '    release: instana-agent\n  properties:\n    tanzu:\n      foundation:\n' +
+                    `        id: '${foundationName}'\n` +
+                    `        name: '${foundationName}'\n` +
+                    '    instana:\n      agent:\n' +
+                    `        mode: APM\n        key: '${agentKey}'\n        endpoint: '${agentEndpoint}'\n` +
+                    `        zone: '${foundationName}'\n` +
+                    '- name: instana-cloudfoundry-sensor\n' +
+                    '  jobs:\n' +
+                    '  - name: instana-agent-configuration-cf-sensor\n' +
+                    '    release: instana-agent\n' +
+                    '    properties:\n' +
+                    '      tanzu:\n' +
+                    '        foundation:\n' +
+                    `          id: '${foundationName}'\n` +
+                    `          name: '${foundationName}'\n` +
+                    '      cf:\n' +
+                    '        uaa:\n' +
+                    `          client: '${clientId}'\n` +
+                    `          client_secret: '${clientSecret}'\n` +
+                    '  - name: instana-leadership-election\n' +
+                    '    release: instana-leadership-election\n' +
+                    '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
+                    '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                    '    - name: pxc-mysql\n      release: pxc\n'
+                  }
+                />
+              </Row>
+              <TextWithLink
+                text="For more information on how to set up BOSH runtime configurations, refer to the "
+                linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+                href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Dynamic agents, proxies and other settings">
+              <Description lines={[
+                'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
+                'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
+              ]} />
+              <TextWithLink
+                text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
+                href="https://docs.instana.io/ecosystem/cloudfoundry/"
+                linkText="Instana Cloud Foundry documentation."
+              />
+            </HelpBox>
+          </>
+        )}
+      }
+      />
+    </>
   );
 }
 
