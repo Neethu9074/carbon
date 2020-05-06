@@ -23,8 +23,7 @@
     color: @lib__colors__N500;
   }
 
-  .rolesWrapper {
-    padding-top: 2rem;
+  .roles {
     max-width: 17rem;
   }
 
@@ -35,5 +34,10 @@
     height: 1rem;
 
     margin-right: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: 600;
   }
 }

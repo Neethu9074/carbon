@@ -6,6 +6,7 @@ import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
+import permissions from 'in-settings/permissions';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -44,7 +45,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             disabled={disabled}
             onChange={onChange}
             name="restrictedAccess"
-            label="Limit access by team access scopes"
+            label={permissions['restrictedAccess']}
             helpText="Enable role based access control."
           />
         </FormGroup>
@@ -57,7 +58,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureServiceMapping"
-          label="Service & Endpoint Mapping"
+          label={permissions['canConfigureServiceMapping']}
           helpText="Permits configuration of services and endpoints."
         />
 
@@ -66,7 +67,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureEumApplications"
-          label="Website Monitoring Configuration"
+          label={permissions['canConfigureEumApplications']}
           helpText="Permits configuration of website monitoring functionality."
         />
 
@@ -75,7 +76,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureMobileAppMonitoring"
-          label="Mobile App Monitoring Configuration"
+          label={permissions['canConfigureMobileAppMonitoring']}
           helpText="Permits configuration of mobile app monitoring functionality."
         />
 
@@ -84,7 +85,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureUsers"
-          label="User management"
+          label={permissions['canConfigureUsers']}
           helpText="Permits inviting, modifying and removing user accounts."
         />
 
@@ -93,7 +94,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureRoles"
-          label="Access role configuration"
+          label={permissions['canConfigureRoles']}
           helpText="Permits configuration of access roles and permissions for all users."
         />
 
@@ -103,7 +104,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             disabled={disabled}
             onChange={onChange}
             name="canConfigureTeams"
-            label="Access team configuration"
+            label={permissions['canConfigureTeams']}
             helpText="Permits configuration of access scopes and permissions for all teams."
           />
         )}
@@ -113,7 +114,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canInstallNewAgents"
-          label="Agent download and agent key visibility"
+          label={permissions['canInstallNewAgents']}
           helpText="Permits access to agent and configuration."
         />
 
@@ -122,7 +123,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canSeeUsageInformation"
-          label="Access to license usage"
+          label={permissions['canSeeUsageInformation']}
           helpText="Permits access to license usage information."
         />
 
@@ -132,7 +133,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             disabled={disabled}
             onChange={onChange}
             name="canSeeOnPremLicenseInformation"
-            label="Access to on prem license usage"
+            label={permissions['canSeeOnPremLicenseInformation']}
             helpText="Permits access to on prem license usage information."
           />
         )}
@@ -142,7 +143,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureIntegrations"
-          label="Configuration of integrations"
+          label={permissions['canConfigureIntegrations']}
           helpText="Permits creation and configuration of integrations for use in alerting."
         />
 
@@ -151,7 +152,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureCustomAlerts"
-          label="Configuration of custom alerts"
+          label={permissions['canConfigureCustomAlerts']}
           helpText="Permits creation and configuration of custom alerts and associated integrations."
         />
 
@@ -160,7 +161,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureApiTokens"
-          label="Configuration of API tokens"
+          label={permissions['canConfigureApiTokens']}
           helpText="Permits creation and configuration of API tokens."
         />
 
@@ -169,7 +170,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAgentRunMode"
-          label="Configuration of agent mode"
+          label={permissions['canConfigureAgentRunMode']}
           helpText="Permits configuration of agent mode through the UI."
         />
 
@@ -178,7 +179,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canViewAuditLog"
-          label="Access to audit log"
+          label={permissions['canViewAuditLog']}
           helpText="Permits access to audit log for all users."
         />
 
@@ -187,7 +188,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAgents"
-          label="Configuration of agents"
+          label={permissions['canConfigureAgents']}
           helpText="Permits agent configuration of all agents through the UI."
         />
 
@@ -196,7 +197,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAuthenticationMethods"
-          label="Configuration of authentication methods"
+          label={permissions['canConfigureAuthenticationMethods']}
           helpText="Permits configuration of team authentication methods (eg. 2FA/SSO)."
         />
 
@@ -205,7 +206,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureApplications"
-          label="Configuration of applications"
+          label={permissions['canConfigureApplications']}
           helpText="Permits creation and configuration of applications."
         />
 
@@ -214,7 +215,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureLogManagement"
-          label="Configuration of log management"
+          label={permissions['canConfigureLogManagement']}
           helpText="Permits configuration of log management."
         />
       </FormGroup>

@@ -48,7 +48,18 @@ export default connectTo(
           onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form }) : undefined}
         />
         <MessageWrapper message={message} />
-        {render({ ...props, ...result, message, setMessage, form, setForm, setCanSaveItem })}
+        {render({
+          ...props,
+          ...result,
+          message,
+          setMessage,
+          form,
+          setForm: form => {
+            setForm(form);
+            setCanSaveItem(true);
+          },
+          setCanSaveItem
+        })}
       </div>
     );
   }

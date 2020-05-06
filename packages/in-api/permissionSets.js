@@ -1,8 +1,27 @@
-import { just } from 'reactive-observables';
+import { create, just } from 'reactive-observables';
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
+
+const refreshSignalTeams = create().emit(true);
+
+// observables
+
+export const getPermissionSetsAsResultObservable = memoize(getPermissionSetsInternal, () => '', 60000);
+function getPermissionSetsInternal() {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: '/api/settings/permission-sets'
+      })
+    )
+  );
+}
 
 export function getPermissionSets() {
   return http({

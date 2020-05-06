@@ -3,7 +3,6 @@ import { compose, withProps, withPropsOnChange, withState } from 'recompose';
 import ApiListRenderer from 'in-settings/components/ApiList/ApiListRenderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { error } from 'in-new-components/Message/types';
-import { hasError } from 'in-services/util/result';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,8 +12,8 @@ export default function createApiList(props) {
   return compose(
     connectTo({ itemsResult: getItems() }),
     withState('messageFromOutside', 'setMessage', undefined),
-    withPropsOnChange(['messageFromOutside', 'itemsResult'], ({ messageFromOutside, itemsResult }) => ({
-      message: (hasError(itemsResult) && { text: itemsResult.errors[0].message, type: error }) || messageFromOutside
+    withPropsOnChange(['messageFromOutside', 'itemsResult'], ({ messageFromOutside }) => ({
+      message: messageFromOutside
     })),
     withUrlState({
       bind: [

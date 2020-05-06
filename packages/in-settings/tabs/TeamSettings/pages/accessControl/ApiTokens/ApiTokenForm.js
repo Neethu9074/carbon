@@ -5,6 +5,7 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
+import permissions from 'in-settings/permissions';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -45,7 +46,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureServiceMapping"
-          label="Service & Endpoint Mapping"
+          label={permissions['canConfigureServiceMapping']}
         />
 
         <Permission
@@ -53,7 +54,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureEumApplications"
-          label="Website Monitoring Configuration"
+          label={permissions['canConfigureEumApplications']}
         />
 
         <Permission
@@ -61,7 +62,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureMobileAppMonitoring"
-          label="Mobile App Monitoring Configuration"
+          label={permissions['canConfigureMobileAppMonitoring']}
         />
 
         <Permission
@@ -69,7 +70,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureUsers"
-          label="User management"
+          label={permissions['canConfigureUsers']}
         />
 
         <Permission
@@ -77,7 +78,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureRoles"
-          label="Access role configuration"
+          label={permissions['canConfigureRoles']}
         />
 
         {isRbacEnabled && (
@@ -86,7 +87,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             disabled={disabled}
             onChange={onChange}
             name="canConfigureTeams"
-            label="Access team configuration"
+            label={permissions['canConfigureTeams']}
           />
         )}
 
@@ -95,7 +96,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canInstallNewAgents"
-          label="Agent download and agent key visibility"
+          label={permissions['canInstallNewAgents']}
         />
 
         <Permission
@@ -103,7 +104,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canSeeUsageInformation"
-          label="Access to license usage"
+          label={permissions['canSeeUsageInformation']}
         />
 
         {onPremLicenseInformationEnabled && (
@@ -112,7 +113,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             disabled={disabled}
             onChange={onChange}
             name="canSeeOnPremLicenseInformation"
-            label="Access to on prem license usage"
+            label={permissions['canSeeOnPremLicenseInformation']}
           />
         )}
 
@@ -121,7 +122,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureIntegrations"
-          label="Configuration of integrations"
+          label={permissions['canConfigureIntegrations']}
         />
 
         <Permission
@@ -129,7 +130,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureCustomAlerts"
-          label="Configuration of custom alerts"
+          label={permissions['canConfigureCustomAlerts']}
         />
 
         <Permission
@@ -137,7 +138,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureApiTokens"
-          label="Configuration of API tokens"
+          label={permissions['canConfigureApiTokens']}
         />
 
         <Permission
@@ -145,7 +146,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAgentRunMode"
-          label="Configuration of agent mode"
+          label={permissions['canConfigureAgentRunMode']}
         />
 
         <Permission
@@ -153,7 +154,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canViewAuditLog"
-          label="Access to audit log"
+          label={permissions['canViewAuditLog']}
         />
 
         <Permission
@@ -161,7 +162,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureAgents"
-          label="Configuration of agents"
+          label={permissions['canConfigureAgents']}
         />
 
         <Permission
@@ -169,7 +170,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureApplications"
-          label="Configuration of applications"
+          label={permissions['canConfigureApplications']}
         />
 
         <Permission
@@ -177,7 +178,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureReleases"
-          label="Configuration of releases"
+          label={permissions['canConfigureReleases']}
         />
       </FormGroup>
     </fieldset>

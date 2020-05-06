@@ -1,0 +1,5 @@
+:local {
+  .message {
+    width: 100%;
+  }
+}
