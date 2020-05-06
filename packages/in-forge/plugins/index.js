@@ -31,7 +31,6 @@ import './azureAppService';
 import './azureCosmosDb';
 import './azureRedisCache';
 import './azureStorage';
-import './azureSqlDatabase';
 import './azureSqlDb';
 import './azureSqlElasticPool';
 import './azureSqlServer';
