@@ -31,8 +31,9 @@ function validateClusterName(clusterName) {
 
 const clusterNameValidator = {
   validator: validateClusterName,
-  validationMessage: 'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
-}
+  validationMessage:
+    'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
+};
 
 const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
@@ -41,7 +42,7 @@ function validateAgentReleaseVersion(agentReleaseVersion) {
 }
 
 function validateNotEmpty(value) {
-  return !!value
+  return !!value;
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
@@ -996,7 +997,8 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             placeholder: "Foundation name, e.g., 'prod'",
             validate: {
               validator: validateClusterName,
-              validationMessage: 'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
+              validationMessage:
+                'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
             }
           },
           {
@@ -1009,7 +1011,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           },
           {
             name: 'clientId',
-            placeholder: 'UAA client id, e.g., \'my-client-id\'',
+            placeholder: "UAA client id, e.g., 'my-client-id'",
             validate: {
               validator: validateNotEmpty,
               validationMessage: 'The UAA client id cannot be blank'
@@ -1017,7 +1019,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           },
           {
             name: 'clientSecret',
-            placeholder: 'UAA client secret, e.g., \'my-client-secret\'',
+            placeholder: "UAA client secret, e.g., 'my-client-secret'",
             validate: {
               validator: validateNotEmpty,
               validationMessage: 'The UAA client secret cannot be blank'
@@ -1037,15 +1039,14 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           clientSecret,
           clientSecretInput,
           clientSecretValidationMessage
-        }) => {
-          return (
+        }) => (
           <>
             <HelpBox title="Supported Stemcells">
               <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
             </HelpBox>
             <Spacer />
             <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
-            <Description lines={['Download the following BOSH releases']} />
+              <Description lines={['Download the following BOSH releases']} />
               <DownloadButton
                 title="Download 'instana-agent' release"
                 href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
@@ -1059,13 +1060,17 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <Bash
                 lines={[
                   `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
-                  `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`,
+                  `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`
                 ]}
               />
             </HelpBox>
             <Spacer />
             <HelpBox title="Create the Instana UAA client">
-              <Description lines={['Create in the foundation\'s User Account and Authentication (UAA), a client with \'cloud_controller.admin_read_only\' authority:']} />
+              <Description
+                lines={[
+                  "Create in the foundation's User Account and Authentication (UAA), a client with 'cloud_controller.admin_read_only' authority:"
+                ]}
+              />
               <Row>
                 {clientIdInput}
                 {clientSecretInput}
@@ -1075,17 +1080,21 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 linkText="uaac tool."
                 href="https://github.com/cloudfoundry/cf-uaac"
               />
-              <Description lines={['Replace in the commands below \'<uaa-api-endpoint>\' with your UAA API endpoint and \'<clients.admin-secret>\' with your UAA client with \'clients.admin\' or \'clients.write\' authority']} />
+              <Description
+                lines={[
+                  "Replace in the commands below '<uaa-api-endpoint>' with your UAA API endpoint and '<clients.admin-secret>' with your UAA client with 'clients.admin' or 'clients.write' authority"
+                ]}
+              />
               <Bash
                 lines={[
                   'uaac target <uaa-api-endpoint>',
                   'uaac token client get -s <clients.admin-secret>',
-                  `uaac client add \'${clientId}\' \\`,
-                  '  --name \'Instana Cloud Foundry Client\' \\',
+                  `uaac client add '${clientId}' \\`,
+                  "  --name 'Instana Cloud Foundry Client' \\",
                   '  --autoapprove true \\',
                   '  --authorized_grant_types client_credentials \\',
-                  '  --authorities \'cloud_controller.admin_read_only\' \\',
-                  `  --secret \'${clientSecret}\' \\` 
+                  "  --authorities 'cloud_controller.admin_read_only' \\",
+                  `  --secret '${clientSecret}' \\`
                 ]}
               />
             </HelpBox>
@@ -1097,7 +1106,9 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
-              <Description lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']} />
+              <Description
+                lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']}
+              />
               <Row>
                 {foundationNameInput}
                 {agentReleaseVersionInput}
@@ -1107,7 +1118,12 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <Row>
                 <YAMLFile
                   title="runtime-config.yml"
-                  disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage || clientIdValidationMessage || clientSecretValidationMessage}
+                  disabledErrorMessage={
+                    foundationNameValidationMessage ||
+                    agentReleaseVersionValidationMessage ||
+                    clientIdValidationMessage ||
+                    clientSecretValidationMessage
+                  }
                   content={
                     `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n` +
                     `- name: instana-leadership-election\n  version: ${agentReleaseVersion}\n` +
@@ -1148,10 +1164,12 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             </HelpBox>
             <Spacer />
             <HelpBox title="Dynamic agents, proxies and other settings">
-              <Description lines={[
-                'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
-                'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
-              ]} />
+              <Description
+                lines={[
+                  'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
+                  'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
+                ]}
+              />
               <TextWithLink
                 text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
                 href="https://docs.instana.io/ecosystem/cloudfoundry/"
@@ -1160,7 +1178,6 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             </HelpBox>
           </>
         )}
-      }
       />
     </>
   );

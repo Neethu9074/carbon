@@ -198,7 +198,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href, title='Download' }) {
+export function DownloadButton({ href, title = 'Download' }) {
   return (
     <Button target="_blank" href={href} icon="lib_actions_download">
       {title}
@@ -272,10 +272,10 @@ function createForm(fields) {
       const validator = field.validate;
       const defaultValidator = {
         validator: notBlankValidator,
-        validationMessage: `The field \'${field.name}\' cannot be blank`
+        validationMessage: `The field '${field.name}' cannot be blank`
       };
       const error = !validator.validator(str) || !defaultValidator.validator(str);
-      if (!!error) {
+      if (error) {
         return [
           {
             severity: 'error',
