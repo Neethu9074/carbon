@@ -1,14 +1,14 @@
-import { twoDecimalPlaces, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
     label: 'Indices',
     metric: 'indices_count',
-    formatter: withSiPrefixThreeDecimalPlaces
+    formatter: zeroDecimalPlaces
   },
   {
     label: 'Active Shards',
     metric: 'shards.node_active_shards',
-    formatter: twoDecimalPlaces
+    formatter: zeroDecimalPlaces
   }
 ];
