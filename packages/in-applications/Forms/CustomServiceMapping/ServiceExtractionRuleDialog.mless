@@ -22,4 +22,8 @@
     padding: 1rem 1rem 0;
     border-top: 1px solid @lib__colors__N400;
   }
+
+  .description {
+    padding: 0.5rem 0;
+  }
 }

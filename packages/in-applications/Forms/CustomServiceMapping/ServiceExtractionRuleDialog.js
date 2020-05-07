@@ -4,6 +4,7 @@ import React from 'react';
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import DescriptionText from 'in-components/form/DescriptionText';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -37,6 +38,12 @@ class BasicDialog extends React.Component {
     return (
       <form onSubmit={e => this.onSubmit(e, form, serviceConfigIndex)}>
         <div className={locals.queryFormSection}>
+          <div className={locals.description}>
+            <DescriptionText>
+              Define a custom rule by selecting a series of tags below. If all tags are present on a call, it will be
+              mapped to that service.
+            </DescriptionText>
+          </div>
           <div className={locals.helpText}>{'Name Rule'}</div>
           {serviceConfiguration.get('name').map(field => (
             <FormGroup>

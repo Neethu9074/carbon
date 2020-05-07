@@ -68,10 +68,6 @@ export default function CustomServiceMappingDialog() {
                           </a>
                         </strong>{' '}
                         to learn more on the predefined rules.
-                        <br />
-                        <br />
-                        Define a custom rule by selecting a series of tags below. If all tags are present on a call, it
-                        will be mapped to that service.
                       </DescriptionText>
 
                       <DragAndDropRuleList
