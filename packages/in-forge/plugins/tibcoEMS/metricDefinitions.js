@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 const TOPICS_ROOT = 'topics';
 const QUEUES_ROOT = 'queues';
@@ -19,29 +19,7 @@ export default [
       'inMessages',
       'inMessagesCount',
       'outMessages',
-      'outMessagesCount',
-
-      getMetricMatch(TOPICS_ROOT, 'inMessages'),
-      getMetricMatch(TOPICS_ROOT, 'inMessagesCount'),
-      getMetricMatch(TOPICS_ROOT, 'inMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'outMessages'),
-      getMetricMatch(TOPICS_ROOT, 'outMessagesCount'),
-      getMetricMatch(TOPICS_ROOT, 'outMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessages'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessagesSize'),
-      getMetricMatch(TOPICS_ROOT, 'pendingMessagesLimit'),
-      getMetricMatch(TOPICS_ROOT, 'subscriberCount'),
-
-      getMetricMatch(QUEUES_ROOT, 'inMessages'),
-      getMetricMatch(QUEUES_ROOT, 'inMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'inMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'outMessages'),
-      getMetricMatch(QUEUES_ROOT, 'outMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'outMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesCount'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesSize'),
-      getMetricMatch(QUEUES_ROOT, 'pendingMessagesLimit'),
-      getMetricMatch(QUEUES_ROOT, 'receiverCount')
+      'outMessagesCount'
     ],
     labels: [
       'Uptime',
@@ -56,9 +34,25 @@ export default [
       'In Messages Rate',
       'In Messages Count',
       'Out Messages Count',
-      'Out Messages Rate',
-
-      //topics
+      'Out Messages Rate'
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessages', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesCount', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesSize', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessages', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesCount', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesSize', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessages', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesSize', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesLimit', 'Topic'),
+      getDynamicMetricMatch(TOPICS_ROOT, 'subscriberCount', 'Topic')
+    ],
+    labels: [
       'In Messages Rate',
       'In Messages Count',
       'In Messages Size',
@@ -68,9 +62,26 @@ export default [
       'Pending Messages Count',
       'Pending Messages Size',
       'Pending Messages Limit',
-      'Subscribers Count',
-
-      //queues
+      'Subscribers Count'
+    ],
+    category: ['Topics'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessages', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesCount', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesSize', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessages', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesCount', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesSize', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesCount', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesSize', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesLimit', 'Queue'),
+      getDynamicMetricMatch(QUEUES_ROOT, 'receiverCount', 'Queue')
+    ],
+    labels: [
       'In Messages Rate',
       'In Messages Count',
       'In Messages Size',
@@ -82,6 +93,7 @@ export default [
       'Pending Messages Limit',
       'Receivers Count'
     ],
+    category: ['Queues'],
     min: 0,
     formatter: number
   }

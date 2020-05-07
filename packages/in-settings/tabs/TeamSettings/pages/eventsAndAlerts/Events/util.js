@@ -1,7 +1,7 @@
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getCategories } from 'in-sdk/metrics';
 import { getSingular } from 'in-sdk/pluginName';
+import { hasCategory } from 'in-sdk/metrics';
 
 // event specification type enum names that the back end uses
 export const builtInEnumValue = 'BUILT_IN';
@@ -59,7 +59,7 @@ export function getDescription(entity) {
 export function getEntityTypeOptions() {
   return Object.keys(plugins)
     .map(k => plugins[k])
-    .filter(plugin => getCategories(plugin).length > 0)
+    .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
     .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
     .map(plugin => {

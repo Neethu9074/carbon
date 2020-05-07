@@ -235,6 +235,10 @@ export function getDynamicMetricCategories(plugin) {
   return pluginCategories;
 }
 
+export function hasCategory(plugin) {
+  return getCategories(plugin).length > 0 || getDynamicMetricCategories(plugin).length > 0;
+}
+
 function buildDynamicMetricCategories(plugin) {
   const metricDefinitionsForPlugin = metricDefinitions[plugin];
   if (!metricDefinitionsForPlugin || metricDefinitionsForPlugin.length === 0) {
@@ -307,7 +311,19 @@ function sortCategories(node) {
   }
 }
 
+/**
+ * @deprecated use getCustomMetricMatch or getDynamicMetricMatch instead.
+ */
 export function getMetricMatch(pre, post) {
+  return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
+}
+
+/**
+ * Custom metrics which full metric name is not defined by Instana.
+ * @param pre The mandatory prefix of the metric.
+ * @param post The optional postfix of the metric.
+ */
+export function getCustomMetricMatch(pre, post) {
   return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
 }
 
@@ -318,7 +334,7 @@ export function getMetricMatch(pre, post) {
  * @param post The optional postfix of the metric.
  * @param placeholderLabel The label of the placeholder in the metric-pattern, to explain what it represents.
  */
-export function getDynamicMetricMatch(pre, post, placeholderLabel) {
+export function getDynamicMetricMatch(pre, post, placeholderLabel = 'Placeholder') {
   const patternString = post ? `^${pre}\\.(.*)\\.${post}$` : `^${pre}\\.(.*)$`;
   return {
     pattern: new RegExp(patternString, 'i'),

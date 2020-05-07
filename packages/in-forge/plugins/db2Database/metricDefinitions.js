@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, bytes, millis } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -108,20 +108,32 @@ export default [
     category: ['Log']
   },
   {
-    metrics: [getMetricMatch('containers', 'totalSize'), getMetricMatch('containers', 'usedSize')],
+    metrics: [
+      getDynamicMetricMatch('containers', 'totalSize', 'Container'),
+      getDynamicMetricMatch('containers', 'usedSize', 'Container')
+    ],
     labels: ['File System Size', 'File System Used'],
+    category: ['Containers'],
     min: 0,
     formatter: bytes
   },
   {
-    metrics: [getMetricMatch('containers', 'pagesRead'), getMetricMatch('containers', 'pagesWritten')],
+    metrics: [
+      getDynamicMetricMatch('containers', 'pagesRead', 'Container'),
+      getDynamicMetricMatch('containers', 'pagesWritten', 'Container')
+    ],
     labels: ['Pages Read', 'Pages Written'],
+    category: ['Containers'],
     min: 0,
     formatter: number
   },
   {
-    metrics: [getMetricMatch('containers', 'poolReadTime'), getMetricMatch('containers', 'poolWriteTime')],
+    metrics: [
+      getDynamicMetricMatch('containers', 'poolReadTime', 'Container'),
+      getDynamicMetricMatch('containers', 'poolWriteTime', 'Container')
+    ],
     labels: ['Pool Read Time', 'Pool Write Time'],
+    category: ['Containers'],
     min: 0,
     formatter: millis
   }

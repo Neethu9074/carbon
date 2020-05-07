@@ -1,5 +1,5 @@
-import { millis, number } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { millis, number } from 'in-services/formatters/number';
 
 export default [
   {

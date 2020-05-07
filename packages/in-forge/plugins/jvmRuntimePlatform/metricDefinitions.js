@@ -1,5 +1,5 @@
+import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { siPrefix, micros, millis, number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 function getLabel(postfix) {
   return (snapshot, match) => (match?.length > 1 ? `${match[1]} ${postfix}` : postfix);
@@ -31,21 +31,21 @@ export default [
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('gc', 'time', 'Garbage Collection'),
+    metric: getDynamicMetricMatch('gc', 'time', 'Garbage Collector'),
     label: getLabel('Time'),
     category: ['GC'],
     min: 0,
     formatter: millis.forcedFixedCompact
   },
   {
-    metric: getDynamicMetricMatch('gc', 'inv', 'Garbage Collection'),
+    metric: getDynamicMetricMatch('gc', 'inv', 'Garbage Collector'),
     label: getLabel('Invocations'),
     category: ['GC'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('jmx'), // custom metric
+    metric: getCustomMetricMatch('jmx'),
     label(snapshot, metricMatch) {
       return metricMatch;
     },

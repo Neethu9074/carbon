@@ -11,6 +11,7 @@ export {
   getMetricDefinition,
   getCategories,
   getDynamicMetricCategories,
+  hasCategory,
   isMetricPercentile
 } from 'in-sdk/metrics/metricDefinitions';
 

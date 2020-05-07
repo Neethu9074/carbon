@@ -1,5 +1,5 @@
 import { bytes, percentage, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';
 
@@ -18,79 +18,90 @@ const nodeMetricDefinitions = [
   }
 ];
 
-const bucketMetricDefinitions = getBucketMetricDefinitions(BUCKET_METRICS_PREFIX);
+const bucketMetricDefinitions = getBucketMetricDefinitions(BUCKET_METRICS_PREFIX, 'Bucket Stats');
 
 export default nodeMetricDefinitions.concat(bucketMetricDefinitions);
 
-export function getBucketMetricDefinitions(prefix) {
+export function getBucketMetricDefinitions(prefix, category) {
   return [
     {
-      metric: getMetricMatch(prefix, 'curr_items'),
+      metric: getDynamicMetricMatch(prefix, 'curr_items', 'Bucket'),
       label: 'Items',
+      category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getMetricMatch(prefix, 'mem_used_ratio'),
+      metric: getDynamicMetricMatch(prefix, 'mem_used_ratio', 'Bucket'),
       label: 'Used memory (%)',
+      category: [category],
       min: 0,
       max: 1,
       formatter: percentage
     },
     {
-      metric: getMetricMatch(prefix, 'couch_docs_actual_disk_size'),
+      metric: getDynamicMetricMatch(prefix, 'couch_docs_actual_disk_size', 'Bucket'),
       label: 'Used disk (bytes)',
+      category: [category],
       min: 0,
       formatter: bytes
     },
     {
-      metric: getMetricMatch(prefix, 'ep_cache_miss_rate'),
+      metric: getDynamicMetricMatch(prefix, 'ep_cache_miss_rate', 'Bucket'),
       label: 'Cache miss (%)',
+      category: [category],
       min: 0,
       max: 1,
       formatter: percentage
     },
     {
-      metric: getMetricMatch(prefix, 'couch_docs_fragmentation'),
+      metric: getDynamicMetricMatch(prefix, 'couch_docs_fragmentation', 'Bucket'),
       label: 'Fragmentation (%)',
+      category: [category],
       min: 0,
       max: 1,
       formatter: percentage
     },
     {
-      metric: getMetricMatch(prefix, 'ops'),
+      metric: getDynamicMetricMatch(prefix, 'ops', 'Bucket'),
       label: 'Operations per sec.',
+      category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getMetricMatch(prefix, 'cmd_get'),
+      metric: getDynamicMetricMatch(prefix, 'cmd_get', 'Bucket'),
       label: 'Gets per sec.',
+      category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getMetricMatch(prefix, 'cmd_set'),
+      metric: getDynamicMetricMatch(prefix, 'cmd_set', 'Bucket'),
       label: 'Sets per sec.',
+      category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getMetricMatch(prefix, 'vb_active_resident_items_ratio'),
+      metric: getDynamicMetricMatch(prefix, 'vb_active_resident_items_ratio', 'Bucket'),
       label: 'Active items resident in cache (%)',
+      category: [category],
       min: 0,
       max: 1,
       formatter: percentage
     },
     {
-      metric: getMetricMatch(prefix, 'ep_bg_fetched'),
+      metric: getDynamicMetricMatch(prefix, 'ep_bg_fetched', 'Bucket'),
       label: 'Disk reads per sec.',
+      category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getMetricMatch(prefix, 'vb_active_eject'),
+      metric: getDynamicMetricMatch(prefix, 'vb_active_eject', 'Bucket'),
       label: 'Active items ejected per sec.',
+      category: [category],
       min: 0,
       formatter: number
     }

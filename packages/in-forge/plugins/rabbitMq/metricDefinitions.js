@@ -1,5 +1,5 @@
-import { number, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number, bytes } from 'in-services/formatters/number';
 
 export default [
   {

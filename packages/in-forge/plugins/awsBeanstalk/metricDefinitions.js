@@ -1,5 +1,5 @@
 import { number, percentage, millis } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -70,149 +70,172 @@ export default [
   },
   // instances
   {
-    metrics: getMetricMatch('instanceMetrics', 'instance_health'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'instance_health', 'Instance'),
     labels: ['Instance Health'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_irq'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_irq', 'Instance'),
     labels: ['Instance CPU irq'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_idle'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_idle', 'Instance'),
     labels: ['Instance CPU idle'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_user'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_user', 'Instance'),
     labels: ['Instance CPU user'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_system'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_system', 'Instance'),
     labels: ['Instance CPU system'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_softirq'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_softirq', 'Instance'),
     labels: ['Instance CPU softirq'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_iowait'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_iowait', 'Instance'),
     labels: ['Instance CPU iowait'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_nice'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_nice', 'Instance'),
     labels: ['Instance CPU nice'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'cpu_load_average_1min'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_load_average_1min', 'Instance'),
     labels: ['Instance CPU Load'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'disk_space_usage'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'disk_space_usage', 'Instance'),
     labels: ['Instance Disk Usage'],
+    category: ['Instances'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p10'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p10', 'Instance'),
     labels: ['Instance Latency P10'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p50'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p50', 'Instance'),
     labels: ['Instance Latency P50'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p75'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p75', 'Instance'),
     labels: ['Instance Latency P75'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p85'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p85', 'Instance'),
     labels: ['Instance Latency P85'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p90'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p90', 'Instance'),
     labels: ['Instance Latency P90'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p95'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p95', 'Instance'),
     labels: ['Instance Latency P95'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p99'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p99', 'Instance'),
     labels: ['Instance Latency P99'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_latency_p99.9'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p99.9', 'Instance'),
     labels: ['Instance Latency P99.9'],
+    category: ['Instances'],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_requests_2xx'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_2xx', 'Instance'),
     labels: ['Instance Requests 2xx'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_requests_3xx'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_3xx', 'Instance'),
     labels: ['Instance Requests 3xx'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_requests_4xx'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_4xx', 'Instance'),
     labels: ['Instance Requests 4xx'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_requests_5xx'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_5xx', 'Instance'),
     labels: ['Instance Requests 5xx'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('instanceMetrics', 'application_requests_total'),
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_total', 'Instance'),
     labels: ['Instance Requests Total'],
+    category: ['Instances'],
     min: 0,
     formatter: number
   }

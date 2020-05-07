@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, bytes, millis } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -73,77 +73,77 @@ export default [
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'request_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'request_count', 'Availability Zone'),
     label: 'Request Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'client_tls_negotiation_error_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'client_tls_negotiation_error_count', 'Availability Zone'),
     label: 'Client TLS Error Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_tls_negotiation_error_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_tls_negotiation_error_count', 'Availability Zone'),
     label: 'Target TLS Error Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_response_time'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_response_time', 'Availability Zone'),
     label: 'Target Response Time',
     category: ['Network'],
     min: 0,
     formatter: millis.detailed
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_connection_error_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_connection_error_count', 'Availability Zone'),
     label: 'Target Connection Error Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_2XX_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_2XX_count', 'Availability Zone'),
     label: 'Target Status Code 2xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_3XX_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_3XX_count', 'Availability Zone'),
     label: 'Target Status Code 3xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_4XX_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_4XX_count', 'Availability Zone'),
     label: 'Target Status Code 4xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'target_5XX_count'),
+    metric: getDynamicMetricMatch('azMetrics', 'target_5XX_count', 'Availability Zone'),
     label: 'Target Status Code 5xx Count',
     category: ['Network'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('azMetrics', 'latency'),
+    metric: getDynamicMetricMatch('azMetrics', 'latency', 'Availability Zone'),
     label: 'Latency',
     category: ['Network'],
     min: 0,
     formatter: millis.detailed
   },
   {
-    metric: getMetricMatch('azMetrics', 'backend_connection_errors'),
+    metric: getDynamicMetricMatch('azMetrics', 'backend_connection_errors', 'Availability Zone'),
     label: 'backend Connection errors',
     category: ['Network'],
     min: 0,

@@ -1,5 +1,5 @@
 import { muSecondsToMillis, number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -41,7 +41,8 @@ export default [
   },
   {
     metrics: ['keyspaceCount'],
-    labels: ['Keyspaces'],
+    labels: ['Keyspace Count'],
+    category: ['Keyspaces'],
     min: 0,
     formatter: number
   },
@@ -52,8 +53,9 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('keyspace', 'diskSize'),
+    metric: getDynamicMetricMatch('keyspace', 'diskSize', 'Keyspace'),
     label: 'Disk Size',
+    category: ['Keyspaces'],
     min: 0,
     formatter: bytes
   },
