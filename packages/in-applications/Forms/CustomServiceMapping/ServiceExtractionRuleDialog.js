@@ -56,9 +56,9 @@ class BasicDialog extends React.Component {
               mapped to that service.
             </DescriptionText>
           </div>
-          <div className={locals.helpText}>{'Name Rule'}</div>
           {serviceConfiguration.get('name').map(field => (
             <FormGroup>
+              <Label htmlFor={'name'}>Name Rule</Label>
               <Input
                 type="text"
                 id="name"
@@ -137,7 +137,7 @@ class BasicDialog extends React.Component {
                       return (
                         <FormGroup className={locals.matchSpecificationGroupValue}>
                           <Label
-                            htmlFor={`match-${matchSpecificationIndex}-key`}
+                            htmlFor={`match-${matchSpecificationIndex}-secondLevelName`}
                             hasError={!field.valid && field.touched}
                           >
                             Key
@@ -184,7 +184,7 @@ class BasicDialog extends React.Component {
               </div>
             );
           })}
-          <div className={locals.addRuleButtonWrapper}>
+          <div className={locals.addMatchSpecificationButton}>
             <Button
               kind="action"
               onClick={() =>
@@ -200,7 +200,7 @@ class BasicDialog extends React.Component {
         </div>
 
         <div className={locals.preview}>
-          <span className={locals.previewLabel}>Preview</span>
+          <span className={locals.label}>Preview</span>
           <span>{getPreview(serviceConfiguration)}</span>
         </div>
         <div className={locals.footer}>

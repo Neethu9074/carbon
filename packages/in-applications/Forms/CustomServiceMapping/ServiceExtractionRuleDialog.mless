@@ -1,16 +1,16 @@
 @import '~in-themes/active.less';
 
 :local {
-  .description {
-    padding: 0.5rem 0;
-  }
-
   .queryFormSection {
     background: @lib__colors__N200;
     padding: 0 1rem 0.25rem;
   }
 
-  .queryHelpText {
+  .description {
+    padding: 0.5rem 0;
+  }
+
+  .helpText {
     margin-top: 1rem;
 
     color: @lib__colors__N600Light;
@@ -42,6 +42,12 @@
     fill: @lib__colors__N500;
   }
 
+  .addMatchSpecificationButton {
+    display: flex;
+    width: 100%;
+    margin: 1rem 0 0.5rem;
+  }
+
   .preview {
     display: flex;
     align-items: flex-end;
@@ -49,10 +55,10 @@
 
     margin: 1rem 0;
     padding: 0 1rem 0.25rem;
-  }
-  .previewLabel {
-    font-size: 1rem;
-    color: @lib__colors__N900Primary;
+    .label {
+      font-size: 1rem;
+      color: @lib__colors__N900Primary;
+    }
   }
   .footer {
     display: flex;
