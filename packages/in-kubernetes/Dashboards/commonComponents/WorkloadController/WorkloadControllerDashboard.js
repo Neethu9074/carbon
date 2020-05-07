@@ -1,0 +1,144 @@
+import { get } from 'lodash';
+import React from 'react';
+
+import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
+
+export default function WorkloadControllerDashboard({
+  location,
+  workloadControllerType,
+  shortPluginName,
+  fullyQualifiedPluginName,
+  dashboardPath,
+  matrixParameterId,
+  BreadCrumbComponent,
+  getWorkloadControllerSubscription,
+  tabChangeTracker,
+  headerTitle,
+  badgeType,
+  tabs
+}) {
+  const props = {
+    workloadControllerType: workloadControllerType,
+    workloadControllerId: getMatrixParameter(location, dashboardPath, matrixParameterId),
+    viewPath: dashboardPath,
+    timeConfig: getTimeConfig(location),
+    headerTitle: headerTitle,
+    badgeType: badgeType,
+    fullyQualifiedPluginName: fullyQualifiedPluginName,
+    BreadCrumbComponent: BreadCrumbComponent
+  };
+  props[`${props.workloadControllerType}Id`] = props.workloadControllerId;
+
+  return (
+    <>
+      <KubernetesBreadcrumbs props={props} />
+      <TabView
+        result$={getWorkloadControllerSubscription({
+          id: props.workloadControllerId,
+          timeConfig: props.timeConfig
+        })}
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        tabChangeTracker={tabChangeTracker}
+        props={props}
+        renderErrors={errors => (
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={shortPluginName}
+              snapshotId={props.workloadControllerId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
+        )}
+      />
+
+      <Footer />
+    </>
+  );
+}
+
+function KubernetesBreadcrumbs({ props }) {
+  const breadcrumbProps = {
+    timeConfig: props.timeConfig,
+    renderBreadcrumbs: function showBreadcrumbs(clusterId, namespaceId) {
+      return (
+        <Breadcrumbs
+          items={props.BreadCrumbComponent({
+            ...props,
+            clusterId,
+            namespaceId
+          })}
+        />
+      );
+    }
+  };
+  breadcrumbProps[`${props.workloadControllerType}Id`] = props.workloadControllerId;
+  return React.createElement(KubernetesIdsForBreadcrumb, breadcrumbProps, null);
+}
+
+function Header(props) {
+  return (
+    <DashboardHeader
+      {...props}
+      title={props.headerTitle}
+      icon="lib_kubernetes_workload"
+      label={get(props.result, ['data', 'name'])}
+      renderButtonLine={renderButtonLine}
+      renderMetaInformation={renderMetaInformation}
+    />
+  );
+}
+
+function renderButtonLine({
+  workloadControllerType,
+  workloadControllerId,
+  timeConfig,
+  fullyQualifiedPluginName,
+  result
+}) {
+  const clusterName = result.data?.clusterId;
+  const namespaceName = result.data?.namespace;
+  const workloadControllerName = result.data?.name;
+  const analyzeCallsProps = {
+    clusterName: clusterName,
+    namespaceName: namespaceName,
+    groupByTag: { name: 'kubernetes.pod.name' },
+    timeConfig: timeConfig
+  };
+  analyzeCallsProps[`${workloadControllerType}Name`] = workloadControllerName;
+
+  return (
+    <>
+      <DashboardButtonLine
+        snapshotId={workloadControllerId}
+        timeConfig={timeConfig}
+        plugin={fullyQualifiedPluginName}
+        tagFilters={getFilters(clusterName, namespaceName, workloadControllerName)}
+      />
+      {React.createElement(AnalyzeCallsButton, analyzeCallsProps, null)}
+    </>
+  );
+}
+
+function renderMetaInformation({ badgeType, result }) {
+  return (
+    <>
+      <TypesBadgeList type={badgeType} />
+      <KubernetesIndicator result={result} />
+    </>
+  );
+}
