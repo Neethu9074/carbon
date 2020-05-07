@@ -32,7 +32,6 @@ export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabl
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
-export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');

@@ -5,15 +5,6 @@
     display: flex;
   }
 
-  .lettering {
-    height: 1.25rem;
-    width: 8rem;
-
-    margin-right: 1rem;
-
-    filter: brightness(0.1);
-  }
-
   .tuInformation {
     color: @lib__colors__N600Light;
     font-size: 0.875rem;

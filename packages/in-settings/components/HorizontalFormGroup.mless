@@ -17,6 +17,10 @@
     }
   }
 
+  .withoutBottomBorder {
+    border-bottom: 0;
+  }
+
   .helpIconSpacer {
     width: 1rem;
   }

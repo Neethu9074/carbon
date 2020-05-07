@@ -1,7 +1,7 @@
 export default {
-  canConfigureServiceMapping: 'Service & Endpoint Mapping',
-  canConfigureEumApplications: 'Website Monitoring Configuration',
-  canConfigureMobileAppMonitoring: 'Mobile App Monitoring Configuration',
+  canConfigureServiceMapping: 'Service & endpoint mapping',
+  canConfigureEumApplications: 'Website monitoring configuration',
+  canConfigureMobileAppMonitoring: 'Mobile app monitoring Configuration',
   canConfigureUsers: 'User management',
   canConfigureRoles: 'Access role configuration',
   canConfigureTeams: 'Access team configuration',
@@ -17,5 +17,6 @@ export default {
   canConfigureApplications: 'Configuration of applications',
   canConfigureAuthenticationMethods: 'Configuration of authentication methods',
   canConfigureLogManagement: 'Configuration of log management',
-  canConfigureReleases: 'Configuration of releases'
+  canConfigureReleases: 'Configuration of releases',
+  canCreatePublicCustomDashboards: 'Creation of public custom dashboards'
 };
