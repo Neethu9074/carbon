@@ -22,6 +22,18 @@ export default function ServiceExtractionRuleDialog(props) {
   return <EditConfigDialog title="Custom Service Rule" content={<BasicDialog {...props} />} />;
 }
 
+export function getPreview(serviceConfig) {
+  return serviceConfig
+    .get('matchSpecification')
+    .items.filter(matchSpecification => matchSpecification.get('key').value)
+    .map(matchSpecification => {
+      const key = matchSpecification.get('key').value;
+      const secondLevel = matchSpecification.get('secondLevelName');
+      return secondLevel && secondLevel.value ? `{${key}.${secondLevel.value}}` : `{${key}}`;
+    })
+    .join('-');
+}
+
 class BasicDialog extends React.Component {
   static displayName = 'BasicDialog';
 
@@ -187,6 +199,10 @@ class BasicDialog extends React.Component {
           </div>
         </div>
 
+        <div className={locals.preview}>
+          <span className={locals.previewLabel}>Preview</span>
+          <span>{getPreview(serviceConfiguration)}</span>
+        </div>
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.get(serviceConfigIndex).hierarchyValid}>
             OK

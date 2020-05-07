@@ -6,6 +6,7 @@ import ServiceExtractionRule from 'in-applications/Forms/CustomServiceMapping/Se
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 import locals from './DragAndDropRuleList.mless';
+import { getPreview } from 'in-applications/Forms/CustomServiceMapping/ServiceExtractionRuleDialog';
 
 export default class DragAndDropRuleList extends React.Component {
   displayName = 'DragAndDropRuleList';
@@ -76,16 +77,4 @@ export default class DragAndDropRuleList extends React.Component {
       />
     );
   };
-}
-
-function getPreview(serviceConfig) {
-  return serviceConfig
-    .get('matchSpecification')
-    .items.filter(matchSpecification => matchSpecification.get('key').value)
-    .map(matchSpecification => {
-      const key = matchSpecification.get('key').value;
-      const secondLevel = matchSpecification.get('secondLevelName');
-      return secondLevel && secondLevel.value ? `{${key}.${secondLevel.value}}` : `{${key}}`;
-    })
-    .join('-');
 }
