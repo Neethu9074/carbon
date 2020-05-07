@@ -17,7 +17,7 @@ import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { fromDynamicMetricStringValue } from 'in-sdk/metrics/metrics';
+import { fromDynamicMetricStringValue, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -155,15 +155,17 @@ function getEventSpecification(event, form) {
     let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
     conditionValue = unmapConditionValue(conditionValue, formatterType);
 
+    const entityType = form.get('entityType')?.value ?? null;
     let metricName = form.get('metricName')?.value ?? null;
     let metricPattern = null;
-    if (form.containsKey('metricPatternOperator') && form.containsKey('metricPatternPlaceholder')) {
+
+    if (isBuiltInDynamicMetric(entityType, metricName)) {
       const metric = fromDynamicMetricStringValue(metricName);
       metricPattern = {
         prefix: metric.prefix,
         postfix: metric.postfix,
         operator: form.get('metricPatternOperator').value,
-        placeholder: form.get('metricPatternPlaceholder').value
+        placeholder: form.get('metricPatternPlaceholder')?.value ?? null
       };
       metricName = null;
     }
