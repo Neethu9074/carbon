@@ -1,35 +1,39 @@
 import { create } from 'reactive-observables';
-import React, { useState } from 'react';
+import React from 'react';
 
+import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
+import { success, error as errorType } from 'in-new-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import evaluateClassNames from 'in-services/util/classnames';
-import ComboBox from 'in-components/ComboBox/ComboBox';
-import { roles } from 'in-settings/terms/rolesConfig';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
+import ApiItemView from 'in-settings/components/ApiItemView';
+import RolesSelector from 'in-settings/terms/RolesSelector';
 import Title from 'in-components/Title';
 
 import locals from './termsAndPrivacyPages.mless';
 
-export default connectTo(() => {
-  const observables = {
-    termsAndPrivacySettings: create().emit(window.instana.termsAndPrivacySettings)
-  };
-  return observables;
-})(Communication);
+export default function Communication() {
+  return (
+    <ApiItemView
+      getObservables={() => ({
+        termsAndPrivacySettings: create().emit({ data: window.instana.termsAndPrivacySettings })
+      })}
+      enrichForm={enrichForm}
+      saveItem={saveItem}
+      render={render}
+    />
+  );
+}
 
-function Communication({ termsAndPrivacySettings }) {
-  const [form, setForm] = useState(termsFormDefinition(termsAndPrivacySettings, false));
-  const [error, setError] = useState(false);
-
+function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
   const onChange = (fieldName, fieldValue) => {
-    const updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+    if (fieldName === 'role') {
+      updatedForm = addDynamicRoleField(updatedForm, termsAndPrivacySettings);
+    }
     setForm(updatedForm);
-    setAndSave(formUserSettingsObject(updatedForm), () => setError(true));
+    setCanSaveItem(true);
   };
 
   return (
@@ -56,17 +60,7 @@ function Communication({ termsAndPrivacySettings }) {
           ))}
         </div>
         <div className={locals.role}>
-          <p>What role is closest to your role in your organisation?</p>
-          {form.get('role').map(({ value }) => (
-            <ComboBox
-              className={locals.comboBox}
-              name="role"
-              value={value}
-              options={roles}
-              onChange={e => onChange('role', e.value || '')}
-              searchable
-            />
-          ))}
+          <RolesSelector form={form} onChange={onChange} />
         </div>
         <div className={locals.flexColumn}>
           <p>
@@ -81,16 +75,25 @@ function Communication({ termsAndPrivacySettings }) {
             />
           ))}
         </div>
-        <div
-          className={evaluateClassNames({
-            [locals.errorText]: true,
-            [locals.hidden]: !error
-          })}
-        >
-          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>Sorry, we couldn&apos;t save your preferences right now. Please try again.</span>
-        </div>
       </form>
     </SettingsDetailPage>
   );
+}
+
+function saveItem({ form, setForm, setMessage }) {
+  if (form.get('dynamicRole') && !form.get('dynamicRole').valid) {
+    setForm(form.updateIn(['dynamicRole'], field => field.setTouched(true)));
+    return;
+  }
+  setAndSave(
+    formUserSettingsObject(form),
+    () => {
+      setMessage({ text: 'Settings successfully saved.', type: success });
+    },
+    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
+  );
+}
+
+function enrichForm(form, { result }) {
+  return termsFormDefinition(result.termsAndPrivacySettings, false);
 }

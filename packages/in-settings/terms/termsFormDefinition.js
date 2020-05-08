@@ -1,4 +1,4 @@
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 
 export default function termsFormDefinition(userSettings, withAcceptanceFields = true) {
   let form = createMapForm()
@@ -39,6 +39,8 @@ export default function termsFormDefinition(userSettings, withAcceptanceFields =
       })
     );
 
+  form = addDynamicRoleField(form, userSettings);
+
   if (withAcceptanceFields) {
     form = form
       .put(
@@ -64,6 +66,18 @@ function checkboxCheckedValidator(value) {
   if (value) {
     return null;
   }
-
   return [{ severity: 'error', message: 'Terms agreement missing' }];
+}
+
+export function addDynamicRoleField(form, userSettings) {
+  if (form.get('role').value === 'other' && !form.get('dynamicRole')) {
+    return form.put(
+      'dynamicRole',
+      createField({
+        value: userSettings ? userSettings.dynamicRole || '' : '',
+        validator: notBlankValidator
+      })
+    );
+  }
+  return form.remove('dynamicRole');
 }

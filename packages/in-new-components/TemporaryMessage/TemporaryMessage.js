@@ -3,9 +3,9 @@ import React from 'react';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Message from 'in-new-components/Message';
 
-export default function TemporaryMessage({ text, type, duration = 5000 }) {
+export default function TemporaryMessage({ id, text, type, duration = 5000 }) {
   return (
-    <TemporaryPresenter duration={duration} id={text}>
+    <TemporaryPresenter duration={duration} id={id || text}>
       <Message type={type} withIcon small>
         {text}
       </Message>

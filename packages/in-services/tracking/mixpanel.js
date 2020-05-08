@@ -42,7 +42,9 @@ function initMixpanel(callback) {
     tenantId: tenant.id,
     tenantUnit: config.tenantUnit,
     tenants,
-    roles
+    roles,
+    userRole: window.instana?.termsAndPrivacySettings?.role,
+    userDefinedRole: window.instana?.termsAndPrivacySettings?.dynamicRole
   });
 
   combineLatest([
