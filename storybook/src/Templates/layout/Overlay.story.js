@@ -6,7 +6,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default {
-  title: 'Atoms|layout/Overlay',
+  title: 'Templates|layout/Overlay',
   component: Overlay
 };
 

@@ -13,7 +13,7 @@ const styles = {
 const CenterDecorator = storyFn => <div style={styles}>{storyFn()}</div>;
 
 export default {
-  title: 'Atoms|layout/SlideInView',
+  title: 'Templates|layout/SlideInView',
   component: SlideInView,
   decorators: [CenterDecorator]
 };

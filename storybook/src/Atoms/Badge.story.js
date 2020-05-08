@@ -34,4 +34,5 @@ export const bold = () => {
 
   return <Badge color={color}>{label}</Badge>;
 };
+
 export const inverted = () => <Badge kind="inverted">Inverted</Badge>;
