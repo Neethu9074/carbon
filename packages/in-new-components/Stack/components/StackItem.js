@@ -10,6 +10,7 @@ import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import apKpis from 'in-new-components/Stack/apKpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
 import { Li } from 'in-new-components/lists/List';
@@ -94,8 +95,6 @@ const showEndpointTypes = endpointTypes => {
   );
 };
 
-const AP_KPIS = [{ key: 'callsAgg', label: 'Calls' }, { key: 'erroneousCalls', label: 'Erroneous Calls' }];
-
 const showApKpis = metrics => {
   if (!metrics) {
     return null;
@@ -103,19 +102,21 @@ const showApKpis = metrics => {
 
   return (
     <div className={locals.chartWrapper}>
-      {AP_KPIS.map(
-        kpi =>
-          metrics[kpi.key] && (
+      {apKpis
+        .filter(kpi => metrics[kpi.key])
+        .slice(0, 2)
+        .map(({ label, formatter, key }) => {
+          return (
             <KeyValue
-              key={kpi.key}
+              key={key}
               className={locals.chart}
-              label={kpi.label}
-              value={metrics[kpi.key][0][1]}
+              label={label}
+              value={formatter(metrics[key][0][1])}
               theme={themes.blue}
               accentuated
             />
-          )
-      )}
+          );
+        })}
     </div>
   );
 };
