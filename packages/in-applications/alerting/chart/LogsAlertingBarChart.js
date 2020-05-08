@@ -129,7 +129,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
-      tagFilters: tagFilters,
+      tagFilters,
       timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity

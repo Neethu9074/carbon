@@ -1,6 +1,7 @@
 export const blueprintConfig = Object.freeze([
   {
     type: 'slowness',
+    blacklistedTagFilters: ['call.latency'],
     name: 'Slow Calls',
     headline: 'Automatic Alerts for Slow Calls',
     text:
@@ -8,6 +9,7 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'errorRate',
+    blacklistedTagFilters: ['call.erroneous', 'call.error.count', 'call.error.message'],
     name: 'Erroneous Calls',
     headline: 'Automatic Alerts for Erroneous Calls',
     text:
@@ -15,9 +17,18 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'logs',
+    blacklistedTagFilters: ['log.message', 'log.level'],
     name: 'Error and Warning Logs',
     headline: 'Automatic Alerts for Error and Warning Logs',
     text:
       'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.'
   }
 ]);
+
+export function blacklistedTagFiltersOfAlertType(type) {
+  const config = blueprintConfig.find(blueprint => blueprint.type === type);
+  if (config) {
+    return [...config.blacklistedTagFilters];
+  }
+  return [];
+}
