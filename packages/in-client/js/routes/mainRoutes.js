@@ -32,6 +32,7 @@ import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
+import deepLinkRoutes from 'in-client/js/deepLink';
 
 export default (
   <FragmentSupportingSwitch>
@@ -60,8 +61,8 @@ export default (
     {integrationRoutes}
     {customDashboardsRoutes}
     {cockpitRoutes}
-
     {profilingRoutes}
+    {deepLinkRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
