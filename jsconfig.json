@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["packages/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "flow-typed/*", "dev", "build", "deployment", "target"]
+}
