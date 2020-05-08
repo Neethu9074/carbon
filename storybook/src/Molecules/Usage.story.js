@@ -3,7 +3,7 @@ import React from 'react';
 import UsageMessage from 'in-components/MessageFlyout/UsageMessage';
 
 export default {
-  title: 'Atoms|UsageMessage',
+  title: 'Molecules|UsageMessage',
   component: UsageMessage
 };
 
