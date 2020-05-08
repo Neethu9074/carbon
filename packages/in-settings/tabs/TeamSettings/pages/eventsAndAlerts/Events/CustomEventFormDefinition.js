@@ -233,7 +233,9 @@ function putAllDataSourceFields(form, event) {
 
   if (isBuiltInDynamicMetric(entityType, metricName)) {
     form = putMetricPatternOperator(form, metricPlaceholderOperator);
-    form = putMetricPatternPlaceholder(form, metricPlaceholderValue);
+    if (metricPlaceholderOperator !== 'any') {
+      form = putMetricPatternPlaceholder(form, metricPlaceholderValue);
+    }
   }
 
   return form;

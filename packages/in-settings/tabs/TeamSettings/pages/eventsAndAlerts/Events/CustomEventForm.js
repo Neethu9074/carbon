@@ -737,24 +737,38 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
     <FormGroup noFlex>
       <Row>
         <Col cols={3}>
-          {metricPatternOperator && (
-            <FormGroup>
-              <Label
-                htmlFor="event-metricPatternOperator"
-                hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
-              >
-                Matching Operator
-              </Label>
-              <ComboBox
-                name="event-metricPatternOperator"
-                value={metricPatternOperator.value}
-                options={stringMatchingOptions}
-                onChange={e => onChange('metricPatternOperator', e ? e.value : '')}
-                clearable={false}
-              />
-              <TouchedMessages field={metricPatternOperator} />
-            </FormGroup>
-          )}
+          {metricPatternOperator &&
+            metricPatternOperator.map(field => (
+              <FormGroup>
+                <Label
+                  htmlFor="event-metricPatternOperator"
+                  hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
+                >
+                  Matching Operator
+                </Label>
+                <ComboBox
+                  name="event-metricPatternOperator"
+                  value={metricPatternOperator.value}
+                  options={metricPatternMatchingOptions}
+                  onChange={e => {
+                    const prevOperator = field.value;
+                    if ((prevOperator && !e) || (e && e.value !== prevOperator)) {
+                      const newOperator = e ? e.value : '';
+                      onChange('metricPatternOperator', newOperator, updatedForm => {
+                        if (newOperator === 'any') {
+                          updatedForm = updatedForm.remove('metricPatternPlaceholder');
+                        } else if (prevOperator === 'any') {
+                          updatedForm = putMetricPatternPlaceholder(updatedForm);
+                        }
+                        return updatedForm;
+                      });
+                    }
+                  }}
+                  clearable={false}
+                />
+                <TouchedMessages field={metricPatternOperator} />
+              </FormGroup>
+            ))}
         </Col>
         <Col cols={6}>
           {metricPatternPlaceholder && (
@@ -782,51 +796,9 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
 }
 
 function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
-  const entityTypesToExclude = Object.freeze([
-    'application',
-    'awsEbs',
-    'awsLambda',
-    'awsLambdaVersion',
-    'cassandraCluster',
-    'cockroachDBCluster',
-    'consulCluster',
-    'couchbaseCluster',
-    'elasticsearchCluster',
-    'endpoint',
-    'hazelcastCluster',
-    'host',
-    'kafkaCluster',
-    'kubernetesCluster',
-    'kubernetesDeployment',
-    'kubernetesNamespace',
-    'kubernetesNode',
-    'kubernetesPod',
-    'kubernetesReplicaSet',
-    'mongoDbReplicaSet',
-    'openshiftDeploymentConfig',
-    'ping',
-    'redisCluster',
-    'service'
-  ]);
-
-  const offlineDurationOptions = Object.freeze([
-    { value: '60000', label: '1 min' },
-    { value: '120000', label: '2 min' },
-    { value: '180000', label: '3 min' },
-    { value: '300000', label: '5 min' },
-    { value: '600000', label: '10 min' },
-    { value: '1800000', label: '30 min' },
-    { value: '3600000', label: '60 min' },
-    { value: '5400000', label: '90 min' },
-    { value: '7200000', label: '120 min' },
-    { value: '14400000', label: '4 h' },
-    { value: '21600000', label: '6 h' },
-    { value: '43200000', label: '12 h' },
-    { value: '64800000', label: '18 h' },
-    { value: '86400000', label: '24 h' }
-  ]);
-
-  const entityTypeOptions = entityTypes.filter(({ value }) => entityTypesToExclude.indexOf(value) === -1);
+  const entityTypeOptions = entityTypes.filter(
+    ({ value }) => entityTypesToExcludeInVerificationRule.indexOf(value) === -1
+  );
 
   const matchingEntityType = form.get('matchingEntityType');
   const matchingOperator = form.get('matchingOperator');
@@ -859,7 +831,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
             <ComboBox
               name="matching-operator"
               value={matchingOperator.value}
-              options={stringMatchingOptions}
+              options={entityLabelOperatorOptions}
               onChange={e => onChange('matchingOperator', e ? e.value : '')}
               clearable={false}
             />
@@ -1089,13 +1061,16 @@ function isSystemRuleDataSourceSelected(form) {
 
 const severityWarning = '5';
 const severityCritical = '10';
-const severityOptions = [{ value: severityWarning, label: 'warning' }, { value: severityCritical, label: 'critical' }];
+const severityOptions = Object.freeze([
+  { value: severityWarning, label: 'warning' },
+  { value: severityCritical, label: 'critical' }
+]);
 
-const dataSourceOptions = [
+const dataSourceOptions = Object.freeze([
   { value: dataSourceBuiltIn, label: 'Built-in metrics' },
   { value: dataSourceCustom, label: 'Custom metrics' },
   { value: dataSourceSystem, label: 'System Rules' }
-];
+]);
 
 function systemRuleOptions(systemRules) {
   if (!systemRules) {
@@ -1129,7 +1104,7 @@ function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
   }
 }
 
-const gracePeriodOptions = [
+const gracePeriodOptions = Object.freeze([
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10 s' },
   { value: '30000', label: '30 s' },
@@ -1145,9 +1120,9 @@ const gracePeriodOptions = [
   { value: '21600000', label: '6 h' },
   { value: '43200000', label: '12 h' },
   { value: '86400000', label: '24 h' }
-];
+]);
 
-const windowOptions = [
+const windowOptions = Object.freeze([
   { value: '1000', label: '1 s' },
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10 s' },
@@ -1160,34 +1135,86 @@ const windowOptions = [
   { value: '3600000', label: '60 min' },
   { value: '5400000', label: '90 min' },
   { value: '7200000', label: '120 min' }
-];
+]);
 
-const rollupOptions = [
+const rollupOptions = Object.freeze([
   { value: '5000', label: '5 s' },
   { value: '60000', label: '1 min' },
   { value: '300000', label: '5 min' },
   { value: '3600000', label: '60 min' }
-];
+]);
 
-const aggregationOptions = [
+const aggregationOptions = Object.freeze([
   { value: 'avg', label: 'avg' },
   { value: 'sum', label: 'sum' },
   { value: 'min', label: 'min' },
   { value: 'max', label: 'max' }
-];
+]);
 
-const conditionOperatorOptions = [
+const conditionOperatorOptions = Object.freeze([
   { value: '<', label: '<' },
   { value: '<=', label: '≤' },
   { value: '==', label: '==' },
   { value: '>=', label: '≥' },
   { value: '>', label: '>' },
   { value: '!=', label: '≠' }
-];
+]);
 
-const stringMatchingOptions = Object.freeze([
+const entityTypesToExcludeInVerificationRule = Object.freeze([
+  'application',
+  'awsEbs',
+  'awsLambda',
+  'awsLambdaVersion',
+  'cassandraCluster',
+  'cockroachDBCluster',
+  'consulCluster',
+  'couchbaseCluster',
+  'elasticsearchCluster',
+  'endpoint',
+  'hazelcastCluster',
+  'host',
+  'kafkaCluster',
+  'kubernetesCluster',
+  'kubernetesDeployment',
+  'kubernetesNamespace',
+  'kubernetesNode',
+  'kubernetesPod',
+  'kubernetesReplicaSet',
+  'mongoDbReplicaSet',
+  'openshiftDeploymentConfig',
+  'ping',
+  'redisCluster',
+  'service'
+]);
+
+const entityLabelOperatorOptions = Object.freeze([
   { value: 'is', label: 'is' },
   { value: 'contains', label: 'contains' },
   { value: 'startsWith', label: 'starts with' },
   { value: 'endsWith', label: 'ends with' }
+]);
+
+const offlineDurationOptions = Object.freeze([
+  { value: '60000', label: '1 min' },
+  { value: '120000', label: '2 min' },
+  { value: '180000', label: '3 min' },
+  { value: '300000', label: '5 min' },
+  { value: '600000', label: '10 min' },
+  { value: '1800000', label: '30 min' },
+  { value: '3600000', label: '60 min' },
+  { value: '5400000', label: '90 min' },
+  { value: '7200000', label: '120 min' },
+  { value: '14400000', label: '4 h' },
+  { value: '21600000', label: '6 h' },
+  { value: '43200000', label: '12 h' },
+  { value: '64800000', label: '18 h' },
+  { value: '86400000', label: '24 h' }
+]);
+
+const metricPatternMatchingOptions = Object.freeze([
+  { value: 'is', label: 'is' },
+  { value: 'contains', label: 'contains' },
+  { value: 'startsWith', label: 'starts with' },
+  { value: 'endsWith', label: 'ends with' },
+  { value: 'any', label: 'any' }
 ]);
