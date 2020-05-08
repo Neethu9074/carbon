@@ -2,7 +2,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getType, getSpanDetailView } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
@@ -48,9 +48,9 @@ export default class extends React.PureComponent {
 
   render() {
     if (!this.state.Component) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     } else if (this.state.componentType !== getType(this.props.span)) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     return <Jail key={this.props.span} component={this.state.Component} props={this.props} />;

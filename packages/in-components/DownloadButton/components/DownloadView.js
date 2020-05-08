@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import Button from 'in-components/Button';
 
 import './DownloadView.less';
@@ -23,7 +23,7 @@ export default class extends React.Component {
   render() {
     const data = this.props.data;
     if (!data) {
-      return <LoadingIndicator type="dark" inline />;
+      return <LoadingIndicator inline />;
     }
 
     return (

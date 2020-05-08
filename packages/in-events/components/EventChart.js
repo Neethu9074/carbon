@@ -15,11 +15,11 @@ import {
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';

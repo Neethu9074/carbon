@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
@@ -108,7 +108,7 @@ class BasicForm extends React.Component {
 
     let content;
     if (isLoading) {
-      content = <InfiniteCircle height={100} />;
+      content = <LoadingIndicator text="Loading data" height={100} />;
     } else if (hasErrors) {
       content = <ErroneousResultPresenter errors={entityResult.errors} />;
     } else {

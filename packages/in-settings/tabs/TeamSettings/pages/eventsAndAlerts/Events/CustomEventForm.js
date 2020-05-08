@@ -52,12 +52,12 @@ import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndA
 import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventDescription from 'in-components/EventDescription';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -547,7 +547,7 @@ function EventForm({
                   }}
                   positionAbove
                 />
-                {queryValidationInProgress && <LoadingIndicator type="dark" className={locals.queryLoading} inline />}
+                {queryValidationInProgress && <LoadingIndicator className={locals.queryLoading} inline />}
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
                 <DescriptionText>

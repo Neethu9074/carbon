@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
-import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
-import { setSingle, getSingle } from 'in-services/settings/settings';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
+import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
+import { setSingle, getSingle } from 'in-services/settings/settings';
 import EmptyPane from 'in-new-components/Stack/components/EmptyPane';
 import StackPane from 'in-new-components/Stack/components/StackPane';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
@@ -35,7 +35,7 @@ const Loader = () => (
   <>
     <InlineTabNavigation tabList={tabList} isDisabled />
     <div className={locals.pane}>
-      <IndeterminateLoadingIndicator size="96" />
+      <LoadingIndicator size="xxxl" />
     </div>
   </>
 );

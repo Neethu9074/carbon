@@ -2,8 +2,8 @@ import { compose, pure } from 'recompose';
 import React from 'react';
 
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { lightGreenToDarkGreenHex } from 'in-services/heatMapColors';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import HeatMapLegend from 'in-new-components/HeatMapLegend';
@@ -33,7 +33,7 @@ function GeoHeatMapPresenter(props) {
   const { result, map, height } = props;
 
   if (!result || result.progress.loading || !map) {
-    return <InfiniteCircle height={height} />;
+    return <LoadingIndicator text="Loading Data" height={height} />;
   } else if (result.errors.length > 0) {
     return <NoDataAvailable height={height} />;
   }

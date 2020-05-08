@@ -6,12 +6,12 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventList from 'in-events/components/legacy/EventList';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventChart from 'in-events/components/EventChart';
@@ -25,7 +25,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   const eventType = getEventType(event);

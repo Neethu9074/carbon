@@ -1,7 +1,7 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import Card from 'in-new-components/Card';
 
@@ -12,16 +12,10 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const height = customHeight || 160;
   if (result.errors.length > 0) {
-    content = <NoDataAvailable width={frontBufferWidth} height={height} />;
+    content = <NoDataAvailable width={frontBufferWidth} height={height} text="Loading data" />;
   } else if (result.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
-    content = (
-      <InfiniteCircle
-        height={height}
-        frontBufferWidth={frontBufferWidth}
-        percentage={result.progress.percentage || 0.2}
-      />
-    );
+    content = <LoadingIndicator height={height} width={frontBufferWidth} />;
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {

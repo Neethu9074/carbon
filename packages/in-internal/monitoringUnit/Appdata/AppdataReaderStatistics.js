@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react';
 
+import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, millis } from 'in-services/formatters/number';
-import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 const cols = [
   {
@@ -61,7 +61,7 @@ export default connectTo({
   rows: getDropwizardWithContext('entity.label:"appdata-reader"')
 })(function AppdataWriterStatistics({ rows, timeConfig }) {
   if (rows.length === 0) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));

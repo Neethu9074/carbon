@@ -5,13 +5,13 @@ import React from 'react';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import { getTagFilterToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ApplicationMap from 'in-new-components/ApplicationMap/ApplicationMap';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getServiceMap from 'in-subscription/application/getServiceMap';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -137,7 +137,7 @@ export const ApplicationMapReactComponent = getElementDimensions(
       if (isLoading || hasErrors) {
         errorOrLoadingOverlay = (
           <div className={locals.centerWrapper}>
-            {isLoading && <InfiniteCircle />}
+            {isLoading && <LoadingIndicator text="Loading Data" />}
             {hasErrors && <NoDataAvailable text="An unexpected error occurred" />}
           </div>
         );

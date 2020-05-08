@@ -2,6 +2,7 @@ import { interval } from 'reactive-observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -10,7 +11,6 @@ import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { siPrefix } from 'in-services/formatters/number';
 import getRawEvents from 'in-subscription/getRawEvents';
@@ -57,7 +57,7 @@ function SloViolations({ events, timeConfig }) {
   if (!events) {
     return (
       <div className={locals.wrapper}>
-        <LoadingIndicator type="dark" />
+        <LoadingIndicator />
       </div>
     );
   }
@@ -104,7 +104,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
     .filter(c => c.mostSpecific)
 }))(function ViolationsForEntity({ context, events }) {
   if (!context) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   return (

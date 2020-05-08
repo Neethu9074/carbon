@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
@@ -58,7 +58,7 @@ export default function MultiSelectBarOverlay({
 
       {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
 
-      {loading && <InfiniteCircle customText="Loading filter options." className={locals.loading} height={100} />}
+      {loading && <LoadingIndicator text="Loading filter options." className={locals.loading} height={100} />}
 
       {!loading &&
         items.length === 0 && (

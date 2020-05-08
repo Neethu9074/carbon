@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -15,19 +16,18 @@ import {
 import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { fromDynamicMetricStringValue } from 'in-sdk/metrics/metrics';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
@@ -49,7 +49,7 @@ const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {

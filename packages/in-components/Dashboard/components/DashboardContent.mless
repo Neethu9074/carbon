@@ -39,6 +39,14 @@
     }
   }
 
+  .loadingIndicatorWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 45vh;
+  }
+
   @media @min-medium-screen {
     .content {
       width: ~'calc(100% - 400px)';

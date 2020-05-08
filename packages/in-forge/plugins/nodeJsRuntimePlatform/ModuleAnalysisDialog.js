@@ -1,8 +1,8 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import DashboardNotification from 'in-components/DashboardNotification';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
@@ -31,7 +31,7 @@ export default connectTo(
 
     return (
       <Dialog header={header} onClose={close}>
-        {!response ? <LoadingIndicator type="dark" /> : null}
+        {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (
           <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>

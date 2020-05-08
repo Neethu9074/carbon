@@ -1,5 +1,6 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS, List } from 'immutable';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -13,18 +14,17 @@ import { queryValidationResultValidator, queryValidationInProgressValidator, val
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 import locals from './MaintenanceConfiguration.mless';
 
@@ -48,7 +48,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {

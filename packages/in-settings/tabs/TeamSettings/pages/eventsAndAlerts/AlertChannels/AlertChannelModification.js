@@ -1,23 +1,23 @@
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
+import theme from 'in-themes';
 import React from 'react';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import { submitAlertChannelTracker } from 'in-settings/tracker';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
-import { submitAlertChannelTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export default function AlertChannelModification(props) {
   const kind = getMatrixParameter(props.location, '/channels', 'kind');
@@ -59,7 +59,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
   const { entity, form, message, error, loading, setForm, isCreate } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {
