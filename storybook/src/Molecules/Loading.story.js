@@ -10,37 +10,37 @@ export default {
   decorators: [withKnobs]
 };
 
-export function LoadingStory() {
+export function InfiniteBar() {
   return (
-    <>
-      <h2>Infinite Bar</h2>
-      <HorizontalIndicator
-        progress={{
-          loading: true
-        }}
-      />
-
-      <h2>Progress Bar</h2>
-      <HorizontalIndicator
-        progress={{
-          loading: true,
-          percentage: number('Percentage', 0.5, {
-            range: true,
-            min: 0,
-            max: 1,
-            step: 0.01
-          })
-        }}
-      />
-
-      <h2>Infinite Circle default</h2>
-      <InfiniteCircle width={400} height={100} />
-
-      <h2>Infinite Circle small</h2>
-      <InfiniteCircle width={72} height={24} />
-
-      <h2>Page Loading</h2>
-      <LoadingIndicator type="dark" />
-    </>
+    <HorizontalIndicator
+      progress={{
+        loading: true
+      }}
+    />
   );
+}
+
+export function ProgressBar() {
+  return (
+    <HorizontalIndicator
+      progress={{
+        loading: true,
+        percentage: number('Percentage', 0.5, {
+          range: true,
+          min: 0,
+          max: 1,
+          step: 0.01
+        })
+      }}
+    />
+  );
+}
+export function Infinite() {
+  return <InfiniteCircle width={400} height={100} />;
+}
+export function InfiniteCircleSmall() {
+  return <InfiniteCircle width={72} height={24} />;
+}
+export function PageLoading() {
+  return <LoadingIndicator type="dark" />;
 }
