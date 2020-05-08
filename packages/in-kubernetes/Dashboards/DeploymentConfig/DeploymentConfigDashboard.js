@@ -4,8 +4,8 @@ import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponen
 import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
 import { deploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
+import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
-import { DeploymentConfigBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { deploymentConfigTabChange } from 'in-kubernetes/tracker';
 
@@ -18,8 +18,8 @@ export default function DeploymentConfigDashboard({ location }) {
       fullyQualifiedPluginName={fullyQualifiedPlugins.openshiftDeploymentConfig}
       dashboardPath={deploymentConfigDashboard}
       matrixParameterId={matrixDeploymentConfigId}
-      BreadCrumbComponent={DeploymentConfigBreadcrumbs}
-      getWorkloadControllerSubscription={getOpenShiftDeploymentConfig}
+      BreadCrumbComponent={WorkloadControllerBreadcrumbs}
+      workloadControllerSubscriptionName={getOpenShiftDeploymentConfig}
       tabChangeTracker={deploymentConfigTabChange}
       headerTitle="Deployment Config"
       badgeType="K8s Deployment Config"

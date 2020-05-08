@@ -23,7 +23,7 @@ export default function WorkloadControllerDashboard({
   dashboardPath,
   matrixParameterId,
   BreadCrumbComponent,
-  getWorkloadControllerSubscription,
+  workloadControllerSubscriptionName,
   tabChangeTracker,
   headerTitle,
   badgeType,
@@ -32,6 +32,7 @@ export default function WorkloadControllerDashboard({
   const props = {
     workloadControllerType: workloadControllerType,
     workloadControllerId: getMatrixParameter(location, dashboardPath, matrixParameterId),
+    workloadControllerSubscriptionName: workloadControllerSubscriptionName,
     viewPath: dashboardPath,
     timeConfig: getTimeConfig(location),
     headerTitle: headerTitle,
@@ -45,7 +46,7 @@ export default function WorkloadControllerDashboard({
     <>
       <KubernetesBreadcrumbs props={props} />
       <TabView
-        result$={getWorkloadControllerSubscription({
+        result$={workloadControllerSubscriptionName({
           id: props.workloadControllerId,
           timeConfig: props.timeConfig
         })}
