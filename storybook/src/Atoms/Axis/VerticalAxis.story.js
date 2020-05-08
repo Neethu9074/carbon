@@ -5,7 +5,7 @@ import { bytes, millis, percentage } from 'in-services/formatters/number';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 
 export default {
-  title: 'Molecules|Axis/Vertical',
+  title: 'Atoms|Axis/Vertical',
   component: VerticalAxis,
   decorators: [withKnobs]
 };
