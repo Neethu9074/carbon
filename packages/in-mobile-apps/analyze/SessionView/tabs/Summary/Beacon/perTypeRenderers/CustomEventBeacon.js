@@ -44,11 +44,6 @@ export const Body = ({ beacon }) => {
           <BodyHeader>Custom Event</BodyHeader>
 
           <Dl>
-            <Di title="Window Location">
-              <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
-                {beacon.locationUrl}
-              </a>
-            </Di>
             <Di title="Event Name">{beacon.customEventName}</Di>
             <BackendDi beacon={beacon} />
           </Dl>
