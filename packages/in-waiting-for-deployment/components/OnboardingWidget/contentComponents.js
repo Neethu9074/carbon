@@ -214,11 +214,15 @@ export function Cmd(props) {
   return <Script {...props} pre={['@ECHO OFF', '']} />;
 }
 
-export function Script({ pre = [], lines, disabledErrorMessage }) {
+export function PowershellEC2(props) {
+  return <Script {...props} pre={['<powershell>']} post={['</powershell>']} />;
+}
+
+export function Script({ pre = [], post=[], lines, disabledErrorMessage }) {
   return (
     <div className={locals.script}>
       <pre className={locals.codeWrapper}>
-        <code className={locals.code}>{renderValueLines([...pre, ...lines])}</code>
+        <code className={locals.code}>{renderValueLines([...pre, ...lines, ...post])}</code>
       </pre>
       <CopyToClipboardButton getText={() => lines.join('\n')} disabledErrorMessage={disabledErrorMessage} />
     </div>

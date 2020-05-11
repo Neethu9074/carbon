@@ -12,6 +12,7 @@ import {
   Input,
   JSONFile,
   Listing,
+  PowershellEC2,
   Row,
   Script,
   Spacer,
@@ -66,7 +67,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         {
           label: 'Elastic Computing (EC2) - Windows 64Bit',
           keyWords: 'elasticcomputeec2windows',
-          Content: WindowsInstallerContent
+          Content: ElasticComputingWindowsContent
         },
         {
           label: 'Elastic Container Service for Kubernetes (EKS)',
@@ -236,6 +237,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'ZIP Archives',
           keyWords: 'windowszip',
           Content: ManualWindowsContent
+        },
+        {
+          label: 'Elastic Computing (EC2) - Windows 64Bit',
+          keyWords: 'elasticcomputeec2windows',
+          Content: ElasticComputingWindowsContent
         }
       ]
     }
@@ -699,6 +705,36 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <Spacer />
 
       {steps}
+    </>
+  );
+}
+
+function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+      </Row>
+      <Spacer />
+      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <PowershellEC2
+        lines={[
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64"`,
+          `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
+        ]}
+      />
+      <Description lines={['The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.']} />
+      <Spacer />
+      <HelpBox title="User Data in AWS EC2">
+        <TextWithLink
+          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+          linkText="&quot;Running commands on your Windows instance at launch&quot; page."
+          href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
+        />
+      </HelpBox>
     </>
   );
 }
