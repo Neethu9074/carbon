@@ -1,5 +1,5 @@
 import { health, millis, number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -66,76 +66,76 @@ export default [
     }
   },
   {
-    metric: getMetricMatch('heapSpaces', 'available'),
+    metric: getDynamicMetricMatch('heapSpaces', 'available', 'Heap Space'),
     label: 'Available',
     min: 0,
-    category: ['Heap Space'],
+    category: ['Heap Spaces'],
     formatter: bytes
   },
   {
-    metric: getMetricMatch('heapSpaces', 'current'),
+    metric: getDynamicMetricMatch('heapSpaces', 'current', 'Heap Space'),
     label: 'Current',
     min: 0,
-    category: ['Heap Space'],
+    category: ['Heap Spaces'],
     formatter: bytes
   },
   {
-    metric: getMetricMatch('heapSpaces', 'used'),
+    metric: getDynamicMetricMatch('heapSpaces', 'used', 'Heap Space'),
     label: 'Used',
     min: 0,
-    category: ['Heap Space'],
+    category: ['Heap Spaces'],
     formatter: bytes
   },
   {
-    metric: getMetricMatch('heapSpaces', 'physical'),
+    metric: getDynamicMetricMatch('heapSpaces', 'physical', 'Heap Space'),
     label: 'Physical',
     min: 0,
-    category: ['Heap Space'],
+    category: ['Heap Spaces'],
     formatter: bytes
   },
   {
-    metric: getMetricMatch('http', 'requests'),
+    metric: getDynamicMetricMatch('http', 'requests', 'Http Server Key'),
     label: 'Requests / s',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: number
   },
   {
-    metric: getMetricMatch('http', 'responses'),
+    metric: getDynamicMetricMatch('http', 'responses', 'Http Server Key'),
     label: 'Responses / s',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: number
   },
   {
-    metric: getMetricMatch('http', 'responseTime50'),
+    metric: getDynamicMetricMatch('http', 'responseTime50', 'Http Server Key'),
     label: 'Response Time 50th',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: millis,
     isPercentile: true
   },
   {
-    metric: getMetricMatch('http', 'responseTime90'),
+    metric: getDynamicMetricMatch('http', 'responseTime90', 'Http Server Key'),
     label: 'Response Time 90th',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: millis,
     isPercentile: true
   },
   {
-    metric: getMetricMatch('http', 'responseTime95'),
+    metric: getDynamicMetricMatch('http', 'responseTime95', 'Http Server Key'),
     label: 'Response Time 95th',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: millis,
     isPercentile: true
   },
   {
-    metric: getMetricMatch('http', 'responseTime99'),
+    metric: getDynamicMetricMatch('http', 'responseTime99', 'Http Server Key'),
     label: 'Response Time 99th',
     min: 0,
-    category: ['Http'],
+    category: ['HTTP Servers'],
     formatter: millis,
     isPercentile: true
   },

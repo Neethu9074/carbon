@@ -8,7 +8,7 @@ import {
   percentageTwoDecimalPlaces,
   bytesZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -33,62 +33,72 @@ export default [
     formatter: zeroDecimalPlaces
   },
   {
-    metric: getMetricMatch('databases', 'xact_commit'),
+    metric: getDynamicMetricMatch('databases', 'xact_commit', 'Database'),
     label: 'Committed transactions',
+    category: ['Databases'],
     min: 0,
     formatter: activity
   },
   {
-    metric: getMetricMatch('databases', 'xact_rollback'),
+    metric: getDynamicMetricMatch('databases', 'xact_rollback', 'Database'),
     label: 'Rolled back transactions',
+    category: ['Databases'],
     min: 0,
     formatter: activity
   },
   {
-    metric: getMetricMatch('databases', 'blks_hit_rate'),
+    metric: getDynamicMetricMatch('databases', 'blks_hit_rate', 'Database'),
     label: 'Cache Hit Ratio',
+    category: ['Databases'],
     min: 0,
     formatter: hitRate
   },
   {
-    metric: getMetricMatch('databases', 'conflicts'),
+    metric: getDynamicMetricMatch('databases', 'conflicts', 'Database'),
     label: 'Standby Conflicts',
+    category: ['Databases'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'idx_tup_read'),
+    metric: getDynamicMetricMatch('databases', 'idx_tup_read', 'Database'),
     label: 'Tuple read',
+    category: ['Databases'],
     min: 0,
     formatter: activity
   },
   {
-    metric: getMetricMatch('databases', 'idx_tup_fetch'),
+    metric: getDynamicMetricMatch('databases', 'idx_tup_fetch', 'Database'),
     label: 'Tuple fetch',
+    category: ['Databases'],
     min: 0,
     formatter: activity
   },
   {
-    metric: getMetricMatch('databases', 'db_size'),
+    metric: getDynamicMetricMatch('databases', 'db_size', 'Database'),
     label: 'Database size',
+    category: ['Databases'],
     min: 0,
     formatter: bytesTwoDecimalPlaces
   },
   {
-    metric: getMetricMatch('databases', 'active_connections'),
+    metric: getDynamicMetricMatch('databases', 'active_connections', 'Database'),
     label: 'Connection',
+    category: ['Databases'],
     min: 0,
     formatter: zeroDecimalPlaces
   },
   {
-    metric: getMetricMatch('replications_stats', 'replication_delay_bytes'),
+    metric: getDynamicMetricMatch('replications_stats', 'replication_delay_bytes', 'Database'),
     label: 'Replication delay in bytes',
+    category: ['Databases'],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
   {
-    metric: getMetricMatch('replications_stats', 'replication_delay_seconds'),
+    metric: getDynamicMetricMatch('replications_stats', 'replication_delay_seconds', 'Database'),
     label: 'Replication delay in seconds',
+    category: ['Databases'],
     min: 0,
     formatter: seconds
   }

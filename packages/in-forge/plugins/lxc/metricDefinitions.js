@@ -1,5 +1,5 @@
 import { number, percentage, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -65,7 +65,7 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('filesystems', 'usedPercentage'),
+    metric: getDynamicMetricMatch('filesystems', 'usedPercentage', 'Device'),
     label: 'Used percentage',
     category: ['Filesystems'],
     min: 0,
@@ -73,7 +73,10 @@ export default [
     formatter: percentage
   },
   {
-    metrics: [getMetricMatch('filesystems', 'used'), getMetricMatch('filesystems', 'free')],
+    metrics: [
+      getDynamicMetricMatch('filesystems', 'used', 'Device'),
+      getDynamicMetricMatch('filesystems', 'free', 'Device')
+    ],
     labels: ['Used', 'Free'],
     min: 0,
     category: ['Filesystems'],

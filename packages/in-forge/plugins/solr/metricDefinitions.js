@@ -1,73 +1,83 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { percentage, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metric: getMetricMatch('core_stats', 'avg_requests'),
+    metric: getDynamicMetricMatch('core_stats', 'avg_requests', 'Core'),
     label: 'Average Requests',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'avg_time_request'),
+    metric: getDynamicMetricMatch('core_stats', 'avg_time_request', 'Core'),
     label: 'Average Request Time',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'lookups'),
+    metric: getDynamicMetricMatch('core_stats', 'lookups', 'Core'),
     label: 'Lookups',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'hitratio'),
+    metric: getDynamicMetricMatch('core_stats', 'hitratio', 'Core'),
     label: 'Hit-rate',
+    category: ['Cores'],
     min: 0,
     formatter: percentage,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'inserts'),
+    metric: getDynamicMetricMatch('core_stats', 'inserts', 'Core'),
     label: 'Inserts',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'evictions'),
+    metric: getDynamicMetricMatch('core_stats', 'evictions', 'Core'),
     label: 'Evictions',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'errors'),
+    metric: getDynamicMetricMatch('core_stats', 'errors', 'Core'),
     label: 'Errors',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'timeouts'),
+    metric: getDynamicMetricMatch('core_stats', 'timeouts', 'Core'),
     label: 'Timeouts',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'docs_added'),
+    metric: getDynamicMetricMatch('core_stats', 'docs_added', 'Core'),
     label: 'Documents added',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable
   },
   {
-    metric: getMetricMatch('core_stats', 'docs_pending'),
+    metric: getDynamicMetricMatch('core_stats', 'docs_pending', 'Core'),
     label: 'Documents pending',
+    category: ['Cores'],
     min: 0,
     formatter: number,
     isAvailable

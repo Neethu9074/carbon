@@ -312,14 +312,7 @@ function sortCategories(node) {
 }
 
 /**
- * @deprecated use getCustomMetricMatch or getDynamicMetricMatch instead.
- */
-export function getMetricMatch(pre, post) {
-  return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
-}
-
-/**
- * Custom metrics which full metric name is not defined by Instana.
+ * Custom metrics which full metric name is not defined by Instana, and are added for our Acceptor only.
  * @param pre The mandatory prefix of the metric.
  * @param post The optional postfix of the metric.
  */

@@ -45,72 +45,72 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('connectionPools', 'active', 'Connection Pool'),
+    metric: getDynamicMetricMatch('connectionPools', 'active', 'Datasource JNDI'),
     label: 'Active connections',
-    category: ['Pools'],
+    category: ['Datasource Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('connectionPools', 'available', 'Connection Pool'),
+    metric: getDynamicMetricMatch('connectionPools', 'available', 'Datasource JNDI'),
     label: 'Available connections',
-    category: ['Pools'],
+    category: ['Datasource Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('connectionPools', 'inUse', 'Connection Pool'),
+    metric: getDynamicMetricMatch('connectionPools', 'inUse', 'Datasource JNDI'),
     label: 'Connections in use',
-    category: ['Pools'],
+    category: ['Datasource Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('connectionPools', 'created', 'Connection Pool'),
+    metric: getDynamicMetricMatch('connectionPools', 'created', 'Datasource JNDI'),
     label: 'Connections created',
-    category: ['Pools'],
+    category: ['Datasource Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('connectionPools', 'usedRatio', 'Connection Pool'),
+    metric: getDynamicMetricMatch('connectionPools', 'usedRatio', 'Datasource JNDI'),
     label: 'Connections used percentage',
-    category: ['Pools'],
+    category: ['Datasource Connection Pools'],
     min: 0,
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('threadPools', 'currentThreadCount', 'Thread Pool'),
+    metric: getDynamicMetricMatch('threadPools', 'currentThreadCount', 'Pool'),
     label: 'Current thread count',
-    category: ['Pools'],
+    category: ['Thread Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('threadPools', 'currentThreadsBusy', 'Thread Pool'),
+    metric: getDynamicMetricMatch('threadPools', 'currentThreadsBusy', 'Pool'),
     label: 'Current busy threads',
-    category: ['Pools'],
+    category: ['Thread Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('threadPools', 'minSpareThreads', 'Thread Pool'),
+    metric: getDynamicMetricMatch('threadPools', 'minSpareThreads', 'Pool'),
     label: 'Min spare threads',
-    category: ['Pools'],
+    category: ['Thread Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('threadPools', 'maxSpareThreads', 'Thread Pool'),
+    metric: getDynamicMetricMatch('threadPools', 'maxSpareThreads', 'Pool'),
     label: 'Max spare threads',
-    category: ['Pools'],
+    category: ['Thread Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('threadPools', 'usedRatio', 'Thread Pool'),
+    metric: getDynamicMetricMatch('threadPools', 'usedRatio', 'Pool'),
     label: 'Threads used percentage',
-    category: ['Pools'],
+    category: ['Thread Pools'],
     min: 0,
     formatter: percentage
   }
