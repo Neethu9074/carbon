@@ -19,9 +19,9 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { fromDynamicMetricStringValue, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { getMetricDefinition } from 'in-sdk/metrics/metrics';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
@@ -159,11 +159,11 @@ function getEventSpecification(event, form) {
     let metricName = form.get('metricName')?.value ?? null;
     let metricPattern = null;
 
-    if (isBuiltInDynamicMetric(entityType, metricName)) {
-      const metric = fromDynamicMetricStringValue(metricName);
+    const metricDefinition = getMetricDefinition(entityType, metricName);
+    if (metricDefinition) {
       metricPattern = {
-        prefix: metric.prefix,
-        postfix: metric.postfix,
+        prefix: metricDefinition.metricPattern.pre,
+        postfix: metricDefinition.metricPattern.post,
         operator: form.get('metricPatternOperator').value,
         placeholder: form.get('metricPatternPlaceholder')?.value ?? null
       };

@@ -177,6 +177,7 @@ function bindMetricMatchToGetters(metric, metricDefinition) {
     return metricDefinition;
   }
   metricDefinition = Object.create(metricDefinition);
+  metricDefinition.metricPattern = metricDefinition.metric;
   metricDefinition.metric = metricPattern; // for compatibility to ChartsForSelectedEntities
 
   const match = metric.match(metricDefinition.metric);

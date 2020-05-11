@@ -69,45 +69,10 @@ function getDynamicMetricLabel(metricObj) {
   return `${metricObj.pre}.{${metricObj.placeholderLabel.toLowerCase()}}`;
 }
 
-export function getDynamicMetricPlaceholderLabel(plugin, metricStringValue) {
-  const metricList = getDynamicMetricList(plugin);
-  const metricItem = fromDynamicMetricStringValue(metricStringValue);
-
-  if (metricItem) {
-    const item = metricList.find(
-      ({ value }) => value.pre === metricItem.prefix && (!value.post || value.post === metricItem.postfix)
-    );
-    if (item) {
-      return item.value.placeholderLabel;
-    }
-  }
-
-  return 'Placeholder';
-}
-
 export function toDynamicMetricStringValue(prefix, postfix) {
   return postfix
     ? `${prefix}${dynamicMetricItemDelimiter}${postfix}`
     : `${prefix}${dynamicMetricNoPostfixItemDelimiter}`;
-}
-
-export function fromDynamicMetricStringValue(metricStringValue) {
-  let delimiterIndex = metricStringValue.indexOf(dynamicMetricItemDelimiter);
-  let prefix;
-  let postfix;
-  if (delimiterIndex === -1) {
-    // no postfix
-    delimiterIndex = metricStringValue.indexOf(dynamicMetricNoPostfixItemDelimiter);
-    prefix = metricStringValue.substring(0, delimiterIndex);
-  } else {
-    prefix = metricStringValue.substring(0, delimiterIndex);
-    postfix = metricStringValue.substring(delimiterIndex + dynamicMetricItemDelimiter.length, metricStringValue.length);
-  }
-
-  return {
-    prefix,
-    postfix
-  };
 }
 
 export function getAllBuiltInMetrics(plugin) {

@@ -7,6 +7,7 @@ import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDes
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -53,6 +54,7 @@ function EventContent({ event }) {
   }
 
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
+
   return (
     <>
       <Row>
@@ -64,7 +66,7 @@ function EventContent({ event }) {
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
             />
-
+            <SubEntityInformation event={event} />
             <ProblemDescription event={event} className="in-event-view-event-content" />
             <EventSpecificationLink event={event} />
           </Card>

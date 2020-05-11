@@ -40,7 +40,8 @@ import {
   createMetricListItem,
   getAllBuiltInMetrics,
   isBuiltInPlainMetric,
-  getDynamicMetricPlaceholderLabel
+  getMetricDefinition,
+  isBuiltInDynamicMetric
 } from 'in-sdk/metrics';
 import {
   getEntityTypeOptions,
@@ -726,7 +727,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
   const entityType = form.get('entityType')?.value;
   const metricName = form.get('metricName')?.value;
 
-  if (!entityType || !metricName || isBuiltInPlainMetric(entityType, metricName)) {
+  if (!entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName)) {
     return null;
   }
 
@@ -777,7 +778,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                 htmlFor="event-metricPatternPlaceholder"
                 hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
               >
-                {getDynamicMetricPlaceholderLabel(entityType, metricName)}
+                {getMetricDefinition(entityType, metricName).metricPattern?.placeholderLabel ?? 'Placeholder'}
               </Label>
               <Input
                 id="event-metricPatternPlaceholder"

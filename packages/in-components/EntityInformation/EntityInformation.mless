@@ -1,29 +1,31 @@
 @import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
-.in-event-view-event-information {
-  display: inline-flex;
-  margin-right: 1rem;
+:local {
+  .container {
+    display: inline-flex;
+    margin-right: 1rem;
+  }
 
-  &__label {
+  .label {
     font-weight: bold;
     font-size: 0.625rem;
     line-height: 0.875rem;
-    margin-right: 0.125rem;
+    margin-right: 0.25rem;
     text-transform: capitalize;
   }
 
-  &__entity-icon {
+  .entityIcon {
     margin: 0 0.25rem;
     fill: @lib__colors__primary2;
   }
 
-  &__entity {
+  .entity {
     display: inline-flex;
     align-items: center;
   }
 
-  &__link {
+  .link {
     white-space: normal;
     text-overflow: ellipsis;
     .breakWord();
