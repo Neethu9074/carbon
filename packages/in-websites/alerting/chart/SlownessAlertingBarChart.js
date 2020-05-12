@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -52,32 +52,29 @@ export default function SlownessAlertingBarChart({
             .reduce((a, b) => (a > b ? a : b), metricsMaxValue);
           return overallMaxValue * 1.1;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          colors: legendColors
         },
         renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
         metricIds: ['onLoadTime', 'threshold'],
-        labels: [getMetricLabel(alertTypes.slowness, onLoadTime), 'Threshold', 'Expected Range', 'Violations'],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [
+          getMetricLabel(alertTypes.slowness, onLoadTime),
+          'Threshold',
+          'Expected Range',
+          'Violations',
+          'Alerts'
+        ],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
         nonToggleableSeries: new Map([
           ['onLoadTime', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null]
+          ['Violations', null],
+          ['Alerts', null]
         ])
       }}
       getMetric={getWebsiteMetrics}

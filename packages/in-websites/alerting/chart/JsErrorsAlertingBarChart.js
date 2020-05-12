@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
@@ -7,6 +6,7 @@ import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/ge
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
+import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -43,32 +43,29 @@ export default function JsErrorsAlertingBarChart({
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2)
             : metricsMaxValue;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          colors: legendColors
         },
         renderer: Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [
+          getMetricLabel(alertTypes.specificJsError, metricName),
+          'Threshold',
+          'Expected Range',
+          'Violations',
+          'Alerts'
+        ],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
           ['errors', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null]
+          ['Violations', null],
+          ['Alerts', null]
         ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
