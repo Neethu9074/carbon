@@ -57,7 +57,13 @@ export class HighlightedEffect extends React.Component {
   scrollIntoView() {
     if (this.domNode) {
       this.domNode.scrollIntoView({
-        behavior: 'smooth',
+        // Note: Explicitly no smooth scrolling. While smooth scrolling looks nicer in some situations,
+        // it has some problems.
+        //
+        // 1. It takes a while and consumes a lot of resources for large pages, e.g. big page loads and
+        //    trace views.
+        // 2. It breaks viewport based lazy loading (in the sense that everything was temporarily visible)
+        //    and therefore creates a ton of load.
         block: 'center'
       });
     }
