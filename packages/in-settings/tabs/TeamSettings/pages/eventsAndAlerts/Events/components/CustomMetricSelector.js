@@ -30,7 +30,7 @@ CustomMetricSelector.propTypes = {
 };
 
 const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) => (
-  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} selectedItem={item}>
+  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} initialSelectedItem={item}>
     {({
       getInputProps,
       getItemProps,

@@ -52,6 +52,7 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
@@ -67,7 +68,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
-import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import Toggle from 'in-components/form/Toggle';
@@ -99,20 +99,43 @@ const queryInput = create();
 const queryValidationFinished = create();
 
 export default compose(
-  connectTo({
-    customMetrics: getCustom().map(metricInstances => {
-      const customMetricsList = [];
-      metricInstances.map(metricInstance => {
-        const metricItem = createCustomMetricListItem(
-          metricInstance.get('metricId'),
-          metricInstance.get('formatter'),
-          metricInstance.get('label'),
-          metricInstance.get('pluginId')
-        );
-        customMetricsList.push(metricItem);
+  connectTo(({ form }) => {
+    const observables = {};
+    if (isCustomDataSourceSelected(form)) {
+      observables.pluginsWithCustomMetrics = getPluginsWithCustomMetrics().map(plugins => {
+        const result = [];
+        if (plugins) {
+          plugins.map(plugin => {
+            result.push({
+              value: plugin.get('plugin'),
+              label: plugin.get('label')
+            });
+          });
+        }
+        return result;
       });
-      return customMetricsList;
-    })
+      if (form.get('entityType').value) {
+        observables.customMetricsForPlugin = getCustomMetricsForPlugin(form.get('entityType').value).map(
+          metricInstances => {
+            const result = [];
+            if (metricInstances) {
+              metricInstances.map(metricInstance => {
+                result.push(
+                  createCustomMetricListItem(
+                    metricInstance.get('metricId'),
+                    metricInstance.get('formatter'),
+                    metricInstance.get('label'),
+                    metricInstance.get('pluginId')
+                  )
+                );
+              });
+            }
+            return result;
+          }
+        );
+      }
+    }
+    return observables;
   }),
   connectTo({
     // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
@@ -165,7 +188,8 @@ function EventForm({
   setForm,
   entity,
   onChange,
-  customMetrics,
+  pluginsWithCustomMetrics,
+  customMetricsForPlugin,
   queryValidationResult,
   queryValidationInProgress,
   setQueryValidationInProgress,
@@ -177,7 +201,7 @@ function EventForm({
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
-  addCurrentCustomMetricToListIfMissing(customMetrics, form, entity);
+  addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form, entity);
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
@@ -312,7 +336,7 @@ function EventForm({
       {form.get('dataSource').map(field => (
         <FormGroup>
           <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            Data Source
+            Source
           </Label>
           <ComboBox
             name="event-data-source"
@@ -369,14 +393,14 @@ function EventForm({
       {isBuiltInDataSourceSelected(form) && (
         <>
           <Row>
-            <Col cols={6}>
+            <Col cols={3}>
               <EntityTypeFormGroup
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
                 onChange={onChange}
               />
             </Col>
-            <Col cols={6}>
+            <Col cols={9}>
               {form.get('entityType').value &&
                 form.get('metricName').map(field => (
                   <FormGroup>
@@ -446,49 +470,51 @@ function EventForm({
       {isCustomDataSourceSelected(form) && (
         <>
           <Row>
-            <Col cols={12}>
-              {form.get('metricName').map(field => (
-                <FormGroup>
-                  <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-                    Metric
-                  </Label>
-                  <CustomMetricSelector
-                    id="event-metricName"
-                    value={form.get('metricName').value}
-                    metrics={customMetrics}
-                    onChange={e => {
-                      if ((field.value && !e) || (e && e.value !== field.value)) {
-                        let selectedMetric = e ? e.value : '';
-                        onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
-                          updatedForm = updatedForm.remove('rollup');
-                          updatedForm = putWindowField(updatedForm, eventSpec);
-                          updatedForm = putAggregationField(updatedForm, eventSpec);
+            <Col cols={3}>
+              <EntityTypeFormGroup
+                form={form}
+                pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
+                onChange={onChange}
+              />
+            </Col>
+            <Col cols={9}>
+              {customMetricsForPlugin &&
+                form.get('metricName').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
+                      Metric
+                    </Label>
+                    <CustomMetricSelector
+                      // Workaround to clear the selection when the entity-type change.
+                      // It is not that expensive, because it is a small component.
+                      key={Math.random()}
+                      id="event-metricName"
+                      value={form.get('metricName').value}
+                      metrics={customMetricsForPlugin}
+                      onChange={e => {
+                        if ((field.value && !e) || (e && e.value !== field.value)) {
+                          let selectedMetric = e ? e.value : '';
+                          onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                            updatedForm = updatedForm.remove('rollup');
+                            updatedForm = putWindowField(updatedForm, eventSpec);
+                            updatedForm = putAggregationField(updatedForm, eventSpec);
 
-                          // manually update the hidden hidden entityType field in case of custom metrics
-                          updatedForm = updatedForm.updateIn(['entityType'], f => {
-                            const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
-                            if (metricItem == null) {
-                              return f.setValue('');
-                            }
-                            return f.setValue(metricItem.entityType);
+                            const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
+
+                            updatedForm = updatedForm
+                              .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                              .updateIn(['label'], f => f.setValue(metricInfo.label))
+                              .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                              .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+
+                            return updatedForm;
                           });
-
-                          const metricInfo = getCustomMetricInfo(customMetrics, selectedMetric);
-
-                          updatedForm = updatedForm
-                            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                            .updateIn(['label'], f => f.setValue(metricInfo.label))
-                            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
-                            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
-
-                          return updatedForm;
-                        });
-                      }
-                    }}
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
+                        }
+                      }}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
             </Col>
           </Row>
 
