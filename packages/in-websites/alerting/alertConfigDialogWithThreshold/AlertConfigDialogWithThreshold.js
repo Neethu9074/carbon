@@ -93,7 +93,7 @@ function resolveThresholdRequest(form, granularity, fallbackOnError) {
         getMetricConfigurationForErrors(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, granularity)
       );
     case errorRate:
-      if (!isBlank(stringValue)) {
+      if (isBlank(stringValue)) {
         return empty;
       }
 
