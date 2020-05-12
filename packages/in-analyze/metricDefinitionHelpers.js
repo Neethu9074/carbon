@@ -43,6 +43,19 @@ export function newNumberMetric({ metric, label, category }) {
   };
 }
 
+export function newNumberWithDecimalsMetric({ metric, label, category }) {
+  return {
+    metric,
+    label,
+    formatter: wrapToDiscardNegativeValues(number.forcedDetailed),
+    supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
+    category,
+    min: 0,
+    preferredRenderer: Renderer.stackedBar,
+    unfoldAggregations: false
+  };
+}
+
 export function withRawDataField(metricDefinition, opts = emptyObject) {
   metricDefinition.rawDataField = opts.rawDataField || metricDefinition.metric;
   metricDefinition.rawDataLabel = opts.rawDataLabel || metricDefinition.label;
@@ -53,8 +66,8 @@ export function withRawDataField(metricDefinition, opts = emptyObject) {
 
 function wrapToDiscardNegativeValues(formatter) {
   return {
-    compact: v => (v < 0 ? 'N/A' : formatter.compact(v)),
-    detailed: v => (v < 0 ? 'N/A' : formatter.detailed(v))
+    compact: v => (v < 0 || v == null ? 'N/A' : formatter.compact(v)),
+    detailed: v => (v < 0 || v == null ? 'N/A' : formatter.detailed(v))
   };
 }
 

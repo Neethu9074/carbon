@@ -19,6 +19,10 @@ export const number = {
   forcedCompact: {
     compact: zeroDecimalPlaces,
     detailed: zeroDecimalPlaces
+  },
+  forcedDetailed: {
+    compact: twoDecimalPlaces,
+    detailed: twoDecimalPlaces
   }
 };
 

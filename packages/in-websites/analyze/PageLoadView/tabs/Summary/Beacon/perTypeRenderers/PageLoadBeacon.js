@@ -5,8 +5,8 @@ import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
+import { millis, latencyFixed, number } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import { millis, latencyFixed } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export const getLabel = beacon => beacon.locationUrl;
@@ -72,6 +72,34 @@ export const Body = ({ beacon }) => {
     navigationTimings.forEach(t => (t.value = t.value >= 0 ? t.value : 0));
   }
 
+  const webVitals = [
+    beacon.firstContentfulPaintTime > -1 && (
+      <Di key={0} title="First-Contentful Paint">
+        {millis.fixedCompact(beacon.firstContentfulPaintTime)}
+      </Di>
+    ),
+    beacon.largestContentfulPaintTime > -1 && (
+      <Di key={1} title="Largest-Contentful Paint">
+        {millis.fixedCompact(beacon.largestContentfulPaintTime)}
+      </Di>
+    ),
+    beacon.firstInputDelayTime > -1 && (
+      <Di key={2} title="First Input Delay">
+        {millis.fixedCompact(beacon.firstInputDelayTime)}
+      </Di>
+    ),
+    beacon.cumulativeLayoutShift >= 0 && (
+      <Di key={3} title="Cumulative Layout Shift">
+        {number.detailed(beacon.cumulativeLayoutShift)}
+      </Di>
+    ),
+    beacon.backendTime >= 0 && (
+      <Di key={4} title="Time to First Byte">
+        {millis.fixedCompact(beacon.backendTime)}
+      </Di>
+    )
+  ].filter(Boolean);
+
   return (
     <Fragment>
       <Row>
@@ -84,12 +112,7 @@ export const Body = ({ beacon }) => {
               </a>
             </Di>
             <BackendDi beacon={beacon} />
-            {beacon.firstPaintTime > -1 && (
-              <Di title="First Paint Time">{millis.fixedCompact(beacon.firstPaintTime)}</Di>
-            )}
-            {beacon.firstContentfulPaintTime > -1 && (
-              <Di title="First-Contentful Paint Time">{millis.fixedCompact(beacon.firstContentfulPaintTime)}</Di>
-            )}
+            {beacon.firstPaintTime > -1 && <Di title="First Paint">{millis.fixedCompact(beacon.firstPaintTime)}</Di>}
           </Dl>
         </Col>
 
@@ -101,14 +124,24 @@ export const Body = ({ beacon }) => {
         )}
       </Row>
 
-      <Row>
-        {hasNavigationTimings && (
-          <Col lg={6}>
-            <BodyHeader>Navigation Timing</BodyHeader>
-            <Timings timings={navigationTimings} totalDuration={beacon.duration} totalDurationName="onLoad time" />
-          </Col>
+      {webVitals.length > 0 &&
+        hasNavigationTimings && (
+          <Row>
+            {hasNavigationTimings && (
+              <Col lg={6}>
+                <BodyHeader>Navigation Timing</BodyHeader>
+                <Timings timings={navigationTimings} totalDuration={beacon.duration} totalDurationName="onLoad time" />
+              </Col>
+            )}
+
+            {webVitals.length > 0 && (
+              <Col lg={6}>
+                <BodyHeader>Web Vitals</BodyHeader>
+                {webVitals}
+              </Col>
+            )}
+          </Row>
         )}
-      </Row>
     </Fragment>
   );
 };

@@ -31,6 +31,7 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './Resource.mless';
 
@@ -207,6 +208,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     cardTitle="Resource Timing"
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
+                    shareMaxAxisDomain
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
@@ -220,6 +222,14 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         'requestTime',
                         'responseTime'
                       ]
+                    }}
+                    y2={{
+                      renderer: Renderer.line,
+                      formatter: millis.forcedFixedCompact,
+                      labels: ['Time to First Byte'],
+                      metricIds: ['ttfb'],
+                      // Ensure high readability
+                      colors: [theme.lib.colors.N900Primary]
                     }}
                     metricsConfiguration={{
                       timeConfig,
@@ -257,6 +267,11 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         },
                         responseTime: {
                           metric: 'responseTime',
+                          granularity,
+                          aggregation
+                        },
+                        ttfb: {
+                          metric: 'ttfb',
                           granularity,
                           aggregation
                         }

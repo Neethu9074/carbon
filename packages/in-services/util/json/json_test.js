@@ -14,12 +14,11 @@ describe('in-services/util/json/json', () => {
         nul: null,
         str: 'a',
         brokenNestedJson: '{"notForReal": true',
-        arr: ['a', JSON.stringify({ b: false })],
-        obj: {
-          nestedObj: JSON.stringify({
-            nestedArr: JSON.stringify([1, 2, 3, '4'])
-          })
-        }
+        arr: ['a', JSON.stringify({ b: 'false' })],
+        obj: JSON.stringify({
+          foo: true,
+          nestedArr: JSON.stringify([1, 2, 3, '4'])
+        })
       });
 
       expect(expandNestedSerializedJson(given)).to.deep.equal({
@@ -28,12 +27,8 @@ describe('in-services/util/json/json', () => {
         nul: null,
         str: 'a',
         brokenNestedJson: '{"notForReal": true',
-        arr: ['a', { b: false }],
-        obj: {
-          nestedObj: {
-            nestedArr: [1, 2, 3, '4']
-          }
-        }
+        arr: ['a', { b: 'false' }],
+        obj: { foo: true, nestedArr: '[1,2,3,"4"]' }
       });
     });
   });

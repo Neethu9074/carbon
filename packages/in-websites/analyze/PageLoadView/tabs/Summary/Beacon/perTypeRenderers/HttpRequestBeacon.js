@@ -3,10 +3,10 @@ import React, { Fragment } from 'react';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
+import { latencyFixed, bytes, millisToTwoDecimalSeconds, millis } from 'in-services/formatters/number';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
-import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -111,6 +111,7 @@ export const Body = ({ beacon }) => {
             <BackendDi beacon={beacon} />
             <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
             <Di title="HTTP Status">{beacon.httpCallStatus}</Di>
+            {beacon.backendTime >= 0 && <Di title="Time to First Byte">{millis.fixedCompact(beacon.backendTime)}</Di>}
             {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
             <Di title="Asynchronous">{yesOrNo(beacon.httpCallAsynchronous)}</Di>
             <Di title="Correlation Attempted">{yesOrNo(beacon.httpCallCorrelationAttempted)}</Di>

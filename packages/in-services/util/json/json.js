@@ -6,44 +6,39 @@ export const urlFriendly = {
   stringify
 };
 
-export function expandNestedSerializedJson(val) {
+export function expandNestedSerializedJson(val, remainingExpansions = 1) {
   if (val == null) {
     return val;
   }
 
   if (val instanceof Array) {
-    return expandNestedSerializedJsonInArray(val);
-  } else if (typeof val === 'object') {
-    return expandNestedSerializedJsonInObject(val);
-  } else if (typeof val !== 'string') {
-    return val;
-  }
-
-  if (val[0] !== '{' && val[0] !== '[') {
-    // not a nested obj or array
+    return expandNestedSerializedJsonInArray(val, remainingExpansions);
+  } else if (Object.prototype === Object.getPrototypeOf(val)) {
+    return expandNestedSerializedJsonInObject(val, remainingExpansions);
+  } else if (typeof val !== 'string' || remainingExpansions === 0) {
     return val;
   }
 
   try {
-    return expandNestedSerializedJson(JSON.parse(val));
+    return expandNestedSerializedJson(JSON.parse(val), remainingExpansions - 1);
   } catch (e) {
     // Probably not JSON. Keep the existing value
     return val;
   }
 }
 
-function expandNestedSerializedJsonInObject(obj) {
+function expandNestedSerializedJsonInObject(obj, remainingExpansions) {
   const copy = sortKeys(obj);
   for (let key in copy) {
-    copy[key] = expandNestedSerializedJson(copy[key]);
+    copy[key] = expandNestedSerializedJson(copy[key], remainingExpansions);
   }
   return copy;
 }
 
-function expandNestedSerializedJsonInArray(arr) {
+function expandNestedSerializedJsonInArray(arr, remainingExpansions) {
   const copy = [];
   for (let i = 0; i < arr.length; i++) {
-    copy[i] = expandNestedSerializedJson(arr[i]);
+    copy[i] = expandNestedSerializedJson(arr[i], remainingExpansions);
   }
   return copy;
 }

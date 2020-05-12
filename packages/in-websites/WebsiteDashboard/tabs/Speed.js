@@ -7,6 +7,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
+import theme from 'in-themes';
 
 export default function Speed({ timeConfig, tagFilters }) {
   const granularity = getChartGranularity(timeConfig);
@@ -118,6 +119,7 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardTitle="Navigation Timing"
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
+                shareMaxAxisDomain
                 y1={{
                   renderer: Renderer.stackedBar,
                   formatter: millis.forcedFixedCompact,
@@ -145,6 +147,14 @@ export default function Speed({ timeConfig, tagFilters }) {
                     'domTime',
                     'childrenTime'
                   ]
+                }}
+                y2={{
+                  renderer: Renderer.line,
+                  formatter: millis.forcedFixedCompact,
+                  labels: ['Time to First Byte'],
+                  metricIds: ['ttfb'],
+                  // Ensure high readability
+                  colors: [theme.lib.colors.N900Primary]
                 }}
                 metricsConfiguration={{
                   timeConfig,
@@ -203,6 +213,11 @@ export default function Speed({ timeConfig, tagFilters }) {
                       metric: 'childrenTime',
                       granularity,
                       aggregation
+                    },
+                    ttfb: {
+                      metric: 'ttfb',
+                      granularity,
+                      aggregation
                     }
                   }
                 }}
@@ -223,8 +238,8 @@ export default function Speed({ timeConfig, tagFilters }) {
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['First Paint', 'First-Contentful Paint'],
-                  metricIds: ['firstPaintTime', 'firstContentfulPaintTime']
+                  labels: ['First Paint', 'First-Contentful Paint', 'Largest-Contentful Paint'],
+                  metricIds: ['firstPaintTime', 'firstContentfulPaintTime', 'largestContentfulPaintTime']
                 }}
                 metricsConfiguration={{
                   timeConfig,
@@ -239,6 +254,11 @@ export default function Speed({ timeConfig, tagFilters }) {
                       metric: 'firstContentfulPaintTime',
                       granularity,
                       aggregation
+                    },
+                    largestContentfulPaintTime: {
+                      metric: 'largestContentfulPaintTime',
+                      granularity,
+                      aggregation
                     }
                   }
                 }}
@@ -247,6 +267,38 @@ export default function Speed({ timeConfig, tagFilters }) {
           </AggregationSelector>
         </Col>
       </Row>
+
+      <Row>
+        <Col xs={12}>
+          <AggregationSelector defaultAggregation="MEAN">
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                cardTitle="First Input Delay"
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: millis.forcedFixedCompact,
+                  labels: ['First Input Delay'],
+                  metricIds: ['firstInputDelay']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    firstInputDelay: {
+                      metric: 'firstInputDelay',
+                      granularity,
+                      aggregation
+                    }
+                  }
+                }}
+              />
+            )}
+          </AggregationSelector>
+        </Col>
+      </Row>
+
       <Footer />
     </Fragment>
   );
