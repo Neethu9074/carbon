@@ -47,7 +47,7 @@
     .reorderIcon {
       fill: @lib__colors__N400;
     }
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
 
   .left {
