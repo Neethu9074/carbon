@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
@@ -20,6 +21,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
+import { debouncedQuery$ } from 'in-stores/search/query';
 import SearchBar from 'in-components/SearchBar';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
@@ -31,9 +33,11 @@ export default connectTo(
   props => {
     const observables = { timeConfig: timeConfig$ };
     if (!props.agentSnapshotsResult) {
-      observables.agentSnapshotsResult = timeConfig$.flatMap(timeConfig => {
-        return getAgentSnapshotsInTimeframe({ timeConfig });
-      });
+      observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
+        ([timeConfig, query]) => {
+          return getAgentSnapshotsInTimeframe({ timeConfig, query });
+        }
+      );
     }
     return observables;
   },

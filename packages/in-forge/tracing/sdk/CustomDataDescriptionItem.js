@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 
 import { expandNestedSerializedJson } from 'in-services/util/json';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -21,36 +21,57 @@ export default function CustomDataDescriptionItem({ span }) {
     return null;
   }
 
-  const tags = flatten(expandNestedSerializedJson(custom.toJS()));
-
-  function TagLine({ name, value }) {
+  function TagLine({ name, value, overflowComponentRef }) {
     return (
       <Li className={locals.root}>
         <div className={locals.key}>{name}</div>
-        <Tooltip content={value} ellipsisOnly>
-          <div className={locals.value} id={name}>
-            {value}
-          </div>
-          <div className={locals.clipboard}>
-            <CopyToClipboard targetId={name}>
-              {refSetter => (
-                <span ref={refSetter}>
-                  <Button kind="fixedInline" icon="lib_views_popup" iconSize="xs" />
-                </span>
-              )}
-            </CopyToClipboard>
-          </div>
-        </Tooltip>
+        <div className={locals.value} ref={overflowComponentRef}>
+          {value}
+        </div>
+        <div className={locals.clipboard}>
+          <CopyToClipboard getText={() => value}>
+            {refSetter => (
+              <span ref={refSetter}>
+                <Button kind="fixedInline" icon="lib_views_popup" iconSize="xs" />
+              </span>
+            )}
+          </CopyToClipboard>
+        </div>
       </Li>
     );
   }
+
+  function TagLineWithTooltipOnOverflow({ name, value }) {
+    const overflowComponentRef = createRef();
+    const [overflow, setOverflow] = useState(false);
+
+    useEffect(
+      () => {
+        if (overflowComponentRef && overflowComponentRef.current) {
+          setOverflow(overflowComponentRef.current.scrollWidth > overflowComponentRef.current.offsetWidth);
+        }
+      },
+      [overflowComponentRef]
+    );
+
+    if (overflow) {
+      return (
+        <Tooltip content={value}>
+          <TagLine name={name} value={value} overflowComponentRef={overflowComponentRef} />
+        </Tooltip>
+      );
+    }
+    return <TagLine name={name} value={value} overflowComponentRef={overflowComponentRef} />;
+  }
+
+  const tags = flatten(expandNestedSerializedJson(custom.toJS()));
 
   return (
     <div style={{ marginTop: '1.5rem' }}>
       <Card title={'Tags'} withoutPadding>
         <Ul>
           {Object.entries(tags).map(key => (
-            <TagLine name={key[0]} value={key[1]} key={key[0]} />
+            <TagLineWithTooltipOnOverflow name={key[0]} value={key[1]} key={key[0]} />
           ))}
         </Ul>
       </Card>

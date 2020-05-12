@@ -4,16 +4,19 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
+import { debouncedQuery$ } from 'in-stores/search/query';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    timeConfig: timeConfig$
+    timeConfig: timeConfig$,
+    query: debouncedQuery$
   },
-  function AgentPresenceChart({ timeConfig }) {
-    if (!timeConfig) {
+  function AgentPresenceChart({ timeConfig, query }) {
+    // if query is set, we cannot use the processing statistics
+    if (!timeConfig || query) {
       return null;
     }
 
