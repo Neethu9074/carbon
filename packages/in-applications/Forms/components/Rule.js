@@ -41,11 +41,13 @@ export default class Rule extends React.Component {
         })}
       >
         <div className={locals.fixedContent}>
-          {reorderable && (
-            <div className={locals.reorder}>
+          <div className={locals.reorder}>
+            {reorderable ? (
               <SvgIcon className={locals.reorderIcon} type="lib_actions_reorder" />
-            </div>
-          )}
+            ) : (
+              <div className={locals.iconPlaceholder} />
+            )}
+          </div>
           <div className={locals.left}>
             <span className={locals.query}>{name}</span>
             {content}

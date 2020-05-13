@@ -44,6 +44,7 @@
     flex-direction: column;
     align-items: flex-start;
     flex-basis: 1rem;
+    flex-grow: 0;
     .reorderIcon {
       fill: @lib__colors__N400;
     }
@@ -55,12 +56,13 @@
     flex-direction: column;
     align-items: flex-start;
     flex-basis: 80%;
-
+    flex-grow: 1;
     overflow: hidden;
   }
 
   .right {
     display: flex;
+    flex-grow: 0;
     align-items: center;
   }
 
