@@ -200,7 +200,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     }}
                     metricsConfiguration={{
                       timeConfig,
-                      tagFilters,
+                      tagFilters: tagFiltersForRequests,
                       metrics: {
                         redirectTime: {
                           metric: 'redirectTime',
@@ -352,7 +352,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               <WebsiteBeaconGroupsChartWrapper
                 cardTitle="Caching Statistics"
                 timeConfig={timeConfig}
-                tagFilters={tagFilters}
+                tagFilters={tagFiltersForRequests}
                 group={{
                   groupbyTag: 'beacon.cacheInteraction'
                 }}
