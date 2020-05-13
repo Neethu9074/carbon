@@ -2,6 +2,8 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  @header-height: 4.625rem;
+
   .card {
     display: flex;
     flex-direction: column;
@@ -30,6 +32,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
+    max-height: @header-height;
 
     padding: 1.5rem 1rem 1.5rem 1.5rem;
 
@@ -54,5 +58,12 @@
   .body {
     padding: 0 1rem 1rem;
     flex-grow: 1;
+    // In Safari the body doesn't automatically grow vertically the same way it does
+    // in other browsers. While the body may vertically grow, child elements cannot
+    // use a CSS rule like height: 100%. This is because the height of .body is
+    // not defined on .body, but instead imposed upon .body.
+    // This is weird…
+    // This ensures that the body's height is defined.
+    height: ~"calc(100% - @{header-height})";
   }
 }
