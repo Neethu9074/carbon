@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { baselineGranularity, getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
-import { translateDemocratisationFiltersToAnalyzeFilters } from 'in-applications/tags';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -11,12 +11,19 @@ import Button from 'in-new-components/Button';
 
 export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const metadata = event.get('metadata');
-  const entityId = event.get('entityId');
   const applicationName = metadata.get('entityLabel');
+  const boundaryScope = alertConfig.boundaryScope;
   const timeConfig = getTimeConfigFromEvent(event);
-  let analyzeFilters = getEnrichedAnalyzeFilteres(alertConfig, entityId);
+  const analyzeFilters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
 
-  return <GoToAnalyzeButton applicationName={applicationName} filters={analyzeFilters} timeConfig={timeConfig} />;
+  return (
+    <GoToAnalyzeButton
+      applicationName={applicationName}
+      boundaryScope={boundaryScope}
+      filters={analyzeFilters}
+      timeConfig={timeConfig}
+    />
+  );
 }
 
 AnalyzeApplicationEventButton.propTypes = {
@@ -24,7 +31,7 @@ AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired
 };
 
-function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
+function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig }) {
   const dataSource = 'calls';
   return (
     <Button
@@ -34,7 +41,8 @@ function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
       href$={getLinkToAnalyze({
         applicationName,
         dataSource: dataSource,
-        filters: translateDemocratisationFiltersToAnalyzeFilters({ applicationName, filters }),
+        boundaryScope: boundaryScope,
+        filters: filters,
         groupByTag: getConfigByDataSource(dataSource).defaultGrouping,
         timeConfig
       })}
@@ -44,14 +52,13 @@ function GoToAnalyzeButton({ applicationName, filters, timeConfig }) {
   );
 }
 
-function getEnrichedAnalyzeFilteres(alertConfig, applicationId) {
+function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   const alertType = alertConfig.rule.alertType;
   let analyzeFilters = convertToAnalyzeFilters(alertConfig.tagFilters);
-  analyzeFilters.push(getApplicationIdAnalyzeFilter(applicationId));
   if (alertType === 'errorRate') {
     analyzeFilters.push(getErroneousCallsAnalyzeFilter());
   } else if (alertType === 'slowness') {
-    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold));
+    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold, timeConfig));
   } else if (alertType === 'logs') {
     analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
   }
@@ -78,14 +85,6 @@ function getTagFilterValue(tagFilter) {
   return tagFilter.booleanValue;
 }
 
-function getApplicationIdAnalyzeFilter(applicationId) {
-  return {
-    name: 'application.id',
-    operator: 'EQUALS',
-    value: applicationId
-  };
-}
-
 function getErroneousCallsAnalyzeFilter() {
   return {
     name: 'call.erroneous',
@@ -93,13 +92,30 @@ function getErroneousCallsAnalyzeFilter() {
   };
 }
 
-function getThresholdLatencyAnalyzeFilter(threshold) {
-  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(threshold.value, threshold.operator);
+function getThresholdLatencyAnalyzeFilter(threshold, timeConfig) {
+  let value;
+  if (threshold.type === 'staticThreshold') {
+    value = threshold.value;
+  } else {
+    value = getBaselineThresholdValue(threshold, timeConfig);
+  }
+
+  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(value, threshold.operator);
   return {
     name: 'call.latency',
     operator: analyzeThreshold.operator,
     value: analyzeThreshold.value
   };
+}
+
+function getBaselineThresholdValue(threshold, timeConfig) {
+  const isGreaterOp = threshold.operator === '>=' || threshold.operator === '>';
+
+  const baselineValues = [];
+  for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
+    baselineValues.push(getBaselineValue(time, threshold.baseline, threshold.deviationFactor, isGreaterOp));
+  }
+  return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
 }
 
 function getLogCallsAnalyzeFilters(rule) {
