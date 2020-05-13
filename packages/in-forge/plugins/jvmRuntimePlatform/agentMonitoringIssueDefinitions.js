@@ -1,6 +1,20 @@
 import React from 'react';
 
 export default {
+  java_8u40_not_monitored: {
+    issueDescription: {
+      Component: function java8u40NotMonitored({ version }) {
+        return (
+          <span>
+            The Java 8 builds up to 1.8.0_40 have several known issues relating to the implementation of lambdas. Due to
+            these issues this JVM with version {version} will not be monitored.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Docs`,
+    explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#java_8u40_not_monitored`
+  },
   java_8_outdated_version: {
     issueDescription: {
       Component: function java8OutdatedVersion({ version, recommendedVersion }) {
