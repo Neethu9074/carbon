@@ -160,7 +160,7 @@ function getEventSpecification(event, form) {
     let metricPattern = null;
 
     const metricDefinition = getMetricDefinition(entityType, metricName);
-    if (metricDefinition) {
+    if (metricDefinition && metricDefinition.metricPattern) {
       metricPattern = {
         prefix: metricDefinition.metricPattern.pre,
         postfix: metricDefinition.metricPattern.post,
