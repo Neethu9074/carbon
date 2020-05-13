@@ -351,9 +351,14 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ applicat
     return tagFiltersForAnalyze;
   }
   // replace application ID filter with something more understandable by users.
-  if (tagFiltersForAnalyze.some(f => f.name === 'application.id')) {
+  if (tagFiltersForAnalyze.some(f => f.name === 'application.id' || f.name === 'boundary.application.id')) {
     return tagFiltersForAnalyze.map(
-      f => (f.name !== 'application.id' ? f : getApplicationNameTagFilter(applicationName))
+      f =>
+        f.name === 'application.id'
+          ? getApplicationNameTagFilter(applicationName)
+          : f.name === 'boundary.application.id'
+            ? getInboundApplicationNameTagFilter(applicationName)
+            : f
     );
   }
   // or add the application label tag filter to the end if application ID is filter is not present
@@ -368,26 +373,11 @@ function getApplicationNameTagFilter(applicationName) {
   };
 }
 
-export function translateDemocratisationFiltersToAnalyzeFilters({ applicationName, filters }) {
-  let filtersForAnalyze = filters;
-  if (!applicationName) {
-    return filtersForAnalyze;
-  }
-  // replace application ID filter with something more understandable by users.
-  if (filtersForAnalyze.some(f => f.name === 'application.id')) {
-    return filtersForAnalyze.map(
-      f => (f.name !== 'application.id' ? f : getApplicationNameAnalyzeFilter(applicationName))
-    );
-  }
-  // or add the application label tag filter to the end if application ID is filter is not present
-  return filtersForAnalyze.concat(getApplicationNameAnalyzeFilter(applicationName));
-}
-
-function getApplicationNameAnalyzeFilter(applicationName) {
+function getInboundApplicationNameTagFilter(applicationName) {
   return {
-    name: 'application.name',
+    name: 'call.inbound_of_application',
     operator: 'EQUALS',
-    value: applicationName
+    stringValue: applicationName
   };
 }
 
