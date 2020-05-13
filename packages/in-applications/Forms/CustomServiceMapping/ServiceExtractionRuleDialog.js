@@ -200,8 +200,8 @@ class BasicDialog extends React.Component {
         </div>
 
         <div className={locals.preview}>
-          <span className={locals.label}>Preview</span>
-          <span>{getPreview(serviceConfiguration)}</span>
+          <div className={locals.label}>Preview</div>
+          <div className={locals.render}>{getPreview(serviceConfiguration)}</div>
         </div>
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.get(serviceConfigIndex).hierarchyValid}>

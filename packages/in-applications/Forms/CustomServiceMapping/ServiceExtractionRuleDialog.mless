@@ -49,15 +49,14 @@
   }
 
   .preview {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-
     margin: 1rem 0;
     padding: 0 1rem 0.25rem;
     .label {
       font-size: 1rem;
       color: @lib__colors__N900Primary;
+    }
+    .render {
+      margin-top: 0.5rem;
     }
   }
   .footer {
