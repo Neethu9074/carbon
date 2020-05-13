@@ -110,7 +110,7 @@ export const Body = ({ beacon }) => {
             </Di>
             <BackendDi beacon={beacon} />
             <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
-            <Di title="HTTP Status">{beacon.httpCallStatus}</Di>
+            {beacon.httpCallStatus > 0 && <Di title="HTTP Status">{beacon.httpCallStatus}</Di>}
             {beacon.backendTime >= 0 && <Di title="Time to First Byte">{millis.fixedCompact(beacon.backendTime)}</Di>}
             {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
             <Di title="Asynchronous">{yesOrNo(beacon.httpCallAsynchronous)}</Di>
