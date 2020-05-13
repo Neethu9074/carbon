@@ -9,6 +9,7 @@ const decimalSeparator = isLocaleAware ? window.instana.numberLocale.decimal : '
 
 export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
+export const fourDecimalPlaces = format(',.4f');
 export const number = {
   compact: zeroDecimalPlaces,
   detailed: twoDecimalPlaces,

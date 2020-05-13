@@ -1,13 +1,18 @@
 import React, { Fragment } from 'react';
 
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import { number, millis, fourDecimalPlaces } from 'in-services/formatters/number';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 import theme from 'in-themes';
+
+const clsFormatter = {
+  compact: fourDecimalPlaces,
+  detailed: fourDecimalPlaces
+};
 
 export default function Speed({ timeConfig, tagFilters }) {
   const granularity = getChartGranularity(timeConfig);
@@ -269,7 +274,7 @@ export default function Speed({ timeConfig, tagFilters }) {
       </Row>
 
       <Row>
-        <Col xs={12}>
+        <Col lg={6}>
           <AggregationSelector defaultAggregation="MEAN">
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
@@ -288,6 +293,35 @@ export default function Speed({ timeConfig, tagFilters }) {
                   metrics: {
                     firstInputDelay: {
                       metric: 'firstInputDelay',
+                      granularity,
+                      aggregation
+                    }
+                  }
+                }}
+              />
+            )}
+          </AggregationSelector>
+        </Col>
+
+        <Col lg={6}>
+          <AggregationSelector defaultAggregation="MEAN">
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                cardTitle="Cumulative Layout Shift"
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: clsFormatter,
+                  labels: ['Cumulative Layout Shift'],
+                  metricIds: ['cumulativeLayoutShift']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    cumulativeLayoutShift: {
+                      metric: 'cumulativeLayoutShift',
                       granularity,
                       aggregation
                     }

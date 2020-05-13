@@ -4,8 +4,8 @@ import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
+import { millis, latencyFixed, fourDecimalPlaces } from 'in-services/formatters/number';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
-import { millis, latencyFixed, number } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -90,7 +90,7 @@ export const Body = ({ beacon }) => {
     ),
     beacon.cumulativeLayoutShift >= 0 && (
       <Di key={3} title="Cumulative Layout Shift">
-        {number.detailed(beacon.cumulativeLayoutShift)}
+        {fourDecimalPlaces(beacon.cumulativeLayoutShift)}
       </Di>
     ),
     beacon.backendTime >= 0 && (
