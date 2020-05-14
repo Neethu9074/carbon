@@ -11,6 +11,7 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_small;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    width: 100%;
 
     &[disabled] {
       color: rgba(58, 75, 81, 0.48);
@@ -28,7 +29,7 @@
 
   .selectWrapper {
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
 
     &:after {
