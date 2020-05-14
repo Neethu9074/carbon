@@ -18,6 +18,7 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
             {tabs.map(tab => (
               <TabComponent
                 key={tab.label}
+                {...props}
                 tab={tab}
                 location={location}
                 result={result}
@@ -32,14 +33,15 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
   );
 }
 
-function TabComponent({ tab, result, location, tabChangeTracker }) {
+function TabComponent(props) {
+  const { tab, result, location, tabChangeTracker } = props;
   const isActive = location && location.pathname.indexOf(tab.path) === 0;
   const isDisabled = !!(tab.isDisabled && tab.isDisabled(result));
 
   return (
     <SecondLevelNavigationItem
       key={tab.label}
-      label={tab.label}
+      label={tab.header ? tab.header(props) : tab.label}
       isActive={isActive}
       isDisabled={isDisabled}
       href$={
