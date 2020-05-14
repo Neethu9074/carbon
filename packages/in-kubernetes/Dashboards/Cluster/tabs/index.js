@@ -1,9 +1,11 @@
 import React from 'react';
 
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
-import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
+import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
+import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
+import { getDeploymentDashboard, getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
-import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
+import getKubernetesDeployments$ from 'in-subscription/kubernetes/getKubernetesDeployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
@@ -45,13 +47,29 @@ export default [
   {
     label: 'Deployments',
     path: `${clusterDashboardFullyQualified}/deployments`,
-    component: Deployments,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'deployment',
+        getWorkloadControllers$: getKubernetesDeployments$,
+        getWorkloadControllerDashboard: getDeploymentDashboard,
+        pathSegment: '/deployments',
+        entityName: 'deployments'
+      }),
     header: props => getCounterComponent(props, 'deployments')
   },
   {
     label: 'Deployment Configs',
     path: `${clusterDashboardFullyQualified}/deploymentconfigs`,
-    component: DeploymentConfigs,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'deploymentConfig',
+        getWorkloadControllers$: getOpenShiftDeploymentConfigs$,
+        getWorkloadControllerDashboard: getDeploymentConfigDashboard,
+        pathSegment: '/deploymentconfigs',
+        entityName: 'deployment configs'
+      }),
     header: props => getCounterComponent(props, 'deploymentConfigs')
   },
   {
