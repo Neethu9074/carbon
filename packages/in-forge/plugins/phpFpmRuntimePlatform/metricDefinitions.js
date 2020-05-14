@@ -7,113 +7,76 @@ export default [
     label: 'Accepted Connections',
     category: ['Connections'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'slow_requests', 'Pool'),
     label: 'Slow Requests',
     category: ['Connections'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'listen_queue', 'Pool'),
     label: 'Listen Queue',
     category: ['Connections'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'max_listen_queue', 'Pool'),
     label: 'Max',
     category: ['Connections'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'listen_queue_len', 'Pool'),
     label: 'Length',
     category: ['Connections'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'idle_processes', 'Pool'),
     label: 'Idle',
     category: ['Processes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'active_processes', 'Pool'),
     label: 'Active',
     category: ['Processes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'total_processes', 'Pool'),
     label: 'Total',
     category: ['Processes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'max_active_processes', 'Pool'),
     label: 'Max Active',
     category: ['Processes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'max_children_reached', 'Pool'),
     label: 'Max Children',
     category: ['Processes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('worker_pool', 'total_memory', 'Pool'),
     label: 'Memory',
     category: ['Resources'],
     min: 0,
-    formatter: bytes,
-    isAvailable(snapshot, match) {
-      return isStatusPathEnabled(snapshot, match);
-    }
+    formatter: bytes
   }
 ];
-
-function isStatusPathEnabled(snapshot, match) {
-  return snapshot.getIn(['data', 'worker_pool.' + match[1] + '.pm_status_path'], 'undefined') !== 'undefined';
-}

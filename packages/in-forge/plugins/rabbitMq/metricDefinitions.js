@@ -26,120 +26,105 @@ export default [
     ],
     min: 0,
     category: ['Messages'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metrics: ['overview.consumers', 'overview.connections'],
     labels: ['Consumers', 'Connections'],
     min: 0,
     category: ['Overview'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'fd_used', 'Node'),
     label: 'File descriptors used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'fd_total', 'Node'),
     label: 'Total file descriptors',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'mem_used', 'Node'),
     label: 'Memory Used',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'mem_limit', 'Node'),
     label: 'Memory limit',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'proc_used', 'Node'),
     label: 'Erlang processes used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'proc_total', 'Node'),
     label: 'Maximum number of Erlang processes',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'disk_free', 'Node'),
     label: 'Disk free space',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'disk_free_limit', 'Node'),
     label: 'Disk alarm threshold',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'sockets_total', 'Node'),
     label: 'Total sockets',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'sockets_used', 'Node'),
     label: 'Sockets used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages_ready', 'Queue'),
     label: 'Messages ready',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages_unacknowledged', 'Queue'),
     label: 'Messages unacknowledged',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages', 'Queue'),
     label: 'Messages total',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: 'net_partitions_count',
@@ -154,7 +139,3 @@ export default [
     formatter: number
   }
 ];
-
-function isAvailable(snapshot) {
-  return snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK') === 'OK';
-}

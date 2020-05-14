@@ -15,10 +15,7 @@ export default [
     metrics: ['totalCommittedTransactions'],
     labels: ['Committed Transactions'],
     min: 0,
-    formatter: activity,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK') === 'OK';
-    }
+    formatter: activity
   },
   {
     metric: 'max_conn_pct',

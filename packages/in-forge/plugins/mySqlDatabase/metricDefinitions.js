@@ -1,4 +1,3 @@
-import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { millis, number } from 'in-services/formatters/number';
 
@@ -22,10 +21,7 @@ export default [
     label: 'avg. Query Latency',
     min: 0,
     category: ['Latency'],
-    formatter: millis,
-    isAvailable(snapshot) {
-      return isPerformanceDataAvailable(snapshot);
-    }
+    formatter: millis
   },
   {
     metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],

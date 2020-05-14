@@ -7,7 +7,6 @@ import {
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { isWindows, isLinux } from 'in-forge/plugins/host/hostUtils';
 
 const availableCpuMetricSuffixes = {
   user: 'User',
@@ -60,20 +59,14 @@ export default [
     label: 'Load',
     category: ['CPU'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: number
   },
   {
     metric: 'ctxt',
     label: 'Context Switches',
     category: ['CPU'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot) {
-      return isLinux(snapshot);
-    }
+    formatter: number
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used'],
@@ -91,10 +84,7 @@ export default [
     getMax(snapshot) {
       return snapshot.getIn(['data', 'openFiles.max']);
     },
-    formatter: number,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: number
   },
   {
     metric: 'openFiles.used',
@@ -102,10 +92,7 @@ export default [
     category: ['Open Files'],
     min: 0,
     max: 1,
-    formatter: percentage,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: percentage
   },
   {
     metrics: ['topPID'],
@@ -175,10 +162,7 @@ export default [
     category: ['Filesystem'],
     min: 0,
     max: 1,
-    formatter: percentage,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('fs', 'ifree', 'Device'),
@@ -186,10 +170,7 @@ export default [
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemICapacity,
-    formatter: siMultiplyPrefix,
-    isAvailable(snapshot, match) {
-      return isWindows(snapshot) && getMaxFilesystemICapacity(snapshot, match) != null;
-    }
+    formatter: siMultiplyPrefix
   },
   {
     metric: getDynamicMetricMatch('fs', 'reads', 'Device'),

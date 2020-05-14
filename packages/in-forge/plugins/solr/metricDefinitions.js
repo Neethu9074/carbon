@@ -7,80 +7,70 @@ export default [
     label: 'Average Requests',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'avg_time_request', 'Core'),
     label: 'Average Request Time',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'lookups', 'Core'),
     label: 'Lookups',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'hitratio', 'Core'),
     label: 'Hit-rate',
     category: ['Cores'],
     min: 0,
-    formatter: percentage,
-    isAvailable
+    formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'inserts', 'Core'),
     label: 'Inserts',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'evictions', 'Core'),
     label: 'Evictions',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'errors', 'Core'),
     label: 'Errors',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'timeouts', 'Core'),
     label: 'Timeouts',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'docs_added', 'Core'),
     label: 'Documents added',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'docs_pending', 'Core'),
     label: 'Documents pending',
     category: ['Cores'],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: 'hitratio',
@@ -95,7 +85,3 @@ export default [
     formatter: number
   }
 ];
-
-function isAvailable(snapshot) {
-  return snapshot.getIn(['data', 'version'], false);
-}

@@ -7,10 +7,7 @@ export default [
     label: 'GC Pause',
     min: 0,
     category: ['GC Activity'],
-    formatter: millis,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'gc.statsSupported'], false);
-    }
+    formatter: millis
   },
   {
     metrics: ['activeHandles', 'activeRequests'],
@@ -23,20 +20,14 @@ export default [
     labels: ['#Minor GCs', '#Major GCs'],
     min: 0,
     category: ['GC'],
-    formatter: bytes,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'gc.statsSupported'], false);
-    }
+    formatter: bytes
   },
   {
     metrics: ['memory.rss', 'memory.heapUsed', 'gc.usedHeapSizeAfterGc'],
     labels: ['RSS', 'Heap Size', 'Heap Size After GC'],
     min: 0,
     category: ['GC'],
-    formatter: number,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'gc.statsSupported'], false);
-    }
+    formatter: number
   },
   {
     metrics: ['memory.rss', 'memory.heapUsed'],
@@ -50,20 +41,14 @@ export default [
     labels: ['Longest time spent in a single loop', 'Total time spent in loop', 'Event loop lag'],
     min: 0,
     category: ['Event Loop'],
-    formatter: millis,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'gc.statsSupported'], false);
-    }
+    formatter: millis
   },
   {
     metric: 'libuv.num',
     label: 'Loops per second',
     min: 0,
     category: ['Event Loop'],
-    formatter: number,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'gc.statsSupported'], false);
-    }
+    formatter: number
   },
   {
     metric: getDynamicMetricMatch('heapSpaces', 'available', 'Heap Space'),
