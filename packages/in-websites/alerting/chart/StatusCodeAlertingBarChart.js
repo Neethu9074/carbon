@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
@@ -7,6 +6,7 @@ import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/ge
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
+import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -46,20 +46,10 @@ export default function StatusCodeAlertingBarChart({
               )
             : metricsMaxValue;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          colors: legendColors
         },
         renderer: Renderer.barWithThreshold,
         formatter: metricName === statusCodeCount ? number.forcedCompact : percentage.detailed,
