@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -53,32 +53,23 @@ export default function SlownessAlertingBarChart({
             .reduce((a, b) => (a > b ? a : b), metricsMaxValue);
           return overallMaxValue * 1.1;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          colors: legendColors
         },
         renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
         metricIds: ['latency', 'threshold'],
-        labels: [getMetricLabel('slowness', 'latency'), 'Threshold', 'Expected Range', 'Violations'],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [getMetricLabel('slowness', 'latency'), 'Threshold', 'Expected Range', 'Violations', 'Alerts'],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
         nonToggleableSeries: new Map([
           ['latency', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null]
+          ['Violations', null],
+          ['Alerts', null]
         ])
       }}
       getMetric={getApplicationMetrics}

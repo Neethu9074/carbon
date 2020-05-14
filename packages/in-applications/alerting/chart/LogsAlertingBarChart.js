@@ -47,7 +47,7 @@ export default function LogsAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
           colors: legendColors
         },
         renderer: Renderer.barWithThreshold,
