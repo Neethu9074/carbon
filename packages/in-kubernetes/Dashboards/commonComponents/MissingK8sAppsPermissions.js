@@ -42,12 +42,7 @@ const WarningMessageAfterFetchingCluster = connectTo(
     return {
       cluster: getKubernetesClusterByRelation$({
         filter: {
-          deploymentId: deploymentId,
-          deploymentConfigId: deploymentConfigId,
-          namespaceId: namespaceId,
-          serviceId: serviceId,
-          nodeId: nodeId,
-          podId: podId,
+          resourceSnapshotId: deploymentId || deploymentConfigId || namespaceId || serviceId || nodeId || podId,
           timeConfig: timeConfig
         }
       })
