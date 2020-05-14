@@ -19,7 +19,7 @@ import locals from './CustomServiceMappingDialog.mless';
 export default function CustomServiceMappingDialog() {
   return (
     <BasicForm
-      title="Configure Custom Service Rule"
+      title="Configure Custom Service Rules"
       saveButtonLabel="Save"
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
       getOnSavePath={() => servicesList}
