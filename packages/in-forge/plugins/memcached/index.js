@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   },
   iconSvgPath,
   kpiDefinitions,
+  technologyDescriptor: {
+    label: 'Memcached'
+  },
   metricDefinitions
 });
