@@ -27,7 +27,7 @@ export default connectTo(
       cluster: combineLatest([timeConfig$, node$]).flatMap(([timeConfig, node]) =>
         getKubernetesClusterByNode({
           filter: {
-            nodeId: node.id,
+            resourceSnapshotId: node.id,
             timeConfig
           }
         }).map(result => result.data)
