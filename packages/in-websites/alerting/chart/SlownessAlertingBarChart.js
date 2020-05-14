@@ -54,27 +54,20 @@ export default function SlownessAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: threshold.type === 'staticThreshold' ? Renderer.barWithThreshold : Renderer.barWithBaseline,
         formatter: millis.forcedFixedCompact,
         metricIds: ['onLoadTime', 'threshold'],
-        labels: [
-          getMetricLabel(alertTypes.slowness, onLoadTime),
-          'Threshold',
-          'Expected Range',
-          'Violations',
-          'Alerts'
-        ],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
+        labels: [getMetricLabel(alertTypes.slowness, onLoadTime), 'Threshold', 'Expected Range', 'Violations'],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         nonToggleableSeries: new Map([
           ['onLoadTime', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null],
-          ['Alerts', null]
+          ['Violations', null]
         ])
       }}
       getMetric={getWebsiteMetrics}

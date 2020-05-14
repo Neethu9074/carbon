@@ -45,27 +45,20 @@ export default function JsErrorsAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: [
-          getMetricLabel(alertTypes.specificJsError, metricName),
-          'Threshold',
-          'Expected Range',
-          'Violations',
-          'Alerts'
-        ],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
+        labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
           ['errors', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null],
-          ['Alerts', null]
+          ['Violations', null]
         ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}

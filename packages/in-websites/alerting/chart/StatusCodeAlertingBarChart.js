@@ -48,7 +48,7 @@ export default function StatusCodeAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop', 'lib_events_warning'],
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: Renderer.barWithThreshold,
@@ -57,18 +57,16 @@ export default function StatusCodeAlertingBarChart({
           getMetricLabel(alertTypes.specificStatusCode, metricName),
           'Threshold',
           'Expected Range',
-          'Violations',
-          'Alerts'
+          'Violations'
         ],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations', 'Alerts'],
+        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
           ['statusCode', null],
           ['threshold', null],
           ['alerts', null],
           ['Expected Range', null],
-          ['Violations', null],
-          ['Alerts', null]
+          ['Violations', null]
         ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
