@@ -69,7 +69,7 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
                 value={form.get('threshold').get('operator').value}
                 options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
                 onChange={e => {
-                  const value = (e && e.value) || '';
+                  const value = e?.value ?? '';
                   onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
                   applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
                 }}

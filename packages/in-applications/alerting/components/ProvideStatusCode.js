@@ -23,7 +23,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
             </Label>
             <ComboBox
               name={'ruleValue'}
-              value={field.value}
+              value={getStatusCodeFieldValue(form)}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
                 applicationsAlertingStatusCodeChanged(mode);
@@ -67,4 +67,15 @@ function getEndForStatusCode(statusCode) {
   } else if (statusCode && statusCode.length === 1) {
     return statusCode * 100 + 99;
   }
+}
+
+function getStatusCodeFieldValue(form) {
+  if (form.get('rule').get('statusCodeStart') && form.get('rule').get('statusCodeEnd')) {
+    if (form.get('rule').get('statusCodeStart').value === form.get('rule').get('statusCodeEnd').value) {
+      return form.get('rule').get('statusCodeStart').value;
+    } else {
+      return form.get('rule').get('statusCodeStart').value / 100;
+    }
+  }
+  return '4';
 }

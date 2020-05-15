@@ -5,6 +5,7 @@ import {
   alertingEventDetailsChartTimeframe
 } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -21,7 +22,6 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplicationEventContent.mless';
-import StatusCodeAlertingBarChart from '../../../../in-applications/alerting/chart/StatusCodeAlertingBarChart';
 
 export default connectTo(
   ({ event }) => {
