@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -7,11 +8,22 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 export default function SpringbootDashboard({ snapshot, timeConfig }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
+  const actuatorConfigured = snapshot.getIn(['data', 'actuatorConfigured']);
+
+  if (actuatorConfigured === false) {
+    return (
+      <DashboardNotification type="warning">
+        Spring Boot Actuator is not registered in this Spring Boot application.{' '}
+        <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
+          Spring Boot configuration
+        </Link>
+      </DashboardNotification>
+    );
+  }
 
   if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
