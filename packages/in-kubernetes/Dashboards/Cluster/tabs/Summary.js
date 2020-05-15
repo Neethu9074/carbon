@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
@@ -31,7 +31,7 @@ export default function Summary({ timeConfig, data: cluster }) {
 
   return (
     <Fragment>
-      <MissingK8sAppsPermissions cluster={cluster} />
+      <MissingK8sPermissions cluster={cluster} />
 
       <Row>
         <Col lg={2}>
