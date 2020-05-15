@@ -19,7 +19,7 @@ export const searchMatches$ = createTrackingStore({
       }
 
       return createSearchSubscription({
-        query: query || '',
+        query: filterEntitiesWithMonitoringEvents(query),
         view,
         timeConfig
       });
@@ -35,4 +35,13 @@ export function search({ query }) {
       view: 'TABLE'
     });
   });
+}
+
+function filterEntitiesWithMonitoringEvents(query) {
+  if (!query) {
+    return '';
+  } else if (query.includes('event.severity') || query.includes('event.state')) {
+    return `(!event.type:agent_monitoring_issue) AND (${query.trim()})`;
+  }
+  return query;
 }

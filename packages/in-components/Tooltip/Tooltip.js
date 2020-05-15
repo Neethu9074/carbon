@@ -31,22 +31,12 @@ export default class extends React.PureComponent {
       'auto',
       'mousePosition'
     ]),
-    delay: rpt.number,
-    ellipsisOnly: rpt.bool
+    delay: rpt.number
   };
 
   static defaultProps = {
-    align: 'auto',
-    ellipsisOnly: false
+    align: 'auto'
   };
-
-  hasEllipsis() {
-    return this.domNode.scrollWidth > this.domNode.offsetWidth;
-  }
-
-  shouldShowTooltip() {
-    return !this.props.ellipsisOnly || this.hasEllipsis();
-  }
 
   componentDidMount() {
     this.addListeners();
@@ -58,7 +48,7 @@ export default class extends React.PureComponent {
   }
 
   removeListeners = () => {
-    if (this.domNode && this.shouldShowTooltip()) {
+    if (this.domNode) {
       this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
       this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
     }
@@ -68,10 +58,8 @@ export default class extends React.PureComponent {
   addListeners = () => {
     try {
       this.domNode = ReactDOM.findDOMNode(this);
-      if (this.shouldShowTooltip()) {
-        this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
-        this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
-      }
+      this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
+      this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
     } catch (e) {
       // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
       logger.debug(

@@ -1,34 +1,28 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import Card from 'in-new-components/Card';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {
-  let { timeConfig, y1, frontBufferWidth, customHeight } = config;
+  let { timeConfig, y1, frontBufferWidth, customHeight, cardTitle, showNoDataInfoWhenEmpty = true } = config;
   let content;
   let withoutPadding = false;
 
   const height = customHeight || 160;
   if (result.errors.length > 0) {
-    content = <NoDataAvailable width={frontBufferWidth} height={height} />;
+    content = <NoDataAvailable width={frontBufferWidth} height={height} text="Loading data" />;
   } else if (result.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
-    content = (
-      <InfiniteCircle
-        height={height}
-        frontBufferWidth={frontBufferWidth}
-        percentage={result.progress.percentage || 0.2}
-      />
-    );
+    content = <LoadingIndicator height={height} width={frontBufferWidth} />;
     withoutPadding = true;
   } else {
-    if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {
+    if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
-      config = normalizeTimeShiftedTimestamps(result, config);
       const CustomChartComponent = config.customChartComponent;
+      config = normalizeTimeShiftedTimestamps(result, config);
       content = CustomChartComponent ? (
         <CustomChartComponent renderLegend={renderLegend} {...config} />
       ) : (
@@ -37,13 +31,13 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     }
   }
 
-  if (config.cardTitle == null) {
+  if (cardTitle == null) {
     return content;
   }
 
   return (
     <Card
-      title={config.cardTitle}
+      title={cardTitle}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
       withoutPadding={withoutPadding}
       header={config.cardHeader}

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Title from 'in-components/Title';
 
@@ -40,7 +40,7 @@ export default function entityForm(ComposedComponent) {
       const { form, entity } = this.state;
 
       if (!entity) {
-        return <LoadingIndicator type="dark" />;
+        return <LoadingIndicator />;
       }
 
       return (

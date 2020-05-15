@@ -21,6 +21,28 @@ const categories = {};
 // {
 //   <plugin>: [
 //     {
+//       label: 'CPU',
+//       type: 'category',
+//       children: [
+//         {
+//           label: 'Load',
+//           metric: {
+//             pattern: RegExp(${pre}\\.(.*)\\.${post}$, 'i'),
+//             pre: 'fs',
+//             post: 'free',
+//             placeholderLabel: 'Device'
+//           },
+//           type: 'metric'
+//         }
+//       ]
+//     }
+//   ]
+// }
+const dynamicMetricCategories = {};
+
+// {
+//   <plugin>: [
+//     {
 //       test(),
 //       metric,
 //       label,
@@ -90,6 +112,8 @@ function getTestFunction(metric) {
     return s => s === metric;
   } else if (metric instanceof RegExp) {
     return s => metric.test(s);
+  } else if (type === 'object') {
+    return s => metric.pattern.test(s);
   }
 
   throw new Error(`Unsupported metric of type ${type}: ${metric}`);
@@ -119,8 +143,7 @@ export function getMetricDefinition(plugin, metric) {
     return getDefaultMetricDefinition(metric);
   }
 
-  for (let i = 0, len = metricDefinitionsForPlugin.length; i < len; i++) {
-    const metricDefinition = metricDefinitionsForPlugin[i];
+  for (const metricDefinition of metricDefinitionsForPlugin) {
     if (metricDefinition.test(metric)) {
       return bindMetricMatchToGetters(metric, metricDefinition);
     }
@@ -144,11 +167,19 @@ function getDefaultMetricDefinition(metric) {
 }
 
 function bindMetricMatchToGetters(metric, metricDefinition) {
-  if (!(metricDefinition.metric instanceof RegExp)) {
+  let metricPattern;
+  if (metricDefinition.metric instanceof RegExp) {
+    metricPattern = metricDefinition.metric;
+  } else if (metricDefinition.metric instanceof Object) {
+    metricPattern = metricDefinition.metric.pattern;
+  } else {
+    // type string
     return metricDefinition;
   }
-
   metricDefinition = Object.create(metricDefinition);
+  metricDefinition.metricPattern = metricDefinition.metric;
+  metricDefinition.metric = metricPattern; // for compatibility to ChartsForSelectedEntities
+
   const match = metric.match(metricDefinition.metric);
   metricDefinition.getMin = simpleCurryOne(metricDefinition.getMin, match);
   metricDefinition.getMax = simpleCurryOne(metricDefinition.getMax, match);
@@ -160,6 +191,9 @@ function simpleCurryOne(fn, value) {
   return a => fn(a, value);
 }
 
+/**
+ * Get the metric definitions for the given plugin for plain metrics.
+ */
 export function getCategories(plugin) {
   if (categories[plugin]) {
     return categories[plugin];
@@ -181,7 +215,7 @@ function buildCategories(plugin) {
   };
 
   metricDefinitionsForPlugin.forEach(metricDefinitionForPlugin => {
-    // we cannot categorise metrics that are matched based on regex
+    // this does not include metrics that are matched based on regex
     if (typeof metricDefinitionForPlugin.metric === 'string' && !metricDefinitionForPlugin.hideInMetricSelector) {
       insertMetric(root, metricDefinitionForPlugin);
     }
@@ -191,7 +225,49 @@ function buildCategories(plugin) {
   return root.children;
 }
 
-function insertMetric(node, metricDefinitionForPlugin, category) {
+/**
+ * Get the metric definitions for the given plugin for dynamic metrics (with only one placeholder).
+ */
+export function getDynamicMetricCategories(plugin) {
+  if (dynamicMetricCategories[plugin]) {
+    return dynamicMetricCategories[plugin];
+  }
+  const pluginCategories = (dynamicMetricCategories[plugin] = buildDynamicMetricCategories(plugin));
+  return pluginCategories;
+}
+
+export function hasCategory(plugin) {
+  return getCategories(plugin).length > 0 || getDynamicMetricCategories(plugin).length > 0;
+}
+
+function buildDynamicMetricCategories(plugin) {
+  const metricDefinitionsForPlugin = metricDefinitions[plugin];
+  if (!metricDefinitionsForPlugin || metricDefinitionsForPlugin.length === 0) {
+    return [];
+  }
+
+  const root = {
+    label: 'root',
+    type: 'category',
+    children: []
+  };
+
+  metricDefinitionsForPlugin.forEach(metricDefinitionForPlugin => {
+    // this does not include metrics that are matched based on regex directly,
+    // but only when the patter, prefix and postfix are nested in an object
+    if (
+      typeof metricDefinitionForPlugin.metric === 'object' &&
+      !(metricDefinitionForPlugin.metric instanceof RegExp) &&
+      !metricDefinitionForPlugin.hideInMetricSelector
+    ) {
+      insertMetric(root, metricDefinitionForPlugin, metricDefinitionForPlugin.category, 'metric');
+    }
+  });
+  sortCategories(root);
+  return root.children;
+}
+
+function insertMetric(node, metricDefinitionForPlugin, category, type = 'metric') {
   category = category || metricDefinitionForPlugin.category;
 
   if (category.length === 0) {
@@ -199,7 +275,7 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
       label: metricDefinitionForPlugin.label,
       metric: metricDefinitionForPlugin.metric,
       formatter: metricDefinitionForPlugin.formatter,
-      type: 'metric',
+      type,
       isPercentile: metricDefinitionForPlugin.isPercentile
     });
     return;
@@ -222,18 +298,44 @@ function insertMetric(node, metricDefinitionForPlugin, category) {
     node.children.push(nextNode);
   }
 
-  insertMetric(nextNode, metricDefinitionForPlugin, category.slice(1));
+  insertMetric(nextNode, metricDefinitionForPlugin, category.slice(1), type);
 }
 
 function sortCategories(node) {
   if (node.children) {
-    node.children.sort((a, b) => a.label.localeCompare(b.label));
+    node.children.sort((a, b) => {
+      const aLabel = typeof a.label === 'function' ? a.label() : a.label;
+      const bLabel = typeof b.label === 'function' ? b.label() : b.label;
+      return aLabel.localeCompare(bLabel);
+    });
     node.children.forEach(sortCategories);
   }
 }
 
-export function getMetricMatch(pre, post) {
+/**
+ * Custom metrics which full metric name is not defined by Instana, and are added for our Acceptor only.
+ * @param pre The mandatory prefix of the metric.
+ * @param post The optional postfix of the metric.
+ */
+export function getCustomMetricMatch(pre, post) {
   return post ? new RegExp(`^${pre}\\.(.*)\\.${post}$`, 'i') : new RegExp(`^${pre}\\.(.*)$`, 'i');
+}
+
+/**
+ * Dynamic built-in metrics using this match-definition are also included as built-in metrics for Custom Events.
+ * As of now, only a single placeholder is supported.
+ * @param pre The mandatory prefix of the metric.
+ * @param post The optional postfix of the metric.
+ * @param placeholderLabel The label of the placeholder in the metric-pattern, to explain what it represents.
+ */
+export function getDynamicMetricMatch(pre, post, placeholderLabel = 'Placeholder') {
+  const patternString = post ? `^${pre}\\.(.*)\\.${post}$` : `^${pre}\\.(.*)$`;
+  return {
+    pattern: new RegExp(patternString, 'i'),
+    pre,
+    post,
+    placeholderLabel
+  };
 }
 
 export function isMetricPercentile(plugin, metricName) {

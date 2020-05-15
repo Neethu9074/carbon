@@ -39,7 +39,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
               {[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}
             </Di>
             <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Screen Resolution">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
+            <Di title="Window Dimensions">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
             <Di title="IP Address">{beacon.userIp}</Di>
             {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}

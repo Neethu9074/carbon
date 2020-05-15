@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -70,88 +70,102 @@ export default [
   },
   // recent changes
   {
-    metrics: getMetricMatch('recent_changes.data', 'add_entry_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'add_entry_count', 'Database'),
     labels: ['Number of added entries'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('recent_changes.data', 'changed_entry_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'changed_entry_count', 'Database'),
     labels: ['Number of changed entries'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('recent_changes.data', 'delete_entry_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'delete_entry_count', 'Database'),
     labels: ['Number of deleted entries'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('recent_changes.data', 'modify_entry_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'modify_entry_count', 'Database'),
     labels: ['Number of modified entries'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('recent_changes.data', 'rename_entry_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'rename_entry_count', 'Database'),
     labels: ['Number of renamed entries'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('recent_changes.data', 'database_open_record_count'),
+    metrics: getDynamicMetricMatch('recent_changes.data', 'database_open_record_count', 'Database'),
     labels: ['Number of opened records'],
+    category: ['Recent Changes'],
     min: 0,
     formatter: number
   },
   // ldap connection handlers
   {
-    metrics: getMetricMatch('ldap_connectors.data', 'connection_count'),
+    metrics: getDynamicMetricMatch('ldap_connectors.data', 'connection_count', 'LDAP Connector'),
     labels: ['Number of connections'],
+    category: ['Active Connections'],
     min: 0,
     formatter: number
   },
   // ldap connection handler statistics
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'add_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'add_requests', 'LDAP Connector'),
     labels: ['Number of add requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'bind_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'bind_requests', 'LDAP Connector'),
     labels: ['Number of bind requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'compare_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'compare_requests', 'LDAP Connector'),
     labels: ['Number of compare requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'delete_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'delete_requests', 'LDAP Connector'),
     labels: ['Number of delete requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'extended_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'extended_requests', 'LDAP Connector'),
     labels: ['Number of extended requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'modify_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'modify_requests', 'LDAP Connector'),
     labels: ['Number of modify requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   },
   {
-    metrics: getMetricMatch('ldap_connector_statistics.data', 'search_requests'),
+    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'search_requests', 'LDAP Connector'),
     labels: ['Number of search requests'],
+    category: ['Connection Stats'],
     min: 0,
     formatter: number
   }

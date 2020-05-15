@@ -211,20 +211,9 @@ VS Code.
 
 #### IntelliJ & Co
 
-- Install the file watcher plugin
-- Set up a file watcher like this:
-  - Name: Prettier
-  - File type: JavaScript
-  - Scope: Project Files
-  - Program: `/path/to/ui-client/node_modules/.bin/prettier`
-  - Arguments: `--single-quote --print-width 120 --write $FilePath$`
-  - Output paths to refresh: `$FilePath$`
-  - Working directory: `$ModuleFileDir$`
-  - Auto-save edited files to trigger the watcher: Unchecked
-  - Trigger the watcher on external changes: Unchecked
-  - Trigger the watcher regardless of syntax errors: Unchecked
-  - Create output file from stdout: Unchecked
-  - Show console: On error
+- Install the Prettier plugin (by Jetbrains) and use these defaults:
+  - Prettier package: <Project_RootDir>/node_modules/prettier
+  - ✔️ Activate "run on save for files:"  ({**/*,*}.{js,jsx})
 
 ## Upgrading Node.js
 

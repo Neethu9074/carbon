@@ -1,9 +1,19 @@
+import {
+  blacklistedTagFiltersOfAlertType,
+  availableTagFiltersPerAlertType
+} from 'in-websites/alerting/data/blueprintConfig';
 import { metricNameForAlertType } from 'in-websites/alerting/form/thresholdFormData';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType) {
   const threshold = form.get('threshold').toJS();
+  const tagFilters = form.get('tagFilters').value;
+
+  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
+  const isNotBlacklisted = filter => !blacklistedTagFilters.includes(filter.name);
+  const availableTagFilters = availableTagFiltersPerAlertType[alertType];
+  const isAvailable = availableTagFilters ? filter => availableTagFilters.includes(filter.name) : () => true;
 
   const newThresholdForm = createThresholdForm(
     {
@@ -23,7 +33,10 @@ export default function createBlueprintForm(form, alertType) {
     metricName: metricNameForAlertType[alertType]
   });
 
-  return form.put('rule', newRuleForm).put('threshold', newThresholdForm);
+  return form
+    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted).filter(isAvailable)))
+    .put('rule', newRuleForm)
+    .put('threshold', newThresholdForm);
 }
 
 function getThresholdTypeForAlertType(alertType, threshold) {

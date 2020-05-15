@@ -1,10 +1,10 @@
 import { defaultProps } from 'recompose';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { number } from 'in-services/formatters/number';
@@ -41,7 +41,7 @@ function SparkChartReactComponent(props) {
 
   let sparkChart;
   if (loading) {
-    sparkChart = <InfiniteCircle width={width} height={height} />;
+    sparkChart = <LoadingIndicator text="Loading data" width={width} height={height} />;
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {

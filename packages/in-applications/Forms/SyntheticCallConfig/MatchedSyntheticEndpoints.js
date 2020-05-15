@@ -14,7 +14,7 @@ import {
 } from 'in-components/tables/sharedComponents';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -69,7 +69,7 @@ function MatchedSyntheticEndpoints(props) {
   const hasErrors = errors.length > 0;
 
   if (isInitialLoading) {
-    return <InfiniteCircle height={100} />;
+    return <LoadingIndicator text="Loading data" height={100} />;
   } else if (hasErrors) {
     return <ErroneousResultPresenter errors={errors} />;
   }

@@ -1,11 +1,11 @@
-import { compose } from 'recompose';
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -60,7 +60,7 @@ export default compose(
     <InternalViewWrapper>
       <Breadcrumbs items={[<UnitsBreadcrumb />]} />
 
-      {!units && <LoadingIndicator type="dark" />}
+      {!units && <LoadingIndicator />}
 
       {units && (
         <Table

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 
+import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventContent from 'in-views/eventView/components/Event/ApplicationEventContent';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventList from 'in-events/components/legacy/EventList';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventChart from 'in-events/components/EventChart';
@@ -25,7 +27,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   const eventType = getEventType(event);
@@ -53,6 +55,7 @@ function EventContent({ event }) {
   }
 
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
+
   return (
     <>
       <Row>
@@ -64,8 +67,16 @@ function EventContent({ event }) {
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
             />
-
-            <ProblemDescription event={event} className="in-event-view-event-content" />
+            <SubEntityInformation event={event} />
+            {isAgentMonitoringIssueEvent(event) ? (
+              <AgentMonitoringIssueDescription
+                event={event}
+                timeConfig={timeConfig}
+                className="in-event-view-event-content"
+              />
+            ) : (
+              <ProblemDescription event={event} className="in-event-view-event-content" />
+            )}
             <EventSpecificationLink event={event} />
           </Card>
         </Col>
@@ -207,6 +218,10 @@ function isWebsiteSmartAlertEvent(event) {
 
 function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
+}
+
+function isAgentMonitoringIssueEvent(event) {
+  return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
 function hasMetric(event, metric) {

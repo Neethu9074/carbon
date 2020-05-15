@@ -1,9 +1,9 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardNotification from 'in-components/DashboardNotification';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import getAgentResponse from 'in-subscription/agentResponse';
 import { number, bytes } from 'in-services/formatters/number';
+import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 
@@ -66,7 +66,7 @@ export default connectTo(
         <DashboardNotification type="info">Active part analysis is only available in live mode.</DashboardNotification>
       );
     } else if (response == null) {
-      content = <LoadingIndicator type="dark" />;
+      content = <LoadingIndicator />;
     } else if (response.error) {
       content = (
         <DashboardNotification type="danger">

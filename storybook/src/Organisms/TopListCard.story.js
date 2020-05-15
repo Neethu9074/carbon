@@ -2,7 +2,6 @@ import { action } from '@storybook/addon-actions';
 import React, { Fragment } from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
@@ -17,137 +16,129 @@ export default {
   component: TopListCardPresenter
 };
 
-export function Default() {
+export function IndeterminateLoading() {
   return (
-    <>
-      <Row>
-        <Col lg={6}>
-          <h3>Indeterminate Loading</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: true
-              },
-              errors: []
-            }}
-          />
-        </Col>
-        <Col lg={6}>
-          <h3>Determinate Loading</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: true,
-                percentage: 0.7
-              },
-              errors: []
-            }}
-          />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={6}>
-          <h3>Server Error</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: false
-              },
-              errors: [
-                {
-                  message: 'Unexpected server error',
-                  code: 'SERVER'
-                },
-                {
-                  message:
-                    'There was a weird validation error: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium voluptates eius commodi aut, hic amet porro ab, nostrum id tenetur, repellat repellendus aliquid totam a facere. Officiis labore, aspernatur dolor.',
-                  code: 'VALIDATION'
-                }
-              ]
-            }}
-          />
-        </Col>
-        <Col lg={6}>
-          <h3>Client Error</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: false
-              },
-              errors: [
-                {
-                  message: 'Unexpected client error',
-                  code: 'CLIENT'
-                }
-              ]
-            }}
-          />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={6}>
-          <h3>No Data Found</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: false
-              },
-              errors: [],
-              data: {
-                items: [],
-                page: 1,
-                pageSize: 5,
-                totalHits: 0
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: true
+        },
+        errors: []
+      }}
+    />
+  );
+}
+export function DeterminateLoading() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: true,
+          percentage: 0.7
+        },
+        errors: []
+      }}
+    />
+  );
+}
+export function ServerError() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [
+          {
+            message: 'Unexpected server error',
+            code: 'SERVER'
+          },
+          {
+            message:
+              'There was a weird validation error: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium voluptates eius commodi aut, hic amet porro ab, nostrum id tenetur, repellat repellendus aliquid totam a facere. Officiis labore, aspernatur dolor.',
+            code: 'VALIDATION'
+          }
+        ]
+      }}
+    />
+  );
+}
+export function ClientError() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [
+          {
+            message: 'Unexpected client error',
+            code: 'CLIENT'
+          }
+        ]
+      }}
+    />
+  );
+}
+export function NoDataFound() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [],
+          page: 1,
+          pageSize: 5,
+          totalHits: 0
+        }
+      }}
+    />
+  );
+}
+export function EndpointsLoadedSuccessfully() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [
+            {
+              label: 'productdb',
+              metrics: {
+                metric: [[0, 234]]
               }
-            }}
-          />
-        </Col>
-        <Col lg={6}>
-          <h3>Endpoints Loaded Successfully</h3>
-          <TopListItem
-            title="Top Endpoints"
-            result={{
-              progress: {
-                loading: false
-              },
-              errors: [],
-              data: {
-                items: [
-                  {
-                    label: 'productdb',
-                    metrics: {
-                      metric: [[0, 234]]
-                    }
-                  },
-                  {
-                    label: 'shop',
-                    metrics: {
-                      metric: [[0, 128]]
-                    }
-                  },
-                  {
-                    label: 'recommendations',
-                    metrics: {
-                      metric: [[0, 64]]
-                    }
-                  }
-                ],
-                page: 1,
-                pageSize: 5,
-                totalHits: 3
+            },
+            {
+              label: 'shop',
+              metrics: {
+                metric: [[0, 128]]
               }
-            }}
-          />
-        </Col>
-      </Row>
-    </>
+            },
+            {
+              label: 'recommendations',
+              metrics: {
+                metric: [[0, 64]]
+              }
+            }
+          ],
+          page: 1,
+          pageSize: 5,
+          totalHits: 3
+        }
+      }}
+    />
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import { percentage, number } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -210,7 +210,7 @@ export default connectTo(
 
     return (
       <InternalViewWrapper>
-        {!rows && <LoadingIndicator type="dark" />}
+        {!rows && <LoadingIndicator />}
         {rows && (
           <Table
             cardTitle="Agents"

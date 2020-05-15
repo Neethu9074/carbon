@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage, number } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -200,7 +200,7 @@ export default connectTo(
 
     return (
       <InternalViewWrapper>
-        {!rows && <LoadingIndicator type="dark" />}
+        {!rows && <LoadingIndicator />}
         {rows && (
           <Table
             cardTitle="Agents"

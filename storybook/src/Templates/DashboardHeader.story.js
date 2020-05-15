@@ -11,87 +11,49 @@ export default {
   component: DashboardHeader
 };
 
-export function Default() {
-  return <Headers />;
+export function Raw() {
+  return <DashboardHeader icon="lib_application" label="Instana Demo - Discount Application 0.0.1" />;
 }
 
-export function Loading() {
-  return <Headers additionalProps={{ result: {} }} />;
+export function WithMetaInformation() {
+  return <DashboardHeader icon="lib_website" label="Robot Shop" renderMetaInformation={renderMetaInformation} />;
 }
 
-function Headers({ additionalProps }) {
+export function WithButtons() {
+  return <DashboardHeader icon="lib_kubernetes" label="k8s-demo" renderButtonLine={renderButtonLine} />;
+}
+
+export function WithContext() {
   return (
-    <div style={{ background: '#e0e0e0', padding: '0 3rem' }}>
-      <h2>Raw</h2>
-      <DashboardHeader {...additionalProps} icon="lib_application" label="Instana Demo - Discount Application 0.0.1" />
-
-      <h2>With meta information</h2>
+    <>
       <DashboardHeader
-        {...additionalProps}
-        icon="lib_website"
-        label="Robot Shop"
-        renderMetaInformation={renderMetaInformation}
-      />
-
-      <h2>With buttons</h2>
-      <DashboardHeader
-        {...additionalProps}
-        icon="lib_kubernetes"
-        label="k8s-demo"
-        renderButtonLine={renderButtonLine}
-      />
-
-      <h2>With context</h2>
-      <DashboardHeader
-        {...additionalProps}
         icon="lib_application_trace"
         label="42 Traces"
         contextConfigurations={[{ renderContext: () => 'Analyze', contextIcon: 'lib_analyze_inverted' }]}
-      />
-      <Spacer />
+      />{' '}
       <DashboardHeader
-        {...additionalProps}
         icon="lib_application_trace"
         label="42 Traces"
         contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
       />
+    </>
+  );
+}
 
-      <h2>Themes</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <DashboardHeader
-          {...additionalProps}
-          theme={themes.default}
-          icon="lib_website"
-          label="Robot Shop"
-          renderButtonLine={renderButtonLine}
-        />
-        <Spacer />
-        <DashboardHeader
-          {...additionalProps}
-          theme={themes.light}
-          icon="lib_website"
-          label="Robot Shop"
-          renderButtonLine={renderButtonLine}
-        />
-        <Spacer />
-        <DashboardHeader
-          {...additionalProps}
-          theme={themes.dark}
-          icon="lib_infrastructure"
-          label="instana-mc-demo"
-          contextConfigurations={[
-            {
-              renderContext: () => 'Infrastructure Map',
-              contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
-            }
-          ]}
-          renderButtonLine={renderButtonLine}
-        />
-      </div>
-
-      <h2>Full example</h2>
+export function Themes() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <DashboardHeader
-        {...additionalProps}
+        theme={themes.default}
+        icon="lib_website"
+        label="Robot Shop"
+        renderButtonLine={renderButtonLine}
+      />
+      <Spacer />
+      <DashboardHeader theme={themes.light} icon="lib_website" label="Robot Shop" renderButtonLine={renderButtonLine} />
+      <Spacer />
+      <DashboardHeader
+        theme={themes.dark}
         icon="lib_infrastructure"
         label="instana-mc-demo"
         contextConfigurations={[
@@ -100,10 +62,128 @@ function Headers({ additionalProps }) {
             contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
           }
         ]}
-        renderMetaInformation={renderMetaInformation}
         renderButtonLine={renderButtonLine}
       />
     </div>
+  );
+}
+
+export function FullExample() {
+  return (
+    <DashboardHeader
+      icon="lib_infrastructure"
+      label="instana-mc-demo"
+      contextConfigurations={[
+        {
+          renderContext: () => 'Infrastructure Map',
+          contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+        }
+      ]}
+      renderMetaInformation={renderMetaInformation}
+      renderButtonLine={renderButtonLine}
+    />
+  );
+}
+
+export function RawLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <DashboardHeader {...additionalProps} icon="lib_application" label="Instana Demo - Discount Application 0.0.1" />
+  );
+}
+
+export function WithMetaInformationLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <DashboardHeader
+      {...additionalProps}
+      icon="lib_website"
+      label="Robot Shop"
+      renderMetaInformation={renderMetaInformation}
+    />
+  );
+}
+
+export function WithButtonsLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <DashboardHeader {...additionalProps} icon="lib_kubernetes" label="k8s-demo" renderButtonLine={renderButtonLine} />
+  );
+}
+
+export function WithContextLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <>
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_application_trace"
+        label="42 Traces"
+        contextConfigurations={[{ renderContext: () => 'Analyze', contextIcon: 'lib_analyze_inverted' }]}
+      />{' '}
+      <DashboardHeader
+        {...additionalProps}
+        icon="lib_application_trace"
+        label="42 Traces"
+        contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
+      />
+    </>
+  );
+}
+
+export function ThemesLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <DashboardHeader
+        {...additionalProps}
+        theme={themes.default}
+        icon="lib_website"
+        label="Robot Shop"
+        renderButtonLine={renderButtonLine}
+      />
+      <Spacer />
+      <DashboardHeader
+        {...additionalProps}
+        theme={themes.light}
+        icon="lib_website"
+        label="Robot Shop"
+        renderButtonLine={renderButtonLine}
+      />
+      <Spacer />
+      <DashboardHeader
+        {...additionalProps}
+        theme={themes.dark}
+        icon="lib_infrastructure"
+        label="instana-mc-demo"
+        contextConfigurations={[
+          {
+            renderContext: () => 'Infrastructure Map',
+            contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+          }
+        ]}
+        renderButtonLine={renderButtonLine}
+      />
+    </div>
+  );
+}
+
+export function FullExampleLoading() {
+  const additionalProps = { result: {} };
+  return (
+    <DashboardHeader
+      {...additionalProps}
+      icon="lib_infrastructure"
+      label="instana-mc-demo"
+      contextConfigurations={[
+        {
+          renderContext: () => 'Infrastructure Map',
+          contextIcon: 'lib_lib_infrastructure_invertedanalyze_inverted'
+        }
+      ]}
+      renderMetaInformation={renderMetaInformation}
+      renderButtonLine={renderButtonLine}
+    />
   );
 }
 

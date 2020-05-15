@@ -19,7 +19,7 @@ export default getElementDimensions(
       }
 
       const responsive = nextProps.responsive === undefined ? true : nextProps.responsive;
-      const shouldShowTechnologyLabel = !responsive || (responsive && (!nextProps.width || nextProps.width < 144));
+      const shouldShowTechnologyLabel = !responsive || (responsive && (!nextProps.width || nextProps.width > 144));
       if (!this.props.width) {
         if (this.state.showTechnologyLabel !== shouldShowTechnologyLabel) {
           this.setState({

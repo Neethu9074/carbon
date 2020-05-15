@@ -19,7 +19,6 @@ module.exports = {
   fullTermsConfigEnabled: true,
   contextGuideEnabled: true,
   vsphereEnabled: true,
-  customDashboardsEnabled: true,
   applicationSmartAlertsEnabled: true,
   agentMonitoringIssuesEnabled: false
 };

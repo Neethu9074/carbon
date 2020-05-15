@@ -243,6 +243,9 @@ function buildLib() {
   lib.colors.warning40 = addTransparency(lib.colors.warning, 0.4);
   lib.colors.black72 = addTransparency(lib.colors.black, 0.72);
 
+  lib.colors.lightBlue800_40 = addTransparency(lib.colors.lightBlue800, 0.4);
+  lib.colors.pink800_40 = addTransparency(lib.colors.pink800, 0.4);
+
   return lib;
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { loadRawAgentConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import FlexHeader from 'in-components/Dialog/components/FlexHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
@@ -28,7 +28,7 @@ export default connectTo(
 
     return (
       <Dialog header={header} onClose={close} contentClassName={locals.dialog}>
-        {!response && <LoadingIndicator type="dark" />}
+        {!response && <LoadingIndicator />}
 
         {response &&
           response.error && <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>}

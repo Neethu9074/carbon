@@ -3,19 +3,30 @@ import { deepCopy, deepFreeze } from 'in-services/util/object';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import http from 'in-services/http';
 
+const basePath = '/api/application-monitoring/settings/service';
+
 export function getServiceConfigs() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/serviceConfigs`,
+    url: `${basePath}`,
     mapToResultObject: true
   }).map(mapFromServerResponse);
+}
+
+export function replaceAllServiceConfigs(configs) {
+  return http({
+    method: 'PUT',
+    url: `${basePath}`,
+    headers: getCsrfHeader(),
+    data: configs.map(config => enrichWithLabel(fillEmptyValues(mapToServerResponse(config))))
+  }).map(response => deepFreeze(response.body));
 }
 
 export function addServiceConfig(config) {
   return http({
     method: 'POST',
-    url: `/api/serviceConfigs`,
+    url: `${basePath}`,
     headers: getCsrfHeader(),
     data: enrichWithLabel(fillEmptyValues(mapToServerResponse(config)))
   }).map(response => deepFreeze(response.body));
@@ -26,7 +37,7 @@ export function updateServiceConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/serviceConfigs/${config.id}`,
+    url: `${basePath}/${config.id}`,
     data: enrichWithLabel(fillEmptyValues(mapToServerResponse(config)))
   }).map(response => deepFreeze(response.body));
 }
@@ -36,22 +47,24 @@ export function deleteServiceConfig(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/serviceConfigs/${id}`
+    url: `${basePath}/${id}`
   });
 }
 
-export function createNewServiceConfig() {
-  return {
-    name: 'custom rule name',
-    label: 'custom rule label',
-    enabled: true,
-    matchSpecification: [
-      {
-        key: '',
-        value: '.*' // default value not editable by user
-      }
-    ]
-  };
+export function createNewServiceConfigs() {
+  return [
+    {
+      name: 'custom rule name',
+      label: 'custom rule label',
+      enabled: true,
+      matchSpecification: [
+        {
+          key: '',
+          value: '.*' // default value not editable by user
+        }
+      ]
+    }
+  ];
 }
 
 function mapToServerResponse(config) {

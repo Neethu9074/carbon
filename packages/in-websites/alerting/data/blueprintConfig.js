@@ -1,15 +1,16 @@
 import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
 
-export const alertTypes = Object.freeze({
-  specificJsError: 'specificJsError',
-  slowness: 'slowness',
-  specificStatusCode: 'statusCode'
-});
+const slowness = 'slowness';
+const specificStatusCode = 'statusCode';
+const specificJsError = 'specificJsError';
+
+export const alertTypes = Object.freeze({ specificJsError, slowness, specificStatusCode });
 
 export const blueprintConfig = Object.freeze([
   {
-    type: alertTypes.slowness,
+    type: slowness,
     name: 'Slowness',
+    blacklistedTagFilters: ['beacon.duration'],
     headline: 'Automatic Alerts for onLoad Time',
     text: `
       <p>
@@ -25,21 +26,31 @@ export const blueprintConfig = Object.freeze([
     `
   },
   {
-    type: alertTypes.specificJsError,
+    type: specificJsError,
     name: 'JS Errors',
+    blacklistedTagFilters: ['beacon.error.message'],
     headline: 'Automatic Alerts for JS Errors',
     text: 'Receive an alert every time when matching JS Error messages occur more often than usual.'
   },
   {
-    type: alertTypes.specificStatusCode,
+    type: specificStatusCode,
     name: 'HTTP Status Codes',
+    blacklistedTagFilters: ['beacon.http.status'],
     headline: 'Automatic Alerts for HTTP Status Codes',
     text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.'
   }
 ]);
 
 export const availableTagFiltersPerAlertType = {
-  [alertTypes.specificJsError]: commonFilterTags,
-  [alertTypes.slowness]: availableFilterTags.pageLoad,
-  [alertTypes.specificStatusCode]: availableFilterTags.httpRequest
+  [specificJsError]: commonFilterTags,
+  [slowness]: availableFilterTags.pageLoad,
+  [specificStatusCode]: availableFilterTags.httpRequest
 };
+
+export function blacklistedTagFiltersOfAlertType(type) {
+  const config = blueprintConfig.find(blueprint => blueprint.type === type);
+  if (config) {
+    return [...config.blacklistedTagFilters];
+  }
+  return [];
+}

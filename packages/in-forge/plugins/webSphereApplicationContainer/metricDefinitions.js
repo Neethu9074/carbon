@@ -1,5 +1,5 @@
 import { millis, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -10,50 +10,58 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('sessionManagers', 'activeCount'),
+    metric: getDynamicMetricMatch('sessionManagers', 'activeCount', 'Web Module'),
     label: 'Sessions',
+    category: ['Web Modules'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('servlets', 'avgResponseTime'),
+    metric: getDynamicMetricMatch('servlets', 'avgResponseTime', 'Servlet'),
     label: 'Average Response Time',
+    category: ['Servlets'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('servlets', 'requests'),
+    metric: getDynamicMetricMatch('servlets', 'requests', 'Servlet'),
     label: 'Request Count',
+    category: ['Servlets'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('servlets', 'errors'),
+    metric: getDynamicMetricMatch('servlets', 'errors', 'Servlet'),
     label: 'Errors',
+    category: ['Servlets'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('datasources', 'poolSize'),
+    metric: getDynamicMetricMatch('datasources', 'poolSize', 'Datasource'),
     label: 'Pool Size',
+    category: ['Datasources'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('datasources', 'freePoolSize'),
+    metric: getDynamicMetricMatch('datasources', 'freePoolSize', 'Datasource'),
     label: 'Free Connections in Pool',
+    category: ['Datasources'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('datasources', 'waitingThreadCount'),
+    metric: getDynamicMetricMatch('datasources', 'waitingThreadCount', 'Datasource'),
     label: 'Threads Waiting for Connection',
+    category: ['Datasources'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('datasources', 'averageWaitTime'),
+    metric: getDynamicMetricMatch('datasources', 'averageWaitTime', 'Datasource'),
     label: 'Average Waiting Time',
+    category: ['Datasources'],
     min: 0,
     formatter: millis
   }

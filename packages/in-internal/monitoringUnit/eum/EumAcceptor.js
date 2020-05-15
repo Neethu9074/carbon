@@ -1,15 +1,15 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import { region } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {
@@ -18,7 +18,7 @@ export default connectTo(
   },
   function EumAcceptor({ rows, timeConfig }) {
     if (rows.length === 0) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));

@@ -38,11 +38,9 @@
 
   {{#if eumTrackingApiKey}}
   <script nonce="{{nonces.[2]}}">
-    (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
-    b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-    a.src=k,a.setAttribute('crossorigin', 'anonymous'),d=e.getElementsByTagName(f)[0],
-    d.parentNode.insertBefore(a,d))})(window,document,'script',
-    'https://{{eumRetrievalDomain}}/eum.min.js','InstanaEumObject','ineum');
+    (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
+    n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('trackSessions');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
@@ -64,6 +62,7 @@
       ineum('meta', 'testingGroup', window.instana.termsAndPrivacySettings.testingGroup);
     }
   </script>
+  <script defer crossorigin="anonymous" src="https://{{eumRetrievalDomain}}/eum.min.js"></script>
   {{/if}}
 
   {{#if mixpanelToken}}
@@ -100,6 +99,6 @@
     </div>
   </noscript>
 
-  <script src="/bundle/index-{{indexJsChecksum}}.js"></script>
+  <script defer src="/bundle/index-{{indexJsChecksum}}.js"></script>
 </body>
 </html>

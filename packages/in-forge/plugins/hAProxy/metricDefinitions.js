@@ -1,106 +1,123 @@
 import { percentage, number, millis, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metric: getMetricMatch('frontendStats', 'reqRate'),
+    metric: getDynamicMetricMatch('frontendStats', 'reqRate', 'Frontend'),
     label: 'Requests',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'reqErrors'),
+    metric: getDynamicMetricMatch('frontendStats', 'reqErrors', 'Frontend'),
     label: 'Request Errors',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'deniedReq'),
+    metric: getDynamicMetricMatch('frontendStats', 'deniedReq', 'Frontend'),
     label: 'Denied Requests',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'sessionRate'),
+    metric: getDynamicMetricMatch('frontendStats', 'sessionRate', 'Frontend'),
     label: 'Sessions',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'sessionUtilization'),
+    metric: getDynamicMetricMatch('frontendStats', 'sessionUtilization', 'Frontend'),
     label: 'Session Usage',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: percentage
   },
   {
-    metric: getMetricMatch('frontendStats', 'clientErrors'),
+    metric: getDynamicMetricMatch('frontendStats', 'clientErrors', 'Frontend'),
     label: 'Client Errors',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'serverErrors'),
+    metric: getDynamicMetricMatch('frontendStats', 'serverErrors', 'Frontend'),
     label: 'Server Errors',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'bytesSent'),
+    metric: getDynamicMetricMatch('frontendStats', 'bytesSent', 'Frontend'),
     label: 'Bytes Sent',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getMetricMatch('frontendStats', 'bytesReceived'),
+    metric: getDynamicMetricMatch('frontendStats', 'bytesReceived', 'Frontend'),
     label: 'Bytes Received',
+    category: ['Frontend Stats'],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getMetricMatch('frontendStats', 'avgResponseTime'),
+    metric: getDynamicMetricMatch('backendStats', 'avgResponseTime', 'Backend'),
     label: 'Average Response Time',
+    category: ['Backend Stats'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('frontendStats', 'avgQueueTime'),
+    metric: getDynamicMetricMatch('backendStats', 'avgQueueTime', 'Backend'),
     label: 'Average Queue Time',
+    category: ['Backend Stats'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('frontendStats', 'queueSize'),
+    metric: getDynamicMetricMatch('backendStats', 'queueSize', 'Backend'),
     label: 'Queue Size',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'reqConnErrors'),
+    metric: getDynamicMetricMatch('backendStats', 'reqConnErrors', 'Backend'),
     label: 'Connection Errors',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'errorRes'),
+    metric: getDynamicMetricMatch('backendStats', 'errorRes', 'Backend'),
     label: 'Response Errors',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'connRetries'),
+    metric: getDynamicMetricMatch('backendStats', 'connRetries', 'Backend'),
     label: 'Connection Retries',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'deniedRes'),
+    metric: getDynamicMetricMatch('backendStats', 'deniedRes', 'Backend'),
     label: 'Denied Responses',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('frontendStats', 'reDispatchedReq'),
+    metric: getDynamicMetricMatch('backendStats', 'reDispatchedReq', 'Backend'),
     label: 'Re-Dispatched Requests',
+    category: ['Backend Stats'],
     min: 0,
     formatter: number
   }

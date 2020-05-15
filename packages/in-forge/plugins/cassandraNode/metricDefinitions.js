@@ -1,5 +1,5 @@
 import { muSecondsToMillis, percentage, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -83,26 +83,30 @@ export default [
     formatter: percentage
   },
   {
-    metric: getMetricMatch('keyspace', 'readLatency'),
+    metric: getDynamicMetricMatch('keyspace', 'readLatency', 'Keyspace'),
     label: 'Average Read Latency',
+    category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getMetricMatch('keyspace', 'writeLatency'),
+    metric: getDynamicMetricMatch('keyspace', 'writeLatency', 'Keyspace'),
     label: 'Average Write Latency',
+    category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getMetricMatch('keyspace', 'reads'),
+    metric: getDynamicMetricMatch('keyspace', 'reads', 'Keyspace'),
     label: 'Reads',
+    category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getMetricMatch('keyspace', 'writes'),
+    metric: getDynamicMetricMatch('keyspace', 'writes', 'Keyspace'),
     label: 'Writes',
+    category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   }

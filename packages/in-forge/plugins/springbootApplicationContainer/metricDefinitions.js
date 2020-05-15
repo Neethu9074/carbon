@@ -33,9 +33,6 @@ export default [
     label: 'Active Sessions',
     min: 0,
     category: ['Sessions'],
-    formatter: number,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'httpsessionsMax'], false);
-    }
+    formatter: number
   }
 ];

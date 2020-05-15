@@ -1,0 +1,9 @@
+:local {
+  .dialog {
+    min-width: 50rem;
+  }
+
+  .button {
+    margin-top: 0.5rem;
+  }
+}

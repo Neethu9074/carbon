@@ -1,6 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { millis, number } from 'in-services/formatters/number';
-import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -22,10 +21,7 @@ export default [
     label: 'avg. Query Latency',
     min: 0,
     category: ['Latency'],
-    formatter: millis,
-    isAvailable(snapshot) {
-      return isPerformanceDataAvailable(snapshot);
-    }
+    formatter: millis
   },
   {
     metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
@@ -37,54 +33,57 @@ export default [
   {
     metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS', 'status.KEY_READS', 'status.KEY_WRITES'],
     labels: ['Read Requests', 'Write Requests', 'Reads', 'Writes'],
+    category: ['Key Access'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'avg_query_latency'),
+    metric: getDynamicMetricMatch('databases', 'avg_query_latency', 'Schema'),
     label: 'avg. Query Latency',
+    category: ['Schemas'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('databases', 'queries'),
+    metric: getDynamicMetricMatch('databases', 'queries', 'Schema'),
     label: 'Queries',
+    category: ['Schemas'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'select_count'),
+    metric: getDynamicMetricMatch('databases', 'select_count', 'Schema'),
     label: 'SELECTS',
     min: 0,
-    category: ['Queries'],
+    category: ['Schemas'],
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'insert_count'),
+    metric: getDynamicMetricMatch('databases', 'insert_count', 'Schema'),
     label: 'INSERTS',
     min: 0,
-    category: ['Queries'],
+    category: ['Schemas'],
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'update_count'),
+    metric: getDynamicMetricMatch('databases', 'update_count', 'Schema'),
     label: 'UPDATES',
     min: 0,
-    category: ['Queries'],
+    category: ['Schemas'],
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'delete_count'),
+    metric: getDynamicMetricMatch('databases', 'delete_count', 'Schema'),
     label: 'DELETES',
     min: 0,
-    category: ['Queries'],
+    category: ['Schemas'],
     formatter: number
   },
   {
-    metric: getMetricMatch('databases', 'other_count'),
+    metric: getDynamicMetricMatch('databases', 'other_count', 'Schema'),
     label: 'OTHER',
     min: 0,
-    category: ['Queries'],
+    category: ['Schemas'],
     formatter: number
   },
   {
@@ -106,6 +105,7 @@ export default [
       'wait/synch/mutex',
       'wait/synch/rwlock'
     ],
+    category: ['Wait Events'],
     min: 0,
     formatter: number
   }

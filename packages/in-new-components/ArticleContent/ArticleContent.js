@@ -2,8 +2,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 
 import locals from './ArticleContent.mless';
 

@@ -59,7 +59,13 @@ export default function BeaconsPresenter(props) {
       >
         <LeftRightPadding>
           <TagFilterList {...props} />
-          <GroupingTableHeader itemType={dataSourceTitles[beaconType]} nbItems={props.totalHits} {...props} />
+          <GroupingTableHeader
+            itemType={dataSourceTitles[beaconType]}
+            nbItems={props.totalHits}
+            {...props}
+            // Graphs are not supported in un-grouped view
+            onChange={null}
+          />
 
           <Table tableInCard>
             <Thead>

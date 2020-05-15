@@ -20,9 +20,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import './EntityInformation.less';
-
-const block = 'in-event-view-event-information';
+import locals from './EntityInformation.mless';
 
 export default connectTo(
   props => {
@@ -77,57 +75,69 @@ export default connectTo(
 
 function EntityInformation10({
   entity,
-  label,
   useSnapshotLink = false,
   kind = 'dark',
   getLabelCallback = label => label,
   pathname
 }) {
   return (
-    <div className={block}>
-      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
+    <EntityInformationPresenter>
       <HierarchicalLink
         snapshot={entity}
-        className={`${block}__link`}
+        className={locals.link}
         pathname={pathname}
         useSnapshotLink={useSnapshotLink}
         kind={kind}
         calculateHierarchy
         getLabel={snapshotLabel => getLabelCallback(snapshotLabel)}
       />
-    </div>
+    </EntityInformationPresenter>
   );
 }
 
 function EntityInformation20({ entity, entityType, label }) {
   const data = entity.data;
   let href$;
+  let iconType;
   if (isApplicationEntity(entityType)) {
     href$ = getApplicationDashboard(data.id);
+    iconType = 'lib_application';
   } else if (isServiceEntity(entityType)) {
     href$ = getServiceDashboard(data.id);
+    iconType = 'lib_application_service';
   } else if (isEndpointEntity(entityType)) {
     href$ = getEndpointDashboard(data.id, {
       serviceId: data.serviceId
     });
+    iconType = 'lib_application_endpoint';
   }
 
   return (
-    <div className={block}>
-      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
-      <Link href$={href$}>{data.label}</Link>
-    </div>
+    <EntityInformationPresenter label={label}>
+      <Link href$={href$} className={locals.entity}>
+        <SvgIcon className={locals.entityIcon} type={iconType} size="xs" />
+        {data.label}
+      </Link>
+    </EntityInformationPresenter>
   );
 }
 
-function EntityWebsiteInformation({ entity, label }) {
+function EntityWebsiteInformation({ entity }) {
   return (
-    <div className={block}>
-      <span className={`${block}__label`}>{label ? label : 'On:'}</span>
-      <Link href$={getLinkToWebsite(entity.data.id)} className={`${block}__entity`}>
-        <SvgIcon className={`${block}__entity-icon`} type="lib_website" size="xxs" />
+    <EntityInformationPresenter>
+      <Link href$={getLinkToWebsite(entity.data.id)} className={locals.entity}>
+        <SvgIcon className={locals.entityIcon} type="lib_website" size="xxs" />
         {entity.data.label}
       </Link>
+    </EntityInformationPresenter>
+  );
+}
+
+function EntityInformationPresenter({ children, label = 'On:' }) {
+  return (
+    <div className={locals.container}>
+      <span className={locals.label}>{label}</span>
+      {children}
     </div>
   );
 }

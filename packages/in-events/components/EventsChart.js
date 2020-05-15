@@ -39,6 +39,10 @@ function EventsChart({ width, timeConfig, query, eventType }) {
   if (!eventType || eventType === 'change') {
     getChangeConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
   }
+  // Only show Agent Monitoring Issues on their own tab, not as part of "All events"
+  if (eventType && eventType === 'agent_monitoring_issue') {
+    getAgentMonitoringConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
 
   return (
     <OpenEventsCountChartWrapper
@@ -67,7 +71,7 @@ function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granu
   metrics.push('incidents');
   colors.push(theme.lib.colors.orange800);
   metricsConfiguration.incidents = {
-    query: getQueryWithEventTypeFilter('incident', query),
+    query: getQueryWithEventTypeFilter('event.type:incident', query),
     granularity
   };
 }
@@ -77,11 +81,11 @@ function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granular
   metrics.push('critical', 'warning');
   colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
   metricsConfiguration.critical = {
-    query: getQueryWithEventTypeFilter('critical', query),
+    query: getQueryWithEventTypeFilter('event.type:critical', query),
     granularity
   };
   metricsConfiguration.warning = {
-    query: getQueryWithEventTypeFilter('warning', query),
+    query: getQueryWithEventTypeFilter('event.type:warning', query),
     granularity
   };
 }
@@ -91,22 +95,36 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
   metrics.push('offline', 'online', 'changes');
   colors.push('#9aa5a9', '#99e1e1', '#cdbcf0');
   metricsConfiguration.offline = {
-    query: getQueryWithEventTypeFilter('offline', query),
+    query: getQueryWithEventTypeFilter('event.type:offline', query),
     granularity
   };
   metricsConfiguration.online = {
-    query: getQueryWithEventTypeFilter('online', query),
+    query: getQueryWithEventTypeFilter('event.type:online', query),
     granularity
   };
   metricsConfiguration.changes = {
-    query: getQueryWithEventTypeFilter('change', query),
+    query: getQueryWithEventTypeFilter('event.type:change', query),
     granularity
   };
 }
 
-function getQueryWithEventTypeFilter(eventType, query) {
+function getAgentMonitoringConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push('Critical', 'Warning');
+  metrics.push('agent_monitoring_issue_critical', 'agent_monitoring_issue_warning');
+  colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
+  metricsConfiguration.agent_monitoring_issue_critical = {
+    query: getQueryWithEventTypeFilter('event.type:agent_monitoring_issue event.severity:10', query),
+    granularity
+  };
+  metricsConfiguration.agent_monitoring_issue_warning = {
+    query: getQueryWithEventTypeFilter('event.type:agent_monitoring_issue event.severity:5', query),
+    granularity
+  };
+}
+
+function getQueryWithEventTypeFilter(eventFilter, query) {
   if (!query || query.trim() === '') {
-    return `event.type:${eventType}`;
+    return eventFilter;
   }
-  return `event.type:${eventType} (${query.trim()})`;
+  return `${eventFilter} (${query.trim()})`;
 }

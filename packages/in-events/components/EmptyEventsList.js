@@ -7,6 +7,19 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 
 import locals from './EmptyEventsList.mless';
 
+function translateEventType(eventType) {
+  if (!eventType) {
+    return 'events';
+  }
+
+  switch (eventType) {
+    case 'agent_monitoring_issue':
+      return 'monitoring issues';
+    default:
+      return eventType + 's';
+  }
+}
+
 export default function EventsList({ eventType, cols, isDenseList, isPresentingHighlightedTimeframe }) {
   if (isDenseList) {
     return (
@@ -21,7 +34,7 @@ export default function EventsList({ eventType, cols, isDenseList, isPresentingH
     );
   }
 
-  const entityType = eventType ? eventType + 's' : 'events';
+  const entityType = translateEventType(eventType);
   return (
     <Table>
       <Thead>

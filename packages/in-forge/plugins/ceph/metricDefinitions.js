@@ -5,7 +5,7 @@ import {
   percentageTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -117,50 +117,58 @@ export default [
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('pools', 'pct_used_pool'),
+    metric: getDynamicMetricMatch('pools', 'pct_used_pool', 'Pool'),
     label: 'Overall Capacity Usage',
+    category: ['Pools'],
     min: 0,
     formatter: percentageTwoDecimalPlaces
   },
   {
-    metric: getMetricMatch('pools', 'num_objects_pool'),
+    metric: getDynamicMetricMatch('pools', 'num_objects_pool', 'Pool'),
     label: 'Number of objects',
+    category: ['Pools'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('pools', 'read_bytes_pool'),
+    metric: getDynamicMetricMatch('pools', 'read_bytes_pool', 'Pool'),
     label: 'Total bytes (Read)',
+    category: ['Pools'],
     min: 0,
     formatter: bytes.compact
   },
   {
-    metric: getMetricMatch('pools', 'write_bytes_pool'),
+    metric: getDynamicMetricMatch('pools', 'write_bytes_pool', 'Pool'),
     label: 'Total bytes (Write)',
+    category: ['Pools'],
     min: 0,
     formatter: bytes.compact
   },
   {
-    metric: getMetricMatch('pools', 'read_bytes_sec_pool'),
+    metric: getDynamicMetricMatch('pools', 'read_bytes_sec_pool', 'Pool'),
     label: 'Read bytes per second',
+    category: ['Pools'],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
-    metric: getMetricMatch('pools', 'write_bytes_sec_pool'),
+    metric: getDynamicMetricMatch('pools', 'write_bytes_sec_pool', 'Pool'),
     label: 'Write bytes per second',
+    category: ['Pools'],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
-    metric: getMetricMatch('pools', 'read_op_per_sec'),
+    metric: getDynamicMetricMatch('pools', 'read_op_per_sec', 'Pool'),
     label: 'Read ops',
+    category: ['Pools'],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getMetricMatch('pools', 'write_op_per_sec'),
+    metric: getDynamicMetricMatch('pools', 'write_op_per_sec', 'Pool'),
     label: 'Write ops',
+    category: ['Pools'],
     min: 0,
     formatter: number.compact
   },

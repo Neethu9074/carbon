@@ -51,7 +51,7 @@ Dropdown.propTypes = {
   className: string
 };
 
-export function ItemList({ renderItemContent, items, onClick, close }) {
+function ItemList({ renderItemContent, items, onClick, close }) {
   return (
     <Ul className={locals.list}>
       {items.map((item, i) => (

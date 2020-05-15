@@ -1,15 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Table from 'in-sdk/components/dashboard/Table';
-import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { timeConfig$ } from 'in-stores/time/config';
 import {
   millis,
   zeroDecimalPlaces,
@@ -26,6 +16,16 @@ import {
   getHostDetails,
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
@@ -47,7 +47,7 @@ export default connectTo(
   },
   function Overview({ kafkaNodes, jvmNodes, timeConfig }) {
     if (!kafkaNodes || !jvmNodes) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     if (kafkaNodes.length < 1) {

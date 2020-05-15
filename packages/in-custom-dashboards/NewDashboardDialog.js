@@ -23,10 +23,7 @@ export default compose(
     headerIcon: 'lib_views_grid',
     inputLabel: 'Dashboard Name',
     additionalFields: (
-      <p>
-        Created dashboards will only be accessible to you initially. You can choose to share the dashboard with your
-        colleagues once the dashboard has been created.
-      </p>
+      <p>This dashboard will only be visible to you. You can choose to share it with colleagues after creation.</p>
     ),
     confirmButtonLabel: 'Create',
     ...state,

@@ -1,6 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -16,20 +17,19 @@ import {
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { addStaticJsonPayloadToEventsConfig } from 'in-services/featureFlags';
-import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { staticJsonPayloadFieldName } from './components/Step5';
+import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import { staticJsonPayloadFieldName } from './components/Step5';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
 
 export const limitForConnectedEvents = 1000;
 export const limitForConnectedAlertChannels = 100;
@@ -54,7 +54,7 @@ function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {

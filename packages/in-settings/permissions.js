@@ -1,0 +1,22 @@
+export default {
+  canConfigureServiceMapping: 'Service & endpoint mapping',
+  canConfigureEumApplications: 'Website monitoring configuration',
+  canConfigureMobileAppMonitoring: 'Mobile app monitoring Configuration',
+  canConfigureUsers: 'User management',
+  canConfigureRoles: 'Access role configuration',
+  canConfigureTeams: 'Access team configuration',
+  canInstallNewAgents: 'Agent download and agent key visibility',
+  canSeeUsageInformation: 'Access to license usage',
+  canSeeOnPremLicenseInformation: 'Access to on prem license usage',
+  canConfigureIntegrations: 'Configuration of integrations',
+  canConfigureCustomAlerts: 'Configuration of custom alerts',
+  canConfigureApiTokens: 'Configuration of API tokens',
+  canConfigureAgentRunMode: 'Configuration of agent mode',
+  canViewAuditLog: 'Access to audit log',
+  canConfigureAgents: 'Configuration of agents',
+  canConfigureApplications: 'Configuration of applications',
+  canConfigureAuthenticationMethods: 'Configuration of authentication methods',
+  canConfigureLogManagement: 'Configuration of log management',
+  canConfigureReleases: 'Configuration of releases',
+  canCreatePublicCustomDashboards: 'Creation of public custom dashboards'
+};

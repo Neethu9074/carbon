@@ -48,7 +48,7 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
         tagFilters={analyzeTagFilters}
         timeConfig={timeConfig}
         icon="lib_website_page_load"
-        group={defaultGroupings.pageLoad}
+        group={defaultGroupings.none}
         beaconType="pageLoad"
         title="Analyze Load Time"
       />

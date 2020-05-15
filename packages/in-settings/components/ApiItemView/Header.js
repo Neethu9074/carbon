@@ -20,7 +20,7 @@ export default function Header({ onSaveClick, parentPath, parentViewName }) {
 
 function BackToParentPathLink({ parentPath, parentViewName }) {
   if (!parentPath) {
-    return null;
+    return <div />;
   }
   return (
     <div className={locals.backNavigationWrapper}>

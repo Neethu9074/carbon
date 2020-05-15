@@ -2,8 +2,8 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { getClickhouseWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { number, bytes } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -78,7 +78,7 @@ export default connectTo({
 
 function ClickhouseTotalTableSizes({ nodes }) {
   if (nodes.length === 0) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   const { successCount, errorCount, tableSizes } = aggregate(nodes);

@@ -6,8 +6,7 @@ import {
   siMultiplyPrefix,
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { isWindows, isLinux } from 'in-forge/plugins/host/hostUtils';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 const availableCpuMetricSuffixes = {
   user: 'User',
@@ -25,8 +24,8 @@ function getMaxFilesystemICapacity(snapshot, match) {
   return snapshot.getIn(['data', 'filesystems', match[1], 'icapacity']);
 }
 
-function getFilesystemLabel(prefix, snapshot, match) {
-  return `${prefix} ${match[1]}`;
+function getFilesystemLabel(prefix) {
+  return (snapshot, match) => (match?.length > 1 ? `${prefix} ${match[1]}` : prefix);
 }
 
 export default [
@@ -60,20 +59,14 @@ export default [
     label: 'Load',
     category: ['CPU'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: number
   },
   {
     metric: 'ctxt',
     label: 'Context Switches',
     category: ['CPU'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot) {
-      return isLinux(snapshot);
-    }
+    formatter: number
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used'],
@@ -91,10 +84,7 @@ export default [
     getMax(snapshot) {
       return snapshot.getIn(['data', 'openFiles.max']);
     },
-    formatter: number,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: number
   },
   {
     metric: 'openFiles.used',
@@ -102,10 +92,7 @@ export default [
     category: ['Open Files'],
     min: 0,
     max: 1,
-    formatter: percentage,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: percentage
   },
   {
     metrics: ['topPID'],
@@ -146,81 +133,78 @@ export default [
     formatter: percentage
   },
   {
-    metric: getMetricMatch('fs', 'free'),
-    label: getFilesystemLabel.bind(null, 'Free'),
+    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
+    label: getFilesystemLabel('Free'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemCapacity,
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatch('fs', 'used'),
-    label: getFilesystemLabel.bind(null, 'Used'),
+    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
+    label: getFilesystemLabel('Used'),
     category: ['Filesystem'],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metric: getMetricMatch('fs', 'leaked'),
-    label: getFilesystemLabel.bind(null, 'Leaked'),
+    metric: getDynamicMetricMatch('fs', 'leaked', 'Device'),
+    label: getFilesystemLabel('Leaked'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemCapacity,
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatch('fs', 'inodeUsage'),
-    label: getFilesystemLabel.bind(null, 'Inode usage'),
+    metric: getDynamicMetricMatch('fs', 'inodeUsage', 'Device'),
+    label: getFilesystemLabel('Inode usage'),
     category: ['Filesystem'],
     min: 0,
     max: 1,
-    formatter: percentage,
-    isAvailable(snapshot) {
-      return !isWindows(snapshot);
-    }
+    formatter: percentage
   },
   {
-    metric: getMetricMatch('fs', 'ifree'),
-    label: getFilesystemLabel.bind(null, 'iFree'),
+    metric: getDynamicMetricMatch('fs', 'ifree', 'Device'),
+    label: getFilesystemLabel('iFree'),
     category: ['Filesystem'],
     min: 0,
     max: getMaxFilesystemICapacity,
-    formatter: siMultiplyPrefix,
-    isAvailable(snapshot, match) {
-      return isWindows(snapshot) && getMaxFilesystemICapacity(snapshot, match) != null;
-    }
+    formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatch('fs', 'reads'),
-    label: getFilesystemLabel.bind(null, 'Reads/s'),
+    metric: getDynamicMetricMatch('fs', 'reads', 'Device'),
+    label: getFilesystemLabel('Reads/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatch('fs', 'writes'),
-    label: getFilesystemLabel.bind(null, 'Writes/s'),
+    metric: getDynamicMetricMatch('fs', 'writes', 'Device'),
+    label: getFilesystemLabel('Writes/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getMetricMatch('fs', 'readBytes'),
-    label: getFilesystemLabel.bind(null, 'Bytes Read/s'),
+    metric: getDynamicMetricMatch('fs', 'readBytes', 'Device'),
+    label: getFilesystemLabel('Bytes Read/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metric: getMetricMatch('fs', 'writeBytes'),
-    label: getFilesystemLabel.bind(null, 'Bytes Written/s'),
+    metric: getDynamicMetricMatch('fs', 'writeBytes', 'Device'),
+    label: getFilesystemLabel('Bytes Written/s'),
     category: ['Filesystem'],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metrics: [getMetricMatch('gpus', 'gpuUtilization'), getMetricMatch('gpus', 'temperature')],
+    metrics: [
+      getDynamicMetricMatch('gpus', 'gpuUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'temperature', 'GPU UUID')
+    ],
     labels: ['GPU Usage', 'Temperature'],
     category: ['GPU'],
     min: 0,
@@ -228,9 +212,9 @@ export default [
   },
   {
     metrics: [
-      getMetricMatch('gpus', 'encoderUtilization'),
-      getMetricMatch('gpus', 'decoderUtilization'),
-      getMetricMatch('gpus', 'memoryUtilization')
+      getDynamicMetricMatch('gpus', 'encoderUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'decoderUtilization', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'memoryUtilization', 'GPU UUID')
     ],
     labels: ['Encoder', 'Decoder', 'Memory Used'],
     category: ['GPU'],
@@ -238,7 +222,10 @@ export default [
     formatter: percentage
   },
   {
-    metrics: [getMetricMatch('gpus', 'transmitted'), getMetricMatch('gpus', 'received')],
+    metrics: [
+      getDynamicMetricMatch('gpus', 'transmitted', 'GPU UUID'),
+      getDynamicMetricMatch('gpus', 'received', 'GPU UUID')
+    ],
     labels: ['Transmitted/s', 'Received/s'],
     category: ['GPU'],
     min: 0,

@@ -1,15 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { timeConfig$ } from 'in-stores/time/config';
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import {
   hostTableCols,
   volumeTableCols,
@@ -17,6 +7,16 @@ import {
   getHostDetails,
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
@@ -25,7 +25,7 @@ export default connectTo(
   },
   function Overview({ profilesNodes, timeConfig }) {
     if (profilesNodes.length === 0) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     profilesNodes = sort(profilesNodes);

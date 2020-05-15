@@ -16,14 +16,14 @@ export default function SharingDialogPresenter(props) {
     <BigHeaderDialog title="Share" titleIconType="lib_actions_share" onClose={close} className={locals.dialog}>
       <form onSubmit={onSubmit}>
         <Option
-          label="Private Dashboard"
-          explanation="This dashboard will only be visible to you."
+          label="Private Dashboard (default)"
+          explanation="This dashboard is only visible to you."
           checked={isPrivate}
           onChange={checked => setPrivate(checked)}
         />
         <Option
           label="Public Dashboard"
-          explanation="This dashboard will be accessible to everyone in your organization. Only you are be able to make changes."
+          explanation="This dashboard is visible to everyone in your organization. Only you are able to make changes, but you may add editors."
           checked={!isPrivate}
           onChange={checked => setPrivate(!checked)}
         />

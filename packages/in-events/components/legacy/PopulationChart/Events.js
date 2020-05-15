@@ -1,7 +1,7 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import Event from 'in-events/components/legacy/PopulationChart/Event';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 
 import './Events.less';
@@ -12,7 +12,7 @@ export default function Events({ scale, recentEvents, isExpanded, changesAreVisi
   if (!recentEvents) {
     return (
       <div className={block}>
-        <LoadingIndicator type="dark" style={{ height: '1rem' }} />
+        <LoadingIndicator style={{ height: '1rem' }} />
       </div>
     );
   }

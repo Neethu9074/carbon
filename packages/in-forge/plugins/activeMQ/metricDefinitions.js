@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, percentage } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -10,17 +10,7 @@ export default [
       'totalTopicsEnqueueCount',
       'totalConnectionsCount',
       'totalConsumerCount',
-      'totalProducerCount',
-      getMetricMatch('topics', 'producerCount'),
-      getMetricMatch('topics', 'consumerCount'),
-      getMetricMatch('topics', 'enqueueCount'),
-      getMetricMatch('topics', 'dequeueCount'),
-      getMetricMatch('queues', 'enqueueCount'),
-      getMetricMatch('queues', 'dequeueCount'),
-      getMetricMatch('queues', 'queueSize'),
-      getMetricMatch('dlqueues', 'enqueueCount'),
-      getMetricMatch('dlqueues', 'dequeueCount'),
-      getMetricMatch('dlqueues', 'queueSize')
+      'totalProducerCount'
     ],
     labels: [
       'All Queues Messages Enqueue',
@@ -29,30 +19,72 @@ export default [
       'All Topics Messages Enqueue',
       'Total Connections',
       'Total Consumers',
-      'Total Producers',
-      'Producer Count',
-      'Consumer Count',
-      'Messages Enqueued',
-      'Messages Dequeued',
-      'Messages Enqueued',
-      'Messages Dequeued',
-      'Queue Size',
-      'Messages Enqueued',
-      'Messages Dequeued',
-      'Queue Size'
+      'Total Producers'
     ],
     min: 0,
     formatter: number
   },
   {
     metrics: [
-      'memoryPercentage',
-      'storePercentage',
-      getMetricMatch('topics', 'memoryPercentage'),
-      getMetricMatch('queues', 'memoryPercentage'),
-      getMetricMatch('dlqueues', 'memoryPercentage')
+      getDynamicMetricMatch('topics', 'producerCount', 'Topic'),
+      getDynamicMetricMatch('topics', 'consumerCount', 'Topic'),
+      getDynamicMetricMatch('topics', 'enqueueCount', 'Topic'),
+      getDynamicMetricMatch('topics', 'dequeueCount', 'Topic')
     ],
-    labels: ['Memory Usage', 'Store Usage', 'Topics Memory Usage', 'Queues Memory Usage', 'DL Queues Memory Usage'],
+    labels: ['Producer Count', 'Consumer Count', 'Messages Enqueued', 'Messages Dequeued'],
+    category: ['Topics'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('queues', 'enqueueCount', 'Queue'),
+      getDynamicMetricMatch('queues', 'dequeueCount', 'Queue'),
+      getDynamicMetricMatch('queues', 'queueSize', 'Queue')
+    ],
+    labels: ['Messages Enqueued', 'Messages Dequeued', 'Queue Size'],
+    category: ['Queues'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('dlqueues', 'enqueueCount', 'DL Queue'),
+      getDynamicMetricMatch('dlqueues', 'dequeueCount', 'DL Queue'),
+      getDynamicMetricMatch('dlqueues', 'queueSize', 'DL Queue')
+    ],
+    labels: ['Messages Enqueued', 'Messages Dequeued', 'Queue Size'],
+    category: ['DL Queues'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['memoryPercentage', 'storePercentage'],
+    labels: ['Memory Usage', 'Store Usage'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: getDynamicMetricMatch('topics', 'memoryPercentage', 'Topic'),
+    labels: 'Memory Usage',
+    category: ['Topics'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: getDynamicMetricMatch('queues', 'memoryPercentage', 'Queue'),
+    label: 'Memory Usage',
+    category: ['Queues'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metrics: getDynamicMetricMatch('dlqueues', 'memoryPercentage', 'DL Queue'),
+    label: 'Memory Usage',
+    category: ['DL Queues'],
     min: 0,
     max: 1,
     formatter: percentage

@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: inline-flex;
+    margin: 0.25rem 0;
+  }
+
+  .label {
+    font-weight: bold;
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+    margin-right: 0.25rem;
+    text-transform: capitalize;
+  }
+
+  .subEntity {
+    display: inline-flex;
+    align-items: center;
+  }
+}

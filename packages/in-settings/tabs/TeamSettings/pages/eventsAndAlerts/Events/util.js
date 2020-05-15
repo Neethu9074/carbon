@@ -1,7 +1,7 @@
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getCategories } from 'in-sdk/metrics';
 import { getSingular } from 'in-sdk/pluginName';
+import { hasCategory } from 'in-sdk/metrics';
 
 // event specification type enum names that the back end uses
 export const builtInEnumValue = 'BUILT_IN';
@@ -59,7 +59,7 @@ export function getDescription(entity) {
 export function getEntityTypeOptions() {
   return Object.keys(plugins)
     .map(k => plugins[k])
-    .filter(plugin => getCategories(plugin).length > 0)
+    .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
     .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
     .map(plugin => {
@@ -68,31 +68,6 @@ export function getEntityTypeOptions() {
         label: getSingular(plugin)
       };
     });
-}
-
-export function formatterTypeToLabel(formatterType) {
-  switch (formatterType) {
-    case 'MILLIS':
-      return 'ms';
-    case 'MICROS':
-      return 'µs';
-    case 'SECONDS':
-      return 's';
-    case 'MINUTES':
-      return 'min';
-    case 'PERCENTAGE':
-      return '%';
-    case 'RATE':
-      return '/s';
-    case 'BYTE_RATE':
-      return 'Bytes/s';
-    case 'BYTES':
-      return 'Bytes';
-    case 'UNDEFINED':
-    case 'NUMBER':
-    default:
-      return '';
-  }
 }
 
 export function formatterTypeToDefinition(formatterType) {
@@ -111,8 +86,12 @@ export function formatterTypeToDefinition(formatterType) {
       return 'Rate per second';
     case 'BYTE_RATE':
       return 'Bytes per second';
+    case 'KILO_BYTE_RATE':
+      return 'Kilobytes per second';
     case 'BYTES':
       return 'Bytes';
+    case 'KILO_BYTES':
+      return 'Kilobytes';
     case 'NUMBER':
       return 'Count';
     case 'UNDEFINED':

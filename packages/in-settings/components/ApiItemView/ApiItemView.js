@@ -37,7 +37,7 @@ export default connectTo(
     }
 
     const [message, setMessage] = useState(null);
-    const [form, setForm] = useState(createForm(enrichForm, props));
+    const [form, setForm] = useState(() => createForm(enrichForm, props));
     const [canSaveItem, setCanSaveItem] = useState(false);
 
     return (
@@ -45,17 +45,33 @@ export default connectTo(
         <Header
           parentPath={parentPath}
           parentViewName={parentViewName}
-          onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form }) : undefined}
+          onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
         />
         <MessageWrapper message={message} />
-        {render({ ...props, ...result, message, setMessage, form, setForm, setCanSaveItem })}
+        {render({
+          ...props,
+          ...result,
+          message,
+          setMessage,
+          form,
+          setForm: form => {
+            setForm(form);
+            setCanSaveItem(true);
+          },
+          setCanSaveItem
+        })}
       </div>
     );
   }
 );
 
 function MessageWrapper({ message }) {
-  return <div className={locals.messageWrapper}>{message && <TemporaryMessage {...message} duration={5000} />}</div>;
+  // create a random id to make sure the same message can appear multiple times
+  const id = Date.now() + '';
+
+  return (
+    <div className={locals.messageWrapper}>{message && <TemporaryMessage id={id} {...message} duration={5000} />}</div>
+  );
 }
 
 function createForm(enrichForm, props) {

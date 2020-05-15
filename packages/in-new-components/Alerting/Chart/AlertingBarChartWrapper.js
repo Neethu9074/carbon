@@ -32,7 +32,9 @@ export default connectTo(
   },
   function AlertingBarChartWrapper(props) {
     enrichChartMetrics(props);
-    return <ChartWrapper customChartComponent={AlertingChartReactComponent} {...props} />;
+    return (
+      <ChartWrapper showNoDataInfoWhenEmpty={false} customChartComponent={AlertingChartReactComponent} {...props} />
+    );
   }
 );
 

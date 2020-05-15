@@ -1,9 +1,8 @@
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
-import { customDashboardsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
-export const enabled = customDashboardsEnabled;
+export const enabled = true;
 export const persistencePrefix = 'customDashboard:';
 
 export function resolve(location, pageKey) {

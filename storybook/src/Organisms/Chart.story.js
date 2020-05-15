@@ -1,6 +1,4 @@
-import { just, interval } from 'reactive-observables';
 import React, { useState } from 'react';
-import theme from 'in-themes';
 
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -10,7 +8,7 @@ import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -28,6 +26,24 @@ export function MissingData() {
     <>
       <ResultAwareChart config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
     </>
+  );
+}
+
+export function MissingDataWithoutTextInfo() {
+  return (
+    <ResultAwareChart
+      config={{
+        timeConfig: generateTimeframe(oneHour),
+        showNoDataInfoWhenEmpty: false,
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls'],
+          metrics: [generateMetrics(0, 20, oneHour)]
+        }
+      }}
+      data={{}}
+      result={{ errors: [], progress: { loading: false } }}
+    />
   );
 }
 
@@ -727,6 +743,7 @@ export function Points() {
   );
 }
 
+/* commented-out, because it fails with a strange error: 'this is undefined'
 export const Resize = connectTo(
   () => {
     return {
@@ -757,6 +774,7 @@ export const Resize = connectTo(
     );
   }
 );
+ */
 
 function generateMultipleMetricsWithGaps(numSeries, numMetrics, maxValue, windowSize) {
   const series = [];

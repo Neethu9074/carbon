@@ -1,7 +1,7 @@
 import { bytes, number } from 'in-services/formatters/number';
 
-import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
 import { getBucketMetricDefinitions } from 'in-forge/plugins/couchbaseNode/metricDefinitions.js';
+import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
 
 const clusterMetricDefinitions = [
   {
