@@ -4,11 +4,11 @@ import compose from 'recompose/compose';
 import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
-import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
   thresholdOperatorOptions
 } from 'in-applications/alerting/form/thresholdFormData';
+import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
