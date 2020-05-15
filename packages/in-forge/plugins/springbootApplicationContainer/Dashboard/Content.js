@@ -8,18 +8,27 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import Link from 'in-components/Link';
+import Code from 'in-components/Code';
+
+const ActuatorDependencyCode = `<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+`;
 
 export default function SpringbootDashboard({ snapshot, timeConfig }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
-  const actuatorConfigured = snapshot.getIn(['data', 'actuatorConfigured']);
+  const status = snapshot.getIn(['data', 'status']);
 
-  if (actuatorConfigured === false) {
+  if (status == null) {
     return (
       <DashboardNotification type="warning">
-        Spring Boot Actuator is not registered in this Spring Boot application.{' '}
+        <p>Spring Boot monitoring requires that Spring Boot Actuator is configured:</p>
+        <Code code={ActuatorDependencyCode} />
+        More info can be found on the{' '}
         <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
-          Spring Boot configuration
+          Spring Boot configuration page
         </Link>
       </DashboardNotification>
     );
