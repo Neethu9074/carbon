@@ -1,6 +1,10 @@
-import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
-import { ruleMetricNameOptions, getLogLevelRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
+import {
+  ruleMetricNameOptions,
+  getLogLevelRuleOperatorLabel,
+  getStatusCodeLabel
+} from 'in-applications/alerting/form/ruleFormData';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
+import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { operators } from 'in-analyze/applicationFilter';
 
 const operatorDescriptionValues = {
@@ -18,6 +22,8 @@ export function getBlueprintLabel(alertType) {
       return 'Slowness';
     case 'logs':
       return 'Log Message';
+    case 'statusCode':
+      return 'Status Code';
     default:
       throw Error('Unsupported alertType: ' + alertType);
   }
@@ -76,6 +82,19 @@ export function getTitlePlaceholder(form) {
       }
       return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages: "${message}"`;
     }
+    case 'statusCode': {
+      const statusCodeStart = ruleForm.get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const thresholdForm = form.get('threshold');
+      const operator = thresholdForm.get('operator').value;
+      if (statusCodeStart === statusCodeEnd) {
+        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
+          statusCodeStart
+        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      }
+      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
+      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+    }
     default:
       throw Error('Unsupported alertType: ' + alertType);
   }
@@ -123,6 +142,19 @@ export function getDescriptionPlaceholder(form) {
       return `Number of calls logging ${levelText} messages which ${
         operatorDescriptionValues[ruleOperator]
       } "${message}" is ${getHigherOrLowerOperatorText(operator)} ${thresholdValue}.`;
+    }
+    case 'statusCode': {
+      const statusCodeStart = ruleForm.get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const thresholdForm = form.get('threshold');
+      const operator = thresholdForm.get('operator').value;
+      if (statusCodeStart === statusCodeEnd) {
+        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
+          statusCodeStart
+        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      }
+      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
+      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);

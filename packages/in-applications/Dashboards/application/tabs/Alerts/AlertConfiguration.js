@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
@@ -87,6 +88,20 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   granularity={granularity}
                 />
               </>
+            )}
+            renderStatusCode={() => (
+              <StatusCodeAlertingBarChart
+                applicationId={alertConfig.applicationId}
+                statusCodeStart={alertConfig.rule.statusCodeStart}
+                statusCodeEnd={alertConfig.rule.statusCodeEnd}
+                logLevel={alertConfig.rule.level}
+                timeConfig={timeConfig}
+                tagFilters={tagFilters}
+                granularity={granularity}
+                threshold={alertConfig.threshold}
+                timeThreshold={alertConfig.timeThreshold}
+                boundaryScope={alertConfig.boundaryScope}
+              />
             )}
           />
         )}

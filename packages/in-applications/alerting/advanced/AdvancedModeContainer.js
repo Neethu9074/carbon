@@ -9,6 +9,7 @@ import {
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
+import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
@@ -19,6 +20,7 @@ import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteract
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
+import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Message from 'in-new-components/Message';
@@ -120,6 +122,20 @@ export default function AdvancedModeContainer(props) {
                       onChange={onChange}
                       onChartConfigChange={onChartConfigChange}
                       indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                    />
+                  </>
+                )}
+                renderStatusCode={() => (
+                  <>
+                    <Card title="HTTP Status Code" withoutPadding darkFrame>
+                      <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
+                    </Card>
+                    <StatusCodeInteractiveChart
+                      form={form}
+                      timeConfig={timeConfig}
+                      granularity={granularity}
+                      onChange={onChange}
+                      updateForm={updateForm}
                     />
                   </>
                 )}

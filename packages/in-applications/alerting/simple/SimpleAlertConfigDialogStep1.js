@@ -6,6 +6,7 @@ import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/Select
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { applicationsAlertingBlueprintChanged } from 'in-applications/alerting/tracker';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
+import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
@@ -67,6 +68,14 @@ export default function SimpleAlertConfigDialogStep1({
             title={selectedBlueprintConfig.headline}
             description={selectedBlueprintConfig.text}
           />
+        )}
+        renderStatusCode={() => (
+          <SelectedBlueprintPresenter
+            title="Alert for Specific Status Code"
+            description="Receive an alert when the status code is higher than expected "
+          >
+            <ProvideStatusCode form={form} updateForm={updateForm} mode="SimpleMode" />
+          </SelectedBlueprintPresenter>
         )}
       />
 

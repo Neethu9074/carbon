@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
@@ -84,6 +85,29 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
               )}
             </>
           )}
+          renderStatusCode={() => (
+            <>
+              {hasStatusCodeSelected(form) ? (
+                <div className={locals.placeholder}>
+                  <StatusCodeAlertingBarChart
+                    applicationId={applicationId}
+                    statusCodeStart={rule.statusCodeStart}
+                    statusCodeEnd={rule.statusCodeEnd}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={granularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                    boundaryScope={boundaryScope}
+                    alertsPreviewEnabled
+                    canReload
+                  />
+                </div>
+              ) : (
+                <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
+              )}
+            </>
+          )}
         />
       )}
     </ChartViewConfigurator>
@@ -98,4 +122,8 @@ SimpleAlertConfigDialogChart.propTypes = {
 
 function hasLogMessageSelected(form) {
   return !!(form && form.get('rule').get('message').value);
+}
+
+function hasStatusCodeSelected(form) {
+  return !!(form && form.get('rule').get('statusCodeStart').value && form.get('rule').get('statusCodeEnd').value);
 }

@@ -4,10 +4,10 @@ import React from 'react';
 
 import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsThreshold';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { getLogLevelTagFilters, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getMetricsConfiguration } from 'in-applications/alerting/Dialog/metricConfigurations';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
-import { getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import { isBlank } from 'in-services/util/string';
@@ -31,11 +31,11 @@ export const SmartAlertConfigDialog = compose(
 function resolveThresholdRequest(form, granularity, fallbackOnError) {
   const applicationId = form.get('applicationId').value;
   const boundaryScope = form.get('boundaryScope').value;
-  const metricName = form.get('rule').get('metricName').value;
   const tagFilters = form.get('tagFilters').value;
+  const alertType = form.get('rule').get('alertType').value;
 
-  switch (metricName) {
-    case 'errors':
+  switch (alertType) {
+    case 'errorRate':
       return getApplicationMetricsThreshold(
         getMetricsConfiguration({
           applicationId,
@@ -46,8 +46,7 @@ function resolveThresholdRequest(form, granularity, fallbackOnError) {
           granularity
         })
       );
-    case 'calls': {
-      // logs count
+    case 'logs': {
       const rule = form.get('rule').toJS();
 
       if (isBlank(rule.message)) {
@@ -65,7 +64,7 @@ function resolveThresholdRequest(form, granularity, fallbackOnError) {
         })
       );
     }
-    case 'latency': {
+    case 'slowness': {
       const aggregation = form.get('rule').get('aggregation').value;
       const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
 
@@ -82,6 +81,17 @@ function resolveThresholdRequest(form, granularity, fallbackOnError) {
         })
       );
     }
+    case 'statusCode':
+      return getApplicationMetricsThreshold(
+        getMetricsConfiguration({
+          applicationId,
+          boundaryScope,
+          aggregation: 'SUM',
+          metric: 'calls',
+          granularity,
+          tagFilters: getStatusTagFilter(form)
+        })
+      );
     default:
       return empty;
   }
@@ -115,4 +125,11 @@ function getLogTagFilters(form) {
   const level = form.get('rule').get('level').value;
 
   return [...form.get('tagFilters').toJS(), ...getLogLevelTagFilters(message, operator, level)];
+}
+
+function getStatusTagFilter(form) {
+  const statusCodeStart = form.get('rule').get('statusCodeStart').value;
+  const statusCodeEnd = form.get('rule').get('statusCodeEnd').value;
+
+  return [...form.get('tagFilters').toJS(), ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)];
 }

@@ -5,6 +5,7 @@ import {
   alertingEventDetailsChartTimeframe
 } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -105,6 +106,19 @@ export default connectTo(
                   logMessage={alertConfig.rule.message}
                   logMessageOperator={alertConfig.rule.operator}
                   logLevel={alertConfig.rule.level}
+                  operator={operator}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={alertingMetricsGranularity}
+                  threshold={threshold}
+                  timeThreshold={timeThreshold}
+                />
+              )}
+              renderStatusCode={() => (
+                <StatusCodeAlertingBarChart
+                  applicationId={entityId}
+                  statusCodeStart={alertConfig.rule.statusCodeStart}
+                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}

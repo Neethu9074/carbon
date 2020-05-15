@@ -17,6 +17,10 @@ export default function createRuleForm(rule) {
   if (alertType === 'logs') {
     return extendForLogs(baseForm, rule);
   }
+
+  if (alertType === 'statusCode') {
+    return extendForStatusCode(baseForm, rule);
+  }
 }
 
 function createBaseForm(rule) {
@@ -74,6 +78,22 @@ function extendForLogs(baseForm, rule) {
       'level',
       createField({
         value: rule.level ?? 'ERROR'
+      })
+    );
+}
+
+function extendForStatusCode(baseForm, rule) {
+  return baseForm
+    .put(
+      'statusCodeStart',
+      createField({
+        value: rule.statusCodeStart ?? 400
+      })
+    )
+    .put(
+      'statusCodeEnd',
+      createField({
+        value: rule.statusCodeEnd ?? 499
       })
     );
 }

@@ -64,6 +64,8 @@ function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
     analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold, timeConfig));
   } else if (alertType === 'logs') {
     analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
+  } else if (alertType === 'statusCode') {
+    analyzeFilters = analyzeFilters.concat(getStatusCodeAnalyzeFilter(alertConfig.rule));
   }
   return analyzeFilters;
 }
@@ -109,6 +111,29 @@ function getThresholdLatencyAnalyzeFilter(threshold, timeConfig) {
     operator: analyzeThreshold.operator,
     value: analyzeThreshold.value
   };
+}
+
+function getStatusCodeAnalyzeFilter(rule) {
+  const analyzeFilters = [];
+  if (rule.statusCodeStart === rule.statusCodeEnd) {
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'EQUALS',
+      value: rule.statusCodeStart
+    });
+  } else {
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'GREATER_OR_EQUAL_THAN',
+      value: rule.statusCodeStart
+    });
+    analyzeFilters.push({
+      name: 'call.http.status',
+      operator: 'LESS_OR_EQUAL_THAN',
+      value: rule.statusCodeEnd
+    });
+  }
+  return analyzeFilters;
 }
 
 function getBaselineThresholdValue(threshold, timeConfig) {

@@ -9,7 +9,8 @@ export const thresholdTypeOptions = Object.freeze([
 export const metricNameForAlertType = Object.freeze({
   errorRate: 'errors',
   slowness: 'latency',
-  logs: 'calls'
+  logs: 'calls',
+  statusCode: 'calls'
 });
 
 /**

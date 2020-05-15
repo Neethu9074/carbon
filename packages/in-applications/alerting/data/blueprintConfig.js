@@ -22,6 +22,12 @@ export const blueprintConfig = Object.freeze([
     headline: 'Automatic Alerts for Error and Warning Logs',
     text:
       'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.'
+  },
+  {
+    type: 'statusCode',
+    name: 'HTTP Status Code',
+    headline: 'Specific Status Codes',
+    text: 'Receive an alert when a known status code is observed.'
   }
 ]);
 
