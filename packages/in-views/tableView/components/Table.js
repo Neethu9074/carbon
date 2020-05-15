@@ -2,11 +2,11 @@ import React from 'react';
 
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-views/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-views/tableView/components/ChartsForSelectedEntities';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import RightHeader from 'in-views/tableView/components/RightHeader';
 import LeftHeader from 'in-views/tableView/components/LeftHeader';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { data$ } from 'in-views/tableView/stores/snapshotIds';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +24,7 @@ export default connectTo(
   },
   function TableViewTable({ data, plugin, selectedSnapshotIds }) {
     if (!data || !data.snapshots || data.plugin !== plugin || !plugin) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     if (!supportTableView(plugin)) {

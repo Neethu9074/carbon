@@ -1,20 +1,19 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getServerVersionTag, localTag } from 'in-services/uiClientVersion';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import ReloadUiDialog from 'in-components/ReloadUiDialog';
 
 const logger = createLogger('in-components/AsyncFullscreenView');
 
-export const createAsyncViewComponent = createAsyncComponent.bind(null, <LoadingIndicator type="dark" />);
+const loadingIndicator = <LoadingIndicator size="xxxl" style={{ height: '100vh' }} />;
+export const createAsyncViewComponent = createAsyncComponent.bind(null, loadingIndicator);
 
 export const createAsyncComponentWithLoadingIndicatorPlaceholder = createAsyncComponent.bind(
   null,
-  <div>
-    <LoadingIndicator type="dark" />
-  </div>
+  <div>{loadingIndicator}</div>
 );
 
 export function createAsyncComponent(loadingPlaceholder, load) {

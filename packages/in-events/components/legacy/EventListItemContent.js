@@ -2,6 +2,7 @@ import React from 'react';
 
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import EventChart from 'in-events/components/EventChart';
 import Spacer from 'in-events/components/legacy/Spacer';
@@ -11,6 +12,7 @@ export default function EventListItemContent({ event }) {
 
   return (
     <>
+      <SubEntityInformation event={event} />
       <ProblemDescription event={event} />
       <EventSpecificationLink event={event} />
       <Spacer />

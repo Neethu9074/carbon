@@ -3,6 +3,7 @@ import { create } from 'reactive-observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { refreshSignalUsers } from 'in-api/users';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -80,5 +81,18 @@ export function removeCustomDashboard(id) {
       refreshSignal.emit(id);
       return v;
     })
+  );
+}
+
+export const getUsers = memoize(getUsersInternal, () => '', 60000);
+function getUsersInternal() {
+  return refreshSignalUsers.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/custom-dashboard/shareable-users`
+      })
+    )
   );
 }

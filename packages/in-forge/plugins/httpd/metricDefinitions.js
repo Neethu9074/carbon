@@ -1,5 +1,3 @@
-import semver from 'semver';
-
 import { percentage, number, bytes } from 'in-services/formatters/number';
 
 export default [
@@ -7,25 +5,14 @@ export default [
     metrics: ['requests', 'kBytes'],
     labels: ['Requests', 'kBytes'],
     min: 0,
-    formatter: number,
-    isAvailable(snapshot) {
-      const status = snapshot.getIn(['data', 'server-status']);
-      return status !== 'EXTENDED_INFO_DISABLED';
-    }
+    formatter: number
   },
   {
     metrics: ['conns_total', 'conns_async_writing', 'conns_async_keep_alive', 'conns_async_closing'],
     labels: ['Connections', 'Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
     min: 0,
     category: ['Connections'],
-    formatter: number,
-    isAvailable(snapshot) {
-      const ver = (snapshot.getIn(['data', 'version']) || '').replace(/[^\d.]/g, '');
-      if (!ver) {
-        return false;
-      }
-      return snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0');
-    }
+    formatter: number
   },
   {
     metrics: [
@@ -49,21 +36,13 @@ export default [
     metrics: ['cpu_load'],
     labels: ['CPU load'],
     min: 0,
-    formatter: percentage,
-    isAvailable(snapshot) {
-      const status = snapshot.getIn(['data', 'server-status']);
-      return status !== 'EXTENDED_INFO_DISABLED';
-    }
+    formatter: percentage
   },
   {
     metrics: ['bytes_per_req'],
     labels: ['Traffic per request'],
     min: 0,
-    formatter: bytes,
-    isAvailable(snapshot) {
-      const status = snapshot.getIn(['data', 'server-status']);
-      return status !== 'EXTENDED_INFO_DISABLED';
-    }
+    formatter: bytes
   },
   {
     metric: 'busy_workers',

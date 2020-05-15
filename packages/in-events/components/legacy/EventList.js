@@ -1,8 +1,8 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
@@ -32,7 +32,7 @@ export default connectTo(
   }),
   function IncidentEventList({ events, incident }) {
     if (!events) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     const triggeringProblemId = incident.getIn(['problem', 'id']);

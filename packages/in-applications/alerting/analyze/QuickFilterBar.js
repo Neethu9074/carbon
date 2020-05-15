@@ -79,7 +79,7 @@ export default function QuickFilterBar(props) {
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
-        tag="call.erroneus"
+        tag="call.erroneous"
         singularLabel="Erroneous"
       />
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}

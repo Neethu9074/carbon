@@ -1,12 +1,10 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
+import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import { error as errorType } from 'in-new-components/Message/types';
 import { hasError, isLoading } from 'in-services/util/result';
-import Skeleton from 'in-new-components/Loading/Skeleton';
-import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ItemList.mless';
@@ -15,10 +13,10 @@ export default compose(connectTo(({ get }) => (get ? { result: get() } : {})))(I
 
 function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkeletonRows }) {
   if (!result || isLoading(result)) {
-    return <LoadingList numSkeletonRows={numSkeletonRows} />;
+    return <LoadingList className={locals.list} numSkeletonRows={numSkeletonRows} />;
   }
   if (hasError(result)) {
-    return <ErrorList errors={result.errors} />;
+    return <ErrorList className={locals.list} errors={result.errors} />;
   }
 
   return (
@@ -33,32 +31,6 @@ function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkele
           />
         </Li>
       ))}
-    </Ul>
-  );
-}
-
-function LoadingList({ numSkeletonRows }) {
-  const loadingRows = [];
-  for (let i = 0; i < numSkeletonRows; i++) {
-    loadingRows[i] = (
-      <Li key={i}>
-        <Skeleton className={locals.skeleton} />
-      </Li>
-    );
-  }
-
-  return <Ul className={locals.list}>{loadingRows}</Ul>;
-}
-
-function ErrorList({ errors }) {
-  const error = getUniqueErrors(errors)[0];
-  return (
-    <Ul className={locals.list}>
-      <Li key={error}>
-        <Message type={errorType} small>
-          {error}
-        </Message>
-      </Li>
     </Ul>
   );
 }

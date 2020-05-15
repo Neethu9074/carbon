@@ -1,12 +1,12 @@
 import React from 'react';
 
 import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 
 export default function NotFoundDialog({ versionsForFocusedMoment, versionsForLive }) {
   if (!versionsForFocusedMoment && !versionsForLive) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   const list = mergeVersionLists(versionsForFocusedMoment, versionsForLive).reverse();

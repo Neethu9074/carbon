@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { bytes, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -26,14 +26,30 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('workers', 'memoryUsed'),
+    metric: getDynamicMetricMatch('workers.metrics', 'memoryUsed', 'Worker ID'),
     label: 'Memory Used',
+    category: ['Workers'],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getMetricMatch('workers', 'coresUsed'),
+    metric: getDynamicMetricMatch('workers.metrics', 'memory', 'Worker ID'),
+    label: 'Memory Total',
+    category: ['Workers'],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metric: getDynamicMetricMatch('workers.metrics', 'coresUsed', 'Worker ID'),
     label: 'Cores Used',
+    category: ['Workers'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch('workers.metrics', 'cores', 'Worker ID'),
+    label: 'Cores Total',
+    category: ['Workers'],
     min: 0,
     formatter: number
   },

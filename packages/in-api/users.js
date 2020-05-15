@@ -6,7 +6,7 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
-const refreshSignalUsers = create().emit(true);
+export const refreshSignalUsers = create().emit(true);
 const refreshSignalInvitations = create().emit(true);
 
 // observables

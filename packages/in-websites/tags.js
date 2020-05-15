@@ -38,6 +38,7 @@ export const dataSourceTitles = {
 };
 
 export const defaultGroupings = {
+  none: {},
   pageLoad: {
     groupbyTag: 'beacon.location.path'
   },
@@ -157,35 +158,52 @@ const translatedStackTraceFilterTags = [
   'beacon.stackTrace.readability'
 ];
 
+const resourceTimings = [
+  'beacon.timing.redirect',
+  'beacon.timing.app_cache',
+  'beacon.timing.dns',
+  'beacon.timing.tcp',
+  'beacon.timing.ssl',
+  'beacon.timing.request',
+  'beacon.timing.response',
+  'beacon.timing.timeToFirstByte'
+];
+
+const cachingTags = ['beacon.http.decodedBodySize', 'beacon.http.encodedBodySize', 'beacon.http.transferSize'];
+
+const backendCorrelationTags = ['beacon.backend.correlationAttempted', 'beacon.backend.traceId'];
+
 export const availableFilterTags = {
   pageLoad: [
     ...availableGroupingTags.pageLoad,
     ...commonFilterTagsWithoutCommonGroupingTags,
-    'beacon.backend.correlationAttempted',
-    'beacon.backend.traceId'
+    ...resourceTimings,
+    ...backendCorrelationTags,
+    'beacon.timing.unload',
+    'beacon.timing.processing',
+    'beacon.timing.onLoad',
+    'beacon.timing.dom',
+    'beacon.timing.children',
+    'beacon.timing.backend',
+    'beacon.timing.frontend',
+    'beacon.timing.firstPaint',
+    'beacon.timing.firstContentfulPaint',
+    'beacon.timing.largestContentfulPaint',
+    'beacon.timing.firstInputDelay'
   ].sort(),
   resourceLoad: [
     ...availableGroupingTags.resourceLoad,
     ...commonFilterTagsWithoutCommonGroupingTags,
-    'beacon.http.decodedBodySize',
-    'beacon.http.encodedBodySize',
-    'beacon.http.transferSize',
-    'beacon.timing.app_cache',
-    'beacon.timing.backend',
-    'beacon.timing.dns',
-    'beacon.timing.frontend',
-    'beacon.timing.onLoad',
-    'beacon.timing.redirect',
-    'beacon.timing.request',
-    'beacon.timing.response',
-    'beacon.timing.ssl',
-    'beacon.timing.tcp'
+    ...resourceTimings,
+    ...cachingTags,
+    ...backendCorrelationTags
   ].sort(),
   httpRequest: [
     ...availableGroupingTags.httpRequest,
     ...commonFilterTagsWithoutCommonGroupingTags,
-    'beacon.backend.correlationAttempted',
-    'beacon.backend.traceId'
+    ...resourceTimings,
+    ...cachingTags,
+    ...backendCorrelationTags
   ].sort(),
   error: [
     ...availableGroupingTags.error,

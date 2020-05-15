@@ -12,6 +12,7 @@ import {
   Input,
   JSONFile,
   Listing,
+  PowershellEC2,
   Row,
   Script,
   Spacer,
@@ -29,10 +30,20 @@ function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
 }
 
-const agentReleaseVersionRegex = new RegExp(/^instana-agent-\d\.\d{1,3}\.\d+$/);
+const clusterNameValidator = {
+  validator: validateClusterName,
+  validationMessage:
+    'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
+};
+
+const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
 function validateAgentReleaseVersion(agentReleaseVersion) {
   return agentReleaseVersionRegex.test(agentReleaseVersion);
+}
+
+function validateNotEmpty(value) {
+  return !!value;
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
@@ -56,7 +67,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         {
           label: 'Elastic Computing (EC2) - Windows 64Bit',
           keyWords: 'elasticcomputeec2windows',
-          Content: WindowsInstallerContent
+          Content: ElasticComputingWindowsContent
         },
         {
           label: 'Elastic Container Service for Kubernetes (EKS)',
@@ -114,14 +125,19 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
+          label: 'Helm chart',
+          keyWords: 'kuberneteshelmchartk8s',
+          Content: K8sHelmChartContent
+        },
+        {
           label: 'DaemonSet',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'Helm chart',
-          keyWords: 'kuberneteshelmchartk8s',
-          Content: K8sHelmChartContent
+          label: 'Operator',
+          keywords: 'kubernetesoperatork8s',
+          Content: K8sOperatorContent
         },
         {
           label: 'Azure Kubernetes Service (AKS)',
@@ -221,6 +237,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'ZIP Archives',
           keyWords: 'windowszip',
           Content: ManualWindowsContent
+        },
+        {
+          label: 'Elastic Computing (EC2) - Windows 64Bit',
+          keyWords: 'elasticcomputeec2windows',
+          Content: ElasticComputingWindowsContent
         }
       ]
     }
@@ -372,7 +393,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '28';
+    const nodejsLayerVersion = '29';
 
     steps = (
       <Fragment>
@@ -688,6 +709,36 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   );
 }
 
+function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+      </Row>
+      <Spacer />
+      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <PowershellEC2
+        lines={[
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64"`,
+          `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
+        ]}
+      />
+      <Description lines={['The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.']} />
+      <Spacer />
+      <HelpBox title="User Data in AWS EC2">
+        <TextWithLink
+          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+          linkText="&quot;Running commands on your Windows instance at launch&quot; page."
+          href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
+        />
+      </HelpBox>
+    </>
+  );
+}
+
 function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
@@ -858,7 +909,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -904,7 +955,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -931,85 +982,240 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   );
 }
 
+function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  return (
+    <>
+      <TextWithLink
+        text="Installing the Instana agent using a Kubernetes operator is described in"
+        href="https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
+        linkText="the Instana Kubernetes documentation."
+      />
+      <Spacer />
+      <TextWithLink
+        text="The following configuration values will be needed to be populated in the"
+        href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+        linkText="Instana agent custom resource file"
+      />
+      <Spacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Instana Service Endpoint']} />
+          <Script lines={[agentEndpoint]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Service port']} />
+          <Script lines={[agentEndpointPort]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Application Key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
+      <Spacer />
+      <HelpBox title="Name your Kubernetes cluster">
+        <TextWithLink
+          text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
+          href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+          linkText="Instana agent custom resource file"
+        />
+      </HelpBox>
+    </>
+  );
+}
+
 function CfAndBoshContent({ agentKey, agentEndpoint }) {
   return (
-    <ValidatedInputFields
-      fields={[
-        {
-          name: 'foundationName',
-          placeholder: "Foundation name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The foundation name is invalid' }
-        },
-        {
-          name: 'agentReleaseVersion',
-          placeholder: "Agent release, e.g. 'instana-agent-0.0.1'",
-          validate: {
-            validator: validateAgentReleaseVersion,
-            validationMessage: 'The agent release version is invalid'
+    <>
+      <ValidatedInputFields
+        fields={[
+          {
+            name: 'foundationName',
+            placeholder: "Foundation name, e.g., 'prod'",
+            validate: {
+              validator: validateClusterName,
+              validationMessage:
+                'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
+            }
+          },
+          {
+            name: 'agentReleaseVersion',
+            placeholder: "Release version, e.g. '0.0.1'",
+            validate: {
+              validator: validateAgentReleaseVersion,
+              validationMessage: 'The agent release version must be a valid semantic version'
+            }
+          },
+          {
+            name: 'clientId',
+            placeholder: "UAA client id, e.g., 'my-client-id'",
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client id cannot be blank'
+            }
+          },
+          {
+            name: 'clientSecret',
+            placeholder: "UAA client secret, e.g., 'my-client-secret'",
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client secret cannot be blank'
+            }
           }
-        }
-      ]}
-      renderContent={({
-        foundationName,
-        foundationNameInput,
-        foundationNameValidationMessage,
-        agentReleaseVersion,
-        agentReleaseVersionInput,
-        agentReleaseVersionValidationMessage
-      }) => (
-        <>
-          <Description lines={['Apply the following as BOSH runtime configuration to your BOSH director:']} />
-          <Row>
-            {foundationNameInput}
-            {agentReleaseVersionInput}
-          </Row>
-          <Row>
-            <YAMLFile
-              title="runtime-config.yml"
-              disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage}
-              content={
-                `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n\naddons:\n` +
-                '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
-                `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
-                `        mode: APM\n        key: ${agentKey}\n        endpoint: ${agentEndpoint}\n` +
-                `        zone: '${foundationName}'\n` +
-                '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: redis\n      release: redis-service\n' +
-                '- name: instana-agent-configuration-pivotal-rabbitmq\n  jobs:\n  - name: instana-agent-configuration-pivotal-rabbitmq\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: rabbitmq-server\n      release: cf-rabbitmq\n' +
-                '- name: instana-agent-configuration-pivotal-mysql\n  jobs:\n  - name: instana-agent-configuration-pivotal-mysql-v2\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: mysql\n      release: dedicated-mysql\n' +
-                '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: pxc-mysql\n      release: pxc\n'
-              }
-            />
-          </Row>
-          <HelpBox title="How to set up BOSH runtime configurations">
-            <TextWithLink
-              text="For more information on how to set up BOSH runtime configurations, refer to the "
-              linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
-              href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
-            />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Supported Stemcells">
-            <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Dynamic agents">
-            <TextWithLink
-              text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
-              href="https://docs.instana.io/ecosystem/cloudfoundry/"
-              linkText="Instana Cloud Foundry documentation."
-            />
-          </HelpBox>
-        </>
-      )}
-    />
+        ]}
+        renderContent={({
+          foundationName,
+          foundationNameInput,
+          foundationNameValidationMessage,
+          agentReleaseVersion,
+          agentReleaseVersionInput,
+          agentReleaseVersionValidationMessage,
+          clientId,
+          clientIdInput,
+          clientIdValidationMessage,
+          clientSecret,
+          clientSecretInput,
+          clientSecretValidationMessage
+        }) => (
+          <>
+            <HelpBox title="Supported Stemcells">
+              <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
+              <Description lines={['Download the following BOSH releases']} />
+              <DownloadButton
+                title="Download 'instana-agent' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+              />
+              <DownloadButton
+                title="Download 'instana-leadership-election' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+              />
+              <Spacer />
+              <Description lines={['Upload the Instana BOSH releases to your BOSH director']} />
+              <Bash
+                lines={[
+                  `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
+                  `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Create the Instana UAA client">
+              <Description
+                lines={[
+                  "Create in the foundation's User Account and Authentication (UAA), a client with 'cloud_controller.admin_read_only' authority:"
+                ]}
+              />
+              <Row>
+                {clientIdInput}
+                {clientSecretInput}
+              </Row>
+              <TextWithLink
+                text="The easiest way to create the required UAA client, is to use the "
+                linkText="uaac tool."
+                href="https://github.com/cloudfoundry/cf-uaac"
+              />
+              <Description
+                lines={[
+                  "Replace in the commands below '<uaa-api-endpoint>' with your UAA API endpoint and '<clients.admin-secret>' with your UAA client with 'clients.admin' or 'clients.write' authority"
+                ]}
+              />
+              <Bash
+                lines={[
+                  'uaac target <uaa-api-endpoint>',
+                  'uaac token client get -s <clients.admin-secret>',
+                  `uaac client add '${clientId}' \\`,
+                  "  --name 'Instana Cloud Foundry Client' \\",
+                  '  --autoapprove true \\',
+                  '  --authorized_grant_types client_credentials \\',
+                  "  --authorities 'cloud_controller.admin_read_only' \\",
+                  `  --secret '${clientSecret}' \\`
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Instana BOSH addon">
+              <TextWithLink
+                text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
+                linkText="&quot;BOSH Runtime Configurations&quot; documentation."
+                href="https://bosh.io/docs/runtime-config/"
+              />
+              <Spacer />
+              <Description
+                lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']}
+              />
+              <Row>
+                {foundationNameInput}
+                {agentReleaseVersionInput}
+              </Row>
+              <Spacer />
+              <Description lines={['Apply the following as BOSH runtime configurations to your BOSH director:']} />
+              <Row>
+                <YAMLFile
+                  title="runtime-config.yml"
+                  disabledErrorMessage={
+                    foundationNameValidationMessage ||
+                    agentReleaseVersionValidationMessage ||
+                    clientIdValidationMessage ||
+                    clientSecretValidationMessage
+                  }
+                  content={
+                    `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n` +
+                    `- name: instana-leadership-election\n  version: ${agentReleaseVersion}\n` +
+                    'addons:\n' +
+                    '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
+                    '    release: instana-agent\n  properties:\n    tanzu:\n      foundation:\n' +
+                    `        id: '${foundationName}'\n` +
+                    `        name: '${foundationName}'\n` +
+                    '    instana:\n      agent:\n' +
+                    `        mode: APM\n        key: '${agentKey}'\n        endpoint: '${agentEndpoint}'\n` +
+                    `        zone: '${foundationName}'\n` +
+                    '- name: instana-cloudfoundry-sensor\n' +
+                    '  jobs:\n' +
+                    '  - name: instana-agent-configuration-cf-sensor\n' +
+                    '    release: instana-agent\n' +
+                    '    properties:\n' +
+                    '      tanzu:\n' +
+                    '        foundation:\n' +
+                    `          id: '${foundationName}'\n` +
+                    `          name: '${foundationName}'\n` +
+                    '      cf:\n' +
+                    '        uaa:\n' +
+                    `          client: '${clientId}'\n` +
+                    `          client_secret: '${clientSecret}'\n` +
+                    '  - name: instana-leadership-election\n' +
+                    '    release: instana-leadership-election\n' +
+                    '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
+                    '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                    '    - name: pxc-mysql\n      release: pxc\n'
+                  }
+                />
+              </Row>
+              <TextWithLink
+                text="For more information on how to set up BOSH runtime configurations, refer to the "
+                linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+                href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Dynamic agents, proxies and other settings">
+              <Description
+                lines={[
+                  'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
+                  'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
+                ]}
+              />
+              <TextWithLink
+                text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
+                href="https://docs.instana.io/ecosystem/cloudfoundry/"
+                linkText="Instana Cloud Foundry documentation."
+              />
+            </HelpBox>
+          </>
+        )}
+      />
+    </>
   );
 }
 

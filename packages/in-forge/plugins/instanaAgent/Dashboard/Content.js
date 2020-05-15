@@ -28,6 +28,7 @@ import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 
 export default connectTo(
@@ -262,9 +263,11 @@ export default connectTo(
           </Fragment>
         )}
 
-        <DashboardSection title="Log Output">
-          <LogStreamer snapshot={snapshot} />
-        </DashboardSection>
+        {role.canConfigureAgents ? (
+          <DashboardSection title="Log Output">
+            <LogStreamer snapshot={snapshot} />
+          </DashboardSection>
+        ) : null}
       </Fragment>
     );
   }

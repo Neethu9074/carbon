@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
+import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
 import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 
 export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) {
   const [saveError, setSaveError] = useState(false);
@@ -40,6 +40,11 @@ export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) 
 
 function onChange(setForm) {
   return (form, fieldName, fieldValue) => {
-    setForm(form.updateIn([fieldName], field => field.setValue(fieldValue)));
+    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+    if (fieldName === 'role') {
+      updatedForm = addDynamicRoleField(updatedForm, window.instana.termsAndPrivacySettings);
+    }
+
+    setForm(updatedForm);
   };
 }

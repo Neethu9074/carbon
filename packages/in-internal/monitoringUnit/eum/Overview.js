@@ -3,13 +3,13 @@ import React from 'react';
 import { getLabel as getJsStackTraceTranslatorLabel } from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import { hostTableCols, getHostDetails } from 'in-internal/monitoringUnit/sre/datastores';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getNginxWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import { number, time } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { number, time } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -40,7 +40,7 @@ export default connectTo(
       eumProcessors.length === 0 ||
       eumLoadbalancers.length === 0
     ) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     appdataWriters = sort(appdataWriters);

@@ -5,7 +5,7 @@ import { getIconSvgPath } from 'in-sdk/snapshot';
 
 import locals from './TechnologyLabelWithIcon.mless';
 
-export default function TechnologyLabelWithIcon({ plugin, path, label, showTechnologyLabel, is10Icon = false }) {
+export default function TechnologyLabelWithIcon({ plugin, path, label, showTechnologyLabel = true, is10Icon = false }) {
   if (!path && plugin) {
     path = getIconSvgPath(plugin);
   }

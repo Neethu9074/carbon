@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -10,8 +10,9 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('webAppsSessionData', 'sessions'),
+    metric: getDynamicMetricMatch('webAppsSessionData', 'sessions', 'Web App'),
     label: 'Active Sessions',
+    category: ['Web Apps'],
     min: 0,
     formatter: number
   }

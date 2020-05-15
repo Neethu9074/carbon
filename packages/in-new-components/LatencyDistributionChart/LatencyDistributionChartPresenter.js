@@ -4,7 +4,7 @@ import HorizontalAxis from 'in-new-components/LatencyDistributionChart/component
 import Bar from 'in-new-components/LatencyDistributionChart/components/Bar';
 import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import LoadingIndicator from '../LoadingIndicators/LoadingIndicator';
 import { HEIGHT } from 'in-new-components/Axis/HorizontalAxis';
 
 import locals from './LatencyDistributionChartPresenter.mless';
@@ -45,7 +45,7 @@ export default function LatencyDistributionChartPresenter({
     content = <NoDataAvailable width={width} height={height} />;
   } else if (subscription.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
-    content = <InfiniteCircle height={height} width={width} percentage={subscription.progress.percentage || 0.2} />;
+    content = <LoadingIndicator height={height} width={width} />;
   } else {
     content = (
       <>

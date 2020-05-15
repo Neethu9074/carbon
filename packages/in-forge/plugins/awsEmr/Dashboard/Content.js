@@ -1,15 +1,10 @@
 import React from 'react';
 
+import { bytes, number, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import {
-  bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  percentage,
-  zeroDecimalPlaces
-} from 'in-services/formatters/number';
 
 export default function AwsEmrDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,9 +18,10 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['active_nodes', 'decommissioned_nodes', 'unhealthy_nodes', 'lost_nodes'],
-            labels: ['Active Nodes', 'Decommissioned Nodes', 'Unhealthy Nodes', 'Lost Nodes'],
+            labels: ['Active', 'Decommissioned', 'Unhealthy', 'Lost'],
             type: 'stackedArea',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact,
+            tooltipFormatter: number.detailed
           }}
         />
       </DashboardSection>
@@ -37,9 +33,10 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['apps_running', 'apps_pending', 'apps_failed'],
-              labels: ['Apps Running', 'Apps Pending', 'Apps Failed'],
+              labels: ['Running', 'Pending', 'Failed'],
               type: 'stackedArea',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact,
+              tooltipFormatter: number.detailed
             }}
           />
         </DashboardSection>
@@ -50,10 +47,10 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['memory_allocated_megabytes', 'memory_reserved_megabytes', 'memory_available_megabytes'],
-              labels: ['Memory Allocated', 'Memory Reserved', 'Memory Available'],
+              labels: ['Allocated', 'Reserved', 'Available'],
               type: 'stackedArea',
-              formatter: bytesZeroDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces
+              formatter: bytes.detailed,
+              tooltipFormatter: bytes.detailed
             }}
           />
         </DashboardSection>
@@ -68,8 +65,8 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               metrics: ['s3_bytes_written', 's3_bytes_read'],
               labels: ['Written', 'Read'],
               type: 'stackedArea',
-              formatter: bytesZeroDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces
+              formatter: bytes.detailed,
+              tooltipFormatter: bytes.detailed
             }}
           />
         </DashboardSection>
@@ -82,7 +79,8 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               metrics: ['container_allocated'],
               labels: ['Containers Allocated'],
               type: 'stackedArea',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact,
+              tooltipFormatter: number.detailed
             }}
           />
         </DashboardSection>
@@ -97,7 +95,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               metrics: ['hdfs_utilization'],
               labels: ['HDFS Utilization'],
               type: 'stackedArea',
-              formatter: percentage.compact
+              formatter: percentagePlainTwoDecimalPlaces
             }}
           />
         </DashboardSection>
@@ -110,7 +108,8 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               metrics: ['total_load'],
               labels: ['Total Load'],
               type: 'stackedArea',
-              formatter: zeroDecimalPlaces
+              formatter: number.compact,
+              tooltipFormatter: number.detailed
             }}
           />
         </DashboardSection>

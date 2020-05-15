@@ -23,23 +23,20 @@ export default [
       'Nuked Objects'
     ],
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metrics: ['cache_hit_rate'],
     labels: ['Cache Hit Rate'],
     min: 0,
-    formatter: hitRate,
-    isAvailable
+    formatter: hitRate
   },
   {
     metrics: ['threads', 'threads_created', 'threads_failed', 'threads_limited', 'thread_queue_len', 'sess_queued'],
     labels: ['Threads', 'Created', 'Failed', 'Limited', 'Queue', 'Queued requests'],
     min: 0,
     category: ['Threads'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metrics: [
@@ -54,11 +51,6 @@ export default [
     labels: ['Connections', 'Recycled', 'Reused', 'Idle closed', 'Unhealthy', 'Busy', 'Requests'],
     min: 0,
     category: ['Backend'],
-    formatter: number,
-    isAvailable
+    formatter: number
   }
 ];
-
-function isAvailable(snapshot) {
-  return snapshot.getIn(['data', 'sensorConnectionStatus'], true);
-}

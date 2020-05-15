@@ -1,49 +1,53 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metric: getMetricMatch('siteperf', 'total_requests'),
+    metric: getDynamicMetricMatch('siteperf', 'total_requests', 'Website'),
     label: 'Total number of requests',
+    category: ['Websites'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'current_connections'),
+    metric: getDynamicMetricMatch('siteperf', 'current_connections', 'Website'),
     label: 'Current number of connections',
+    category: ['Websites'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'get_requests'),
+    metric: getDynamicMetricMatch('siteperf', 'get_requests', 'Website'),
     label: 'GET Requests',
     min: 0,
     category: ['Request'],
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'post_requests'),
+    metric: getDynamicMetricMatch('siteperf', 'post_requests', 'Website'),
     label: 'POST Requests',
     min: 0,
     category: ['Request'],
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'put_requests'),
+    metric: getDynamicMetricMatch('siteperf', 'put_requests', 'Website'),
     label: 'PUT Requests',
     min: 0,
     category: ['Request'],
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'bytes_sent'),
+    metric: getDynamicMetricMatch('siteperf', 'bytes_sent', 'Website'),
     label: 'Bytes sent',
+    category: ['Websites'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('siteperf', 'bytes_received'),
+    metric: getDynamicMetricMatch('siteperf', 'bytes_received', 'Website'),
     label: 'Bytes received',
+    category: ['Websites'],
     min: 0,
     formatter: number
   }

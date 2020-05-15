@@ -12,8 +12,8 @@ export default {
 export const regular = () => {
   return (
     <KeyValue
-      label="key"
-      value="value"
+      label="This is Ä g key"
+      value="This is Ä g value"
       inverted={select(
         'Inverted',
         {

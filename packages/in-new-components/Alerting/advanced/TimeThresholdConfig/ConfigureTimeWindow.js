@@ -8,10 +8,7 @@ import {
 } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
 
-export default function ConfigureTimeWindow({ form, updateForm }) {
-  const timeThresholdType = form.get('timeThreshold').get('type').value;
-  const timeThresholdTimeWindow = form.get('timeThreshold').get('timeWindow').value;
-
+export default function ConfigureTimeWindow({ onChange, timeThresholdType, timeThresholdTimeWindow }) {
   const conditionPersistenceTimeForType =
     timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence
       ? [conditionPersistenceTimes[0]]
@@ -23,9 +20,7 @@ export default function ConfigureTimeWindow({ form, updateForm }) {
         label={conditionPersistenceTimeForType.find(({ value }) => value === timeThresholdTimeWindow).label}
         align="bottomLeft"
         items={conditionPersistenceTimeForType}
-        onClick={item => {
-          updateForm(form.updateIn(['timeThreshold', 'timeWindow'], f => f.setValue(item.value).setTouched(true)));
-        }}
+        onClick={({ value }) => onChange(value)}
         topLabel="Time window"
       />
     </AlertThresholdConfigItemContainer>
@@ -33,6 +28,7 @@ export default function ConfigureTimeWindow({ form, updateForm }) {
 }
 
 ConfigureTimeWindow.propTypes = {
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
+  onChange: PropTypes.func,
+  timeThresholdTimeWindow: PropTypes.number.isRequired,
+  timeThresholdType: PropTypes.string.isRequired
 };

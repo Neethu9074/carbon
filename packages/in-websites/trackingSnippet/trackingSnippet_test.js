@@ -29,14 +29,13 @@ describe('in-websites/trackingSnippet', () => {
       expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
         `
 <script>
-  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
-  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
-  d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");
+  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
+  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+
   ineum('reportingUrl', '<trackingBaseUrl>');
   ineum('key', '123');
 </script>
+<script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
       );
     });
@@ -56,16 +55,15 @@ describe('in-websites/trackingSnippet', () => {
       expect(mod.getTrackingSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
         `
 <script>
-  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
-  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
-  d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");
+  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
+  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+
   ineum('reportingUrl', 'https://eum-red-saas.instana.io');
   ineum('key', '123');
   ineum(true);
   ineum(false);
 </script>
+<script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
       );
     });
@@ -81,14 +79,13 @@ describe('in-websites/trackingSnippet', () => {
   // which you proxy the Instana eum-acceptor (note that this
   // needs to be replaced two times in this snippet).
 
-  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
-  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
-  d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "<trackingBaseUrl>/eum.min.js","InstanaEumObject","ineum");
+  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
+  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+
   ineum('reportingUrl', '<trackingBaseUrl>');
   ineum('key', '123');
 </script>
+<script defer crossorigin="anonymous" src="<trackingBaseUrl>/eum.min.js"></script>
 `.trim()
       );
     });
@@ -102,14 +99,13 @@ describe('in-websites/trackingSnippet', () => {
         expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
           `
 <script>
-  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
-  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
-  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
-  d.parentNode.insertBefore(a,d))})(window,document,"script",
-  "https://eum.instana.io/eum.min.js","InstanaEumObject","ineum");
+  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
+  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
+
   ineum('reportingUrl', '${expectedReportingUrl}');
   ineum('key', '123');
 </script>
+<script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
         );
       });

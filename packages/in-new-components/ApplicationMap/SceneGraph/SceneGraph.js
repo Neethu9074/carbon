@@ -143,8 +143,10 @@ export default class SceneGraph {
   dispose() {
     concurrentLayouting.disposeRunning();
 
-    this.layoutSubscription.dispose();
-    this.layoutSubscription = null;
+    if (this.layoutSubscription) {
+      this.layoutSubscription.dispose();
+      this.layoutSubscription = null;
+    }
 
     this.nodePositionsCache.clear();
     this.nodePositionsCache = null;

@@ -198,7 +198,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href, title='Download' }) {
+export function DownloadButton({ href, title = 'Download' }) {
   return (
     <Button target="_blank" href={href} icon="lib_actions_download">
       {title}
@@ -214,11 +214,15 @@ export function Cmd(props) {
   return <Script {...props} pre={['@ECHO OFF', '']} />;
 }
 
-export function Script({ pre = [], lines, disabledErrorMessage }) {
+export function PowershellEC2(props) {
+  return <Script {...props} pre={['<powershell>']} post={['</powershell>']} />;
+}
+
+export function Script({ pre = [], post=[], lines, disabledErrorMessage }) {
   return (
     <div className={locals.script}>
       <pre className={locals.codeWrapper}>
-        <code className={locals.code}>{renderValueLines([...pre, ...lines])}</code>
+        <code className={locals.code}>{renderValueLines([...pre, ...lines, ...post])}</code>
       </pre>
       <CopyToClipboardButton getText={() => lines.join('\n')} disabledErrorMessage={disabledErrorMessage} />
     </div>
@@ -269,16 +273,17 @@ export function ValidatedInputFields({ fields, renderContent }) {
 function createForm(fields) {
   function createValidation(field) {
     return str => {
-      const error = notBlankValidator(str);
-      if (error && error.length > 0) {
-        return error;
-      }
-      const validate = field.validate;
-      if (validate && !validate.validator(str)) {
+      const validator = field.validate;
+      const defaultValidator = {
+        validator: notBlankValidator,
+        validationMessage: `The field '${field.name}' cannot be blank`
+      };
+      const error = !validator.validator(str) || !defaultValidator.validator(str);
+      if (error) {
         return [
           {
             severity: 'error',
-            message: validate.validationMessage
+            message: validator.validationMessage
           }
         ];
       }

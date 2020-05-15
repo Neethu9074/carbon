@@ -1,13 +1,16 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export const getStackForInfrastructure = createResultSubscriptionFactory({
-  eventId: 'getStackForInfrastructure'
+  eventId: 'getStackForInfrastructure',
+  trackSubscriptionStatistics: true
 });
 
 export const getStackForApplication = createResultSubscriptionFactory({
-  eventId: 'getStackForApplication'
+  eventId: 'getStackForApplication',
+  trackSubscriptionStatistics: true
 });
 
 export const getStackForService = createResultSubscriptionFactory({
-  eventId: 'getStackForService'
+  eventId: 'getStackForService',
+  trackSubscriptionStatistics: true
 });

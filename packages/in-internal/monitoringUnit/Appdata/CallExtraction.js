@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -145,7 +145,7 @@ export default connectTo({
   rows: getDropwizardWithContext('entity.label:appdata-processor*')
 })(function CallExtraction({ rows }) {
   if (rows.length === 0) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   return (

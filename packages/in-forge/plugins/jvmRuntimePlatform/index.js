@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/jvmRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/jvmRuntimePlatform/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/jvmRuntimePlatform/kpiDefinitions';
@@ -16,6 +17,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   tableDefinition,
   getCodeView,
   supportsCodeView,

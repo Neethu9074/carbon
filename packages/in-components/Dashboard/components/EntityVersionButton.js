@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getSnapshotVersions } from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import EntityVersionListing from 'in-new-components/EntityVersionList/EntityVersionListing';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import VersionTimeline from 'in-new-components/VersionTimeline';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -56,7 +56,7 @@ const VersionDialog = connectTo(
               getTooltip={snapshot => <DiffTootltipContent snapshot={snapshot} />}
             />
           ) : (
-            <InfiniteCircle height={100} />
+            <LoadingIndicator text="Loading data" height={100} />
           )}
           <div className={locals.details}>
             <Row>

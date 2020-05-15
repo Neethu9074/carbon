@@ -16,20 +16,14 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
   }
 
   lines.push(
-    `  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){`,
-    `  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,`,
-    `  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],`,
-    `  d.parentNode.insertBefore(a,d))})(window,document,"script",`
+    `  (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},`,
+    `  n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");`,
+    ``
   );
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
-    lines.push(
-      `  "${undefinedTrackingUrlPlaceholder}/eum.min.js","InstanaEumObject","ineum");`,
-      `  ineum('reportingUrl', '${undefinedTrackingUrlPlaceholder}');`
-    );
+    lines.push(`  ineum('reportingUrl', '${undefinedTrackingUrlPlaceholder}');`);
   } else {
-    const snippetSource = config.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
-    lines.push(`  "${snippetSource}","InstanaEumObject","ineum");`);
     lines.push(`  ineum('reportingUrl', '${getEumAcceptorBaseUrl()}');`);
   }
 
@@ -45,6 +39,13 @@ export function getTrackingSnippet({ key, additionalScript = null, trackSessions
   }
 
   lines.push(`</script>`);
+
+  let scriptSrc = config?.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
+  if (!useInstanaSaasEumTrackingUrlEnabled) {
+    scriptSrc = `${undefinedTrackingUrlPlaceholder}/eum.min.js`;
+  }
+  lines.push(`<script defer crossorigin="anonymous" src="${scriptSrc}"></script>`);
+
   return lines.join('\n');
 }
 

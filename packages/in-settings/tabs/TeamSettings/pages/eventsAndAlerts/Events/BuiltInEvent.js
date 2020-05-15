@@ -1,12 +1,13 @@
+import theme from 'in-themes';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -18,7 +19,6 @@ import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './BuiltInEvent.mless';
 
@@ -34,7 +34,7 @@ export default connectTo(
   }),
   function EventBuiltIn({ event }) {
     if (!event) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     if (event && event.get('errors')) {

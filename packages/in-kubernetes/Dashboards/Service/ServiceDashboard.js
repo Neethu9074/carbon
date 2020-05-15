@@ -101,14 +101,14 @@ function renderMetaInformation({ result }) {
   );
 }
 
-function renderButtonLine({ snapshotId, timeConfig, result, serviceId }) {
+function renderButtonLine({ timeConfig, result, serviceId }) {
   const clusterName = result.data?.clusterName;
   const namespaceName = result.data?.namespace;
   const serviceName = result.data?.name;
   return (
     <>
       <ContextGuide
-        id={snapshotId}
+        id={serviceId}
         timeConfig={timeConfig}
         plugin={fullyQualifiedPlugins.kubernetesService}
         tagFilters={getFilters(clusterName, namespaceName, null, null, serviceName)}

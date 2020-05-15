@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { getNamespaceDashboard, getClusterDashboard, getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
-import DeploymentConfigBreadcrumb from 'in-kubernetes/breadcrumbs/DeploymentConfigBreadcrumb';
-import DeploymentBreadcrumb from 'in-kubernetes/breadcrumbs/DeploymentBreadcrumb';
+import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
+import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -50,27 +50,24 @@ export function PodBreadcrumbs(props) {
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
-    deploymentId && <DeploymentBreadcrumb {...props} href$={getDeploymentDashboard(deploymentId)} />,
+    deploymentId && (
+      <WorkloadControllerBreadcrumb
+        {...props}
+        href$={getDeploymentDashboard(deploymentId)}
+        workloadControllerId={deploymentId}
+        workloadControllerSubscriptionName={getKubernetesDeployment}
+      />
+    ),
     podId && <PodBreadcrumb {...props} />
   ];
 }
 
-export function DeploymentBreadcrumbs(props) {
-  const { deploymentId, clusterId, namespaceId } = props;
+export function WorkloadControllerBreadcrumbs(props) {
+  const { workloadControllerId, clusterId, namespaceId } = props;
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
-    deploymentId && <DeploymentBreadcrumb {...props} />
-  ];
-}
-
-export function DeploymentConfigBreadcrumbs(props) {
-  const { deploymentConfigId, clusterId, namespaceId } = props;
-  return [
-    <HomeViewBreadcrumb />,
-    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
-    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
-    deploymentConfigId && <DeploymentConfigBreadcrumb {...props} />
+    workloadControllerId && <WorkloadControllerBreadcrumb {...props} />
   ];
 }

@@ -8,8 +8,8 @@ import { getShowZoneInSidebarHeader, getDashboardHeaderActions } from 'in-sdk/sn
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
-import StackButton from 'in-new-components/Stack/StackButton';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 
@@ -46,7 +46,7 @@ function renderButtonLine({ snapshot, timeConfig }) {
       {![plugins.instanaAgent, plugins.prometheus, plugins.availabilityZone, plugins.genericZone].includes(
         snapshot.get('plugin')
       ) && (
-        <StackButton id={snapshot.get('id')} timeConfig={timeConfig} tagFilters={getSnapshotIdTagFilter(snapshot)} />
+        <ContextGuide id={snapshot.get('id')} timeConfig={timeConfig} tagFilters={getSnapshotIdTagFilter(snapshot)} />
       )}
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />

@@ -1,5 +1,3 @@
 // @flow
 
-export {
-  default as IndeterminateLoadingIndicator
-} from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
+export { default as LoadingIndicator } from 'in-new-components/LoadingIndicators/LoadingIndicator';

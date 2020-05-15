@@ -2,6 +2,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { Map } from 'immutable';
 import React from 'react';
 
+import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/permissionsForm';
 import RoleForm from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/RoleForm';
 import { teamSettingsAccessControlRoles } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -68,32 +69,17 @@ function save(entity, form) {
 }
 
 function createForm(role) {
-  return createMapForm()
-    .put('id', createField({ value: role.get('id') }))
-    .put(
-      'name',
-      createField({
-        value: role.get('name'),
-        validator: notBlankValidator
-      })
-    )
-    .put('restrictedAccess', createField({ value: role.get('restrictedAccess') }))
-    .put('canConfigureServiceMapping', createField({ value: role.get('canConfigureServiceMapping') }))
-    .put('canConfigureEumApplications', createField({ value: role.get('canConfigureEumApplications') }))
-    .put('canConfigureUsers', createField({ value: role.get('canConfigureUsers') }))
-    .put('canInstallNewAgents', createField({ value: role.get('canInstallNewAgents') }))
-    .put('canSeeUsageInformation', createField({ value: role.get('canSeeUsageInformation') }))
-    .put('canConfigureIntegrations', createField({ value: role.get('canConfigureIntegrations') }))
-    .put('canSeeOnPremLicenseInformation', createField({ value: role.get('canSeeOnPremLicenseInformation') }))
-    .put('canConfigureRoles', createField({ value: role.get('canConfigureRoles') }))
-    .put('canConfigureTeams', createField({ value: role.get('canConfigureTeams') }))
-    .put('canConfigureCustomAlerts', createField({ value: role.get('canConfigureCustomAlerts') }))
-    .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
-    .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
-    .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }))
-    .put('canConfigureAuthenticationMethods', createField({ value: role.get('canConfigureAuthenticationMethods') }))
-    .put('canConfigureLogManagement', createField({ value: role.get('canConfigureLogManagement') }))
-    .put('canConfigureApplications', createField({ value: role.get('canConfigureApplications') }))
-    .put('canConfigureMobileAppMonitoring', createField({ value: role.get('canConfigureMobileAppMonitoring') }));
+  return addPermissionFields(
+    createMapForm()
+      .put('id', createField({ value: role.get('id') }))
+      .put(
+        'name',
+        createField({
+          value: role.get('name'),
+          validator: notBlankValidator
+        })
+      )
+      .put('restrictedAccess', createField({ value: role.get('restrictedAccess') })),
+    role
+  );
 }

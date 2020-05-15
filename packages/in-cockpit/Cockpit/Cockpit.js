@@ -1,7 +1,6 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import { pcfEnabled, vsphereEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
@@ -12,13 +11,13 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
 import SetBodyColor from 'in-components/SetBodyColor';
-import Lettering from 'in-components/Lettering';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -143,16 +142,10 @@ export default connectTo(
 );
 
 function Header() {
-  let label;
-  if (customDashboardsEnabled) {
-    label = <DashboardSwitcher />;
-  } else {
-    label = <Lettering className={locals.lettering} />;
-  }
   return (
     <>
       <DashboardHeader
-        label={label}
+        label={<DashboardSwitcher />}
         theme={themes.light}
         renderButtonLine={renderButtonLine}
         renderButtonLineSecondary={() => (

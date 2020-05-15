@@ -1,5 +1,5 @@
 import { millis, muSecondsToMillis, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -10,74 +10,86 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('sessions', 'live'),
+    metric: getDynamicMetricMatch('sessions', 'live', 'Session'),
     label: 'Live Sessions',
+    category: ['Sessions'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('sessions', 'active'),
+    metric: getDynamicMetricMatch('sessions', 'active', 'Session'),
     label: 'Active Sessions',
+    category: ['Sessions'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('sessions', 'created'),
+    metric: getDynamicMetricMatch('sessions', 'created', 'Session'),
     label: 'Sessions Created',
+    category: ['Sessions'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('sessions', 'invalidated'),
+    metric: getDynamicMetricMatch('sessions', 'invalidated', 'Session'),
     label: 'Sessions Invalidated',
+    category: ['Sessions'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('sessions', 'invalidatedByTimeout'),
+    metric: getDynamicMetricMatch('sessions', 'invalidatedByTimeout', 'Session'),
     label: 'Sessions Invalidated by a Timeout',
+    category: ['Sessions'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('connectionPools', 'managedConnectionCount'),
+    metric: getDynamicMetricMatch('connectionPools', 'managedConnectionCount', 'Pool'),
     label: 'ManagedConnection Objects in Use',
+    category: ['Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('connectionPools', 'freeConnectionCount'),
+    metric: getDynamicMetricMatch('connectionPools', 'freeConnectionCount', 'Pool'),
     label: 'Free Connections in Pool',
+    category: ['Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('connectionPools', 'connectionHandleCount'),
+    metric: getDynamicMetricMatch('connectionPools', 'connectionHandleCount', 'Pool'),
     label: 'Connection Objects in Use',
+    category: ['Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('connectionPools', 'waitTime'),
+    metric: getDynamicMetricMatch('connectionPools', 'waitTime', 'Pool'),
     label: 'Average Waiting Time for Connection',
+    category: ['Connection Pools'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('connectionPools', 'connectionsCreated'),
+    metric: getDynamicMetricMatch('connectionPools', 'connectionsCreated', 'Pool'),
     label: 'Connections Created',
+    category: ['Connection Pools'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('servlets', 'requests'),
+    metric: getDynamicMetricMatch('servlets', 'requests', 'Servlet'),
     label: 'Requests',
+    category: ['Servlets'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('servlets', 'avgResponseTime'),
+    metric: getDynamicMetricMatch('servlets', 'avgResponseTime', 'Servlet'),
     label: 'Average Response Time',
+    category: ['Servlets'],
     min: 0,
     formatter: muSecondsToMillis
   }

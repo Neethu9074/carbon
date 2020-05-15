@@ -1,3 +1,4 @@
+import { combineLatest } from 'reactive-observables';
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
@@ -9,6 +10,7 @@ import AgentInstallationView from 'in-views/agentView/components/AgentInstallati
 import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -16,10 +18,10 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
+import { debouncedQuery$ } from 'in-stores/search/query';
 import SearchBar from 'in-components/SearchBar';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
@@ -31,9 +33,11 @@ export default connectTo(
   props => {
     const observables = { timeConfig: timeConfig$ };
     if (!props.agentSnapshotsResult) {
-      observables.agentSnapshotsResult = timeConfig$.flatMap(timeConfig => {
-        return getAgentSnapshotsInTimeframe({ timeConfig });
-      });
+      observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
+        ([timeConfig, query]) => {
+          return getAgentSnapshotsInTimeframe({ timeConfig, query });
+        }
+      );
     }
     return observables;
   },

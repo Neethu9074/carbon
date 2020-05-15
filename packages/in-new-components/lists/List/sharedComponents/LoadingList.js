@@ -1,14 +1,19 @@
 import React from 'react';
 
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Ul, Li } from 'in-new-components/lists/List';
 
-export default function LoadingList() {
-  return (
-    <Ul>
-      <Li>
-        <InfiniteCircle height={90} />
+import locals from './LoadingList.mless';
+
+export default function LoadingList({ className, numSkeletonRows = 3 }) {
+  const loadingRows = [];
+  for (let i = 0; i < numSkeletonRows; i++) {
+    loadingRows[i] = (
+      <Li key={i}>
+        <Skeleton className={locals.skeleton} />
       </Li>
-    </Ul>
-  );
+    );
+  }
+
+  return <Ul className={className}>{loadingRows}</Ul>;
 }

@@ -1,5 +1,5 @@
 import { number, micros, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -110,14 +110,16 @@ export default [
   },
   {
     formatter: bytes,
-    metric: getMetricMatch('stats.tablespaceStats', 'usedSpace'),
+    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedSpace', 'Tablespace'),
     labels: ['Used Space'],
+    category: ['Tablespaces'],
     min: 0
   },
   {
     formatter: percentage,
-    metric: getMetricMatch('stats.tablespaceStats', 'usedPercent'),
+    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedPercent', 'Tablespace'),
     labels: ['Used Percent'],
+    category: ['Tablespaces'],
     min: 0,
     max: 1
   }

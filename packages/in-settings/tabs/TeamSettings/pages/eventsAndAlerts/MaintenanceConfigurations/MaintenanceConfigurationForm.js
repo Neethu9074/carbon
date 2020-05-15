@@ -11,10 +11,10 @@ import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSetting$ } from 'in-services/settings/settings';
 import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
@@ -105,9 +105,7 @@ export default function MaintenanceConfigurationForm(props) {
               hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
               maxLength={2048}
             />
-            {form.get('queryValidationInProgress').value && (
-              <LoadingIndicator type="dark" className={locals.queryLoading} inline />
-            )}
+            {form.get('queryValidationInProgress').value && <LoadingIndicator className={locals.queryLoading} inline />}
             <BackendValidationMessages validationResult={form.get('validationResult').value} />
             <TouchedMessages field={field} />
             <DescriptionText>

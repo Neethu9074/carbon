@@ -4,13 +4,12 @@ import React from 'react';
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
 
-const violationGranularity = 10 * 60 * 1000;
-
-export default function ConfigureViolations({ onChange, form }) {
-  const timeThresholdForm = form.get('timeThreshold');
-  const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow').value;
-  const timeThresholdViolations = timeThresholdForm.get('violations').value;
-
+export default function ConfigureViolations({
+  onChange,
+  timeThresholdTimeWindow,
+  timeThresholdViolations,
+  violationGranularity
+}) {
   return (
     <AlertThresholdConfigItemContainer iconType="lib_alerting_threshold_icon">
       <DropdownWithTopLabel
@@ -30,6 +29,8 @@ export default function ConfigureViolations({ onChange, form }) {
 }
 
 ConfigureViolations.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired
+  onChange: PropTypes.func,
+  timeThresholdTimeWindow: PropTypes.number.isRequired,
+  timeThresholdViolations: PropTypes.string.isRequired,
+  violationGranularity: PropTypes.number.isRequired
 };

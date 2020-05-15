@@ -1,8 +1,8 @@
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
 import Card from 'in-new-components/Card';
@@ -46,7 +46,7 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <InfiniteCircle height={height} />;
+    content = <LoadingIndicator text="Loading Data" height={height} />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <NoDataAvailable height={height} />;

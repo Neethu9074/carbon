@@ -3,6 +3,8 @@
   "tslint.enable": false,
   "typescript.autoImportSuggestions.enabled": false,
   "typescript.format.enable": false,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
   "npm.packageManager": "yarn",
   "search.exclude": {
     "**/node_modules/**": true,

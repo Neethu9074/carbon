@@ -6,7 +6,6 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import ThreadPools from '../ThreadPools';
 import Datasources from '../Datasources';
-import WebApps from '../WebApps';
 import Info from '../Info';
 
 export default function WebSphereSidebar({ snapshot }) {
@@ -20,7 +19,6 @@ export default function WebSphereSidebar({ snapshot }) {
       </Collapsible>
 
       <ThreadPools snapshot={snapshot} />
-      <WebApps snapshot={snapshot} />
       <Datasources snapshot={snapshot} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />

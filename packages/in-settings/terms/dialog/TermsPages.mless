@@ -38,10 +38,6 @@
     margin-top: 0.75rem;
   }
 
-  .comboBox {
-    width: 21.25rem;
-  }
-
   .warningText {
     display: flex;
     align-items: center;

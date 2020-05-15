@@ -1,10 +1,10 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose } from 'recompose';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import { close } from 'in-components/DialogPresenter/store';
@@ -36,11 +36,7 @@ class RequestQuoteDialog extends React.Component {
       <Dialog>
         {!form && (
           <div className={locals.loadingState}>
-            <InfiniteCircle
-              className={locals.loadingStateIcon}
-              width={300}
-              customText="Loading necessary information…"
-            />
+            <LoadingIndicator className={locals.loadingStateIcon} width={300} text="Loading necessary information…" />
           </div>
         )}
 
