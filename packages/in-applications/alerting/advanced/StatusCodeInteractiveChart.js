@@ -4,7 +4,6 @@ import compose from 'recompose/compose';
 import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
-import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
@@ -13,6 +12,7 @@ import {
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
+import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';

@@ -11,6 +11,7 @@ import Label from 'in-components/form/Label';
 import locals from './ProvideLogMessage.mless';
 
 export default function ProvideStatusCode({ form, mode, updateForm }) {
+  const defaultStatusCode = '4';
   return (
     <div className={locals.container}>
       {form
@@ -23,7 +24,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
             </Label>
             <ComboBox
               name={'ruleValue'}
-              value={getStatusCodeFieldValue(form)}
+              value={getStatusCodeFieldValue(form, defaultStatusCode)}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
                 applicationsAlertingStatusCodeChanged(mode);
@@ -36,7 +37,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
-              defaultValue="4"
+              defaultValue={defaultStatusCode}
               clearable={false}
               searchable
             />
@@ -54,28 +55,30 @@ ProvideStatusCode.propTypes = {
 };
 
 function getStartForStatusCode(statusCode) {
-  if (statusCode && statusCode.length === 3) {
+  if (statusCode?.length === 3) {
     return statusCode;
-  } else if (statusCode && statusCode.length === 1) {
+  } else if (statusCode?.length === 1) {
     return statusCode * 100;
   }
 }
 
 function getEndForStatusCode(statusCode) {
-  if (statusCode && statusCode.length === 3) {
+  if (statusCode?.length === 3) {
     return statusCode;
-  } else if (statusCode && statusCode.length === 1) {
+  } else if (statusCode?.length === 1) {
     return statusCode * 100 + 99;
   }
 }
 
-function getStatusCodeFieldValue(form) {
-  if (form.get('rule').get('statusCodeStart') && form.get('rule').get('statusCodeEnd')) {
-    if (form.get('rule').get('statusCodeStart').value === form.get('rule').get('statusCodeEnd').value) {
-      return form.get('rule').get('statusCodeStart').value;
+function getStatusCodeFieldValue(form, defaultStatusCode) {
+  const statusCodeStart = form.get('rule').get('statusCodeStart');
+  const statusCodeEnd = form.get('rule').get('statusCodeEnd');
+  if (statusCodeStart && statusCodeEnd) {
+    if (statusCodeStart.value === statusCodeEnd.value) {
+      return statusCodeStart.value;
     } else {
-      return form.get('rule').get('statusCodeStart').value / 100;
+      return statusCodeStart.value / 100;
     }
   }
-  return '4';
+  return defaultStatusCode;
 }
