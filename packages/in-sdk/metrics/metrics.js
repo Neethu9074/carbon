@@ -36,7 +36,7 @@ function getLabel(categoryLabel, label) {
   const metricLabel = typeof label === 'string' ? label : label();
 
   if (categoryLabel && typeof categoryLabel === 'string' && categoryLabel != metricLabel) {
-    return `${categoryLabel} ⭢ ${metricLabel}`;
+    return `${categoryLabel} > ${metricLabel}`;
   }
   return metricLabel;
 }
