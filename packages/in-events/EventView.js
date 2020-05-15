@@ -155,19 +155,21 @@ function EventViewComponent(props) {
 }
 
 function concatQueries(userQuery, eventFilter) {
-  if (userQuery && eventFilter) {
-    return `(${userQuery}) AND (${getExplicitEventFilter(eventFilter)})`;
-  } else if (!userQuery && eventFilter) {
-    return getExplicitEventFilter(eventFilter);
-  } else if (userQuery && !eventFilter) {
-    return userQuery;
+  const explicitEventFilter = getExplicitEventFilter(eventFilter);
+
+  if (userQuery) {
+    return `(${userQuery}) AND (${explicitEventFilter})`;
   }
-  return '';
+  return explicitEventFilter;
 }
 
 function getExplicitEventFilter(eventFilter) {
-  if (eventFilter === 'change') {
+  if (!eventFilter) {
+    // If no eventFilter is set, this means "All" events selected but should filter Monitoring Events
+    return `!event.type:agent_monitoring_issue`;
+  } else if (eventFilter === 'change') {
     return 'event.type:change OR event.type:offline OR (event.type:online)';
+  } else {
+    return `event.type:${eventFilter}`;
   }
-  return `event.type:${eventFilter}`;
 }

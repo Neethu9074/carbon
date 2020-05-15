@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventContent from 'in-views/eventView/components/Event/ApplicationEventContent';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
@@ -67,7 +68,15 @@ function EventContent({ event }) {
               timeConfig={timeConfig}
             />
             <SubEntityInformation event={event} />
-            <ProblemDescription event={event} className="in-event-view-event-content" />
+            {isAgentMonitoringIssueEvent(event) ? (
+              <AgentMonitoringIssueDescription
+                event={event}
+                timeConfig={timeConfig}
+                className="in-event-view-event-content"
+              />
+            ) : (
+              <ProblemDescription event={event} className="in-event-view-event-content" />
+            )}
             <EventSpecificationLink event={event} />
           </Card>
         </Col>
@@ -209,6 +218,10 @@ function isWebsiteSmartAlertEvent(event) {
 
 function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
+}
+
+function isAgentMonitoringIssueEvent(event) {
+  return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
 function hasMetric(event, metric) {
