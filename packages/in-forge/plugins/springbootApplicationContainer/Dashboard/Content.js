@@ -25,7 +25,7 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
     return (
       <DashboardNotification type="warning">
         <p>Spring Boot monitoring requires that Spring Boot Actuator is configured:</p>
-        <Code code={ActuatorDependencyCode} />
+        <Code code={ActuatorDependencyCode} lang="html" showLineNumbers={false} />
         More info can be found on the{' '}
         <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
           Spring Boot configuration page
