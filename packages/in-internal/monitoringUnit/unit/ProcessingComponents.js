@@ -39,24 +39,28 @@ function DashboardLinkItem({ tenant, unit, componentName, components }) {
 
   return (
     <>
-      {components.map(({ dropwizardApplicationContainer, docker, process }, i) => (
-        <LinkListItem
-          key={i}
-          label={
-            components.length === 1
-              ? componentName
-              : `${componentName} (allocation ${process.getIn([
-                  'data',
-                  'env',
-                  'NOMAD_ALLOC_INDEX'
-                ])}, allocId ${docker.getIn(['data', 'Nomad', 'allocId'])})`
-          }
-          href$={getModifiedUrlStream(params => {
-            params.pathname = '/physical/dashboard';
-            params.query.snapshotId = dropwizardApplicationContainer.get('id');
-          })}
-        />
-      ))}
+      {components
+        .filter(
+          ({ dropwizardApplicationContainer, docker, process }) => dropwizardApplicationContainer && docker && process
+        )
+        .map(({ dropwizardApplicationContainer, docker, process }, i) => (
+          <LinkListItem
+            key={i}
+            label={
+              components.length === 1
+                ? componentName
+                : `${componentName} (allocation ${process.getIn([
+                    'data',
+                    'env',
+                    'NOMAD_ALLOC_INDEX'
+                  ])}, allocId ${docker.getIn(['data', 'Nomad', 'allocId'])})`
+            }
+            href$={getModifiedUrlStream(params => {
+              params.pathname = '/physical/dashboard';
+              params.query.snapshotId = dropwizardApplicationContainer.get('id');
+            })}
+          />
+        ))}
     </>
   );
 }
