@@ -3,6 +3,7 @@ import React from 'react';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import { skipOnboardingDialog } from 'in-services/featureFlags';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -16,7 +17,7 @@ export default compose(
   getResultFromApiPing({
     url: `/api/infrastructure-monitoring/monitoring-state`,
     // users who ever had something monitoring can skip the dialog. Also engineers
-    checkResult: result => result.firstKnownReportingTime > 0
+    checkResult: result => result.firstKnownReportingTime < 0 || skipOnboardingDialog
   }),
   connect({ agentKey: getAgentKey() })
 )(InstanaOnboardingComponent);
