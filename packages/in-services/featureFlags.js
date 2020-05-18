@@ -34,6 +34,8 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
+export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
+
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled', false);
