@@ -20,5 +20,6 @@ module.exports = {
   contextGuideEnabled: true,
   vsphereEnabled: true,
   applicationSmartAlertsEnabled: true,
+  skipOnboardingDialog: false,
   agentMonitoringIssuesEnabled: false
 };

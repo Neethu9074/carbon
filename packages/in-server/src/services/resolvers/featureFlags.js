@@ -98,6 +98,18 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'customDashboardsEnabled',
+    instanaCtlKey: 'feature.custom.dashboards.enabled',
+    consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'skipOnboardingDialog',
+    instanaCtlKey: 'feature.skip.oboarding.dialog',
+    consulKey: `settings/${tenant}-${unit}/SKIP_ONBOARDING_DIALOG`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'applicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
     consulKey: `settings/${tenant}-${unit}/APPLICATION_SMART_ALERTS_ENABLED`,
