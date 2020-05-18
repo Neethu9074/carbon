@@ -42,8 +42,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
   // Special case for batch calls without source. Instead of showing a misleading message "Not monitored
   // by Instana", show the destination span only in a similar way as we do for intermediate spans.
-  const batchCallWithoutSource =
-    sourceService.id === 'ROOT' && sourceSnapshotId == null && endpoint && endpoint.type === 'BATCH';
+  const batchCallWithoutSource = sourceService?.id === 'ROOT' && sourceSnapshotId == null && endpoint?.type === 'BATCH';
 
   const logs = call.logs;
   const errorLogs = logs.filter(log => log.errorCount === 1);
