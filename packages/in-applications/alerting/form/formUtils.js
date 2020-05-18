@@ -67,10 +67,10 @@ export function getTitlePlaceholder(form) {
       return 'Calls are slower than usual';
     case 'logs': {
       const message = ruleForm.get('message').value;
-      const operator = ruleForm.get('operator').value;
+      const ruleOperator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
 
-      if (operator === operators.NOT_EMPTY) {
+      if (ruleOperator === operators.NOT_EMPTY) {
         if (level === 'ANY') {
           return 'Too many calls logging messages';
         }
@@ -85,15 +85,7 @@ export function getTitlePlaceholder(form) {
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
-      const thresholdForm = form.get('threshold');
-      const operator = thresholdForm.get('operator').value;
-      if (statusCodeStart === statusCodeEnd) {
-        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
-          statusCodeStart
-        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
-      }
-      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
-      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      return `Too many calls with HTTP Status Code ${getStatusCodeShortText(statusCodeStart, statusCodeEnd)}`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -104,11 +96,11 @@ export function getDescriptionPlaceholder(form) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdForm = form.get('threshold');
-  const operator = thresholdForm.get('operator').value;
+  const thresholdOperator = thresholdForm.get('operator').value;
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
-      return `The erroneous call rate is ${getHigherOrLowerOperatorText(operator)} ${getValueRoundedToDecimals(
+      return `The erroneous call rate is ${getHigherOrLowerOperatorText(thresholdOperator)} ${getValueRoundedToDecimals(
         thresholdValue,
         true
       )}%.`;
@@ -119,11 +111,11 @@ export function getDescriptionPlaceholder(form) {
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
         return `Calls are ${getSlowerOrBelowOperatorText(
-          operator
+          thresholdOperator
         )} ${thresholdValue} ms based on latency (${getAggregationText(aggregation)}).`;
       }
       return `Calls are ${getSlowerOrBelowOperatorText(
-        operator
+        thresholdOperator
       )} the expectation based on latency (${getAggregationText(aggregation)}).`;
     }
     case 'logs': {
@@ -147,17 +139,38 @@ export function getDescriptionPlaceholder(form) {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
       const thresholdForm = form.get('threshold');
-      const operator = thresholdForm.get('operator').value;
-      if (statusCodeStart === statusCodeEnd) {
-        return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
-          statusCodeStart
-        )} is ${getHigherOrLowerOperatorText(operator)} the expectation.`;
-      }
-      return `Occurrences of HTTP Status Code between ${statusCodeStart} and ${statusCodeEnd} is
-      ${getHigherOrLowerOperatorText(operator)} the expectation.`;
+      const thresholdValue = thresholdForm.get('value').value;
+      return `Occurrences of HTTP Status Code ${getStatusCodeFullText(
+        statusCodeStart,
+        statusCodeEnd
+      )} is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
+  }
+}
+
+function getStatusCodeShortText(statusCodeStart, statusCodeEnd) {
+  if (statusCodeStart === statusCodeEnd) {
+    return statusCodeStart.toString();
+  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+    // predefined ranges (e.g. 400 - 499): 4XX
+    return `${parseInt(statusCodeStart / 100).toString()}XX`;
+  } else {
+    // custom ranges
+    return `${statusCodeStart} - ${statusCodeEnd}`;
+  }
+}
+
+function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
+  if (statusCodeStart === statusCodeEnd) {
+    return getStatusCodeLabel(statusCodeStart.toString());
+  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+    // predefined ranges (e.g. 400 - 499): 4XX
+    return getStatusCodeLabel(parseInt(statusCodeStart / 100).toString());
+  } else {
+    // custom ranges
+    return `between ${statusCodeStart} and ${statusCodeEnd}`;
   }
 }
 
