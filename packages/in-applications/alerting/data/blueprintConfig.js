@@ -25,9 +25,10 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'statusCode',
-    name: 'HTTP Status Code',
-    headline: 'Specific Status Codes',
-    text: 'Receive an alert when a known status code is observed.'
+    blacklistedTagFilters: ['call.http.status'],
+    name: 'HTTP Status Codes',
+    headline: 'Automatic Alerts for HTTP Status Codes',
+    text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.'
   }
 ]);
 

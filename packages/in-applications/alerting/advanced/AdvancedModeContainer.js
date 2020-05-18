@@ -127,7 +127,7 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderStatusCode={() => (
                   <>
-                    <Card title="HTTP Status Code" withoutPadding darkFrame>
+                    <Card title="HTTP Status Codes" withoutPadding darkFrame>
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </Card>
                     <StatusCodeInteractiveChart

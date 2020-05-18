@@ -71,8 +71,8 @@ export default function SimpleAlertConfigDialogStep1({
         )}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter
-            title="Alert for Specific Status Code"
-            description="Receive an alert when the status code is higher than expected "
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           >
             <ProvideStatusCode form={form} updateForm={updateForm} mode="SimpleMode" />
           </SelectedBlueprintPresenter>
