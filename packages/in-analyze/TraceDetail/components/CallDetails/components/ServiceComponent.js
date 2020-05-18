@@ -45,6 +45,8 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const batchCallWithoutSource =
     sourceService.id === 'ROOT' && sourceSnapshotId == null && endpoint && endpoint.type === 'BATCH';
 
+  const isSyntheticBatchSpan = entrySpan && entrySpan.name === 'batch-synthetic';
+
   const logs = call.logs;
   const errorLogs = logs.filter(log => log.errorCount === 1);
   const warnLogs = logs.filter(log => log.errorCount === 0);
@@ -226,7 +228,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             </div>
             <div className={locals.destinationChildren}>
-              {hasNonEmptyData(entrySpan) && (
+              {(hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
                   defaultExpanded

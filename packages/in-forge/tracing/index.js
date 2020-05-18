@@ -15,6 +15,7 @@ import './aspnetmvccontroller';
 import './aws.lambda.entry';
 import './axis.client';
 import './axis.server';
+import './batch-synthetic';
 import './camel';
 import './cassandra';
 import './corba';
