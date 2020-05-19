@@ -1,5 +1,10 @@
 import React from 'react';
 
 export default function SyntheticBatchSpanDetailView() {
-  return <div>Unidentified internal trigger (timing is approximate).</div>;
+  return (
+    <div>
+      Instana has detected this call, but has no specifics about its source. The timing and duration of what triggered
+      this call is approximated.
+    </div>
+  );
 }
