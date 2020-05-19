@@ -25,12 +25,12 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId, workloadControllerType, getWorkloadControllerDashboard }) {
+    getContent(item, { clusterId, getWorkloadControllerDashboard }) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_workload"
-          label={get(item, [workloadControllerType, 'name'])}
-          href$={getWorkloadControllerDashboard(get(item, [workloadControllerType, 'id']), { clusterId })}
+          label={get(item, ['workloadController', 'name'])}
+          href$={getWorkloadControllerDashboard(get(item, ['workloadController', 'id']), { clusterId })}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );
@@ -39,8 +39,8 @@ const columnDefinitions = [
   {
     id: 'namespace',
     label: 'Namespace',
-    getContent(item, { workloadControllerType }) {
-      return get(item, [workloadControllerType, 'namespace']);
+    getContent(item) {
+      return get(item, ['workloadController', 'namespace']);
     }
   },
   {
@@ -54,10 +54,10 @@ const columnDefinitions = [
     id: 'replicas',
     label: 'Replicas',
     sortable: false,
-    getContent(item, { workloadControllerType }) {
+    getContent(item) {
       return (
         <MetricBasedTwoValueBar
-          snapshotId={get(item, [workloadControllerType, 'id'])}
+          snapshotId={get(item, ['workloadController', 'id'])}
           metrics={['availableReplicas', 'desiredReplicas']}
           labels={['Available', 'Desired']}
           timeWindowAggregation={null}
@@ -73,7 +73,7 @@ const columnDefinitions = [
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={get(item, [props.workloadControllerType, 'id'])}
+          snapshotId={get(item, ['workloadController', 'id'])}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={msFormatter}
@@ -84,14 +84,14 @@ const columnDefinitions = [
   {
     id: 'health',
     label: 'Health',
-    getContent(item, { workloadControllerType, timeConfig }) {
+    getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          snapshotId={get(item, [workloadControllerType, 'id'])}
+          snapshotId={get(item, ['workloadController', 'id'])}
           inContentArea
         />
       );
