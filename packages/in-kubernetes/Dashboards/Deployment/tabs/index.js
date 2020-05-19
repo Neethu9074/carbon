@@ -53,7 +53,7 @@ function getCounterComponent(props, resultPropName) {
     <TabLabelWithCounter
       label={props.tab.label}
       getCounters={() =>
-        getKubernetesDeploymentItemCounters({ deploymentId: props.deploymentId, timeConfig: props.timeConfig })
+        getKubernetesDeploymentItemCounters({ workloadControllerId: props.deploymentId, timeConfig: props.timeConfig })
       }
       resultPropName={resultPropName}
     />
