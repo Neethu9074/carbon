@@ -1,7 +1,13 @@
 import React from 'react';
 
-import { getNamespaceDashboard, getClusterDashboard, getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
+import {
+  getNamespaceDashboard,
+  getClusterDashboard,
+  getDeploymentDashboard,
+  getDeploymentConfigDashboard
+} from 'in-kubernetes/navigation/paths';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
+import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
@@ -9,6 +15,7 @@ import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
 import ServiceBreadcrumb from 'in-kubernetes/breadcrumbs/ServiceBreadcrumb';
 import NodeBreadcrumb from 'in-kubernetes/breadcrumbs/NodeBreadcrumb';
 import PodBreadcrumb from 'in-kubernetes/breadcrumbs/PodBreadcrumb';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 
 export function ClusterBreadcrumbs(props) {
   const { clusterId } = props;
@@ -45,19 +52,29 @@ export function NodeBreadcrumbs(props) {
 }
 
 export function PodBreadcrumbs(props) {
-  const { podId, clusterId, namespaceId, deploymentId } = props;
+  const { podId, clusterId, namespaceId, workloadControllerId, workloadControllerType } = props;
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
-    deploymentId && (
-      <WorkloadControllerBreadcrumb
-        {...props}
-        href$={getDeploymentDashboard(deploymentId)}
-        workloadControllerId={deploymentId}
-        workloadControllerSubscriptionName={getKubernetesDeployment}
-      />
-    ),
+    workloadControllerId &&
+      workloadControllerType === fullyQualifiedPlugins.kubernetesDeployment && (
+        <WorkloadControllerBreadcrumb
+          {...props}
+          href$={getDeploymentDashboard(workloadControllerId)}
+          workloadControllerId={workloadControllerId}
+          workloadControllerSubscriptionName={getKubernetesDeployment}
+        />
+      ),
+    workloadControllerId &&
+      workloadControllerType === fullyQualifiedPlugins.openshiftDeploymentConfig && (
+        <WorkloadControllerBreadcrumb
+          {...props}
+          href$={getDeploymentConfigDashboard(workloadControllerId)}
+          workloadControllerId={workloadControllerId}
+          workloadControllerSubscriptionName={getOpenShiftDeploymentConfig}
+        />
+      ),
     podId && <PodBreadcrumb {...props} />
   ];
 }

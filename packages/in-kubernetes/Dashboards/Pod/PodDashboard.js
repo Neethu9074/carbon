@@ -35,13 +35,14 @@ export default function PodDashboard({ location }) {
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
-        renderBreadcrumbs={(clusterId, namespaceId, deploymentId) => (
+        renderBreadcrumbs={(clusterId, namespaceId, workloadControllerId, workloadControllerType) => (
           <Breadcrumbs
             items={PodBreadcrumbs({
               ...props,
               clusterId,
               namespaceId,
-              deploymentId
+              workloadControllerId,
+              workloadControllerType
             })}
           />
         )}
