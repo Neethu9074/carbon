@@ -1,9 +1,15 @@
-import React from 'react';
-import { getRuntimeByKey } from 'in-forge/plugins/awsEcsContainer/runtimes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import React, { Fragment } from 'react';
 
-export default function AwsEcsContainerDashboard({ snapshot }) {
-  const runtimeKey = snapshot.getIn(['data', 'runtime']);
-  const runtime = getRuntimeByKey(runtimeKey);
-  return <DashboardSection title="Runtime">{runtime.label}</DashboardSection>;
+import DashboardNotification from 'in-components/DashboardNotification';
+
+export default function AwsEcsContainerDashboard() {
+  return (
+    <Fragment>
+      <DashboardNotification type="info">
+        <h3>Under Construction</h3>
+        Instana&apos;s Fargate support is currently in alpha. More data and metrics for AWS ECS Containers are coming
+        soon.
+      </DashboardNotification>
+    </Fragment>
+  );
 }
