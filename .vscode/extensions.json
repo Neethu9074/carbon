@@ -9,6 +9,7 @@
     "amatiasq.sort-imports",
     "sainoba.px-to-rem",
     "dsznajder.es7-react-js-snippets",
-    "suming.react-proptypes-generate"
+    "suming.react-proptypes-generate",
+    "ms-vsliveshare.vsliveshare"
   ]
 }
