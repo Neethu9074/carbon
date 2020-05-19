@@ -141,9 +141,13 @@ function openDevUrlInBrowser(cb) {
   // set environment variable DONT_OPEN_BROWSER to some non-empty string to
   // avoid having Gulp opening a browser every time you start the build.
   if (!process.env.DONT_OPEN_BROWSER) {
-    buildUtil.openBrowser(`https://local-instana.${devModeOptions.target.baseDomain}:4000`);
+    buildUtil.openBrowser(getDevUrl());
   }
   cb();
+}
+
+function getDevUrl() {
+  return `https://local-instana.${devModeOptions.target.baseDomain}:4000`;
 }
 
 function webpackDev() {
@@ -175,6 +179,9 @@ function webpackDev() {
       throw err;
     }
     console.log('[webpack:dev]', 'http://localhost:3000/');
+    console.log();
+    console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
+    console.log(chalk.blue('The terminal output will change once completed.'));
   });
 
   // return a Promise so that Gulp knows that this task is going to
@@ -232,6 +239,16 @@ function createWebpackCompiler(config, onReadyCallback) {
 
     if (isSuccessful) {
       console.log(chalk.green('Compiled successfully!'));
+      console.log();
+      console.log(`Development URL: ${chalk.blue(getDevUrl())}`);
+
+      if (devModeOptions.target.local) {
+        console.log(`Base Domain:     ${chalk.yellow('[Local Backend]')}`);
+      } else {
+        console.log(`Tenant:          ${devModeOptions.target.tenant}`);
+        console.log(`Unit:            ${devModeOptions.target.tenantUnit}`);
+        console.log(`Base Domain:     ${devModeOptions.target.baseDomain}`);
+      }
     }
 
     if (typeof onReadyCallback === 'function') {
