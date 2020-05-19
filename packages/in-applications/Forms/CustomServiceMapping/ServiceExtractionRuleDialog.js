@@ -252,7 +252,7 @@ class BasicDialog extends React.Component {
 
 function getCustomServiceMappingTagValuesAsOptions() {
   return [{ value: '', label: 'Please select' }]
-    .concat(customServiceMappingTagKeys.map(key => ({ label: key, value: key })))
+    .concat(customServiceMappingTagKeys.sort().map(key => ({ label: key, value: key })))
     .map(tag => (
       <option key={tag.label} value={tag.value}>
         {tag.label}
