@@ -1,0 +1,176 @@
+import React from 'react';
+
+import getRedisEnterpriseShardsForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseShardsForCluster';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { bytes, number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+
+const cols = [
+  {
+    title: 'Role',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.role;
+      }
+    }
+  },
+  {
+    title: 'Key Hit rate',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'key_hits';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Memory Used',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'used_memory';
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Clients Connected',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'connected_clients';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Status',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.status;
+      }
+    }
+  }
+];
+
+export default connectTo(
+  props => ({
+    shardSnapshots: timeConfig$
+      .flatMap(timeConfig => getRedisEnterpriseShardsForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(getSnapshots)
+  }),
+  function ShardsTable({ shardSnapshots, timeConfig }) {
+    if (shardSnapshots == null || shardSnapshots.length === 0) {
+      return null;
+    }
+
+    const rows = shardSnapshots.map(shard => {
+      return {
+        key: shard.get('id'),
+        role: shard.get('data').get('role'),
+        status: shard.get('data').get('status'),
+        shard,
+        timeConfig
+      };
+    });
+
+    return (
+      <Table
+        withoutPadding
+        cardTitle={`Shards (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getRowDetails}
+      />
+    );
+  }
+);
+
+function getRowDetails(row) {
+  const snapshotId = row.key;
+  const timeConfig = row.timeConfig;
+  return (
+    <div>
+      <DashboardSection title="Key">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['key_hits', 'key_misses'],
+            labels: ['Hits', 'Misses'],
+            formatter: number.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Objects">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['expired_objects', 'evicted_objects'],
+            labels: ['Expired', 'Evicted'],
+            formatter: number.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Memory">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: bytes.detailed,
+            tooltipFormatter: bytes.detailed,
+            metrics: ['used_memory', 'mem_size_lua', 'used_memory_rss'],
+            labels: ['Used', 'Lua Heap Size', 'Used RSS'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['connected_clients', 'blocked_clients'],
+            labels: ['Connected', 'Blocked'],
+            formatter: number.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+    </div>
+  );
+}

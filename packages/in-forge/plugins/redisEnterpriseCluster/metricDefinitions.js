@@ -1,4 +1,4 @@
-import { bytes, percentage, number, millis } from 'in-services/formatters/number';
+import { bytes, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -17,13 +17,8 @@ export default [
     formatter: bytes
   },
   {
-    metric: 'mem_fragmentation_ratio',
-    label: 'Memory fragmentation ratio',
-    formatter: percentage.compact
-  },
-  {
     metric: 'rejected_connections',
-    label: 'Number of Rejected connections',
+    label: 'Number of rejected connections',
     formatter: number
   },
   {
@@ -38,38 +33,28 @@ export default [
   },
   {
     metric: 'hit_rate',
-    label: 'Cache Hit rate',
+    label: 'Cache hit rate',
     formatter: number.perSecond
   },
   {
     metric: 'keyspace_hits',
-    label: 'Keyspace Hits',
+    label: 'Keyspace hits',
     formatter: number
   },
   {
     metric: 'keyspace_misses',
-    label: 'Keyspace Misses',
+    label: 'Keyspace misses',
     formatter: number
   },
   {
     metric: 'evicted_keys',
-    label: 'Redis Evicted keys',
+    label: 'Evicted keys',
     formatter: number
   },
   {
     metric: 'expired_keys',
-    label: 'Redis Expired keys',
+    label: 'Expired keys',
     formatter: number
-  },
-  {
-    metric: 'master_connected_slaves',
-    label: 'Number of Connected slaves',
-    formatter: number
-  },
-  {
-    metric: 'latency_max',
-    label: 'Latency',
-    formatter: millis.detailed
   },
   {
     metric: 'throughput',
@@ -77,8 +62,18 @@ export default [
     formatter: number.detailed
   },
   {
-    metric: 'master_sync_left_bytes',
-    label: 'Bytes left before syncing is complete',
-    formatter: bytes.detailed
+    metric: 'cluster_stats_messages_sent',
+    label: 'Cluster messages sent',
+    formatter: number.compact
+  },
+  {
+    metric: 'cluster_stats_messages_received',
+    label: 'Cluster messages received',
+    formatter: number.compact
+  },
+  {
+    metric: 'cluster_size',
+    label: 'Cluster size',
+    formatter: number.compact
   }
 ];

@@ -1,4 +1,4 @@
-import { bytes, percentage, number, millis } from 'in-services/formatters/number';
+import { bytes, percentage, number, kiloBytes, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -8,7 +8,7 @@ export default [
   },
   {
     metric: 'used_memory_rss',
-    label: 'Used memory rss',
+    label: 'Used memory RSS',
     formatter: bytes
   },
   {
@@ -19,11 +19,11 @@ export default [
   {
     metric: 'mem_fragmentation_ratio',
     label: 'Memory fragmentation ratio',
-    formatter: percentage.compact
+    formatter: percentage
   },
   {
     metric: 'rejected_connections',
-    label: 'Number of Rejected connections',
+    label: 'Number of rejected connections',
     formatter: number
   },
   {
@@ -38,38 +38,38 @@ export default [
   },
   {
     metric: 'hit_rate',
-    label: 'Cache Hit rate',
+    label: 'Cache hit rate',
     formatter: number.perSecond
   },
   {
     metric: 'keyspace_hits',
-    label: 'Keyspace Hits',
+    label: 'Keyspace hits',
     formatter: number
   },
   {
     metric: 'keyspace_misses',
-    label: 'Keyspace Misses',
+    label: 'Keyspace misses',
     formatter: number
   },
   {
     metric: 'evicted_keys',
-    label: 'Redis Evicted keys',
+    label: 'Evicted keys',
     formatter: number
   },
   {
     metric: 'expired_keys',
-    label: 'Redis Expired keys',
+    label: 'Expired keys',
     formatter: number
   },
   {
     metric: 'master_connected_slaves',
-    label: 'Number of Connected slaves',
+    label: 'Number of connected slaves',
     formatter: number
   },
   {
     metric: 'latency_max',
     label: 'Latency',
-    formatter: millis.detailed
+    formatter: millis
   },
   {
     metric: 'throughput',
@@ -78,7 +78,7 @@ export default [
   },
   {
     metric: 'master_sync_left_bytes',
-    label: 'Bytes left before syncing is complete',
-    formatter: bytes.detailed
+    label: 'KiloBytes left before syncing is complete',
+    formatter: kiloBytes
   }
 ];

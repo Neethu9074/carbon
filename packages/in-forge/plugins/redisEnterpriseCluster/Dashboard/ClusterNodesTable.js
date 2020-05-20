@@ -1,0 +1,88 @@
+import React from 'react';
+
+import getRedisEnterpriseNodesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseNodesForCluster';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+import { timeConfig$ } from 'in-stores/time/config';
+
+const cols = [
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Version',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.getIn(['data', 'version']);
+      }
+    }
+  },
+  {
+    title: 'Shard Count',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.node.getIn(['data', 'shardCount']) + '';
+      }
+    }
+  },
+  {
+    title: 'Connected Clients',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'conns';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Status',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.status;
+      }
+    }
+  }
+];
+
+export default connectTo(
+  props => ({
+    clusterNodes: timeConfig$
+      .flatMap(timeConfig => getRedisEnterpriseNodesForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(getSnapshots)
+  }),
+
+  function ClusterNodesTable({ clusterNodes, timeConfig }) {
+    if (clusterNodes == null || clusterNodes.length === 0) {
+      return null;
+    }
+
+    const rows = clusterNodes.map(node => {
+      return {
+        key: node.get('id'),
+        status: node.getIn(['data', 'status']),
+        node,
+        timeConfig
+      };
+    });
+
+    return <Table withoutPadding cardTitle={`Available Nodes (${rows.length})`} cols={cols} rows={rows} />;
+  }
+);
