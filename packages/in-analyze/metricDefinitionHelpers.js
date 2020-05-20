@@ -8,7 +8,7 @@ export function newTimeMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: latencyFixed,
+    formatter: wrapToDiscardNegativeValues(latencyFixed),
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,
@@ -43,11 +43,11 @@ export function newNumberMetric({ metric, label, category }) {
   };
 }
 
-export function newNumberWithDecimalsMetric({ metric, label, category }) {
+export function newNumberWithDecimalsMetric({ metric, label, category, formatter = number.forcedDetailed }) {
   return {
     metric,
     label,
-    formatter: wrapToDiscardNegativeValues(number.forcedDetailed),
+    formatter: wrapToDiscardNegativeValues(formatter),
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,

@@ -5,9 +5,14 @@ import {
   withRawDataField,
   newNumberWithDecimalsMetric
 } from 'in-analyze/metricDefinitionHelpers';
-import { percentage, number } from 'in-services/formatters/number';
+import { percentage, number, fourDecimalPlaces } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { affectedUsers } from 'in-websites/formatters';
+
+export const clsFormatter = {
+  compact: fourDecimalPlaces,
+  detailed: fourDecimalPlaces
+};
 
 export const timestampMetricName = 'timestamp';
 export const groupNameMetricName = 'name';
@@ -48,7 +53,8 @@ const resourceTimingMetrics = [
     tag: 'beacon.timing.response'
   }),
   withRawDataField(newTimeMetric({ metric: 'ttfb', label: 'Time to First Byte', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.timeToFirstByte'
+    tag: 'beacon.timing.timeToFirstByte',
+    rawDataField: 'backendTime'
   })
 ];
 
@@ -187,13 +193,15 @@ export const availableMetrics = {
         label: 'First Input Delay'
       }),
       {
-        tag: 'beacon.timing.firstInputDelay'
+        tag: 'beacon.timing.firstInputDelay',
+        rawDataField: 'firstInputDelayTime'
       }
     ),
     withRawDataField(
       newNumberWithDecimalsMetric({
         metric: 'cumulativeLayoutShift',
-        label: 'Cumulative Layout Shift'
+        label: 'Cumulative Layout Shift',
+        formatter: clsFormatter
       }),
       {
         tag: 'beacon.cumulativeLayoutShift'

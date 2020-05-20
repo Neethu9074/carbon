@@ -1,18 +1,14 @@
 import React, { Fragment } from 'react';
 
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import { number, millis, fourDecimalPlaces } from 'in-services/formatters/number';
 import AggregationSelector from 'in-new-components/AggregationSelector';
+import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
+import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 import theme from 'in-themes';
-
-const clsFormatter = {
-  compact: fourDecimalPlaces,
-  detailed: fourDecimalPlaces
-};
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);

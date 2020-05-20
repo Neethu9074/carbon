@@ -11,7 +11,6 @@ import Label from 'in-components/form/Label';
 import locals from './ProvideLogMessage.mless';
 
 export default function ProvideStatusCode({ form, mode, updateForm }) {
-  const defaultStatusCode = '4';
   return (
     <div className={locals.container}>
       {form
@@ -24,7 +23,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
             </Label>
             <ComboBox
               name={'ruleValue'}
-              value={getStatusCodeFieldValue(form, defaultStatusCode)}
+              value={getStatusCodeFieldValue(form)}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
                 applicationsAlertingStatusCodeChanged(mode);
@@ -37,7 +36,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
-              defaultValue={defaultStatusCode}
               clearable={false}
               searchable
             />
@@ -70,15 +68,12 @@ function getEndForStatusCode(statusCode) {
   }
 }
 
-function getStatusCodeFieldValue(form, defaultStatusCode) {
+function getStatusCodeFieldValue(form) {
   const statusCodeStart = form.get('rule').get('statusCodeStart');
   const statusCodeEnd = form.get('rule').get('statusCodeEnd');
-  if (statusCodeStart && statusCodeEnd) {
-    if (statusCodeStart.value === statusCodeEnd.value) {
-      return statusCodeStart.value;
-    } else {
-      return statusCodeStart.value / 100;
-    }
+
+  if (statusCodeStart.value === statusCodeEnd.value) {
+    return statusCodeStart.value;
   }
-  return defaultStatusCode;
+  return statusCodeStart.value / 100;
 }
