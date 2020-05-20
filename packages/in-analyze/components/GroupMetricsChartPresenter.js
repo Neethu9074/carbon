@@ -21,7 +21,9 @@ export default function GroupMetricsChartPresenter({
   translateLabel = identity,
   translateColor,
   metricIds,
-  metrics
+  metrics,
+  primaryContextMenuAction,
+  additionalContextMenuButtons
 }) {
   cardHeader = (
     <div className={locals.actions}>
@@ -44,6 +46,8 @@ export default function GroupMetricsChartPresenter({
     cardTitle,
     cardHeader,
     granularity: getChartGranularity(timeConfig),
+    primaryContextMenuAction,
+    additionalContextMenuButtons,
     y1: {
       formatter: selectedMetricDefinition.formatter,
       renderer: selectedMetricDefinition.renderer

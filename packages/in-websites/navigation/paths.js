@@ -18,7 +18,8 @@ import {
   beaconTimestamp as beaconTimestampMatrixParameter,
   websiteId as websiteIdMatrixParam,
   alertId as alertIdMatrixParam,
-  alertCreated as alertCreatedMatrixParam
+  alertCreated as alertCreatedMatrixParam,
+  serializeMetrics
 } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -148,7 +149,16 @@ export function getLinkToCustomEvent(websiteId, { customEventId, pageId } = empt
   });
 }
 
-export function getLinkToAnalyze({ tagFilters, group, beaconType, timeConfig }) {
+export function getLinkToAnalyze({
+  tagFilters,
+  group,
+  beaconType,
+  timeConfig,
+  showGraph = false,
+  metrics,
+  focusedMetric,
+  focusedMetricAggregation
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -164,6 +174,22 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType, timeConfig }) 
 
     // reset metrics
     setOrDeleteMatrixKey(params, analyzePath, 'metrics');
+
+    if (showGraph) {
+      setOrDeleteMatrixKey(params, analyzePath, 'showGraph', true);
+    }
+
+    if (metrics !== undefined) {
+      setOrDeleteMatrixKey(params, analyzePath, 'metrics', serializeMetrics(metrics));
+    }
+
+    if (focusedMetric !== undefined && focusedMetricAggregation !== undefined) {
+      if (focusedMetric && focusedMetricAggregation) {
+        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric', `${focusedMetric}_${focusedMetricAggregation}`);
+      } else {
+        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric');
+      }
+    }
 
     const filterableTags = availableFilterTags[beaconType];
     if (tagFilters != null) {

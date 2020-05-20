@@ -164,18 +164,28 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Page Views"
               timeConfig={timeConfig}
               renderLegend={false}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
-                renderer: Renderer.bar,
+                renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
-                labels: ['Page Views'],
-                metricIds: ['pageViews']
+                labels: ['Page Loads', 'Page Transitions'],
+                metricIds: ['pageLoads', 'pageTransitions']
               }}
               metricsConfiguration={{
                 timeConfig,
                 tagFilters,
                 metrics: {
-                  pageViews: {
-                    metric: 'pageViews',
+                  pageLoads: {
+                    metric: 'pageLoads',
+                    granularity,
+                    aggregation: 'SUM',
+                    omitMetricInAnalytics: true,
+                    beaconType: 'pageLoad'
+                  },
+                  pageTransitions: {
+                    metric: 'pageTransitions',
                     granularity,
                     aggregation: 'SUM'
                   }
@@ -188,6 +198,9 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Occurrences"
               timeConfig={timeConfig}
               renderLegend={false}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
@@ -202,7 +215,9 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   errors: {
                     metric: 'errors',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    omitMetricInAnalytics: true,
+                    beaconType: 'error'
                   }
                 }
               }}
@@ -213,6 +228,9 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Affected Users"
               timeConfig={timeConfig}
               renderLegend={false}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
                 renderer: Renderer.bar,
                 formatter: affectedUsersChart,
@@ -226,7 +244,8 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   uniqueUsersOrSessions: {
                     metric: 'uniqueUsersOrSessions',
                     granularity,
-                    aggregation: 'DISTINCT_COUNT'
+                    aggregation: 'DISTINCT_COUNT',
+                    beaconType: 'error'
                   }
                 }
               }}
