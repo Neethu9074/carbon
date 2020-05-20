@@ -96,3 +96,14 @@ function getUsersInternal() {
     )
   );
 }
+
+export const getSliConfigurations = memoize(getConfiguredSlis, () => '', 60000);
+function getConfiguredSlis() {
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: '/api/settings/sli'
+    })
+  );
+}
