@@ -64,6 +64,12 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
     content = <ErroneousResultPresenter errors={result.errors} />;
   } else {
     const granularity = getChartGranularity(timeConfig);
+    const viewInAnalytics = {
+      websiteLabel,
+      group: {
+        groupbyTag: 'beacon.location.path'
+      }
+    };
 
     content = (
       <Fragment>
@@ -164,9 +170,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Page Views"
               timeConfig={timeConfig}
               renderLegend={false}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
@@ -198,9 +202,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Occurrences"
               timeConfig={timeConfig}
               renderLegend={false}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
@@ -228,9 +230,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               cardTitle="Affected Users"
               timeConfig={timeConfig}
               renderLegend={false}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: affectedUsersChart,

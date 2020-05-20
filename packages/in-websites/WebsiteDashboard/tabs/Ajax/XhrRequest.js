@@ -71,6 +71,12 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
   } else {
     const granularity = getChartGranularity(timeConfig);
     const hasDetailedTimings = result.data && result.data['requestTime'] && result.data['requestTime'].length > 0.0;
+    const viewInAnalytics = {
+      websiteLabel,
+      group: {
+        groupbyTag: 'beacon.http.path'
+      }
+    };
 
     content = (
       <Fragment>
@@ -85,9 +91,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="Calls"
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.compact,
@@ -120,9 +124,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="Erroneous Call Rate"
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: percentage.detailed,
@@ -150,9 +152,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
@@ -224,9 +224,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
-                    viewInAnalytics={{
-                      websiteLabel
-                    }}
+                    viewInAnalytics={viewInAnalytics}
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
@@ -315,9 +313,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="HTTP Status Code Breakdown"
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
@@ -376,9 +372,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="HTTP Method Breakdown"
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
@@ -427,9 +421,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 cardTitle="Caching Statistics"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
-                viewInAnalytics={{
-                  websiteLabel
-                }}
+                viewInAnalytics={viewInAnalytics}
                 group={{
                   groupbyTag: 'beacon.cacheInteraction'
                 }}
@@ -455,9 +447,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     cardTitle="Resource Sizes"
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
-                    viewInAnalytics={{
-                      websiteLabel
-                    }}
+                    viewInAnalytics={viewInAnalytics}
                     y1={{
                       renderer: Renderer.line,
                       formatter: bytes,

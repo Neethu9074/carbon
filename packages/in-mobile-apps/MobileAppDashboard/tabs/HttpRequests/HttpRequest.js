@@ -41,6 +41,13 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
   tagFiltersForRequests.push({ name: 'mobileBeacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
   tagFiltersForRequests.push({ name: 'mobileBeacon.http.origin', stringValue: httpRequestId, operator: 'EQUALS' });
   const granularity = getChartGranularity(timeConfig);
+  const viewInAnalytics = {
+    mobileAppLabel,
+    group: {
+      groupbyTag: 'mobileBeacon.http.path'
+    }
+  };
+
   const content = (
     <Fragment>
       <Row>
@@ -54,9 +61,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="Calls"
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              mobileAppLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: number.compact,
@@ -89,9 +94,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="Erroneous Call Rate"
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              mobileAppLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: percentage.detailed,
@@ -119,9 +122,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              mobileAppLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
@@ -188,9 +189,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="HTTP Status Code Breakdown"
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              mobileAppLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.stackedBar,
               labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
@@ -249,9 +248,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="HTTP Method Breakdown"
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              mobileAppLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,

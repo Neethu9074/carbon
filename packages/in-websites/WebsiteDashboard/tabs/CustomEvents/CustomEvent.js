@@ -31,6 +31,12 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
 
   const granularity = getChartGranularity(timeConfig);
   tagFilters = tagFilters.concat([{ name: 'beacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' }]);
+  const viewInAnalytics = {
+    websiteLabel,
+    group: {
+      groupbyTag: 'beacon.location.path'
+    }
+  };
 
   return (
     <>
@@ -104,9 +110,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             cardTitle="Occurrences"
             timeConfig={timeConfig}
             renderLegend={false}
-            viewInAnalytics={{
-              websiteLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
@@ -133,9 +137,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             cardTitle="Users"
             timeConfig={timeConfig}
             renderLegend={false}
-            viewInAnalytics={{
-              websiteLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: affectedUsersChart,
@@ -165,9 +167,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
-            viewInAnalytics={{
-              websiteLabel
-            }}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
