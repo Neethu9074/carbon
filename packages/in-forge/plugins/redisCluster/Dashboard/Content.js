@@ -25,7 +25,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Key Hits/Misses">
+      <DashboardSection title="Key">
         <ChartExplanation>Key hits and misses metrics represent the sum for all nodes in the cluster.</ChartExplanation>
         <Chart
           snapshotId={snapshotId}
@@ -33,12 +33,12 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['keyspace_hits', 'keyspace_misses'],
-            labels: ['Key Hits', 'Key Misses'],
+            labels: ['Hits', 'Misses'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Key Expired/Evicted">
+      <DashboardSection title="Objects">
         <ChartExplanation>
           Key expired and evicted metrics represent the sum for all nodes in the cluster.
         </ChartExplanation>
