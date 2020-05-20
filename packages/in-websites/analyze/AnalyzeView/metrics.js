@@ -214,6 +214,7 @@ export const availableMetrics = {
   ],
   httpRequest: [
     newNumberMetric({ metric: 'beaconCount', label: 'Calls' }),
+    newNumberMetric({ metric: 'beaconErrorCount', label: 'Erroneous Calls' }),
     withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
       rawDataField: 'duration',
       tag: 'beacon.duration'

@@ -12,7 +12,8 @@ import {
   sessionId as sessionIdMatrixParameter,
   beaconId as beaconIdMatrixParameter,
   beaconTimestamp as beaconTimestampMatrixParameter,
-  httpRequestId as httpRequestIdMatrixParameter
+  httpRequestId as httpRequestIdMatrixParameter,
+  serializeMetrics
 } from 'in-mobile-apps/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -80,7 +81,15 @@ export function getLinkToMobileApp(
   });
 }
 
-export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
+export function getLinkToAnalyze({
+  tagFilters,
+  group,
+  beaconType,
+  showGraph = false,
+  metrics,
+  focusedMetric,
+  focusedMetricAggregation
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -96,6 +105,22 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
 
     // reset metrics
     setOrDeleteMatrixKey(params, analyzePath, 'metrics');
+
+    if (showGraph) {
+      setOrDeleteMatrixKey(params, analyzePath, 'showGraph', true);
+    }
+
+    if (metrics !== undefined) {
+      setOrDeleteMatrixKey(params, analyzePath, 'metrics', serializeMetrics(metrics));
+    }
+
+    if (focusedMetric !== undefined && focusedMetricAggregation !== undefined) {
+      if (focusedMetric && focusedMetricAggregation) {
+        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric', `${focusedMetric}_${focusedMetricAggregation}`);
+      } else {
+        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric');
+      }
+    }
 
     const filterableTags = availableFilterTags[beaconType];
     if (tagFilters != null) {

@@ -11,7 +11,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
 
-export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId }) {
+export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -56,6 +56,9 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
           <MobileAppChartWrapper
             cardTitle="Activity"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              mobileAppLabel
+            }}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
@@ -69,7 +72,9 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, viewId })
                 sessions: {
                   metric: 'sessions',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'sessionStart',
+                  omitMetricInAnalytics: true
                 },
                 views: {
                   metric: 'views',

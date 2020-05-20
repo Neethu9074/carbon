@@ -10,12 +10,12 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
+import { millis, number, bytes, percentage } from 'in-services/formatters/number';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import { millis, number, bytes } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -81,36 +81,78 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         </Row>
 
         <Row>
-          <Col lg={6}>
-            <WebsiteBeaconGroupsChartWrapper
+          <Col lg={4}>
+            <WebsiteChartWrapper
               cardTitle="Calls"
               timeConfig={timeConfig}
-              tagFilters={tagFiltersForRequests}
-              group={{
-                groupbyTag: 'beacon.erroneous'
+              viewInAnalytics={{
+                websiteLabel
               }}
-              metricIds={['false', 'true']}
-              metrics={[
-                {
-                  label: 'Resource Loads',
-                  metric: 'beaconCount',
-                  aggregation: 'SUM',
-                  formatter: number.forcedCompact,
-                  renderer: Renderer.stackedBar,
-                  fallbackMetricValue: 0
+              y1={{
+                renderer: Renderer.bar,
+                formatter: number.compact,
+                labels: ['Calls', 'Erroneous Calls'],
+                metricIds: ['calls', 'errors'],
+                colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters: tagFiltersForRequests,
+                metrics: {
+                  calls: {
+                    metric: 'beaconCount',
+                    granularity,
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest',
+                    omitMetricInAnalytics: true
+                  },
+                  errors: {
+                    metric: 'beaconErrorCount',
+                    granularity,
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
+                  }
                 }
-              ]}
-              translateLabel={label => (!label ? 'Success' : 'Failure')}
-              translateColor={label => (!label ? theme.lib.colors.success : theme.lib.colors.failure)}
-              // colors: [theme.lib.colors.failure]
+              }}
             />
           </Col>
-          <Col lg={6}>
+          <Col lg={4}>
+            <WebsiteChartWrapper
+              cardTitle="Erroneous Call Rate"
+              timeConfig={timeConfig}
+              viewInAnalytics={{
+                websiteLabel
+              }}
+              y1={{
+                renderer: Renderer.bar,
+                formatter: percentage.detailed,
+                labels: ['Erroneous Call Rate'],
+                metricIds: ['errors'],
+                colors: [theme.lib.colors.failure]
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                tagFilters: tagFiltersForRequests,
+                metrics: {
+                  errors: {
+                    metric: 'beaconErrorRate',
+                    granularity,
+                    aggregation: 'MEAN',
+                    beaconType: 'httpRequest'
+                  }
+                }
+              }}
+            />
+          </Col>
+          <Col lg={4}>
             <WebsiteChartWrapper
               cardTitle="Latency"
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
@@ -133,32 +175,38 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   onLoadTime50th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P50'
+                    aggregation: 'P50',
+                    beaconType: 'httpRequest'
                   },
                   onLoadTime90th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P90'
+                    aggregation: 'P90',
+                    beaconType: 'httpRequest'
                   },
                   onLoadTime95th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P95'
+                    aggregation: 'P95',
+                    beaconType: 'httpRequest'
                   },
                   onLoadTime99th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P99'
+                    aggregation: 'P99',
+                    beaconType: 'httpRequest'
                   },
                   onLoadTimeMax: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'MAX'
+                    aggregation: 'MAX',
+                    beaconType: 'httpRequest'
                   },
                   onLoadTimeMean: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'MEAN'
+                    aggregation: 'MEAN',
+                    beaconType: 'httpRequest'
                   }
                 }
               }}
@@ -176,6 +224,9 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
+                    viewInAnalytics={{
+                      websiteLabel
+                    }}
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
@@ -205,42 +256,50 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         redirectTime: {
                           metric: 'redirectTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         appCacheTime: {
                           metric: 'appCacheTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         dnsTime: {
                           metric: 'dnsTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         tcpTime: {
                           metric: 'tcpTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         sslTime: {
                           metric: 'sslTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         requestTime: {
                           metric: 'requestTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         responseTime: {
                           metric: 'responseTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         ttfb: {
                           metric: 'ttfb',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         }
                       }
                     }}
@@ -256,6 +315,9 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="HTTP Status Code Breakdown"
               timeConfig={timeConfig}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
                 renderer: Renderer.stackedArea,
                 labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
@@ -278,27 +340,32 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   http1xx: {
                     metric: 'http1xx',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   http2xx: {
                     metric: 'http2xx',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   http3xx: {
                     metric: 'http3xx',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   http4xx: {
                     metric: 'http4xx',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   http5xx: {
                     metric: 'http5xx',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   }
                 }
               }}
@@ -309,6 +376,9 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             <WebsiteChartWrapper
               cardTitle="HTTP Method Breakdown"
               timeConfig={timeConfig}
+              viewInAnalytics={{
+                websiteLabel
+              }}
               y1={{
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
@@ -323,22 +393,26 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   httpGet: {
                     metric: 'httpGet',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   httpPost: {
                     metric: 'httpPost',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   httpPut: {
                     metric: 'httpPut',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   },
                   httpDelete: {
                     metric: 'httpDelete',
                     granularity,
-                    aggregation: 'SUM'
+                    aggregation: 'SUM',
+                    beaconType: 'httpRequest'
                   }
                 }
               }}
@@ -353,6 +427,9 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 cardTitle="Caching Statistics"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
                 group={{
                   groupbyTag: 'beacon.cacheInteraction'
                 }}
@@ -378,6 +455,9 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     cardTitle="Resource Sizes"
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
+                    viewInAnalytics={{
+                      websiteLabel
+                    }}
                     y1={{
                       renderer: Renderer.line,
                       formatter: bytes,
@@ -391,17 +471,20 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         transferSize: {
                           metric: 'transferSize',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         encodedBodySize: {
                           metric: 'encodedBodySize',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         },
                         decodedBodySize: {
                           metric: 'decodedBodySize',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'httpRequest'
                         }
                       }
                     }}

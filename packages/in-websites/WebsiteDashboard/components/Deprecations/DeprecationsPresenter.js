@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 
-import CustomPages from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CustomPages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-const presenterMapping = {
-  eh: CustomPages
-};
+// We currently do not have any deprecations - nice! :)
+export const presenterMapping = {};
 
 export default function DeprecationsPresenter(props) {
   const { result } = props;

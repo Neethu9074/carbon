@@ -21,6 +21,9 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
           <WebsiteChartWrapper
             cardTitle="Activity"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              websiteLabel
+            }}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
@@ -40,7 +43,8 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                 pageLoads: {
                   metric: 'pageLoads',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'pageLoad'
                 },
                 pageTransitions: {
                   metric: 'pageTransitions',
@@ -50,7 +54,8 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                 uniqueUsersOrSessions: {
                   metric: 'uniqueUsersOrSessions',
                   granularity,
-                  aggregation: 'DISTINCT_COUNT'
+                  aggregation: 'DISTINCT_COUNT',
+                  beaconType: 'pageLoad'
                 }
               }
             }}

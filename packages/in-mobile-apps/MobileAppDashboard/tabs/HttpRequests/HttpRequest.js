@@ -1,8 +1,6 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
 
-import MobileAppBeaconGroupsChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppBeaconGroupsChartWrapper';
 import { getLinkToMobileApp, httpRequestsTabFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
@@ -10,9 +8,9 @@ import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequest
 import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
+import { millis, number, percentage } from 'in-services/formatters/number';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { millis, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -21,6 +19,7 @@ import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './HttpRequest.mless';
 
@@ -51,36 +50,78 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
       </Row>
 
       <Row>
-        <Col xs={6}>
-          <MobileAppBeaconGroupsChartWrapper
+        <Col xs={4}>
+          <MobileAppChartWrapper
             cardTitle="Calls"
             timeConfig={timeConfig}
-            tagFilters={tagFiltersForRequests}
-            group={{
-              groupbyTag: 'mobileBeacon.erroneous'
+            viewInAnalytics={{
+              mobileAppLabel
             }}
-            metricIds={['false', 'true']}
-            metrics={[
-              {
-                label: 'Resource Loads',
-                metric: 'beaconCount',
-                aggregation: 'SUM',
-                formatter: number.forcedCompact,
-                renderer: Renderer.stackedBar,
-                fallbackMetricValue: 0
+            y1={{
+              renderer: Renderer.bar,
+              formatter: number.compact,
+              labels: ['Calls', 'Erroneous Calls'],
+              metricIds: ['calls', 'errors'],
+              colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
+            }}
+            metricsConfiguration={{
+              timeConfig,
+              tagFilters: tagFiltersForRequests,
+              metrics: {
+                calls: {
+                  metric: 'beaconCount',
+                  granularity,
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest',
+                  omitMetricInAnalytics: true
+                },
+                errors: {
+                  metric: 'beaconErrorCount',
+                  granularity,
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
+                }
               }
-            ]}
-            translateLabel={label => (!label ? 'Success' : 'Failure')}
-            translateColor={label => (!label ? theme.lib.colors.success : theme.lib.colors.failure)}
-            // colors: [theme.lib.colors.failure]
+            }}
           />
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
+          <MobileAppChartWrapper
+            cardTitle="Erroneous Call Rate"
+            timeConfig={timeConfig}
+            viewInAnalytics={{
+              mobileAppLabel
+            }}
+            y1={{
+              renderer: Renderer.bar,
+              formatter: percentage.detailed,
+              labels: ['Erroneous Call Rate'],
+              metricIds: ['errors'],
+              colors: [theme.lib.colors.failure]
+            }}
+            metricsConfiguration={{
+              timeConfig,
+              tagFilters: tagFiltersForRequests,
+              metrics: {
+                errors: {
+                  metric: 'beaconErrorRate',
+                  granularity,
+                  aggregation: 'MEAN',
+                  beaconType: 'httpRequest'
+                }
+              }
+            }}
+          />
+        </Col>
+        <Col lg={4}>
           <MobileAppChartWrapper
             cardTitle="Latency"
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              mobileAppLabel
+            }}
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
@@ -103,32 +144,38 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 onLoadTime50th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P50'
+                  aggregation: 'P50',
+                  beaconType: 'httpRequest'
                 },
                 onLoadTime90th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P90'
+                  aggregation: 'P90',
+                  beaconType: 'httpRequest'
                 },
                 onLoadTime95th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P95'
+                  aggregation: 'P95',
+                  beaconType: 'httpRequest'
                 },
                 onLoadTime99th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P99'
+                  aggregation: 'P99',
+                  beaconType: 'httpRequest'
                 },
                 onLoadTimeMax: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'MAX'
+                  aggregation: 'MAX',
+                  beaconType: 'httpRequest'
                 },
                 onLoadTimeMean: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'MEAN'
+                  aggregation: 'MEAN',
+                  beaconType: 'httpRequest'
                 }
               }
             }}
@@ -141,6 +188,9 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="HTTP Status Code Breakdown"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              mobileAppLabel
+            }}
             y1={{
               renderer: Renderer.stackedBar,
               labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
@@ -163,27 +213,32 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 http1xx: {
                   metric: 'http1xx',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 http2xx: {
                   metric: 'http2xx',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 http3xx: {
                   metric: 'http3xx',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 http4xx: {
                   metric: 'http4xx',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 http5xx: {
                   metric: 'http5xx',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 }
               }
             }}
@@ -194,6 +249,9 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
           <MobileAppChartWrapper
             cardTitle="HTTP Method Breakdown"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              mobileAppLabel
+            }}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
@@ -208,22 +266,26 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 httpGet: {
                   metric: 'httpGet',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 httpPost: {
                   metric: 'httpPost',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 httpPut: {
                   metric: 'httpPut',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 },
                 httpDelete: {
                   metric: 'httpDelete',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  beaconType: 'httpRequest'
                 }
               }
             }}
