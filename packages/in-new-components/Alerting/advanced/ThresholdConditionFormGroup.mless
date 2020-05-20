@@ -1,0 +1,52 @@
+@import '~in-themes/active.less';
+
+:local {
+  .thresholdConditionItem {
+    display: grid;
+    grid-template-columns: 10% 10% 80%;
+    align-items: center;
+    justify-items: start;
+    height: 4rem;
+    border-left: 1px solid @lib__colors__N300;
+    border-right: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid @lib__colors__N300;
+
+    button, input, .checkbox, label {
+      font-size: @lib__typography__body-small__font-size;
+    }
+    label {
+      margin-bottom: 0;
+    }
+    label + button {
+      margin-left: 0.5rem;
+    }
+    input {
+      margin-right: 0.5rem;
+    }
+    button + input {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .icon {
+    justify-self: center;
+    fill: @lib__colors__N600Light;
+  }
+
+  .label {
+    padding:0 0.5rem 0 0;
+  }
+
+  .input {
+    width: 5.625rem;
+  }
+
+  .checkbox {
+    &:hover {
+      cursor: pointer;
+    }
+    &.checked {
+      font-weight: bold;
+    }
+  }
+}

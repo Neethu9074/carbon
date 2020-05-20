@@ -4,20 +4,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  thresholdOperatorOptions,
-  enrichThresholdOperatorOptionsForApiConfigs
+  enrichThresholdOperatorOptionsForApiConfigs,
+  thresholdOperatorOptions
 } from 'in-applications/alerting/form/thresholdFormData';
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { joinClassNames } from 'in-services/util/classnames';
-import ComboBox from 'in-components/ComboBox/ComboBox';
+import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -41,6 +40,14 @@ function LogsInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
+  if (!hasLogMessageSelected(form)) {
+    return (
+      <div className={locals.container}>
+        <IncompleteChartPlaceholder message="Please select a Log Message to see when this alert triggers" />
+      </div>
+    );
+  }
+
   const threshold = {
     ...form.get('threshold').toJS(),
     value:
@@ -51,91 +58,96 @@ function LogsInteractiveChart({
 
   return (
     <div className={locals.container}>
-      {hasLogMessageSelected(form) ? (
-        <>
-          <div className={locals.controls}>
-            <FormGroup>
-              <Label htmlFor="logsCount">Metric</Label>
-              <Input
-                id="logsCount"
-                className={joinClassNames(locals.narrowControl, locals.disabledControl)}
-                name="logsCount"
-                value={ruleMetricNameOptions.logs[0].label}
-                disabled
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="thresholdOperator">Operator</Label>
-              <ComboBox
-                id="thresholdOperator"
-                className={locals.narrowControl}
-                name="thresholdOperator"
-                value={form.get('threshold').get('operator').value}
-                options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
-                onChange={e => {
-                  const value = (e && e.value) || '';
-                  onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-                  applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
-                }}
-                defaultValue={thresholdOperatorOptions[0].value}
-                clearable={false}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
-              <Input
-                id="thresholdValue"
-                className={locals.narrowControl}
-                type="number"
-                min="0"
-                name="thresholdValue"
-                step="1"
-                value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
-                onChange={e => {
-                  let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
-                  setDoDebounce(true);
-                  setTempThreshold(value);
-
-                  const onChangCallback = () => {
-                    onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
-                    setDoDebounce(false);
-                  };
-
-                  debounceOnChange$.emit(onChangCallback.bind(this));
-                  debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
-                }}
-              />
-            </FormGroup>
-          </div>
-
-          <ChartViewConfigurator
-            onChartConfigChange={onChartConfigChange}
-            indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
-            className={locals.chartContainer}
-            headerTransparent
-          >
-            {({ timeConfig, granularity }) => (
-              <LogsAlertingBarChart
-                applicationId={form.get('applicationId').value}
-                logMessage={form.get('rule').get('message').value}
-                logMessageOperator={form.get('rule').get('operator').value}
-                logLevel={form.get('rule').get('level').value}
-                timeConfig={timeConfig}
-                tagFilters={form.get('tagFilters').value}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={form.get('timeThreshold').toJS()}
-                boundaryScope={form.get('boundaryScope').value}
-                alertsPreviewEnabled
-                canReload
-              />
-            )}
-          </ChartViewConfigurator>
-        </>
-      ) : (
-        <IncompleteChartPlaceholder message="Please select a Log Message to see when this alert triggers" />
+      {renderThresholdCondition(
+        form,
+        onChange,
+        doDebounce,
+        tempThreshold,
+        setDoDebounce,
+        setTempThreshold,
+        debounceOnChange$
       )}
+
+      <ChartViewConfigurator
+        onChartConfigChange={onChartConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        className={locals.chartContainer}
+        headerTransparent
+      >
+        {({ timeConfig, granularity }) => (
+          <LogsAlertingBarChart
+            applicationId={form.get('applicationId').value}
+            logMessage={form.get('rule').get('message').value}
+            logMessageOperator={form.get('rule').get('operator').value}
+            logLevel={form.get('rule').get('level').value}
+            timeConfig={timeConfig}
+            tagFilters={form.get('tagFilters').value}
+            granularity={granularity}
+            threshold={threshold}
+            timeThreshold={form.get('timeThreshold').toJS()}
+            boundaryScope={form.get('boundaryScope').value}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </ChartViewConfigurator>
     </div>
+  );
+}
+
+export function renderThresholdCondition(
+  form,
+  onChange,
+  doDebounce,
+  tempThreshold,
+  setDoDebounce,
+  setTempThreshold,
+  debounceOnChange$
+) {
+  const operatorValue = form.get('threshold').get('operator').value;
+  const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
+  const operatorLabel = findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdOperatorOptions[0].label;
+
+  const thresholdValueLabel = getThresholdLabel(form);
+
+  return (
+    <ThresholdConditionFormGroup>
+      <Label>{ruleMetricNameOptions.logs[0].label}</Label>
+      <Dropdown
+        asSimpleDropdown
+        name="thresholdOperator"
+        label={operatorLabel}
+        items={operatorOptions}
+        onClick={e => {
+          const value = (e && e.value) || '';
+          onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
+          applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
+        }}
+      />
+      <Input
+        id="thresholdValue"
+        type="number"
+        min="0"
+        name="thresholdValue"
+        step="1"
+        value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
+        onChange={e => {
+          let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+
+          setDoDebounce(true);
+          setTempThreshold(value);
+
+          const onChangCallback = () => {
+            onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+            setDoDebounce(false);
+          };
+
+          debounceOnChange$.emit(onChangCallback.bind(this));
+          debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
+        }}
+      />
+      {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
+    </ThresholdConditionFormGroup>
   );
 }
 

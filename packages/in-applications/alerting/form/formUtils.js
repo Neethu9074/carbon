@@ -203,3 +203,8 @@ function getSlowerOrBelowOperatorText(operator) {
       throw Error('Unsupported operator: ' + operator);
   }
 }
+
+export function findEntryByValue(valueLabelPairList, value) {
+  const items = valueLabelPairList ?? [];
+  return items.find(item => item?.value === value);
+}
