@@ -91,6 +91,12 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
   } else {
     const granularity = getChartGranularity(timeConfig);
     const hasDetailedTimings = result.data && result.data['requestTime'] && result.data['requestTime'].length > 0.0;
+    const viewInAnalytics = {
+      websiteLabel,
+      group: {
+        groupbyTag: 'beacon.http.path'
+      }
+    };
 
     content = (
       <Fragment>
@@ -106,9 +112,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               cardTitle="Resource Loads"
               timeConfig={timeConfig}
               tagFilters={tagFiltersForResource}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               group={{
                 groupbyTag: 'beacon.resourceType'
               }}
@@ -134,9 +138,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
-              viewInAnalytics={{
-                websiteLabel
-              }}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
@@ -221,9 +223,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
-                    viewInAnalytics={{
-                      websiteLabel
-                    }}
+                    viewInAnalytics={viewInAnalytics}
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
@@ -314,9 +314,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 cardTitle="Caching Statistics"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
-                viewInAnalytics={{
-                  websiteLabel
-                }}
+                viewInAnalytics={viewInAnalytics}
                 group={{
                   groupbyTag: 'beacon.cacheInteraction'
                 }}
@@ -340,9 +338,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 cardTitle="Resource Sizes"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
-                viewInAnalytics={{
-                  websiteLabel
-                }}
+                viewInAnalytics={viewInAnalytics}
                 group={{
                   groupbyTag: 'beacon.resourceType'
                 }}

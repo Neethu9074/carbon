@@ -49,7 +49,7 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
               // The type tag filter is implicitly handled via the separate beaconType prop
               .filter(({ name }) => name !== 'beacon.type'),
             timeConfig,
-            group: defaultGroupings[beaconType],
+            group: viewInAnalytics.group || defaultGroupings[beaconType],
             beaconType,
             showGraph: true,
             metrics,
