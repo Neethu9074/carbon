@@ -87,13 +87,13 @@ function extendForStatusCode(baseForm, rule) {
     .put(
       'statusCodeStart',
       createField({
-        value: rule.statusCodeStart ?? 400
+        value: rule.statusCodeStart ?? 500
       })
     )
     .put(
       'statusCodeEnd',
       createField({
-        value: rule.statusCodeEnd ?? 499
+        value: rule.statusCodeEnd ?? 599
       })
     );
 }
