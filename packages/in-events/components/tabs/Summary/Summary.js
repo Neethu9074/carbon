@@ -27,7 +27,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
   }
 
   const eventType = getEventType(event);
