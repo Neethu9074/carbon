@@ -9,7 +9,7 @@ export default function RedisSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Redis Enterprise</Collapsible.Header>
+        <Collapsible.Header>Redis Enterprise Node</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
