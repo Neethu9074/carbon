@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function RedisClusterSummary({ snapshot }) {
@@ -9,8 +8,8 @@ export default function RedisClusterSummary({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiKeyValue label="Keys Hit Rate">
-        <MetricValue snapshotId={snapshotId} metric="key_hits" formatter={hitRateZeroDecimalPlaces} />
+      <KpiKeyValue label="Key Hits">
+        <MetricValue snapshotId={snapshotId} metric="key_hits" />
       </KpiKeyValue>
       <KpiKeyValue label="Evicted Objects">
         <MetricValue snapshotId={snapshotId} metric="evicted_objects" />
