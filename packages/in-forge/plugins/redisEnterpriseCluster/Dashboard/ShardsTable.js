@@ -11,6 +11,33 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
+    title: 'UID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.uid;
+      }
+    }
+  },
+  {
+    title: 'DB UID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.buid;
+      }
+    }
+  },
+  {
+    title: 'Node UID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.nodeuid;
+      }
+    }
+  },
+  {
     title: 'Role',
     type: 'string',
     typeArgs: {
@@ -94,6 +121,9 @@ export default connectTo(
         key: shard.get('id'),
         role: shard.get('data').get('role'),
         status: shard.get('data').get('status'),
+        uid: shard.get('data').get('uid'),
+        buid: shard.get('data').get('buid'),
+        nodeuid: shard.get('data').get('nodeuid'),
         shard,
         timeConfig
       };

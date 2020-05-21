@@ -18,6 +18,15 @@ const cols = [
     }
   },
   {
+    title: 'UID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.uid;
+      }
+    }
+  },
+  {
     title: 'Version',
     type: 'string',
     typeArgs: {
@@ -79,6 +88,7 @@ export default connectTo(
       return {
         key: node.get('id'),
         status: node.getIn(['data', 'status']),
+        uid: node.getIn(['data', 'uid']),
         node,
         timeConfig
       };

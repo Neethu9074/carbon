@@ -3,7 +3,7 @@ import React from 'react';
 import getRedisEnterpriseDatabasesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseDatabasesForCluster';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { bytes, number, micros } from 'in-services/formatters/number';
+import { bytes, number, millis } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -17,6 +17,15 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.name;
+      }
+    }
+  },
+  {
+    title: 'UID',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.uid;
       }
     }
   },
@@ -87,7 +96,7 @@ const cols = [
       getMetricName() {
         return 'avg_latency';
       },
-      getContent: micros.compact,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -123,6 +132,7 @@ export default connectTo(
         name: db.getIn(['data', 'name']),
         status: db.getIn(['data', 'status']),
         bigstore: db.getIn(['data', 'bigstore']),
+        uid: db.getIn(['data', 'uid']),
         db,
         timeConfig
       };
@@ -212,7 +222,7 @@ function getRowDetails(row) {
             min: 0,
             metrics: ['avg_latency'],
             labels: ['Latency'],
-            formatter: micros.detailed,
+            formatter: millis.detailed,
             type: 'line'
           }}
         />
