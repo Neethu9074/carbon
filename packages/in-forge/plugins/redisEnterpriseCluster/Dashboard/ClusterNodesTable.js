@@ -3,9 +3,9 @@ import React from 'react';
 import getRedisEnterpriseNodesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseNodesForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { timeConfig$ } from 'in-stores/time/config';
 
 const cols = [
   {
@@ -28,11 +28,12 @@ const cols = [
   },
   {
     title: 'Shard Count',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.node.getIn(['data', 'shardCount']) + '';
-      }
+        return row.node.getIn(['data', 'shardCount']);
+      },
+      getContent: zeroDecimalPlaces
     }
   },
   {
@@ -83,6 +84,6 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Available Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Nodes (${rows.length})`} cols={cols} rows={rows} />;
   }
 );

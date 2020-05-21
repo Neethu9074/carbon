@@ -4,6 +4,7 @@ import getRedisEnterpriseDatabasesForCluster from 'in-subscription/redisEnterpri
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number, micros } from 'in-services/formatters/number';
+import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +25,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.bigstore + '';
+        return yesOrNo(row.bigstore);
       }
     }
   },

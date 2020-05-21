@@ -1,84 +1,59 @@
-import { bytes, percentage, number, kiloBytes, millis } from 'in-services/formatters/number';
+import { bytes, number, micros } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: 'used_memory',
-    label: 'Used memory',
-    formatter: bytes
+    metric: 'total_req',
+    label: 'Requests per second',
+    formatter: number.compact
   },
   {
-    metric: 'used_memory_rss',
-    label: 'Used memory RSS',
-    formatter: bytes
+    metric: 'avg_latency',
+    label: 'Average Latency',
+    formatter: micros.detailed
   },
   {
-    metric: 'used_memory_lua',
-    label: 'Used memory lua',
-    formatter: bytes
+    metric: 'conns',
+    label: 'Connections Count',
+    formatter: number.compact
   },
   {
-    metric: 'mem_fragmentation_ratio',
-    label: 'Memory fragmentation ratio',
-    formatter: percentage
-  },
-  {
-    metric: 'rejected_connections',
-    label: 'Number of rejected connections',
-    formatter: number
-  },
-  {
-    metric: 'connected_clients',
-    label: 'Number of connections',
-    formatter: number
-  },
-  {
-    metric: 'blocked_clients',
-    label: 'Number of blocked connections',
-    formatter: number
-  },
-  {
-    metric: 'hit_rate',
-    label: 'Cache hit rate',
-    formatter: number.perSecond
-  },
-  {
-    metric: 'keyspace_hits',
-    label: 'Keyspace hits',
-    formatter: number
-  },
-  {
-    metric: 'keyspace_misses',
-    label: 'Keyspace misses',
-    formatter: number
-  },
-  {
-    metric: 'evicted_keys',
-    label: 'Evicted keys',
-    formatter: number
-  },
-  {
-    metric: 'expired_keys',
-    label: 'Expired keys',
-    formatter: number
-  },
-  {
-    metric: 'master_connected_slaves',
-    label: 'Number of connected slaves',
-    formatter: number
-  },
-  {
-    metric: 'latency_max',
-    label: 'Latency',
-    formatter: millis
-  },
-  {
-    metric: 'throughput',
-    label: 'Throughput',
+    metric: 'cpu_user',
+    label: 'CPU User',
     formatter: number.detailed
   },
   {
-    metric: 'master_sync_left_bytes',
-    label: 'KiloBytes left before syncing is complete',
-    formatter: kiloBytes
+    metric: 'cpu_system',
+    label: 'CPU System',
+    formatter: number.detailed
+  },
+  {
+    metric: 'cpu_idle',
+    label: 'CPU Idle',
+    formatter: number.detailed
+  },
+  {
+    metric: 'free_memory',
+    label: 'Free Memory',
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'available_memory',
+    label: 'Available Memory',
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'provisional_memory',
+    label: 'Provisional Memory',
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'ingress_bytes',
+    label: 'Network Ingress Traffic',
+    formatter: bytes.perSecond
+  },
+  {
+    metric: 'egress_bytes',
+    label: 'Network Egress Traffic',
+    formatter: bytes.perSecond
   }
 ];
