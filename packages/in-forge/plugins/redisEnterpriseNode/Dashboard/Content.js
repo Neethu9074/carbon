@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, bytes, micros } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -23,7 +23,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="total_req" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Latency">
-          <MetricValue snapshotId={snapshotId} metric="avg_latency" formatter={micros.compact} />
+          <MetricValue snapshotId={snapshotId} metric="avg_latency" formatter={millis.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="conns" formatter={number.compact} />
@@ -51,7 +51,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['avg_latency'],
             labels: ['Latency'],
-            formatter: micros.detailed,
+            formatter: millis.detailed,
             type: 'line'
           }}
         />
