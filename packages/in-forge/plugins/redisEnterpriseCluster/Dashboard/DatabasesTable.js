@@ -71,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Clients Connected',
+    title: 'Connected Clients',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

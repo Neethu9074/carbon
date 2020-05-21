@@ -79,22 +79,6 @@ const cols = [
     }
   },
   {
-    title: 'Clients Connected',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'connected_clients';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'Status',
     type: 'string',
     typeArgs: {
@@ -181,20 +165,6 @@ function getRowDetails(row) {
             tooltipFormatter: bytes.detailed,
             metrics: ['used_memory', 'mem_size_lua', 'used_memory_rss'],
             labels: ['Used', 'Lua Heap Size', 'Used RSS'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title="Connections">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['connected_clients', 'blocked_clients'],
-            labels: ['Connected', 'Blocked'],
-            formatter: number.compact,
             type: 'line'
           }}
         />
