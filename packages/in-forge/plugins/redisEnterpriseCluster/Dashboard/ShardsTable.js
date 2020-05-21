@@ -20,7 +20,7 @@ const cols = [
     }
   },
   {
-    title: 'Key Hit rate',
+    title: 'Key Hits',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -116,7 +116,7 @@ function getRowDetails(row) {
   const timeConfig = row.timeConfig;
   return (
     <div>
-      <DashboardSection title="Key">
+      <DashboardSection title="Keys">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -128,9 +128,6 @@ function getRowDetails(row) {
             type: 'line'
           }}
         />
-      </DashboardSection>
-
-      <DashboardSection title="Objects">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -143,6 +140,7 @@ function getRowDetails(row) {
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Memory">
         <Chart
           snapshotId={snapshotId}

@@ -4,7 +4,6 @@ import ClusterNodesTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard
 import DatabasesTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard/DatabasesTable';
 import ShardsTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard/ShardsTable';
 import ClusterSummary from 'in-forge/plugins/redisEnterpriseCluster/ClusterSummary';
-import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
@@ -16,8 +15,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Key">
-        <ChartExplanation>Key hits and misses metrics represent the sum for all nodes in the cluster.</ChartExplanation>
+      <DashboardSection title="Keys">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -29,12 +27,6 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             formatter: number.compact
           }}
         />
-      </DashboardSection>
-
-      <DashboardSection title="Objects">
-        <ChartExplanation>
-          Key expired and evicted metrics represent the sum for all nodes in the cluster.
-        </ChartExplanation>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -47,8 +39,8 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
           }}
         />
       </DashboardSection>
+
       <DashboardSection title="Memory">
-        <ChartExplanation>Memory metrics represent the sum for all nodes in the cluster.</ChartExplanation>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -64,7 +56,6 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
       </DashboardSection>
 
       <DashboardSection title="Connections">
-        <ChartExplanation>Connections metrics represent the sum for all nodes in the cluster.</ChartExplanation>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
