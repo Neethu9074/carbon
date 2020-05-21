@@ -79,15 +79,15 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             min: 0,
             formatter: number.perSecond,
             metrics: ['total_connections_received'],
-            labels: ['Total Connections Received'],
+            labels: ['Total Received'],
             type: 'line'
           }}
         />
       </DashboardSection>
 
+      <ClusterNodesTable snapshot={snapshot} timeConfig={timeConfig} />
       <ShardsTable snapshot={snapshot} timeConfig={timeConfig} />
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ClusterNodesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

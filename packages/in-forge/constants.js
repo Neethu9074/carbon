@@ -139,8 +139,6 @@ export const nonServicePlugins = {
   redis: 'redis',
   redisCluster: 'redisCluster',
   redisEnterpriseNode: 'redisEnterpriseNode',
-  redisEnterpriseDatabase: 'redisEnterpriseDatabase',
-  redisEnterpriseShard: 'redisEnterpriseShard',
   redisEnterpriseCluster: 'redisEnterpriseCluster',
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
@@ -330,11 +328,7 @@ export const fullyQualifiedPlugins = {
   pythonRuntimePlatform: 'com.instana.forge.infrastructure.runtime.python.PythonRuntimePlatform',
   rabbitMq: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMq',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
-  redisEnterpriseDatabase:
-    'com.instana.forge.infrastructure.cache.redisenterprise.derivedentity.database.RedisEnterpriseDatabase',
   redisEnterpriseNode: 'com.instana.forge.infrastructure.cache.redisenterprise.derivedentity.node.RedisEnterpriseNode',
-  redisEnterpriseShard:
-    'com.instana.forge.infrastructure.cache.redisenterprise.derivedentity.shard.RedisEnterpriseShard',
   redisCluster: 'com.instana.forge.infrastructure.cache.redis.RedisCluster',
   redisEnterpriseCluster: 'com.instana.forge.infrastructure.cache.redisenterprise.RedisEnterpriseCluster',
   rubyRuntimePlatform: 'com.instana.forge.infrastructure.runtime.ruby.RubyRuntimePlatform',
