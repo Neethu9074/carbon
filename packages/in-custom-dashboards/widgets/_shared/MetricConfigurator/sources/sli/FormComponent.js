@@ -7,6 +7,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Header from 'in-components/form/Header';
 import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(() => {
@@ -28,6 +29,7 @@ function FormComponent({
   sliConfigurations
 }) {
   const sliConfigField = form.get('sliConfig');
+  const sliField = form.get('slo');
 
   return (
     <>
@@ -47,16 +49,13 @@ function FormComponent({
           <Row>
             <Col lg>
               <FormGroup>
-                <Label htmlFor="metic-configurator-sli">Sli Configurations</Label>
+                <Label htmlFor="metric-configurator-sliId">Sli Configurations</Label>
                 <Select
-                  id="metic-configurator-sli"
+                  id="metric-configurator-sliId"
                   value={sliConfigField.value}
                   onChange={e =>
                     onChange([], form =>
-                      form
-                        .updateIn(['sliConfig'], field => field.setValue(e.target.value).setTouched(true))
-                        .updateIn(['metric'], field => field.setValue('dummy'))
-                        .updateIn(['aggregation'], field => field.setValue('dummy'))
+                      form.updateIn(['sliConfig'], field => field.setValue(e.target.value).setTouched(true))
                     )
                   }
                   hasError={!sliConfigField.valid && sliConfigField.touched}
@@ -72,15 +71,25 @@ function FormComponent({
                 <TouchedMessages field={sliConfigField} />
               </FormGroup>
             </Col>
+            <FormGroup>
+              <Label htmlFor="metric-configurator-slo">SLO value</Label>
+              <Input
+                id="metric-configurator-sli"
+                type="text"
+                value={sliField.value}
+                onChange={e => onChange(['slo'], field => field.setValue(e.target.value).setTouched(true))}
+                hasError={!sliField.valid && sliField.touched}
+              />
+              <TouchedMessages field={sliField} />
+            </FormGroup>
           </Row>
 
           {formatterFormGroup}
+          {timeShiftConfiguration}
         </Col>
 
         {widgetPreview && <Col lg>{widgetPreview}</Col>}
       </Row>
-
-      {timeShiftConfiguration}
     </>
   );
 }
