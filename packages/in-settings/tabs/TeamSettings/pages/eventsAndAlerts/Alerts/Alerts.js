@@ -181,6 +181,8 @@ function renderType(t) {
       return 'Online Events';
     case 'offline':
       return 'Offline Events';
+    case 'agent_monitoring_issue':
+      return 'Monitoring Issues';
     default:
       return '?';
   }

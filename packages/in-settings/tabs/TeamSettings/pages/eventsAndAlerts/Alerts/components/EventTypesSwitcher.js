@@ -1,25 +1,36 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
+import connectTo from 'in-hoc/connectTo';
 
-const EventTypesSwitcher = ({ form, types, onChange, formGroupStyles }) => (
-  <Fragment>
-    <h3>Event Types</h3>
-    <FormGroup noFlex className={formGroupStyles}>
-      <EventType onChange={onChange} types={types} type="incident" label="Incidents" />
-      <EventType onChange={onChange} types={types} type="critical" label="Critical Issues" />
-      <EventType onChange={onChange} types={types} type="warning" label="Warning Issues" />
-      <EventType onChange={onChange} types={types} type="change" label="Changes" />
-      <EventType onChange={onChange} types={types} type="online" label="Online" />
-      <EventType onChange={onChange} types={types} type="offline" label="Offline" />
-    </FormGroup>
-    <TouchedMessages field={form.get('eventTypes')} />
-  </Fragment>
+const EventTypesSwitcher = connectTo(
+  {
+    isInternalVisible: isInternalVisible$
+  },
+  ({ form, types, onChange, formGroupStyles, isInternalVisible }) => (
+    <Fragment>
+      <h3>Event Types</h3>
+      <FormGroup noFlex className={formGroupStyles}>
+        <EventType onChange={onChange} types={types} type="incident" label="Incidents" />
+        <EventType onChange={onChange} types={types} type="critical" label="Critical Issues" />
+        <EventType onChange={onChange} types={types} type="warning" label="Warning Issues" />
+        <EventType onChange={onChange} types={types} type="change" label="Changes" />
+        <EventType onChange={onChange} types={types} type="online" label="Online" />
+        <EventType onChange={onChange} types={types} type="offline" label="Offline" />
+        {(isInternalVisible || agentMonitoringIssuesEnabled) && (
+          <EventType onChange={onChange} types={types} type="agent_monitoring_issue" label="Monitoring Issues" />
+        )}
+      </FormGroup>
+      <TouchedMessages field={form.get('eventTypes')} />
+    </Fragment>
+  )
 );
 
 function EventType({ onChange, types, type, label }) {
