@@ -7,7 +7,6 @@
 
     max-width: 100%;
 
-    color: @lib__colors__N900Primary;
     font-size: 0.75rem;
     font-weight: 500;
 
@@ -16,5 +15,13 @@
 
   .accentuated {
     font-size: 0.875rem;
+  }
+
+  .default {
+    color: @lib__colors__N900Primary;
+  }
+
+  .blue {
+    color: @lib__colors__blue800;
   }
 }
