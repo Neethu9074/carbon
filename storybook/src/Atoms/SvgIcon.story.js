@@ -1,9 +1,8 @@
+import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import { withKnobs, select } from '@storybook/addon-knobs';
-import SvgIcon from 'in-components/SvgIcon';
-
 import icons from 'in-components/SvgIcon/registry.json';
+import SvgIcon from 'in-components/SvgIcon';
 
 export default {
   title: 'Atoms|SvgIcon',
