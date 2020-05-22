@@ -9,8 +9,10 @@ export default {
   component: Dropdown
 };
 
-export const standard = () => <Dropdown label="expand me" />;
+export const standard = () => <Dropdown label="expand me" items={[{ label: 'Foobar' }]} />;
 
-export const withIcon = () => <Dropdown icon="lib_actions_settings" label="expand me" />;
+export const withIcon = () => <Dropdown icon="lib_actions_settings" label="expand me" items={[{ label: 'Foobar' }]} />;
 
-export const asSimpleDropdown = () => <Dropdown icon="lib_actions_settings" label="expand me" asSimpleDropdown />;
+export const asSimpleDropdown = () => (
+  <Dropdown icon="lib_actions_settings" label="expand me" asSimpleDropdown items={[{ label: 'Foobar' }]} />
+);
