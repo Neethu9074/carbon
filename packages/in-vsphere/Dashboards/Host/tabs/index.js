@@ -1,9 +1,9 @@
 import React from 'react';
 
 import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
-import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { hostDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VirtualMachines from 'in-vsphere/commonComponents/VirtualMachines';
+import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import Summary from 'in-vsphere/Dashboards/Host/tabs/Summary';
 
 export default [
