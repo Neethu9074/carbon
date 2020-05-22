@@ -53,3 +53,22 @@ export function positiveNumberValidator(v) {
     return positiveNumberFailureMessage;
   }
 }
+
+const sloValidatorFailureMessage = [
+  {
+    severity: 'error',
+    message: `The provided number is invalid. The value should be a decimal between 0 and 1`
+  }
+];
+
+export function sloValidator(v) {
+  try {
+    const num = Number(v);
+    if (isNaN(num) || num > 1 || num < 0) {
+      return sloValidatorFailureMessage;
+    }
+    return null;
+  } catch (e) {
+    return sloValidatorFailureMessage;
+  }
+}
