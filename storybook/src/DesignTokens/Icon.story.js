@@ -11,7 +11,7 @@ export default {
 };
 
 function sizeGetter() {
-  return select('Size', sizes, 'regular');
+  return select('Size', sizes, sizes.regular);
 }
 
 export const SvgIconList = () => {
