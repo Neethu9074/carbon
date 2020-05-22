@@ -25,7 +25,6 @@ function FormComponent({
   labelFormGroup,
   formatterFormGroup,
   widgetPreview,
-  timeShiftConfiguration,
   sliConfigurations
 }) {
   const sliConfigField = form.get('sliConfig');
@@ -85,7 +84,6 @@ function FormComponent({
           </Row>
 
           {formatterFormGroup}
-          {timeShiftConfiguration}
         </Col>
 
         {widgetPreview && <Col lg>{widgetPreview}</Col>}
