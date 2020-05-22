@@ -15,10 +15,12 @@ const onClick = action('click');
 
 export const Default = () => {
   return (
-    <FloatingActionButtonPresenter>
-      <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>
-      <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>
-      <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>
-    </FloatingActionButtonPresenter>
+    <FloatingActionButtonPresenter
+      floatingActionButtons={[
+        <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>,
+        <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>,
+        <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>
+      ]}
+    />
   );
 };
