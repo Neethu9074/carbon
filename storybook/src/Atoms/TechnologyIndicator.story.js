@@ -8,12 +8,10 @@ export default {
   component: TechnologyIndicatorList
 };
 
-export function Default() {
-  return (
-    <div>
-      <TechnologyIndicatorList technologies={Object.keys(registry)} responsive={false} />
-      <br />
-      <TechnologyIndicatorList technologies={Object.keys(registry)} />
-    </div>
-  );
+export function Expanded() {
+  return <TechnologyIndicatorList technologies={Object.keys(registry)} responsive={false} />;
+}
+
+export function Responsive() {
+  return <TechnologyIndicatorList technologies={Object.keys(registry)} responsive />;
 }

@@ -20,7 +20,7 @@ export default function Header({ service }) {
           <EndpointTypeBadgeList types={service.types} />
         </div>
         <div className={locals.technologies}>
-          <TechnologyIndicatorList technologies={service.technologies} />
+          <TechnologyIndicatorList technologies={service.technologies} responsive={false} />
         </div>
       </div>
 
