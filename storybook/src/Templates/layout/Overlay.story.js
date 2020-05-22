@@ -4,13 +4,46 @@ import React from 'react';
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Button from 'in-new-components/Button';
 
 export default {
   title: 'Templates|layout/Overlay',
   component: Overlay
 };
 
-export function Default() {
+export function OpenOnHover() {
+  return (
+    <div style={{ width: 'fit-content' }}>
+      <Overlay content={ToggleOveraly} wrapper autoOpen props={{ x: 'foo', y: 'bar' }}>
+        {({ toggle, refSetter }) => (
+          <Button ref={refSetter} onClick={toggle}>
+            hover here to toggle
+          </Button>
+        )}
+      </Overlay>
+
+      <OverlayPresenter />
+    </div>
+  );
+}
+
+export function OpenOnClick() {
+  return (
+    <div style={{ width: 'fit-content' }}>
+      <Overlay content={ToggleOveraly} wrapper autoOpen={false} props={{ x: 'foo', y: 'bar' }}>
+        {({ toggle, refSetter }) => (
+          <Button ref={refSetter} onClick={toggle}>
+            click here to toggle
+          </Button>
+        )}
+      </Overlay>
+
+      <OverlayPresenter />
+    </div>
+  );
+}
+
+export function AutoPositioning() {
   return (
     <>
       {range(0, 6).map(y => (
