@@ -20,18 +20,11 @@ export default [
     labels: ['#Minor GCs', '#Major GCs'],
     min: 0,
     category: ['GC'],
-    formatter: bytes
+    formatter: number
   },
   {
     metrics: ['memory.rss', 'memory.heapUsed', 'gc.usedHeapSizeAfterGc'],
     labels: ['RSS', 'Heap Size', 'Heap Size After GC'],
-    min: 0,
-    category: ['GC'],
-    formatter: number
-  },
-  {
-    metrics: ['memory.rss', 'memory.heapUsed'],
-    labels: ['RSS', 'Heap Size'],
     min: 0,
     category: ['Memory'],
     formatter: bytes
