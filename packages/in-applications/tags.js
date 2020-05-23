@@ -1,10 +1,10 @@
 import { get } from 'lodash';
+import moment from 'moment';
 
 import { TAG_TYPES, entityTypes } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
 import { isInstanaEngineer } from 'in-stores/user';
-import moment from 'moment';
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -87,9 +87,9 @@ const blacklists = {
       'cluster.snapshotId': !isInstanaEngineer,
       'cloud.snapshotId': !isInstanaEngineer,
       'call.span_type': !isInstanaEngineer,
-      'call.processing_errors': !isInstanaEngineer,
       'call.http.hostCapturedFromSource': !isInstanaEngineer,
-      'call.meta_tags': !isInstanaEngineer
+      'call.meta_tags': !isInstanaEngineer,
+      'log.span_type': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
