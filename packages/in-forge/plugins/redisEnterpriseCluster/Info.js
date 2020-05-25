@@ -4,10 +4,9 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
-      <DescriptionItem title="ID">{data.get('cluster_id')}</DescriptionItem>
+      <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
     </DescriptionList>
   );
 }
