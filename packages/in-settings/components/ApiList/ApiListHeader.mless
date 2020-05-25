@@ -22,4 +22,8 @@
   .itemCount {
     color: @lib__colors__N500;
   }
+
+  .searchInput {
+    margin-left: 0.5rem;
+  }
 }

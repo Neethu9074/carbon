@@ -726,7 +726,11 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
           `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
         ]}
       />
-      <Description lines={['The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.']} />
+      <Description
+        lines={[
+          'The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.'
+        ]}
+      />
       <Spacer />
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink

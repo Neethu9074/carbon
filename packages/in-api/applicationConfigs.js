@@ -1,4 +1,8 @@
+import { create } from 'reactive-observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { boundaryScopes } from 'in-applications/constants';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -7,6 +11,32 @@ import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/application';
+
+// observables
+
+const refreshSignalTeams = create().emit(true);
+export function refresh() {
+  refreshSignalTeams.emit(true);
+}
+
+export const getApplicationConfigsAsResultObservable = memoize(
+  getApplicationConfigsAsResultObservableInternal,
+  () => '',
+  60000
+);
+function getApplicationConfigsAsResultObservableInternal() {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: basePath
+      })
+    )
+  );
+}
+
+// regular calls
 
 export function getApplicationConfigs() {
   return http({

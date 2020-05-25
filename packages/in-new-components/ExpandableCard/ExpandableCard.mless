@@ -3,7 +3,7 @@
 :local {
   .icon {
     fill: @lib__colors__N600Light;
-    margin: 0 0 0 0.5rem;
+    margin: 0 0 0 1.5rem;
   }
 
   .rightSide {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import LogsInteractiveChart, { renderThresholdCondition } from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';

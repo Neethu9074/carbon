@@ -1,7 +1,7 @@
 // @flow
 
-import { getResultForData } from 'in-services/util/result';
 import { noop as _noop } from 'in-services/util/function';
+import { success } from 'in-services/util/result';
 
 export const emptyObject: any = Object.freeze({});
 export const listData: any = Object.freeze({ items: [] });
@@ -23,4 +23,4 @@ export const pendingResult: Result<any> = Object.freeze({
   errors: emptyArray
 });
 
-export const emptyListResult: Result<listData> = getResultForData(listData);
+export const emptyListResult: Result<listData> = success(listData);

@@ -3,19 +3,19 @@ import React from 'react';
 
 import RolesDropDown from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RolesDropDown';
 import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Permissions';
-import AreasDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AreasDialog';
+import { success as successResult, error as errorResult } from 'in-services/util/result';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
+import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getUsersAsResultObservable, setRole } from 'in-api/users';
+import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getRolesAsResultObservable } from 'in-api/roles';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
 
@@ -27,7 +27,18 @@ export default function User({ match }) {
       parentViewName="Users"
       parentPath={teamSettingsAccessControlUsers}
       getObservables={() => ({
-        users: getUsersAsResultObservable(),
+        user: getUsersAsResultObservable().map(usersResult => {
+          if (hasError(usersResult) || isLoading(usersResult)) {
+            return usersResult;
+          }
+          const userId = match.params.id;
+          const user = usersResult.data.filter(user => user.id === userId)[0];
+          if (!user) {
+            return errorResult([{ message: `Unable to find user: ${userId}` }]);
+          }
+
+          return successResult(user);
+        }),
         roles: getRolesAsResultObservable()
       })}
       enrichForm={enrichForm}
@@ -51,8 +62,7 @@ function renderLoadingState() {
 }
 
 function renderUser(props) {
-  const { users, roles, form, userId } = props;
-  const user = users.filter(user => user.id === userId)[0];
+  const { user, roles, form, userId } = props;
 
   return (
     <>
@@ -71,21 +81,11 @@ function renderUser(props) {
       {isRbacEnabled && (
         <>
           <Row>
-            <Col lg>
+            <Col lg={6}>
               <Groups userId={userId} />
             </Col>
-          </Row>
-          <Row>
-            <Col lg>
-              <h2 className={locals.title}>Areas</h2>
-              <Button
-                kind="action"
-                onClick={() => {
-                  addActiveDialog(<AreasDialog userId={userId} />);
-                }}
-              >
-                Click to inspect areas
-              </Button>
+            <Col lg={6}>
+              <Areas userId={userId} />
             </Col>
           </Row>
         </>
@@ -118,12 +118,7 @@ function saveItem({ form, userId, setMessage }) {
   );
 }
 
-function enrichForm(form, { result: { users }, userId }) {
-  const user = users.filter(user => user.id === userId)[0];
-  if (!user) {
-    return form;
-  }
-
+function enrichForm(form, { result: { user } }) {
   return form.put(
     'roleId',
     createField({

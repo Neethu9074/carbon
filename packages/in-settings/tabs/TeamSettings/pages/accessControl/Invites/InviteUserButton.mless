@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .createNewButton {
-    margin-right: 0.5rem;
-  }
-}

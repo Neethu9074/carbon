@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
@@ -17,16 +18,20 @@ const GroupList = createApiList({
   orderBy: 'name'
 });
 
-export default function AddUserToGroupDialog({ userId, isSaving, onSubmit }) {
-  const [selectedGroups, setSelectedGroups] = useState(new Map());
-
+export default withSelectableItems(function AddUserToGroupDialog({
+  userId,
+  onSubmit,
+  selectedEntities,
+  checkIfSelected,
+  toggleItem
+}) {
   return (
     <Dialog className={locals.dialog} title="Add user to a group" onClose={close}>
-      <form onSubmit={() => onSubmit(Array.from(selectedGroups.values()))}>
+      <form onSubmit={() => onSubmit(Array.from(selectedEntities.values()))}>
         <GroupList
           userId={userId}
-          selectedGroups={selectedGroups}
-          setSelectedGroups={setSelectedGroups}
+          checkIfSelected={checkIfSelected}
+          toggleItem={toggleItem}
           filterFunction={({ members }) => {
             for (let i = 0; i < members.length; i++) {
               if (userId === members[i].userId) {
@@ -36,25 +41,19 @@ export default function AddUserToGroupDialog({ userId, isSaving, onSubmit }) {
             return true;
           }}
         />
-        <Button
-          className={locals.button}
-          kind="primary"
-          type="submit"
-          disabled={isSaving || selectedGroups.size === 0}
-          icon={isSaving ? 'lib_actions_loading' : undefined}
-          iconSpinning={isSaving}
-        >
+        <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
           Add user to group
         </Button>
       </form>
     </Dialog>
   );
-}
+});
+
 const columnDefinitions = [
   {
     width: '2rem',
-    getContent({ isSelected, toggle }) {
-      return <CheckboxFancy checked={isSelected} onChange={toggle} />;
+    getContent({ group, isGroupSelected, toggleItem }) {
+      return <CheckboxFancy checked={isGroupSelected} onChange={() => toggleItem(group.id, group)} />;
     }
   },
   {
@@ -64,28 +63,18 @@ const columnDefinitions = [
   }
 ];
 
-function ListRenderer({ items, selectedGroups, setSelectedGroups }) {
+function ListRenderer({ items, checkIfSelected, toggleItem }) {
   return (
     <Ul>
       {items.map(group => {
-        const isSelected = selectedGroups.has(group.id);
-        const toggle = () => {
-          const copy = new Map(selectedGroups);
-          if (isSelected) {
-            copy.delete(group.id);
-          } else {
-            copy.set(group.id, group);
-          }
-          setSelectedGroups(copy);
-        };
-
+        const isGroupSelected = checkIfSelected(group.id);
         return (
-          <Li key={group.id} onClick={() => toggle()}>
+          <Li key={group.id} onClick={() => toggleItem(group.id, group)}>
             <ColumnizedContent
               columnDefinitions={columnDefinitions}
               group={group}
-              toggle={toggle}
-              isSelected={isSelected}
+              toggleItem={() => toggleItem(group.id, group)}
+              isGroupSelected={isGroupSelected}
             />
           </Li>
         );

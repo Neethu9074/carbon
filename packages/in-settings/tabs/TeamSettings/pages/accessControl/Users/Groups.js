@@ -2,7 +2,8 @@ import React from 'react';
 
 import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupButton';
 import { getGroupsAsResultObservable, saveGroup } from 'in-settings/tabs/TeamSettings/api/groups';
-import { getEntityIdView, teamSettingsAccessControlTeams } from 'in-settings/navigation/paths';
+import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
+import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import createApiList from 'in-settings/components/ApiList';
@@ -11,9 +12,11 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 const GroupList = createApiList({
   ListRenderer,
   getItems: getGroupsAsResultObservable,
-  itemName: 'group',
+  itemName: 'Group',
   orderBy: 'name',
-  renderAdditionalHeaderContent
+  renderer: ListInsideACardRenderer,
+  pageSize: 5,
+  renderAdditionalHeaderContent: renderAdditionalHeaderContent
 });
 
 export default function Groups({ userId }) {
@@ -45,12 +48,6 @@ const columnDefinitions = [
     }
   },
   {
-    width: '8rem',
-    getContent({ group }) {
-      return <KeyValue value={group.permissions.length} label="Permissions" accentuated />;
-    }
-  },
-  {
     width: '2rem',
     getContent({ group, deleteItem, currentDeletingItemIds }) {
       return <Delete itemName={group.name} doDelete={deleteItem} isDeleting={currentDeletingItemIds.has(group.id)} />;
@@ -62,7 +59,7 @@ function ListRenderer({ items, userId, setErrorMessage, currentDeletingItemIds }
   return (
     <Ul>
       {items.map(group => (
-        <Li key={group.id} href$={getEntityIdView(teamSettingsAccessControlTeams, group.id)}>
+        <Li key={group.id} href$={getEntityIdView(teamSettingsAccessControlGroups, group.id)}>
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
             group={group}

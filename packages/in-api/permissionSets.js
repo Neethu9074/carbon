@@ -4,15 +4,19 @@ import { fromJS } from 'immutable';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-const refreshSignalTeams = create().emit(true);
+const refreshSignalPermissionSets = create().emit(true);
+export function refresh() {
+  refreshSignalPermissionSets.emit(true);
+}
 
 // observables
 
 export const getPermissionSetsAsResultObservable = memoize(getPermissionSetsInternal, () => '', 60000);
 function getPermissionSetsInternal() {
-  return refreshSignalTeams.flatMap(() =>
+  return refreshSignalPermissionSets.flatMap(() =>
     createObservable(
       http({
         method: 'GET',
@@ -23,12 +27,35 @@ function getPermissionSetsInternal() {
   );
 }
 
+export const getPermissionSetAsResultObservable = memoize(getPermissionSetInternal, id => id, 60000);
+function getPermissionSetInternal(id) {
+  return refreshSignalPermissionSets.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/permission-sets/${encodeURIComponent(id)}`
+      })
+    )
+  );
+}
+
+// regular calls
+
 export function getPermissionSets() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/permission-sets'
   }).map(response => response.body);
+}
+
+export function getPermissionSet(permissionSetId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
+  }).map(response => fromJS(response.body));
 }
 
 export function getK8sClusters() {
@@ -80,51 +107,32 @@ function defaultQuery() {
   };
 }
 
-export function getPermissionSet(permissionSetId) {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
-  }).map(response => fromJS(response.body));
-}
-
 export function savePermissionSet(permissionSet) {
-  let permissionSetId = permissionSet.get('id');
+  let permissionSetId = permissionSet.id;
   return http({
-    method: permissionSetId ? 'PUT' : 'POST',
+    method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: permissionSetId
-      ? `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
-      : '/api/settings/permission-sets',
-    data: permissionSet.toJS()
-  }).map(response => fromJS(response.body));
+    url: `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`,
+    data: permissionSet
+  }).map(mapAndRefresh);
 }
 
-export function deletePermissionSet(permissionSetId) {
-  return http({
-    method: 'DELETE',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
-  }).map(response => fromJS(response.body));
+function mapAndRefresh(response) {
+  refresh();
+  return response.body;
 }
 
-export function createPermissionSet(
-  name = 'New Scope',
-  permissions = [],
-  applicationIds = [],
-  kubernetesClusterUUIDs = [],
-  kubernetesNamespaceUIDs = [],
-  websiteIds = []
-) {
+export function createPermissionSet() {
   return {
-    id: null,
-    name,
-    permissions,
-    applicationIds,
-    kubernetesClusterUUIDs,
-    kubernetesNamespaceUIDs,
-    websiteIds
+    id: 'm_' + generateUniqueShortId(), // "m_" is a marker that the backend knows this permission set has already been migrated
+    name: '',
+    permissions: [],
+    applicationIds: [],
+    kubernetesClusterUUIDs: [],
+    kubernetesNamespaceUIDs: [],
+    websiteIds: [],
+    mobileAppIds: [],
+    infraDfqFilter: ''
   };
 }

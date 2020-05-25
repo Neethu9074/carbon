@@ -6,8 +6,9 @@ export default {
       Component: function java8UnmonitoredVersion({ version, unmonitoredVersion }) {
         return (
           <span>
-            The Java 8 builds up to 1.8.0_{unmonitoredVersion} have several known issues relating to the implementation of lambdas. Due to
-            these issues this JVM with version {version} will not be monitored.
+            The Java 8 builds up to 1.8.0_
+            {unmonitoredVersion} have several known issues relating to the implementation of lambdas. Due to these
+            issues this JVM with version {version} will not be monitored.
           </span>
         );
       }

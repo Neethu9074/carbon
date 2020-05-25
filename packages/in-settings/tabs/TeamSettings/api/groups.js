@@ -3,10 +3,12 @@ import { create } from 'reactive-observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { createPermissionSet } from 'in-api/permissionSets';
+import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 const refreshSignalTeams = create().emit(true);
-export function refresh() {
+function refresh() {
   refreshSignalTeams.emit(true);
 }
 
@@ -25,6 +27,19 @@ function getGroupsAsResultObservableInternal() {
   );
 }
 
+export const getGroupAsResultObservable = memoize(getGroupAsResultObservableInternal, groupId => groupId, 60000);
+function getGroupAsResultObservableInternal(groupId) {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/group/${groupId}`
+      })
+    )
+  );
+}
+
 // regular calls
 
 export function saveGroup(group) {
@@ -34,10 +49,7 @@ export function saveGroup(group) {
     headers: getCsrfHeader(),
     url: '/api/settings/group',
     data: group
-  }).map(response => {
-    refresh();
-    return response.body;
-  });
+  }).map(mapAndRefresh);
 }
 
 export function saveGroups(groups) {
@@ -47,8 +59,28 @@ export function saveGroups(groups) {
     headers: getCsrfHeader(),
     url: '/api/settings/groups',
     data: groups
-  }).map(response => {
-    refresh();
-    return response.body;
-  });
+  }).map(mapAndRefresh);
+}
+
+export function deleteGroup(id) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/settings/group/${id}`
+  }).map(mapAndRefresh);
+}
+
+function mapAndRefresh(response) {
+  refresh();
+  return response.body;
+}
+
+export function createNewGroup() {
+  return {
+    id: generateUniqueShortId(),
+    name: 'New Group',
+    members: [],
+    permissions: [createPermissionSet()]
+  };
 }

@@ -218,7 +218,7 @@ export function PowershellEC2(props) {
   return <Script {...props} pre={['<powershell>']} post={['</powershell>']} />;
 }
 
-export function Script({ pre = [], post=[], lines, disabledErrorMessage }) {
+export function Script({ pre = [], post = [], lines, disabledErrorMessage }) {
   return (
     <div className={locals.script}>
       <pre className={locals.codeWrapper}>

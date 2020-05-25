@@ -1,0 +1,59 @@
+import React from 'react';
+
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
+import ResolveResult from 'in-settings/components/ApiList/renderer/ResolveResult';
+import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
+import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import ApiListHeader from 'in-settings/components/ApiList/ApiListHeader';
+import TemporaryMessage from 'in-new-components/TemporaryMessage';
+import Pagination from 'in-new-components/Pagination';
+
+export default function renderDefaultList(props) {
+  return (
+    <ResolveResult {...props}>
+      {_props => {
+        const {
+          ListRenderer,
+          page = 1,
+          message,
+          setPage,
+          numPages,
+          retainMessagesAfter = 5000,
+          itemsResult,
+          hasErrors,
+          totalFilteredItems,
+          pageItems,
+          totalItems,
+          isLoading
+        } = _props;
+        if (isLoading) {
+          return <LoadingApiList {..._props} />;
+        }
+
+        let content = <EmptyList />;
+        if (hasErrors) {
+          content = <ErrorList errors={itemsResult.errors} />;
+        } else if (totalFilteredItems > 0) {
+          content = <ListRenderer {..._props} items={pageItems} />;
+        }
+        return (
+          <>
+            {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
+            <ApiListHeader {..._props} totalItems={totalItems} totalFilteredItems={totalFilteredItems} />
+            {content}
+            <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+          </>
+        );
+      }}
+    </ResolveResult>
+  );
+}
+
+function LoadingApiList(props) {
+  return (
+    <>
+      <ApiListHeader {...props} isLoading />
+      <LoadingList />
+    </>
+  );
+}

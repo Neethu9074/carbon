@@ -2,11 +2,12 @@ import React from 'react';
 
 import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Permissions';
 import Permission from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Permission';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup';
+import permissions from 'in-settings/permissions';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
@@ -42,7 +43,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             disabled={disabled}
             onChange={onChange}
             name="restrictedAccess"
-            label="Limit access by team access scopes"
+            label={permissions['restrictedAccess']}
             helpText="Enable role based access control."
           />
         </FormGroup>
