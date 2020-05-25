@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
+import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -12,6 +13,9 @@ import ReadyStep from 'in-mobile-apps/NewMobileAppFlow/ReadyStep';
 import WaitStep from 'in-mobile-apps/NewMobileAppFlow/WaitStep';
 import { addMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { combineDataAndError } from 'in-services/util/ro';
+import Footer from 'in-new-components/Footer';
+import Sticky from 'in-components/Sticky';
+import Title from 'in-components/Title';
 
 export default class NewMobileAppFlow extends React.PureComponent {
   constructor(props) {
@@ -92,21 +96,28 @@ export default class NewMobileAppFlow extends React.PureComponent {
 
   render() {
     const { mobileAppId, mobileApp } = this.state;
+    let content;
     if (!mobileAppId) {
-      return <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
-    }
-
-    if (!mobileApp) {
-      return <WaitStep {...this.state} />;
+      content = <InputStep {...this.state} onChange={this.onChange} onSubmit={this.onSubmit} />;
+    } else if (!mobileApp) {
+      content = <WaitStep {...this.state} />;
+    } else {
+      content = (
+        <ReadyStep
+          {...this.state}
+          mobileAppLink$={getLinkToMobileApp(mobileAppId, {
+            timeConfig: getWaitForEntityCreationTimeConfig()
+          })}
+        />
+      );
     }
 
     return (
-      <ReadyStep
-        {...this.state}
-        mobileAppLink$={getLinkToMobileApp(mobileAppId, {
-          timeConfig: getWaitForEntityCreationTimeConfig()
-        })}
-      />
+      <Sticky header={<ViewSwitcher />}>
+        <Title title="New Mobile App" />
+        {content}
+        <Footer />
+      </Sticky>
     );
   }
 }

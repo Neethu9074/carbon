@@ -26,7 +26,15 @@ export default connectTo(
               errors: metrics.errors,
               data: {}
             }
-          : mergeResult(metrics, props.y1.metricIds[0], threshold, baseline, props.y1.sensitivity, props.y1.operator);
+          : mergeResult(
+              metrics,
+              props.y1.metricIds[0],
+              threshold,
+              baseline,
+              props.y1.sensitivity,
+              props.y1.operator,
+              props.mutateMetrics ?? {}
+            );
       })
     };
   },
@@ -47,7 +55,7 @@ function enrichChartMetrics(props) {
   };
 }
 
-function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, operator) {
+function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, operator, mutateMetrics) {
   const mergedResult = {
     time: 0,
     progress: finishedProgress,
@@ -59,7 +67,7 @@ function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, 
     return result;
   }
 
-  const metricData = result.data[metricName];
+  let metricData = result.data[metricName];
 
   let threshold;
   if (!baseline || baseline.length === 0) {
@@ -70,6 +78,10 @@ function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, 
       const baselineThresholdValue = getBaselineValue(time, baseline, sensitivity, isGreaterOp);
       return [time, baselineThresholdValue];
     });
+  }
+
+  if (mutateMetrics?.doMutate && mutateMetrics?.metricNames.includes(metricName)) {
+    metricData = mutateMetrics.mutate(metricData);
   }
 
   mergedResult.time = Math.max(mergedResult.time, result.time);

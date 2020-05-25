@@ -25,19 +25,8 @@ if (serverConfig.zendeskKey) {
   );
 }
 
-exports.getCsp = nonces => {
-  const stringifiedNonces = nonces.map(n => `'nonce-${n}'`).join(' ');
-  const stringifiedOrigins = allowedScriptOrigins.join(' ');
-  return `script-src 'self' ${stringifiedNonces} ${stringifiedOrigins}`;
-};
-
-exports.findMaxNonces = template => {
-  const nonceMatches = template.match(/nonces\.\[\d+\]/gi);
-  if (nonceMatches) {
-    const nonceIndices = nonceMatches.map(match => parseInt(/nonces\.\[(\d+)\]/i.exec(match)[1]));
-    return Math.max(...nonceIndices) + 1;
-  }
-  return 0;
+exports.getCsp = nonce => {
+  return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
 };
 
 function isRequiringInstanaRocksWhitelisting() {

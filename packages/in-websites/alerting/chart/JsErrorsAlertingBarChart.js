@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  chartColors,
+  legendColors,
+  smoothMetrics,
+  getSmoothedMetricTooltipContent
+} from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
+import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
-import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -28,6 +33,8 @@ export default function JsErrorsAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -38,6 +45,7 @@ export default function JsErrorsAlertingBarChart({
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
+        granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2)
@@ -45,19 +53,22 @@ export default function JsErrorsAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          types: [_isDefaultWindowSize ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: Renderer.barWithThreshold,
+        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
+        labels: [
+          `${getMetricLabel(alertTypes.specificJsError, metricName)}${_isDefaultWindowSize ? '' : '*'}`,
+          'Threshold',
+          'Violations'
+        ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', null],
+          ['errors', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
           ['threshold', null],
           ['alerts', null],
-          ['Expected Range', null],
           ['Violations', null]
         ])
       }}
@@ -82,6 +93,11 @@ export default function JsErrorsAlertingBarChart({
       )}
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
+      mutateMetrics={{
+        doMutate: !_isDefaultWindowSize,
+        metricNames: ['errors'],
+        mutate: smoothMetrics
+      }}
     />
   );
 }
