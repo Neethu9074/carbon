@@ -10,7 +10,7 @@ export default function CallLogs({ call }) {
       <Fragment>
         {logs
           .slice()
-          .sort((a, b) => b.start - a.start)
+          .sort(sortLogs)
           .map((log, i) => (
             <ExpandableStackTrace key={i} call={call} log={log} />
           ))}
@@ -18,4 +18,14 @@ export default function CallLogs({ call }) {
     );
   }
   return null;
+}
+
+function sortLogs(a, b) {
+  // first sort by log level (errors before warnings)
+  // then sort by timestamp asc
+  if (a.errorCount === b.errorCount) {
+    return a.start - b.start;
+  } else {
+    return b.errorCount - a.errorCount;
+  }
 }
