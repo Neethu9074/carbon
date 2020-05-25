@@ -110,6 +110,9 @@ export default class Config {
   }
 
   calculateMaxMillisBetweenDatapoints() {
+    if (this.maxDistanceBetweenDatapoints) {
+      return this.maxDistanceBetweenDatapoints;
+    }
     if (this.rollup === 1000) {
       return allowedMillisGapsInOneSecondResolution;
     }

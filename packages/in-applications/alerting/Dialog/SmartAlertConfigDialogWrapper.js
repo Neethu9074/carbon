@@ -7,7 +7,11 @@ import {
   applicationsAlertingSwitchMode,
   applicationsAlertingAlertCreated
 } from 'in-applications/alerting/tracker';
-import { chartViewConfigs, createTimeConfigForWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import {
+  chartViewConfigs,
+  createTimeConfigForWindowSize,
+  getIndexOfTimeConfig
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
@@ -40,7 +44,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
         setGranularity(granularity);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
       }}
-      indexInitialSelectedTimeConfig={chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig.windowSize)}
+      indexInitialSelectedTimeConfig={getIndexOfTimeConfig(timeConfig)}
       advancedModeElement={AdvancedModeContainer}
       simpleModeElement={SimpleModeContainer}
       setForm={setForm}

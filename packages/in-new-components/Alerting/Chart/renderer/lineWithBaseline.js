@@ -11,7 +11,7 @@ export default {
     const metric = metrics[0];
 
     // historical data
-    bar.render({ axis, dataSeries: metric, color: colors[0], scale, config });
+    line.render({ dataSeries: metric, color: colors[0], scale, config });
 
     renderBaseline(axis, config, scale, colors);
   },
@@ -88,7 +88,7 @@ function renderBaseline(axis, config, scale, colors) {
 
   // upper-baseline
   config.backBufferCtx.save();
-  line.render({ axis, dataSeries: upperThresholdInTimeframe, color: thresholdColor, scale, config });
+  line.render({ dataSeries: upperThresholdInTimeframe, color: thresholdColor, scale, config });
   config.backBufferCtx.restore();
 }
 

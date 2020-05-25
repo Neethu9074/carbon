@@ -1,13 +1,16 @@
 import AlertingChartEventsManager from './AlertingChartEventsManager';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import Config from 'in-components/Chart/Configuration';
+import MouseMoveManager from './MouseMoveManager';
 
 export default class AlertingChart {
   constructor(canvas, props) {
     this.isLive = false;
 
-    this.chartEventsManager = new AlertingChartEventsManager();
     this.config = new Config(canvas, props);
+
+    this.chartEventsManager = new AlertingChartEventsManager();
+    this.mouseMoveManager = new MouseMoveManager(canvas, this.config, this.requestRender.bind(this));
 
     if (props.alertsPreviewEnabled) {
       this.config.markerPaneHeight = 32;
@@ -15,8 +18,8 @@ export default class AlertingChart {
 
     this.renderScheduler = new RenderScheduler(this);
 
-    this.eventsSubscription = this.chartEventsManager.alertEvents$.subscribe(events => {
-      this.events = events;
+    this.eventsSubscription = this.chartEventsManager.alertEvents$.subscribe(alertEvents => {
+      this.alertEvents = alertEvents;
       this.requestRender();
     });
   }
@@ -52,7 +55,8 @@ export default class AlertingChart {
   }
 
   renderEvents(config) {
-    this.chartEventsManager.renderEvents(this.events, config);
+    this.chartEventsManager.renderEvents(this.alertEvents, config);
+    this.mouseMoveManager.render(this.alertEvents, config);
   }
 
   forceUpdateRendering(hasWindowSizeChanged = false) {
@@ -71,5 +75,8 @@ export default class AlertingChart {
 
     this.eventsSubscription.dispose();
     this.eventsSubscription = null;
+
+    this.mouseMoveManager.dispose();
+    this.mouseMoveManager = null;
   }
 }

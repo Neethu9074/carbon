@@ -2,6 +2,7 @@ import { drawPoint } from 'in-components/Chart/renderer/point';
 export default {
   render: ({ dataSeries, color, scale, config }) => {
     config.backBufferCtx.beginPath();
+    const lineWidth = config.y1?.lineWidth ?? 2;
 
     let previousDataPoint;
     for (let i = 0; i < dataSeries.length; i++) {
@@ -31,7 +32,7 @@ export default {
     }
 
     config.backBufferCtx.strokeStyle = color;
-    config.backBufferCtx.lineWidth = 2;
+    config.backBufferCtx.lineWidth = lineWidth;
     config.backBufferCtx.stroke();
 
     function distanceBetweenDataPointsIsTooBig(a, b) {

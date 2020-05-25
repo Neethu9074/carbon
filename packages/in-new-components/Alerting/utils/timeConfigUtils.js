@@ -12,7 +12,7 @@ export const chartViewConfigs = Object.freeze([
   {
     label: 'Last 7 Days',
     windowSize: 7 * 24 * 60 * 60 * 1000,
-    granularity: 6 * 60 * 60 * 1000
+    granularity: 10 * 60 * 1000
   }
 ]);
 
@@ -27,4 +27,8 @@ export function createTimeConfigForWindowSize(windowSize) {
 
 export function getIndexOfTimeConfig(timeConfig) {
   return chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig?.windowSize);
+}
+
+export function isDefaultWindowSize(windowSize) {
+  return windowSize === chartViewConfigs[0].windowSize;
 }

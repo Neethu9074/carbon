@@ -1,10 +1,12 @@
 import invariant from 'invariant';
 
+import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
+import line from 'in-components/Chart/renderer/line';
 import bar from 'in-components/Chart/renderer/bar';
 
 export default {
-  render: ({ axis, colors, scale, config, metrics }) => {
+  render: ({ colors, scale, config, metrics }) => {
     validateProps(config);
     const backBufferCtx = config.backBufferCtx;
     const xScale = config.scales.xBackBuffer;
@@ -19,7 +21,12 @@ export default {
     const markerPaneHeight = config.markerPaneHeight;
 
     // historical data
-    bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
+    line.render({
+      dataSeries: config.withMetricSmoothing ? smoothMetrics(metrics[0]) : metrics[0],
+      color: colors[0],
+      scale,
+      config
+    });
 
     backBufferCtx.save();
     // Background above line

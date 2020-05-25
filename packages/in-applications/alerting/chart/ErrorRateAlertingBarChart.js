@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  chartColors,
+  legendColors,
+  smoothMetrics,
+  getSmoothedMetricTooltipContent
+} from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
-import { chartColors, legendColors } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -26,6 +31,8 @@ export default function ErrorRateAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
+  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -36,23 +43,27 @@ export default function ErrorRateAlertingBarChart({
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
+        granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
         colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: Renderer.barWithThreshold,
+        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: percentage.detailed,
-        labels: [getMetricLabel('errorRate', 'errors'), 'Threshold', 'Expected Range', 'Violations'],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [
+          `${getMetricLabel('errorRate', 'errors')}${_isDefaultWindowSize ? '' : '*'}`,
+          'Threshold',
+          'Violations'
+        ],
+        excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', null],
+          ['errors', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
           ['threshold', null],
-          ['Expected Range', null],
           ['Violations', null]
         ])
       }}
@@ -68,6 +79,11 @@ export default function ErrorRateAlertingBarChart({
       )}
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
+      mutateMetrics={{
+        doMutate: !_isDefaultWindowSize,
+        metricNames: ['errors'],
+        mutate: smoothMetrics
+      }}
     />
   );
 }
