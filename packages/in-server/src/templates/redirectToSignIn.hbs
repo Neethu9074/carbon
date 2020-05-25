@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Unauthorized - Instana</title>
 
-  <script>
+  <script nonce="{{nonce}}">
     window.location.href = '{{{signInUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash);
   </script>
 </head>
