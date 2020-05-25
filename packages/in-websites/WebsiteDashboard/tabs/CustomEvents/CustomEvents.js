@@ -17,6 +17,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -113,14 +114,16 @@ export default function CustomEvents({ timeConfig, tagFilters, websiteId, websit
   );
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      websiteId={websiteId}
-      pageId={pageId}
-      tagFilters={tagFilters}
-      timeConfig={timeConfig}
-      rightHeader={rightHeader}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        pageId={pageId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+        rightHeader={rightHeader}
+      />
+    </Card>
   );
 }
 

@@ -32,6 +32,7 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
+import Card from 'in-new-components/Card';
 
 import locals from './Pods.mless';
 
@@ -246,19 +247,21 @@ const Pods = compose(
   );
 
   return (
-    <Table
-      get={getTableData}
-      timeConfig={timeConfig}
-      namespaceId={namespaceId}
-      deploymentId={deploymentId}
-      deploymentConfigId={deploymentConfigId}
-      clusterId={clusterId}
-      serviceId={serviceId}
-      nodeId={nodeId}
-      rightHeader={rightHeader}
-      leftHeader={leftHeader}
-      phase={phase}
-    />
+    <Card>
+      <Table
+        get={getTableData}
+        timeConfig={timeConfig}
+        namespaceId={namespaceId}
+        deploymentId={deploymentId}
+        deploymentConfigId={deploymentConfigId}
+        clusterId={clusterId}
+        serviceId={serviceId}
+        nodeId={nodeId}
+        rightHeader={rightHeader}
+        leftHeader={leftHeader}
+        phase={phase}
+      />
+    </Card>
   );
 });
 

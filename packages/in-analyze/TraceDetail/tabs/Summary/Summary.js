@@ -1,5 +1,7 @@
 import { just, create } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
+import { connection } from 'in-connection';
+import theme from 'in-themes';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -31,11 +33,9 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
 import Button from 'in-new-components/Button';
-import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -131,7 +131,7 @@ class Summary extends React.Component {
           trace.callRecordCount &&
           trace.callCountIgnoringBatchSize &&
           trace.callRecordCount !== trace.callCountIgnoringBatchSize ? (
-            <Row>
+            <Row withoutSideMargin>
               <Col lg={12}>
                 <ProblemIndicator kind="warning" title="Duplicate Calls">
                   This trace consists of one or more duplicate calls (spans). Unique Calls:{' '}
@@ -143,7 +143,7 @@ class Summary extends React.Component {
             </Row>
           ) : null}
           {isInternalVisible && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
-            <Row>
+            <Row withoutSideMargin>
               <Col lg={12}>
                 <ProblemIndicator kind="warning" title="Batched Ingestion">
                   This trace got processed in {trace.ingestionBatchesCount} batches. That may cause irregularities such
@@ -154,13 +154,13 @@ class Summary extends React.Component {
             </Row>
           ) : null}
           {rootCall && rootCall.errorCount ? (
-            <Row>
+            <Row withoutSideMargin>
               <Col lg={12}>
                 <ErroneousTraceIndicator errorCount={trace.totalErrorCount} />
               </Col>
             </Row>
           ) : null}
-          <Row>
+          <Row withoutSideMargin>
             <Col xs>
               <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
             </Col>
@@ -211,7 +211,7 @@ class Summary extends React.Component {
           )}
 
           {!isLargeTrace && (
-            <Row>
+            <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
                 <Card title="Timeline" withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
                   <div className={locals.icicleChartWrapper}>
@@ -228,16 +228,22 @@ class Summary extends React.Component {
             </Row>
           )}
 
-          <ServiceEndpointList
-            traceId={traceId}
-            getColor={getColor}
-            onListItemMouseEnter={this.onListItemMouseEnter}
-            onListItemMouseLeave={this.onListItemMouseLeave}
-          />
+          <Row singleRowTopMargin withoutSideMargin>
+            <Col lg={12}>
+              <Card title="Service Endpoint List">
+                <ServiceEndpointList
+                  traceId={traceId}
+                  getColor={getColor}
+                  onListItemMouseEnter={this.onListItemMouseEnter}
+                  onListItemMouseLeave={this.onListItemMouseLeave}
+                />
+              </Card>
+            </Col>
+          </Row>
 
           {isLargeTrace &&
             !showLargeTrace && (
-              <Row>
+              <Row withoutSideMargin>
                 <Col lg={12}>
                   <Card title="Large Trace">
                     This trace is large and rendering of this trace can result in performance problems within your
@@ -260,7 +266,7 @@ class Summary extends React.Component {
             )}
 
           {(!isLargeTrace || showLargeTrace) && (
-            <Row singleRowTopMargin>
+            <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
                 <Card title="Calls" header={<ColorCodingToggleButtons {...this.props} />}>
                   <CallTree

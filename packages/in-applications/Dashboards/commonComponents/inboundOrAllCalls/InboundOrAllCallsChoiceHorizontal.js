@@ -1,5 +1,4 @@
 import React from 'react';
-import { Fragment } from 'react';
 
 import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsOptionBox';
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -26,13 +25,13 @@ export default function InboundOrAllCallsChoiceHorizontal({
   );
 
   const cardPreview = (
-    <Fragment>
+    <>
       <SvgIcon type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} className={locals.headerIcon} />
       <span className={locals.headerPreview}>
         {boundaryScopes.info[boundaryScope.toUpperCase()].text}
         {boundaryScope != defaultBoundaryScope ? overrideInfo : ''}
       </span>
-    </Fragment>
+    </>
   );
 
   return (

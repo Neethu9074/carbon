@@ -11,6 +11,7 @@ import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesCon
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/conditions';
 const matrixPrefix = 'condition.';
@@ -73,7 +74,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Conditions(props) {
-  return <ServerTableWithUrlState get={getTableData} {...props} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
+    </Card>
+  );
 }
 
 function getTableData({

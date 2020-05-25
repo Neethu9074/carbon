@@ -17,7 +17,6 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
-import SetBodyColor from 'in-components/SetBodyColor';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -131,8 +130,6 @@ export default connectTo(
   function Cockpit({ settings }) {
     return (
       <>
-        <SetBodyColor color={theme.lib.colors.N100} />
-
         <Sticky header={<Header />}>
           <Content itemOrder={filterItems(getOrderedItems(settings))} />
         </Sticky>

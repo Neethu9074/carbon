@@ -1,6 +1,8 @@
 import React from 'react';
 
+import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import Select from 'in-components/form/Select';
+import { light } from 'in-themes/themes';
 import Card from 'in-new-components/Card';
 
 import locals from './EntryContent.mless';
@@ -11,23 +13,25 @@ export default function EntryContent(props) {
   const entryToDisplay = entry.subTechnologies ? entry.subTechnologies[selectedSubEntryIndex] : entry;
 
   return (
-    <Card
-      className={locals.card}
-      framed={false}
-      openByDefault
-      title={<span className={locals.title}>{entry.fullLabel || entry.label}</span>}
-      titleSubContent={
-        entry.subTechnologies && (
-          <SubTechnologiesDropdown
-            subTechnologies={entry.subTechnologies}
-            selectedSubEntryIndex={selectedSubEntryIndex}
-            onSubEntrySelected={onSubEntrySelected}
-          />
-        )
-      }
-    >
-      <entryToDisplay.Content {...props} />
-    </Card>
+    <LocallyChangedTheme theme={light}>
+      <Card
+        className={locals.card}
+        framed={false}
+        openByDefault
+        title={<span className={locals.title}>{entry.fullLabel || entry.label}</span>}
+        titleSubContent={
+          entry.subTechnologies && (
+            <SubTechnologiesDropdown
+              subTechnologies={entry.subTechnologies}
+              selectedSubEntryIndex={selectedSubEntryIndex}
+              onSubEntrySelected={onSubEntrySelected}
+            />
+          )
+        }
+      >
+        <entryToDisplay.Content {...props} />
+      </Card>
+    </LocallyChangedTheme>
   );
 }
 

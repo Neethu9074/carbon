@@ -15,6 +15,7 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -149,7 +150,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Nodes(props) {
-  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />
+    </Card>
+  );
 }
 
 function getTableData({

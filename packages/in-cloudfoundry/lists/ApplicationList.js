@@ -15,6 +15,7 @@ import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -133,7 +134,9 @@ export default connectTo(
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={<CloudfoundryNoDataNotification icon="lib_cloudfoundry_application" />}
         >
-          <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
+          <Card>
+            <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
+          </Card>
         </WithEmptyStateFallback>
       </>
     );

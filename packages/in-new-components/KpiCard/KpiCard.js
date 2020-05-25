@@ -18,7 +18,7 @@ export default function KpiCard({
   valuesClassName,
   borderless = false,
   color,
-  useMaxAvailableHeight
+  useMaxAvailableHeight = true
 }) {
   if (raw || renderValue) {
     return (

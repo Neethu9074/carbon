@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { Row, Col } from 'in-new-components/layout/Grid';
+import KpiCard from 'in-new-components/KpiCard';
+
 import locals from './KpiSection.mless';
 
 export function KpiHeading({ children }) {
@@ -8,17 +11,12 @@ export function KpiHeading({ children }) {
 
 export function KpiKeyValue({ label, children }) {
   return (
-    <div className={locals.kpiKV}>
-      <span className={locals.key}>{label}</span>
-      <span className={locals.value}>{children}</span>
-    </div>
+    <Col xs className={locals.keyValue}>
+      <KpiCard title={label} value={children} />
+    </Col>
   );
 }
 
 export function KpiSection({ children }) {
-  return (
-    <div className={locals.kpiSection} title="Summary">
-      {children}
-    </div>
-  );
+  return <Row>{children}</Row>;
 }

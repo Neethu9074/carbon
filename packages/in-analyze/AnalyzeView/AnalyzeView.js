@@ -163,7 +163,6 @@ function AnalyzeView(props) {
           }
         />
       }
-
       <Footer />
     </WithEmptyStateFallback>
   );

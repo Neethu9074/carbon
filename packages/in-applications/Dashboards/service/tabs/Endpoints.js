@@ -2,16 +2,16 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import {
   applicationDashboardUrlParameters,
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -28,6 +28,7 @@ import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
@@ -240,17 +241,19 @@ function Endpoints(props) {
   );
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      boundaryScope={boundaryScope}
-      timeConfig={timeConfig}
-      rightHeader={rightHeader}
-      endpointTypes={endpointTypes}
-      technologies={technologies}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        boundaryScope={boundaryScope}
+        timeConfig={timeConfig}
+        rightHeader={rightHeader}
+        endpointTypes={endpointTypes}
+        technologies={technologies}
+      />
+    </Card>
   );
 }
 

@@ -9,14 +9,15 @@ import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getM
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { getLinkToHttpRequest, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
 import changeExplanation from 'in-mobile-apps/emptyListExplanation';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -132,13 +133,15 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
   tagFilters = tagFilters.concat({ name: 'mobileBeacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      mobileAppId={mobileAppId}
-      tagFilters={tagFilters}
-      timeConfig={timeConfig}
-      rightHeader={rightHeader}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        mobileAppId={mobileAppId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+        rightHeader={rightHeader}
+      />
+    </Card>
   );
 }
 

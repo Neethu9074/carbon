@@ -34,6 +34,7 @@ import { isBlank } from 'in-services/util/string';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
+import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
@@ -240,19 +241,21 @@ export default function ServicesList({
       <LeftRightPadding>
         <Title title="Services" />
         <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
-          <ServerTableWithUrlState
-            get={getTableData}
-            timeConfig={timeConfig}
-            endpointTypes={endpointTypes}
-            technologies={technologies}
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            contextScope={contextScope}
-            rightHeader={rightHeader}
-            scopeNotification={scopeNotification}
-            tagFilters={tagFilters}
-          />
+          <Card useMaxAvailableHeight={false}>
+            <ServerTableWithUrlState
+              get={getTableData}
+              timeConfig={timeConfig}
+              endpointTypes={endpointTypes}
+              technologies={technologies}
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              contextScope={contextScope}
+              rightHeader={rightHeader}
+              scopeNotification={scopeNotification}
+              tagFilters={tagFilters}
+            />
+          </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
 

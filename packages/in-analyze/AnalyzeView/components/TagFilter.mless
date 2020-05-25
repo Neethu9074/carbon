@@ -52,7 +52,7 @@
 
   .removeIcon {
     margin-left: 2rem;
-    fill: @lib__colors__N400;
+    fill: @lib__colors__N500;
     cursor: pointer;
 
     &:hover {

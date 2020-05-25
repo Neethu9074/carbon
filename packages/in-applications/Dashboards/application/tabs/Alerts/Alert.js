@@ -32,6 +32,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 
@@ -133,6 +134,7 @@ function Alert({
           </Col>
         </Row>
       </div>
+      <SetBodyColor color="#fff" />
       <Footer />
     </>
   );

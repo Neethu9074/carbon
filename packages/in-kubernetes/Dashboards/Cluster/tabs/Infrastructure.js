@@ -11,6 +11,7 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/hosts';
 const matrixPrefix = 'host.';
@@ -82,7 +83,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Infrastructure(props) {
-  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />
+    </Card>
+  );
 }
 
 function getTableData({ page = 1, pageSize = 20, orderBy = 'label', orderDirection = 'ASC', timeConfig, clusterId }) {

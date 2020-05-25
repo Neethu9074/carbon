@@ -29,6 +29,7 @@ import Footer from 'in-new-components/Footer';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
+import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
@@ -212,17 +213,19 @@ export default function ApplicationsLisPresenter({
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={ApplicationsNoDataNotification}
         >
-          <ServerTableWithUrlState
-            get={getTableData}
-            timeConfig={timeConfig}
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            contextScope={contextScope}
-            scopeNotification={scopeNotification}
-            rightHeader={rightHeader}
-            tagFilters={tagFilters}
-          />
+          <Card useMaxAvailableHeight={false}>
+            <ServerTableWithUrlState
+              get={getTableData}
+              timeConfig={timeConfig}
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              contextScope={contextScope}
+              scopeNotification={scopeNotification}
+              rightHeader={rightHeader}
+              tagFilters={tagFilters}
+            />
+          </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
 

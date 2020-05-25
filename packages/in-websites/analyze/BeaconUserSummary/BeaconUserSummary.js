@@ -14,14 +14,14 @@ import Code from 'in-components/Code';
 
 import locals from './BeaconUserSummary.mless';
 
-export default function BeaconUserSummary({ beacon, beacons }) {
+export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }) {
   const hasMeta = Object.keys(beacon.meta).length > 0;
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
   const noGeoAvailable = !isGeoCoordinatesAvailable && geoSubsection.length === 0;
 
   return (
-    <Row className={locals.summary} verticallyStretchColumns>
+    <Row className={locals.summary} verticallyStretchColumns withoutSideMargin={withoutSideMargin}>
       <Col lg={4}>
         <Card title="User Information" useMaxAvailableHeight>
           <User beacon={beacon} beacons={beacons} />

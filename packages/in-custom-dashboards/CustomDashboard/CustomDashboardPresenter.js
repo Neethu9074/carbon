@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-
 import React from 'react';
 
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
@@ -15,14 +14,12 @@ import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import SaveButton from 'in-components/form/SaveButton';
-import SetBodyColor from 'in-components/SetBodyColor';
 import WithTvMode from 'in-new-components/WithTvMode';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { lightV2 } from 'in-themes/themes';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './CustomDashboardPresenter.mless';
 
@@ -55,8 +52,6 @@ function CustomDashboardPresenter(props) {
       <WithTvMode>
         {({ enabled, setEnabled }) => (
           <>
-            <SetBodyColor color={theme.lib.colors.N100} />
-
             {enabled && (
               <Grid
                 tvMode

@@ -15,6 +15,7 @@ import emptyListExplanation from 'in-mobile-apps/emptyListExplanation';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -80,12 +81,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Views({ timeConfig, tagFilters, mobileAppId }) {
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      mobileAppId={mobileAppId}
-      tagFilters={tagFilters}
-      timeConfig={timeConfig}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        mobileAppId={mobileAppId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+      />
+    </Card>
   );
 }
 

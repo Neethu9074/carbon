@@ -15,6 +15,7 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -170,20 +171,24 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Namespaces(props) {
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      filterColumnDefinitions={({ result }) => {
-        const anyOpenshift =
-          result.data &&
-          result.data.items &&
-          Boolean(
-            find(result.data.items, item => isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes')))
-          );
-        return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
-      }}
-      timeConfig={props.timeConfig}
-      clusterId={props.clusterId}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        filterColumnDefinitions={({ result }) => {
+          const anyOpenshift =
+            result.data &&
+            result.data.items &&
+            Boolean(
+              find(result.data.items, item =>
+                isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
+              )
+            );
+          return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
+        }}
+        timeConfig={props.timeConfig}
+        clusterId={props.clusterId}
+      />
+    </Card>
   );
 }
 

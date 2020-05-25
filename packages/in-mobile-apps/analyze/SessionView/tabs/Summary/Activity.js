@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
 import BeaconViewGroup from 'in-mobile-apps/analyze/SessionView/tabs/Summary/BeaconViewGroup';
@@ -6,6 +6,8 @@ import OverviewChart from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Overv
 import { getType } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import Filter from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Filter';
 import { generateStableHash } from 'in-services/util/id';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import Card from 'in-new-components/Card';
 
 import locals from './Activity.mless';
 
@@ -35,27 +37,29 @@ export default function Activity({ beacons, firstBeacon, sessionStart, filter, s
   const filterHash = generateStableHash(filter);
 
   return (
-    <Fragment>
-      <h1 className={locals.header}>Activity</h1>
-
-      <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
-      <div className={locals.overviewChartContainer}>
-        <OverviewChart
-          beacons={filteredBeacons}
-          earliestTimestamp={firstBeacon.timestamp}
-          endTimestamp={beacons.reduce((max, beacon) => Math.max(max, beacon.timestamp + beacon.duration), 0)}
-        />
-      </div>
-      {groupBeaconsByView(filteredBeacons).map((group, i) => (
-        <BeaconViewGroup
-          key={`${i}-${group.view}-${filterHash}`}
-          view={group.view}
-          beacons={group.beacons}
-          sessionStart={sessionStart}
-          earliestTimestamp={firstBeacon.timestamp}
-        />
-      ))}
-    </Fragment>
+    <Row>
+      <Col lg={12}>
+        <Card title="Activity">
+          <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
+          <div className={locals.overviewChartContainer}>
+            <OverviewChart
+              beacons={filteredBeacons}
+              earliestTimestamp={firstBeacon.timestamp}
+              endTimestamp={beacons.reduce((max, beacon) => Math.max(max, beacon.timestamp + beacon.duration), 0)}
+            />
+          </div>
+          {groupBeaconsByView(filteredBeacons).map((group, i) => (
+            <BeaconViewGroup
+              key={`${i}-${group.view}-${filterHash}`}
+              view={group.view}
+              beacons={group.beacons}
+              sessionStart={sessionStart}
+              earliestTimestamp={firstBeacon.timestamp}
+            />
+          ))}
+        </Card>
+      </Col>
+    </Row>
   );
 }
 

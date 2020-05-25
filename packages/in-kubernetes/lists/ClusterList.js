@@ -14,6 +14,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -123,21 +124,23 @@ export default connectTo(
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={<KubernetesNoDataNotification icon="lib_kubernetes_cluster" />}
         >
-          <ServerTableWithUrlState
-            get={getTableData}
-            filterColumnDefinitions={({ result }) => {
-              const anyOpenshift =
-                result.data &&
-                result.data.items &&
-                Boolean(
-                  find(result.data.items, item =>
-                    isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes'))
-                  )
-                );
-              return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
-            }}
-            timeConfig={timeConfig}
-          />
+          <Card>
+            <ServerTableWithUrlState
+              get={getTableData}
+              filterColumnDefinitions={({ result }) => {
+                const anyOpenshift =
+                  result.data &&
+                  result.data.items &&
+                  Boolean(
+                    find(result.data.items, item =>
+                      isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes'))
+                    )
+                  );
+                return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
+              }}
+              timeConfig={timeConfig}
+            />
+          </Card>
         </WithEmptyStateFallback>
       </Fragment>
     );

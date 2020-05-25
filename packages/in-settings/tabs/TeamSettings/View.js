@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   teamSettings,
@@ -66,6 +66,7 @@ import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { isRbacEnabled } from 'in-services/featureFlags';
+import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
@@ -287,13 +288,16 @@ function navigationTreeForRole(role): NavigationTree {
 
 export default function View(props: any) {
   return (
-    <SideNavigationAndContent
-      stickySidebar
-      navigationTree={navigationTreeForRole(role)}
-      redirectToDefaultPage={findFirstPermittedTeamPage()}
-      redirectFrom={teamSettings}
-      NotFoundPage={NotFoundPage}
-      {...props}
-    />
+    <Fragment>
+      <SideNavigationAndContent
+        stickySidebar
+        navigationTree={navigationTreeForRole(role)}
+        redirectToDefaultPage={findFirstPermittedTeamPage()}
+        redirectFrom={teamSettings}
+        NotFoundPage={NotFoundPage}
+        {...props}
+      />
+      <SetBodyColor color="#fff" />
+    </Fragment>
   );
 }

@@ -9,7 +9,6 @@
     flex-direction: column;
     background: @lib__colors__white;
 
-    border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_large;
     box-shadow: @lib__shadows__subtle;
   }
@@ -35,9 +34,13 @@
     flex-shrink: 0;
     max-height: @header-height;
 
-    padding: 1.5rem 1rem 1.5rem 1.5rem;
+    padding: 1.5rem 1rem 1.5rem 1rem;
 
     white-space: nowrap;
+  }
+
+  .noHeaderContent {
+    padding: 1rem 0 0 0;
   }
 
   .icon {

@@ -7,8 +7,8 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import getCloudfoundryContainers from 'in-cloudfoundry/subscriptions/getCloudfoundryContainers';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { applicationIdUrlParameter } from 'in-cloudfoundry/navigation/urlParameters';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { bytes, percentage } from 'in-services/formatters/number';

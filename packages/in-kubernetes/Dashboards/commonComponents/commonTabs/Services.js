@@ -16,6 +16,7 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
@@ -115,7 +116,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function ServiceTable(props) {
-  return <ServerTableWithUrlState get={getTableData} {...props} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
+    </Card>
+  );
 }
 
 function getTableData({
