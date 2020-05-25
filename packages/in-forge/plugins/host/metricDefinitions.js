@@ -141,7 +141,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'used', 'Device'),
     label: getFilesystemLabel('Used'),
     category: ['Filesystem'],
     min: 0,
