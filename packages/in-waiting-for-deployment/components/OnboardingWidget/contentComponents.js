@@ -198,7 +198,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href, title='Download' }) {
+export function DownloadButton({ href, title = 'Download' }) {
   return (
     <Button target="_blank" href={href} icon="lib_actions_download">
       {title}
