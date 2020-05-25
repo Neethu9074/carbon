@@ -5,18 +5,17 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
-const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');
+const { getCsp } = require('../services/csp');
 const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
 
 const indexHtmlTemplate = fs.readFileSync(paths.indexHtmlTemplate, { encoding: 'utf8' });
-const maxNonces = findMaxNonces(indexHtmlTemplate);
 const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
 const compiledRedirectTemplate = Handlebars.compile(
   fs.readFileSync(paths.redirectToSignInTemplate, { encoding: 'utf8' })
@@ -87,12 +86,17 @@ router.get('/', (req, res) => {
   getCurrentUser(req)
     .then(([statusCode, userStr]) => {
       if (statusCode === 401) {
-        res.status(401).send(
-          compiledRedirectTemplate({
-            signInUrl: `${req.uiClientBaseUrl}/auth/signIn`,
-            returnUrlWithoutHash: encodeURIComponent(req.uiClientBaseUrl + req.originalUrl)
-          })
-        );
+        const nonce = uuid.v4();
+        res
+          .status(401)
+          .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
+          .send(
+            compiledRedirectTemplate({
+              signInUrl: `${req.uiClientBaseUrl}/auth/signIn`,
+              returnUrlWithoutHash: encodeURIComponent(req.uiClientBaseUrl + req.originalUrl),
+              nonce
+            })
+          );
         return;
       } else if (statusCode === 403) {
         errorPages.send403(req, res);
@@ -356,10 +360,8 @@ function sendIndex(
   reportingData,
   starredItems
 ) {
-  const nonces = Array(maxNonces)
-    .fill(maxNonces)
-    .map(() => uuid.v4());
-  res.set('Content-Security-Policy', getCsp(nonces));
+  const nonce = uuid.v4();
+  res.set('Content-Security-Policy', getCsp(nonce));
 
   const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
   const user = getParsedUser(userStr);
@@ -367,7 +369,7 @@ function sendIndex(
   res.send(
     compiledTemplate({
       indexJsChecksum,
-      nonces,
+      nonce,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
       mixpanelToken:
         user &&

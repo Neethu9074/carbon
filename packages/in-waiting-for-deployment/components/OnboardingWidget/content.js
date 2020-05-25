@@ -17,7 +17,6 @@ import {
   Script,
   Spacer,
   TextWithLink,
-  toURLstring,
   ValidatedInputFields,
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
@@ -726,7 +725,11 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
           `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
         ]}
       />
-      <Description lines={['The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.']} />
+      <Description
+        lines={[
+          'The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.'
+        ]}
+      />
       <Spacer />
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
@@ -1281,7 +1284,7 @@ function PackagesContent({ agentKey }) {
   );
 }
 
-function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, butlerDomain, tenant, tenantUnit }) {
   const agentModeOptions = ['Dynamic agent', 'Static agent'];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
 
@@ -1291,9 +1294,13 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, t
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
         <DownloadButton
           title="Download"
-          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
-            agentKey
-          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`}
+          href={getAgentDownloadURL(
+            tenant,
+            tenantUnit,
+            agentKey,
+            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            butlerDomain
+          )}
         />
       </Row>
       <Spacer />
@@ -1317,7 +1324,14 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, t
   );
 }
 
-function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+function WindowsInstallerUnattendedContent({
+  agentKey,
+  agentEndpoint,
+  agentEndpointPort,
+  butlerDomain,
+  tenant,
+  tenantUnit
+}) {
   const agentModeOptions = ['Dynamic agent', 'Static agent'];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
 
@@ -1330,9 +1344,13 @@ function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpo
       <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
-            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline'
-          )}`
+          getAgentDownloadURL(
+            tenant,
+            tenantUnit,
+            agentKey,
+            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            butlerDomain
+          )
         ]}
       />
       <Spacer />

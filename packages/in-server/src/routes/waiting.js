@@ -6,31 +6,28 @@ const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { activeResolver } = require('../services/resolvers/index');
-const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../../assets/build.json');
 const { getCsrfToken } = require('../services/csrf');
 const configResolver = require('../services/config');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
+const { getCsp } = require('../services/csp');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
 
 const waitingHtmlTemplate = fs.readFileSync(paths.waitingHtmlTemplate, { encoding: 'utf8' });
-const maxNonces = findMaxNonces(waitingHtmlTemplate);
 const compiledTemplate = Handlebars.compile(waitingHtmlTemplate);
 
 const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 router.get('/waiting', (req, res) => {
-  const nonces = Array(maxNonces)
-    .fill(maxNonces)
-    .map(() => uuid.v4());
+  const nonce = uuid.v4();
 
   res.vary('*');
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
-  res.set('Content-Security-Policy', getCsp(nonces));
+  res.set('Content-Security-Policy', getCsp(nonce));
 
   return Promise.all([
     configResolver.getButlerBaseUrl(req.tenant, req.unit),
@@ -44,12 +41,12 @@ router.get('/waiting', (req, res) => {
     ])
       .then(([termsAndPrivacyAccepted, [statusCode, userStr], csrfToken]) => {
         if (statusCode < 200 || statusCode > 299) {
-          sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints);
+          sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints);
         } else {
           sendWaitingIndex(
             req,
             res,
-            nonces,
+            nonce,
             butlerDomain,
             reportingEndpoints,
             csrfToken,
@@ -60,16 +57,16 @@ router.get('/waiting', (req, res) => {
       })
       .catch(error => {
         console.log('Failed to fetch user and ToS-acceptance from butler: %s', error.message);
-        return sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints);
+        return sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints);
       });
   });
 });
 
-function sendWaitingIndex(req, res, nonces, butlerDomain, reportingEndpoints, csrf, userStr, termsAndPrivacyAccepted) {
+function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csrf, userStr, termsAndPrivacyAccepted) {
   res.send(
     compiledTemplate({
       waitingJsChecksum,
-      nonces,
+      nonce,
       config: JSON.stringify({
         tenant: req.tenant,
         tenantUnit: req.unit,
