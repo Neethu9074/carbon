@@ -110,14 +110,14 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Key Hits/Misses">
+      <DashboardSection title="Key">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['keyspace_hits', 'keyspace_misses'],
-            labels: ['Key Hits', 'Key Misses'],
+            labels: ['Hits', 'Misses'],
             type: 'line'
           }}
           y2={{
@@ -131,7 +131,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Key Expired/Evicted">
+      <DashboardSection title="Objects">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
