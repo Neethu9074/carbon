@@ -32,6 +32,7 @@ import RawTraces from 'in-analyze/components/RawTraces';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
+import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
@@ -163,6 +164,7 @@ function AnalyzeView(props) {
           }
         />
       }
+      <SetBodyColor color="#fff" />
       <Footer />
     </WithEmptyStateFallback>
   );
