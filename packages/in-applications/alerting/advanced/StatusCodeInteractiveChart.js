@@ -132,8 +132,7 @@ StatusCodeInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  updateForm: PropTypes.func.isRequired
+  timeConfig: propTypeTimeConfig.isRequired
 };
 
 function hasStatusCodeSelected(form) {
