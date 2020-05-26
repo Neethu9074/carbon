@@ -174,10 +174,6 @@ export default function FrontendsTable({ snapshot, timeConfig }) {
       };
     });
 
-  if (rows.length === 0) {
-    return null;
-  }
-
   return (
     <Table
       withoutPadding
