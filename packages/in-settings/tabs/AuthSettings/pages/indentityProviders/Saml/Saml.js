@@ -27,14 +27,13 @@ export default function Saml() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={() => {}}
       input={input}
       render={props => render({ ...props, input })}
     />
   );
 }
 
-function render({ form, input }) {
+function render({ form, setForm, input }) {
   return (
     <>
       <Title title="SAML Configuration" />
@@ -64,19 +63,47 @@ function render({ form, input }) {
 
         <div className={indentityProvidersLocals.space} />
 
+        <Row className={indentityProvidersLocals.row}>
+          <Col xs={12}>
+            {form.get('spEntityId').map(field => (
+              <FormGroup>
+                <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
+                  Audience/SP Entity ID
+                </Label>
+
+                <Input
+                  className={locals.input}
+                  type="text"
+                  id="spEntityId"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['spEntityId'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  autoComplete="off"
+                />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+
         <h2>Automatic setup</h2>
-        <Button
-          kind="secondary"
-          icon="lib_actions_download"
-          href$={token$.map(
-            csrfToken =>
-              `https://${config.butlerDomain}/ump/${config.tenant}/${
-                config.tenantUnit
-              }/authentication/saml/metadata/sp?csrfToken=${csrfToken}`
-          )}
-        >
-          Configuration Metadata
-        </Button>
+        {form.get('spEntityId').map(field => (
+          <Button
+            kind="secondary"
+            icon="lib_actions_download"
+            href$={token$.map(
+              csrfToken =>
+                `https://${config.butlerDomain}/ump/${config.tenant}/${
+                  config.tenantUnit
+                }/authentication/saml/metadata/sp?csrfToken=${encodeURIComponent(
+                  csrfToken
+                )}&spEntityId=${encodeURIComponent(field.value)}`
+            )}
+          >
+            Configuration Metadata
+          </Button>
+        ))}
+
         <ul className={locals.list}>
           <li>Download the Configuration Metadata via the link above</li>
           <li>Upload the Instana metadata file to your IdP</li>
