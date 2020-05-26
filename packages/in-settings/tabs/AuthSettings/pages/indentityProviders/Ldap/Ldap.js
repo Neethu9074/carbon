@@ -58,12 +58,19 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
       <form>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={12}>
-            <FormInput form={form} setForm={setForm} fieldName="url" label="URL" />
+            <FormInput
+              placeholder="ldaps://ldap.example.com:636"
+              form={form}
+              setForm={setForm}
+              fieldName="url"
+              label="URL"
+            />
           </Col>
         </Row>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
             <FormInput
+              placeholder="cn=admin,dc=example,dc=com"
               className={locals.formGroupWithoutMargin}
               form={form}
               setForm={setForm}
@@ -74,6 +81,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           </Col>
           <Col xs={6}>
             <FormInput
+              placeholder="hidden"
               className={locals.formGroupWithoutMargin}
               form={form}
               setForm={setForm}
@@ -98,23 +106,41 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
 
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="base" label="Base" />
+            <FormInput placeholder="dc=example,dc=com" form={form} setForm={setForm} fieldName="base" label="Base" />
           </Col>
           <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="groupQuery" label="Group Query" />
-          </Col>
-        </Row>
-        <Row className={indentityProvidersLocals.row}>
-          <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="groupMemberField" label="Group Member Field" />
-          </Col>
-          <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="userQueryTemplate" label="User Query Template" />
+            <FormInput
+              placeholder="(cn=INSTANA"
+              form={form}
+              setForm={setForm}
+              fieldName="groupQuery"
+              label="Group Query"
+            />
           </Col>
         </Row>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="emailField" label="Email Field" />
+            <FormInput
+              placeholder="member"
+              form={form}
+              setForm={setForm}
+              fieldName="groupMemberField"
+              label="Group Member Field"
+            />
+          </Col>
+          <Col xs={6}>
+            <FormInput
+              placeholder="(uid=%s)"
+              form={form}
+              setForm={setForm}
+              fieldName="userQueryTemplate"
+              label="User Query Template"
+            />
+          </Col>
+        </Row>
+        <Row className={indentityProvidersLocals.row}>
+          <Col xs={6}>
+            <FormInput placeholder="mail" form={form} setForm={setForm} fieldName="emailField" label="Email Field" />
           </Col>
         </Row>
 
@@ -122,10 +148,22 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
         <h3>Optional settings</h3>
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="userDnMapping" label="User Dn Mapping" />
+            <FormInput
+              placeholder="(optional)"
+              form={form}
+              setForm={setForm}
+              fieldName="userDnMapping"
+              label="User Dn Mapping"
+            />
           </Col>
           <Col xs={6}>
-            <FormInput form={form} setForm={setForm} fieldName="userField" label="User Field" />
+            <FormInput
+              placeholder="(optional)"
+              form={form}
+              setForm={setForm}
+              fieldName="userField"
+              label="User Field"
+            />
           </Col>
         </Row>
 
@@ -135,6 +173,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
         <Row className={indentityProvidersLocals.row}>
           <Col xs={6}>
             <FormInput
+              placeholder="(optional)"
               className={locals.formGroupWithoutMargin}
               form={form}
               setForm={setForm}
@@ -144,6 +183,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           </Col>
           <Col xs={6}>
             <FormInput
+              placeholder="hidden"
               className={locals.formGroupWithoutMargin}
               form={form}
               setForm={setForm}
@@ -184,7 +224,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
   );
 }
 
-function FormInput({ form, type, setForm, fieldName, label, className, disabled }) {
+function FormInput({ form, type, setForm, fieldName, label, className, disabled, placeholder }) {
   return form.get(fieldName).map(field => (
     <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
@@ -196,6 +236,7 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled 
         type={type || 'text'}
         value={field.value}
         disabled={disabled}
+        placeholder={placeholder}
         onChange={e => {
           setForm(form.updateIn([fieldName], f => f.setValue(e.target.value).setTouched(true)));
         }}
