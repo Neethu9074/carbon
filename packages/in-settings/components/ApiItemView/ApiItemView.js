@@ -53,7 +53,7 @@ export default connectTo(
         <Header
           parentPath={parentPath}
           parentViewName={parentViewName}
-          onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
+          onSaveClick={canSaveItem && saveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
         />
         <MessageWrapper message={message} />
         {render({
