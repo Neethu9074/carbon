@@ -1,0 +1,13 @@
+:local {
+  .row {
+    max-width: 35rem;
+
+    & + .row {
+      margin-top: 0;
+    }
+  }
+
+  .space {
+    height: 1.5rem;
+  }
+}

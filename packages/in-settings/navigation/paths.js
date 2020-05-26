@@ -26,6 +26,16 @@ export const teamSettingsAccessControlGroups = `${accessControl}/groups`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
+export const authSettings = `${settingsPath}/auth`;
+
+export const googleSSO = `${authSettings}/googleSingleSignOn`;
+export const saml = `${authSettings}/saml`;
+export const ldap = `${authSettings}/ldap`;
+
+const mapping = `${authSettings}/mapping`;
+export const samlMapping = `${mapping}/saml`;
+export const ldapMapping = `${mapping}/ldap`;
+
 export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 

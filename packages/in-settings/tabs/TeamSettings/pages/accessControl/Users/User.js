@@ -4,7 +4,6 @@ import React from 'react';
 import RolesDropDown from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RolesDropDown';
 import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Permissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
@@ -22,6 +21,7 @@ import Label from 'in-components/form/Label';
 import locals from './User.mless';
 
 export default function User({ match }) {
+  const userId = match.params.id;
   return (
     <ApiItemView
       parentViewName="Users"
@@ -42,11 +42,11 @@ export default function User({ match }) {
         roles: getRolesAsResultObservable()
       })}
       enrichForm={enrichForm}
-      saveItem={saveItem}
+      saveItem={form => saveItem(userId, form)}
       render={renderUser}
       renderLoadingState={renderLoadingState}
       // additional props which are passed down
-      userId={match.params.id}
+      userId={userId}
     />
   );
 }
@@ -105,17 +105,9 @@ function renderUser(props) {
   );
 }
 
-function saveItem({ form, userId, setMessage }) {
+function saveItem(userId, form) {
   const roleId = form.get('roleId').value;
-
-  setMessage({ text: 'Saving role change…', type: neutral });
-  const setRoleResult$ = setRole(userId, roleId);
-  setRoleResult$.once(
-    () => {
-      setMessage({ text: 'Role change successfully saved.', type: success });
-    },
-    error => setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType })
-  );
+  return setRole(userId, roleId);
 }
 
 function enrichForm(form, { result: { user } }) {

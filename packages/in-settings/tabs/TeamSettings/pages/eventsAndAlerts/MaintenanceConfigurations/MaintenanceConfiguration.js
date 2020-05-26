@@ -19,6 +19,7 @@ import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -57,6 +58,7 @@ const Form = entityForm(function MaintenanceForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Maintenance Window Configuration
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -72,6 +74,7 @@ const Form = entityForm(function MaintenanceForm(props) {
         <SvgIcon type="lib_actions_build_outline" size="l" className={locals.headerIcon} />
         {isCreate ? 'Schedule' : 'Change'} Maintenance Window
       </SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

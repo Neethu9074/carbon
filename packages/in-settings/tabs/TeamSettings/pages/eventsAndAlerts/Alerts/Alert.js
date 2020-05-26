@@ -24,6 +24,7 @@ import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { staticJsonPayloadFieldName } from './components/Step5';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
@@ -63,6 +64,7 @@ function DetailsForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -75,6 +77,7 @@ function DetailsForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
+      <SectionLine />
 
       {message && (
         <Section>

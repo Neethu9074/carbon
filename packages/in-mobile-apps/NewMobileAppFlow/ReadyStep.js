@@ -36,11 +36,7 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
       </Ul>
 
       <Actions>
-        <Button
-          kind="secondary"
-          href="https://docs.instana.io/mobile_app_monitoring/#installation"
-          target="_blank"
-        >
+        <Button kind="secondary" href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">
           Installation Instructions
         </Button>
 

@@ -1,6 +1,7 @@
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { combineResultObservables } from 'in-services/util/result';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
@@ -13,7 +14,15 @@ export default connectTo(
   ({ getObservables }) => combineResultObservables(getObservables()),
 
   function ApiItemView(props) {
-    const { parentPath, parentViewName, render, renderLoadingState, enrichForm, result, saveItem } = props;
+    const {
+      parentPath,
+      parentViewName,
+      render,
+      renderLoadingState = renderLoadingStateDefault,
+      enrichForm,
+      result,
+      saveItem
+    } = props;
 
     if (result.errors && result.errors.length > 0) {
       const error = getUniqueErrors(result.errors)[0];
@@ -44,7 +53,7 @@ export default connectTo(
         <Header
           parentPath={parentPath}
           parentViewName={parentViewName}
-          onSaveClick={canSaveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
+          onSaveClick={canSaveItem && saveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
         />
         <MessageWrapper message={message} />
         {render({

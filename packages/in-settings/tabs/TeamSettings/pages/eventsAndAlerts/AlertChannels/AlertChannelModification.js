@@ -13,6 +13,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { submitAlertChannelTracker } from 'in-settings/tracker';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -68,6 +69,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert Channel
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -86,6 +88,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
       <SubViewHeader>{`${
         isCreate ? 'Create ' + alertChannelLabel : 'Modify ' + entity.get('name')
       } Alert Channel`}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

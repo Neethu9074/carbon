@@ -21,6 +21,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import DescriptionText from 'in-components/form/DescriptionText';
+import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { toTitleCase } from 'in-services/util/string';
@@ -78,6 +79,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Alert Channel
         </SubViewHeader>
+        <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
@@ -91,6 +93,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>{entity.get('name') + ' Alert Channel'}</SubViewHeader>
+      <SectionLine />
 
       {message ? (
         <Section>

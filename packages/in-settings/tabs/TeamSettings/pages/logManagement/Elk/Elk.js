@@ -1,5 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
+import { createLogger } from 'instalog';
 
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -8,6 +9,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import { integrationKey } from 'in-integrations/logging/elk/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
 import { isBlank } from 'in-services/util/string';
@@ -15,7 +17,6 @@ import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
-import { createLogger } from 'instalog';
 
 const block = 'in-ui-config';
 
@@ -91,6 +92,7 @@ export default class Elk extends React.Component {
       <SettingsDetailPage>
         <Title title="ELK" />
         <SubViewHeader>{'Configure your ELK settings'}</SubViewHeader>
+        <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>

@@ -7,6 +7,7 @@ import { success, error as errorType } from 'in-new-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Title from 'in-components/Title';
@@ -40,6 +41,7 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
     <SettingsDetailPage>
       <Title title="Communication Settings" />
       <SubViewHeader>Control how we contact you, and for what purposes.</SubViewHeader>
+      <SectionLine />
       <form className={locals.form}>
         <div className={locals.flexColumn}>
           {form.get('productTips').map(({ value }) => (

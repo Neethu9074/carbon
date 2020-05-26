@@ -9,6 +9,7 @@ import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getApiToken, saveApiToken } from 'in-api/apiTokens';
+import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Section from 'in-settings/components/Section';
@@ -91,6 +92,7 @@ export default class extends React.Component {
         <Title title="Api Token" />
 
         <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
+        <SectionLine />
 
         {this.state.message ? (
           <Section>

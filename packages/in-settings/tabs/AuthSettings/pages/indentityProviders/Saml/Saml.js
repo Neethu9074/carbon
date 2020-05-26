@@ -1,0 +1,207 @@
+import { createField } from 'formalistic';
+import React, { useState } from 'react';
+
+import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import ApiItemView from 'in-settings/components/ApiItemView';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import FormGroup from 'in-components/form/FormGroup';
+import { token$ } from 'in-services/security/csrf';
+import Button from 'in-new-components/Button';
+import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
+import { config } from 'in-services/config';
+import Title from 'in-components/Title';
+import Link from 'in-components/Link';
+
+import indentityProvidersLocals from '../indentityProviders.mless';
+import locals from './Saml.mless';
+
+export default function Saml() {
+  const [input] = useState(document.createElement('input'));
+  return (
+    <ApiItemView
+      getObservables={() => ({
+        config: getConfigAsResultObservable()
+      })}
+      enrichForm={enrichForm}
+      onCancelClick={refresh}
+      input={input}
+      render={props => render({ ...props, input })}
+    />
+  );
+}
+
+function render({ form, setForm, input }) {
+  return (
+    <>
+      <Title title="SAML Configuration" />
+      <SubViewHeader>SAML Configuration</SubViewHeader>
+      <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP)</h2>
+
+      <form method="post" encType="multipart/form-data">
+        <p>
+          Quick start guides are available in our documentation pages for{' '}
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.instana.io/quick_start/authentication/activedirectory/"
+          >
+            Active Directory
+          </Link>{' '}
+          and{' '}
+          <Link
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.instana.io/quick_start/authentication/okta/"
+          >
+            Okta
+          </Link>
+          .
+        </p>
+
+        <div className={indentityProvidersLocals.space} />
+
+        <Row className={indentityProvidersLocals.row}>
+          <Col xs={12}>
+            {form.get('spEntityId').map(field => (
+              <FormGroup>
+                <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
+                  Audience/SP Entity ID
+                </Label>
+
+                <Input
+                  className={locals.input}
+                  type="text"
+                  id="spEntityId"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['spEntityId'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  autoComplete="off"
+                />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+
+        <h2>Automatic setup</h2>
+        {form.get('spEntityId').map(field => (
+          <Button
+            kind="secondary"
+            icon="lib_actions_download"
+            href$={token$.map(
+              csrfToken =>
+                `https://${config.butlerDomain}/ump/${config.tenant}/${
+                  config.tenantUnit
+                }/authentication/saml/metadata/sp?csrfToken=${encodeURIComponent(
+                  csrfToken
+                )}&spEntityId=${encodeURIComponent(field.value)}`
+            )}
+          >
+            Configuration Metadata
+          </Button>
+        ))}
+
+        <ul className={locals.list}>
+          <li>Download the Configuration Metadata via the link above</li>
+          <li>Upload the Instana metadata file to your IdP</li>
+          <li>Download the IdP-metadata issued from your IdP</li>
+          <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
+        </ul>
+
+        <div className={indentityProvidersLocals.space} />
+
+        <h2>Manual setup</h2>
+        <p className={locals.descriptionText}>
+          {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
+          creation of a SAML-app and manually entering the required values. The values required to connect to Instana
+          are as follows:`}
+        </p>
+
+        <Row className={indentityProvidersLocals.row}>
+          <Col xs={12}>
+            <CopyableText title="ACS URL" form={form} fieldName="samlSignInCallbackUrl" />
+          </Col>
+          <Col xs={12}>
+            <CopyableText title="Logout URL" form={form} fieldName="samlSignOutCallbackUrl" />
+          </Col>
+          <Col xs={12}>
+            <CopyableText title="Audience/SP Entity ID" form={form} fieldName="spEntityId" />
+          </Col>
+          <Col xs={12}>
+            <CopyableText title="Name ID Format" form={form} fieldName="nameIdFormat" />
+          </Col>
+        </Row>
+
+        <ul className={locals.list}>
+          <li>
+            There will be an option to download the IdP-metadata. Store that file in a known location on your local
+            machine
+          </li>
+          <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
+        </ul>
+
+        <div className={indentityProvidersLocals.space} />
+
+        <h2>Upload IdP Metadata</h2>
+        <Button
+          kind="secondary"
+          icon="lib_views_file"
+          onClick={() => {
+            input.type = 'file';
+            input.accept = 'text/xml';
+            input.click();
+          }}
+        >
+          Choose file…
+        </Button>
+        <Button
+          icon="lib_actions_upload"
+          onClick={() => {
+            const file = input && input.files && input.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.readAsText(file, 'UTF-8');
+              reader.onload = function(evt) {
+                saveItem(form, evt.target.result);
+              };
+            }
+          }}
+        >
+          Upload & Activate
+        </Button>
+      </form>
+    </>
+  );
+}
+
+function CopyableText({ title, form, fieldName }) {
+  return form.get(fieldName).map(field => (
+    <FormGroup>
+      <Label htmlFor={fieldName} hasError={!field.valid && field.touched}>
+        {title}
+      </Label>
+
+      <div className={locals.flexWrapper}>
+        <Input className={locals.input} readOnly type="text" id={fieldName} value={field.value} autoComplete="off" />
+        <CopyToClipboardButton getText={() => field.value} />
+      </div>
+    </FormGroup>
+  ));
+}
+
+function saveItem(_, idpMetadata) {
+  return setConfig({
+    idpMetadata
+  });
+}
+
+function enrichForm(form, { result: { config } }) {
+  return form
+    .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
+    .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
+    .put('spEntityId', createField({ value: config.spEntityId || '' }))
+    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
+}

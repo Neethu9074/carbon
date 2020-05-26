@@ -7,6 +7,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Title from 'in-components/Title';
 
@@ -36,6 +37,7 @@ function render({ form, setForm, setCanSaveItem }) {
     <SettingsDetailPage>
       <Title title="Privacy Settings" />
       <SubViewHeader>Set your preferences for third-party services below.</SubViewHeader>
+      <SectionLine />
       <form className={locals.form}>
         {form.get('allAnalyticsServices').map(({ value }) => (
           <CheckboxFancy
