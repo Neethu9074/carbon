@@ -33,7 +33,8 @@ import {
   APPLICATIONS_ALERTING_LOG_MSG_SELECTED,
   APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED,
   APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED,
-  APPLICATIONS_ALERTING_LOG_MSG_CHANGED
+  APPLICATIONS_ALERTING_LOG_MSG_CHANGED,
+  APPLICATIONS_ALERTING_STATUS_CODE_CHANGED
 } from 'in-services/tracking/tracking';
 
 export const applicationsAlertingAddAlert = (pathname, applicationName) =>
@@ -82,6 +83,8 @@ export const applicationsAlertingFilterAdd = e => track(APPLICATIONS_ALERTING_FI
 export const applicationsAlertingFilterRemove = e => track(APPLICATIONS_ALERTING_FILTER_REMOVE, e);
 export const applicationsAlertingFilterEdit = e => track(APPLICATIONS_ALERTING_FILTER_EDIT, e);
 export const applicationsAlertingFilterSet = e => track(APPLICATIONS_ALERTING_FILTER_SET, e);
+
+export const applicationsAlertingStatusCodeChanged = e => track(APPLICATIONS_ALERTING_STATUS_CODE_CHANGED, e);
 
 export const applicationsAlertingEventDetailsGoToAnalyze = e =>
   track(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE, e);

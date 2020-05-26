@@ -10,7 +10,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
+      <DescriptionItem title="Life Cycle State">{data.get('state')}</DescriptionItem>
+      <DescriptionItem title="Health State">{data.get('health.state')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

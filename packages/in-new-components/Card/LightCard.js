@@ -73,7 +73,7 @@ export default function LightCard({
 
       <div
         className={evaluateClassNames({
-          [locals.body]: true,
+          [locals.body]: children,
           [locals.bodyWithoutPadding]: withoutPadding,
           [bodyClassName]: bodyClassName
         })}
@@ -86,15 +86,17 @@ export default function LightCard({
 
 LightCard.propTypes = {
   bodyClassName: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  icon: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
   darkFrame: PropTypes.bool,
   framed: PropTypes.bool,
   header: PropTypes.node,
+  headerClassName: PropTypes.string,
   label: PropTypes.string,
   onHeaderBackgroundClicked: PropTypes.func,
-  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.node]),
   useMaxAvailableHeight: PropTypes.bool,
   withoutPadding: PropTypes.bool
 };

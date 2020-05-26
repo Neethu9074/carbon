@@ -31,7 +31,7 @@ export function getPreviewEnabledToUrlString(previewEnabled) {
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({
     name: tag.name,
-    value: tag.value,
+    value: tag.value || tag.stringValue,
     operator: tag.operator,
     secondLevelName: tag.secondLevelName,
     entity: tag.entity

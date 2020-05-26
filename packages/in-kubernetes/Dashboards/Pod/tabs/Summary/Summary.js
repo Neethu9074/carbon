@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
@@ -32,7 +32,7 @@ export default function Summary({ data: pod, timeConfig }) {
 
   return (
     <Fragment>
-      <MissingK8sAppsPermissions podId={pod.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions podId={pod.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard

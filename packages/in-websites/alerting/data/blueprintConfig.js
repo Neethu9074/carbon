@@ -1,16 +1,17 @@
 import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
 
-export const alertTypes = Object.freeze({
-  specificJsError: 'specificJsError',
-  slowness: 'slowness',
-  specificStatusCode: 'statusCode'
-});
+const slowness = 'slowness';
+const specificStatusCode = 'statusCode';
+const specificJsError = 'specificJsError';
+
+export const alertTypes = Object.freeze({ specificJsError, slowness, specificStatusCode });
 
 export const blueprintConfig = Object.freeze([
   {
-    type: alertTypes.slowness,
+    type: slowness,
     name: 'Slowness',
-    headline: 'onLoad Time',
+    blacklistedTagFilters: ['beacon.duration'],
+    headline: 'Automatic Alerts for onLoad Time',
     text: `
       <p>
       OnLoad Time measures the time passed in between the user navigating to a website and being able to interact with the website.
@@ -25,21 +26,31 @@ export const blueprintConfig = Object.freeze([
     `
   },
   {
-    type: alertTypes.specificJsError,
+    type: specificJsError,
     name: 'JS Errors',
-    headline: 'Specific JS Errors',
-    text: 'Alert on known JS Errors by selecting one or multiple JS Errors that have been monitored before.'
+    blacklistedTagFilters: ['beacon.error.message'],
+    headline: 'Automatic Alerts for JS Errors',
+    text: 'Receive an alert every time when matching JS Error messages occur more often than usual.'
   },
   {
-    type: alertTypes.specificStatusCode,
+    type: specificStatusCode,
     name: 'HTTP Status Codes',
-    headline: 'Specific HTTP Status Codes',
-    text: 'Alert on known HTTP Status Codes by selecting one or multiple Status Codes that have been monitored before.'
+    blacklistedTagFilters: ['beacon.http.status'],
+    headline: 'Automatic Alerts for HTTP Status Codes',
+    text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.'
   }
 ]);
 
 export const availableTagFiltersPerAlertType = {
-  [alertTypes.specificJsError]: commonFilterTags,
-  [alertTypes.slowness]: availableFilterTags.pageLoad,
-  [alertTypes.specificStatusCode]: availableFilterTags.httpRequest
+  [specificJsError]: commonFilterTags,
+  [slowness]: availableFilterTags.pageLoad,
+  [specificStatusCode]: availableFilterTags.httpRequest
 };
+
+export function blacklistedTagFiltersOfAlertType(type) {
+  const config = blueprintConfig.find(blueprint => blueprint.type === type);
+  if (config) {
+    return [...config.blacklistedTagFilters];
+  }
+  return [];
+}

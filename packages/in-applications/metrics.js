@@ -19,12 +19,12 @@ export function getChartGranularity({ windowSize }) {
  * in which case timeConfig is returned unmodified). Instead of a result object with an attribute "time" you can also
  * pass in a number (millis since epoch) directly.
  */
-export function getResolvedTimeConfig(timeConfig, result) {
+export function getResolvedTimeConfig(timeConfig, resultOrTime) {
   let resultTime;
-  if (typeof result === 'number') {
-    resultTime = result;
-  } else if (typeof result === 'object') {
-    resultTime = result.time;
+  if (typeof resultOrTime === 'number') {
+    resultTime = resultOrTime;
+  } else if (typeof resultOrTime === 'object') {
+    resultTime = resultOrTime.time;
   }
 
   if (timeConfig.to === resultTime) {

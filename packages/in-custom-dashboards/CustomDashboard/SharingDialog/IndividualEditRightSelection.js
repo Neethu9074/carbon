@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -55,7 +55,7 @@ export default function IndividualEditRightSelection({
   if (usersResult == null || usersResult.progress.loading) {
     return (
       <div className={locals.loading}>
-        <IndeterminateLoadingIndicator size={96} />
+        <LoadingIndicator size="xxxl" />
       </div>
     );
   }

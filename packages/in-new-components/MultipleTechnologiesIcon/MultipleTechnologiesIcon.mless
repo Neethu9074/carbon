@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     margin-right: .5rem;
-    width: 2.25rem;
+    min-width: 2.25rem;
   }
 
   .remainderLabel {

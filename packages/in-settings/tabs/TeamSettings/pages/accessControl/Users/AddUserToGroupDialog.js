@@ -1,0 +1,84 @@
+import React from 'react';
+
+import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import withSelectableItems from 'in-settings/components/withSelectableItems';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { close } from 'in-components/DialogPresenter/store';
+import createApiList from 'in-settings/components/ApiList';
+import Button from 'in-new-components/Button';
+import Dialog from 'in-new-components/Dialog';
+
+import locals from './AddUserToGroupDialog.mless';
+
+const GroupList = createApiList({
+  ListRenderer,
+  getItems: getGroupsAsResultObservable,
+  itemName: 'group',
+  orderBy: 'name'
+});
+
+export default withSelectableItems(function AddUserToGroupDialog({
+  userId,
+  onSubmit,
+  selectedEntities,
+  checkIfSelected,
+  toggleItem
+}) {
+  return (
+    <Dialog className={locals.dialog} title="Add user to a group" onClose={close}>
+      <form onSubmit={() => onSubmit(Array.from(selectedEntities.values()))}>
+        <GroupList
+          userId={userId}
+          checkIfSelected={checkIfSelected}
+          toggleItem={toggleItem}
+          filterFunction={({ members }) => {
+            for (let i = 0; i < members.length; i++) {
+              if (userId === members[i].userId) {
+                return false;
+              }
+            }
+            return true;
+          }}
+        />
+        <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
+          Add user to group
+        </Button>
+      </form>
+    </Dialog>
+  );
+});
+
+const columnDefinitions = [
+  {
+    width: '2rem',
+    getContent({ group, isGroupSelected, toggleItem }) {
+      return <CheckboxFancy checked={isGroupSelected} onChange={() => toggleItem(group.id, group)} />;
+    }
+  },
+  {
+    getContent({ group }) {
+      return group.name;
+    }
+  }
+];
+
+function ListRenderer({ items, checkIfSelected, toggleItem }) {
+  return (
+    <Ul>
+      {items.map(group => {
+        const isGroupSelected = checkIfSelected(group.id);
+        return (
+          <Li key={group.id} onClick={() => toggleItem(group.id, group)}>
+            <ColumnizedContent
+              columnDefinitions={columnDefinitions}
+              group={group}
+              toggleItem={() => toggleItem(group.id, group)}
+              isGroupSelected={isGroupSelected}
+            />
+          </Li>
+        );
+      })}
+    </Ul>
+  );
+}

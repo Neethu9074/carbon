@@ -1,11 +1,5 @@
 module.exports = exports = (tenant, unit) => [
   {
-    uiClientKey: 'mobileAppMonitoringEnabled',
-    instanaCtlKey: 'feature.mobile.app.monitoring.enabled',
-    consulKey: `settings/${tenant}-${unit}/MOBILE_APP_MONITORING_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'isSelfService',
     instanaCtlKey: 'feature.is.self.service',
     consulKey: `settings/${tenant}-${unit}/IS_SELFSERVICE`,
@@ -107,6 +101,12 @@ module.exports = exports = (tenant, unit) => [
     uiClientKey: 'customDashboardsEnabled',
     instanaCtlKey: 'feature.custom.dashboards.enabled',
     consulKey: `settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`,
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'skipOnboardingDialog',
+    instanaCtlKey: 'feature.skip.oboarding.dialog',
+    consulKey: `settings/${tenant}-${unit}/SKIP_ONBOARDING_DIALOG`,
     defaultValue: false
   },
   {

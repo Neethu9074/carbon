@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { number, millis, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { compareIgnoreCase } from 'in-services/util/string';

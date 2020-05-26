@@ -7,7 +7,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
 
-export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete, isDeleting }) {
+export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete, isDeleting, skipDialog = false }) {
   if (isDeleting) {
     return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />;
   }
@@ -18,6 +18,10 @@ export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete
       type="lib_actions_delete"
       onClick={e => {
         stopPropagationAndPreventDefault(e);
+        if (skipDialog) {
+          return doDelete();
+        }
+
         addActiveDialog(
           <ConfirmationDialog
             header="Please Confirm"

@@ -54,7 +54,7 @@ function getCounterComponent(props, resultPropName) {
       label={props.tab.label}
       getCounters={() =>
         getOpenShiftDeploymentConfigItemCounters$({
-          deploymentConfigId: props.deploymentConfigId,
+          workloadControllerId: props.deploymentConfigId,
           timeConfig: props.timeConfig
         })
       }

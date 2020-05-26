@@ -1,10 +1,9 @@
 import React from 'react';
 
 import {
-  errorCount,
-  alertingMetricsGranularity,
-  alertingEventDetailsChartTimeframe
-} from 'in-websites/alerting/constants';
+  alertingEventDetailsChartTimeframe,
+  alertingMetricsGranularity
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
@@ -17,6 +16,7 @@ import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConf
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import { errorCount } from 'in-websites/alerting/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';

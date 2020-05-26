@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just, combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 
 import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
@@ -34,12 +34,21 @@ export function mapDataHO(fn) {
 }
 
 export function success(data, time = Date.now()) {
-  return {
+  return Object.freeze({
     data,
     errors: emptyArray,
     progress: finishedProgress,
     time
-  };
+  });
+}
+
+export function error(errors, time = Date.now()) {
+  return Object.freeze({
+    data: null,
+    errors,
+    progress: finishedProgress,
+    time
+  });
 }
 
 export function listSuccess(data, totalHits = data.length, pageSize = data.length, time = Date.now()) {
@@ -79,15 +88,23 @@ export function isLoading(result) {
   return get(result, ['progress', 'loading']);
 }
 
-export function getResultForData(data, time) {
-  const result = {
-    errors: [],
-    progress: { loading: false },
-    data
-  };
-  if (time) {
-    result.time = time;
-  }
+export function combineResultObservables(observables) {
+  const observableKeys = Object.keys(observables);
+  return {
+    result: combineLatest(observableKeys.map(key => observables[key])).map(results => {
+      const resultData = {};
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        if (isLoading(result)) {
+          return { isLoading: true };
+        }
+        if (hasError(result)) {
+          return { errors: result.errors };
+        }
+        resultData[observableKeys[i]] = result.data;
+      }
 
-  return Object.freeze(result);
+      return resultData;
+    })
+  };
 }

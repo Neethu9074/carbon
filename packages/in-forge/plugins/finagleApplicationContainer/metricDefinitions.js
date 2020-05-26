@@ -1,16 +1,16 @@
+import { getCustomMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { siPrefix } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 const metricDefinitions = [
   {
-    metric: getMetricMatch('metrics', 'gauges'),
+    metric: getCustomMetricMatch('metrics', 'gauges'),
     label(snapshot, metricMatch) {
       return metricMatch[1];
     },
     formatter: siPrefix
   },
   {
-    metric: getMetricMatch('metrics', 'counters'),
+    metric: getCustomMetricMatch('metrics', 'counters'),
     label(snapshot, metricMatch) {
       return metricMatch[1];
     },

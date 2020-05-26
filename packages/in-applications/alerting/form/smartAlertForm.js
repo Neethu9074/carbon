@@ -1,6 +1,11 @@
 import { createMapForm, createField } from 'formalistic';
 
-import { createSlownessForm, createErrorRateForm, createLogsForm } from 'in-applications/alerting/form/thresholdForm';
+import {
+  createSlownessForm,
+  createErrorRateForm,
+  createLogsForm,
+  createStatusCodeForm
+} from 'in-applications/alerting/form/thresholdForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
@@ -54,17 +59,7 @@ export function createSmartAlertForm(alertConfig) {
     .put(
       'alertChannelIds',
       createField({
-        value: alertConfig.alertChannelIds ?? [],
-        validator: array => {
-          if (!array || array.length === 0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please select at least one Alert Channel'
-              }
-            ];
-          }
-        }
+        value: alertConfig.alertChannelIds ?? []
       })
     )
     .put(
@@ -116,6 +111,10 @@ export function createSmartAlertForm(alertConfig) {
 
   if (alertType === 'logs') {
     return form.put('threshold', createLogsForm(alertConfig.threshold));
+  }
+
+  if (alertType === 'statusCode') {
+    return form.put('threshold', createStatusCodeForm(alertConfig.threshold));
   }
 }
 

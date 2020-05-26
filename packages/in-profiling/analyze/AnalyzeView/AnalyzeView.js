@@ -7,6 +7,7 @@ import { analyzeDataSourceUrlParameter } from 'in-profiling/navigation/urlParame
 import EmptyAnalyzeView from 'in-profiling/analyze/AnalyzeView/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getTimeConfig } from 'in-stores/time/config';
+import SetBodyColor from 'in-components/SetBodyColor';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 
@@ -26,6 +27,7 @@ export default compose(
     type="Profiles"
   >
     <ProfiledProcesses {...props} />
+    <SetBodyColor color="#fff" />
     <Footer />
   </WithEmptyStateFallback>
 ));

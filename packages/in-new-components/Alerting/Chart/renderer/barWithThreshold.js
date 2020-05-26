@@ -36,8 +36,7 @@ export default {
     backBufferCtx.beginPath();
     backBufferCtx.globalAlpha = 1;
     backBufferCtx.moveTo(0, chartHeight - threshold);
-    backBufferCtx.setLineDash([8, 2]);
-    backBufferCtx.lineWidth = 1.5;
+    backBufferCtx.lineWidth = 1;
     backBufferCtx.strokeStyle = thresholdColor;
     backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
     backBufferCtx.stroke();

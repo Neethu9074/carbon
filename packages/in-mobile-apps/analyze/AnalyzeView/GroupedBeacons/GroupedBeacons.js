@@ -36,6 +36,10 @@ export default compose(
         parser: v => v === 'true',
         serializer: String,
         initialState: false
+      },
+      {
+        path: '/analyzeBeacons',
+        name: 'focusedMetric'
       }
     ],
     reducerName: 'onChange',

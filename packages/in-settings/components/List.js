@@ -102,6 +102,7 @@ function List({
   searchMaxWidth,
   entities,
   noDataMessage,
+  renderNoDataAvailable,
   pageSize = 20,
   pageState,
   setPage,
@@ -191,6 +192,7 @@ function List({
         searchMaxWidth={searchMaxWidth}
         result={result}
         noDataMessage={noDataMessage}
+        renderNoDataAvailable={renderNoDataAvailable}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
         scrollWrapperClassName={scrollWrapperClassName}

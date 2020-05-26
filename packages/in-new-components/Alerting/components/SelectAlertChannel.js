@@ -7,6 +7,7 @@ import AlertChannels, {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -21,7 +22,7 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
         hasRowNavigation={false}
-        noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
+        renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         rightHeader={
           <Button
@@ -70,7 +71,6 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
       }
-      requiresAtLeastOneMessage="Please select at least one alert channel."
       pageSize={5}
       listFormGroupClassOverwrites={locals.alertChannelsList}
       tableScrollWrapperClassOverwrites={locals.alertChannelsList}

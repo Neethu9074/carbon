@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+    transition: background-color 250ms;
 
     &:hover,
     &:focus {
@@ -66,6 +67,11 @@
     .dropdownButtonIndicator {
       margin: -0.25rem -0.3rem -0.25rem 0.5rem;
     }
+  }
+
+  .noText {
+    height: 1.75rem;
+    width: 1.75rem;
   }
 
   .disabled,
@@ -359,6 +365,41 @@
     &.disabled:hover,
     &.disabled:focus {
       background: @lib__colors__N400;
+    }
+  }
+
+  .fixedInline {
+    height: 1.75rem;
+    width: 1.75rem;
+
+    .buttonStyle(
+        // bg
+          @lib__colors__N050,
+        // hover bg
+          @lib__colors__N100,
+        // font
+          @lib__colors__N800Dark,
+        // hover font
+          @lib__colors__N800Dark,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
+
+    border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      border: 1px solid @lib__colors__N500;
+    }
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: @lib__colors__N400;
+      border: 1px solid #e2e4e6;
+      background: #fcfcfd;
     }
   }
 }

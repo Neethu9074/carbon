@@ -1,21 +1,15 @@
 import { createLogger } from 'instalog';
 import SockJS from 'sockjs-client';
 
-import { track, CONNECTION_LOST, CONNECTION_ESTABLISHED } from 'in-services/tracking/tracking';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
 import { combineDataAndError } from 'in-services/util/ro';
-import { isSafari } from 'in-services/browser';
+import { ineum } from 'in-services/tracking/ineum';
 import { isSignedIn } from 'in-api/account';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 
-const transports = {
-  efficient: ['websocket'],
-  widelySupported: ['xhr-polling', 'xhr-streaming']
-};
-// Safari does not support WebSocket connections with invalid SSL certs
-const bestAvailableTransport = __DEV__ && isSafari() ? transports.widelySupported : transports.efficient;
+const transports = ['websocket', 'xhr-polling'];
 
 // Do not track the initial enter call as connection lost
 let isInitialEnter = true;
@@ -25,18 +19,13 @@ export default class ConnectionLostState extends AbstractState {
     if (isInitialEnter) {
       isInitialEnter = false;
     } else {
-      track(CONNECTION_LOST, {
-        transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+      ineum('reportEvent', 'connection.lost', {
+        meta: {
+          transport: this.sharedState.socket?.transport
+        }
       });
     }
 
-    // Assume that WS connection is not possible when quickly reentering
-    // the connection lost step.
-    if (this.lastEnterTime >= Date.now() - 3000) {
-      this.transport = transports.widelySupported;
-    } else {
-      this.transport = bestAvailableTransport;
-    }
     this.lastEnterTime = Date.now();
 
     this.on('open', this.onOpen);
@@ -117,7 +106,7 @@ export default class ConnectionLostState extends AbstractState {
           'connectionStatus'
         );
       } else {
-        this.sharedState.socket = new SockJS('/api/data', null, { transports: this.transport });
+        this.sharedState.socket = new SockJS('/api/data', null, { transports });
         this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
         this.sharedState.socket.onclose = e => {
           logger.debug('Persistent connection closed', e);
@@ -131,8 +120,10 @@ export default class ConnectionLostState extends AbstractState {
   onOpen = () => {
     removeMessage('connectionStatus');
     this.sendConnectionSettings();
-    track(CONNECTION_ESTABLISHED, {
-      transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+    ineum('reportEvent', 'connection.established', {
+      meta: {
+        transport: this.sharedState.socket?.transport
+      }
     });
     this.transitionTo('connected');
   };
@@ -142,7 +133,6 @@ export default class ConnectionLostState extends AbstractState {
   }
 
   onClose = () => {
-    this.transport = transports.widelySupported;
     setTimeout(this.attemptConnection, Math.min(30, Math.pow(2, this.connectionAttempts)) * 1000);
   };
 

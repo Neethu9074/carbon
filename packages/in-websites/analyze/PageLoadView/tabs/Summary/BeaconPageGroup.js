@@ -26,11 +26,7 @@ function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded,
           <span className={locals.pageName}>{page || 'Page name not set'}</span>
 
           {!page && (
-            <Link
-              external
-              href="https://docs.instana.io/products/website_monitoring/api/#page"
-              className={locals.learnHow}
-            >
+            <Link external href="https://docs.instana.io/website_monitoring/api/#page" className={locals.learnHow}>
               Learn how to define pages
             </Link>
           )}

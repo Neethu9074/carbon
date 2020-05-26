@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    height: min-content;
+  }
+
+  .headerTransparent {
+    background-color: transparent;
+  }
+}

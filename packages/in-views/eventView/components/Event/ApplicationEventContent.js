@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { alertingMetricsGranularity, alertingEventDetailsChartTimeframe } from 'in-applications/alerting/constants';
+import {
+  alertingMetricsGranularity,
+  alertingEventDetailsChartTimeframe
+} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -10,6 +14,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applic
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -36,6 +41,7 @@ export default connectTo(
     const entityType = event.get('entityType');
     const metadata = event.get('metadata');
     const applicationName = metadata.get('entityLabel');
+    const boundaryScope = alertConfig.boundaryScope;
     const tagFilters = alertConfig.tagFilters;
     const sensitivity = alertConfig.threshold.deviationFactor;
     const operator = alertConfig.threshold.operator;
@@ -71,6 +77,7 @@ export default connectTo(
               renderErrorRate={() => (
                 <ErrorRateAlertingBarChart
                   applicationId={entityId}
+                  boundaryScope={boundaryScope}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
@@ -82,6 +89,7 @@ export default connectTo(
               renderSlowness={() => (
                 <SlownessAlertingBarChart
                   applicationId={entityId}
+                  boundaryScope={boundaryScope}
                   sensitivity={sensitivity}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
@@ -94,9 +102,23 @@ export default connectTo(
               renderLogs={() => (
                 <LogsAlertingBarChart
                   applicationId={entityId}
+                  boundaryScope={boundaryScope}
                   logMessage={alertConfig.rule.message}
                   logMessageOperator={alertConfig.rule.operator}
                   logLevel={alertConfig.rule.level}
+                  operator={operator}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={alertingMetricsGranularity}
+                  threshold={threshold}
+                  timeThreshold={timeThreshold}
+                />
+              )}
+              renderStatusCode={() => (
+                <StatusCodeAlertingBarChart
+                  applicationId={entityId}
+                  statusCodeStart={alertConfig.rule.statusCodeStart}
+                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
                   operator={operator}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
@@ -112,8 +134,8 @@ export default connectTo(
             <div className={locals.filterList}>
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: [getApplicationIdTagFilter(entityId), ...tagFilters],
-                  applicationName
+                  applicationName,
+                  tagFilters: [getApplicationIdTagFilter({ entityId, boundaryScope }), ...tagFilters]
                 })}
                 disabled
               />
@@ -124,11 +146,3 @@ export default connectTo(
     );
   }
 );
-
-function getApplicationIdTagFilter(applicationId) {
-  return {
-    name: 'application.id',
-    operator: 'EQUALS',
-    stringValue: applicationId
-  };
-}

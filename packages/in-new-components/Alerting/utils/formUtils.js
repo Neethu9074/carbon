@@ -1,22 +1,3 @@
-export function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
-}
-
-export function getOperatorText(operator) {
-  switch (operator) {
-    case '>':
-      return 'greater than';
-    case '>=':
-      return 'greater or equal to';
-    case '<':
-      return 'less than';
-    case '<=':
-      return 'less or equal to';
-    default:
-      return operator;
-  }
-}
-
 export function getAggregationText(aggregation) {
   switch (aggregation.toUpperCase()) {
     case 'P25':

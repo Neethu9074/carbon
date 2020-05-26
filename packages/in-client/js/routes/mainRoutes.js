@@ -9,14 +9,8 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  mobileAppMonitoringEnabled,
-  customDashboardsEnabled,
-  internalMonitoringUnit
-} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { pcfEnabled, vsphereEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
@@ -38,6 +32,7 @@ import vsphereRoutes from 'in-vsphere/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
+import deepLinkRoutes from 'in-client/js/deepLink';
 
 export default (
   <FragmentSupportingSwitch>
@@ -62,12 +57,12 @@ export default (
     {pcfEnabled && cloudfoundryRoutes}
     {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
-    {mobileAppMonitoringEnabled && hasMobileAppsAccess && mobileAppMonitoringRoutes}
+    {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
-    {customDashboardsEnabled && customDashboardsRoutes}
+    {customDashboardsRoutes}
     {cockpitRoutes}
-
     {profilingRoutes}
+    {deepLinkRoutes}
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />

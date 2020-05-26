@@ -51,8 +51,8 @@ export default class extends React.PureComponent {
     if (this.domNode) {
       this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
       this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
-      this.domNode = null;
     }
+    this.domNode = null;
   };
 
   addListeners = () => {

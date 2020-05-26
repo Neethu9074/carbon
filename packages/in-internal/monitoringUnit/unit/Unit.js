@@ -3,14 +3,15 @@ import React from 'react';
 
 import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/InfrastructureDataStatistics';
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
+import ProfileDataStatistics from 'in-internal/monitoringUnit/unit/ProfileDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Landing from 'in-internal/monitoringUnit/unit/Landing';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
@@ -68,7 +69,7 @@ export default connectTo(({ location }) => {
           <Navigation tenant={tenant} unit={unit} />
         </div>
         <div className={locals.right}>
-          {!tenantUnitId && <LoadingIndicator type="dark" />}
+          {!tenantUnitId && <LoadingIndicator />}
 
           {tenantUnitId && (
             <Switch>
@@ -97,6 +98,17 @@ export default connectTo(({ location }) => {
                 path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
                 render={() => (
                   <InfrastructureDataStatistics
+                    timeConfig={timeConfig}
+                    tenantUnitId={tenantUnitId}
+                    tenant={tenant}
+                    unit={unit}
+                  />
+                )}
+              />
+              <Route
+                path="/internal/monitoringUnit/unit/profileDataStatistics"
+                render={() => (
+                  <ProfileDataStatistics
                     timeConfig={timeConfig}
                     tenantUnitId={tenantUnitId}
                     tenant={tenant}
@@ -148,6 +160,10 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label="Infrastructure"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
+      />
+      <LinkListItem
+        label="Profile"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
       />
       {isInstanaEmail && (
         <LinkListItem

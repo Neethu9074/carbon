@@ -1,52 +1,11 @@
 @import '~in-themes/active.less';
 
 :local {
-  .applicationNameText {
-    margin-top: 1rem;
-  }
-
-  .descriptionTextList {
-    list-style-type: disc;
-  }
-
-  .matchSpecification {
-    display: flex;
-    align-items: flex-start;
-    max-width: 38rem;
-  }
-
-  .matchSpecificationGroupKey {
-    flex-grow: 1;
-  }
-
-  .matchSpecificationGroupValue {
-    flex-grow: 2;
-    margin-left: 1rem;
-  }
-
-  .removeMatchRuleIcon {
-    margin: 1.5rem 0 1.2rem 0.25rem;
-    fill: @lib__colors__N500;
-  }
-
   .addRuleButtonWrapper {
     display: flex;
 
     width: 100%;
 
     margin: 1rem 0 0.5rem;
-  }
-  .previewLabel {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: @lib__colors__N900Primary;
-  }
-  .previewValue {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .operatorPill {
-    margin-bottom: 0.5rem;
-    color: @lib__colors__N500;
   }
 }

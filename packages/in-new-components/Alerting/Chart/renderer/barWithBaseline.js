@@ -36,20 +36,24 @@ function renderBaseline(axis, config, scale, colors) {
     return;
   }
   const sensitivity = config.y1.sensitivity;
+  const granularity = config.y1.granularity;
   const timeConfig = config.timeConfig;
-  const baselineWindowSize = baseline.length * baselineGranularity;
+  const baselineWindowSize = (timeConfig.windowSize / granularity) * granularity;
   const chartFrom = timeConfig.to - (timeConfig.windowSize / baselineGranularity) * baselineGranularity;
   const chartTo = chartFrom + baselineWindowSize;
+
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors[1];
   const alrightColor = colors[2];
   const violationColor = colors[3];
   const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
   const upperThresholdInTimeframe = [];
+
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
     upperThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
+
   // Backgrounds
   const len = upperThresholdInTimeframe.length;
   const xPosStart = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
@@ -84,7 +88,6 @@ function renderBaseline(axis, config, scale, colors) {
 
   // upper-baseline
   config.backBufferCtx.save();
-  config.backBufferCtx.setLineDash([8, 2]);
   line.render({ axis, dataSeries: upperThresholdInTimeframe, color: thresholdColor, scale, config });
   config.backBufferCtx.restore();
 }

@@ -29,3 +29,5 @@ export const withRightHeader = () => (
     {content}
   </LightCard>
 );
+
+export const withoutHeader = () => <LightCard>{content}</LightCard>;

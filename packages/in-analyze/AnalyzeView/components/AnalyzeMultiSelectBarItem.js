@@ -5,6 +5,7 @@ import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFi
 import MultiSelectBarItem from 'in-analyze/components/filterBar/MultiSelectBarItem';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
+import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 
 export default function AnalyzeMultiSelectBarItem(props) {
@@ -39,5 +40,8 @@ function mapData(result) {
   if (!result.data) {
     return result;
   }
-  return { ...result, data: result.data.suggestions };
+  return {
+    ...result,
+    data: result.data.suggestions.filter(suggestion => !isBlank(suggestion) && suggestion !== 'null')
+  };
 }

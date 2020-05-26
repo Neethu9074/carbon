@@ -6,4 +6,8 @@
     min-width: 25rem;
     min-height: 13.75rem;
   }
+
+  .offset {
+    margin-top: 0.5rem;
+  }
 }

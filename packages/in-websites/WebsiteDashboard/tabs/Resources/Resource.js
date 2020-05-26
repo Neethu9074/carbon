@@ -31,6 +31,7 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './Resource.mless';
 
@@ -90,6 +91,12 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
   } else {
     const granularity = getChartGranularity(timeConfig);
     const hasDetailedTimings = result.data && result.data['requestTime'] && result.data['requestTime'].length > 0.0;
+    const viewInAnalytics = {
+      websiteLabel,
+      group: {
+        groupbyTag: 'beacon.http.path'
+      }
+    };
 
     content = (
       <Fragment>
@@ -105,6 +112,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               cardTitle="Resource Loads"
               timeConfig={timeConfig}
               tagFilters={tagFiltersForResource}
+              viewInAnalytics={viewInAnalytics}
               group={{
                 groupbyTag: 'beacon.resourceType'
               }}
@@ -130,6 +138,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
+              viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
@@ -152,32 +161,38 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                   onLoadTime50th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P50'
+                    aggregation: 'P50',
+                    beaconType: 'resourceLoad'
                   },
                   onLoadTime90th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P90'
+                    aggregation: 'P90',
+                    beaconType: 'resourceLoad'
                   },
                   onLoadTime95th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P95'
+                    aggregation: 'P95',
+                    beaconType: 'resourceLoad'
                   },
                   onLoadTime99th: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'P99'
+                    aggregation: 'P99',
+                    beaconType: 'resourceLoad'
                   },
                   onLoadTimeMax: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'MAX'
+                    aggregation: 'MAX',
+                    beaconType: 'resourceLoad'
                   },
                   onLoadTimeMean: {
                     metric: 'beaconDuration',
                     granularity,
-                    aggregation: 'MEAN'
+                    aggregation: 'MEAN',
+                    beaconType: 'resourceLoad'
                   }
                 }
               }}
@@ -207,6 +222,8 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     cardTitle="Resource Timing"
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
+                    shareMaxAxisDomain
+                    viewInAnalytics={viewInAnalytics}
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
@@ -221,6 +238,14 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         'responseTime'
                       ]
                     }}
+                    y2={{
+                      renderer: Renderer.line,
+                      formatter: millis.forcedFixedCompact,
+                      labels: ['Time to First Byte'],
+                      metricIds: ['ttfb'],
+                      // Ensure high readability
+                      colors: [theme.lib.colors.N900Primary]
+                    }}
                     metricsConfiguration={{
                       timeConfig,
                       tagFilters: tagFiltersForResource,
@@ -228,37 +253,50 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         redirectTime: {
                           metric: 'redirectTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         appCacheTime: {
                           metric: 'appCacheTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         dnsTime: {
                           metric: 'dnsTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         tcpTime: {
                           metric: 'tcpTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         sslTime: {
                           metric: 'sslTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         requestTime: {
                           metric: 'requestTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         },
                         responseTime: {
                           metric: 'responseTime',
                           granularity,
-                          aggregation
+                          aggregation,
+                          beaconType: 'resourceLoad'
+                        },
+                        ttfb: {
+                          metric: 'ttfb',
+                          granularity,
+                          aggregation,
+                          beaconType: 'resourceLoad'
                         }
                       }
                     }}
@@ -276,6 +314,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 cardTitle="Caching Statistics"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
+                viewInAnalytics={viewInAnalytics}
                 group={{
                   groupbyTag: 'beacon.cacheInteraction'
                 }}
@@ -299,6 +338,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 cardTitle="Resource Sizes"
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
+                viewInAnalytics={viewInAnalytics}
                 group={{
                   groupbyTag: 'beacon.resourceType'
                 }}

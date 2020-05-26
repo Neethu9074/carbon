@@ -12,11 +12,11 @@ import {
   Input,
   JSONFile,
   Listing,
+  PowershellEC2,
   Row,
   Script,
   Spacer,
   TextWithLink,
-  toURLstring,
   ValidatedInputFields,
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
@@ -29,10 +29,20 @@ function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
 }
 
-const agentReleaseVersionRegex = new RegExp(/^instana-agent-\d\.\d{1,3}\.\d+$/);
+const clusterNameValidator = {
+  validator: validateClusterName,
+  validationMessage:
+    'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
+};
+
+const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
 function validateAgentReleaseVersion(agentReleaseVersion) {
   return agentReleaseVersionRegex.test(agentReleaseVersion);
+}
+
+function validateNotEmpty(value) {
+  return !!value;
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
@@ -56,7 +66,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
         {
           label: 'Elastic Computing (EC2) - Windows 64Bit',
           keyWords: 'elasticcomputeec2windows',
-          Content: WindowsInstallerContent
+          Content: ElasticComputingWindowsContent
         },
         {
           label: 'Elastic Container Service for Kubernetes (EKS)',
@@ -64,7 +74,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: K8sDaemonSetContent
         },
         {
-          label: 'AWS Lambda Native Tracing',
+          label: 'AWS Lambda',
           keyWords: 'awslambda',
           Content: AWSLambdaContent
         }
@@ -114,14 +124,19 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
+          label: 'Helm chart',
+          keyWords: 'kuberneteshelmchartk8s',
+          Content: K8sHelmChartContent
+        },
+        {
           label: 'DaemonSet',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'Helm chart',
-          keyWords: 'kuberneteshelmchartk8s',
-          Content: K8sHelmChartContent
+          label: 'Operator',
+          keywords: 'kubernetesoperatork8s',
+          Content: K8sOperatorContent
         },
         {
           label: 'Azure Kubernetes Service (AKS)',
@@ -221,6 +236,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'ZIP Archives',
           keyWords: 'windowszip',
           Content: ManualWindowsContent
+        },
+        {
+          label: 'Elastic Computing (EC2) - Windows 64Bit',
+          keyWords: 'elasticcomputeec2windows',
+          Content: ElasticComputingWindowsContent
         }
       ]
     }
@@ -234,7 +254,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <TextWithLink
           text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
           linkText="supported AWS Services list."
-          href="https://docs.instana.io/ecosystem/aws/#aws-services"
+          href="https://docs.instana.io/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
       <Spacer />
@@ -345,7 +365,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x'];
+  const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
     'ap-northeast-1',
@@ -368,25 +388,18 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaFunctionName, setLambdaFunctionName] = useState('my-lambda-function');
   const [lambdaHandler, setHandler] = useState('index.handler');
-  const layerVersion = '26';
 
   let steps;
 
-  if (selectedRuntime === runtimeOptions[1]) {
-    steps = (
-      <TextWithLink
-        text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
-        linkText="Instana Lambda layer with manual wrapping."
-        href="https://docs.instana.io/ecosystem/aws-lambda-native-tracing/#instana-lambda-layer--manual-wrapping"
-      />
-    );
-  } else {
+  if (selectedRuntime === runtimeOptions[0]) {
+    const nodejsLayerVersion = '29';
+
     steps = (
       <Fragment>
         <HelpBox title="Configuring Your AWS Lambda Function">
           <Description
             lines={[
-              'The preferred way to configure AWS Lambda functions based on Node.js 10.x (or newer) for native tracing is the Instana Lambda layer with AutoTrace.',
+              'The preferred way to configure AWS Lambda functions based on Node.js 10.x (or newer) for tracing is the Instana Lambda layer with AutoTrace.',
               'There a number of ways to configure this:'
             ]}
           />
@@ -425,7 +438,10 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
-                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${layerVersion}`]} />(
+                <Script
+                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion}`]}
+                />
+                (
                 <TextWithLink
                   text="See"
                   linkText="AWS docs"
@@ -503,8 +519,153 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             '# Instead, use this as a template to define your own aws cli command.',
             `aws --region ${awsRegion} lambda update-function-configuration \\`,
             `   --function-name ${lambdaFunctionName} \\`,
-            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${layerVersion} \\`,
+            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion} \\`,
             '   --handler instana-aws-lambda-auto-wrap.handler',
+            `   --environment "Variables={${
+              lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+            }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
+          ]}
+        />
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
+    steps = (
+      <TextWithLink
+        text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
+        linkText="Instana Lambda layer with manual wrapping."
+        href="https://docs.instana.io/ecosystem/aws-lambda#manual-wrapping"
+      />
+    );
+  } else if (selectedRuntime === runtimeOptions[2]) {
+    const pythonLayerVersion = '4';
+
+    steps = (
+      <Fragment>
+        <HelpBox title="Configuring Your AWS Lambda Function">
+          <Description
+            lines={[
+              'The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.',
+              'There a number of ways to configure this:'
+            ]}
+          />
+          <Listing
+            items={[
+              'AWS Web Console',
+              'AWS Command Line Interface',
+              'AWS Serverless Application Model (AWS SAM)',
+              'Your preferred tool to manage AWS Lambda functions'
+            ]}
+          />
+        </HelpBox>
+        <HelpBox title="AWS Web Console">
+          <TextWithLink
+            text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
+            linkText="documentation for Lambda AutoTrace"
+            href="https://docs.instana.io/ecosystem/aws-lambda#instana-autotrace"
+          />
+          <Description lines={['In short, the steps are as follows']} />
+          <GridRow>
+            <Col xs={6}>
+              Select your AWS region:&nbsp;
+              <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+            </Col>
+            <Col xs={6}>
+              Current Lambda Handler:&nbsp;
+              <Input
+                id="lambda-handler"
+                value={lambdaHandler}
+                onChange={setHandler}
+                placeholder="Your Current Lambda Handler"
+              />
+            </Col>
+          </GridRow>
+          <Listing
+            items={[
+              <Fragment>
+                Add the Instana Lambda layer with the ARN
+                <Script
+                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion}`]}
+                />
+                (
+                <TextWithLink
+                  text="See"
+                  linkText="AWS docs"
+                  href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
+                />
+                )
+              </Fragment>,
+              <Fragment>
+                Set Instana auto-wrap handler as the handler for your Lambda function.
+                <Script lines={['instana.lambda_handler']} />(
+                <TextWithLink
+                  text="See"
+                  linkText="AWS docs"
+                  href="https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html"
+                />
+                )
+              </Fragment>,
+              <Fragment>
+                Set the following environment variables in your Lambda function:
+                <GridRow>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_ENDPOINT_URL']} />
+                    <Script lines={[serverlessEndpoint]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_AGENT_KEY']} />
+                    <Script lines={[agentKey]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['LAMBDA_HANDLER']} />
+                    <Script lines={[lambdaHandler]} />
+                  </Col>
+                </GridRow>
+              </Fragment>
+            ]}
+          />
+        </HelpBox>
+
+        <Spacer />
+
+        <HelpBox title="AWS Command Line Interface">
+          <Description
+            lines={[
+              'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
+            ]}
+          />
+        </HelpBox>
+        <GridRow>
+          <Col xs={3}>
+            Select your AWS region:
+            <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+          </Col>
+          <Col xs={3}>
+            Lambda Function Name:
+            <Input
+              id="lambda-function-name"
+              value={lambdaFunctionName}
+              onChange={setLambdaFunctionName}
+              placeholder="The name of your Lambda function"
+            />
+          </Col>
+          <Col xs={3}>
+            Current Lambda Handler (optional):
+            <Input
+              id="current-lambda-function-handler"
+              value={lambdaHandler}
+              onChange={setHandler}
+              placeholder="Your Current Lambda Handler"
+            />
+          </Col>
+        </GridRow>
+        <Bash
+          lines={[
+            '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
+            '# Instead, use this as a template to define your own aws cli command.',
+            `aws --region ${awsRegion} lambda update-function-configuration \\`,
+            `   --function-name ${lambdaFunctionName} \\`,
+            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion} \\`,
+            '   --handler instana.lambda_handler',
             `   --environment "Variables={${
               lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
             }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
@@ -519,7 +680,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <HelpBox title="Supported AWS Lambda Runtimes">
         <Description
           lines={[
-            'Instana currently supports native tracing of AWS Lambda functions based on the Node.js runtime (for Node.js 8.x and newer).'
+            'Instana currently supports native tracing of AWS Lambda functions based on the Node.js (8.x and newer) and Python (2.7 and 3.x) runtimes.'
           ]}
         />
       </HelpBox>
@@ -538,11 +699,45 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="Next, configure your AWS Lambda functions for native tracing as described in the steps below. Other options to set up native Lambda tracing and more details about this feature are available in the"
         linkText="documentation."
-        href="https://docs.instana.io/ecosystem/aws-lambda-native-tracing/"
+        href="https://docs.instana.io/ecosystem/aws-lambda"
       />
       <Spacer />
 
       {steps}
+    </>
+  );
+}
+
+function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const [agentMode, setMode] = useState(agentModeOptions[0]);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+      </Row>
+      <Spacer />
+      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <PowershellEC2
+        lines={[
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64"`,
+          `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
+        ]}
+      />
+      <Description
+        lines={[
+          'The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.'
+        ]}
+      />
+      <Spacer />
+      <HelpBox title="User Data in AWS EC2">
+        <TextWithLink
+          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+          linkText="&quot;Running commands on your Windows instance at launch&quot; page."
+          href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
+        />
+      </HelpBox>
     </>
   );
 }
@@ -717,7 +912,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -744,7 +939,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="These instructions are for Helm Version 3. For more information visit the"
-              href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
+              href="https://docs.instana.io/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -763,7 +958,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {
           name: 'clusterName',
           placeholder: "Cluster name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The cluster name is invalid' }
+          validate: clusterNameValidator
         }
       ]}
       renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
@@ -780,7 +975,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
-              href="https://docs.instana.io/quick_start/agent_setup/container/kubernetes/"
+              href="https://docs.instana.io/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -790,85 +985,240 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   );
 }
 
+function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  return (
+    <>
+      <TextWithLink
+        text="Installing the Instana agent using a Kubernetes operator is described in"
+        href="https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
+        linkText="the Instana Kubernetes documentation."
+      />
+      <Spacer />
+      <TextWithLink
+        text="The following configuration values will be needed to be populated in the"
+        href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+        linkText="Instana agent custom resource file"
+      />
+      <Spacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Instana Service Endpoint']} />
+          <Script lines={[agentEndpoint]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Service port']} />
+          <Script lines={[agentEndpointPort]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Application Key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
+      <Spacer />
+      <HelpBox title="Name your Kubernetes cluster">
+        <TextWithLink
+          text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
+          href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+          linkText="Instana agent custom resource file"
+        />
+      </HelpBox>
+    </>
+  );
+}
+
 function CfAndBoshContent({ agentKey, agentEndpoint }) {
   return (
-    <ValidatedInputFields
-      fields={[
-        {
-          name: 'foundationName',
-          placeholder: "Foundation name, e.g., 'prod'",
-          validate: { validator: validateClusterName, validationMessage: 'The foundation name is invalid' }
-        },
-        {
-          name: 'agentReleaseVersion',
-          placeholder: "Agent release, e.g. 'instana-agent-0.0.1'",
-          validate: {
-            validator: validateAgentReleaseVersion,
-            validationMessage: 'The agent release version is invalid'
+    <>
+      <ValidatedInputFields
+        fields={[
+          {
+            name: 'foundationName',
+            placeholder: "Foundation name, e.g., 'prod'",
+            validate: {
+              validator: validateClusterName,
+              validationMessage:
+                'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
+            }
+          },
+          {
+            name: 'agentReleaseVersion',
+            placeholder: "Release version, e.g. '0.0.1'",
+            validate: {
+              validator: validateAgentReleaseVersion,
+              validationMessage: 'The agent release version must be a valid semantic version'
+            }
+          },
+          {
+            name: 'clientId',
+            placeholder: "UAA client id, e.g., 'my-client-id'",
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client id cannot be blank'
+            }
+          },
+          {
+            name: 'clientSecret',
+            placeholder: "UAA client secret, e.g., 'my-client-secret'",
+            validate: {
+              validator: validateNotEmpty,
+              validationMessage: 'The UAA client secret cannot be blank'
+            }
           }
-        }
-      ]}
-      renderContent={({
-        foundationName,
-        foundationNameInput,
-        foundationNameValidationMessage,
-        agentReleaseVersion,
-        agentReleaseVersionInput,
-        agentReleaseVersionValidationMessage
-      }) => (
-        <>
-          <Description lines={['Apply the following as BOSH runtime configuration to your BOSH director:']} />
-          <Row>
-            {foundationNameInput}
-            {agentReleaseVersionInput}
-          </Row>
-          <Row>
-            <YAMLFile
-              title="runtime-config.yml"
-              disabledErrorMessage={foundationNameValidationMessage || agentReleaseVersionValidationMessage}
-              content={
-                `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n\naddons:\n` +
-                '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
-                `    release: instana-agent\n  properties:\n    instana:\n      agent:\n` +
-                `        mode: APM\n        key: ${agentKey}\n        endpoint: ${agentEndpoint}\n` +
-                `        zone: '${foundationName}'\n` +
-                '- name: instana-agent-configuration-pivotal-redis\n  jobs:\n  - name: instana-agent-configuration-pivotal-redis\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: redis\n      release: redis-service\n' +
-                '- name: instana-agent-configuration-pivotal-rabbitmq\n  jobs:\n  - name: instana-agent-configuration-pivotal-rabbitmq\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: rabbitmq-server\n      release: cf-rabbitmq\n' +
-                '- name: instana-agent-configuration-pivotal-mysql\n  jobs:\n  - name: instana-agent-configuration-pivotal-mysql-v2\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: mysql\n      release: dedicated-mysql\n' +
-                '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
-                '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
-                '    - name: pxc-mysql\n      release: pxc\n'
-              }
-            />
-          </Row>
-          <HelpBox title="How to set up BOSH runtime configurations">
-            <TextWithLink
-              text="For more information on how to set up BOSH runtime configurations, refer to the "
-              linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
-              href="https://docs.instana.io/ecosystem/cloudfoundry/bosh-configuration/#applying-the-instana-agent-runtime-configurations"
-            />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Supported Stemcells">
-            <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial', 'CentOS 7']} />
-          </HelpBox>
-          <Spacer />
-          <HelpBox title="Dynamic agents">
-            <TextWithLink
-              text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
-              href="https://docs.instana.io/ecosystem/cloudfoundry/"
-              linkText="Instana Cloud Foundry documentation."
-            />
-          </HelpBox>
-        </>
-      )}
-    />
+        ]}
+        renderContent={({
+          foundationName,
+          foundationNameInput,
+          foundationNameValidationMessage,
+          agentReleaseVersion,
+          agentReleaseVersionInput,
+          agentReleaseVersionValidationMessage,
+          clientId,
+          clientIdInput,
+          clientIdValidationMessage,
+          clientSecret,
+          clientSecretInput,
+          clientSecretValidationMessage
+        }) => (
+          <>
+            <HelpBox title="Supported Stemcells">
+              <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
+              <Description lines={['Download the following BOSH releases']} />
+              <DownloadButton
+                title="Download 'instana-agent' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+              />
+              <DownloadButton
+                title="Download 'instana-leadership-election' release"
+                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+              />
+              <Spacer />
+              <Description lines={['Upload the Instana BOSH releases to your BOSH director']} />
+              <Bash
+                lines={[
+                  `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
+                  `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Create the Instana UAA client">
+              <Description
+                lines={[
+                  "Create in the foundation's User Account and Authentication (UAA), a client with 'cloud_controller.admin_read_only' authority:"
+                ]}
+              />
+              <Row>
+                {clientIdInput}
+                {clientSecretInput}
+              </Row>
+              <TextWithLink
+                text="The easiest way to create the required UAA client, is to use the "
+                linkText="uaac tool."
+                href="https://github.com/cloudfoundry/cf-uaac"
+              />
+              <Description
+                lines={[
+                  "Replace in the commands below '<uaa-api-endpoint>' with your UAA API endpoint and '<clients.admin-secret>' with your UAA client with 'clients.admin' or 'clients.write' authority"
+                ]}
+              />
+              <Bash
+                lines={[
+                  'uaac target <uaa-api-endpoint>',
+                  'uaac token client get -s <clients.admin-secret>',
+                  `uaac client add '${clientId}' \\`,
+                  "  --name 'Instana Cloud Foundry Client' \\",
+                  '  --autoapprove true \\',
+                  '  --authorized_grant_types client_credentials \\',
+                  "  --authorities 'cloud_controller.admin_read_only' \\",
+                  `  --secret '${clientSecret}' \\`
+                ]}
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Instana BOSH addon">
+              <TextWithLink
+                text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
+                linkText="&quot;BOSH Runtime Configurations&quot; documentation."
+                href="https://bosh.io/docs/runtime-config/"
+              />
+              <Spacer />
+              <Description
+                lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']}
+              />
+              <Row>
+                {foundationNameInput}
+                {agentReleaseVersionInput}
+              </Row>
+              <Spacer />
+              <Description lines={['Apply the following as BOSH runtime configurations to your BOSH director:']} />
+              <Row>
+                <YAMLFile
+                  title="runtime-config.yml"
+                  disabledErrorMessage={
+                    foundationNameValidationMessage ||
+                    agentReleaseVersionValidationMessage ||
+                    clientIdValidationMessage ||
+                    clientSecretValidationMessage
+                  }
+                  content={
+                    `releases:\n- name: instana-agent\n  version: ${agentReleaseVersion}\n` +
+                    `- name: instana-leadership-election\n  version: ${agentReleaseVersion}\n` +
+                    'addons:\n' +
+                    '- name: instana-agent\n  jobs:\n  - name: instana-agent\n' +
+                    '    release: instana-agent\n  properties:\n    tanzu:\n      foundation:\n' +
+                    `        id: '${foundationName}'\n` +
+                    `        name: '${foundationName}'\n` +
+                    '    instana:\n      agent:\n' +
+                    `        mode: APM\n        key: '${agentKey}'\n        endpoint: '${agentEndpoint}'\n` +
+                    `        zone: '${foundationName}'\n` +
+                    '- name: instana-cloudfoundry-sensor\n' +
+                    '  jobs:\n' +
+                    '  - name: instana-agent-configuration-cf-sensor\n' +
+                    '    release: instana-agent\n' +
+                    '    properties:\n' +
+                    '      tanzu:\n' +
+                    '        foundation:\n' +
+                    `          id: '${foundationName}'\n` +
+                    `          name: '${foundationName}'\n` +
+                    '      cf:\n' +
+                    '        uaa:\n' +
+                    `          client: '${clientId}'\n` +
+                    `          client_secret: '${clientSecret}'\n` +
+                    '  - name: instana-leadership-election\n' +
+                    '    release: instana-leadership-election\n' +
+                    '- name: instana-agent-configuration-pxc-mysql\n  jobs:\n  - name: instana-agent-configuration-pxc-mysql\n' +
+                    '    release: instana-agent\n  include:\n    lifecycle: service\n    jobs:\n' +
+                    '    - name: pxc-mysql\n      release: pxc\n'
+                  }
+                />
+              </Row>
+              <TextWithLink
+                text="For more information on how to set up BOSH runtime configurations, refer to the "
+                linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+                href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+              />
+            </HelpBox>
+            <Spacer />
+            <HelpBox title="Dynamic agents, proxies and other settings">
+              <Description
+                lines={[
+                  'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
+                  'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
+                ]}
+              />
+              <TextWithLink
+                text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
+                href="https://docs.instana.io/ecosystem/cloudfoundry/"
+                linkText="Instana Cloud Foundry documentation."
+              />
+            </HelpBox>
+          </>
+        )}
+      />
+    </>
   );
 }
 
@@ -934,7 +1284,7 @@ function PackagesContent({ agentKey }) {
   );
 }
 
-function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, butlerDomain, tenant, tenantUnit }) {
   const agentModeOptions = ['Dynamic agent', 'Static agent'];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
 
@@ -944,9 +1294,13 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, t
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
         <DownloadButton
           title="Download"
-          href={`https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(
-            agentKey
-          )}&type=${toURLstring(agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline')}`}
+          href={getAgentDownloadURL(
+            tenant,
+            tenantUnit,
+            agentKey,
+            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            butlerDomain
+          )}
         />
       </Row>
       <Spacer />
@@ -970,7 +1324,14 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, t
   );
 }
 
-function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+function WindowsInstallerUnattendedContent({
+  agentKey,
+  agentEndpoint,
+  agentEndpointPort,
+  butlerDomain,
+  tenant,
+  tenantUnit
+}) {
   const agentModeOptions = ['Dynamic agent', 'Static agent'];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
 
@@ -983,9 +1344,13 @@ function WindowsInstallerUnattendedContent({ agentKey, agentEndpoint, agentEndpo
       <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
       <Script
         lines={[
-          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${toURLstring(agentKey)}&type=${toURLstring(
-            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline'
-          )}`
+          getAgentDownloadURL(
+            tenant,
+            tenantUnit,
+            agentKey,
+            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            butlerDomain
+          )
         ]}
       />
       <Spacer />

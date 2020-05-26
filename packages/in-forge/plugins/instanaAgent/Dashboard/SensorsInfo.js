@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { listSensors } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Table from 'in-sdk/components/dashboard/Table';
 import Dialog from 'in-components/Dialog';
@@ -54,7 +54,7 @@ export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), fu
   let rows = getRows(sensors);
   return (
     <Dialog header="Sensors Info" onClose={close} contentClassName={locals.dialog}>
-      {!sensors && <LoadingIndicator type="dark" />}
+      {!sensors && <LoadingIndicator />}
 
       {sensors && (
         <Fragment>

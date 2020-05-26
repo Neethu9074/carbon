@@ -17,7 +17,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
 
       <Paragraph>
         We are preparing everything to monitor your mobile app <strong>{mobileAppName}</strong>. While we do this,{' '}
-        <Link href="https://docs.instana.io/products/mobile_app_monitoring/#installation" target="_blank">
+        <Link href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">
           add the agent to your mobile app
         </Link>
         .
@@ -33,11 +33,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
       </Ul>
 
       <Actions>
-        <Button
-          kind="primaryv2"
-          href="https://docs.instana.io/products/mobile_app_monitoring/#installation"
-          target="_blank"
-        >
+        <Button kind="primaryv2" href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">
           Installation Instructions
         </Button>
 

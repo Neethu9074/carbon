@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 import {
   websiteIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
@@ -20,8 +21,8 @@ import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
-import { compose } from 'recompose';
 
 const columnDefinitions = [
   {
@@ -145,13 +146,15 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
     : tagFilters;
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      websiteId={websiteId}
-      tagFilters={tagFiltersForResourceList}
-      timeConfig={timeConfig}
-      rightHeader={resourcesListRightHeader}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        tagFilters={tagFiltersForResourceList}
+        timeConfig={timeConfig}
+        rightHeader={resourcesListRightHeader}
+      />
+    </Card>
   );
 }
 

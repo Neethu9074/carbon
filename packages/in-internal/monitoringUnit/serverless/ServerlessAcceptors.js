@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -113,7 +113,7 @@ export default connectTo(
   },
   function Overview({ serverlessacceptors, timeConfig }) {
     if (serverlessacceptors.length === 0) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     serverlessacceptors = sort(serverlessacceptors);

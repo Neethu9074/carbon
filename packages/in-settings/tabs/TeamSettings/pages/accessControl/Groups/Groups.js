@@ -1,0 +1,80 @@
+import React from 'react';
+
+import {
+  getEntityIdView,
+  teamSettingsAccessControlGroups,
+  teamSettingsAccessControlGroupNew
+} from 'in-settings/navigation/paths';
+import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import createApiList from 'in-settings/components/ApiList';
+import { getView } from 'in-stores/navigation/navigation';
+import KeyValue from 'in-new-components/lists/KeyValue';
+import Button from 'in-new-components/Button';
+
+const GroupsList = createApiList({
+  ListRenderer,
+  getItems: getGroupsAsResultObservable,
+  deleteItem: deleteGroup,
+  itemName: 'group',
+  searchFields: ['name'],
+  orderBy: 'name',
+  renderAdditionalHeaderContent,
+  boundedPath: '/groups'
+});
+
+export default function Groups() {
+  return <GroupsList />;
+}
+
+function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
+  return (
+    <Ul>
+      {items.map(group => (
+        <Li key={group.id} href$={getEntityIdView(teamSettingsAccessControlGroups, group.id)}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            group={group}
+            currentDeletingItemIds={currentDeletingItemIds}
+            deleteItem={deleteItem}
+          />
+        </Li>
+      ))}
+    </Ul>
+  );
+}
+
+function renderAdditionalHeaderContent() {
+  return (
+    <Button kind="action" href$={getView(teamSettingsAccessControlGroupNew)} icon="lib_openclose_add_circle_outline">
+      Add Group
+    </Button>
+  );
+}
+
+const columnDefinitions = [
+  {
+    getContent({ group }) {
+      return group.name;
+    }
+  },
+  {
+    width: '8rem',
+    getContent({ group }) {
+      return <KeyValue value={group.members.length} label="Users" accentuated />;
+    }
+  },
+  {
+    width: '2rem',
+    getContent({ group, deleteItem, currentDeletingItemIds }) {
+      return (
+        <Delete
+          itemName={group.name}
+          doDelete={() => deleteItem(group.id)}
+          isDeleting={currentDeletingItemIds.has(group.id)}
+        />
+      );
+    }
+  }
+];

@@ -1,9 +1,14 @@
+import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
 import { metricNameForAlertType } from 'in-applications/alerting/form/thresholdFormData';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType) {
   const threshold = form.get('threshold').toJS();
+  const tagFilters = form.get('tagFilters').value;
+
+  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
+  const isNotBlacklisted = filter => !blacklistedTagFilters.includes(filter.name);
 
   const newThresholdForm = createThresholdForm(
     {
@@ -25,16 +30,14 @@ export default function createBlueprintForm(form, alertType) {
     metricName: metricNameForAlertType[alertType]
   });
 
-  return form.put('rule', newRuleForm).put('threshold', newThresholdForm);
+  return form
+    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted)))
+    .put('rule', newRuleForm)
+    .put('threshold', newThresholdForm);
 }
 
 function getThresholdTypeForAlertType(alertType, threshold) {
-  if (alertType === 'errorRate' || alertType === 'logs') {
-    return 'staticThreshold';
-  }
-  if (alertType === 'slowness') {
-    return getSlownessThresholdType(threshold);
-  }
+  return alertType === 'slowness' ? getSlownessThresholdType(threshold) : 'staticThreshold';
 }
 
 function getSlownessThresholdType(threshold) {

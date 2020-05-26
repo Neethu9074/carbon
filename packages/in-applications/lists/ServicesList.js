@@ -1,401 +1,86 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import { get } from 'lodash';
 
 import {
-  serviceListPrefix as matrixPrefix,
+  serviceListPrefix,
   applicationId as applicationIdMatrixParam,
   serviceId as serviceIdMatrixParam,
   endpointId as endpointIdMatrixParam,
-  contextScope as contextScopeMatrixParam
+  contextScope as contextScopeMatrixParam,
+  tagFilters as tagFiltersMatrixParam,
+  snapshotId as snapshotIdMatrixParam,
+  plugin as pluginMatrixParam
 } from 'in-applications/navigation/matrix';
 import {
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
-import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
-import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
-import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import getServices from 'in-subscription/application/getServices';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { isBlank, isNotBlank } from 'in-services/util/string';
-import { entityTypes } from 'in-analyze/applicationFilter';
-import Filters from 'in-applications/components/Filters';
+import { serializeTagFilters, deserializeTagFilters } from 'in-mobile-apps/navigation/matrix';
+import ServicesListPresenter from 'in-applications/lists/ServicesListPresenter';
+import { servicesList } from 'in-applications/navigation/paths';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
-import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
+import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 
-import locals from './ServicesList.mless';
-
+const matrixPrefix = serviceListPrefix;
 const pathSegment = servicesList;
-
-const columnDefinitions = [
-  {
-    id: 'serviceLabel',
-    label: 'Name',
-    getContent(item) {
-      return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <Link href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}>
-            {item.service.label}
-          </Link>
-        </SeverityIndicatorCellContentWrapper>
-      );
-    }
-  },
-  {
-    id: 'types',
-    label: 'Types',
-    noWrap: true,
-    getContent(item) {
-      return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
-    }
-  },
-  {
-    id: 'technologies',
-    label: 'Technologies',
-    noWrap: true,
-    getContent(item) {
-      return <TechnologyIndicatorList technologies={item.service.technologies} />;
-    }
-  },
-  {
-    id: 'applications',
-    label: 'Applications',
-    defaultOrderDirection: 'DESC',
-    getContent(item) {
-      const count = get(item, ['metrics', 'applications', 0, 1], 0);
-      return <EntityCounter count={count} />;
-    }
-  },
-  {
-    id: 'endpoints',
-    label: 'Endpoints',
-    defaultOrderDirection: 'DESC',
-    getContent(item) {
-      const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <EntityCounter count={count} />;
-    }
-  },
-  {
-    id: 'callsAgg',
-    label: 'Calls',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="SUM"
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
-          tooltipFormatter={number.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'latencyAgg',
-    label: 'Latency',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.latency}
-          metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFixed.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <SparkChart
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          aggregation="MEAN"
-          metrics={item.metrics.errors}
-          metric={item.metrics.errorsAgg}
-          tooltipFormatter={percentage.detailed}
-        />
-      );
-    }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
-      return (
-        <ApplicationEntityHealthIndicatorBehavior
-          serviceId={item.service.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
-          inContentArea
-        />
-      );
-    }
-  }
-];
 
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
-
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, endpointTypesUrlParameter, technologiesUrlParameter],
-  columnDefinitions,
-  defaultOrderBy: 'callsAgg',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
-});
 
 export default compose(
   connect({
     timeConfig: timeConfig$
   }),
-  withUrlDependingState({
-    getPathSegment: () => servicesList,
-    getMatrixPrefix: () => matrixPrefix,
-    boundKeys: [
-      'endpointTypes',
-      'technologies',
-      applicationIdMatrixParam,
-      serviceIdMatrixParam,
-      endpointIdMatrixParam,
-      contextScopeMatrixParam
-    ],
-    getInitialState: () => ({
-      endpointTypes: [],
-      technologies: [],
-      [applicationIdMatrixParam]: '',
-      [serviceIdMatrixParam]: '',
-      [endpointIdMatrixParam]: '',
-      [contextScopeMatrixParam]: ''
-    }),
-    reducerName: 'setFilter',
-    reducer: (prevState, nextState) => ({
-      endpointTypes: nextState.endpointTypes ? nextState.endpointTypes : prevState.endpointTypes,
-      technologies: nextState.technologies ? nextState.technologies : prevState.technologies,
-      [applicationIdMatrixParam]:
-        nextState[applicationIdMatrixParam] != null
-          ? nextState[applicationIdMatrixParam]
-          : prevState[applicationIdMatrixParam],
-      [serviceIdMatrixParam]:
-        nextState[serviceIdMatrixParam] != null ? nextState[serviceIdMatrixParam] : prevState[serviceIdMatrixParam],
-      [endpointIdMatrixParam]:
-        nextState[endpointIdMatrixParam] != null ? nextState[endpointIdMatrixParam] : prevState[endpointIdMatrixParam],
-      [contextScopeMatrixParam]:
-        nextState[contextScopeMatrixParam] != null
-          ? nextState[contextScopeMatrixParam]
-          : prevState[contextScopeMatrixParam]
-    }),
-    getParsedUrlValues: ({ endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.split(',').filter(isNotBlank),
-      technologies: technologies == null ? null : technologies.split(',').filter(isNotBlank)
-    }),
-    getSerializedUrlValues: ({ endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes == null ? null : endpointTypes.join(','),
-      technologies: technologies == null ? null : technologies.join(',')
-    })
-  })
-)(ServicesList);
-
-function ServicesList({
-  timeConfig,
-  setFilter,
-  endpointTypes,
-  technologies,
-  [applicationIdMatrixParam]: applicationId,
-  [serviceIdMatrixParam]: serviceId,
-  [endpointIdMatrixParam]: endpointId,
-  [contextScopeMatrixParam]: contextScope
-}) {
-  const rightHeader = ({ query }) => (
-    <Fragment>
-      {role.canConfigureServiceMapping && (
-        <Button
-          className={locals.button}
-          icon="lib_actions_settings"
-          kind="action"
-          href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
-        >
-          Configure Services
-        </Button>
-      )}
-      <Filters
-        endpointTypes={endpointTypes}
-        technologies={technologies}
-        setFilter={setFilter}
-        query={query}
-        buttonLabel="Services"
-        groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-      />
-    </Fragment>
-  );
-
-  const scopeNotification = (!isBlank(applicationId) || !isBlank(serviceId) || !isBlank(endpointId)) &&
-    !isBlank(contextScope) && (
-      <ScopeNotification
-        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
-        productArea="service"
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        contextScope={contextScope}
-        onClose={() =>
-          setFilter({
-            [applicationIdMatrixParam]: '',
-            [serviceIdMatrixParam]: '',
-            [endpointIdMatrixParam]: '',
-            [contextScopeMatrixParam]: ''
-          })
-        }
-      />
-    );
-
-  return (
-    <Sticky header={<ViewSwitcher />}>
-      <LeftRightPadding>
-        <Title title="Services" />
-        <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
-          <ServerTableWithUrlState
-            get={getTableData}
-            timeConfig={timeConfig}
-            endpointTypes={endpointTypes}
-            technologies={technologies}
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            contextScope={contextScope}
-            rightHeader={rightHeader}
-            scopeNotification={scopeNotification}
-          />
-        </WithEmptyStateFallback>
-      </LeftRightPadding>
-
-      <Footer />
-    </Sticky>
-  );
-}
-
-function getTableData(params) {
-  return getServiceListSubscribeEvent(params);
-}
-
-function getHasDataToRender() {
-  return timeConfig$
-    .flatMap(timeConfig => getServiceListSubscribeEvent({ timeConfig }))
-    .map(result => !result.data || result.data.totalHits > 0);
-}
-
-function getServiceListSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  orderBy = 'callsAgg',
-  orderDirection = 'DESC',
-  endpointTypes = [],
-  technologies = [],
-  timeConfig,
-  applicationId,
-  serviceId,
-  endpointId,
-  contextScope
-}) {
-  return getServices({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
+  withUrlState({
+    bind: [
+      endpointTypesUrlParameter,
+      technologiesUrlParameter,
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${applicationIdMatrixParam}`,
+        as: 'applicationId',
+        initialState: ''
       },
-      endpoints: {
-        metric: 'endpoints',
-        aggregation: 'DISTINCT_COUNT'
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${serviceIdMatrixParam}`,
+        as: 'serviceId',
+        initialState: ''
       },
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${endpointIdMatrixParam}`,
+        as: 'endpointId',
+        initialState: ''
       },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${contextScopeMatrixParam}`,
+        as: 'contextScope',
+        initialState: ''
       },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${snapshotIdMatrixParam}`,
+        as: 'snapshotId',
+        initialState: ''
       },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${pluginMatrixParam}`,
+        as: 'plugin',
+        initialState: ''
       },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      openIssues: {
-        metric: 'openIssues',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      maxSeverity: {
-        metric: 'maxSeverity',
-        aggregation: 'MAX'
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}${tagFiltersMatrixParam}`,
+        as: 'tagFilters',
+        initialState: [],
+        parser: deserializeTagFilters,
+        serializer: serializeTagFilters
       }
-    },
-    filter: {
-      label: query,
-      timeConfig,
-      application: applicationId,
-      service: serviceId,
-      endpoint: endpointId,
-      endpointTypes,
-      technologies
-    },
-    contextScope: contextScope ? contextScope : 'NONE'
-  });
-}
+    ],
+    reducerName: 'setFilter',
+    reducer: (prev, next) => ({ ...prev, ...next })
+  })
+)(ServicesListPresenter);

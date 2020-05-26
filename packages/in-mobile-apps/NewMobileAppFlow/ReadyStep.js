@@ -20,7 +20,7 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
 
       <Paragraph>
         Everything is ready to monitor your mobile app <strong>{mobileAppName}</strong>.{' '}
-        <Link href="https://docs.instana.io/products/mobile_app_monitoring/#installation" target="_blank">
+        <Link href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">
           Add the agent to your mobile app
         </Link>{' '}
         to track real users or go to the dashboard.
@@ -36,11 +36,7 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
       </Ul>
 
       <Actions>
-        <Button
-          kind="secondary"
-          href="https://docs.instana.io/products/mobile_app_monitoring/#installation"
-          target="_blank"
-        >
+        <Button kind="secondary" href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">
           Installation Instructions
         </Button>
 

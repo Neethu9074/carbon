@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import connectTo from 'in-hoc/connectTo';
-import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { timeConfig$ } from 'in-stores/time/config';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { compareIgnoreCase } from 'in-services/util/string';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
@@ -113,7 +113,7 @@ export default connectTo(
   },
   function Overview({ acceptors, timeConfig }) {
     if (acceptors.length === 0) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     acceptors = sort(acceptors);

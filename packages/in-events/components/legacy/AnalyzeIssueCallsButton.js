@@ -37,20 +37,20 @@ export default connectTo(
     }
 
     const entityType = event.get('entityType');
-    let applicationLabel = null;
-    let serviceLabel = null;
-    let endpointLabel = null;
+    let applicationName = null;
+    let serviceName = null;
+    let endpointName = null;
 
     if (isApplicationEntity(entityType)) {
-      applicationLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
+      applicationName = event.has('metadata') && event.get('metadata').get('entityLabel');
     } else if (isServiceEntity(entityType)) {
-      serviceLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
+      serviceName = event.has('metadata') && event.get('metadata').get('entityLabel');
     } else if (isEndpointEntity(entityType)) {
-      endpointLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
-      serviceLabel = event.has('metadata') && event.get('metadata').get('app20EndpointServiceLabel');
+      endpointName = event.has('metadata') && event.get('metadata').get('entityLabel');
+      serviceName = event.has('metadata') && event.get('metadata').get('app20EndpointServiceLabel');
     }
 
-    if (!applicationLabel && !serviceLabel && !endpointLabel) {
+    if (!applicationName && !serviceName && !endpointName) {
       return null;
     }
 
@@ -59,6 +59,12 @@ export default connectTo(
     const filters = getFilters(isErroneous, isSynthetic);
     const order = getAnalyzeOrder(event);
     const dataSource = 'calls';
+    const groupByTag =
+      isErroneous || isLatencyEvent(event) || endpointName ? {} : getConfigByDataSource(dataSource).defaultGrouping;
+
+    /*
+    console.log({ isErroneous, dataSource, event, entityType, isErrorEvent, isLatencyEvent, isSynthetic });
+     */
 
     return (
       <div
@@ -71,12 +77,12 @@ export default connectTo(
           kind="primary"
           icon="lib_application_call"
           href$={getLinkToAnalyze({
-            applicationName: applicationLabel,
-            serviceName: serviceLabel,
-            endpointName: endpointLabel,
-            dataSource: dataSource,
-            filters: filters,
-            groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
+            applicationName,
+            serviceName,
+            endpointName,
+            dataSource,
+            filters,
+            groupByTag,
             orderBy: order.by,
             orderDirection: order.direction,
             timeConfig: getTimeConfigFromEvent(event)

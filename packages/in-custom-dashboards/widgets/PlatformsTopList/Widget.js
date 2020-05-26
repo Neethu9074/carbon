@@ -27,9 +27,9 @@ import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
-import { getResultForData } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { add, remove } from 'in-stores/starredItems';
+import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -116,16 +116,16 @@ function getKubernetesClusterById(id, timeConfig) {
     if (isLoading(itemCounterResult) || hasError(itemCounterResult)) {
       return itemCounterResult;
     }
-    return getResultForData({ cluster: kubernetesClusterResult.data, ...itemCounterResult.data, isKubernetes: true });
+    return success({ cluster: kubernetesClusterResult.data, ...itemCounterResult.data, isKubernetes: true });
   });
 }
 
 function mapVsphereResult(result) {
-  return result.data ? getResultForData({ ...result.data, isVsphere: true }) : result;
+  return result.data ? success({ ...result.data, isVsphere: true }) : result;
 }
 
 function mapPcfResult(result) {
-  return result.data ? getResultForData({ ...result.data, isPcf: true }) : result;
+  return result.data ? success({ ...result.data, isPcf: true }) : result;
 }
 
 const columnDefinitions = [

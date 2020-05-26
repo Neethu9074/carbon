@@ -39,8 +39,12 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
   const end = event.end || Date.now();
   const eventType = getEventType(event);
   const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
-  const left = `${Math.max(0, timeScale.getRange(start))}%`;
-  const width = isChangeEvent ? 10 : Math.max(12, timeScale.getRange(end) - timeScale.getRange(start));
+
+  const timeScaleStart = timeScale.getRange(start);
+  const timeScaleEnd = timeScale.getRange(end);
+
+  const left = toPercentageString(timeScaleStart);
+  const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={onClick}>
@@ -68,6 +72,10 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
       </Td>
     </Tr>
   );
+}
+
+function toPercentageString(value) {
+  return `${value}%`;
 }
 
 const On = connectTo(

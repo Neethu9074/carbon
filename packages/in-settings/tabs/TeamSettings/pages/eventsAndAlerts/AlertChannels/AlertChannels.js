@@ -19,6 +19,7 @@ export default function AlertChannels({
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  renderNoDataAvailable,
   hiddenIds,
   pageSize = 20,
   rightHeader = <NewChannelButton />,
@@ -38,6 +39,7 @@ export default function AlertChannels({
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getAlertChannelsMutable}
       noDataMessage={noDataMessage}
+      renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
       initialOrderBy="name"
       rightHeader={rightHeader}

@@ -1,0 +1,72 @@
+@import '~in-themes/active.less';
+
+:local {
+  .queryFormSection {
+    background: @lib__colors__N200;
+    padding: 0 1rem 0.25rem;
+  }
+
+  .description {
+    padding: 0.5rem 0;
+  }
+
+  .helpText {
+    margin-top: 1rem;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+
+  .matchSpecification {
+    display: flex;
+    align-items: flex-start;
+    max-width: 38rem;
+  }
+
+  .matchSpecificationGroupKey {
+    flex-grow: 1;
+  }
+
+  .matchSpecificationGroupValue {
+    flex-grow: 2;
+    margin-left: 1rem;
+  }
+
+  .operatorPill {
+    margin-bottom: 0.5rem;
+    color: @lib__colors__N500;
+  }
+
+  .removeMatchRuleIcon {
+    margin: 1.5rem 0 1.2rem 0.25rem;
+    fill: @lib__colors__N500;
+  }
+
+  .addMatchSpecificationButton {
+    display: flex;
+    width: 100%;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .preview {
+    margin: 1rem 0;
+    padding: 0 1rem 0.25rem;
+    .label {
+      font-size: 1rem;
+      color: @lib__colors__N900Primary;
+    }
+    .render {
+      margin-top: 0.5rem;
+    }
+  }
+  .footer {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
+    padding: 1rem 1rem 0;
+    border-top: 1px solid @lib__colors__N400;
+  }
+
+}

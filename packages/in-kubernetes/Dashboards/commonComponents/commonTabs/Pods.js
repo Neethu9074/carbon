@@ -32,6 +32,7 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
+import Card from 'in-new-components/Card';
 
 import locals from './Pods.mless';
 
@@ -83,13 +84,14 @@ const allColumnDefinitions = [
     optional: true,
     sortable: false,
     getContent(item) {
+      const podStatusSummary = get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder);
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
         <TwoValueBar
           v1={containerStatuses.filter(c => c.ready).length}
           v2={containerStatuses.length}
           v1Color={theme.lib.colors.lightBlue800}
-          v2Color={theme.lib.colors.red800}
+          v2Color={podStatusSummary === 'Completed' ? theme.lib.colors.N400 : theme.lib.colors.red800}
           v1Label="Ready"
           v2Label="Total"
           fullDomain={containerStatuses.length}
@@ -245,19 +247,21 @@ const Pods = compose(
   );
 
   return (
-    <Table
-      get={getTableData}
-      timeConfig={timeConfig}
-      namespaceId={namespaceId}
-      deploymentId={deploymentId}
-      deploymentConfigId={deploymentConfigId}
-      clusterId={clusterId}
-      serviceId={serviceId}
-      nodeId={nodeId}
-      rightHeader={rightHeader}
-      leftHeader={leftHeader}
-      phase={phase}
-    />
+    <Card>
+      <Table
+        get={getTableData}
+        timeConfig={timeConfig}
+        namespaceId={namespaceId}
+        deploymentId={deploymentId}
+        deploymentConfigId={deploymentConfigId}
+        clusterId={clusterId}
+        serviceId={serviceId}
+        nodeId={nodeId}
+        rightHeader={rightHeader}
+        leftHeader={leftHeader}
+        phase={phase}
+      />
+    </Card>
   );
 });
 

@@ -1,18 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import connectTo from 'in-hoc/connectTo';
-import Table from 'in-sdk/components/dashboard/Table';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
-import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { timeConfig$ } from 'in-stores/time/config';
-import { number, timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import {
   hostTableCols,
   volumeTableCols,
@@ -20,6 +7,19 @@ import {
   getHostDetails,
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
+import { number, timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
@@ -35,7 +35,7 @@ export default connectTo(
   },
   function Overview({ metaEsNodes, jvmNodes, timeConfig }) {
     if (!metaEsNodes || !jvmNodes) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     if (metaEsNodes.length < 1) {

@@ -2,16 +2,10 @@ import * as application from 'in-custom-dashboards/widgets/_shared/MetricConfigu
 import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp';
 import * as website from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 
-const sources = {
+export default {
   [application.source]: application,
   [website.source]: website,
-  [event.source]: event
+  [event.source]: event,
+  [mobileApp.source]: mobileApp
 };
-
-if (mobileAppMonitoringEnabled) {
-  sources[mobileApp.source] = mobileApp;
-}
-
-export default sources;

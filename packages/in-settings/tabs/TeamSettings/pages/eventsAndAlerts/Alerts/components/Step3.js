@@ -16,10 +16,10 @@ import {
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
 import { isBlank } from 'in-services/util/string';
@@ -97,7 +97,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                   hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                 />
                 {form.get('queryValidationInProgress').value && (
-                  <LoadingIndicator type="dark" className={locals.queryLoading} inline />
+                  <LoadingIndicator className={locals.queryLoading} inline />
                 )}
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
@@ -105,7 +105,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                   A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
                   applied. Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be
                   applied on all entities. For more information on syntax, please see our&nbsp;
-                  <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+                  <Link href="https://docs.instana.io/dynamic_focus/#syntax" external>
                     documentation
                   </Link>
                   .
@@ -153,7 +153,7 @@ function MatchingEntitiesIndicator({ form }) {
   return (
     <div className={locals.matchingEntitiesIndicator}>
       {form.get('matchingEntitiesQueryInProgress').value && (
-        <LoadingIndicator type="dark" inline className={locals.matchingEntitiesQueryInProgressIndicator} />
+        <LoadingIndicator inline className={locals.matchingEntitiesQueryInProgressIndicator} />
       )}
       {!form.get('matchingEntitiesQueryInProgress').value &&
         form.get('matchingEntities').map(field => {

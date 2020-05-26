@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { number, percentagePlain, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -62,7 +62,7 @@ export default connectTo(
   },
   function AppDataWriter({ rows, timeConfig }) {
     if (rows.length === 0) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
 
     rows = rows.slice().sort((a, b) => compare(Number(getLabel(a)), Number(getLabel(b))));

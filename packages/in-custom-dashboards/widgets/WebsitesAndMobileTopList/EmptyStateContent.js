@@ -4,7 +4,6 @@ import EntityPageMainNotification from 'in-new-components/EntityPageMainNotifica
 import { newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
-import { mobileAppMonitoringEnabled } from 'in-services/featureFlags';
 import ArticleContent from 'in-new-components/ArticleContent';
 import Button from 'in-new-components/Button';
 
@@ -20,11 +19,9 @@ export default function EmptyStateContent({ cardIcon, label }) {
             <Button kind="create" href$={getModifiedUrlStream(p => (p.pathname = newWebsitePathFullyQualified))}>
               Create Website
             </Button>
-            {mobileAppMonitoringEnabled && (
-              <Button kind="create" href$={linkToNewMobileApp$}>
-                Create Mobile App
-              </Button>
-            )}
+            <Button kind="create" href$={linkToNewMobileApp$}>
+              Create Mobile App
+            </Button>
           </div>
         </>
       )}

@@ -6,13 +6,13 @@ import React from 'react';
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { submitAlertChannelTracker } from 'in-settings/tracker';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
@@ -60,7 +60,7 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
   const { entity, form, message, error, loading, setForm, isCreate } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {

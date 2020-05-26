@@ -14,6 +14,7 @@ import {
 } from 'in-analyze/applicationFilter';
 import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
+import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 import QuickFilterBar from 'in-applications/alerting/analyze/QuickFilterBar';
@@ -32,7 +33,11 @@ export default function AlertLocationFilters({
   updateForm,
   withoutLatencyItem
 }) {
-  const tagSuggestions = getAnalyzeFilterTagKeys().filter(tag => !notContainedInTagSuggestions.includes(tag));
+  const alertType = form.get('rule').get('alertType').value;
+  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
+  const tagSuggestions = getAnalyzeFilterTagKeys()
+    .filter(tag => !notContainedInTagSuggestions.includes(tag))
+    .filter(tag => !blacklistedTagFilters.includes(tag));
 
   return (
     form && (
@@ -97,7 +102,7 @@ export default function AlertLocationFilters({
               removeBarBackgroundColor
               hideClearFiltersButton
               withoutFiltersLabel
-              withoutLatencyItem={withoutLatencyItem}
+              withoutLatencyItem={withoutLatencyItem || alertType === 'slowness'}
             />
           }
           tagFilterList={

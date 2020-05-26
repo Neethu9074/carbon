@@ -1,9 +1,9 @@
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { Ul, Li } from 'in-new-components/lists/List';
 import PluginIcon from 'in-components/PluginIcon';
 
@@ -11,7 +11,7 @@ import locals from './IntegrationDashboardList.mless';
 
 export default function IntegrationDashboardList({ entities, query }) {
   if (!entities) {
-    return <InfiniteCircle />;
+    return <LoadingIndicator text="Loading Data" />;
   }
 
   if (entities.length === 0) {

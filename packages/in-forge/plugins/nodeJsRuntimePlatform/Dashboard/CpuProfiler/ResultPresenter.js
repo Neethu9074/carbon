@@ -2,8 +2,8 @@ import React from 'react';
 
 import { isProfiling$, lastProfilingResult$ } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/store';
 import ResultTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/ResultTable';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardNotification from 'in-components/DashboardNotification';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -18,7 +18,7 @@ export default connectTo(
 
     return (
       <div>
-        {isProfiling ? <LoadingIndicator type="dark" /> : null}
+        {isProfiling ? <LoadingIndicator /> : null}
 
         {lastProfilingResult && lastProfilingResult.error ? (
           <DashboardNotification type="danger">{lastProfilingResult.error}</DashboardNotification>

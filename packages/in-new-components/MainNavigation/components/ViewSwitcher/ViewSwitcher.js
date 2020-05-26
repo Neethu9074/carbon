@@ -22,13 +22,7 @@ import {
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  mobileAppMonitoringEnabled
-} from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled, releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
@@ -313,7 +307,7 @@ function Analyze(props) {
 
 function WebsiteMobileAppView(props) {
   const showWebNavigationItem = hasWebsitesAccess;
-  const showMobileAppNavigationItem = mobileAppMonitoringEnabled && hasMobileAppsAccess;
+  const showMobileAppNavigationItem = hasMobileAppsAccess;
 
   const isWebsiteView$ = all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v));
   const isMobileAppView$ = all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v));

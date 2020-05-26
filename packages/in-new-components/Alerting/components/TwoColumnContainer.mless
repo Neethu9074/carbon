@@ -5,6 +5,7 @@
     display: grid;
     grid-template-areas: 'main secondary';
     grid-template-columns: 2fr 1fr;
+    border-radius: @lib__shapes__radius_small;
     border: 1px solid @lib__colors__N300;
   }
 
@@ -22,11 +23,13 @@
   }
 
   .mainArea {
+    border-radius: inherit;
     grid-area: main;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
   }
 
   .mainAreaContent {
+    border-radius: inherit;
     border: 1px solid @lib__colors__N300;
   }
 

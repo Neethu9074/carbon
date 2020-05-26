@@ -14,11 +14,11 @@ import { queryValidationResultValidator, queryValidationInProgressValidator, val
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
@@ -49,7 +49,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator type="dark" />;
+    return <LoadingIndicator />;
   }
 
   if (entity && entity.get('errors')) {

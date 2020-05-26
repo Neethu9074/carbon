@@ -17,7 +17,7 @@ export default function LightCardV2({
   className,
   headerClassName,
   bodyClassName,
-  useMaxAvailableHeight
+  useMaxAvailableHeight = true
 }) {
   if (header && !rightHeaderContent) {
     rightHeaderContent = header;
@@ -33,6 +33,7 @@ export default function LightCardV2({
       <div
         className={evaluateClassNames({
           [locals.header]: true,
+          [locals.noHeaderContent]: !title && !icon && !leftHeaderContent && !header && !rightHeaderContent,
           [headerClassName]: headerClassName
         })}
       >
@@ -46,7 +47,7 @@ export default function LightCardV2({
 
       <div
         className={evaluateClassNames({
-          [locals.body]: true,
+          [locals.body]: children ? true : false,
           [bodyClassName]: bodyClassName
         })}
       >

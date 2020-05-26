@@ -7,15 +7,13 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import Groups from 'in-analyze/components/GroupedTraces/Groups';
 import Group from 'in-analyze/components/GroupedTraces/Group';
 
-import locals from './TraceGroupsTable.mless';
-
 export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics, progress, errors } = props;
   const columnCount = 3 + metrics.length;
 
   return (
     <Fragment>
-      <Table className={locals.table}>
+      <Table>
         <Thead>
           <Tr size="compact">
             <SortableColumn

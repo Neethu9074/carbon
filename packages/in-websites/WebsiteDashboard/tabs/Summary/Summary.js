@@ -110,6 +110,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           <WebsiteChartWrapper
             cardTitle="Page Views"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              websiteLabel
+            }}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
@@ -123,7 +126,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 pageLoads: {
                   metric: 'pageLoads',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  omitMetricInAnalytics: true,
+                  beaconType: 'pageLoad'
                 },
                 pageTransitions: {
                   metric: 'pageTransitions',
@@ -138,6 +143,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           <WebsiteChartWrapper
             cardTitle="JS Errors"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              websiteLabel
+            }}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
@@ -152,7 +160,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 errors: {
                   metric: 'errors',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  omitMetricInAnalytics: true,
+                  beaconType: 'error'
                 }
               }
             }}
@@ -165,6 +175,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 cardTitle="onLoad Time"
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
@@ -178,7 +191,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                     onLoadTime: {
                       metric: 'onLoadTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      analyzeMetricName: 'beaconDuration',
+                      beaconType: 'pageLoad'
                     }
                   }
                 }}

@@ -1,5 +1,5 @@
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, bytes } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -26,120 +26,105 @@ export default [
     ],
     min: 0,
     category: ['Messages'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metrics: ['overview.consumers', 'overview.connections'],
     labels: ['Consumers', 'Connections'],
     min: 0,
     category: ['Overview'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'fd_used'),
+    metric: getDynamicMetricMatch('node_map', 'fd_used', 'Node'),
     label: 'File descriptors used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'fd_total'),
+    metric: getDynamicMetricMatch('node_map', 'fd_total', 'Node'),
     label: 'Total file descriptors',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'mem_used'),
+    metric: getDynamicMetricMatch('node_map', 'mem_used', 'Node'),
     label: 'Memory Used',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
-    metric: getMetricMatch('node_map', 'mem_limit'),
+    metric: getDynamicMetricMatch('node_map', 'mem_limit', 'Node'),
     label: 'Memory limit',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
-    metric: getMetricMatch('node_map', 'proc_used'),
+    metric: getDynamicMetricMatch('node_map', 'proc_used', 'Node'),
     label: 'Erlang processes used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'proc_total'),
+    metric: getDynamicMetricMatch('node_map', 'proc_total', 'Node'),
     label: 'Maximum number of Erlang processes',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'disk_free'),
+    metric: getDynamicMetricMatch('node_map', 'disk_free', 'Node'),
     label: 'Disk free space',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
-    metric: getMetricMatch('node_map', 'disk_free_limit'),
+    metric: getDynamicMetricMatch('node_map', 'disk_free_limit', 'Node'),
     label: 'Disk alarm threshold',
     min: 0,
     category: ['Nodes'],
-    formatter: bytes,
-    isAvailable
+    formatter: bytes
   },
   {
-    metric: getMetricMatch('node_map', 'sockets_total'),
+    metric: getDynamicMetricMatch('node_map', 'sockets_total', 'Node'),
     label: 'Total sockets',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('node_map', 'sockets_used'),
+    metric: getDynamicMetricMatch('node_map', 'sockets_used', 'Node'),
     label: 'Sockets used',
     min: 0,
     category: ['Nodes'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('queue_map', 'messages_ready'),
+    metric: getDynamicMetricMatch('queue_map', 'messages_ready', 'Queue'),
     label: 'Messages ready',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('queue_map', 'messages_unacknowledged'),
+    metric: getDynamicMetricMatch('queue_map', 'messages_unacknowledged', 'Queue'),
     label: 'Messages unacknowledged',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
-    metric: getMetricMatch('queue_map', 'messages'),
+    metric: getDynamicMetricMatch('queue_map', 'messages', 'Queue'),
     label: 'Messages total',
     min: 0,
     category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: 'net_partitions_count',
@@ -154,7 +139,3 @@ export default [
     formatter: number
   }
 ];
-
-function isAvailable(snapshot) {
-  return snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK') === 'OK';
-}

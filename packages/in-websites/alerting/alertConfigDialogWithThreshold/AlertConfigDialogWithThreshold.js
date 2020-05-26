@@ -1,11 +1,10 @@
-import { compose, withProps } from 'recompose';
+import { compose, withProps, withState } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
 import {
   getMetricConfigurationForStatusCode,
   getMetricConfigurationForErrors,
-  getMetricsBaselineConfiguration,
   getMetricConfiguration
 } from 'in-websites/alerting/alertConfigDialogWithThreshold/MetricsConfigurationFactory';
 import {
@@ -13,44 +12,32 @@ import {
   websitesAlertingSwitchMode,
   websitesAlertingAlertCreated
 } from 'in-websites/alerting/tracker';
-import getWebsiteRateMetricHistoricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricHistoricThreshold';
-import getWebsiteMetricsHistoricThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsHistoricThreshold';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/alerting/constants';
+import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThreshold';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import getWebsiteMetricsBaseline from 'in-websites/alerting/subscriptions/getWebsiteMetricsBaseline';
+import getWebsiteMetricsThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsThreshold';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
 import { getBlueprintObject } from 'in-websites/alerting/trackingHelpers';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
+import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = compose(
-  connectTo(props => {
-    const { form, timeConfig, granularity, updateForm } = props;
-
-    const thresholdType = form.get('threshold').get('type').value;
-
+  withState('simpleMode', 'setSimpleMode', props => !props.editMode),
+  connectTo(({ form, updateForm, simpleMode }) => {
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
-    const observable = {};
-
-    if (thresholdType === 'staticThreshold') {
-      observable.result = resolveThresholdRequest(form, timeConfig, granularity)
+    return {
+      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
-        .map(resp => resp.data)
-        .tap(({ threshold, time }) => addThresholdToForm(form, updateForm, threshold, time));
-    } else {
-      observable.result = resolveBaselineRequest(form, granularity)
-        .filter(resp => resp && resp.data && !resp.progress.loading)
-        .map(resp => resp.data)
-        .tap(({ baseline, time }) => addBaselineToForm(form, updateForm, baseline || [], time));
-    }
-
-    return observable;
+        .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
+    };
   }),
   withProps(({ onClose, onCreate, form }) => ({
     withTrackClose: trackingConfig => {
@@ -90,43 +77,32 @@ export const AlertConfigDialogWithThreshold = compose(
   );
 });
 
-function resolveThresholdRequest(form, timeConfig, granularity) {
+function resolveThresholdRequest(form, granularity, fallbackOnError) {
   const websiteId = form.get(fieldNames.websiteId).value;
   const stringValue = getFormValueOrDefault(form.get('rule'), 'value');
   const operator = getFormValueOrDefault(form.get('rule'), 'operator');
   const tagFilters = form.get(fieldNames.tagFilters).value;
   const metricName = form.get('rule').get('metricName').value;
-  const aggregation = getFormValueOrDefault(form.get('rule'), 'aggregation');
 
   switch (metricName) {
     case errorCount:
-      return getWebsiteMetricsHistoricThreshold(
-        getMetricConfigurationForErrors(
-          websiteId,
-          'SUM',
-          errorCount,
-          stringValue,
-          operator,
-          tagFilters,
-          timeConfig,
-          granularity
-        )
+      if (isBlank(stringValue)) {
+        return empty;
+      }
+
+      return getWebsiteMetricsThreshold(
+        getMetricConfigurationForErrors(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, granularity)
       );
     case errorRate:
-      return getWebsiteRateMetricHistoricThreshold(
-        getMetricConfigurationForErrors(
-          websiteId,
-          'MEAN',
-          errorRate,
-          stringValue,
-          operator,
-          tagFilters,
-          timeConfig,
-          granularity
-        )
+      if (isBlank(stringValue)) {
+        return empty;
+      }
+
+      return getWebsiteRateMetricThreshold(
+        getMetricConfigurationForErrors(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, granularity)
       );
     case statusCodeCount:
-      return getWebsiteMetricsHistoricThreshold(
+      return getWebsiteMetricsThreshold(
         getMetricConfigurationForStatusCode(
           websiteId,
           'SUM',
@@ -134,12 +110,11 @@ function resolveThresholdRequest(form, timeConfig, granularity) {
           stringValue,
           operator,
           tagFilters,
-          timeConfig,
           granularity
         )
       );
     case statusCodeRate:
-      return getWebsiteRateMetricHistoricThreshold(
+      return getWebsiteRateMetricThreshold(
         getMetricConfigurationForStatusCode(
           websiteId,
           'MEAN',
@@ -147,54 +122,47 @@ function resolveThresholdRequest(form, timeConfig, granularity) {
           stringValue,
           operator,
           tagFilters,
-          timeConfig,
           granularity
         )
       );
-    case onLoadTime:
-      return getWebsiteMetricsHistoricThreshold(
-        getMetricConfiguration(websiteId, aggregation, 'onLoadTime', tagFilters, timeConfig, granularity)
+    case onLoadTime: {
+      const aggregation = form.get('rule').get('aggregation').value;
+      const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
+
+      return getWebsiteMetricsThreshold(
+        getMetricConfiguration(
+          websiteId,
+          aggregation,
+          onLoadTime,
+          tagFilters,
+          granularity,
+          fallbackOnError ? 'DAILY' : seasonality,
+          fallbackOnError
+        )
       );
+    }
     default:
-      return empty();
+      return empty;
   }
 }
 
-function resolveBaselineRequest(form, granularity) {
-  const websiteId = form.get(fieldNames.websiteId).value;
-  const tagFilters = form.get(fieldNames.tagFilters).value;
-  const metricName = form.get('rule').get('metricName').value;
-  const aggregation = getFormValueOrDefault(form.get('rule'), 'aggregation');
-  const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
-
-  if (metricName === onLoadTime) {
-    return getWebsiteMetricsBaseline(
-      getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality)
-    );
-  }
-  return alwaysEmptyArray;
-}
-
-function addThresholdToForm(form, updateForm, threshold, time) {
-  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
+function updateThresholdInForm(form, updateForm, thresholdData, time) {
+  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+  const alertType = form.get('rule').get('alertType').value;
+  if (calculateThresholdOnBackend) {
     thresholdOrBaselineLoadingSignal$.emit(false);
+
+    const updatedThresholdForm = createThresholdForm(
+      {
+        lastUpdated: time,
+        ...thresholdData
+      },
+      alertType
+    );
 
     updateForm(
       form
-        .updateIn(['threshold', 'value'], f => f.setValue(threshold).setTouched(true))
-        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
-    );
-  }
-}
-
-function addBaselineToForm(form, updateForm, baseline, time) {
-  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
-    thresholdOrBaselineLoadingSignal$.emit(false);
-    updateForm(
-      form
-        .updateIn(['threshold', 'baseline'], f => f.setValue(baseline).setTouched(true))
-        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time))
+        .put('threshold', updatedThresholdForm)
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }

@@ -2,13 +2,15 @@ import React, { Fragment } from 'react';
 
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import AggregationSelector from 'in-new-components/AggregationSelector';
+import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
+import theme from 'in-themes';
 
-export default function Speed({ timeConfig, tagFilters }) {
+export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -18,6 +20,9 @@ export default function Speed({ timeConfig, tagFilters }) {
           <WebsiteChartWrapper
             cardTitle="Page Loads vs. onLoad Time"
             timeConfig={timeConfig}
+            viewInAnalytics={{
+              websiteLabel
+            }}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
@@ -39,12 +44,16 @@ export default function Speed({ timeConfig, tagFilters }) {
                 pageLoads: {
                   metric: 'pageLoads',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  omitMetricInAnalytics: true,
+                  beaconType: 'pageLoad'
                 },
                 onLoadTime: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'MEAN'
+                  aggregation: 'MEAN',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 }
               }
             }}
@@ -55,6 +64,9 @@ export default function Speed({ timeConfig, tagFilters }) {
             cardTitle="onLoad Time"
             timeConfig={timeConfig}
             shareMaxAxisDomain
+            viewInAnalytics={{
+              websiteLabel
+            }}
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
@@ -77,32 +89,44 @@ export default function Speed({ timeConfig, tagFilters }) {
                 onLoadTime50th: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'P50'
+                  aggregation: 'P50',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 },
                 onLoadTime90th: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'P90'
+                  aggregation: 'P90',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 },
                 onLoadTime95th: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'P95'
+                  aggregation: 'P95',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 },
                 onLoadTime99th: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'P99'
+                  aggregation: 'P99',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 },
                 onLoadTimeMax: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'MAX'
+                  aggregation: 'MAX',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 },
                 onLoadTimeMean: {
                   metric: 'onLoadTime',
                   granularity,
-                  aggregation: 'MEAN'
+                  aggregation: 'MEAN',
+                  analyzeMetricName: 'beaconDuration',
+                  beaconType: 'pageLoad'
                 }
               }
             }}
@@ -118,6 +142,10 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardTitle="Navigation Timing"
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
+                shareMaxAxisDomain
+                viewInAnalytics={{
+                  websiteLabel
+                }}
                 y1={{
                   renderer: Renderer.stackedBar,
                   formatter: millis.forcedFixedCompact,
@@ -146,6 +174,14 @@ export default function Speed({ timeConfig, tagFilters }) {
                     'childrenTime'
                   ]
                 }}
+                y2={{
+                  renderer: Renderer.line,
+                  formatter: millis.forcedFixedCompact,
+                  labels: ['Time to First Byte'],
+                  metricIds: ['ttfb'],
+                  // Ensure high readability
+                  colors: [theme.lib.colors.N900Primary]
+                }}
                 metricsConfiguration={{
                   timeConfig,
                   tagFilters: tagFilters.concat({
@@ -157,52 +193,68 @@ export default function Speed({ timeConfig, tagFilters }) {
                     unloadTime: {
                       metric: 'unloadTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     redirectTime: {
                       metric: 'redirectTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     appCacheTime: {
                       metric: 'appCacheTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     dnsTime: {
                       metric: 'dnsTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     tcpTime: {
                       metric: 'tcpTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     sslTime: {
                       metric: 'sslTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     requestTime: {
                       metric: 'requestTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     responseTime: {
                       metric: 'responseTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     domTime: {
                       metric: 'domTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     childrenTime: {
                       metric: 'childrenTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
+                    },
+                    ttfb: {
+                      metric: 'ttfb',
+                      granularity,
+                      aggregation,
+                      beaconType: 'pageLoad'
                     }
                   }
                 }}
@@ -220,11 +272,14 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardTitle="Paint Timing"
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['First Paint', 'First-Contentful Paint'],
-                  metricIds: ['firstPaintTime', 'firstContentfulPaintTime']
+                  labels: ['First Paint', 'First-Contentful Paint', 'Largest-Contentful Paint'],
+                  metricIds: ['firstPaintTime', 'firstContentfulPaintTime', 'largestContentfulPaintTime']
                 }}
                 metricsConfiguration={{
                   timeConfig,
@@ -233,12 +288,20 @@ export default function Speed({ timeConfig, tagFilters }) {
                     firstPaintTime: {
                       metric: 'firstPaintTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
                     },
                     firstContentfulPaintTime: {
                       metric: 'firstContentfulPaintTime',
                       granularity,
-                      aggregation
+                      aggregation,
+                      beaconType: 'pageLoad'
+                    },
+                    largestContentfulPaintTime: {
+                      metric: 'largestContentfulPaintTime',
+                      granularity,
+                      aggregation,
+                      beaconType: 'pageLoad'
                     }
                   }
                 }}
@@ -247,6 +310,75 @@ export default function Speed({ timeConfig, tagFilters }) {
           </AggregationSelector>
         </Col>
       </Row>
+
+      <Row>
+        <Col lg={6}>
+          <AggregationSelector defaultAggregation="MEAN">
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                cardTitle="First Input Delay"
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: millis.forcedFixedCompact,
+                  labels: ['First Input Delay'],
+                  metricIds: ['firstInputDelay']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    firstInputDelay: {
+                      metric: 'firstInputDelay',
+                      granularity,
+                      aggregation,
+                      beaconType: 'pageLoad'
+                    }
+                  }
+                }}
+              />
+            )}
+          </AggregationSelector>
+        </Col>
+
+        <Col lg={6}>
+          <AggregationSelector defaultAggregation="MEAN">
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                cardTitle="Cumulative Layout Shift"
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: clsFormatter,
+                  labels: ['Cumulative Layout Shift'],
+                  metricIds: ['cumulativeLayoutShift']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    cumulativeLayoutShift: {
+                      metric: 'cumulativeLayoutShift',
+                      granularity,
+                      aggregation,
+                      beaconType: 'pageLoad'
+                    }
+                  }
+                }}
+              />
+            )}
+          </AggregationSelector>
+        </Col>
+      </Row>
+
       <Footer />
     </Fragment>
   );

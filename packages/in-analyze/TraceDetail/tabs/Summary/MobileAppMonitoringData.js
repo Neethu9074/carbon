@@ -9,9 +9,11 @@ import {
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -20,10 +22,10 @@ import locals from './MobileAppMonitoringData.mless';
 const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
 export default compose(
-  connect(({ correlationId, startTime }) => {
+  connect(({ traceId, startTime }) => {
     return {
       result: getMobileAppBeacons({
-        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
+        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
         timeConfig: {
           windowSize: 1000 * 60 * 60,
           to: startTime + 1000 * 60 * 30,
@@ -60,32 +62,40 @@ export default compose(
 
   return (
     <Fragment>
-      <div className={locals.wrapper}>
-        <span className={locals.leftSide}>
-          <SvgIcon type="lib_mobile_app" className={locals.icon} />
-          <span className={locals.title}>Corresponding Mobile App Activity</span>
-          This trace is caused by activity on the&nbsp;
-          <Link href$={getLinkToMobileApp(beacon.mobileAppId)}>{beacon.mobileAppLabel}</Link>
-          &nbsp;mobile app.
-        </span>
-
-        <span>
-          <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-            {showDetails ? 'Hide ' : 'Show '} Mobile App Information
-          </Button>
-          <Button
-            onClick={() => navigateToSessionFromBackendTrace()}
-            href$={getLinkToSession({
-              sessionId: beacon.sessionId,
-              beaconTimestamp: beacon.timestamp
-            })}
-            kind="primary"
-            size="compact"
+      <Row singleRowTopMargin withoutSideMargin>
+        <Col lg={12}>
+          <Card
+            title={
+              <span className={locals.title}>
+                <SvgIcon type="lib_mobile_app" />
+                Corresponding Mobile App Activity
+              </span>
+            }
           >
-            View Mobile App Activity
-          </Button>
-        </span>
-      </div>
+            <span className={locals.leftSide}>
+              This trace is caused by activity on the&nbsp;
+              <Link href$={getLinkToMobileApp(beacon.mobileAppId)}>{beacon.mobileAppLabel}</Link>
+              &nbsp;mobile app.
+            </span>
+            <span>
+              <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
+                {showDetails ? 'Hide ' : 'Show '} Mobile App Information
+              </Button>
+              <Button
+                onClick={() => navigateToSessionFromBackendTrace()}
+                href$={getLinkToSession({
+                  sessionId: beacon.sessionId,
+                  beaconTimestamp: beacon.timestamp
+                })}
+                kind="primary"
+                size="compact"
+              >
+                View Mobile App Activity
+              </Button>
+            </span>
+          </Card>
+        </Col>
+      </Row>
 
       {showDetails && <BeaconUserSummary beacon={beacon} />}
     </Fragment>

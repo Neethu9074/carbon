@@ -48,17 +48,7 @@ export default function alertFormDefinition(alertConfig) {
     .put(
       fieldNames.alertChannelIds,
       createField({
-        value: alertChannelIds,
-        validator: array => {
-          if (!array || array.length === 0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please select at least one Alert Channel'
-              }
-            ];
-          }
-        }
+        value: alertChannelIds
       })
     )
     .put(

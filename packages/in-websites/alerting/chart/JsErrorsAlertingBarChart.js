@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
+import {
+  chartColors,
+  legendColors,
+  smoothMetrics,
+  getSmoothedMetricTooltipContent
+} from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
+import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
@@ -27,6 +33,8 @@ export default function JsErrorsAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
+  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -37,36 +45,30 @@ export default function JsErrorsAlertingBarChart({
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
+        granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2)
             : metricsMaxValue;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: [_isDefaultWindowSize ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
+          colors: legendColors
         },
-        renderer: Renderer.barWithThreshold,
+        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
-        labels: [getMetricLabel(alertTypes.specificJsError, metricName), 'Threshold', 'Expected Range', 'Violations'],
+        labels: [
+          `${getMetricLabel(alertTypes.specificJsError, metricName)}${_isDefaultWindowSize ? '' : '*'}`,
+          'Threshold',
+          'Violations'
+        ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', null],
+          ['errors', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
           ['threshold', null],
           ['alerts', null],
-          ['Expected Range', null],
           ['Violations', null]
         ])
       }}
@@ -91,6 +93,11 @@ export default function JsErrorsAlertingBarChart({
       )}
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
+      mutateMetrics={{
+        doMutate: !_isDefaultWindowSize,
+        metricNames: ['errors'],
+        mutate: smoothMetrics
+      }}
     />
   );
 }
@@ -161,7 +168,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, err
   const alertsConfig = {
     metric,
     aggregation: metric === errorCount ? 'SUM' : 'MEAN',
-    granularity // global metric granularity
+    granularity: alertingMetricsGranularity // global metric granularity
   };
 
   if (metric === errorRate) {

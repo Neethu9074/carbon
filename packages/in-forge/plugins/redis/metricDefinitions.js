@@ -1,10 +1,4 @@
-import {
-  bytes,
-  percentageZeroDecimalPlaces,
-  number,
-  kiloBytesZeroDecimalPlaces,
-  msZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { bytes, percentage, number, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -25,7 +19,7 @@ export default [
   {
     metric: 'mem_fragmentation_ratio',
     label: 'Memory fragmentation ratio',
-    formatter: percentageZeroDecimalPlaces
+    formatter: percentage.compact
   },
   {
     metric: 'rejected_connections',
@@ -75,7 +69,7 @@ export default [
   {
     metric: 'latency_max',
     label: 'Latency',
-    formatter: msZeroDecimalPlaces
+    formatter: millis.detailed
   },
   {
     metric: 'throughput',
@@ -85,6 +79,6 @@ export default [
   {
     metric: 'master_sync_left_bytes',
     label: 'Bytes left before syncing is complete',
-    formatter: kiloBytesZeroDecimalPlaces
+    formatter: bytes.detailed
   }
 ];

@@ -5,6 +5,9 @@ export const boundaryScope = 'boundaryScope';
 export const contextScope = 'contextScope';
 export const hideUpstream = 'hideUpstream';
 export const hideDownstream = 'hideDownstream';
+export const tagFilters = 'tagFilters';
+export const snapshotId = 'snapshotId';
+export const plugin = 'plugin';
 
 export const applicationListPrefix = 'app.';
 export const serviceListPrefix = 'service.';

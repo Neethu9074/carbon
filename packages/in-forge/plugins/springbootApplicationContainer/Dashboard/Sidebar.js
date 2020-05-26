@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import { ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from '../Info';
 
 export default function SpringbootSidebar({ snapshot }) {
@@ -24,14 +23,17 @@ export default function SpringbootSidebar({ snapshot }) {
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Application Configs</Collapsible.Header>
           <Collapsible.Content>
-            <ClickableList>
-              {applicationConfig
-                .map((applicationConfigData, applicationConfigPath) => (
-                  <KeyValueOverlay header={applicationConfigPath} data={applicationConfigData} />
-                ))
-                .valueSeq()
-                .toArray()}
-            </ClickableList>
+            {applicationConfig
+              .map((applicationConfigData, applicationConfigPath) => (
+                <div>
+                  <DescriptionList>
+                    <DescriptionItem title="Config Path">{applicationConfigPath}</DescriptionItem>
+                  </DescriptionList>
+                  <KeyValueOverlay header="Properties" data={applicationConfigData} />
+                </div>
+              ))
+              .valueSeq()
+              .toArray()}
           </Collapsible.Content>
         </Collapsible>
       ) : null}

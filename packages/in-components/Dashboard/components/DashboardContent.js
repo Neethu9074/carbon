@@ -3,13 +3,13 @@ import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-components/Dashboard/components/AgentMonitoringIssueNotifications';
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import getForgeComponent from 'in-services/getForgeComponent';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
@@ -49,13 +49,13 @@ export default connectTo(
   }) {
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
       return (
-        <div className="in-dashboard">
-          <LoadingIndicator type="dark" />
+        <div className={locals.loadingIndicatorWrapper}>
+          <LoadingIndicator />
         </div>
       );
     } else if (!snapshot && showVersionSelector) {
       return (
-        <div className="in-dashboard">
+        <div>
           <NotFoundDialog
             snapshotId={snapshotId}
             versionsForFocusedMoment={versionsForFocusedMoment}
@@ -77,7 +77,7 @@ export default connectTo(
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`);
 
     return (
-      <div className="in-dashboard">
+      <div>
         <div className={locals.mainContent}>
           <Sticky
             header={

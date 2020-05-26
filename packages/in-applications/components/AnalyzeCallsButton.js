@@ -29,7 +29,7 @@ function AnalyzeCallsButton({
   serviceLabel,
   endpointLabel,
   boundaryScope,
-  isSynthetic,
+  syntheticType,
   filters = [],
   groupByTag
 }) {
@@ -43,9 +43,8 @@ function AnalyzeCallsButton({
         endpointName: endpointLabel,
         boundaryScope: boundaryScope || applicationBoundaryScope,
         dataSource: 'calls',
-        filters: isSynthetic
-          ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
-          : filters,
+        filters: getSyntheticCallFilters(syntheticType),
+        ...filters,
         groupByTag: groupByTag ? groupByTag : {}
       })}
     >
@@ -60,4 +59,15 @@ function getLabel(result) {
 
 function getBoundaryScope(result) {
   return get(result, ['data', 'boundaryScope'], null);
+}
+
+function getSyntheticCallFilters(syntheticType) {
+  switch (syntheticType) {
+    case 'SYNTHETIC':
+      return [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }];
+    case 'MIXED':
+      return [{ name: 'call.is_synthetic', value: 'false' }, { name: 'include_synthetic', value: 'true' }];
+    default:
+      return [];
+  }
 }

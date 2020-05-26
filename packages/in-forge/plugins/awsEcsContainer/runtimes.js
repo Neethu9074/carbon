@@ -40,27 +40,3 @@ export function getRuntimeByKey(key) {
   }
   return unknownRuntime;
 }
-
-export function isDotNetCore(runtime) {
-  return runtime.key === 'dotnetcore';
-}
-
-export function isGoLang(runtime) {
-  return runtime.key === 'go';
-}
-
-export function isJava(runtime) {
-  return runtime.key === 'java';
-}
-
-export function isNodeJs(runtime) {
-  return runtime.key === 'node';
-}
-
-export function isPython(runtime) {
-  return runtime.key === 'python';
-}
-
-export function isRuby(runtime) {
-  return runtime.key === 'ruby';
-}

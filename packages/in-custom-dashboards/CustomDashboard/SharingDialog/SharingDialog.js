@@ -3,14 +3,14 @@ import { compose, withProps } from 'recompose';
 import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialogPresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
-import { getUsersAsResultObservable } from 'in-api/users';
+import { getUsers } from 'in-custom-dashboards/api';
 import { deepCopy } from 'in-services/util/object';
 import connectTo from 'in-hoc/connectTo';
 import { user } from 'in-stores/user';
 
 export default compose(
   connectTo({
-    usersResult: getUsersAsResultObservable()
+    usersResult: getUsers()
   }),
   withPropDependingState({
     getInitialState,

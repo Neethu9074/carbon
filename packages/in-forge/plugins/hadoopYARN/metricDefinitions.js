@@ -1,5 +1,5 @@
 import { bytes, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -33,32 +33,37 @@ export default [
     formatter: number
   },
   {
-    metric: getMetricMatch('nodes', 'containers'),
+    metric: getDynamicMetricMatch('nodes', 'containers', 'Node'),
     label: 'Containers Running',
+    category: ['Nodes'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('nodes', 'memoryAvailable'),
+    metric: getDynamicMetricMatch('nodes', 'memoryAvailable', 'Node'),
     label: 'Memory Available',
+    category: ['Nodes'],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getMetricMatch('nodes', 'memoryUsed'),
+    metric: getDynamicMetricMatch('nodes', 'memoryUsed', 'Node'),
     label: 'Memory Used',
+    category: ['Nodes'],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getMetricMatch('nodes', 'virtualCoresAvailable'),
+    metric: getDynamicMetricMatch('nodes', 'virtualCoresAvailable', 'Node'),
     label: 'Virtual Cores Available',
+    category: ['Nodes'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('nodes', 'virtualCoresUsed'),
+    metric: getDynamicMetricMatch('nodes', 'virtualCoresUsed', 'Node'),
     label: 'Virtual Cores Used',
+    category: ['Nodes'],
     min: 0,
     formatter: number
   }

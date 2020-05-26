@@ -3,7 +3,8 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    height: 60vh;
+    min-height: 30vh;
+    max-height: 60vh;
     width: 50rem;
   }
 }

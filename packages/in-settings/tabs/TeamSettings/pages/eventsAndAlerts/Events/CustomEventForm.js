@@ -14,6 +14,8 @@ import {
   putAggregationField,
   putQueryFields,
   putApplicationField,
+  putMetricPatternOperator,
+  putMetricPatternPlaceholder,
   removeQueryFields,
   updateFormDefinitionForDataSource,
   updateFormDefinitionForSystemRule,
@@ -34,6 +36,14 @@ import {
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
+  containsMetricInList,
+  createMetricListItem,
+  getAllBuiltInMetrics,
+  isBuiltInPlainMetric,
+  getMetricDefinition,
+  isBuiltInDynamicMetric
+} from 'in-sdk/metrics';
+import {
   getEntityTypeOptions,
   formatterTypeToDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
@@ -42,14 +52,14 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
+import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventDescription from 'in-components/EventDescription';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -58,7 +68,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
-import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import Toggle from 'in-components/form/Toggle';
@@ -90,22 +99,43 @@ const queryInput = create();
 const queryValidationFinished = create();
 
 export default compose(
-  connectTo({
-    customMetrics: getCustom().map(metricInstances => {
-      const customMetricsList = [];
-      metricInstances.map(metricInstance => {
-        customMetricsList.push(
-          createMetricListItem(
-            metricInstance.get('metricId'),
-            metricInstance.get('formatter'),
-            metricInstance.get('label'),
-            false,
-            metricInstance.get('pluginId')
-          )
-        );
+  connectTo(({ form }) => {
+    const observables = {};
+    if (isCustomDataSourceSelected(form)) {
+      observables.pluginsWithCustomMetrics = getPluginsWithCustomMetrics().map(plugins => {
+        const result = [];
+        if (plugins) {
+          plugins.map(plugin => {
+            result.push({
+              value: plugin.get('plugin'),
+              label: plugin.get('label')
+            });
+          });
+        }
+        return result;
       });
-      return customMetricsList;
-    })
+      if (form.get('entityType').value) {
+        observables.customMetricsForPlugin = getCustomMetricsForPlugin(form.get('entityType').value).map(
+          metricInstances => {
+            const result = [];
+            if (metricInstances) {
+              metricInstances.map(metricInstance => {
+                result.push(
+                  createCustomMetricListItem(
+                    metricInstance.get('metricId'),
+                    metricInstance.get('formatter'),
+                    metricInstance.get('label'),
+                    metricInstance.get('pluginId')
+                  )
+                );
+              });
+            }
+            return result;
+          }
+        );
+      }
+    }
+    return observables;
   }),
   connectTo({
     // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
@@ -158,7 +188,8 @@ function EventForm({
   setForm,
   entity,
   onChange,
-  customMetrics,
+  pluginsWithCustomMetrics,
+  customMetricsForPlugin,
   queryValidationResult,
   queryValidationInProgress,
   setQueryValidationInProgress,
@@ -170,7 +201,7 @@ function EventForm({
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
-  addCurrentCustomMetricToListIfMissing(customMetrics, form, entity);
+  addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form, entity);
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
@@ -305,7 +336,7 @@ function EventForm({
       {form.get('dataSource').map(field => (
         <FormGroup>
           <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            Data Source
+            Source
           </Label>
           <ComboBox
             name="event-data-source"
@@ -362,15 +393,14 @@ function EventForm({
       {isBuiltInDataSourceSelected(form) && (
         <>
           <Row>
-            <Col cols={6}>
+            <Col cols={3}>
               <EntityTypeFormGroup
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
                 onChange={onChange}
               />
             </Col>
-
-            <Col cols={6}>
+            <Col cols={9}>
               {form.get('entityType').value &&
                 form.get('metricName').map(field => (
                   <FormGroup>
@@ -385,21 +415,91 @@ function EventForm({
                       onChange={e => {
                         if ((field.value && !e) || (e && e.value !== field.value)) {
                           let selectedMetric = e ? e.value : '';
-                          onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                          onChange('metricName', selectedMetric, updatedForm => {
                             if (isPercentile(updatedForm)) {
                               updatedForm = updatedForm.remove('window').remove('aggregation');
-                              updatedForm = putRollupField(updatedForm, eventSpec);
+                              updatedForm = putRollupField(updatedForm);
                             } else {
                               updatedForm = updatedForm.remove('rollup');
-                              updatedForm = putWindowField(updatedForm, eventSpec);
-                              updatedForm = putAggregationField(updatedForm, eventSpec);
+                              updatedForm = putWindowField(updatedForm);
+                              updatedForm = putAggregationField(updatedForm);
                             }
 
                             const entityType = form.get('entityType').value;
-                            const buildInMetricsList = getPlainMetricList(entityType);
+                            const buildInMetricsList = getAllBuiltInMetrics(entityType);
                             const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
 
-                            const metricInfo = getBuiltInMetricInfo(metricItem);
+                            if (metricItem) {
+                              if (isBuiltInPlainMetric(entityType, metricItem.value)) {
+                                updatedForm = updatedForm
+                                  .remove('metricPatternOperator')
+                                  .remove('metricPatternPlaceholder');
+                              } else {
+                                updatedForm = putMetricPatternOperator(updatedForm);
+                                updatedForm = putMetricPatternPlaceholder(updatedForm);
+                              }
+
+                              const metricInfo = getBuiltInMetricInfo(metricItem);
+                              updatedForm = updatedForm
+                                .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                                .updateIn(['label'], f => f.setValue(metricInfo.label))
+                                .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                                .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+                            }
+
+                            return updatedForm;
+                          });
+                        }
+                      }}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+            </Col>
+          </Row>
+
+          <DynamicBuiltInFormGroup form={form} onChange={onChange} />
+
+          {form.get('entityType').value &&
+            form.get('metricName').value && (
+              <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+            )}
+        </>
+      )}
+
+      {isCustomDataSourceSelected(form) && (
+        <>
+          <Row>
+            <Col cols={3}>
+              <EntityTypeFormGroup
+                form={form}
+                pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
+                onChange={onChange}
+              />
+            </Col>
+            <Col cols={9}>
+              {customMetricsForPlugin &&
+                form.get('metricName').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
+                      Metric
+                    </Label>
+                    <CustomMetricSelector
+                      // Workaround to clear the selection when the entity-type change.
+                      // It is not that expensive, because it is a small component.
+                      key={Math.random()}
+                      id="event-metricName"
+                      value={form.get('metricName').value}
+                      metrics={customMetricsForPlugin}
+                      onChange={e => {
+                        if ((field.value && !e) || (e && e.value !== field.value)) {
+                          let selectedMetric = e ? e.value : '';
+                          onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                            updatedForm = updatedForm.remove('rollup');
+                            updatedForm = putWindowField(updatedForm, eventSpec);
+                            updatedForm = putAggregationField(updatedForm, eventSpec);
+
+                            const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
 
                             updatedForm = updatedForm
                               .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
@@ -415,62 +515,6 @@ function EventForm({
                     <TouchedMessages field={field} />
                   </FormGroup>
                 ))}
-            </Col>
-          </Row>
-
-          {form.get('entityType').value &&
-            form.get('metricName').value && (
-              <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
-            )}
-        </>
-      )}
-
-      {isCustomDataSourceSelected(form) && (
-        <>
-          <Row>
-            <Col cols={12}>
-              {form.get('metricName').map(field => (
-                <FormGroup>
-                  <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-                    Metric
-                  </Label>
-                  <CustomMetricSelector
-                    id="event-metricName"
-                    value={form.get('metricName').value}
-                    metrics={customMetrics}
-                    onChange={e => {
-                      if ((field.value && !e) || (e && e.value !== field.value)) {
-                        let selectedMetric = e ? e.value : '';
-                        onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
-                          updatedForm = updatedForm.remove('rollup');
-                          updatedForm = putWindowField(updatedForm, eventSpec);
-                          updatedForm = putAggregationField(updatedForm, eventSpec);
-
-                          // manually update the hidden hidden entityType field in case of custom metrics
-                          updatedForm = updatedForm.updateIn(['entityType'], f => {
-                            const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
-                            if (metricItem == null) {
-                              return f.setValue('');
-                            }
-                            return f.setValue(metricItem.entityType);
-                          });
-
-                          const metricInfo = getCustomMetricInfo(customMetrics, selectedMetric);
-
-                          updatedForm = updatedForm
-                            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                            .updateIn(['label'], f => f.setValue(metricInfo.label))
-                            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
-                            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
-
-                          return updatedForm;
-                        });
-                      }
-                    }}
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
             </Col>
           </Row>
 
@@ -530,14 +574,14 @@ function EventForm({
                   }}
                   positionAbove
                 />
-                {queryValidationInProgress && <LoadingIndicator type="dark" className={locals.queryLoading} inline />}
+                {queryValidationInProgress && <LoadingIndicator className={locals.queryLoading} inline />}
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
                 <DescriptionText>
                   A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied.
                   Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be applied on all
                   entities. For more information on syntax, please see our&nbsp;
-                  <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+                  <Link href="https://docs.instana.io/dynamic_focus/#syntax" external>
                     documentation
                   </Link>
                   .
@@ -705,59 +749,83 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
   );
 }
 
+function DynamicBuiltInFormGroup({ form, onChange }) {
+  const entityType = form.get('entityType')?.value;
+  const metricName = form.get('metricName')?.value;
+
+  if (!entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName)) {
+    return null;
+  }
+
+  const metricPatternPlaceholder = form.get('metricPatternPlaceholder');
+  const metricPatternOperator = form.get('metricPatternOperator');
+
+  return (
+    <FormGroup noFlex>
+      <Row>
+        <Col cols={3}>
+          {metricPatternOperator &&
+            metricPatternOperator.map(field => (
+              <FormGroup>
+                <Label
+                  htmlFor="event-metricPatternOperator"
+                  hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
+                >
+                  Matching Operator
+                </Label>
+                <ComboBox
+                  name="event-metricPatternOperator"
+                  value={metricPatternOperator.value}
+                  options={metricPatternMatchingOptions}
+                  onChange={e => {
+                    const prevOperator = field.value;
+                    if ((prevOperator && !e) || (e && e.value !== prevOperator)) {
+                      const newOperator = e ? e.value : '';
+                      onChange('metricPatternOperator', newOperator, updatedForm => {
+                        if (newOperator === 'any') {
+                          updatedForm = updatedForm.remove('metricPatternPlaceholder');
+                        } else if (prevOperator === 'any') {
+                          updatedForm = putMetricPatternPlaceholder(updatedForm);
+                        }
+                        return updatedForm;
+                      });
+                    }
+                  }}
+                  clearable={false}
+                />
+                <TouchedMessages field={metricPatternOperator} />
+              </FormGroup>
+            ))}
+        </Col>
+        <Col cols={6}>
+          {metricPatternPlaceholder && (
+            <FormGroup>
+              <Label
+                htmlFor="event-metricPatternPlaceholder"
+                hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
+              >
+                {getMetricDefinition(entityType, metricName).metricPattern?.placeholderLabel ?? 'Placeholder'}
+              </Label>
+              <Input
+                id="event-metricPatternPlaceholder"
+                type="text"
+                value={metricPatternPlaceholder.value}
+                onChange={e => onChange('metricPatternPlaceholder', e.target.value)}
+                hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
+              />
+              <TouchedMessages field={metricPatternPlaceholder} />
+            </FormGroup>
+          )}
+        </Col>
+      </Row>
+    </FormGroup>
+  );
+}
+
 function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
-  const entityTypesToExclude = Object.freeze([
-    'application',
-    'awsEbs',
-    'awsLambda',
-    'awsLambdaVersion',
-    'cassandraCluster',
-    'cockroachDBCluster',
-    'consulCluster',
-    'couchbaseCluster',
-    'elasticsearchCluster',
-    'endpoint',
-    'hazelcastCluster',
-    'host',
-    'kafkaCluster',
-    'kubernetesCluster',
-    'kubernetesDeployment',
-    'kubernetesNamespace',
-    'kubernetesNode',
-    'kubernetesPod',
-    'kubernetesReplicaSet',
-    'mongoDbReplicaSet',
-    'openshiftDeploymentConfig',
-    'ping',
-    'redisCluster',
-    'service'
-  ]);
-
-  const entityLabelOperatorOptions = Object.freeze([
-    { value: 'is', label: 'is' },
-    { value: 'contains', label: 'contains' },
-    { value: 'startsWith', label: 'starts with' },
-    { value: 'endsWith', label: 'ends with' }
-  ]);
-
-  const offlineDurationOptions = Object.freeze([
-    { value: '60000', label: '1 min' },
-    { value: '120000', label: '2 min' },
-    { value: '180000', label: '3 min' },
-    { value: '300000', label: '5 min' },
-    { value: '600000', label: '10 min' },
-    { value: '1800000', label: '30 min' },
-    { value: '3600000', label: '60 min' },
-    { value: '5400000', label: '90 min' },
-    { value: '7200000', label: '120 min' },
-    { value: '14400000', label: '4 h' },
-    { value: '21600000', label: '6 h' },
-    { value: '43200000', label: '12 h' },
-    { value: '64800000', label: '18 h' },
-    { value: '86400000', label: '24 h' }
-  ]);
-
-  const entityTypeOptions = entityTypes.filter(({ value }) => entityTypesToExclude.indexOf(value) === -1);
+  const entityTypeOptions = entityTypes.filter(
+    ({ value }) => entityTypesToExcludeInVerificationRule.indexOf(value) === -1
+  );
 
   const matchingEntityType = form.get('matchingEntityType');
   const matchingOperator = form.get('matchingOperator');
@@ -891,12 +959,24 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
 
     if (entityType && metricName) {
       if (!containsMetricInList(customMetricsList, metricName)) {
-        customMetricsList.push(
-          createMetricListItem(metricName, form.get('formatter').value, form.get('label').value, entityType)
+        const metricItem = createCustomMetricListItem(
+          metricName,
+          form.get('formatter').value,
+          form.get('label').value,
+          entityType
         );
+        customMetricsList.push(metricItem);
       }
     }
   }
+}
+
+function createCustomMetricListItem(metricName, formatter, label, entityType) {
+  const metricItem = createMetricListItem(metricName, formatter, label, false);
+  return {
+    ...metricItem,
+    entityType
+  };
 }
 
 function startQueryValidation(query, form, onChange, setQueryValidationInProgress, setSaveEnabled) {
@@ -1008,13 +1088,16 @@ function isSystemRuleDataSourceSelected(form) {
 
 const severityWarning = '5';
 const severityCritical = '10';
-const severityOptions = [{ value: severityWarning, label: 'warning' }, { value: severityCritical, label: 'critical' }];
+const severityOptions = Object.freeze([
+  { value: severityWarning, label: 'warning' },
+  { value: severityCritical, label: 'critical' }
+]);
 
-const dataSourceOptions = [
+const dataSourceOptions = Object.freeze([
   { value: dataSourceBuiltIn, label: 'Built-in metrics' },
   { value: dataSourceCustom, label: 'Custom metrics' },
   { value: dataSourceSystem, label: 'System Rules' }
-];
+]);
 
 function systemRuleOptions(systemRules) {
   if (!systemRules) {
@@ -1048,7 +1131,7 @@ function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
   }
 }
 
-const gracePeriodOptions = [
+const gracePeriodOptions = Object.freeze([
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10 s' },
   { value: '30000', label: '30 s' },
@@ -1064,9 +1147,9 @@ const gracePeriodOptions = [
   { value: '21600000', label: '6 h' },
   { value: '43200000', label: '12 h' },
   { value: '86400000', label: '24 h' }
-];
+]);
 
-const windowOptions = [
+const windowOptions = Object.freeze([
   { value: '1000', label: '1 s' },
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10 s' },
@@ -1079,27 +1162,86 @@ const windowOptions = [
   { value: '3600000', label: '60 min' },
   { value: '5400000', label: '90 min' },
   { value: '7200000', label: '120 min' }
-];
+]);
 
-const rollupOptions = [
+const rollupOptions = Object.freeze([
   { value: '5000', label: '5 s' },
   { value: '60000', label: '1 min' },
   { value: '300000', label: '5 min' },
   { value: '3600000', label: '60 min' }
-];
+]);
 
-const aggregationOptions = [
+const aggregationOptions = Object.freeze([
   { value: 'avg', label: 'avg' },
   { value: 'sum', label: 'sum' },
   { value: 'min', label: 'min' },
   { value: 'max', label: 'max' }
-];
+]);
 
-const conditionOperatorOptions = [
+const conditionOperatorOptions = Object.freeze([
   { value: '<', label: '<' },
-  { value: '<=', label: '<=' },
+  { value: '<=', label: '≤' },
   { value: '==', label: '==' },
-  { value: '>=', label: '>=' },
+  { value: '>=', label: '≥' },
   { value: '>', label: '>' },
-  { value: '!=', label: '!=' }
-];
+  { value: '!=', label: '≠' }
+]);
+
+const entityTypesToExcludeInVerificationRule = Object.freeze([
+  'application',
+  'awsEbs',
+  'awsLambda',
+  'awsLambdaVersion',
+  'cassandraCluster',
+  'cockroachDBCluster',
+  'consulCluster',
+  'couchbaseCluster',
+  'elasticsearchCluster',
+  'endpoint',
+  'hazelcastCluster',
+  'host',
+  'kafkaCluster',
+  'kubernetesCluster',
+  'kubernetesDeployment',
+  'kubernetesNamespace',
+  'kubernetesNode',
+  'kubernetesPod',
+  'kubernetesReplicaSet',
+  'mongoDbReplicaSet',
+  'openshiftDeploymentConfig',
+  'ping',
+  'redisCluster',
+  'service'
+]);
+
+const entityLabelOperatorOptions = Object.freeze([
+  { value: 'is', label: 'is' },
+  { value: 'contains', label: 'contains' },
+  { value: 'startsWith', label: 'starts with' },
+  { value: 'endsWith', label: 'ends with' }
+]);
+
+const offlineDurationOptions = Object.freeze([
+  { value: '60000', label: '1 min' },
+  { value: '120000', label: '2 min' },
+  { value: '180000', label: '3 min' },
+  { value: '300000', label: '5 min' },
+  { value: '600000', label: '10 min' },
+  { value: '1800000', label: '30 min' },
+  { value: '3600000', label: '60 min' },
+  { value: '5400000', label: '90 min' },
+  { value: '7200000', label: '120 min' },
+  { value: '14400000', label: '4 h' },
+  { value: '21600000', label: '6 h' },
+  { value: '43200000', label: '12 h' },
+  { value: '64800000', label: '18 h' },
+  { value: '86400000', label: '24 h' }
+]);
+
+const metricPatternMatchingOptions = Object.freeze([
+  { value: 'is', label: 'is' },
+  { value: 'contains', label: 'contains' },
+  { value: 'startsWith', label: 'starts with' },
+  { value: 'endsWith', label: 'ends with' },
+  { value: 'any', label: 'any' }
+]);

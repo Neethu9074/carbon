@@ -1,0 +1,10 @@
+:local {
+  .skeleton {
+    display: block;
+
+    width: 100%;
+    height: 1rem;
+
+    margin: 0.5rem 0;
+  }
+}

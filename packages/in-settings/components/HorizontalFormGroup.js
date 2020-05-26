@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -11,11 +11,17 @@ export default function HorizontalFormGroupWithBackground({
   className,
   helpText,
   isWarning,
-  noHelpTextSpacer
+  noHelpTextSpacer,
+  withoutBottomBorder
 }) {
   const helpTextSpacer = !helpText && !noHelpTextSpacer ? <div className={locals.helpIconSpacer} /> : null;
   return (
-    <div className={locals.helpTextWrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.helpTextWrapper]: true,
+        [locals.withoutBottomBorder]: withoutBottomBorder
+      })}
+    >
       {helpText ? (
         <Tooltip content={helpText} align="rightMiddle">
           <SvgIcon type="lib_help_error_info_outline" size="s" color={isWarning ? '#64aade' : '#172429'} />

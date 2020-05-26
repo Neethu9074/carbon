@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/clrRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/clrRuntimePlatform/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/clrRuntimePlatform/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/clrRuntimePlatform/iconPath';
@@ -13,6 +14,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: '.NET'
   }

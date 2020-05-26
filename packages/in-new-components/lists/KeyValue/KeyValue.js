@@ -12,7 +12,15 @@ export const themes = {
   blue: 'blue'
 };
 
-export default function KeyValue({ className, label, value, customValue, theme = themes.d, inverted, accentuated }) {
+export default function KeyValue({
+  className,
+  label,
+  value,
+  customValue,
+  theme = themes.default,
+  inverted,
+  accentuated
+}) {
   const k = <Key label={label} />;
   const v = <Value value={customValue || value} theme={theme} accentuated={accentuated} />;
 

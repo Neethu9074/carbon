@@ -3,7 +3,7 @@
 :local {
   .wrapper {
     border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
+    border-radius: @lib__shapes__radius_small;
     margin-bottom: 1rem;
   }
 
@@ -13,16 +13,16 @@
   }
 
   .bar {
-    border-top-left-radius: @lib__shapes__radius_large;
-    border-top-right-radius: @lib__shapes__radius_large;
+    border-top-left-radius: @lib__shapes__radius_small;
+    border-top-right-radius: @lib__shapes__radius_small;
     background: @lib__colors__N200;
     padding: 0 1rem;
     border-bottom: 1px solid @lib__colors__N300;
   }
 
   .list {
-    border-bottom-left-radius: @lib__shapes__radius_large;
-    border-bottom-right-radius: @lib__shapes__radius_large;
+    border-bottom-left-radius: @lib__shapes__radius_small;
+    border-bottom-right-radius: @lib__shapes__radius_small;
     background: #fff;
     padding: 1rem;
   }

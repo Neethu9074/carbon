@@ -21,7 +21,8 @@ export const timeShifts = [
   },
   {
     offset: -1 * 1000 * 60 * 60 * 24 * 7,
-    label: `Last week`
+    label: `Last week`,
+    disallowSelection: true
   }
 ];
 

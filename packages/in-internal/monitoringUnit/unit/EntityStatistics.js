@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -55,7 +55,7 @@ export default connectTo(
   }),
   function Cockpit({ timeConfig, snapshotId }) {
     if (!snapshotId) {
-      return <LoadingIndicator type="dark" />;
+      return <LoadingIndicator />;
     }
     const rows = Object.keys(plugins).map(key => ({ key: plugins[key], plugin: plugins[key], timeConfig, snapshotId }));
 

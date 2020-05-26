@@ -30,9 +30,6 @@ export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 
-export const CONNECTION_LOST = 'connection.lost';
-export const CONNECTION_ESTABLISHED = 'connection.established';
-
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
@@ -167,6 +164,7 @@ export const APPLICATIONS_ALERTING_FILTER_SET = 'applications.alerting.filter.se
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.alerting.event.details.goToAnalyze';
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
   'applications.alerting.event.details.ViewEditConfig';
+export const APPLICATIONS_ALERTING_STATUS_CODE_CHANGED = 'applications.alerting.statusCodeChanged';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

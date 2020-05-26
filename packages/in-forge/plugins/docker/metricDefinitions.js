@@ -45,11 +45,7 @@ export default [
     ],
     min: 0,
     category: ['Memory'],
-    formatter: bytes,
-    isAvailable(snapshot) {
-      const dockerVersion = snapshot.getIn(['data', 'docker_version']);
-      return dockerVersion === '1.11.0' || dockerVersion === '1.11.1';
-    }
+    formatter: bytes
   },
   {
     metrics: ['blkio.blk_read', 'blkio.blk_write'],
@@ -63,19 +59,13 @@ export default [
     labels: ['Received', 'Transmitted'],
     min: 0,
     category: ['Network'],
-    formatter: bytes,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'NetworkMode']) === 'bridge';
-    }
+    formatter: bytes
   },
   {
     metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
     labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
     min: 0,
     category: ['Network'],
-    formatter: percentage,
-    isAvailable(snapshot) {
-      return snapshot.getIn(['data', 'NetworkMode']) === 'bridge';
-    }
+    formatter: percentage
   }
 ];

@@ -8,7 +8,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
-import { user } from 'in-stores/user';
+import { user, role } from 'in-stores/user';
 
 export default function EditAsJsonDialog(props) {
   const [field, setField] = useState(
@@ -29,6 +29,14 @@ export default function EditAsJsonDialog(props) {
     // Push it back through the form mechanism to set all default values and to
     // remove all non-supported values.
     const changedConfig = createForm(JSON.parse(field.value)).toJS();
+    // Ensure that the user doesn't try to circumvent the sharing dialog via
+    // edit as JSON. This also ensures that copy/pasted dashboards properly
+    // can be stored without user intervention. The following code
+    // ensures that at the very least the user has access to his/her own
+    // dashboard.
+    if (!role.canCreatePublicCustomDashboards) {
+      changedConfig.accessRules = [];
+    }
     ensureUserDoesNotLoseAccessViaEditAsJson(changedConfig);
     ensureWidgetIdUniqueness(changedConfig);
     props.onSubmit({

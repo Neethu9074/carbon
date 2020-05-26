@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   teamSettings,
@@ -9,12 +9,9 @@ import {
   teamSettingsAccessControlRoles,
   teamSettingsAccessControlRoleEdit,
   teamSettingsAccessControlRoleNew,
-  teamSettingsAccessControlTeams,
-  teamSettingsAccessControlTeamEdit,
-  teamSettingsAccessControlTeamNew,
-  teamSettingsAccessControlPermissionSets,
-  teamSettingsAccessControlPermissionSetEdit,
-  teamSettingsAccessControlPermissionSetNew,
+  teamSettingsAccessControlGroups,
+  teamSettingsAccessControlGroupEdit,
+  teamSettingsAccessControlGroupNew,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenEdit,
   teamSettingsAlertingEventCustomNew,
@@ -41,9 +38,7 @@ import {
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
-import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
-import PermissionSetPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSet';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
@@ -57,12 +52,12 @@ import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alert
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
+import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
 import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
+import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
-import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
-import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
@@ -71,6 +66,7 @@ import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { isRbacEnabled } from 'in-services/featureFlags';
+import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
@@ -118,33 +114,17 @@ function navigationTreeForRole(role): NavigationTree {
 
     if (isRbacEnabled && role.canConfigureTeams) {
       accessControlPages.push({
-        path: teamSettingsAccessControlTeams,
-        label: 'Teams',
-        component: TeamsPage,
+        path: teamSettingsAccessControlGroups,
+        label: 'Groups',
+        component: GroupsPage,
         subPages: [
           {
-            path: teamSettingsAccessControlTeamNew,
-            component: TeamPage
+            path: teamSettingsAccessControlGroupNew,
+            component: GroupPage
           },
           {
-            path: teamSettingsAccessControlTeamEdit,
-            component: TeamPage
-          }
-        ]
-      });
-
-      accessControlPages.push({
-        path: teamSettingsAccessControlPermissionSets,
-        label: 'Access Scopes',
-        component: PermissionSetsPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlPermissionSetNew,
-            component: PermissionSetPage
-          },
-          {
-            path: teamSettingsAccessControlPermissionSetEdit,
-            component: PermissionSetPage
+            path: teamSettingsAccessControlGroupEdit,
+            component: GroupPage
           }
         ]
       });
@@ -308,13 +288,16 @@ function navigationTreeForRole(role): NavigationTree {
 
 export default function View(props: any) {
   return (
-    <SideNavigationAndContent
-      stickySidebar
-      navigationTree={navigationTreeForRole(role)}
-      redirectToDefaultPage={findFirstPermittedTeamPage()}
-      redirectFrom={teamSettings}
-      NotFoundPage={NotFoundPage}
-      {...props}
-    />
+    <Fragment>
+      <SideNavigationAndContent
+        stickySidebar
+        navigationTree={navigationTreeForRole(role)}
+        redirectToDefaultPage={findFirstPermittedTeamPage()}
+        redirectFrom={teamSettings}
+        NotFoundPage={NotFoundPage}
+        {...props}
+      />
+      <SetBodyColor color="#fff" />
+    </Fragment>
   );
 }

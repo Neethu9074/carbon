@@ -28,6 +28,7 @@ import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import Footer from 'in-new-components/Footer/Footer';
 import withUrlState from 'in-hoc/withUrlState';
+import Card from 'in-new-components/Card';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
@@ -245,17 +246,19 @@ function ServiceList(props) {
         onBoundaryStateChange={onBoundaryStateChange}
         defaultBoundaryScope={application.boundaryScope}
       />
-      <ServerTableWithUrlState
-        get={getTableData}
-        timeConfig={timeConfig}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        boundaryScope={boundaryScope}
-        rightHeader={rightHeader}
-        endpointTypes={endpointTypes}
-        technologies={technologies}
-      />
+      <Card>
+        <ServerTableWithUrlState
+          get={getTableData}
+          timeConfig={timeConfig}
+          applicationId={applicationId}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          boundaryScope={boundaryScope}
+          rightHeader={rightHeader}
+          endpointTypes={endpointTypes}
+          technologies={technologies}
+        />
+      </Card>
       <Footer />
     </Fragment>
   );

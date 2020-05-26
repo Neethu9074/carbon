@@ -11,6 +11,7 @@ import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
+import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
@@ -21,7 +22,6 @@ import BadgeList from 'in-new-components/Badge/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import Footer from 'in-new-components/Footer';
-import { plugins } from 'in-forge/constants';
 
 export default function NodeDashboard({ location }) {
   const props = {
@@ -85,8 +85,18 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ nodeId, timeConfig }) {
-  return <DashboardButtonLine snapshotId={nodeId} timeConfig={timeConfig} />;
+function renderButtonLine({ nodeId, timeConfig, result }) {
+  return (
+    <DashboardButtonLine
+      snapshotId={nodeId}
+      timeConfig={timeConfig}
+      plugin={fullyQualifiedPlugins.kubernetesNode}
+      tagFilters={[
+        { name: 'kubernetes.node.name', value: result.data?.name, operator: 'EQUALS' },
+        { name: 'kubernetes.cluster.name', value: result.data?.clusterId, operator: 'EQUALS', entity: 'DESTINATION' }
+      ]}
+    />
+  );
 }
 
 function renderMetaInformation({ result }) {

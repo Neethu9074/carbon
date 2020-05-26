@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { kiloBytesTwoDecimalPlaces, micros } from 'in-services/formatters/number';
+import { kiloBytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
@@ -30,7 +30,7 @@ export default function HttpSpanDetailView({ span }) {
         <Di title="Peak Memory Usage">{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
         <Di title="Total Compile Time">
           {span.getIn(['data', 'compile', 'time']) &&
-            micros.fixedCompact(parseInt(span.getIn(['data', 'compile', 'time'])))}
+            millis.detailed(parseFloat(span.getIn(['data', 'compile', 'time']) / 1000))}
         </Di>
         {getCustomHeaders(span)}
       </Dl>

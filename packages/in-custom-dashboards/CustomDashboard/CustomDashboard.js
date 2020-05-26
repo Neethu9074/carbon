@@ -28,6 +28,7 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 
 export default compose(
   withUrlState({
@@ -80,6 +81,7 @@ function CustomDashboardLoader(props) {
       onDiscardChanges={onDiscardChanges}
       onShare={onShare}
       onEditAsJson={onEditAsJson}
+      canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
     />
   );
 

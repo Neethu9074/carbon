@@ -3,6 +3,10 @@
     padding: 1.5rem 0 0 0;
   }
 
+  .noTopPadding {
+    padding: 0;
+  }
+
   .stickToHeader {
     padding-top: 0;
   }

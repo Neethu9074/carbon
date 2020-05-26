@@ -14,14 +14,14 @@ import Code from 'in-components/Code';
 
 import locals from './BeaconUserSummary.mless';
 
-export default function BeaconUserSummary({ beacon, beacons }) {
+export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }) {
   const hasMeta = Object.keys(beacon.meta).length > 0;
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
   const noGeoAvailable = !isGeoCoordinatesAvailable && geoSubsection.length === 0;
 
   return (
-    <Row className={locals.summary} verticallyStretchColumns>
+    <Row className={locals.summary} verticallyStretchColumns withoutSideMargin={withoutSideMargin}>
       <Col lg={4}>
         <Card title="User Information" useMaxAvailableHeight>
           <User beacon={beacon} beacons={beacons} />
@@ -39,7 +39,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
               {[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}
             </Di>
             <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Screen Resolution">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
+            <Di title="Window Dimensions">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
             <Di title="IP Address">{beacon.userIp}</Di>
             {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}
@@ -93,7 +93,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           {!hasMeta && (
             <NotDefined
               explanation="No meta data defined. Meta data can be used to transport information about the deployment or settings. Meta data is available as filter and grouping within the analyze area."
-              learnMoreHref="https://docs.instana.io/products/website_monitoring/api/#metadata"
+              learnMoreHref="https://docs.instana.io/website_monitoring/api/#metadata"
               learnMoreLabel="Learn how to add meta data"
             />
           )}

@@ -43,6 +43,10 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
     websiteLabel = get(websiteResult, ['data', 'label']);
   }
 
+  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
+    return null;
+  }
+
   return (
     <>
       <FloatingActionButton

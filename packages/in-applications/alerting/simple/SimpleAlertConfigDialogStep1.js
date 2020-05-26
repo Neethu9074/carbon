@@ -1,69 +1,41 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { applicationsAlertingBlueprintChanged } from 'in-applications/alerting/tracker';
-import { alertingDialogItemPickerTimeframe } from 'in-applications/alerting/constants';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
+import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import Menu from 'in-new-components/Alerting/components/Menu';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
-  granularity,
   setLogMessagesListVisible,
-  timeConfig,
-  updateForm
+  updateForm,
+  onChartConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
-  const alertType = blueprintConfig[getIndexSelectedConf()].type;
-
-  // Fallback to static threshold for slowness when the historic baseline was not good enough.
-  const thresholdTypeValue = form.get('threshold').get('type').value;
-  const thresholdBaseline = form.get('threshold').get('baseline');
-
-  if (
-    alertType === 'slowness' &&
-    thresholdTypeValue === 'historicBaseline' &&
-    thresholdBaseline &&
-    thresholdBaseline.value &&
-    thresholdBaseline.value.length === 0
-  ) {
-    const newThresholdForm = createThresholdForm(
-      {
-        ...form.get('threshold').toJS(),
-        type: 'staticThreshold'
-      },
-      alertType
-    );
-
-    updateForm(
-      form
-        .put('threshold', newThresholdForm)
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
-  }
+  const alertType = form.get('rule').get('alertType').value;
+  const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
 
   return (
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
-        itemLabels={blueprintConfig.map(({ name }) => name)}
-        onItemClick={selectedItemIndex => {
+        items={blueprintConfig}
+        onItemClick={item => {
           updateForm(
-            createBlueprintForm(form, blueprintConfig[selectedItemIndex].type).updateIn(
-              ['hiddenFields', 'calculateThresholdOnBackend'],
-              f => f.setValue(true)
+            createBlueprintForm(form, item.type).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
+              f.setValue(true)
             )
           );
 
           applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
-        initialItemSelected={getIndexSelectedConf()}
+        initialItemSelected={selectedBlueprintConfig}
         addRightSeparator
       />
 
@@ -71,8 +43,8 @@ export default function SimpleAlertConfigDialogStep1({
         alertType={alertType}
         renderLogs={() => (
           <SelectedBlueprintPresenter
-            title="Alert for Specific Log Messages"
-            description="You will be alerted every time a significant amount of log messages matching the specified message are encountered in a 10 minute window."
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           >
             <ProvideLogMessage
               form={form}
@@ -87,35 +59,31 @@ export default function SimpleAlertConfigDialogStep1({
         )}
         renderSlowness={() => (
           <SelectedBlueprintPresenter
-            title="Latency is higher than expected"
-            description="Receive an alert when the latency is higher (your services/endpoints are slower) than expected (from historical data)."
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           />
         )}
         renderErrorRate={() => (
           <SelectedBlueprintPresenter
-            title="Error Rate is higher than expected"
-            description="Receive an alert when the error rate is higher than expected (when compared to your historical data of these services/endpoints)."
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           />
+        )}
+        renderStatusCode={() => (
+          <SelectedBlueprintPresenter
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
+          >
+            <ProvideStatusCode form={form} updateForm={updateForm} mode="SimpleMode" />
+          </SelectedBlueprintPresenter>
         )}
       />
 
-      <SimpleAlertConfigDialogChart form={form} granularity={granularity} timeConfig={timeConfig} />
+      <SimpleAlertConfigDialogChart
+        form={form}
+        onChartConfigChange={onChartConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      />
     </SimpleModeStepContentWrapper>
   );
-
-  function getIndexSelectedConf() {
-    return blueprintConfig.findIndex(configTypeEqualsAlertType);
-  }
-
-  function configTypeEqualsAlertType({ type }) {
-    return form.get('rule').get('alertType').value === type;
-  }
 }
-
-SimpleAlertConfigDialogStep1.propTypes = {
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  setLogMessagesListVisible: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  updateForm: PropTypes.func.isRequired
-};

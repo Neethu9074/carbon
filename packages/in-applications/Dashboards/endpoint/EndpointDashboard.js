@@ -39,7 +39,9 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
   };
 
   const filterTabByResult = result =>
-    get(result, ['data', 'synthetic'], false) ? tab => tab.label === 'Summary' : () => true;
+    get(result, ['data', 'syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC'
+      ? tab => tab.label === 'Summary'
+      : () => true;
 
   return (
     <>
@@ -106,7 +108,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result, isSynthetic }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -128,7 +130,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         serviceId={serviceId}
         endpointId={endpointId}
         boundaryScope={boundaryScope}
-        isSynthetic={isSynthetic}
+        syntheticType={get(result, ['data', 'syntheticType'])}
         timeConfig={timeConfig}
         groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
         area="endpoint"

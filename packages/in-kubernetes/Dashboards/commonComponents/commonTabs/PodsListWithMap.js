@@ -9,6 +9,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import ServerTreeMap from 'in-new-components/TreeMap/ServerTreeMap';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import Card from 'in-new-components/Card';
 
 export default compose(
   withUrlDependingState({
@@ -37,22 +38,24 @@ function PodsListWithMap(props) {
   }
 
   return (
-    <ControlFrame
-      {...props}
-      groupingOptions={groupingOptions}
-      render={_props => (
-        <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
-          <ServerTreeMap
-            getTreeMap$={() => getTreeMap(_props.grouping.value)}
-            treeMapRendererProps={{
-              ...props,
-              ..._props
-            }}
-            TreeMapRenderer={PodTreeMap}
-          />
-        </WithEmptyStateFallback>
-      )}
-    />
+    <Card>
+      <ControlFrame
+        {...props}
+        groupingOptions={groupingOptions}
+        render={_props => (
+          <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
+            <ServerTreeMap
+              getTreeMap$={() => getTreeMap(_props.grouping.value)}
+              treeMapRendererProps={{
+                ...props,
+                ..._props
+              }}
+              TreeMapRenderer={PodTreeMap}
+            />
+          </WithEmptyStateFallback>
+        )}
+      />
+    </Card>
   );
 }
 

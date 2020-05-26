@@ -3,6 +3,7 @@ import { createLogger } from 'instalog';
 import { Map } from 'immutable';
 import React from 'react';
 
+import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/permissionsForm';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -159,30 +160,16 @@ export default class extends React.Component {
 }
 
 function createForm(apiToken) {
-  return createMapForm()
-    .put('id', createField({ value: apiToken.get('id') }))
-    .put(
-      'name',
-      createField({
-        value: apiToken.get('name'),
-        validator: notBlankValidator
-      })
-    )
-    .put('canConfigureServiceMapping', createField({ value: apiToken.get('canConfigureServiceMapping') }))
-    .put('canConfigureEumApplications', createField({ value: apiToken.get('canConfigureEumApplications') }))
-    .put('canConfigureUsers', createField({ value: apiToken.get('canConfigureUsers') }))
-    .put('canInstallNewAgents', createField({ value: apiToken.get('canInstallNewAgents') }))
-    .put('canSeeUsageInformation', createField({ value: apiToken.get('canSeeUsageInformation') }))
-    .put('canConfigureIntegrations', createField({ value: apiToken.get('canConfigureIntegrations') }))
-    .put('canSeeOnPremLicenseInformation', createField({ value: apiToken.get('canSeeOnPremLicenseInformation') }))
-    .put('canConfigureRoles', createField({ value: apiToken.get('canConfigureRoles') }))
-    .put('canConfigureTeams', createField({ value: apiToken.get('canConfigureTeams') }))
-    .put('canConfigureCustomAlerts', createField({ value: apiToken.get('canConfigureCustomAlerts') }))
-    .put('canConfigureApiTokens', createField({ value: apiToken.get('canConfigureApiTokens') }))
-    .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))
-    .put('canViewAuditLog', createField({ value: apiToken.get('canViewAuditLog') }))
-    .put('canConfigureAgents', createField({ value: apiToken.get('canConfigureAgents') }))
-    .put('canConfigureApplications', createField({ value: apiToken.get('canConfigureApplications') }))
-    .put('canConfigureReleases', createField({ value: apiToken.get('canConfigureReleases') }))
-    .put('canConfigureMobileAppMonitoring', createField({ value: apiToken.get('canConfigureMobileAppMonitoring') }));
+  return addPermissionFields(
+    createMapForm()
+      .put('id', createField({ value: apiToken.get('id') }))
+      .put(
+        'name',
+        createField({
+          value: apiToken.get('name'),
+          validator: notBlankValidator
+        })
+      ),
+    apiToken
+  );
 }

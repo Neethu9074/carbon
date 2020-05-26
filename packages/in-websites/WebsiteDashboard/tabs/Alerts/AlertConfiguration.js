@@ -1,109 +1,103 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
+import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
-import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
-import { alertingMetricsGranularity } from 'in-websites/alerting/constants';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
-import Card from 'in-new-components/Card';
 
 import locals from './AlertConfiguration.mless';
 
-const oneDay = 24 * 60 * 60 * 1000;
+const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
-  const tagFilters = alertConfig.tagFilters;
-  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(alertConfig.websiteId), ...tagFilters];
+  const [indexSelectedChartConfig, setIndexSelectedChartConfig] = useState(initialChartConfigIndex);
 
-  const timeConfig = {
-    windowSize: oneDay
-  };
+  const {
+    rule: { operator, value, metricName, alertType, aggregation },
+    threshold: { deviationFactor },
+    timeThreshold,
+    alertChannelIds,
+    tagFilters,
+    websiteId
+  } = alertConfig;
+
+  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
 
   return (
     <>
-      <ListTitle>Alert configuration</ListTitle>
+      <ListTitle>Alert Configuration</ListTitle>
 
-      <Card title="Trigger" withoutPadding darkFrame>
-        <AlertTypeSwitch
-          alertType={alertConfig.rule.alertType}
-          renderJsErrors={() => (
-            <>
-              <SelectedAlertTypeInfo
-                title="Error Message"
-                description={getDescription(alertConfig.rule)}
-                svgIconType="lib_help_error_warning"
-              />
+      <ChartViewConfigurator
+        onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
+        indexInitialSelectedTimeConfig={indexSelectedChartConfig}
+        className={locals.chartContainer}
+        title="Trigger"
+        framed
+      >
+        {({ timeConfig, granularity }) => (
+          <AlertTypeSwitch
+            alertType={alertType}
+            renderJsErrors={() => (
+              <>
+                <SelectedAlertTypeInfo
+                  title="Error Message"
+                  description={getDescription(operator, value)}
+                  svgIconType="lib_help_error_warning"
+                />
 
-              <ChartContainer headline="Last 24 hours">
                 <JsErrorsAlertingBarChart
-                  websiteId={alertConfig.websiteId}
+                  {...alertConfig}
                   timeConfig={timeConfig}
-                  tagFilters={alertConfig.tagFilters}
                   errorFilter={{
                     name: 'beacon.error.message',
-                    operator: alertConfig.rule.operator,
-                    stringValue: alertConfig.rule.value
+                    operator: operator,
+                    stringValue: value
                   }}
-                  metricName={alertConfig.rule.metricName}
-                  granularity={alertingMetricsGranularity}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
+                  metricName={metricName}
+                  granularity={granularity}
                 />
-              </ChartContainer>
-            </>
-          )}
-          renderStatusCode={() => (
-            <>
-              <SelectedAlertTypeInfo
-                title="HTTP Status Code"
-                description={getStatusCodeLabel(alertConfig.rule.value)}
-              />
-              <ChartContainer headline="Last 24 hours">
+              </>
+            )}
+            renderStatusCode={() => (
+              <>
+                <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
                 <StatusCodeAlertingBarChart
-                  websiteId={alertConfig.websiteId}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
+                  {...alertConfig}
                   timeConfig={timeConfig}
-                  tagFilters={alertConfig.tagFilters}
                   numeratorFilter={{
                     name: 'beacon.http.status',
-                    operator: alertConfig.rule.operator,
-                    stringValue: alertConfig.rule.value
+                    operator: operator,
+                    stringValue: value
                   }}
-                  metricName={alertConfig.rule.metricName}
-                  granularity={alertingMetricsGranularity}
+                  metricName={metricName}
+                  granularity={granularity}
                 />
-              </ChartContainer>
-            </>
-          )}
-          renderSlowness={() => (
-            <ChartContainer headline="Last 24 hours">
+              </>
+            )}
+            renderSlowness={() => (
               <SlownessAlertingBarChart
-                websiteId={alertConfig.websiteId}
-                threshold={alertConfig.threshold}
-                timeThreshold={alertConfig.timeThreshold}
-                sensitivity={alertConfig.threshold.deviationFactor}
+                {...alertConfig}
+                sensitivity={deviationFactor}
                 timeConfig={timeConfig}
-                tagFilters={alertConfig.tagFilters}
-                aggregation={alertConfig.rule.aggregation}
-                granularity={alertingMetricsGranularity}
+                aggregation={aggregation}
+                granularity={granularity}
               />
-            </ChartContainer>
-          )}
-        />
-      </Card>
+            )}
+          />
+        )}
+      </ChartViewConfigurator>
 
       <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
         <div className={locals.filterList}>
@@ -118,12 +112,12 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
       </ExpandableCard>
 
       <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
-        <TimeThresholdDescription timeThreshold={alertConfig.timeThreshold} />
+        <TimeThresholdDescription timeThreshold={timeThreshold} />
       </ExpandableCard>
 
       <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertConfig.alertChannelIds} />
+          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
         </div>
       </ExpandableCard>
 
@@ -139,11 +133,10 @@ AlertConfiguration.propTypes = {
   websiteLabel: PropTypes.string.isRequired
 };
 
-function getDescription(alertConfigRule) {
-  const operator = alertConfigRule.operator;
+function getDescription(operator, value) {
   let description = getRuleOperatorLabel(operator);
   if (operator !== operators.NOT_EMPTY) {
-    description = `${description}: "${alertConfigRule.value}"`;
+    description = `${description}: "${value}"`;
   }
   return description;
 }

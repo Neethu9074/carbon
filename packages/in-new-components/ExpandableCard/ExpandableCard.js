@@ -50,6 +50,7 @@ export default function ExpandableCard({
       title={title}
       label={label}
       titleSubContent={expanded ? titleSubContent : preview}
+      leftHeaderContent={expanded ? titleSubContent : preview}
       header={rightSide}
       withoutPadding={!expanded || bodyWithoutPadding}
       framed={framed}

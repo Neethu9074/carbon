@@ -1,0 +1,30 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .title {
+    margin-bottom: 1rem;
+  }
+
+  .text {
+    margin-top: 0.25rem;
+
+    color: @lib__colors__N500;
+    font-size: 0.875rem;
+  }
+}

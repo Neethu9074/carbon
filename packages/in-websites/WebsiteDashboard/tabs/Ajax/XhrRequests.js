@@ -5,8 +5,8 @@ import {
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -17,6 +17,7 @@ import { ms, number, percentage } from 'in-services/formatters/number';
 import changeExplanation from 'in-websites/emptyListExplanation';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 const columnDefinitions = [
@@ -132,13 +133,15 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
   tagFilters = tagFilters.concat({ name: 'beacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
 
   return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      websiteId={websiteId}
-      tagFilters={tagFilters}
-      timeConfig={timeConfig}
-      rightHeader={rightHeader}
-    />
+    <Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+        rightHeader={rightHeader}
+      />
+    </Card>
   );
 }
 

@@ -1,4 +1,5 @@
 export const roles = Object.freeze([
+  { value: 'preferNotToSay', label: 'Prefer not to say' },
   { value: 'frontendDeveloper', label: 'Frontend Developer' },
   { value: 'backendDeveloper', label: 'Backend Developer' },
   { value: 'businessManager', label: 'Business Manager' },
@@ -8,5 +9,5 @@ export const roles = Object.freeze([
   { value: 'itOperations', label: 'IT Operations' },
   { value: 'itDecisionMaker', label: 'IT Decision Maker' },
   { value: 'support', label: 'Support' },
-  { value: 'other', label: 'Prefer not to say' }
+  { value: 'other', label: 'Other (please specify)' }
 ]);

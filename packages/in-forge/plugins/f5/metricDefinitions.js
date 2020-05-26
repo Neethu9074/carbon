@@ -1,23 +1,26 @@
 import { percentagePlain, bytes, number } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metric: getMetricMatch('memFree'),
+    metric: getDynamicMetricMatch('memFree', null, 'Device'),
     label: 'Free Memory',
     min: 0,
-    formatter: bytes
+    formatter: bytes,
+    hideInMetricSelector: true
   },
   {
-    metric: getMetricMatch('cpuUsed'),
+    metric: getDynamicMetricMatch('cpuUsed', null, 'Device'),
     label: 'CPU Usage',
     min: 0,
-    formatter: percentagePlain
+    formatter: percentagePlain,
+    hideInMetricSelector: true
   },
   {
-    metric: getMetricMatch('httpRequests'),
+    metric: getDynamicMetricMatch('httpRequests', null, 'Device'),
     label: 'HTTP Requests',
     min: 0,
-    formatter: number
+    formatter: number,
+    hideInMetricSelector: true
   }
 ];

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import MissingK8sAppsPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sAppsPermissions';
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
@@ -23,7 +23,7 @@ export default function Summary({ timeConfig, data: service }) {
 
   return (
     <Fragment>
-      <MissingK8sAppsPermissions serviceId={service.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions serviceId={service.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard title="Type" value={service.type} raw borderless />

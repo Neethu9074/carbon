@@ -1,10 +1,12 @@
 import React from 'react';
 
 import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
-import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
+import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
+import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
+import { getDeploymentDashboard, getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
-import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
+import getKubernetesDeployments$ from 'in-subscription/kubernetes/getKubernetesDeployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
@@ -30,13 +32,29 @@ export default [
   {
     label: 'Deployments',
     path: `${namespaceDashboardFullyQualified}/deployments`,
-    component: Deployments,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'deployment',
+        getWorkloadControllers$: getKubernetesDeployments$,
+        getWorkloadControllerDashboard: getDeploymentDashboard,
+        pathSegment: '/deployments',
+        entityName: 'deployments'
+      }),
     header: props => getCounterComponent(props, 'deployments')
   },
   {
     label: 'Deployment Configs',
     path: `${namespaceDashboardFullyQualified}/deploymentconfigs`,
-    component: DeploymentConfigs,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'deploymentConfig',
+        getWorkloadControllers$: getOpenShiftDeploymentConfigs$,
+        getWorkloadControllerDashboard: getDeploymentConfigDashboard,
+        pathSegment: '/deploymentconfigs',
+        entityName: 'deployment configs'
+      }),
     header: props => getCounterComponent(props, 'deploymentConfigs')
   },
   {

@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  chartColors,
+  legendColors,
+  smoothMetrics,
+  getSmoothedMetricTooltipContent
+} from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
@@ -10,7 +17,6 @@ import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
-import theme from 'in-themes';
 
 export default function LogsAlertingBarChart({
   applicationId,
@@ -31,6 +37,8 @@ export default function LogsAlertingBarChart({
     ...tagFilters,
     ...getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope })
   ];
+  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+
   return (
     <AlertingBarChartWrapper
       alignLegendToLeftSideOfChart
@@ -41,34 +49,24 @@ export default function LogsAlertingBarChart({
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
+        granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
+          colors: legendColors
         },
-        renderer: Renderer.barWithThreshold,
+        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: number.forcedCompact,
-        labels: [getMetricLabel('logs', 'calls'), 'Threshold', 'Expected Range', 'Violations'],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [`${getMetricLabel('logs', 'calls')}${_isDefaultWindowSize ? '' : '*'}`, 'Threshold', 'Violations'],
+        excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['logs', 'threshold'],
         nonToggleableSeries: new Map([
-          ['logs', null],
+          ['logs', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
           ['threshold', null],
           ['alerts', null],
-          ['Expected Range', null],
           ['Violations', null]
         ])
       }}
@@ -84,6 +82,11 @@ export default function LogsAlertingBarChart({
       )}
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
+      mutateMetrics={{
+        doMutate: !_isDefaultWindowSize,
+        metricNames: ['logs'],
+        mutate: smoothMetrics
+      }}
     />
   );
 }
@@ -128,7 +131,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
-      tagFilters: tagFilters,
+      tagFilters,
       timeThreshold,
       threshold,
       granularity, // local alerts/chart granularity
@@ -136,7 +139,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, 
         alerts: {
           metric: 'calls',
           aggregation: 'SUM',
-          granularity // global metric granularity
+          granularity: alertingMetricsGranularity // global metric granularity
         }
       }
     };

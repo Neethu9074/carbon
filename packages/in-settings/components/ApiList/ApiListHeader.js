@@ -18,17 +18,22 @@ export default function ApiListHeader(props) {
   } = props;
   return (
     <header className={locals.header}>
-      <span className={locals.itemName}>
-        {`${itemName}s `}
-        {!isLoading && <span className={locals.itemCount}>{`(${totalFilteredItems})`}</span>}
-      </span>
+      {itemName ? (
+        <span className={locals.itemName}>
+          {`${itemName}s `}
+          {!isLoading && <span className={locals.itemCount}>{`(${totalFilteredItems})`}</span>}
+        </span>
+      ) : (
+        <div />
+      )}
       <div className={locals.right}>
         {renderAdditionalHeaderContent && renderAdditionalHeaderContent(props)}
         {searchFields &&
           totalItems > 0 && (
             <SearchInput
+              className={locals.searchInput}
               maxWidth={200}
-              placeholder={searchPlaceholder || `Filter ${itemName}s`}
+              placeholder={searchPlaceholder || 'Search...'}
               query={query}
               onChange={setQuery}
             />

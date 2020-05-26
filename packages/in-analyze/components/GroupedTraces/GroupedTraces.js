@@ -7,6 +7,7 @@ import {
   focusedMetric as focusedMetricMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
+import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import { availableMetrics, defaultMetrics } from 'in-applications/analyze/metrics';
@@ -19,10 +20,12 @@ import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { metricChangedTracker } from 'in-analyze/tracker';
 
+import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
+
+import { identity } from 'in-services/util/function';
 
 const defaultCountMetric = dataSource => {
   return {
@@ -158,16 +161,19 @@ export default compose(
 )(GroupedTraces);
 
 function GroupedTraces(props) {
-  const { items, showGraph } = props;
+  const { items, showGraph, dataSource } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
+  const groupNameProcessor = item => (dataSource === 'calls' ? getGroupNameProcessor(item) : identity(item));
   return (
     <AnalyzeWorkspace {...props} title="Trace Analytics">
       <GroupingTableHeader itemType="Group" {...props} forAnalyzeCalls />
-      {showGraph && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
+      {showGraph && (
+        <ApplicationGroupMetricsChart {...props} groupColors={groupColors} groupNameProcessor={groupNameProcessor} />
+      )}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeWorkspace>
   );
@@ -180,4 +186,14 @@ function getOrderByForQuery(orderBy, dataSource, metricsForQuery) {
     return orderBy;
   }
   return defaultOrderByForQuery;
+}
+
+function getGroupNameProcessor(itemName) {
+  if (itemName === NO_VALUE) {
+    return NO_VALUE_LABEL;
+  } else if (itemName === UNSPECIFIED) {
+    return 'No tag present';
+  } else {
+    return itemName;
+  }
 }

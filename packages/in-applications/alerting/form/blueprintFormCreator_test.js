@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
-import { createMapForm } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 
 import {
   createErrorRateForm as thresholdCreateErrorRateForm,
@@ -11,10 +11,35 @@ import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCrea
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
 describe('in-applications/alerting/form/blueprintFormCreator', () => {
+  const someTagFilters = [
+    'call.latency',
+    'call.erroneous',
+    'call.error.count',
+    'call.error.message',
+    'log.message',
+    'log.level'
+  ];
+
+  function createDummyTagFilter(name) {
+    return {
+      name,
+      operator: 'operator',
+      stringValue: 'stringValue'
+    };
+  }
+
+  function createTagFiltersForm() {
+    return createField({
+      value: someTagFilters.map(createDummyTagFilter)
+    });
+  }
+  const extractFilterName = filter => filter?.name;
+
   context('when alertType is slowness', () => {
     context('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
+          .put('tagFilters', createTagFiltersForm())
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' })),
         'slowness'
@@ -30,6 +55,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
+          .put('tagFilters', createTagFiltersForm())
           .put(
             'threshold',
             thresholdCreateSlownessForm({
@@ -66,6 +92,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     it('should have metricName "latency"', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
+          .put('tagFilters', createTagFiltersForm())
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' })),
         'slowness'
@@ -73,11 +100,24 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
       const metricName = blueprintForm.get('rule').get('metricName').value;
       expect(metricName).to.equal('latency');
     });
+    it('should filter out tagFilter "call.latency" but not "call.error.count"', () => {
+      const blueprintForm = createBlueprintForm(
+        createMapForm()
+          .put('tagFilters', createTagFiltersForm())
+          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
+          .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' })),
+        'slowness'
+      );
+      const tagFilters = blueprintForm.get('tagFilters').value;
+      expect(tagFilters.map(extractFilterName)).not.to.include('call.latency');
+      expect(tagFilters.map(extractFilterName)).to.include('call.error.count');
+    });
   });
 
   context('when alertType is errorRate', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
+        .put('tagFilters', createTagFiltersForm())
         .put('threshold', thresholdCreateErrorRateForm())
         .put('rule', createRuleForm({ alertType: 'errorRate' })),
       'errorRate'
@@ -93,6 +133,14 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
       expect(metricName).to.equal('errors');
     });
 
+    it('should filter out tagFilter "call.erroneous", "call.error.count" or "call.error.message".', () => {
+      const tagFilters = blueprintForm.get('tagFilters').value;
+      expect(tagFilters.map(extractFilterName)).not.to.include('call.erroneous');
+      expect(tagFilters.map(extractFilterName)).not.to.include('call.error.count');
+      expect(tagFilters.map(extractFilterName)).not.to.include('call.error.message');
+      expect(tagFilters.map(extractFilterName)).to.include('call.latency');
+    });
+
     it('should have thresholdType "staticThreshold"', () => {
       const type = blueprintForm.get('threshold').get('type').value;
       expect(type).to.equal('staticThreshold');
@@ -102,6 +150,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
   context('when alertType is logs', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
+        .put('tagFilters', createTagFiltersForm())
         .put('threshold', thresholdCreateLogsForm())
         .put('rule', createRuleForm({ alertType: 'logs' })),
       'logs'
@@ -115,6 +164,14 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     it('should have metricName "calls"', () => {
       const metricName = blueprintForm.get('rule').get('metricName').value;
       expect(metricName).to.equal('calls');
+    });
+
+    it('should filter out tagFilter "log.message" and "log.level"', () => {
+      const tagFilters = blueprintForm.get('tagFilters').value;
+      expect(tagFilters.map(extractFilterName)).not.to.include('log.message');
+      expect(tagFilters.map(extractFilterName)).not.to.include('log.level');
+      expect(tagFilters.map(extractFilterName)).to.include('call.error.message');
+      expect(tagFilters.map(extractFilterName)).to.include('call.latency');
     });
 
     it('should have thresholdType "staticThreshold"', () => {

@@ -1,73 +1,95 @@
+import { compose, withState } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import {
-  getHistoricThresholdMetricsConfiguration,
-  getBaselineMetricsConfiguration
-} from 'in-applications/alerting/Dialog/metricConfigurations';
-import getApplicationMetricsHistoricThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsHistoricThreshold';
-import getApplicationMetricsBaseline from 'in-applications/alerting/subscriptions/getApplicationMetricsBaseline';
+import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsThreshold';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { getLogLevelTagFilters, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
+import { getMetricsConfiguration } from 'in-applications/alerting/Dialog/metricConfigurations';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import { getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
+import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ form, updateForm, timeConfig, granularity }) => {
-  const thresholdType = form.get('threshold').get('type').value;
-  const observable = {};
+export const SmartAlertConfigDialog = compose(
+  withState('simpleMode', 'setSimpleMode', props => !props.editMode),
+  connectTo(({ form, updateForm, simpleMode }) => {
+    thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
-  thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
-
-  if (thresholdType === 'staticThreshold') {
-    observable.threshold = resolveThresholdRequest({ form, timeConfig, granularity })
-      .filter(resp => resp && resp.data && !resp.progress.loading)
-      .map(resp => resp.data)
-      .tap(({ threshold, time }) => addThresholdToForm({ form, updateForm, threshold, time }));
-  } else {
-    observable.baseline = resolveBaselineRequest({ form, granularity })
-      .filter(resp => resp && resp.data && !resp.progress.loading)
-      .map(resp => resp.data)
-      .tap(({ baseline, time }) => addBaselineToForm({ form, updateForm, baseline, time }));
-  }
-  return observable;
-})(function AlertConfigDialogPresenterWrapper(props) {
+    return {
+      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
+        .filter(resp => resp && resp.data && !resp.progress.loading)
+        .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
+    };
+  })
+)(function AlertConfigDialogPresenterWrapper(props) {
   return <AlertConfigDialogPresenter {...props} />;
 });
 
-function resolveThresholdRequest({ form, timeConfig, granularity }) {
-  const metricName = form.get('rule').get('metricName').value;
-  switch (metricName) {
-    case 'errors':
-      return getApplicationMetricsHistoricThreshold(
-        getHistoricThresholdMetricsConfiguration({
-          ...form.toJS(),
+function resolveThresholdRequest(form, granularity, fallbackOnError) {
+  const applicationId = form.get('applicationId').value;
+  const boundaryScope = form.get('boundaryScope').value;
+  const tagFilters = form.get('tagFilters').value;
+  const alertType = form.get('rule').get('alertType').value;
+
+  switch (alertType) {
+    case 'errorRate':
+      return getApplicationMetricsThreshold(
+        getMetricsConfiguration({
+          applicationId,
+          boundaryScope,
+          tagFilters,
           aggregation: 'MEAN',
           metric: 'errors',
-          timeConfig,
           granularity
         })
       );
-    case 'latency':
-      return getApplicationMetricsHistoricThreshold(
-        getHistoricThresholdMetricsConfiguration({
-          ...form.toJS(),
-          ...form.get('rule').toJS(),
-          ...form.get('threshold').toJS(),
-          metric: 'latency',
-          timeConfig,
-          granularity
-        })
-      );
-    case 'calls':
-      return getApplicationMetricsHistoricThreshold(
-        getHistoricThresholdMetricsConfiguration({
-          ...form.toJS(),
+    case 'logs': {
+      const rule = form.get('rule').toJS();
+
+      if (isBlank(rule.message)) {
+        return empty;
+      }
+
+      return getApplicationMetricsThreshold(
+        getMetricsConfiguration({
+          applicationId,
+          boundaryScope,
+          tagFilters: getLogTagFilters(form),
           aggregation: 'SUM',
           metric: 'calls',
-          timeConfig,
+          granularity
+        })
+      );
+    }
+    case 'slowness': {
+      const aggregation = form.get('rule').get('aggregation').value;
+      const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
+
+      return getApplicationMetricsThreshold(
+        getMetricsConfiguration({
+          applicationId,
+          boundaryScope,
+          tagFilters,
+          aggregation,
+          metric: 'latency',
           granularity,
-          tagFilters: getLogTagFilters(form)
+          seasonality: fallbackOnError ? 'DAILY' : seasonality,
+          fallbackOnError
+        })
+      );
+    }
+    case 'statusCode':
+      return getApplicationMetricsThreshold(
+        getMetricsConfiguration({
+          applicationId,
+          boundaryScope,
+          aggregation: 'SUM',
+          metric: 'calls',
+          granularity,
+          tagFilters: getStatusTagFilter(form)
         })
       );
     default:
@@ -75,40 +97,23 @@ function resolveThresholdRequest({ form, timeConfig, granularity }) {
   }
 }
 
-function resolveBaselineRequest({ form, granularity }) {
-  const metricName = form.get('rule').get('metricName').value;
-  if (metricName === 'latency') {
-    return getApplicationMetricsBaseline(
-      getBaselineMetricsConfiguration({
-        ...form.toJS(),
-        ...form.get('rule').toJS(),
-        ...form.get('threshold').toJS(),
-        granularity
-      })
-    );
-  }
-  return alwaysEmptyArray;
-}
-
-function addThresholdToForm({ form, updateForm, threshold, time }) {
-  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
+function updateThresholdInForm(form, updateForm, thresholdData, time) {
+  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+  const alertType = form.get('rule').get('alertType').value;
+  if (calculateThresholdOnBackend) {
     thresholdOrBaselineLoadingSignal$.emit(false);
+
+    const updatedThresholdForm = createThresholdForm(
+      {
+        lastUpdated: time,
+        ...thresholdData
+      },
+      alertType
+    );
+
     updateForm(
       form
-        .updateIn(['threshold', 'value'], f => f.setValue(threshold).setTouched(true))
-        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time).setTouched(true))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
-    );
-  }
-}
-
-function addBaselineToForm({ form, updateForm, baseline, time }) {
-  if (form.get('hiddenFields').get('calculateThresholdOnBackend').value) {
-    thresholdOrBaselineLoadingSignal$.emit(false);
-    updateForm(
-      form
-        .updateIn(['threshold', 'baseline'], f => f.setValue(baseline).setTouched(true))
-        .updateIn(['threshold', 'lastUpdated'], f => f.setValue(time).setTouched(true))
+        .put('threshold', updatedThresholdForm)
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
@@ -120,4 +125,11 @@ function getLogTagFilters(form) {
   const level = form.get('rule').get('level').value;
 
   return [...form.get('tagFilters').toJS(), ...getLogLevelTagFilters(message, operator, level)];
+}
+
+function getStatusTagFilter(form) {
+  const statusCodeStart = form.get('rule').get('statusCodeStart').value;
+  const statusCodeEnd = form.get('rule').get('statusCodeEnd').value;
+
+  return [...form.get('tagFilters').toJS(), ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)];
 }

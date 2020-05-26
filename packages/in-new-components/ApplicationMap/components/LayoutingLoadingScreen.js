@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './LayoutingLoadingScreen.mless';
@@ -19,7 +19,7 @@ export default connectTo(
     }
     return (
       <div className={locals.wrapper}>
-        <InfiniteCircle customText="Rendering" />;
+        <LoadingIndicator text="Rendering" />;
       </div>
     );
   }

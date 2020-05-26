@@ -1,80 +1,52 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
-import { alertingDialogItemPickerTimeframe, modeSimple } from 'in-websites/alerting/constants';
-import { blueprintConfig, alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
-import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
+import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import Menu from 'in-new-components/Alerting/components/Menu';
+import { modeSimple } from 'in-websites/alerting/constants';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
-  granularity,
   onChange,
   setJsErrorsListVisible,
-  timeConfig,
-  updateForm
+  updateForm,
+  onChartConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
-  const alertType = blueprintConfig[getIndexSelectedConf()].type;
-
-  // Fallback to static threshold for slowness when the historic baseline was not good enough.
-  const thresholdTypeValue = form.get('threshold').get('type').value;
-  const thresholdBaseline = form.get('threshold').get('baseline');
-
-  if (
-    alertType === alertTypes.slowness &&
-    thresholdTypeValue === 'historicBaseline' &&
-    thresholdBaseline &&
-    thresholdBaseline.value &&
-    thresholdBaseline.value.length === 0
-  ) {
-    const newThresholdForm = createThresholdForm(
-      {
-        ...form.get('threshold').toJS(),
-        type: 'staticThreshold'
-      },
-      alertType
-    );
-
-    updateForm(
-      form
-        .put('threshold', newThresholdForm)
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
-  }
+  const alertType = form.get('rule').get('alertType').value;
+  const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
 
   return (
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
-        itemLabels={blueprintConfig.map(({ name }) => name)}
-        onItemClick={selectedItemIndex => {
+        items={blueprintConfig}
+        onItemClick={item => {
           updateForm(
-            createBlueprintForm(form, blueprintConfig[selectedItemIndex].type).updateIn(
-              ['hiddenFields', 'calculateThresholdOnBackend'],
-              f => f.setValue(true)
+            createBlueprintForm(form, item.type).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
+              f.setValue(true)
             )
           );
 
           websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
         }}
-        initialItemSelected={getIndexSelectedConf()}
+        initialItemSelected={selectedBlueprintConfig}
         addRightSeparator
       />
-
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alert for Specific JS Errors"
-            description="You will be alerted every time matching JS Error messages occur more often than normal."
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           >
             <ProvideJsError
               form={form}
@@ -87,37 +59,21 @@ export default function SimpleAlertConfigDialogStep1({
             />
           </SelectedBlueprintPresenter>
         )}
-        renderSlowness={() => (
-          <BlueprintDescription config={blueprintConfig.find(configTypeEqualsAlertType)} isSimpleMode />
-        )}
+        renderSlowness={() => <BlueprintDescription config={selectedBlueprintConfig} isSimpleMode />}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter
-            title="Automatic Alert for Specific Status Codes"
-            description="You will be alerted every time matching HTTP Status Codes occur more often than normal."
+            title={selectedBlueprintConfig.headline}
+            description={selectedBlueprintConfig.text}
           >
             <ProvideStatusCode form={form} onChange={onChange} updateForm={updateForm} mode={modeSimple} />
           </SelectedBlueprintPresenter>
         )}
       />
-
-      <SimpleAlertConfigDialogChart form={form} granularity={granularity} timeConfig={timeConfig} />
+      <SimpleAlertConfigDialogChart
+        form={form}
+        onChartConfigChange={onChartConfigChange}
+        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      />
     </SimpleModeStepContentWrapper>
   );
-
-  function getIndexSelectedConf() {
-    return blueprintConfig.findIndex(configTypeEqualsAlertType);
-  }
-
-  function configTypeEqualsAlertType({ type }) {
-    return form.get('rule').get('alertType').value === type;
-  }
 }
-
-SimpleAlertConfigDialogStep1.propTypes = {
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  setJsErrorsListVisible: PropTypes.func.isRequired,
-  timeConfig: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
-};

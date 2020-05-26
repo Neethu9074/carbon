@@ -1,32 +1,29 @@
 import React from 'react';
 
-import { getPlainMetricList } from 'in-sdk/metrics';
+import { getAllBuiltInMetrics } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
 import locals from './BuiltInMetricSelector.mless';
 
 export default function BuiltInMetricSelector({ id, plugin, onChange, value, clearable = true }) {
-  const metricsList = getPlainMetricList(plugin);
-
+  const metricsList = getAllBuiltInMetrics(plugin);
   return (
     <ComboBox
       name={id}
       value={value}
-      options={limitMetricDefinitionItemWidth(metricsList)}
+      options={metricsList}
+      optionRenderer={renderOption}
       onChange={onChange}
       clearable={clearable}
     />
   );
 }
 
-function limitMetricDefinitionItemWidth(metricsList) {
-  return metricsList.map(metricDef => {
-    if (metricDef.origLabel) {
-      // ensure this item was not already wrapped
-      return metricDef;
-    }
-    metricDef.origLabel = metricDef.label;
-    metricDef.label = <span className={locals.item}>{metricDef.label}</span>;
-    return metricDef;
-  });
+function renderOption(option) {
+  return (
+    <div className={locals.item}>
+      {option.label}
+      <span className={locals.subtleMetric}>({option.metricLabel})</span>
+    </div>
+  );
 }

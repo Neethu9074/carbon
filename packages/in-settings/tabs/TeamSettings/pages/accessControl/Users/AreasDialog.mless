@@ -1,0 +1,9 @@
+:local {
+  .dialog {
+    min-width: 50rem;
+  }
+
+  .inheritFromLabel {
+    margin-left: 1rem;
+  }
+}

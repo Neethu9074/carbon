@@ -22,7 +22,8 @@ export default connectTo(
     return props.renderBreadcrumbs(
       get(props.resolvedIdsResult, ['data', 'clusterId']),
       get(props.resolvedIdsResult, ['data', 'namespaceId']),
-      get(props.resolvedIdsResult, ['data', 'deploymentId'])
+      get(props.resolvedIdsResult, ['data', 'workloadControllerId']),
+      get(props.resolvedIdsResult, ['data', 'workloadControllerType'])
     );
   }
 );

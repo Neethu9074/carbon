@@ -7,6 +7,7 @@ import {
   getTagType,
   requiresSecondLevelName,
   isLatencyTag,
+  isIdTag,
   getTagEntity,
   getSourceEntityAvailability
 } from 'in-applications/tags';
@@ -59,13 +60,19 @@ export default compose(
       editMode: Boolean(tagFilter),
       operatorSuggestions:
         form.get('tag').value === 'call.http.status' // Remove this once tag matchers on numbers are defined
-          ? [operators.EQUALS, operators.NOT_EQUALS]
+          ? [operators.EQUALS, operators.NOT_EQUAL]
           : get(TAG_TYPES, [selectedTagType, 'operators'], [])
               // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
               .filter(
                 operator =>
                   (form.get('key') && !isBlank(form.get('key').value)) ||
                   (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
+              )
+              // restrict id tag operators to EQUALS, NOT_EQUAL, IS_EMPTY and NOT_EMPTY
+              .filter(
+                operator =>
+                  !isIdTag(form.get('tag').value) ||
+                  (operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY')
               ),
       onRemoveTagFilter: () => {
         if (removeTagFilter) {

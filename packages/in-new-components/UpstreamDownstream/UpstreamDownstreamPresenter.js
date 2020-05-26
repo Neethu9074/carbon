@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 
 import UpstreamDownstreamPane from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamPane';
 import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
-import { IndeterminateLoadingIndicator } from 'in-new-components/LoadingIndicators';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
+import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import tabList from 'in-new-components/UpstreamDownstream/tabs';
 
 import locals from './UpstreamDownstreamPresenter.mless';
@@ -19,7 +19,10 @@ export default function UpstreamDownstreamPresenter({
   endpointId,
   close,
   resultApplication,
-  itemsApplication
+  itemsApplication,
+  tagFilters,
+  snapshotId,
+  plugin
 }) {
   const isLoading =
     (result.progress && result.progress.loading) || (resultApplication.progress && resultApplication.progress.loading);
@@ -49,6 +52,9 @@ export default function UpstreamDownstreamPresenter({
             timeConfig={timeConfig}
             endpointId={endpointId}
             close={close}
+            tagFilters={tagFilters}
+            snapshotId={snapshotId}
+            plugin={plugin}
           />
         </>
       )}
@@ -58,6 +64,6 @@ export default function UpstreamDownstreamPresenter({
 
 const Loader = () => (
   <div className={locals.pane}>
-    <IndeterminateLoadingIndicator size="96" />
+    <LoadingIndicator size="xxxl" />
   </div>
 );

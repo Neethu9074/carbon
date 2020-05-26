@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   userSettings,
@@ -15,6 +15,7 @@ import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
+import SetBodyColor from 'in-components/SetBodyColor';
 
 const navigationTree: NavigationTree = [
   {
@@ -40,13 +41,16 @@ const navigationTree: NavigationTree = [
 
 export default function View(props: any) {
   return (
-    <SideNavigationAndContent
-      stickySidebar
-      navigationTree={navigationTree}
-      redirectToDefaultPage={userSettingsGeneral}
-      redirectFrom={userSettings}
-      {...props}
-    />
+    <Fragment>
+      <SideNavigationAndContent
+        stickySidebar
+        navigationTree={navigationTree}
+        redirectToDefaultPage={userSettingsGeneral}
+        redirectFrom={userSettings}
+        {...props}
+      />
+      <SetBodyColor color="#fff" />
+    </Fragment>
   );
 }
 

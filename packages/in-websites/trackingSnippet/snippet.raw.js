@@ -4,22 +4,13 @@
 // manual process. To generate the minified snippet…
 //
 // 1. Edit this snippet as necessary
+// 2. Make sure you raise the version number on globalApi['v']
 // 2. Put it into Closure compiler advanced mode compilation with disabled pretty printing
 //
 // Closure compiler web services exist which can be used:
 // https://closure-compiler.appspot.com/home
 
-(function(
-  win,
-  doc,
-  scriptTagName,
-  scriptSourceUrl,
-  longGlobalName,
-  shortGlobalName,
-  globalApi,
-  scriptTag,
-  prevScriptTag
-) {
+(function(win, longGlobalName, shortGlobalName, globalApi) {
   if (win[longGlobalName]) {
     return;
   }
@@ -29,13 +20,6 @@
     globalApi['q'].push(arguments);
   };
   globalApi['q'] = [];
+  globalApi['v'] = 2;
   globalApi['l'] = 1 * new Date();
-
-  scriptTag = doc.createElement(scriptTagName);
-  scriptTag.async = 1;
-  scriptTag.src = scriptSourceUrl;
-  scriptTag.setAttribute('crossorigin', 'anonymous');
-
-  prevScriptTag = doc.getElementsByTagName(scriptTagName)[0];
-  prevScriptTag.parentNode.insertBefore(scriptTag, prevScriptTag);
-})(window, document, 'script', 'https://eum.instana.io/eum.min.js', 'InstanaEumObject', 'ineum');
+})(window, 'InstanaEumObject', 'ineum');

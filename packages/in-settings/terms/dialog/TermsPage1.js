@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import evaluateClassNames from 'in-services/util/classnames';
-import ComboBox from 'in-components/ComboBox/ComboBox';
-import { roles } from 'in-settings/terms/rolesConfig';
+import RolesSelector from 'in-settings/terms/RolesSelector';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
 
@@ -23,17 +22,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
         <TosButton /> and <PrivacyButton />
       </div>
       <div>
-        <p>What role is closest to your role in your organisation?</p>
-        {form.get('role').map(({ value }) => (
-          <ComboBox
-            className={locals.comboBox}
-            name="role"
-            value={value}
-            options={roles}
-            onChange={e => onChange(form, 'role', (e && e.value) || '')}
-            searchable
-          />
-        ))}
+        <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
       </div>
       <div className={locals.flexColumn}>
         <p>Let us help you get the most out of Instana with success tips and tutorials by email.</p>
@@ -82,15 +71,29 @@ export default function TermsPage1({ form, onChange, onNext }) {
           ))}
         </span>
       </div>
-      <div
-        className={evaluateClassNames({
-          [locals.warningText]: true,
-          [locals.hidden]: !messageVisible || form.hierarchyValid
-        })}
-      >
-        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-        <span>You cannot use Instana until you have accepted the Terms of Service and Privacy Policy.</span>
-      </div>
+      {(!form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid) && (
+        <div
+          className={evaluateClassNames({
+            [locals.warningText]: true,
+            [locals.hidden]: !messageVisible || form.hierarchyValid
+          })}
+        >
+          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+          <span>You cannot use Instana until you have accepted the Terms of Service and Privacy Policy.</span>
+        </div>
+      )}
+      {form.get('dynamicRole') &&
+        !form.get('dynamicRole').valid && (
+          <div
+            className={evaluateClassNames({
+              [locals.warningText]: true,
+              [locals.hidden]: !messageVisible || form.hierarchyValid
+            })}
+          >
+            <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+            <span>You need to type in a role.</span>
+          </div>
+        )}
       <div className={locals.buttons}>
         <Button
           className={evaluateClassNames({ [locals.disabled]: !form.hierarchyValid })}

@@ -40,6 +40,12 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const sourceSnapshotId = getSnapshotId(call, 'source');
   const destinationSnapshotId = getSnapshotId(call, 'destination');
 
+  // Special case for batch calls without source. Instead of showing a misleading message "Not monitored
+  // by Instana", show the destination span only in a similar way as we do for intermediate spans.
+  const batchCallWithoutSource = sourceService?.id === 'ROOT' && sourceSnapshotId == null && endpoint?.type === 'BATCH';
+
+  const isSyntheticBatchSpan = entrySpan && entrySpan.name === 'batch-synthetic';
+
   const logs = call.logs;
   const errorLogs = logs.filter(log => log.errorCount === 1);
   const warnLogs = logs.filter(log => log.errorCount === 0);
@@ -66,16 +72,19 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             snapshotId={destinationSnapshotId}
             entity={destinationEntity}
             span={intermediateSpan}
+            inProcessCall
           />
-          <ExpandableGroup
-            title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-            defaultExpanded
-          >
-            <SpanDetails call={call} span={intermediateSpan} />
-            {intermediateSpan.stackTrace.length > 0 && (
-              <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
-            )}
-          </ExpandableGroup>
+          {hasNonEmptyData(intermediateSpan) && (
+            <ExpandableGroup
+              title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+              defaultExpanded
+            >
+              <SpanDetails call={call} span={intermediateSpan} />
+              {intermediateSpan.stackTrace.length > 0 && (
+                <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
+              )}
+            </ExpandableGroup>
+          )}
           <ExpandableGroup
             title={
               <div className={locals.infraTitle}>
@@ -116,92 +125,97 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
       {service &&
         endpoint && (
           <Fragment>
-            <div className={locals.arrowWrapper}>
-              <div className={locals.verticalLineTop} />
-              <div className={locals.verticalLine} />
-              <div className={locals.verticalLineBottom}>
-                <svg viewBox="0 0 13.25 15.95" className={locals.lineArrow}>
-                  <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
-                </svg>
-              </div>
-              {websiteBeacon &&
-                sourceService.id === 'ROOT' && <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />}
-              {mobileAppBeacon &&
-                sourceService.id === 'ROOT' && <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />}
-              {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
-                <SourceLocation
-                  location={'source'}
-                  service={sourceService}
-                  snapshotId={sourceSnapshotId}
-                  entity={sourceEntity}
-                  span={exitSpan}
-                  physicalContext={sourcePhysicalContext}
-                />
-              )}
-              <div className={locals.sourceChildren}>
-                {websiteBeacon &&
-                  sourceService.id === 'ROOT' && (
-                    <ExpandableGroup title="Details" defaultExpanded>
-                      <WebsiteBeaconDetails beacon={websiteBeacon} />
-                    </ExpandableGroup>
-                  )}
-                {mobileAppBeacon &&
-                  sourceService.id === 'ROOT' && (
-                    <ExpandableGroup title="Details" defaultExpanded>
-                      <MobileAppBeaconDetails beacon={mobileAppBeacon} />
-                    </ExpandableGroup>
-                  )}
-                {exitSpan && (
-                  <ExpandableGroup
-                    title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                    defaultExpanded
-                  >
-                    <SpanDetails call={call} span={exitSpan} />
-                    {exitSpan.stackTrace.length > 0 && (
-                      <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
+            <div className={batchCallWithoutSource ? undefined : locals.arrowWrapper}>
+              {batchCallWithoutSource || (
+                <>
+                  <div className={locals.verticalLineTop} />
+                  <div className={locals.verticalLine} />
+                  <div className={locals.verticalLineBottom}>
+                    <svg viewBox="0 0 13.25 15.95" className={locals.lineArrow}>
+                      <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
+                    </svg>
+                  </div>
+                  {websiteBeacon &&
+                    sourceService.id === 'ROOT' && <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />}
+                  {mobileAppBeacon &&
+                    sourceService.id === 'ROOT' && (
+                      <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />
                     )}
-                  </ExpandableGroup>
-                )}
-                {sourceService.id === 'ROOT' &&
-                  !websiteBeacon &&
-                  !mobileAppBeacon && (
-                    <ExpandableGroup title="Details" defaultExpanded>
-                      <p>
-                        The source of this call has not been traced and as a result no information can be provided about
-                        the source. All information shown about this call is provided by the destination.
-                      </p>
-                    </ExpandableGroup>
+                  {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
+                    <SourceLocation
+                      location={'source'}
+                      service={sourceService}
+                      snapshotId={sourceSnapshotId}
+                      entity={sourceEntity}
+                      span={exitSpan}
+                      physicalContext={sourcePhysicalContext}
+                    />
                   )}
-                {exitSpan &&
-                  sourceSnapshotId && (
-                    <ExpandableGroup
-                      expandedTitle="Infrastructure"
-                      title={
-                        <div className={locals.infraTitle}>
-                          <span>Infrastructure</span>
-                          {sourceEntity && (
-                            <InfrastructureEntityLink
-                              entity={sourceEntity}
-                              plugin={sourceEntity && sourceEntity.plugin}
-                              snapshotId={sourceSnapshotId}
-                              physicalContext={sourcePhysicalContext}
-                            />
-                          )}
-                        </div>
-                      }
-                    >
-                      <InfrastructureHierarchy
-                        snapshotId={sourceSnapshotId}
-                        calculateHierarchy
-                        pathname={physicalDashboardPath}
-                        entity={sourceEntity}
-                        plugin={sourceEntity && sourceEntity.plugin}
-                        physicalContext={sourcePhysicalContext}
-                      />
-                    </ExpandableGroup>
-                  )}
-              </div>
-
+                  <div className={locals.sourceChildren}>
+                    {websiteBeacon &&
+                      sourceService.id === 'ROOT' && (
+                        <ExpandableGroup title="Details" defaultExpanded>
+                          <WebsiteBeaconDetails beacon={websiteBeacon} />
+                        </ExpandableGroup>
+                      )}
+                    {mobileAppBeacon &&
+                      sourceService.id === 'ROOT' && (
+                        <ExpandableGroup title="Details" defaultExpanded>
+                          <MobileAppBeaconDetails beacon={mobileAppBeacon} />
+                        </ExpandableGroup>
+                      )}
+                    {hasNonEmptyData(exitSpan) && (
+                      <ExpandableGroup
+                        title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                        defaultExpanded
+                      >
+                        <SpanDetails call={call} span={exitSpan} />
+                        {exitSpan.stackTrace.length > 0 && (
+                          <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
+                        )}
+                      </ExpandableGroup>
+                    )}
+                    {sourceService.id === 'ROOT' &&
+                      !websiteBeacon &&
+                      !mobileAppBeacon && (
+                        <ExpandableGroup title="Details" defaultExpanded>
+                          <p>
+                            The source of this call has not been traced and as a result no information can be provided
+                            about the source. All information shown about this call is provided by the destination.
+                          </p>
+                        </ExpandableGroup>
+                      )}
+                    {exitSpan &&
+                      sourceSnapshotId && (
+                        <ExpandableGroup
+                          expandedTitle="Infrastructure"
+                          title={
+                            <div className={locals.infraTitle}>
+                              <span>Infrastructure</span>
+                              {sourceEntity && (
+                                <InfrastructureEntityLink
+                                  entity={sourceEntity}
+                                  plugin={sourceEntity && sourceEntity.plugin}
+                                  snapshotId={sourceSnapshotId}
+                                  physicalContext={sourcePhysicalContext}
+                                />
+                              )}
+                            </div>
+                          }
+                        >
+                          <InfrastructureHierarchy
+                            snapshotId={sourceSnapshotId}
+                            calculateHierarchy
+                            pathname={physicalDashboardPath}
+                            entity={sourceEntity}
+                            plugin={sourceEntity && sourceEntity.plugin}
+                            physicalContext={sourcePhysicalContext}
+                          />
+                        </ExpandableGroup>
+                      )}
+                  </div>
+                </>
+              )}
               <DestinationLocation
                 location={'destination'}
                 endpoint={endpoint}
@@ -209,11 +223,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 snapshotId={destinationSnapshotId}
                 entity={destinationEntity}
                 span={entrySpan}
-                intermediateSpan={intermediateSpan}
+                inProcessCall={batchCallWithoutSource}
               />
             </div>
             <div className={locals.destinationChildren}>
-              {entrySpan && (
+              {(hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
                   defaultExpanded
@@ -311,6 +325,9 @@ function getEntity(call, location) {
 }
 
 function getSpan(call, kind) {
-  let span = find(call.spans, _span => _span.kind === kind);
-  return span && span.data && Object.keys(span.data).length > 0 ? span : null;
+  return find(call.spans, _span => _span.kind === kind);
+}
+
+function hasNonEmptyData(span) {
+  return span && span.data && Object.keys(span.data).length > 0;
 }

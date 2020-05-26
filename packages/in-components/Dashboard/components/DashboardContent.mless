@@ -20,15 +20,15 @@
   }
 
   .sidebar {
-    background: @lib__colors__N050;
+    background: @lib__colors__N100;
     min-height: 100%;
+    border-right: 1px solid @lib__colors__N300
   }
 
   .content {
     width: ~'calc(100% - 320px)';
     height: 100%;
     box-sizing: border-box;
-    background: #fff;
     padding: 1rem 1.5rem 1rem 1rem;
 
     &::after {
@@ -37,6 +37,14 @@
       content: ' ';
       display: block;
     }
+  }
+
+  .loadingIndicatorWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: 45vh;
   }
 
   @media @min-medium-screen {

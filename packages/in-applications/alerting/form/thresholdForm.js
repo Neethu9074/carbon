@@ -12,6 +12,10 @@ export default function createThresholdForm(threshold, alertType) {
   if (alertType === 'logs') {
     return createLogsForm(threshold);
   }
+
+  if (alertType === 'statusCode') {
+    return createStatusCodeForm(threshold);
+  }
 }
 
 export function createErrorRateForm(threshold = {}) {
@@ -19,6 +23,10 @@ export function createErrorRateForm(threshold = {}) {
 }
 
 export function createLogsForm(threshold = {}) {
+  return createStaticThresholdForm(threshold);
+}
+
+export function createStatusCodeForm(threshold = {}) {
   return createStaticThresholdForm(threshold);
 }
 

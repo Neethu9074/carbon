@@ -97,6 +97,7 @@ export const TAG_TYPES = {
       operators.NOT_EQUAL,
       operators.LESS_THAN,
       operators.GREATER_THAN,
+      operators.NOT_EMPTY,
       operators.IS_EMPTY,
       operators.LESS_OR_EQUAL_THAN,
       operators.GREATER_OR_EQUAL_THAN

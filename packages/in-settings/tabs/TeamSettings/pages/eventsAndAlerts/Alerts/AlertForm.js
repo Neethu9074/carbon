@@ -1,4 +1,3 @@
-/* eslint-disable no-console */ // TODO: remove later
 import React from 'react';
 
 import FormDataEnrichment from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/FormDataEnrichment';

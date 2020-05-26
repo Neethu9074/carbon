@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
@@ -6,7 +5,6 @@ import SimpleAlertConfigDialogStep2 from 'in-applications/alerting/simple/Simple
 import SimpleAlertConfigDialogStep1 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep1';
 import SimpleModePageNavigation from 'in-new-components/Alerting/simple/SimpleModePageNavigation';
 import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 
 const stepConfigs = [
   {
@@ -25,7 +23,6 @@ const stepConfigs = [
 export default function SimpleModeContainer({
   editMode,
   form,
-  granularity,
   onChange,
   onClose,
   setSliderState,
@@ -33,7 +30,9 @@ export default function SimpleModeContainer({
   applicationLabel,
   onCreate,
   setSimpleModeStep,
-  updateForm
+  updateForm,
+  onChartConfigChange,
+  indexInitialSelectedTimeConfig
 }) {
   return (
     <SimpleModePageNavigation
@@ -51,10 +50,10 @@ export default function SimpleModeContainer({
             return (
               <SimpleAlertConfigDialogStep1
                 form={form}
-                timeConfig={timeConfig}
                 updateForm={updateForm}
-                granularity={granularity}
                 setLogMessagesListVisible={setSliderState}
+                onChartConfigChange={onChartConfigChange}
+                indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
           case 1:
@@ -64,7 +63,8 @@ export default function SimpleModeContainer({
                 timeConfig={timeConfig}
                 updateForm={updateForm}
                 applicationLabel={applicationLabel}
-                granularity={granularity}
+                onChartConfigChange={onChartConfigChange}
+                indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
               />
             );
           case 2:
@@ -76,17 +76,3 @@ export default function SimpleModeContainer({
     />
   );
 }
-
-SimpleModeContainer.propTypes = {
-  editMode: PropTypes.bool,
-  form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  setSliderState: PropTypes.func.isRequired,
-  setSimpleModeStep: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired
-};

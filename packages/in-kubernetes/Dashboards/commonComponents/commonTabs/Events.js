@@ -13,6 +13,7 @@ import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-new-components/EntityLink';
 import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
+import Card from 'in-new-components/Card';
 
 const unknownPlugin = 'com.instana.plugins.Unknown';
 
@@ -109,16 +110,18 @@ function eventsTable(columnDefinitions) {
 
   return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {
     return (
-      <ServerTableWithUrlState
-        clusterId={clusterId}
-        deploymentId={deploymentId}
-        deploymentConfigId={deploymentConfigId}
-        namespaceId={namespaceId}
-        podId={podId}
-        serviceId={serviceId}
-        get={getTableData}
-        {...props}
-      />
+      <Card>
+        <ServerTableWithUrlState
+          clusterId={clusterId}
+          deploymentId={deploymentId}
+          deploymentConfigId={deploymentConfigId}
+          namespaceId={namespaceId}
+          podId={podId}
+          serviceId={serviceId}
+          get={getTableData}
+          {...props}
+        />
+      </Card>
     );
   };
 }

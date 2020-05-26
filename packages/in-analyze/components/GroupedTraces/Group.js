@@ -12,15 +12,16 @@ import { groupClickedTracker } from 'in-analyze/tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
-import { isBlank } from 'in-services/util/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { getTagType } from 'in-applications/tags';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Group.mless';
 
-const NO_VALUE = 'no_value';
-const NO_VALUE_LABEL = 'No Value';
+export const NO_VALUE = 'no_value';
+export const NO_VALUE_LABEL = 'Tag has no value';
+export const UNSPECIFIED = 'Unspecified';
 
 export default connectTo(
   {
@@ -58,7 +59,7 @@ export default connectTo(
                 [locals.specialName]: isSpecialItem(item)
               })}
             >
-              {getItemLabel(item)}
+              {getItemLabel(item.name, filters.group.name, filters.group.value)}
             </Link>
 
             {// internal feature: link to infrastructure entity when group value is a snapshot id
@@ -86,14 +87,16 @@ export default connectTo(
 );
 
 function isSpecialItem(item) {
-  return item.name === NO_VALUE;
+  return item.name === NO_VALUE || item.name === UNSPECIFIED;
 }
 
-function getItemLabel(item) {
-  if (item.name === NO_VALUE) {
+function getItemLabel(itemName, filtersGroupName, filtersGroupValue) {
+  if (itemName === NO_VALUE) {
     return NO_VALUE_LABEL;
+  } else if (itemName === UNSPECIFIED) {
+    return `Calls without the '${filtersGroupName}${isNotBlank(filtersGroupValue) ? '.' + filtersGroupValue : ''}' tag`;
   } else {
-    return item.name;
+    return itemName;
   }
 }
 
@@ -111,18 +114,25 @@ function getGroupingChange(filters, selectedGroupValue) {
       [groupByMatrixParameter]: {
         name: tagName,
         value: selectedGroupValue,
-        enity: entity
+        entity: entity
       },
       [tagFilterMatrixParameter]: tagFilter
     };
   } else {
     // for other cases, add a tag filter with the selected group value
     let newTagFilter;
-    if (selectedGroupValue === NO_VALUE && !isBlank(group.value)) {
+    if (selectedGroupValue === NO_VALUE && isNotBlank(group.value)) {
       newTagFilter = createFilter({
         name: group.name,
         secondLevelName: group.value,
-        operator: operators.IS_BLANK,
+        operator: operators.NOT_EMPTY,
+        entity: group.entity
+      });
+    } else if (selectedGroupValue === UNSPECIFIED) {
+      newTagFilter = createFilter({
+        name: group.name,
+        secondLevelName: group.value,
+        operator: operators.IS_EMPTY,
         entity: group.entity
       });
     } else {

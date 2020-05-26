@@ -1,9 +1,17 @@
 import { errorCount, statusCodeCount } from 'in-websites/alerting/constants';
 
-export function getMetricConfiguration(websiteId, aggregation, metric, tagFilters, timeConfig, granularity) {
+export function getMetricConfiguration(
+  websiteId,
+  aggregation,
+  metric,
+  tagFilters,
+  granularity,
+  seasonality = null,
+  fallbackOnError = false
+) {
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   return Object.freeze({
-    timeConfig,
+    to: Date.now(),
     tagFilters: tagFiltersWithWebsiteId,
     metrics: {
       threshold: {
@@ -11,23 +19,9 @@ export function getMetricConfiguration(websiteId, aggregation, metric, tagFilter
         granularity,
         aggregation
       }
-    }
-  });
-}
-
-export function getMetricsBaselineConfiguration(websiteId, aggregation, tagFilters, granularity, seasonality) {
-  const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-  return Object.freeze({
-    to: Date.now(),
-    metrics: {
-      baseline: {
-        metric: 'onLoadTime',
-        granularity,
-        aggregation
-      }
     },
-    tagFilters: tagFiltersWithWebsiteId,
-    seasonality
+    seasonality,
+    fallbackOnError
   });
 }
 
@@ -38,13 +32,12 @@ export function getMetricConfigurationForErrors(
   stringValue,
   operator,
   tagFilters,
-  timeConfig,
   granularity
 ) {
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const errorFilter = { name: 'beacon.error.message', operator, stringValue };
   return Object.freeze({
-    timeConfig,
+    to: Date.now(),
     tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
     metrics: {
       threshold: {
@@ -53,7 +46,8 @@ export function getMetricConfigurationForErrors(
         aggregation,
         numeratorFilter: errorFilter
       }
-    }
+    },
+    fallbackOnError: false
   });
 }
 
@@ -64,13 +58,12 @@ export function getMetricConfigurationForStatusCode(
   stringValue,
   operator,
   tagFilters,
-  timeConfig,
   granularity
 ) {
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const statusCodeFilter = { name: 'beacon.http.status', operator, stringValue };
   return Object.freeze({
-    timeConfig,
+    to: Date.now(),
     tagFilters: metric === statusCodeCount ? [...tagFiltersWithWebsiteId, statusCodeFilter] : tagFiltersWithWebsiteId,
     metrics: {
       threshold: {
@@ -79,7 +72,8 @@ export function getMetricConfigurationForStatusCode(
         aggregation,
         numeratorFilter: statusCodeFilter
       }
-    }
+    },
+    fallbackOnError: false
   });
 }
 

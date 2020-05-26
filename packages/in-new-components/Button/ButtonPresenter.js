@@ -17,7 +17,8 @@ export const kinds = [
   'create',
   'danger',
   'warning',
-  'info'
+  'info',
+  'fixedInline'
 ];
 export const sizes = ['normal', 'compact'];
 
@@ -46,6 +47,7 @@ export default function ButtonPresenter({
 }) {
   let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
     ''}`;
+
   if (className) {
     classes = `${classes} ${className}`;
   }
@@ -103,7 +105,7 @@ ButtonPresenter.propTypes = {
   /** Icon here */
   icon: rpt.string,
   iconSpinning: rpt.bool,
-  iconSize: rpt.oneOf(['m', 'l']),
+  iconSize: rpt.oneOf(['xs', 's', 'm', 'l']),
   className: rpt.string,
   style: rpt.object,
   children: rpt.node,

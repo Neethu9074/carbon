@@ -5,13 +5,12 @@ import { getColor as getColorForEndpointType } from 'in-applications/endpointTyp
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 
 import locals from './Header.mless';
 
-export default function Header({ call, onClose }) {
+export default function Header({ call }) {
   const endpoint = get(call, ['destination', 'endpoint']);
 
   const isLogSpan = get(call, ['spans', '0', 'name'], '').indexOf('log') === 0 && call.spans.length === 1;
@@ -34,22 +33,8 @@ export default function Header({ call, onClose }) {
         ) : (
           <Skeleton className={locals.skeleton} />
         )}
-        <CloseButton onClick={onClose} />
       </div>
       {call && call.errorCount > 0 && <ProblemIndicator kind="danger" title="Erroneous Call" />}
     </Fragment>
-  );
-}
-
-function CloseButton({ onClick }) {
-  return (
-    <Tooltip content="Close call details">
-      <SvgIcon
-        className={locals.closeIcon}
-        onClick={onClick}
-        aria-label="Close call details"
-        type="lib_openclose_cancel"
-      />
-    </Tooltip>
   );
 }

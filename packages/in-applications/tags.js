@@ -1,10 +1,10 @@
 import { get } from 'lodash';
+import moment from 'moment';
 
 import { TAG_TYPES, entityTypes } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
 import { isInstanaEngineer } from 'in-stores/user';
-import moment from 'moment';
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -87,9 +87,9 @@ const blacklists = {
       'cluster.snapshotId': !isInstanaEngineer,
       'cloud.snapshotId': !isInstanaEngineer,
       'call.span_type': !isInstanaEngineer,
-      'call.processing_errors': !isInstanaEngineer,
       'call.http.hostCapturedFromSource': !isInstanaEngineer,
-      'call.meta_tags': !isInstanaEngineer
+      'call.meta_tags': !isInstanaEngineer,
+      'log.span_type': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
@@ -351,9 +351,14 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ applicat
     return tagFiltersForAnalyze;
   }
   // replace application ID filter with something more understandable by users.
-  if (tagFiltersForAnalyze.some(f => f.name === 'application.id')) {
+  if (tagFiltersForAnalyze.some(f => f.name === 'application.id' || f.name === 'boundary.application.id')) {
     return tagFiltersForAnalyze.map(
-      f => (f.name !== 'application.id' ? f : getApplicationNameTagFilter(applicationName))
+      f =>
+        f.name === 'application.id'
+          ? getApplicationNameTagFilter(applicationName)
+          : f.name === 'boundary.application.id'
+            ? getInboundApplicationNameTagFilter(applicationName)
+            : f
     );
   }
   // or add the application label tag filter to the end if application ID is filter is not present
@@ -368,25 +373,14 @@ function getApplicationNameTagFilter(applicationName) {
   };
 }
 
-export function translateDemocratisationFiltersToAnalyzeFilters({ applicationName, filters }) {
-  let filtersForAnalyze = filters;
-  if (!applicationName) {
-    return filtersForAnalyze;
-  }
-  // replace application ID filter with something more understandable by users.
-  if (filtersForAnalyze.some(f => f.name === 'application.id')) {
-    return filtersForAnalyze.map(
-      f => (f.name !== 'application.id' ? f : getApplicationNameAnalyzeFilter(applicationName))
-    );
-  }
-  // or add the application label tag filter to the end if application ID is filter is not present
-  return filtersForAnalyze.concat(getApplicationNameAnalyzeFilter(applicationName));
+function getInboundApplicationNameTagFilter(applicationName) {
+  return {
+    name: 'call.inbound_of_application',
+    operator: 'EQUALS',
+    stringValue: applicationName
+  };
 }
 
-function getApplicationNameAnalyzeFilter(applicationName) {
-  return {
-    name: 'application.name',
-    operator: 'EQUALS',
-    value: applicationName
-  };
+export function isIdTag(tagName) {
+  return tagName.endsWith('.id') || tagName.endsWith('.snapshotId');
 }

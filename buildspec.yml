@@ -34,7 +34,7 @@ phases:
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
       - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
       - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
-      - export INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)"
+      - INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)" && export INSTANA_CONTAINER_TAG
       # Alias the value for the Node.js build process
       - export COM_INSTANA_IMAGE_TAG="$INSTANA_CONTAINER_TAG"
   pre_build:

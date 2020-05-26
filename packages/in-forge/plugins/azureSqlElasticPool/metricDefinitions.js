@@ -4,31 +4,37 @@ import {
   twoDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [getMetricMatch('metrics', 'eDTU_limit'), getMetricMatch('metrics', 'cpu_limit')],
+    metrics: [
+      getDynamicMetricMatch('metrics', 'eDTU_limit', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'cpu_limit', 'Elastic Pool')
+    ],
     labels: ['eDTU Limit', 'CPU Limit'],
     formatter: zeroDecimalPlaces,
     min: 0
   },
   {
-    metrics: [getMetricMatch('metrics', 'eDTU_used'), getMetricMatch('metrics', 'cpu_used')],
+    metrics: [
+      getDynamicMetricMatch('metrics', 'eDTU_used', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'cpu_used', 'Elastic Pool')
+    ],
     labels: ['eDTU Used', 'CPU Used'],
     formatter: twoDecimalPlaces,
     min: 0
   },
   {
     metrics: [
-      getMetricMatch('metrics', 'dtu_consumption_percent'),
-      getMetricMatch('metrics', 'storage_percent'),
-      getMetricMatch('metrics', 'cpu_percent'),
-      getMetricMatch('metrics', 'physical_data_read_percent'),
-      getMetricMatch('metrics', 'log_write_percent'),
-      getMetricMatch('metrics', 'xtp_storage_percent'),
-      getMetricMatch('metrics', 'workers_percent'),
-      getMetricMatch('metrics', 'sessions_percent')
+      getDynamicMetricMatch('metrics', 'dtu_consumption_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'storage_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'cpu_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'physical_data_read_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'log_write_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'xtp_storage_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'workers_percent', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'sessions_percent', 'Elastic Pool')
     ],
     labels: [
       'eDTU Percentage',
@@ -44,7 +50,10 @@ export default [
     min: 0
   },
   {
-    metrics: [getMetricMatch('metrics', 'storage_limit'), getMetricMatch('metrics', 'storage_used')],
+    metrics: [
+      getDynamicMetricMatch('metrics', 'storage_limit', 'Elastic Pool'),
+      getDynamicMetricMatch('metrics', 'storage_used', 'Elastic Pool')
+    ],
     labels: ['Storage Limit', 'Storage Used'],
     formatter: bytesTwoDecimalPlaces,
     min: 0

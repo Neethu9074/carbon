@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -43,7 +43,7 @@ function InternalEventsList(props) {
   if (!items) {
     return (
       <div className={locals.wrapper}>
-        <LoadingIndicator type="dark" />
+        <LoadingIndicator />
       </div>
     );
   }

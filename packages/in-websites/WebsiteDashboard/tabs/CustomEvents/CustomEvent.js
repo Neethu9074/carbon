@@ -31,6 +31,12 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
 
   const granularity = getChartGranularity(timeConfig);
   tagFilters = tagFilters.concat([{ name: 'beacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' }]);
+  const viewInAnalytics = {
+    websiteLabel,
+    group: {
+      groupbyTag: 'beacon.location.path'
+    }
+  };
 
   return (
     <>
@@ -104,6 +110,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             cardTitle="Occurrences"
             timeConfig={timeConfig}
             renderLegend={false}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
@@ -117,7 +124,9 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 beaconCount: {
                   metric: 'beaconCount',
                   granularity,
-                  aggregation: 'SUM'
+                  aggregation: 'SUM',
+                  omitMetricInAnalytics: true,
+                  beaconType: 'custom'
                 }
               }
             }}
@@ -128,6 +137,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             cardTitle="Users"
             timeConfig={timeConfig}
             renderLegend={false}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: affectedUsersChart,
@@ -141,7 +151,8 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 uniqueUsersOrSessions: {
                   metric: 'uniqueUsersOrSessions',
                   granularity,
-                  aggregation: 'DISTINCT_COUNT'
+                  aggregation: 'DISTINCT_COUNT',
+                  beaconType: 'custom'
                 }
               }
             }}
@@ -156,6 +167,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
+            viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,
@@ -178,32 +190,38 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 duration50th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P50'
+                  aggregation: 'P50',
+                  beaconType: 'custom'
                 },
                 duration90th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P90'
+                  aggregation: 'P90',
+                  beaconType: 'custom'
                 },
                 duration95th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P95'
+                  aggregation: 'P95',
+                  beaconType: 'custom'
                 },
                 duration99th: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'P99'
+                  aggregation: 'P99',
+                  beaconType: 'custom'
                 },
                 durationMax: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'MAX'
+                  aggregation: 'MAX',
+                  beaconType: 'custom'
                 },
                 durationMean: {
                   metric: 'beaconDuration',
                   granularity,
-                  aggregation: 'MEAN'
+                  aggregation: 'MEAN',
+                  beaconType: 'custom'
                 }
               }
             }}

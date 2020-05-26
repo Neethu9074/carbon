@@ -1,5 +1,6 @@
 # 🚀 ui-client 🏂 &nbsp; [![Contribution Guidelines](https://img.shields.io/badge/contribution-guidelines-important.svg)](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf) [![Component Catalog](https://img.shields.io/badge/component-catalog-informational.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/) [![Build Preview](https://img.shields.io/badge/build-preview-blueviolet.svg)](https://dev-jenkins.instana.io/job/ui-client-preview/)
 
+
 <!-- toc -->
 
 - [Getting Started](#getting-started)
@@ -211,20 +212,9 @@ VS Code.
 
 #### IntelliJ & Co
 
-- Install the file watcher plugin
-- Set up a file watcher like this:
-  - Name: Prettier
-  - File type: JavaScript
-  - Scope: Project Files
-  - Program: `/path/to/ui-client/node_modules/.bin/prettier`
-  - Arguments: `--single-quote --print-width 120 --write $FilePath$`
-  - Output paths to refresh: `$FilePath$`
-  - Working directory: `$ModuleFileDir$`
-  - Auto-save edited files to trigger the watcher: Unchecked
-  - Trigger the watcher on external changes: Unchecked
-  - Trigger the watcher regardless of syntax errors: Unchecked
-  - Create output file from stdout: Unchecked
-  - Show console: On error
+- Install the Prettier plugin (by Jetbrains) and use these defaults:
+  - Prettier package: <Project_RootDir>/node_modules/prettier
+  - ✔️ Activate "run on save for files:"  ({**/*,*}.{js,jsx})
 
 ## Upgrading Node.js
 

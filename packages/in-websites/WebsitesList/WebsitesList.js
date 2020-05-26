@@ -22,6 +22,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
@@ -128,7 +129,9 @@ export default connectTo(
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={WebsitesNoDataNotification}
           >
-            <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+            <Card>
+              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+            </Card>
           </WithEmptyStateFallback>
         </LeftRightPadding>
         <Footer />

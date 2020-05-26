@@ -81,7 +81,7 @@ stage('Deployment') {
         node {
           echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
-          build job: '/deployment/fullstack-deploy-ui-client', parameters: [
+          build job: '/fullstack-deploy/fullstack-deploy-ui-client', parameters: [
             string(name: 'ENVIRONMENT', value: 'release'),
             string(name: 'VERSION', value: instanaVersion),
             string(name: 'BRANCH', value: env.BRANCH_NAME)
@@ -119,25 +119,4 @@ stage('Storybook') {
       }
     }
   }
-}
-
-
-def runNodeBuild(gitCommitId, buildCommands) {
-  deleteDir()
-  unstash name: "ui-client-checkout-${gitCommitId}"
-  runNodeScriptInCurrentWorkDir(buildCommands)
-}
-
-def runNodeScriptInCurrentWorkDir(buildCommands) {
-  sh '''
-    source $HOME/.nvm/nvm.sh
-    nvm use
-    if [ -z "$(which yarn)" ]; then
-      npm install -g yarn@1.21.1
-    fi
-    if [ "$(yarn --version)" != "1.21.1" ]; then
-      npm install -g yarn@1.21.1
-    fi
-  '''
-  sh 'source $HOME/.nvm/nvm.sh && nvm use && ' + buildCommands
 }

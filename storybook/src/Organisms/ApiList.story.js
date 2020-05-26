@@ -1,18 +1,18 @@
 import React from 'react';
 
+import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { warning } from 'in-new-components/Message/types';
-import ApiListRenderer from 'in-settings/components/ApiList/ApiListRenderer';
 import { Ul, Li } from 'in-new-components/lists/List';
 
 export default {
   title: 'Organisms|ApiList',
-  component: ApiListRenderer
+  component: DefaultListRenderer
 };
 
 export function LoadingAndEmptyStory() {
   return (
     <>
-      <ApiListRenderer
+      <DefaultListRenderer
         itemName="Foobar"
         itemsResult={{
           progress: {
@@ -20,7 +20,7 @@ export function LoadingAndEmptyStory() {
           }
         }}
       />
-      <ApiListRenderer
+      <DefaultListRenderer
         itemName="Foobar"
         itemsResult={{
           data: []
@@ -32,7 +32,7 @@ export function LoadingAndEmptyStory() {
 
 export function WithDataStory() {
   return (
-    <ApiListRenderer
+    <DefaultListRenderer
       itemName="Foobar"
       itemsResult={{
         data: [{ id: 'f', label: 'foo' }, { id: 'f2', label: 'foo2' }, { id: 'b', label: 'bar' }]
@@ -46,7 +46,7 @@ export function WithDataStory() {
 
 export function WithMessageStory() {
   return (
-    <ApiListRenderer
+    <DefaultListRenderer
       itemName="Foobar"
       itemsResult={{
         data: [{ id: 'f', label: 'foo' }, { id: 'f2', label: 'foo2' }, { id: 'b', label: 'bar' }]

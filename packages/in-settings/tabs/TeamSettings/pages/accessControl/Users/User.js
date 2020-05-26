@@ -1,15 +1,21 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import RolesDropDown from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RolesDropDown';
+import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Permissions';
+import { success as successResult, error as errorResult } from 'in-services/util/result';
+import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
+import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, setRole } from 'in-api/users';
+import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getRolesAsResultObservable } from 'in-api/roles';
+import { isRbacEnabled } from 'in-services/featureFlags';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import { fallbackRoleId } from 'in-stores/user';
 import Gravatar from 'in-components/Gravatar';
-import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 
 import locals from './User.mless';
@@ -21,7 +27,18 @@ export default function User({ match }) {
       parentViewName="Users"
       parentPath={teamSettingsAccessControlUsers}
       getObservables={() => ({
-        users: getUsersAsResultObservable(),
+        user: getUsersAsResultObservable().map(usersResult => {
+          if (hasError(usersResult) || isLoading(usersResult)) {
+            return usersResult;
+          }
+          const userId = match.params.id;
+          const user = usersResult.data.filter(user => user.id === userId)[0];
+          if (!user) {
+            return errorResult([{ message: `Unable to find user: ${userId}` }]);
+          }
+
+          return successResult(user);
+        }),
         roles: getRolesAsResultObservable()
       })}
       enrichForm={enrichForm}
@@ -45,52 +62,46 @@ function renderLoadingState() {
 }
 
 function renderUser(props) {
-  const { users, userId } = props;
-  const user = users.filter(user => user.id === userId)[0];
+  const { user, roles, form, userId } = props;
 
   return (
     <>
-      <div className={locals.headline}>
-        <Gravatar className={locals.avatar} email={user.email} size="l" />
-        <span className={locals.name}>
-          {user.fullName}
-          <span className={locals.email}>{user.email}</span>
-        </span>
-      </div>
+      <Row>
+        <Col lg>
+          <div className={locals.headline}>
+            <Gravatar className={locals.avatar} email={user.email} size="l" />
+            <span className={locals.name}>
+              {user.fullName}
+              <span className={locals.email}>{user.email}</span>
+            </span>
+          </div>
+        </Col>
+      </Row>
 
-      <div className={locals.rolesWrapper}>
-        <FormGroup>
-          <Label>Role</Label>
-          <RoleComboBox {...props} user={user} />
-        </FormGroup>
-      </div>
+      {isRbacEnabled && (
+        <>
+          <Row>
+            <Col lg={6}>
+              <Groups userId={userId} />
+            </Col>
+            <Col lg={6}>
+              <Areas userId={userId} />
+            </Col>
+          </Row>
+        </>
+      )}
+
+      <Row>
+        <Col lg>
+          <h2 className={locals.title}>Permissions</h2>
+          <FormGroup className={locals.roles}>
+            <Label>Role</Label>
+            <RolesDropDown {...props} user={user} />
+          </FormGroup>
+          <Permissions roles={roles} roleId={form.get('roleId').value} />
+        </Col>
+      </Row>
     </>
-  );
-}
-
-function RoleComboBox({ user, roles, form, setForm }) {
-  if (!user || !roles) {
-    return null;
-  }
-
-  const options = roles
-    .filter(role => role.id !== fallbackRoleId)
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(role => ({
-      value: role.id,
-      label: role.name
-    }));
-
-  return (
-    <ComboBox
-      name="user-management-roles"
-      value={form.get('roleId').value}
-      options={options}
-      onChange={e => {
-        setForm(form.updateIn(['roleId'], f => f.setValue(e.value).setTouched(true)));
-      }}
-      clearable={false}
-    />
   );
 }
 
@@ -99,12 +110,7 @@ function saveItem(userId, form) {
   return setRole(userId, roleId);
 }
 
-function enrichForm(form, { result: { users }, userId }) {
-  const user = users.filter(user => user.id === userId)[0];
-  if (!user) {
-    return form;
-  }
-
+function enrichForm(form, { result: { user } }) {
   return form.put(
     'roleId',
     createField({

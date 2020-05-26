@@ -1,12 +1,12 @@
-import { withState, compose, pure } from 'recompose';
 import { fromPromise, just } from 'reactive-observables';
+import { withState, compose, pure } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { generateShortUrl } from 'in-services/urlShortener/api';
 import { setSingle } from 'in-services/settings/settings';
 import Button from 'in-new-components/Button';
@@ -104,7 +104,7 @@ function Ask({ setGenerate }) {
 function Wait() {
   return (
     <div className={locals.wrapper}>
-      <InfiniteCircle width={300} height={100} customText="Generating short URL." className={locals.loadingIndicator} />
+      <LoadingIndicator width={300} height={100} text="Generating short URL." className={locals.loadingIndicator} />
     </div>
   );
 }

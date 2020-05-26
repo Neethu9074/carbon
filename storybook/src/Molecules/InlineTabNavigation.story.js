@@ -1,11 +1,10 @@
 import React from 'react';
 
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
-import Card from 'in-new-components/Card';
 
 export default {
   title: 'Molecules|InlineTabNavigation',
-  component: Card
+  component: InlineTabNavigation
 };
 
 const tabList = [

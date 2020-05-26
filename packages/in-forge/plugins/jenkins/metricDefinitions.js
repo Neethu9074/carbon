@@ -1,40 +1,46 @@
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
-import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
-    metrics: [getMetricMatch('jobs', 'lastBuildStatus')],
+    metrics: [getDynamicMetricMatch('jobs', 'lastBuildStatus', 'Job')],
     labels: ['Status of the last build'],
+    category: ['Jobs'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('jobs', 'healthScore'),
+    metric: getDynamicMetricMatch('jobs', 'healthScore', 'Job'),
     label: 'Health status of recent builds',
+    category: ['Jobs'],
     min: 0,
     formatter: percentagePlain
   },
   {
-    metric: getMetricMatch('jobs', 'lastBuildNumber'),
+    metric: getDynamicMetricMatch('jobs', 'lastBuildNumber', 'Job'),
     label: 'Last build number',
+    category: ['Jobs'],
     min: 0,
     formatter: number
   },
   {
-    metric: getMetricMatch('jobs', 'lastBuildDuration'),
+    metric: getDynamicMetricMatch('jobs', 'lastBuildDuration', 'Job'),
     label: 'Last build duration',
+    category: ['Jobs'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('jobs', 'lastBuildEstimatedDuration'),
+    metric: getDynamicMetricMatch('jobs', 'lastBuildEstimatedDuration', 'Job'),
     label: 'Last build estimated duration',
+    category: ['Jobs'],
     min: 0,
     formatter: millis
   },
   {
-    metric: getMetricMatch('jobs', 'lastBuildTimestamp'),
+    metric: getDynamicMetricMatch('jobs', 'lastBuildTimestamp', 'Job'),
     label: 'Last build timestamp',
+    category: ['Jobs'],
     min: 0,
     formatter: millis
   }

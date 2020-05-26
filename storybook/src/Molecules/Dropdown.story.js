@@ -2,17 +2,17 @@
 
 import React from 'react';
 
-import Dropdown, { ItemList } from 'in-new-components/Dropdown';
+import Dropdown from 'in-new-components/Dropdown';
 
 export default {
   title: 'Molecules|Dropdown',
   component: Dropdown
 };
 
-export const standard = () => <Dropdown label="expand me" />;
+export const standard = () => <Dropdown label="expand me" items={[{ label: 'Foobar' }]} />;
 
-export const withIcon = () => <Dropdown icon="lib_actions_settings" label="expand me" />;
+export const withIcon = () => <Dropdown icon="lib_actions_settings" label="expand me" items={[{ label: 'Foobar' }]} />;
 
-export const itemList = () => <ItemList items={[{ label: 'item1' }, { label: 'item2' }]} onClick={console.log} />;
-
-export const asSimpleDropdown = () => <Dropdown icon="lib_actions_settings" label="expand me" asSimpleDropdown />;
+export const asSimpleDropdown = () => (
+  <Dropdown icon="lib_actions_settings" label="expand me" asSimpleDropdown items={[{ label: 'Foobar' }]} />
+);

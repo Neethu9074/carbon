@@ -6,12 +6,13 @@ import {
   hideWebsiteDetailsInTraceView,
   navigateToPageLoadFromBackendTrace
 } from 'in-websites/tracker';
+import { getCorrelatedWebsiteBeacons } from 'in-analyze/TraceDetail/tabs/Summary/websiteCorrelation';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
+import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -20,23 +21,9 @@ import locals from './WebsiteMonitoringData.mless';
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
 export default compose(
-  connect(({ correlationId, startTime }) => {
+  connect(({ correlationId, traceId, startTime }) => {
     return {
-      result: getWebsiteBeacons({
-        tagFilters: [{ name: 'beacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: 1000 * 60 * 60,
-          to: startTime + 1000 * 60 * 30,
-          focusedMoment: startTime + 1000 * 60 * 30
-        },
-        order: {
-          by: 'beacon.timestamp',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      })
+      result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
     };
   }),
   withState('showDetails', 'setShowDetails', get(localStorageKey) !== 'false'),
@@ -60,34 +47,35 @@ export default compose(
 
   return (
     <Fragment>
-      <div className={locals.wrapper}>
-        <span className={locals.leftSide}>
-          <SvgIcon type="lib_website" className={locals.icon} />
-          <span className={locals.title}>Corresponding Website Activity</span>
-          This trace is caused by activity on the&nbsp;
-          <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>
-          &nbsp;website.
-        </span>
+      <Row singleRowTopMargin withoutSideMargin>
+        <Col lg={12}>
+          <Card title="Corresponding Website Activity" icon="lib_website">
+            <span className={locals.leftSide}>
+              This trace is caused by activity on the&nbsp;
+              <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>
+              &nbsp;website.
+            </span>
+            <span>
+              <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
+                {showDetails ? 'Hide ' : 'Show '} Website Information
+              </Button>
+              <Button
+                onClick={() => navigateToPageLoadFromBackendTrace()}
+                href$={getLinkToPageLoad({
+                  pageLoadId: beacon.pageLoadId,
+                  beaconTimestamp: beacon.timestamp
+                })}
+                kind="primary"
+                size="compact"
+              >
+                View Website Activity
+              </Button>
+            </span>
+          </Card>
+        </Col>
+      </Row>
 
-        <span>
-          <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-            {showDetails ? 'Hide ' : 'Show '} Website Information
-          </Button>
-          <Button
-            onClick={() => navigateToPageLoadFromBackendTrace()}
-            href$={getLinkToPageLoad({
-              pageLoadId: beacon.pageLoadId,
-              beaconTimestamp: beacon.timestamp
-            })}
-            kind="primary"
-            size="compact"
-          >
-            View Website Activity
-          </Button>
-        </span>
-      </div>
-
-      {showDetails && <BeaconUserSummary beacon={beacon} />}
+      {showDetails && <BeaconUserSummary beacon={beacon} withoutSideMargin />}
     </Fragment>
   );
 });

@@ -19,6 +19,7 @@ import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import Card from 'in-new-components/Card';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 const pathSegment = '/deploymentconfigs';
@@ -119,7 +120,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function DeploymentConfigsTable(props) {
-  return <ServerTableWithUrlState get={getTableData} {...props} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
+    </Card>
+  );
 }
 
 function getTableData({

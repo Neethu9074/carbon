@@ -1,9 +1,9 @@
 import { compose, withProps, withPropsOnChange, withState } from 'recompose';
+import React from 'react';
 
-import ApiListRenderer from 'in-settings/components/ApiList/ApiListRenderer';
+import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { error } from 'in-new-components/Message/types';
-import { hasError } from 'in-services/util/result';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,8 +13,8 @@ export default function createApiList(props) {
   return compose(
     connectTo({ itemsResult: getItems() }),
     withState('messageFromOutside', 'setMessage', undefined),
-    withPropsOnChange(['messageFromOutside', 'itemsResult'], ({ messageFromOutside, itemsResult }) => ({
-      message: (hasError(itemsResult) && { text: itemsResult.errors[0].message, type: error }) || messageFromOutside
+    withPropsOnChange(['messageFromOutside', 'itemsResult'], ({ messageFromOutside }) => ({
+      message: messageFromOutside
     })),
     withUrlState({
       bind: [
@@ -53,7 +53,11 @@ export default function createApiList(props) {
         setPage: page => _props.setState({ page })
       };
     })
-  )(ApiListRenderer);
+  )(Render);
+}
+
+function Render(props) {
+  return props.renderer ? props.renderer(props) : <DefaultListRenderer {...props} />;
 }
 
 function deleteItemInternal(deleteItem, currentIds, setCurrentDeletingItemIds, setErrorMessage, itemName, id) {

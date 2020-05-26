@@ -1,10 +1,10 @@
+// we want to split the codebase of the onboarding dialog from the main bundle.
+// so we don't have to load the bundle when it's not neededd.
+import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
 import { just, create } from 'reactive-observables';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-// we want to split the codebase of the onboarding dialog from the main bundle.
-// so we don't have to load the bundle when it's not neededd.
-import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
 export function init() {
