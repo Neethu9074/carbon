@@ -38,7 +38,7 @@
     color: @lib__colors__N900Primary;
     border: 1px solid @lib__colors__N400;
     background: #fff;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: @lib__shapes__radius_small;
     font-size: 0.875rem;
     cursor: pointer;
     overflow: hidden;
@@ -61,7 +61,7 @@
     margin-left: 0.5rem;
     padding: 0.125rem 0.25rem;
     border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
+    border-radius: @lib__shapes__radius_medium;
     color: @lib__colors__N500;
     min-width: fit-content;
   }
@@ -122,7 +122,7 @@
   .conjunctionPill {
     text-transform: uppercase;
     border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
+    border-radius: @lib__shapes__radius_medium;
     color: @lib__colors__N500;
     padding: 0.125rem 0.25rem;
     z-index: 2; // raise above connecting lines

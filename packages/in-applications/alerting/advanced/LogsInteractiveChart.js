@@ -21,7 +21,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './InteractiveChart.mless';
+import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
 
 export default compose(
   withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
