@@ -1,6 +1,7 @@
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { combineResultObservables } from 'in-services/util/result';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
@@ -84,8 +85,4 @@ function MessageWrapper({ message }) {
 function createForm(enrichForm, props) {
   const form = createMapForm();
   return enrichForm ? enrichForm(form, props) : form;
-}
-
-function renderLoadingStateDefault() {
-  return null;
 }
