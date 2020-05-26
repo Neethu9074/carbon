@@ -13,7 +13,15 @@ export default connectTo(
   ({ getObservables }) => combineResultObservables(getObservables()),
 
   function ApiItemView(props) {
-    const { parentPath, parentViewName, render, renderLoadingState, enrichForm, result, saveItem } = props;
+    const {
+      parentPath,
+      parentViewName,
+      render,
+      renderLoadingState = renderLoadingStateDefault,
+      enrichForm,
+      result,
+      saveItem
+    } = props;
 
     if (result.errors && result.errors.length > 0) {
       const error = getUniqueErrors(result.errors)[0];
@@ -76,4 +84,8 @@ function MessageWrapper({ message }) {
 function createForm(enrichForm, props) {
   const form = createMapForm();
   return enrichForm ? enrichForm(form, props) : form;
+}
+
+function renderLoadingStateDefault() {
+  return null;
 }
