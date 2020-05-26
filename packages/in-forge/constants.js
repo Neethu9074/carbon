@@ -12,6 +12,7 @@ export const nonServicePlugins = {
   awsBeanstalk: 'awsBeanstalk',
   awsDynamoDb: 'awsDynamoDb',
   awsEc: 'awsEc',
+  awsEcs: 'awsEcs',
   awsEcsCluster: 'awsEcsCluster',
   awsEcsContainer: 'awsEcsContainer',
   awsEcsService: 'awsEcsService',
@@ -192,6 +193,7 @@ export const fullyQualifiedPlugins = {
   awsBeanstalk: 'com.instana.forge.hardware.virtual.aws.beanstalk.AwsBeanstalk',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
+  awsEcs: 'com.instana.forge.hardware.virtual.aws.ecs.cluster.awsEcs',
   awsEcsCluster: 'com.instana.forge.hardware.virtual.aws.ecs.cluster.awsEcsCluster',
   awsEcsContainer: 'com.instana.forge.hardware.virtual.aws.ecs.container.AwsEcsContainer',
   awsEcsService: 'com.instana.forge.hardware.virtual.aws.ecs.service.awsEcsService',
@@ -205,9 +207,6 @@ export const fullyQualifiedPlugins = {
   awsKinesis: 'com.instana.forge.hardware.virtual.aws.kinesis.AwsKinesis',
   awsLambdaVersion: 'com.instana.forge.hardware.virtual.aws.lambda.version.AwsLambdaVersion',
   awsLambdaFunction: 'com.instana.forge.hardware.virtual.aws.lambda.function.AwsLambdaFunction',
-  // The legacy AWS Lambda plug-in, replaced by awsLambdaVersion. This plug-in was removed in release 163. We need to
-  // keep it until the last entity with plugin ID com.instana.forge.hardware.virtual.aws.lambda.AwsLambda has been
-  // removed due to data retention (that is, it can be deleted approximately November 2020).
   awsLambda: 'com.instana.forge.hardware.virtual.aws.lambda.AwsLambda',
   awsMq: 'com.instana.forge.hardware.virtual.aws.mq.AwsMq',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',

@@ -7,6 +7,7 @@ import './availabilityZone';
 import './awsBeanstalk';
 import './awsDynamoDb';
 import './awsEc';
+import './awsEcs';
 import './awsEcsCluster';
 import './awsEcsContainer';
 import './awsEcsService';
