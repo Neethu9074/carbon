@@ -97,8 +97,8 @@ function getUsersInternal() {
   );
 }
 
-export const getSliConfigurations = memoize(getConfiguredSlis, () => '', 60000);
-function getConfiguredSlis() {
+export const getSLIConfigurations = memoize(getConfiguredSLIs, () => '', 60000);
+function getConfiguredSLIs() {
   return createObservable(
     http({
       method: 'GET',

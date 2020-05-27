@@ -21,5 +21,6 @@ module.exports = {
   vsphereEnabled: true,
   applicationSmartAlertsEnabled: true,
   skipOnboardingDialog: false,
-  agentMonitoringIssuesEnabled: false
+  agentMonitoringIssuesEnabled: false,
+  sloConfigurationEnabled: false
 };
