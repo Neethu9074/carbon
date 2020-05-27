@@ -1,6 +1,6 @@
 import React from 'react';
 
-import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import sources, { enabledDataSources } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -32,7 +32,7 @@ export default function MetricConfigurator({
         hasError={!sourceField.valid && sourceField.touched}
       >
         <option value="">Please select</option>
-        {Object.values(sources)
+        {Object.values(enabledDataSources)
           .concat({
             source: 'infra',
             label: 'Infrastructure & Platforms (coming soon)',
@@ -44,6 +44,14 @@ export default function MetricConfigurator({
               {label}
             </option>
           ))}
+
+        {sourceField.value &&
+          !enabledDataSources[sourceField.value] &&
+          sources[sourceField.value] && (
+            <option key={sourceField.value} value={sourceField.value}>
+              {sources[sourceField.value].label}
+            </option>
+          )}
       </Select>
       <TouchedMessages field={sourceField} />
     </FormGroup>

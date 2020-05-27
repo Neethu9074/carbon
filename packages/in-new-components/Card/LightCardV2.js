@@ -58,7 +58,7 @@ export default function LightCardV2({
 }
 
 LightCardV2.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   icon: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,

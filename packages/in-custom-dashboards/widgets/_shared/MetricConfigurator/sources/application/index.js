@@ -4,3 +4,4 @@ export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigura
 export const Form = FormComponent;
 export const source = 'APPLICATION';
 export const label = 'Applications (Traces and Calls)';
+export const enabled = true;
