@@ -17,9 +17,12 @@ export default connectTo(
   },
   function RedirectWithHash(props) {
     if (props.resolvedTo) {
-      // Remove the leading /# from the URL. React router is expecting the path irrespect of the
+      // Remove the leading /# from the URL. React router is expecting the path irrespective of the
       // used routing mechanism.
-      return <Redirect push={props.push} from={props.from} to={props.resolvedTo.substring(2)} />;
+      const toUrl = props.resolvedTo.substring(2);
+      const redirectTo = props.retainQueryParameters ? { pathname: toUrl } : toUrl;
+
+      return <Redirect push={props.push} from={props.from} to={redirectTo} />;
     }
     return null;
   }

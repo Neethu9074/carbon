@@ -11,6 +11,7 @@ import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import EventsChart from 'in-events/components/EventsChart';
@@ -19,21 +20,23 @@ import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
 import connect from 'in-hoc/connectTo';
 
 export default function LegacyEventViewMigration(props) {
-  const legacyEventIdQueryParam = get(props, ['location', 'query', 'eventId']);
-  if (legacyEventIdQueryParam) {
+  const query = get(props, ['location', 'query']);
+  const timeConfig = getTimeConfig(props.location);
+  if (query.eventId) {
     return (
       <RedirectWithHash
         to$={getEventsViewFilteredBy({
+          ...query,
           eventTypeFilter: getMatrixParameter(props.location, eventsPath, 'view'),
-          eventId: legacyEventIdQueryParam
+          timeConfig
         })}
+        retainQueryParameters
       />
     );
   }
