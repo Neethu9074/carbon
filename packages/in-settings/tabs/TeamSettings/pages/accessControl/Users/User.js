@@ -4,6 +4,7 @@ import React from 'react';
 import RolesDropDown from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RolesDropDown';
 import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Permissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
@@ -42,7 +43,7 @@ export default function User({ match }) {
         roles: getRolesAsResultObservable()
       })}
       enrichForm={enrichForm}
-      saveItem={form => saveItem(userId, form)}
+      saveItem={saveItem}
       render={renderUser}
       renderLoadingState={renderLoadingState}
       // additional props which are passed down
@@ -105,9 +106,17 @@ function renderUser(props) {
   );
 }
 
-function saveItem(userId, form) {
+function saveItem({ form, userId, setMessage }) {
   const roleId = form.get('roleId').value;
-  return setRole(userId, roleId);
+
+  setMessage({ message: 'Saving user', type: neutral, isSaving: true });
+  const setRoleResult$ = setRole(userId, roleId);
+  setRoleResult$.once(
+    () => {
+      setMessage({ text: 'Role change successfully saved.', type: success });
+    },
+    error => setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType })
+  );
 }
 
 function enrichForm(form, { result: { user } }) {
