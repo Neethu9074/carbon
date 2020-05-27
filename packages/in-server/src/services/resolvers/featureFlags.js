@@ -120,5 +120,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.agent.monitoring.issues.enabled',
     consulKey: `settings/${tenant}-${unit}/AGENT_MONITORING_ISSUES_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sloConfigurationEnabled',
+    instanaCtlKey: 'feature.sli.configuration.enabled',
+    consulKey: `settings/${tenant}-${unit}/SLO_CONFIGURATION_ENABLED`,
+    defaultValue: false
   }
 ];
