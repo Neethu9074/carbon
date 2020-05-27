@@ -107,13 +107,15 @@ function defaultQuery() {
   };
 }
 
-export function savePermissionSet(permissionSet) {
+export function savePermissionSet(permissionSet, groupId) {
   let permissionSetId = permissionSet.id;
   return http({
-    method: 'PUT',
+    method: groupId ? 'PUT' : 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`,
+    url: groupId
+      ? `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
+      : '/api/settings/permission-sets',
     data: permissionSet
   }).map(mapAndRefresh);
 }
@@ -126,7 +128,7 @@ function mapAndRefresh(response) {
 export function createPermissionSet() {
   return {
     id: 'm_' + generateUniqueShortId(), // "m_" is a marker that the backend knows this permission set has already been migrated
-    name: '',
+    name: 'system_permission_set',
     permissions: [],
     applicationIds: [],
     kubernetesClusterUUIDs: [],

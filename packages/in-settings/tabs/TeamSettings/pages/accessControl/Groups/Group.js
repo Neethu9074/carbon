@@ -38,7 +38,7 @@ export default function Group({ match }) {
               return just(groupResult);
             }
             if (!groupResult.data.permissions || groupResult.data.permissions.length === 0) {
-              return just(createPermissionSet());
+              return just(successResult(createPermissionSet()));
             }
             return getPermissionSetAsResultObservable(groupResult.data.permissions[0].id);
           })
@@ -206,7 +206,7 @@ function copyPermissionSet(form) {
   return { ...form.get('permissionSet').value };
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, groupId }) {
   const permissionSet = form.get('permissionSet').value;
   const group = {
     id: form.get('id').value,
@@ -216,7 +216,7 @@ function saveItem({ form, setMessage }) {
   };
 
   setMessage({ text: 'Saving group', type: neutral });
-  savePermissionSet(permissionSet).once(
+  savePermissionSet(permissionSet, groupId).once(
     () => {
       saveGroup(group).once(
         () => setMessage({ text: 'Group successfully saved.', type: success }),

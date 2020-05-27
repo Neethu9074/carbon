@@ -3,7 +3,6 @@ import { create } from 'reactive-observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { createPermissionSet } from 'in-api/permissionSets';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -81,6 +80,6 @@ export function createNewGroup() {
     id: generateUniqueShortId(),
     name: 'New Group',
     members: [],
-    permissions: [createPermissionSet()]
+    permissions: []
   };
 }

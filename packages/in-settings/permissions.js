@@ -18,5 +18,6 @@ export default {
   canConfigureAuthenticationMethods: 'Configuration of authentication methods',
   canConfigureLogManagement: 'Configuration of log management',
   canConfigureReleases: 'Configuration of releases',
-  canCreatePublicCustomDashboards: 'Creation of public custom dashboards'
+  canCreatePublicCustomDashboards: 'Creation of public custom dashboards',
+  restrictedAccess: 'Limit access by team access scopes'
 };
