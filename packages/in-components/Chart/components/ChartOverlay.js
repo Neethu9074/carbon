@@ -148,7 +148,7 @@ export default connectTo(
       // clicking on the glass panel when a highlighted selection was made, only discards the selection
       // a new selection should only possible if there is no current selection
       if (!this.props.localHighlightedTimeframe) {
-        this.mouseDownPos = e.offsetX;
+        this.mouseDownPos = e.offsetX || e.layerX;
         clearHighlightedMoment();
       }
 
@@ -160,7 +160,7 @@ export default connectTo(
       const { isDragging } = this.state;
       const { chart, localHighlightedTimeframe } = this.props;
       const xScale = this.xScale;
-      const currentMousePos = e.offsetX;
+      const currentMousePos = e.offsetX || e.layerX;
       const isSnappingEnabled = !chart.config.snapHighlightingToMetricsDisabled;
 
       this.granularityHalf = chart.config.granularity / 2;
@@ -206,7 +206,7 @@ export default connectTo(
         const { chart } = this.props;
         const config = chart.config;
 
-        const currentMousePos = e.offsetX;
+        const currentMousePos = e.offsetX || e.layerX;
         const currentMousePosInDomainTime = this.xScale.getDomain(currentMousePos);
         const nearestTimeInMetrics =
           getNearestDataPointDomainForTimestamp(config, currentMousePosInDomainTime) || currentMousePosInDomainTime;
