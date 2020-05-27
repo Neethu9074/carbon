@@ -11,7 +11,8 @@ export const Row = ({
   withoutTopMargin,
   verticallyStretchColumns,
   singleRowTopMargin,
-  withoutSideMargin
+  withoutSideMargin,
+  withBottomMargin
 }) => {
   return (
     <div
@@ -21,7 +22,8 @@ export const Row = ({
         [locals.withoutTopMargin]: withoutTopMargin,
         [locals.verticallyStretchColumns]: verticallyStretchColumns,
         [locals.singleRowTopMargin]: singleRowTopMargin,
-        [locals.withoutSideMargin]: withoutSideMargin
+        [locals.withoutSideMargin]: withoutSideMargin,
+        [locals.withBottomMargin]: withBottomMargin
       })}
       style={style}
     >

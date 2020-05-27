@@ -18,5 +18,5 @@ export function KpiKeyValue({ label, children }) {
 }
 
 export function KpiSection({ children }) {
-  return <Row>{children}</Row>;
+  return <Row withBottomMargin>{children}</Row>;
 }

@@ -50,7 +50,7 @@ export default connectTo(
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
     return (
-      <Row>
+      <Row withoutSideMargin>
         <Col xs>
           <Card title="Details">
             <EntityInformation

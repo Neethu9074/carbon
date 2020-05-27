@@ -31,3 +31,11 @@ export const withRightHeader = () => (
 );
 
 export const withoutHeader = () => <LightCard>{content}</LightCard>;
+
+export const useMaxAvailableHeight = () => (
+  <div style={{ height: '400px' }}>
+    <LightCard title="Title" useMaxAvailableHeight>
+      {content}
+    </LightCard>
+  </div>
+);

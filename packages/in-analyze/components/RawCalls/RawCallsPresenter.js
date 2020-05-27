@@ -25,6 +25,7 @@ import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
+import SetBodyColor from 'in-components/SetBodyColor';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -144,6 +145,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
         </Tbody>
       </Table>
       <LoadingStates progress={progress} errors={errors} />
+      <SetBodyColor color="#fff" />
     </AnalyzeWorkspace>
   );
 });

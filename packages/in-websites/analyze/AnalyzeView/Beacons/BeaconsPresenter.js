@@ -19,6 +19,7 @@ import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
+import SetBodyColor from 'in-components/SetBodyColor';
 import { dataSourceTitles } from 'in-websites/tags';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -117,6 +118,7 @@ export default function BeaconsPresenter(props) {
             </Tbody>
           </Table>
         </LeftRightPadding>
+        <SetBodyColor color="#fff" />
       </Sticky>
     </>
   );

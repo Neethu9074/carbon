@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import Card from 'in-new-components/Card';
 import SearchInput from 'in-new-components/SearchInput';
+import Card from 'in-new-components/Card';
 
 import locals from './DashboardSection.mless';
 

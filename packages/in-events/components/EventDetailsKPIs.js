@@ -24,7 +24,7 @@ function EventKPIs({ event }) {
   const started = getEventType(event) === EVENT_TYPES.CHANGE ? 'Time' : 'Started';
 
   return (
-    <Row>
+    <Row withoutSideMargin>
       <Col xs>
         <DateTimeKpiCard title={started} time={event.get('start')} />
       </Col>
@@ -57,7 +57,7 @@ const IncidentKPIs = connectTo(
     recentEvents.forEach(e => (affectedEnties[e.getIn(['entityId'])] = true));
 
     return (
-      <Row>
+      <Row withoutSideMargin>
         <Col xs>
           <DateTimeKpiCard title="Triggered" time={event.get('triggeringTime', event.get('start'))} />
         </Col>

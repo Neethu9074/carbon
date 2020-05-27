@@ -35,7 +35,6 @@ import MetricSelector from 'in-analyze/components/MetricSelector';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
 import { getTag } from 'in-analyze/metricDefinitionHelpers';
 import { getTimeConfig } from 'in-stores/time/config';
-import SetBodyColor from 'in-components/SetBodyColor';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 
@@ -222,7 +221,6 @@ function AnalyzeView(props) {
     <Fragment>
       {props.group.groupbyTag ? <GroupedBeacons {...props} /> : <Beacons key={props.beaconType} {...props} /> // key defined to force a complete state reset
       }
-      <SetBodyColor color="#fff" />
       <Footer />
     </Fragment>
   );

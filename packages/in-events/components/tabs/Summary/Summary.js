@@ -58,7 +58,7 @@ function EventContent({ event }) {
 
   return (
     <>
-      <Row>
+      <Row withoutSideMargin>
         <Col xs>
           <Card title="Description">
             <EntityWithParentInformation
@@ -83,7 +83,7 @@ function EventContent({ event }) {
       </Row>
 
       {isOfflineEvent(event) ? (
-        <Row>
+        <Row withoutSideMargin>
           <Col xs>
             <Card title="Last process">
               <OfflineEventDescription event={event} />
@@ -93,7 +93,7 @@ function EventContent({ event }) {
       ) : (
         <>
           {hasAtLeastOneMetric(event) && (
-            <Row>
+            <Row withoutSideMargin>
               <Col xs>
                 <Card title="Metrics">
                   <EventChart event={event} />
@@ -102,7 +102,7 @@ function EventContent({ event }) {
             </Row>
           )}
           {hasMetric(event, 'cpu.user') && (
-            <Row>
+            <Row withoutSideMargin>
               <Col xs>
                 <ProcessContent snapshotId={event.get('entityId')} timeConfig={timeConfig} />
               </Col>
@@ -161,7 +161,7 @@ const IncidentContent = connectTo(
 
     return (
       <>
-        <Row>
+        <Row withoutSideMargin>
           <Col xs>
             <Card title="Population" header={header}>
               <PopulationChart
@@ -173,7 +173,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <Row>
+        <Row withoutSideMargin>
           <Col xs>
             <Card title="Events">
               <EventList incident={incident} />

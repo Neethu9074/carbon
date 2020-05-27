@@ -20,11 +20,10 @@ import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { entityTypes } from 'in-analyze/applicationFilter';
-
 import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
+import SetBodyColor from 'in-components/SetBodyColor';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-
 import { identity } from 'in-services/util/function';
 
 const defaultCountMetric = dataSource => {
@@ -175,6 +174,7 @@ function GroupedTraces(props) {
         <ApplicationGroupMetricsChart {...props} groupColors={groupColors} groupNameProcessor={groupNameProcessor} />
       )}
       <TraceGroupsTable {...props} groupColors={groupColors} />
+      <SetBodyColor color="#fff" />
     </AnalyzeWorkspace>
   );
 }

@@ -6,8 +6,4 @@
       display: none;
     }
   }
-
-  .keyValue {
-    margin-bottom: .5rem;
-  }
 }

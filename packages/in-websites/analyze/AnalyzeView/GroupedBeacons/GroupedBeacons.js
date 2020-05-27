@@ -1,4 +1,5 @@
 import { compose } from 'recompose';
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -15,12 +16,12 @@ import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
+import SetBodyColor from 'in-components/SetBodyColor';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 const defaultCountMetric = {
   metric: 'beaconCount',
@@ -129,6 +130,7 @@ function GroupedBeacons(props) {
           {showGraph && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
           <GroupedBeaconsTable {...props} groupColors={groupColors} />
         </LeftRightPadding>
+        <SetBodyColor color="#fff" />
       </Sticky>
     </>
   );

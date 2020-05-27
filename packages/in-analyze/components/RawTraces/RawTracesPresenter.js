@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import {
   Table,
   Thead,
@@ -12,6 +11,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
@@ -24,6 +24,7 @@ import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Th } from 'in-components/tables/sharedComponents';
 import { traceClickedTracker } from 'in-analyze/tracker';
+import SetBodyColor from 'in-components/SetBodyColor';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -132,6 +133,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
         </Tbody>
       </Table>
       <LoadingStates progress={progress} errors={errors} />
+      <SetBodyColor color="#fff" />
     </AnalyzeWorkspace>
   );
 });
