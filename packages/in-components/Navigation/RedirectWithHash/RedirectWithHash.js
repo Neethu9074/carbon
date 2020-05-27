@@ -1,6 +1,7 @@
 import { Redirect } from 'react-router-dom';
 import React from 'react';
 
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { getView } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,9 +21,7 @@ export default connectTo(
       // Remove the leading /# from the URL. React router is expecting the path irrespective of the
       // used routing mechanism.
       const toUrl = props.resolvedTo.substring(2);
-      const redirectTo = props.retainQueryParameters ? { pathname: toUrl } : toUrl;
-
-      return <Redirect push={props.push} from={props.from} to={redirectTo} />;
+      return <Redirect push={props.push} from={props.from} to={parseUrl(toUrl)} />;
     }
     return null;
   }

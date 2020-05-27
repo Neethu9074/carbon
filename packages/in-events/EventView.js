@@ -36,7 +36,6 @@ export default function LegacyEventViewMigration(props) {
           eventTypeFilter: getMatrixParameter(props.location, eventsPath, 'view'),
           timeConfig
         })}
-        retainQueryParameters
       />
     );
   }
