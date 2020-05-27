@@ -35,6 +35,6 @@ const tabList = [
   }
 ];
 
-export default function Selectable({ activeTabIndex, setActiveTabIndex }) {
-  return <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />;
+export default function Selectable({ activeTabIndex, onTabSelect }) {
+  return <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />;
 }
