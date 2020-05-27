@@ -7,12 +7,12 @@ import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEnti
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { formatDateTime } from 'in-services/formatters/date';
 import { groupClickedTracker } from 'in-analyze/tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
-import { isBlank, isNotBlank } from 'in-services/util/string';
 import { getTagType } from 'in-applications/tags';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -109,56 +109,76 @@ function getGroupingChange(filters, selectedGroupValue) {
 
   // if the second level key of a key value pair tag is empty
   // set the selected group as second level key and update the grouping tag
-  if (getTagType(tagName) === 'KEY_VALUE_PAIR' && isBlank(secondLevelKey)) {
-    return {
-      [groupByMatrixParameter]: {
+  let newTagFilter;
+  if (getTagType(tagName) === 'KEY_VALUE_PAIR') {
+    if (selectedGroupValue === UNSPECIFIED) {
+      newTagFilter = createFilter({
         name: tagName,
-        value: selectedGroupValue,
+        secondLevelName: secondLevelKey,
+        operator: operators.IS_EMPTY,
         entity: entity
-      },
-      [tagFilterMatrixParameter]: tagFilter
-    };
+      });
+    } else if (selectedGroupValue === NO_VALUE) {
+      newTagFilter = createFilter({
+        name: tagName,
+        secondLevelName: secondLevelKey,
+        operator: operators.IS_BLANK,
+        entity: entity
+      });
+    } else {
+      if (isBlank(secondLevelKey)) {
+        return {
+          [groupByMatrixParameter]: {
+            name: tagName,
+            value: selectedGroupValue,
+            entity: entity
+          },
+          [tagFilterMatrixParameter]: tagFilter
+        };
+      } else {
+        newTagFilter = createFilter({
+          name: tagName,
+          secondLevelName: secondLevelKey,
+          value: selectedGroupValue,
+          operator: operators.EQUALS,
+          entity: entity
+        });
+      }
+    }
   } else {
     // for other cases, add a tag filter with the selected group value
-    let newTagFilter;
-    if (selectedGroupValue === NO_VALUE && isNotBlank(group.value)) {
+    if (selectedGroupValue === UNSPECIFIED) {
       newTagFilter = createFilter({
-        name: group.name,
-        secondLevelName: group.value,
-        operator: operators.NOT_EMPTY,
-        entity: group.entity
-      });
-    } else if (selectedGroupValue === UNSPECIFIED) {
-      newTagFilter = createFilter({
-        name: group.name,
-        secondLevelName: group.value,
-        operator: operators.IS_EMPTY,
-        entity: group.entity
+        name: tagName,
+        secondLevelName: secondLevelKey,
+        value: tagName === 'service.name' || tagName === 'application.name' ? selectedGroupValue : '',
+        operator: tagName === 'service.name' || tagName === 'application.name' ? operators.EQUALS : operators.IS_EMPTY,
+        entity: entity
       });
     } else {
       newTagFilter = createFilter({
-        name: group.name,
-        secondLevelName: group.value,
+        name: tagName,
+        secondLevelName: secondLevelKey,
         value: selectedGroupValue,
         operator: operators.EQUALS,
-        entity: group.entity
+        entity: entity
       });
     }
-    return {
-      [groupByMatrixParameter]: {},
-      [tagFilterMatrixParameter]: tagFilter
-        // avoid duplicate addition of same filter
-        .filter(
-          f =>
-            f.name !== newTagFilter.name ||
-            f.secondLevelName !== newTagFilter.secondLevelName ||
-            f.value !== newTagFilter.value ||
-            f.operator !== newTagFilter.operator ||
-            f.entity !== newTagFilter.entity
-        )
-        .concat(newTagFilter)
-    };
   }
+  return {
+    [groupByMatrixParameter]: {},
+    [tagFilterMatrixParameter]: tagFilter
+      // avoid duplicate addition of same filter
+      .filter(
+        f =>
+          f.name !== newTagFilter.name ||
+          f.secondLevelName !== newTagFilter.secondLevelName ||
+          f.value !== newTagFilter.value ||
+          f.operator !== newTagFilter.operator ||
+          f.entity !== newTagFilter.entity
+      )
+      .concat(newTagFilter)
+  };
 }
 
 function trackSetGrouping(filters, selectedGroupValue) {
