@@ -39,15 +39,15 @@ function FormComponent({
         <Col lg={6}>{dataSourceFormGroup}</Col>
 
         <Col lg>
-          {form.get('SLIConfigId').map(field => (
+          {form.get('sliConfigId').map(field => (
             <FormGroup>
-              <Label htmlFor="metric-configurator-sli-id">Configured SLO</Label>
+              <Label htmlFor="metric-configurator-sli-id">Configured SLI</Label>
               <Select
                 id="metric-configurator-sli-id"
                 value={field.value}
                 onChange={e =>
                   onChange([], form =>
-                    form.updateIn(['SLIConfigId'], field => field.setValue(e.target.value).setTouched(true))
+                    form.updateIn(['sliConfigId'], field => field.setValue(e.target.value).setTouched(true))
                   )
                 }
                 hasError={!field.valid && field.touched}
@@ -61,7 +61,7 @@ function FormComponent({
                   ))}
               </Select>
               <TouchedMessages field={field} />
-              <HelpText>The configurations against which SLIs are calculated</HelpText>
+              <HelpText>SLI configuration used to compute error budget and SLI values</HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -70,22 +70,24 @@ function FormComponent({
 
       <Row>
         <Col lg>
-          {form.get('SLO').map(field => (
+          {form.get('slo').map(field => (
             <FormGroup>
               <Label htmlFor="metric-configurator-slo">Service-Level Objective</Label>
               <Input
                 id="metric-configurator-slo"
                 type="number"
-                value={field.value}
-                onChange={e => onChange(['SLO'], field => field.setValue(Number(e.target.value)).setTouched(true))}
+                value={typeof field.value === 'number' ? field.value * 100 : field.value}
+                onChange={e =>
+                  onChange(['slo'], field => field.setValue(Number(e.target.value / 100)).setTouched(true))
+                }
                 hasError={!field.valid && field.touched}
                 min={0}
-                max={1}
-                step={0.1}
+                max={99.99}
+                step={0.01}
               />
               <TouchedMessages field={field} />
               <HelpText>
-                Type in your desired SLO value between 0 and 1, e.g. <code>0.9</code> for 90% SLO.
+                Type in your desired SLO threshold from <code>0</code>% to <code>99.99</code>%
               </HelpText>
             </FormGroup>
           ))}
@@ -94,7 +96,7 @@ function FormComponent({
         <Col lg>
           {form.get('metric').map(field => (
             <FormGroup>
-              <Label htmlFor="metric-configurator-metric">Metric</Label>
+              <Label htmlFor="metric-configurator-metric">Value type</Label>
               <Select
                 id="metric-configurator-metric"
                 value={field.value}

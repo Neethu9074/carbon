@@ -8,14 +8,14 @@ import { buildEnumValidator } from 'in-services/validators/enum';
 export function createForm(form, savedState) {
   return form
     .put(
-      'SLIConfigId',
+      'sliConfigId',
       createField({
-        value: (savedState && savedState.SLIConfigId) || '',
+        value: (savedState && savedState.sliConfigId) || '',
         validator: composeAndShortCircuitOnError(stringValidator, notBlankValidator)
       })
     )
     .put(
-      'SLO',
+      'slo',
       createField({
         value: (savedState && savedState.slo) || '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator)
@@ -47,12 +47,12 @@ export function createForm(form, savedState) {
 const sloValidatorFailureMessage = [
   {
     severity: 'error',
-    message: `The provided number is invalid. The value should be a decimal between 0 and 1.`
+    message: `The provided number is invalid. The value should be between 0 and 99.99.`
   }
 ];
 
 export function sloValidator(v) {
-  if (v > 1 || v < 0) {
+  if (v > 0.9999 || v < 0) {
     return sloValidatorFailureMessage;
   }
 }
