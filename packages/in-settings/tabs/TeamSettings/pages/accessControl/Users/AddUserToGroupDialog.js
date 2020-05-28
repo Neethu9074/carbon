@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
@@ -27,7 +28,12 @@ export default withSelectableItems(function AddUserToGroupDialog({
 }) {
   return (
     <Dialog className={locals.dialog} title="Add user to a group" onClose={close}>
-      <form onSubmit={() => onSubmit(Array.from(selectedEntities.values()))}>
+      <form
+        onSubmit={e => {
+          stopPropagationAndPreventDefault(e);
+          onSubmit(Array.from(selectedEntities.values()));
+        }}
+      >
         <GroupList
           userId={userId}
           checkIfSelected={checkIfSelected}
