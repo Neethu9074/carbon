@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
+import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -20,6 +20,13 @@ export default connectTo(
   },
   function MonitoringIssueDescription({ event, snapshot }) {
     const issueCode = event.getIn(['metadata', 'agent_monitoring_code'], '');
+    const issueCategory =
+      IssueCategories[event.getIn(['metadata', 'agent_monitoring_category'])] || IssueCategories.UNKNOWN;
+    const args = event.get('metadata')?.has('agent_monitoring_arguments')
+      ? event.getIn(['metadata', 'agent_monitoring_arguments'])
+      : event.getIn(['metadata', 'agent_monitoring_args']);
+    const issueArgs = args ? args.toJS() : {};
+
     const issueDefinition = getIssueDefinitionForSnapshotAndCode(snapshot, issueCode);
 
     const label = issueDefinition.explanationLinkLabel;
@@ -28,12 +35,22 @@ export default connectTo(
     return (
       <DescriptionList>
         <DescriptionItem title="Detail">
-          <span className={`${block}__suggestion`}>
-            For more information on how to resolve this issue, please consult:{' '}
-            <Link href={href} external>
-              {label}
-            </Link>
-          </span>
+          <div className={`${block}__suggestion`}>
+            <p>
+              <strong>
+                {issueCategory.alert_prefix}: {issueCode}
+              </strong>
+            </p>
+            <p>
+              <issueDefinition.issueDescription.Component {...issueArgs} />
+            </p>
+            <p>
+              For more information on how to resolve this issue, please consult:{' '}
+              <Link href={href} external>
+                {label}
+              </Link>
+            </p>
+          </div>
         </DescriptionItem>
       </DescriptionList>
     );

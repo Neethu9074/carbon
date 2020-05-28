@@ -4,19 +4,19 @@ import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 
 export const SENSOR = {
   suffix: 'not monitored',
-  alert_prefix: 'Monitoring issues.'
+  alert_prefix: 'Monitoring issue'
 };
 export const TRACER = {
   suffix: 'not traced',
-  alert_prefix: 'Missing tracing.'
+  alert_prefix: 'Missing tracing'
 };
 export const PROFILER = {
   suffix: 'not profiled',
-  alert_prefix: 'Missing profiles.'
+  alert_prefix: 'Missing profiles'
 };
 export const UNKNOWN = {
   suffix: 'not monitored',
-  alert_prefix: 'Monitoring issues.'
+  alert_prefix: 'Monitoring issue'
 };
 
 function fallbackAgentMonitoringIssueDefinition(code) {
