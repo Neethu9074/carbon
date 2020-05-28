@@ -8,7 +8,7 @@ import {
   smoothMetrics
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
-import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
@@ -33,11 +33,10 @@ export default function StatusCodeAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
   return (
     <AlertingBarChartWrapper
-      alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
@@ -59,17 +58,17 @@ export default function StatusCodeAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: metricName === statusCodeCount ? number.forcedCompact : percentage.detailed,
         labels: [
-          `${getMetricLabel(alertTypes.specificStatusCode, metricName)}${_isDefaultWindowSize ? '' : '*'}`,
+          `${getMetricLabel(alertTypes.specificStatusCode, metricName)}${_shouldSmoothMetric ? '' : '*'}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
-          ['statusCode', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
+          ['statusCode', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -97,7 +96,7 @@ export default function StatusCodeAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_isDefaultWindowSize,
+        doMutate: !_shouldSmoothMetric,
         metricNames: ['statusCode'],
         mutate: smoothMetrics
       }}

@@ -1,3 +1,6 @@
+import { get } from 'lodash';
+
+import { getTickStrategyByFormatter } from 'in-services/ticks/vertical';
 import getTickPositions from 'in-services/ticks/vertical';
 import createScale from 'in-services/scale';
 
@@ -20,6 +23,9 @@ export default class Scales {
 
     calculateAxisMinMax('y1', this.config.y1, this.filteredDataSeries);
     calculateAxisMinMax('y2', this.config.y2, this.filteredDataSeries);
+
+    increaseMaxValueForHumanReadability(this.config.y1);
+    increaseMaxValueForHumanReadability(this.config.y2);
 
     if (this.config.shareMaxAxisDomain && this.config.y2) {
       const maxValueOfBothAxis = Math.max(this.config.y1.maxValue, this.config.y2.maxValue);
@@ -46,7 +52,7 @@ export default class Scales {
     scale.setDomainFrom(axis.minValue);
     scale.setDomainTo(axis.maxValue);
 
-    scale.tickPositions = getTickPositions(scale, axis.formatter[0].detailed);
+    scale.tickPositions = getTickPositions(scale, axis.formatter[0].detailed, 3);
   }
 }
 
@@ -74,6 +80,14 @@ export function calculateAxisMinMax(axisName, axis, filteredDataSeries) {
   }
 
   axis.maxValue = maxValue;
+}
+
+function increaseMaxValueForHumanReadability(axis) {
+  if (!axis) {
+    return;
+  }
+  const strategy = getTickStrategyByFormatter(get(axis, ['formatter', 0, 'detailed']));
+  axis.maxValue = strategy.roundMaxValueToNextHighestHumanFriendlyValue(axis.maxValue);
 }
 
 function calculateMaxValueForStackedMetrics(axisName, axis, metrics, filteredDataSeries) {

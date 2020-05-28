@@ -9,7 +9,12 @@ import {
   bytesTwoDecimalPlaces,
   byteBase
 } from 'in-services/formatters/number';
-import { getFirstTickValue, getNiceInterval, precision } from 'in-services/ticks/number';
+import {
+  getFirstTickValue,
+  getNiceInterval,
+  precision,
+  roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyValueNumber
+} from 'in-services/ticks/number';
 import getTickPositionsDefault from 'in-services/ticks/default';
 
 const differenceToBytes = {};
@@ -119,4 +124,20 @@ function filterTicks(ticks, formatter) {
   }
 
   return [...uniqueTicks, lastTick].map(tick => tick.value);
+}
+
+export function roundMaxValueToNextHighestHumanFriendlyValue(value) {
+  const roundedNumberValue = roundMaxValueToNextHighestHumanFriendlyValueNumber(value, { roundToEvenValues: false });
+  return roundedNumberValue * Math.pow(byteBase / 1000, getNumberOf1024Blocks(value));
+}
+
+// export for test
+export function getNumberOf1024Blocks(value) {
+  let newValue = value;
+  let numBlocks = 0;
+  while (newValue >= byteBase) {
+    newValue /= byteBase;
+    numBlocks++;
+  }
+  return numBlocks;
 }

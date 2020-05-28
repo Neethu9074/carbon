@@ -1086,7 +1086,6 @@
     "type": "error",
     "customEventName": "",
     "meta": {
-      "featureFlag.isRbacEnabled": "true",
       "featureFlag.releaseNotesEnabled": "true",
       "featureFlag.internalMonitoringUnit": "true",
       "featureFlag.tenantSwitcherEnabled": "true",

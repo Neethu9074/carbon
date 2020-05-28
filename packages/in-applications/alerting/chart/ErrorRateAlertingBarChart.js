@@ -8,7 +8,7 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
@@ -31,11 +31,10 @@ export default function ErrorRateAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
-  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
   return (
     <AlertingBarChartWrapper
-      alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}
@@ -52,17 +51,17 @@ export default function ErrorRateAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: percentage.detailed,
         labels: [
-          `${getMetricLabel('errorRate', 'errors')}${_isDefaultWindowSize ? '' : '*'}`,
+          `${getMetricLabel('errorRate', 'errors')}${_shouldSmoothMetric ? '' : '*'}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
+          ['errors', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
           ['threshold', null],
           ['Violations', null]
         ])
@@ -80,7 +79,7 @@ export default function ErrorRateAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_isDefaultWindowSize,
+        doMutate: !_shouldSmoothMetric,
         metricNames: ['errors'],
         mutate: smoothMetrics
       }}

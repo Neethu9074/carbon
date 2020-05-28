@@ -7,7 +7,7 @@ import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis'
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
-import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
+import renderTimeLine from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
 import { copyCanvasInto } from 'in-components/Chart/canvas';
 import { toServerTime } from 'in-stores/timeOffset';
@@ -110,10 +110,11 @@ export default class RenderScheduler {
   render() {
     const config = this.config;
     clearRender(config);
-    renderTickLines(config);
 
     this.renderAxisMetrics('y1', config);
     this.renderAxisMetrics('y2', config);
+
+    renderTickLines(config);
 
     renderLocalHighlightedTimeframe(config, this.localHighlightedTimeframe);
     renderHighlightedTimeframe(config, this.highlightedTimeframe);
@@ -122,7 +123,7 @@ export default class RenderScheduler {
 
     this.chart.renderEvents(config);
 
-    timeLineRenderer(config, this.tickPositions);
+    renderTimeLine(config, this.tickPositions);
   }
 
   renderAxisMetrics(axisName, config) {
@@ -215,19 +216,19 @@ export default class RenderScheduler {
     }
 
     const xBackBuffer = this.config.scales.xBackBuffer;
-    const from = xBackBuffer.getDomainFrom() - xBackBuffer.getDomainFrom() / 2; // give the ticks some room so they can vanish out of view nicely
-
+    const from = xBackBuffer.getDomainFrom() - (xBackBuffer.getDomainTo() - xBackBuffer.getDomainFrom()) / 4; // give the ticks some room so they can vanish out of view nicely
     this.tickPositions = this.tickPositions.filter(tick => tick > from);
-    const d = this.getDistanceBetweenTicks();
-    if (!d) {
+
+    const distanceBetweenTicks = this.getDistanceBetweenTicks();
+    if (!distanceBetweenTicks) {
       return;
     }
 
     const to = xBackBuffer.getDomainTo();
     const lastTick = this.tickPositions[this.tickPositions.length - 1];
-    const ticksToAdd = Math.floor((to - lastTick) / d);
+    const ticksToAdd = Math.floor((to - lastTick) / distanceBetweenTicks);
     for (let i = 0; i < ticksToAdd; i++) {
-      this.tickPositions.push(lastTick + (i + 1) * d);
+      this.tickPositions.push(lastTick + (i + 1) * distanceBetweenTicks);
     }
   }
 

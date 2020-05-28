@@ -53,10 +53,16 @@ export default connectTo(
             return (
               <Message withIcon type={warning} className={locals.monitoringMessage}>
                 <div className={locals.monitoringIssuesMessageContent}>
-                  <span>
-                    <strong>{row.category.alert_prefix}</strong>{' '}
-                    <issueDefinition.issueDescription.Component {...args} />
-                  </span>
+                  <div>
+                    <p className={locals.monitoringIssueMessageText}>
+                      <strong>
+                        {row.category.alert_prefix}: {row.code}
+                      </strong>
+                    </p>
+                    <p className={locals.monitoringIssueMessageText}>
+                      <issueDefinition.issueDescription.Component {...args} />
+                    </p>
+                  </div>
                   <Button
                     href={issueDefinition.explanationLinkHref}
                     size="compact"

@@ -8,6 +8,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import BreakAll from 'in-components/typo/BreakAll';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -39,6 +40,19 @@ const cols = [
     }
   },
   {
+    title: 'Code',
+    type: 'custom', // 'custom' because 'string' sets css 'break-word' which we don't want for the code
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        return {
+          value: row.code,
+          content: <span>{row.code}</span>
+        };
+      }
+    }
+  },
+  {
     title: 'Description',
     type: 'custom',
     typeArgs: {
@@ -49,7 +63,11 @@ const cols = [
 
         return {
           value: row.code,
-          content: <issueDefinition.issueDescription.Component {...args} />
+          content: (
+            <BreakAll>
+              <issueDefinition.issueDescription.Component {...args} />
+            </BreakAll>
+          )
         };
       }
     }

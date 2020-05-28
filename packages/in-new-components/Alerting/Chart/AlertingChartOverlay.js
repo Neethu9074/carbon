@@ -6,7 +6,6 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
 import AlertEventSection from 'in-new-components/Alerting/Chart/AlertEventSection';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -67,12 +66,7 @@ export default connectTo(
       }
 
       return (
-        <div
-          className={evaluateClassNames({
-            [locals.overlay]: true,
-            [locals.hasY2Axis]: !!chart.config.y2
-          })}
-        >
+        <div className={locals.overlay}>
           {tooltipContent}
 
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />

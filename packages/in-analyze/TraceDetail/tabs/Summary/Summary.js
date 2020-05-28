@@ -1,6 +1,5 @@
 import { just, create } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
-import { connection } from 'in-connection';
 import theme from 'in-themes';
 import React from 'react';
 
@@ -33,6 +32,7 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
 import Button from 'in-new-components/Button';
+import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';

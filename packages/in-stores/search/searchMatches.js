@@ -40,7 +40,11 @@ export function search({ query }) {
 function filterEntitiesWithMonitoringEvents(query) {
   if (!query) {
     return '';
-  } else if (query.includes('event.severity') || query.includes('event.state')) {
+  } else if (
+    (query.includes('event.severity') || query.includes('event.state')) &&
+    !query.includes('monitoringIssue')
+  ) {
+    // For now if not explicitly filtering on Monitoring Issues, leave them out from the Infra map
     return `(!event.type:agent_monitoring_issue) AND (${query.trim()})`;
   }
   return query;

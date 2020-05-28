@@ -2,8 +2,8 @@ import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
+import { combineResultObservables, isLoading, hasError } from 'in-services/util/result';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
-import { combineResultObservables } from 'in-services/util/result';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import Header from 'in-settings/components/ApiItemView/Header';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +24,7 @@ export default connectTo(
       saveItem
     } = props;
 
-    if (result.errors && result.errors.length > 0) {
+    if (hasError(result)) {
       const error = getUniqueErrors(result.errors)[0];
       return (
         <div className={locals.wrapper}>
@@ -34,7 +34,7 @@ export default connectTo(
       );
     }
 
-    if (result.isLoading) {
+    if (isLoading(result)) {
       return (
         <div className={locals.wrapper}>
           <Header parentPath={parentPath} parentViewName={parentViewName} />

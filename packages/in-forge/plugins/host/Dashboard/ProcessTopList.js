@@ -57,6 +57,16 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
+        return row.process.get('cpu');
+      },
+      getContent: percentageZeroDecimalPlaces
+    }
+  },
+  {
+    title: 'CPU (normalized)',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
         return row.process.get('cpu') / row.host.getIn(['data', 'cpu.count'], 1);
       },
       getContent: percentageZeroDecimalPlaces

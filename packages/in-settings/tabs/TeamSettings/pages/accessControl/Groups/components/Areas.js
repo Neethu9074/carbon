@@ -18,10 +18,10 @@ import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/Group
 import MobileApps from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/MobileApps';
 import InfraDFQ from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/InfraDFQ';
 import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Websites';
+import { success, combineResultObservables, isLoading, hasError } from 'in-services/util/result';
 import { getMobileAppsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/mobileApps';
 import { getWebsitesAsResultObservable } from 'in-settings/tabs/TeamSettings/api/websites';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
-import { success, combineResultObservables, hasError } from 'in-services/util/result';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -53,7 +53,7 @@ export default connectTo(
         update={update}
         ListRenderer={ListRenderer}
         itemsResult={
-          result.isLoading || hasError(result)
+          isLoading(result) || hasError(result)
             ? result
             : success(
                 [

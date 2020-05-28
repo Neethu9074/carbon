@@ -20,5 +20,6 @@ export function addPermissionFields(form, role) {
     .put('canConfigureLogManagement', createField({ value: role.get('canConfigureLogManagement') }))
     .put('canConfigureApplications', createField({ value: role.get('canConfigureApplications') }))
     .put('canConfigureMobileAppMonitoring', createField({ value: role.get('canConfigureMobileAppMonitoring') }))
-    .put('canCreatePublicCustomDashboards', createField({ value: role.get('canCreatePublicCustomDashboards') }));
+    .put('canCreatePublicCustomDashboards', createField({ value: role.get('canCreatePublicCustomDashboards') }))
+    .put('canConfigureReleases', createField({ value: role.get('canConfigureReleases') }));
 }

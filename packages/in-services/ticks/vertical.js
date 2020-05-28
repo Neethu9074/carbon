@@ -1,36 +1,44 @@
-import {
-  percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces,
-  bytes,
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  kiloBytesTwoDecimalPlaces,
-  megaBytesZeroDecimalPlaces,
-  megaBytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
-import getTickPositionsPercentage from 'in-services/ticks/percentage';
+import getTickPositionsPercentage, {
+  roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyValuePercentage
+} from 'in-services/ticks/percentage';
+import getTickPositionsNumber, {
+  roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyValueNumber
+} from 'in-services/ticks/number';
+import getTickPositionsBytes, {
+  roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyBytes
+} from 'in-services/ticks/bytes';
+import { percentage, bytes, kiloBytes, megaBytes } from 'in-services/formatters/number';
 import getTickPositionsDefault from 'in-services/ticks/default';
-import getTickPositionsNumber from 'in-services/ticks/number';
-import getTickPositionsBytes from 'in-services/ticks/bytes';
 
-const tickPositionStrategies = {};
-tickPositionStrategies[percentageZeroDecimalPlaces] = getTickPositionsPercentage;
-tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
-tickPositionStrategies[megaBytesZeroDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[kiloBytesZeroDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[megaBytesTwoDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[kiloBytesTwoDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[bytesZeroDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[bytesTwoDecimalPlaces] = getTickPositionsBytes;
-tickPositionStrategies[bytes] = getTickPositionsBytes;
+const tickPositionStrategies = {
+  default: {
+    getTickPositions: getTickPositionsNumber,
+    roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyValueNumber
+  }
+};
 
-export default function getTickPositions(scale, formatter) {
-  const domainFrom = scale.getDomainFrom();
-  const domainTo = scale.getDomainTo();
+tickPositionStrategies[percentage] = tickPositionStrategies[percentage.compact] = tickPositionStrategies[
+  percentage.detailed
+] = {
+  getTickPositions: getTickPositionsPercentage,
+  roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyValuePercentage
+};
 
-  const domainRange = domainTo - domainFrom;
+tickPositionStrategies[kiloBytes] = tickPositionStrategies[kiloBytes.compact] = tickPositionStrategies[
+  kiloBytes.detailed
+] = tickPositionStrategies[megaBytes] = tickPositionStrategies[megaBytes.compact] = tickPositionStrategies[
+  megaBytes.detailed
+] = tickPositionStrategies[bytes.compact] = tickPositionStrategies[bytes.detailed] = tickPositionStrategies[bytes] = {
+  getTickPositions: getTickPositionsBytes,
+  roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyBytes
+};
 
+export function getTickStrategyByFormatter(formatter) {
+  return tickPositionStrategies[formatter] || tickPositionStrategies.default;
+}
+
+export default function getTickPositions(scale, formatter, numIntermediateSteps) {
+  const domainRange = scale.getDomainTo() - scale.getDomainFrom();
   if (domainRange === 0) {
     return [
       {
@@ -44,8 +52,12 @@ export default function getTickPositions(scale, formatter) {
     return [];
   }
 
-  const strategy = tickPositionStrategies[formatter] || getTickPositionsNumber;
-  let ticks = strategy({ scale, formatter });
+  if (numIntermediateSteps) {
+    return getEquallyDeferredTicks(scale, numIntermediateSteps);
+  }
+
+  const strategy = getTickStrategyByFormatter(formatter);
+  let ticks = strategy.getTickPositions({ scale, formatter });
 
   // remove close data points, skip first and last
   ticks = removeCloseTicks(ticks);
@@ -54,6 +66,22 @@ export default function getTickPositions(scale, formatter) {
     return getTickPositionsDefault(scale);
   }
 
+  return ticks;
+}
+
+function getEquallyDeferredTicks(scale, numIntermediateSteps) {
+  const rangeFrom = scale.getRangeFrom();
+  const rangeTo = scale.getRangeTo();
+  const domainFrom = scale.getDomainFrom();
+  const domainTo = scale.getDomainTo();
+
+  const ticks = [];
+  for (let i = 0; i < numIntermediateSteps + 2; i++) {
+    ticks[i] = {
+      range: rangeFrom + (rangeTo - rangeFrom) * (i / (numIntermediateSteps + 1)),
+      domain: domainFrom + (domainTo - domainFrom) * (i / (numIntermediateSteps + 1))
+    };
+  }
   return ticks;
 }
 

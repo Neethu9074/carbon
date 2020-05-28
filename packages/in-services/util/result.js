@@ -96,10 +96,10 @@ export function combineResultObservables(observables) {
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
         if (isLoading(result)) {
-          return { isLoading: true };
+          return pendingResult;
         }
         if (hasError(result)) {
-          return { errors: result.errors };
+          return error(result.errors);
         }
         resultData[observableKeys[i]] = result.data;
       }

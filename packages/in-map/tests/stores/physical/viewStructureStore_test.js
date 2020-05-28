@@ -11,11 +11,8 @@ describe('viewStructureStore', () => {
 
     describe('with RBAC enabled and limited access', () => {
       const store = proxyquire('in-map/stores/physical/viewStructureStore', {
-        'in-stores/user': {
-          role: { restrictedAccess: true }
-        },
-        'in-services/featureFlags': {
-          isRbacEnabled: true
+        'in-stores/permission': {
+          hasRestrictedAccess: true
         }
       });
 
@@ -47,11 +44,8 @@ describe('viewStructureStore', () => {
 
     describe('with RBAC disabled or full access', () => {
       const store = proxyquire('in-map/stores/physical/viewStructureStore', {
-        'in-stores/user': {
-          role: { restrictedAccess: false }
-        },
-        'in-services/featureFlags': {
-          isRbacEnabled: false
+        'in-stores/permission': {
+          hasRestrictedAccess: false
         }
       });
 

@@ -11,7 +11,6 @@ module.exports = {
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
   internalMonitoringUnit: true,
-  isRbacEnabled: true,
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   pcfEnabled: true,
@@ -22,5 +21,6 @@ module.exports = {
   applicationSmartAlertsEnabled: true,
   skipOnboardingDialog: false,
   agentMonitoringIssuesEnabled: false,
+  routeIdOverPathTplEnabled: false,
   sloConfigurationEnabled: true
 };

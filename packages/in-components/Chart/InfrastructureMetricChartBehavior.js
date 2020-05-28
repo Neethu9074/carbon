@@ -7,7 +7,6 @@ import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-store
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import createQueue from 'in-components/Chart/data/queue';
 
@@ -244,9 +243,6 @@ function mapAxis(axis) {
   };
 }
 
-function getChartCanvasWidth(props) {
-  const axisWidth = (props.y2 ? 2 : 1) * WIDTH;
-  let wholeChartWidth = props.width || axisWidth;
-  const chartWidth = wholeChartWidth - axisWidth;
-  return chartWidth;
+function getChartCanvasWidth({ width = 0 }) {
+  return width;
 }

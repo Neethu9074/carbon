@@ -2,7 +2,6 @@ import invariant from 'invariant';
 import React from 'react';
 
 import TickLabels from 'in-new-components/Axis/components/TickLabels';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import Ticks from 'in-new-components/Axis/components/Ticks';
 import getTickPositions from 'in-services/ticks/vertical';
 import { number } from 'in-services/formatters/number';
@@ -17,8 +16,8 @@ export default function Axis({
   align,
   fixedTickPositions,
   roundTickPositions = false,
-  width,
   height,
+  width,
   tickLength = 8,
   formatter = number,
   detailedFormatting = false,
@@ -28,10 +27,10 @@ export default function Axis({
   renderTickLines = true
 }) {
   if (__DEV__) {
-    invariant(scale, `You should define a scale or discreteTicks`);
+    invariant(scale, 'You should define a scale or discreteTicks');
     if (scale) {
-      invariant(scale.to != undefined, `the scale needs a to, which represents to domainTo`);
-      invariant(scale.from != undefined, `the scale needs a from, which represents from domainTo`);
+      invariant(scale.to != undefined, 'the scale needs a to, which represents to domainTo');
+      invariant(scale.from != undefined, 'the scale needs a from, which represents from domainTo');
     }
   }
 
@@ -44,16 +43,7 @@ export default function Axis({
   }
 
   return (
-    <div
-      style={{ minWidth: width, minHeight: height, maxWidth: width, maxHeight: height }}
-      className={evaluateClassNames({
-        [locals.axis]: true,
-        [locals.verticalLeft]: isVertical && align === 'left',
-        [locals.verticalRight]: isVertical && align !== 'left',
-        [locals.horizontalTop]: !isVertical && align === 'top',
-        [locals.horizontalBottom]: !isVertical && align !== 'top'
-      })}
-    >
+    <div style={{ minHeight: height, maxHeight: height }} className={locals.axis}>
       {renderTickLines && (
         <Ticks
           tickColor={tickColor}
@@ -64,7 +54,7 @@ export default function Axis({
         />
       )}
       <TickLabels
-        tickPositions={tickPositions}
+        tickPositions={tickPositions.slice(tickPositions.length - 1)}
         tickColor={tickLabelColor}
         detailedFormatting={detailedFormatting}
         isVertical={isVertical}

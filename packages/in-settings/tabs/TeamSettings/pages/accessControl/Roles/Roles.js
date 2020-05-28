@@ -9,7 +9,6 @@ import {
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { openRoleSubmitFormTracker } from 'in-settings/tracker';
 import { getRolesMutable, deleteRole } from 'in-api/roles';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import Footer from 'in-new-components/Footer';
 import Link from 'in-components/Link';
@@ -42,7 +41,7 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <WithSubscript subscript={isRbacEnabled && entity.restrictedAccess ? 'Limited Access' : ''}>
+        <WithSubscript subscript={entity.restrictedAccess ? 'Limited Access' : ''}>
           <Link href$={getEntityIdView(teamSettingsAccessControlRoles, entity.id)} ellipsis>
             <span>{entity.name}</span>
           </Link>

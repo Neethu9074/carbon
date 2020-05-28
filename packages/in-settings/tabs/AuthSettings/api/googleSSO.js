@@ -19,7 +19,7 @@ function getConfigAsResultObservableInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/authentication/googleSSO`
+        url: '/api/settings/authentication/googleSSO'
       })
     )
   );
@@ -31,11 +31,19 @@ export function setConfig(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/settings/authentication/googleSSO`,
+    url: '/api/settings/authentication/googleSSO',
     headers: getCsrfHeader(),
     data: config
   }).map(v => {
     refreshSignal.emit(config);
     return v;
   });
+}
+
+export function isAvailable() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/googleSSO/available'
+  }).map(res => res.body);
 }

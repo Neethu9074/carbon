@@ -102,3 +102,20 @@ export function getNiceInterval(min, max, n, formatter) {
 export function getFirstTickValue(min, interval) {
   return Math.floor(min / interval) * interval;
 }
+
+export function roundMaxValueToNextHighestHumanFriendlyValue(value, ops = { roundToEvenValues: true }) {
+  if (value <= 1) {
+    return value;
+  }
+  if (value <= 10) {
+    return value + (value % 2);
+  }
+  const maxAllowedValueChange = Math.pow(10, Math.floor(Math.log10(value))) / 10;
+  const brokenValue = value / maxAllowedValueChange;
+  const rest = brokenValue % 2;
+  if (rest === 0) {
+    return value;
+  }
+  const addition = rest >= 1 ? 2 : ops.roundToEvenValues ? 2 : 1;
+  return Math.ceil((brokenValue + (addition - rest)) * maxAllowedValueChange);
+}

@@ -84,7 +84,13 @@ describe('in-components/Chart/Scales', () => {
 
     it('should update tick positions on update', () => {
       const scales = new Scales({
-        y1: { formatter: [number] },
+        y1: {
+          formatter: [number],
+          metrics: [
+            [[0, 1], [1000, 20]], // series 1
+            [[0, 4], [1000, 10]] // series 2
+          ]
+        },
         animationDuration: 0,
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
@@ -101,7 +107,19 @@ describe('in-components/Chart/Scales', () => {
           range: 50
         },
         {
-          domain: 1,
+          domain: 5,
+          range: 37.5
+        },
+        {
+          domain: 10,
+          range: 25
+        },
+        {
+          domain: 15,
+          range: 12.5
+        },
+        {
+          domain: 20,
           range: 0
         }
       ]);

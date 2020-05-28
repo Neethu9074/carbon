@@ -1,11 +1,11 @@
 import React from 'react';
 
 import HorizontalAxis from 'in-new-components/LatencyDistributionChart/components/HorizontalAxis';
+import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
 import Bar from 'in-new-components/LatencyDistributionChart/components/Bar';
-import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import LoadingIndicator from '../LoadingIndicators/LoadingIndicator';
-import { HEIGHT } from 'in-new-components/Axis/HorizontalAxis';
+import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 
 import locals from './LatencyDistributionChartPresenter.mless';
 
@@ -38,8 +38,8 @@ export default function LatencyDistributionChartPresenter({
   }));
 
   const maxDataValue = getMaxDataValue(data);
-  width = (customWidth || width) - WIDTH;
-  height = (customHeight || height) - HEIGHT;
+  width = customWidth || width;
+  height = (customHeight || height) - horizontalAxisHeight;
 
   if (subscription.errors.length > 0) {
     content = <NoDataAvailable width={width} height={height} />;

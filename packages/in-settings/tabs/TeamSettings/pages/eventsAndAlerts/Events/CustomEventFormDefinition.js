@@ -1,11 +1,12 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 
 import {
   getAllBuiltInMetrics,
+  isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
   isMetricPercentile,
-  isBuiltInDynamicMetric,
-  toDynamicMetricStringValue
+  toDynamicMetricStringValue,
+  getMetricDefinition
 } from 'in-sdk/metrics';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
@@ -33,8 +34,8 @@ export const entityVerification = Object.freeze({
 
 export const systemRules = Object.freeze([offlineEventDetection, entityVerification]);
 
-export function createEventFormDefinition(event, isCreate) {
-  const mutableEvent = getMutableEvent(event);
+export function createEventFormDefinition(eventSpec, isCreate) {
+  const mutableEvent = getMutableEventSpecification(eventSpec);
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity } = ruleAttributes;
@@ -105,11 +106,11 @@ export function createEventFormDefinition(event, isCreate) {
     );
 
   if (dataSource !== dataSourceSystem) {
-    form = putAllDataSourceFields(form, event);
+    form = putAllDataSourceFields(form, eventSpec);
   } else {
     form = putSystemRuleSelection(form, ruleAttributes);
     if (ruleType === ruleTypeEntityVerification) {
-      form = putAllEntityVerificationFields(form, event);
+      form = putAllEntityVerificationFields(form, eventSpec);
     }
   }
 
@@ -117,29 +118,27 @@ export function createEventFormDefinition(event, isCreate) {
     form = putApplicationField(form, applicationName);
     form = putApplicationIdField(form, applicationIds);
   } else if (applyOn === scopeDfq) {
-    form = putQueryFields(form, event);
+    form = putQueryFields(form, eventSpec);
   }
 
   return form;
 }
 
-function putAllDataSourceFields(form, event) {
-  const mutableEvent = getMutableEvent(event);
+function putAllDataSourceFields(form, eventSpec) {
+  const mutableEvent = getMutableEventSpecification(eventSpec);
   const { entityType } = mutableEvent;
   const {
     metricName,
     metricPlaceholderValue,
     metricPlaceholderOperator,
-    metricLabel,
     metricFormat,
     conditionOperator,
     conditionValue: originalConditionValue
   } = getRuleAttributes(mutableEvent);
 
   let formatter = metricFormat;
-
-  // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
-  if (event && formatter === 'UNDEFINED') {
+  // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog in the backend
+  if (eventSpec && formatter === 'UNDEFINED') {
     const metricList = getAllBuiltInMetrics(entityType);
     const metricItem = find(metricList, _metric => _metric.value === metricName);
 
@@ -215,20 +214,13 @@ function putAllDataSourceFields(form, event) {
         value: formatter,
         validator: notBlankValidator
       })
-    )
-    .put(
-      'label',
-      createField({
-        value: metricLabel,
-        validator: notBlankValidator
-      })
     );
 
   if (isMetricPercentile(entityType, metricName)) {
-    form = putRollupField(form, event);
+    form = putRollupField(form, eventSpec);
   } else {
-    form = putWindowField(form, event);
-    form = putAggregationField(form, event);
+    form = putWindowField(form, eventSpec);
+    form = putAggregationField(form, eventSpec);
   }
 
   if (isBuiltInDynamicMetric(entityType, metricName)) {
@@ -263,7 +255,7 @@ export function putMetricPatternPlaceholder(form, metricPlaceholderValue) {
 
 function putAllEntityVerificationFields(form, event) {
   const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(
-    getMutableEvent(event)
+    getMutableEventSpecification(event)
   );
 
   return form
@@ -297,31 +289,31 @@ function putAllEntityVerificationFields(form, event) {
     );
 }
 
-export function putWindowField(form, event) {
+export function putWindowField(form, eventSpec) {
   return form.put(
     'window',
     createField({
-      value: String(getRuleAttribute(event, 'window', '')),
+      value: String(getRuleAttribute(eventSpec, 'window', '')),
       validator: notBlankValidator
     })
   );
 }
 
-export function putRollupField(form, event) {
+export function putRollupField(form, eventSpec) {
   return form.put(
     'rollup',
     createField({
-      value: String(getRuleAttribute(event, 'rollup', '')),
+      value: String(getRuleAttribute(eventSpec, 'rollup', '')),
       validator: notBlankValidator
     })
   );
 }
 
-export function putAggregationField(form, event) {
+export function putAggregationField(form, eventSpec) {
   return form.put(
     'aggregation',
     createField({
-      value: getRuleAttribute(event, 'aggregation', ''),
+      value: getRuleAttribute(eventSpec, 'aggregation', ''),
       validator: notBlankValidator
     })
   );
@@ -338,7 +330,6 @@ function removeAllDataSourceFields(form) {
     .remove('conditionOperator')
     .remove('conditionValue')
     .remove('formatter')
-    .remove('label')
     .remove('rollup')
     .remove('window')
     .remove('aggregation');
@@ -393,20 +384,20 @@ export function updateFormDefinitionForSystemRule(form, previousDataSource, even
   return form;
 }
 
-export function updateFormDefinitionForDataSource(form, previousDataSource, event, systemRules) {
+export function updateFormDefinitionForDataSource(form, previousDataSource, eventSpec, systemRules) {
   const nextDataSource = form.get('dataSource')?.value;
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
-    const { ruleType } = getRuleAttributes(getMutableEvent(event));
+    const { ruleType } = getRuleAttributes(getMutableEventSpecification(eventSpec));
     form = removeAllDataSourceFields(form);
 
     if (ruleType === ruleTypeEntityVerification) {
-      form = putAllEntityVerificationFields(form, event);
+      form = putAllEntityVerificationFields(form, eventSpec);
     }
 
-    form = putSystemRuleSelection(form, event, systemRules);
+    form = putSystemRuleSelection(form, eventSpec, systemRules);
   } else if (previousDataSource === dataSourceSystem && nextDataSource !== dataSourceSystem) {
-    form = putAllDataSourceFields(form, event);
+    form = putAllDataSourceFields(form, eventSpec);
     form = form.remove('systemRule');
     form = removeAllEntityVerificationFields(form);
   } else if (previousDataSource) {
@@ -472,12 +463,12 @@ function notBlankOrDeprecatedValidator(entityType) {
   return null;
 }
 
-export function putQueryFields(form, event) {
+export function putQueryFields(form, eventSpec) {
   return form
     .put(
       'query',
       createField({
-        value: event.get('query', ''),
+        value: eventSpec.get('query', ''),
         validator: notBlankValidator
       })
     )
@@ -511,12 +502,12 @@ export function isDeprecatedEntityType(entityType) {
   return Boolean(!plugins[entityType]);
 }
 
-function getMutableEvent(event) {
-  return event ? event.toJS() : createCustomThresholdBasedEventSpecification();
+function getMutableEventSpecification(eventSpec) {
+  return eventSpec ? eventSpec.toJS() : createCustomThresholdBasedEventSpecification();
 }
 
-function getRuleAttributes(event) {
-  const { rules, rule } = event;
+function getRuleAttributes(eventSpec) {
+  const { rules, rule, entityType } = eventSpec;
 
   let ruleType,
     metricName,
@@ -529,7 +520,6 @@ function getRuleAttributes(event) {
     conditionValue,
     severity,
     systemRuleId,
-    metricLabel,
     metricFormat,
     matchingEntityType,
     matchingOperator,
@@ -540,11 +530,22 @@ function getRuleAttributes(event) {
 
     if (rules[0].metricName) {
       metricName = rules[0].metricName;
+
+      // compatibility for dynamic built-in metrics using a full metric name: handle as metricPattern
+      const { metricPattern } = getMetricDefinition(entityType, rules[0].metricName);
+      if (metricPattern) {
+        const metricValueMatch = metricName.match(metricPattern.pattern);
+        if (metricValueMatch.length > 1) {
+          metricPlaceholderValue = metricValueMatch[1];
+          metricPlaceholderOperator = 'is';
+          metricName = toDynamicMetricStringValue(metricPattern.pre, metricPattern.post);
+        }
+      }
     } else if (rules[0].metricPattern) {
       const metricPattern = rules[0].metricPattern;
-      metricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
       metricPlaceholderValue = metricPattern.placeholder;
       metricPlaceholderOperator = metricPattern.operator;
+      metricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
     }
 
     rollup = rules[0].rollup;
@@ -554,7 +555,6 @@ function getRuleAttributes(event) {
     conditionValue = rules[0].conditionValue;
     severity = rules[0].severity;
     systemRuleId = rules[0].systemRuleId;
-    metricLabel = rules[0].metricLabel;
     metricFormat = rules[0].metricFormat;
     matchingEntityType = rules[0].matchingEntityType;
     matchingOperator = rules[0].matchingOperator;
@@ -581,7 +581,6 @@ function getRuleAttributes(event) {
     conditionValue,
     severity,
     systemRuleId,
-    metricLabel,
     metricFormat,
     matchingEntityType,
     matchingOperator,
@@ -590,14 +589,14 @@ function getRuleAttributes(event) {
   };
 }
 
-function getRuleAttribute(event, key, fallback) {
-  if (!event) {
+function getRuleAttribute(eventSpec, key, fallback) {
+  if (!eventSpec) {
     return fallback;
   }
 
-  const fromRules = event.getIn(['rules', '0', key]);
+  const fromRules = eventSpec.getIn(['rules', '0', key]);
   if (fromRules != null) {
     return fromRules;
   }
-  return event.getIn(['rule', key], fallback);
+  return eventSpec.getIn(['rule', key], fallback);
 }
