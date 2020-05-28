@@ -120,6 +120,14 @@ export default function Permissions({ form, onChange, disabled }) {
           label={permissions['canConfigureLogManagement']}
           helpText="Permits configuration of log management."
         />
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureReleases"
+          label={permissions['canConfigureReleases']}
+          helpText="Permits configuration of releases."
+        />
       </FormGroup>
 
       <SectionHeading>Access Control</SectionHeading>
