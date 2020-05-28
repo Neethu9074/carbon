@@ -4,6 +4,7 @@ import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/Me
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -83,11 +84,12 @@ function FormComponent({
                 hasError={!field.valid && field.touched}
                 min={0}
                 max={99.99}
-                step={0.01}
+                step={1}
               />
               <TouchedMessages field={field} />
               <HelpText>
-                Type in your desired SLO threshold from <code>0</code>% to <code>99.99</code>%
+                Type in your desired SLO threshold from <code>{percentage.compact(0)}</code> to{' '}
+                <code>{percentage.detailed(0.9999)}</code>.
               </HelpText>
             </FormGroup>
           ))}
