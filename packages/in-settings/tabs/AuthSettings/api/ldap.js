@@ -49,3 +49,11 @@ export function setConfig(config) {
     return v;
   });
 }
+
+export function isAvailable() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/ldap/available'
+  }).map(res => res.body);
+}
