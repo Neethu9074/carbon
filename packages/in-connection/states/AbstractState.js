@@ -76,14 +76,18 @@ export default class AbstractConnectionState extends AbstractState {
   }
 
   send(event, obj) {
-    if (this.sharedState.socket) {
-      this.sharedState.metrics.transmitted++;
-      this.sharedState.socket.send(`${event},${JSON.stringify(obj)}`);
-    } else {
-      logger.info(
-        'Not transmitting event to backend because connection is not currently established. Event Name:',
-        event
-      );
+    try {
+      if (this.sharedState.socket) {
+        this.sharedState.metrics.transmitted++;
+        this.sharedState.socket.send(`${event},${JSON.stringify(obj)}`);
+      } else {
+        logger.info(
+          'Not transmitting event to backend because connection is not currently established. Event Name:',
+          event
+        );
+      }
+    } catch (e) {
+      logger.error('Failed to transmit WebSocket message', event, e);
     }
   }
 }
