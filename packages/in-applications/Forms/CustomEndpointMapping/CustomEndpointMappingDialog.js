@@ -1,7 +1,7 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
+import { withState } from 'recompose';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import { withState } from 'recompose';
 import { get } from 'lodash';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
@@ -15,6 +15,7 @@ import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMappi
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
+import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -30,6 +31,45 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './CustomEndpointMappingDialog.mless';
 
 export default withState('isNewConfig', 'setIsNewConfig', false)(CustomEndpointMappingDialog);
+
+function PathTemplateRule({ form, setValue }) {
+  return (
+    <Tooltip
+      align="topMiddle"
+      themeStyle="light"
+      content="Extracts endpoints as specified in detected framework (if accessible)"
+    >
+      <ExtractionRule
+        rule={{ query: 'Path Template', enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value }}
+        onToggleEnable={enabled => setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)}
+        reorderable={false}
+        isInstanaDefaultRule
+      />
+    </Tooltip>
+  );
+}
+
+function FirstParameterRule({ form, setValue }) {
+  return (
+    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on first path parameter">
+      <ExtractionRule
+        rule={{ query: 'First Path Segment', enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value }}
+        onToggleEnable={enabled => setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)}
+        reorderable={false}
+        isInstanaDefaultRule
+      />
+    </Tooltip>
+  );
+}
+
+function RouteIdRule() {
+  return (
+    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on first path parameter">
+      <ExtractionRule rule={{ query: 'Route ID', enabled: true }} reorderable={false} isInstanaDefaultRule />
+    </Tooltip>
+  );
+}
+
 function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) {
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
   return (
@@ -119,41 +159,10 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
                           }
                         />
 
-                        <Tooltip
-                          align="topMiddle"
-                          themeStyle="light"
-                          content="Extracts endpoints as specified in detected framework (if accessible)"
-                        >
-                          <ExtractionRule
-                            rule={{
-                              query: 'Detected Framework',
-                              enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
-                            }}
-                            onToggleEnable={enabled =>
-                              setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)
-                            }
-                            reorderable={false}
-                            isInstanaDefaultRule
-                          />
-                        </Tooltip>
+                        {routeIdOverPathTplEnabled && <RouteIdRule />}
+                        <PathTemplateRule form={form} setValue={setValue} />
+                        <FirstParameterRule form={form} setValue={setValue} />
 
-                        <Tooltip
-                          align="topMiddle"
-                          themeStyle="light"
-                          content="Extracts endpoints based on first path parameter"
-                        >
-                          <ExtractionRule
-                            rule={{
-                              query: '/*',
-                              enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
-                            }}
-                            onToggleEnable={enabled =>
-                              setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)
-                            }
-                            reorderable={false}
-                            isInstanaDefaultRule
-                          />
-                        </Tooltip>
                         <Tooltip
                           align="topMiddle"
                           themeStyle="light"

@@ -20,5 +20,6 @@ module.exports = {
   vsphereEnabled: true,
   applicationSmartAlertsEnabled: true,
   skipOnboardingDialog: false,
-  agentMonitoringIssuesEnabled: false
+  agentMonitoringIssuesEnabled: false,
+  routeIdOverPathTplEnabled: false
 };
