@@ -72,7 +72,9 @@ export default class Rule extends React.Component {
                 )}
               </>
             )}
-            <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+            {onToggleEnable && (
+              <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+            )}
             {expandableContent ? (
               <SvgIcon
                 className={locals.icon}
