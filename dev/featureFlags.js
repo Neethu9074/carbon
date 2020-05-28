@@ -22,5 +22,5 @@ module.exports = {
   applicationSmartAlertsEnabled: true,
   skipOnboardingDialog: false,
   agentMonitoringIssuesEnabled: false,
-  sloConfigurationEnabled: false
+  sloConfigurationEnabled: true
 };

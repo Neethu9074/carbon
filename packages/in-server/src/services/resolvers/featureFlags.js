@@ -123,7 +123,7 @@ module.exports = exports = (tenant, unit) => [
   },
   {
     uiClientKey: 'sloConfigurationEnabled',
-    instanaCtlKey: 'feature.sli.configuration.enabled',
+    instanaCtlKey: 'feature.slo.configuration.enabled',
     consulKey: `settings/${tenant}-${unit}/SLO_CONFIGURATION_ENABLED`,
     defaultValue: false
   }

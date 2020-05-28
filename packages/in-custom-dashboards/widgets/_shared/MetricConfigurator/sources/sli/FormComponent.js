@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { ServiceLevelIndicators } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
-import locals from 'in-custom-dashboards/widgets/BigNumber/sliConfiguration.mless';
+import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { getSLIConfigurations } from 'in-custom-dashboards/api';
+import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
@@ -14,12 +13,8 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(() => {
-  return {
-    SLIConfigurations: getSLIConfigurations().map(
-      ({ data }) => (data ? data.map(({ id, sliName }) => ({ id, sliName })) : null)
-    )
-  };
+export default connectTo({
+  sliConfigurations: getSliConfigurations().map(({ data }) => data)
 })(FormComponent);
 
 function FormComponent({
@@ -29,13 +24,9 @@ function FormComponent({
   labelFormGroup,
   formatterFormGroup,
   widgetPreview,
-  SLIConfigurations,
+  sliConfigurations,
   timeShiftConfiguration
 }) {
-  const SLIConfigIdField = form.get('SLIConfigId');
-  const SLOField = form.get('SLO');
-  const metricField = form.get('metric');
-
   return (
     <>
       {labelFormGroup && (
@@ -48,77 +39,84 @@ function FormComponent({
         <Col lg={6}>{dataSourceFormGroup}</Col>
 
         <Col lg>
-          <FormGroup>
-            <Label htmlFor="metric-configurator-SLIId">Configured SLO</Label>
-            <Select
-              id="metric-configurator-SLIId"
-              value={SLIConfigIdField.value}
-              onChange={e =>
-                onChange([], form =>
-                  form.updateIn(['SLIConfigId'], field => field.setValue(e.target.value).setTouched(true))
-                )
-              }
-              hasError={!SLIConfigIdField.valid && SLIConfigIdField.touched}
-            >
-              <option value="">Please select an SLI configuration</option>
-              {SLIConfigurations &&
-                SLIConfigurations.map(({ id, sliName }) => (
-                  <option key={id} value={id}>
-                    {sliName}
-                  </option>
-                ))}
-            </Select>
-            <TouchedMessages field={SLIConfigIdField} />
-            <HelpText className={locals.subTextFormField}>
-              The configurations against which SLIs are calculated
-            </HelpText>
-          </FormGroup>
+          {form.get('SLIConfigId').map(field => (
+            <FormGroup>
+              <Label htmlFor="metric-configurator-sli-id">Configured SLO</Label>
+              <Select
+                id="metric-configurator-sli-id"
+                value={field.value}
+                onChange={e =>
+                  onChange([], form =>
+                    form.updateIn(['SLIConfigId'], field => field.setValue(e.target.value).setTouched(true))
+                  )
+                }
+                hasError={!field.valid && field.touched}
+              >
+                <option value="">Please select</option>
+                {sliConfigurations &&
+                  sliConfigurations.map(({ id, sliName }) => (
+                    <option key={id} value={id}>
+                      {sliName}
+                    </option>
+                  ))}
+              </Select>
+              <TouchedMessages field={field} />
+              <HelpText>The configurations against which SLIs are calculated</HelpText>
+            </FormGroup>
+          ))}
         </Col>
       </Row>
       <Header>Customize the widget</Header>
 
       <Row>
         <Col lg>
-          <FormGroup>
-            <Label htmlFor="metric-configurator-SLO">SLO value</Label>
-            <Input
-              id="metric-configurator-SLI"
-              type="number"
-              value={SLOField.value}
-              onChange={e => onChange(['SLO'], field => field.setValue(e.target.value).setTouched(true))}
-              hasError={!SLOField.valid && SLOField.touched}
-            />
-            <TouchedMessages field={SLOField} />
-            <HelpText className={locals.subTextFormField}>
-              Type in your desired SLO value from 0 to 1. E.g, 0.9 for 90% SLO.
-            </HelpText>
-          </FormGroup>
+          {form.get('SLO').map(field => (
+            <FormGroup>
+              <Label htmlFor="metric-configurator-slo">Service-Level Objective</Label>
+              <Input
+                id="metric-configurator-slo"
+                type="number"
+                value={field.value}
+                onChange={e => onChange(['SLO'], field => field.setValue(Number(e.target.value)).setTouched(true))}
+                hasError={!field.valid && field.touched}
+                min={0}
+                max={1}
+                step={0.1}
+              />
+              <TouchedMessages field={field} />
+              <HelpText>
+                Type in your desired SLO value between 0 and 1, e.g. <code>0.9</code> for 90% SLO.
+              </HelpText>
+            </FormGroup>
+          ))}
         </Col>
 
         <Col lg>
-          <FormGroup>
-            <Label htmlFor="metric-configurator-SLI">Specifics</Label>
-            <Select
-              id="metric-configurator-SLI"
-              value={metricField.value}
-              onChange={e =>
-                onChange([], form =>
-                  form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
-                )
-              }
-              hasError={!metricField.valid && metricField.touched}
-            >
-              <option value="">Please select an SLI</option>
-              {Object.keys(ServiceLevelIndicators)
-                .sort((a, b) => compareIgnoreCase(ServiceLevelIndicators[a], ServiceLevelIndicators[b]))
-                .map(key => (
-                  <option key={key} value={key}>
-                    {ServiceLevelIndicators[key]}
-                  </option>
-                ))}
-            </Select>
-            <TouchedMessages field={metricField} />
-          </FormGroup>
+          {form.get('metric').map(field => (
+            <FormGroup>
+              <Label htmlFor="metric-configurator-metric">Metric</Label>
+              <Select
+                id="metric-configurator-metric"
+                value={field.value}
+                onChange={e =>
+                  onChange([], form =>
+                    form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
+                  )
+                }
+                hasError={!field.valid && field.touched}
+              >
+                <option value="">Please select</option>
+                {Object.keys(serviceLevelIndicators)
+                  .sort((a, b) => compareIgnoreCase(serviceLevelIndicators[a], serviceLevelIndicators[b]))
+                  .map(key => (
+                    <option key={key} value={key}>
+                      {serviceLevelIndicators[key]}
+                    </option>
+                  ))}
+              </Select>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
         </Col>
       </Row>
 
