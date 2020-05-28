@@ -5,7 +5,9 @@ import React from 'react';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
+import { getSmoothedMetricTooltipContent, smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
@@ -31,6 +33,8 @@ export default function StatusCodeAlertingBarChart({
     getApplicationIdTagFilter({ applicationId, boundaryScope }),
     ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)
   ];
+  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
@@ -50,7 +54,12 @@ export default function StatusCodeAlertingBarChart({
           theme.lib.colors.pink800
         ],
         icons: {
-          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          types: [
+            _shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart',
+            'lib_threshold',
+            'lib_actions_stop',
+            'lib_actions_stop'
+          ],
           colors: [
             theme.lib.colors.blue800,
             theme.lib.colors.red800,
@@ -60,11 +69,16 @@ export default function StatusCodeAlertingBarChart({
         },
         renderer: Renderer.barWithThreshold,
         formatter: number.forcedCompact,
-        labels: [getMetricLabel('statusCode', 'calls'), 'Threshold', 'Expected Range', 'Violations'],
+        labels: [
+          `${getMetricLabel('statusCode', 'calls')}${_shouldSmoothMetric ? '' : '*'}`,
+          'Threshold',
+          'Expected Range',
+          'Violations'
+        ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
-          ['statusCode', null],
+          ['statusCode', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
           ['threshold', null],
           ['Expected Range', null],
           ['Violations', null]
@@ -82,6 +96,11 @@ export default function StatusCodeAlertingBarChart({
       )}
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
+      mutateMetrics={{
+        doMutate: !_shouldSmoothMetric,
+        metricNames: ['statusCode'],
+        mutate: smoothMetrics
+      }}
     />
   );
 }

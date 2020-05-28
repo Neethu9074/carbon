@@ -29,6 +29,6 @@ export function getIndexOfTimeConfig(timeConfig) {
   return chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig?.windowSize);
 }
 
-export function isDefaultWindowSize(windowSize) {
-  return windowSize === chartViewConfigs[0].windowSize;
+export function shouldSmoothMetric(windowSize) {
+  return windowSize <= chartViewConfigs[0].windowSize;
 }

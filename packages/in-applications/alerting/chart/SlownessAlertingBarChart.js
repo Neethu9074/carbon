@@ -8,7 +8,7 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
@@ -33,7 +33,7 @@ export default function SlownessAlertingBarChart({
 }) {
   const baseline = threshold.baseline;
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
-  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
   return (
     <AlertingBarChartWrapper
@@ -63,20 +63,20 @@ export default function SlownessAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: [_isDefaultWindowSize ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
+          types: [_shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: getRenderer(),
         formatter: millis.forcedFixedCompact,
         metricIds: ['latency', 'threshold'],
         labels: [
-          `${getMetricLabel('slowness', 'latency')}${_isDefaultWindowSize ? '' : '*'}`,
+          `${getMetricLabel('slowness', 'latency')}${_shouldSmoothMetric ? '' : '*'}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Violations'],
         nonToggleableSeries: new Map([
-          ['latency', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
+          ['latency', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -106,7 +106,7 @@ export default function SlownessAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_isDefaultWindowSize,
+        doMutate: !_shouldSmoothMetric,
         metricNames: ['latency'],
         mutate: smoothMetrics
       }}
@@ -115,9 +115,9 @@ export default function SlownessAlertingBarChart({
 
   function getRenderer() {
     if (threshold.type === 'staticThreshold') {
-      return _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold;
+      return _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold;
     } else {
-      return _isDefaultWindowSize ? Renderer.barWithBaseline : Renderer.lineWithBaseline;
+      return _shouldSmoothMetric ? Renderer.barWithBaseline : Renderer.lineWithBaseline;
     }
   }
 }
