@@ -62,7 +62,7 @@ export default connectTo(
     let itemsResult = null;
     if (isLoading(permissionSetsToGroupResult) || hasError(permissionSetsToGroupResult)) {
       itemsResult = permissionSetsToGroupResult;
-    } else if (result.isLoading || hasError(result)) {
+    } else if (isLoading(result) || hasError(result)) {
       itemsResult = result;
     } else {
       itemsResult = success(collectIdsFromPermissionSets(permissionSetsToGroupResult.data, result));
