@@ -41,7 +41,6 @@ export default function LogsAlertingBarChart({
 
   return (
     <AlertingBarChartWrapper
-      alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}

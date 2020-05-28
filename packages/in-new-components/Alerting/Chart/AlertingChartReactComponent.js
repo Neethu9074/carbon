@@ -4,7 +4,6 @@ import React, { Fragment } from 'react';
 
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend';
 import AlertingChartOverlay from './AlertingChartOverlay';
 import { getSetting$ } from 'in-services/settings';
@@ -13,11 +12,13 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './AlertingChartReactComponent.mless';
 
+const defaultChartHeight = 182;
+
 export default getElementDimensions(function AlertingChartReactComponent(props) {
   let { width, customHeight } = props;
 
-  const height = customHeight || 182;
-  const overlayWidth = width - (props.y2 ? 2 : 1) * WIDTH;
+  const height = customHeight || defaultChartHeight;
+  const overlayWidth = width;
 
   return <AlertingChartReactWrapper {...props} width={overlayWidth} height={height} />;
 });
@@ -57,7 +58,6 @@ const AlertingChartReactWrapper = compose(
         timeConfig,
         renderLegend = true,
         reverseTooltipOrder,
-        alignLegendToLeftSideOfChart,
         getAlertsPreview,
         alertMetricConfiguration,
         alertsPreviewEnabled
@@ -67,8 +67,7 @@ const AlertingChartReactWrapper = compose(
 
       return (
         <div className={locals.chart}>
-          {chart &&
-            renderLegend && <Legend alignLegendToLeftSideOfChart={alignLegendToLeftSideOfChart} chart={chart} />}
+          {chart && renderLegend && <Legend chart={chart} />}
           <div className={locals.chartAxisWrapper}>
             {chart &&
               chart.config.y1 && (

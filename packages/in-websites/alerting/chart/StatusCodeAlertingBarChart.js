@@ -37,7 +37,6 @@ export default function StatusCodeAlertingBarChart({
 
   return (
     <AlertingBarChartWrapper
-      alignLegendToLeftSideOfChart
       releaseMarkersDisabled
       timeConfig={timeConfig}
       granularity={granularity}

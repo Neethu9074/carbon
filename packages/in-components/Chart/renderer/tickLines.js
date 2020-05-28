@@ -1,13 +1,18 @@
 import theme from 'in-themes';
 
 export default function axis(config) {
-  config.backBufferCtx.fillStyle = theme.lib.colors.N300;
-  config.backBufferCtx.beginPath();
+  const backBufferCtx = config.backBufferCtx;
+  backBufferCtx.save();
+  backBufferCtx.globalCompositeOperation = 'multiply';
+
+  backBufferCtx.fillStyle = theme.lib.colors.N300;
+  backBufferCtx.beginPath();
 
   drawTickPositionsForAxis(config.scales.y1);
   drawTickPositionsForAxis(config.scales.y2);
 
-  config.backBufferCtx.fill();
+  backBufferCtx.fill();
+  backBufferCtx.restore();
 
   function drawTickPositionsForAxis(axis) {
     if (!axis) {
@@ -17,7 +22,7 @@ export default function axis(config) {
     const tickPositions = axis.tickPositions;
     for (let i = 0; i < tickPositions.length; i++) {
       const tick = tickPositions[i];
-      config.backBufferCtx.rect(
+      backBufferCtx.rect(
         config.scales.xBackBuffer.getRangeFrom(),
         tick.range,
         config.scales.xBackBuffer.getRangeTo() - config.scales.xBackBuffer.getRangeFrom(),

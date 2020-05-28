@@ -5,17 +5,13 @@
     position: absolute;
     top: 32px;
     bottom: 22px;
-    left: 60px;
+    left: 0;
     right: 0;
 
     // above remaining chart content
     z-index: 1;
 
     font-size: 0.875rem;
-  }
-
-  .hasY2Axis {
-    right: 60px;
   }
 
   .glassPane {

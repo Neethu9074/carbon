@@ -4,8 +4,4 @@
   .axis {
     position: relative;
   }
-
-  .horizontalBottom {
-    border-top: 1px solid @lib__colors__N400;
-  }
 }

@@ -1,3 +1,5 @@
+import { roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyValueNumber } from 'in-services/ticks/number';
+
 export default function getTickPositions({ scale }) {
   const rangeFrom = scale.getRangeFrom();
   const rangeTo = scale.getRangeTo();
@@ -7,7 +9,7 @@ export default function getTickPositions({ scale }) {
   domainFrom = Math.max(0, domainFrom);
   domainTo = Math.min(100, domainTo);
 
-  const step = 0.2; // 20% steps
+  const step = 0.25; // 25% steps
 
   const ticks = [
     {
@@ -29,4 +31,8 @@ export default function getTickPositions({ scale }) {
   });
 
   return ticks;
+}
+
+export function roundMaxValueToNextHighestHumanFriendlyValue(value) {
+  return roundMaxValueToNextHighestHumanFriendlyValueNumber(value * 10000) / 10000;
 }

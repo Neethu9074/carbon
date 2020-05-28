@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -15,9 +14,9 @@ export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.filteredDataSeries$
   }),
-  function Legend({ chart, filteredDataSeries, alignLegendToLeftSideOfChart = false }) {
+  function Legend({ chart, filteredDataSeries }) {
     return (
-      <div style={alignLegendToLeftSideOfChart ? { paddingLeft: WIDTH } : null} className={locals.legend}>
+      <div className={locals.legend}>
         <MetricSeries
           chart={chart}
           axis={chart.config.y1}

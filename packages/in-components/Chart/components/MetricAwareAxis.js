@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import VerticalAxis, { WIDTH, HEIGHT } from 'in-new-components/Axis/VerticalAxis';
+import VerticalAxis, { HEIGHT as verticalAxisHeight } from 'in-new-components/Axis/VerticalAxis';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -12,7 +12,7 @@ export default connectTo(
     const axis = chart.config[axisName];
 
     if (!axis.labels || axis.labels.filter((v, i) => !filteredDataSeries.has(`${axisName}-${i}`)).length == 0) {
-      return <div style={{ minWidth: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
+      return <div style={{ minWidth: 0, height: `${height || verticalAxisHeight}px` }} />;
     }
 
     const scale = { from: axis.minValue, to: axis.maxValue };

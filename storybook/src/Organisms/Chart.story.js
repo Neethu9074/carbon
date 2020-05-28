@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import theme from 'in-themes';
 
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -8,7 +9,6 @@ import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import theme from 'in-themes';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -712,7 +712,6 @@ export function WithLegendAlignedToLeftSideOfChart() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        alignLegendToLeftSideOfChart: true,
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.stackedBar,

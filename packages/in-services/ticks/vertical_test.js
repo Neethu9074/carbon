@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import createScale from 'in-services/scale';
 import { expect } from 'chai';
 
+import createScale from 'in-services/scale';
 import getTickPositions from './vertical';
 
 describe('timeAxis', () => {

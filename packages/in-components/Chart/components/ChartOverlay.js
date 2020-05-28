@@ -7,7 +7,6 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
 import ContextMenu from 'in-components/Chart/components/ContextMenu';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -58,12 +57,7 @@ export default connectTo(
       const xScale = this.updateScale(chart);
 
       return (
-        <div
-          className={evaluateClassNames({
-            [locals.overlay]: true,
-            [locals.hasY2Axis]: !!chart.config.y2
-          })}
-        >
+        <div className={locals.overlay}>
           <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
 
           <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />

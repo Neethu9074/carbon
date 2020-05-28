@@ -3,17 +3,17 @@ import { withState, compose } from 'recompose';
 import React from 'react';
 
 import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/ExternallyDefinedWidthAndHeight';
+import Legend, { HEIGHT as legendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
-import Legend, { HEIGHT } from 'in-components/Chart/components/Legend';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import { getSetting$ } from 'in-services/settings';
 import Chart from 'in-components/Chart/Chart';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Chart.mless';
 
+const defaultChartHeight = 182;
 export default function ChartReactComponent(props) {
   if (props.automaticallySize) {
     return <CompletelyAutomaticallySized {...props} />;
@@ -22,17 +22,13 @@ export default function ChartReactComponent(props) {
 }
 
 const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
-  return (
-    <ChartReactWrapper {...props} width={props.width - (props.y2 ? 2 : 1) * WIDTH} height={props.customHeight || 182} />
-  );
+  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
 });
 
 function CompletelyAutomaticallySized(props) {
   return (
     <ExternallyDefinedWidthAndHeight>
-      {({ width, height }) => (
-        <ChartReactWrapper {...props} width={width - (props.y2 ? 2 : 1) * WIDTH} height={height - HEIGHT} />
-      )}
+      {({ width, height }) => <ChartReactWrapper {...props} width={width} height={height - legendHeight} />}
     </ExternallyDefinedWidthAndHeight>
   );
 }
@@ -65,22 +61,13 @@ const ChartReactWrapper = compose(
     }
 
     render() {
-      const {
-        chart,
-        width,
-        height,
-        timeConfig,
-        renderLegend = true,
-        reverseTooltipOrder,
-        alignLegendToLeftSideOfChart
-      } = this.props;
+      const { chart, width, height, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
 
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
-          {chart &&
-            renderLegend && <Legend alignLegendToLeftSideOfChart={alignLegendToLeftSideOfChart} chart={chart} />}
+          {chart && renderLegend && <Legend chart={chart} />}
           <div className={locals.chartAxisWrapper}>
             {chart &&
               chart.config.y1 && (
