@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
+import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/index';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/TimeShiftingForm';
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -53,6 +54,7 @@ export default function MetricConfigurationFormComponent({ axisName, index, onCh
         timeShiftConfiguration={
           <TimeShiftingForm axisName={axisName} index={index} onChange={onChange} metricForm={metricForm} />
         }
+        disabledDataSources={[source]}
       />
     </ExpandableCard>
   );

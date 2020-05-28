@@ -1,9 +1,10 @@
 import React from 'react';
 
-import sources, { enabledDataSources } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
@@ -17,9 +18,11 @@ export default function MetricConfigurator({
   customLabelFormGroup,
   formatterFormGroup,
   widgetPreview,
-  timeShiftConfiguration
+  timeShiftConfiguration,
+  disabledDataSources = emptyArray
 }) {
   const sourceField = form.get('source');
+
   const dataSourceFormGroupElement = (
     <FormGroup>
       <Label htmlFor="metic-configurator-source" hasError={!sourceField.valid && sourceField.touched}>
@@ -32,7 +35,11 @@ export default function MetricConfigurator({
         hasError={!sourceField.valid && sourceField.touched}
       >
         <option value="">Please select</option>
-        {Object.values(enabledDataSources)
+        {Object.values(sources)
+          .filter(
+            ({ source, enabled }) =>
+              (enabled && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
+          )
           .concat({
             source: 'infra',
             label: 'Infrastructure & Platforms (coming soon)',
@@ -44,14 +51,6 @@ export default function MetricConfigurator({
               {label}
             </option>
           ))}
-
-        {sourceField.value &&
-          !enabledDataSources[sourceField.value] &&
-          sources[sourceField.value] && (
-            <option key={sourceField.value} value={sourceField.value}>
-              {sources[sourceField.value].label}
-            </option>
-          )}
       </Select>
       <TouchedMessages field={sourceField} />
     </FormGroup>
