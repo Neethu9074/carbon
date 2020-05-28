@@ -442,7 +442,6 @@ function EventForm({
                               const metricInfo = getBuiltInMetricInfo(metricItem);
                               updatedForm = updatedForm
                                 .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                                .updateIn(['label'], f => f.setValue(metricInfo.label))
                                 .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
                                 .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
                             }
@@ -503,7 +502,6 @@ function EventForm({
 
                             updatedForm = updatedForm
                               .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                              .updateIn(['label'], f => f.setValue(metricInfo.label))
                               .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
                               .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
 
@@ -959,12 +957,7 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
 
     if (entityType && metricName) {
       if (!containsMetricInList(customMetricsList, metricName)) {
-        const metricItem = createCustomMetricListItem(
-          metricName,
-          form.get('formatter').value,
-          form.get('label').value,
-          entityType
-        );
+        const metricItem = createCustomMetricListItem(metricName, undefinedMetricFormatter, metricName, entityType);
         customMetricsList.push(metricItem);
       }
     }
@@ -1021,9 +1014,9 @@ function onChangeApplyOn(applyOn, onChange) {
   let updateFormDefinition;
 
   if (applyOn === scopeDfq) {
-    updateFormDefinition = (form, event) => {
+    updateFormDefinition = (form, eventSpec) => {
       form = form.remove('application');
-      form = putQueryFields(form, event);
+      form = putQueryFields(form, eventSpec);
       return form.updateIn(['query'], f => {
         return f.setValue('');
       });
