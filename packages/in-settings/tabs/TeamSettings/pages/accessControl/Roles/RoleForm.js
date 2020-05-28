@@ -5,7 +5,6 @@ import Permission from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup';
 import permissions from 'in-settings/permissions';
 import Label from 'in-components/form/Label';
@@ -35,19 +34,18 @@ export default function RoleForm({ form, onChange, roleId }) {
         </FormGroup>
       ))}
 
-      {isRbacEnabled && <SectionHeading>Restrictions</SectionHeading>}
-      {isRbacEnabled && (
-        <FormGroup noFlex>
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="restrictedAccess"
-            label={permissions['restrictedAccess']}
-            helpText="Enable role based access control."
-          />
-        </FormGroup>
-      )}
+      <SectionHeading>Restrictions</SectionHeading>
+
+      <FormGroup noFlex>
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="restrictedAccess"
+          label={permissions['restrictedAccess']}
+          helpText="Enable role based access control."
+        />
+      </FormGroup>
 
       <Permissions form={form} onChange={onChange} disabled={disabled} />
     </fieldset>

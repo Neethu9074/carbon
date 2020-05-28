@@ -49,12 +49,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'isRbacEnabled',
-    instanaCtlKey: 'feature.is.rbac.enabled',
-    consulKey: `settings/${tenant}-${unit}/IS_RBAC_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'isAdhocMetricAggregationEnabled',
     instanaCtlKey: 'feature.is.adhoc.metric.aggregation.enabled',
     consulKey: `settings/${tenant}-${unit}/IS_ADHOC_METRIC_AGGREGATION_ENABLED`,

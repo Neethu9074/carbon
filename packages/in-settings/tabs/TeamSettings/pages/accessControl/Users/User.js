@@ -13,7 +13,6 @@ import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getRolesAsResultObservable } from 'in-api/roles';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Gravatar from 'in-components/Gravatar';
@@ -79,18 +78,14 @@ function renderUser(props) {
         </Col>
       </Row>
 
-      {isRbacEnabled && (
-        <>
-          <Row>
-            <Col lg={6}>
-              <Groups userId={userId} />
-            </Col>
-            <Col lg={6}>
-              <Areas userId={userId} />
-            </Col>
-          </Row>
-        </>
-      )}
+      <Row>
+        <Col lg={6}>
+          <Groups userId={userId} />
+        </Col>
+        <Col lg={6}>
+          <Areas userId={userId} />
+        </Col>
+      </Row>
 
       <Row>
         <Col lg>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Permission from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Permission';
-import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/featureFlags';
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FormGroup from 'in-settings/components/FormGroup';
 import permissions from 'in-settings/permissions';
@@ -142,16 +142,14 @@ export default function Permissions({ form, onChange, disabled }) {
           helpText="Permits configuration of access roles and permissions for all users."
         />
 
-        {isRbacEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureTeams"
-            label={permissions['canConfigureTeams']}
-            helpText="Permits configuration of access scopes and permissions for all teams."
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureTeams"
+          label={permissions['canConfigureTeams']}
+          helpText="Permits configuration of access scopes and permissions for all teams."
+        />
 
         <Permission
           form={form}

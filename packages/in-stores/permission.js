@@ -1,4 +1,3 @@
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
@@ -8,7 +7,7 @@ export const ACCESS_MOBILE_APPS = 'ACCESS_MOBILE_APPS';
 
 const permissions = window.instana.permissions;
 
-export const hasRestrictedAccess = isRbacEnabled && role.restrictedAccess;
+export const hasRestrictedAccess = role.restrictedAccess;
 
 function hasPermission(permission) {
   return !hasRestrictedAccess || permissions.indexOf(permission) > -1;

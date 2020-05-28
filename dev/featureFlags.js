@@ -11,7 +11,6 @@ module.exports = {
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
   internalMonitoringUnit: true,
-  isRbacEnabled: true,
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   pcfEnabled: true,

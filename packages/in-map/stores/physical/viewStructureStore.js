@@ -3,13 +3,12 @@ import { combineLatest } from 'reactive-observables';
 import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
-import { isRbacEnabled } from 'in-services/featureFlags';
+import { hasRestrictedAccess } from 'in-stores/permission';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
 import getScope from 'in-subscription/getScope';
 import { view$ } from 'in-stores/view';
-import { role } from 'in-stores/user';
 
 export function getViewStructure() {
   return combineLatest([
@@ -67,13 +66,12 @@ export function getViewStructure() {
 export function getPermittedIds(searchMatches, scope, query) {
   let hasSearchMatches = (searchMatches && searchMatches.length > 0) || false;
   let hasPermittedScope = (scope && scope.length > 0) || false;
-  let isRestricted = isRbacEnabled && role.restrictedAccess;
 
-  if (hasPermittedScope && isRestricted && !hasSearchMatches) {
+  if (hasPermittedScope && hasRestrictedAccess && !hasSearchMatches) {
     return isBlank(query) ? scope : [];
   }
   if (!hasSearchMatches) {
-    if (isBlank(query) && !isRestricted) {
+    if (isBlank(query) && !hasRestrictedAccess) {
       return null; //  everything matches
     } else {
       return []; // nothing matches
