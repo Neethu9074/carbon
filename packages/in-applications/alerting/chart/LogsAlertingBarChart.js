@@ -8,7 +8,7 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, isDefaultWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
@@ -37,7 +37,7 @@ export default function LogsAlertingBarChart({
     ...tagFilters,
     ...getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope })
   ];
-  const _isDefaultWindowSize = isDefaultWindowSize(timeConfig.windowSize);
+  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
   return (
     <AlertingBarChartWrapper
@@ -58,13 +58,13 @@ export default function LogsAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _isDefaultWindowSize ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
         formatter: number.forcedCompact,
-        labels: [`${getMetricLabel('logs', 'calls')}${_isDefaultWindowSize ? '' : '*'}`, 'Threshold', 'Violations'],
+        labels: [`${getMetricLabel('logs', 'calls')}${_shouldSmoothMetric ? '' : '*'}`, 'Threshold', 'Violations'],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['logs', 'threshold'],
         nonToggleableSeries: new Map([
-          ['logs', getSmoothedMetricTooltipContent(_isDefaultWindowSize)],
+          ['logs', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -83,7 +83,7 @@ export default function LogsAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_isDefaultWindowSize,
+        doMutate: !_shouldSmoothMetric,
         metricNames: ['logs'],
         mutate: smoothMetrics
       }}
