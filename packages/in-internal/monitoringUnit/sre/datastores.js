@@ -162,9 +162,9 @@ export function getDataMountRows(nodes, timeConfig) {
 
   nodes.forEach(node => {
     node.host.getIn(['data', 'filesystems'], emptyMap).forEach((v, k) => {
-      if (v.get('mount') == '/mnt/data') {
+      if (v.get('mount').startsWith('/mnt/data')) {
         rows.push({
-          key: node.host.get('id'),
+          key: node.host.get('id') + v.get('mount'),
           snapshotId: node.host.get('id'),
           device: k,
           snapshot: node,
