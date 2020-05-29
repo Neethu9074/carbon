@@ -19,7 +19,8 @@ export default function ExpandableCard({
   className,
   framed,
   label,
-  darkFrame
+  darkFrame,
+  useMaxAvailableHeight
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -58,6 +59,7 @@ export default function ExpandableCard({
       className={className}
       headerClassName={headerClassName}
       darkFrame={darkFrame}
+      useMaxAvailableHeight={useMaxAvailableHeight}
     >
       {expanded && children}
     </Card>

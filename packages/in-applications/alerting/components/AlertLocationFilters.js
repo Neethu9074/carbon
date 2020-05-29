@@ -152,7 +152,8 @@ AlertLocationFilters.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
-  applicationLabel: PropTypes.string.isRequired
+  applicationLabel: PropTypes.string.isRequired,
+  withoutLatencyItem: PropTypes.bool
 };
 
 function upsertFilter(form, newTagFilter, updateForm, advancedMode) {

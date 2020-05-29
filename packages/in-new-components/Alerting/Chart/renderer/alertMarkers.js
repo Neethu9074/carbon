@@ -44,8 +44,8 @@ export default {
     const numberOfClusters = Math.trunc(chartWidth / clusterWidthPixels);
 
     backBufferCtx.save();
+    backBufferCtx.translate(0, 2);
     backBufferCtx.fillStyle = theme.lib.colors.red800;
-    backBufferCtx.translate(0, 6);
 
     for (let i = 0; i <= numberOfClusters; i++) {
       const xPos = i * clusterWidthPixels + (clusterWidthPixels / 2 - iconSize / 2);

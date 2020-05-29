@@ -50,78 +50,88 @@ export default connectTo(
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
     return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title="Details">
-            <EntityInformation
-              entityId={entityId}
-              entityType={entityType}
-              metadata={metadata}
-              timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
-            />
-
-            <ProblemDescription event={event} className="in-event-view-event-content" />
-            <WebsiteAlertConfigButton alertConfig={alertConfig} />
-          </Card>
-
-          <Card title="Metrics">
-            <div className={locals.analyzeButtonWrapper}>
-              <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
-            </div>
-            <AlertTypeSwitch
-              alertType={alertType}
-              renderJsErrors={() => (
-                <JsErrorsAlertingBarChart
-                  websiteId={entityId}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-                  granularity={alertingMetricsGranularity}
-                  metricName={metricName}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
-                />
-              )}
-              renderStatusCode={() => (
-                <StatusCodeAlertingBarChart
-                  websiteId={entityId}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
-                  granularity={alertingMetricsGranularity}
-                  metricName={metricName}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
-                />
-              )}
-              renderSlowness={() => (
-                <SlownessAlertingBarChart
-                  websiteId={entityId}
-                  sensitivity={sensitivity}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  aggregation={aggregation}
-                  granularity={alertingMetricsGranularity}
-                  threshold={threshold}
-                  timeThreshold={alertConfig.timeThreshold}
-                />
-              )}
-            />
-          </Card>
-
-          <Card title="Scope">
-            <div className={locals.filterList}>
-              <TagFilterListPresenter
-                tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: [getWebsiteIdTagFilter(entityId), ...tagFilters],
-                  websiteLabel
-                })}
-                disabled
+      <>
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Details">
+              <EntityInformation
+                entityId={entityId}
+                entityType={entityType}
+                metadata={metadata}
+                timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
               />
-            </div>
-          </Card>
-        </Col>
-      </Row>
+
+              <ProblemDescription event={event} className="in-event-view-event-content" />
+              <WebsiteAlertConfigButton alertConfig={alertConfig} />
+            </Card>
+          </Col>
+        </Row>
+
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Metrics">
+              <div className={locals.analyzeButtonWrapper}>
+                <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
+              </div>
+              <AlertTypeSwitch
+                alertType={alertType}
+                renderJsErrors={() => (
+                  <JsErrorsAlertingBarChart
+                    websiteId={entityId}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
+                    granularity={alertingMetricsGranularity}
+                    metricName={metricName}
+                    threshold={alertConfig.threshold}
+                    timeThreshold={alertConfig.timeThreshold}
+                  />
+                )}
+                renderStatusCode={() => (
+                  <StatusCodeAlertingBarChart
+                    websiteId={entityId}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
+                    granularity={alertingMetricsGranularity}
+                    metricName={metricName}
+                    threshold={alertConfig.threshold}
+                    timeThreshold={alertConfig.timeThreshold}
+                  />
+                )}
+                renderSlowness={() => (
+                  <SlownessAlertingBarChart
+                    websiteId={entityId}
+                    sensitivity={sensitivity}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    aggregation={aggregation}
+                    granularity={alertingMetricsGranularity}
+                    threshold={threshold}
+                    timeThreshold={alertConfig.timeThreshold}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+        </Row>
+
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Scope">
+              <div className={locals.filterList}>
+                <TagFilterListPresenter
+                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    tagFilters: [getWebsiteIdTagFilter(entityId), ...tagFilters],
+                    websiteLabel
+                  })}
+                  disabled
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </>
     );
   }
 );
