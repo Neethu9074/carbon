@@ -3,7 +3,6 @@ import React from 'react';
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
-import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -12,9 +11,7 @@ import Link from 'in-components/Link';
 
 export default function WaitStep({ mobileAppName, mobileAppId }) {
   return (
-    <Frame>
-      <Header>Working…</Header>
-
+    <Frame title="Working…">
       <Paragraph>
         We are preparing everything to monitor your mobile app <strong>{mobileAppName}</strong>. While we do this,{' '}
         <Link href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">

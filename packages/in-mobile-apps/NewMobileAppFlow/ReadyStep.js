@@ -3,7 +3,6 @@ import React from 'react';
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
-import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -12,12 +11,7 @@ import Link from 'in-components/Link';
 
 export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {
   return (
-    <Frame>
-      <Header>
-        Everything
-        {`'`}s Ready!
-      </Header>
-
+    <Frame title="Everything's Ready!">
       <Paragraph>
         Everything is ready to monitor your mobile app <strong>{mobileAppName}</strong>.{' '}
         <Link href="https://docs.instana.io/mobile_app_monitoring/#installation" target="_blank">

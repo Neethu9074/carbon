@@ -145,19 +145,22 @@ class BasicForm extends React.Component {
     return (
       <div>
         <Title title={title} />
-        <div className={locals.header}>
-          <h1 className={locals.heading}>{title}</h1>
-          {generalHelpText && (
-            <Tooltip themeStyle="light" content={generalHelpText}>
-              <SvgIcon className={locals.helpTextIcon} type="lib_help_error_help_outline" />
-            </Tooltip>
-          )}
-        </div>
+        {title ||
+          (generalHelpText && (
+            <div className={locals.header}>
+              <h1 className={locals.heading}>{title}</h1>
+              {generalHelpText && (
+                <Tooltip themeStyle="light" content={generalHelpText}>
+                  <SvgIcon className={locals.helpTextIcon} type="lib_help_error_help_outline" />
+                </Tooltip>
+              )}
+            </div>
+          ))}
 
         {success && <TemporaryMessage message="Successfully saved." type="success" />}
         {error && <TemporaryMessage message="An error occurred, please try again." type="error" />}
 
-        <Spacer type="dark" />
+        {title && <Spacer type="dark" />}
 
         {content}
       </div>

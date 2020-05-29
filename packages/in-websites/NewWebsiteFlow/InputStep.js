@@ -2,7 +2,6 @@ import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
-import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
@@ -14,9 +13,7 @@ import locals from './InputStep.mless';
 
 export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
   return (
-    <Frame>
-      <Header>Add Website</Header>
-
+    <Frame title="Add Website">
       <Paragraph>
         Get started with website monitoring to better understand how your website performance impacts user experience.
         Configuration is simple!

@@ -2,8 +2,9 @@
 
 :local {
   .maxWidthFullscreenContainer {
-    max-width: 38rem;
+    max-width: 56.25rem;
     padding-bottom: 5rem;
+    margin-top: 1rem;
   }
 
   .applicationNameText {

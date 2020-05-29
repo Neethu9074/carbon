@@ -5,10 +5,10 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
+import Card from 'in-new-components/Card';
 import Button from 'in-components/Button';
 
 import locals from './Remove.mless';
@@ -39,27 +39,25 @@ export default class Remove extends React.PureComponent {
 
     return (
       <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-        <div className={locals.header}>
-          <h1 className={locals.heading}>Remove Application Perspective</h1>
-        </div>
-        <Spacer type="dark" />
-        <DescriptionText>
-          If you no longer wish to monitor the application perspective <strong>{application.label}</strong>, please use
-          the button below to remove it. Removing an application perspective may take up to a few minutes.
-        </DescriptionText>
-        <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
-        understand that this action cannot be undone.
-        {removeError && <SaveError>{removeError}</SaveError>}
-        <div className={locals.footer}>
-          <Button
-            kind="danger"
-            disabled={loading || !this.state.checkboxChecked}
-            onClick={this.remove}
-            className={locals.removeButton}
-          >
-            Remove Application Perspective
-          </Button>
-        </div>
+        <Card title="Remove Application Perspective">
+          <DescriptionText>
+            If you no longer wish to monitor the application perspective <strong>{application.label}</strong>, please
+            use the button below to remove it. Removing an application perspective may take up to a few minutes.
+          </DescriptionText>
+          <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} />{' '}
+          I understand that this action cannot be undone.
+          {removeError && <SaveError>{removeError}</SaveError>}
+          <div className={locals.footer}>
+            <Button
+              kind="danger"
+              disabled={loading || !this.state.checkboxChecked}
+              onClick={this.remove}
+              className={locals.removeButton}
+            >
+              Remove Application Perspective
+            </Button>
+          </div>
+        </Card>
       </MaxWidthFullscreenContainer>
     );
   }

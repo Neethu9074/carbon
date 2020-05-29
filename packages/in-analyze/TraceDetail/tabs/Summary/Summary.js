@@ -125,7 +125,11 @@ class Summary extends React.Component {
     const traceDetails = (
       <ContentWrapper>
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
-        <TraceValidationResult issues={trace.issues} />
+        <Row withoutSideMargin>
+          <Col lg={12}>
+            <TraceValidationResult issues={trace.issues} />
+          </Col>
+        </Row>
         <div className={locals.left}>
           {isInternalVisible &&
           trace.callRecordCount &&

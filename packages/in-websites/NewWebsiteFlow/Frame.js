@@ -1,7 +1,13 @@
 import React from 'react';
 
+import Card from 'in-new-components/Card';
+
 import locals from './Frame.mless';
 
-export default function Frame({ children }) {
-  return <div className={locals.frame}>{children}</div>;
+export default function Frame({ children, title }) {
+  return (
+    <Card title={title} className={locals.frame}>
+      {children}
+    </Card>
+  );
 }

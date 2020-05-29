@@ -35,256 +35,261 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';
+import Card from 'in-new-components/Card';
 
 import locals from './CreateApplicationDialog.mless';
 
 export default function CreateApplicationDialog({ timeConfig, applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-      <BasicForm
-        title={applicationId ? 'Update Application Perspective' : 'Create Application Perspective'}
-        generalHelpText="Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
-        saveButtonLabel={applicationId ? 'Save' : 'Create'}
-        onCancelHref$={onCancelHref$}
-        getOnSavePath={getOnSavePath}
-        getEntity={() =>
-          applicationId
-            ? getApplicationConfig(applicationId)
-            : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
-        }
-        updateEntity={applicationConfig => {
-          applicationSubmitTracker({
-            name: applicationConfig.label,
-            downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
-            tags: applicationConfig.matchSpecification.map(spec => spec.key)
-          });
-          const isNewConfig = !applicationConfig.id ? true : false;
-          if (isNewConfig) {
-            return addApplicationConfig(applicationConfig);
+      <Card title={applicationId ? 'Update Application Perspective' : 'Create Application Perspective'}>
+        <BasicForm
+          saveButtonLabel={applicationId ? 'Save' : 'Create'}
+          onCancelHref$={onCancelHref$}
+          getOnSavePath={getOnSavePath}
+          getEntity={() =>
+            applicationId
+              ? getApplicationConfig(applicationId)
+              : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
           }
-          return updateApplicationConfig(applicationConfig);
-        }}
-        getInitialForm={getInitialForm}
-        renderFormContent={(appConfig, form, setValue, updateForm) => {
-          const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
-            form.get('matchSpecification').toJS()
-          );
-          const filters = {
-            timeConfig,
-            tagFilter: tagFiltersForSubscription
-          };
-          return (
-            <Fragment>
-              <Steps
-                steps={[
-                  {
-                    stepTitle: 'Define a name for your application perspective.',
-                    content: form.get('label').map(field => (
-                      <FormGroup>
-                        <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                          Application Perspective Name
-                        </Label>
-                        <Input
-                          type="text"
-                          id="label"
-                          value={field.value}
-                          onChange={e => setValue(['label'], e.target.value, form)}
-                          autoComplete="off"
-                          hasError={!field.valid && field.touched}
-                          autoFocus
-                        />
-                        <TouchedMessages field={field} />
+          updateEntity={applicationConfig => {
+            applicationSubmitTracker({
+              name: applicationConfig.label,
+              downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
+              tags: applicationConfig.matchSpecification.map(spec => spec.key)
+            });
+            const isNewConfig = !applicationConfig.id ? true : false;
+            if (isNewConfig) {
+              return addApplicationConfig(applicationConfig);
+            }
+            return updateApplicationConfig(applicationConfig);
+          }}
+          getInitialForm={getInitialForm}
+          renderFormContent={(appConfig, form, setValue, updateForm) => {
+            const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
+              form.get('matchSpecification').toJS()
+            );
+            const filters = {
+              timeConfig,
+              tagFilter: tagFiltersForSubscription
+            };
+            return (
+              <Fragment>
+                <HelpText>
+                  Application perspectives provide a means to model environments, sets of services, tenants, or just
+                  about anything.
+                </HelpText>
+                <Steps
+                  steps={[
+                    {
+                      stepTitle: 'Define a name for your application perspective.',
+                      content: form.get('label').map(field => (
+                        <FormGroup>
+                          <Label htmlFor="label" hasError={!field.valid && field.touched}>
+                            Application Perspective Name
+                          </Label>
+                          <Input
+                            type="text"
+                            id="label"
+                            value={field.value}
+                            onChange={e => setValue(['label'], e.target.value, form)}
+                            autoComplete="off"
+                            hasError={!field.valid && field.touched}
+                            autoFocus
+                          />
+                          <TouchedMessages field={field} />
 
-                        {applicationId && (
-                          <HelpText>
-                            Renaming an application is an eventually consistent action within the Instana system. For
-                            this reason, a change to an application name may take <em>up to a few minutes</em> until it
-                            has populated throughout the whole system.
-                          </HelpText>
-                        )}
+                          {applicationId && (
+                            <HelpText>
+                              Renaming an application is an eventually consistent action within the Instana system. For
+                              this reason, a change to an application name may take <em>up to a few minutes</em> until
+                              it has populated throughout the whole system.
+                            </HelpText>
+                          )}
 
-                        <DescriptionText className={locals.applicationNameText}>
-                          {`Application perspective names should have a well established definition within an organization. For example,
+                          <DescriptionText className={locals.applicationNameText}>
+                            {`Application perspective names should have a well established definition within an organization. For example,
                       to model an environment: "Production Blue", to model a set of services: "Payment", or to model a
                       tenant: "ACME Customer".`}
-                        </DescriptionText>
-                      </FormGroup>
-                    ))
-                  },
-                  {
-                    stepTitle: 'Define the application perspective using one or more tags.',
-                    content: (
-                      <Fragment>
-                        <DescriptionText>
-                          {`For example where key is "docker.label" and value is "environment=Production Blue",
+                          </DescriptionText>
+                        </FormGroup>
+                      ))
+                    },
+                    {
+                      stepTitle: 'Define the application perspective using one or more tags.',
+                      content: (
+                        <Fragment>
+                          <DescriptionText>
+                            {`For example where key is "docker.label" and value is "environment=Production Blue",
                             or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
-                          <Pill color={getColor('DATABASE')} kind="light">
-                            DATABASE
-                          </Pill>
-                          service or
-                          <Pill color={getColor('MESSAGING')} kind="light">
-                            MESSAGING
-                          </Pill>
-                          service from services matching this definition will automatically be included.
-                          <br />
-                          <br />
-                          <strong>AND operators take precedence and are evaluated before OR operators</strong>
-                        </DescriptionText>
+                            <Pill color={getColor('DATABASE')} kind="light">
+                              DATABASE
+                            </Pill>
+                            service or
+                            <Pill color={getColor('MESSAGING')} kind="light">
+                              MESSAGING
+                            </Pill>
+                            service from services matching this definition will automatically be included.
+                            <br />
+                            <br />
+                            <strong>AND operators take precedence and are evaluated before OR operators</strong>
+                          </DescriptionText>
 
-                        <div className={locals.addRuleButtonWrapper}>
-                          <Button
-                            kind="action"
-                            onClick={() =>
-                              addActiveDialog(
-                                <EditTagFilterDialog
-                                  tagFilters={filters.tagFilter}
-                                  timeConfig={filters.timeConfig}
-                                  tagSuggestions={getApplicationCreationTagKeys()}
-                                  getKeySuggestions={getSecondLevelKeySuggestions}
-                                  getValueSuggestions={getValueSuggestions}
-                                  addTagFilter={_tag => {
-                                    const additionalSubForm = getEnrichedMatchSpecificationForm({
-                                      key: _tag.name,
-                                      entity: _tag.entity,
-                                      secondLevelName: _tag.secondLevelName || '',
-                                      value: _tag.value || '',
-                                      operator: _tag.operator
-                                    });
-                                    updateForm(
-                                      form.updateIn(['matchSpecification'], list =>
-                                        list.push(additionalSubForm).setTouched(true)
-                                      )
-                                    );
-                                  }}
-                                  forAnalyzeCalls
-                                />
+                          <div className={locals.addRuleButtonWrapper}>
+                            <Button
+                              kind="action"
+                              onClick={() =>
+                                addActiveDialog(
+                                  <EditTagFilterDialog
+                                    tagFilters={filters.tagFilter}
+                                    timeConfig={filters.timeConfig}
+                                    tagSuggestions={getApplicationCreationTagKeys()}
+                                    getKeySuggestions={getSecondLevelKeySuggestions}
+                                    getValueSuggestions={getValueSuggestions}
+                                    addTagFilter={_tag => {
+                                      const additionalSubForm = getEnrichedMatchSpecificationForm({
+                                        key: _tag.name,
+                                        entity: _tag.entity,
+                                        secondLevelName: _tag.secondLevelName || '',
+                                        value: _tag.value || '',
+                                        operator: _tag.operator
+                                      });
+                                      updateForm(
+                                        form.updateIn(['matchSpecification'], list =>
+                                          list.push(additionalSubForm).setTouched(true)
+                                        )
+                                      );
+                                    }}
+                                    forAnalyzeCalls
+                                  />
+                                )
+                              }
+                              icon="lib_openclose_add_circle_outline"
+                            >
+                              Add Tag
+                            </Button>
+                          </div>
+                          <TagFilterList
+                            filterConnectionOperators={['OR', 'AND']}
+                            onOperatorChanged={(i, operator) => {
+                              updateForm(
+                                form.updateIn(['matchSpecification', i, 'conjunction'], field =>
+                                  field.setValue(operator).setTouched(true)
+                                )
+                              );
+                            }}
+                            tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
+                              tag: {
+                                name: matchSpecification.get('key').value,
+                                entity: matchSpecification.get('entity').value,
+                                value: matchSpecification.get('value').value,
+                                operator: matchSpecification.get('operator').value,
+                                secondLevelName: matchSpecification.get('secondLevelName').value,
+                                conjunction: matchSpecification.get('conjunction').value
+                              },
+                              onClick: () =>
+                                addActiveDialog(
+                                  <EditTagFilterDialog
+                                    tagFilter={{
+                                      name: matchSpecification.get('key').value,
+                                      entity: matchSpecification.get('entity').value,
+                                      value: matchSpecification.get('value').value,
+                                      operator: matchSpecification.get('operator').value,
+                                      secondLevelName: matchSpecification.get('secondLevelName').value
+                                    }}
+                                    tagFilters={filters.tagFilter}
+                                    timeConfig={filters.timeConfig}
+                                    tagSuggestions={getApplicationCreationTagKeys()}
+                                    getKeySuggestions={getSecondLevelKeySuggestions}
+                                    getValueSuggestions={getValueSuggestions}
+                                    updateTagFilter={_tag => {
+                                      form = form.updateIn(['matchSpecification', i, 'value'], field =>
+                                        field.setValue(_tag.value || '').setTouched(true)
+                                      );
+                                      form = form.updateIn(['matchSpecification', i, 'key'], field =>
+                                        field.setValue(_tag.name).setTouched(true)
+                                      );
+                                      form = form.updateIn(['matchSpecification', i, 'entity'], field =>
+                                        field.setValue(_tag.entity).setTouched(true)
+                                      );
+                                      form = form.updateIn(['matchSpecification', i, 'operator'], field =>
+                                        field.setValue(_tag.operator).setTouched(true)
+                                      );
+                                      form = form.updateIn(['matchSpecification', i, 'secondLevelName'], field =>
+                                        field.setValue(_tag.secondLevelName).setTouched(true)
+                                      );
+
+                                      updateForm(form);
+                                    }}
+                                    removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
+                                    forAnalyzeCalls
+                                  />
+                                ),
+                              onRemove: () => removeMatchSpecification(i, form, updateForm)
+                            }))}
+                          />
+                        </Fragment>
+                      )
+                    },
+                    {
+                      stepTitle: 'Downstream services.',
+                      content: form.get('scope').map(field => (
+                        <FormGroup>
+                          <Label htmlFor="scope" hasError={!field.valid && field.touched}>
+                            By checking this box you are including all downstream services to this application.
+                          </Label>
+                          <OptionBox
+                            icon="lib_application_downstream"
+                            title="Include All Downstream Services"
+                            description={
+                              <Fragment>
+                                By checking the box to the left, you are including in the application all services that
+                                transitively fall downstream of those matched by the tags specified above, instead of
+                                only the immediate
+                                <Pill color={getColor('DATABASE')} kind="light">
+                                  DATABASE
+                                </Pill>
+                                and
+                                <Pill color={getColor('MESSAGING')} kind="light">
+                                  MESSAGING
+                                </Pill>
+                                ones.
+                              </Fragment>
+                            }
+                            checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
+                            onChange={checked =>
+                              setValue(
+                                ['scope'],
+                                checked
+                                  ? 'INCLUDE_ALL_DOWNSTREAM'
+                                  : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
+                                form
                               )
                             }
-                            icon="lib_openclose_add_circle_outline"
-                          >
-                            Add Tag
-                          </Button>
-                        </div>
-                        <TagFilterList
-                          filterConnectionOperators={['OR', 'AND']}
-                          onOperatorChanged={(i, operator) => {
-                            updateForm(
-                              form.updateIn(['matchSpecification', i, 'conjunction'], field =>
-                                field.setValue(operator).setTouched(true)
-                              )
-                            );
-                          }}
-                          tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
-                            tag: {
-                              name: matchSpecification.get('key').value,
-                              entity: matchSpecification.get('entity').value,
-                              value: matchSpecification.get('value').value,
-                              operator: matchSpecification.get('operator').value,
-                              secondLevelName: matchSpecification.get('secondLevelName').value,
-                              conjunction: matchSpecification.get('conjunction').value
-                            },
-                            onClick: () =>
-                              addActiveDialog(
-                                <EditTagFilterDialog
-                                  tagFilter={{
-                                    name: matchSpecification.get('key').value,
-                                    entity: matchSpecification.get('entity').value,
-                                    value: matchSpecification.get('value').value,
-                                    operator: matchSpecification.get('operator').value,
-                                    secondLevelName: matchSpecification.get('secondLevelName').value
-                                  }}
-                                  tagFilters={filters.tagFilter}
-                                  timeConfig={filters.timeConfig}
-                                  tagSuggestions={getApplicationCreationTagKeys()}
-                                  getKeySuggestions={getSecondLevelKeySuggestions}
-                                  getValueSuggestions={getValueSuggestions}
-                                  updateTagFilter={_tag => {
-                                    form = form.updateIn(['matchSpecification', i, 'value'], field =>
-                                      field.setValue(_tag.value || '').setTouched(true)
-                                    );
-                                    form = form.updateIn(['matchSpecification', i, 'key'], field =>
-                                      field.setValue(_tag.name).setTouched(true)
-                                    );
-                                    form = form.updateIn(['matchSpecification', i, 'entity'], field =>
-                                      field.setValue(_tag.entity).setTouched(true)
-                                    );
-                                    form = form.updateIn(['matchSpecification', i, 'operator'], field =>
-                                      field.setValue(_tag.operator).setTouched(true)
-                                    );
-                                    form = form.updateIn(['matchSpecification', i, 'secondLevelName'], field =>
-                                      field.setValue(_tag.secondLevelName).setTouched(true)
-                                    );
-
-                                    updateForm(form);
-                                  }}
-                                  removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
-                                  forAnalyzeCalls
-                                />
-                              ),
-                            onRemove: () => removeMatchSpecification(i, form, updateForm)
-                          }))}
-                        />
-                      </Fragment>
-                    )
-                  },
-                  {
-                    stepTitle: 'Downstream services.',
-                    content: form.get('scope').map(field => (
-                      <FormGroup>
-                        <Label htmlFor="scope" hasError={!field.valid && field.touched}>
-                          By checking this box you are including all downstream services to this application.
-                        </Label>
-                        <OptionBox
-                          icon="lib_application_downstream"
-                          title="Include All Downstream Services"
-                          description={
-                            <Fragment>
-                              By checking the box to the left, you are including in the application all services that
-                              transitively fall downstream of those matched by the tags specified above, instead of only
-                              the immediate
-                              <Pill color={getColor('DATABASE')} kind="light">
-                                DATABASE
-                              </Pill>
-                              and
-                              <Pill color={getColor('MESSAGING')} kind="light">
-                                MESSAGING
-                              </Pill>
-                              ones.
-                            </Fragment>
-                          }
-                          checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
-                          onChange={checked =>
-                            setValue(
-                              ['scope'],
-                              checked
-                                ? 'INCLUDE_ALL_DOWNSTREAM'
-                                : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
-                              form
-                            )
-                          }
-                        />
-                      </FormGroup>
-                    ))
-                  },
-                  {
-                    stepTitle: 'Application scope.',
-                    content: form.get('boundaryScope').map(field => {
-                      return (
-                        <FormGroup>
-                          <InboundOrAllCallsChoiceVertical
-                            boundaryScope={field.value}
-                            onBoundaryStateChange={value => setValue(['boundaryScope'], value.boundaryScope, form)}
                           />
                         </FormGroup>
-                      );
-                    })
-                  }
-                ]}
-              />
-            </Fragment>
-          );
-        }}
-      />
+                      ))
+                    },
+                    {
+                      stepTitle: 'Application scope.',
+                      content: form.get('boundaryScope').map(field => {
+                        return (
+                          <FormGroup>
+                            <InboundOrAllCallsChoiceVertical
+                              boundaryScope={field.value}
+                              onBoundaryStateChange={value => setValue(['boundaryScope'], value.boundaryScope, form)}
+                            />
+                          </FormGroup>
+                        );
+                      })
+                    }
+                  ]}
+                />
+              </Fragment>
+            );
+          }}
+        />
+      </Card>
     </MaxWidthFullscreenContainer>
   );
 }

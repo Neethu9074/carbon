@@ -5,7 +5,6 @@ import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Actions from 'in-websites/NewWebsiteFlow/Actions';
-import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
@@ -14,9 +13,7 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
-    <Frame>
-      <Header>Working…</Header>
-
+    <Frame title="Working…">
       <Paragraph>
         We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add the
         following script to the HTML {`document's`} <code>{'<head>'}</code>. Information about website monitoring and

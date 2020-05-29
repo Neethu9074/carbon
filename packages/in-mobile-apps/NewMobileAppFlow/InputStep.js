@@ -1,8 +1,7 @@
 import React from 'react';
 
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
-import Header from 'in-mobile-apps/NewMobileAppFlow/Header';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
@@ -14,9 +13,7 @@ import locals from './InputStep.mless';
 
 export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
   return (
-    <Frame>
-      <Header>Add Mobile App</Header>
-
+    <Frame title="Add Mobile App">
       <Paragraph>
         Get started with mobile app monitoring to better understand how your mobile app performance impacts user
         experience. Configuration is simple!

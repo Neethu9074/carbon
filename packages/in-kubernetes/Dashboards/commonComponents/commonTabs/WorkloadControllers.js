@@ -17,6 +17,7 @@ import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/num
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import Card from 'in-new-components/Card/LightCardV2';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 const matrixPrefix = 'deployment.';
@@ -116,7 +117,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function WorkloadControllersTable(props) {
-  return <ServerTableWithUrlState get={getTableData} {...props} />;
+  return (
+    <Card>
+      <ServerTableWithUrlState get={getTableData} {...props} />
+    </Card>
+  );
 }
 
 function getTableData({
