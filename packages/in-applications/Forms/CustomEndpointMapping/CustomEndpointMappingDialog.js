@@ -64,7 +64,7 @@ function FirstParameterRule({ form, setValue }) {
 
 function RouteIdRule() {
   return (
-    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on first path parameter">
+    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on route ID">
       <ExtractionRule rule={{ query: 'Route ID', enabled: true }} reorderable={false} isInstanaDefaultRule />
     </Tooltip>
   );
