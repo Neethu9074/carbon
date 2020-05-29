@@ -233,7 +233,7 @@ Once executed, verify that it was successful via the usual `yarn run test`.
 Please do not use `--no-verify` or `-n` to commit. In a lot of cases, this will create issues for other developers (broken Jenkins build, other people cannot commit due to issues introduced by your unchecked commit).
 
 1. If the error message indicates a linting problem or a unit test issue, fix that issue. If you do not know how to fix it, ask for help in #tech-ui-dev.
-1. If there is a different error, you might check/try two other things:
+1. If there is a different error, you might check/try three other things:
     1. Has the Node.js version for the repo `ui-client` been changed recently (since you last committed something without issues)? Check `git log .nvmrc` to find out. Refer to the section [Upgrading Node.js](#upgrading-nodejs) for details on how to switch to the new Node.js version.
     1. Are you using a different Node.js version than the `ui-client` repo? Check the output of `node --version` versus the content of `ui-client/.nvmrc`. You can execute `nvm use` (in the `ui-client` directory) to switch to the correct version.
     1. Execute `yarn` in the `ui-client` directory, without any arguments. This helps when new dependencies have been addded that have not been installed to your local `node_modules` folder. It is safe to do this even when your `node_modules` are up to date.
