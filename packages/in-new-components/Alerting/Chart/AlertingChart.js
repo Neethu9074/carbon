@@ -13,7 +13,7 @@ export default class AlertingChart {
     this.mouseMoveManager = new MouseMoveManager(canvas, this.config, this.requestRender.bind(this));
 
     if (props.alertsPreviewEnabled) {
-      this.config.markerPaneHeight = 32;
+      this.config.markerPaneHeight = 36;
     }
 
     this.renderScheduler = new RenderScheduler(this);
