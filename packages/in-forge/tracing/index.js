@@ -57,6 +57,8 @@ import './hc.nio';
 import './hibernate';
 import './hornetq';
 import './http';
+import './http4s.client';
+import './http4s.server';
 import './httpkit.server';
 import './hz';
 import './ibmdb2';
