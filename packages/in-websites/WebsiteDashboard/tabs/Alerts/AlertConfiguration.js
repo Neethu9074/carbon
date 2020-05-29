@@ -12,12 +12,15 @@ import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertin
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
+import { light } from 'in-themes/themes';
 
-import locals from './AlertConfiguration.mless';
+import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 
@@ -36,95 +39,103 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
 
   return (
-    <>
-      <ListTitle>Alert Configuration</ListTitle>
+    <AlertDetailsCard>
+      <LocallyChangedTheme theme={light}>
+        <ListTitle>Alert Configuration</ListTitle>
 
-      <ChartViewConfigurator
-        onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
-        indexInitialSelectedTimeConfig={indexSelectedChartConfig}
-        className={locals.chartContainer}
-        title="Trigger"
-        framed
-      >
-        {({ timeConfig, granularity }) => (
-          <AlertTypeSwitch
-            alertType={alertType}
-            renderJsErrors={() => (
-              <>
-                <SelectedAlertTypeInfo
-                  title="Error Message"
-                  description={getDescription(operator, value)}
-                  svgIconType="lib_help_error_warning"
-                />
+        <ChartViewConfigurator
+          onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
+          indexInitialSelectedTimeConfig={indexSelectedChartConfig}
+          className={locals.chartContainer}
+          title="Trigger"
+          framed
+        >
+          {({ timeConfig, granularity }) => (
+            <AlertTypeSwitch
+              alertType={alertType}
+              renderJsErrors={() => (
+                <>
+                  <SelectedAlertTypeInfo
+                    title="Error Message"
+                    description={getDescription(operator, value)}
+                    svgIconType="lib_help_error_warning"
+                  />
 
-                <JsErrorsAlertingBarChart
+                  <JsErrorsAlertingBarChart
+                    {...alertConfig}
+                    timeConfig={timeConfig}
+                    errorFilter={{
+                      name: 'beacon.error.message',
+                      operator: operator,
+                      stringValue: value
+                    }}
+                    metricName={metricName}
+                    granularity={granularity}
+                  />
+                </>
+              )}
+              renderStatusCode={() => (
+                <>
+                  <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
+                  <StatusCodeAlertingBarChart
+                    {...alertConfig}
+                    timeConfig={timeConfig}
+                    numeratorFilter={{
+                      name: 'beacon.http.status',
+                      operator: operator,
+                      stringValue: value
+                    }}
+                    metricName={metricName}
+                    granularity={granularity}
+                  />
+                </>
+              )}
+              renderSlowness={() => (
+                <SlownessAlertingBarChart
                   {...alertConfig}
+                  sensitivity={deviationFactor}
                   timeConfig={timeConfig}
-                  errorFilter={{
-                    name: 'beacon.error.message',
-                    operator: operator,
-                    stringValue: value
-                  }}
-                  metricName={metricName}
+                  aggregation={aggregation}
                   granularity={granularity}
                 />
-              </>
-            )}
-            renderStatusCode={() => (
-              <>
-                <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
-                <StatusCodeAlertingBarChart
-                  {...alertConfig}
-                  timeConfig={timeConfig}
-                  numeratorFilter={{
-                    name: 'beacon.http.status',
-                    operator: operator,
-                    stringValue: value
-                  }}
-                  metricName={metricName}
-                  granularity={granularity}
-                />
-              </>
-            )}
-            renderSlowness={() => (
-              <SlownessAlertingBarChart
-                {...alertConfig}
-                sensitivity={deviationFactor}
-                timeConfig={timeConfig}
-                aggregation={aggregation}
-                granularity={granularity}
-              />
-            )}
-          />
-        )}
-      </ChartViewConfigurator>
+              )}
+            />
+          )}
+        </ChartViewConfigurator>
 
-      <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
-        <div className={locals.filterList}>
-          <TagFilterListPresenter
-            tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              tagFilters: tagFiltersWithWebsiteId,
-              websiteLabel
-            })}
-            disabled
-          />
-        </div>
-      </ExpandableCard>
+        <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+          <div className={locals.filterList}>
+            <TagFilterListPresenter
+              tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                tagFilters: tagFiltersWithWebsiteId,
+                websiteLabel
+              })}
+              disabled
+            />
+          </div>
+        </ExpandableCard>
 
-      <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
-        <TimeThresholdDescription timeThreshold={timeThreshold} />
-      </ExpandableCard>
+        <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+          <TimeThresholdDescription timeThreshold={timeThreshold} />
+        </ExpandableCard>
 
-      <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
-        <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
-        </div>
-      </ExpandableCard>
+        <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding useMaxAvailableHeight={false}>
+          <div className={locals.alertChannelsWrapper}>
+            <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          </div>
+        </ExpandableCard>
 
-      <ExpandableCard title="Alert Properties" openByDefault bodyWithoutPadding darkFrame>
-        <AlertPropertyInfos alertConfig={alertConfig} />
-      </ExpandableCard>
-    </>
+        <ExpandableCard
+          title="Alert Properties"
+          openByDefault
+          bodyWithoutPadding
+          darkFrame
+          useMaxAvailableHeight={false}
+        >
+          <AlertPropertyInfos alertConfig={alertConfig} />
+        </ExpandableCard>
+      </LocallyChangedTheme>
+    </AlertDetailsCard>
   );
 }
 

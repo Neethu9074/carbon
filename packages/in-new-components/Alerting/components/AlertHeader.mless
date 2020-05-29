@@ -2,7 +2,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-
   .latestButton {
     padding: 0rem 0.25rem;
   }
@@ -46,14 +45,18 @@
   }
 
   .alertIcon {
-      margin-right: 1.5rem;
+    margin-right: 1.5rem;
 
-      &SeverityLow {
-        fill: @lib__colors__warning;
-      }
-
-      &SeverityHigh {
-        fill: @lib__colors__failure;
-      }
+    &SeverityLow {
+      fill: @lib__colors__warning;
     }
+
+    &SeverityHigh {
+      fill: @lib__colors__failure;
+    }
+  }
+
+  .bottomSpace {
+    margin: 0 0 1.5rem 0;
+  }
 }

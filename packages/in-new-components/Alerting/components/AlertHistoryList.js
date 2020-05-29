@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
@@ -75,7 +76,7 @@ AlertHistoryListPresenter.propTypes = {
   })
 };
 
-const AlertHistoryList = connect(({ alertConfigId, timeConfig }) => {
+export default connect(({ alertConfigId, timeConfig }) => {
   return {
     rawEvents: getRawEvents({
       timeConfig,
@@ -89,6 +90,12 @@ const AlertHistoryList = connect(({ alertConfigId, timeConfig }) => {
       }
     }).startWith(pendingResult)
   };
-})(AlertHistoryListPresenter);
+})(AlertHistoryList);
 
-export default AlertHistoryList;
+function AlertHistoryList(props) {
+  return (
+    <AlertDetailsCard>
+      <AlertHistoryListPresenter {...props} />
+    </AlertDetailsCard>
+  );
+}

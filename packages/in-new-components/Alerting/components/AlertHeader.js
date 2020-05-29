@@ -178,12 +178,12 @@ export default function AlertHeader({
         </div>
       </div>
       {isDeletedConfig && (
-        <Message type={warning} withIcon>
+        <Message type={warning} withIcon className={locals.bottomSpace}>
           You are looking at a deleted alert configuration. Modifications are not possible.
         </Message>
       )}
       {isNotLatestRevision && (
-        <Message withIcon>
+        <Message withIcon className={locals.bottomSpace}>
           You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the
           <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
             latest revision

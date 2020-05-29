@@ -14,13 +14,16 @@ import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChan
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
+import { light } from 'in-themes/themes';
 
-import locals from './AlertConfiguration.mless';
+import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
 
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
@@ -40,100 +43,108 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
   const tagFiltersWithApplicationId = [getApplicationIdTagFilter(applicationId), ...tagFilters];
 
   return (
-    <>
-      <ListTitle>Alert Configuration</ListTitle>
+    <AlertDetailsCard>
+      <LocallyChangedTheme theme={light}>
+        <ListTitle>Alert Configuration</ListTitle>
 
-      <ChartViewConfigurator
-        onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
-        indexInitialSelectedTimeConfig={indexSelectedChartConfig}
-        className={locals.chartContainer}
-        title="Trigger"
-        framed
-      >
-        {({ timeConfig, granularity }) => (
-          <AlertTypeSwitch
-            alertType={alertType}
-            renderErrorRate={() => (
-              <ErrorRateAlertingBarChart
-                {...alertConfig}
-                timeConfig={timeConfig}
-                tagFilters={tagFilters}
-                granularity={granularity}
-              />
-            )}
-            renderSlowness={() => (
-              <SlownessAlertingBarChart
-                {...alertConfig}
-                sensitivity={deviationFactor}
-                timeConfig={timeConfig}
-                aggregation={aggregation}
-                granularity={granularity}
-              />
-            )}
-            renderLogs={() => (
-              <>
-                <SelectedAlertTypeInfo
-                  title="Log Message"
-                  description={getDescription(operator, message)}
-                  badges={getLogLevelAsList(level)}
-                />
-
-                <LogsAlertingBarChart
+        <ChartViewConfigurator
+          onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
+          indexInitialSelectedTimeConfig={indexSelectedChartConfig}
+          className={locals.chartContainer}
+          title="Trigger"
+          framed
+        >
+          {({ timeConfig, granularity }) => (
+            <AlertTypeSwitch
+              alertType={alertType}
+              renderErrorRate={() => (
+                <ErrorRateAlertingBarChart
                   {...alertConfig}
-                  logMessage={message}
-                  logMessageOperator={operator}
-                  logLevel={level}
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   granularity={granularity}
                 />
-              </>
-            )}
-            renderStatusCode={() => (
-              <StatusCodeAlertingBarChart
-                applicationId={alertConfig.applicationId}
-                statusCodeStart={alertConfig.rule.statusCodeStart}
-                statusCodeEnd={alertConfig.rule.statusCodeEnd}
-                logLevel={alertConfig.rule.level}
-                timeConfig={timeConfig}
-                tagFilters={tagFilters}
-                granularity={granularity}
-                threshold={alertConfig.threshold}
-                timeThreshold={alertConfig.timeThreshold}
-                boundaryScope={alertConfig.boundaryScope}
-              />
-            )}
-          />
-        )}
-      </ChartViewConfigurator>
+              )}
+              renderSlowness={() => (
+                <SlownessAlertingBarChart
+                  {...alertConfig}
+                  sensitivity={deviationFactor}
+                  timeConfig={timeConfig}
+                  aggregation={aggregation}
+                  granularity={granularity}
+                />
+              )}
+              renderLogs={() => (
+                <>
+                  <SelectedAlertTypeInfo
+                    title="Log Message"
+                    description={getDescription(operator, message)}
+                    badges={getLogLevelAsList(level)}
+                  />
 
-      <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame>
-        <div className={locals.filterList}>
-          <TagFilterListPresenter
-            tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              tagFilters: tagFiltersWithApplicationId,
-              applicationName
-            })}
-            disabled
-          />
-          <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
-        </div>
-      </ExpandableCard>
+                  <LogsAlertingBarChart
+                    {...alertConfig}
+                    logMessage={message}
+                    logMessageOperator={operator}
+                    logLevel={level}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={granularity}
+                  />
+                </>
+              )}
+              renderStatusCode={() => (
+                <StatusCodeAlertingBarChart
+                  applicationId={alertConfig.applicationId}
+                  statusCodeStart={alertConfig.rule.statusCodeStart}
+                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
+                  logLevel={alertConfig.rule.level}
+                  timeConfig={timeConfig}
+                  tagFilters={tagFilters}
+                  granularity={granularity}
+                  threshold={alertConfig.threshold}
+                  timeThreshold={alertConfig.timeThreshold}
+                  boundaryScope={alertConfig.boundaryScope}
+                />
+              )}
+            />
+          )}
+        </ChartViewConfigurator>
 
-      <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame>
-        <TimeThresholdDescription timeThreshold={timeThreshold} />
-      </ExpandableCard>
+        <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+          <div className={locals.filterList}>
+            <TagFilterListPresenter
+              tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                tagFilters: tagFiltersWithApplicationId,
+                applicationName
+              })}
+              disabled
+            />
+            <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+          </div>
+        </ExpandableCard>
 
-      <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding>
-        <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
-        </div>
-      </ExpandableCard>
+        <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+          <TimeThresholdDescription timeThreshold={timeThreshold} />
+        </ExpandableCard>
 
-      <ExpandableCard title="Alert Properties" openByDefault bodyWithoutPadding darkFrame>
-        <AlertPropertyInfos alertConfig={alertConfig} />
-      </ExpandableCard>
-    </>
+        <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding useMaxAvailableHeight={false}>
+          <div className={locals.alertChannelsWrapper}>
+            <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          </div>
+        </ExpandableCard>
+
+        <ExpandableCard
+          title="Alert Properties"
+          openByDefault
+          bodyWithoutPadding
+          darkFrame
+          useMaxAvailableHeight={false}
+        >
+          <AlertPropertyInfos alertConfig={alertConfig} />
+        </ExpandableCard>
+      </LocallyChangedTheme>
+    </AlertDetailsCard>
   );
 }
 

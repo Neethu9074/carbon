@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .cardBody {
+    margin-top: -1.5rem;
+  }
+}
