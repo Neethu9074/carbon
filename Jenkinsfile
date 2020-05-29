@@ -55,7 +55,7 @@ stage('Build') {
           region: 'us-west-2',
           sourceControlType: 'project',
           sourceVersion: gitCommitId,
-          envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '} ]'
+          envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '} ]'
 
         if ( currentBuild.currentResult == 'SUCCESS' ) {
           slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
