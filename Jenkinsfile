@@ -84,7 +84,7 @@ stage('Deployment') {
           build job: '/fullstack-deploy/fullstack-deploy-ui-client', parameters: [
             string(name: 'ENVIRONMENT', value: 'release'),
             string(name: 'VERSION', value: instanaVersion),
-            string(name: 'BRANCH', value: env.BRANCH_NAME)
+            string(name: 'BRANCH_NAME', value: env.BRANCH_NAME)
           ]
 
           slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
