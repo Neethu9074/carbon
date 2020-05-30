@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
@@ -49,12 +50,25 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
         }
       }
     });
+
+    observables.graphqlCheckResult = getWebsiteMetrics({
+      tagFilters: tagFilters
+        .concat({ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' })
+        .concat({ name: 'beacon.graphql.operationName', operator: 'NOT_EMPTY' }),
+      timeConfig,
+      metrics: {
+        beaconCount: {
+          metric: 'beaconCount',
+          aggregation: 'SUM'
+        }
+      }
+    });
   }
 
   return observables;
 })(XhrRequestTab);
 
-function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig, xhrId, result }) {
+function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig, xhrId, result, graphqlCheckResult }) {
   if (!xhrId) {
     return <RedirectWithHash to={ajaxTabFullyQualified} />;
   }
@@ -71,6 +85,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
   } else {
     const granularity = getChartGranularity(timeConfig);
     const hasDetailedTimings = result.data && result.data['requestTime'] && result.data['requestTime'].length > 0.0;
+    const graphqlBeacons = graphqlCheckResult?.data?.beaconCount?.[0]?.[1] || 0;
     const viewInAnalytics = {
       websiteLabel,
       group: {
@@ -481,6 +496,41 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   />
                 )}
               </AggregationSelector>
+            </Col>
+          </Row>
+        )}
+
+        {graphqlBeacons > 0 && (
+          <Row>
+            <Col lg={6}>
+              <WebsiteBeaconGroupsChartWrapper
+                cardTitle="GraphQL Operation Types"
+                timeConfig={timeConfig}
+                tagFilters={tagFiltersForRequests}
+                viewInAnalytics={viewInAnalytics}
+                group={{
+                  groupbyTag: 'beacon.graphql.operationType'
+                }}
+                metrics={[
+                  {
+                    label: 'Count',
+                    metric: 'beaconCount',
+                    aggregation: 'SUM',
+                    formatter: number.forcedCompact,
+                    renderer: Renderer.stackedBar,
+                    fallbackMetricValue: 0
+                  }
+                ]}
+              />
+            </Col>
+
+            <Col lg={6}>
+              <GraphqlOperationsTopList
+                websiteId={websiteId}
+                websiteLabel={websiteLabel}
+                tagFilters={tagFiltersForRequests}
+                timeConfig={timeConfig}
+              />
             </Col>
           </Row>
         )}
