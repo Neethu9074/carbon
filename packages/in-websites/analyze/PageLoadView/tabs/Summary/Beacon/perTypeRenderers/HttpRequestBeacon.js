@@ -23,6 +23,15 @@ export const getLabel = beacon => {
   } else {
     label = `${label} ${beacon.httpCallUrl}`;
   }
+
+  if (isNotBlank(beacon.graphqlOperationName)) {
+    label = `${beacon.graphqlOperationName} (${label})`;
+
+    if (isNotBlank(beacon.graphqlOperationType)) {
+      label = `${beacon.graphqlOperationType} ${label}`;
+    }
+  }
+
   return label;
 };
 
@@ -92,6 +101,8 @@ export const Body = ({ beacon }) => {
     resourceTimings.forEach(t => (t.value = t.value >= 0 ? t.value : 0));
   }
 
+  const hasGraphQl = isNotBlank(beacon.graphqlOperationType) || isNotBlank(beacon.graphqlOperationName);
+
   return (
     <Fragment>
       <Row>
@@ -103,14 +114,14 @@ export const Body = ({ beacon }) => {
                 {beacon.locationUrl}
               </a>
             </Di>
+            <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
             <Di title="HTTP Call URI">
               <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.httpCallUrl}
               </a>
             </Di>
-            <BackendDi beacon={beacon} />
-            <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
             {beacon.httpCallStatus > 0 && <Di title="HTTP Status">{beacon.httpCallStatus}</Di>}
+            <BackendDi beacon={beacon} />
             {beacon.backendTime >= 0 && <Di title="Time to First Byte">{millis.fixedCompact(beacon.backendTime)}</Di>}
             {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
             <Di title="Asynchronous">{yesOrNo(beacon.httpCallAsynchronous)}</Di>
@@ -125,6 +136,18 @@ export const Body = ({ beacon }) => {
           </Col>
         )}
       </Row>
+
+      {hasGraphQl && (
+        <Row>
+          <Col lg={6}>
+            <BodyHeader>GraphQL</BodyHeader>
+            <Dl>
+              <Di title="Operation Name">{beacon.graphqlOperationName}</Di>
+              <Di title="Operation Type">{beacon.graphqlOperationType}</Di>
+            </Dl>
+          </Col>
+        </Row>
+      )}
 
       {!hasResourceTimings &&
         !hasNetworkInsights && (
