@@ -63,7 +63,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
-              renderer: Renderer.bar,
+              renderer: Renderer.barOverlapping,
               formatter: number.compact,
               labels: ['Calls', 'Erroneous Calls'],
               metricIds: ['calls', 'errors'],
