@@ -23,7 +23,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               metrics: ['cluster.requests'],
               labels: ['Requests'],
               type: 'line',
-              formatter: number.compact
+              formatter: number.detailed
             }}
           />
         </DashboardSection>
