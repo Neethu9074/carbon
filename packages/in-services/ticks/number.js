@@ -104,8 +104,11 @@ export function getFirstTickValue(min, interval) {
 }
 
 export function roundMaxValueToNextHighestHumanFriendlyValue(value, ops = { roundToEvenValues: true }) {
-  if (value <= 1) {
+  if (value <= 0) {
     return value;
+  }
+  if (value <= 1) {
+    return roundMaxValueToNextHighestHumanFriendlyValue(value * 1000, ops) / 1000;
   }
   if (value <= 10) {
     return value + (value % 2);

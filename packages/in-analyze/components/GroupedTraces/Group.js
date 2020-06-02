@@ -100,6 +100,10 @@ function getItemLabel(itemName, filtersGroupName, filtersGroupValue) {
   }
 }
 
+function isServiceOrApplication(tagName) {
+  return tagName === 'service.name' || tagName === 'trace.service.name' || tagName === 'application.name';
+}
+
 function getGroupingChange(filters, selectedGroupValue) {
   const group = filters.group;
   const tagName = group.name;
@@ -110,6 +114,7 @@ function getGroupingChange(filters, selectedGroupValue) {
   // if the second level key of a key value pair tag is empty
   // set the selected group as second level key and update the grouping tag
   let newTagFilter;
+
   if (getTagType(tagName) === 'KEY_VALUE_PAIR') {
     if (selectedGroupValue === UNSPECIFIED) {
       newTagFilter = createFilter({
@@ -151,8 +156,8 @@ function getGroupingChange(filters, selectedGroupValue) {
       newTagFilter = createFilter({
         name: tagName,
         secondLevelName: secondLevelKey,
-        value: tagName === 'service.name' || tagName === 'application.name' ? selectedGroupValue : '',
-        operator: tagName === 'service.name' || tagName === 'application.name' ? operators.EQUALS : operators.IS_EMPTY,
+        value: isServiceOrApplication(tagName) ? selectedGroupValue : '',
+        operator: isServiceOrApplication(tagName) ? operators.EQUALS : operators.IS_EMPTY,
         entity: entity
       });
     } else {
