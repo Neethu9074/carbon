@@ -35,6 +35,10 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
 
 function TabComponent(props) {
   const { tab, result, location, tabChangeTracker } = props;
+  if (tab.isVisible && !tab.isVisible(result)) {
+    return null;
+  }
+
   const isActive = location && location.pathname.indexOf(tab.path) === 0;
   const isDisabled = !!(tab.isDisabled && tab.isDisabled(result));
 
