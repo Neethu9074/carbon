@@ -1,5 +1,8 @@
+@import '~in-themes/mixins.less';
+
 :local {
   .para {
-    line-height: 1.4;
+    margin-top: 0;
+    .bodyCopy();
   }
 }

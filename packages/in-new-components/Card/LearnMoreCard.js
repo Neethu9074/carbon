@@ -5,9 +5,16 @@ import Card from 'in-new-components/Card';
 
 import locals from './LearnMoreCard.mless';
 
-export default function LearnMoreCard({ title, explanation, learnMoreHref, learnMoreLabel, className }) {
+export default function LearnMoreCard({
+  title,
+  explanation,
+  learnMoreHref,
+  learnMoreLabel,
+  className,
+  useMaxAvailableHeight = false
+}) {
   return (
-    <Card title={title} className={className}>
+    <Card title={title} className={className} useMaxAvailableHeight={useMaxAvailableHeight}>
       <p className={locals.explanation}>{explanation}</p>
       <div className={locals.actionWrapper}>
         <Button href={learnMoreHref} kind="primaryv2" target="_blank">

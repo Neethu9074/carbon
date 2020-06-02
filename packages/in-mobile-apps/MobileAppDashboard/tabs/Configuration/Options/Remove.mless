@@ -1,6 +1,14 @@
+@import '~in-themes/mixins.less';
+
 :local {
   .confirm {
     margin: 0 0.4rem 0 0;
+  }
+
+  .confirmWrapper {
+    display: flex;
+    align-items: center;
+    .bodyCopy();
   }
 
   .button {
