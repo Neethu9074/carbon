@@ -267,7 +267,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         lines={[
           'curl -o setup_agent.sh https://setup.instana.io/agent',
           'chmod 700 ./setup_agent.sh',
-          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
+          `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
         ]}
       />
       <Spacer />
