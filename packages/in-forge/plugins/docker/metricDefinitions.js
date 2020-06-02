@@ -23,6 +23,13 @@ export default [
     formatter: nanos
   },
   {
+    metric: 'memory.used_percentage',
+    label: 'Memory used percentage',
+    min: 0,
+    category: ['Memory'],
+    formatter: percentage
+  },
+  {
     metrics: [
       'memory.usage',
       'memory.max_usage',
