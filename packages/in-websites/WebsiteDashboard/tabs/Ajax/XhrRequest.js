@@ -108,7 +108,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
-                renderer: Renderer.bar,
+                renderer: Renderer.barOverlapping,
                 formatter: number.compact,
                 labels: ['Calls', 'Erroneous Calls'],
                 metricIds: ['calls', 'errors'],

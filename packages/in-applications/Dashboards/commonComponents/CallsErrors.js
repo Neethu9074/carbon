@@ -25,7 +25,7 @@ export default function CallsErrors({
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{
-        renderer: Renderer.bar,
+        renderer: Renderer.barOverlapping,
         labels: labels,
         formatter: number.compact,
         metricIds: ['calls', 'erroneousCalls'],

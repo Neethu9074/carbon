@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
-import bar from 'in-components/Chart/renderer/bar';
+import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
 
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
@@ -19,7 +19,7 @@ export default {
     const markerPaneHeight = config.markerPaneHeight;
 
     // historical data
-    bar.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
+    barOverlapping.render({ axis, dataSeries: metrics[0], color: colors[0], scale, config });
 
     backBufferCtx.save();
     // Background above line
@@ -44,7 +44,7 @@ export default {
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
-    bar.enrich(config, axis);
+    barOverlapping.enrich(config, axis);
   }
 };
 

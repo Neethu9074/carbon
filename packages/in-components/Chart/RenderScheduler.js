@@ -143,7 +143,7 @@ export default class RenderScheduler {
     const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);
 
-    if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther) {
+    if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther || axis.manualRenderLoop) {
       axis.renderer.render({
         axis,
         metrics,

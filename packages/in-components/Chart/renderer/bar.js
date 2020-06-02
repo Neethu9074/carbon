@@ -17,38 +17,45 @@ export const MAX_BAR_MARGIN_IN_PX = 1;
 export const MIN_BAR_TO_MARGIN_RATION = 8;
 
 export default {
-  render: ({ axis, dataSeries, color, scale, config }) => {
+  render: ({ metrics, scale, config, colors100, axis }) => {
     const xScale = config.scales.xBackBuffer;
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
 
-    const width = xScale.getRange(xScale.getDomainTo()) - xScale.getRange(xScale.getDomainTo() - blockSizeMillis);
-    const barMargin = Math.min(MAX_BAR_MARGIN_IN_PX, width / (2 + MIN_BAR_TO_MARGIN_RATION));
-    const barWidth = width - 2 * barMargin;
-
     const chartHeight = scale.getRangeFrom();
+    const blockOuterWidth =
+      xScale.getRange(xScale.getDomainTo()) - xScale.getRange(xScale.getDomainTo() - blockSizeMillis);
+    const blockMargin = Math.min(MAX_BAR_MARGIN_IN_PX, blockOuterWidth / (2 + MIN_BAR_TO_MARGIN_RATION));
+    const blockInnerWidth = Math.floor(blockOuterWidth - 2 * blockMargin);
+    const barWidth = Math.floor(blockInnerWidth / axis.numOfSeries);
 
-    config.backBufferCtx.beginPath();
-    config.backBufferCtx.fillStyle = color;
-
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      if (!dataPoint) {
+    for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+      const dataSeries = metrics[iMetric];
+      if (!dataSeries) {
         continue;
       }
 
-      const xPos = xScale.getRange(dataPoint[0]) - barWidth / 2;
+      config.backBufferCtx.beginPath();
+      config.backBufferCtx.fillStyle = colors100[iMetric];
 
-      const yPos = scale.getRange(dataPoint[1]);
-      const barHeight = Math.max(MIN_BAR_HEIGHT_IN_PX, chartHeight - yPos);
+      for (let iDataSeries = 0; iDataSeries < dataSeries.length; iDataSeries++) {
+        const dataPoint = dataSeries[iDataSeries];
+        if (!dataPoint) {
+          continue;
+        }
 
-      config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth, barHeight);
+        const xPos = xScale.getRange(dataPoint[0]) - blockInnerWidth / 2 + iMetric * barWidth;
+        const yPos = scale.getRange(dataPoint[1]);
+        const barHeight = Math.max(MIN_BAR_HEIGHT_IN_PX, chartHeight - yPos);
+        config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth, barHeight);
+      }
+
+      config.backBufferCtx.fill();
+      config.backBufferCtx.globalAlpha = 1.0;
     }
-
-    config.backBufferCtx.fill();
-    config.backBufferCtx.globalAlpha = 1.0;
   },
 
   enrich: (config, axis) => {
     config.addBlockSizeMillisForAxis(axis);
+    axis.manualRenderLoop = true;
   }
 };
