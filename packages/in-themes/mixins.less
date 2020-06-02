@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 .breakWord() {
   word-break: break-word;
 
@@ -35,4 +37,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.bodyCopy() {
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  code {
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_medium;
+    padding: 0 0.1875rem;
+    background: @lib__colors__N100;
+    font-size: 0.8rem;
+  }
 }

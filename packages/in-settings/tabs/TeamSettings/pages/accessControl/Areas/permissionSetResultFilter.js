@@ -3,7 +3,7 @@ export function mapApplications(applications, applicationIds, getAdditionalPrope
   return applicationIds.map(id => ({
     id,
     label: getLabelIfPreset(applicationsMap, id),
-    type: 'application',
+    type: 'Application',
     icon: 'lib_application',
     ...getAdditionalProperties(id)
   }));
@@ -61,7 +61,7 @@ export function mapInfraDfq(infraDfqFilter, getAdditionalProperties) {
     id: 'infraDfq',
     label: infraDfqFilter,
     type: 'Infrastructure Dynamic Focus Query',
-    icon: 'lib_actions_search',
+    icon: 'lib_infrastructure_inverted',
     ...getAdditionalProperties()
   };
 }

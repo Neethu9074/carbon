@@ -4,6 +4,16 @@ import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 
 const tabList = [
   {
+    icon: 'lib_website',
+    text: 'Websites',
+    key: 'websites'
+  },
+  {
+    icon: 'lib_website_mobile_app',
+    text: 'Mobile Apps',
+    key: 'mobileApps'
+  },
+  {
     icon: 'lib_application_invert',
     text: 'Applications',
     key: 'application'
@@ -19,18 +29,8 @@ const tabList = [
     key: 'kubernetesNamespaces'
   },
   {
-    icon: 'lib_website',
-    text: 'Websites',
-    key: 'websites'
-  },
-  {
-    icon: 'lib_website_mobile_app',
-    text: 'Mobile Apps',
-    key: 'mobileApps'
-  },
-  {
-    icon: 'lib_actions_search',
-    text: 'Infrastructure DFQ',
+    icon: 'lib_infrastructure_inverted',
+    text: 'Infrastructure',
     key: 'infra'
   }
 ];

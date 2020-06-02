@@ -1,7 +1,9 @@
+@import '~in-themes/mixins.less';
+
 :local {
   .explanation {
     max-width: 40rem;
-    line-height: 1.5;
+    .bodyCopy();
     margin: 0;
   }
 

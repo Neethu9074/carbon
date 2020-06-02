@@ -1,10 +1,12 @@
+@import '~in-themes/mixins.less';
+
 :local {
   .explanation {
     max-width: 40rem;
+    margin-top: 0;
     margin-left: auto;
     margin-right: auto;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    .bodyCopy();
   }
 
   .actionWrapper {
