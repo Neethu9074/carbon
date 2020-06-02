@@ -140,7 +140,7 @@ function getPermissionSetIdsToGroupsMap(groups) {
   const map = new Map();
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    map.set(group.permissions[0].id, group);
+    map.set(group?.permissionSet?.id, group);
   }
   return map;
 }

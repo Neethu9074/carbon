@@ -1,19 +1,15 @@
 import React from 'react';
 
 import { getView } from 'in-stores/navigation';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ onSaveClick, parentPath, parentViewName }) {
+export default function Header({ parentPath, parentViewName }) {
   return (
     <div className={locals.header}>
       <BackToParentPathLink parentPath={parentPath} parentViewName={parentViewName} />
-      {onSaveClick && (
-        <div className={locals.customControls}>{onSaveClick && <Button onClick={onSaveClick}>Save</Button>}</div>
-      )}
     </div>
   );
 }

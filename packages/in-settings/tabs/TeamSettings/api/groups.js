@@ -3,7 +3,7 @@ import { create } from 'reactive-observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { createPermissionSet } from 'in-api/permissionSets';
 import http from 'in-services/http';
 
 const refreshSignalTeams = create().emit(true);
@@ -43,10 +43,10 @@ function getGroupAsResultObservableInternal(groupId) {
 
 export function saveGroup(group) {
   return http({
-    method: 'PUT',
+    method: group.id ? 'PUT' : 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: '/api/settings/group',
+    url: group.id ? `/api/settings/group/${group.id}` : '/api/settings/group',
     data: group
   }).map(mapAndRefresh);
 }
@@ -77,9 +77,9 @@ function mapAndRefresh(response) {
 
 export function createNewGroup() {
   return {
-    id: generateUniqueShortId(),
+    id: null,
     name: 'New Group',
     members: [],
-    permissions: []
+    permissionSet: createPermissionSet()
   };
 }

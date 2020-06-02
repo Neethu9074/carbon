@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 4rem;
+
+    background-color: @lib__colors__N100;
+    border-top: 1px solid @lib__colors__N300;
+  }
+
+  .button {
+    width: 6.25rem;
+  }
+}

@@ -6,6 +6,7 @@ import { combineResultObservables, isLoading, hasError } from 'in-services/util/
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import Header from 'in-settings/components/ApiItemView/Header';
+import Footer from 'in-settings/components/ApiItemView/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApiItemView.mless';
@@ -50,24 +51,30 @@ export default connectTo(
 
     return (
       <div className={locals.wrapper}>
-        <Header
+        <div>
+          <Header parentPath={parentPath} parentViewName={parentViewName} />
+          <MessageWrapper message={message} />
+          {render({
+            ...props,
+            ...result,
+            message,
+            setMessage,
+            form,
+            setForm: form => {
+              setForm(form.setTouched(true));
+              setCanSaveItem(true);
+            },
+            setCanSaveItem
+          })}
+        </div>
+
+        <Footer
+          canSaveItem={canSaveItem}
+          saveItem={saveItem}
           parentPath={parentPath}
-          parentViewName={parentViewName}
-          onSaveClick={canSaveItem && saveItem ? () => saveItem({ ...props, setMessage, form, setForm }) : undefined}
+          onSaveClick={() => saveItem({ ...props, setMessage, form, setForm })}
+          form={form}
         />
-        <MessageWrapper message={message} />
-        {render({
-          ...props,
-          ...result,
-          message,
-          setMessage,
-          form,
-          setForm: form => {
-            setForm(form);
-            setCanSaveItem(true);
-          },
-          setCanSaveItem
-        })}
       </div>
     );
   }

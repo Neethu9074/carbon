@@ -2,18 +2,18 @@ import { createField, notBlankValidator } from 'formalistic';
 import { just } from 'reactive-observables';
 import React from 'react';
 
-import { getPermissionSetAsResultObservable, savePermissionSet, createPermissionSet } from 'in-api/permissionSets';
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
-import { success as successResult, hasError, isLoading } from 'in-services/util/result';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { success as successResult } from 'in-services/util/result';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { productAreaPermissions } from 'in-stores/permission';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { savePermissionSet } from 'in-api/permissionSets';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Toggle from 'in-components/form/Toggle';
@@ -24,32 +24,20 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './Group.mless';
 
 export default function Group({ match }) {
+  const groupId = match.params.id;
   return (
     <ApiItemView
       parentViewName="Groups"
       parentPath={teamSettingsAccessControlGroups}
-      getObservables={() => {
-        const groupId = match.params.id;
-        const group$ = groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()));
-        return {
-          group: group$,
-          permissionSet: group$.flatMap(groupResult => {
-            if (hasError(groupResult) || isLoading(groupResult)) {
-              return just(groupResult);
-            }
-            if (!groupResult.data.permissions || groupResult.data.permissions.length === 0) {
-              return just(successResult(createPermissionSet()));
-            }
-            return getPermissionSetAsResultObservable(groupResult.data.permissions[0].id);
-          })
-        };
-      }}
+      getObservables={() => ({
+        group: groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()))
+      })}
       enrichForm={enrichForm}
       saveItem={saveItem}
       renderLoadingState={renderLoadingState}
       render={renderGroup}
       // additional props which are passed down
-      groupId={match.params.id}
+      groupId={groupId}
     />
   );
 }
@@ -124,7 +112,7 @@ function renderGroup(props) {
         <Col lg>
           {form.get('permissionSet').map(field => (
             <FormGroup>
-              <Label>Product Areas</Label>
+              <Label>Permission Scope</Label>
               {productAreaPermissions.map(({ value, label }) => (
                 <HorizontalFormGroup key={label} helpText={`Permits access to '${label}' monitoring functionality.`}>
                   <Label htmlFor={`permission-${value}`}>{label}</Label>
@@ -227,7 +215,7 @@ function saveItem({ form, setMessage, groupId }) {
   );
 }
 
-function enrichForm(form, { result: { group, permissionSet } }) {
+function enrichForm(form, { result: { group } }) {
   return form
     .put(
       'id',
@@ -251,7 +239,7 @@ function enrichForm(form, { result: { group, permissionSet } }) {
     .put(
       'permissionSet',
       createField({
-        value: permissionSet
+        value: group.permissionSet
       })
     );
 }
