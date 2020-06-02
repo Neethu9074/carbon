@@ -25,6 +25,8 @@ import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './Summary.mless';
+
 export default function Summary({ selectedEventId, data: event }) {
   if (!event || selectedEventId !== event.get('id')) {
     return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
@@ -37,8 +39,10 @@ export default function Summary({ selectedEventId, data: event }) {
     <HeightRestrictedView
       render={() => (
         <>
-          <EventDetailsKPIs event={event} isIncident={isIncident} />
-          {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
+          <div className={locals.content}>
+            <EventDetailsKPIs event={event} isIncident={isIncident} />
+            {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
+          </div>
         </>
       )}
     />
