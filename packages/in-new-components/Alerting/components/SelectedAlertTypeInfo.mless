@@ -5,7 +5,8 @@
     padding: 1rem;
 
     background: @lib__colors__N100;
-    border-top: 1px solid @lib__colors__N300;
+    border: 1px solid @lib__colors__N300;
+    margin: 0 0 1rem 0;
   }
 
   .innerWrapper {
@@ -45,6 +46,6 @@
   .badge {
     display: block;
     position: relative;
-    width: 100%
+    width: 100%;
   }
 }
