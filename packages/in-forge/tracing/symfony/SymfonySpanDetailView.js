@@ -7,6 +7,7 @@ export default function SymfonySpanDetailView({ span }) {
   return (
     <div>
       <Dl>
+        <Di title="Route">{span.getIn(['data', 'symfony', 'route'])}</Di>
         <Di title="Controller">{span.getIn(['data', 'symfony', 'controller'])}</Di>
         <Di title="Action">{span.getIn(['data', 'symfony', 'action'])}</Di>
         <Di title="Event Count">{span.getIn(['data', 'symfony', 'event_count'])}</Di>
