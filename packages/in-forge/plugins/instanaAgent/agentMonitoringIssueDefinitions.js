@@ -30,5 +30,19 @@ export default {
     },
     explanationLinkLabel: `Docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/dot-net/#clr_instana_pcp_not_connected`
+  },
+  python_autotrace_prerequisites_failed: {
+    issueDescription: {
+      Component: function pythonAutoTracePrerequisitesFailed() {
+        return (
+          <span>
+            The host agent is missing one or more prerequisites for enabling the Instana AutoTrace functionality. This
+            results in Python processes not being instrumented automatically.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Docs`,
+    explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_autotrace_prerequisites_failed`
   }
 };
