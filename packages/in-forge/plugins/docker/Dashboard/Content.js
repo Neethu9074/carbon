@@ -30,8 +30,12 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="CPU Total %">
           <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Usage">
-          <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
+        <KpiKeyValue label="Memory Usage %">
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="memory.used_percentage"
+            formatter={percentageZeroDecimalPlaces}
+          />
         </KpiKeyValue>
       </KpiSection>
 
@@ -78,6 +82,13 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
               labels: ['Usage', 'RSS', 'Cache'],
               formatter: bytesTwoDecimalPlaces,
               type: 'line'
+            }}
+            y2={{
+              min: 0,
+              metrics: ['memory.used_percentage'],
+              labels: ['Memory usage'],
+              type: 'line',
+              formatter: percentageTwoDecimalPlaces
             }}
           />
           <Chart
