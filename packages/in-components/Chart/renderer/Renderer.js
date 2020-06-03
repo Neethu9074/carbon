@@ -1,5 +1,4 @@
 import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
-import countErrorBar from 'in-components/Chart/renderer/countErrorBar';
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
 import stackedBar from 'in-components/Chart/renderer/stackedBar';
 import integral from 'in-components/Chart/renderer/integral';
@@ -11,7 +10,6 @@ import bar from 'in-components/Chart/renderer/bar';
 export default {
   area,
   bar,
-  countErrorBar,
   barOverlapping,
   integral,
   line,
