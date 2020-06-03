@@ -35,14 +35,14 @@ export default {
     explanationLinkLabel: `Docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/node-js/#nodejs_collector_not_installed`
   },
-  python_auto_instrumentation_failed: {
+  python_autotrace_failed: {
     issueDescription: {
-      Component: function pythonAutoInstrumentationFailed() {
+      Component: function pythonAutoTraceFailed() {
         return <span>The host agent tried and failed to automatically instrument this Python process.</span>;
       }
     },
     explanationLinkLabel: `Docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_auto_instrumentation_failed`
+    explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_autotrace_failed`
   },
   python_sensor_not_installed: {
     issueDescription: {
