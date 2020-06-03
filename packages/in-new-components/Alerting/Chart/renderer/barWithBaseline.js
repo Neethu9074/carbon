@@ -2,8 +2,8 @@ import invariant from 'invariant';
 
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
+import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
 import line from 'in-components/Chart/renderer/line';
-import bar from 'in-components/Chart/renderer/bar';
 
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
@@ -11,13 +11,13 @@ export default {
     const metric = metrics[0];
 
     // historical data
-    bar.render({ axis, dataSeries: metric, color: colors[0], scale, config });
+    barOverlapping.render({ axis, dataSeries: metric, color: colors[0], scale, config });
 
     renderBaseline(axis, config, scale, colors);
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
-    bar.enrich(config, axis);
+    barOverlapping.enrich(config, axis);
   }
 };
 

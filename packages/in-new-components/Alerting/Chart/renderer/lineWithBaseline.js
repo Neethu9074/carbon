@@ -3,7 +3,6 @@ import invariant from 'invariant';
 import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
-import bar from 'in-components/Chart/renderer/bar';
 
 export default {
   render: ({ axis, colors, scale, config, metrics }) => {
@@ -17,7 +16,6 @@ export default {
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
-    bar.enrich(config, axis);
   }
 };
 

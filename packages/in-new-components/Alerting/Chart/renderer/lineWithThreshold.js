@@ -3,7 +3,6 @@ import invariant from 'invariant';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
-import bar from 'in-components/Chart/renderer/bar';
 
 export default {
   render: ({ colors, scale, config, metrics }) => {
@@ -51,7 +50,6 @@ export default {
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
-    bar.enrich(config, axis);
   }
 };
 
