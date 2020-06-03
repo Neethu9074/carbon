@@ -4,9 +4,9 @@ import React from 'react';
 
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import { getApiTokensMutable, deleteApiToken, saveApiToken } from 'in-api/apiTokens';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { goToPath } from 'in-stores/navigation';
-import List from 'in-settings/components/List';
 import Link from 'in-components/Link';
 
 const logger = createLogger('ApiTokens');
@@ -15,7 +15,7 @@ export default function ApiTokens() {
   return (
     <List
       title="API Tokens"
-      getHeader={getHeader}
+      getHeader={defaultHeaderWithCount('API Tokens')}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
@@ -57,10 +57,6 @@ const tableActions = {
     deleteEntity: entity => deleteApiToken(entity.id)
   }
 };
-
-function getHeader(totalHits) {
-  return totalHits ? `API Tokens (${totalHits})` : 'API Tokens';
-}
 
 function getEntityName(entity) {
   return `API token "${entity.name}"`;

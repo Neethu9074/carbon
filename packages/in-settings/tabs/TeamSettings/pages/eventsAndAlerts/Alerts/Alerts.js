@@ -11,9 +11,9 @@ import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSet
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import { toggleAlertTracker, openAlertSubmitFormTracker } from 'in-settings/tracker';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
-import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
@@ -26,7 +26,7 @@ export default function Alerts() {
   return (
     <List
       title="Alerts"
-      getHeader={getHeader}
+      getHeader={defaultHeaderWithCount('Alerts')}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
@@ -107,10 +107,6 @@ const tableActions = {
 
 function isEnabled(entity) {
   return entity.muteUntil == null || entity.muteUntil < Date.now();
-}
-
-function getHeader(totalHits) {
-  return totalHits ? `Alerts (${totalHits})` : 'Alerts';
 }
 
 function getEntityName(entity) {

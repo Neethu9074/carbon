@@ -11,7 +11,7 @@ import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/ma
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-new-components/WithIcon';
-import List from 'in-settings/components/List';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -21,7 +21,7 @@ export default function MaintenanceWindows() {
   return (
     <List
       title="Maintenance Window Configurations"
-      getHeader={getHeader}
+      getHeader={defaultHeaderWithCount('Maintenance Window Configurations')}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
@@ -119,10 +119,6 @@ function getDateTimeFromFirstWindow(key, entity) {
   } else {
     return null;
   }
-}
-
-function getHeader(totalHits) {
-  return totalHits ? `Maintenance Window Configurations (${totalHits})` : 'Maintenance Window Configurations';
 }
 
 function getEntityName(entity) {

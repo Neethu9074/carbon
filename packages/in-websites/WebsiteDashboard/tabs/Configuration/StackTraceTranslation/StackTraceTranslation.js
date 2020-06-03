@@ -3,11 +3,11 @@ import React, { Fragment } from 'react';
 
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { isNotBlank } from 'in-services/util/string';
-import List from 'in-settings/components/List';
 import Button from 'in-new-components/Button';
 
 import locals from './StackTraceTranslation.mless';
@@ -53,7 +53,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
 
       <List
         title="File Download Configurations"
-        getHeader={getHeader}
+        getHeader={defaultHeaderWithCount('File Download Configurations')}
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={{
@@ -89,10 +89,6 @@ export default compose(withState('message', 'setMessage', null))(function StackT
     </Fragment>
   );
 });
-
-function getHeader(totalHits) {
-  return totalHits ? `File Download Configurations (${totalHits})` : 'File Download Configurations';
-}
 
 function getEntityName(config) {
   return `File Download Configuration ${toLabel(config)}`;

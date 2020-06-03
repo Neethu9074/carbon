@@ -6,10 +6,10 @@ import {
   teamSettingsAccessControlRoleNew,
   teamSettingsAccessControlRoles
 } from 'in-settings/navigation/paths';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { openRoleSubmitFormTracker } from 'in-settings/tracker';
 import { getRolesMutable, deleteRole } from 'in-api/roles';
-import List from 'in-settings/components/List';
 import Footer from 'in-new-components/Footer';
 import Link from 'in-components/Link';
 
@@ -18,7 +18,7 @@ export default function Roles() {
     <Fragment>
       <List
         title="Roles"
-        getHeader={getHeader}
+        getHeader={defaultHeaderWithCount('Roles')}
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
@@ -57,10 +57,6 @@ const tableActions = {
     deleteProtection: isProtectedRole
   }
 };
-
-function getHeader(totalHits) {
-  return totalHits ? `Roles (${totalHits})` : 'Roles';
-}
 
 function getEntityName(entity) {
   return `role "${entity.name}"`;

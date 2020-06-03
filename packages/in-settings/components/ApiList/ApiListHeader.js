@@ -21,7 +21,9 @@ export default function ApiListHeader(props) {
       {itemName ? (
         <span className={locals.itemName}>
           {`${itemName}s `}
-          {!isLoading && <span className={locals.itemCount}>{`(${totalFilteredItems})`}</span>}
+          {!isLoading && (
+            <span className={locals.itemCount}>{getItemCountPostfix(totalFilteredItems, totalItems)}</span>
+          )}
         </span>
       ) : (
         <div />
@@ -41,4 +43,8 @@ export default function ApiListHeader(props) {
       </div>
     </header>
   );
+}
+
+function getItemCountPostfix(filteredItems, totalItems) {
+  return filteredItems === totalItems ? `(${totalItems})` : `(${filteredItems}/${totalItems})`;
 }

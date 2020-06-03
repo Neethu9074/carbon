@@ -146,15 +146,10 @@ function List({
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
   }
-  const header = getHeader(totalHitsBeforeFilter, entitiesBeforePagination);
+  const header = getHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
-  let leftHeader = null;
-  if (cardTitle != null) {
-    leftHeader = null;
-  } else {
-    leftHeader = <ListTitle>{header}</ListTitle>;
-  }
+  const leftHeader = cardTitle == null ? <ListTitle>{header}</ListTitle> : null;
 
   if (__DEV__) {
     invariant(!(onRowClick && getDetailsHref), 'You cannot specify both, onRowClick and getDetailsHref.');
@@ -496,7 +491,7 @@ function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
 }
 
 export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
-  return function(totalHits, entitiesBeforePagination) {
+  return function(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
       inSelectListDialog &&
@@ -519,7 +514,20 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
     } else if (inSelectListDialog || !totalHits) {
       return entityName;
     } else {
-      return `${entityName} (${totalHits})`;
+      const getHeaderFunction = defaultHeaderWithCount(entityName);
+      return getHeaderFunction(totalHits, filteredHits);
+    }
+  };
+}
+
+export function defaultHeaderWithCount(title) {
+  return (totalHits, filteredHits) => {
+    if (totalHits === 0) {
+      return title;
+    } else if (totalHits === filteredHits) {
+      return `${title} (${totalHits})`;
+    } else {
+      return `${title} (${filteredHits}/${totalHits})`;
     }
   };
 }
