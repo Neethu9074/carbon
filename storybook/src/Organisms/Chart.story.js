@@ -458,25 +458,6 @@ export function Integral() {
   );
 }
 
-export function CountErrorBar() {
-  return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.countErrorBar,
-            labels: ['Count', 'Error'],
-            metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 0.7, oneMinute)],
-            aggregation: 'awesomeAggregation'
-          }
-        }}
-      />
-    </>
-  );
-}
-
 export function MissingMetrics() {
   return (
     <>
@@ -578,7 +559,7 @@ export function MissingDataPoint() {
         config={{
           timeConfig: generateTimeframe(oneMinute),
           y1: {
-            renderer: Renderer.countErrorBar,
+            renderer: Renderer.barOverlapping,
             labels: ['Metric A', 'Metric B'],
             metrics: [dataSeries1, dataSeries2]
           }
