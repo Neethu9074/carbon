@@ -11,6 +11,7 @@ export default function LightCardV2({
   icon,
   children,
   leftHeaderContent,
+  hasMarginBottom,
   // Exists for backwards compatibility with the `light` theme.
   header,
   rightHeaderContent,
@@ -27,7 +28,8 @@ export default function LightCardV2({
       className={evaluateClassNames({
         [locals.card]: true,
         [className]: className,
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+        [locals.useMaxAvailableHeight]: useMaxAvailableHeight,
+        [locals.hasMarginBottom]: hasMarginBottom
       })}
     >
       <div
@@ -67,5 +69,6 @@ LightCardV2.propTypes = {
   leftHeaderContent: PropTypes.node,
   header: PropTypes.node,
   rightHeaderContent: PropTypes.node,
-  useMaxAvailableHeight: PropTypes.bool
+  useMaxAvailableHeight: PropTypes.bool,
+  hasMarginBottom: PropTypes.bool
 };

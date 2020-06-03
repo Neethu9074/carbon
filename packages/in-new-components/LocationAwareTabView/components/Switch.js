@@ -16,7 +16,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
   if (hasErrors) {
     return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
-    return <DefaultLoadingDashboard />;
+    return <DefaultLoadingDashboard lightMode />;
   }
 
   return (

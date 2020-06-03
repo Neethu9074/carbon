@@ -102,7 +102,7 @@ export default connectTo(
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={MobileAppsNoDataNotification}
           >
-            <Card>
+            <Card hasMarginBottom>
               <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
             </Card>
           </WithEmptyStateFallback>
