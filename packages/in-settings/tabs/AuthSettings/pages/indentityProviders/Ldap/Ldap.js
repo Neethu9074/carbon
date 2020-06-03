@@ -110,7 +110,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           </Col>
           <Col xs={6}>
             <FormInput
-              placeholder="(cn=INSTANA"
+              placeholder="(cn=INSTANA)"
               form={form}
               setForm={setForm}
               fieldName="groupQuery"
