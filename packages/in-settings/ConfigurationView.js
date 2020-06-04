@@ -1,6 +1,7 @@
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
@@ -15,6 +16,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
+    isInternalVisible: isInternalVisible$,
     isGoogleSSOAvailable: isGoogleSSOAvailable(),
     isSamlAvailable: isSamlAvailable(),
     isLdapAvailable: isLdapAvailable()
