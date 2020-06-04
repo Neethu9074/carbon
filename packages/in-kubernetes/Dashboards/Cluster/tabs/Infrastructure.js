@@ -90,7 +90,15 @@ export default function Infrastructure(props) {
   );
 }
 
-function getTableData({ page = 1, pageSize = 20, orderBy = 'label', orderDirection = 'ASC', timeConfig, clusterId }) {
+function getTableData({
+  page = 1,
+  pageSize = 20,
+  query,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  clusterId
+}) {
   return getKubernetesHostsByCluster({
     pagination: {
       page,
@@ -102,7 +110,8 @@ function getTableData({ page = 1, pageSize = 20, orderBy = 'label', orderDirecti
     },
     filter: {
       clusterId,
-      timeConfig
+      timeConfig,
+      label: query
     }
   });
 }
