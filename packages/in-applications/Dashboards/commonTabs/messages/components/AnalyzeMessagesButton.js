@@ -11,7 +11,8 @@ export default function AnalyzeMessagesButton({
   className,
   boundaryScope,
   query,
-  includeInternal
+  includeInternal,
+  showErroneous
 }) {
   const groupByTag = { name: groupByTagName };
   const filters = [];
@@ -20,6 +21,9 @@ export default function AnalyzeMessagesButton({
   }
   if (includeInternal) {
     filters.push({ name: 'include_internal', value: 'true', operator: 'EQUALS' });
+  }
+  if (showErroneous) {
+    filters.push({ name: 'call.erroneous', value: 'true', operator: 'EQUALS' });
   }
   return (
     <Button
