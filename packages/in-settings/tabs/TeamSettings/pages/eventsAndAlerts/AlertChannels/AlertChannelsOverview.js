@@ -85,6 +85,9 @@ function columnDefinitions(hasRowNavigation) {
       sortable: false,
       width: 65,
       getContent(entity) {
+        if (!entity.properties) {
+          return null;
+        }
         return (
           <div className={locals.allProperties}>
             {Object.keys(entity.properties).map((property, index) => (
