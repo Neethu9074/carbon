@@ -89,7 +89,9 @@ const blacklists = {
       'call.span_type': !isInstanaEngineer,
       'call.http.hostCapturedFromSource': !isInstanaEngineer,
       'call.meta_tags': !isInstanaEngineer,
-      'log.span_type': !isInstanaEngineer
+      'log.span_type': !isInstanaEngineer,
+      'related.infra.entity.snapshotId': !isInstanaEngineer,
+      'related.infra.entity.pluginId': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
