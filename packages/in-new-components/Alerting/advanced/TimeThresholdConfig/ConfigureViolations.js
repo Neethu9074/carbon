@@ -10,12 +10,13 @@ export default function ConfigureViolations({
   timeThresholdViolations,
   violationGranularity
 }) {
+  const len = Math.round(+timeThresholdTimeWindow / violationGranularity);
   return (
     <AlertThresholdConfigItemContainer iconType="lib_alerting_threshold_icon">
       <DropdownWithTopLabel
         label={`${timeThresholdViolations}`}
         align="bottomLeft"
-        items={Array.from(Array(+timeThresholdTimeWindow / violationGranularity).fill(0), (x, i) => ({
+        items={Array.from(Array(len).fill(0), (x, i) => ({
           value: i + 1,
           label: `${i + 1}`
         }))}

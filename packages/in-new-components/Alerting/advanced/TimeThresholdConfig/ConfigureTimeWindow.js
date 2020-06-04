@@ -4,24 +4,37 @@ import React from 'react';
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import {
   timeThresholdTypes,
-  conditionPersistenceTimes
+  conditionPersistenceTimes,
+  tenMinutesConditionTime
 } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
-import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
+import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
-export default function ConfigureTimeWindow({ onChange, timeThresholdType, timeThresholdTimeWindow }) {
+export default function ConfigureTimeWindow({ onChange, timeThresholdType, granularity, timeThresholdTimeWindow }) {
   const conditionPersistenceTimeForType =
     timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence
-      ? [conditionPersistenceTimes[0]]
+      ? [tenMinutesConditionTime]
       : conditionPersistenceTimes;
+
+  // reuse existing time definitions:
+  const marks = conditionPersistenceTimeForType
+    .map(({ value }) => ({
+      value,
+      label: `${value / granularity}`
+    }))
+    .filter(mark => mark.value / granularity <= 12)
+    .filter(mark => mark.value / granularity >= 1);
 
   return (
     <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
-      <DropdownWithTopLabel
-        label={conditionPersistenceTimeForType.find(({ value }) => value === timeThresholdTimeWindow).label}
-        align="bottomLeft"
-        items={conditionPersistenceTimeForType}
-        onClick={({ value }) => onChange(value)}
-        topLabel="Time window"
+      <label>Number of consequent violations:</label>
+      <RestrictedSlider
+        onChange={value => onChange(value)}
+        value={timeThresholdTimeWindow}
+        marks={marks}
+        max={marks[marks.length - 1].value}
+        min={marks[0].value}
+        valueLabelFormat={value => Math.round(value / 60000) + ' min.'}
+        valueLabelDisplay="auto"
       />
     </AlertThresholdConfigItemContainer>
   );
@@ -30,5 +43,6 @@ export default function ConfigureTimeWindow({ onChange, timeThresholdType, timeT
 ConfigureTimeWindow.propTypes = {
   onChange: PropTypes.func,
   timeThresholdTimeWindow: PropTypes.number.isRequired,
+  granularity: PropTypes.number.isRequired,
   timeThresholdType: PropTypes.string.isRequired
 };

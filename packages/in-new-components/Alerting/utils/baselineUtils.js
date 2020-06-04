@@ -1,9 +1,11 @@
+import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+
 /**
  * Compensate that Unix timestamp zero is on a Thursday, not on a Monday.
  */
-const fromMondayToThursdayMillis = 3 * 24 * 60 * 60 * 1000;
+const fromMondayToThursdayMillis = hoursToMillis(3 * 24);
 
-export const baselineGranularity = 10 * 60 * 1000;
+export const baselineGranularity = minutesToMillis(10);
 
 export function getBaselineValue(timestamp, baseline, sensitivity, isGreaterOperator) {
   const baselineWindowSize = baseline.length * baselineGranularity;

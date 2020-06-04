@@ -3,11 +3,16 @@
 :local {
   .alertConfigItemContainer {
     display: grid;
-    grid-template-columns: 10% repeat(3, auto);
     align-items: center;
     justify-items: start;
     height: 5.3125rem;
     border-bottom: 1px solid @lib__colors__N300;
+    &.columns4 {
+      grid-template-columns: 10% 20% repeat(2, auto);
+    }
+    &.columns3 {
+      grid-template-columns:  10% 20% 70%;
+   }
   }
 
   .icon {

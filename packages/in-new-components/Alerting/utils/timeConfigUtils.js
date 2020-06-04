@@ -1,18 +1,20 @@
-export const alertingDialogItemPickerTimeframe = 7 * 24 * 60 * 60 * 1000;
-export const alertingEventDetailsChartTimeframe = 12 * 60 * 60 * 1000;
-export const alertingDialogChartTimeframe = 24 * 60 * 60 * 1000;
-export const alertingMetricsGranularity = 10 * 60 * 1000;
+import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+
+export const alertingDialogItemPickerTimeframe = hoursToMillis(7 * 24);
+export const alertingEventDetailsChartTimeframe = hoursToMillis(12);
+export const alertingDialogChartTimeframe = hoursToMillis(24);
+export const alertingMetricsGranularity = minutesToMillis(10);
 
 export const chartViewConfigs = Object.freeze([
   {
     label: 'Last 24 hours',
-    windowSize: 24 * 60 * 60 * 1000,
-    granularity: 10 * 60 * 1000
+    windowSize: hoursToMillis(24),
+    granularity: minutesToMillis(10)
   },
   {
     label: 'Last 7 Days',
-    windowSize: 7 * 24 * 60 * 60 * 1000,
-    granularity: 10 * 60 * 1000
+    windowSize: hoursToMillis(7 * 24),
+    granularity: minutesToMillis(10)
   }
 ]);
 
