@@ -104,6 +104,8 @@ export default function ErrorMessagesTable({
           className={locals.analyzeButton}
           boundaryScope={boundaryScope}
           query={query}
+          includeInternal
+          showErroneous
         />
       )}
     />
@@ -158,7 +160,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
   let errorMessageFilter;
   const erroneousFilter = { name: 'call.erroneous', value: 'true' };
 
-  if (!message || message == '') {
+  if (!message || message === '') {
     displayedMessage = 'Erroneous call without error message';
     errorMessageFilter = { name: 'call.error.message', operator: operators.IS_EMPTY };
   } else {

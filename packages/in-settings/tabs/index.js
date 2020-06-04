@@ -23,10 +23,13 @@ const authTab = {
   component: AuthSettings
 };
 
-export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable }) {
+export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, isInternalVisible }) {
   return [
     roleHasAnyTeamPermissions() && teamTab,
     userTab,
-    role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable) && authTab
+    role.canConfigureAuthenticationMethods &&
+      isInternalVisible &&
+      (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable) &&
+      authTab
   ].filter(Boolean);
 }

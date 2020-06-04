@@ -143,11 +143,11 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
       >
         <AreasTabControl activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
         <div className={locals.content}>
-          {activeTabIndex === 0 && <Applications {...props} />}
-          {activeTabIndex === 1 && <K8sClusters {...props} />}
-          {activeTabIndex === 2 && <K8sNamespaces {...props} />}
-          {activeTabIndex === 3 && <Websites {...props} />}
-          {activeTabIndex === 4 && <MobileApps {...props} />}
+          {activeTabIndex === 0 && <Websites {...props} />}
+          {activeTabIndex === 1 && <MobileApps {...props} />}
+          {activeTabIndex === 2 && <Applications {...props} />}
+          {activeTabIndex === 3 && <K8sClusters {...props} />}
+          {activeTabIndex === 4 && <K8sNamespaces {...props} />}
           {activeTabIndex === 5 && <InfraDFQ setDfq={setDfq} infraDfqFilter={dfq} />}
         </div>
 

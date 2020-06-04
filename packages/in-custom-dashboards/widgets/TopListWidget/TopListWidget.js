@@ -102,12 +102,18 @@ function TopListWidget(props) {
       fullListView$={hasContent && fullListView$}
       useMaxAvailableHeight
       rightHeaderContent={
-        hasContent && (
-          <>
-            {header && <div className={locals.customHeaderWrapper}>{header}</div>}
-            <SearchInput width={250} query={query} placeholder="" onChange={query => setQuery(query)} />
-          </>
-        )
+        <>
+          {header && <div className={locals.customHeaderWrapper}>{header}</div>}
+          {
+            <SearchInput
+              disabled={!hasContent}
+              width={250}
+              query={query}
+              placeholder=""
+              onChange={query => setQuery(query)}
+            />
+          }
+        </>
       }
     >
       <div className={locals.listsWrapper}>
