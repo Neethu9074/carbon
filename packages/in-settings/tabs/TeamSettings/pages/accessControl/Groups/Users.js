@@ -6,29 +6,33 @@ import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/nav
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
+import { light } from 'in-themes/themes';
 
 export default function Users({ userIds, addUsers, removeUser }) {
   return (
-    <UserList
-      renderer={ListInsideACardRenderer}
-      filterFunction={user => userIds.indexOf(user.id) >= 0}
-      renderAdditionalHeaderContent={renderAdditionalHeaderContent}
-      getUserLink={user => getEntityIdView(teamSettingsAccessControlUsers, user.id)}
-      columnDefinitions={[
-        iconColumn,
-        labelColumn,
-        roleColumn,
-        {
-          width: '2rem',
-          getContent({ user }) {
-            return <Delete skipDialog doDelete={() => removeUser(user.id)} />;
+    <LocallyChangedTheme theme={light}>
+      <UserList
+        renderer={ListInsideACardRenderer}
+        filterFunction={user => userIds.indexOf(user.id) >= 0}
+        renderAdditionalHeaderContent={renderAdditionalHeaderContent}
+        getUserLink={user => getEntityIdView(teamSettingsAccessControlUsers, user.id)}
+        columnDefinitions={[
+          iconColumn,
+          labelColumn,
+          roleColumn,
+          {
+            width: '2rem',
+            getContent({ user }) {
+              return <Delete skipDialog doDelete={() => removeUser(user.id)} />;
+            }
           }
-        }
-      ]}
-      addUsers={addUsers}
-      userIds={userIds}
-      pageSize={10}
-    />
+        ]}
+        addUsers={addUsers}
+        userIds={userIds}
+        pageSize={10}
+      />
+    </LocallyChangedTheme>
   );
 }
 

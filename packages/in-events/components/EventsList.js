@@ -19,6 +19,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EventsList.mless';
@@ -61,64 +62,127 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
     );
   }
 
-  return (
-    <Table>
-      <Thead>
-        <Tr size="compact">
-          <Th />
-          {isDenseList ? (
-            <SortableColumn {...props} technicalName="start">
-              Started
-            </SortableColumn>
-          ) : (
-            <>
-              <SortableColumn {...props} technicalName="problem.problemText">
-                Title
-              </SortableColumn>
-              <Th>On</Th>
+  if (!isDenseList) {
+    return (
+      <Card>
+        <Table>
+          <Thead>
+            <Tr size="compact">
+              <Th />
+              {isDenseList ? (
+                <SortableColumn {...props} technicalName="start">
+                  Started
+                </SortableColumn>
+              ) : (
+                <>
+                  <SortableColumn {...props} technicalName="problem.problemText">
+                    Title
+                  </SortableColumn>
+                  <Th>On</Th>
+                  <SortableColumn {...props} technicalName="start">
+                    Started
+                  </SortableColumn>
+                  <SortableColumn {...props} technicalName="end">
+                    End
+                  </SortableColumn>
+                  <Th className={locals.timelineColumn}>Timeline</Th>
+                </>
+              )}
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
+            {rawEventList.map(
+              event =>
+                event.type === 'release' ? (
+                  <ReleaseStatusRowPresenter
+                    key={event.id}
+                    event={event}
+                    orderBy={orderBy}
+                    cols={cols}
+                    orderDirection={orderDirection}
+                    isDenseList={isDenseList}
+                    health={health}
+                  />
+                ) : (
+                  <EventListRow
+                    key={event.id}
+                    selectedEventId={selectedEventId}
+                    onItemClicked={onItemClicked}
+                    isDenseList={isDenseList}
+                    event={event}
+                    timeScale={timeScale}
+                  />
+                )
+            )}
+
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+            <HorizontalIndicatorRow cols={cols} progress={progress} />
+            {progress.loading && <LoadingSkeletonRows cols={cols} />}
+          </Tbody>
+        </Table>
+      </Card>
+    );
+  } else {
+    return (
+      <Table>
+        <Thead>
+          <Tr size="compact">
+            <Th />
+            {isDenseList ? (
               <SortableColumn {...props} technicalName="start">
                 Started
               </SortableColumn>
-              <SortableColumn {...props} technicalName="end">
-                End
-              </SortableColumn>
-              <Th className={locals.timelineColumn}>Timeline</Th>
-            </>
-          )}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-        {rawEventList.map(
-          event =>
-            event.type === 'release' ? (
-              <ReleaseStatusRowPresenter
-                key={event.id}
-                event={event}
-                orderBy={orderBy}
-                cols={cols}
-                orderDirection={orderDirection}
-                isDenseList={isDenseList}
-                health={health}
-              />
             ) : (
-              <EventListRow
-                key={event.id}
-                selectedEventId={selectedEventId}
-                onItemClicked={onItemClicked}
-                isDenseList={isDenseList}
-                event={event}
-                timeScale={timeScale}
-              />
-            )
-        )}
+              <>
+                <SortableColumn {...props} technicalName="problem.problemText">
+                  Title
+                </SortableColumn>
+                <Th>On</Th>
+                <SortableColumn {...props} technicalName="start">
+                  Started
+                </SortableColumn>
+                <SortableColumn {...props} technicalName="end">
+                  End
+                </SortableColumn>
+                <Th className={locals.timelineColumn}>Timeline</Th>
+              </>
+            )}
+          </Tr>
+        </Thead>
+        <Tbody>
+          {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
+          {rawEventList.map(
+            event =>
+              event.type === 'release' ? (
+                <ReleaseStatusRowPresenter
+                  key={event.id}
+                  event={event}
+                  orderBy={orderBy}
+                  cols={cols}
+                  orderDirection={orderDirection}
+                  isDenseList={isDenseList}
+                  health={health}
+                />
+              ) : (
+                <EventListRow
+                  key={event.id}
+                  selectedEventId={selectedEventId}
+                  onItemClicked={onItemClicked}
+                  isDenseList={isDenseList}
+                  event={event}
+                  timeScale={timeScale}
+                />
+              )
+          )}
 
-        {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
-        <HorizontalIndicatorRow cols={cols} progress={progress} />
-        {progress.loading && <LoadingSkeletonRows cols={cols} />}
-      </Tbody>
-    </Table>
-  );
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+          <HorizontalIndicatorRow cols={cols} progress={progress} />
+          {progress.loading && <LoadingSkeletonRows cols={cols} />}
+        </Tbody>
+      </Table>
+    );
+  }
 });
 
 function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols, isDenseList, health }) {

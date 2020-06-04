@@ -241,7 +241,7 @@ export default function ServicesList({
       <LeftRightPadding>
         <Title title="Services" />
         <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
-          <Card useMaxAvailableHeight={false}>
+          <Card useMaxAvailableHeight={false} hasMarginBottom>
             <ServerTableWithUrlState
               get={getTableData}
               timeConfig={timeConfig}

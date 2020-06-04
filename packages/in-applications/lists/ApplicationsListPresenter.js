@@ -213,7 +213,7 @@ export default function ApplicationsLisPresenter({
           getHasDataToRender={getHasDataToRender}
           FallbackComponent={ApplicationsNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false}>
+          <Card useMaxAvailableHeight={false} hasMarginBottom>
             <ServerTableWithUrlState
               get={getTableData}
               timeConfig={timeConfig}

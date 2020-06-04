@@ -27,9 +27,11 @@ import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
+import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
+import { light } from 'in-themes/themes';
 
 import locals from './Areas.mless';
 
@@ -46,41 +48,43 @@ export default connectTo(
     const [page, setPage] = useState(1);
 
     return (
-      <ListInsideACardRenderer
-        itemName="Area"
-        page={page}
-        setPage={setPage}
-        update={update}
-        ListRenderer={ListRenderer}
-        itemsResult={
-          isLoading(result) || hasError(result)
-            ? result
-            : success(
-                [
-                  ...mapApplications(result.applications, permissionSet.applicationIds, id => ({
-                    delete: () => removeId(id, 'applicationIds')
-                  })),
-                  ...mapKubernetesClusters(result.K8sClusters, permissionSet.kubernetesClusterUUIDs, id => ({
-                    delete: () => removeId(id, 'kubernetesClusterUUIDs')
-                  })),
-                  ...mapKubernetesNamespaces(result.K8sNamespaces, permissionSet.kubernetesNamespaceUIDs, id => ({
-                    delete: () => removeId(id, 'kubernetesNamespaceUIDs')
-                  })),
-                  ...mapWebsites(result.websites, permissionSet.websiteIds, id => ({
-                    delete: () => removeId(id, 'websiteIds')
-                  })),
-                  ...mapMobileApps(result.mobileApps, permissionSet.mobileAppIds, id => ({
-                    delete: () => removeId(id, 'mobileAppIds')
-                  })),
-                  ...mapInfraDfq(permissionSet.infraDfqFilter, () => ({
-                    delete: removeDfq
-                  }))
-                ].filter(Boolean)
-              )
-        }
-        infraDfqFilter={permissionSet.infraDfqFilter}
-        renderAdditionalHeaderContent={renderAdditionalHeaderContent}
-      />
+      <LocallyChangedTheme theme={light}>
+        <ListInsideACardRenderer
+          itemName="Area"
+          page={page}
+          setPage={setPage}
+          update={update}
+          ListRenderer={ListRenderer}
+          itemsResult={
+            isLoading(result) || hasError(result)
+              ? result
+              : success(
+                  [
+                    ...mapApplications(result.applications, permissionSet.applicationIds, id => ({
+                      delete: () => removeId(id, 'applicationIds')
+                    })),
+                    ...mapKubernetesClusters(result.K8sClusters, permissionSet.kubernetesClusterUUIDs, id => ({
+                      delete: () => removeId(id, 'kubernetesClusterUUIDs')
+                    })),
+                    ...mapKubernetesNamespaces(result.K8sNamespaces, permissionSet.kubernetesNamespaceUIDs, id => ({
+                      delete: () => removeId(id, 'kubernetesNamespaceUIDs')
+                    })),
+                    ...mapWebsites(result.websites, permissionSet.websiteIds, id => ({
+                      delete: () => removeId(id, 'websiteIds')
+                    })),
+                    ...mapMobileApps(result.mobileApps, permissionSet.mobileAppIds, id => ({
+                      delete: () => removeId(id, 'mobileAppIds')
+                    })),
+                    ...mapInfraDfq(permissionSet.infraDfqFilter, () => ({
+                      delete: removeDfq
+                    }))
+                  ].filter(Boolean)
+                )
+          }
+          infraDfqFilter={permissionSet.infraDfqFilter}
+          renderAdditionalHeaderContent={renderAdditionalHeaderContent}
+        />
+      </LocallyChangedTheme>
     );
   }
 );
