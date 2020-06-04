@@ -24,7 +24,7 @@ export default [
   },
   {
     metric: 'memory.used_percentage',
-    label: 'Memory used percentage',
+    label: 'Used percentage',
     min: 0,
     category: ['Memory'],
     formatter: percentage
