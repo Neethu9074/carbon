@@ -77,14 +77,24 @@ function FormComponent({
               <Input
                 id="metric-configurator-slo"
                 type="number"
-                value={typeof field.value === 'number' ? field.value * 100 : field.value}
+                value={
+                  typeof field.value === 'number'
+                    ? parseFloat(Number.parseFloat(field.value * 100).toPrecision(6))
+                    : field.value
+                }
                 onChange={e =>
-                  onChange(['slo'], field => field.setValue(Number(e.target.value / 100)).setTouched(true))
+                  onChange(['slo'], field =>
+                    field
+                      .setValue(
+                        e.target.value ? parseFloat(Number.parseFloat(e.target.valueAsNumber / 100).toPrecision(6)) : ''
+                      )
+                      .setTouched(true)
+                  )
                 }
                 hasError={!field.valid && field.touched}
                 min={0}
                 max={99.99}
-                step={1}
+                step="any"
               />
               <TouchedMessages field={field} />
               <HelpText>
