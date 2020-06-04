@@ -72,7 +72,7 @@ export default connectTo(
           canSaveItem={canSaveItem}
           saveItem={saveItem}
           parentPath={parentPath}
-          onSaveClick={() => saveItem({ ...props, setMessage, form, setForm })}
+          onSaveClick={() => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem })}
           form={form}
         />
       </div>
