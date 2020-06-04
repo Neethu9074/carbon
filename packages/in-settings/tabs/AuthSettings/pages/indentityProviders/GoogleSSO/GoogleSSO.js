@@ -2,6 +2,7 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -71,10 +72,15 @@ function render({ form, setForm }) {
   );
 }
 
-function saveItem(form) {
-  return setConfig({
-    filter: form.get('filter').value
-  });
+function saveItem({ form, setMessage }) {
+  setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig({ filter: form.get('filter').value });
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: 'Config successfully saved.', type: success });
+    },
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+  );
 }
 
 function enrichForm(form, { result: { config } }) {

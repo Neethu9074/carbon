@@ -2,12 +2,14 @@ import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import { token$ } from 'in-services/security/csrf';
+import { shorten } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -19,7 +21,11 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Saml.mless';
 
 export default function Saml() {
-  const [input] = useState(document.createElement('input'));
+  const inputDOMNode = document.createElement('input');
+  const [input] = useState(inputDOMNode);
+  const [reloadSignal, setReloadSignal] = useState(0);
+  inputDOMNode.onchange = () => setReloadSignal(reloadSignal + 1);
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -33,7 +39,8 @@ export default function Saml() {
   );
 }
 
-function render({ form, setForm, input }) {
+function render({ form, setForm, input, setMessage }) {
+  const file = input && input.files && input.files.length > 0 ? input.files[0] : undefined;
   return (
     <>
       <Title title="SAML Configuration" />
@@ -146,32 +153,42 @@ function render({ form, setForm, input }) {
         <div className={indentityProvidersLocals.space} />
 
         <h2>Upload IdP Metadata</h2>
-        <Button
-          kind="secondary"
-          icon="lib_views_file"
-          onClick={() => {
-            input.type = 'file';
-            input.accept = 'text/xml';
-            input.click();
-          }}
-        >
-          Choose file…
-        </Button>
-        <Button
-          icon="lib_actions_upload"
-          onClick={() => {
-            const file = input && input.files && input.files[0];
-            if (file) {
+
+        <div className={locals.flexWrapper}>
+          <Button
+            kind="secondary"
+            icon="lib_views_file"
+            onClick={() => {
+              input.type = 'file';
+              input.accept = 'text/xml';
+              input.click();
+            }}
+          >
+            {file ? shorten(file.name, 32) : 'Choose file…'}
+          </Button>
+          <Button
+            icon="lib_actions_upload"
+            disabled={!file}
+            onClick={() => {
               const reader = new FileReader();
               reader.readAsText(file, 'UTF-8');
               reader.onload = function(evt) {
-                saveItem(form, evt.target.result);
+                saveItem({ idpMetadata: evt.target.result, setMessage });
               };
-            }
-          }}
-        >
-          Upload & Activate
-        </Button>
+            }}
+          >
+            Upload & Activate
+          </Button>
+
+          {form.get('activated').map(
+            field =>
+              !field.value && (
+                <Button kind="danger" onClick={() => deleteConfig({ setMessage })}>
+                  Deactivate
+                </Button>
+              )
+          )}
+        </div>
       </form>
     </>
   );
@@ -192,10 +209,26 @@ function CopyableText({ title, form, fieldName }) {
   ));
 }
 
-function saveItem(_, idpMetadata) {
-  return setConfig({
-    idpMetadata
-  });
+function deleteConfig({ setMessage }) {
+  setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig({ idpMetadata: '' });
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: 'Config successfully deleted.', type: success });
+    },
+    error => setMessage({ text: `Failed to delete config: ${error.message}`, type: errorType })
+  );
+}
+
+function saveItem({ setMessage, idpMetadata }) {
+  setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig({ idpMetadata });
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: 'Config successfully saved.', type: success });
+    },
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+  );
 }
 
 function enrichForm(form, { result: { config } }) {
@@ -203,5 +236,6 @@ function enrichForm(form, { result: { config } }) {
     .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
     .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
+    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }))
+    .put('activated', createField({ value: !!config.activated }));
 }

@@ -2,8 +2,8 @@ import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
 import { getConfigAsResultObservable, getTestResult, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { success, neutral, error } from 'in-new-components/Message/types';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
-import { success, error } from 'in-new-components/Message/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -248,8 +248,15 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
   ));
 }
 
-function saveItem(form) {
-  return setConfig(getConfig(form));
+function saveItem({ form, setMessage }) {
+  setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig(form.toJS());
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: 'Config successfully saved.', type: success });
+    },
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: error })
+  );
 }
 
 function getConfig(form) {
