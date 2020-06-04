@@ -182,7 +182,7 @@ function render({ form, setForm, input, setMessage }) {
 
           {form.get('activated').map(
             field =>
-              !field.value && (
+              field.value && (
                 <Button kind="danger" onClick={() => deleteConfig({ setMessage })}>
                   Deactivate
                 </Button>
