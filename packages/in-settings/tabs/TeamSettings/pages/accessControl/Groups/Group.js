@@ -194,7 +194,7 @@ function copyPermissionSet(form) {
   return { ...form.get('permissionSet').value };
 }
 
-function saveItem({ form, setMessage, groupId }) {
+function saveItem({ form, setMessage, setCanSaveItem, setForm, groupId }) {
   const permissionSet = form.get('permissionSet').value;
   const group = {
     id: form.get('id').value,
@@ -207,7 +207,11 @@ function saveItem({ form, setMessage, groupId }) {
   savePermissionSet(permissionSet, groupId).once(
     () => {
       saveGroup(group).once(
-        () => setMessage({ text: 'Group successfully saved.', type: success }),
+        savedGroup => {
+          setMessage({ text: 'Group successfully saved.', type: success });
+          setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
+          setCanSaveItem(false);
+        },
         error => setMessage({ text: `Failed to save group: ${error.message}`, type: errorType })
       );
     },
