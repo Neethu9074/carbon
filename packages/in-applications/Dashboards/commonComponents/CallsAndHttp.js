@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Card from 'in-new-components/Card';
 
@@ -53,7 +52,7 @@ export default function CallsAndHttp({
           endpointId={endpointId}
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
-          groupByTag={{ name: 'call.http.status', entity: entityTypes.NOT_APPLICABLE }}
+          groupByTag={{ name: 'call.http.status' }}
           showGraph
         />
       )}

@@ -118,7 +118,7 @@ window.instana.tags = [
   { name: 'zookeeper.clientPort', type: 'STRING', category: 'DATABASE' },
   { name: 'beacon.geo.countryCode', type: 'STRING', category: 'WEBSITE_MONITORING' },
   { name: 'mongo.replicaSetName', type: 'STRING', category: 'DATABASE' },
-  { name: 'call.http.status', type: 'STRING', category: 'CALL' },
+  { name: 'call.http.status', type: 'NUMBER', category: 'CALL' },
   { name: 'beacon.duration', type: 'NUMBER', category: 'WEBSITE_MONITORING' },
   { name: 'mysql.port', type: 'STRING', category: 'DATABASE' },
   { name: 'nodejs.version', type: 'STRING', category: 'LANGUAGE' },
