@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
 export default function ConfigureGranularity({ onChange, granularity }) {
   const marks = [
@@ -26,7 +26,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
   ];
   return (
     <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
-      <label>Evaluation Window Size:</label>
+      <label>Evaluation Window Size</label>
       <RestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}

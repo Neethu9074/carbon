@@ -6,9 +6,9 @@ import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresho
 import ConfigureViolations from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureViolations';
 import ConfigureUserImpact from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureUserImpact';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
+import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 import locals from './TimeThresholdConfig.mless';
-import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 const violationGranularityDefault = minutesToMillis(10);
 
@@ -48,13 +48,26 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
   function onChangeTimeWindow(timeWindowValue) {
     let updatedForm = timeThresholdForm.updateIn(['timeWindow'], f => f.setValue(timeWindowValue).setTouched(true));
     if (timeThresholdType === violationsInPeriod) {
-      updatedForm = updatedForm.updateIn(['violations'], f => f.setValue(1).setTouched(true));
+      const granularity = form.get('granularity').value;
+      const oldViolations = timeThresholdForm.get('violations').value;
+      const maxViolations = parseInt(timeWindowValue / granularity);
+      updatedForm = updatedForm.updateIn(['violations'], f =>
+        f.setValue(Math.min(oldViolations, maxViolations)).setTouched(true)
+      );
     }
     updateForm(form.put('timeThreshold', updatedForm));
   }
 
   function onChangeGranularity(newGranularity) {
-    updateForm(form.updateIn(['granularity'], f => f.setValue(newGranularity).setTouched(true)));
+    const oldGranularity = form.get('granularity').value;
+    const oldTimeWindow = form.get('timeThreshold').get('timeWindow').value;
+    const violations = parseInt(oldTimeWindow / oldGranularity);
+
+    updateForm(
+      form
+        .updateIn(['granularity'], f => f.setValue(newGranularity).setTouched(true))
+        .updateIn(['timeThreshold', 'timeWindow'], f => f.setValue(violations * newGranularity).setTouched(true))
+    );
   }
 }
 

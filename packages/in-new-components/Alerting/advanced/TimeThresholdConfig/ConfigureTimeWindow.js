@@ -2,42 +2,42 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import {
-  timeThresholdTypes,
-  conditionPersistenceTimes,
-  tenMinutesConditionTime
-} from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
+import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
+import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
+const consecutiveViolationsOptions = Object.freeze([1, 2, 3, 6, 9, 12]);
+const tenMinutesConditionTime = Object.freeze({ value: minutesToMillis(10), label: '10min' });
+
 export default function ConfigureTimeWindow({ onChange, timeThresholdType, granularity, timeThresholdTimeWindow }) {
-  const conditionPersistenceTimeForType =
+  const marks =
     timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence
       ? [tenMinutesConditionTime]
-      : conditionPersistenceTimes;
-
-  // reuse existing time definitions:
-  const marks = conditionPersistenceTimeForType
-    .map(({ value }) => ({
-      value,
-      label: `${value / granularity}`
-    }))
-    .filter(mark => mark.value / granularity <= 12)
-    .filter(mark => mark.value / granularity >= 1);
+      : createMarks(granularity);
 
   return (
     <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
-      <label>Number of consequent violations:</label>
+      <label>Number of consecutive violations</label>
       <RestrictedSlider
         onChange={value => onChange(value)}
         value={timeThresholdTimeWindow}
-        marks={marks}
+        marks={createMarks(granularity)}
         max={marks[marks.length - 1].value}
         min={marks[0].value}
-        valueLabelFormat={value => Math.round(value / 60000) + ' min.'}
+        valueLabelFormat={value => Math.round(value / 60000) + ' min'}
         valueLabelDisplay="auto"
       />
     </AlertThresholdConfigItemContainer>
   );
+}
+
+function createMarks(granularity) {
+  return consecutiveViolationsOptions.map(optionViolations => {
+    return {
+      value: granularity * optionViolations,
+      label: optionViolations
+    };
+  });
 }
 
 ConfigureTimeWindow.propTypes = {
