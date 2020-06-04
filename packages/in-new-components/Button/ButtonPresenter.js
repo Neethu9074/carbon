@@ -20,9 +20,10 @@ export const kinds = [
   'info',
   'fixedInline'
 ];
-export const sizes = ['normal', 'compact'];
+export const sizes = ['xl', 'normal', 'compact'];
 
 const iconDimensions = {
+  xl: 'regular',
   normal: 'regular',
   compact: 'xs'
 };
