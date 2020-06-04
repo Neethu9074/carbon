@@ -6,6 +6,7 @@ import AlertChannelsOverview from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { role } from 'in-stores/user';
 
 export default function AlertChannelsViewer({ alertChannelIds }) {
   return (
@@ -13,7 +14,7 @@ export default function AlertChannelsViewer({ alertChannelIds }) {
       <AlertChannelsOverview
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(alertChannelIds)}
-        hasRowNavigation={false}
+        hasRowNavigation={role.canConfigureIntegrations}
         renderNoDataAvailable={() => <NoChannelSelected />}
         isSearchable={false}
         getHeader={() => null}

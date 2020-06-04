@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -76,6 +77,23 @@ function columnDefinitions(hasRowNavigation) {
       },
       getValue(entity) {
         return entity.name;
+      }
+    },
+    {
+      id: 'properties',
+      label: 'Properties',
+      sortable: false,
+      width: 65,
+      getContent(entity) {
+        return (
+          <div className={locals.allProperties}>
+            {Object.keys(entity.properties).map((property, index) => (
+              <Tooltip key={property} content={`${property}: ${entity.properties[property]}`} delay={500}>
+                <PropertyInTable label={property} value={entity.properties[property]} key={index} />
+              </Tooltip>
+            ))}
+          </div>
+        );
       }
     }
   ];
