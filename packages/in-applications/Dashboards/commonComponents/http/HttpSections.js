@@ -136,8 +136,7 @@ function mapMetricsToAdd(filters, renderedMetrics, metricIds) {
     metricsForLink.push({
       name: 'call.http.status',
       operator: 'NOT_STARTS_WITH',
-      value: correctValue(metric),
-      entity: 'NOT_APPLICABLE'
+      value: correctValue(metric)
     });
   });
 
