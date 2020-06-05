@@ -1,7 +1,15 @@
 // @flow
 import React from 'react';
 
-import { authSettings, googleSSO, saml, ldap, samlMapping, ldapMapping } from 'in-settings/navigation/paths';
+import {
+  authSettings,
+  googleSSO,
+  saml,
+  ldap,
+  twoFaUsers,
+  samlMapping,
+  ldapMapping
+} from 'in-settings/navigation/paths';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
@@ -12,6 +20,7 @@ import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Sa
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml';
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
+import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import connectTo from 'in-hoc/connectTo';
 
@@ -34,6 +43,16 @@ function getNavigationTree(props: any): NavigationTree {
           path: ldap,
           label: 'LDAP',
           component: Ldap
+        }
+      ].filter(Boolean)
+    },
+    {
+      title: '2Factor',
+      pages: [
+        {
+          path: twoFaUsers,
+          label: 'Users',
+          component: Users
         }
       ].filter(Boolean)
     }

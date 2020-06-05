@@ -7,3 +7,7 @@
 export function yesOrNo(value) {
   return value ? 'Yes' : 'No';
 }
+
+export function compare(b1, b2) {
+  return b1 === b2 ? 0 : b1 ? -1 : 1;
+}

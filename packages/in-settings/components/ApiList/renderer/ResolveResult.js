@@ -13,7 +13,8 @@ export default function ResolveResult(props) {
   if (searchFields && query) {
     filteredAndSortedItems = filteredAndSortedItems.filter(item => searchItem(item, searchFields, query));
   }
-  filteredAndSortedItems.slice().sort((a, b) => compareIgnoreCase(a[orderBy], b[orderBy]));
+  const orderByFn = orderBy instanceof Function ? orderBy : (a, b) => compareIgnoreCase(a[orderBy], b[orderBy]);
+  filteredAndSortedItems = filteredAndSortedItems.slice().sort(orderByFn);
 
   return props.children({
     ...props,
