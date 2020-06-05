@@ -19,7 +19,7 @@ export default function AerospikeSpanDetailView({ span }) {
         <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
 
         {parameters ? (
-                  <Di title="Parametes">
+                  <Di title="Parameters">
                     {parameters}
                   </Di>
                 ) : null}
