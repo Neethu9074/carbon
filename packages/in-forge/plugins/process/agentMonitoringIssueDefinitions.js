@@ -17,7 +17,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/jvm/#agent_jvm_blacklisted`
   },
   nodejs_collector_not_installed: {
@@ -32,7 +32,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/node-js/#nodejs_collector_not_installed`
   },
   python_autotrace_failed: {
@@ -41,7 +41,7 @@ export default {
         return <span>The host agent tried and failed to automatically instrument this Python process.</span>;
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_autotrace_failed`
   },
   python_sensor_not_installed: {
@@ -55,7 +55,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_sensor_not_installed`
   },
   ruby_sensor_not_installed: {
@@ -69,7 +69,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/ruby/#ruby_sensor_not_installed`
   }
 };

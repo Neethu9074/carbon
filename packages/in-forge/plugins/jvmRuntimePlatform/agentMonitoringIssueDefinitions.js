@@ -13,7 +13,7 @@ export default {
         );
       }
     },
-    explanationLinkLabel: `Docs`,
+    explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#java_8_unmonitored_version`
   }
 };

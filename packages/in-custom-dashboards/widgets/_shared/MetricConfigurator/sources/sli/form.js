@@ -52,7 +52,7 @@ const sloValidatorFailureMessage = [
 ];
 
 export function sloValidator(v) {
-  if (v > 0.9999 || v < 0) {
+  if (v >= 1 || v < 0) {
     return sloValidatorFailureMessage;
   }
 }
