@@ -119,7 +119,7 @@ A few environment variables are used to tweak the UI development workflow to you
 
 - `TARGET`:
   - If this is set to `test` (non case-sensitive) the UI client will connect to the test environment automatically instead of asking you for the target environment.
-  - If this is set to `local` (non case-sensitive) the UI client will connect to the your local back end instead of asking.
+  - If this is set to `local` (non case-sensitive) the UI client will connect to your local back end instead of asking.
   - Otherwise, `yarn run dev` will ask for the target environment during startup.
 - `BUILD_MODE`:
   - If this is set to `prod` (non case-sensitive), sources will be compiled in production mode.
@@ -141,7 +141,7 @@ We are using the [a variation of the Git flow branching model](https://miro.com/
 
 ## Pull Requests (PR)
 
-According to our braching model, we create several PRs. When doing so, the description is prefilled with a template. It describes how and why it's filled. Please make sure, you also set proper labels to mark your PR:
+According to our branching model, we create several PRs. When doing so, the description is pre-filled with a template. It describes how and why it's filled. Please make sure, you also set proper labels to mark your PR:
 
 - "depends on backend changes": This is set when your PR depends on changes in the backend, so they need to get merged together. If this is the case, please also link the corresponding PR in your description.
 - "do not merged": Work-in-progress branches are usually marked with the "WIP" label. This is only used to really mark, that the current PR is very experimental.
@@ -168,7 +168,7 @@ There is one style rule that is not automatically enforced or taken care of (yet
 
 These blocks are separated by a new line. The first import block usually starts at the first line of the file (that is, there is nothing else above the imports).
 
-The imports in one block are _sorted by line length, descending_. Longest import line at the top, shortest line at the bottom.
+The imports in one block are _sorted by line length, descending_. The longest import line at the top, the shortest line at the bottom.
 
 Basically, this is our (totally arbitrary, but at least consistent) rule for sorting imports. The main reason it was chosen is that it can be verified very quickly visually without inspecting the individual imports.
 
@@ -212,7 +212,7 @@ VS Code.
 
 #### IntelliJ & Co
 
-- Install the Prettier plugin (by Jetbrains) and use these defaults:
+- Install the Prettier plugin (by JetBrains) and use these defaults:
   - Prettier package: <Project_RootDir>/node_modules/prettier
   - ✔️ Activate "run on save for files:"  ({**/*,*}.{js,jsx})
 
@@ -236,7 +236,7 @@ Please do not use `--no-verify` or `-n` to commit. In a lot of cases, this will 
 1. If there is a different error, you might check/try three other things:
     1. Has the Node.js version for the repo `ui-client` been changed recently (since you last committed something without issues)? Check `git log .nvmrc` to find out. Refer to the section [Upgrading Node.js](#upgrading-nodejs) for details on how to switch to the new Node.js version.
     1. Are you using a different Node.js version than the `ui-client` repo? Check the output of `node --version` versus the content of `ui-client/.nvmrc`. You can execute `nvm use` (in the `ui-client` directory) to switch to the correct version.
-    1. Execute `yarn` in the `ui-client` directory, without any arguments. This helps when new dependencies have been addded that have not been installed to your local `node_modules` folder. It is safe to do this even when your `node_modules` are up to date.
+    1. Execute `yarn` in the `ui-client` directory, without any arguments. This helps when new dependencies have been added that have not been installed to your local `node_modules` folder. It is safe to do this even when your `node_modules` are up to date.
 
 ### I am getting flow type checking errors even though everything should be fine?
 
