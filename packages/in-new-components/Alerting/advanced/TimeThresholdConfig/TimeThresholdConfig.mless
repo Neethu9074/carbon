@@ -12,7 +12,13 @@
     }
     &.columns3 {
       grid-template-columns:  10% 20% 70%;
-   }
+    }
+    &.itemWithLabelGrid {
+      grid-template-columns: 20% 80%;
+    }
+    &.leftPaddingNoIcon {
+      padding-left: 1rem;
+    }
   }
 
   .icon {

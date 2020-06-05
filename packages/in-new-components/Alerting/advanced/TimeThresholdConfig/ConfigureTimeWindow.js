@@ -16,7 +16,7 @@ export default function ConfigureTimeWindow({ onChange, timeThresholdType, granu
       : createMarks(granularity);
 
   return (
-    <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
+    <AlertThresholdConfigItemContainer noIcon>
       <label>Number of consecutive violations</label>
       <RestrictedSlider
         onChange={value => onChange(value)}

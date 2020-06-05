@@ -8,8 +8,14 @@ export default {
 
 export const simple = () => (
   <AlertThresholdConfigItemContainer>
-    <span>inner content</span>
-    <span>inner content</span>
+    <span>column 1</span>
+    <span>column 2</span>
+  </AlertThresholdConfigItemContainer>
+);
+export const noIcon = () => (
+  <AlertThresholdConfigItemContainer noIcon>
+    <span>column 1</span>
+    <span>column 2</span>
   </AlertThresholdConfigItemContainer>
 );
 export const ThreeColumns = () => (

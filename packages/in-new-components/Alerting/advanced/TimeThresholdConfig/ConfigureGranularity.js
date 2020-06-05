@@ -25,7 +25,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
     }
   ];
   return (
-    <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange">
+    <AlertThresholdConfigItemContainer noIcon>
       <label>Evaluation Window Size</label>
       <RestrictedSlider
         marks={marks}

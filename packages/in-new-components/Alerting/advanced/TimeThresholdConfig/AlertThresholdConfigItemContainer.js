@@ -6,16 +6,18 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './TimeThresholdConfig.mless';
 
-export default function AlertThresholdConfigItemContainer({ children, iconType, hasExtraColumnOnRight }) {
+export default function AlertThresholdConfigItemContainer({ children, iconType, hasExtraColumnOnRight, noIcon }) {
   return (
     <div
       className={evaluateClassNames({
         [locals.columns4]: hasExtraColumnOnRight,
-        [locals.columns3]: !hasExtraColumnOnRight,
+        [locals.columns3]: !hasExtraColumnOnRight && !noIcon,
+        [locals.itemWithLabelGrid]: !hasExtraColumnOnRight && noIcon,
+        [locals.leftPaddingNoIcon]: noIcon,
         [locals.alertConfigItemContainer]: true
       })}
     >
-      <SvgIcon className={locals.icon} type={iconType} />
+      {!noIcon && <SvgIcon className={locals.icon} type={iconType} />}
       {children}
     </div>
   );
@@ -24,5 +26,6 @@ export default function AlertThresholdConfigItemContainer({ children, iconType, 
 AlertThresholdConfigItemContainer.propTypes = {
   children: PropTypes.node.isRequired,
   hasExtraColumnOnRight: PropTypes.bool,
+  noIcon: PropTypes.bool,
   iconType: PropTypes.string
 };
