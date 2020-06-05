@@ -54,8 +54,8 @@ export default function axis(config, tickPositions) {
     }
   }
 
-  ctx.restore();
   ctx.fill();
+  ctx.restore();
 }
 
 function renderTickLine(ctx, xPos, timeLineTop) {

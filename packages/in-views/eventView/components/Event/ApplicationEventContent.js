@@ -54,95 +54,105 @@ export default connectTo(
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
 
     return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title="Details">
-            <EntityInformation
-              entityId={entityId}
-              entityType={entityType}
-              metadata={metadata}
-              timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
-            />
-
-            <ProblemDescription event={event} className="in-event-view-event-content" />
-            <ApplicationAlertConfigButton alertConfig={alertConfig} />
-          </Card>
-
-          <Card title="Metrics">
-            <div className={locals.analyzeButtonWrapper}>
-              <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
-            </div>
-            <AlertTypeSwitch
-              alertType={alertType}
-              renderErrorRate={() => (
-                <ErrorRateAlertingBarChart
-                  applicationId={entityId}
-                  boundaryScope={boundaryScope}
-                  operator={operator}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  granularity={alertingMetricsGranularity}
-                  threshold={threshold}
-                  timeThreshold={timeThreshold}
-                />
-              )}
-              renderSlowness={() => (
-                <SlownessAlertingBarChart
-                  applicationId={entityId}
-                  boundaryScope={boundaryScope}
-                  sensitivity={sensitivity}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  aggregation={aggregation}
-                  granularity={alertingMetricsGranularity}
-                  threshold={threshold}
-                  timeThreshold={timeThreshold}
-                />
-              )}
-              renderLogs={() => (
-                <LogsAlertingBarChart
-                  applicationId={entityId}
-                  boundaryScope={boundaryScope}
-                  logMessage={alertConfig.rule.message}
-                  logMessageOperator={alertConfig.rule.operator}
-                  logLevel={alertConfig.rule.level}
-                  operator={operator}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  granularity={alertingMetricsGranularity}
-                  threshold={threshold}
-                  timeThreshold={timeThreshold}
-                />
-              )}
-              renderStatusCode={() => (
-                <StatusCodeAlertingBarChart
-                  applicationId={entityId}
-                  statusCodeStart={alertConfig.rule.statusCodeStart}
-                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
-                  operator={operator}
-                  timeConfig={timeConfig}
-                  tagFilters={tagFilters}
-                  granularity={alertingMetricsGranularity}
-                  threshold={threshold}
-                  timeThreshold={timeThreshold}
-                />
-              )}
-            />
-          </Card>
-
-          <Card title="Scope">
-            <div className={locals.filterList}>
-              <TagFilterListPresenter
-                tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  applicationName,
-                  tagFilters: [getApplicationIdTagFilter({ entityId, boundaryScope }), ...tagFilters]
-                })}
-                disabled
+      <>
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Description">
+              <EntityInformation
+                entityId={entityId}
+                entityType={entityType}
+                metadata={metadata}
+                timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
               />
-            </div>
-          </Card>
-        </Col>
-      </Row>
+
+              <ProblemDescription event={event} className="in-event-view-event-content" />
+              <ApplicationAlertConfigButton alertConfig={alertConfig} />
+            </Card>
+          </Col>
+        </Row>
+
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Metrics">
+              <div className={locals.analyzeButtonWrapper}>
+                <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
+              </div>
+              <AlertTypeSwitch
+                alertType={alertType}
+                renderErrorRate={() => (
+                  <ErrorRateAlertingBarChart
+                    applicationId={entityId}
+                    boundaryScope={boundaryScope}
+                    operator={operator}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={alertingMetricsGranularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                  />
+                )}
+                renderSlowness={() => (
+                  <SlownessAlertingBarChart
+                    applicationId={entityId}
+                    boundaryScope={boundaryScope}
+                    sensitivity={sensitivity}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    aggregation={aggregation}
+                    granularity={alertingMetricsGranularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                  />
+                )}
+                renderLogs={() => (
+                  <LogsAlertingBarChart
+                    applicationId={entityId}
+                    boundaryScope={boundaryScope}
+                    logMessage={alertConfig.rule.message}
+                    logMessageOperator={alertConfig.rule.operator}
+                    logLevel={alertConfig.rule.level}
+                    operator={operator}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={alertingMetricsGranularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                  />
+                )}
+                renderStatusCode={() => (
+                  <StatusCodeAlertingBarChart
+                    applicationId={entityId}
+                    statusCodeStart={alertConfig.rule.statusCodeStart}
+                    statusCodeEnd={alertConfig.rule.statusCodeEnd}
+                    operator={operator}
+                    timeConfig={timeConfig}
+                    tagFilters={tagFilters}
+                    granularity={alertingMetricsGranularity}
+                    threshold={threshold}
+                    timeThreshold={timeThreshold}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+        </Row>
+
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Scope">
+              <div className={locals.filterList}>
+                <TagFilterListPresenter
+                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    applicationName,
+                    tagFilters: [getApplicationIdTagFilter({ entityId, boundaryScope }), ...tagFilters]
+                  })}
+                  disabled
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </>
     );
   }
 );

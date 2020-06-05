@@ -4,7 +4,6 @@ import { fromJS } from 'immutable';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 const refreshSignalPermissionSets = create().emit(true);
@@ -107,13 +106,13 @@ function defaultQuery() {
   };
 }
 
-export function savePermissionSet(permissionSet, groupId) {
+export function savePermissionSet(permissionSet) {
   let permissionSetId = permissionSet.id;
   return http({
-    method: groupId ? 'PUT' : 'POST',
+    method: permissionSetId ? 'PUT' : 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: groupId
+    url: permissionSetId
       ? `/api/settings/permission-sets/${encodeURIComponent(permissionSetId)}`
       : '/api/settings/permission-sets',
     data: permissionSet
@@ -127,7 +126,7 @@ function mapAndRefresh(response) {
 
 export function createPermissionSet() {
   return {
-    id: 'm_' + generateUniqueShortId(), // "m_" is a marker that the backend knows this permission set has already been migrated
+    id: null,
     name: 'system_permission_set',
     permissions: [],
     applicationIds: [],
