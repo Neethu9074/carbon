@@ -15,7 +15,6 @@ import { getKubernetesClustersAsResultObservable } from 'in-settings/tabs/TeamSe
 import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/K8sNamespaces';
 import Applications from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Applications';
 import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/K8sClusters';
-import MobileApps from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/MobileApps';
 import InfraDFQ from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/InfraDFQ';
 import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Websites';
 import { success, combineResultObservables, isLoading, hasError } from 'in-services/util/result';
@@ -144,11 +143,10 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
         <AreasTabControl activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
         <div className={locals.content}>
           {activeTabIndex === 0 && <Websites {...props} />}
-          {activeTabIndex === 1 && <MobileApps {...props} />}
-          {activeTabIndex === 2 && <Applications {...props} />}
-          {activeTabIndex === 3 && <K8sClusters {...props} />}
-          {activeTabIndex === 4 && <K8sNamespaces {...props} />}
-          {activeTabIndex === 5 && <InfraDFQ setDfq={setDfq} infraDfqFilter={dfq} />}
+          {activeTabIndex === 1 && <Applications {...props} />}
+          {activeTabIndex === 2 && <K8sClusters {...props} />}
+          {activeTabIndex === 3 && <K8sNamespaces {...props} />}
+          {activeTabIndex === 4 && <InfraDFQ setDfq={setDfq} infraDfqFilter={dfq} />}
         </div>
 
         <Button
