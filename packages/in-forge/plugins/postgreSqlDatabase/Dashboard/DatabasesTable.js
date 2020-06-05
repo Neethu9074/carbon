@@ -10,6 +10,7 @@ import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 const cols = [
   {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Tuple read',
+    title: 'Tuples read',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Tuple fetch',
+    title: 'Tuples fetched',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -178,92 +179,98 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <DashboardSection title="Transactions">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: activityZeroDecimalPlaces,
-            metrics: ['databases.' + row.key + '.xact_commit'],
-            labels: ['Committed transactions'],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: activityZeroDecimalPlaces,
-            metrics: ['databases.' + row.key + '.xact_rollback'],
-            labels: ['Rolled back transactions'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Cache">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            max: 1,
-            metrics: ['databases.' + row.key + '.blks_hit_rate'],
-            labels: ['Cache Hit Ratio'],
-            type: 'line',
-            formatter: hitRateZeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Conflicts">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: zeroDecimalPlaces,
-            metrics: ['databases.' + row.key + '.conflicts'],
-            labels: ['Standby Conflicts'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Tuples">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: activityZeroDecimalPlaces,
-            metrics: ['databases.' + row.key + '.idx_tup_read', 'databases.' + row.key + '.idx_tup_fetch'],
-            labels: ['Tuple read', 'Tuple fetch'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Database Size">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: bytesTwoDecimalPlaces,
-            metrics: ['databases.' + row.key + '.db_size'],
-            labels: ['Size'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Connections">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: zeroDecimalPlaces,
-            metrics: ['databases.' + row.key + '.active_connections'],
-            labels: ['Active'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title="Transactions">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: activityZeroDecimalPlaces,
+              metrics: ['databases.' + row.key + '.xact_commit'],
+              labels: ['Committed'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: activityZeroDecimalPlaces,
+              metrics: ['databases.' + row.key + '.xact_rollback'],
+              labels: ['Rolled back'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Cache">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: 1,
+              metrics: ['databases.' + row.key + '.blks_hit_rate'],
+              labels: ['Cache Hit Ratio'],
+              type: 'line',
+              formatter: hitRateZeroDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Conflicts">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: zeroDecimalPlaces,
+              metrics: ['databases.' + row.key + '.conflicts'],
+              labels: ['Standby Conflicts'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Tuples">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: activityZeroDecimalPlaces,
+              metrics: ['databases.' + row.key + '.idx_tup_read', 'databases.' + row.key + '.idx_tup_fetch'],
+              labels: ['Read', 'Fetched'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Database Size">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['databases.' + row.key + '.db_size'],
+              labels: ['Size'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Connections">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: zeroDecimalPlaces,
+              metrics: ['databases.' + row.key + '.active_connections'],
+              labels: ['Active'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
     </div>
   );
 }

@@ -16,6 +16,11 @@ import {
 
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+
+  if (sensorConnectionStatus.startsWith('Agent Monitoring Issue')) {
+    return null;
+  }
+
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
