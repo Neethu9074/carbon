@@ -9,6 +9,11 @@ const tabList = [
     key: 'websites'
   },
   {
+    icon: 'lib_website_mobile_app',
+    text: 'Mobile Apps',
+    key: 'mobileApps'
+  },
+  {
     icon: 'lib_application_invert',
     text: 'Applications',
     key: 'application'
