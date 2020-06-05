@@ -15,5 +15,20 @@ export default {
     },
     explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#java_8_unmonitored_version`
+  },
+  jvm_incompatible_agent_detected: {
+    issueDescription: {
+      Component: function javaTraceBannedAgent({ agent, vendor, startupParameter }) {
+        return (
+          <span>
+            This JVM seems to run with {agent} by {vendor} installed (the `{startupParameter}` parameter is provided at
+            startup), which is known to be incompatible with the Instana agent. Tracing will not be enabled for this
+            JVM.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#jvm_incompatible_agent_detected`
   }
 };
