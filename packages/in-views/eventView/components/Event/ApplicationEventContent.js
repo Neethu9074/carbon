@@ -57,7 +57,7 @@ export default connectTo(
       <>
         <Row withoutSideMargin>
           <Col xs>
-            <Card title="Details">
+            <Card title="Description">
               <EntityInformation
                 entityId={entityId}
                 entityType={entityType}
