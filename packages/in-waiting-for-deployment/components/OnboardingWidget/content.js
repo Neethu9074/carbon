@@ -1298,7 +1298,7 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, b
             tenant,
             tenantUnit,
             agentKey,
-            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            agentMode === agentModeOptions[0] ? 'exe64' : 'exe64offline',
             butlerDomain
           )}
         />
@@ -1348,7 +1348,7 @@ function WindowsInstallerUnattendedContent({
             tenant,
             tenantUnit,
             agentKey,
-            agentMode === agentModeOptions[0] ? 'exe64' : 'win64offline',
+            agentMode === agentModeOptions[0] ? 'exe64' : 'exe64offline',
             butlerDomain
           )
         ]}
@@ -1475,9 +1475,10 @@ function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
 
 function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
-    { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
     { key: 'win64', label: 'Windows Zip (64bit)' },
-    { key: 'win32', label: 'Windows Zip (32bit)' }
+    { key: 'win32', label: 'Windows Zip (32bit)' },
+    { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
+    { key: 'win32offline', label: 'Windows Zip (32bit, static)' }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 
