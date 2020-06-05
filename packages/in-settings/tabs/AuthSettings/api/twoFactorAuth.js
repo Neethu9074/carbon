@@ -13,7 +13,7 @@ function getUsersAsResultObservableInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: '/api/settings/authentication//2fa/users'
+        url: '/api/settings/authentication/2fa/users'
       })
     )
   );
