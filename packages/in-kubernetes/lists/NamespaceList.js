@@ -57,6 +57,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'daemonSets',
+    label: 'DaemonSets',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.daemonSets} />;
+    }
+  },
+  {
     id: 'services',
     label: 'Services',
     getContent(item) {

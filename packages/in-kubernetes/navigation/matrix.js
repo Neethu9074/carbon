@@ -5,3 +5,4 @@ export const podId = 'podId';
 export const nodeId = 'nodeId';
 export const deploymentId = 'deploymentId';
 export const deploymentConfigId = 'deploymentConfigId';
+export const daemonSetId = 'daemonSetId';

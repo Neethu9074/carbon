@@ -1,9 +1,9 @@
 import React from 'react';
 
-import getOpenShiftDeploymentConfigItemCounters$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigItemCounters';
+import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
 import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
+import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { deploymentConfigDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -53,7 +53,7 @@ function getCounterComponent(props, resultPropName) {
     <TabLabelWithCounter
       label={props.tab.label}
       getCounters={() =>
-        getOpenShiftDeploymentConfigItemCounters$({
+        getKubernetesWorkloadControllerItemCounters({
           workloadControllerId: props.deploymentConfigId,
           timeConfig: props.timeConfig
         })
@@ -67,7 +67,7 @@ function ConditionsHeader({ deploymentConfigId, timeConfig }) {
   return (
     <ConditionsTabHeader
       getCounter={() =>
-        getOpenShiftDeploymentConfig({
+        getKubernetesWorkloadController({
           id: deploymentConfigId,
           timeConfig
         }).map(result => (result.data ? { data: result.data.conditions } : null))

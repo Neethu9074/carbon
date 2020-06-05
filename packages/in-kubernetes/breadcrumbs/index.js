@@ -6,9 +6,8 @@ import {
   getDeploymentDashboard,
   getDeploymentConfigDashboard
 } from 'in-kubernetes/navigation/paths';
+import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
-import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
-import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -63,7 +62,7 @@ export function PodBreadcrumbs(props) {
           {...props}
           href$={getDeploymentDashboard(workloadControllerId)}
           workloadControllerId={workloadControllerId}
-          workloadControllerSubscriptionName={getKubernetesDeployment}
+          workloadControllerSubscriptionName={getKubernetesWorkloadController}
         />
       ),
     workloadControllerId &&
@@ -72,7 +71,7 @@ export function PodBreadcrumbs(props) {
           {...props}
           href$={getDeploymentConfigDashboard(workloadControllerId)}
           workloadControllerId={workloadControllerId}
-          workloadControllerSubscriptionName={getOpenShiftDeploymentConfig}
+          workloadControllerSubscriptionName={getKubernetesWorkloadController}
         />
       ),
     podId && <PodBreadcrumb {...props} />

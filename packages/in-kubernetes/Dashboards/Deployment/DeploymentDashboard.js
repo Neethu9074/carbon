@@ -1,7 +1,7 @@
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
-import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
+import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
@@ -19,7 +19,7 @@ export default function DeploymentDashboard({ location }) {
       dashboardPath={deploymentDashboard}
       matrixParameterId={matrixDeploymentId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
-      workloadControllerSubscriptionName={getKubernetesDeployment}
+      workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={deploymentTabChange}
       headerTitle="Deployment"
       badgeType="K8s Deployment"

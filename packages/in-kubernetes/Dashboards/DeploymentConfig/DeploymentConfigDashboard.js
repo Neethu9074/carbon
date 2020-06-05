@@ -1,7 +1,7 @@
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
-import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
+import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
 import { deploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -19,7 +19,7 @@ export default function DeploymentConfigDashboard({ location }) {
       dashboardPath={deploymentConfigDashboard}
       matrixParameterId={matrixDeploymentConfigId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
-      workloadControllerSubscriptionName={getOpenShiftDeploymentConfig}
+      workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={deploymentConfigTabChange}
       headerTitle="Deployment Config"
       badgeType="K8s Deployment Config"

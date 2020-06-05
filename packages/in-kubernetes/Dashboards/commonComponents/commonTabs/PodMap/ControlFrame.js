@@ -5,8 +5,8 @@ import React from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
@@ -49,7 +49,7 @@ export const namespaceGroupings = [
   {
     value: 'DEPLOYMENT',
     label: 'Deployment',
-    getEntity: getKubernetesDeployment
+    getEntity: getKubernetesWorkloadController
   },
   {
     value: 'SERVICE',

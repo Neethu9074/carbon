@@ -10,7 +10,8 @@ import {
   podId as matrixPodId,
   nodeId as matrixNodeId,
   deploymentId as matrixDeploymentId,
-  deploymentConfigId as matrixDeploymentConfigId
+  deploymentConfigId as matrixDeploymentConfigId,
+  daemonSetId as matrixDaemonSetId
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -46,6 +47,10 @@ export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardFu
 export const deploymentConfigDashboard = `/deploymentconfig`;
 export const deploymentConfigDashboardFullyQualified = `${kubernetes}${deploymentConfigDashboard}`;
 export const deploymentConfigDashboardDetailsFullyQualified = `${deploymentConfigDashboardFullyQualified}/details`;
+
+export const daemonSetDashboard = `/daemonset`;
+export const daemonSetDashboardFullyQualified = `${kubernetes}${daemonSetDashboard}`;
+export const daemonSetDashboardDetailsFullyQualified = `${daemonSetDashboardFullyQualified}/details`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
@@ -159,6 +164,25 @@ export function getDeploymentConfigDashboard(
   });
 }
 
+export function getDaemonSetDashboard(
+  daemonSetId,
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject
+) {
+  return getDashboard({
+    base: daemonSetDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: daemonSetDashboard,
+    matrixParam: matrixDaemonSetId,
+    id: daemonSetId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, daemonSetDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, daemonSetDashboard, matrixNamespaceId, namespaceId);
+    }
+  });
+}
+
 export function getDashboardForEntity(snapshotId, plugin) {
   switch (plugin) {
     case fullyQualifiedPlugins.kubernetesPod:
@@ -169,6 +193,8 @@ export function getDashboardForEntity(snapshotId, plugin) {
       return getDeploymentDashboard(snapshotId);
     case fullyQualifiedPlugins.openshiftDeploymentConfig:
       return getDeploymentConfigDashboard(snapshotId);
+    case fullyQualifiedPlugins.kubernetesDaemonSet:
+      return getDaemonSetDashboard(snapshotId);
     case fullyQualifiedPlugins.kubernetesNamespace:
       return getNamespaceDashboard(snapshotId);
     case fullyQualifiedPlugins.kubernetesCluster:
@@ -184,7 +210,7 @@ function getDashboard({
   matrixSegment,
   matrixParam,
   id,
-  paramsCallback
+  paramsCallback = null
 }) {
   return getModifiedUrlStream(params => {
     params.pathname = `${base}${tab}`;

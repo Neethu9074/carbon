@@ -12,6 +12,10 @@ export const deploymentConfigTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'deploymentConfig' });
 };
 
+export const daemonSetTabChange = e => {
+  track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'daemonSet' });
+};
+
 export const namespaceTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'namespace' });
 };
