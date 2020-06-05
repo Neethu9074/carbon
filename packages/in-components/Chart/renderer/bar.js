@@ -28,13 +28,15 @@ export default {
     const blockInnerWidth = Math.floor(blockOuterWidth - 2 * blockMargin);
     const barWidth = Math.floor(blockInnerWidth / axis.numOfSeries);
 
+    config.backBufferCtx.save();
+    config.backBufferCtx.globalAlpha = 1.0;
+
     for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
       const dataSeries = metrics[iMetric];
       if (!dataSeries) {
         continue;
       }
 
-      config.backBufferCtx.beginPath();
       config.backBufferCtx.fillStyle = colors100[iMetric];
 
       for (let iDataSeries = 0; iDataSeries < dataSeries.length; iDataSeries++) {
@@ -48,10 +50,9 @@ export default {
         const barHeight = Math.max(MIN_BAR_HEIGHT_IN_PX, chartHeight - yPos);
         config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth, barHeight);
       }
-
-      config.backBufferCtx.fill();
-      config.backBufferCtx.globalAlpha = 1.0;
     }
+
+    config.backBufferCtx.restore();
   },
 
   enrich: (config, axis) => {
