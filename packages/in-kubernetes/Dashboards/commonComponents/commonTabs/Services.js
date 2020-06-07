@@ -3,6 +3,7 @@ import React from 'react';
 import {
   clusterIdUrlParameter,
   namespaceIdUrlParameter,
+  daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
@@ -105,6 +106,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     ...timeConfigUrlParameters,
     clusterIdUrlParameter,
     namespaceIdUrlParameter,
+    daemonSetIdUrlParameter,
     deploymentIdUrlParameter,
     deploymentConfigIdUrlParameter
   ],
@@ -132,6 +134,7 @@ function getTableData({
   timeConfig,
   namespaceId,
   clusterId,
+  daemonSetId,
   deploymentId,
   deploymentConfigId,
   resultTransformer = result => result
@@ -149,6 +152,7 @@ function getTableData({
       label: query,
       namespaceId,
       clusterId,
+      daemonSetId,
       deploymentId,
       deploymentConfigId,
       timeConfig

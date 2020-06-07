@@ -67,6 +67,20 @@ describe('in-kubernetes/navigation/paths', () => {
     );
   });
 
+  it('should return the correct link for an event on a daemonSet', () => {
+    const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
+    const plugin = fullyQualifiedPlugins.kubernetesDaemonSet;
+    const subscriber = sinon.stub();
+
+    getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
+
+    expect(subscriber.callCount).to.equal(1);
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
+      '/#/kubernetes/daemonset;daemonSetId=47_wi4IoJojdvsh1f3ebmi7DHII/summary'
+    );
+  });
+
   it('should return the correct link for an event on a namespace', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
     const plugin = fullyQualifiedPlugins.kubernetesNamespace;

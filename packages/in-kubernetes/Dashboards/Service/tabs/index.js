@@ -1,12 +1,17 @@
 import React from 'react';
 
+import {
+  getDaemonSetDashboard,
+  getDeploymentDashboard,
+  getDeploymentConfigDashboard
+} from 'in-kubernetes/navigation/paths';
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
-import { getDeploymentDashboard, getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
+import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
-import getKubernetesDeployments$ from 'in-subscription/kubernetes/getKubernetesDeployments';
+import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
@@ -35,7 +40,7 @@ export default [
       WorkloadControllers({
         ...props,
         workloadControllerType: 'deployment',
-        getWorkloadControllers$: getKubernetesDeployments$,
+        getWorkloadControllers$: getKubernetesDeployments,
         getWorkloadControllerDashboard: getDeploymentDashboard,
         pathSegment: '/deployments',
         entityName: 'deployments'
@@ -49,12 +54,26 @@ export default [
       WorkloadControllers({
         ...props,
         workloadControllerType: 'deploymentConfig',
-        getWorkloadControllers$: getOpenShiftDeploymentConfigs$,
+        getWorkloadControllers$: getOpenShiftDeploymentConfigs,
         getWorkloadControllerDashboard: getDeploymentConfigDashboard,
         pathSegment: '/deploymentconfigs',
         entityName: 'deployment configs'
       }),
     header: props => getCounterComponent(props, 'deploymentConfigs')
+  },
+  {
+    label: 'DaemonSets',
+    path: `${serviceDashboardFullyQualified}/daemonsets`,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'daemonset',
+        getWorkloadControllers$: getKubernetesDaemonSets,
+        getWorkloadControllerDashboard: getDaemonSetDashboard,
+        pathSegment: '/daemonsets',
+        entityName: 'daemonsets'
+      }),
+    header: props => getCounterComponent(props, 'daemonSets')
   },
   {
     label: 'Pods',

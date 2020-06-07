@@ -6,6 +6,7 @@ import {
   namespaceDashboard,
   podDashboard,
   nodeDashboard,
+  daemonSetDashboard,
   deploymentDashboard,
   deploymentConfigDashboard
 } from 'in-kubernetes/navigation/paths';
@@ -16,6 +17,7 @@ import {
   namespaceId,
   podId,
   nodeId,
+  daemonSetId,
   deploymentId,
   deploymentConfigId
 } from 'in-kubernetes/navigation/matrix';
@@ -43,6 +45,11 @@ export const podIdUrlParameter = {
 export const nodeIdUrlParameter = {
   path: nodeDashboard,
   name: nodeId
+};
+
+export const daemonSetIdUrlParameter = {
+  path: daemonSetDashboard,
+  name: daemonSetId
 };
 
 export const deploymentIdUrlParameter = {

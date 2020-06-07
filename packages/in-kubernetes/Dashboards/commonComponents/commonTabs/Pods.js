@@ -9,6 +9,7 @@ import {
   namespaceIdUrlParameter,
   podIdUrlParameter,
   nodeIdUrlParameter,
+  daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter,
   phasePodListUrlParameter
@@ -197,6 +198,7 @@ function createTable(columnDefinitions) {
       namespaceIdUrlParameter,
       podIdUrlParameter,
       nodeIdUrlParameter,
+      daemonSetIdUrlParameter,
       deploymentIdUrlParameter,
       deploymentConfigIdUrlParameter,
       phasePodListUrlParameter
@@ -227,6 +229,7 @@ const Pods = compose(
     timeConfig,
     namespaceId,
     clusterId,
+    daemonSetId,
     deploymentId,
     deploymentConfigId,
     serviceId,
@@ -252,6 +255,7 @@ const Pods = compose(
         get={getTableData}
         timeConfig={timeConfig}
         namespaceId={namespaceId}
+        daemonSetId={daemonSetId}
         deploymentId={deploymentId}
         deploymentConfigId={deploymentConfigId}
         clusterId={clusterId}
@@ -275,6 +279,7 @@ function getTableData({
   namespaceId,
   clusterId,
   serviceId,
+  daemonSetId,
   deploymentId,
   deploymentConfigId,
   nodeId,
@@ -292,6 +297,7 @@ function getTableData({
     filter: {
       label: query,
       namespaceId,
+      daemonSetId,
       deploymentId,
       deploymentConfigId,
       clusterId,

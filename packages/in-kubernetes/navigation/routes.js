@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 // the following components are all part of the same bundle (kubernetes)
 import DeploymentConfigDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DeploymentConfig/DeploymentConfigDashboard';
 import DeploymentDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Deployment/DeploymentDashboard';
+import DaemonSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/DaemonSet/DaemonSetDashboard';
 import NamespaceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Namespace/NamespaceDashboard';
 import ClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Cluster/ClusterDashboard';
 import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Service/ServiceDashboard';
@@ -18,6 +19,7 @@ import {
   namespaceDashboardFullyQualified,
   podDashboardFullyQualified,
   nodeDashboardFullyQualified,
+  daemonSetDashboardFullyQualified,
   deploymentDashboardFullyQualified,
   deploymentConfigDashboardFullyQualified
 } from 'in-kubernetes/navigation/paths';
@@ -30,6 +32,7 @@ export default (
     <Route path={namespaceDashboardFullyQualified} component={createAsyncViewComponent(NamespaceDashboard)} />
     <Route path={nodeDashboardFullyQualified} component={createAsyncViewComponent(NodeDashboard)} />
     <Route path={podDashboardFullyQualified} component={createAsyncViewComponent(PodDashboard)} />
+    <Route path={daemonSetDashboardFullyQualified} component={createAsyncViewComponent(DaemonSetDashboard)} />
     <Route path={deploymentDashboardFullyQualified} component={createAsyncViewComponent(DeploymentDashboard)} />
     <Route
       path={deploymentConfigDashboardFullyQualified}

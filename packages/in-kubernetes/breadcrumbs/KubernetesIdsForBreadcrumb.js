@@ -7,6 +7,7 @@ export default connectTo(
   props => ({
     resolvedIdsResult: getKubernetesIdsForBreadcrumb$({
       filter: {
+        daemonSetId: props.daemonSetId,
         deploymentId: props.deploymentId,
         deploymentConfigId: props.deploymentConfigId,
         namespaceId: props.namespaceId,

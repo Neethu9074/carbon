@@ -3,6 +3,7 @@ import React from 'react';
 import {
   getNamespaceDashboard,
   getClusterDashboard,
+  getDaemonSetDashboard,
   getDeploymentDashboard,
   getDeploymentConfigDashboard
 } from 'in-kubernetes/navigation/paths';
@@ -57,9 +58,20 @@ export function PodBreadcrumbs(props) {
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     workloadControllerId &&
+      workloadControllerType === fullyQualifiedPlugins.kubernetesDaemonSet && (
+        <WorkloadControllerBreadcrumb
+          {...props}
+          headerTitle="DaemonSet"
+          href$={getDaemonSetDashboard(workloadControllerId)}
+          workloadControllerId={workloadControllerId}
+          workloadControllerSubscriptionName={getKubernetesWorkloadController}
+        />
+      ),
+    workloadControllerId &&
       workloadControllerType === fullyQualifiedPlugins.kubernetesDeployment && (
         <WorkloadControllerBreadcrumb
           {...props}
+          headerTitle="Deployment"
           href$={getDeploymentDashboard(workloadControllerId)}
           workloadControllerId={workloadControllerId}
           workloadControllerSubscriptionName={getKubernetesWorkloadController}
@@ -69,6 +81,7 @@ export function PodBreadcrumbs(props) {
       workloadControllerType === fullyQualifiedPlugins.openshiftDeploymentConfig && (
         <WorkloadControllerBreadcrumb
           {...props}
+          headerTitle="Deployment Config"
           href$={getDeploymentConfigDashboard(workloadControllerId)}
           workloadControllerId={workloadControllerId}
           workloadControllerSubscriptionName={getKubernetesWorkloadController}
