@@ -6,6 +6,7 @@ import Button from 'in-new-components/Button';
 export default function AnalyzeCallsButton({
   clusterName,
   namespaceName,
+  daemonSetName,
   deploymentName,
   deploymentConfigName,
   serviceName,
@@ -18,7 +19,15 @@ export default function AnalyzeCallsButton({
       icon="lib_application_call"
       href$={getLinkToAnalyze({
         dataSource: 'calls',
-        filters: getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName),
+        filters: getFilters(
+          clusterName,
+          namespaceName,
+          daemonSetName,
+          deploymentName,
+          deploymentConfigName,
+          serviceName,
+          podName
+        ),
         groupByTag: groupByTag ? groupByTag : {}
       })}
     >
@@ -27,7 +36,15 @@ export default function AnalyzeCallsButton({
   );
 }
 
-export function getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName) {
+export function getFilters(
+  clusterName,
+  namespaceName,
+  daemonSetName,
+  deploymentName,
+  deploymentConfigName,
+  serviceName,
+  podName
+) {
   const filters = [];
 
   if (clusterName) {
@@ -40,6 +57,15 @@ export function getFilters(clusterName, namespaceName, deploymentName, deploymen
 
   if (namespaceName) {
     filters.push({ name: 'kubernetes.namespace', value: namespaceName, operator: 'EQUALS', entity: 'DESTINATION' });
+  }
+
+  if (daemonSetName) {
+    filters.push({
+      name: 'kubernetes.daemonset.name',
+      value: daemonSetName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
   }
 
   if (deploymentName) {
