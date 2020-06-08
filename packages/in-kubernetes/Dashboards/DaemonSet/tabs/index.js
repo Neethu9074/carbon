@@ -5,6 +5,7 @@ import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponent
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { daemonSetDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/DaemonSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/DaemonSet/tabs/Details';
@@ -24,6 +25,12 @@ export default [
     label: 'Events',
     path: `${daemonSetDashboardFullyQualified}/events`,
     component: EventsWithoutNamespace
+  },
+  {
+    label: 'Nodes',
+    path: `${daemonSetDashboardFullyQualified}/nodes`,
+    component: Nodes,
+    header: props => getCounterComponent(props, 'nodes')
   },
   {
     label: 'K8s Services',

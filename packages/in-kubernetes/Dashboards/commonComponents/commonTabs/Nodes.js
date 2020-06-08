@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -11,7 +12,6 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
-import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
@@ -141,7 +141,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     columnDefinitions,
     entityName: 'nodes'
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, daemonSetIdUrlParameter],
   columnDefinitions,
   defaultOrderBy: 'name',
   defaultOrderDirection: 'ASC',
@@ -152,7 +152,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function Nodes(props) {
   return (
     <Card>
-      <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />
+      <ServerTableWithUrlState get={getTableData} {...props} />
     </Card>
   );
 }
@@ -164,7 +164,8 @@ function getTableData({
   orderBy = 'type',
   orderDirection = 'ASC',
   timeConfig,
-  clusterId
+  clusterId,
+  workloadControllerId
 }) {
   return getKubernetesNodes({
     pagination: {
@@ -178,6 +179,7 @@ function getTableData({
     filter: {
       label: query,
       clusterId,
+      workloadControllerId,
       timeConfig
     },
     granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
