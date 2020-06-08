@@ -229,9 +229,7 @@ const Pods = compose(
     timeConfig,
     namespaceId,
     clusterId,
-    daemonSetId,
-    deploymentId,
-    deploymentConfigId,
+    workloadControllerId,
     serviceId,
     leftHeader,
     nodeId,
@@ -255,9 +253,7 @@ const Pods = compose(
         get={getTableData}
         timeConfig={timeConfig}
         namespaceId={namespaceId}
-        daemonSetId={daemonSetId}
-        deploymentId={deploymentId}
-        deploymentConfigId={deploymentConfigId}
+        workloadControllerId={workloadControllerId}
         clusterId={clusterId}
         serviceId={serviceId}
         nodeId={nodeId}
@@ -279,9 +275,7 @@ function getTableData({
   namespaceId,
   clusterId,
   serviceId,
-  daemonSetId,
-  deploymentId,
-  deploymentConfigId,
+  workloadControllerId,
   nodeId,
   phase
 }) {
@@ -297,9 +291,7 @@ function getTableData({
     filter: {
       label: query,
       namespaceId,
-      daemonSetId,
-      deploymentId,
-      deploymentConfigId,
+      workloadControllerId,
       clusterId,
       serviceId,
       nodeId,

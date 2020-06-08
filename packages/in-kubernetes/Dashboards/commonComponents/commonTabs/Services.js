@@ -134,9 +134,7 @@ function getTableData({
   timeConfig,
   namespaceId,
   clusterId,
-  daemonSetId,
-  deploymentId,
-  deploymentConfigId,
+  workloadControllerId,
   resultTransformer = result => result
 }) {
   return getKubernetesServices({
@@ -152,9 +150,7 @@ function getTableData({
       label: query,
       namespaceId,
       clusterId,
-      daemonSetId,
-      deploymentId,
-      deploymentConfigId,
+      workloadControllerId,
       timeConfig
     }
   }).map(resultTransformer);
