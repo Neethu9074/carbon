@@ -21,9 +21,9 @@ export default {
       Component: function javaTraceBannedAgent({ agent, vendor, startupParameter }) {
         return (
           <span>
-            This JVM seems to run with {agent} by {vendor} installed (the `{startupParameter}` parameter is provided at
-            startup), which is known to be incompatible with the Instana agent. Tracing will not be enabled for this
-            JVM.
+            This JVM seems to run with {agent} by {vendor} installed (the <code>{startupParameter}</code> parameter is
+            provided at startup), which is known to be incompatible with the Instana agent. Tracing will not be enabled
+            for this JVM.
           </span>
         );
       }
