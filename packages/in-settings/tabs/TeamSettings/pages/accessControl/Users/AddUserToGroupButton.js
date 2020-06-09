@@ -28,7 +28,8 @@ function addUserToGroup(userId, newGroupsToAdd, setErrorMessage) {
   const groupsWithUser = newGroupsToAdd.slice().map(group => {
     return {
       ...group,
-      members: [...group.members, { userId }]
+      members: [...group.members, { userId }],
+      permissions: [{ id: group.permissionSet.id, scope: 'TU' }]
     };
   });
 

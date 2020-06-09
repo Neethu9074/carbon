@@ -75,7 +75,8 @@ function ListRenderer({ items, userId, setErrorMessage, currentDeletingItemIds }
 function removeUserFromGroup(_userId, group, setErrorMessage) {
   const groupWithoutUser = {
     ...group,
-    members: group.members.filter(({ userId }) => userId !== _userId)
+    members: group.members.filter(({ userId }) => userId !== _userId),
+    permissions: [{ id: group.permissionSet.id, scope: 'TU' }]
   };
   const result$ = saveGroup(groupWithoutUser);
   result$.once(
