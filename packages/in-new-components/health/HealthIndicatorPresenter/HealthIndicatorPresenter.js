@@ -6,7 +6,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './HealthIndicatorPresenter.mless';
 
 export default function HealthIndicatorPresenter({ openIssues, maxSeverity, active, refSetter, onClick }) {
-  if (openIssues === 0) {
+  if (openIssues === 0 || openIssues === 'No Issues') {
     return <SvgIcon type="lib_check" className={locals.okayIcon} />;
   }
 
