@@ -22,6 +22,7 @@ export default function createServerTableWithUrlState({
   settingsKey,
   pathSegment,
   matrixPrefix = '',
+  isSearchable = true,
   Renderer = ServerTablePresenter
 }) {
   return compose(
@@ -112,7 +113,8 @@ export default function createServerTableWithUrlState({
       };
     }),
     withProps({
-      columnDefinitions
+      columnDefinitions,
+      isSearchable
     }),
     withPropsOnChange(['columnDefinitions'], ({ columnDefinitions }) => ({
       optionalColumns: columnDefinitions.filter(columnDefinition => columnDefinition.optional)

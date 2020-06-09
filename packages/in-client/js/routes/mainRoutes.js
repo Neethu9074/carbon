@@ -1,4 +1,3 @@
-import Map from 'promise-loader?global,infrastructure!in-map/index';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -9,8 +8,14 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
+import {
+  pcfEnabled,
+  vsphereEnabled,
+  internalMonitoringUnit,
+  infrastructureExploreEnabled
+} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, vsphereEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
+import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
@@ -19,6 +24,8 @@ import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import InternalViews from 'promise-loader?global,internal!in-internal';
+import { infraExplorePath } from 'in-infrastructure/navigation/paths';
+import Map from 'promise-loader?global,infrastructure!in-map/index';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
@@ -38,9 +45,12 @@ export default (
   <FragmentSupportingSwitch>
     <Route path={physicalPath} component={createAsyncViewComponent(Map)} />
     <Route path={containerPath} component={createAsyncViewComponent(Map)} />
+    <Route path={tablePath} component={createAsyncViewComponent(TableView)} />
+    <Route path={graphPath} component={createAsyncViewComponent(GraphView)} />
+    {infrastructureExploreEnabled && (
+      <Route path={infraExplorePath} component={createAsyncViewComponent(InfraExploreView)} />
+    )}
 
-    <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
-    <Route component={createAsyncViewComponent(GraphView)} path={graphPath} />
     {configurationRoutes}
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />

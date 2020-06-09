@@ -22,5 +22,6 @@ module.exports = {
   skipOnboardingDialog: false,
   agentMonitoringIssuesEnabled: false,
   routeIdOverPathTplEnabled: false,
-  sloConfigurationEnabled: true
+  sloConfigurationEnabled: true,
+  infrastructureExploreEnabled: true
 };

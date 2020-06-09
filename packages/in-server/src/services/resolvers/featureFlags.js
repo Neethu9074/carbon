@@ -126,5 +126,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     consulKey: `settings/${tenant}-${unit}/ROUTE_ID_OVER_PATH_TPL_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'infrastructureExploreEnabled',
+    instanaCtlKey: 'feature.infrastructure.explore.enabled',
+    consulKey: `settings/${tenant}-${unit}/INFRASTRUCTURE_EXPLORE_ENABLED`,
+    defaultValue: false
   }
 ];

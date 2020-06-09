@@ -4,7 +4,5 @@
   .wrapper {
     display: flex;
     align-items: center;
-
-    background: @lib__colors__N800Dark;
   }
 }

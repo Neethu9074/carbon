@@ -35,6 +35,7 @@ export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitorin
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const sloConfigurationEnabled = isFeatureFlagEnabled('sloConfigurationEnabled');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
+export const infrastructureExploreEnabled = isFeatureFlagEnabled('infrastructureExploreEnabled');
 
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
