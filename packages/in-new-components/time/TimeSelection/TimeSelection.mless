@@ -1,18 +1,11 @@
 @import '~in-themes/active.less';
 
 :local {
-  .timePresenterWrapper {
-    display: flex;
-    align-items: center;
+  .live, .live:hover {
+    color: @lib__colors__green800;
 
-    height: 3.5rem;
-    margin-left: auto;
-
-    border: 1px solid @lib__colors__N300;
-  }
-
-  .darkTheme {
-    background: @lib__colors__N900Primary;
-    border: 1px solid @lib__colors__N600Light;
+    svg {
+      fill: @lib__colors__green800;
+    }
   }
 }

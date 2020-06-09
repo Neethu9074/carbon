@@ -87,8 +87,7 @@ describe('shortcuts/C', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/C': mod,
-      'in-services/urlShortener/urlShortener': {}
+      'in-services/shortcuts/shortcuts/C': mod
     });
     shortcuts.init();
   }

@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import theme from 'in-themes';
@@ -34,14 +36,23 @@ export default function Tab({
     );
   }
 
+  let interactivityProps = emptyObject;
+  if (onTabSelect && !isDisabled) {
+    interactivityProps = toInteractiveElement({
+      ariaLabel: 'Select tab',
+      onDefaultInteraction: () => onTabSelect(index)
+    });
+  }
+
   const item = (
     <li
       className={evaluateClassNames({
         [locals.tab]: true,
         [locals.active]: isActive,
-        [locals.disabled]: isDisabled
+        [locals.disabled]: isDisabled,
+        [locals.interactive]: onTabSelect && !isDisabled
       })}
-      onClick={() => !isDisabled && onTabSelect(index)}
+      {...interactivityProps}
     >
       <div className={locals.tabInner}>
         {iconElement}

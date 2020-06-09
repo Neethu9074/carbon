@@ -1,0 +1,19 @@
+@import '~in-themes/active.less';
+
+:local {
+  .light {
+    background: #fff;
+  }
+
+  .dark {
+    // Deliberately deviation from the default styling of the button.
+    // Trying to keep the modifications down to the minimum necessary
+    // according to the design.
+    background: @lib__colors__N800Dark;
+    border: 1px solid @lib__colors__N500;
+
+    &:hover {
+      background: @lib__colors__N700Medium;
+    }
+  }
+}

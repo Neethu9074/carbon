@@ -1,5 +1,5 @@
 import { just } from 'reactive-observables';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   getTimeframeNonLiveUrl,
@@ -9,15 +9,14 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
+import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import getSamplingLevel from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import getRetention from 'in-subscription/application/getRetention';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
-import ToggleButton from 'in-new-components/ToggleButton';
 import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -79,14 +78,8 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
   const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult || emptyObject;
   const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.timePresenterWrapper]: true,
-        [locals.darkTheme]: darkTheme
-      })}
-    >
+    <>
       <TimePresenter
-        className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
         historicData={containsHistoricData}
@@ -97,23 +90,39 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
         darkTheme={darkTheme}
       />
       <LiveModeToggle isLive={timeConfig.autoRefresh} darkTheme={darkTheme} />
-    </div>
+    </>
   );
 }
 
 function LiveModeToggle({ isLive, darkTheme }) {
+  const [hover, setHover] = useState(false);
   const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
+
+  let icon;
+  let iconSpinning = false;
+  if (isLive) {
+    if (hover) {
+      icon = 'lib_actions_stop';
+    } else {
+      icon = 'lib_actions_loading';
+      iconSpinning = true;
+    }
+  } else {
+    icon = 'lib_actions_play';
+  }
+
   return (
-    <ToggleButton
-      checked={isLive}
+    <DashboardHeaderButton
       href$={href$}
-      iconOff="lib_actions_play"
-      iconOn="lib_actions_loading"
-      iconOnHover="lib_actions_stop"
+      icon={icon}
+      iconSpinning={iconSpinning}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       darkTheme={darkTheme}
+      className={isLive ? locals.live : undefined}
     >
       Live
-    </ToggleButton>
+    </DashboardHeaderButton>
   );
 }
 

@@ -1,86 +1,37 @@
 @import '~in-themes/active.less';
 
 :local {
+  .button {
+    // Hide duplicate border of this non-button-group, but looks like
+    // button group button
+    margin-right: -1px;
+
+    &:hover, &:active, &:focus {
+      // raise the button visually over the live mode button so that the right
+      // border is shown
+      z-index: 1;
+    }
+  }
+
   .outerWrapper {
     display: flex;
     align-items: center;
-    height: 100%;
-    border-right: 1px solid @lib__colors__N300;
-    background: @lib__colors__white;
-
-    &:hover {
-      .timeSettingTop {
-        color: @lib__colors__N500;
-      }
-
-      .timeSetting {
-        color: @lib__colors__N500;
-      }
-
-      .timeIcon {
-        fill: @lib__colors__N500;
-      }
-
-      .toggleIconExpanded {
-        fill: @lib__colors__N500;
-      }
-
-      .toggleIcon {
-        fill: @lib__colors__N500;
-      }
-    }
+    margin-left: 0.5rem;
   }
 
   .dark {
     border-left: 1px solid @lib__colors__N700Medium;
     border-right: 1px solid @lib__colors__N700Medium;
-    background: @lib__colors__N800Dark;
-
-    .timeIcon {
-      fill: #fff;
-    }
-
-    .toggleIcon {
-      fill: #fff;
-    }
-
-    .timeSettingTop {
-      color: @lib__colors__N300;
-    }
-
-    .timeSetting {
-      color: #fff;
-    }
-  }
-
-  .wrapper {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    height: 100%;
-    padding: 0 1rem;
-
-    &:hover {
-      text-decoration: none;
-    }
   }
 
   .displayTimeWrapper {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .timeIcon {
     margin-right: 0.5rem;
-  }
-
-  .toggleIcon {
-    margin-left: 1rem;
-    fill: @lib__colors__N800Dark;
-  }
-
-  .toggleIconExpanded {
-    fill: @lib__colors__N600Light;
   }
 
   .timeSetting,
@@ -89,33 +40,21 @@
   }
 
   .timeSettingTop {
-    color: @lib__colors__N600Light;
     font-size: 0.75rem;
     line-height: 1rem;
     font-weight: normal;
   }
 
   .timeSetting {
-    color: @lib__colors__N800Dark;
     font-size: 1rem;
     line-height: 1rem;
     font-weight: 600;
-  }
-
-  .timeSettingTopExpanded {
-    color: @lib__colors__N600Light;
-  }
-
-  .timeSettingExpanded {
-    color: @lib__colors__N600Light;
   }
 
   .tooltip {
     display: flex;
     align-items: center;
     flex-direction: column;
-
-    color: @lib__colors__N900Primary;
   }
 
   .tooltipLabel {

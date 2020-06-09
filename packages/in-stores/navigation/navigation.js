@@ -50,6 +50,10 @@ export function getModifiedUrlStream(mapParams) {
     .distinct();
 }
 
+export function toAbsoluteUrl(partialUrl) {
+  return window.location.origin + partialUrl;
+}
+
 export function buildPathStartsWithStream(path) {
   return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }

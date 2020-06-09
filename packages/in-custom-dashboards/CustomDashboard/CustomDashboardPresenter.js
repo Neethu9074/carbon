@@ -6,6 +6,7 @@ import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supporte
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-new-components/MoreMenu';
 import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
+import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
@@ -79,6 +80,7 @@ function CustomDashboardPresenter(props) {
                           <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
                         ))
                       }
+                      renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
                     />
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
@@ -154,30 +156,8 @@ function SecondaryButtonLine({
   onRenameDashboard,
   onDuplicateDashboard,
   editable,
-  onShare,
-  onEditAsJson,
-  canCreatePublicCustomDashboards
+  onEditAsJson
 }) {
-  let shareButton;
-  if (editable) {
-    shareButton = (
-      <Button
-        kind="secondaryDarker"
-        icon="lib_actions_share"
-        onClick={canCreatePublicCustomDashboards ? onShare : undefined}
-        disabled={!canCreatePublicCustomDashboards}
-      >
-        Share
-      </Button>
-    );
-
-    if (!canCreatePublicCustomDashboards) {
-      shareButton = (
-        <Tooltip content="Your user account does not have permissions to share dashboards.">{shareButton}</Tooltip>
-      );
-    }
-  }
-
   return (
     <>
       {editable && (
@@ -185,8 +165,6 @@ function SecondaryButtonLine({
           Add Widget
         </Button>
       )}
-
-      {shareButton}
 
       <MoreMenu kind="secondaryDarker">
         <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
@@ -217,4 +195,28 @@ function SecondaryButtonLine({
       </MoreMenu>
     </>
   );
+}
+
+function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards }) {
+  if (!editable) {
+    return null;
+  }
+
+  let shareButton = (
+    <DashboardHeaderButton
+      icon="lib_actions_share"
+      onClick={canCreatePublicCustomDashboards ? onShare : undefined}
+      disabled={!canCreatePublicCustomDashboards}
+    >
+      Share
+    </DashboardHeaderButton>
+  );
+
+  if (!canCreatePublicCustomDashboards) {
+    shareButton = (
+      <Tooltip content="Your user account does not have permissions to share dashboards.">{shareButton}</Tooltip>
+    );
+  }
+
+  return shareButton;
 }

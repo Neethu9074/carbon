@@ -1,0 +1,37 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    width: 20rem;
+    max-width: 30rem;
+  }
+
+  .ready {
+    padding: 1rem;
+  }
+
+  .copyRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .copy {
+    margin-left: .5rem;
+    flex-shrink: 0;
+  }
+
+  .explanation {
+    padding: 0.3rem 0.5rem;
+    background: @lib__colors__N100;
+  }
+
+  .bottomTimeRow {
+    display: block;
+    font-weight: 600;
+  }
+}

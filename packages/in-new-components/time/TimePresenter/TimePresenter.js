@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimePresenter.mless';
 
@@ -13,28 +14,23 @@ export default function TimePresenter({
   historicData,
   retention,
   largeData,
-  className,
   expanded,
   refSetter,
   darkTheme
 }) {
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.outerWrapper]: true,
-        [locals.dark]: darkTheme
-      })}
+    <DashboardHeaderButton
+      expanded={expanded}
+      darkTheme={darkTheme}
+      onClick={e => {
+        stopPropagationAndPreventDefault(e);
+        onClick();
+      }}
+      refSetter={refSetter}
+      className={locals.button}
+      noAutoMargin
     >
-      <a
-        className={joinClassNames(locals.wrapper, className)}
-        href="#"
-        onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-          onClick();
-        }}
-        ref={refSetter}
-      >
+      <div className={locals.outerWrapper}>
         <TimeIcon
           className={locals.timeIcon}
           containsHistoricData={historicData}
@@ -60,15 +56,7 @@ export default function TimePresenter({
             {timeDisplayBottomFormat(timeConfig)}
           </div>
         </div>
-
-        <SvgIcon
-          className={evaluateClassNames({
-            [locals.toggleIcon]: true,
-            [locals.toggleIconExpanded]: expanded
-          })}
-          type="lib_arrow_drop_down"
-        />
-      </a>
-    </div>
+      </div>
+    </DashboardHeaderButton>
   );
 }

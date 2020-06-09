@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShortener';
 import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -17,7 +18,14 @@ export const themes = {
 
 export default function DashboardHeader(props) {
   const { theme = themes.default, icon, title, className, contextConfigurations, renderTimeSelection, result } = props;
-  let { label, renderIcon, renderMetaInformation, renderButtonLine, renderButtonLineSecondary } = props;
+  let {
+    label,
+    renderIcon,
+    renderMetaInformation,
+    renderButtonLine,
+    renderButtonLineSecondary,
+    renderTopLevelButtonLine
+  } = props;
 
   const isLoading = result && result.data == null;
 
@@ -30,6 +38,9 @@ export default function DashboardHeader(props) {
     }
     if (renderMetaInformation) {
       renderMetaInformation = getSkeletonButton;
+    }
+    if (renderTopLevelButtonLine) {
+      renderTopLevelButtonLine = getSkeletonButton;
     }
     if (!icon || renderIcon) {
       renderIcon = getSkeletonIcon;
@@ -53,7 +64,11 @@ export default function DashboardHeader(props) {
           <span className={locals.label}>{label}</span>
           {renderMetaInformation && renderMetaInformation(props)}
         </div>
-        {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+        <div className={locals.rightContent}>
+          <UrlShortener darkTheme={theme === themes.dark} />
+          {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
+          {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+        </div>
       </div>
       {(renderButtonLine || renderButtonLineSecondary) && (
         <div
@@ -99,7 +114,7 @@ function Context(props) {
 }
 
 DashboardHeader.propTypes = {
-  theme: PropTypes.oneOf([themes.dark, themes.light, themes.default]),
+  theme: PropTypes.oneOf(Object.values(themes)),
   result: PropTypes.any,
   icon: PropTypes.string,
   renderIcon: PropTypes.func,
@@ -109,6 +124,7 @@ DashboardHeader.propTypes = {
   renderMetaInformation: PropTypes.func,
   renderButtonLine: PropTypes.func,
   renderButtonLineSecondary: PropTypes.func,
+  renderTopLevelButtonLine: PropTypes.func,
   contextConfigurations: PropTypes.arrayOf(
     PropTypes.shape({
       renderContext: PropTypes.func.isRequired,

@@ -6,7 +6,7 @@ import Button from 'in-new-components/Button';
 export default function CopyToClipboardButton(props) {
   if (props.disabled) {
     return (
-      <Button disabled kind={props.kind || 'create'}>
+      <Button disabled kind={props.kind || 'create'} className={props.className}>
         Copy
       </Button>
     );
@@ -15,7 +15,7 @@ export default function CopyToClipboardButton(props) {
   return (
     <CopyToClipboard {...props}>
       {refSetter => (
-        <Button refSetter={refSetter} kind={props.kind || 'create'}>
+        <Button refSetter={refSetter} kind={props.kind || 'create'} className={props.className}>
           {props.children || 'Copy'}
         </Button>
       )}

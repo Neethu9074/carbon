@@ -48,6 +48,20 @@ export function getTimeConfig(params) {
   };
 }
 
+export function fixateTimeConfig(timeConfig) {
+  if (timeConfig.to != null) {
+    return timeConfig;
+  }
+  const now = Date.now();
+
+  return {
+    to: now,
+    focusedMoment: now,
+    autoRefresh: false,
+    windowSize: timeConfig.windowSize
+  };
+}
+
 function getInt(query, key, fallback) {
   const value = query[key];
   if (isBlank(value)) {

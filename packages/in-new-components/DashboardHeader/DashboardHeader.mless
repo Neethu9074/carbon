@@ -30,8 +30,13 @@
 
   .firstLine,
   .leftContent,
+  .rightContent,
   .buttonLine {
     .flexbox();
+  }
+
+  .rightContent {
+    justify-content: flex-end;
   }
 
   .firstLine {

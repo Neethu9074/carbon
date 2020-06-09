@@ -163,8 +163,7 @@ describe('shortcuts/dashboard', () => {
       'reactive-observables': {
         on: () => onKeyPressed
       },
-      'in-services/shortcuts/shortcuts/Esc': mod,
-      'in-services/urlShortener/urlShortener': {}
+      'in-services/shortcuts/shortcuts/Esc': mod
     });
     shortcuts.init();
   }

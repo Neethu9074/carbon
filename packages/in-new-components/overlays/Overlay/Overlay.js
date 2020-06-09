@@ -47,7 +47,7 @@ export default class Overlay extends React.Component {
       }
       this.setState({ isOpen: open });
     },
-    10,
+    30,
     {
       trailing: false
     }

@@ -1,7 +1,6 @@
 import { on } from 'reactive-observables';
 
 import { onLeftArrow, onRightArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
-import { showPrompt as showUrlShortenerPrompt } from 'in-services/urlShortener/urlShortener';
 import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
@@ -24,10 +23,6 @@ export function init() {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (targetType === 'input' || targetType === 'textarea') {
       return;
-    }
-
-    if (keyEvent.keyCode === keyCodes.l && (keyEvent.ctrlKey || keyEvent.metaKey)) {
-      showUrlShortenerPrompt();
     }
 
     if (keyEvent.ctrlKey || keyEvent.altKey || keyEvent.metaKey) {

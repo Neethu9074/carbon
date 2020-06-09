@@ -37,6 +37,8 @@ export default function ButtonPresenter({
   size = 'normal',
   type = 'button',
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   style,
   children,
   href,
@@ -80,7 +82,16 @@ export default function ButtonPresenter({
 
   if (!href) {
     return (
-      <button className={classes} onClick={onClick} style={style} type={type} ref={refSetter} autoFocus={autoFocus}>
+      <button
+        className={classes}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        style={style}
+        type={type}
+        ref={refSetter}
+        autoFocus={autoFocus}
+      >
         {iconElement} {children}
       </button>
     );
@@ -93,6 +104,8 @@ export default function ButtonPresenter({
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       className={classes}
       onClick={onClick ? onClick : stopPropagation}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       style={style}
       ref={refSetter}
       autoFocus={autoFocus}
@@ -112,6 +125,8 @@ ButtonPresenter.propTypes = {
   children: rpt.node,
   kind: rpt.oneOf(kinds),
   size: rpt.oneOf(sizes),
+  onMouseEnter: rpt.func,
+  onMouseLeave: rpt.func,
   type: rpt.string,
   onClick: rpt.func,
   href: rpt.string,
