@@ -12,7 +12,6 @@ module.exports = {
   containerInfoEnabled: true,
   internalMonitoringUnit: true,
   samplingIndicatorEnabled: true,
-  isAdhocMetricAggregationEnabled: true,
   pcfEnabled: true,
   websiteUserBreakdownEnabled: true,
   fullTermsConfigEnabled: true,

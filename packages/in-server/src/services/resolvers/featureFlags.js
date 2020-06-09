@@ -49,12 +49,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'isAdhocMetricAggregationEnabled',
-    instanaCtlKey: 'feature.is.adhoc.metric.aggregation.enabled',
-    consulKey: `settings/${tenant}-${unit}/IS_ADHOC_METRIC_AGGREGATION_ENABLED`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'samplingIndicatorEnabled',
     instanaCtlKey: 'feature.sampling.indicator.enabled',
     consulKey: `settings/SAMPLING_INDICATOR_ENABLED`,

@@ -5,7 +5,6 @@ import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/for
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -13,7 +12,6 @@ import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 const noActivity = 'No activity';
-const showUsage = isAdhocMetricAggregationEnabled;
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deployment }) {
@@ -83,10 +81,10 @@ export default function Summary({ timeConfig, data: deployment }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
-                metrics: [showUsage && 'cpu.total_usage', 'pods.required_cpu', 'pods.limit_cpu'].filter(Boolean),
-                labels: [showUsage && 'Usage', 'Requests', 'Limits'].filter(Boolean),
+                metrics: ['cpu.total_usage', 'pods.required_cpu', 'pods.limit_cpu'].filter(Boolean),
+                labels: ['Usage', 'Requests', 'Limits'].filter(Boolean),
                 type: 'line',
-                colors: [showUsage && usage, requests, limits].filter(Boolean)
+                colors: [usage, requests, limits].filter(Boolean)
               }}
             />
           </Card>
@@ -98,10 +96,10 @@ export default function Summary({ timeConfig, data: deployment }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaBytes,
-                metrics: [showUsage && 'memory.usage', 'pods.required_mem', 'pods.limit_mem'].filter(Boolean),
-                labels: [showUsage && 'Usage', 'Requests', 'Limits'].filter(Boolean),
+                metrics: ['memory.usage', 'pods.required_mem', 'pods.limit_mem'].filter(Boolean),
+                labels: ['Usage', 'Requests', 'Limits'].filter(Boolean),
                 type: 'line',
-                colors: [showUsage && usage, requests, limits].filter(Boolean)
+                colors: [usage, requests, limits].filter(Boolean)
               }}
             />
           </Card>

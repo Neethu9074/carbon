@@ -10,14 +10,12 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
-import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 const noActivity = 'No activity';
-const showUsage = isAdhocMetricAggregationEnabled;
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deploymentConfig }) {
@@ -87,8 +85,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.total_usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
+                metrics: ['pods.required_cpu', 'pods.limit_cpu', 'cpu.total_usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', 'Usage'].filter(Boolean),
                 type: 'line',
                 colors: [requests, limits, usage]
               }}
@@ -102,8 +100,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
-                metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'memory.usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', showUsage && 'Usage'],
+                metrics: ['pods.required_mem', 'pods.limit_mem', 'memory.usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', 'Usage'],
                 type: 'line',
                 colors: [requests, limits, usage]
               }}

@@ -7,7 +7,6 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -21,14 +20,12 @@ import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
-const showUsage = isAdhocMetricAggregationEnabled;
-
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
-  const kpiWidth = showUsage ? 2 : 3;
+  const kpiWidth = 3;
 
   return (
     <Fragment>
@@ -71,15 +68,13 @@ export default function Summary({ data: pod, timeConfig }) {
       )}
 
       <Row>
-        {showUsage && (
-          <Col lg={kpiWidth}>
-            <KpiCard
-              title="CPU Usage"
-              value={<MetricValue snapshotId={pod.id} metric="cpu.total_usage" formatter={twoDecimalPlaces} />}
-              raw
-            />
-          </Col>
-        )}
+        <Col lg={kpiWidth}>
+          <KpiCard
+            title="CPU Usage"
+            value={<MetricValue snapshotId={pod.id} metric="cpu.total_usage" formatter={twoDecimalPlaces} />}
+            raw
+          />
+        </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title="CPU Requests"
@@ -94,15 +89,13 @@ export default function Summary({ data: pod, timeConfig }) {
             raw
           />
         </Col>
-        {showUsage && (
-          <Col lg={kpiWidth}>
-            <KpiCard
-              title="Memory Usage"
-              value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
-              raw
-            />
-          </Col>
-        )}
+        <Col lg={kpiWidth}>
+          <KpiCard
+            title="Memory Usage"
+            value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
+            raw
+          />
+        </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title="Memory Requests"
@@ -119,40 +112,38 @@ export default function Summary({ data: pod, timeConfig }) {
         </Col>
       </Row>
 
-      {showUsage && (
-        <Row>
-          <Col lg={6}>
-            <Card title="CPU Resources">
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  formatter: resourceQuotaNumber,
-                  metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
-                  labels: ['Usage', 'Requests', 'Limits'],
-                  type: 'line',
-                  colors: [usage, requests, limits]
-                }}
-              />
-            </Card>
-          </Col>
-          <Col lg={6}>
-            <Card title="Memory Resources">
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  formatter: resourceQuotaBytes,
-                  metrics: ['memory.usage', 'memoryRequests', 'memoryLimits'],
-                  labels: ['Usage', 'Requests', 'Limits'],
-                  type: 'line',
-                  colors: [usage, requests, limits]
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
-      )}
+      <Row>
+        <Col lg={6}>
+          <Card title="CPU Resources">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: resourceQuotaNumber,
+                metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
+                labels: ['Usage', 'Requests', 'Limits'],
+                type: 'line',
+                colors: [usage, requests, limits]
+              }}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title="Memory Resources">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: resourceQuotaBytes,
+                metrics: ['memory.usage', 'memoryRequests', 'memoryLimits'],
+                labels: ['Usage', 'Requests', 'Limits'],
+                type: 'line',
+                colors: [usage, requests, limits]
+              }}
+            />
+          </Card>
+        </Col>
+      </Row>
 
       <Row>
         <Col lg={12}>

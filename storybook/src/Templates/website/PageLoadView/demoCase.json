@@ -1100,7 +1100,6 @@
       "featureFlag.ruleDeprecationValidationChecksEnabled": "true",
       "build.tag": "1.158.199",
       "featureFlag.isSelfService": "false",
-      "featureFlag.isAdhocMetricAggregationEnabled": "true",
       "config.maxAllowedAlertingConfigurations": "200",
       "region": "test-us-west-2",
       "featureFlag.samplingIndicatorEnabled": "true"

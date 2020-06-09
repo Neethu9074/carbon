@@ -6,7 +6,6 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -16,8 +15,6 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
-
-const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: node }) {
   const snapshotId = node.id;
@@ -99,10 +96,10 @@ export default function Summary({ timeConfig, data: node }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
-                metrics: [showUsage && 'cpu.total_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
-                labels: [showUsage && 'Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
+                metrics: ['cpu.total_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
+                labels: ['Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
                 type: 'line',
-                colors: [showUsage && usage, requests, limits, capacity].filter(Boolean)
+                colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
             />
           </Card>
@@ -114,10 +111,10 @@ export default function Summary({ timeConfig, data: node }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaBytes,
-                metrics: [showUsage && 'memory.usage', 'required_mem', 'limit_mem', 'cap_mem'].filter(Boolean),
-                labels: [showUsage && 'Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
+                metrics: ['memory.usage', 'required_mem', 'limit_mem', 'cap_mem'].filter(Boolean),
+                labels: ['Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
                 type: 'line',
-                colors: [showUsage && usage, requests, limits, capacity].filter(Boolean)
+                colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
             />
           </Card>

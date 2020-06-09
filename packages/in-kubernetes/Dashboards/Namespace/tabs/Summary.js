@@ -13,7 +13,6 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -23,8 +22,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
-
-const showUsage = isAdhocMetricAggregationEnabled;
 
 const resourceQuotaSet = v => v !== -1;
 
@@ -108,16 +105,10 @@ export default function Summary({ timeConfig, data: namespace }) {
               chartComponent={Chart}
               y1={{
                 formatter: resourceQuotaNumber,
-                metrics: [
-                  `cap_requests_cpu`,
-                  `cpuRequests`,
-                  `cap_limits_cpu`,
-                  `cpuLimits`,
-                  showUsage && 'cpu.total_usage'
-                ].filter(Boolean),
-                labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits', showUsage && 'Usage'].filter(
+                metrics: [`cap_requests_cpu`, `cpuRequests`, `cap_limits_cpu`, `cpuLimits`, 'cpu.total_usage'].filter(
                   Boolean
                 ),
+                labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits', 'Usage'].filter(Boolean),
                 type: 'line',
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]
@@ -141,11 +132,9 @@ export default function Summary({ timeConfig, data: namespace }) {
                   'memoryRequests',
                   'cap_limits_memory',
                   'memoryLimits',
-                  showUsage && 'memory.usage'
+                  'memory.usage'
                 ].filter(Boolean),
-                labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits', showUsage && 'Usage'].filter(
-                  Boolean
-                ),
+                labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits', 'Usage'].filter(Boolean),
                 type: 'line',
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]

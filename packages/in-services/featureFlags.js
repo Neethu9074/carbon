@@ -24,7 +24,6 @@ export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicen
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
-export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetricAggregationEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
