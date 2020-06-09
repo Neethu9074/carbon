@@ -53,10 +53,12 @@ const allColumns = [
   {
     id: 'name',
     label: 'Involved Object',
-    getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
+    getContent(item, { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
       const isLinkableEntity =
         item.sourcePlugin !== unknownPlugin &&
-        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1 &&
+        [clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(
+          item.sourceId
+        ) === -1 &&
         translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin) !== plugins.kubernetesReplicaSet;
 
       if (isLinkableEntity) {
@@ -108,11 +110,21 @@ function eventsTable(columnDefinitions) {
     matrixPrefix
   });
 
-  return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {
+  return function Events({
+    clusterId,
+    daemonSetId,
+    deploymentId,
+    deploymentConfigId,
+    namespaceId,
+    podId,
+    serviceId,
+    ...props
+  }) {
     return (
       <Card>
         <ServerTableWithUrlState
           clusterId={clusterId}
+          daemonSetId={daemonSetId}
           deploymentId={deploymentId}
           deploymentConfigId={deploymentConfigId}
           namespaceId={namespaceId}
@@ -137,6 +149,7 @@ function getTableData({
   orderBy = 'time',
   orderDirection = 'DESC',
   clusterId,
+  daemonSetId,
   deploymentId,
   deploymentConfigId,
   namespaceId,
@@ -148,6 +161,7 @@ function getTableData({
   return getKubernetesEvents({
     filter: {
       clusterId,
+      daemonSetId,
       deploymentId,
       deploymentConfigId,
       namespaceId,
