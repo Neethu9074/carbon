@@ -129,6 +129,7 @@ import './rpc';
 import './s3';
 import './scalatra';
 import './sdk';
+import './sdk.batch';
 import './sdk.database';
 import './sdk.http.entry';
 import './sdk.http.exit';
