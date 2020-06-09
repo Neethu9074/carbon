@@ -15,9 +15,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
     lime800: requests,
     lightBlue800: usage,
     orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready
+    lightBlue800: allocated
   } = theme.lib.colors;
 
   return (
@@ -104,15 +102,10 @@ export default function Summary({ timeConfig, data: daemonSet }) {
               y1={{
                 min: 0,
                 formatter: zeroDecimalPlaces,
-                metrics: [
-                  'pods.count',
-                  'phase.Pending.count',
-                  'conditions.PodScheduled.False',
-                  'conditions.Ready.False'
-                ],
-                labels: ['Allocated', 'Pending', 'Unscheduled', 'Unready'],
+                metrics: ['pods.count', 'phase.Pending.count'],
+                labels: ['Allocated', 'Pending'],
                 type: 'line',
-                colors: [allocated, pending, unscheduled, unready]
+                colors: [allocated, pending]
               }}
             />
           </Card>
