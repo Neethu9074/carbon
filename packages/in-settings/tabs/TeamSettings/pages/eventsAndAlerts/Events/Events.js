@@ -46,10 +46,13 @@ const severityOptions = [
 
 const entityTypeOptions = getEntityTypeOptions();
 
+const enabledOptions = Object.freeze([{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }]);
+
 export default compose(
   withState('type', 'setType', null),
   withState('severity', 'setSeverity', null),
-  withState('entityType', 'setEntityType', null)
+  withState('entityType', 'setEntityType', null),
+  withState('enabled', 'setEnabled', null)
 )(Events);
 
 function Events({
@@ -59,6 +62,8 @@ function Events({
   setSeverity,
   entityType,
   setEntityType,
+  enabled,
+  setEnabled,
   setTitle = true,
   scrollWrapperClassName,
   tableActions = defaultTableActions,
@@ -66,7 +71,16 @@ function Events({
   noDataMessage,
   hiddenIds,
   pageSize = 20,
-  rightHeader = defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType),
+  rightHeader = defaultRightHeader(
+    type,
+    setType,
+    severity,
+    setSeverity,
+    entityType,
+    setEntityType,
+    enabled,
+    setEnabled
+  ),
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
@@ -88,12 +102,21 @@ function Events({
       rightHeader={
         !inSelectListDialog
           ? rightHeader
-          : inSelectListDialogRightHeader(type, setType, severity, setSeverity, entityType, setEntityType)
+          : inSelectListDialogRightHeader(
+              type,
+              setType,
+              severity,
+              setSeverity,
+              entityType,
+              setEntityType,
+              enabled,
+              setEnabled
+            )
       }
       isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(hiddenIds, type, severity, entityType)}
-      extraFilterValues={{ type, severity, entityType }}
+      extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
+      extraFilterValues={{ type, severity, entityType, enabled }}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={210}
       onRowClick={onRowClick}
@@ -254,7 +277,7 @@ function getSubscript(entity) {
   );
 }
 
-function defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType) {
+function defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType, enabled, setEnabled) {
   return (
     <Fragment>
       {createNewEntityButton({
@@ -262,35 +285,30 @@ function defaultRightHeader(type, setType, severity, setSeverity, entityType, se
         pathNew: teamSettingsAlertingEventCustomNew,
         trackEvent: openEventSubmitFormTracker
       })}
-      <ComboBox
-        name="filter-type"
-        value={type}
-        options={typeOptions}
-        onChange={e => (e ? setType(e.value) : setType(null))}
-        placeholder="Type…"
-        className={locals.filterDropdown}
-      />
-      <ComboBox
-        name="filter-severity"
-        value={severity}
-        options={severityOptions}
-        onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
-        placeholder="Incidents & Severity…"
-        className={joinClassNames(locals.severityDropdown, locals.filterDropdown)}
-      />
-      <ComboBox
-        name="filter-entity-type"
-        value={entityType}
-        options={entityTypeOptions}
-        onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
-        placeholder="Entity Type…"
-        className={joinClassNames(locals.entityTypeDropdown, locals.filterDropdown)}
-      />
+      {inSelectListDialogRightHeader(
+        type,
+        setType,
+        severity,
+        setSeverity,
+        entityType,
+        setEntityType,
+        enabled,
+        setEnabled
+      )}
     </Fragment>
   );
 }
 
-function inSelectListDialogRightHeader(type, setType, severity, setSeverity, entityType, setEntityType) {
+function inSelectListDialogRightHeader(
+  type,
+  setType,
+  severity,
+  setSeverity,
+  entityType,
+  setEntityType,
+  enabled,
+  setEnabled
+) {
   return (
     <Fragment>
       <ComboBox
@@ -317,11 +335,19 @@ function inSelectListDialogRightHeader(type, setType, severity, setSeverity, ent
         placeholder="Entity Type…"
         className={joinClassNames(locals.entityTypeDropdown, locals.filterDropdown)}
       />
+      <ComboBox
+        name="filter-enabled"
+        value={enabled}
+        options={enabledOptions}
+        onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
+        placeholder="State…"
+        className={locals.stateDropdown}
+      />
     </Fragment>
   );
 }
 
-function createFilters(hiddenIds, type, severity, entityType) {
+function createFilters(hiddenIds, type, severity, entityType, enabled) {
   const filters = [];
 
   if (hiddenIds) {
@@ -340,6 +366,10 @@ function createFilters(hiddenIds, type, severity, entityType) {
 
   if (entityType) {
     filters.push(entity => entity.entityType === entityType);
+  }
+
+  if (enabled != null) {
+    filters.push(entity => entity.enabled === enabled);
   }
 
   return filters;

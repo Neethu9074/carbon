@@ -1,3 +1,4 @@
+import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -9,11 +10,12 @@ import {
 } from 'in-settings/navigation/paths';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
+import List, { createNewEntityButton, defaultHeaderWithCount } from 'in-settings/components/List';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import { toggleAlertTracker, openAlertSubmitFormTracker } from 'in-settings/tracker';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
+import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
@@ -22,7 +24,11 @@ import locals from './Alerts.mless';
 
 const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 200);
 
-export default function Alerts() {
+const enabledOptions = Object.freeze([{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }]);
+
+export default compose(withState('enabled', 'setEnabled', null))(Alerts);
+
+function Alerts({ enabled, setEnabled }) {
   return (
     <List
       title="Alerts"
@@ -32,14 +38,14 @@ export default function Alerts() {
       tableActions={tableActions}
       loadEntities={getAlertingConfigsMutable}
       initialOrderBy="alertName"
-      labelNew="New Alert"
-      pathNew={teamSettingsAlertingAlertNew}
       newButtonDisabledTooltipMessage={entities =>
         entities && entities.length >= maxNumOfAlertingAlerts
           ? `The number of alerts is restricted to ${maxNumOfAlertingAlerts}.`
           : null
       }
+      rightHeader={defaultRightHeader(enabled, setEnabled)}
       searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
+      extraFilters={createFilters(enabled)}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
       trackEvent={openAlertSubmitFormTracker}
     />
@@ -104,6 +110,38 @@ const tableActions = {
     }
   }
 };
+
+function defaultRightHeader(enabled, setEnabled) {
+  return (
+    <Fragment>
+      {createNewEntityButton({
+        labelNew: 'New Alert',
+        pathNew: teamSettingsAlertingAlertNew,
+        trackEvent: openAlertSubmitFormTracker
+      })}
+      <ComboBox
+        name="filter-state"
+        value={enabled}
+        options={enabledOptions}
+        onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
+        placeholder="State…"
+        className={locals.stateDropdown}
+      />
+    </Fragment>
+  );
+}
+
+function createFilters(enabled) {
+  const filters = [];
+  if (enabled != null) {
+    if (enabled) {
+      filters.push(entity => entity.muteUntil == null || entity.muteUntil < Date.now());
+    } else {
+      filters.push(entity => entity.muteUntil > Date.now());
+    }
+  }
+  return filters;
+}
 
 function isEnabled(entity) {
   return entity.muteUntil == null || entity.muteUntil < Date.now();

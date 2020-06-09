@@ -5,4 +5,9 @@
   .invalid {
     color: @lib__colors__red800
   }
+
+  .stateDropdown {
+    margin-right: 0.5rem;
+    width: 8rem;
+  }
 }
