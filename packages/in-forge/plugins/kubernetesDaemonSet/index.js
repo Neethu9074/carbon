@@ -1,3 +1,4 @@
+import metricDefinitions from 'in-forge/plugins/kubernetesDaemonSet/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/kubernetesDaemonSet/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/kubernetesDaemonSet/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -10,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'Kubernetes DaemonSets'
   },
   iconSvgPath,
-  kpiDefinitions
+  kpiDefinitions,
+  metricDefinitions
 });
