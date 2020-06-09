@@ -11,22 +11,23 @@ import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
-export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange, indexInitialSelectedTimeConfig }) {
+export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
   const applicationId = form.get('applicationId').value;
   const rule = form.get('rule').toJS();
   const tagFilters = form.get('tagFilters').value;
   const threshold = form.get('threshold').toJS();
   const timeThreshold = form.get('timeThreshold').toJS();
   const boundaryScope = form.get('boundaryScope').value;
+  const granularity = form.get('granularity').value;
 
   return (
     <ChartViewConfigurator
-      onChartConfigChange={onChartConfigChange}
-      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      onChartViewConfigChange={onChartViewConfigChange}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       className={locals.position}
       framed
     >
-      {({ timeConfig, granularity }) => (
+      {({ timeConfig, minChartMetricGranularity }) => (
         <AlertTypeSwitch
           alertType={rule.alertType}
           renderErrorRate={() => (
@@ -36,6 +37,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 granularity={granularity}
+                minChartMetricGranularity={minChartMetricGranularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
                 boundaryScope={boundaryScope}
@@ -55,6 +57,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                 tagFilters={tagFilters}
                 aggregation={rule.aggregation}
                 granularity={granularity}
+                minChartMetricGranularity={minChartMetricGranularity}
                 boundaryScope={boundaryScope}
                 alertsPreviewEnabled
                 canReload
@@ -73,6 +76,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                     boundaryScope={boundaryScope}
@@ -96,6 +100,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                     boundaryScope={boundaryScope}
@@ -116,8 +121,8 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
 
 SimpleAlertConfigDialogChart.propTypes = {
   form: PropTypes.object.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
 
 function hasLogMessageSelected(form) {

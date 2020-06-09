@@ -1,4 +1,4 @@
-import { just, combineLatest, create } from 'reactive-observables';
+import { combineLatest, create } from 'reactive-observables';
 import React from 'react';
 
 import AlertingChartReactComponent from 'in-new-components/Alerting/Chart/AlertingChartReactComponent';
@@ -12,13 +12,10 @@ export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
 export default connectTo(
   props => {
     const metrics$ = props.getMetric(props.metricsConfiguration);
-    const baseline$ = just(props.y1.baseline).startWith(null);
-    const threshold$ = just(props.y1.threshold).startWith(null);
-
-    const combined$ = combineLatest([baseline$, threshold$, metrics$, thresholdOrBaselineLoadingSignal$]);
+    const combined$ = combineLatest([metrics$, thresholdOrBaselineLoadingSignal$]);
 
     return {
-      result: combined$.map(([baseline, threshold, metrics, thresholdOrBaselineLoading]) => {
+      result: combined$.map(([metrics, thresholdOrBaselineLoading]) => {
         return props.canReload && thresholdOrBaselineLoading
           ? {
               time: 0,
@@ -29,9 +26,10 @@ export default connectTo(
           : mergeResult(
               metrics,
               props.y1.metricIds[0],
-              threshold,
-              baseline,
+              props.y1.threshold,
+              props.y1.baseline,
               props.y1.sensitivity,
+              props.y1.thresholdGranularity,
               props.y1.operator,
               props.mutateMetrics ?? {}
             );
@@ -55,7 +53,16 @@ function enrichChartMetrics(props) {
   };
 }
 
-function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, operator, mutateMetrics) {
+function mergeResult(
+  result,
+  metricName,
+  thresholdValue,
+  baseline,
+  sensitivity,
+  thresholdGranularity,
+  operator,
+  mutateMetrics
+) {
   const mergedResult = {
     time: 0,
     progress: finishedProgress,
@@ -75,7 +82,7 @@ function mergeResult(result, metricName, thresholdValue, baseline, sensitivity, 
   } else {
     const isGreaterOp = isGreaterOperator(operator);
     threshold = metricData.map(([time]) => {
-      const baselineThresholdValue = getBaselineValue(time, baseline, sensitivity, isGreaterOp);
+      const baselineThresholdValue = getBaselineValue(time, baseline, sensitivity, thresholdGranularity, isGreaterOp);
       return [time, baselineThresholdValue];
     });
   }

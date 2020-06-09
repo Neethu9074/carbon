@@ -17,8 +17,8 @@ export function SlownessInteractiveChart_simple() {
     onChange: (path, fn) => setForm(form.updateIn(path, fn)), // onChange
     updateForm: setForm
     // debounceOnChange$,
-    // onChartConfigChange,
-    // indexInitialSelectedTimeConfig
+    // onChartViewConfigChange,
+    // selectedChartViewConfigIndex
   };
   return <SlownessInteractiveChart {...props} />;
 }

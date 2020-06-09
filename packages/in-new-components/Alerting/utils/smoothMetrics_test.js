@@ -3,14 +3,14 @@
 
 import { assert } from 'chai';
 
-import { alertingMetricsGranularity } from './timeConfigUtils';
 import { smoothMetrics } from './chartUtil';
 
+const granularity = 10 * 60 * 1000;
 const weights = [0.1, 0.2, 0.4, 0.2, 0.1];
 
 describe('smooth metrics', () => {
   const metrics = [['a', 1], ['b', 2], ['c', 4], ['d', 2], ['c', 1]];
-  const smoothedMetrics = smoothMetrics(metrics, alertingMetricsGranularity, weights);
+  const smoothedMetrics = smoothMetrics(metrics, granularity, weights);
   assert.equal(smoothedMetrics.length, 5, `Metric length equals ${metrics.length}`);
   assert.equal(smoothedMetrics[0][1].toFixed(2), 1.71);
   assert.equal(smoothedMetrics[1][1].toFixed(2), 2.22);

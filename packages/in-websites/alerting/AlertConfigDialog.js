@@ -2,24 +2,17 @@ import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  chartViewConfigs,
-  createTimeConfigForWindowSize,
-  getIndexOfTimeConfig
-} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
+import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
-  const [granularity, setGranularity] = useState(chartViewConfigs[initialChartConfigIndex].granularity);
-  const [timeConfig, setTimeConfig] = useState(() =>
-    createTimeConfigForWindowSize(chartViewConfigs[initialChartConfigIndex].windowSize)
-  );
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [isSaving, setIsSaving] = useState(false);
@@ -29,18 +22,17 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       updateForm={setForm}
       form={form}
       onChange={createOnChange(setForm, form)}
-      onChartConfigChange={({ windowSize, granularity }) => {
-        setTimeConfig(createTimeConfigForWindowSize(windowSize));
-        setGranularity(granularity);
+      onChartViewConfigChange={index => {
+        setSelectedChartViewConfigIndex(index);
         setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
       }}
-      indexInitialSelectedTimeConfig={getIndexOfTimeConfig(timeConfig)}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
-      timeConfig={timeConfig}
+      timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
-      granularity={granularity}
+      granularity={form.get('granularity').value}
       calculateThresholdOnBackend={calculateThresholdOnBackend}
       doCalculateThresholdOnBackend={load => setCalculateThresholdOnBackend(load)}
       isSaving={isSaving}

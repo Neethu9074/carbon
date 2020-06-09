@@ -10,20 +10,20 @@ export default class AlertingChartEventsManager {
   }
 
   getAlertsSubscription(props) {
-    if (!props.alertsPreviewEnabled || !props.alertMetricConfiguration) {
+    if (!props.alertsPreviewEnabled || !props.alertsPreviewConfiguration) {
       return alwaysEmptyArray;
     }
 
     const {
       threshold: { baseline, type }
-    } = props.alertMetricConfiguration;
+    } = props.alertsPreviewConfiguration;
 
     if (type === 'historicBaseline' && baseline.length === 0) {
       return alwaysEmptyArray;
     }
 
     return props
-      .getAlertsPreview(props.alertMetricConfiguration)
+      .getAlertsPreview(props.alertsPreviewConfiguration)
       .startWith(pendingResult)
       .map(result => (result !== null && result.data ? result.data.alerts : []));
   }

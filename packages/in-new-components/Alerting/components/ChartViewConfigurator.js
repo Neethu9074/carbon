@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { createTimeConfigForWindowSize } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -10,15 +9,15 @@ import LightCard from 'in-new-components/Card/LightCard';
 import locals from './ChartViewConfigurator.mless';
 
 export default function ChartViewConfigurator({
-  indexInitialSelectedTimeConfig = 0,
+  selectedChartViewConfigIndex = 0,
   children,
   className,
   title,
   headerTransparent,
   framed = false,
-  onChartConfigChange
+  onChartViewConfigChange
 }) {
-  const selectedChartConfig = chartViewConfigs[indexInitialSelectedTimeConfig];
+  const selectedChartConfig = chartViewConfigs[selectedChartViewConfigIndex];
   return (
     <>
       <LightCard
@@ -33,7 +32,7 @@ export default function ChartViewConfigurator({
             buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({
               text: chartConfig.label,
               key: chartConfig.label,
-              onClick: () => onChartConfigChange({ ...chartConfig, index })
+              onClick: () => onChartViewConfigChange(index)
             }))}
             activeKey={selectedChartConfig.label}
           />
@@ -42,8 +41,8 @@ export default function ChartViewConfigurator({
         darkFrame
       >
         {children({
-          timeConfig: createTimeConfigForWindowSize(selectedChartConfig.windowSize),
-          granularity: selectedChartConfig.granularity
+          timeConfig: selectedChartConfig.timeConfig,
+          minChartMetricGranularity: selectedChartConfig.minChartMetricGranularity
         })}
       </LightCard>
     </>
@@ -52,10 +51,10 @@ export default function ChartViewConfigurator({
 
 ChartViewConfigurator.propTypes = {
   children: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number,
+  selectedChartViewConfigIndex: PropTypes.number,
   className: PropTypes.string,
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  onChartConfigChange: PropTypes.func.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired
 };

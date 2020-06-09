@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  alertingMetricsGranularity,
-  alertingEventDetailsChartTimeframe
-} from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -45,7 +42,8 @@ export default connectTo(
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation;
     const threshold = alertConfig.threshold;
-    const timeThreshold = alertType.timeThreshold;
+    const timeThreshold = alertConfig.timeThreshold;
+    const granularity = alertConfig.granularity;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -67,7 +65,7 @@ export default connectTo(
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
-                granularity={alertingMetricsGranularity}
+                granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
               />
@@ -80,7 +78,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
                 aggregation={aggregation}
-                granularity={alertingMetricsGranularity}
+                granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
               />
@@ -95,7 +93,7 @@ export default connectTo(
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
-                granularity={alertingMetricsGranularity}
+                granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
               />
@@ -108,7 +106,7 @@ export default connectTo(
                 operator={operator}
                 timeConfig={timeConfig}
                 tagFilters={tagFilters}
-                granularity={alertingMetricsGranularity}
+                granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
               />

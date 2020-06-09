@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-  alertingMetricsGranularity,
-  alertingEventDetailsChartTimeframe
-} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -41,14 +38,11 @@ export default connectTo(
     const entityType = event.get('entityType');
     const metadata = event.get('metadata');
     const applicationName = metadata.get('entityLabel');
-    const boundaryScope = alertConfig.boundaryScope;
-    const tagFilters = alertConfig.tagFilters;
-    const sensitivity = alertConfig.threshold.deviationFactor;
-    const operator = alertConfig.threshold.operator;
-    const alertType = alertConfig.rule.alertType;
-    const aggregation = alertConfig.rule.aggregation;
-    const threshold = alertConfig.threshold;
-    const timeThreshold = alertConfig.timeThreshold;
+    const { boundaryScope, tagFilters, threshold, rule, timeThreshold, granularity } = alertConfig;
+    const sensitivity = threshold.deviationFactor;
+    const operator = threshold.operator;
+    const alertType = rule.alertType;
+    const aggregation = rule.aggregation;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -86,7 +80,7 @@ export default connectTo(
                     operator={operator}
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                   />
@@ -99,7 +93,7 @@ export default connectTo(
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     aggregation={aggregation}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                   />
@@ -108,13 +102,13 @@ export default connectTo(
                   <LogsAlertingBarChart
                     applicationId={entityId}
                     boundaryScope={boundaryScope}
-                    logMessage={alertConfig.rule.message}
-                    logMessageOperator={alertConfig.rule.operator}
-                    logLevel={alertConfig.rule.level}
+                    logMessage={rule.message}
+                    logMessageOperator={rule.operator}
+                    logLevel={rule.level}
                     operator={operator}
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                   />
@@ -122,12 +116,12 @@ export default connectTo(
                 renderStatusCode={() => (
                   <StatusCodeAlertingBarChart
                     applicationId={entityId}
-                    statusCodeStart={alertConfig.rule.statusCodeStart}
-                    statusCodeEnd={alertConfig.rule.statusCodeEnd}
+                    statusCodeStart={rule.statusCodeStart}
+                    statusCodeEnd={rule.statusCodeEnd}
                     operator={operator}
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                   />

@@ -48,8 +48,8 @@ function SlownessInteractiveChart({
   onChange,
   debounceOnChange$,
   updateForm,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
   const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
@@ -63,6 +63,8 @@ function SlownessInteractiveChart({
     value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
     baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || []
   };
+  const granularity = form.get('granularity').value;
+
   return (
     <div className={locals.container}>
       {renderThresholdCondition(
@@ -70,8 +72,8 @@ function SlownessInteractiveChart({
         updateForm,
         onChange,
         debounceOnChange$,
-        onChartConfigChange,
-        indexInitialSelectedTimeConfig,
+        onChartViewConfigChange,
+        selectedChartViewConfigIndex,
         doDebounceThreshold,
         doDebounceDeviationFactor,
         setDoDebounceThreshold,
@@ -84,12 +86,12 @@ function SlownessInteractiveChart({
       )}
 
       <ChartViewConfigurator
-        onChartConfigChange={onChartConfigChange}
-        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, granularity }) => (
+        {({ timeConfig, minChartMetricGranularity }) => (
           <SlownessAlertingBarChart
             applicationId={form.get('applicationId').value}
             threshold={threshold}
@@ -103,6 +105,7 @@ function SlownessInteractiveChart({
             tagFilters={form.get('tagFilters').value}
             aggregation={form.get('rule').get('aggregation').value}
             granularity={granularity}
+            minChartMetricGranularity={minChartMetricGranularity}
             boundaryScope={form.get('boundaryScope').value}
             alertsPreviewEnabled
             canReload
@@ -118,8 +121,8 @@ export function renderThresholdCondition(
   updateForm,
   onChange,
   debounceOnChange$,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex,
   doDebounceThreshold,
   doDebounceDeviationFactor,
   setDoDebounceThreshold,
@@ -301,6 +304,6 @@ SlownessInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };

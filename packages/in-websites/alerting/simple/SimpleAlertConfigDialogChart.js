@@ -12,15 +12,16 @@ import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
-export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange, indexInitialSelectedTimeConfig }) {
+export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
+  const granularity = form.get('granularity').value;
   return (
     <ChartViewConfigurator
-      onChartConfigChange={onChartConfigChange}
-      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+      onChartViewConfigChange={onChartViewConfigChange}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       className={locals.offset}
       framed
     >
-      {({ timeConfig, granularity }) => (
+      {({ timeConfig, minChartMetricGranularity }) => (
         <AlertTypeSwitch
           alertType={form.get('rule').get('alertType').value}
           renderJsErrors={() => (
@@ -38,6 +39,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                     }}
                     metricName={form.get('rule').get('metricName').value}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={form.get('threshold').toJS()}
                     timeThreshold={form.get('timeThreshold').toJS()}
                     alertsPreviewEnabled
@@ -64,6 +66,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                 }}
                 metricName={form.get('rule').get('metricName').value}
                 granularity={granularity}
+                minChartMetricGranularity={minChartMetricGranularity}
                 alertsPreviewEnabled
                 canReload
               />
@@ -80,6 +83,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
                 tagFilters={form.get(fieldNames.tagFilters).value}
                 aggregation={form.get('rule').get('aggregation').value}
                 granularity={granularity}
+                minChartMetricGranularity={minChartMetricGranularity}
                 alertsPreviewEnabled
                 canReload
               />
@@ -93,8 +97,8 @@ export default function SimpleAlertConfigDialogChart({ form, onChartConfigChange
 
 SimpleAlertConfigDialogChart.propTypes = {
   form: PropTypes.object.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
 
 function hasJsErrorSelected(form) {

@@ -7,7 +7,6 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Ch
 import { getLogLevelTagFilters, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getMetricsConfiguration } from 'in-applications/alerting/Dialog/metricConfigurations';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import { isBlank } from 'in-services/util/string';
@@ -19,7 +18,7 @@ export const SmartAlertConfigDialog = compose(
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
+      result: resolveThresholdRequest(form, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
     };
@@ -28,11 +27,12 @@ export const SmartAlertConfigDialog = compose(
   return <AlertConfigDialogPresenter {...props} />;
 });
 
-function resolveThresholdRequest(form, granularity, fallbackOnError) {
+function resolveThresholdRequest(form, fallbackOnError) {
   const applicationId = form.get('applicationId').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilters = form.get('tagFilters').value;
   const alertType = form.get('rule').get('alertType').value;
+  const granularity = form.get('granularity').value;
 
   switch (alertType) {
     case 'errorRate':

@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-  alertingEventDetailsChartTimeframe,
-  alertingMetricsGranularity
-} from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
@@ -46,6 +43,7 @@ export default connectTo(
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation || null;
     const threshold = alertConfig.threshold;
+    const granularity = alertConfig.granularity;
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
@@ -81,7 +79,7 @@ export default connectTo(
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     metricName={metricName}
                     threshold={alertConfig.threshold}
                     timeThreshold={alertConfig.timeThreshold}
@@ -93,7 +91,7 @@ export default connectTo(
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     metricName={metricName}
                     threshold={alertConfig.threshold}
                     timeThreshold={alertConfig.timeThreshold}
@@ -106,7 +104,7 @@ export default connectTo(
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     aggregation={aggregation}
-                    granularity={alertingMetricsGranularity}
+                    granularity={granularity}
                     threshold={threshold}
                     timeThreshold={alertConfig.timeThreshold}
                   />

@@ -7,9 +7,9 @@ import {
   smoothMetrics,
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -24,6 +24,7 @@ export default function SlownessAlertingBarChart({
   timeConfig,
   tagFilters,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -33,16 +34,18 @@ export default function SlownessAlertingBarChart({
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         sensitivity,
         baseline,
-        granularity,
+        thresholdGranularity: granularity,
         lineWidth: 1,
         threshold: threshold.value,
         operator: threshold.operator,
@@ -88,12 +91,12 @@ export default function SlownessAlertingBarChart({
         metrics: {
           onLoadTime: {
             metric: onLoadTime,
-            granularity,
+            granularity: metricChartGranularity,
             aggregation
           }
         }
       }}
-      alertMetricConfiguration={getAlertsConfiguration(
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithWebsiteId,
         aggregation,
@@ -127,6 +130,7 @@ SlownessAlertingBarChart.propTypes = {
   timeThreshold: PropTypes.object.isRequired,
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   timeConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
@@ -141,19 +145,19 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: {
           metric: onLoadTime,
           aggregation,
-          granularity: alertingMetricsGranularity // global metric granularity
+          granularity
         }
       }
     };

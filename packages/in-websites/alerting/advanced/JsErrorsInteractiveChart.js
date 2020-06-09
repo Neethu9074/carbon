@@ -42,8 +42,8 @@ function JsErrorsInteractiveChart({
   onChange,
   updateForm,
   debounceOnChange$,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
@@ -65,6 +65,7 @@ function JsErrorsInteractiveChart({
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
         : form.get('threshold').get('value').value) || 0
   };
+  const granularity = form.get('granularity').value;
 
   return (
     <div className={locals.container}>
@@ -83,12 +84,12 @@ function JsErrorsInteractiveChart({
         )}
 
         <ChartViewConfigurator
-          onChartConfigChange={onChartConfigChange}
-          indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
           headerTransparent
         >
-          {({ timeConfig, granularity }) => (
+          {({ timeConfig, minChartMetricGranularity }) => (
             <JsErrorsAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
               timeConfig={timeConfig}
@@ -100,6 +101,7 @@ function JsErrorsInteractiveChart({
               }}
               metricName={metricName}
               granularity={granularity}
+              minChartMetricGranularity={minChartMetricGranularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
               alertsPreviewEnabled
@@ -201,8 +203,8 @@ JsErrorsInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
 
 function hasJsErrorSelected(form) {

@@ -2,35 +2,30 @@ import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils
 
 export const alertingDialogItemPickerTimeframe = hoursToMillis(7 * 24);
 export const alertingEventDetailsChartTimeframe = hoursToMillis(12);
-export const alertingDialogChartTimeframe = hoursToMillis(24);
-export const alertingMetricsGranularity = minutesToMillis(10);
 
+/**
+ * View configuration for charts supporting to show the data in different time frames.
+ * Remarks: Setting minChartMetricGranularity enables to use a coarser granularity when rendering the metric in
+ *          the chart. However, this minimum granularity should NOT be used when requesting the baseline, threshold
+ *          or the alerts-preview.
+ */
 export const chartViewConfigs = Object.freeze([
   {
     label: 'Last 24 hours',
-    windowSize: hoursToMillis(24),
-    granularity: minutesToMillis(10)
+    timeConfig: {
+      windowSize: hoursToMillis(24)
+    },
+    minChartMetricGranularity: 0
   },
   {
-    label: 'Last 7 Days',
-    windowSize: hoursToMillis(7 * 24),
-    granularity: minutesToMillis(10)
+    label: 'Last 7 days',
+    timeConfig: {
+      windowSize: hoursToMillis(7 * 24)
+    },
+    minChartMetricGranularity: minutesToMillis(10)
   }
 ]);
 
-export function createTimeConfigForWindowSize(windowSize) {
-  return {
-    to: null,
-    focusedMoment: null,
-    windowSize,
-    autoRefresh: false
-  };
-}
-
-export function getIndexOfTimeConfig(timeConfig) {
-  return chartViewConfigs.findIndex(tc => tc.windowSize === timeConfig?.windowSize);
-}
-
 export function shouldSmoothMetric(windowSize) {
-  return windowSize <= chartViewConfigs[0].windowSize;
+  return windowSize <= chartViewConfigs[0].timeConfig.windowSize;
 }

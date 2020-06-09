@@ -8,9 +8,9 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -26,6 +26,7 @@ export default function SlownessAlertingBarChart({
   timeConfig,
   tagFilters,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -35,16 +36,18 @@ export default function SlownessAlertingBarChart({
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         sensitivity,
         baseline,
-        granularity,
+        thresholdGranularity: granularity,
         lineWidth: 1,
         threshold: threshold.value,
         operator: threshold.operator,
@@ -90,12 +93,12 @@ export default function SlownessAlertingBarChart({
         metrics: {
           latency: {
             metric: 'latency',
-            granularity,
+            granularity: metricChartGranularity,
             aggregation
           }
         }
       }}
-      alertMetricConfiguration={getAlertsConfiguration(
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithApplicationId,
         aggregation,
@@ -129,6 +132,7 @@ SlownessAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   sensitivity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
@@ -136,19 +140,19 @@ SlownessAlertingBarChart.propTypes = {
   timeThreshold: PropTypes.object.isRequired
 };
 
-function getAlertsConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(timeConfig, tagFilters, aggregation, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: {
           metric: 'latency',
           aggregation,
-          granularity: alertingMetricsGranularity // global metric granularity
+          granularity
         }
       }
     };

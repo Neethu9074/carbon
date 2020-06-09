@@ -35,7 +35,8 @@ export default function alertFormDefinition(alertConfig) {
     description = '',
     name = '',
     websiteId = '',
-    id = ''
+    id = '',
+    granularity = 600000
   } = alertConfig;
 
   let form = createMapForm()
@@ -91,6 +92,12 @@ export default function alertFormDefinition(alertConfig) {
       fieldNames.id,
       createField({
         value: id
+      })
+    )
+    .put(
+      'granularity',
+      createField({
+        value: granularity
       })
     )
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))

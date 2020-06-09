@@ -8,9 +8,9 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -24,6 +24,7 @@ export default function ErrorRateAlertingBarChart({
   timeConfig,
   tagFilters,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -33,16 +34,18 @@ export default function ErrorRateAlertingBarChart({
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
-        granularity,
+        thresholdGranularity: granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
@@ -68,8 +71,8 @@ export default function ErrorRateAlertingBarChart({
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
-      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, granularity)}
-      alertMetricConfiguration={getAlertsConfiguration(
+      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, metricChartGranularity)}
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithApplicationId,
         granularity,
@@ -93,6 +96,7 @@ ErrorRateAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
@@ -113,19 +117,19 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       tagFilters: tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: {
           metric: 'errors',
           aggregation: 'MEAN',
-          granularity: alertingMetricsGranularity // global metric granularity
+          granularity
         }
       }
     };

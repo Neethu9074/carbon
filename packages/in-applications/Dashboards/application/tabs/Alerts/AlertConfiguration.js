@@ -29,7 +29,7 @@ const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig, applicationName }) {
-  const [indexSelectedChartConfig, setIndexSelectedChartConfig] = useState(initialChartConfigIndex);
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
     rule: { operator, alertType, aggregation, message, level },
@@ -37,7 +37,8 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
     timeThreshold,
     alertChannelIds,
     tagFilters,
-    applicationId
+    applicationId,
+    granularity
   } = alertConfig;
 
   const tagFiltersWithApplicationId = [getApplicationIdTagFilter(applicationId), ...tagFilters];
@@ -48,13 +49,13 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
         <ListTitle>Alert Configuration</ListTitle>
 
         <ChartViewConfigurator
-          onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
-          indexInitialSelectedTimeConfig={indexSelectedChartConfig}
+          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
           title="Trigger"
           framed
         >
-          {({ timeConfig, granularity }) => (
+          {({ timeConfig, minChartMetricGranularity }) => (
             <AlertTypeSwitch
               alertType={alertType}
               renderErrorRate={() => (
@@ -63,6 +64,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   granularity={granularity}
+                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
               renderSlowness={() => (
@@ -72,6 +74,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   timeConfig={timeConfig}
                   aggregation={aggregation}
                   granularity={granularity}
+                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
               renderLogs={() => (
@@ -90,6 +93,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                     timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -102,6 +106,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   timeConfig={timeConfig}
                   tagFilters={tagFilters}
                   granularity={granularity}
+                  minChartMetricGranularity={minChartMetricGranularity}
                   threshold={alertConfig.threshold}
                   timeThreshold={alertConfig.timeThreshold}
                   boundaryScope={alertConfig.boundaryScope}

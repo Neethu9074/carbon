@@ -16,8 +16,8 @@ export default function SimpleAlertConfigDialogStep1({
   form,
   setLogMessagesListVisible,
   updateForm,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   const alertType = form.get('rule').get('alertType').value;
   const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
@@ -81,8 +81,8 @@ export default function SimpleAlertConfigDialogStep1({
 
       <SimpleAlertConfigDialogChart
         form={form}
-        onChartConfigChange={onChartConfigChange}
-        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       />
     </SimpleModeStepContentWrapper>
   );

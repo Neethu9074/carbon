@@ -17,7 +17,6 @@ import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/ge
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteMetricsThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsThreshold';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import { alertingMetricsGranularity } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
@@ -34,7 +33,7 @@ export const AlertConfigDialogWithThreshold = compose(
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, alertingMetricsGranularity, simpleMode)
+      result: resolveThresholdRequest(form, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
         .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
     };
@@ -77,12 +76,13 @@ export const AlertConfigDialogWithThreshold = compose(
   );
 });
 
-function resolveThresholdRequest(form, granularity, fallbackOnError) {
+function resolveThresholdRequest(form, fallbackOnError) {
   const websiteId = form.get(fieldNames.websiteId).value;
   const stringValue = getFormValueOrDefault(form.get('rule'), 'value');
   const operator = getFormValueOrDefault(form.get('rule'), 'operator');
   const tagFilters = form.get(fieldNames.tagFilters).value;
   const metricName = form.get('rule').get('metricName').value;
+  const granularity = form.get('granularity').value;
 
   switch (metricName) {
     case errorCount:

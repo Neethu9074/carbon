@@ -8,7 +8,7 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
@@ -26,6 +26,7 @@ export default function JsErrorsAlertingBarChart({
   errorFilter,
   metricName,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -35,16 +36,18 @@ export default function JsErrorsAlertingBarChart({
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
-        granularity,
+        thresholdGranularity: granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue
             ? Math.max(metricsMaxValue, (metricName === errorCount ? Math.trunc(thresholdValue) : thresholdValue) * 1.2)
@@ -79,9 +82,9 @@ export default function JsErrorsAlertingBarChart({
         errorFilter,
         tagFiltersWithWebsiteId,
         timeConfig,
-        granularity
+        metricChartGranularity
       )}
-      alertMetricConfiguration={getAlertsConfiguration(
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithWebsiteId,
         metricName,
@@ -106,6 +109,7 @@ JsErrorsAlertingBarChart.propTypes = {
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   timeConfig: PropTypes.object.isRequired,
@@ -163,11 +167,19 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, errorFilter, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(
+  timeConfig,
+  tagFilters,
+  metric,
+  granularity,
+  errorFilter,
+  threshold,
+  timeThreshold
+) {
   const alertsConfig = {
     metric,
     aggregation: metric === errorCount ? 'SUM' : 'MEAN',
-    granularity: alertingMetricsGranularity // global metric granularity
+    granularity
   };
 
   if (metric === errorRate) {
@@ -180,7 +192,7 @@ function getAlertsConfiguration(timeConfig, tagFilters, metric, granularity, err
       tagFilters: metric === errorCount ? [...tagFilters, errorFilter] : tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: alertsConfig
       }

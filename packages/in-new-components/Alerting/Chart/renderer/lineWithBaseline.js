@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 
-import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
 
@@ -34,10 +34,10 @@ function renderBaseline(axis, config, scale, colors) {
     return;
   }
   const sensitivity = config.y1.sensitivity;
-  const granularity = config.y1.granularity;
+  const thresholdGranularity = config.y1.thresholdGranularity;
   const timeConfig = config.timeConfig;
-  const baselineWindowSize = (timeConfig.windowSize / granularity) * granularity;
-  const chartFrom = timeConfig.to - (timeConfig.windowSize / baselineGranularity) * baselineGranularity;
+  const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
+  const chartFrom = timeConfig.to - baselineWindowSize;
   const chartTo = chartFrom + baselineWindowSize;
 
   const chartHeight = scale.getRangeFrom();
@@ -47,8 +47,8 @@ function renderBaseline(axis, config, scale, colors) {
   const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
   const upperThresholdInTimeframe = [];
 
-  for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += baselineGranularity) {
-    const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, isGreaterOp);
+  for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
+    const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, thresholdGranularity, isGreaterOp);
     upperThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
 

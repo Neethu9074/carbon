@@ -40,8 +40,8 @@ export default function AdvancedModeContainer(props) {
     setSliderState,
     granularity,
     updateForm,
-    onChartConfigChange,
-    indexInitialSelectedTimeConfig
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex
   } = props;
   return (
     <GlobalAdvancedModeContainer
@@ -90,8 +90,8 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       timeConfig={timeConfig}
                       granularity={granularity}
-                      onChartConfigChange={onChartConfigChange}
-                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
                   </>
                 )}
@@ -106,8 +106,8 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       timeConfig={timeConfig}
                       granularity={granularity}
-                      onChartConfigChange={onChartConfigChange}
-                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
                   </>
                 )}
@@ -120,8 +120,8 @@ export default function AdvancedModeContainer(props) {
                         granularity={granularity}
                         onChange={onChange}
                         updateForm={updateForm}
-                        onChartConfigChange={onChartConfigChange}
-                        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                        onChartViewConfigChange={onChartViewConfigChange}
+                        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                       />
                       {showInsufficientBaselineDataMessage(form) && (
                         <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>

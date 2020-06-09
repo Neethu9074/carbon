@@ -11,8 +11,8 @@ export default function SimpleAlertConfigDialogStep2({
   timeConfig,
   websiteLabel,
   updateForm,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   return (
     <SimpleModeStepContentWrapper headline="Where do you want the alert to trigger?">
@@ -22,8 +22,8 @@ export default function SimpleAlertConfigDialogStep2({
 
       <SimpleAlertConfigDialogChart
         form={form}
-        onChartConfigChange={onChartConfigChange}
-        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       />
     </SimpleModeStepContentWrapper>
   );

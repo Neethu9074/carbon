@@ -8,10 +8,10 @@ import {
   smoothMetrics
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -26,6 +26,7 @@ export default function StatusCodeAlertingBarChart({
   numeratorFilter,
   metricName,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -35,16 +36,18 @@ export default function StatusCodeAlertingBarChart({
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
-        granularity,
+        thresholdGranularity: granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue
             ? Math.max(
@@ -82,9 +85,9 @@ export default function StatusCodeAlertingBarChart({
         numeratorFilter,
         tagFiltersWithWebsiteId,
         timeConfig,
-        granularity
+        metricChartGranularity
       )}
-      alertMetricConfiguration={getAlertsConfiguration(
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithWebsiteId,
         metricName,
@@ -108,6 +111,7 @@ StatusCodeAlertingBarChart.propTypes = {
   websiteId: PropTypes.string.isRequired,
   numeratorFilter: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
@@ -166,7 +170,7 @@ function getWebsiteIdTagFilter(websiteId) {
   };
 }
 
-function getAlertsConfiguration(
+function getAlertsPreviewConfiguration(
   timeConfig,
   tagFilters,
   metric,
@@ -178,7 +182,7 @@ function getAlertsConfiguration(
   const alertsConfig = {
     metric,
     aggregation: metric === statusCodeCount ? 'SUM' : 'MEAN',
-    granularity: alertingMetricsGranularity // global metric granularity
+    granularity
   };
 
   if (metric === statusCodeRate) {
@@ -191,7 +195,7 @@ function getAlertsConfiguration(
       tagFilters: metric === statusCodeCount ? [...tagFilters, numeratorFilter] : tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: alertsConfig
       }

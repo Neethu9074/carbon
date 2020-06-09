@@ -8,10 +8,10 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { alertingMetricsGranularity, shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
@@ -27,6 +27,7 @@ export default function LogsAlertingBarChart({
   timeConfig,
   tagFilters,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -39,16 +40,18 @@ export default function LogsAlertingBarChart({
   ];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
-        granularity,
+        thresholdGranularity: granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
@@ -71,8 +74,8 @@ export default function LogsAlertingBarChart({
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
-      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, granularity)}
-      alertMetricConfiguration={getAlertsConfiguration(
+      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, metricChartGranularity)}
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithApplicationId,
         granularity,
@@ -96,6 +99,7 @@ LogsAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   logLevel: PropTypes.string.isRequired,
   logMessage: PropTypes.string.isRequired,
   logMessageOperator: PropTypes.string.isRequired,
@@ -126,19 +130,19 @@ function getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, 
   ];
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity, // to request clustered alert preview results
       metrics: {
         alerts: {
           metric: 'calls',
           aggregation: 'SUM',
-          granularity: alertingMetricsGranularity // global metric granularity
+          granularity
         }
       }
     };

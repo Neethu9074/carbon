@@ -40,8 +40,8 @@ function StatusCodeInteractiveChart({
   onChange,
   debounceOnChange$,
   updateForm,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
@@ -56,6 +56,7 @@ function StatusCodeInteractiveChart({
         ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
         : form.get('threshold').get('value').value) || 0
   };
+  const granularity = form.get('granularity').value;
 
   return (
     <div className={locals.container}>
@@ -73,17 +74,18 @@ function StatusCodeInteractiveChart({
       )}
 
       <ChartViewConfigurator
-        onChartConfigChange={onChartConfigChange}
-        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, granularity }) => (
+        {({ timeConfig, minChartMetricGranularity }) => (
           <StatusCodeAlertingBarChart
             websiteId={form.get('websiteId').value}
             timeConfig={timeConfig}
             tagFilters={form.get('tagFilters').value}
             granularity={granularity}
+            minChartMetricGranularity={minChartMetricGranularity}
             numeratorFilter={{
               name: 'beacon.http.status',
               operator: form.get('rule').get('operator').value,
@@ -187,8 +189,8 @@ export function renderThresholdCondition(
 StatusCodeInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired,
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired,
   debounceOnChange$: PropTypes.object,
   updateForm: PropTypes.func.isRequired
 };

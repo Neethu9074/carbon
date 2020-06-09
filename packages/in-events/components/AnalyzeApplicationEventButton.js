@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { baselineGranularity, getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -61,7 +61,7 @@ function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   if (alertType === 'errorRate') {
     analyzeFilters.push(getErroneousCallsAnalyzeFilter());
   } else if (alertType === 'slowness') {
-    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig.threshold, timeConfig));
+    analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig));
   } else if (alertType === 'logs') {
     analyzeFilters = analyzeFilters.concat(getLogCallsAnalyzeFilters(alertConfig.rule));
   } else if (alertType === 'statusCode') {
@@ -97,15 +97,15 @@ function getErroneousCallsAnalyzeFilter() {
   };
 }
 
-function getThresholdLatencyAnalyzeFilter(threshold, timeConfig) {
+function getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig) {
   let value;
-  if (threshold.type === 'staticThreshold') {
-    value = threshold.value;
+  if (alertConfig.threshold.type === 'staticThreshold') {
+    value = alertConfig.threshold.value;
   } else {
-    value = getBaselineThresholdValue(threshold, timeConfig);
+    value = getBaselineThresholdValue(alertConfig, timeConfig);
   }
 
-  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(value, threshold.operator);
+  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(value, alertConfig.threshold.operator);
   return {
     name: 'call.latency',
     operator: analyzeThreshold.operator,
@@ -136,12 +136,13 @@ function getStatusCodeAnalyzeFilter(rule) {
   return analyzeFilters;
 }
 
-function getBaselineThresholdValue(threshold, timeConfig) {
-  const isGreaterOp = threshold.operator === '>=' || threshold.operator === '>';
+function getBaselineThresholdValue(alertConfig, timeConfig) {
+  const { granularity: baselineGranularity, operator, baseline, deviationFactor } = alertConfig.threshold;
+  const isGreaterOp = operator === '>=' || operator === '>';
 
   const baselineValues = [];
   for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    baselineValues.push(getBaselineValue(time, threshold.baseline, threshold.deviationFactor, isGreaterOp));
+    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
   }
   return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
 }

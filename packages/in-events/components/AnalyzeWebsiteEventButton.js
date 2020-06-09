@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import { getBaselineValue, baselineGranularity } from 'in-new-components/Alerting/utils/baselineUtils';
 import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/alerting/tracker';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -41,7 +41,7 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
             ...tagFiltersWithWebsiteId,
             getThresholdDurationTagFilter(alertConfig.threshold.value, alertConfig.threshold.operator)
           ]
-        : [...tagFiltersWithWebsiteId, getBaselineDurationTagFilter(alertConfig.threshold, timeConfig)];
+        : [...tagFiltersWithWebsiteId, getBaselineDurationTagFilter(alertConfig, timeConfig)];
     return (
       <GoToAnalyzeButton
         websiteLabel={websiteLabel}
@@ -119,11 +119,19 @@ function getStatusCodeTagFilter(alertRule) {
   };
 }
 
-function getBaselineDurationTagFilter(alertThreshold, timeConfig) {
-  const isGreaterOp = isGreaterOperator(alertThreshold.operator);
+function getBaselineDurationTagFilter(alertConfig, timeConfig) {
+  const threshold = alertConfig.threshold;
+  const baselineGranularity = alertConfig.granularity;
+  const isGreaterOp = isGreaterOperator(threshold.operator);
   const baselineValues = [];
   for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    const baselineValue = getBaselineValue(time, alertThreshold.baseline, alertThreshold.deviationFactor, isGreaterOp);
+    const baselineValue = getBaselineValue(
+      time,
+      threshold.baseline,
+      threshold.deviationFactor,
+      baselineGranularity,
+      isGreaterOp
+    );
     baselineValues.push(baselineValue);
   }
 
@@ -132,7 +140,7 @@ function getBaselineDurationTagFilter(alertThreshold, timeConfig) {
   }
 
   const thresholdValue = isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
-  return getThresholdDurationTagFilter(thresholdValue, alertThreshold.operator);
+  return getThresholdDurationTagFilter(thresholdValue, threshold.operator);
 }
 
 function getThresholdDurationTagFilter(thresholdValue, thresholdOperator) {

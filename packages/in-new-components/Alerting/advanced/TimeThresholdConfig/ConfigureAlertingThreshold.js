@@ -67,6 +67,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
       form
         .updateIn(['granularity'], f => f.setValue(newGranularity).setTouched(true))
         .updateIn(['timeThreshold', 'timeWindow'], f => f.setValue(violations * newGranularity).setTouched(true))
+        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }
 }

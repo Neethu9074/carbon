@@ -34,8 +34,8 @@ function LogsInteractiveChart({
   form,
   onChange,
   debounceOnChange$,
-  onChartConfigChange,
-  indexInitialSelectedTimeConfig
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
 }) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
@@ -55,6 +55,7 @@ function LogsInteractiveChart({
         ? getThresholdValueForPercentageMetric(tempThreshold, true)
         : form.get('threshold').get('value').value) || 0
   };
+  const granularity = form.get('granularity').value;
 
   return (
     <div className={locals.container}>
@@ -69,12 +70,12 @@ function LogsInteractiveChart({
       )}
 
       <ChartViewConfigurator
-        onChartConfigChange={onChartConfigChange}
-        indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, granularity }) => (
+        {({ timeConfig, minChartMetricGranularity }) => (
           <LogsAlertingBarChart
             applicationId={form.get('applicationId').value}
             logMessage={form.get('rule').get('message').value}
@@ -83,6 +84,7 @@ function LogsInteractiveChart({
             timeConfig={timeConfig}
             tagFilters={form.get('tagFilters').value}
             granularity={granularity}
+            minChartMetricGranularity={minChartMetricGranularity}
             threshold={threshold}
             timeThreshold={form.get('timeThreshold').toJS()}
             boundaryScope={form.get('boundaryScope').value}
@@ -155,8 +157,8 @@ LogsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChartConfigChange: PropTypes.func.isRequired,
-  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
 
 function hasLogMessageSelected(form) {

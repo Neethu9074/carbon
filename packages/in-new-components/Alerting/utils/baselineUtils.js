@@ -1,13 +1,11 @@
-import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 /**
  * Compensate that Unix timestamp zero is on a Thursday, not on a Monday.
  */
 const fromMondayToThursdayMillis = hoursToMillis(3 * 24);
 
-export const baselineGranularity = minutesToMillis(10);
-
-export function getBaselineValue(timestamp, baseline, sensitivity, isGreaterOperator) {
+export function getBaselineValue(timestamp, baseline, sensitivity, baselineGranularity, isGreaterOperator) {
   const baselineWindowSize = baseline.length * baselineGranularity;
   const baselineIdx = Math.floor(((timestamp + fromMondayToThursdayMillis) % baselineWindowSize) / baselineGranularity);
   const baselineValue = baseline[baselineIdx][1];

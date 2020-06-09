@@ -25,7 +25,7 @@ import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.
 const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig, websiteLabel }) {
-  const [indexSelectedChartConfig, setIndexSelectedChartConfig] = useState(initialChartConfigIndex);
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
     rule: { operator, value, metricName, alertType, aggregation },
@@ -33,7 +33,8 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
     timeThreshold,
     alertChannelIds,
     tagFilters,
-    websiteId
+    websiteId,
+    granularity
   } = alertConfig;
 
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
@@ -44,13 +45,13 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         <ListTitle>Alert Configuration</ListTitle>
 
         <ChartViewConfigurator
-          onChartConfigChange={({ index }) => setIndexSelectedChartConfig(index)}
-          indexInitialSelectedTimeConfig={indexSelectedChartConfig}
+          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
           title="Trigger"
           framed
         >
-          {({ timeConfig, granularity }) => (
+          {({ timeConfig, minChartMetricGranularity }) => (
             <AlertTypeSwitch
               alertType={alertType}
               renderJsErrors={() => (
@@ -71,6 +72,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                     }}
                     metricName={metricName}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -87,6 +89,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                     }}
                     metricName={metricName}
                     granularity={granularity}
+                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -97,6 +100,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                   timeConfig={timeConfig}
                   aggregation={aggregation}
                   granularity={granularity}
+                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
             />

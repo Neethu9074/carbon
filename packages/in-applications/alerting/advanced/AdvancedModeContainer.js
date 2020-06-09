@@ -36,8 +36,8 @@ export default function AdvancedModeContainer(props) {
     setSliderState,
     updateForm,
     applicationLabel,
-    onChartConfigChange,
-    indexInitialSelectedTimeConfig
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex
   } = props;
 
   return (
@@ -77,8 +77,8 @@ export default function AdvancedModeContainer(props) {
                     timeConfig={timeConfig}
                     granularity={granularity}
                     onChange={onChange}
-                    onChartConfigChange={onChartConfigChange}
-                    indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                    onChartViewConfigChange={onChartViewConfigChange}
+                    selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                   />
                 )}
                 renderSlowness={() => (
@@ -89,8 +89,8 @@ export default function AdvancedModeContainer(props) {
                       granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
-                      onChartConfigChange={onChartConfigChange}
-                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
                     {showInsufficientBaselineDataMessage(form) && (
                       <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
@@ -120,8 +120,8 @@ export default function AdvancedModeContainer(props) {
                       timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
-                      onChartConfigChange={onChartConfigChange}
-                      indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
                   </>
                 )}

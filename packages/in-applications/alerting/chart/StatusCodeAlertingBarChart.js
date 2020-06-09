@@ -22,6 +22,7 @@ export default function StatusCodeAlertingBarChart({
   timeConfig,
   tagFilters,
   granularity,
+  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -35,15 +36,18 @@ export default function StatusCodeAlertingBarChart({
   ];
   const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
 
+  const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
+
   return (
     <AlertingBarChartWrapper
       releaseMarkersDisabled
       timeConfig={timeConfig}
-      granularity={granularity}
+      granularity={metricChartGranularity}
       canReload={canReload}
       y1={{
         threshold: thresholdValue,
         operator: threshold.operator,
+        thresholdGranularity: granularity,
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
@@ -86,8 +90,8 @@ export default function StatusCodeAlertingBarChart({
       }}
       getMetric={getApplicationMetrics}
       getAlertsPreview={getApplicationMetricsAlertPreview}
-      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, granularity)}
-      alertMetricConfiguration={getAlertsConfiguration(
+      metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, metricChartGranularity)}
+      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
         timeConfig,
         tagFiltersWithApplicationId,
         granularity,
@@ -113,6 +117,7 @@ StatusCodeAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
+  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
@@ -133,7 +138,7 @@ function getMetricConfiguration(tagFilters, timeConfig, granularity) {
   };
 }
 
-function getAlertsConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
+function getAlertsPreviewConfiguration(timeConfig, tagFilters, granularity, threshold, timeThreshold) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
