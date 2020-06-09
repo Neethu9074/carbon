@@ -27,9 +27,15 @@ export default function Info({ snapshot }) {
       )}
       <DescriptionItem title="Runtime">{data.get('runtime')}</DescriptionItem>
       <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
-      <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
-      <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
-      <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
+      {data.get('timeout') != null && (
+        <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
+      )}
+      {data.get('memory_size') != null && (
+        <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
+      )}
+      {data.get('last_modified') != null && (
+        <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
+      )}
       <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
       <LambdaFunctionLink snapshotId={snapshot.get('id')} />
     </DescriptionList>

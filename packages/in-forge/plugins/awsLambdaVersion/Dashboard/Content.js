@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { millis, number } from 'in-services/formatters/number';
 
 export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
+  let noAwsAgentData = null;
+  const name = snapshot.get('name');
+  if (name == null) {
+    noAwsAgentData = (
+      <DashboardNotification type="danger">
+        It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
+        AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular
+        the <a href="https://www.instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
+      </DashboardNotification>
+    );
+  }
+
   return (
-    <div>
+    <Fragment>
+      {noAwsAgentData}
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <DashboardSection title="Invocations">
         <Chart
@@ -136,6 +150,6 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-    </div>
+    </Fragment>
   );
 }

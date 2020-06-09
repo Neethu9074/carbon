@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardVersionsList from './DashboardVersionsList';
 
 export default function AwsLambdaFunctionDashboard({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
-  return <DashboardVersionsList snapshotId={snapshotId} />;
+  let noAwsAgentData = null;
+  const name = snapshot.get('name');
+  if (name == null) {
+    noAwsAgentData = (
+      <DashboardNotification type="danger">
+        It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
+        AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular
+        the <a href="https://www.instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
+      </DashboardNotification>
+    );
+  }
+
+  return (
+    <Fragment>
+      {noAwsAgentData}
+      <DashboardVersionsList snapshotId={snapshotId} />
+    </Fragment>
+  );
 }
