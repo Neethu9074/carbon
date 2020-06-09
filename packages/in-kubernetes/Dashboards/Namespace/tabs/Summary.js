@@ -38,7 +38,7 @@ export default function Summary({ timeConfig, data: namespace }) {
 
   return (
     <Fragment>
-      <MissingK8sPermissions namespaceId={namespace.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions resourceSnapshotId={namespace.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard title="Status" value={namespace.status} raw borderless />

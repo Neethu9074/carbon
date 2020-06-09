@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
@@ -20,6 +21,8 @@ export default function Summary({ timeConfig, data: daemonSet }) {
 
   return (
     <Fragment>
+      <MissingK8sPermissions resourceSnapshotId={daemonSet.id} timeConfig={timeConfig} />
+
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard

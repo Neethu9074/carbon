@@ -49,11 +49,11 @@ function WarningMessage(props) {
 
 const WarningMessageAfterFetchingCluster = connectTo(
   props => {
-    const { deploymentId, deploymentConfigId, namespaceId, serviceId, nodeId, podId, timeConfig } = props.props;
+    const { resourceSnapshotId, timeConfig } = props.props;
     return {
       cluster: getKubernetesClusterByRelation$({
         filter: {
-          resourceSnapshotId: deploymentId || deploymentConfigId || namespaceId || serviceId || nodeId || podId,
+          resourceSnapshotId: resourceSnapshotId,
           timeConfig: timeConfig
         }
       })

@@ -19,7 +19,7 @@ export default function Summary({ timeConfig, data: service }) {
 
   return (
     <Fragment>
-      <MissingK8sPermissions serviceId={service.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard title="Type" value={service.type} raw borderless />

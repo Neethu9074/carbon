@@ -32,7 +32,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
 
   return (
     <Fragment>
-      <MissingK8sPermissions deploymentConfigId={deploymentConfig.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions resourceSnapshotId={deploymentConfig.id} timeConfig={timeConfig} />
 
       <Row>
         <Col lg={2}>

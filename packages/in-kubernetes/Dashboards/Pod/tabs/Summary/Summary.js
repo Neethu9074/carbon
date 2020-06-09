@@ -29,7 +29,7 @@ export default function Summary({ data: pod, timeConfig }) {
 
   return (
     <Fragment>
-      <MissingK8sPermissions podId={pod.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions resourceSnapshotId={pod.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
