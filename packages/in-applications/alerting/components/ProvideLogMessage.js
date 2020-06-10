@@ -31,6 +31,40 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
 
   return (
     <div className={locals.container}>
+      <FormGroup className={locals.logMessageSelection}>
+        <Label>Select log message as template (optional)</Label>
+        <Button
+          onClick={() => {
+            applicationsAlertingLogOpenMsgSelectView(mode);
+            onSelectLogMessage({
+              slideInConfig: {
+                component: (
+                  <LogMessagesList
+                    applicationId={form.get('applicationId').value}
+                    applicationBoundaryScope={form.get('boundaryScope').value}
+                    timeConfig={timeConfig}
+                    onLogMessageSelect={(message, level) => {
+                      applicationsAlertingLogMsgSelected({ message, mode });
+                      updateForm(
+                        form
+                          .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
+                          .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
+                          .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
+                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                      );
+                    }}
+                    slideOut={() => onSelectLogMessage({ isVisible: false })}
+                  />
+                ),
+                title: 'Select Log Message'
+              },
+              isVisible: true
+            });
+          }}
+        >
+          Select Log Message
+        </Button>
+      </FormGroup>
       {levelField.map(field => (
         <FormGroup>
           <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>
@@ -93,54 +127,22 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
       {operatorField.value !== operators.NOT_EMPTY &&
         messageField.map(field => (
           <FormGroup>
-            <div className={locals.logMessageSelection}>
-              <TextArea
-                name={'ruleMessage'}
-                rows="3"
-                value={field.value}
-                onChange={e => {
-                  debouncedLogMsgChangedTracker(mode);
-                  updateForm(
-                    form
-                      .updateIn(['rule', 'message'], f => f.setValue((e && e.target.value) || '').setTouched(true))
-                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                  );
-                }}
-                hasError={!field.valid && field.touched}
-                maxLength={65536}
-              />
-              <Button
-                onClick={() => {
-                  applicationsAlertingLogOpenMsgSelectView(mode);
-                  onSelectLogMessage({
-                    slideInConfig: {
-                      component: (
-                        <LogMessagesList
-                          applicationId={form.get('applicationId').value}
-                          applicationBoundaryScope={form.get('boundaryScope').value}
-                          timeConfig={timeConfig}
-                          onLogMessageSelect={(message, level) => {
-                            applicationsAlertingLogMsgSelected({ message, mode });
-                            updateForm(
-                              form
-                                .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
-                                .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
-                                .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
-                                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                            );
-                          }}
-                          slideOut={() => onSelectLogMessage({ isVisible: false })}
-                        />
-                      ),
-                      title: 'Select Log Message'
-                    },
-                    isVisible: true
-                  });
-                }}
-              >
-                Select Log Message
-              </Button>
-            </div>
+            <TextArea
+              name={'ruleMessage'}
+              rows="3"
+              value={field.value}
+              onChange={e => {
+                debouncedLogMsgChangedTracker(mode);
+                updateForm(
+                  form
+                    .updateIn(['rule', 'message'], f => f.setValue((e && e.target.value) || '').setTouched(true))
+                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                );
+              }}
+              hasError={!field.valid && field.touched}
+              maxLength={65536}
+            />
+
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
