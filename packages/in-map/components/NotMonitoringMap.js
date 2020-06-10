@@ -55,5 +55,5 @@ function MapNoDataForTimerange(props) {
 }
 
 function MapMessage(props) {
-  return <EntityPageMainNotification framed theme="light" icon="lib_infrastructure" {...props} />;
+  return <EntityPageMainNotification framed theme="light" icon="lib_infrastructure" {...props} withBackground />;
 }
