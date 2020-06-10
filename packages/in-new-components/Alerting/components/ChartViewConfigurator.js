@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
 import evaluateClassNames from 'in-services/util/classnames';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -17,7 +17,7 @@ export default function ChartViewConfigurator({
   framed = false,
   onChartViewConfigChange
 }) {
-  const selectedChartConfig = chartViewConfigs[selectedChartViewConfigIndex];
+  const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   return (
     <>
       <LightCard
@@ -34,16 +34,13 @@ export default function ChartViewConfigurator({
               key: chartConfig.label,
               onClick: () => onChartViewConfigChange(index)
             }))}
-            activeKey={selectedChartConfig.label}
+            activeKey={selectedChartViewConfig.label}
           />
         }
         framed={framed}
         darkFrame
       >
-        {children({
-          timeConfig: selectedChartConfig.timeConfig,
-          minChartMetricGranularity: selectedChartConfig.minChartMetricGranularity
-        })}
+        {children(selectedChartViewConfig)}
       </LightCard>
     </>
   );

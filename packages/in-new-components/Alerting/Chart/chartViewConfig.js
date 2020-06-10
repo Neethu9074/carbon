@@ -1,7 +1,14 @@
-import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import PropTypes from 'prop-types';
 
-export const alertingDialogItemPickerTimeframe = hoursToMillis(7 * 24);
-export const alertingEventDetailsChartTimeframe = hoursToMillis(12);
+import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import { propTypeTimeConfig } from 'in-stores/time/config';
+
+export const chartViewConfigPropType = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
+  minChartMetricGranularity: PropTypes.number.isRequired,
+  smoothMetric: PropTypes.bool
+});
 
 /**
  * View configuration for charts supporting to show the data in different time frames.
@@ -22,10 +29,7 @@ export const chartViewConfigs = Object.freeze([
     timeConfig: {
       windowSize: hoursToMillis(7 * 24)
     },
-    minChartMetricGranularity: minutesToMillis(10)
+    minChartMetricGranularity: minutesToMillis(10),
+    smoothMetric: true
   }
 ]);
-
-export function shouldSmoothMetric(windowSize) {
-  return windowSize <= chartViewConfigs[0].timeConfig.windowSize;
-}

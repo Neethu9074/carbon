@@ -9,7 +9,7 @@ import {
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -21,10 +21,9 @@ export default function SlownessAlertingBarChart({
   websiteId,
   aggregation,
   sensitivity,
-  timeConfig,
+  viewConfig,
   tagFilters,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -32,7 +31,7 @@ export default function SlownessAlertingBarChart({
 }) {
   const baseline = threshold.baseline;
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -64,20 +63,20 @@ export default function SlownessAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: [_shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
+          types: [smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: getRenderer(),
         formatter: millis.forcedFixedCompact,
         metricIds: ['onLoadTime', 'threshold'],
         labels: [
-          `${getMetricLabel(alertTypes.slowness, onLoadTime)}${_shouldSmoothMetric ? '' : '*'}`,
+          `${getMetricLabel(alertTypes.slowness, onLoadTime)}${smoothMetric ? '*' : ''}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         nonToggleableSeries: new Map([
-          ['onLoadTime', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['onLoadTime', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -107,7 +106,7 @@ export default function SlownessAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['onLoadTime'],
         mutate: smoothMetrics
       }}
@@ -116,9 +115,9 @@ export default function SlownessAlertingBarChart({
 
   function getRenderer() {
     if (threshold.type === 'staticThreshold') {
-      return _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold;
+      return smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold;
     } else {
-      return _shouldSmoothMetric ? Renderer.barWithBaseline : Renderer.lineWithBaseline;
+      return smoothMetric ? Renderer.lineWithBaseline : Renderer.barWithBaseline;
     }
   }
 }
@@ -130,9 +129,8 @@ SlownessAlertingBarChart.propTypes = {
   timeThreshold: PropTypes.object.isRequired,
   sensitivity: PropTypes.number,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool
 };

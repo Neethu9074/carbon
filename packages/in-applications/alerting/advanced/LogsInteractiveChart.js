@@ -75,16 +75,15 @@ function LogsInteractiveChart({
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, minChartMetricGranularity }) => (
+        {chartViewConfig => (
           <LogsAlertingBarChart
             applicationId={form.get('applicationId').value}
             logMessage={form.get('rule').get('message').value}
             logMessageOperator={form.get('rule').get('operator').value}
             logLevel={form.get('rule').get('level').value}
-            timeConfig={timeConfig}
+            viewConfig={chartViewConfig}
             tagFilters={form.get('tagFilters').value}
             granularity={granularity}
-            minChartMetricGranularity={minChartMetricGranularity}
             threshold={threshold}
             timeThreshold={form.get('timeThreshold').toJS()}
             boundaryScope={form.get('boundaryScope').value}

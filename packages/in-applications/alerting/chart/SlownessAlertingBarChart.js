@@ -10,12 +10,11 @@ import {
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import { millis } from 'in-services/formatters/number';
 
 export default function SlownessAlertingBarChart({
@@ -23,10 +22,9 @@ export default function SlownessAlertingBarChart({
   boundaryScope,
   aggregation,
   sensitivity,
-  timeConfig,
+  viewConfig,
   tagFilters,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -34,7 +32,7 @@ export default function SlownessAlertingBarChart({
 }) {
   const baseline = threshold.baseline;
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -66,20 +64,16 @@ export default function SlownessAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: [_shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
+          types: [smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
         renderer: getRenderer(),
         formatter: millis.forcedFixedCompact,
         metricIds: ['latency', 'threshold'],
-        labels: [
-          `${getMetricLabel('slowness', 'latency')}${_shouldSmoothMetric ? '' : '*'}`,
-          'Threshold',
-          'Violations'
-        ],
+        labels: [`${getMetricLabel('slowness', 'latency')}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'],
         excludedLabelsFromTooltip: ['Violations'],
         nonToggleableSeries: new Map([
-          ['latency', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['latency', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -109,7 +103,7 @@ export default function SlownessAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['latency'],
         mutate: smoothMetrics
       }}
@@ -118,9 +112,9 @@ export default function SlownessAlertingBarChart({
 
   function getRenderer() {
     if (threshold.type === 'staticThreshold') {
-      return _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold;
+      return smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold;
     } else {
-      return _shouldSmoothMetric ? Renderer.barWithBaseline : Renderer.lineWithBaseline;
+      return smoothMetric ? Renderer.lineWithBaseline : Renderer.barWithBaseline;
     }
   }
 }
@@ -132,11 +126,10 @@ SlownessAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   sensitivity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

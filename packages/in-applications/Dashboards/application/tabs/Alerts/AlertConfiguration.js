@@ -55,26 +55,24 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           title="Trigger"
           framed
         >
-          {({ timeConfig, minChartMetricGranularity }) => (
+          {chartViewConfig => (
             <AlertTypeSwitch
               alertType={alertType}
               renderErrorRate={() => (
                 <ErrorRateAlertingBarChart
                   {...alertConfig}
-                  timeConfig={timeConfig}
+                  viewConfig={chartViewConfig}
                   tagFilters={tagFilters}
                   granularity={granularity}
-                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
               renderSlowness={() => (
                 <SlownessAlertingBarChart
                   {...alertConfig}
                   sensitivity={deviationFactor}
-                  timeConfig={timeConfig}
+                  viewConfig={chartViewConfig}
                   aggregation={aggregation}
                   granularity={granularity}
-                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
               renderLogs={() => (
@@ -90,10 +88,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                     logMessage={message}
                     logMessageOperator={operator}
                     logLevel={level}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -103,10 +100,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   statusCodeStart={alertConfig.rule.statusCodeStart}
                   statusCodeEnd={alertConfig.rule.statusCodeEnd}
                   logLevel={alertConfig.rule.level}
-                  timeConfig={timeConfig}
+                  viewConfig={chartViewConfig}
                   tagFilters={tagFilters}
                   granularity={granularity}
-                  minChartMetricGranularity={minChartMetricGranularity}
                   threshold={alertConfig.threshold}
                   timeThreshold={alertConfig.timeThreshold}
                   boundaryScope={alertConfig.boundaryScope}

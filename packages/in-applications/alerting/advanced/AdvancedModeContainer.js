@@ -10,7 +10,6 @@ import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/Ti
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
-import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
@@ -18,6 +17,7 @@ import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutb
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';

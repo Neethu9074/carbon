@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
-import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');

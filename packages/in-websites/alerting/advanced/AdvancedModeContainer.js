@@ -14,11 +14,11 @@ import {
 } from 'in-websites/alerting/form/formUtils';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
-import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
 import SlownessInteractiveChart from 'in-websites/alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/alerting/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
 import TimeThresholdConfig from 'in-websites/alerting/advanced/TimeThresholdConfig';
 import BlueprintSelection from 'in-websites/alerting/advanced/BlueprintSelection';

@@ -19,7 +19,6 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
   const timeThreshold = form.get('timeThreshold').toJS();
   const boundaryScope = form.get('boundaryScope').value;
   const granularity = form.get('granularity').value;
-
   return (
     <ChartViewConfigurator
       onChartViewConfigChange={onChartViewConfigChange}
@@ -27,17 +26,16 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
       className={locals.position}
       framed
     >
-      {({ timeConfig, minChartMetricGranularity }) => (
+      {chartViewConfig => (
         <AlertTypeSwitch
           alertType={rule.alertType}
           renderErrorRate={() => (
             <div className={locals.placeholder}>
               <ErrorRateAlertingBarChart
                 applicationId={applicationId}
-                timeConfig={timeConfig}
+                viewConfig={chartViewConfig}
                 tagFilters={tagFilters}
                 granularity={granularity}
-                minChartMetricGranularity={minChartMetricGranularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
                 boundaryScope={boundaryScope}
@@ -53,11 +51,10 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 threshold={threshold}
                 timeThreshold={timeThreshold}
                 sensitivity={threshold.deviationFactor}
-                timeConfig={timeConfig}
+                viewConfig={chartViewConfig}
                 tagFilters={tagFilters}
                 aggregation={rule.aggregation}
                 granularity={granularity}
-                minChartMetricGranularity={minChartMetricGranularity}
                 boundaryScope={boundaryScope}
                 alertsPreviewEnabled
                 canReload
@@ -73,10 +70,9 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                     logMessage={rule.message}
                     logMessageOperator={rule.operator}
                     logLevel={rule.level}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                     boundaryScope={boundaryScope}
@@ -97,10 +93,9 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                     applicationId={applicationId}
                     statusCodeStart={rule.statusCodeStart}
                     statusCodeEnd={rule.statusCodeEnd}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
                     boundaryScope={boundaryScope}

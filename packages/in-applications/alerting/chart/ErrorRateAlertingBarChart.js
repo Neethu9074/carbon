@@ -10,21 +10,19 @@ import {
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { percentage } from 'in-services/formatters/number';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function ErrorRateAlertingBarChart({
   applicationId,
   boundaryScope,
-  timeConfig,
+  viewConfig,
   tagFilters,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -32,7 +30,7 @@ export default function ErrorRateAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithApplicationId = [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -54,17 +52,13 @@ export default function ErrorRateAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold,
         formatter: percentage.detailed,
-        labels: [
-          `${getMetricLabel('errorRate', 'errors')}${_shouldSmoothMetric ? '' : '*'}`,
-          'Threshold',
-          'Violations'
-        ],
+        labels: [`${getMetricLabel('errorRate', 'errors')}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['errors', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['Violations', null]
         ])
@@ -82,7 +76,7 @@ export default function ErrorRateAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['errors'],
         mutate: smoothMetrics
       }}
@@ -96,10 +90,9 @@ ErrorRateAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

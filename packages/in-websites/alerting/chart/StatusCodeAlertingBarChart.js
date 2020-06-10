@@ -11,7 +11,7 @@ import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscription
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -21,12 +21,11 @@ import { percentage, number } from 'in-services/formatters/number';
 
 export default function StatusCodeAlertingBarChart({
   websiteId,
-  timeConfig,
+  viewConfig,
   tagFilters,
   numeratorFilter,
   metricName,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -34,7 +33,7 @@ export default function StatusCodeAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -61,17 +60,17 @@ export default function StatusCodeAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold,
         formatter: metricName === statusCodeCount ? number.forcedCompact : percentage.detailed,
         labels: [
-          `${getMetricLabel(alertTypes.specificStatusCode, metricName)}${_shouldSmoothMetric ? '' : '*'}`,
+          `${getMetricLabel(alertTypes.specificStatusCode, metricName)}${smoothMetric ? '*' : ''}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
-          ['statusCode', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['statusCode', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -99,7 +98,7 @@ export default function StatusCodeAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['statusCode'],
         mutate: smoothMetrics
       }}
@@ -111,12 +110,11 @@ StatusCodeAlertingBarChart.propTypes = {
   websiteId: PropTypes.string.isRequired,
   numeratorFilter: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool
 };

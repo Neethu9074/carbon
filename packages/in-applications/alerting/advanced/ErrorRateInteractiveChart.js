@@ -67,13 +67,12 @@ function ErrorRateInteractiveChart({
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, minChartMetricGranularity }) => (
+        {chartViewConfig => (
           <ErrorRateAlertingBarChart
             applicationId={form.get('applicationId').value}
-            timeConfig={timeConfig}
+            viewConfig={chartViewConfig}
             tagFilters={form.get('tagFilters').value}
             granularity={granularity}
-            minChartMetricGranularity={minChartMetricGranularity}
             threshold={threshold}
             timeThreshold={form.get('timeThreshold').toJS()}
             boundaryScope={form.get('boundaryScope').value}

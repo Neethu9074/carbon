@@ -2,9 +2,9 @@ import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
-import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
+import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-websites/alerting/tracker';

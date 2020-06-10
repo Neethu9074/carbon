@@ -7,11 +7,10 @@ import { boundaryScopePropType } from 'in-applications/alerting/advanced/Inbound
 import { getApplicationIdTagFilter, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getSmoothedMetricTooltipContent, smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
 
 export default function StatusCodeAlertingBarChart({
@@ -19,10 +18,9 @@ export default function StatusCodeAlertingBarChart({
   statusCodeStart,
   statusCodeEnd,
   boundaryScope,
-  timeConfig,
+  viewConfig,
   tagFilters,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -34,7 +32,7 @@ export default function StatusCodeAlertingBarChart({
     getApplicationIdTagFilter({ applicationId, boundaryScope }),
     ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)
   ];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -59,7 +57,7 @@ export default function StatusCodeAlertingBarChart({
         ],
         icons: {
           types: [
-            _shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart',
+            smoothMetric ? 'lib_line_chart' : 'lib_bar_chart',
             'lib_threshold',
             'lib_actions_stop',
             'lib_actions_stop'
@@ -74,7 +72,7 @@ export default function StatusCodeAlertingBarChart({
         renderer: Renderer.barWithThreshold,
         formatter: number.forcedCompact,
         labels: [
-          `${getMetricLabel('statusCode', 'calls')}${_shouldSmoothMetric ? '' : '*'}`,
+          `${getMetricLabel('statusCode', 'calls')}${smoothMetric ? '*' : ''}`,
           'Threshold',
           'Expected Range',
           'Violations'
@@ -82,7 +80,7 @@ export default function StatusCodeAlertingBarChart({
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
-          ['statusCode', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['statusCode', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['Expected Range', null],
           ['Violations', null]
@@ -101,7 +99,7 @@ export default function StatusCodeAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['statusCode'],
         mutate: smoothMetrics
       }}
@@ -117,10 +115,9 @@ StatusCodeAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

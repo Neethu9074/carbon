@@ -11,11 +11,10 @@ import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscrip
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
 
 export default function LogsAlertingBarChart({
@@ -24,10 +23,9 @@ export default function LogsAlertingBarChart({
   logMessage,
   logMessageOperator,
   logLevel,
-  timeConfig,
+  viewConfig,
   tagFilters,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -38,7 +36,7 @@ export default function LogsAlertingBarChart({
     ...tagFilters,
     ...getRequiredTagFilters({ applicationId, logMessage, logMessageOperator, logLevel, boundaryScope })
   ];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -60,13 +58,13 @@ export default function LogsAlertingBarChart({
           types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold,
         formatter: number.forcedCompact,
-        labels: [`${getMetricLabel('logs', 'calls')}${_shouldSmoothMetric ? '' : '*'}`, 'Threshold', 'Violations'],
+        labels: [`${getMetricLabel('logs', 'calls')}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'],
         excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['logs', 'threshold'],
         nonToggleableSeries: new Map([
-          ['logs', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['logs', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -85,7 +83,7 @@ export default function LogsAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['logs'],
         mutate: smoothMetrics
       }}
@@ -99,13 +97,12 @@ LogsAlertingBarChart.propTypes = {
   boundaryScope: boundaryScopePropType.isRequired,
   canReload: PropTypes.bool,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   logLevel: PropTypes.string.isRequired,
   logMessage: PropTypes.string.isRequired,
   logMessageOperator: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
   threshold: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   timeThreshold: PropTypes.object.isRequired
 };
 

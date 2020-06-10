@@ -89,10 +89,10 @@ function JsErrorsInteractiveChart({
           className={locals.chartContainer}
           headerTransparent
         >
-          {({ timeConfig, minChartMetricGranularity }) => (
+          {chartViewConfig => (
             <JsErrorsAlertingBarChart
               websiteId={form.get(fieldNames.websiteId).value}
-              timeConfig={timeConfig}
+              viewConfig={chartViewConfig}
               tagFilters={form.get(fieldNames.tagFilters).value}
               errorFilter={{
                 name: 'beacon.error.message',
@@ -101,7 +101,6 @@ function JsErrorsInteractiveChart({
               }}
               metricName={metricName}
               granularity={granularity}
-              minChartMetricGranularity={minChartMetricGranularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
               alertsPreviewEnabled

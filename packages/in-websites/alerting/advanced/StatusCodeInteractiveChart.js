@@ -79,13 +79,12 @@ function StatusCodeInteractiveChart({
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, minChartMetricGranularity }) => (
+        {chartViewConfig => (
           <StatusCodeAlertingBarChart
             websiteId={form.get('websiteId').value}
-            timeConfig={timeConfig}
+            viewConfig={chartViewConfig}
             tagFilters={form.get('tagFilters').value}
             granularity={granularity}
-            minChartMetricGranularity={minChartMetricGranularity}
             numeratorFilter={{
               name: 'beacon.http.status',
               operator: form.get('rule').get('operator').value,

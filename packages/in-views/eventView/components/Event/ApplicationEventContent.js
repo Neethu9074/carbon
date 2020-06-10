@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
-import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -10,6 +9,7 @@ import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAle
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
+import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';

@@ -12,7 +12,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applic
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
-import { chartViewConfigs } from 'in-new-components/Alerting/utils/timeConfigUtils';
+import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
 

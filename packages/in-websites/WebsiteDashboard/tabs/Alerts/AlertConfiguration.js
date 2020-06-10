@@ -51,7 +51,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           title="Trigger"
           framed
         >
-          {({ timeConfig, minChartMetricGranularity }) => (
+          {chartViewConfig => (
             <AlertTypeSwitch
               alertType={alertType}
               renderJsErrors={() => (
@@ -64,7 +64,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
                   <JsErrorsAlertingBarChart
                     {...alertConfig}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     errorFilter={{
                       name: 'beacon.error.message',
                       operator: operator,
@@ -72,7 +72,6 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                     }}
                     metricName={metricName}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -81,7 +80,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                   <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
                   <StatusCodeAlertingBarChart
                     {...alertConfig}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     numeratorFilter={{
                       name: 'beacon.http.status',
                       operator: operator,
@@ -89,7 +88,6 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                     }}
                     metricName={metricName}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                   />
                 </>
               )}
@@ -97,10 +95,9 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                 <SlownessAlertingBarChart
                   {...alertConfig}
                   sensitivity={deviationFactor}
-                  timeConfig={timeConfig}
+                  viewConfig={chartViewConfig}
                   aggregation={aggregation}
                   granularity={granularity}
-                  minChartMetricGranularity={minChartMetricGranularity}
                 />
               )}
             />

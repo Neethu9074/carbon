@@ -91,7 +91,7 @@ function SlownessInteractiveChart({
         className={locals.chartContainer}
         headerTransparent
       >
-        {({ timeConfig, minChartMetricGranularity }) => (
+        {chartViewConfig => (
           <SlownessAlertingBarChart
             applicationId={form.get('applicationId').value}
             threshold={threshold}
@@ -101,11 +101,10 @@ function SlownessInteractiveChart({
                 ? tempThresholdDeviationFactor
                 : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
             )}
-            timeConfig={timeConfig}
+            viewConfig={chartViewConfig}
             tagFilters={form.get('tagFilters').value}
             aggregation={form.get('rule').get('aggregation').value}
             granularity={granularity}
-            minChartMetricGranularity={minChartMetricGranularity}
             boundaryScope={form.get('boundaryScope').value}
             alertsPreviewEnabled
             canReload

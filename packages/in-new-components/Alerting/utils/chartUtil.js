@@ -42,5 +42,5 @@ export function smoothMetrics(metrics, granularity, weights = [0.27901, 0.44198,
 }
 
 export function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? null : ['Smoothed metric'];
+  return isSmoothedMetric ? ['Smoothed metric'] : null;
 }

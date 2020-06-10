@@ -8,10 +8,10 @@ import {
   getSmoothedMetricTooltipContent
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
-import { shouldSmoothMetric } from 'in-new-components/Alerting/utils/timeConfigUtils';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -21,12 +21,11 @@ import { percentage, number } from 'in-services/formatters/number';
 
 export default function JsErrorsAlertingBarChart({
   websiteId,
-  timeConfig,
+  viewConfig,
   tagFilters,
   errorFilter,
   metricName,
   granularity,
-  minChartMetricGranularity = 0,
   threshold,
   timeThreshold,
   alertsPreviewEnabled,
@@ -34,7 +33,7 @@ export default function JsErrorsAlertingBarChart({
 }) {
   const thresholdValue = threshold.value;
   const tagFiltersWithWebsiteId = [...tagFilters, getWebsiteIdTagFilter(websiteId)];
-  const _shouldSmoothMetric = shouldSmoothMetric(timeConfig.windowSize);
+  const { timeConfig, minChartMetricGranularity, smoothMetric } = viewConfig;
 
   const metricChartGranularity = Math.max(granularity, minChartMetricGranularity);
 
@@ -55,20 +54,20 @@ export default function JsErrorsAlertingBarChart({
         },
         colors: chartColors,
         icons: {
-          types: [_shouldSmoothMetric ? 'lib_bar_chart' : 'lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
+          types: [smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
-        renderer: _shouldSmoothMetric ? Renderer.barWithThreshold : Renderer.lineWithThreshold,
+        renderer: smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold,
         formatter: metricName === errorCount ? number.forcedCompact : percentage.detailed,
         labels: [
-          `${getMetricLabel(alertTypes.specificJsError, metricName)}${_shouldSmoothMetric ? '' : '*'}`,
+          `${getMetricLabel(alertTypes.specificJsError, metricName)}${smoothMetric ? '*' : ''}`,
           'Threshold',
           'Violations'
         ],
         excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
         metricIds: ['errors', 'threshold'],
         nonToggleableSeries: new Map([
-          ['errors', getSmoothedMetricTooltipContent(_shouldSmoothMetric)],
+          ['errors', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
           ['alerts', null],
           ['Violations', null]
@@ -96,7 +95,7 @@ export default function JsErrorsAlertingBarChart({
       thresholdType={threshold.type}
       alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
-        doMutate: !_shouldSmoothMetric,
+        doMutate: smoothMetric,
         metricNames: ['errors'],
         mutate: smoothMetrics
       }}
@@ -109,10 +108,9 @@ JsErrorsAlertingBarChart.propTypes = {
   threshold: PropTypes.object.isRequired,
   timeThreshold: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
-  minChartMetricGranularity: PropTypes.number,
   metricName: PropTypes.string.isRequired,
   tagFilters: PropTypes.array.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  viewConfig: chartViewConfigPropType.isRequired,
   websiteId: PropTypes.string.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool

@@ -21,7 +21,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
       className={locals.offset}
       framed
     >
-      {({ timeConfig, minChartMetricGranularity }) => (
+      {chartViewConfig => (
         <AlertTypeSwitch
           alertType={form.get('rule').get('alertType').value}
           renderJsErrors={() => (
@@ -30,7 +30,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 <div className={locals.placeholder}>
                   <JsErrorsAlertingBarChart
                     websiteId={form.get(fieldNames.websiteId).value}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={form.get(fieldNames.tagFilters).value}
                     errorFilter={{
                       name: 'beacon.error.message',
@@ -39,7 +39,6 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                     }}
                     metricName={form.get('rule').get('metricName').value}
                     granularity={granularity}
-                    minChartMetricGranularity={minChartMetricGranularity}
                     threshold={form.get('threshold').toJS()}
                     timeThreshold={form.get('timeThreshold').toJS()}
                     alertsPreviewEnabled
@@ -57,7 +56,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 websiteId={form.get(fieldNames.websiteId).value}
                 threshold={form.get('threshold').toJS()}
                 timeThreshold={form.get('timeThreshold').toJS()}
-                timeConfig={timeConfig}
+                viewConfig={chartViewConfig}
                 tagFilters={form.get(fieldNames.tagFilters).value}
                 numeratorFilter={{
                   name: 'beacon.http.status',
@@ -66,7 +65,6 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 }}
                 metricName={form.get('rule').get('metricName').value}
                 granularity={granularity}
-                minChartMetricGranularity={minChartMetricGranularity}
                 alertsPreviewEnabled
                 canReload
               />
@@ -79,11 +77,10 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 threshold={form.get('threshold').toJS()}
                 timeThreshold={form.get('timeThreshold').toJS()}
                 sensitivity={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)}
-                timeConfig={timeConfig}
+                viewConfig={chartViewConfig}
                 tagFilters={form.get(fieldNames.tagFilters).value}
                 aggregation={form.get('rule').get('aggregation').value}
                 granularity={granularity}
-                minChartMetricGranularity={minChartMetricGranularity}
                 alertsPreviewEnabled
                 canReload
               />
