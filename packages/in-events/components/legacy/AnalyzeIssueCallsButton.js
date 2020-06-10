@@ -57,14 +57,9 @@ export default connectTo(
     const isErroneous = isErrorEvent(event);
     const isSynthetic = endpointEntity && isSyntheticEndpoint(endpointEntity);
     const filters = getFilters(isErroneous, isSynthetic);
-    const order = getAnalyzeOrder(event);
     const dataSource = 'calls';
-    const groupByTag =
-      isErroneous || isLatencyEvent(event) || endpointName ? {} : getConfigByDataSource(dataSource).defaultGrouping;
-
-    /*
-    console.log({ isErroneous, dataSource, event, entityType, isErrorEvent, isLatencyEvent, isSynthetic });
-     */
+    const groupByTag = endpointName ? {} : getConfigByDataSource(dataSource).defaultGrouping;
+    const order = getAnalyzeOrder(event);
 
     return (
       <div
