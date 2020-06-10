@@ -7,7 +7,7 @@ export default function AwsLambdaFunctionDashboard({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   let noAwsAgentData = null;
-  const name = snapshot.get('name');
+  const name = snapshot.getIn(['data', 'name']);
   if (name == null) {
     noAwsAgentData = (
       <DashboardNotification type="danger">

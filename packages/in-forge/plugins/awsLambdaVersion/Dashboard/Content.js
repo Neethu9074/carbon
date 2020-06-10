@@ -10,8 +10,11 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   let noAwsAgentData = null;
-  const name = snapshot.get('name');
-  if (name == null) {
+  const name = snapshot.getIn(['data', 'name']);
+  // An arbitrary attribute that is always present when an AWS agent monitors this Lambda but never provided by an
+  // in-process collector.
+  const codeSha = snapshot.getIn(['data', 'code_sha_256']);
+  if (name == null || codeSha == null) {
     noAwsAgentData = (
       <DashboardNotification type="danger">
         It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
