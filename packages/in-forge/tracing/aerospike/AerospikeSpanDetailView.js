@@ -19,10 +19,10 @@ export default function AerospikeSpanDetailView({ span }) {
         <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
 
         {parameters ? (
-                  <Di title="Parameters" verticalDisplay>
-                    <Code code={parameters} lang="json" />
-                  </Di>
-                ) : null}
+                    <Di title="Parameters" verticalDisplay>
+                      <Code code={parameters} lang="json" />
+                    </Di>
+                  ) : null}
 
         {statement ? (
                   <Di title="Query" verticalDisplay>
