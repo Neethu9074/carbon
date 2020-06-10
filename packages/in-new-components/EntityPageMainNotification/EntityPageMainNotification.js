@@ -16,7 +16,8 @@ export default function EntityPageMainNotification(props) {
     plugin,
     framed,
     changeExplanation = ex => ex,
-    children
+    children,
+    withBackground
   } = props;
 
   const entitySingular = getSingular(plugin) || 'Entity';
@@ -25,7 +26,8 @@ export default function EntityPageMainNotification(props) {
       className={evaluateClassNames({
         [locals.wrapper]: true,
         [locals.framed]: framed,
-        [locals.light]: theme === 'light'
+        [locals.light]: theme === 'light',
+        [locals.withBackground]: withBackground
       })}
     >
       {plugin ? (
