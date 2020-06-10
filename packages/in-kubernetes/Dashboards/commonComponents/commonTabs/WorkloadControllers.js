@@ -119,7 +119,15 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function WorkloadControllersTable(props) {
   return (
     <Card>
-      <ServerTableWithUrlState get={getTableData} {...props} />
+      <ServerTableWithUrlState
+        get={getTableData}
+        filterColumnDefinitions={() => {
+          const shouldShowDurationColumn =
+            props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
+          return columnDefinition => shouldShowDurationColumn || columnDefinition.id !== 'duration';
+        }}
+        {...props}
+      />
     </Card>
   );
 }
