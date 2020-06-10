@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { bytes, number, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
@@ -92,10 +92,10 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['hdfs_utilization'],
+              metrics: ['HDFS_utilization'],
               labels: ['HDFS Utilization'],
               type: 'stackedArea',
-              formatter: percentagePlainTwoDecimalPlaces
+              formatter: percentage
             }}
           />
         </DashboardSection>

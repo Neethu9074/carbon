@@ -1,4 +1,4 @@
-import { number, bytes, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytes, percentage, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
@@ -57,9 +57,15 @@ export default [
   },
   {
     metric: 'hdfs_utilization',
-    label: 'HDFS Utilization',
+    label: 'HDFS Utilization (deprecated)',
     min: 0,
     formatter: percentagePlainTwoDecimalPlaces
+  },
+  {
+    metric: 'HDFS_utilization',
+    label: 'HDFS Utilization',
+    min: 0,
+    formatter: percentage
   },
   {
     metric: 'total_load',
