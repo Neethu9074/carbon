@@ -10,25 +10,25 @@ export default function AerospikeSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</Di>
-        <Di title="Host">{span.getIn(['data', 'aerospike', 'host'])}</Di>
-        <Di title="Port">{span.getIn(['data', 'aerospike', 'port'])}</Di>
         <Di title="Namespace">{span.getIn(['data', 'aerospike', 'ns'])}</Di>
         <Di title="Set name">{span.getIn(['data', 'aerospike', 'setName'])}</Di>
         <Di title="User key">{span.getIn(['data', 'aerospike', 'userKey'])}</Di>
+        <Di title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</Di>
+        <Di title="Host">{span.getIn(['data', 'aerospike', 'host'])}</Di>
+        <Di title="Port">{span.getIn(['data', 'aerospike', 'port'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
 
         {parameters ? (
-                  <Di title="Parametes">
-                    {parameters}
+                  <Di title="Parameters" verticalDisplay>
+                    <Code code={parameters} lang="json" />
                   </Di>
                 ) : null}
 
-         {statement ? (
-                <Di title="Statement">
-                  {statement}
-                </Di>
-              ) : null}
+        {statement ? (
+                  <Di title="Query" verticalDisplay>
+                    <Code code={statement} lang="json" />
+                  </Di>
+                ) : null}
       </Dl>
     </div>
   );
