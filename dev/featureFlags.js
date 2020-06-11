@@ -22,5 +22,6 @@ module.exports = {
   agentMonitoringIssuesEnabled: false,
   routeIdOverPathTplEnabled: false,
   sloConfigurationEnabled: true,
-  infrastructureExploreEnabled: true
+  infrastructureExploreEnabled: true,
+  latencyDistributionBase10Enabled: true
 };

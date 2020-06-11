@@ -41,13 +41,7 @@ export default function Errors({
           applicationBoundaryScope: boundaryScope,
           includeSyntheticCalls
         },
-        metrics: {
-          errors: {
-            metric: 'errors',
-            granularity,
-            aggregation: 'MEAN'
-          }
-        }
+        metrics: { errors: { metric: 'errors', granularity, aggregation: 'MEAN' } }
       }}
       primaryContextMenuAction="analyze"
       additionalContextMenuButtons={[
@@ -69,13 +63,8 @@ export default function Errors({
                       { name: 'call.erroneous', value: 'true' }
                     ]
                   : [{ name: 'call.erroneous', value: 'true' }],
-                metrics: [
-                  { metric: 'errors', aggregation: 'MEAN' },
-                  {
-                    metric: 'latency',
-                    aggregation: 'MEAN'
-                  }
-                ]
+                metrics: [{ metric: 'errors', aggregation: 'MEAN' }, { metric: 'latency', aggregation: 'MEAN' }],
+                focusedMetric: 'errors_MEAN'
               }
             )
         }

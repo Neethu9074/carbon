@@ -1,8 +1,9 @@
 import { withProps } from 'recompose';
 
 import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/GroupMetricsChart';
+import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
+import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { number } from 'in-services/formatters/number';
 
 const countChartDefinitions = [
   {
@@ -23,7 +24,20 @@ const countChartDefinitions = [
   }
 ];
 
+const latencyDistributionChartDefinition = [
+  {
+    label: 'Latency (distribution)',
+    key: 'calls_DISTRIBUTION',
+    renderer: Renderer.bar,
+    aggregation: 'DISTRIBUTION',
+    formatter: millis.forcedCompactOnMs,
+    min: 0
+  }
+];
+
 export default withProps(({ filters, metrics, availableMetrics }) => ({
   timeConfig: filters.timeConfig,
-  chartDefinitions: countChartDefinitions.concat(metricsChartDefinitions(metrics, availableMetrics))
+  chartDefinitions: (latencyDistributionBase10Enabled ? latencyDistributionChartDefinition : [])
+    .concat(metricsChartDefinitions(metrics, availableMetrics))
+    .concat(countChartDefinitions)
 }))(GroupMetricsChart);

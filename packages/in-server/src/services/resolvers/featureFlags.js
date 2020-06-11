@@ -126,5 +126,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.infrastructure.explore.enabled',
     consulKey: `settings/${tenant}-${unit}/INFRASTRUCTURE_EXPLORE_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'latencyDistributionBase10Enabled',
+    instanaCtlKey: 'feature.latency.distribution.base.10.enabled',
+    consulKey: `settings/${tenant}-${unit}/LATENCY_DISTRIBUTION_BASE_10_ENABLED`,
+    defaultValue: false
   }
 ];

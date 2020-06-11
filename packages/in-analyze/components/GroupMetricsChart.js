@@ -1,6 +1,8 @@
 import { intersection, find } from 'lodash';
 import React from 'react';
 
+import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
+import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -22,7 +24,8 @@ function GroupMetricsChart({
   chartDefinitions,
   timeConfig,
   groupNameProcessor,
-  focusedMetric
+  focusedMetric,
+  filters
 }) {
   if (!items || items.length === 0 || !time) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
@@ -38,12 +41,9 @@ function GroupMetricsChart({
     windowSize: timeConfig.windowSize
   };
 
-  const metricsAvailableForPresentation = intersection(Object.keys(items[0].metrics), chartDefinitions.map(d => d.key));
-
-  if (metricsAvailableForPresentation.length === 0) {
-    // no chart metrics found, just omit the charts element.
-    return null;
-  }
+  const metricsAvailableForPresentation = intersection(Object.keys(items[0].metrics), chartDefinitions.map(d => d.key))
+    //Include charts based on selected metrics and distribution of calls
+    .concat('calls_DISTRIBUTION');
 
   const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
     d => metricsAvailableForPresentation.indexOf(d.key) !== -1
@@ -84,6 +84,7 @@ function GroupMetricsChart({
         selectedChart={selectedChart}
         chartDefinitions={chartDefinitionsAvailableForPresentation}
         groupNameProcessor={groupNameProcessor}
+        filters={filters}
       />
       <div className={locals.whitespace} />
     </div>
@@ -97,13 +98,39 @@ function ChartElement({
   time,
   selectedChart,
   chartDefinitions,
-  groupNameProcessor = identity
+  groupNameProcessor = identity,
+  filters
 }) {
   const chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
 
-  const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
+  if (chartDefinition.aggregation === 'DISTRIBUTION') {
+    return (
+      <LatencyDistributionBase10Chart
+        subscription={getLatencyDistributionBase10({
+          maxLatencyBuckets: 80,
+          filter: filters
+        })}
+        chartDefinition={chartDefinition}
+      />
+    );
+  }
+  return (
+    <TimeChart
+      timeConfig={timeConfig}
+      time={time}
+      groups={groups}
+      groupNameProcessor={groupNameProcessor}
+      groupColors={groupColors}
+      chartDefinition={chartDefinition}
+      selectedChart={selectedChart}
+    />
+  );
+}
+
+function TimeChart({ timeConfig, time, groups, groupNameProcessor, groupColors, chartDefinition, selectedChart }) {
   const granularity = getChartGranularity(timeConfig);
   const groupNames = groups.map(group => groupNameProcessor(group.name));
+  const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
   const y1 = {
     labels: groupNames,
     renderer: chartDefinition.renderer,
@@ -113,7 +140,6 @@ function ChartElement({
     aggregations: Array(groups.length).fill(chartDefinition.aggregation),
     min: chartDefinition.min
   };
-
   return (
     <Chart
       timeConfig={chartTimeConfig}

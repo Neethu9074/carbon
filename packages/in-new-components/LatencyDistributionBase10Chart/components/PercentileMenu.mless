@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+
+    width: 5rem;
+    padding: 0.2rem;
+    border-bottom: 1px solid @lib__colors__N300;
+
+    list-style: none;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &.child {
+      margin-left: 1rem;
+    }
+  }
+}

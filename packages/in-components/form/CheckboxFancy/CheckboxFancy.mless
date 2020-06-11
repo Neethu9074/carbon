@@ -6,7 +6,7 @@
     grid-template-columns: min-content auto;
     align-items: center;
     line-height: 1.25rem;
-    font-size: .875rem;
+    font-size: 0.875rem;
   }
 
   .control {
@@ -59,6 +59,10 @@
 
   .checkbox:checked {
     background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGZpbGw9IiMwMEIzQjMiIGQ9Ik0yMCwyNCBMNCwyNCBDMS43OTA4NjEsMjQgMCwyMi4yMDkxMzkgMCwyMCBMMCw0IEMwLDEuNzkwODYxIDEuNzkwODYxLDAgNCwwIEwyMCwwIEMyMi4yMDkxMzksMCAyNCwxLjc5MDg2MSAyNCw0IEwyNCwyMCBDMjQsMjIuMjA5MTM5IDIyLjIwOTEzOSwyNCAyMCwyNCBaIE04LjU5LDE1LjU4IEw0LjQyLDExLjQxIEwzLDEyLjgyIEw4LjU5LDE4LjQxIEwyMC41OSw2LjQxIEwxOS4xOCw1IEw4LjU5LDE1LjU4IFoiLz48L3N2Zz4=');
+  }
+
+  .checkbox:indeterminate {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Im0yMCwyMy45NTc3NmwtMTYsMGMtMi4yMDkxNCwwIC00LC0xLjc5MDg2IC00LC00bDAsLTE2YzAsLTIuMjA5MTQgMS43OTA4NiwtNCA0LC00bDE2LDBjMi4yMDkxNCwwIDQsMS43OTA4NiA0LDRsMCwxNmMwLDIuMjA5MTQgLTEuNzkwODYsNCAtNCw0em0tMTYuNDg1MDQsLTEyLjk1OTM0bDAsMmwxNi45NzAwOCwwbDAsLTJsLTE2Ljk3MDA4LDB6IiBmaWxsPSIjMDBCM0IzIi8+PC9zdmc+');
   }
 
   .checkbox:disabled {

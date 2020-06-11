@@ -52,36 +52,12 @@ export default function Latency({
           includeSyntheticCalls
         },
         metrics: {
-          duration50th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P50'
-          },
-          duration90th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P90'
-          },
-          duration95th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P95'
-          },
-          duration99th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P99'
-          },
-          durationMax: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'MAX'
-          },
-          durationAvg: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'MEAN'
-          }
+          duration50th: { metric: 'latency', granularity, aggregation: 'P50' },
+          duration90th: { metric: 'latency', granularity, aggregation: 'P90' },
+          duration95th: { metric: 'latency', granularity, aggregation: 'P95' },
+          duration99th: { metric: 'latency', granularity, aggregation: 'P99' },
+          durationMax: { metric: 'latency', granularity, aggregation: 'MAX' },
+          durationAvg: { metric: 'latency', granularity, aggregation: 'MEAN' }
         }
       }}
       primaryContextMenuAction="analyze"

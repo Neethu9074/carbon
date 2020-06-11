@@ -20,6 +20,7 @@ import {
 } from 'in-analyze/filterBuilder';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { callAnalysisBlacklistedTags } from 'in-applications/tags';
@@ -48,7 +49,7 @@ export function getLinkToAnalyze({
   orderDirection,
   timeConfig,
   metrics,
-  showGraph,
+  showGraph = latencyDistributionBase10Enabled,
   focusedMetric,
   jumpToSource,
   previewEnabled

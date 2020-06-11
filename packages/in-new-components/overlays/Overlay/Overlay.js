@@ -10,7 +10,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 
 // Usage:
 // <Overlay withoutWrapper content={Component} props={{}} autoOpen wrapperStyle wrapperClassName kind="tooltip">
-//   {({isOpen, close, open, toggle, refSetter}) => <Button refSetter={refSetter} onClick={toggle}>Click to show</div>}
+//   {({isOpen, close, open, toggle, refSetter}) => <Button refSetter={refSetter} onClick={toggle}>Click to show</Button>}
 // </Overlay>
 
 export default class Overlay extends React.Component {

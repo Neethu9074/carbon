@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import IndeterminateInput from 'in-components/form/CheckboxFancy/IndeterminateInput';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
 import locals from './CheckboxFancy.mless';
@@ -25,6 +26,7 @@ export default function CheckboxFancy({
   explanation,
   asRadioButton,
   checked,
+  indeterminate,
   onChange,
   className,
   wrapperClassName,
@@ -37,6 +39,7 @@ export default function CheckboxFancy({
   const input = (
     <Input
       checked={checked}
+      indeterminate={indeterminate}
       onChange={onChange}
       asRadioButton={asRadioButton}
       className={className}
@@ -74,6 +77,7 @@ export default function CheckboxFancy({
 CheckboxFancy.propTypes = {
   asRadioButton: PropTypes.bool,
   checked: PropTypes.bool.isRequired,
+  indeterminate: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -88,6 +92,7 @@ CheckboxFancy.propTypes = {
 
 function Input({
   checked,
+  indeterminate,
   onChange,
   asRadioButton,
   className,
@@ -97,9 +102,10 @@ function Input({
   withControlsGrayscale
 }) {
   return (
-    <input
+    <IndeterminateInput
       type={asRadioButton ? 'radio' : 'checkbox'}
       checked={checked}
+      indeterminate={indeterminate}
       onChange={onChange}
       disabled={disabled}
       className={joinClassNames(
