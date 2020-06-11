@@ -28,4 +28,9 @@
     position: absolute;
     right: 0.5rem;
   }
+
+  .tagsCard {
+    margin-top: 1.5rem;
+
+  }
 }

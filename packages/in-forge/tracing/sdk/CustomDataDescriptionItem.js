@@ -1,25 +1,30 @@
 import React, { createRef, useEffect, useState } from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { Dl } from 'in-new-components/HorizontalDescriptionList';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { flatten } from 'in-forge/tracing/sdk/flatten';
 import { Li, Ul } from 'in-new-components/lists/List';
+
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 
 import locals from './CustomDataDescriptionItem.mless';
 
-const blacklistedTags = [
-  // span.data.sdk.custom.tags.messages is to be rendered by the individual SDK span plug-in.
+const speciallyRenderedTags = [
+  // span.data.sdk.custom.tags.message is to be rendered using ErrorDescriptionItem
   'message'
 ];
 
 export default function CustomDataDescriptionItem({ span }) {
-  const custom = span.getIn(['data', 'sdk', 'custom', 'tags'])?.filter((value, key) => !blacklistedTags.includes(key));
+  let custom = span.getIn(['data', 'sdk', 'custom', 'tags']);
   if (!custom || custom.isEmpty()) {
     return null;
   }
+  const errorMessage = span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
+  custom = custom.filter((value, key) => !speciallyRenderedTags.includes(key));
 
   function TagLine({ name, value, overflowComponentRef }) {
     return (
@@ -67,14 +72,23 @@ export default function CustomDataDescriptionItem({ span }) {
   const tags = flatten(expandNestedSerializedJson(custom.toJS()));
 
   return (
-    <div style={{ marginTop: '1.5rem' }}>
-      <Card title={'Tags'} withoutPadding>
-        <Ul>
-          {Object.entries(tags).map(key => (
-            <TagLineWithTooltipOnOverflow name={key[0]} value={key[1]} key={key[0]} />
-          ))}
-        </Ul>
-      </Card>
-    </div>
+    <>
+      {errorMessage && (
+        <Dl>
+          <ErrorDescriptionItem error={errorMessage} />
+        </Dl>
+      )}
+      {custom.isEmpty() || (
+        <div className={locals.tagsCard}>
+          <Card title={'Tags'} withoutPadding>
+            <Ul>
+              {Object.entries(tags).map(key => (
+                <TagLineWithTooltipOnOverflow name={key[0]} value={key[1]} key={key[0]} />
+              ))}
+            </Ul>
+          </Card>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function RpcSpanDetailView({ span }) {
@@ -14,10 +13,7 @@ export default function RpcSpanDetailView({ span }) {
       <Di title="Call Type">{span.getIn(['data', 'rpc', 'call_type'])}</Di>
       <Di title="Parameters">{span.getIn(['data', 'rpc', 'params'])}</Di>
       <Di title="Baggage">{span.getIn(['data', 'rpc', 'baggage'])}</Di>
-      <ErrorDescriptionItem
-        error={span.getIn(['data', 'rpc', 'error']) || span.getIn(['data', 'sdk', 'custom', 'tags', 'message'])}
-      />
-      <CustomDataDescriptionItem span={span} />
+      <ErrorDescriptionItem error={span.getIn(['data', 'rpc', 'error'])} />
     </Dl>
   );
 }

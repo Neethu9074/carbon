@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
@@ -31,7 +30,7 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
   }
 
   const status = span.getIn(['data', 'http', 'status']);
-  const error = span.getIn(['data', 'http', 'error']) || span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
+  const error = span.getIn(['data', 'http', 'error']);
   const params = span.getIn(['data', 'http', 'params']);
   const traceContextState = span.getIn(['data', 'tc', 's'], emptyList);
 
@@ -80,7 +79,6 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
         )}
 
       <ErrorDescriptionItem error={error} />
-      <CustomDataDescriptionItem span={span} />
     </Fragment>
   );
 }

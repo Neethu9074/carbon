@@ -1,7 +1,5 @@
 import React from 'react';
 
-import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
-import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
@@ -15,8 +13,6 @@ export default function DatabaseSpanDetailView({ span }) {
         <Di title="User">{span.getIn(['data', 'db', 'user'])}</Di>
 
         <Statement span={span} />
-        <ErrorDescriptionItem error={span.getIn(['data', 'sdk', 'custom', 'tags', 'message'])} />
-        <CustomDataDescriptionItem span={span} />
       </Dl>
     </div>
   );
