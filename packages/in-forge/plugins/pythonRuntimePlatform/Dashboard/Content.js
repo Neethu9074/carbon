@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { timeByMillisTwoDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, number, timeByMillisFourDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -41,7 +41,7 @@ function renderTimeMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: timeByMillisTwoDecimalPlaces,
+        formatter: timeByMillisFourDecimalPlaces,
         metrics: ['metrics.ru_utime', 'metrics.ru_stime'],
         labels: ['In User Mode', 'In System Mode'],
         type: 'line'
@@ -57,7 +57,7 @@ function renderMemoryMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: bytesTwoDecimalPlaces,
+        formatter: bytes.detailed,
         metrics: ['metrics.ru_ixrss', 'metrics.ru_idrss', 'metrics.ru_maxrss', 'metrics.ru_isrss'],
         labels: ['Shared Memory', 'Unshared Memory', 'Maximum Resident Set Size', 'Unshared Stack Size'],
         type: 'line'
@@ -73,14 +73,14 @@ function renderGcMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.gc.collect0', 'metrics.gc.threshold0'],
         labels: ['Collect 0', 'Threshold 0'],
         type: 'line'
       }}
       y2={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.gc.collect1', 'metrics.gc.threshold1', 'metrics.gc.collect2', 'metrics.gc.threshold2'],
         labels: ['Collect 1', 'Threshold 1', 'Collect 2', 'Threshold 2'],
         type: 'line'
@@ -96,7 +96,7 @@ function renderPagingMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.ru_minflt', 'metrics.ru_majflt', 'metrics.ru_nswap'],
         labels: ['Page Faults Not Requiring I/O', 'Page Faults Requiring I/O', 'Swap Outs'],
         type: 'line'
@@ -112,7 +112,7 @@ function renderThreadsMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.alive_threads', 'metrics.dummy_threads', 'metrics.daemon_threads'],
         labels: ['Alive Threads', 'Dummy Threads', 'Daemon Threads'],
         type: 'stackedArea'
@@ -128,7 +128,7 @@ function renderIoMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.ru_inblock', 'metrics.ru_oublock'],
         labels: ['Block Input Operations', 'Block Output Operations'],
         type: 'line'
@@ -144,7 +144,7 @@ function renderEventsMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.ru_msgsnd', 'metrics.ru_msgrcv', 'metrics.ru_nsignals'],
         labels: ['Messages Sent', 'Messages Received', 'Signals Received'],
         type: 'line'
@@ -160,7 +160,7 @@ function renderContextMetrics(snapshot, timeConfig) {
       timeConfig={timeConfig}
       y1={{
         min: 0,
-        formatter: zeroDecimalPlaces,
+        formatter: number.compact,
         metrics: ['metrics.ru_nvcsw', 'metrics.ru_nivcsw'],
         labels: ['Voluntary', 'Involuntary'],
         type: 'line'
