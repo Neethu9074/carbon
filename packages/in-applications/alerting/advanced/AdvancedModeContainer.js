@@ -37,7 +37,8 @@ export default function AdvancedModeContainer(props) {
     updateForm,
     applicationLabel,
     onChartViewConfigChange,
-    selectedChartViewConfigIndex
+    selectedChartViewConfigIndex,
+    thresholdResult
   } = props;
 
   return (
@@ -92,10 +93,12 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
-                    {showInsufficientBaselineDataMessage(form) && (
+                    {hasBaselineError(thresholdResult) && (
                       <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
                         Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
                         instead.
+                        <br />
+                        <b>Reason:</b> {getErrorReason(thresholdResult)}
                       </Message>
                     )}
                   </>
@@ -181,13 +184,10 @@ export default function AdvancedModeContainer(props) {
   );
 }
 
-function showInsufficientBaselineDataMessage(form) {
-  const thresholdForm = form.get('threshold');
+function hasBaselineError(thresholdResult) {
+  return thresholdResult && thresholdResult.errors.length > 0;
+}
 
-  if (thresholdForm.get('type').value === 'staticThreshold') {
-    return false;
-  }
-
-  const baseline = thresholdForm.containsKey('baseline') && thresholdForm.get('baseline').value;
-  return baseline && baseline.length === 0;
+function getErrorReason(thresholdResult) {
+  return thresholdResult.errors[0].message;
 }

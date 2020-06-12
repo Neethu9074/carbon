@@ -18,9 +18,9 @@ export const SmartAlertConfigDialog = compose(
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, simpleMode)
+      thresholdResult: resolveThresholdRequest(form, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
-        .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
+        .tap(({ data, errors, time }) => updateThresholdInForm(form, updateForm, data, errors, time))
     };
   })
 )(function AlertConfigDialogPresenterWrapper(props) {
@@ -97,11 +97,22 @@ function resolveThresholdRequest(form, fallbackOnError) {
   }
 }
 
-function updateThresholdInForm(form, updateForm, thresholdData, time) {
+function updateThresholdInForm(form, updateForm, data, errors, time) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
   const alertType = form.get('rule').get('alertType').value;
   if (calculateThresholdOnBackend) {
     thresholdOrBaselineLoadingSignal$.emit(false);
+
+    let thresholdData;
+    if (errors.length === 0) {
+      thresholdData = data.threshold;
+    } else {
+      const currentThreshold = form.get('threshold').toJS();
+      thresholdData = {
+        ...currentThreshold,
+        baseline: []
+      };
+    }
 
     const updatedThresholdForm = createThresholdForm(
       {

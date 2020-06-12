@@ -13,8 +13,8 @@ import {
   websitesAlertingAlertCreated
 } from 'in-websites/alerting/tracker';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/alerting/constants';
-import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThreshold';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThreshold';
 import getWebsiteMetricsThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsThreshold';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
@@ -33,9 +33,9 @@ export const AlertConfigDialogWithThreshold = compose(
     thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
 
     return {
-      result: resolveThresholdRequest(form, simpleMode)
+      thresholdResult: resolveThresholdRequest(form, simpleMode)
         .filter(resp => resp && resp.data && !resp.progress.loading)
-        .tap(({ data, time }) => updateThresholdInForm(form, updateForm, data.threshold, time))
+        .tap(({ data, errors, time }) => updateThresholdInForm(form, updateForm, data, errors, time))
     };
   }),
   withProps(({ onClose, onCreate, form }) => ({
@@ -146,11 +146,23 @@ function resolveThresholdRequest(form, fallbackOnError) {
   }
 }
 
-function updateThresholdInForm(form, updateForm, thresholdData, time) {
+function updateThresholdInForm(form, updateForm, data, errors, time) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
   const alertType = form.get('rule').get('alertType').value;
+
   if (calculateThresholdOnBackend) {
     thresholdOrBaselineLoadingSignal$.emit(false);
+
+    let thresholdData;
+    if (errors.length === 0) {
+      thresholdData = data.threshold;
+    } else {
+      const currentThreshold = form.get('threshold').toJS();
+      thresholdData = {
+        ...currentThreshold,
+        baseline: []
+      };
+    }
 
     const updatedThresholdForm = createThresholdForm(
       {
