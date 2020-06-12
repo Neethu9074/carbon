@@ -32,7 +32,7 @@ router.get('/waiting', (req, res) => {
   return Promise.all([
     configResolver.getButlerBaseUrl(req.tenant, req.unit),
     activeResolver.getButlerDomain(req.tenant, req.unit),
-    activeResolver.getReportingEndpoints(req.tenant, req.unit)
+    activeResolver.getReportingEndpoints(req, req.tenant, req.unit)
   ]).then(([butlerBaseUrl, butlerDomain, reportingEndpoints]) => {
     return Promise.all([
       getLatestTermsAndPrivacyAcceptance(req, butlerBaseUrl),

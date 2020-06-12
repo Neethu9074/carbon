@@ -2,11 +2,14 @@ const sendRequest = require('request');
 
 const serverConfig = require('../serverConfig.js');
 
-exports.getReportingEndpointsFromButler = (butlerUrl, tenant, unit) => {
+exports.getReportingEndpointsFromButler = (req, butlerUrl, tenant, unit) => {
   return new Promise(resolve => {
     sendRequest(
       {
-        url: `${butlerUrl}/tenants/${tenant}/unit/${unit}/acceptors`,
+        url: `${butlerUrl}/tos-privacy-agreement/acceptors/?tenant=${tenant}&unit=${unit}`,
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
         timeout: 15000
       },
       (error, response, reportingConfig) => {
