@@ -9,10 +9,8 @@ const StyledMuiSlider = withStyles({
   mark: {
     background: theme.lib.colors.N500,
     borderRadius: '50%',
-    width: 4,
-    height: 4,
-    marginLeft: -2,
-    marginTop: -1
+    marginTop: -1,
+    height: 4
   }
 })(StyledMuiSliderBase);
 
