@@ -4,7 +4,7 @@ import { getSumOfAlertsPerCluster } from './ChartAlertUtils';
 import { minPixelsPerBlock } from './renderer/alertMarkers';
 import { isSafari } from 'in-services/browser';
 
-export default class AlertingChartEventsManager {
+export default class AlertingChartEventsClusterManager {
   constructor(canvas, { scales, timeConfig, granularity, frontBufferCanvas }, requestRender) {
     this.canvas = canvas;
     this.hideHighlight = false;
@@ -17,7 +17,6 @@ export default class AlertingChartEventsManager {
 
     this.mouseLeaveSubscription = onLeave(canvas, () => {
       this.hideHighlight = true;
-      this.setCursorStyle('pointer');
       requestRender();
     });
 
@@ -75,16 +74,9 @@ export default class AlertingChartEventsManager {
     });
 
     if (alertEventsPerCluster > 0) {
-      this.setCursorStyle('pointer');
       this.drawHighlightRect(backBufferCtx, rectX, rectY, rectWidth, rectHeight);
       this.drawTooltip({ backBufferCtx, xBackBuffer, alertEventsPerCluster, xPos: rectX, yPos: rectY });
-    } else {
-      this.setCursorStyle('default');
     }
-  }
-
-  setCursorStyle(type) {
-    this.canvas.style.cursor = type;
   }
 
   drawHighlightRect(backBufferCtx, rectX, rectY, rectWidth, rectHeight) {
