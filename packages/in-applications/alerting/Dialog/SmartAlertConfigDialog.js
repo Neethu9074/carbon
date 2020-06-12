@@ -2,10 +2,10 @@ import { compose, withState } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsThreshold';
+import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { getLogLevelTagFilters, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
-import { getMetricsConfiguration } from 'in-applications/alerting/Dialog/metricConfigurations';
+import { getThresholdQuery } from 'in-applications/alerting/Dialog/thresholdSuggestionQueryUtils';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
@@ -37,7 +37,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
   switch (alertType) {
     case 'errorRate':
       return getApplicationMetricsThreshold(
-        getMetricsConfiguration({
+        getThresholdQuery({
           applicationId,
           boundaryScope,
           tagFilters,
@@ -54,7 +54,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
       }
 
       return getApplicationMetricsThreshold(
-        getMetricsConfiguration({
+        getThresholdQuery({
           applicationId,
           boundaryScope,
           tagFilters: getLogTagFilters(form),
@@ -69,7 +69,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
       const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
 
       return getApplicationMetricsThreshold(
-        getMetricsConfiguration({
+        getThresholdQuery({
           applicationId,
           boundaryScope,
           tagFilters,
@@ -83,7 +83,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
     }
     case 'statusCode':
       return getApplicationMetricsThreshold(
-        getMetricsConfiguration({
+        getThresholdQuery({
           applicationId,
           boundaryScope,
           aggregation: 'SUM',
@@ -105,8 +105,9 @@ function updateThresholdInForm(form, updateForm, data, errors, time) {
 
     let thresholdData;
     if (errors.length === 0) {
-      thresholdData = data.threshold;
+      thresholdData = data;
     } else {
+      // set empty baseline in case of error
       const currentThreshold = form.get('threshold').toJS();
       thresholdData = {
         ...currentThreshold,

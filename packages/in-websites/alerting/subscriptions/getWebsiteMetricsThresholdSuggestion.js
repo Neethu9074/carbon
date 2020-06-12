@@ -1,6 +1,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getWebsiteRateMetricThreshold',
+  eventId: 'getWebsiteMetricsThresholdSuggestion',
   trackSubscriptionStatistics: true
 });

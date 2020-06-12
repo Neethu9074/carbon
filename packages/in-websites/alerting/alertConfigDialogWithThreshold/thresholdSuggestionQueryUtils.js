@@ -1,6 +1,6 @@
 import { errorCount, statusCodeCount } from 'in-websites/alerting/constants';
 
-export function getMetricConfiguration(
+export function getThresholdQuery(
   websiteId,
   aggregation,
   metric,
@@ -13,19 +13,17 @@ export function getMetricConfiguration(
   return Object.freeze({
     to: Date.now(),
     tagFilters: tagFiltersWithWebsiteId,
-    metrics: {
-      threshold: {
-        metric,
-        granularity,
-        aggregation
-      }
+    metric: {
+      metric,
+      granularity,
+      aggregation
     },
     seasonality,
     fallbackOnError
   });
 }
 
-export function getMetricConfigurationForErrors(
+export function getThresholdQueryForErrors(
   websiteId,
   aggregation,
   metric,
@@ -39,19 +37,17 @@ export function getMetricConfigurationForErrors(
   return Object.freeze({
     to: Date.now(),
     tagFilters: metric === errorCount ? [...tagFiltersWithWebsiteId, errorFilter] : tagFiltersWithWebsiteId,
-    metrics: {
-      threshold: {
-        metric,
-        granularity,
-        aggregation,
-        numeratorFilter: errorFilter
-      }
+    metric: {
+      metric,
+      granularity,
+      aggregation,
+      numeratorFilter: errorFilter
     },
     fallbackOnError: false
   });
 }
 
-export function getMetricConfigurationForStatusCode(
+export function getThresholdQueryForStatusCode(
   websiteId,
   aggregation,
   metric,
@@ -65,13 +61,11 @@ export function getMetricConfigurationForStatusCode(
   return Object.freeze({
     to: Date.now(),
     tagFilters: metric === statusCodeCount ? [...tagFiltersWithWebsiteId, statusCodeFilter] : tagFiltersWithWebsiteId,
-    metrics: {
-      threshold: {
-        metric,
-        granularity,
-        aggregation,
-        numeratorFilter: statusCodeFilter
-      }
+    metric: {
+      metric,
+      granularity,
+      aggregation,
+      numeratorFilter: statusCodeFilter
     },
     fallbackOnError: false
   });

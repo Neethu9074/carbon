@@ -3,19 +3,19 @@ import { empty } from 'reactive-observables';
 import React from 'react';
 
 import {
-  getMetricConfigurationForStatusCode,
-  getMetricConfigurationForErrors,
-  getMetricConfiguration
-} from 'in-websites/alerting/alertConfigDialogWithThreshold/MetricsConfigurationFactory';
+  getThresholdQueryForStatusCode,
+  getThresholdQueryForErrors,
+  getThresholdQuery
+} from 'in-websites/alerting/alertConfigDialogWithThreshold/thresholdSuggestionQueryUtils';
 import {
   websitesAlertingCloseDialog,
   websitesAlertingSwitchMode,
   websitesAlertingAlertCreated
 } from 'in-websites/alerting/tracker';
+import getWebsiteRateMetricThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThresholdSuggestion';
+import getWebsiteMetricsThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/alerting/constants';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import getWebsiteRateMetricThreshold from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThreshold';
-import getWebsiteMetricsThreshold from 'in-websites/alerting/subscriptions/getWebsiteMetricsThreshold';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
@@ -90,20 +90,20 @@ function resolveThresholdRequest(form, fallbackOnError) {
         return empty;
       }
 
-      return getWebsiteMetricsThreshold(
-        getMetricConfigurationForErrors(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, granularity)
+      return getWebsiteMetricsThresholdSuggestion(
+        getThresholdQueryForErrors(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, granularity)
       );
     case errorRate:
       if (isBlank(stringValue)) {
         return empty;
       }
 
-      return getWebsiteRateMetricThreshold(
-        getMetricConfigurationForErrors(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, granularity)
+      return getWebsiteRateMetricThresholdSuggestion(
+        getThresholdQueryForErrors(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, granularity)
       );
     case statusCodeCount:
-      return getWebsiteMetricsThreshold(
-        getMetricConfigurationForStatusCode(
+      return getWebsiteMetricsThresholdSuggestion(
+        getThresholdQueryForStatusCode(
           websiteId,
           'SUM',
           statusCodeCount,
@@ -114,8 +114,8 @@ function resolveThresholdRequest(form, fallbackOnError) {
         )
       );
     case statusCodeRate:
-      return getWebsiteRateMetricThreshold(
-        getMetricConfigurationForStatusCode(
+      return getWebsiteRateMetricThresholdSuggestion(
+        getThresholdQueryForStatusCode(
           websiteId,
           'MEAN',
           statusCodeRate,
@@ -129,8 +129,8 @@ function resolveThresholdRequest(form, fallbackOnError) {
       const aggregation = form.get('rule').get('aggregation').value;
       const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
 
-      return getWebsiteMetricsThreshold(
-        getMetricConfiguration(
+      return getWebsiteMetricsThresholdSuggestion(
+        getThresholdQuery(
           websiteId,
           aggregation,
           onLoadTime,
@@ -155,8 +155,9 @@ function updateThresholdInForm(form, updateForm, data, errors, time) {
 
     let thresholdData;
     if (errors.length === 0) {
-      thresholdData = data.threshold;
+      thresholdData = data;
     } else {
+      // set empty baseline in case of error
       const currentThreshold = form.get('threshold').toJS();
       thresholdData = {
         ...currentThreshold,

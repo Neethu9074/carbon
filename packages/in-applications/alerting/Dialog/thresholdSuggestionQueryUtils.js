@@ -1,6 +1,6 @@
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 
-export function getMetricsConfiguration({
+export function getThresholdQuery({
   applicationId,
   aggregation,
   metric,
@@ -13,12 +13,10 @@ export function getMetricsConfiguration({
   return Object.freeze({
     to: Date.now(),
     tagFilters: [...tagFilters, getApplicationIdTagFilter({ applicationId, boundaryScope })],
-    metrics: {
-      threshold: {
-        metric,
-        granularity,
-        aggregation
-      }
+    metric: {
+      metric,
+      granularity,
+      aggregation
     },
     seasonality,
     fallbackOnError
