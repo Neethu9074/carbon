@@ -8,10 +8,6 @@ import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 export default function ConfigureGranularity({ onChange, granularity }) {
   const marks = [
     {
-      value: 1,
-      label: '1 min'
-    },
-    {
       value: 5,
       label: '5 min'
     },
@@ -31,7 +27,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
         marks={marks}
         max={marks[marks.length - 1].value}
         min={0}
-        value={marks.find((i => minutesToMillis(i.value) === granularity) ?? marks[2]).value}
+        value={marks.find((mark => minutesToMillis(mark.value) === granularity) ?? marks[1]).value}
         onChange={value => {
           onChange(minutesToMillis(value));
         }}
