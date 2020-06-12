@@ -135,10 +135,11 @@ export default function AdvancedModeContainer(props) {
                     </Card>
                     <StatusCodeInteractiveChart
                       form={form}
-                      timeConfig={timeConfig}
                       granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
                   </>
                 )}
