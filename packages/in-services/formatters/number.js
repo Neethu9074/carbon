@@ -68,6 +68,7 @@ export const bytes = {
 export const timeByNanoTwoDecimalPlaces = t => formatTime(t, timeNanoUnits, number.detailed);
 export const timeByMicroTwoDecimalPlaces = t => formatTime(t, timeMicroUnits, number.detailed);
 export const timeByMillisTwoDecimalPlaces = t => formatTime(t, timeMilliUnits, number.detailed);
+export const timeByMillisFourDecimalPlaces = t => formatTime(t, timeMilliUnits, fourDecimalPlaces);
 export const timeBySecondsTwoDecimalPlaces = t => formatTime(t, timeSecondUnits, number.compact);
 export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
 export const micros = {

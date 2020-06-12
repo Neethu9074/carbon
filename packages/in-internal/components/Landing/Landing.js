@@ -168,6 +168,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             )}
                           />
                           <LinkListItem
+                            label="Reading (real-time)"
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appdataLiveAggregator')
+                            )}
+                          />
+                          <LinkListItem
                             label="Query Performance"
                             href$={getModifiedUrlStream(
                               params => (params.pathname = '/internal/monitoringUnit/appDataQueryPerformance')

@@ -10,7 +10,7 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
         req.uiBackendBaseUrl = uiBackendBaseUrl;
 
         return Promise.all([
-          configResolver.getClientConfig(req.tenant, req.unit),
+          configResolver.getClientConfig(req, req.tenant, req.unit),
           configResolver.getBaseUrl(req.tenant, req.unit)
         ]).then(
           ([clientConfig, baseUrl]) => {

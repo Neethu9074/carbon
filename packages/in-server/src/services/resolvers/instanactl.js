@@ -68,8 +68,8 @@ exports.getConfiguration = (tenant, unit) =>
     );
   });
 
-exports.getReportingEndpoints = (tenant, unit) => {
-  return getReportingEndpointsFromButler(serverConfig.butlerBaseUrl, tenant, unit);
+exports.getReportingEndpoints = (req, tenant, unit) => {
+  return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
 };
 
 function getButlerDomain(tenant, unit) {

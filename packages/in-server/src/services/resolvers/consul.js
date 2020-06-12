@@ -62,9 +62,9 @@ exports.getConfiguration = (tenant, unit) =>
     );
   });
 
-exports.getReportingEndpoints = (tenant, unit) => {
+exports.getReportingEndpoints = (req, tenant, unit) => {
   return getButlerBaseUrl().then(butlerBaseUrl => {
-    return getReportingEndpointsFromButler(butlerBaseUrl, tenant, unit);
+    return getReportingEndpointsFromButler(req, butlerBaseUrl, tenant, unit);
   });
 };
 
