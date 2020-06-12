@@ -13,12 +13,11 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -33,7 +32,14 @@ export default compose(
   }))
 )(StatusCodeInteractiveChart);
 
-function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function StatusCodeInteractiveChart({
+  form,
+  onChange,
+  granularity,
+  debounceOnChange$,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -103,22 +109,28 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
               />
             </FormGroup>
           </div>
-
-          <ChartContainer headline="Last 24 hours">
-            <StatusCodeAlertingBarChart
-              applicationId={form.get('applicationId').value}
-              threshold={threshold}
-              statusCodeStart={form.get('rule').get('statusCodeStart').value}
-              statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
-              timeThreshold={form.get('timeThreshold').toJS()}
-              timeConfig={timeConfig}
-              tagFilters={form.get('tagFilters').value}
-              granularity={granularity}
-              boundaryScope={form.get('boundaryScope').value}
-              alertsPreviewEnabled
-              canReload
-            />
-          </ChartContainer>
+          <ChartViewConfigurator
+            onChartViewConfigChange={onChartViewConfigChange}
+            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+            className={locals.chartContainer}
+            headerTransparent
+          >
+            {chartViewConfig => (
+              <StatusCodeAlertingBarChart
+                applicationId={form.get('applicationId').value}
+                threshold={threshold}
+                statusCodeStart={form.get('rule').get('statusCodeStart').value}
+                statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
+                timeThreshold={form.get('timeThreshold').toJS()}
+                viewConfig={chartViewConfig}
+                tagFilters={form.get('tagFilters').value}
+                granularity={granularity}
+                boundaryScope={form.get('boundaryScope').value}
+                alertsPreviewEnabled
+                canReload
+              />
+            )}
+          </ChartViewConfigurator>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
@@ -132,7 +144,8 @@ StatusCodeInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
 
 function hasStatusCodeSelected(form) {
