@@ -28,18 +28,19 @@ export default connectTo(
       return null;
     }
 
-    const plugin = snapshot.get('plugin');
+    const currentSnapshotPlugin = snapshot.get('plugin');
     const monitoringIssuesList =
       monitoringIssuesResult &&
       monitoringIssuesResult.map(event => {
-        const monitoring_args = event.get('metadata')?.has('agent_monitoring_arguments')
-          ? event.getIn(['metadata', 'agent_monitoring_arguments'])
-          : event.getIn(['metadata', 'agent_monitoring_args']);
+        const eventPlugin = event.has('affectedEntitySnapshot')
+          ? event.get('affectedEntitySnapshot')
+          : currentSnapshotPlugin;
         return {
-          key: event.get('entityId'),
-          category: IssueCategories[event.getIn(['metadata', 'agent_monitoring_category'])] || IssueCategories.UNKNOWN,
-          code: event.getIn(['metadata', 'agent_monitoring_code']),
-          arguments: monitoring_args,
+          key: event.get('affectedEntityId'),
+          snapshot: eventPlugin,
+          code: event.get('agentMonitoringCode'),
+          category: IssueCategories[event.get('agentMonitoringCategory')] || IssueCategories.UNKNOWN,
+          arguments: event.get('agentMonitoringArguments'),
           timestamp: timeConfig.focusedMoment || Date.now()
         };
       });
@@ -49,7 +50,7 @@ export default connectTo(
         {monitoringIssuesList &&
           monitoringIssuesList.map(row => {
             const args = row.arguments ? row.arguments.toJS() : {};
-            const issueDefinition = getIssueDefinitionForSnapshotAndCode(plugin, row.code);
+            const issueDefinition = getIssueDefinitionForSnapshotAndCode(row.snapshot, row.code);
             return (
               <Message withIcon type={warning} className={locals.monitoringMessage}>
                 <div className={locals.monitoringIssuesMessageContent}>
