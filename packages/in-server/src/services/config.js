@@ -5,12 +5,12 @@ exports.getBaseUrl = activeResolver.getBaseUrl;
 exports.getUiBackendBaseUrl = activeResolver.getUiBackendBaseUrl;
 exports.getGroundskeeperBaseUrl = activeResolver.getGroundskeeperBaseUrl;
 exports.getButlerBaseUrl = activeResolver.getButlerBaseUrl;
-exports.getClientConfig = (tenant, unit) => {
+exports.getClientConfig = (req, tenant, unit) => {
   return Promise.all([
     activeResolver.getButlerDomain(tenant, unit),
     activeResolver.getFeatureFlags(tenant, unit),
     activeResolver.getConfiguration(tenant, unit),
-    activeResolver.getReportingEndpoints(tenant, unit)
+    activeResolver.getReportingEndpoints(req, tenant, unit)
   ]).then(([butlerDomain, featureFlags, configuration, reportingEndpoints]) => ({
     butlerDomain,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
