@@ -1,7 +1,7 @@
 import React from 'react';
 
-import WorkersTable from 'in-forge/plugins/kafkaConnectCluster/Dashboard/WorkersTable.js';
 import ConnectorsTable from 'in-forge/plugins/kafkaConnectCluster/Dashboard/ConnectorsTable.js';
+import WorkersTable from 'in-forge/plugins/kafkaConnectCluster/Dashboard/WorkersTable.js';
 
 export default function KafkaConnectClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
