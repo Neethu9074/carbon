@@ -18,7 +18,8 @@ export default function Tab({
   isDisabled = false,
   disabledReason,
   onTabSelect,
-  healthSeverity
+  healthSeverity,
+  withoutBottomBorder
 }) {
   let iconElement = icon && (
     <SvgIcon
@@ -50,7 +51,8 @@ export default function Tab({
         [locals.tab]: true,
         [locals.active]: isActive,
         [locals.disabled]: isDisabled,
-        [locals.interactive]: onTabSelect && !isDisabled
+        [locals.interactive]: onTabSelect && !isDisabled,
+        [locals.withoutBottomBorder]: withoutBottomBorder
       })}
       {...interactivityProps}
     >

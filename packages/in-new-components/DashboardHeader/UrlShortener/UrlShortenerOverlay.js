@@ -96,7 +96,10 @@ function Explanation({ timeConfig, fixateTime }) {
     <div className={locals.explanation}>
       {timeDisplayTopFormat(timeConfig)}
 
-      <span className={locals.bottomTimeRow}>{timeDisplayBottomFormat(timeConfig)}</span>
+      <span className={locals.bottomTimeRow}>
+        {timeDisplayBottomFormat(timeConfig)}
+        {timeConfig.autoRefresh && ` (Live)`}
+      </span>
     </div>
   );
 }

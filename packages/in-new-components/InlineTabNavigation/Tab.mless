@@ -37,6 +37,10 @@
     }
   }
 
+  .withoutBottomBorder {
+    border-bottom: 0;
+  }
+
   .tabInner {
     display: flex;
     align-items: center;
