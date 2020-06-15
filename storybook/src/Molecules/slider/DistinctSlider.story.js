@@ -46,3 +46,30 @@ export const withTicks = () => {
     />
   );
 };
+
+export const externallyHaveLogarithmicScale = () => {
+  // Range will be 1 (e^0) - 25 (e^2)
+  // In the middle of the slider, it will be 5 (e^1)
+
+  const ln5 = Math.log(5);
+  const expoValue = x => '' + Math.round(Math.exp(x * ln5) * 100) / 100;
+  const labeledTicks = [0, 0.5, 1, 1.5, 2].map(value => ({ value, label: expoValue(value) }));
+
+  const [sliderValue, setSliderValue] = useState(0.5);
+
+  return (
+    <DistinctSlider
+      valueLabelDisplay="auto"
+      valueLabelFormat={expoValue}
+      marks={labeledTicks}
+      min={0}
+      max={2}
+      step={2 / 100}
+      value={sliderValue}
+      onChange={sliderValue => {
+        setSliderValue(sliderValue);
+        // externally we would convert via expoValue(sliderValue)
+      }}
+    />
+  );
+};

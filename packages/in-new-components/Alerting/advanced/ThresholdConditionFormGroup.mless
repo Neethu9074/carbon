@@ -6,7 +6,7 @@
     grid-template-columns: 10% 10% 80%;
     align-items: center;
     justify-items: start;
-    height: 4rem;
+    min-height: 4rem;
     border-bottom: 1px solid @lib__colors__N300;
 
     &:nth-child(even) {

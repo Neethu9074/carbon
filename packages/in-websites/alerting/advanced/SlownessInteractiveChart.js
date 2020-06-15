@@ -27,6 +27,7 @@ import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/f
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
+import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
@@ -239,20 +240,13 @@ export function renderThresholdCondition(
       )}
       {thresholdType !== 'staticThreshold' && (
         <ThresholdConditionFormGroup iconType="lib_threshold" label="Sensitivity">
-          <Input
-            id="thresholdDeviationFactor"
-            type="number"
-            min="0"
-            name="thresholdDeviationFactor"
+          <SensitivitySlider
             value={
               doDebounceDeviationFactor
                 ? tempThresholdDeviationFactor
                 : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')
             }
-            step="0.1"
-            onChange={e => {
-              const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
-
+            onChange={value => {
               setDoDebounceDeviationFactor(true);
               setTempThresholdDeviationFactor(value);
 
