@@ -218,6 +218,10 @@ export function PowershellEC2(props) {
   return <Script {...props} pre={['<powershell>']} post={['</powershell>']} />;
 }
 
+export function Dockerfile(props) {
+  return <Script {...props} pre={['# Dockerfile', '']} />;
+}
+
 export function Script({ pre = [], post = [], lines, disabledErrorMessage }) {
   return (
     <div className={locals.script}>
