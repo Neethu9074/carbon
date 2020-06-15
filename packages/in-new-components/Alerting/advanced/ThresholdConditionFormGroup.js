@@ -16,6 +16,7 @@ export default function ThresholdConditionFormGroup({
       <span className={locals.label}>{label}</span>
       <div
         style={{
+          width: '100%',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center'
