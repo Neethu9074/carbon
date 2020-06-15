@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ConnectorsTable from 'in-forge/plugins/kafkaConnectWorker/Dashboard/ConnectorsTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -72,8 +71,6 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
           }}
         />
       </Columize>
-
-      <ConnectorsTable workerId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }
