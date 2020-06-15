@@ -117,24 +117,9 @@ export default connectTo(
 
     highperfWorkersB: getHostsWithNomadContext(
       'entity.host.name:"fleet-worker-*" (entity.ec2.type:"m4.4xlarge" OR entity.ec2.type:"m5.4xlarge") entity.zone:"*b" entity.zone:"Fleet*Worker*"'
-    ),
-
-    commonWorkersC: getHostsWithNomadContext(
-      'entity.host.name:"fleet-worker-*" (entity.ec2.type:"r4.4xlarge" OR entity.ec2.type:"r5.4xlarge") entity.zone:"*c" entity.zone:"Fleet*Worker*"'
-    ),
-
-    highperfWorkersC: getHostsWithNomadContext(
-      'entity.host.name:"fleet-worker-*" (entity.ec2.type:"m4.4xlarge" OR entity.ec2.type:"m5.4xlarge") entity.zone:"*c" entity.zone:"Fleet*Worker*"'
     )
   },
-  function WorkerStats({
-    commonWorkersA,
-    highperfWorkersA,
-    commonWorkersB,
-    highperfWorkersB,
-    commonWorkersC,
-    highperfWorkersC
-  }) {
+  function WorkerStats({ commonWorkersA, highperfWorkersA, commonWorkersB, highperfWorkersB }) {
     return (
       <div>
         <DashboardSection title={`AZ a - ${commonWorkersA.length} common, ${highperfWorkersA.length} highperf`}>
@@ -165,23 +150,6 @@ export default connectTo(
           <Table
             cols={cols}
             rows={highperfWorkersB}
-            maxItemsPerPage={200}
-            initialSortColumn={1}
-            initialSortDirection="asc"
-          />
-        </DashboardSection>
-
-        <DashboardSection title={`AZ c - ${commonWorkersC.length} common, ${highperfWorkersC.length} highperf`}>
-          <Table
-            cols={cols}
-            rows={commonWorkersC}
-            maxItemsPerPage={200}
-            initialSortColumn={1}
-            initialSortDirection="asc"
-          />
-          <Table
-            cols={cols}
-            rows={highperfWorkersC}
             maxItemsPerPage={200}
             initialSortColumn={1}
             initialSortDirection="asc"

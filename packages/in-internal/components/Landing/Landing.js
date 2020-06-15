@@ -326,12 +326,6 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                           params => (params.pathname = '/internal/monitoringUnit/sre/workerStats')
                         )}
                       />
-                      <LinkListItem
-                        label="Selfservice Worker Allocation/Load"
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/selfserviceWorkerStats')
-                        )}
-                      />
                     </LinkList>
                   </LinkListItem>
                 )}

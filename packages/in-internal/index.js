@@ -21,7 +21,6 @@ import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructu
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
-import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
@@ -100,10 +99,6 @@ export default function Internal() {
           />
           <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
           <Route path="/internal/monitoringUnit/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
-          <Route
-            path="/internal/monitoringUnit/sre/selfserviceWorkerStats"
-            component={wrapIninternalView(SelfserviceWorkerStats)}
-          />
           <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
           <Route
             path="/internal/monitoringUnit/sre/metricscassandra"
