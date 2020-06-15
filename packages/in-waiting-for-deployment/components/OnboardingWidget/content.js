@@ -5,6 +5,7 @@ import {
   CheckBox,
   Cmd,
   Description,
+  Dockerfile,
   DownloadButton,
   DropDown,
   getAgentDownloadURL,
@@ -72,6 +73,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'Elastic Container Service for Kubernetes (EKS)',
           keyWords: 'elasticcontainerkubernetesk8s',
           Content: K8sDaemonSetContent
+        },
+        {
+          label: 'AWS Fargate',
+          keyWords: 'awsfargate',
+          Content: AWSFargateContent
         },
         {
           label: 'AWS Lambda',
@@ -364,6 +370,184 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   );
 }
 
+function AWSFargateContent({ agentKey, serverlessEndpoint }) {
+  const runtimeOptions = ['Java', '.NET Core', 'Node.js'];
+  const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
+
+  const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
+  const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
+  const [appDirName, setAppDirName] = useState('/app');
+
+  let steps;
+
+  if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <HelpBox title="Technical Preview">
+          <Description lines={['Support for Java applications running on AWS Fargate is in technical preview.']} />
+        </HelpBox>
+
+        <Spacer />
+
+        <Description
+          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+        />
+        <Dockerfile
+          lines={[
+            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+            '',
+            'COPY --from=containers.instana.io/instana/release/aws/fargate/jvm /instana /instana',
+            'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-fargate-collector.jar"',
+            '',
+            '# Other stuff in your Docker image'
+          ]}
+        />
+
+        <Spacer />
+
+        <Description
+          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
+        />
+        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
+
+        <Spacer />
+
+        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
+    steps = (
+      <Fragment>
+        <HelpBox title="Technical Preview">
+          <Description lines={['Support for .NET Cor applications running on AWS Fargate is in technical preview.']} />
+        </HelpBox>
+        <Spacer />
+        Linux base image: &nbsp;
+        <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
+        <Spacer />
+        <Bash
+          lines={[
+            `dotnet add <project_name>.csproj package Instana.Tracing.Core.Rewriter.${
+              baseImageName == baseImageOptions[0] ? 'Linux' : 'Alpine'
+            }`
+          ]}
+        />
+        <Spacer />
+        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <Spacer />
+        Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):
+        <Spacer />
+        <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
+        <GridRow>
+          <Col xs={4}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['DOTNET_STARTUP_HOOKS']} />
+            <Script lines={[`${appDirName}/Instana.Tracing.Core.dll`]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_ENABLE_PROFILING']} />
+            <Script lines={['1']} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_PROFILER']} />
+            <Script lines={['{cf0d821e-299b-5307-a3d8-b283c03916dd}']} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_PROFILER_PATH']} />
+            <Script lines={[`${appDirName}/instana_tracing/CoreProfiler.so`]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[2]) {
+    steps = (
+      <Fragment>
+        <HelpBox title="Technical Preview">
+          <Description lines={['Support for Node.js applications running on AWS Fargate is in technical preview.']} />
+        </HelpBox>
+
+        <Spacer />
+
+        <Description
+          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+        />
+        <Dockerfile
+          lines={[
+            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+            '',
+            'COPY --from=containers.instana.io/instana/release/aws/fargate/nodejs /instana /instana',
+            'RUN /instana/setup.sh',
+            'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
+            '',
+            '# Other stuff in your Docker image'
+          ]}
+        />
+
+        <Spacer />
+
+        <Description
+          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
+        />
+        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
+
+        <Spacer />
+
+        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  }
+
+  return (
+    <>
+      <HelpBox>
+        <Description
+          lines={[
+            'Support for AWS Fargate is designed to work with AWS Fargate on the Elastic Container Service (ECS).'
+          ]}
+        />
+      </HelpBox>
+
+      <Spacer />
+
+      <Row>
+        Select your application runtime:
+        <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
+      </Row>
+
+      <Spacer />
+
+      {steps}
+    </>
+  );
+}
+
 function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
@@ -421,11 +605,13 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
             <Col xs={6}>
-              Select your AWS region:&nbsp;
+              Select your AWS region:
+              <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={6}>
-              Current Lambda Handler:&nbsp;
+              Current Lambda Handler:
+              <Spacer />
               <Input
                 id="lambda-handler"
                 value={lambdaHandler}
@@ -434,10 +620,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               />
             </Col>
           </GridRow>
+          <Spacer />
           <Listing
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
+                <Spacer />
                 <Script
                   lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion}`]}
                 />
@@ -447,10 +635,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
                   linkText="AWS docs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
-                )
+                )<Spacer />
               </Fragment>,
               <Fragment>
+                <Spacer />
                 Set Instana auto-wrap handler as the handler for your Lambda function.
+                <Spacer />
                 <Script lines={['instana-aws-lambda-auto-wrap.handler']} />(
                 <TextWithLink
                   text="See"
@@ -460,7 +650,9 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
                 )
               </Fragment>,
               <Fragment>
+                <Spacer />
                 Set the following environment variables in your Lambda function:
+                <Spacer />
                 <GridRow>
                   <Col xs={4}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -492,10 +684,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         <GridRow>
           <Col xs={3}>
             Select your AWS region:
+            <Spacer />
             <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
           </Col>
           <Col xs={3}>
             Lambda Function Name:
+            <Spacer />
             <Input
               id="lambda-function-name"
               value={lambdaFunctionName}
@@ -505,6 +699,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           </Col>
           <Col xs={3}>
             Current Lambda Handler (optional):
+            <Spacer />
             <Input
               id="current-lambda-function-handler"
               value={lambdaHandler}
@@ -677,13 +872,6 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
   return (
     <>
-      <HelpBox title="Supported AWS Lambda Runtimes">
-        <Description
-          lines={[
-            'Instana currently supports native tracing of AWS Lambda functions based on the Node.js (8.x and newer) and Python (2.7 and 3.x) runtimes.'
-          ]}
-        />
-      </HelpBox>
       <Row>
         Select your Lambda runtime:
         <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
