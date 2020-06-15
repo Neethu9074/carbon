@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardVersionsList from './DashboardVersionsList';
@@ -19,9 +19,9 @@ export default function AwsLambdaFunctionDashboard({ snapshot }) {
   }
 
   return (
-    <Fragment>
+    <>
       {noAwsAgentData}
       <DashboardVersionsList snapshotId={snapshotId} />
-    </Fragment>
+    </>
   );
 }

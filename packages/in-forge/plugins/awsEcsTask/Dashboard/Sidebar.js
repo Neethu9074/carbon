@@ -1,7 +1,6 @@
 import React from 'react';
 
 import getEcsContainersForEcsTask from 'in-subscription/getEcsContainersForEcsTask';
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsEcsTask/Info';
@@ -24,7 +23,6 @@ export default function AwsEcsTaskSidebar({ snapshot }) {
         subscription={getEcsContainersForEcsTask}
         label="Containers"
       />
-      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

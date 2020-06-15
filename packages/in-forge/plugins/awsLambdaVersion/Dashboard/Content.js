@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -25,7 +25,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
   }
 
   return (
-    <Fragment>
+    <>
       {noAwsAgentData}
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <DashboardSection title="Invocations">
@@ -153,6 +153,6 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-    </Fragment>
+    </>
   );
 }
