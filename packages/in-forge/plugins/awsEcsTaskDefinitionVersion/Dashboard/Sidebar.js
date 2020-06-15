@@ -1,5 +1,7 @@
 import React from 'react';
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+
+import getEcsTasksForEcsTaskDefinitionVersion from 'in-subscription/getEcsTasksForEcsTaskDefinitionVersion';
+import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsEcsTaskDefinitionVersion/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
@@ -15,8 +17,11 @@ export default function AwsEcsTaskDefinitionVersionSidebar({ snapshot }) {
       </Collapsible>
 
       <TagList snapshot={snapshot} />
-
-      <ServiceInstancesList snapshot={snapshot} />
+      <SidebarSnapshotItemList
+        snapshotId={snapshot.get('id')}
+        subscription={getEcsTasksForEcsTaskDefinitionVersion}
+        label="Tasks"
+      />
     </div>
   );
 }

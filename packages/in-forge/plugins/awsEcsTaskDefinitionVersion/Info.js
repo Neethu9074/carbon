@@ -12,6 +12,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Task Definition ARN">{data.get('taskDefinitionArn')}</DescriptionItem>
       <DescriptionItem title="Task Definition Version">{data.get('taskDefinitionVersion')}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
+      <DescriptionItem title="CPU Limit">{data.get('limits.cpu')}</DescriptionItem>
+      <DescriptionItem title="Memory Limit">{data.get('limits.memory')}</DescriptionItem>
     </DescriptionList>
   );
 }
