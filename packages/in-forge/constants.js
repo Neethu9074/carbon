@@ -17,8 +17,6 @@ export const nonServicePlugins = {
   awsEcsContainer: 'awsEcsContainer',
   awsEcsService: 'awsEcsService',
   awsEcsTask: 'awsEcsTask',
-  awsEcsTaskDefinition: 'awsEcsTaskDefinition',
-  awsEcsTaskDefinitionVersion: 'awsEcsTaskDefinitionVersion',
   awsEs: 'awsEs',
   awsElb: 'awsElb',
   awsEmr: 'awsEmr',
@@ -199,9 +197,6 @@ export const fullyQualifiedPlugins = {
   awsEcsContainer: 'com.instana.forge.hardware.virtual.aws.ecs.container.AwsEcsContainer',
   awsEcsService: 'com.instana.forge.hardware.virtual.aws.ecs.service.awsEcsService',
   awsEcsTask: 'com.instana.forge.hardware.virtual.aws.ecs.task.AwsEcsTask',
-  awsEcsTaskDefinition: 'com.instana.forge.hardware.virtual.aws.ecs.taskdefinition.AwsEcsTaskDefinition',
-  awsEcsTaskDefinitionVersion:
-    'com.instana.forge.hardware.virtual.aws.ecs.taskdefinitionversion.AwsEcsTaskDefinitionVersion',
   awsEs: 'com.instana.forge.hardware.virtual.aws.es.AwsEs',
   awsElb: 'com.instana.forge.hardware.virtual.aws.elb.AwsElb',
   awsEmr: 'com.instana.forge.hardware.virtual.aws.emr.AwsEmr',

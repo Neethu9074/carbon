@@ -12,8 +12,6 @@ import './awsEcsCluster';
 import './awsEcsContainer';
 import './awsEcsService';
 import './awsEcsTask';
-import './awsEcsTaskDefinition';
-import './awsEcsTaskDefinitionVersion';
 import './awsEs';
 import './awsElb';
 import './awsEmr';
