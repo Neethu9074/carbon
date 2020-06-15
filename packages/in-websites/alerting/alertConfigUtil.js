@@ -14,7 +14,8 @@ export default function toAlertConfig(form) {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: form.get('threshold').toJS(),
-    timeThreshold: getTimeThreshold(form)
+    timeThreshold: getTimeThreshold(form),
+    granularity: form.get(fieldNames.granularity).value
   });
 }
 
