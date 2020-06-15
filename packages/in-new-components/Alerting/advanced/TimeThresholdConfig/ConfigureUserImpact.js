@@ -62,7 +62,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
           />
         ))}
       </AlertThresholdConfigItemContainer>
-      <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" hasExtraColumnsOnRight>
+      <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" hasExtraColumnOnRight>
         <div className={locals.operatorLabel}>At least</div>
         <div>
           <FormGroup className={locals.formGroup} withoutBottomMargin>

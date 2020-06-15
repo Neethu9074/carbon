@@ -2,36 +2,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DropdownWithTopLabel from 'in-new-components/DropdownWithTopLabel/DropdownWithTopLabel';
+import DistinctSlider from '../../../Slider/DistinctSlider';
 
-export default function ConfigureViolations({
-  onChange,
-  timeThresholdTimeWindow,
-  timeThresholdViolations,
-  violationGranularity
-}) {
-  const len = Math.round(+timeThresholdTimeWindow / violationGranularity);
+export default function ConfigureViolations({ label, onChange, violations, maxViolations }) {
   return (
-    <AlertThresholdConfigItemContainer iconType="lib_alerting_threshold_icon">
-      <DropdownWithTopLabel
-        label={`${timeThresholdViolations}`}
-        align="bottomLeft"
-        items={Array.from(Array(len).fill(0), (x, i) => ({
+    <AlertThresholdConfigItemContainer noIcon>
+      <label>{label}</label>
+      <DistinctSlider
+        value={violations}
+        marks={Array.from(Array(maxViolations).fill(0), (x, i) => ({
           value: i + 1,
           label: `${i + 1}`
         }))}
-        onClick={item =>
-          onChange(['timeThreshold', 'violations'], field => field.setValue(item.value).setTouched(true))
-        }
-        topLabel="Violations"
+        min={1}
+        max={maxViolations}
+        disabled={maxViolations <= 1}
+        onChange={onChange}
+        valueLabelDisplay="off"
       />
     </AlertThresholdConfigItemContainer>
   );
 }
 
 ConfigureViolations.propTypes = {
+  label: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  timeThresholdTimeWindow: PropTypes.number.isRequired,
-  timeThresholdViolations: PropTypes.string.isRequired,
-  violationGranularity: PropTypes.number.isRequired
+  violations: PropTypes.number.isRequired,
+  maxViolations: PropTypes.number.isRequired
 };
