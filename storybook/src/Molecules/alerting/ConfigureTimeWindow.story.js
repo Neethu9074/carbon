@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureTimeWindow';
-import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 export default {
@@ -10,15 +9,15 @@ export default {
 };
 
 export const standard = () => {
-  const [timeThresholdTimeWindow, setTimeThresholdTimeWindow] = useState(minutesToMillis(1));
+  const [timeThresholdTimeWindow, setTimeThresholdTimeWindow] = useState(minutesToMillis(5));
 
   const props = {
+    label: 'Number of consecutive violations:',
     onChange: value => {
       setTimeThresholdTimeWindow(value);
     },
     timeThresholdTimeWindow,
-    granularity: minutesToMillis(1),
-    timeThresholdType: timeThresholdTypes.userImpactOfViolationsInSequence
+    granularity: minutesToMillis(3)
   };
   return <ConfigureTimeWindow {...props} />;
 };

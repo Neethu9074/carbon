@@ -61,6 +61,7 @@ export const equidistantCumulative = () => {
   const [value, setValue] = useState(marks[0].value);
   return <RestrictedSlider valueLabelDisplay="off" marks={marks} min={1} max={4} value={value} onChange={setValue} />;
 };
+
 export const withPermanentLabel = () => {
   const marks = [
     {
@@ -90,6 +91,41 @@ export const withPermanentLabel = () => {
       max={2}
       value={value}
       onChange={setValue}
+    />
+  );
+};
+
+export const Disabled = () => {
+  const marks = [
+    {
+      value: 0,
+      label: 'slow',
+      valueLabel: '5s'
+    },
+    {
+      value: 1,
+      label: 'medium',
+      valueLabel: '250ms'
+    },
+    {
+      value: 2,
+      label: 'fast',
+      valueLabel: '10ms'
+    }
+  ];
+  const [value, setValue] = useState(1);
+
+  return (
+    <RestrictedSlider
+      disabled
+      valueLabelDisplay="on"
+      marks={marks}
+      min={0}
+      max={2}
+      value={value}
+      onChange={value => {
+        setValue(value);
+      }}
     />
   );
 };

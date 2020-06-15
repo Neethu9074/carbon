@@ -25,6 +25,7 @@ export default function DistinctSlider(props) {
     max,
     min,
     style,
+    disabled = false,
     valueLabelFormat = Identity,
     valueLabelDisplay = 'on'
   } = props;
@@ -38,6 +39,7 @@ export default function DistinctSlider(props) {
       }}
     >
       <StyledMuiSlider
+        disabled={disabled}
         orientation="horizontal"
         value={value}
         marks={marks}
@@ -67,6 +69,7 @@ DistinctSlider.propTypes = {
   onChange: PropTypes.func.isRequired,
   valueLabelFormat: PropTypes.func,
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
+  disabled: PropTypes.bool,
   style: PropTypes.any,
   value: PropTypes.number.isRequired
 };

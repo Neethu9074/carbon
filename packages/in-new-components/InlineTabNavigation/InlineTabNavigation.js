@@ -14,6 +14,7 @@ export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSele
           isActive={activeTabIndex === i}
           isDisabled={isDisabled || tab.disabled}
           onTabSelect={onTabSelect}
+          withoutBottomBorder={tabList.length === 1 && activeTabIndex !== 0}
           {...tab}
         />
       ))}

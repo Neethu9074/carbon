@@ -16,7 +16,17 @@ const StyledMuiSlider = withStyles({
 const Identity = x => x;
 
 export default function RestrictedSlider(props) {
-  const { value, marks, onChange, max, min, style, valueLabelFormat = Identity, valueLabelDisplay = 'on' } = props;
+  const {
+    value,
+    marks,
+    onChange,
+    max,
+    min,
+    style,
+    disabled = false,
+    valueLabelFormat = Identity,
+    valueLabelDisplay = 'on'
+  } = props;
 
   return (
     <div
@@ -28,6 +38,7 @@ export default function RestrictedSlider(props) {
       }}
     >
       <StyledMuiSlider
+        disabled={disabled}
         orientation={'horizontal'}
         value={value}
         marks={marks}
@@ -56,6 +67,7 @@ RestrictedSlider.propTypes = {
   onChange: PropTypes.func.isRequired,
   valueLabelFormat: PropTypes.func,
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
+  disabled: PropTypes.bool,
   style: PropTypes.any,
   value: PropTypes.number.isRequired
 };

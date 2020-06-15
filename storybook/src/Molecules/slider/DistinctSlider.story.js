@@ -26,6 +26,29 @@ export const withPermanentLabel = () => {
     />
   );
 };
+
+export const Disabled = () => {
+  const [value, setValue] = useState(0.26);
+  const formatPercent = value => `${value * 100}%`;
+  const labeledTicks = [0, 1].map(value => ({ value, label: formatPercent(value) }));
+
+  return (
+    <DistinctSlider
+      disabled
+      valueLabelDisplay="on"
+      valueLabelFormat={formatPercent}
+      marks={labeledTicks}
+      min={0}
+      max={1}
+      step={0.1}
+      value={value}
+      onChange={value => {
+        setValue(value);
+      }}
+    />
+  );
+};
+
 export const withTicks = () => {
   const [value, setValue] = useState(0.32);
   const formatPercent = value => `${value * 100}%`;

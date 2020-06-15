@@ -6,11 +6,8 @@ import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresho
 import ConfigureViolations from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureViolations';
 import ConfigureUserImpact from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureUserImpact';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
-import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 import locals from './TimeThresholdConfig.mless';
-
-const violationGranularityDefault = minutesToMillis(10);
 
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm }) {
   const { violationsInPeriod, userImpactOfViolationsInSequence } = timeThresholdTypes;
@@ -23,27 +20,42 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
   return (
     <div className={locals.alertThresholdConfigContainer}>
       {granularity && <ConfigureGranularity onChange={onChangeGranularity} granularity={granularity} />}
-
-      <ConfigureTimeWindow
-        onChange={onChangeTimeWindow}
-        timeThresholdTimeWindow={timeThresholdTimeWindow}
-        timeThresholdType={timeThresholdType}
-        granularity={granularity ?? violationGranularityDefault}
-      />
-
-      {timeThresholdType === violationsInPeriod && (
-        <ConfigureViolations
-          onChange={onChange}
-          timeThresholdTimeWindow={timeThresholdTimeWindow}
-          timeThresholdViolations={timeThresholdViolations?.toString()}
-          violationGranularity={granularity ?? violationGranularityDefault}
-        />
-      )}
+      {granularity &&
+        timeThresholdType === timeThresholdTypes.violationsInSequence && (
+          <ConfigureTimeWindow
+            label="Number of Consecutive Violations"
+            onChange={onChangeTimeWindow}
+            timeThresholdTimeWindow={timeThresholdTimeWindow}
+            granularity={granularity}
+          />
+        )}
+      {granularity &&
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && (
+          <ConfigureTimeWindow
+            label="Number of Consecutive Evaluations"
+            onChange={onChangeTimeWindow}
+            timeThresholdTimeWindow={timeThresholdTimeWindow}
+            granularity={granularity}
+          />
+        )}
+      {granularity &&
+        timeThresholdType === timeThresholdTypes.violationsInPeriod && (
+          <ConfigureViolations
+            label="Number of Violations"
+            onChange={onChangeViolationsInPeriode}
+            violations={timeThresholdViolations}
+            maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
+          />
+        )}
       {timeThresholdType === userImpactOfViolationsInSequence && (
         <ConfigureUserImpact form={form} onChange={onChange} updateForm={updateForm} />
       )}
     </div>
   );
+
+  function onChangeViolationsInPeriode(violations) {
+    updateForm(form.updateIn(['timeThreshold', 'violations'], f => f.setValue(violations).setTouched(true)));
+  }
 
   function onChangeTimeWindow(timeWindowValue) {
     let updatedForm = timeThresholdForm.updateIn(['timeWindow'], f => f.setValue(timeWindowValue).setTouched(true));

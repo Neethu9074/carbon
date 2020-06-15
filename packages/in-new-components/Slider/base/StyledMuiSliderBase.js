@@ -78,6 +78,7 @@ StyledMuiSliderBase.propTypes = {
   onChange: PropTypes.func.isRequired,
   valueLabelFormat: PropTypes.func,
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
+  disabled: PropTypes.bool,
   style: PropTypes.any,
   value: PropTypes.number.isRequired
 };

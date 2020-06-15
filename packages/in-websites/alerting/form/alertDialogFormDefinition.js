@@ -15,7 +15,8 @@ export const fieldNames = Object.freeze({
   description: 'description',
   name: 'name',
   websiteId: 'websiteId',
-  id: 'id'
+  id: 'id',
+  granularity: 'granularity'
 });
 
 // We don't sent this fields to the api

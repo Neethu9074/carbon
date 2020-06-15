@@ -5,29 +5,24 @@ import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanc
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
+const marks = Object.freeze(
+  [5, 10, 30].map(min => ({
+    value: min,
+    label: `${min} min`,
+    millis: minutesToMillis(min)
+  }))
+);
+
 export default function ConfigureGranularity({ onChange, granularity }) {
-  const marks = [
-    {
-      value: 5,
-      label: '5 min'
-    },
-    {
-      value: 10,
-      label: '10 min'
-    },
-    {
-      value: 30,
-      label: '30 min'
-    }
-  ];
+  const currentValue = marks.find((i => i.millis === granularity) ?? marks[1]).value;
   return (
     <AlertThresholdConfigItemContainer noIcon>
-      <label>Evaluation Window Size</label>
+      <label>Evaluation Granularity</label>
       <RestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}
         min={0}
-        value={marks.find((mark => minutesToMillis(mark.value) === granularity) ?? marks[1]).value}
+        value={currentValue}
         onChange={value => {
           onChange(minutesToMillis(value));
         }}
