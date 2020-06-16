@@ -1,0 +1,85 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Helpers|interactiveCustomElement" />
+
+## Introduction
+
+Elements like `<a />`, `<button />` and others are interactive by default. Meaning you can access use the `tab` key
+to navigate to them and trigger an interaction using the `enter` and/or the `spacebar` keys.
+
+Sometimes you will want other elements to be interactive as well. If you cannot use the native interactive elements,
+then you can choose to many custom element interactive.
+
+**Disclaimer:** This helpers only covers the case of creating an interactive elements that behaves similar to a
+clickable element. It does not support more advanced interactivity use cases such as inputs.
+
+**Note:** The helpers create props that not all of our components are supporting right now, e.g.
+`Button` and `Link`. When making use of these helpers please make sure that that the component you are passing the
+props to does actually make use of them!
+
+## Import
+
+```js
+import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
+```
+
+## Creating Custom Interactive Elements
+
+The following shows how to create a `<div />` that can be accessed via the tab keys and that triggers
+`onDefaultInteraction` when clicking or when using the `enter`/`spacebar` keys while focussing the element.
+
+```js
+import React from 'react';
+
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+
+function MyComponent() {
+  return (
+    <div
+      {...toInteractiveElement({
+        onDefaultInteraction: () => console.log('hey!'),
+        ariaLabel: 'Do Something!'
+      })}>
+      My custom interactive element!
+    </div>
+  );
+}
+```
+
+## Interactivity Side-Effects on Natively Interactive Elements
+
+You may want to trigger side effects when users interact with native interactive elements. Let's suppose you want to
+generate some statistics over usages of a link. You could do this via `onClick` like the following example shows:
+
+```js
+import React from 'react';
+
+export default function MyComponent() {
+  return (
+    <a href="https://example.com" onClick={() => track('user went somewhere')}>
+      Go somewhere!
+    </a>
+  );
+}
+```
+
+This will work for a lot of cases, but the tracking event won't be triggered when users trigger the link via the
+keyboard! You can however implement support for all the cases via `withInteractivitySideEffects`!
+
+```js
+import React from 'react';
+
+import { withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
+
+export default function MyComponent() {
+  return (
+    <a href="https://example.com"
+       {...withInteractivitySideEffects({
+        onDefaultInteraction: () => track('user went somewhere')
+       })}>
+      Go somewhere!
+    </a>
+  );
+}
+```
+

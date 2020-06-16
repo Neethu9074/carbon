@@ -7,14 +7,14 @@ import Button from 'in-new-components/Button/Button';
 import locals from './DashboardHeaderButton.mless';
 
 export default function DashboardHeaderButton(props) {
-  const { darkTheme, expanded, className } = props;
+  const { darkTheme, expanded, className, size='xl' } = props;
   const Component = expanded != null ? DropdownButton : Button;
 
   return (
     <Component
       {...props}
       kind={darkTheme ? 'info' : 'secondary'}
-      size="xl"
+      size={size}
       className={evaluateClassNames({
         [locals.light]: !darkTheme,
         [locals.dark]: darkTheme,

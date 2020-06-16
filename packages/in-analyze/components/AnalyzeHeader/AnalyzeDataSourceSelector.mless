@@ -1,0 +1,20 @@
+:local {
+  .wrapper {
+    width: 20rem;
+    max-height: 70vh;
+    overflow: hidden auto;
+  }
+
+  .iconAndType {
+    display: flex;
+    align-items: center;
+
+    & > svg {
+      margin-right: .5rem;
+    }
+  }
+
+  .active {
+    font-weight: bold;
+  }
+}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
+import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
-import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { emptyObject } from 'in-services/fixedObjects';
+import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -32,61 +34,105 @@ export function Ul({ framed = true, className, children }) {
 }
 
 export function Li(props) {
-  const { className, children, onClick, size, renderNestedContent, href, href$, style, noAlternatingBg } = props;
+  const {
+    className,
+    children,
+    size,
+    renderNestedContent,
+    subList,
+    href,
+    href$,
+    style,
+    noAlternatingBg,
+    toggleContentOnRowClick,
+    initiallyOpen,
+    onDefaultHrefInteractionSideEffect,
+    autoFocus
+  } = props;
+  let { onClick } = props;
 
-  const [open, setOpen] = useState(false);
+  const expandable = renderNestedContent || subList;
+  const [open, setOpen] = useState(initiallyOpen);
 
-  let itemElement = (
-    <>
-      <div
-        className={evaluateClassNames({
-          [locals.itemContent]: true,
-          [locals.itemContentWithNestedContent]: renderNestedContent,
-          [locals.itemContentExpanded]: open,
-          [locals[size]]: size,
-          [className]: className
-        })}
-        style={style}
-      >
-        {children}
+  let itemElementRef;
+  if (autoFocus) {
+    itemElementRef = useAutoFocus();
+  }
 
-        {renderNestedContent && (
-          <div className={locals.actions}>
-            {renderNestedContent && (
-              <SvgIcon
-                className={locals.expandIcon}
-                type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                aria-label="Expand button for row"
-                tabIndex={0}
-                onClick={() => setOpen(!open)}
-              />
-            )}
-          </div>
-        )}
-      </div>
-      {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
-    </>
+  let itemElementInteractivityProps = emptyObject;
+  if (onClick) {
+    itemElementInteractivityProps = toInteractiveElement({
+      onDefaultInteraction: onClick,
+      ariaLabel: 'Initiate default action'
+    });
+  } else if (toggleContentOnRowClick) {
+    itemElementInteractivityProps = toInteractiveElement({
+      onDefaultInteraction: () => setOpen(!open),
+      ariaLabel: 'Toggle extra content'
+    });
+  }
+
+  const itemElement = (
+    <div
+      className={evaluateClassNames({
+        [locals.itemContent]: true,
+        [locals.itemContentWithNestedContent]: expandable,
+        [locals.itemContentExpanded]: open,
+        [locals.clickable]: onClick || href || href$ || toggleContentOnRowClick,
+        [locals[size]]: size,
+        [className]: className
+      })}
+      style={style}
+      {...itemElementInteractivityProps}
+      ref={itemElementRef}
+    >
+      {children}
+
+      {expandable && (
+        <div className={locals.actions}>
+          <SvgIcon
+            className={locals.expandIcon}
+            type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+            aria-label="Toggle extra content"
+            onClick={
+              toggleContentOnRowClick
+                ? undefined
+                : e => {
+                    e.stopPropagation();
+                    setOpen(!open);
+                  }
+            }
+          />
+        </div>
+      )}
+    </div>
   );
+
+  let linkInteractivityProps = emptyObject;
+  if (onDefaultHrefInteractionSideEffect) {
+    linkInteractivityProps = withInteractivitySideEffects({
+      onDefaultInteraction: onDefaultHrefInteractionSideEffect
+    });
+  }
 
   return (
     <li
       className={evaluateClassNames({
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
-        [locals.clickable]: onClick || href || href$,
         [locals.expanded]: open
       })}
-      onClick={onClick}
-      onKeyUp={onClick && getKeyboardActivatedOnClickHandler(onClick)}
-      tabIndex={onClick && 0}
     >
       {href || href$ ? (
-        <Link className={locals.link} href={href} href$={href$}>
+        <Link className={locals.link} href={href} href$={href$} {...linkInteractivityProps}>
           {itemElement}
         </Link>
       ) : (
         itemElement
       )}
+
+      {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
+      {open && subList}
     </li>
   );
 }

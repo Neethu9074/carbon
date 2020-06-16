@@ -45,7 +45,15 @@ export default class Overlay extends React.Component {
       if (this.props.onToggle) {
         this.props.onToggle(open);
       }
-      this.setState({ isOpen: open });
+
+      // The throttle call may finish after the component is already unmounted.
+      // This is typically a sign for a memory leak, but not here. The only
+      // reference is an expiring timer (via throttle). It is therefore fine
+      // to protect like this from eventual state mutations after the component
+      // is already unmounted.
+      if (!this.unmounted) {
+        this.setState({ isOpen: open });
+      }
     },
     30,
     {
@@ -76,6 +84,7 @@ export default class Overlay extends React.Component {
   }
 
   componentWillUnmount() {
+    this.unmounted = true;
     this.delayedOpenSubscription.dispose();
   }
 

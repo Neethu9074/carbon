@@ -1,4 +1,3 @@
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 
 // This file implement the W3C WAI-ARIA best practices for interactable custom
@@ -20,15 +19,35 @@ export function toInteractiveElement(args) {
     role,
     'aria-label': ariaLabel || args['aria-label'],
     tabIndex,
+    ...withInteractivitySideEffects({
+      onDefaultInteraction,
+      preventDefault: true,
+      stopPropagation: true
+    })
+  };
+}
+
+export function withInteractivitySideEffects({onDefaultInteraction, preventDefault=false, stopPropagation=false}) {
+  return {
     onClick(e) {
       if (!isPrimaryInteractiveElement(e.target)) {
-        stopPropagationAndPreventDefault(e);
+        if (stopPropagation) {
+          e.stopPropagation();
+        }
+        if (preventDefault) {
+          e.preventDefault();
+        }
         onDefaultInteraction();
       }
     },
     onKeyDown(e) {
       if (isDefaultInteractionTrigger(e)) {
-        stopPropagationAndPreventDefault(e);
+        if (stopPropagation) {
+          e.stopPropagation();
+        }
+        if (preventDefault) {
+          e.preventDefault();
+        }
       }
     },
     onKeyUp(e) {
@@ -50,11 +69,7 @@ function isDefaultInteractionTrigger(e) {
 
   // keyCode is deprecated and code is not yet supported everywhere
   const code = e.code != null ? e.code : e.keyCode;
-  if (code !== keyCodes.return && code !== keyCodes.space) {
-    return false;
-  }
-
-  return true;
+  return code === keyCodes.return || code === keyCodes.space;
 }
 
 function isPrimaryInteractiveElement(element) {

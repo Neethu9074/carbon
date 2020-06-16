@@ -29,6 +29,12 @@
     &:nth-child(n + 2) {
       border-top: 1px solid @lib__colors__N400;
     }
+
+    & > .list {
+      margin-left: 0.7rem;
+      border-top: 0;
+      border-bottom: 0;
+    }
   }
 
   .noAlternatingBg {
@@ -38,8 +44,12 @@
   }
 
   .link {
-    &:hover {
+    &:hover, &:focus {
       text-decoration: none;
+      background: @lib__colors__faded-blue800;
+      // Outline is commonly cut-off. Better implement a manual outline
+      // via background color. Not quite as prominent though…
+      outline: 0;
     }
   }
 
@@ -78,8 +88,11 @@
   .clickable {
     cursor: pointer;
 
-    &:hover {
+    &:hover, &:focus {
       background: @lib__colors__faded-blue800;
+      // Outline is commonly cut-off. Better implement a manual outline
+      // via background color. Not quite as prominent though…
+      outline: 0;
     }
   }
 

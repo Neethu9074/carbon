@@ -1,0 +1,177 @@
+import React from 'react';
+
+import getConfigByDataSource, {
+  getIconByType,
+  getLabelByType,
+  productAreaLabels,
+  productAreaIcons
+} from 'in-analyze/AnalyzeView/dataSources';
+import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
+import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-profiling/navigation/paths';
+import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
+import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
+import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import evaluateClassNames from 'in-services/util/classnames';
+import { emptyObject } from 'in-services/fixedObjects';
+import { Ul, Li } from 'in-new-components/lists/List';
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './AnalyzeDataSourceSelector.mless';
+
+const productAreas = [
+  {
+    productArea: 'application',
+    hasAccess: hasApplicationsAccess,
+    dataSources: [
+      {
+        dataSource: 'calls',
+        getHref$: ({ isGrouped }) =>
+          getLinkToAnalyze({
+            dataSource: 'calls',
+            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
+          })
+      },
+      {
+        dataSource: 'traces',
+        getHref$: ({ isGrouped }) =>
+          getLinkToAnalyze({
+            dataSource: 'traces',
+            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+          })
+      }
+    ]
+  },
+  {
+    productArea: 'website',
+    hasAccess: hasWebsitesAccess,
+    dataSources: [
+      {
+        dataSource: 'pageLoad',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+            beaconType: 'pageLoad'
+          })
+      },
+      {
+        dataSource: 'resourceLoad',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+            beaconType: 'resourceLoad'
+          })
+      },
+      {
+        dataSource: 'httpRequest',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+            beaconType: 'httpRequest'
+          })
+      },
+      {
+        dataSource: 'error',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+            beaconType: 'error'
+          })
+      },
+      {
+        dataSource: 'custom',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+            beaconType: 'custom'
+          })
+      }
+    ]
+  },
+  {
+    productArea: 'mobileApp',
+    hasAccess: hasMobileAppsAccess,
+    dataSources: [
+      {
+        dataSource: 'sessionStart',
+        getHref$: ({ isGrouped }) =>
+          getLinkToMobileAppAnalyze({
+            group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+            beaconType: 'sessionStart'
+          })
+      },
+      {
+        dataSource: 'httpRequest',
+        getHref$: ({ isGrouped }) =>
+          getLinkToMobileAppAnalyze({
+            group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+            beaconType: 'httpRequest'
+          })
+      },
+      {
+        dataSource: 'custom',
+        getHref$: ({ isGrouped }) =>
+          getLinkToMobileAppAnalyze({
+            group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+            beaconType: 'custom'
+          })
+      }
+    ]
+  },
+  {
+    productArea: 'profiles',
+    hasAccess: true,
+    dataSources: [
+      {
+        dataSource: 'profiles',
+        getHref$: () => getLinkToProfilesAnalyze()
+      }
+    ]
+  }
+];
+
+export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, close }) {
+  const getHref$Opts = {
+    isGrouped
+  };
+
+  return (
+    <Ul className={locals.wrapper}>
+      {productAreas.filter(({ hasAccess }) => hasAccess).map(({ productArea, dataSources }, i) => (
+        <Li
+          key={productArea}
+          initiallyOpen={productArea === activeConfiguration.productArea}
+          noAlternatingBg
+          toggleContentOnRowClick
+          autoFocus={i === 0}
+          subList={
+            <Ul>
+              {dataSources.map(({ dataSource, getHref$ }) => (
+                <Li
+                  key={dataSource}
+                  noAlternatingBg
+                  href$={getHref$(getHref$Opts)}
+                  onDefaultHrefInteractionSideEffect={close}
+                >
+                  <div className={evaluateClassNames({
+                    [locals.iconAndType]: true,
+                    [locals.active]: productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
+                  })}>
+                    <SvgIcon type={getIconByType(dataSource, productArea)} />
+                    {getLabelByType(dataSource, productArea)}
+                  </div>
+                </Li>
+              ))}
+            </Ul>
+          }
+        >
+          <div className={locals.iconAndType}>
+            <SvgIcon type={productAreaIcons[productArea]} />
+            {productAreaLabels[productArea]}
+          </div>
+        </Li>
+      ))}
+    </Ul>
+  );
+}

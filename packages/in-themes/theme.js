@@ -143,6 +143,7 @@ function buildLib() {
     },
 
     typography: {
+      lineHeight: 1.15,
       h900: {
         fontSize: '5.375rem',
         fontWeight: 300

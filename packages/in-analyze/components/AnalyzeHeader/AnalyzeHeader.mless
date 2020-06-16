@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .button {
+    line-height: @lib__typography__line-height;
+  }
+
+  .label {
+    .flexbox();
+    font-size: 1.375rem;
+    font-weight: 500;
+  }
+
+  .productAreaIcon, .dataSourceIcon {
+    margin-right: 0.5rem;
+  }
+
+  .productAreaIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .productAreaLabel {
+    color: @lib__colors__N600Light;
+  }
+
+  .dataSourceIcon {
+    fill: @lib__colors__N900Primary;
+  }
+
+  .dataSourceLabel {
+    color: @lib__colors__N900Primary;
+  }
+
+  .separator {
+    margin: 0 0.5rem;
+    color: @lib__colors__N600Light;
+  }
+}

@@ -4,6 +4,7 @@ import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } fr
 import { dataSourceTitles as mobileAppDataSourceTitles } from 'in-mobile-apps/tags';
 import { dataSourceTitles as websiteDataSourceTitles } from 'in-websites/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { deepFreeze } from 'in-services/util/object';
 
 let configs;
 export default function getByDataSource(dataSource) {
@@ -50,7 +51,21 @@ export default function getByDataSource(dataSource) {
   return configs[dataSource] || {};
 }
 
-const icons = {
+export const productAreaLabels = Object.freeze({
+  application: 'Applications',
+  website: 'Websites',
+  mobileApp: 'Mobile Apps',
+  profiles: 'Profiles'
+});
+
+export const productAreaIcons = Object.freeze({
+  application: 'lib_application_invert',
+  website: 'lib_website',
+  mobileApp: 'lib_mobile_app',
+  profiles: 'lib_profiling'
+});
+
+const icons = deepFreeze({
   application: {
     traces: 'lib_application_trace',
     calls: 'lib_application_call'
@@ -67,10 +82,10 @@ const icons = {
     httpRequest: 'lib_mobile_app_request',
     custom: 'lib_mobile_app_custom_event'
   },
-  profiling: {
+  profiles: {
     profiles: 'lib_profiling'
   }
-};
+});
 
 export function getIconByType(type, productArea) {
   return get(icons, [productArea, type]);

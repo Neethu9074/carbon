@@ -1,0 +1,151 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+
+export const columnDefinitions = [
+  {
+    width: '4rem',
+    getContent() {
+      return 'col1';
+    }
+  },
+  {
+    getContent({ label }) {
+      return 'This is the first column which takes as much space as it is available but can ellipse' + ' ' + label;
+    }
+  },
+  {
+    width: '4rem',
+    getContent() {
+      return 'col2';
+    }
+  },
+  {
+    width: '4rem',
+    getContent() {
+      return 'col3';
+    }
+  }
+];
+
+<Meta title="Molecules|List" />
+
+## Simple List
+
+<Preview>
+  <Story name="default">
+    <Ul>
+      <Li>Item 1</Li>
+      <Li>Item 2</Li>
+      <Li>Item 3</Li>
+      <Li>Item 4</Li>
+      <Li>Item 5</Li>
+    </Ul>
+  </Story>
+</Preview>
+
+## Import
+
+```js
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+```
+
+## Clickable List
+
+You can add an `onClick` prop to each `Li` to make it clickable. Please consider using the `href` and `href$`
+alternatives for improved usability, e.g. *open in new tab* support. Use `onDefaultHrefInteractionSideEffect` for
+any kind of non-navigational side-effects.
+
+<Preview>
+  <Story name="Clickable List">
+    <Ul>
+      <Li onClick={storybookAction('click')}>Item with onClick prop</Li>
+      <Li href="javascript:alert('Hello from href prop')">Item with href prop</Li>
+      <Li href="javascript:alert('Hello from href prop 2!')"
+          onDefaultHrefInteractionSideEffect={() => alert('Side Effect!')}>
+        Item href prop and a side-effect before the link is followed. Use this to close overlays, report tracking
+        information to Mixpanel etc.
+      </Li>
+    </Ul>
+  </Story>
+</Preview>
+
+
+## Columized List
+
+<Preview>
+  <Story name="Columized List">
+    <Ul>
+      <Li>
+        <ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" />
+      </Li>
+      <Li>
+        <ColumnizedContent columnDefinitions={columnDefinitions} label="label 2" />
+      </Li>
+      <Li>
+        <ColumnizedContent columnDefinitions={columnDefinitions} label="label 3" />
+      </Li>
+    </Ul>
+  </Story>
+</Preview>
+
+
+## Expandable Content
+
+It is possible to add expandable content to lists. We currently support two kinds of expandable (sub-) content:
+
+ 1. Sub-lists with increasing levels in indentation.
+ 2. Free-form sub-content.
+
+By default expandable content is only shown when the small icon is clicked. You may however change this default
+behavior to *expand on row click* using the `toggleContentOnRowClick` prop.
+
+Use the `initiallyOpen` prop to expand content by default.
+
+<Preview>
+  <Story name="Expandable Content">
+    <Ul>
+      <Li initiallyOpen subList={
+        <Ul>
+          <Li subList={
+            <Ul>
+              <Li>Sub Sub Item 1</Li>
+              <Li>Sub Sub Item 2</Li>
+              <Li>Sub Sub Item 3</Li>
+            </Ul>
+          }>
+            Sub Item 1
+          </Li>
+          <Li subList={
+            <Ul>
+              <Li>Sub Sub Item 1</Li>
+              <Li>Sub Sub Item 2</Li>
+              <Li>Sub Sub Item 3</Li>
+            </Ul>
+          }>
+            Sub Item 2
+          </Li>
+          <Li subList={
+            <Ul>
+              <Li>Sub Sub Item 1</Li>
+              <Li>Sub Sub Item 2</Li>
+              <Li>Sub Sub Item 3</Li>
+            </Ul>
+          }>
+            Sub Item 3
+          </Li>
+        </Ul>
+      }>
+        Sub-lists with increasing levels of indentation
+      </Li>
+      <Li renderNestedContent={() => (<span>Nested Content!</span>)}>
+        Free-form exandable content
+      </Li>
+      <Li toggleContentOnRowClick
+          renderNestedContent={() => (<span>Nested Content!</span>)}>
+        Exandable content toggled on row click
+      </Li>
+    </Ul>
+  </Story>
+</Preview>
