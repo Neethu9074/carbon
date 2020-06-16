@@ -168,7 +168,10 @@ function getPerformanceSchemaHint(snapshot) {
       <DashboardNotification type="info">
         {sensorPerformanceSchemaStatus} In order to enable Average Query Latency and Wait Events metrics, access to the{' '}
         <code>performance_schema</code> needs to be granted. Please contact us for installation support or refer to the{' '}
-        <a href="https://docs.instana.io/ecosystem/mysql/#configuration">Instana MySql Sensor configuration</a>.
+        <a href="https://docs.instana.io/ecosystem/mysql/#configuration" rel="noopener noreferrer" target="_blank">
+          Instana MySql Sensor configuration
+        </a>
+        .
       </DashboardNotification>
     );
   }
