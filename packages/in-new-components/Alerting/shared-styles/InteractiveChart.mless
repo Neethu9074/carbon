@@ -6,7 +6,6 @@
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_small;
     border-top: 0;
-    min-height: 32rem;
   }
 
   .message {
