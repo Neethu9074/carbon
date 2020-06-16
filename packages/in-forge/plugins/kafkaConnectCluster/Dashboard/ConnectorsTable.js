@@ -1,10 +1,10 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import getKafkaConnectConnectorsForCluster from 'in-subscription/kafkaConnectCluster/getKafkaConnectConnectorsForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getSnapshot } from 'in-stores/snapshot';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
@@ -116,15 +116,11 @@ const cols = [
 ];
 
 export default connectTo(
-  props => {
-    return {
-      connectors: getClusterMembers(props.workerId)
-        // Always start with an empty set to avoid inconsistent view,
-        // displaying running components for a previously selected snapshot.
-        .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(id => getSnapshot(id))))
-        .throttle(1000)
-    };
-  },
+  props => ({
+    connectors: timeConfig$
+      .flatMap(timeConfig => getKafkaConnectConnectorsForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(getSnapshots)
+  }),
   function ConnectorsTable({ connectors, timeConfig }) {
     if (connectors == null || connectors.length === 0) {
       return null;
