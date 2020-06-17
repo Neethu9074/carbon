@@ -13,12 +13,11 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
+import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import ChartContainer from 'in-new-components/Alerting/components/ChartContainer';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -33,7 +32,13 @@ export default compose(
   }))
 )(StatusCodeInteractiveChart);
 
-function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, debounceOnChange$ }) {
+function StatusCodeInteractiveChart({
+  form,
+  onChange,
+  debounceOnChange$,
+  onChartConfigChange,
+  indexInitialSelectedTimeConfig
+}) {
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
@@ -103,22 +108,28 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
               />
             </FormGroup>
           </div>
-
-          <ChartContainer headline="Last 24 hours">
-            <StatusCodeAlertingBarChart
-              applicationId={form.get('applicationId').value}
-              threshold={threshold}
-              statusCodeStart={form.get('rule').get('statusCodeStart').value}
-              statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
-              timeThreshold={form.get('timeThreshold').toJS()}
-              timeConfig={timeConfig}
-              tagFilters={form.get('tagFilters').value}
-              granularity={granularity}
-              boundaryScope={form.get('boundaryScope').value}
-              alertsPreviewEnabled
-              canReload
-            />
-          </ChartContainer>
+          <ChartViewConfigurator
+            onChartConfigChange={onChartConfigChange}
+            indexInitialSelectedTimeConfig={indexInitialSelectedTimeConfig}
+            className={locals.chartContainer}
+            headerTransparent
+          >
+            {({ timeConfig, granularity }) => (
+              <StatusCodeAlertingBarChart
+                applicationId={form.get('applicationId').value}
+                threshold={threshold}
+                statusCodeStart={form.get('rule').get('statusCodeStart').value}
+                statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
+                timeThreshold={form.get('timeThreshold').toJS()}
+                timeConfig={timeConfig}
+                tagFilters={form.get('tagFilters').value}
+                granularity={granularity}
+                boundaryScope={form.get('boundaryScope').value}
+                alertsPreviewEnabled
+                canReload
+              />
+            )}
+          </ChartViewConfigurator>
         </>
       ) : (
         <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
@@ -130,9 +141,9 @@ function StatusCodeInteractiveChart({ form, timeConfig, onChange, granularity, d
 StatusCodeInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  onChartConfigChange: PropTypes.func.isRequired,
+  indexInitialSelectedTimeConfig: PropTypes.number.isRequired
 };
 
 function hasStatusCodeSelected(form) {
