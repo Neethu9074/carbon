@@ -22,7 +22,8 @@ export default connectTo(
       renderLoadingState = renderLoadingStateDefault,
       enrichForm,
       result,
-      saveItem
+      saveItem,
+      deleteItem
     } = props;
 
     if (hasError(result)) {
@@ -46,33 +47,40 @@ export default connectTo(
     }
 
     const [message, setMessage] = useState(null);
-    const [form, setForm] = useState(() => createForm(enrichForm, props));
     const [canSaveItem, setCanSaveItem] = useState(false);
+    const [canDeleteItem, setCanDeleteItem] = useState(false);
+    const [form, setForm] = useState(() => createForm(enrichForm, { ...props, setCanSaveItem, setCanDeleteItem }));
+
+    const renderProps = {
+      ...props,
+      ...result,
+      message,
+      setMessage,
+      form,
+      setForm: form => {
+        setForm(form.setTouched(true));
+        setCanSaveItem(true);
+      },
+      setCanSaveItem,
+      setCanDeleteItem
+    };
 
     return (
       <div className={locals.wrapper}>
         <div>
           <Header parentPath={parentPath} parentViewName={parentViewName} />
           <MessageWrapper message={message} />
-          {render({
-            ...props,
-            ...result,
-            message,
-            setMessage,
-            form,
-            setForm: form => {
-              setForm(form.setTouched(true));
-              setCanSaveItem(true);
-            },
-            setCanSaveItem
-          })}
+          {render(renderProps)}
         </div>
 
         <Footer
           canSaveItem={canSaveItem}
-          saveItem={saveItem}
+          canDeleteItem={canDeleteItem}
+          onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
+          onDeleteClick={
+            deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
+          }
           parentPath={parentPath}
-          onSaveClick={() => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem })}
           form={form}
         />
       </div>
@@ -81,9 +89,7 @@ export default connectTo(
 );
 
 function MessageWrapper({ message }) {
-  // create a random id to make sure the same message can appear multiple times
-  const id = Date.now() + '';
-
+  const id = message;
   return (
     <div className={locals.messageWrapper}>{message && <TemporaryMessage id={id} {...message} duration={5000} />}</div>
   );

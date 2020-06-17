@@ -1,8 +1,14 @@
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { getConfigAsResultObservable, getTestResult, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { success, neutral, error } from 'in-new-components/Message/types';
+import {
+  getConfigAsResultObservable,
+  getTestResult,
+  refresh,
+  setConfig,
+  deleteConfig
+} from 'in-settings/tabs/AuthSettings/api/ldap';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -30,6 +36,7 @@ export default function Ldap() {
       enrichForm={enrichForm}
       onCancelClick={refresh}
       saveItem={saveItem}
+      deleteItem={deleteItem}
       render={render}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
@@ -203,9 +210,9 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 const config = getConfig(form);
                 const result$ = getTestResult(config);
                 result$.once(({ testPassed, reason }) =>
-                  setTestResultMessage(testPassed ? { text: reason, type: success } : { text: reason, type: error })
+                  setTestResultMessage(testPassed ? { text: reason, type: success } : { text: reason, type: errorType })
                 );
-                result$.errors().once(e => setTestResultMessage({ text: e, type: error }));
+                result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
               }}
             >
               Test configuration
@@ -255,7 +262,18 @@ function saveItem({ form, setMessage }) {
     () => {
       setMessage({ text: 'Config successfully saved.', type: success });
     },
-    error => setMessage({ text: `Failed to save config: ${error.message}`, type: error })
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+  );
+}
+
+function deleteItem({ setMessage }) {
+  setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
+  const setConfigResult$ = deleteConfig();
+  setConfigResult$.once(
+    () => {
+      setMessage({ text: 'Config successfully deleted.', type: success });
+    },
+    error => setMessage({ text: `Failed to delete config: ${error.message}`, type: errorType })
   );
 }
 
@@ -277,7 +295,10 @@ function getConfig(form) {
   };
 }
 
-function enrichForm(form, { result: { config } }) {
+function enrichForm(form, { setCanDeleteItem, result: { config } }) {
+  if (config.base) {
+    setCanDeleteItem(true);
+  }
   return form
     .put('emptyPass', createField({ value: config.emptyPass }))
     .put('base', createField({ value: config.base }))
@@ -291,5 +312,6 @@ function enrichForm(form, { result: { config } }) {
     .put('roUser', createField({ value: config.roUser }))
     .put('userDnMapping', createField({ value: config.userDnMapping }))
     .put('userField', createField({ value: config.userField }))
-    .put('userQueryTemplate', createField({ value: config.userQueryTemplate }));
+    .put('userQueryTemplate', createField({ value: config.userQueryTemplate }))
+    .put('activated', createField({ value: !!config.base }));
 }

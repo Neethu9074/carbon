@@ -5,8 +5,8 @@ import { getView } from 'in-stores/navigation';
 
 import locals from './Footer.mless';
 
-export default function Footer({ canSaveItem, saveItem, parentPath, onSaveClick, form }) {
-  if (!canSaveItem || !saveItem) {
+export default function Footer({ canSaveItem, onSaveClick, canDeleteItem, onDeleteClick, parentPath, form }) {
+  if ((!canSaveItem && !canDeleteItem) || (!onSaveClick && !canDeleteItem)) {
     return null;
   }
 
@@ -14,7 +14,10 @@ export default function Footer({ canSaveItem, saveItem, parentPath, onSaveClick,
     <SaveCancelFooter
       className={locals.footer}
       cancelHref$={parentPath ? getView(parentPath) : undefined}
+      canSaveItem={canSaveItem}
+      canDeleteItem={canDeleteItem}
       onSaveClick={onSaveClick}
+      onDeleteClick={onDeleteClick}
       form={form}
       editMode
     />
