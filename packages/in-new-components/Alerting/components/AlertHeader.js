@@ -13,6 +13,7 @@ import Message from 'in-new-components/Message/Message';
 import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { role } from 'in-stores/user';
 
@@ -27,6 +28,7 @@ export default function AlertHeader({
   doEnableConfig$,
   doDisableConfig$,
   doDeleteConfig$,
+  doRestoreConfig$,
   onConfigStateChanged,
   onConfigDeleted,
   onConfigRevisionChanged
@@ -83,6 +85,18 @@ export default function AlertHeader({
     });
   };
 
+  const doRestore = () => {
+    doRestoreConfig$(alertConfig, alertConfig.id).once(
+      () => setRevision(null),
+      error => {
+        const errorMessage = `Failed to restore alert config revision with ID ${alertConfig.id} and version ${
+          alertConfig.created
+        }: ${error.message}`;
+        setErrorMessage(errorMessage);
+      }
+    );
+  };
+
   return (
     <div>
       <BackButton label="Back to list of alerts" href$={getLinkToAlerts(fullyQualifiedAlertsList)} withoutMargin />
@@ -124,55 +138,98 @@ export default function AlertHeader({
             />
           )}
 
+          {alertConfig.readOnly &&
+            !isDeletedConfig && (
+              <Tooltip content={`Restore Revision ${alertRevision}`}>
+                <SvgIcon
+                  className={locals.actionIcon}
+                  type="lib_actions_revert"
+                  onClick={() => {
+                    addActiveDialog(
+                      <ConfirmationDialog
+                        header="Please Confirm"
+                        description={
+                          <span>
+                            Are you sure you want to restore{' '}
+                            <strong>
+                              &quot;Revision {alertRevision}
+                              &quot;
+                            </strong>
+                            ?
+                          </span>
+                        }
+                        bButtonLabel="Restore"
+                        onB={() => {
+                          close();
+                          doRestore();
+                        }}
+                        bButtonIcon="lib_actions_revert"
+                      />
+                    );
+                  }}
+                />
+              </Tooltip>
+            )}
+
           {role.canConfigureCustomAlerts &&
             !alertConfig.readOnly && (
               <>
-                <SvgIcon
-                  className={locals.actionIcon}
-                  type={
-                    isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
-                  }
-                  spinning={isToggling}
-                  onClick={() => {
-                    if (!isToggling) {
-                      doToggleEnabled();
+                <Tooltip content={` ${alertConfig.enabled ? 'Disable' : 'Enable'}`}>
+                  <SvgIcon
+                    className={locals.actionIcon}
+                    type={
+                      isToggling
+                        ? 'lib_actions_loading'
+                        : alertConfig.enabled
+                          ? 'lib_actions_pause'
+                          : 'lib_actions_play'
                     }
-                  }}
-                />
+                    spinning={isToggling}
+                    onClick={() => {
+                      if (!isToggling) {
+                        doToggleEnabled();
+                      }
+                    }}
+                  />
+                </Tooltip>
 
-                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+                <Tooltip content={`Edit`}>
+                  <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+                </Tooltip>
 
-                <SvgIcon
-                  className={locals.actionIcon}
-                  type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                  spinning={isDeleting}
-                  onClick={() => {
-                    if (!isDeleting) {
-                      addActiveDialog(
-                        <ConfirmationDialog
-                          header="Please Confirm"
-                          description={
-                            <span>
-                              Are you sure you want to remove the{' '}
-                              <strong>
-                                alert &quot;
-                                {alertConfig.name}
-                                &quot;
-                              </strong>
-                              ?
-                            </span>
-                          }
-                          bButtonLabel="Remove"
-                          onB={() => {
-                            close();
-                            doDelete();
-                          }}
-                          bButtonIcon="lib_actions_delete"
-                        />
-                      );
-                    }
-                  }}
-                />
+                <Tooltip content={`Delete`}>
+                  <SvgIcon
+                    className={locals.actionIcon}
+                    type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
+                    spinning={isDeleting}
+                    onClick={() => {
+                      if (!isDeleting) {
+                        addActiveDialog(
+                          <ConfirmationDialog
+                            header="Please Confirm"
+                            description={
+                              <span>
+                                Are you sure you want to remove the{' '}
+                                <strong>
+                                  alert &quot;
+                                  {alertConfig.name}
+                                  &quot;
+                                </strong>
+                                ?
+                              </span>
+                            }
+                            bButtonLabel="Remove"
+                            onB={() => {
+                              close();
+                              doDelete();
+                            }}
+                            bButtonIcon="lib_actions_delete"
+                          />
+                        );
+                      }
+                    }}
+                  />
+                </Tooltip>
               </>
             )}
         </div>
@@ -204,6 +261,7 @@ AlertHeader.propTypes = {
   doEnableConfig$: PropTypes.func.isRequired,
   doDisableConfig$: PropTypes.func.isRequired,
   doDeleteConfig$: PropTypes.func.isRequired,
+  doRestoreConfig$: PropTypes.func.isRequired,
   onConfigStateChanged: PropTypes.func,
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func

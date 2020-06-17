@@ -14,7 +14,8 @@ import {
   getLatestAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
-  deleteAlertConfig
+  deleteAlertConfig,
+  updateAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertsTab, alertsTabListFullyQualified, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
@@ -111,6 +112,7 @@ function Alert({
           doEnableConfig$={enableAlertConfig}
           doDisableConfig$={disableAlertConfig}
           doDeleteConfig$={deleteAlertConfig}
+          doRestoreConfig$={updateAlertConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
               websitesAlertingAlertPaused({ alertConfigId });

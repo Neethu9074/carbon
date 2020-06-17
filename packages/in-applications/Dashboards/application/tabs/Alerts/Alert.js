@@ -14,7 +14,8 @@ import {
   getLatestAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
-  deleteAlertConfig
+  deleteAlertConfig,
+  updateAlertConfig
 } from 'in-applications/api/applicationAlertConfig';
 import {
   alertCreated as alertCreatedMatrixParam,
@@ -114,6 +115,7 @@ function Alert({
           doEnableConfig$={enableAlertConfig}
           doDisableConfig$={disableAlertConfig}
           doDeleteConfig$={deleteAlertConfig}
+          doRestoreConfig$={updateAlertConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
               applicationsAlertingAlertPaused({ alertConfigId });
