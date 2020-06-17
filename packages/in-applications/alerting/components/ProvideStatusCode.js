@@ -30,9 +30,11 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                 updateForm(
                   form
                     .updateIn(['rule', 'statusCodeStart'], f =>
-                      f.setValue(getStartForStatusCode(e.value)).setTouched(true)
+                      f.setValue(Number(getStartForStatusCode(e.value))).setTouched(true)
                     )
-                    .updateIn(['rule', 'statusCodeEnd'], f => f.setValue(getEndForStatusCode(e.value)).setTouched(true))
+                    .updateIn(['rule', 'statusCodeEnd'], f =>
+                      f.setValue(Number(getEndForStatusCode(e.value))).setTouched(true)
+                    )
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
               }}
