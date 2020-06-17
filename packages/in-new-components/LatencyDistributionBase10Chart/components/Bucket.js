@@ -61,7 +61,7 @@ const TooltipContent = (bucket, formatter) => {
         <div className={locals.labelWrapper}>{text}</div>
         <div className={locals.labelWrapper}>
           <div className={locals.dot} />
-          <span>Calls</span>
+          <span>Calls (sum)</span>
           <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
         </div>
       </div>
