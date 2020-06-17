@@ -65,8 +65,10 @@
     &:hover {
       cursor: pointer;
     }
-    &.checked {
-      font-weight: bold;
-    }
+  }
+
+  .checked {
+    font-weight: bold;
+    background-color: @lib__colors__white;
   }
 }

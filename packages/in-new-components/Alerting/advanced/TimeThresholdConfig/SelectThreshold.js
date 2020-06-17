@@ -32,12 +32,15 @@ export default function SelectThreshold({ form, updateForm, hasUserImpactOption 
   return (
     <>
       {checkboxes.map(({ label, checked, onChange }, i) => (
-        <div key={i} className={locals.thresholdTypeSelection}>
+        <div
+          key={i}
+          className={evaluateClassNames({
+            [locals.thresholdTypeSelection]: true,
+            [locals.checked]: checked
+          })}
+        >
           <CheckboxFancy
-            wrapperClassName={evaluateClassNames({
-              [locals.checkbox]: true,
-              [locals.checked]: checked
-            })}
+            wrapperClassName={locals.checkbox}
             label={label}
             checked={checked}
             onChange={onChange}
