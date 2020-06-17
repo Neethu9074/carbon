@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import { isEqual } from 'lodash';
+import React from 'react';
 
-import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
-import { emptyObject, emptyArray } from 'in-services/fixedObjects';
-import { getDisplayName } from 'in-hoc/internal/getDisplayName';
-import { identity } from 'in-services/util/function';
-import history from 'in-stores/navigation/history';
+import useUrlState, { defaultingReducer } from 'in-hooks/useUrlState';
+import { emptyArray } from 'in-services/fixedObjects';
 
 // Sample usage
 // withUrlState({
@@ -63,178 +57,19 @@ export default ({
   reducer = defaultingReducer,
   onUpdate,
   replaceHistory = true
-}) => BaseComponent => {
-  const bindByAs = {};
-  bind = bind.map(b => {
-    bindByAs[b.as || b.name] = b;
-    return {
-      ...b,
-      as: b.as || b.name
-    };
+}) => BaseComponent => props => {
+  const [state, setState, getModifiedUrl] = useUrlState({
+    bind,
+    resets,
+    reducer,
+    onUpdate,
+    replaceHistory
   });
-  resets = resets.map(r => ({
-    ...r,
-    as: r.as || r.name
-  }));
-
-  reduceAndGetAsUrlName = reduceAndGetAsUrlName || `${reducerName}AndGetAsUrl`;
-  replaceHistory = Boolean(replaceHistory);
-
-  return class WithUrlState extends Component {
-    static displayName = getDisplayName(BaseComponent, 'withUrlState');
-
-    constructor(props) {
-      super(props);
-      // Initialize initial state so that the initial state already depends on the URL.
-      // Otherwise we risk WithUrlState resets kicking in as well as unnecessary data retrieval.
-      this.state = this.determineStateChange(history.location, emptyObject) || emptyObject;
-    }
-
-    componentDidMount() {
-      if (resets.length > 0) {
-        addReset(this.executeResets);
-      }
-
-      this.locationSubscription = navigationParameters$
-        // Simple yet effective way to avoid state updates when navigating away from a route.
-        // When not doing this, it can happen that we update this state and a downstream
-        // component makes a backend request. Following that request, the component is
-        // immediately unmounted and therefore the request is pointless.
-        // Handling updates on the next frame will mean that React gets a chance to unmount
-        // a component which will call this component's componentWillUnmount which will
-        // cancel the location subscription.
-        .nextFrame()
-        .subscribe(this.onLocationChange);
-    }
-
-    componentWillUnmount() {
-      if (resets.length > 0) {
-        removeReset(this.executeResets);
-      }
-
-      if (this.locationSubscription) {
-        this.locationSubscription.dispose();
-      }
-    }
-
-    onLocationChange = location => {
-      const newState = this.determineStateChange(location, this.state);
-      if (newState) {
-        if (onUpdate) {
-          onUpdate(this.state, newState);
-        }
-        this.setState(newState);
-      }
-    };
-
-    determineStateChange(location, currentState) {
-      let newState = {};
-      bind.forEach(({ path, name, as, parser = identity, initialState, getInitialState }) => {
-        let value = undefined;
-        if (path) {
-          value = getMatrixParameter(location, path, name);
-        } else {
-          value = location.query[name];
-        }
-
-        if (value != null) {
-          newState[as] = parser(value);
-        } else {
-          newState[as] = getInitialState ? getInitialState() : initialState;
-        }
-      });
-
-      return isEqual(newState, currentState) ? null : newState;
-    }
-
-    reducer = change => {
-      const newState = this.applyReducer(change);
-      mutateUrl(location => {
-        // Synchronously update the state to ensure that quick user interaction will correctly
-        // be reflected within the React state tree. The successive URL update will
-        // (asynchronously) update the state again. This state update will be a noop in all interaction
-        // cases that happen via the Instana user interface. Cases in which this is not a noop are
-        // URL changes caused by the browser itself, e.g. browser back button.
-        this.setState(newState);
-        this.modifyLocation(newState, location);
-      }, replaceHistory);
-    };
-
-    getModifiedUrl = change => {
-      const state = this.applyReducer(change);
-      return getModifiedUrlStream(location => this.modifyLocation(state, location));
-    };
-
-    applyReducer(change) {
-      return reducer(this.state, change);
-    }
-
-    modifyLocation(state, location) {
-      bind.forEach(bind => this.setBindValue(bind, state[bind.as], location));
-    }
-
-    setBindValue({ path, name, serializer = String }, value, location) {
-      if (path) {
-        if (value != null) {
-          setOrDeleteMatrixKey(location, path, name, serializer(value));
-        } else {
-          setOrDeleteMatrixKey(location, path, name);
-        }
-      } else {
-        if (value != null) {
-          location.query[name] = serializer(value);
-        } else {
-          delete location.query[name];
-        }
-      }
-    }
-
-    executeResets = (previousLocation, nextLocation) => {
-      resets.forEach(({ bind, reset }) => {
-        if (this.shouldExecuteReset(previousLocation, nextLocation, bind)) {
-          Object.keys(reset).forEach(key => this.setBindValue(bindByAs[key], reset[key], nextLocation));
-        }
-      });
-    };
-
-    shouldExecuteReset(previousLocation, nextLocation, bind) {
-      // fori loop for early return
-      for (let i = 0; i < bind.length; i++) {
-        const { path, name } = bind[i];
-        let previousValue;
-        let nextValue;
-
-        if (path) {
-          previousValue = getMatrixParameter(previousLocation, path, name);
-          nextValue = getMatrixParameter(nextLocation, path, name);
-        } else {
-          previousValue = previousLocation.query[name];
-          nextValue = nextLocation.query[name];
-        }
-
-        if (nextValue !== previousValue) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    render() {
-      const props = {
-        ...this.props,
-        ...this.state,
-        [reducerName]: this.reducer,
-        [reduceAndGetAsUrlName]: this.getModifiedUrl
-      };
-      return <BaseComponent {...props} />;
-    }
-  };
-};
-
-function defaultingReducer(state, change) {
-  return {
+  const forwardedProps = {
+    ...props,
     ...state,
-    ...change
+    [reducerName]: setState,
+    [reduceAndGetAsUrlName]: getModifiedUrl
   };
-}
+  return <BaseComponent {...forwardedProps} />;
+};

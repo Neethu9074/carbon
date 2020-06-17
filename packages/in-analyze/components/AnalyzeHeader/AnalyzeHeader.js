@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router';
 import React from 'react';
 
 import { getIconByType, getLabelByType, productAreaLabels, productAreaIcons } from 'in-analyze/AnalyzeView/dataSources';
@@ -14,20 +15,17 @@ import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/m
 import { analyzePath as profilingAnalyzePath } from 'in-profiling/navigation/paths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
-import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { isNotBlank } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './AnalyzeHeader.mless';
 
-export default connectTo({
-  activeConfiguration: navigationParameters$.map(getActiveConfiguration)
-})(AnalyzeHeader);
+export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
+  const location = useLocation();
+  const activeConfiguration = getActiveConfiguration(location);
 
-function AnalyzeHeader({ activeConfiguration, renderQuickFilterBar, isGrouped }) {
   return (
     <>
       <DashboardHeader

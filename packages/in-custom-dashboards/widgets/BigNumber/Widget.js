@@ -8,44 +8,41 @@ import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { percentage } from 'in-services/formatters/number';
+import { pendingResult } from 'in-services/fixedObjects';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import { timeConfig$ } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
 const metricKey = 'bigNumber';
 const comparisonMetricKey = 'comparison';
 
-export default connectTo(({ config }) => ({
-  timeConfig: timeConfig$,
-  result: timeConfig$.flatMap(timeConfig => {
-    const metrics = {
-      [metricKey]: {
-        ...config.metricConfiguration,
-        timeShift: {
-          offset: 0
-        },
-        timeConfig,
-        granularity: null,
-        resultType: 'SINGLE_NUMBER'
-      }
-    };
+export default function BigNumber({ config, title, actions, dragHandle, isPreview }) {
+  const timeConfig = useTimeConfig();
 
-    if (config.metricConfiguration.timeShift !== 0) {
-      metrics[comparisonMetricKey] = {
-        ...config.metricConfiguration,
-        timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig),
-        granularity: null,
-        resultType: 'SINGLE_NUMBER'
-      };
+  const metrics = {
+    [metricKey]: {
+      ...config.metricConfiguration,
+      timeShift: {
+        offset: 0
+      },
+      timeConfig,
+      granularity: null,
+      resultType: 'SINGLE_NUMBER'
     }
+  };
 
-    return getUnifiedMetrics({ metrics });
-  })
-}))(BigNumber);
+  if (config.metricConfiguration.timeShift !== 0) {
+    metrics[comparisonMetricKey] = {
+      ...config.metricConfiguration,
+      timeConfig,
+      timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig),
+      granularity: null,
+      resultType: 'SINGLE_NUMBER'
+    };
+  }
+  const result = useObservable(getUnifiedMetrics({ metrics }), [config, timeConfig]) ?? pendingResult;
 
-function BigNumber({ result, config, title, actions, dragHandle, isPreview, timeConfig }) {
   return (
     <ResultAwareKpiCard
       title={title}

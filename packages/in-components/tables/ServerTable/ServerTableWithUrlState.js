@@ -1,15 +1,14 @@
-import { compose, withProps, withPropsOnChange } from 'recompose';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { timeout } from 'reactive-observables';
+import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getSingle, setSingle } from 'in-services/settings/settings';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import { pendingResult } from 'in-services/fixedObjects';
-import { emptyArray } from 'in-services/fixedObjects';
-import withUrlState from 'in-hoc/withUrlState';
-import connect from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
+import useUrlState from 'in-hooks/useUrlState';
 
 export default function createServerTableWithUrlState({
   paginationResettingUrlParameters = emptyArray,
@@ -25,101 +24,91 @@ export default function createServerTableWithUrlState({
   isSearchable = true,
   Renderer = ServerTablePresenter
 }) {
-  return compose(
-    withUrlState({
-      bind: [
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}orderBy`,
-          as: 'orderBy',
-          initialState: defaultOrderBy || columnDefinitions[0].id
-        },
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}orderDirection`,
-          as: 'orderDirection',
-          initialState: defaultOrderDirection || 'ASC'
-        },
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}page`,
-          as: 'page',
-          initialState: 1,
-          parser: intParser
-        },
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}pageSize`,
-          as: 'pageSize',
-          initialState: defaultPageSize || 20,
-          parser: intParser
-        },
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}query`,
-          as: 'query',
-          initialState: defaultQuery || ''
-        },
-        {
-          path: pathSegment,
-          name: `${matrixPrefix}disabledColumns`,
-          as: 'disabledColumns',
-          getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
-          parser: buildJsonParser([]),
-          serializer: buildJsonSerializer()
-        }
-      ],
-
-      resets: [
-        {
-          bind: paginationResettingUrlParameters,
-          reset: { page: 1 }
-        }
-      ],
-
-      onUpdate: (prevState, newState) => {
-        if (settingsKey) {
-          if (!shallowEquals(prevState.disabledColumns, newState.disabledColumns)) {
-            setSingle(settingsKey, { ids: newState.disabledColumns });
-          }
-        }
+  const urlStateDefinition = {
+    bind: [
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}orderBy`,
+        as: 'orderBy',
+        initialState: defaultOrderBy || columnDefinitions[0].id
       },
-
-      // function to set the new page/order/query
-      reducerName: 'onChange'
-    }),
-    connect((props, prevProps) => {
-      if (props.query !== prevProps.query && props.query !== '') {
-        // Query changes are frequent and we need to debounce these changes.
-        // Also, while debouncing, we immediately want to turn the table state
-        // into a loading state. This is better than having the state of an input
-        // field and the state of the table differ (happens when debouncing within an input
-        // field and the table is still showing data for a previous query).
-        //
-        // The combination of a connectTo() and a timeout().flatMap is effectively
-        // a debounce implementation!
-        //
-        // Because we are debouncing only on query changes and because we are turning
-        // the table immediately into a loading state, we can use larger waiting times
-        // before retrieving data and thereby reduce backend pressure!
-        return {
-          result: timeout(800)
-            .flatMap(() => props.get(props))
-            .startWith(pendingResult)
-        };
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}orderDirection`,
+        as: 'orderDirection',
+        initialState: defaultOrderDirection || 'ASC'
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}page`,
+        as: 'page',
+        initialState: 1,
+        parser: intParser
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}pageSize`,
+        as: 'pageSize',
+        initialState: defaultPageSize || 20,
+        parser: intParser
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}query`,
+        as: 'query',
+        initialState: defaultQuery || ''
+      },
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}disabledColumns`,
+        as: 'disabledColumns',
+        getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
       }
-      return {
-        result: props.get(props)
-      };
-    }),
-    withProps({
+    ],
+
+    resets: [
+      {
+        bind: paginationResettingUrlParameters,
+        reset: { page: 1 }
+      }
+    ],
+
+    onUpdate: (prevState, newState) => {
+      if (settingsKey) {
+        if (!shallowEquals(prevState.disabledColumns, newState.disabledColumns)) {
+          setSingle(settingsKey, { ids: newState.disabledColumns });
+        }
+      }
+    }
+  };
+
+  return function ServerTable(props) {
+    const [urlState, setUrlState] = useUrlState(urlStateDefinition);
+
+    const propsForObservable = {
+      ...props,
+      ...urlState
+    };
+    const observable =
+      props.query !== '' ? timeout(800).flatMap(() => props.get(propsForObservable)) : props.get(propsForObservable);
+    const result = useObservable(observable, Object.values(propsForObservable)) ?? pendingResult;
+
+    const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
+      columnDefinitions
+    ]);
+
+    const rendererProps = {
+      ...propsForObservable,
+      result,
       columnDefinitions,
-      isSearchable
-    }),
-    withPropsOnChange(['columnDefinitions'], ({ columnDefinitions }) => ({
-      optionalColumns: columnDefinitions.filter(columnDefinition => columnDefinition.optional)
-    }))
-  )(Renderer);
+      isSearchable,
+      optionalColumns,
+      onChange: setUrlState
+    };
+    return <Renderer {...rendererProps} />;
+  };
 }
 
 function getInitialDisabledColumns(settingsKey, defaultDisabledColumns) {
