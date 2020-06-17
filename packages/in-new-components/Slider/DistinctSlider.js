@@ -35,7 +35,8 @@ export default function DistinctSlider(props) {
       style={{
         ...style,
         width: '100%',
-        padding: '0 32px'
+        minHeight: '4rem', // 64 without value label on hovering
+        padding: '0 2rem'
       }}
     >
       <StyledMuiSlider

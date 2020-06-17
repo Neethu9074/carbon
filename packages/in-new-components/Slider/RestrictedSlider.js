@@ -33,8 +33,8 @@ export default function RestrictedSlider(props) {
       style={{
         ...style,
         width: '100%',
-        height: 88, // 64 without
-        padding: '0 32px'
+        minHeight: '5.5rem', // 64 without value label on hovering
+        padding: '0 2rem'
       }}
     >
       <StyledMuiSlider
