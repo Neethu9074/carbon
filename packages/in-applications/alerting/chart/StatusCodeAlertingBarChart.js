@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
+import {
+  chartColors,
+  legendColors,
+  smoothMetrics,
+  getSmoothedMetricTooltipContent
+} from 'in-new-components/Alerting/utils/chartUtil';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import { boundaryScopePropType } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { getApplicationIdTagFilter, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
-import { getSmoothedMetricTooltipContent, smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
@@ -15,9 +19,9 @@ import { number } from 'in-services/formatters/number';
 
 export default function StatusCodeAlertingBarChart({
   applicationId,
+  boundaryScope,
   statusCodeStart,
   statusCodeEnd,
-  boundaryScope,
   viewConfig,
   tagFilters,
   granularity,
@@ -49,40 +53,19 @@ export default function StatusCodeAlertingBarChart({
         getMax: metricsMaxValue => {
           return thresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, thresholdValue * 1.2) : metricsMaxValue;
         },
-        colors: [
-          theme.lib.colors.blue800,
-          theme.lib.colors.red800,
-          theme.lib.colors.lightBlue800,
-          theme.lib.colors.pink800
-        ],
+        colors: chartColors,
         icons: {
-          types: [
-            smoothMetric ? 'lib_line_chart' : 'lib_bar_chart',
-            'lib_threshold',
-            'lib_actions_stop',
-            'lib_actions_stop'
-          ],
-          colors: [
-            theme.lib.colors.blue800,
-            theme.lib.colors.red800,
-            theme.lib.colors.lightBlue800,
-            theme.lib.colors.pink800
-          ]
+          types: ['lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
+          colors: legendColors
         },
-        renderer: Renderer.barWithThreshold,
+        renderer: smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold,
         formatter: number.forcedCompact,
-        labels: [
-          `${getMetricLabel('statusCode', 'calls')}${smoothMetric ? '*' : ''}`,
-          'Threshold',
-          'Expected Range',
-          'Violations'
-        ],
-        excludedLabelsFromTooltip: ['Expected Range', 'Violations'],
+        labels: [`${getMetricLabel('statusCode', 'calls')}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'],
+        excludedLabelsFromTooltip: ['Violations'],
         metricIds: ['statusCode', 'threshold'],
         nonToggleableSeries: new Map([
           ['statusCode', getSmoothedMetricTooltipContent(smoothMetric)],
           ['threshold', null],
-          ['Expected Range', null],
           ['Violations', null]
         ])
       }}
@@ -139,15 +122,15 @@ function getAlertsPreviewConfiguration(timeConfig, tagFilters, granularity, thre
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
-      tagFilters: tagFilters,
+      tagFilters,
       timeThreshold,
       threshold,
-      granularity, // local alerts/chart granularity
+      granularity,
       metrics: {
         alerts: {
           metric: 'calls',
           aggregation: 'SUM',
-          granularity // global metric granularity
+          granularity
         }
       }
     };
