@@ -48,6 +48,7 @@ function Alerts({ enabled, setEnabled }) {
       extraFilters={createFilters(enabled)}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
       trackEvent={openAlertSubmitFormTracker}
+      noDataMessage="No alert configured."
     />
   );
 }
