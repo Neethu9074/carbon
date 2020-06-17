@@ -23,7 +23,6 @@ export default function renderDefaultList(props) {
           hasErrors,
           totalFilteredItems,
           pageItems,
-          totalItems,
           isLoading
         } = _props;
         if (isLoading) {
@@ -39,7 +38,7 @@ export default function renderDefaultList(props) {
         return (
           <>
             {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
-            <ApiListHeader {..._props} totalItems={totalItems} totalFilteredItems={totalFilteredItems} />
+            <ApiListHeader {..._props} totalFilteredItems={totalFilteredItems} />
             {content}
             <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
           </>

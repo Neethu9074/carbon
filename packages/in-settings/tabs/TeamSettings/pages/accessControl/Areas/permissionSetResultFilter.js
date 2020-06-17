@@ -1,53 +1,52 @@
-export function mapApplications(applications, applicationIds, getAdditionalProperties) {
-  const applicationsMap = getAsMap(applications);
+export const types = {
+  APPLICATION: 'Application',
+  K8S_CLUSTER: 'Kubernetes Cluster',
+  K8S_NAMESPACE: 'Kubernetes Namespace',
+  WEBSITE: 'Website',
+  MOBILE_APP: 'Mobile App',
+  INFRA_DFQ: 'infra DFQ'
+};
+
+export function mapApplications(applicationIds, getAdditionalProperties) {
   return applicationIds.map(id => ({
     id,
-    label: getLabelIfPreset(applicationsMap, id),
-    type: 'Application',
+    type: types.APPLICATION,
     icon: 'lib_application',
     ...getAdditionalProperties(id)
   }));
 }
 
-export function mapKubernetesClusters(k8sClusters, kubernetesClusterUUIDs, getAdditionalProperties) {
-  const clustersMap = getAsMap(k8sClusters);
+export function mapKubernetesClusters(kubernetesClusterUUIDs, getAdditionalProperties) {
   return kubernetesClusterUUIDs.map(id => ({
     id,
-    label: getLabelIfPreset(clustersMap, id),
-    type: 'Kubernetes Cluster',
+    type: types.K8S_CLUSTER,
     icon: 'lib_kubernetes_cluster',
     ...getAdditionalProperties(id)
   }));
 }
 
-export function mapKubernetesNamespaces(k8sNamespaces, kubernetesNamespaceUIDs, getAdditionalProperties) {
-  const namespacesMap = getAsMap(k8sNamespaces);
+export function mapKubernetesNamespaces(kubernetesNamespaceUIDs, getAdditionalProperties) {
   return kubernetesNamespaceUIDs.map(id => ({
     id,
-    label: getLabelIfPreset(namespacesMap, id),
-    type: 'Kubernetes Namespace',
+    type: types.K8S_NAMESPACE,
     icon: 'lib_kubernetes_namespace',
     ...getAdditionalProperties(id)
   }));
 }
 
-export function mapWebsites(websites, websiteIds, getAdditionalProperties) {
-  const websitesMap = getAsMap(websites);
+export function mapWebsites(websiteIds, getAdditionalProperties) {
   return websiteIds.map(id => ({
     id,
-    label: getLabelIfPreset(websitesMap, id),
-    type: 'Website',
+    type: types.WEBSITE,
     icon: 'lib_website',
     ...getAdditionalProperties(id)
   }));
 }
 
-export function mapMobileApps(mobileApps, mobileAppIds, getAdditionalProperties) {
-  const mobileAppsMap = getAsMap(mobileApps);
+export function mapMobileApps(mobileAppIds, getAdditionalProperties) {
   return mobileAppIds.map(id => ({
     id,
-    label: getLabelIfPreset(mobileAppsMap, id),
-    type: 'Mobile App',
+    type: types.MOBILE_APP,
     icon: 'lib_mobile_app',
     ...getAdditionalProperties(id)
   }));
@@ -60,23 +59,8 @@ export function mapInfraDfq(infraDfqFilter, getAdditionalProperties) {
   return {
     id: 'infraDfq',
     label: infraDfqFilter,
-    type: 'Infrastructure Dynamic Focus Query',
+    type: types.INFRA_DFQ,
     icon: 'lib_infrastructure_inverted',
     ...getAdditionalProperties()
   };
-}
-
-function getAsMap(items) {
-  const map = new Map();
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    map.set(item.id, item);
-  }
-  return map;
-}
-
-function getLabelIfPreset(map, id) {
-  if (map.has(id)) {
-    return map.get(id).label;
-  }
 }

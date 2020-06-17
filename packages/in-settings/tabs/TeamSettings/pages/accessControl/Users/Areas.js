@@ -10,29 +10,17 @@ import {
   mapInfraDfq
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaColumnDefinitions';
-import { getKubernetesNamespacesAsResultObservable } from 'in-settings/tabs/TeamSettings/api/kubernetesNamespaces';
-import { getKubernetesClustersAsResultObservable } from 'in-settings/tabs/TeamSettings/api/kubernetesClusters';
-import { getMobileAppsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/mobileApps';
-import { getWebsitesAsResultObservable } from 'in-settings/tabs/TeamSettings/api/websites';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
-import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import { success, combineResultObservables } from 'in-services/util/result';
 import { getPermissionSetsAsResultObservable } from 'in-api/permissionSets';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { success } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ userId }) => ({
-    ...combineResultObservables({
-      applications: getApplicationConfigsAsResultObservable(),
-      K8sClusters: getKubernetesClustersAsResultObservable(),
-      K8sNamespaces: getKubernetesNamespacesAsResultObservable(),
-      websites: getWebsitesAsResultObservable(),
-      mobileApps: getMobileAppsAsResultObservable()
-    }),
     permissionSetsToGroupResult: getGroupsAsResultObservable().flatMap(groupsResult => {
       if (hasError(groupsResult) || isLoading(groupsResult)) {
         return just(groupsResult);
@@ -56,16 +44,14 @@ export default connectTo(
       });
     })
   }),
-  function Areas({ result, permissionSetsToGroupResult }) {
+  function Areas({ permissionSetsToGroupResult }) {
     const [page, setPage] = useState(1);
 
     let itemsResult = null;
     if (isLoading(permissionSetsToGroupResult) || hasError(permissionSetsToGroupResult)) {
       itemsResult = permissionSetsToGroupResult;
-    } else if (isLoading(result) || hasError(result)) {
-      itemsResult = result;
     } else {
-      itemsResult = success(collectIdsFromPermissionSets(permissionSetsToGroupResult.data, result));
+      itemsResult = success(collectIdsFromPermissionSets(permissionSetsToGroupResult.data));
     }
 
     return (
@@ -81,25 +67,25 @@ export default connectTo(
   }
 );
 
-function collectIdsFromPermissionSets(permissionSetsToGroups, result) {
+function collectIdsFromPermissionSets(permissionSetsToGroups) {
   let allIds = [];
 
   const values = permissionSetsToGroups.values();
   for (const entry of values) {
-    const ids = collectIds(entry.permissionSet, entry.group, result);
+    const ids = collectIds(entry.permissionSet, entry.group);
     allIds = [...allIds, ...ids];
   }
 
   return allIds;
 }
 
-function collectIds(permissionSet, group, result) {
+function collectIds(permissionSet, group) {
   return [
-    ...mapApplications(result.applications, permissionSet.applicationIds, () => ({ group })),
-    ...mapKubernetesClusters(result.K8sClusters, permissionSet.kubernetesClusterUUIDs, () => ({ group })),
-    ...mapKubernetesNamespaces(result.K8sNamespaces, permissionSet.kubernetesNamespaceUIDs, () => ({ group })),
-    ...mapWebsites(result.websites, permissionSet.websiteIds, () => ({ group })),
-    ...mapMobileApps(result.mobileApps, permissionSet.mobileAppIds, () => ({ group })),
+    ...mapApplications(permissionSet.applicationIds, () => ({ group })),
+    ...mapKubernetesClusters(permissionSet.kubernetesClusterUUIDs, () => ({ group })),
+    ...mapKubernetesNamespaces(permissionSet.kubernetesNamespaceUIDs, () => ({ group })),
+    ...mapWebsites(permissionSet.websiteIds, () => ({ group })),
+    ...mapMobileApps(permissionSet.mobileAppIds, () => ({ group })),
     ...mapInfraDfq(permissionSet.infraDfqFilter, () => ({ group }))
   ].filter(Boolean);
 }
