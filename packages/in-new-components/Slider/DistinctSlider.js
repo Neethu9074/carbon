@@ -61,7 +61,7 @@ DistinctSlider.propTypes = {
   marks: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired
+      label: PropTypes.string
     }).isRequired
   ),
   step: PropTypes.number.isRequired,
