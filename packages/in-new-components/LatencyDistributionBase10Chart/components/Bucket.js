@@ -17,7 +17,7 @@ export default function Bucket({
 }) {
   const percentiles = bucket.percentiles?.filter(p => percentilesShown.includes(p));
   return (
-    <Tooltip themeStyle="light" content={TooltipContent(bucket, formatter)}>
+    <Tooltip themeStyle="unset" content={TooltipContent(bucket, formatter)}>
       <Link className={locals.barOuter} style={{ width: bucketWidth, height: `${height}px` }}>
         <Bar calls={bucket.calls} maxDataValue={maxDataValue} height={height - percentileHeight} />
         {percentiles && percentiles.length > 0 && <PercentileMarker percentiles={percentiles} />}
@@ -59,13 +59,11 @@ const TooltipContent = (bucket, formatter) => {
     <>
       <div className={locals.tooltipContent}>
         <div className={locals.labelWrapper}>{text}</div>
-      </div>
-      <div className={locals.tooltipContent}>
         <div className={locals.labelWrapper}>
           <div className={locals.dot} />
-          Calls
+          <span>Calls</span>
+          <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
         </div>
-        <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
       </div>
     </>
   );

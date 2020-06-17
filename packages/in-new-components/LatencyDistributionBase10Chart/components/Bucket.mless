@@ -62,15 +62,28 @@
 
   .tooltipContent {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
 
     min-width: 8rem;
+    max-width: 18rem;
+    padding: 1rem 1rem 0.5rem;
+    background: @lib__colors__white;
+    color: @lib__colors__N800Dark;
+    border-radius: @lib__shapes__radius_large;
+
+    box-shadow: @lib__shadows__subtle;
+    border: 1px solid rgba(0, 0, 0, 0.16);
   }
 
   .labelWrapper {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    margin-top: 0.7rem;
+  }
+
+  .labelWrapper:first-child {
+    margin: 0;
   }
 
   .dot {
