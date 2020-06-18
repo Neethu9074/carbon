@@ -7,7 +7,7 @@ export default function HorizontalAxis({ buckets, bucketWidth, width, formatter 
     <div className={locals.horizontalAxis} style={{ minWidth: width }}>
       {buckets.map((bucket, i) => (
         <Tick
-          index={i}
+          key={i}
           bucket={bucket}
           bucketWidth={bucketWidth}
           formatter={formatter}
@@ -18,7 +18,7 @@ export default function HorizontalAxis({ buckets, bucketWidth, width, formatter 
   );
 }
 
-function Tick({ bucket, bucketWidth, index, formatter, enabled }) {
+function Tick({ bucket, bucketWidth, formatter, enabled }) {
   let value;
   if (bucket.from && bucket.to) {
     value = formatter.detailed(bucket.from);
@@ -29,7 +29,7 @@ function Tick({ bucket, bucketWidth, index, formatter, enabled }) {
   }
 
   return (
-    <div key={index} className={locals.tickContainer} style={{ width: bucketWidth }}>
+    <div className={locals.tickContainer} style={{ width: bucketWidth }}>
       {enabled && (
         <>
           <div className={locals.tick} />
