@@ -33,6 +33,7 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
         editMode={editMode}
         isSaving={isSaving}
         form={form}
+        canSaveItem={true}
       />
     </nav>
   );
