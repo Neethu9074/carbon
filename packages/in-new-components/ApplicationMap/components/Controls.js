@@ -23,16 +23,16 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
 
           <LayoutButton
             appendRight
-            icon="lib_actions_force_layout"
+            icon="lib_actions_flow_layout"
             eventBusServiceLocator={eventBusServiceLocator}
-            layouter="force"
+            layouter="flow"
             onChangeUrlProperties={onChangeUrlProperties}
           />
           <LayoutButton
             appendLeft
-            icon="lib_actions_flow_layout"
+            icon="lib_actions_force_layout"
             eventBusServiceLocator={eventBusServiceLocator}
-            layouter="flow"
+            layouter="force"
             onChangeUrlProperties={onChangeUrlProperties}
           />
         </ButtonGroup>

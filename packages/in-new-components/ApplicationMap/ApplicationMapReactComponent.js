@@ -28,7 +28,7 @@ export default compose(
     getResettingProps: () => [],
     getInitialState: () => {
       const initialState = {
-        layouter: 'force',
+        layouter: 'flow',
         particles: true,
         traffic: false,
         sizingMetric: null
