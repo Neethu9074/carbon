@@ -28,6 +28,6 @@ function getWebsitesAsResultObservableInternal() {
       result =>
         hasError(result) || isLoading(result)
           ? result
-          : success(result.data.map(({ id, appName }) => ({ id, label: appName })))
+          : success(result.data.map(({ id, name }) => ({ id, label: name })))
     );
 }
