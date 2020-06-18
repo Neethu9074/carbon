@@ -5,6 +5,17 @@ import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributio
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import { millis } from 'in-services/formatters/number';
+
+const latencyDistributionChartDefinition = {
+  label: 'Latency (distribution)',
+  key: 'calls_DISTRIBUTION',
+  renderer: Renderer.bar,
+  aggregation: 'DISTRIBUTION',
+  formatter: millis.forcedCompactOnMs,
+  min: 0
+};
 
 export default function LatencyDistributionHistogram({
   timeConfig,
@@ -35,6 +46,7 @@ export default function LatencyDistributionHistogram({
             includeSyntheticCalls
           }
         })}
+        chartDefinition={latencyDistributionChartDefinition}
       />
     );
   }
