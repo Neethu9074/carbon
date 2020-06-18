@@ -19,7 +19,8 @@ export default function NewChannelButton(props) {
     <AlertChannelButton type="splunk" {...props} />,
     <AlertChannelButton type="googleChat" {...props} />,
     <AlertChannelButton type="victorOps" {...props} />,
-    <AlertChannelButton type="prometheusWebhook" {...props} />
+    <AlertChannelButton type="prometheusWebhook" {...props} />,
+    <AlertChannelButton type="webexTeamsWebhook" {...props} />
   ];
 
   return (

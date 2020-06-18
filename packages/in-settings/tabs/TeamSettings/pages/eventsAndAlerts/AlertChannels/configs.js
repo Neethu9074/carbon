@@ -1,3 +1,5 @@
+import prometheusWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/prometheusWebhookChannelConfig';
+import webexTeamsWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/webexTeamsWebhookChannelConfig';
 import googleChatChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/googleChatChannelConfig';
 import office365ChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/office365ChannelConfig';
 import PagerdutyChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/pagerdutyChannelConfig';
@@ -7,7 +9,6 @@ import webhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndA
 import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
 import slackChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
-import prometheusWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/prometheusWebhookChannelConfig';
 
 export const configs = {
   email: emailChannelConfig,
@@ -19,19 +20,22 @@ export const configs = {
   splunk: splunkChannelConfig,
   googleChat: googleChatChannelConfig,
   victorOps: victorOpsChannelConfig,
-  prometheusWebhook: prometheusWebhookChannelConfig
+  prometheusWebhook: prometheusWebhookChannelConfig,
+  webexTeamsWebhook: webexTeamsWebhookChannelConfig
 };
 
-export const fullyQualified = {};
-fullyQualified[configs.email.name] = configs.email;
-fullyQualified[configs.office365.name] = configs.office365;
-fullyQualified[configs.opsgenie.name] = configs.opsgenie;
-fullyQualified[configs.pagerduty.name] = configs.pagerduty;
-fullyQualified[configs.slack.name] = configs.slack;
-fullyQualified[configs.webhook.name] = configs.webhook;
-fullyQualified[configs.splunk.name] = configs.splunk;
-fullyQualified[configs.googleChat.name] = configs.googleChat;
-fullyQualified[configs.victorOps.name] = configs.victorOps;
-fullyQualified[configs.prometheusWebhook.name] = configs.prometheusWebhook;
+export const fullyQualified = {
+  [configs.email.name]: configs.email,
+  [configs.office365.name]: configs.office365,
+  [configs.opsgenie.name]: configs.opsgenie,
+  [configs.pagerduty.name]: configs.pagerduty,
+  [configs.slack.name]: configs.slack,
+  [configs.webhook.name]: configs.webhook,
+  [configs.splunk.name]: configs.splunk,
+  [configs.googleChat.name]: configs.googleChat,
+  [configs.victorOps.name]: configs.victorOps,
+  [configs.prometheusWebhook.name]: configs.prometheusWebhook,
+  [configs.webexTeamsWebhook.name]: configs.webexTeamsWebhook
+};
 
 export default configs;
