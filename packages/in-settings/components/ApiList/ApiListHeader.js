@@ -12,6 +12,7 @@ export default function ApiListHeader(props) {
     searchFields,
     query = '',
     setQuery,
+    totalItems,
     renderAdditionalHeaderContent,
     isLoading
   } = props;
