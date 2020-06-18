@@ -7,7 +7,6 @@ import locals from './ApiListHeader.mless';
 export default function ApiListHeader(props) {
   const {
     itemName,
-    totalItems,
     totalFilteredItems,
     searchPlaceholder,
     searchFields,
@@ -30,16 +29,15 @@ export default function ApiListHeader(props) {
       )}
       <div className={locals.right}>
         {renderAdditionalHeaderContent && renderAdditionalHeaderContent(props)}
-        {searchFields &&
-          totalItems > 0 && (
-            <SearchInput
-              className={locals.searchInput}
-              maxWidth={200}
-              placeholder={searchPlaceholder || 'Search...'}
-              query={query}
-              onChange={setQuery}
-            />
-          )}
+        {searchFields && (
+          <SearchInput
+            className={locals.searchInput}
+            maxWidth={200}
+            placeholder={searchPlaceholder || 'Search...'}
+            query={query}
+            onChange={setQuery}
+          />
+        )}
       </div>
     </header>
   );

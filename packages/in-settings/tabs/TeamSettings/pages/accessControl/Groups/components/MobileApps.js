@@ -1,23 +1,63 @@
 import React from 'react';
 
-import SelectableItemList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/SelectableItemList';
-import { getMobileAppsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/mobileApps';
-import createApiList from 'in-settings/components/ApiList';
+import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import ItemList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/ItemList';
+import ServerListPresenter from 'in-new-components/lists/List/ServerListPresenter';
+import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
-const List = createApiList({
-  getItems: getMobileAppsAsResultObservable,
-  pageSize: 5,
-  searchFields: ['label'],
-  orderBy: 'label',
-  boundedPath: '/clusters'
+const columnDefinitions = [
+  {
+    width: '2rem',
+    getContent({ item, checkIfSelected, toggleItem }) {
+      const isSelected = checkIfSelected(item.mobileApp.id);
+      return <CheckboxFancy checked={isSelected} onChange={() => toggleItem(item.mobileApp.id, types.MOBILE_APP)} />;
+    }
+  },
+  {
+    getContent({ item }) {
+      return item.mobileApp.label;
+    }
+  }
+];
+
+const ServerListWithUrlState = createServerTableWithUrlState({
+  Renderer: ServerListPresenter,
+  defaultOrderBy: 'mobileAppLabel',
+  defaultPageSize: 10,
+  pathSegment: '/mobileApps',
+  columnDefinitions
 });
 
-export default function Selectable(props) {
+export default function Selectable({ checkIfSelected, toggleItem }) {
   return (
-    <SelectableItemList
-      List={List}
-      {...props}
-      toggleItem={mobileApp => props.toggleItem(mobileApp.id, { mobileApp })}
-    />
+    <ItemList>
+      {({ timeConfig }) => (
+        <ServerListWithUrlState
+          get={getTableData}
+          timeConfig={timeConfig}
+          toggleItem={toggleItem}
+          checkIfSelected={checkIfSelected}
+          onClick={item => toggleItem(item.mobileApp.id, types.MOBILE_APP)}
+        />
+      )}
+    </ItemList>
   );
+}
+
+function getTableData({ page, pageSize, orderBy, orderDirection, query, timeConfig }) {
+  return getMobileApps({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {},
+    labelFilter: query,
+    timeConfig
+  });
 }

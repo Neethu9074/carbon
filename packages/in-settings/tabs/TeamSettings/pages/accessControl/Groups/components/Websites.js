@@ -1,19 +1,63 @@
 import React from 'react';
 
-import SelectableItemList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/SelectableItemList';
-import { getWebsitesAsResultObservable } from 'in-settings/tabs/TeamSettings/api/websites';
-import createApiList from 'in-settings/components/ApiList';
+import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import ItemList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/ItemList';
+import ServerListPresenter from 'in-new-components/lists/List/ServerListPresenter';
+import getWebsites from 'in-websites/subscriptions/getWebsites';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
-const List = createApiList({
-  getItems: getWebsitesAsResultObservable,
-  pageSize: 5,
-  searchFields: ['label'],
-  orderBy: 'label',
-  boundedPath: '/websites'
+const columnDefinitions = [
+  {
+    width: '2rem',
+    getContent({ item, checkIfSelected, toggleItem }) {
+      const isSelected = checkIfSelected(item.website.id);
+      return <CheckboxFancy checked={isSelected} onChange={() => toggleItem(item.website.id, types.WEBSITE)} />;
+    }
+  },
+  {
+    getContent({ item }) {
+      return item.website.label;
+    }
+  }
+];
+
+const ServerListWithUrlState = createServerTableWithUrlState({
+  Renderer: ServerListPresenter,
+  defaultOrderBy: 'websiteLabel',
+  defaultPageSize: 1,
+  pathSegment: '/websites',
+  columnDefinitions
 });
 
-export default function Selectable(props) {
+export default function Selectable({ checkIfSelected, toggleItem }) {
   return (
-    <SelectableItemList List={List} {...props} toggleItem={website => props.toggleItem(website.id, { website })} />
+    <ItemList>
+      {({ timeConfig }) => (
+        <ServerListWithUrlState
+          get={getTableData}
+          timeConfig={timeConfig}
+          toggleItem={toggleItem}
+          checkIfSelected={checkIfSelected}
+          onClick={item => toggleItem(item.website.id, types.WEBSITE)}
+        />
+      )}
+    </ItemList>
   );
+}
+
+function getTableData({ page, pageSize, orderBy, orderDirection, query, timeConfig }) {
+  return getWebsites({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    metrics: {},
+    labelFilter: query,
+    timeConfig
+  });
 }
