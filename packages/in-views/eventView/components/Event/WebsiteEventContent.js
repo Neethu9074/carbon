@@ -47,6 +47,7 @@ export default connectTo(
 
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
+    const chartViewConfig = { timeConfig };
     return (
       <>
         <Row withoutSideMargin>
@@ -76,8 +77,8 @@ export default connectTo(
                 renderJsErrors={() => (
                   <JsErrorsAlertingBarChart
                     websiteId={entityId}
-                    timeConfig={timeConfig}
                     tagFilters={tagFilters}
+                    viewConfig={chartViewConfig}
                     errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
                     granularity={granularity}
                     metricName={metricName}
@@ -88,11 +89,11 @@ export default connectTo(
                 renderStatusCode={() => (
                   <StatusCodeAlertingBarChart
                     websiteId={entityId}
-                    timeConfig={timeConfig}
                     tagFilters={tagFilters}
                     numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
                     granularity={granularity}
                     metricName={metricName}
+                    viewConfig={chartViewConfig}
                     threshold={alertConfig.threshold}
                     timeThreshold={alertConfig.timeThreshold}
                   />
@@ -101,8 +102,8 @@ export default connectTo(
                   <SlownessAlertingBarChart
                     websiteId={entityId}
                     sensitivity={sensitivity}
-                    timeConfig={timeConfig}
                     tagFilters={tagFilters}
+                    viewConfig={chartViewConfig}
                     aggregation={aggregation}
                     granularity={granularity}
                     threshold={threshold}
