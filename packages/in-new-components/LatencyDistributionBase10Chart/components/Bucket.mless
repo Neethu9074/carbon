@@ -11,9 +11,6 @@
     &:hover {
       cursor: pointer;
 
-      .barInner {
-        background: lighten(@lib__colors__light-blue800, 10%);
-      }
       .percentiles {
         z-index: 2;
       }
@@ -24,6 +21,7 @@
 
     .barInner {
       flex-shrink: 0;
+      z-index: 1;
     }
 
     .barStrike {

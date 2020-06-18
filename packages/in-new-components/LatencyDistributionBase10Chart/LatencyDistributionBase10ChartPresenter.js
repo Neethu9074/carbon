@@ -125,7 +125,6 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
 function HorizontalLines({ nbBars, height, width, style }) {
   let rows = [];
   for (let i = 0; i < nbBars; i++) {
-    // nbBars + 1 as the horizontal axis counts as a horizontal line
     rows.push(<div key={i} className={locals.horizontalLine} style={{ height: height / nbBars, width: width }} />);
   }
   return (

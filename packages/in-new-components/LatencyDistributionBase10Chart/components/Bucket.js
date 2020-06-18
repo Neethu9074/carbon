@@ -3,6 +3,7 @@ import React from 'react';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 import locals from './Bucket.mless';
 
@@ -28,7 +29,15 @@ export default function Bucket({
 }
 
 function Bar({ calls, maxDataValue, height }) {
-  return <div style={{ height: `${(calls / maxDataValue) * height}px` }} className={locals.barInner} />;
+  return (
+    <div
+      style={{
+        height: `${(calls / maxDataValue) * height}px`,
+        background: theme.lib.colors.chart.strokeColors100[0] + '60'
+      }}
+      className={locals.barInner}
+    />
+  );
 }
 
 function StrikeLine({ height }) {
