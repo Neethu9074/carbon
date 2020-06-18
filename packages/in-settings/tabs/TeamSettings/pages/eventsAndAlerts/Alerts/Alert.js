@@ -117,7 +117,7 @@ const Form = entityForm(
           updatedForm = putSelectedEventsField(updatedForm, selectedEvents);
         }
         if (eventSelectionMode === modeEventTypes) {
-          const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : [];
+          const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : List([]);
           setSelectedEvents(selectedEvents);
           updatedForm = putEventTypesField(updatedForm, eventTypes);
         }
