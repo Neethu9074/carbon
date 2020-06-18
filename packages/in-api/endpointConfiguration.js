@@ -35,7 +35,7 @@ export function updateEndpointConfig(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/${basePath}/${config.serviceId}`,
+    url: `${basePath}/${config.serviceId}`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => deepFreeze(response.body));

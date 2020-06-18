@@ -94,6 +94,7 @@ function Header(props) {
       label={props.pageLoadLabel}
       renderButtonLine={renderButtonLine}
       renderTimeSelection={renderTimeSelection}
+      hideUrlShortener
     />
   );
 }

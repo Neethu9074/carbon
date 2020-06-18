@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 
 export default function withSelectableIds(ComposedComponent) {
   return function ComponentwithSelectableIds(props) {
-    const [selectedEntities, setSelectedEntities] = useState(new Map());
+    const prefilledMap = props.preSelectedItems
+      ? new Map(props.preSelectedItems.map(({ id, type }) => [id, type]))
+      : new Map();
+    const [selectedEntities, setSelectedEntities] = useState(prefilledMap);
 
     const checkIfSelected = _id => selectedEntities.has(_id);
-    const toggleItem = (_id, _item) => {
+    const toggleItem = (_id, type) => {
       const copy = new Map(selectedEntities);
       if (checkIfSelected(_id)) {
         copy.delete(_id);
       } else {
-        copy.set(_id, _item);
+        copy.set(_id, type);
       }
       setSelectedEntities(copy);
     };

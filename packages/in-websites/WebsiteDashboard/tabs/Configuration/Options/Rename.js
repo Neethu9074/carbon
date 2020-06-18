@@ -47,8 +47,8 @@ export default class Rename extends React.PureComponent {
 
       this.setState({
         loading: false,
-        savedLabel: savedWebsite.appName,
-        field: this.state.field.setValue(savedWebsite.appName)
+        savedLabel: savedWebsite.name,
+        field: this.state.field.setValue(savedWebsite.name)
       });
     });
   }

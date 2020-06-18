@@ -25,7 +25,8 @@ export default function DashboardHeader(props) {
     contextConfigurations,
     renderTimeSelection,
     result,
-    labelForTitle
+    labelForTitle,
+    hideUrlShortener
   } = props;
   let {
     label,
@@ -74,7 +75,7 @@ export default function DashboardHeader(props) {
           {renderMetaInformation && renderMetaInformation(props)}
         </div>
         <div className={locals.rightContent}>
-          <UrlShortener darkTheme={theme === themes.dark} />
+          {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
           {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
           {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
         </div>
@@ -135,6 +136,7 @@ DashboardHeader.propTypes = {
   renderButtonLine: PropTypes.func,
   renderButtonLineSecondary: PropTypes.func,
   renderTopLevelButtonLine: PropTypes.func,
+  hideUrlShortener: PropTypes.bool,
   contextConfigurations: PropTypes.arrayOf(
     PropTypes.shape({
       renderContext: PropTypes.func.isRequired,

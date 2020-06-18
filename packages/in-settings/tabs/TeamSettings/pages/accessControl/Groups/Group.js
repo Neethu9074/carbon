@@ -3,6 +3,7 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -142,26 +143,12 @@ function tooglePermission(form, setForm, value) {
 function update(ids, infraDfqFilter, form, setForm) {
   const modifiedPermissionSet = copyPermissionSet(form);
 
-  modifiedPermissionSet.applicationIds = [
-    ...modifiedPermissionSet.applicationIds,
-    ...ids.filter(({ item }) => !!item.application).map(mapToId)
-  ];
-  modifiedPermissionSet.kubernetesClusterUUIDs = [
-    ...modifiedPermissionSet.kubernetesClusterUUIDs,
-    ...ids.filter(({ item }) => !!item.k8sCluster).map(mapToId)
-  ];
-  modifiedPermissionSet.kubernetesNamespaceUIDs = [
-    ...modifiedPermissionSet.kubernetesNamespaceUIDs,
-    ...ids.filter(({ item }) => !!item.k8sNamespace).map(mapToId)
-  ];
-  modifiedPermissionSet.websiteIds = [
-    ...modifiedPermissionSet.websiteIds,
-    ...ids.filter(({ item }) => !!item.website).map(mapToId)
-  ];
-  modifiedPermissionSet.mobileAppIds = [
-    ...modifiedPermissionSet.mobileAppIds,
-    ...ids.filter(({ item }) => !!item.mobileApp).map(mapToId)
-  ];
+  modifiedPermissionSet.applicationIds = ids.filter(item => item.type === types.APPLICATION).map(mapToId);
+  modifiedPermissionSet.kubernetesClusterUUIDs = ids.filter(item => item.type === types.K8S_CLUSTER).map(mapToId);
+  modifiedPermissionSet.kubernetesNamespaceUIDs = ids.filter(item => item.type === types.K8S_NAMESPACE).map(mapToId);
+  modifiedPermissionSet.websiteIds = ids.filter(item => item.type === types.WEBSITE).map(mapToId);
+  modifiedPermissionSet.mobileAppIds = ids.filter(item => item.type === types.MOBILE_APP).map(mapToId);
+
   modifiedPermissionSet.infraDfqFilter = infraDfqFilter;
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
