@@ -109,6 +109,7 @@ function Header(props) {
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
+      hideUrlShortener
     />
   );
 }
