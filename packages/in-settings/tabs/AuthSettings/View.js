@@ -22,31 +22,35 @@ import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml'
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { isOwner } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 function getNavigationTree(props: any): NavigationTree {
+  const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
+
   const navigationTree = [
-    {
-      title: 'Identity Providers',
-      pages: [
-        props.isGoogleSSOAvailable && {
-          path: googleSSO,
-          label: 'Google SSO',
-          component: GoogleSSO
-        },
-        props.isSamlAvailable && {
-          path: saml,
-          label: 'SAML',
-          component: Saml
-        },
-        props.isLdapAvailable && {
-          path: ldap,
-          label: 'LDAP',
-          component: Ldap
-        }
-      ].filter(Boolean)
-    },
-    {
+    props.isInternalVisible &&
+      isAtLeastOneAuthMethogAvailable && {
+        title: 'Identity Providers',
+        pages: [
+          props.isGoogleSSOAvailable && {
+            path: googleSSO,
+            label: 'Google SSO',
+            component: GoogleSSO
+          },
+          props.isSamlAvailable && {
+            path: saml,
+            label: 'SAML',
+            component: Saml
+          },
+          props.isLdapAvailable && {
+            path: ldap,
+            label: 'LDAP',
+            component: Ldap
+          }
+        ].filter(Boolean)
+      },
+    isOwner && {
       title: '2Factor',
       pages: [
         {
@@ -56,7 +60,8 @@ function getNavigationTree(props: any): NavigationTree {
         }
       ].filter(Boolean)
     }
-  ];
+  ].filter(Boolean);
+
   if (__DEV__) {
     navigationTree.push({
       title: 'Mapping',
