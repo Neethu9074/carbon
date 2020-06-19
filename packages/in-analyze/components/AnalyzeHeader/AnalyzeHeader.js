@@ -67,9 +67,13 @@ function Label({ activeConfiguration }) {
 
   return (
     <div className={locals.label}>
-      <SvgIcon className={locals.productAreaIcon} type={productAreaIcons[productArea]} />
-      <span className={locals.productAreaLabel}>{productAreaLabels[productArea]}</span>
-      <span className={locals.separator}>/</span>
+      {productAreaLabels[productArea] !== getLabelByType(dataSource, productArea) && (
+        <>
+          <SvgIcon className={locals.productAreaIcon} type={productAreaIcons[productArea]} />
+          <span className={locals.productAreaLabel}>{productAreaLabels[productArea]}</span>
+          <span className={locals.separator}>/</span>
+        </>
+      )}
       <SvgIcon className={locals.dataSourceIcon} type={getIconByType(dataSource, productArea)} />
       <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, productArea)}</span>
     </div>
