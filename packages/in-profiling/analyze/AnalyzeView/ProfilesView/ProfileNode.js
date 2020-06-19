@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { treeViewExpanded } from 'in-profiling/tracker';
+import { scrollIntoView } from 'in-services/util/dom';
 import { getCodeView } from 'in-forge/codeView/java';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -12,25 +13,40 @@ import locals from './ProfileNode.mless';
 
 export default function ProfileNode({
   processSnapshot,
+  highlightedProfileConfig,
   selectedProfileNode,
   setSelectedProfileNode,
   isOnline,
   profileNode,
   depth = 0,
-  onKeyDown,
-  autoExpand = false
+  onKeyDown
 }) {
   if (!profileNode) {
     return null;
   }
 
-  const [expanded, setExpanded] = useState(autoExpand);
+  const highlightedNodeDomRef = useRef(null);
+  const [expanded, setExpanded] = useState(
+    highlightedProfileConfig && highlightedProfileConfig.expandedIds.has(profileNode.__uid)
+  );
+  const isHighlighted = highlightedProfileConfig && highlightedProfileConfig.highlightedId === profileNode.__uid;
+  if (highlightedNodeDomRef && highlightedNodeDomRef.current) {
+    scrollIntoView(highlightedNodeDomRef.current, {
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
   const hasChildren = profileNode.children.length > 0;
   const isSelectedRow = selectedProfileNode === profileNode;
 
   return (
     <div onKeyDown={e => onKeyDown(selectedProfileNode, e)}>
-      <Row depth={depth} isSelected={isSelectedRow}>
+      <Row
+        depth={depth}
+        isSelected={isSelectedRow}
+        isHighlighted={isHighlighted}
+        highlightedNodeDomRef={highlightedNodeDomRef}
+      >
         <ExpandIcon
           isFocusedIcon={isSelectedRow}
           hasChildren={hasChildren}
@@ -56,6 +72,7 @@ export default function ProfileNode({
           <div className={locals.childrenWrapper}>
             <ChildProfiles
               depth={depth}
+              highlightedProfileConfig={highlightedProfileConfig}
               profiles={profileNode.children}
               processSnapshot={processSnapshot}
               isOnline={isOnline}
@@ -71,8 +88,9 @@ export default function ProfileNode({
 
 function ChildProfiles({
   selectedProfileNode,
-  setSelectedProfileNode,
+  highlightedProfileConfig,
   onKeyDown,
+  setSelectedProfileNode,
   depth,
   profiles,
   processSnapshot,
@@ -82,6 +100,7 @@ function ChildProfiles({
 
   const nodeProps = {
     selectedProfileNode,
+    highlightedProfileConfig,
     setSelectedProfileNode,
     onKeyDown,
     processSnapshot,
@@ -109,14 +128,17 @@ function ChildProfiles({
   );
 }
 
-function Row({ depth, isSelected, children }) {
+function Row({ depth, isSelected, isHighlighted, highlightedNodeDomRef, children }) {
   return (
     <div
+      ref={isHighlighted ? highlightedNodeDomRef : undefined}
       className={evaluateClassNames({
         [locals.row]: true,
         [locals.expandedRow]: depth > 0,
         [locals.firstRow]: depth === 0,
-        [locals.selectedRow]: isSelected
+        [locals.selectedRow]: isSelected,
+        [locals.highlightedRow]: isHighlighted,
+        [locals.nonHighlightedRow]: !isHighlighted
       })}
     >
       {children}

@@ -27,7 +27,7 @@ export function scrollIntoView(element, options = {}) {
   // to 'start' + paddingTop
   let notAtTopAfterScrolling = false;
   withDisabledStickyBodyTopPadding(() => {
-    element.scrollIntoView({ behavior: 'auto', block: 'start' });
+    element.scrollIntoView({ behavior: options.behavior || 'auto', block: options.block || 'start' });
     notAtTopAfterScrolling = element.getBoundingClientRect().top > 0;
   });
 

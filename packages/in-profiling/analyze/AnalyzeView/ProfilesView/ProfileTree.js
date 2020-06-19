@@ -8,7 +8,7 @@ import keyCodes from 'in-components/keyCodes';
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
 
-export default function ProfileTree({ profile, isOnline, processSnapshot }) {
+export default function ProfileTree({ profile, isOnline, processSnapshot, highlightedProfileConfig }) {
   if (!profile) {
     return null;
   }
@@ -21,6 +21,7 @@ export default function ProfileTree({ profile, isOnline, processSnapshot }) {
         <div key={i} className={locals.profile}>
           <ProfileNode
             profileNode={profileNode}
+            highlightedProfileConfig={highlightedProfileConfig}
             processSnapshot={processSnapshot}
             isOnline={isOnline}
             selectedProfileNode={selectedProfileNode}
@@ -63,11 +64,15 @@ function onKeyDown(selectedNode, e) {
 
   // when the current icon is a collapsed one, we want to expand it by simulating a click event on it
   if (e.keyCode === keyCodes.arrows.right) {
-    const ariaLabel = get(focusedNode, ['attributes', 'aria-label', 'value']);
-    if (ariaLabel === 'Expand') {
-      const clickEvent = document.createEvent('Events');
-      clickEvent.initEvent('click', true, false);
-      return focusedNode.dispatchEvent(clickEvent);
+    if (get(focusedNode, ['attributes', 'aria-label', 'value']) === 'Expand') {
+      return clickNod(focusedNode);
+    }
+  }
+
+  // when the current icon is an expanded one, we want to collapse it by simulating a click event on it
+  if (e.keyCode === keyCodes.arrows.left) {
+    if (get(focusedNode, ['attributes', 'aria-label', 'value']) === 'Collapse') {
+      return clickNod(focusedNode);
     }
   }
 
@@ -91,4 +96,10 @@ function onKeyDown(selectedNode, e) {
   }
 
   return;
+}
+
+function clickNod(node) {
+  const clickEvent = document.createEvent('Events');
+  clickEvent.initEvent('click', true, false);
+  return node.dispatchEvent(clickEvent);
 }

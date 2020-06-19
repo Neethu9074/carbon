@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
 import { Map } from 'immutable';
 
-import ContainerInfoButton from 'in-forge/plugins/crio/ContainerInfoButton';
+import containerInfoButtonConfig from 'in-forge/plugins/crio/containerInfoButtonConfig';
 import metricDefinitions from 'in-forge/plugins/crio/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/crio/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/crio/kpiDefinitions';
@@ -28,9 +27,7 @@ registerSnapshotDefinition({
     });
   },
 
-  DashboardHeaderActions({ snapshot }) {
-    return (
-      <Fragment>{containerInfoEnabled && !hasRestrictedAccess && <ContainerInfoButton snapshot={snapshot} />}</Fragment>
-    );
+  getDashboardHeaderActions() {
+    return containerInfoEnabled && !hasRestrictedAccess ? [containerInfoButtonConfig] : [];
   }
 });

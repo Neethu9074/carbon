@@ -16,13 +16,19 @@ import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  coralogixIntegration: getIntegrationConfiguration(coralogixIntegrationKey),
-  elkIntegration: getIntegrationConfiguration(elkIntegrationKey),
-  humioIntegration: getIntegrationConfiguration(humioIntegrationKey),
-  logdnaIntegration: getIntegrationConfiguration(logdnaIntegrationKey),
-  splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey)
-})(function LoggingIntegrationButtons(props) {
+export default connectTo(getObservables())(LoggingIntegrationButtonsRenderer);
+
+export function getObservables() {
+  return {
+    coralogixIntegration: getIntegrationConfiguration(coralogixIntegrationKey),
+    elkIntegration: getIntegrationConfiguration(elkIntegrationKey),
+    humioIntegration: getIntegrationConfiguration(humioIntegrationKey),
+    logdnaIntegration: getIntegrationConfiguration(logdnaIntegrationKey),
+    splunkIntegration: getIntegrationConfiguration(splunkIntegrationKey)
+  };
+}
+
+export function LoggingIntegrationButtonsRenderer(props) {
   /*
     Keep the list sorted alphabetically
    */
@@ -38,5 +44,5 @@ export default connectTo({
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
-  return <MultiButton label="Go To Logs" icon="lib_application_logging" buttons={integrations} />;
-});
+  return <MultiButton label="Go To Logs" kind="secondary" icon="lib_application_logging" buttons={integrations} />;
+}

@@ -1,10 +1,9 @@
-import React from 'react';
+import { getSnapshotDefinition, getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { addLabelFinder, getLabel, sortByLabel } from 'in-sdk/snapshot/legacy';
 
-import { getSnapshotDefinition, getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { emptyMap } from 'in-services/fixedImmutables';
 export { getIconSvgPath } from 'in-sdk/iconRegistry';
 
 export function getChartWiggleRoom(plugin) {
@@ -142,11 +141,7 @@ export function getContext(snapshot) {
   return result.filter(v => v && v.size > 0);
 }
 
-export function getDashboardHeaderActions(snapshot, timeConfig) {
-  const DashboardHeaderActions = getSnapshotDefinition(snapshot.get('plugin')).DashboardHeaderActions;
-  if (!DashboardHeaderActions) {
-    return null;
-  }
-
-  return <DashboardHeaderActions snapshot={snapshot} timeConfig={timeConfig} />;
+export function getDashboardHeaderActions(props) {
+  const { getDashboardHeaderActions } = getSnapshotDefinition(props.snapshot.get('plugin'));
+  return getDashboardHeaderActions ? getDashboardHeaderActions(props) : [];
 }

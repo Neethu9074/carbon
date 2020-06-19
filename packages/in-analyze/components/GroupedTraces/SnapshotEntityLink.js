@@ -5,7 +5,6 @@ import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ snapshotId, time }) => ({

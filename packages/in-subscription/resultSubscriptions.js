@@ -6,6 +6,7 @@ import { deepFreeze } from 'in-services/util/object';
 
 export function createResultSubscriptionFactory({
   eventId,
+  mapResult,
   memoizeFor = defaultMemoize,
   disposeSubscriptionOnDocumentHidden = true,
   trackSubscriptionStatistics = false
@@ -23,6 +24,9 @@ export function createResultSubscriptionFactory({
     },
 
     transform(observable) {
+      if (mapResult) {
+        observable = observable.map(mapResult);
+      }
       return observable.map(deepFreeze).startWith(pendingResult);
     },
 

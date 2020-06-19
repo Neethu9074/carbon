@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { countSamples } from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
+import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
 
 describe('in-profiling/analyze/AnalyzeView/ProfilesView/Profile', () => {
   describe('#countSamples', () => {

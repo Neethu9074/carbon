@@ -48,6 +48,7 @@ export default function mapData(profile, width, query, selfTimeHighlighted) {
         depth,
         name: getName(node),
         value: nodeValue,
+        percent: node.percent,
         selfValue: getNodeSelfValue(node, nodeValue),
         x: cursor,
         y: depth * nodeHeight,

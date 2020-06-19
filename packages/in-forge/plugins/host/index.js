@@ -1,6 +1,5 @@
-import React from 'react';
-
-import LoggingIntegrationButtons from 'in-forge/plugins/host/Dashboard/LogggingIntegrationButtons';
+import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
+import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
@@ -64,17 +63,29 @@ registerSnapshotDefinition({
     return data.get('memory.total', 1) * data.get('cpu.count', 1);
   },
 
-  DashboardHeaderActions({ snapshot, timeConfig }) {
-    let hostFqdn = snapshot.getIn(['data', 'fqdn']);
-    let hostName = snapshot.getIn(['data', 'hostname']);
+  getDashboardHeaderActions({ snapshot, timeConfig }) {
+    const hostFqdn = snapshot.getIn(['data', 'fqdn']);
+    const hostName = snapshot.getIn(['data', 'hostname']);
 
-    return (
-      <LoggingIntegrationButtons
-        snapshotId={snapshot.get('id')}
-        hostFqdn={hostFqdn}
-        hostName={hostName}
-        timeConfig={timeConfig}
-      />
-    );
+    return [
+      {
+        getObservables: props => ({
+          ...getObservables(props),
+          nodeSnapshot: getKubernetesNodeByHost({
+            filter: {
+              hostId: props.snapshotId,
+              timeConfig
+            }
+          })
+            .map(result => result.data)
+            .filter(Boolean)
+        }),
+        render: LoggingIntegrationButtonsRenderer,
+        props: {
+          hostFqdn,
+          hostName
+        }
+      }
+    ];
   }
 });

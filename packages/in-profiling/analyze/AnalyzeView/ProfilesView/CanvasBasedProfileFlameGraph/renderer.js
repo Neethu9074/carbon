@@ -29,25 +29,44 @@ export default function render(canvas, { layers, totalWidth, totalHeight }, self
   }
 
   function drawRect(node) {
-    const { s_x, y, s_width, height, value, highlighted, selfValue } = node;
+    const { highlighted } = node;
+    const { s_x, y, s_width, height } = node;
+    const isSelected = isEqual(node, selectedNode);
+
     ctx.fillStyle = '#fff';
-    ctx.fillRect(s_x, y, s_width, height);
-    if (node === selectedNode) {
-      ctx.fillStyle = theme.lib.colors.fadedBlue800;
-      ctx.fillRect(s_x, y, Math.max(0, s_width - 1), height - 1);
-    } else if (selfTimeHighlighted && !highlighted) {
-      const valueSelfValueRatio = selfValue / value;
-      const width = Math.max(0, s_width - 1);
-      const selfValueWidth = valueSelfValueRatio * width;
-      const valueWidth = width - selfValueWidth;
-      ctx.fillStyle = theme.lib.colors.N400;
-      ctx.fillRect(s_x, y, valueWidth, height - 1);
-      ctx.fillStyle = node.color;
-      ctx.fillRect(s_x + valueWidth, y, selfValueWidth, height - 1);
+    ctx.fillRect(s_x - 1, y - 1, s_width + 1, height + 1);
+
+    if (selfTimeHighlighted && !highlighted) {
+      colorSelfTime(node);
     } else {
-      ctx.fillStyle = node.color;
-      ctx.fillRect(s_x, y, Math.max(0, s_width - 1), height - 1);
+      colorNode(node);
     }
+
+    if (isSelected) {
+      ctx.fillStyle = theme.lib.colors.blue800;
+      ctx.fillRect(s_x, y - 1, s_width + 1, 1);
+      ctx.fillRect(s_x, y - 1, 1, height);
+      ctx.fillRect(s_x - 1 + s_width, y - 1, 1, height);
+      ctx.fillRect(s_x, y - 2 + height, s_width + 1, 1);
+    }
+  }
+
+  function colorNode(node, color) {
+    const { s_x, y, s_width, height } = node;
+    ctx.fillStyle = color || node.color;
+    ctx.fillRect(s_x, y, Math.max(0, s_width - 1), height - 1);
+  }
+
+  function colorSelfTime(node) {
+    const { s_x, y, s_width, height, value, selfValue } = node;
+    const valueSelfValueRatio = selfValue / value;
+    const width = Math.max(0, s_width - 1);
+    const selfValueWidth = valueSelfValueRatio * width;
+    const valueWidth = width - selfValueWidth;
+    ctx.fillStyle = theme.lib.colors.N400;
+    ctx.fillRect(s_x, y, valueWidth, height - 1);
+    ctx.fillStyle = node.color;
+    ctx.fillRect(s_x + valueWidth, y, selfValueWidth, height - 1);
   }
 
   function drawText({ name: textToRender, s_x, y, s_width }) {
@@ -69,5 +88,9 @@ export default function render(canvas, { layers, totalWidth, totalHeight }, self
     if (text.length > 3) {
       ctx.fillText(text, s_x + 1, y + 11);
     }
+  }
+
+  function isEqual(n1, n2) {
+    return n1 && n2 && n1.x === n2.x && n1.y === n2.y;
   }
 }

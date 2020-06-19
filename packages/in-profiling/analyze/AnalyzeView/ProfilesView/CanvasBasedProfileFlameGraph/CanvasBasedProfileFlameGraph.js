@@ -4,8 +4,8 @@ import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/C
 import strechData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/strechData';
 import render from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/renderer';
 import mapData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/data';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { joinClassNames } from 'in-services/util/classnames';
 import Button from 'in-new-components/Button';
 import createScale from 'in-services/scale';
 
@@ -23,7 +23,7 @@ export default getElementDimensions(
       data: null,
       selectedNode: false,
       scale: createScale(),
-      selfTimeHighlighted: false
+      selfTimeHighlighted: true
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -84,25 +84,41 @@ export default getElementDimensions(
 
     render() {
       const selfTimeHighlighted = this.state.selfTimeHighlighted;
+
       return (
         <div className={locals.wrapper}>
-          <Button
-            className={joinClassNames(locals.button, locals.controlButton)}
-            kind={selfTimeHighlighted ? 'primaryv2' : 'secondary'}
-            onClick={() => {
-              this.setState({ selfTimeHighlighted: !selfTimeHighlighted });
-            }}
-          >
-            Highlight self CPU
-          </Button>
+          <HorizontalFlexWrapper>
+            <Button
+              className={locals.controlButton}
+              kind={selfTimeHighlighted ? 'primaryv2' : 'secondary'}
+              onClick={() => {
+                this.setState({ selfTimeHighlighted: !selfTimeHighlighted });
+              }}
+            >
+              Highlight self CPU
+            </Button>
+
+            {this.state.selectedNode && (
+              <Button
+                className={locals.controlButton}
+                kind="secondary"
+                onClick={() =>
+                  this.props.setHighlightedProfileConfig({
+                    highlightedId: this.state.selectedNode.__uid,
+                    expandedIds: getPathIds(this.state.selectedNode.parentNode)
+                  })
+                }
+              >
+                Show in Tree view
+              </Button>
+            )}
+          </HorizontalFlexWrapper>
           {this.state.selectedNode ? (
             <Button
-              className={joinClassNames(locals.button, locals.resetButton)}
+              className={locals.resetButton}
               size="compact"
               kind="primaryv2"
-              onClick={() => {
-                this.setState({ selectedNode: null });
-              }}
+              onClick={() => this.setState({ selectedNode: null })}
             >
               Reset
             </Button>
@@ -126,3 +142,17 @@ export default getElementDimensions(
     }
   }
 );
+
+function getPathIds(node) {
+  const ids = [];
+  collectIds(node, ids);
+  return new Set(ids);
+}
+
+function collectIds(node, ids) {
+  if (!node) {
+    return;
+  }
+  ids.push(node.__uid);
+  collectIds(node.parentNode, ids);
+}

@@ -6,7 +6,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProfileFlameGraph.mless';
 
-export default function QueryToQueryStreamWrapper({ profile, query, width = 0 }) {
+export default function ProfileFlameGraphWrapper({ profile, query, setHighlightedProfileConfig, width = 0 }) {
   const [query$] = useState(create());
   useEffect(
     () => {
@@ -15,7 +15,14 @@ export default function QueryToQueryStreamWrapper({ profile, query, width = 0 })
     [query]
   );
 
-  return <ProfileFlameGraph query$={query$} width={width} profile={profile} />;
+  return (
+    <ProfileFlameGraph
+      query$={query$}
+      width={width}
+      profile={profile}
+      setHighlightedProfileConfig={setHighlightedProfileConfig}
+    />
+  );
 }
 
 const ProfileFlameGraph = connectTo(

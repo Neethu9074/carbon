@@ -9,6 +9,7 @@ import {
 import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
+import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
@@ -33,6 +34,23 @@ export default function Profile({
 }) {
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
+  const [highlightedProfileConfig, setHighlightedProfileConfig] = useState(null);
+
+  // the tree view auto expands if the highlighted id was set. This should only happen once and only on id change
+  useEffect(
+    () => {
+      if (highlightedProfileConfig && highlightedProfileConfig.expandedIds.size > 0) {
+        setHighlightedProfileConfig({
+          ...highlightedProfileConfig,
+          expandedIds: new Set()
+        });
+      } else {
+        setHighlightedProfileConfig(null);
+      }
+    },
+    [highlightedProfileConfig]
+  );
+
   useEffect(() => setQuery(''), [viewType]);
   useEffect(
     () => {
@@ -52,9 +70,25 @@ export default function Profile({
     }
 
     if (viewType === viewTypes.tree) {
-      profilesVisualisation = <ProfileTree profile={profile} processSnapshot={processSnapshot} isOnline={isOnline} />;
+      profilesVisualisation = (
+        <ProfileTree
+          profile={profile}
+          processSnapshot={processSnapshot}
+          isOnline={isOnline}
+          highlightedProfileConfig={highlightedProfileConfig}
+        />
+      );
     } else {
-      profilesVisualisation = <ProfileFlameGraph profile={profile} query={query} />;
+      profilesVisualisation = (
+        <ProfileFlameGraph
+          profile={profile}
+          query={query}
+          setHighlightedProfileConfig={config => {
+            setViewType(viewTypes.tree);
+            setHighlightedProfileConfig(config);
+          }}
+        />
+      );
     }
   }
 
@@ -121,16 +155,4 @@ export default function Profile({
       {profilesVisualisation}
     </>
   );
-}
-
-// export for test
-export function countSamples(profile) {
-  let totalSamples = profile.numSamples || 0;
-
-  const children = profile.children || [];
-  for (let i = 0; i < children.length; i++) {
-    totalSamples += countSamples(children[i]);
-  }
-
-  return totalSamples;
 }

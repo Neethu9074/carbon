@@ -2,18 +2,16 @@ import { compose, withPropsOnChange } from 'recompose';
 import React, { useState } from 'react';
 
 import { processIdUrlParameter, timeUrlParameter } from 'in-profiling/navigation/urlParameters';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
-import { generateUniqueShortId } from 'in-services/util/id';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { isEntityOnline } from 'in-stores/snapshot';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connect from 'in-hoc/connectTo';
@@ -86,7 +84,7 @@ function ProfilesView(props) {
       result$={getProfiles({
         processSnapshotId: processId,
         filter: { timeConfig }
-      }).map(addUniqueIdToProfilesIfPresent)}
+      }).distinct()}
       withProps={({ result }) => ({
         viewType,
         setViewType,
@@ -113,17 +111,13 @@ function Header(props) {
       icon="lib_profiling"
       label={label}
       renderButtonLine={renderButtonLine}
-      contextConfigurations={[{ renderContext, contextIcon: 'lib_profiling' }]}
+      contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
     />
   );
 }
 
-function renderButtonLine({ processId }) {
-  return (
-    <Button kind="secondary" href$={getDashboardLink(processId, { pathname: '/physical/dashboard' })}>
-      View Infrastructure
-    </Button>
-  );
+function renderButtonLine({ processId, timeConfig }) {
+  return <ContextGuide id={processId} timeConfig={timeConfig} />;
 }
 
 function renderContext() {
@@ -132,22 +126,4 @@ function renderContext() {
       Analyze profiles
     </Link>
   );
-}
-
-function addUniqueIdToProfilesIfPresent(result) {
-  if (!result.data) {
-    return result;
-  }
-
-  const newResult = { errors: result.errors, progress: result.progress, data: {} };
-  if (result.data.cpuProfile) {
-    newResult.data.cpuProfile = { ...result.data.cpuProfile, __uid: generateUniqueShortId() };
-  }
-  if (result.data.memoryProfile) {
-    newResult.data.memoryProfile = { ...result.data.memoryProfile, __uid: generateUniqueShortId() };
-  }
-  if (result.data.timeProfile) {
-    newResult.data.timeProfile = { ...result.data.timeProfile, __uid: generateUniqueShortId() };
-  }
-  return newResult;
 }

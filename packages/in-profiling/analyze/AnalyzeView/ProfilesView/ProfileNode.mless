@@ -28,6 +28,14 @@
     background: @lib__colors__N200;
   }
 
+  .highlightedRow {
+    background: @lib__colors__primary1;
+  }
+
+  .nonHighlightedRow {
+    transition: background 5s;
+  }
+
   .childrenWrapper {
     padding-left: 1rem;
   }
