@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import { getContextForDropwizard } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Button from 'in-new-components/Button';
 import Select from 'in-components/form/Select';
+import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -159,7 +159,7 @@ function extractLogsCommand(pod, container, jvm, fqdn) {
 kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml' | less
 
 # Get logs directly via kubectl.
-kubectl logs --namespace ${namespace} ${name} | less
+kubectl logs --namespace ${namespace} ${name} ${app} | less
 
 # Enter the container
 kubectl exec -it --namespace ${namespace} ${name} -- bash
