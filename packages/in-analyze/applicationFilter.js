@@ -160,7 +160,14 @@ const operatorLabelLUT = {
     NOT_EMPTY: 'is present',
     IS_EMPTY: 'is not present',
     LESS_OR_EQUAL_THAN: '<=',
-    GREATER_OR_EQUAL_THAN: '>='
+    GREATER_OR_EQUAL_THAN: '>=',
+    // support string operators, currently used only for the 'call.http.status' tag
+    CONTAINS: 'contains',
+    NOT_CONTAIN: 'does not contain',
+    STARTS_WITH: 'starts with',
+    ENDS_WITH: 'ends with',
+    NOT_STARTS_WITH: 'does not start with',
+    NOT_ENDS_WITH: 'does not end with'
   },
   BOOLEAN: {
     EQUALS: 'is'
