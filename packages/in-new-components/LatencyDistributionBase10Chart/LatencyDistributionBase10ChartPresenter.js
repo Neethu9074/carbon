@@ -60,7 +60,7 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
       );
     }
     const bucketWidth = `calc(75% / ${buckets.length})`;
-    const percentileHeight = 0.725 * 16 + 20; // rem to px conversion
+    const percentileHeight = 0.725 * 16 + 10; // rem to px conversion
     const maxDataValue = getMaxDataValue(data);
     return (
       <>
