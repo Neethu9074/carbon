@@ -47,6 +47,7 @@ export default connectTo(
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
 
+    const chartViewConfig = { timeConfig };
     return (
       <>
         <Row withoutSideMargin>
@@ -78,8 +79,8 @@ export default connectTo(
                     applicationId={entityId}
                     boundaryScope={boundaryScope}
                     operator={operator}
-                    timeConfig={timeConfig}
                     tagFilters={tagFilters}
+                    viewConfig={chartViewConfig}
                     granularity={granularity}
                     threshold={threshold}
                     timeThreshold={timeThreshold}
@@ -90,8 +91,8 @@ export default connectTo(
                     applicationId={entityId}
                     boundaryScope={boundaryScope}
                     sensitivity={sensitivity}
-                    timeConfig={timeConfig}
                     tagFilters={tagFilters}
+                    viewConfig={chartViewConfig}
                     aggregation={aggregation}
                     granularity={granularity}
                     threshold={threshold}
@@ -106,7 +107,7 @@ export default connectTo(
                     logMessageOperator={rule.operator}
                     logLevel={rule.level}
                     operator={operator}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
                     threshold={threshold}
@@ -119,7 +120,7 @@ export default connectTo(
                     statusCodeStart={rule.statusCodeStart}
                     statusCodeEnd={rule.statusCodeEnd}
                     operator={operator}
-                    timeConfig={timeConfig}
+                    viewConfig={chartViewConfig}
                     tagFilters={tagFilters}
                     granularity={granularity}
                     threshold={threshold}

@@ -48,6 +48,7 @@ export default connectTo(
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
 
+    const chartViewConfig = { timeConfig };
     return (
       <>
         <ProblemDescription event={event} />
@@ -63,8 +64,8 @@ export default connectTo(
                 applicationId={entityId}
                 boundaryScope={boundaryScope}
                 operator={operator}
-                timeConfig={timeConfig}
                 tagFilters={tagFilters}
+                viewConfig={chartViewConfig}
                 granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
@@ -75,8 +76,8 @@ export default connectTo(
                 applicationId={entityId}
                 boundaryScope={boundaryScope}
                 sensitivity={sensitivity}
-                timeConfig={timeConfig}
                 tagFilters={tagFilters}
+                viewConfig={chartViewConfig}
                 aggregation={aggregation}
                 granularity={granularity}
                 threshold={threshold}
@@ -91,8 +92,8 @@ export default connectTo(
                 logMessageOperator={alertConfig.rule.operator}
                 logLevel={alertConfig.rule.level}
                 operator={operator}
-                timeConfig={timeConfig}
                 tagFilters={tagFilters}
+                viewConfig={chartViewConfig}
                 granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
@@ -104,8 +105,8 @@ export default connectTo(
                 statusCodeStart={alertConfig.rule.statusCodeStart}
                 statusCodeEnd={alertConfig.rule.statusCodeEnd}
                 operator={operator}
-                timeConfig={timeConfig}
                 tagFilters={tagFilters}
+                viewConfig={chartViewConfig}
                 granularity={granularity}
                 threshold={threshold}
                 timeThreshold={timeThreshold}
