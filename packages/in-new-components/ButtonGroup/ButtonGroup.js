@@ -6,7 +6,7 @@ import Button from 'in-new-components/Button';
 import locals from './ButtonGroup.mless';
 
 export default function ButtonGroup(props) {
-  const { buttonPropsList, activeKey } = props;
+  const { buttonPropsList, activeKey, segmented } = props;
 
   return (
     <div
@@ -22,6 +22,7 @@ export default function ButtonGroup(props) {
           {...buttonProps}
           className={evaluateClassNames({
             [locals.button]: true,
+            [locals.segmented]: segmented,
             [locals.first]: i === 0,
             [locals.last]: i === buttonPropsList.length - 1,
             [locals.active]: activeKey === buttonProps.key,

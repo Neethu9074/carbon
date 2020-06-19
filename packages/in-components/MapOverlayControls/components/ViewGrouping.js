@@ -18,7 +18,7 @@ import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
-import ButtonGroup from 'in-components/ButtonGroup';
+import MapButtonGroup from 'in-components/MapButtonGroup';
 import { view$, types } from 'in-stores/view';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -46,7 +46,7 @@ const ViewGroupingMenu = connectTo(
       <div className={block}>
         <div className={`${block}__left`}>
           <h3 className={`${block}__heading`}>Perspective</h3>
-          <ButtonGroup>
+          <MapButtonGroup>
             <Button
               kind={view === types.physical ? 'primary' : 'secondary'}
               size="sm"
@@ -63,7 +63,7 @@ const ViewGroupingMenu = connectTo(
             >
               Container
             </Button>
-          </ButtonGroup>
+          </MapButtonGroup>
         </div>
         <MenuContent />
       </div>
@@ -93,11 +93,11 @@ const MenuContent = connectTo(
     return (
       <div className={`${block}__right`}>
         <h3 className={`${block}__heading`}>Grouping</h3>
-        <ButtonGroup>
+        <MapButtonGroup>
           {availableGroupings.map(grouping => (
             <GroupingButton view={view} grouping={grouping} activeGrouping={activeGrouping} key={grouping} />
           ))}
-        </ButtonGroup>
+        </MapButtonGroup>
         <br />
         <Button
           kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}

@@ -1,10 +1,11 @@
 import React from 'react';
 
-import ButtonSegmentedControl from 'in-new-components/ButtonSegmentedControl';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 
 export default function MapListToggle({ setView, view }) {
   return (
-    <ButtonSegmentedControl
+    <ButtonGroup
+      segmented
       buttonPropsList={[
         {
           text: 'Table',

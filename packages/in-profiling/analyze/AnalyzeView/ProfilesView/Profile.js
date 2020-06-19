@@ -10,7 +10,7 @@ import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/Pro
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
-import ButtonSegmentedControl from 'in-new-components/ButtonSegmentedControl';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
@@ -62,7 +62,8 @@ export default function Profile({
     <>
       <div className={locals.header}>
         <div className={locals.leftSide}>
-          <ButtonSegmentedControl
+          <ButtonGroup
+            segmented
             buttonPropsList={[
               {
                 text: 'Tree view',

@@ -1,12 +1,11 @@
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import SortIndicator from 'in-components/Table/components/SortIndicator';
 import { createStore } from 'in-components/Table/stores/content';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 import Row from 'in-components/Table/components/Row';
-import ButtonGroup from 'in-components/ButtonGroup';
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import Pagination from 'in-components/Pagination';
-import Button from 'in-components/Button';
 
 import locals from './Table.mless';
 
@@ -144,26 +143,27 @@ export default class Table extends React.Component {
             <div className={headerRightSideElement}>
               {this.props.showExpandAll &&
                 this.props.getRowDetails && (
-                  <ButtonGroup horizontal>
-                    <Button
-                      kind="secondary"
-                      size="sm"
-                      onClick={() => this.store.setExpansionStateForAll(true)}
-                      className={locals.expansionSwitch}
-                    >
-                      Expand All
-                    </Button>
-                    <Button
-                      kind="secondary"
-                      size="sm"
-                      onClick={() => this.store.setExpansionStateForAll(false)}
-                      className={locals.expansionSwitch}
-                    >
-                      Collapse All
-                    </Button>
-                  </ButtonGroup>
+                  <ButtonGroup
+                    buttonPropsList={[
+                      {
+                        key: 'expand',
+                        kind: 'secondary',
+                        size: 'compact',
+                        onClick: () => this.store.setExpansionStateForAll(true),
+                        className: locals.expansionSwitch,
+                        text: 'Expand All'
+                      },
+                      {
+                        key: 'collapse',
+                        kind: 'secondary',
+                        size: 'compact',
+                        onClick: () => this.store.setExpansionStateForAll(false),
+                        className: locals.expansionSwitch,
+                        text: 'Collapse All'
+                      }
+                    ]}
+                  />
                 )}
-
               {this.props.rightHeader}
 
               {showPagination ? (
