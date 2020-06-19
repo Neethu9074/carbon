@@ -3,7 +3,7 @@ import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
-import { role } from 'in-stores/user';
+import { isOwner, role } from 'in-stores/user';
 
 const teamTab = {
   label: 'Team Settings',
@@ -24,12 +24,10 @@ const authTab = {
 };
 
 export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, isInternalVisible }) {
-  return [
-    roleHasAnyTeamPermissions() && teamTab,
-    userTab,
-    role.canConfigureAuthenticationMethods &&
-      isInternalVisible &&
-      (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable) &&
-      authTab
-  ].filter(Boolean);
+  const authTabVisible =
+    isOwner ||
+    isInternalVisible ||
+    (role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable));
+
+  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTabVisible && authTab].filter(Boolean);
 }
