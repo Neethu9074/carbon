@@ -16,7 +16,7 @@ export default function LatencyAndDistribution({
   percentileGroupBy,
   callType
 }) {
-  const tabs = ['Percentiles', 'Distribution'];
+  const tabs = ['Over Time', 'Distribution'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   const header = (
@@ -35,7 +35,7 @@ export default function LatencyAndDistribution({
 
   return (
     <Card title={cardTitle} header={header}>
-      {activeTab === 'Percentiles' && (
+      {activeTab === 'Over Time' && (
         <Latency
           applicationId={applicationId}
           serviceId={serviceId}
