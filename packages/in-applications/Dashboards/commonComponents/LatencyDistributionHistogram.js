@@ -47,6 +47,7 @@ export default function LatencyDistributionHistogram({
           }
         })}
         chartDefinition={latencyDistributionChartDefinition}
+        showPercentileMenu={false}
       />
     );
   }

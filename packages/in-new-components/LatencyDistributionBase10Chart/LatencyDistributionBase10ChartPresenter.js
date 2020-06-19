@@ -22,7 +22,15 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
   }
 
   render() {
-    const { subscription, height, width, customWidth, customHeight, chartDefinition } = this.props;
+    const {
+      subscription,
+      height,
+      width,
+      customWidth,
+      customHeight,
+      chartDefinition,
+      showPercentileMenu = true
+    } = this.props;
     const { percentilesShown } = this.state;
 
     const buckets = subscription.data ? subscription.data : [];
@@ -61,12 +69,14 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
             <div className={locals.dot} style={{ background: theme.lib.colors.chart.strokeColors100[0] }} />
             Calls
           </div>
-          <PercentileMenu
-            percentilesShown={percentilesShown}
-            selectPercentile={this.selectPercentile}
-            selectAllPercentiles={this.selectAllPercentiles}
-            selectNoPercentile={this.selectNoPercentile}
-          />
+          {showPercentileMenu && (
+            <PercentileMenu
+              percentilesShown={percentilesShown}
+              selectPercentile={this.selectPercentile}
+              selectAllPercentiles={this.selectAllPercentiles}
+              selectNoPercentile={this.selectNoPercentile}
+            />
+          )}
         </div>
         <div className={locals.container}>
           <VerticalAxis
