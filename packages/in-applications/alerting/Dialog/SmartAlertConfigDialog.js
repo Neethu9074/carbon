@@ -19,7 +19,7 @@ export const SmartAlertConfigDialog = compose(
 
     return {
       thresholdResult: resolveThresholdRequest(form, simpleMode)
-        .filter(resp => resp && resp.data && !resp.progress.loading)
+        .filter(resp => resp && !resp.progress.loading)
         .tap(({ data, errors, time }) => updateThresholdInForm(form, updateForm, data, errors, time))
     };
   })
