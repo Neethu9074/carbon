@@ -1,5 +1,6 @@
 import React from 'react';
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import LoggingIntegrationButtons from 'in-forge/plugins/host/Dashboard/LogggingIntegrationButtons';
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
@@ -30,6 +31,7 @@ registerSnapshotDefinition({
   showZoneInSidebarHeader: true,
   tableDefinition,
   kpiDefinitions,
+  agentMonitoringIssueDefinitions,
   metricDefinitions,
   icons: {
     [plugins.host]: linuxIconSvgPath,
