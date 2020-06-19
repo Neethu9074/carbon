@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
-import BadgeList from 'in-new-components/Badge/BadgeList';
+import BadgeList from 'in-new-components/BadgeList/BadgeList';
 
 export const colorTranslation = {
   ExternalName: '#4fd3f8',

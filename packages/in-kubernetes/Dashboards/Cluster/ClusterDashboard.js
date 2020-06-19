@@ -19,7 +19,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
-import BadgeList from 'in-new-components/Badge/BadgeList';
+import BadgeList from 'in-new-components/BadgeList/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import icons from 'in-components/SvgIcon/registry.json';
 import { getTimeConfig } from 'in-stores/time/config';
