@@ -5,6 +5,7 @@ import PropContainer from 'in-new-components/Alerting/components/PropContainer';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle/Toggle';
 import TextArea from 'in-components/form/TextArea';
+import Input from 'in-components/form/Input';
 
 import locals from './AlertProperties.mless';
 
@@ -34,10 +35,9 @@ export default function AlertProperties({
       <PropContainer
         left="Title"
         right={
-          <TextArea
-            className={locals.textArea}
+          <Input
+            className={locals.textInput}
             name={'name'}
-            rows="3"
             value={form.get('name').value}
             onChange={e => {
               onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
