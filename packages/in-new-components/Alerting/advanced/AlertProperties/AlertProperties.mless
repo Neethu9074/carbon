@@ -1,10 +1,13 @@
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
-  .textArea {
+  .textInput {
     width: 100%;
-    resize: none;
     background-color: @lib__colors__N100;
+  }
+
+  .textArea {
+    .textInput();
+    resize: none;
   }
 }
