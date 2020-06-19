@@ -22,34 +22,31 @@ import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml'
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import { isOwner } from 'in-stores/user';
+import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 function getNavigationTree(props: any): NavigationTree {
-  const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
-
   const navigationTree = [
-    props.isInternalVisible &&
-      isAtLeastOneAuthMethogAvailable && {
-        title: 'Identity Providers',
-        pages: [
-          props.isGoogleSSOAvailable && {
-            path: googleSSO,
-            label: 'Google SSO',
-            component: GoogleSSO
-          },
-          props.isSamlAvailable && {
-            path: saml,
-            label: 'SAML',
-            component: Saml
-          },
-          props.isLdapAvailable && {
-            path: ldap,
-            label: 'LDAP',
-            component: Ldap
-          }
-        ].filter(Boolean)
-      },
+    isAtLeastOneAuthMethogAvailable(props) && {
+      title: 'Identity Providers',
+      pages: [
+        props.isGoogleSSOAvailable && {
+          path: googleSSO,
+          label: 'Google SSO',
+          component: GoogleSSO
+        },
+        props.isSamlAvailable && {
+          path: saml,
+          label: 'SAML',
+          component: Saml
+        },
+        props.isLdapAvailable && {
+          path: ldap,
+          label: 'LDAP',
+          component: Ldap
+        }
+      ].filter(Boolean)
+    },
     isOwner && {
       title: '2Factor',
       pages: [
@@ -58,7 +55,7 @@ function getNavigationTree(props: any): NavigationTree {
           label: 'Users',
           component: Users
         }
-      ].filter(Boolean)
+      ]
     }
   ].filter(Boolean);
 
@@ -88,12 +85,23 @@ export default connectTo(
     isSamlAvailable: isSamlAvailable(),
     isLdapAvailable: isLdapAvailable()
   },
+
   function View(props: any) {
+    let defaultRedirect = twoFaUsers;
+    if (isAtLeastOneAuthMethogAvailable(props)) {
+      if (props.isGoogleSSOAvailable) {
+        defaultRedirect = googleSSO;
+      } else if (props.isSamlAvailable) {
+        defaultRedirect = saml;
+      } else {
+        defaultRedirect = ldap;
+      }
+    }
     return (
       <SideNavigationAndContent
         stickySidebar
         navigationTree={getNavigationTree(props)}
-        redirectToDefaultPage={googleSSO}
+        redirectToDefaultPage={defaultRedirect}
         redirectFrom={authSettings}
         NotFoundPage={NotFoundPage}
         {...props}
@@ -101,3 +109,16 @@ export default connectTo(
     );
   }
 );
+
+function isAtLeastOneAuthMethogAvailable({
+  isInternalVisible,
+  isGoogleSSOAvailable,
+  isSamlAvailable,
+  isLdapAvailable
+}) {
+  return (
+    isInternalVisible &&
+    role.canConfigureAuthenticationMethods &&
+    (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)
+  );
+}
