@@ -1,9 +1,9 @@
 import ReactGridLayout from 'react-grid-layout';
 import TrackVisibility from 'react-on-screen';
-import React, { useState } from 'react';
-
 import 'react-grid-layout/css/styles.css';
+import React, { useState } from 'react';
 import 'react-resizable/css/styles.css';
+import theme from 'in-themes';
 
 import {
   rowHeightPixels,
@@ -18,7 +18,6 @@ import LifecycleObserver from 'in-components/LifecycleObserver';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -99,7 +98,7 @@ export default function Grid({
               <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
                 Edit
               </MoreMenuButton>
-              <MoreMenuButton icon="lib_views_popup" onClick={() => onDuplicateWidget(widget.id)}>
+              <MoreMenuButton icon="lib_actions_copy" onClick={() => onDuplicateWidget(widget.id)}>
                 Duplicate
               </MoreMenuButton>
               <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>

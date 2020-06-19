@@ -14,7 +14,7 @@ export default connectTo({
 })(function InfoButtonSection({ snapshot, isInternalVisible }) {
   return (
     <div className={locals.wrapper}>
-      <ImageButton iconType="lib_views_popup" onClick={() => addActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
+      <ImageButton iconType="lib_actions_copy" onClick={() => addActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
         Sensors Info
       </ImageButton>
       {isInternalVisible && (

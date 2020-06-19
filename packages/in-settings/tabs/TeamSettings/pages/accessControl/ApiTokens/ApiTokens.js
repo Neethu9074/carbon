@@ -64,7 +64,7 @@ const columnDefinitions = [
                     onClick={e => {
                       stopPropagationAndPreventDefault(e);
                     }}
-                    type="lib_views_popup"
+                    type="lib_actions_copy"
                   />
                 </span>
               )}

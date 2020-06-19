@@ -184,7 +184,7 @@ function SecondaryButtonLine({
             Edit As JSON
           </MoreMenuButton>
         )}
-        <MoreMenuButton icon="lib_views_popup" onClick={onDuplicateDashboard}>
+        <MoreMenuButton icon="lib_actions_copy" onClick={onDuplicateDashboard}>
           Duplicate
         </MoreMenuButton>
         {editable && (

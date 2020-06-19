@@ -6,7 +6,6 @@ import { Dl } from 'in-new-components/HorizontalDescriptionList';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { flatten } from 'in-forge/tracing/sdk/flatten';
 import { Li, Ul } from 'in-new-components/lists/List';
-
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
@@ -37,7 +36,7 @@ export default function CustomDataDescriptionItem({ span }) {
           <CopyToClipboard getText={() => value}>
             {refSetter => (
               <span ref={refSetter}>
-                <Button kind="fixedInline" icon="lib_views_popup" iconSize="xs" />
+                <Button kind="fixedInline" icon="lib_actions_copy" iconSize="xs" />
               </span>
             )}
           </CopyToClipboard>

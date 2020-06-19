@@ -143,7 +143,7 @@ function RichCode(props) {
   const button = (
     <Button
       kind="secondary"
-      icon="lib_views_popup"
+      icon="lib_actions_copy"
       onClick={() => addActiveDialog(<CodeDialog {...props} />)}
       disabled={!!disabledErrorMessage}
     >
