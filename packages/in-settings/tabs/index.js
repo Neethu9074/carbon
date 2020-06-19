@@ -26,17 +26,17 @@ export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapA
   return [
     roleHasAnyTeamPermissions() && teamTab,
     userTab,
-    authTabVisible && getAuthTag(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable)
+    authTabVisible && getAuthTag(isInternalVisible, isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable)
   ].filter(Boolean);
 }
 
-function getAuthTag(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
+function getAuthTag(isInternalVisible, isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
   let path = twoFaUsers;
-  if (isGoogleSSOAvailable) {
+  if (isInternalVisible && isGoogleSSOAvailable) {
     path = googleSSO;
-  } else if (isSamlAvailable) {
+  } else if (isInternalVisible && isSamlAvailable) {
     path = saml;
-  } else if (isLdapAvailable) {
+  } else if (isInternalVisible && isLdapAvailable) {
     path = ldap;
   }
   return {
