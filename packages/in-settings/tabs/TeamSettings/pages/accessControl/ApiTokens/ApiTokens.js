@@ -4,10 +4,16 @@ import React from 'react';
 
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import { getApiTokensMutable, deleteApiToken, saveApiToken } from 'in-api/apiTokens';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
+import CopyToClipboard from 'in-components/CopyToClipboard';
+import IconButton from 'in-new-components/IconButton';
 import { goToPath } from 'in-stores/navigation';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+
+import locals from './ApiTokens.mless';
 
 const logger = createLogger('ApiTokens');
 
@@ -46,8 +52,26 @@ const columnDefinitions = [
     id: 'id',
     label: 'Token',
     ellipsis: true,
-    getContent(entity) {
-      return <em>{entity.id}</em>;
+    getContent({ id: apiToken }) {
+      return (
+        <div className={locals.apiTokenColContainer}>
+          <div>{apiToken}</div>
+          <Tooltip align="topRight" content="Copy API token to clipboard">
+            <CopyToClipboard getText={() => apiToken}>
+              {refSetter => (
+                <span ref={refSetter}>
+                  <IconButton
+                    onClick={e => {
+                      stopPropagationAndPreventDefault(e);
+                    }}
+                    type="lib_views_popup"
+                  />
+                </span>
+              )}
+            </CopyToClipboard>
+          </Tooltip>
+        </div>
+      );
     }
   }
 ];

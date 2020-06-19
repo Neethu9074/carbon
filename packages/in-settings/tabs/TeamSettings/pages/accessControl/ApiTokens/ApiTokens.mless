@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .apiTokenColContainer {
+    .flexbox();
+
+    div:first-of-type {
+      min-width: 30%;
+      font-style: italic;
+    }
+  }
+}
