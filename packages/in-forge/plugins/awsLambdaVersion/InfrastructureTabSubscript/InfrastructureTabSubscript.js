@@ -5,55 +5,58 @@ import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVer
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { alwaysNull } from 'in-services/fixedStreams';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link';
 
 import locals from './InfrastructureTabSubscript.mless';
 
-export default connectTo(
-  ({ snapshot, time }) => {
-    if (!snapshot || !snapshot.get('id')) {
-      return {
-        awsLambdaFunction: alwaysNull,
-        regionSnapshotId: alwaysNull
-      };
-    }
-    // load Lambda function entity and region
-    return {
-      awsLambdaFunctionSnapshotId: getLambdaFunctionForVersion({
-        snapshotId: snapshot.get('id'),
-        timeConfig: getTimeConfigAtMoment(time)
-      }),
-      regionSnapshotId: getRegionForAwsLambdaVersion({
-        snapshotId: snapshot.get('id'),
-        timeConfig: getTimeConfigAtMoment(time)
-      })
-    };
-  },
-  function InfrastructureTabSubscript({ snapshot, awsLambdaFunctionSnapshotId, regionSnapshotId }) {
-    if (snapshot) {
-      const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
-      const functionName = snapshot.getIn(['data', 'name'], '?');
-      const region = snapshot.getIn(['data', 'aws_grouping_zone'], '?');
-      const versionComponent = linkIfPossible(snapshot.get('id'), versionLabel);
-      const functionComponent = linkIfPossible(awsLambdaFunctionSnapshotId, functionName);
-      const regionComponent = linkIfPossible(regionSnapshotId, region);
-      return (
-        <div className={locals.infrastructureTabSubscript}>
-          version {versionComponent} of function {functionComponent} in region {regionComponent}
-        </div>
-      );
-    }
+export default function InfrastructureTabSubscript({ snapshot, time }) {
+  if (!snapshot) {
     return null;
   }
-);
+
+  const snapshotId = snapshot.get('id');
+
+  const awsLambdaFunctionSnapshotId = useObservable(
+    snapshotId
+      ? getLambdaFunctionForVersion({
+          snapshotId: snapshotId,
+          timeConfig: getTimeConfigAtMoment(time)
+        })
+      : alwaysNull,
+    [snapshotId]
+  );
+  const regionSnapshotId = useObservable(
+    snapshotId
+      ? getRegionForAwsLambdaVersion({
+          snapshotId: snapshotId,
+          timeConfig: getTimeConfigAtMoment(time)
+        })
+      : alwaysNull,
+    [snapshotId]
+  );
+
+  const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
+  const functionName = snapshot.getIn(['data', 'name'], '?');
+  const region = snapshot.getIn(['data', 'aws_grouping_zone'], '?');
+  const versionComponent = linkIfPossible(snapshot.get('id'), versionLabel);
+  const functionComponent = linkIfPossible(awsLambdaFunctionSnapshotId, functionName);
+  const regionComponent = linkIfPossible(regionSnapshotId, region);
+  return (
+    <div className={locals.infrastructureTabSubscript}>
+      version {versionComponent} of function {functionComponent} in region {regionComponent}
+    </div>
+  );
+}
 
 function linkIfPossible(snapshotId, label) {
-  if (snapshotId) {
-    return <Link href$={subscriptLink(snapshotId)}>{label}</Link>;
-  } else {
-    return label;
-  }
+  return snapshotId ? (
+    <Link href$={subscriptLink(snapshotId)} className={locals.entityLink}>
+      {label}
+    </Link>
+  ) : (
+    label
+  );
 }
 
 function subscriptLink(snapshotId) {

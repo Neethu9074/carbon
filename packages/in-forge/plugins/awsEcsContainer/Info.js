@@ -16,7 +16,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
       <DescriptionItem title="Image ID">{data.get('imageId')}</DescriptionItem>
       <DescriptionItem title="Task ARN">{data.get('taskArn')}</DescriptionItem>
-      <DescriptionItem title="Task Definition">{data.get('taskDefinition')}</DescriptionItem>
+      <DescriptionItem title="Task Definition Name">{data.get('taskDefinition')}</DescriptionItem>
       <DescriptionItem title="Task Definition Version">{data.get('taskDefinitionVersion')}</DescriptionItem>
       <DescriptionItem title="Cluster ARN">{data.get('clusterArn')}</DescriptionItem>
       <DescriptionItem title="Desired Status">{data.get('desiredStatus')}</DescriptionItem>

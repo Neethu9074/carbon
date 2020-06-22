@@ -9,7 +9,7 @@ export default function Info({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="ARN">{data.get('taskArn')}</DescriptionItem>
       <DescriptionItem title="Cluster">{data.get('clusterArn')}</DescriptionItem>
-      <DescriptionItem title="Task Definition">{data.get('taskDefinition')}</DescriptionItem>
+      <DescriptionItem title="Task Definition Name">{data.get('taskDefinition')}</DescriptionItem>
       <DescriptionItem title="Task Definition Version">{data.get('taskDefinitionVersion')}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
       <DescriptionItem title="Desired Status">{data.get('desiredStatus')}</DescriptionItem>
