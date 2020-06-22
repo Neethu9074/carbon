@@ -15,7 +15,7 @@ export default connectTo(
   ({ snapshotId }) => ({
     snapshot: getSnapshot(snapshotId)
   }),
-  function PhysicalHierarchyBreadcrumb({ snapshot, snapshotId, isActive, className }) {
+  function PhysicalHierarchyBreadcrumb({ snapshot, snapshotId, isActive, asLink = true, className }) {
     if (!snapshot) {
       return (
         <Breadcrumb>
@@ -31,7 +31,7 @@ export default connectTo(
         render={healthInfo => (
           <Breadcrumb
             className={className}
-            href$={getDashboardLink(snapshotId)}
+            href$={asLink && getDashboardLink(snapshotId)}
             label={getSingular(plugin)}
             iconPath={getIconSvgPath(snapshot)}
             isActive={isActive}

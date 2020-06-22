@@ -24,6 +24,7 @@ export default function Breadcrumb({
 }) {
   const breadcrumbClassName = evaluateClassNames({
     [locals.breadcrumb]: true,
+    [locals.clickable]: href || href$,
     [locals.activeBreadcrumb]: isActive,
     [className]: className
   });

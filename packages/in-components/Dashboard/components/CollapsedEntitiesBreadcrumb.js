@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PhysicalHierarchyBreadcrumb from 'in-components/Dashboard/components/PhysicalHierarchyBreadcrumb';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -43,8 +44,8 @@ function ApplicationSwitcher({ ids }) {
   return (
     <Ul>
       {ids.map(id => (
-        <Li key={id}>
-          <PhysicalHierarchyBreadcrumb className={locals.listBreadcrumb} snapshotId={id} />
+        <Li key={id} href$={getDashboardLink(id)}>
+          <PhysicalHierarchyBreadcrumb className={locals.listBreadcrumb} snapshotId={id} asLink={false} />
         </Li>
       ))}
     </Ul>
