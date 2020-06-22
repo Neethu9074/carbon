@@ -9,9 +9,9 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message/Message';
 import BackButton from 'in-new-components/BackButton';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -235,18 +235,28 @@ export default function AlertHeader({
         </div>
       </div>
       {isDeletedConfig && (
-        <Message type={warning} withIcon className={locals.bottomSpace}>
-          You are looking at a deleted alert configuration. Modifications are not possible.
-        </Message>
+        <Message
+          type={warning}
+          withIcon
+          className={locals.bottomSpace}
+          title="You are looking at a deleted alert configuration. Modifications are not possible."
+        />
       )}
       {isNotLatestRevision && (
-        <Message withIcon className={locals.bottomSpace}>
-          You are looking at revision {`${alertRevision}`} of this alert configuration. Please select the
-          <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
-            latest revision
-          </Button>
-          if you want to make changes.
-        </Message>
+        <Message
+          withIcon
+          className={locals.bottomSpace}
+          title={`You are looking at revision ${alertRevision} of this alert configuration`}
+          description={
+            <>
+              Please select the
+              <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
+                latest revision
+              </Button>
+              if you want to make changes.
+            </>
+          }
+        />
       )}
     </div>
   );

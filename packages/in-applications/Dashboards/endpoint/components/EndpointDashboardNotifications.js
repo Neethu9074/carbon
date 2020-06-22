@@ -12,13 +12,14 @@ import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import locals from './EndpointDashboardNotifications.mless';
 import { switchScope } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+
+import locals from './EndpointDashboardNotifications.mless';
 
 export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};

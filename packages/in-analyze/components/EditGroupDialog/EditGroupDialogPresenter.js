@@ -35,9 +35,7 @@ export default function EditGroupDialogPresenter({
   return (
     <Dialog title="Group" onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
-        <Message small className={locals.help}>
-          {help}
-        </Message>
+        <Message small className={locals.help} title={help} />
         {form.get('tag').map(field => (
           <FormGroup>
             <Label htmlFor="filter-tag" hasError={!field.valid && field.touched}>

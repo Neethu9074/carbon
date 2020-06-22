@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
 import { neutral, success, warning, error } from 'in-new-components/Message/types';
@@ -10,6 +9,8 @@ import locals from './Message.mless';
 
 export default function Message({
   children,
+  title,
+  description,
   className,
   dismissible,
   type = neutral,
@@ -32,41 +33,44 @@ export default function Message({
         className
       )}
     >
-      {withIcon && <SvgIcon type={getIconByType(type)} className={locals.icon} color={iconColor} size={small && 's'} />}
+      <div className={locals.firstLine}>
+        {withIcon && (
+          <SvgIcon type={getIconByType(type)} className={locals.icon} color={iconColor} size={small && 's'} />
+        )}
 
-      <span
-        className={evaluateClassNames({
-          [locals.content]: true,
-          [locals.smallSize]: small
-        })}
-      >
-        {children}
-      </span>
-      {dismissible && (
-        <SvgIcon
-          type="lib_openclose_cancel"
+        <span
           className={evaluateClassNames({
-            [locals.dismiss]: true,
+            [locals.content]: true,
             [locals.smallSize]: small
           })}
-          onClick={() => setDismiss(true)}
-          size={small && 's'}
-        />
+        >
+          {title || children}
+        </span>
+        {dismissible && (
+          <SvgIcon
+            type="lib_openclose_cancel"
+            className={evaluateClassNames({
+              [locals.dismiss]: true,
+              [locals.smallSize]: small
+            })}
+            onClick={() => setDismiss(true)}
+            size={small && 's'}
+          />
+        )}
+      </div>
+      {description && (
+        <div
+          className={evaluateClassNames({
+            [locals.description]: true,
+            [locals.descriptionSmallSize]: small
+          })}
+        >
+          {description}
+        </div>
       )}
     </div>
   );
 }
-
-Message.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  dismissible: PropTypes.bool,
-  iconColor: PropTypes.string,
-  small: PropTypes.bool,
-  bold: PropTypes.bool,
-  type: PropTypes.oneOf([neutral, success, warning, error]),
-  withIcon: PropTypes.bool
-};
 
 function getIconByType(type) {
   if (type === neutral) {

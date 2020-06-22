@@ -8,12 +8,13 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
-import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { types } from 'in-new-components/Message/types';
 import { number } from 'in-services/formatters/number';
 import { openPageLoad } from 'in-websites/tracker';
+import Message from 'in-new-components/Message';
 import KpiCard from 'in-new-components/KpiCard';
 import Link from 'in-components/Link';
 
@@ -77,11 +78,13 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
       {fixResult.requiredFixes && (
         <Row>
           <Col lg={12}>
-            <ProblemIndicator kind="warning" title="Clock Skew Problems Detected">
-              Beacons sent to Instana from the end-user’s device arrived with significant delays, most likely due to a
+            <Message
+              type={types.warning}
+              title="Clock Skew Problems Detected"
+              description="Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a
               poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore
-              a meaningful activity timeline.
-            </ProblemIndicator>
+              a meaningful activity timeline."
+            />
           </Col>
         </Row>
       )}

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { neutral, warning, error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message/Message';
+import Message from 'in-new-components/Message';
 
 import locals from './DashboardNotification.mless';
 

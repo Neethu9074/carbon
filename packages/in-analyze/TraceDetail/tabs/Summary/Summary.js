@@ -1,5 +1,6 @@
 import { just, create } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
+import { connection } from 'in-connection';
 import theme from 'in-themes';
 import React from 'react';
 
@@ -21,18 +22,18 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
-import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
+import { types } from 'in-new-components/Message/types';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
-import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -137,23 +138,31 @@ class Summary extends React.Component {
           trace.callRecordCount !== trace.callCountIgnoringBatchSize ? (
             <Row withoutSideMargin>
               <Col lg={12}>
-                <ProblemIndicator kind="warning" title="Duplicate Calls">
-                  This trace consists of one or more duplicate calls (spans). Unique Calls:{' '}
-                  {trace.callCountIgnoringBatchSize} - Records: {trace.callRecordCount}. This leads to incorrect
-                  &apos;call count&apos; (with batches) and &apos;error count&apos; values, and perhaps other
-                  irregularities.
-                </ProblemIndicator>
+                <Message
+                  type={types.warning}
+                  title="Duplicate Calls"
+                  description={`This trace consists of one or more duplicate calls (spans). Unique Calls: ${
+                    trace.callCountIgnoringBatchSize
+                  } - Records: ${
+                    trace.callRecordCount
+                  }. This leads to incorrect call count (with batches) and error count values, and perhaps other
+                  irregularities.`}
+                />
               </Col>
             </Row>
           ) : null}
           {isInternalVisible && trace.ingestionBatchesCount && trace.ingestionBatchesCount > 1 ? (
             <Row withoutSideMargin>
               <Col lg={12}>
-                <ProblemIndicator kind="warning" title="Batched Ingestion">
-                  This trace got processed in {trace.ingestionBatchesCount} batches. That may cause irregularities such
+                <Message
+                  type={types.warning}
+                  title="Batched Ingestion"
+                  description={`This trace got processed in ${
+                    trace.ingestionBatchesCount
+                  } batches. That may cause irregularities such
                   as spans not getting merged to a single Call, partial Service mapping or other incomplete data
-                  showing.
-                </ProblemIndicator>
+                  showing.`}
+                />
               </Col>
             </Row>
           ) : null}

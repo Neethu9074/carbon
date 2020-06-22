@@ -3,8 +3,9 @@ import { get } from 'lodash';
 
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
-import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import { error } from 'in-new-components/Message/types';
+import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 
@@ -34,7 +35,7 @@ export default function Header({ call }) {
           <Skeleton className={locals.skeleton} />
         )}
       </div>
-      {call && call.errorCount > 0 && <ProblemIndicator kind="danger" title="Erroneous Call" />}
+      {call && call.errorCount > 0 && <Message className={locals.message} small type={error} title="Erroneous Call" />}
     </Fragment>
   );
 }

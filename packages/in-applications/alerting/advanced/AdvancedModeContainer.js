@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -25,7 +26,6 @@ import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function AdvancedModeContainer(props) {
   const {

@@ -19,11 +19,11 @@ export const issueMessages = {
 export default function TraceValidationResult({ issues }) {
   if (issues && issues.length > 0) {
     return (
-      <Message withIcon className={locals.messageWrapper}>
+      <div className={locals.messageWrapper}>
         {issues.map(issueKey => (
-          <div key={issueKey}>{issueMessages[issueKey] ? issueMessages[issueKey] : issueKey}</div>
+          <Message withIcon title={issueMessages[issueKey] ? issueMessages[issueKey] : issueKey} />
         ))}
-      </Message>
+      </div>
     );
   } else {
     return null;

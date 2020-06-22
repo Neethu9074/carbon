@@ -4,13 +4,14 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
+
 import locals from './RadioGroup.mless';
 
 const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => {
   if (!sourceEntityAvailability) {
-    return <Message small>Filtering and grouping on source is not available for the selected timeframe</Message>;
+    return <Message small title="Filtering and grouping on source is not available for the selected timeframe" />;
   } else if (disabled) {
-    return <Message small>This tag is independent of source and destination</Message>;
+    return <Message small title="This tag is independent of source and destination" />;
   }
   return (
     <Fragment>

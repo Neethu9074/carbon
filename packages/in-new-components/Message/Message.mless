@@ -1,49 +1,29 @@
 @import '~in-themes/active.less';
 
 :local {
-  .message {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+  @darkyellow : darken(@lib__colors__warning, 15%);
+  @lightyellow : lighten(@lib__colors__warning, 45%);
+  @darkgreen : darken(@lib__colors__success, 15%);
+  @lightgreen : lighten(@lib__colors__success, 45%);
+  @darkred : darken(@lib__colors__failure, 15%);
+  @lightred : lighten(@lib__colors__failure, 35%);
 
+  .message {
     box-sizing: border-box;
     padding: 0.625rem;
 
     border-radius: @lib__shapes__radius_small;
-    border: 1px solid @lib__colors__N400;
     color: @lib__colors__N600Light;
-  }
 
-  .neutral {
-    background: @lib__colors__N200;
-  }
-
-  .success {
-    background: @lib__colors__success;
-    color: @lib__colors__white;
-
-    .icon {
-      fill: @lib__colors__white;
+    & + .message {
+      margin-top: 0.5rem;
     }
   }
 
-  .warning {
-    background: @lib__colors__warning;
-    color: @lib__colors__N900Primary;
-
-    .icon {
-      fill: @lib__colors__N900Primary;
-    }
-  }
-
-  .error {
-    background: @lib__colors__failure;
-    color: @lib__colors__white;
-    font-weight: bold;
-
-    .icon {
-      fill: @lib__colors__white;
-    }
+  .firstLine {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
   }
 
   .small {
@@ -52,6 +32,38 @@
 
   .bold {
     font-weight: bold;
+  }
+
+  .neutral {
+    border: 1px solid @lib__colors__N400;
+    background: @lib__colors__N200;
+  }
+
+  .success {
+    background: @lightgreen;
+    border: 1px solid @darkgreen;
+    color: @darkgreen;
+    .icon {
+      fill: @darkgreen;
+    }
+  }
+
+  .warning {
+    background: @lightyellow;
+    border: 1px solid @darkyellow;
+    color: @darkyellow;
+    .icon {
+      fill: @darkyellow;
+    }
+  }
+
+  .error {
+    background: @lightred;
+    border: 1px solid @darkred;
+    color: @darkred;
+    .icon {
+      fill: @darkred;
+    }
   }
 
   .icon {
@@ -79,5 +91,20 @@
     &:hover {
       fill: darken(@lib__colors__N500, 20%);
     }
+  }
+
+  .description {
+    width: 100%;
+    margin-top: 0.25rem;
+
+    color: @lib__colors__N600Light;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  .descriptionSmallSize {
+    font-size: 0.625rem;
+    line-height: 1rem;
   }
 }
