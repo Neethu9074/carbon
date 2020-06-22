@@ -125,7 +125,10 @@ SvgIcon.propTypes = {
   onClick: PropTypes.func,
   refSetter: PropTypes.func,
   role: PropTypes.string,
-  size: PropTypes.oneOf(['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']),
+    PropTypes.number
+  ]),
   spinning: PropTypes.bool,
   style: PropTypes.object,
   tabIndex: PropTypes.number,

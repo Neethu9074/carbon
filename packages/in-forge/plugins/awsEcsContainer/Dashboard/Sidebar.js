@@ -1,5 +1,6 @@
 import React from 'react';
 
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsEcsContainer/Info';
 
@@ -12,6 +13,7 @@ export default function AwsEcsContainerSidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>
   );
 }
