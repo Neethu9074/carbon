@@ -1,25 +1,26 @@
 import React from 'react';
 
-import SaveCancelFooter from 'in-new-components/SaveCancelFooter/SaveCancelFooter';
+import FormFooter, { SaveButton, CancelButton, DeleteButton } from 'in-components/form/FormFooter/FormFooter';
 import { getView } from 'in-stores/navigation';
 
 import locals from './Footer.mless';
 
-export default function Footer({ canSaveItem, onSaveClick, canDeleteItem, onDeleteClick, parentPath, form }) {
-  if ((!canSaveItem && !canDeleteItem) || (!onSaveClick && !canDeleteItem)) {
-    return null;
-  }
-
+export default function Footer({
+  canSaveItem,
+  onSaveClick,
+  canDeleteItem,
+  onDeleteClick,
+  onCancelClick,
+  parentPath,
+  form
+}) {
   return (
-    <SaveCancelFooter
-      className={locals.footer}
-      cancelHref$={parentPath ? getView(parentPath) : undefined}
-      canSaveItem={canSaveItem}
-      canDeleteItem={canDeleteItem}
-      onSaveClick={onSaveClick}
-      onDeleteClick={onDeleteClick}
-      form={form}
-      editMode
-    />
+    <FormFooter className={locals.footer}>
+      {(parentPath || onCancelClick) && (
+        <CancelButton href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick} />
+      )}
+      {onSaveClick && <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} />}
+      {onDeleteClick && <DeleteButton onClick={onDeleteClick} disabled={!canDeleteItem} />}
+    </FormFooter>
   );
 }

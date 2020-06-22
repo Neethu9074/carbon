@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SaveCancelFooter from 'in-new-components/SaveCancelFooter/SaveCancelFooter';
+import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SideNav from 'in-new-components/SideNav';
@@ -26,15 +26,12 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
-      <SaveCancelFooter
-        className={locals.controls}
-        onCancelClick={() => onClose()}
-        onSaveClick={() => onCreate()}
-        editMode={editMode}
-        isSaving={isSaving}
-        form={form}
-        canSaveItem={true}
-      />
+      <FormFooter className={locals.controls}>
+        <CancelButton onClick={() => onClose()} />
+        <SaveButton onClick={() => onCreate()} isSaving={isSaving} form={form}>
+          {editMode ? 'Save' : 'Create'}
+        </SaveButton>
+      </FormFooter>
     </nav>
   );
 }

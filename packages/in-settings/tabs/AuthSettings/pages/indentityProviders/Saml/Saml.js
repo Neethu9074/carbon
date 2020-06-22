@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
-import React, { useState } from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -23,8 +23,8 @@ import locals from './Saml.mless';
 export default function Saml() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
-  const [reloadSignal, setReloadSignal] = useState(0);
-  inputDOMNode.onchange = () => setReloadSignal(reloadSignal + 1);
+  const [file, setFile] = useState(null);
+  inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
   return (
     <ApiItemView
@@ -32,15 +32,32 @@ export default function Saml() {
         config: getConfigAsResultObservable()
       })}
       enrichForm={enrichForm}
-      onCancelClick={refresh}
       input={input}
+      file={file}
+      onCancelClick={() => {
+        setFile(null);
+        refresh();
+      }}
+      saveItem={({ setMessage }) => {
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = function(evt) {
+          saveItem({ idpMetadata: evt.target.result, setMessage });
+        };
+      }}
       render={props => render({ ...props, input })}
     />
   );
 }
 
-function render({ form, setForm, input, setMessage }) {
-  const file = input && input.files && input.files.length > 0 ? input.files[0] : undefined;
+function render({ file, form, setForm, input, setCanSaveItem, setMessage }) {
+  useEffect(
+    () => {
+      setCanSaveItem(!!file);
+    },
+    [file]
+  );
+
   return (
     <>
       <Title title="SAML Configuration" />
@@ -165,19 +182,6 @@ function render({ form, setForm, input, setMessage }) {
             }}
           >
             {file ? shorten(file.name, 32) : 'Choose file…'}
-          </Button>
-          <Button
-            icon="lib_actions_upload"
-            disabled={!file}
-            onClick={() => {
-              const reader = new FileReader();
-              reader.readAsText(file, 'UTF-8');
-              reader.onload = function(evt) {
-                saveItem({ idpMetadata: evt.target.result, setMessage });
-              };
-            }}
-          >
-            Upload & Activate
           </Button>
 
           {form.get('activated').map(

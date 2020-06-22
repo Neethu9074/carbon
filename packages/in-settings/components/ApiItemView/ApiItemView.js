@@ -23,6 +23,7 @@ export default connectTo(
       enrichForm,
       result,
       saveItem,
+      onCancelClick,
       deleteItem
     } = props;
 
@@ -80,6 +81,7 @@ export default connectTo(
           onDeleteClick={
             deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
           }
+          onCancelClick={onCancelClick}
           parentPath={parentPath}
           form={form}
         />
