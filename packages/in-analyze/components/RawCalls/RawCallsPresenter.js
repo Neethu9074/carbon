@@ -13,8 +13,10 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import ApplicationRawMetricsChart from '../MetricsChart/ApplicationRawMetricsChart';
+import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
+import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -22,15 +24,10 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
-import Toggle from 'in-components/form/Toggle';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './RawCallsPresenter.mless';
 
 export default connectTo({ isInternalVisible: isInternalVisible$ }, function RawCallsPresenter(props) {
   const {
@@ -43,38 +40,23 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
     canLoadMore,
     orderBy,
     orderDirection,
-    onChangeOrder
+    onChangeOrder,
+    onShowGraphChange,
+    showGraph
   } = props;
 
   return (
     <AnalyzeWorkspace {...props} title="Call Analytics">
-      <div className={locals.headerWrapper}>
-        <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
-        <div className={locals.labelWrapper}>
-          {props.isInternalVisible && (
-            <>
-              <span className={locals.label}>Preview</span>
-              <Toggle
-                checked={props.previewEnabled}
-                onChange={e => {
-                  props.onPreviewEnabledChange(e.target.checked);
-                }}
-              />
-            </>
-          )}
-          <Button
-            kind="secondary"
-            icon="lib_views_folder"
-            onClick={e => {
-              stopPropagationAndPreventDefault(e);
-              props.openEditGroupDialog();
-            }}
-          >
-            Group by
-          </Button>
-        </div>
-      </div>
-      <Table className={locals.table} tableInCard>
+      <GroupingTableHeader
+        itemType="Call"
+        nbRows={totalHits}
+        nbItems={totalRepresentedItemCount}
+        {...props}
+        forAnalyzeCalls
+        // disable the 'show/hide graph' button, if the FF is not enabled
+        onChange={latencyDistributionBase10Enabled ? e => onShowGraphChange(e['showGraph']) : null} />
+      {latencyDistributionBase10Enabled && showGraph && <ApplicationRawMetricsChart {...props} />}
+      <Table tableInCard>
         <Thead>
           <Tr size="compact">
             <ErroneousRowTh />

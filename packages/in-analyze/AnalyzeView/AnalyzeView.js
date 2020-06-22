@@ -3,22 +3,23 @@ import React from 'react';
 
 import {
   previewEnabled as previewEnabledMatrixParameter,
+  showGraph as showGraphMatrixParameter,
   dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import {
-  getPreviewEnabledFromUrlString,
-  getPreviewEnabledToUrlString,
   getTagFilterFromUrlString,
   getTagFilterToUrlString,
   getGroupFromUrlString,
   getGroupToUrlString
 } from 'in-analyze/filterBuilder';
+import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -35,6 +36,36 @@ import { analyze } from 'in-analyze/navigation/paths';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
+function initialShowGraph(props) {
+  // Support for old URLs with a deprecated matrix parameter 'groups.showGraph'. In the past UA charts were
+  // available only for grouped calls and traces. When the charts were introduced also for ungrouped calls
+  // and traces, the matrix parameter was changed to 'callList.showGraph'.
+  const matrixAnalyze = props.history.location.matrix[analyze];
+  if (matrixAnalyze != null) {
+    const groupsShowGraph = matrixAnalyze['groups.showGraph'];
+    const callListShowGraph = matrixAnalyze['callList.showGraph'];
+    if (groupsShowGraph != null && callListShowGraph == null) {
+      return groupsShowGraph === 'true' ? true : false;
+    }
+  }
+  return false;
+}
+
+function initialFocusedMetric(props) {
+  // Support for old URLs with a deprecated matrix parameter 'groups.focusedMetric'. In the past UA charts were
+  // available only for grouped calls and traces. When the charts were introduced also for ungrouped calls
+  // and traces, the matrix parameter was changed to 'callList.focusedMetric'.
+  const matrixAnalyze = props.history.location.matrix[analyze];
+  if (matrixAnalyze != null) {
+    const groupsFocusedMetric = matrixAnalyze['groups.focusedMetric'];
+    const callListFocusedMetric = matrixAnalyze['callList.focusedMetric'];
+    if (groupsFocusedMetric != null && callListFocusedMetric == null) {
+      return groupsFocusedMetric;
+    }
+  }
+  return null;
+}
+
 export default compose(
   connectTo({
     isDialogActive: activeDialogs$.map(dialogs => dialogs.length > 0)
@@ -47,26 +78,34 @@ export default compose(
       dataSourceMatrixParameter,
       groupByMatrixParameter,
       tagFilterMatrixParameter,
-      previewEnabledMatrixParameter
+      previewEnabledMatrixParameter,
+      showGraphMatrixParameter,
+      focusedMetricMatrixParameter
     ],
     getInitialState: props => ({
       [dataSourceMatrixParameter]: 'traces',
       ...getInitialGrouping(props),
       [tagFilterMatrixParameter]: [],
-      [previewEnabledMatrixParameter]: false
+      [previewEnabledMatrixParameter]: false,
+      [showGraphMatrixParameter]: initialShowGraph(props),
+      [focusedMetricMatrixParameter]: initialFocusedMetric(props),
     }),
     reducerName: 'onChangeAnalyzeConfig',
     getParsedUrlValues: values => ({
       [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter]),
       [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter]),
-      [previewEnabledMatrixParameter]: getPreviewEnabledFromUrlString(values[previewEnabledMatrixParameter])
+      [previewEnabledMatrixParameter]: values[previewEnabledMatrixParameter] === 'false' ? false : true,
+      [showGraphMatrixParameter]: values[showGraphMatrixParameter] === 'false' ? false : true,
+      [focusedMetricMatrixParameter]: values.focusedMetric
     }),
     getSerializedUrlValues: props => ({
       [dataSourceMatrixParameter]: props[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
       [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
-      [previewEnabledMatrixParameter]: getPreviewEnabledToUrlString(props[previewEnabledMatrixParameter])
+      [previewEnabledMatrixParameter]: Boolean(props[previewEnabledMatrixParameter]),
+      [showGraphMatrixParameter]: Boolean(props[showGraphMatrixParameter]),
+      [focusedMetricMatrixParameter]: props.focusedMetric
     })
   }),
   withPropsOnChange(
@@ -75,14 +114,16 @@ export default compose(
       tagFilterMatrixParameter,
       groupByMatrixParameter,
       dataSourceMatrixParameter,
-      previewEnabledMatrixParameter
+      previewEnabledMatrixParameter,
+      showGraphMatrixParameter
     ],
     ({
       location,
       [tagFilterMatrixParameter]: tagFilter,
       [groupByMatrixParameter]: group,
       [dataSourceMatrixParameter]: dataSource,
-      [previewEnabledMatrixParameter]: previewEnabledMatrixParameter
+      [previewEnabledMatrixParameter]: previewEnabledMatrixParameter,
+      [showGraphMatrixParameter]: showGraphMatrixParameter
     }) => ({
       filters: {
         tagFilter,
@@ -134,6 +175,16 @@ function AnalyzeView(props) {
           onPreviewEnabledChange={value => {
             const newState = {};
             newState[previewEnabledMatrixParameter] = value;
+            props.onChangeAnalyzeConfig(newState);
+          }}
+          onShowGraphChange={value => {
+            const newState = {};
+            newState[showGraphMatrixParameter] = value;
+            props.onChangeAnalyzeConfig(newState);
+          }}
+          onFocusedMetricChange={value => {
+            const newState = {};
+            newState[focusedMetricMatrixParameter] = value;
             props.onChangeAnalyzeConfig(newState);
           }}
           openEditGroupDialog={() =>

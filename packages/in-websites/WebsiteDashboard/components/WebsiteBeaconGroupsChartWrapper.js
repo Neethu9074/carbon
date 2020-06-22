@@ -1,7 +1,7 @@
 import { compose, withState, withProps } from 'recompose';
 import { find } from 'lodash';
 
-import GroupMetricsChartPresenter, { getMetricKey } from 'in-analyze/components/GroupMetricsChartPresenter';
+import GroupMetricsChartPresenter, { getMetricKey } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';

@@ -15,8 +15,7 @@ import {
 import {
   getTagFilterToUrlString,
   getGroupToUrlString,
-  getTagFilterFromUrlString,
-  getPreviewEnabledToUrlString
+  getTagFilterFromUrlString
 } from 'in-analyze/filterBuilder';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -66,12 +65,7 @@ export function getLinkToAnalyze({
     }
 
     if (previewEnabled) {
-      setOrDeleteMatrixKey(
-        params,
-        analyze,
-        `callList.${previewEnabledMatrixParameter}`,
-        getPreviewEnabledToUrlString(previewEnabled)
-      );
+      setOrDeleteMatrixKey(params, analyze, `callList.${previewEnabledMatrixParameter}`, previewEnabled);
     }
 
     // Force lazy initialization of tagFilter so that we can differentiate between deliberate decision to reset filters
@@ -188,11 +182,11 @@ export function getLinkToAnalyze({
     }
 
     if (showGraph) {
-      setOrDeleteMatrixKey(params, analyze, `groups.${showGraphMatrixParameter}`, showGraph);
+      setOrDeleteMatrixKey(params, analyze, `callList.${showGraphMatrixParameter}`, showGraph);
     }
 
     if (focusedMetric) {
-      setOrDeleteMatrixKey(params, analyze, `groups.${focusedMetricMatrixParameter}`, focusedMetric);
+      setOrDeleteMatrixKey(params, analyze, `callList.${focusedMetricMatrixParameter}`, focusedMetric);
     }
   });
 }

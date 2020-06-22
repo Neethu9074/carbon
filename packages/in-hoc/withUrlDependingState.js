@@ -85,7 +85,7 @@ export default ({
 
     constructor(props) {
       super(props);
-      // Tnitialize initial state so that the initial state already depends on the URL.
+      // Initialize initial state so that the initial state already depends on the URL.
       // Otherwise we risk WithUrlDependingState resets kicking in as well as unnecessary
       // data retrieval.
       let urlDependingState = getInitialState(props);

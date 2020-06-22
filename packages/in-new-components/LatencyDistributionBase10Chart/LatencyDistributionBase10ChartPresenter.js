@@ -55,7 +55,7 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
       // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
       return (
         <div className={locals.container}>
-          <LoadingIndicator height={chartHeight} width={chartWidth} />
+          <LoadingIndicator height={chartHeight} />
         </div>
       );
     }
@@ -64,7 +64,7 @@ export default class LatencyDistributionBase10ChartPresenter extends React.Compo
     const maxDataValue = getMaxDataValue(data);
     return (
       <>
-        <div className={locals.legend} style={{ width: chartWidth }}>
+        <div className={locals.legend}>
           <div className={locals.metric}>
             <div className={locals.dot} style={{ background: theme.lib.colors.chart.strokeColors100[0] }} />
             Calls

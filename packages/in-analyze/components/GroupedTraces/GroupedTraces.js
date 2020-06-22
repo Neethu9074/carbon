@@ -2,13 +2,9 @@ import { compose, withProps } from 'recompose';
 import theme from 'in-themes';
 import React from 'react';
 
-import {
-  showGraph as showGraphMatrixParameter,
-  focusedMetric as focusedMetricMatrixParameter
-} from 'in-analyze/navigation/matrix';
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
+import ApplicationGroupMetricsChart from 'in-analyze/components/MetricsChart/ApplicationGroupMetricsChart';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
-import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import { availableMetrics, defaultMetrics } from 'in-applications/analyze/metrics';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
@@ -39,67 +35,59 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
-    boundKeys: [
-      metricsMatrixParameter,
-      'orderBy',
-      'orderDirection',
-      showGraphMatrixParameter,
-      focusedMetricMatrixParameter
-    ],
+    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
       orderBy: defaultOrder,
-      orderDirection: 'DESC',
-      previewEnabled: false
+      orderDirection: 'DESC'
     }),
     getParsedUrlValues: urlValues => ({
       [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
       orderBy: urlValues.orderBy,
       orderDirection: urlValues.orderDirection,
-      showGraph: urlValues.showGraph === 'false' ? false : true,
-      previewEnabled: Boolean(urlValues.previewEnabled),
-      focusedMetric: urlValues.focusedMetric
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
       orderBy: props.orderBy,
       orderDirection: props.orderDirection,
-      previewEnabled: props.previewEnabled,
-      showGraph: Boolean(props.showGraph).toString(),
-      focusedMetric: props.focusedMetric
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, focusedMetric }) => ({
-    availableMetrics: availableMetrics,
-    onChangeOrder: onChange,
-    showGraph: showGraph,
-    focusedMetric: focusedMetric,
-    openMetricSelector: () => {
-      addActiveDialog(
-        <MetricSelector
-          title="Select Metrics"
-          help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
-          availableMetrics={availableMetrics}
-          selectedMetrics={metrics}
-          maximumNumberOfMetrics={5}
-          isGroupedView
-          onSave={metrics => {
-            const orderByMetricStillExists = metrics.reduce(
-              (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
-              false
-            );
-            metricChangedTracker({ dataSource, metrics: JSON.stringify(metrics) });
-            onChange({
-              [metricsMatrixParameter]: metrics,
-              orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
-              orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
-            });
-          }}
-        />
-      );
-    }
-  })),
+  withProps(
+    ({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, onShowGraphChange }) => ({
+      availableMetrics: availableMetrics,
+      onChange: e => {
+        onChange(e);
+        onShowGraphChange(e['showGraph']);
+      },
+      onChangeOrder: onChange,
+      showGraph: showGraph,
+      openMetricSelector: () => {
+        addActiveDialog(
+          <MetricSelector
+            title="Select Metrics"
+            help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+            availableMetrics={availableMetrics}
+            selectedMetrics={metrics}
+            maximumNumberOfMetrics={5}
+            isGroupedView
+            onSave={metrics => {
+              const orderByMetricStillExists = metrics.reduce(
+                (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
+                false
+              );
+              metricChangedTracker({ dataSource, metrics: JSON.stringify(metrics) });
+              onChange({
+                [metricsMatrixParameter]: metrics,
+                orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
+                orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
+              });
+            }}
+          />
+        );
+      }
+    })
+  ),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'showGraph', 'metrics', 'previewEnabled'],
     get: ({
