@@ -16,7 +16,7 @@ export default function ProfileNode({
   highlightedProfileConfig,
   selectedProfileNode,
   setSelectedProfileNode,
-  isOnline,
+  canFetchSourceCode,
   profileNode,
   depth = 0,
   onKeyDown
@@ -64,7 +64,11 @@ export default function ProfileNode({
         <PercentIndicator percent={profileNode.percent} />
         <MethodName methodName={profileNode.methodName} />
         <At />
-        <FileNameAndLine isOnline={isOnline} processSnapshot={processSnapshot} profileNode={profileNode} />
+        <FileNameAndLine
+          canFetchSourceCode={canFetchSourceCode}
+          processSnapshot={processSnapshot}
+          profileNode={profileNode}
+        />
       </Row>
 
       {expanded &&
@@ -75,7 +79,7 @@ export default function ProfileNode({
               highlightedProfileConfig={highlightedProfileConfig}
               profiles={profileNode.children}
               processSnapshot={processSnapshot}
-              isOnline={isOnline}
+              canFetchSourceCode={canFetchSourceCode}
               selectedProfileNode={selectedProfileNode}
               setSelectedProfileNode={setSelectedProfileNode}
               onKeyDown={onKeyDown}
@@ -94,7 +98,7 @@ function ChildProfiles({
   depth,
   profiles,
   processSnapshot,
-  isOnline
+  canFetchSourceCode
 }) {
   const lastProfile = profiles[profiles.length - 1];
 
@@ -104,7 +108,7 @@ function ChildProfiles({
     setSelectedProfileNode,
     onKeyDown,
     processSnapshot,
-    isOnline,
+    canFetchSourceCode,
     depth: depth + 1
   };
 
@@ -190,19 +194,21 @@ function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select,
   );
 }
 
-function FileNameAndLine({ isOnline, processSnapshot, profileNode }) {
+function FileNameAndLine({ canFetchSourceCode, processSnapshot, profileNode }) {
   return (
     <span
       className={evaluateClassNames({
         [locals.fileName]: true,
-        [locals.fileNameWithSourceCode]: isOnline
+        [locals.fileNameWithSourceCode]: canFetchSourceCode
       })}
-      onClick={e => {
-        stopPropagationAndPreventDefault(e);
-        if (isOnline) {
-          addActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
-        }
-      }}
+      onClick={
+        canFetchSourceCode
+          ? e => {
+              stopPropagationAndPreventDefault(e);
+              addActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
+            }
+          : undefined
+      }
     >
       {profileNode.fileName}:{profileNode.fileLine}
     </span>

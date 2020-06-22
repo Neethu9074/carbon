@@ -1,9 +1,10 @@
 import { compose, withPropsOnChange } from 'recompose';
+import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
+import { analyzeProfilePathFullyQualified, closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import { processIdUrlParameter, timeUrlParameter } from 'in-profiling/navigation/urlParameters';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
-import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
@@ -44,17 +45,20 @@ export default compose(
     const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
       hierarchy => hierarchy && hierarchy.size > 0
     );
+    const jvmSnapshot$ = hierachy$
+      .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots))
+      .map(
+        hierarchySnapshots =>
+          hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]
+      );
     return {
       deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
-      jvmSnapshot: hierachy$
-        .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots))
-        .map(
-          hierarchySnapshots =>
-            hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]
-        ),
+      jvmSnapshot: jvmSnapshot$,
       historicalProcessSnapshot: getSnapshot(processId, timeConfigForSnapshots),
       processSnapshot: getSnapshot(processId, timeConfig),
-      isOnline: isEntityOnline(processId)
+
+      // we only allow source code when using a jvm based tech
+      canFetchSourceCode: jvmSnapshot$.flatMap(jvmSnapshot => (jvmSnapshot ? isEntityOnline(processId) : just(false)))
     };
   })
 )(ProfilesView);
@@ -68,7 +72,7 @@ function ProfilesView(props) {
     historicalProcessSnapshot,
     deepestTechSnapshot,
     jvmSnapshot,
-    isOnline,
+    canFetchSourceCode,
     processId,
     timeConfig,
     location
@@ -92,8 +96,9 @@ function ProfilesView(props) {
         processSnapshot,
         deepestTechSnapshot: deepestTechSnapshot || processSnapshot || historicalProcessSnapshot,
         jvmSnapshot,
-        isOnline
+        canFetchSourceCode
       })}
+      basePath={analyzeProfilePathFullyQualified}
       props={props}
       withoutBreadcrumb
       withoutPadding

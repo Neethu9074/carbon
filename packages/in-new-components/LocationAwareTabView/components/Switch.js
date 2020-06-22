@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
@@ -10,7 +10,7 @@ import Title from 'in-components/Title';
 
 import locals from './Switch.mless';
 
-export default function TabSwitch({ tabs, result, hasErrors, location, props, renderErrors }) {
+export default function TabSwitch({ tabs, basePath, result, hasErrors, location, props, renderErrors }) {
   const isLoading = result && result.progress.loading;
 
   if (hasErrors) {
@@ -19,6 +19,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
     return <DefaultLoadingDashboard lightMode />;
   }
 
+  const firstVisibleTab = getFirstVisibleTab(tabs, result);
   return (
     <Switch>
       {tabs.map(tab => (
@@ -28,6 +29,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
           render={() => <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />}
         />
       ))}
+      {basePath && firstVisibleTab && <Redirect from={basePath} to={firstVisibleTab.path} />}
     </Switch>
   );
 }
@@ -56,4 +58,9 @@ function ViewWrapper({ tab, data, location, props }) {
       <ErrorBoundary name="dashboard content">{content}</ErrorBoundary>
     </Fragment>
   );
+}
+
+function getFirstVisibleTab(tabs, result) {
+  const visibleTabs = tabs.filter(tab => (tab.isVisible ? tab.isVisible(result) : true));
+  return visibleTabs.length > 0 ? visibleTabs[0] : undefined;
 }

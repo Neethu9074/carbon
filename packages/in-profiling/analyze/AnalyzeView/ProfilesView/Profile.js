@@ -24,7 +24,7 @@ export default function Profile({
   viewType,
   setViewType,
   profile,
-  isOnline,
+  canFetchSourceCode,
   timeConfig,
   processId,
   jvmSnapshot,
@@ -74,7 +74,7 @@ export default function Profile({
         <ProfileTree
           profile={profile}
           processSnapshot={processSnapshot}
-          isOnline={isOnline}
+          canFetchSourceCode={canFetchSourceCode}
           highlightedProfileConfig={highlightedProfileConfig}
         />
       );

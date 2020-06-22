@@ -7,7 +7,8 @@ export default [
   {
     label: 'CPU',
     path: `${analyzeProfilePathFullyQualified}/cpu`,
-    component: CpuProfile
+    component: CpuProfile,
+    isVisible: result => result.data && result.data.cpuProfile
   },
   {
     label: 'Memory',

@@ -8,7 +8,7 @@ import keyCodes from 'in-components/keyCodes';
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
 
-export default function ProfileTree({ profile, isOnline, processSnapshot, highlightedProfileConfig }) {
+export default function ProfileTree({ profile, canFetchSourceCode, processSnapshot, highlightedProfileConfig }) {
   if (!profile) {
     return null;
   }
@@ -23,7 +23,7 @@ export default function ProfileTree({ profile, isOnline, processSnapshot, highli
             profileNode={profileNode}
             highlightedProfileConfig={highlightedProfileConfig}
             processSnapshot={processSnapshot}
-            isOnline={isOnline}
+            canFetchSourceCode={canFetchSourceCode}
             selectedProfileNode={selectedProfileNode}
             setSelectedProfileNode={setSelectedProfileNode}
             onKeyDown={onKeyDown}
