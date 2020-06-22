@@ -1,4 +1,5 @@
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
@@ -29,6 +30,7 @@ registerSnapshotDefinition({
   showZoneInSidebarHeader: true,
   tableDefinition,
   kpiDefinitions,
+  agentMonitoringIssueDefinitions,
   metricDefinitions,
   icons: {
     [plugins.host]: linuxIconSvgPath,

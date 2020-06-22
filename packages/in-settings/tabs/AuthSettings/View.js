@@ -22,7 +22,7 @@ import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml'
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import { isOwner } from 'in-stores/user';
+import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 function getNavigationTree(props: any): NavigationTree {
@@ -58,7 +58,7 @@ function getNavigationTree(props: any): NavigationTree {
           label: 'Users',
           component: Users
         }
-      ].filter(Boolean)
+      ]
     }
   ].filter(Boolean);
 
@@ -88,12 +88,23 @@ export default connectTo(
     isSamlAvailable: isSamlAvailable(),
     isLdapAvailable: isLdapAvailable()
   },
+
   function View(props: any) {
+    let defaultRedirect = twoFaUsers;
+    if (isAtLeastOneAuthMethogAvailable(props)) {
+      if (props.isGoogleSSOAvailable) {
+        defaultRedirect = googleSSO;
+      } else if (props.isSamlAvailable) {
+        defaultRedirect = saml;
+      } else {
+        defaultRedirect = ldap;
+      }
+    }
     return (
       <SideNavigationAndContent
         stickySidebar
         navigationTree={getNavigationTree(props)}
-        redirectToDefaultPage={googleSSO}
+        redirectToDefaultPage={defaultRedirect}
         redirectFrom={authSettings}
         NotFoundPage={NotFoundPage}
         {...props}
@@ -101,3 +112,16 @@ export default connectTo(
     );
   }
 );
+
+function isAtLeastOneAuthMethogAvailable({
+  isInternalVisible,
+  isGoogleSSOAvailable,
+  isSamlAvailable,
+  isLdapAvailable
+}) {
+  return (
+    isInternalVisible &&
+    role.canConfigureAuthenticationMethods &&
+    (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)
+  );
+}
