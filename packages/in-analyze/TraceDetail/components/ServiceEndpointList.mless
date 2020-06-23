@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .cell {
@@ -10,10 +11,7 @@
     width: 0.75rem;
     height: 0.75rem;
     margin-right: 0.5rem;
-  }
-
-  .link {
-    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .serviceIcon,
