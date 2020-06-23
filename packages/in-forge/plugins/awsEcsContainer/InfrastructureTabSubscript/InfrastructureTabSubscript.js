@@ -7,6 +7,7 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './InfrastructureTabSubscript.mless';
@@ -49,13 +50,28 @@ export default function InfrastructureTabSubscript({ snapshot, time }) {
   const taskDefinitionVersion = data.get('taskDefinitionVersion', '?');
   const clusterArn = abbreviatePart(data, 'clusterArn', clusterArnRegex, 32);
   const region = data.get('region', '?');
-  const linkedTask = linkIfPossible(taskSnapshotId, taskArn);
-  const linkedRegion = linkIfPossible(regionSnapshotId, region);
+  const linkedTask = linkIfPossible(taskSnapshotId, taskArn, 'lib_aws_ecs_task');
+  const linkedRegion = linkIfPossible(regionSnapshotId, region, 'lib_views_cloud');
   return (
     <div className={locals.infrastructureTabSubscript}>
-      in task {linkedTask} of definition {taskDefinition}:{taskDefinitionVersion}
-      <br />
-      on cluster {clusterArn} in region: {linkedRegion}
+      <div>
+        <span>in </span>
+        {linkedTask}
+        <span> of </span>
+        <Icon type="lib_aws_ecs_task_definition_version" />
+        <span>
+          {' '}
+          {taskDefinition}:{taskDefinitionVersion}
+        </span>
+      </div>
+      <div>
+        <span> on </span>
+        <Icon type="lib_aws_ecs_cluster" />
+        <span>
+          {' '}
+          {clusterArn} in {linkedRegion}
+        </span>
+      </div>
     </div>
   );
 }
@@ -77,11 +93,14 @@ function withTooltip(fullLabel, abbreviation) {
   return <span title={fullLabel}>{abbreviation}</span>;
 }
 
-function linkIfPossible(snapshotId, label) {
+function linkIfPossible(snapshotId, label, icon) {
   return snapshotId ? (
-    <Link href$={subscriptLink(snapshotId)} className={locals.entityLink}>
-      {label}
-    </Link>
+    <>
+      <Icon type={icon} />
+      <Link href$={subscriptLink(snapshotId)} className={locals.entityLink}>
+        {label}
+      </Link>
+    </>
   ) : (
     label
   );
@@ -89,4 +108,8 @@ function linkIfPossible(snapshotId, label) {
 
 function subscriptLink(snapshotId) {
   return getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
+}
+
+function Icon({ type }) {
+  return <SvgIcon className={locals.entitiyIcon} type={type} size="s" />;
 }

@@ -6,10 +6,21 @@
     color: @lib__colors__N500;
     font-size: 0.75rem;
     max-width: 32rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
     .ellipsis()
   }
 
   .entityLink {
     color: @lib__colors__N500;
+  }
+
+  .entitiyIcon {
+    margin: 0 0.125rem;
+    fill: @lib__colors__N500;
+    vertical-align: middle;
   }
 }
