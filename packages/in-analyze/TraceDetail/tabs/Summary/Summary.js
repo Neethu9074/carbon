@@ -26,9 +26,9 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
+import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
-import { types } from 'in-new-components/Message/types';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
@@ -139,7 +139,7 @@ class Summary extends React.Component {
             <Row withoutSideMargin>
               <Col lg={12}>
                 <Message
-                  type={types.warning}
+                  type={warning}
                   title="Duplicate Calls"
                   description={`This trace consists of one or more duplicate calls (spans). Unique Calls: ${
                     trace.callCountIgnoringBatchSize
@@ -155,7 +155,7 @@ class Summary extends React.Component {
             <Row withoutSideMargin>
               <Col lg={12}>
                 <Message
-                  type={types.warning}
+                  type={warning}
                   title="Batched Ingestion"
                   description={`This trace got processed in ${
                     trace.ingestionBatchesCount

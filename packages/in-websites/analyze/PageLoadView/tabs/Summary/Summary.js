@@ -10,8 +10,8 @@ import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { types } from 'in-new-components/Message/types';
 import { number } from 'in-services/formatters/number';
 import { openPageLoad } from 'in-websites/tracker';
 import Message from 'in-new-components/Message';
@@ -79,7 +79,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         <Row>
           <Col lg={12}>
             <Message
-              type={types.warning}
+              type={warning}
               title="Clock Skew Problems Detected"
               description="Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a
               poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore

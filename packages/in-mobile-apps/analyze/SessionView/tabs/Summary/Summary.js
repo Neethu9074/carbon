@@ -10,8 +10,8 @@ import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import LifecycleObserver from 'in-components/LifecycleObserver';
+import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { types } from 'in-new-components/Message/types';
 import { number } from 'in-services/formatters/number';
 import { openSession } from 'in-mobile-apps/tracker';
 import Message from 'in-new-components/Message';
@@ -70,7 +70,7 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
         <Row>
           <Col lg={12}>
             <Message
-              type={types.warning}
+              type={warning}
               title="Clock Skew Problems Detected"
               description="Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a
               poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore
