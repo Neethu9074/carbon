@@ -9,8 +9,6 @@
     position: relative;
 
     &:hover {
-      cursor: pointer;
-
       .percentiles {
         z-index: 2;
       }
