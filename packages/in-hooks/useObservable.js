@@ -14,9 +14,19 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
   // We do this in order to encourage proper usage of this hook. In production mode we will still get
   // improved rendering performance (through fewer render calls).
   const initialState = __DEV__ ? undefined : observable?._lastEmittedValue;
-  const [state, setState] = useState(initialState);
+  const [lastKnownRenderState, scheduleRenderStateUpdate] = useState(initialState);
 
   useEffect(() => {
+    // We may have multiple state updates between React updates. In order to avoid any diffing
+    // problems we have to keep track of the last set state manually. All logic within the
+    // effect should only use the 'state' and 'setState' fields. The render state should be
+    // considered a side-effect that we cannot trust.
+    let state = lastKnownRenderState;
+    function setState(v) {
+      state = v;
+      scheduleRenderStateUpdate(v);
+    }
+
     // We allow usage such as useObservable(maybeTrue && createObservable(Ã¢â‚¬Â¦)) to support
     // React typical short-circuit logic. If also means that useObservable can be
     // combined with conditionals
@@ -28,7 +38,7 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
     }
 
     if (!pure || state !== initialState) {
-      // Re-set the state on observable changed immediately to ensure consistent views.
+      // Re-set the state on observable change immediately to ensure consistent views.
       setState(initialState);
     }
 
@@ -61,5 +71,6 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
       subscription.dispose();
     };
   }, fieldsToWatch);
-  return state;
+
+  return lastKnownRenderState;
 }

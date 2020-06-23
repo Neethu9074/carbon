@@ -2,10 +2,10 @@ import React from 'react';
 
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import ItemList from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/ItemList';
 import ServerListPresenter from 'in-new-components/lists/List/ServerListPresenter';
 import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const columnDefinitions = [
   {
@@ -31,18 +31,15 @@ const ServerListWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Selectable({ checkIfSelected, toggleItem }) {
+  const timeConfig = useTimeConfig();
   return (
-    <ItemList>
-      {({ timeConfig }) => (
-        <ServerListWithUrlState
-          get={getTableData}
-          timeConfig={timeConfig}
-          toggleItem={toggleItem}
-          checkIfSelected={checkIfSelected}
-          onClick={item => toggleItem(item.mobileApp.id, types.MOBILE_APP)}
-        />
-      )}
-    </ItemList>
+    <ServerListWithUrlState
+      get={getTableData}
+      timeConfig={timeConfig}
+      toggleItem={toggleItem}
+      checkIfSelected={checkIfSelected}
+      onClick={item => toggleItem(item.mobileApp.id, types.MOBILE_APP)}
+    />
   );
 }
 

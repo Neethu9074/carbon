@@ -92,7 +92,9 @@ export default function createServerTableWithUrlState({
       ...urlState
     };
     const observable =
-      props.query !== '' ? timeout(800).flatMap(() => props.get(propsForObservable)) : props.get(propsForObservable);
+      props.query?.length > 0
+        ? timeout(800).flatMap(() => props.get(propsForObservable))
+        : props.get(propsForObservable);
     const result = useObservable(observable, Object.values(propsForObservable)) ?? pendingResult;
 
     const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
