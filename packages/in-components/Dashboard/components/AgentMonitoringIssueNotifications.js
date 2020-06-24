@@ -32,7 +32,7 @@ export default connectTo(
     const monitoringIssuesList =
       monitoringIssuesResult &&
       monitoringIssuesResult.map(event => {
-        const eventPlugin = event.has('affectedEntitySnapshot')
+        const eventPlugin = event.get('affectedEntitySnapshot')?.get('plugin')
           ? event.get('affectedEntitySnapshot')
           : currentSnapshotPlugin;
         return {
