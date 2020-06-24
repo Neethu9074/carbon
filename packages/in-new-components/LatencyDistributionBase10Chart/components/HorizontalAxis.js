@@ -20,9 +20,9 @@ export default function HorizontalAxis({ buckets, bucketWidth, width, formatter 
 
 function Tick({ bucket, bucketWidth, formatter, enabled }) {
   let value;
-  if (bucket.from && bucket.to) {
+  if (bucket.from !== 0 && bucket.to !== 0) {
     value = formatter.detailed(bucket.from);
-  } else if (bucket.from) {
+  } else if (bucket.from !== 0) {
     value = '> ' + formatter.detailed(bucket.from);
   } else {
     value = '< ' + formatter.detailed(bucket.to);
