@@ -5,6 +5,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
 import {
   activityZeroDecimalPlaces,
@@ -17,7 +18,7 @@ import {
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
-  if (sensorConnectionStatus.startsWith('Agent Monitoring Issue')) {
+  if (sensorConnectionStatus.startsWith('Agent Monitoring Issue') && agentMonitoringIssuesEnabled) {
     return null;
   }
 
