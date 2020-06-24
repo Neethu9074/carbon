@@ -2,7 +2,7 @@
 
 :local {
   .wrapper {
-    padding: 0 1rem;
+    padding: 0 1rem 4rem;
   }
 
   .controls,
