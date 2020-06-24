@@ -6,7 +6,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './ProfileFlameGraph.mless';
 
-export default function ProfileFlameGraphWrapper({ profile, query, setHighlightedProfileConfig, width = 0 }) {
+export default function ProfileFlameGraphWrapper(props) {
+  const { query, width = 0 } = props;
   const [query$] = useState(create());
   useEffect(
     () => {
@@ -15,14 +16,7 @@ export default function ProfileFlameGraphWrapper({ profile, query, setHighlighte
     [query]
   );
 
-  return (
-    <ProfileFlameGraph
-      query$={query$}
-      width={width}
-      profile={profile}
-      setHighlightedProfileConfig={setHighlightedProfileConfig}
-    />
-  );
+  return <ProfileFlameGraph {...props} query$={query$} width={width} />;
 }
 
 const ProfileFlameGraph = connectTo(

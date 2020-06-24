@@ -1,0 +1,43 @@
+@import '~in-themes/active.less';
+
+:local {
+  .content {
+    margin: 0 -1rem;
+  }
+
+  .headerTextBold,
+  .headerText {
+    font-size: 0.75rem;
+  }
+
+  .headerText {
+    color: @lib__colors__N600Light;
+  }
+
+  .headerTextBold {
+    font-weight: bold;
+    color: @lib__colors__N900Primary;
+  }
+
+  .icon {
+    fill: @lib__colors__N900Primary;
+  }
+
+  .hotspotLine {
+    position: relative;
+
+    height: 2rem;
+  }
+
+  .item {
+    position: absolute;
+    top: 0;
+    height: 2rem;
+
+    border: 1px solid transparent;
+  }
+
+  .item:hover {
+    border: 1px dashed @lib__colors__N500;
+  }
+}

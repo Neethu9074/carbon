@@ -1,9 +1,9 @@
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
-import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({
   mark: {

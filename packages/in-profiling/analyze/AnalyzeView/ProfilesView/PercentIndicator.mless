@@ -1,0 +1,30 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .percentWrapper,
+  .percent {
+    .flexbox();
+
+    height: 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .percentWrapper {
+    width: 6.25rem;
+
+    margin-right: 0.5rem;
+
+    background: @lib__colors__N300;
+    overflow: hidden;
+  }
+
+  .percent {
+    background: @lib__colors__blue800;
+  }
+
+  .percentLabel {
+    width: 3.75rem;
+    color: @lib__colors__N700Medium;
+  }
+}

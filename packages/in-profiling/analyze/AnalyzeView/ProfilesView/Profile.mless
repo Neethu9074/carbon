@@ -26,6 +26,10 @@
     color: @lib__colors__N600Light;
   }
 
+  .searchInput {
+    margin-left: 0.5rem;
+  }
+
   .flameGraphContent {
     width: 100%;
   }

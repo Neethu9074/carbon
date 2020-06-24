@@ -1,24 +1,26 @@
 import React, { Fragment, useRef, useState } from 'react';
 
+import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/PercentIndicator';
+import FileNameAndLine from 'in-profiling/analyze/AnalyzeView/ProfilesView/FileNameAndLine';
+import MethodName from 'in-profiling/analyze/AnalyzeView/ProfilesView/MethodName';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import At from 'in-profiling/analyze/AnalyzeView/ProfilesView/At';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { treeViewExpanded } from 'in-profiling/tracker';
 import { scrollIntoView } from 'in-services/util/dom';
-import { getCodeView } from 'in-forge/codeView/java';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ProfileNode.mless';
 
 export default function ProfileNode({
-  processSnapshot,
   highlightedProfileConfig,
-  selectedProfileNode,
   setSelectedProfileNode,
+  selectedProfileNode,
   canFetchSourceCode,
+  processSnapshot,
   profileNode,
   depth = 0,
+  threshold,
   onKeyDown
 }) {
   if (!profileNode) {
@@ -36,7 +38,8 @@ export default function ProfileNode({
       block: 'center'
     });
   }
-  const hasChildren = profileNode.children.length > 0;
+  const filteredChildren = profileNode.children.filter(childNode => childNode.percent >= threshold);
+  const hasChildren = filteredChildren.length > 0;
   const isSelectedRow = selectedProfileNode === profileNode;
 
   return (
@@ -75,9 +78,10 @@ export default function ProfileNode({
         hasChildren && (
           <div className={locals.childrenWrapper}>
             <ChildProfiles
+              threshold={threshold}
               depth={depth}
               highlightedProfileConfig={highlightedProfileConfig}
-              profiles={profileNode.children}
+              profiles={filteredChildren}
               processSnapshot={processSnapshot}
               canFetchSourceCode={canFetchSourceCode}
               selectedProfileNode={selectedProfileNode}
@@ -98,11 +102,13 @@ function ChildProfiles({
   depth,
   profiles,
   processSnapshot,
+  threshold,
   canFetchSourceCode
 }) {
   const lastProfile = profiles[profiles.length - 1];
 
   const nodeProps = {
+    threshold,
     selectedProfileNode,
     highlightedProfileConfig,
     setSelectedProfileNode,
@@ -150,20 +156,6 @@ function Row({ depth, isSelected, isHighlighted, highlightedNodeDomRef, children
   );
 }
 
-function MethodName({ methodName }) {
-  return (
-    <span className={locals.methodName}>
-      {`<`}
-      {methodName}
-      {`>`}
-    </span>
-  );
-}
-
-function At() {
-  return <span className={locals.at}>at</span>;
-}
-
 function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select, unselect, depth }) {
   if (hasChildren) {
     return (
@@ -191,40 +183,5 @@ function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select,
         [locals.iconPlaceHolderWithLine]: depth > 0
       })}
     />
-  );
-}
-
-function FileNameAndLine({ canFetchSourceCode, processSnapshot, profileNode }) {
-  return (
-    <span
-      className={evaluateClassNames({
-        [locals.fileName]: true,
-        [locals.fileNameWithSourceCode]: canFetchSourceCode
-      })}
-      onClick={
-        canFetchSourceCode
-          ? e => {
-              stopPropagationAndPreventDefault(e);
-              addActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
-            }
-          : undefined
-      }
-    >
-      {profileNode.fileName}:{profileNode.fileLine}
-    </span>
-  );
-}
-
-function PercentIndicator({ percent }) {
-  // the percentage is given with high accurancy. Cap to 2 decimal places therefore
-  const percentLabel = ((percent * 100) | 0) / 100;
-
-  return (
-    <>
-      <div className={locals.percentWrapper}>
-        <div className={locals.percent} style={{ width: percent }} />
-      </div>
-      <span className={locals.percentLabel}>{percentLabel}%</span>
-    </>
   );
 }

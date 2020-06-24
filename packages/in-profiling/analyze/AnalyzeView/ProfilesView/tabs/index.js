@@ -1,9 +1,15 @@
 import React from 'react';
 
 import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
+import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 
 export default [
+  {
+    label: 'Summary',
+    path: `${analyzeProfilePathFullyQualified}/summary`,
+    component: HotspotView
+  },
   {
     label: 'CPU',
     path: `${analyzeProfilePathFullyQualified}/cpu`,
@@ -17,11 +23,15 @@ export default [
     isVisible: result => result.data && result.data.memoryProfile
   },
   {
-    label: 'Wait time',
+    label: 'Wait Time',
     path: `${analyzeProfilePathFullyQualified}/time`,
     component: TimeProfile
   }
 ];
+
+function HotspotView(props) {
+  return <View profiles={props.data} {...props} />;
+}
 
 function CpuProfile(props) {
   return <Profile isCpuProfile profile={props.data.cpuProfile} renderChart {...props} />;

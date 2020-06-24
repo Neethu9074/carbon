@@ -4,7 +4,6 @@ import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/C
 import strechData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/strechData';
 import render from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/renderer';
 import mapData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/data';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Button from 'in-new-components/Button';
 import createScale from 'in-services/scale';
@@ -21,28 +20,27 @@ export default getElementDimensions(
 
     state = {
       data: null,
-      selectedNode: false,
-      scale: createScale(),
-      selfTimeHighlighted: true
+      scale: createScale()
     };
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps) {
       if (
         this.props.profile.__uid !== nextProps.profile.__uid ||
         this.props.width !== nextProps.width ||
-        this.state.selfTimeHighlighted !== nextState.selfTimeHighlighted ||
+        this.props.selfTimeHighlighted !== nextProps.selfTimeHighlighted ||
+        this.props.threshold !== nextProps.threshold ||
         this.props.query !== nextProps.query
       ) {
-        this.calculateData(nextProps, nextState);
+        this.calculateData(nextProps);
       }
 
       // reset selected node on resize
-      if (this.props.width !== nextProps.width && nextState.selectedNode) {
-        this.setState({ selectedNode: null });
+      if (this.props.width && nextProps.width && this.props.width !== nextProps.width && nextProps.selectedNode) {
+        this.props.setSelectedNode(null);
       }
 
-      if (this.props.width !== nextProps.width || this.state.selectedNode !== nextState.selectedNode) {
-        this.calculateScale(nextProps, nextState);
+      if (this.props.width !== nextProps.width || this.props.selectedNode !== nextProps.selectedNode) {
+        this.calculateScale(nextProps);
       }
 
       return true;
@@ -51,18 +49,24 @@ export default getElementDimensions(
     componentDidUpdate(prevProps, prevState) {
       if ((this.state.data && this.state.data !== prevState.data) || this.state.scale !== prevState.scale) {
         strechData(this.state.data, this.state.scale);
-        render(this.canvas, this.state.data, this.state.selfTimeHighlighted, this.state.selectedNode);
+        render(
+          this.canvas,
+          this.state.data,
+          this.props.selfTimeHighlighted,
+          this.props.selectedNode,
+          this.props.threshold
+        );
       }
     }
 
-    calculateData = ({ width, profile, query }, { selfTimeHighlighted }) => {
+    calculateData = ({ width, profile, query, selfTimeHighlighted }) => {
       if (width <= 0) {
         return;
       }
       this.setState({ data: mapData(profile, width, query, selfTimeHighlighted) });
     };
 
-    calculateScale = ({ width }, { selectedNode }) => {
+    calculateScale = ({ width, selectedNode }) => {
       const scale = createScale();
       scale.setRangeFrom(0);
       scale.setRangeTo(width);
@@ -83,42 +87,26 @@ export default getElementDimensions(
     };
 
     render() {
-      const selfTimeHighlighted = this.state.selfTimeHighlighted;
+      const selfTimeHighlighted = this.props.selfTimeHighlighted;
+      const selectedNode = this.props.selectedNode;
 
       return (
         <div className={locals.wrapper}>
-          <HorizontalFlexWrapper>
+          <div>
             <Button
               className={locals.controlButton}
               kind={selfTimeHighlighted ? 'primaryv2' : 'secondary'}
-              onClick={() => {
-                this.setState({ selfTimeHighlighted: !selfTimeHighlighted });
-              }}
+              onClick={() => this.props.setSelfTimeHighlighted(!selfTimeHighlighted)}
             >
               Highlight self CPU
             </Button>
-
-            {this.state.selectedNode && (
-              <Button
-                className={locals.controlButton}
-                kind="secondary"
-                onClick={() =>
-                  this.props.setHighlightedProfileConfig({
-                    highlightedId: this.state.selectedNode.__uid,
-                    expandedIds: getPathIds(this.state.selectedNode.parentNode)
-                  })
-                }
-              >
-                Show in Tree view
-              </Button>
-            )}
-          </HorizontalFlexWrapper>
-          {this.state.selectedNode ? (
+          </div>
+          {selectedNode ? (
             <Button
               className={locals.resetButton}
               size="compact"
               kind="primaryv2"
-              onClick={() => this.setState({ selectedNode: null })}
+              onClick={() => this.props.setSelectedNode(null)}
             >
               Reset
             </Button>
@@ -132,8 +120,9 @@ export default getElementDimensions(
                 canvas={this.canvas}
                 data={this.state.data}
                 scale={this.state.scale}
-                selectedNode={this.state.selectedNode}
-                onNodeSelected={selectedNode => this.setState({ selectedNode })}
+                selectedNode={selectedNode}
+                threshold={this.props.threshold}
+                onNodeSelected={this.props.setSelectedNode}
               />
             )}
           </div>
@@ -142,17 +131,3 @@ export default getElementDimensions(
     }
   }
 );
-
-function getPathIds(node) {
-  const ids = [];
-  collectIds(node, ids);
-  return new Set(ids);
-}
-
-function collectIds(node, ids) {
-  if (!node) {
-    return;
-  }
-  ids.push(node.__uid);
-  collectIds(node.parentNode, ids);
-}

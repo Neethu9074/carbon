@@ -4,7 +4,13 @@ import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
 const axisFont = `10px ${theme.fontFamilySansSerif}`;
 
-export default function render(canvas, { layers, totalWidth, totalHeight }, selfTimeHighlighted, selectedNode) {
+export default function render(
+  canvas,
+  { layers, totalWidth, totalHeight },
+  selfTimeHighlighted,
+  selectedNode,
+  threshold
+) {
   const ctx = canvas.getContext('2d');
   updateCanvasDimensions(canvas, ctx, totalWidth, totalHeight);
 
@@ -19,7 +25,7 @@ export default function render(canvas, { layers, totalWidth, totalHeight }, self
     for (let i = 0; i < layerNodes.length; i++) {
       const node = layerNodes[i];
 
-      if (node.s_x + node.s_width < 0 || node.s_x > totalWidth) {
+      if (node.percent < threshold || node.s_x + node.s_width < 0 || node.s_x > totalWidth) {
         continue;
       }
 
@@ -58,15 +64,16 @@ export default function render(canvas, { layers, totalWidth, totalHeight }, self
   }
 
   function colorSelfTime(node) {
-    const { s_x, y, s_width, height, value, selfValue } = node;
-    const valueSelfValueRatio = selfValue / value;
+    const { s_x, y, s_width, height, value, selfTime } = node;
+
+    const valueSelfTimeRatio = selfTime / value;
     const width = Math.max(0, s_width - 1);
-    const selfValueWidth = valueSelfValueRatio * width;
-    const valueWidth = width - selfValueWidth;
+    const selfTimeWidth = valueSelfTimeRatio * width;
+    const valueWidth = width - selfTimeWidth;
     ctx.fillStyle = theme.lib.colors.N400;
     ctx.fillRect(s_x, y, valueWidth, height - 1);
     ctx.fillStyle = node.color;
-    ctx.fillRect(s_x + valueWidth, y, selfValueWidth, height - 1);
+    ctx.fillRect(s_x + valueWidth, y, selfTimeWidth, height - 1);
   }
 
   function drawText({ name: textToRender, s_x, y, s_width }) {

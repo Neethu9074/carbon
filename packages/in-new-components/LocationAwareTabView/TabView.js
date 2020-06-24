@@ -34,7 +34,6 @@ function TabView({
   filterTabByResult = () => () => true,
   HeaderComponent,
   location,
-  basePath,
   props,
   withoutBreadcrumb = false,
   tabChangeTracker
@@ -68,7 +67,6 @@ function TabView({
           location={location}
           props={props}
           renderErrors={renderErrors}
-          basePath={basePath}
         />
       </Sticky>
     </section>

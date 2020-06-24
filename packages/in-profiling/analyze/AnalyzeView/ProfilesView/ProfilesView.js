@@ -2,9 +2,9 @@ import { compose, withPropsOnChange } from 'recompose';
 import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
-import { analyzeProfilePathFullyQualified, closeProfilesViewLink } from 'in-profiling/navigation/paths';
-import { processIdUrlParameter, timeUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
+import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getProfiles from 'in-profiling/subscriptions/getProfiles';
@@ -27,7 +27,8 @@ export const viewTypes = {
 
 export default compose(
   withUrlState({
-    bind: [processIdUrlParameter, timeUrlParameter]
+    bind: [processIdUrlParameter, timeUrlParameter, thresholdUrlParameter],
+    reducerName: 'onChangeUrlState'
   }),
   withPropsOnChange(['timeConfig', 'time'], ({ timeConfig, time }) => ({
     timeConfigForSnapshots: {
@@ -75,7 +76,9 @@ function ProfilesView(props) {
     canFetchSourceCode,
     processId,
     timeConfig,
-    location
+    threshold,
+    location,
+    onChangeUrlState
   } = props;
 
   return (
@@ -96,9 +99,10 @@ function ProfilesView(props) {
         processSnapshot,
         deepestTechSnapshot: deepestTechSnapshot || processSnapshot || historicalProcessSnapshot,
         jvmSnapshot,
-        canFetchSourceCode
+        canFetchSourceCode,
+        threshold,
+        setThreshold: v => onChangeUrlState({ threshold: v })
       })}
-      basePath={analyzeProfilePathFullyQualified}
       props={props}
       withoutBreadcrumb
       withoutPadding

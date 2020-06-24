@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+:local {
+  .line {
+    display: flex;
+
+    padding: 0.25rem 0;
+  }
+
+  .selectedLine {
+    background: @lib__colors__N300;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+  }
+
+  .iconPlaceholder {
+    width: 1rem;
+  }
+
+  .percent {
+    margin-left: 0.25rem;
+
+    color: @lib__colors__N500;
+  }
+}

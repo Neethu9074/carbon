@@ -1,0 +1,13 @@
+:local {
+  .overlayContent {
+    width: 30rem;
+  }
+
+  .keyValue {
+    height: 2.75rem;
+  }
+
+  .thresholdSliderWrapper {
+    width: 20rem;
+  }
+}

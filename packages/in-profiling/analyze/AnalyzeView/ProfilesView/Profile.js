@@ -7,10 +7,12 @@ import {
   waitTimeFlameGraphOpened
 } from 'in-profiling/tracker';
 import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
+import SettingsButton from 'in-profiling/analyze/AnalyzeView/ProfilesView/SettingsButton';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -25,6 +27,8 @@ export default function Profile({
   setViewType,
   profile,
   canFetchSourceCode,
+  threshold,
+  setThreshold,
   timeConfig,
   processId,
   jvmSnapshot,
@@ -34,6 +38,8 @@ export default function Profile({
 }) {
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [selfTimeHighlighted, setSelfTimeHighlighted] = useState(true);
   const [highlightedProfileConfig, setHighlightedProfileConfig] = useState(null);
 
   // the tree view auto expands if the highlighted id was set. This should only happen once and only on id change
@@ -69,27 +75,26 @@ export default function Profile({
       totalNumSamples += countSamples(profile.profileGraph[i]);
     }
 
-    if (viewType === viewTypes.tree) {
-      profilesVisualisation = (
+    profilesVisualisation =
+      viewType === viewTypes.tree ? (
         <ProfileTree
           profile={profile}
           processSnapshot={processSnapshot}
           canFetchSourceCode={canFetchSourceCode}
           highlightedProfileConfig={highlightedProfileConfig}
+          threshold={threshold}
         />
-      );
-    } else {
-      profilesVisualisation = (
+      ) : (
         <ProfileFlameGraph
           profile={profile}
           query={query}
-          setHighlightedProfileConfig={config => {
-            setViewType(viewTypes.tree);
-            setHighlightedProfileConfig(config);
-          }}
+          selectedNode={selectedNode}
+          setSelectedNode={setSelectedNode}
+          selfTimeHighlighted={selfTimeHighlighted}
+          setSelfTimeHighlighted={setSelfTimeHighlighted}
+          threshold={threshold}
         />
       );
-    }
   }
 
   return (
@@ -103,7 +108,15 @@ export default function Profile({
                 text: 'Tree view',
                 icon: 'lib_application_trace',
                 key: viewTypes.tree,
-                onClick: () => setViewType(viewTypes.tree)
+                onClick: () => {
+                  setViewType(viewTypes.tree);
+                  if (selectedNode) {
+                    setHighlightedProfileConfig({
+                      highlightedId: selectedNode.__uid,
+                      expandedIds: getPathIds(selectedNode.parentNode)
+                    });
+                  }
+                }
               },
               {
                 text: 'Flame graph',
@@ -142,9 +155,23 @@ export default function Profile({
               </Tooltip>
             )}
         </div>
-        {viewType === viewTypes.flameGraph && (
-          <SearchInput onChange={setQuery} query={query} autoFocus maxWidth={200} />
-        )}
+
+        <HorizontalFlexWrapper>
+          <SettingsButton
+            threshold={threshold}
+            setThreshold={v => {
+              setThreshold(v);
+              setSelectedNode(null);
+            }}
+            showGraph={showGraph}
+            setShowGraph={setShowGraph}
+            selfTimeHighlighted={selfTimeHighlighted}
+            setSelfTimeHighlighted={setSelfTimeHighlighted}
+          />
+          {viewType === viewTypes.flameGraph && (
+            <SearchInput className={locals.searchInput} onChange={setQuery} query={query} autoFocus maxWidth={200} />
+          )}
+        </HorizontalFlexWrapper>
       </div>
 
       {showGraph &&
@@ -155,4 +182,18 @@ export default function Profile({
       {profilesVisualisation}
     </>
   );
+}
+
+function getPathIds(node) {
+  const ids = [];
+  collectIds(node, ids);
+  return new Set(ids);
+}
+
+function collectIds(node, ids) {
+  if (!node) {
+    return;
+  }
+  ids.push(node.__uid);
+  collectIds(node.parentNode, ids);
 }

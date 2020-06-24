@@ -44,7 +44,8 @@
   }
 
   .link {
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       text-decoration: none;
       background: @lib__colors__faded-blue800;
       // Outline is commonly cut-off. Better implement a manual outline
@@ -88,7 +89,8 @@
   .clickable {
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background: @lib__colors__faded-blue800;
       // Outline is commonly cut-off. Better implement a manual outline
       // via background color. Not quite as prominent though…

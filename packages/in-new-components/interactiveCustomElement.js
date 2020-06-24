@@ -27,7 +27,11 @@ export function toInteractiveElement(args) {
   };
 }
 
-export function withInteractivitySideEffects({onDefaultInteraction, preventDefault=false, stopPropagation=false}) {
+export function withInteractivitySideEffects({
+  onDefaultInteraction,
+  preventDefault = false,
+  stopPropagation = false
+}) {
   return {
     onClick(e) {
       if (!isPrimaryInteractiveElement(e.target)) {

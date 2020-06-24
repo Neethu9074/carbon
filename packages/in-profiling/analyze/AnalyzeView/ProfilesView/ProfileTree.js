@@ -8,7 +8,13 @@ import keyCodes from 'in-components/keyCodes';
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
 
-export default function ProfileTree({ profile, canFetchSourceCode, processSnapshot, highlightedProfileConfig }) {
+export default function ProfileTree({
+  profile,
+  canFetchSourceCode,
+  processSnapshot,
+  highlightedProfileConfig,
+  threshold
+}) {
   if (!profile) {
     return null;
   }
@@ -17,9 +23,10 @@ export default function ProfileTree({ profile, canFetchSourceCode, processSnapsh
 
   return (
     <>
-      {profile.profileGraph.map((profileNode, i) => (
+      {profile.profileGraph.filter(profileNode => profileNode.percent >= threshold).map((profileNode, i) => (
         <div key={i} className={locals.profile}>
           <ProfileNode
+            threshold={threshold}
             profileNode={profileNode}
             highlightedProfileConfig={highlightedProfileConfig}
             processSnapshot={processSnapshot}

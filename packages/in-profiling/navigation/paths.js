@@ -29,7 +29,7 @@ export function getLinkToAnalyze() {
 
 export function getLinkToProfiles({ processSnapshotId, time }) {
   return getModifiedUrlStream(params => {
-    params.pathname = analyzeProfilePathFullyQualified;
+    params.pathname = `${analyzeProfilePathFullyQualified}/summary`;
     setOrDeleteMatrixKey(params, profilingPath, processIdMatrixParameter, processSnapshotId);
     if (time) {
       setOrDeleteMatrixKey(params, profilingPath, timeMatrixParameter, time);

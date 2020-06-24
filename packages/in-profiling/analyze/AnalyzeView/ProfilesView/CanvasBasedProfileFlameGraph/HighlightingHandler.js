@@ -19,7 +19,11 @@ export default class HighlightingHandler extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedNode !== prevProps.selectedNode || this.props.scale !== prevProps.scale) {
+    if (
+      this.props.selectedNode !== prevProps.selectedNode ||
+      this.props.scale !== prevProps.scale ||
+      this.props.threshold !== prevProps.threshold
+    ) {
       this.resetHighlighting();
     }
   }
@@ -37,8 +41,7 @@ export default class HighlightingHandler extends React.Component {
       return;
     }
 
-    const hoveredNode = this.getHoveredNode(layer, e.offsetX);
-    this.setState({ highlightedNode: hoveredNode });
+    this.setState({ highlightedNode: this.getHoveredNode(layer, e.offsetX) });
   };
 
   getHoveredNode(layer, mouseXPosition) {
@@ -46,7 +49,7 @@ export default class HighlightingHandler extends React.Component {
       const node = layer[i];
       const nodeX = node.s_x;
       const nodeWidth = node.s_width;
-      if (mouseXPosition >= nodeX && mouseXPosition < nodeX + nodeWidth) {
+      if (node.percent > this.props.threshold && mouseXPosition >= nodeX && mouseXPosition < nodeX + nodeWidth) {
         return node;
       }
     }

@@ -1,4 +1,5 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { init, get, calculate } from 'in-profiling/subscriptions/selfTimeCalculator';
 
 export default createResultSubscriptionFactory({
   eventId: 'getProfiles',
@@ -11,40 +12,44 @@ function mapResult(result) {
     return result;
   }
 
+  init();
   const newResult = { errors: result.errors, progress: result.progress, data: {} };
   if (result.data.cpuProfile) {
     newResult.data.cpuProfile = {
       ...result.data.cpuProfile,
       __uid: getId(),
-      profileGraph: result.data.cpuProfile.profileGraph.map(enhanceProfile)
+      profileGraph: result.data.cpuProfile.profileGraph.map(p => enhanceProfile(p))
     };
   }
   if (result.data.memoryProfile) {
     newResult.data.memoryProfile = {
       ...result.data.memoryProfile,
       __uid: getId(),
-      profileGraph: result.data.memoryProfile.profileGraph.map(enhanceProfile)
+      profileGraph: result.data.memoryProfile.profileGraph.map(p => enhanceProfile(p))
     };
   }
   if (result.data.timeProfile) {
     newResult.data.timeProfile = {
       ...result.data.timeProfile,
       __uid: getId(),
-      profileGraph: result.data.timeProfile.profileGraph.map(enhanceProfile)
+      profileGraph: result.data.timeProfile.profileGraph.map(p => enhanceProfile(p))
     };
   }
   return newResult;
 }
 
 function enhanceProfile(profile, parentNode = null) {
-  profile = {
+  const enhancedProfile = {
     ...profile,
     __uid: getId(),
-    parentNode,
-    children: profile.children.map(enhanceProfile, profile)
+    parentNode
   };
+  enhancedProfile.children = profile.children.map(childNode => enhanceProfile(childNode, enhancedProfile));
 
-  return profile;
+  calculate(enhancedProfile);
+  enhancedProfile.selfTime = get(enhancedProfile.__uid);
+
+  return enhancedProfile;
 }
 
 let id = 1;

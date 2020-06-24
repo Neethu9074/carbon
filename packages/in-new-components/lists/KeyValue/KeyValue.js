@@ -47,9 +47,9 @@ export default function KeyValue({
 }
 
 KeyValue.propTypes = {
-  label: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
+  className: PropTypes.string,
   customValue: PropTypes.any,
   inverted: PropTypes.bool,
   accentuated: PropTypes.bool,

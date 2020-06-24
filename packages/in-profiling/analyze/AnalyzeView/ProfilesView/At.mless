@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+  .at {
+    margin: 0 0.5rem;
+    color: @lib__colors__N500;
+  }
+}

@@ -1,0 +1,15 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .fileName {
+    color: @lib__colors__N500;
+    .ellipsis();
+  }
+
+  .fileNameWithSourceCode {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
