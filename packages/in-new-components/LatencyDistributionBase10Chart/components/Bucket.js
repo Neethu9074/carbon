@@ -57,7 +57,7 @@ const TooltipContent = (bucket, formatter) => {
   const from = formatter.detailed(bucket.from);
   const to = formatter.detailed(bucket.to);
   let text;
-  if (bucket.from !== undefined && bucket.to !== undefined) {
+  if (bucket.from !== 0 && bucket.to !== 0) {
     text = `${from} to ${to}`;
   } else if (bucket.from) {
     text = `> ${from}`;
