@@ -6,7 +6,8 @@ import {
   bytesPerSecondTwoDecimalPlaces,
   millis,
   bytes,
-  percentageZeroDecimalPlaces
+  percentageZeroDecimalPlaces,
+  zeroDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
@@ -160,7 +161,7 @@ export default [
     label: 'Consumer Group Lag',
     category: ['Topics'],
     min: 0,
-    formatter: number
+    formatter: zeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('broker.topicData', 'bytesInPerSec', 'Topic'),
@@ -188,7 +189,7 @@ export default [
     label: 'Messages In Per Second',
     category: ['Topics'],
     min: 0,
-    formatter: bytesPerSecondTwoDecimalPlaces
+    formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('kafkaClient.producer', 'producerOutgoingByteRate', 'Producer'),
