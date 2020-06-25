@@ -14,13 +14,28 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function StackButton({ id, applicationId, timeConfig, isInternalVisible, productArea, noAutoMargin, className }) {
+  function StackButton({
+    id,
+    applicationId,
+    timeConfig,
+    isInternalVisible,
+    productArea,
+    noAutoMargin,
+    includeSelfEntity,
+    className
+  }) {
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
           align="bottomLeft"
           content={() => (
-            <Stack id={id} applicationId={applicationId} timeConfig={timeConfig} productArea={productArea} />
+            <Stack
+              id={id}
+              applicationId={applicationId}
+              timeConfig={timeConfig}
+              productArea={productArea}
+              includeSelfEntity={includeSelfEntity}
+            />
           )}
           behindSidebar
           withoutWrapper

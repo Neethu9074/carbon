@@ -126,7 +126,7 @@ function Header(props) {
 }
 
 function renderButtonLine({ processId, timeConfig }) {
-  return <ContextGuide id={processId} timeConfig={timeConfig} />;
+  return <ContextGuide id={processId} timeConfig={timeConfig} includeSelfEntity />;
 }
 
 function renderContext() {

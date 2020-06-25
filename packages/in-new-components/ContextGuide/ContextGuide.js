@@ -13,6 +13,7 @@ export default function ContextGuide({
   timeConfig,
   productArea,
   tagFilters,
+  includeSelfEntity = false,
   plugin
 }) {
   return (
@@ -23,6 +24,7 @@ export default function ContextGuide({
         timeConfig={timeConfig}
         productArea={productArea}
         className={locals.leftButton}
+        includeSelfEntity={includeSelfEntity}
         noAutoMargin
       />
       <UpstreamDownstreamButton

@@ -5,8 +5,15 @@ import {
   getStackForApplication,
   getStackForService
 } from 'in-new-components/Stack/subscriptions/getStack';
+import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import getApplication from 'in-subscription/application/getApplication';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
+import getService from 'in-subscription/application/getService';
+import { hasError, isLoading } from 'in-services/util/result';
+import { getIconSvgPath } from 'in-sdk/snapshot';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 function getStackResult({ id, applicationId, timeConfig, productArea }) {
@@ -20,14 +27,32 @@ function getStackResult({ id, applicationId, timeConfig, productArea }) {
   }
 }
 
-export default connectTo(
-  ({ id, applicationId, timeConfig, productArea }) => ({
-    stackResult: getStackResult({ id, applicationId, timeConfig, productArea })
-  }),
-  function Stack({ applicationId, stackResult, productArea }) {
-    const isLoading = stackResult.progress && stackResult.progress.loading;
+function getSelfEntity({ id, timeConfig, applicationId, productArea }) {
+  switch (productArea) {
+    case 'application':
+      return getApplication({ id }).map(resolveApplicationResult);
+    case 'service':
+      return getService({
+        id,
+        filter: {
+          timeConfig
+        }
+      }).map(result => resolveServiceResult(result, applicationId));
+    default:
+      return getSnapshot(id, timeConfig).map(resolveSnapshotResult);
+  }
+}
 
-    if (stackResult.errors.length > 0) {
+export default connectTo(
+  ({ id, applicationId, timeConfig, productArea, includeSelfEntity }) => {
+    const observables = { stackResult: getStackResult({ id, applicationId, timeConfig, productArea }) };
+    if (includeSelfEntity) {
+      observables.selfEntity = getSelfEntity({ id, applicationId, timeConfig, productArea });
+    }
+    return observables;
+  },
+  function Stack({ applicationId, stackResult, productArea, selfEntity }) {
+    if (hasError(stackResult)) {
       return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
 
@@ -35,9 +60,44 @@ export default connectTo(
       <StackPresenter
         applicationId={applicationId}
         stack={stackResult.data}
-        isLoading={isLoading}
+        isLoading={isLoading(stackResult)}
         productArea={productArea}
+        selfEntity={selfEntity}
       />
     );
   }
 );
+
+function resolveApplicationResult(result) {
+  if (hasError(result) || isLoading(result)) {
+    return undefined;
+  }
+  return {
+    icon: 'lib_application',
+    label: result.data.label,
+    href$: getApplicationDashboard(result.data.id)
+  };
+}
+
+function resolveServiceResult(result, applicationId) {
+  if (hasError(result) || isLoading(result)) {
+    return undefined;
+  }
+  return {
+    icon: 'lib_application_service',
+    label: result.data.label,
+    href$: getServiceDashboard(result.data.id, { applicationId })
+  };
+}
+
+function resolveSnapshotResult(result) {
+  if (!result) {
+    return undefined;
+  }
+  return {
+    iconPath: getIconSvgPath(result),
+    size: 'xs',
+    label: result.get('label'),
+    href$: getDashboardLink(result.get('id'), { pathname: '/physical/dashboard' })
+  };
+}

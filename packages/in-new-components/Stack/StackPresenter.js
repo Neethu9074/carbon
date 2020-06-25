@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
+import SelfEntityHeader from 'in-new-components/Stack/SelfEntityHeader';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import { setSingle, getSingle } from 'in-services/settings/settings';
 import EmptyPane from 'in-new-components/Stack/components/EmptyPane';
@@ -13,10 +14,9 @@ import locals from './StackPresenter.mless';
 
 const preferredContextGuideTabSettingsKey = 'preferredContextGuideTab';
 
-export default function StackPresenter({ applicationId, stack, isLoading, productArea }) {
+export default function StackPresenter({ applicationId, stack, isLoading, productArea, selfEntity }) {
   useEffect(() => {
     disableBodyScroll();
-
     return enableBodyScroll;
   });
 
@@ -25,10 +25,10 @@ export default function StackPresenter({ applicationId, stack, isLoading, produc
   }
 
   if (isEmpty(stack)) {
-    return <EmptyStackPane productArea={productArea} />;
+    return <EmptyStackPane productArea={productArea} selfEntity={selfEntity} />;
   }
 
-  return <NavigableStack applicationId={applicationId} stack={stack} />;
+  return <NavigableStack applicationId={applicationId} stack={stack} selfEntity={selfEntity} />;
 }
 
 const Loader = () => (
@@ -47,10 +47,11 @@ const productAreaItems = {
   kubernetes: 'resource'
 };
 
-const EmptyStackPane = ({ productArea }) => {
+const EmptyStackPane = ({ productArea, selfEntity }) => {
   const itemText = productAreaItems[productArea] || 'item';
   return (
     <>
+      <SelfEntityHeader selfEntity={selfEntity} />
       <InlineTabNavigation tabList={tabList} isDisabled />
       <div className={locals.pane}>
         <EmptyPane
@@ -63,7 +64,7 @@ const EmptyStackPane = ({ productArea }) => {
   );
 };
 
-const NavigableStack = ({ applicationId, stack }) => {
+const NavigableStack = ({ applicationId, stack, selfEntity }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(getInitialTabIndexFn(stack));
 
   const { key } = tabList[activeTabIndex];
@@ -76,6 +77,7 @@ const NavigableStack = ({ applicationId, stack }) => {
 
   return (
     <>
+      <SelfEntityHeader selfEntity={selfEntity} />
       <InlineTabNavigation tabList={enrichedTabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
       <StackPane applicationId={applicationId} groups={stack[key].groups} tab={key} activeTabIndex={activeTabIndex} />
     </>
