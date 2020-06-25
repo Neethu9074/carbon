@@ -40,6 +40,18 @@ export function setConfig(config) {
   });
 }
 
+export function deleteConfig() {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/authentication/saml`,
+    headers: getCsrfHeader()
+  }).map(response => {
+    refreshSignal.emit(true);
+    return response.body;
+  });
+}
+
 export function isAvailable() {
   return http({
     method: 'GET',

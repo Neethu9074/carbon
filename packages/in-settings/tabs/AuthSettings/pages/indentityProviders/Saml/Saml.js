@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
-import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -32,6 +32,7 @@ export default function Saml() {
         config: getConfigAsResultObservable()
       })}
       enrichForm={enrichForm}
+      deleteItem={deleteItem}
       input={input}
       file={file}
       onCancelClick={() => {
@@ -50,7 +51,7 @@ export default function Saml() {
   );
 }
 
-function render({ file, form, setForm, input, setCanSaveItem, setMessage }) {
+function render({ file, form, setForm, input, setCanSaveItem }) {
   useEffect(
     () => {
       setCanSaveItem(!!file);
@@ -183,15 +184,6 @@ function render({ file, form, setForm, input, setCanSaveItem, setMessage }) {
           >
             {file ? shorten(file.name, 32) : 'Choose file…'}
           </Button>
-
-          {form.get('activated').map(
-            field =>
-              field.value && (
-                <Button kind="danger" onClick={() => deleteConfig({ setMessage })}>
-                  Deactivate
-                </Button>
-              )
-          )}
         </div>
       </form>
     </>
@@ -213,9 +205,9 @@ function CopyableText({ title, form, fieldName }) {
   ));
 }
 
-function deleteConfig({ setMessage }) {
+function deleteItem({ setMessage }) {
   setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata: '' });
+  const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
       setMessage({ text: 'Config successfully deleted.', type: success });
@@ -235,11 +227,11 @@ function saveItem({ setMessage, idpMetadata }) {
   );
 }
 
-function enrichForm(form, { result: { config } }) {
+function enrichForm(form, { setCanDeleteItem, result: { config } }) {
+  setCanDeleteItem(!!config.activated);
   return form
     .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
     .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }))
-    .put('activated', createField({ value: !!config.activated }));
+    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
 }
