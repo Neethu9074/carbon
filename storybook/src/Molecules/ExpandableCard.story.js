@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ExpandableCard from 'in-new-components/ExpandableCard';
-import Button from 'in-new-components/Button/ButtonPresenter';
+import Button from 'in-new-components/Button';
 
 export default {
   title: 'Molecules|Cards/ExpandableCard',

@@ -1,12 +1,142 @@
-import ButtonPresenter from 'in-new-components/Button/ButtonPresenter';
-import { emptyObject } from 'in-services/fixedObjects';
-import connectTo from 'in-hoc/connectTo';
+import rpt from 'prop-types';
+import React from 'react';
 
-export default connectTo(props => {
-  if (props.href$) {
-    return {
-      href: props.href$
-    };
+import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import useObservable from 'in-hooks/useObservable';
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './Button.mless';
+
+export const kinds = [
+  'primary',
+  'primaryv2',
+  'secondary',
+  'secondaryDarker',
+  'action',
+  'subtle',
+  'create',
+  'danger',
+  'warning',
+  'info',
+  'fixedInline'
+];
+export const sizes = ['xl', 'normal', 'compact'];
+
+const iconDimensions = {
+  xl: 'regular',
+  normal: 'regular',
+  compact: 'xs'
+};
+
+export default function Button({
+  icon,
+  iconSpinning,
+  iconSize,
+  className,
+  kind = 'primary',
+  size = 'normal',
+  type = 'button',
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  style,
+  children,
+  href,
+  href$,
+  disabled,
+  target,
+  refSetter,
+  autoFocus,
+  noAutoMargin
+}) {
+  const resolvedHref = useObservable(href$, [href$]) || href;
+  let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
+    ''}`;
+
+  if (className) {
+    classes = `${classes} ${className}`;
   }
-  return emptyObject;
-}, ButtonPresenter);
+
+  // Do not use the disabled attribute as we want to continue to retrieve mouse events
+  // sorry usability :(.
+  if (disabled) {
+    classes = `${classes} ${locals.disabled}`;
+  }
+
+  if (disabled) {
+    onClick = stopPropagationAndPreventDefault;
+  }
+
+  let iconElement;
+  if (icon) {
+    iconElement = (
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.icon]: true,
+          [locals.noHorizontalMargin]: !children
+        })}
+        type={icon}
+        spinning={iconSpinning}
+        size={iconSize || iconDimensions[size]}
+      />
+    );
+  }
+
+  if (!resolvedHref) {
+    return (
+      <button
+        className={classes}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        style={style}
+        type={type}
+        ref={refSetter}
+        autoFocus={autoFocus}
+      >
+        {iconElement} {children}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      href={resolvedHref}
+      target={target}
+      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+      className={classes}
+      onClick={onClick ? onClick : stopPropagation}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={style}
+      ref={refSetter}
+      autoFocus={autoFocus}
+    >
+      {iconElement} {children}
+    </a>
+  );
+}
+
+Button.propTypes = {
+  /** Icon here */
+  icon: rpt.string,
+  iconSpinning: rpt.bool,
+  iconSize: rpt.oneOf(['xs', 's', 'm', 'l']),
+  className: rpt.string,
+  style: rpt.object,
+  children: rpt.node,
+  kind: rpt.oneOf(kinds),
+  size: rpt.oneOf(sizes),
+  onMouseEnter: rpt.func,
+  onMouseLeave: rpt.func,
+  type: rpt.string,
+  onClick: rpt.func,
+  href: rpt.string,
+  href$: rpt.object,
+  target: rpt.string,
+  disabled: rpt.bool,
+  refSetter: rpt.func,
+  autoFocus: rpt.bool,
+  noAutoMargin: rpt.bool
+};

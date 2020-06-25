@@ -1,48 +1,36 @@
 import React from 'react';
 
 import evaluateClassNames from 'in-services/util/classnames';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './Link.mless';
 
-export default connectTo(
-  props => {
-    if (props.href) {
-      return {};
-    }
-    return {
-      href: props.href$
-    };
-  },
-  function Link({ href, onClick, children, title, target, className, style, external, ellipsis, id }) {
-    if (external) {
-      return (
-        <a
-          href={href}
-          onClick={onClick}
-          title={title}
-          className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
-          style={style}
-          target="_blank"
-          rel="noopener noreferrer"
-          id={id}
-        >
-          {children}
-        </a>
-      );
-    }
-    return (
-      <a
-        href={href}
-        onClick={onClick}
-        title={title}
-        target={target}
-        className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
-        style={style}
-        id={id}
-      >
-        {children}
-      </a>
-    );
-  }
-);
+export default function Link({
+  href,
+  href$,
+  onClick,
+  children,
+  title,
+  target,
+  className,
+  style,
+  external,
+  ellipsis,
+  id
+}) {
+  const resolvedHref = useObservable(href$, [href$]) || href;
+  return (
+    <a
+      href={resolvedHref}
+      onClick={onClick}
+      title={title}
+      className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
+      style={style}
+      target={target || (external ? '_blank' : undefined)}
+      rel={external ? 'noopener noreferrer' : undefined}
+      id={id}
+    >
+      {children}
+    </a>
+  );
+}
