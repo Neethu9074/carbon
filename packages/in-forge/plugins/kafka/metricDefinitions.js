@@ -60,7 +60,7 @@ export default [
   },
   {
     metrics: ['broker.partitionCount', 'broker.messagesIn', 'logflush.mean', 'logflush.inv'],
-    labels: ['Count', '#', 'Mean ms', 'Flushes'],
+    labels: ['Count', 'Messages In', 'Mean ms', 'Flushes'],
     min: 0,
     formatter: number
   }
