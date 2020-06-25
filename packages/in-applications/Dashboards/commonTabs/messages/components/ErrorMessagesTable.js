@@ -159,6 +159,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
   let displayedMessage;
   let errorMessageFilter;
   const erroneousFilter = { name: 'call.erroneous', value: 'true' };
+  const includeInternal = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
 
   if (!message || message === '') {
     displayedMessage = 'Erroneous call without error message';
@@ -176,7 +177,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [erroneousFilter, errorMessageFilter],
+        filters: [erroneousFilter, errorMessageFilter, includeInternal],
         boundaryScope
       })}
     >
