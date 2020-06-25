@@ -147,7 +147,7 @@ export function renderThresholdCondition(
           name="ruleAggregation"
           label={getAggregationLabelAndUpdateFormIfNeeded(form, updateForm)}
           items={getAggregationOptions(form)}
-          onClick={e => {
+          onChange={e => {
             const value = (e && e.value) || '';
             updateForm(
               form
@@ -163,7 +163,7 @@ export function renderThresholdCondition(
           name="thresholdOperator"
           label={operatorLabel}
           items={operatorOptions}
-          onClick={e => {
+          onChange={e => {
             const value = (e && e.value) || '';
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
             applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
@@ -174,7 +174,7 @@ export function renderThresholdCondition(
           name="thresholdType"
           label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
           items={thresholdTypeOptions}
-          onClick={e => {
+          onChange={e => {
             const value = e.value || '';
             const valueParts = value.split('.');
             const thresholdType = valueParts[0];

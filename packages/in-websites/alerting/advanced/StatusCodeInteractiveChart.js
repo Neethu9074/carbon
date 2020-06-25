@@ -126,7 +126,7 @@ export function renderThresholdCondition(
         label={findEntryByValue(ruleMetricNameOptions.statusCode, metricName)?.label}
         defaultValue={statusCodeCount}
         items={ruleMetricNameOptions.statusCode}
-        onClick={e => {
+        onChange={e => {
           const value = (e && e.value) || '';
 
           updateForm(
@@ -143,7 +143,7 @@ export function renderThresholdCondition(
         name="thresholdOperator"
         label={operatorLabel}
         items={operatorOptions}
-        onClick={({ value = '' }) => {
+        onChange={({ value = '' }) => {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
           websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
         }}

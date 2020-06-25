@@ -15,12 +15,25 @@ export default function Dropdown({
   label,
   items,
   renderItemContent,
-  onClick,
+  onClick = () => {},
+  onChange = () => {},
   asSimpleDropdown,
   className
 }) {
+  const onItemClicked = e => {
+    onClick(e);
+    if (label !== e.label) {
+      onChange(e);
+    }
+  };
+
   return (
-    <Overlay align={align} content={ItemList} props={{ items, renderItemContent, onClick }} withoutWrapper>
+    <Overlay
+      align={align}
+      content={ItemList}
+      props={{ items, renderItemContent, onClick: onItemClicked }}
+      withoutWrapper
+    >
       {({ toggle, isOpen, refSetter }) => (
         <Button
           className={evaluateClassNames({
@@ -45,7 +58,8 @@ Dropdown.propTypes = {
   align: string,
   label: string.isRequired,
   items: array.isRequired,
-  onClick: func.isRequired,
+  onClick: func,
+  onChange: func,
   renderItemContent: func,
   asSimpleDropdown: bool,
   className: string

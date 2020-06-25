@@ -343,11 +343,9 @@ function EventForm({
             value={field.value}
             options={dataSourceOptions}
             onChange={e => {
-              if ((field.value && !e) || (e && e.value !== field.value)) {
-                onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
-                  return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
-                });
-              }
+              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
+              });
             }}
             clearable={false}
           />
@@ -367,11 +365,9 @@ function EventForm({
                 value={field.value}
                 options={systemRuleOptions(systemRules)}
                 onChange={e => {
-                  if (e && e.value !== field.value) {
-                    onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
-                      return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
-                    });
-                  }
+                  onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
+                    return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+                  });
                 }}
                 clearable={false}
               />
@@ -634,11 +630,9 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
         value={field.value}
         options={pluginsWithMetricDefinitions}
         onChange={e => {
-          if ((field.value && !e) || (e && e.value !== field.value)) {
-            onChange('entityType', e ? e.value : null, updatedForm => {
-              return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
-            });
-          }
+          onChange('entityType', e ? e.value : null, updatedForm => {
+            return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
+          });
         }}
         clearable={false}
       />
@@ -777,17 +771,15 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                   options={metricPatternMatchingOptions}
                   onChange={e => {
                     const prevOperator = field.value;
-                    if ((prevOperator && !e) || (e && e.value !== prevOperator)) {
-                      const newOperator = e ? e.value : '';
-                      onChange('metricPatternOperator', newOperator, updatedForm => {
-                        if (newOperator === 'any') {
-                          updatedForm = updatedForm.remove('metricPatternPlaceholder');
-                        } else if (prevOperator === 'any') {
-                          updatedForm = putMetricPatternPlaceholder(updatedForm);
-                        }
-                        return updatedForm;
-                      });
-                    }
+                    const newOperator = e ? e.value : '';
+                    onChange('metricPatternOperator', newOperator, updatedForm => {
+                      if (newOperator === 'any') {
+                        updatedForm = updatedForm.remove('metricPatternPlaceholder');
+                      } else if (prevOperator === 'any') {
+                        updatedForm = putMetricPatternPlaceholder(updatedForm);
+                      }
+                      return updatedForm;
+                    });
                   }}
                   clearable={false}
                 />

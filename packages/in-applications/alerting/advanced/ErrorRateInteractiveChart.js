@@ -109,7 +109,7 @@ export function renderThresholdCondition(
         name="thresholdOperator"
         label={operatorLabel}
         items={operatorOptions}
-        onClick={({ value = '' }) => {
+        onChange={({ value = '' }) => {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
           applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
         }}

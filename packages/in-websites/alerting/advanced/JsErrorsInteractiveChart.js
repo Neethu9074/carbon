@@ -141,7 +141,7 @@ export function renderThresholdCondition(
         }
         defaultValue={errorCount}
         items={ruleMetricNameOptions.specificJsError}
-        onClick={e => {
+        onChange={e => {
           const value = (e && e.value) || '';
           updateForm(
             form
@@ -156,7 +156,7 @@ export function renderThresholdCondition(
         name="thresholdOperator"
         label={operatorLabel}
         items={operatorOptions}
-        onClick={e => {
+        onChange={e => {
           const value = (e && e.value) || '';
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
           websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
