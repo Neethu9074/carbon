@@ -30,6 +30,17 @@ export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 
+export const APPLICATION_CREATION_OPEN_DIALOG_CLICK = 'application.creation.open.dialog.click';
+export const APPLCATION_CREATION_CLOSE_DIALOG_CLICK = 'application.creation.close.dialog.click';
+export const APPLICATION_CREATION_STEP_SWITCH = 'application.creation.step.switch';
+export const APPLICATION_CREATION_MODE_SWITCH = 'application.creation.mode.switch';
+export const APPLICATION_CREATION_CREATE_CLICK = 'application.creation.create.click';
+export const APPLICATION_CREATION_SELECTED_BLUEPRINT = 'application.creation.selected.blueprint';
+export const APPLICATION_CREATION_ADD_TAG = 'application.creation.add.tag';
+export const APPLICATION_CREATION_REMOVE_TAG = 'application.creation.remove.tag';
+export const APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT = 'application.creation.boundary.scope.select';
+export const APPLICATION_CREATION_SCOPE_SELECT = 'application.creation.scope.select';
+
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';

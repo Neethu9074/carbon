@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
+import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
 

@@ -1,0 +1,11 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .htmlText {
+    font-size: inherit;
+    color: currentColor;
+
+    .breakWord();
+    white-space: normal;
+  }
+}

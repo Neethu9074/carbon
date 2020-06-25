@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SimpleModeStepContentWrapper from 'in-new-components/Alerting/simple/SimpleModeStepContentWrapper';
-import SelectedBlueprintPresenter from 'in-new-components/Alerting/simple/SelectedBlueprintPresenter';
+import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';

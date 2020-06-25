@@ -1,9 +1,9 @@
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
+import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import SimpleAlertConfigDialogStep1 from 'in-websites/alerting/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep2 from 'in-websites/alerting/simple/SimpleAlertConfigDialogStep2';
-import SimpleModePageNavigation from 'in-new-components/Alerting/simple/SimpleModePageNavigation';
 import { websitesAlertingStepSwitch } from 'in-websites/alerting/tracker';
 
 const stepConfigs = [

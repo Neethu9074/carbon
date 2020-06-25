@@ -1,0 +1,33 @@
+@import '~in-themes/active.less';
+
+:local {
+  .maxWidthFullscreenContainer {
+    max-width: 56.25rem;
+    padding-bottom: 5rem;
+    margin-top: 1rem;
+  }
+
+  .advancedDescription {
+    font-size: .8rem;
+    line-height: 1.5;
+  }
+
+  .filter {
+    margin: 0.25rem;
+  }
+
+  .addRuleButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+  }
+
+  .heading {
+    font-size: 1rem;
+    color: @lib__colors__N900Primary;
+    margin-bottom: 1.5rem;
+  }
+}

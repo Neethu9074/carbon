@@ -24,7 +24,7 @@
     color: @lib__colors__N700Medium;
     display: flex;
     font-size: @lib__typography__body__font-size;
-    height: 2rem;
+    min-height: 2rem;
     padding: 0.5rem;
 
     &:not(.selected):hover {

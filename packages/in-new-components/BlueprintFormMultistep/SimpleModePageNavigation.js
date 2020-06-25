@@ -67,7 +67,14 @@ export default function SimpleModePageNavigation({
           <Button className={locals.button} kind="secondary" onClick={() => backOrCancel(step)}>
             {step === 0 ? 'Cancel' : 'Back'}
           </Button>
-          <SaveButton type="submit" kind="primary" className={locals.button} form={form} isSaving={isSaving}>
+          <SaveButton
+            type="submit"
+            kind="primary"
+            className={locals.button}
+            form={form}
+            disabled={step === stepConfigs.length - 1 && !form.hierarchyValid}
+            isSaving={isSaving}
+          >
             {step === stepConfigs.length - 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
           </SaveButton>
         </div>

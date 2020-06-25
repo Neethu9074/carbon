@@ -1,0 +1,31 @@
+import React from 'react';
+
+import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import { applicationCreationSelectedBlueprint } from 'in-applications/creation/tracker';
+import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import Menu from 'in-new-components/Alerting/components/Menu';
+
+import locals from './SimpleCreateStep1.mless';
+
+export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBlueprint }) {
+  return (
+    <SimpleModeStepContentWrapper headline="What's inside this Application Perspective?">
+      <Menu
+        items={blueprintConfig}
+        addRightSeparator
+        initialItemSelected={selectedBlueprint}
+        onItemClick={item => {
+          setSelectedBlueprint(item);
+          applicationCreationSelectedBlueprint({ item });
+        }}
+      />
+      <SelectedBlueprintPresenter title={selectedBlueprint.headline} description={selectedBlueprint.text}>
+        {selectedBlueprint.htmlContent && (
+          <DangerousHtmlPresenter className={locals.htmlText} html={selectedBlueprint.htmlContent} />
+        )}
+      </SelectedBlueprintPresenter>
+    </SimpleModeStepContentWrapper>
+  );
+}
