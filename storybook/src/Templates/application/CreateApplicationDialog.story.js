@@ -1,15 +1,15 @@
 import React from 'react';
 
-import CreateApplicationDialogWrapper from 'in-applications/creation/Dialog/CreateApplicationDialogWrapper';
+import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import { boundaryScopes } from 'in-applications/constants';
 
 export default {
   title: 'Templates|application/CreateApplicationDialog',
-  component: CreateApplicationDialogWrapper
+  component: CreateApplicationDialog
 };
 
 export const Dialog = () => (
-  <CreateApplicationDialogWrapper
+  <CreateApplicationDialog
     formData={{
       label: '',
       matchSpecification: [],

@@ -9,7 +9,7 @@ import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeConta
 import { addApplicationConfig } from 'in-api/applicationConfigs';
 import { goToPath } from 'in-stores/navigation';
 
-const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialogWrapper');
+const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialog');
 
 export default function CreateApplicationDialog({ formData, timeConfig, onClose, getOnSavePath }) {
   const [form, setForm] = useState(() => createApplicationPerspectiveForm(formData));
