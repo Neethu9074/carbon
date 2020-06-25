@@ -47,7 +47,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   );
 }
 
-function createApplication(form, getOnSavePath, setForm, setIsSaving) {
+function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
