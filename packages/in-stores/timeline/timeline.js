@@ -1,69 +1,13 @@
-import { create } from 'reactive-observables';
-
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
-import getBigBangTimestamp from 'in-subscription/bigBangTimestamp';
-import { createStore, createTrackingStore } from 'in-stores/store';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
-import { serverTime$ } from 'in-stores/serverTime';
-import { isBlank } from 'in-services/util/string';
+import { createStore } from 'in-stores/store';
 
 export { timeConfig$ } from 'in-stores/time/config';
 
-export const to$ = timeConfig$
-  .flatMap(_timeConfig => {
-    if (_timeConfig.to) {
-      return create().emit(_timeConfig.to);
-    }
-    return serverTime$;
-  })
-  .distinct();
-
-export function setTo(to) {
-  mutateUrl(navParams => {
-    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
-    return navParams;
-  });
-}
-
-let currentTimeframe;
-timeConfig$.subscribe(tf => (currentTimeframe = tf));
-
-let currentServertime;
-serverTime$.subscribe(st => (currentServertime = st));
-
-export function setFocusedMoment(newFocusedMoment) {
-  mutateUrl(navParams => {
-    navParams.query[urlQueryKeys.focusedMoment] = newFocusedMoment != null ? newFocusedMoment : '';
-    if (newFocusedMoment && !currentTimeframe.to) {
-      navParams.query[urlQueryKeys.to] = currentTimeframe.to ? currentTimeframe.to : currentServertime;
-    }
-    navParams.query[urlQueryKeys.windowSize] = currentTimeframe.windowSize;
-    return navParams;
-  });
-}
-
-export function lockFocusedMoment() {
-  serverTime$.once(sTime => {
-    mutateUrl(navParams => {
-      if (isBlank(navParams.query[urlQueryKeys.focusedMoment])) {
-        navParams.query[urlQueryKeys.focusedMoment] = sTime;
-      }
-      return navParams;
-    });
-  });
-}
-
-export const live$ = timeConfig$.map(timeConfig => timeConfig.autoRefresh).distinct();
-
-export const from$ = timeConfig$
-  .flatMap(_timeConfig => {
-    return to$.map(to => to - _timeConfig.windowSize);
-  })
-  .distinct();
-
 export function setTimeframe(windowSize, to = null) {
   mutateUrl(navParams => {
-    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
+    navParams.query[urlQueryKeys.to] = to;
+    navParams.query[urlQueryKeys.focusedMoment] = to;
     navParams.query[urlQueryKeys.windowSize] = windowSize;
     return navParams;
   });
@@ -89,41 +33,22 @@ export function clearHighlightedMoment() {
   highlightedMomentStore.applyStateMutation(() => null);
 }
 
-export const bigBangTimestamp = createTrackingStore({
-  name: 'timeline/bigBangTimestamp',
-  observable: getBigBangTimestamp()
-}).observable;
-
-export const bigBangTimestamp$ = bigBangTimestamp;
-
 export function getCurrentViewWithTimelineFocusedAt(moment) {
-  return timeConfig$.flatMap(({ to, windowSize }) => {
-    if (moment == null) {
-      moment = '';
-      to = '';
-    } else {
-      to = moment + windowSize / 2;
-    }
-
+  return timeConfig$.flatMap(({ windowSize }) => {
     return getModifiedUrlStream(params => {
-      params.query[urlQueryKeys.to] = to;
+      params.query[urlQueryKeys.to] = moment;
       params.query[urlQueryKeys.focusedMoment] = moment;
       params.query[urlQueryKeys.windowSize] = windowSize;
     });
   });
 }
 
-export function getFixedTimeframeUrl({ windowSize, to, focusedMoment, clearHighlightedTimeframe = false }) {
+export function getFixedTimeframeUrl({ windowSize, to, clearHighlightedTimeframe = false }) {
   return getModifiedUrlStream(navParams => {
     navParams.query[urlQueryKeys.autoRefresh] = 'false';
 
-    if (!focusedMoment) {
-      navParams.query[urlQueryKeys.focusedMoment] = '';
-    } else {
-      navParams.query[urlQueryKeys.focusedMoment] = focusedMoment;
-    }
-
-    navParams.query[urlQueryKeys.to] = to == null ? '' : to;
+    navParams.query[urlQueryKeys.to] = to;
+    navParams.query[urlQueryKeys.focusedMoment] = to;
 
     if (windowSize) {
       navParams.query[urlQueryKeys.windowSize] = windowSize;

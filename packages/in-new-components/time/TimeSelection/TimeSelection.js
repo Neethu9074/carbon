@@ -1,13 +1,7 @@
 import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
-import {
-  getTimeframeNonLiveUrl,
-  getTimeframeLiveUrl,
-  setTimeframe,
-  setFocusedMoment,
-  timeConfig$
-} from 'in-stores/timeline';
+import { getTimeframeNonLiveUrl, getTimeframeLiveUrl, setTimeframe, timeConfig$ } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
@@ -139,7 +133,6 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close, historicOrLarg
   function onChange(timeConfig) {
     close();
     setTimeframe(timeConfig.windowSize, timeConfig.to);
-    setFocusedMoment(timeConfig.to);
     track(TIME_WINDOW_SIZE_VIA_PICKER);
   }
 }
