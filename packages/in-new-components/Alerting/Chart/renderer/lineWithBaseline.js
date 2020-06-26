@@ -22,7 +22,7 @@ export default {
 function drawLineGraph(len, config, upperThresholdInTimeframe, scale) {
   for (let i = 0; i < len; ++i) {
     config.backBufferCtx.lineTo(
-      config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[i][0]),
+      config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[i][0]),
       scale.getRange(upperThresholdInTimeframe[i][1])
     );
   }
@@ -54,8 +54,8 @@ function renderBaseline(axis, config, scale, colors) {
 
   // Backgrounds
   const len = upperThresholdInTimeframe.length;
-  const xPosStart = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
-  const xPosEnd = config.scales.xBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
+  const xPosStart = config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
+  const xPosEnd = config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
   const markerPaneHeight = config.markerPaneHeight;
   const yPosStart = scale.getRange(upperThresholdInTimeframe[0][1]);
 

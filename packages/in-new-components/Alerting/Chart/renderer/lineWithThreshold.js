@@ -8,7 +8,7 @@ export default {
   render: ({ colors, scale, config, metrics }) => {
     validateProps(config);
     const backBufferCtx = config.backBufferCtx;
-    const xScale = config.scales.xBackBuffer;
+    const xScale = config.xScaleBackBuffer;
     const yScale = config.scales.y1;
     const chartHeight = scale.getRangeFrom();
     const chartWidth = xScale.getRangeTo();
