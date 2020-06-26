@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 1;
 
     &:hover {
       .percentiles {
@@ -19,7 +20,6 @@
 
     .barInner {
       flex-shrink: 0;
-      z-index: 1;
     }
 
     .barStrike {
@@ -36,7 +36,6 @@
       flex-shrink: 0;
       background-color: @lib__colors__white;
       opacity: 1;
-      z-index: 1;
       white-space: nowrap;
     }
 
