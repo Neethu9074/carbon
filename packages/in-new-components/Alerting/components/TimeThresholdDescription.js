@@ -28,6 +28,8 @@ function getIconType(timeThresholdType) {
   switch (timeThresholdType) {
     case 'userImpactOfViolationsInSequence':
       return 'lib_alerts_user_impacted';
+    case 'requestImpact':
+      return 'lib_application_boundary_inbound_calls';
     case 'violationsInPeriod':
       return 'lib_alerting_threshold_icon';
     case 'violationsInSequence':
@@ -50,6 +52,10 @@ function getDescription(timeThreshold) {
         userImpactList.push(`${percentageZeroDecimalPlaces(userPercentage)} of users`);
       }
       return `At least ${userImpactList.join(' and ')} impacted within ${formattedTimeWindow}`;
+    }
+    case 'requestImpact': {
+      const requests = timeThreshold.requests;
+      return `At least ${requests} ${requests === 1 ? 'request' : 'requests'} impacted within ${formattedTimeWindow}`;
     }
     case 'violationsInPeriod': {
       const violations = timeThreshold.violations;

@@ -8,11 +8,19 @@ import SelectThreshold from 'in-new-components/Alerting/advanced/TimeThresholdCo
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
 import Link from 'in-components/Link';
 
+const titleValues = {
+  [timeThresholdTypes.violationsInSequence]: 'Persistence over time',
+  [timeThresholdTypes.violationsInPeriod]: 'Number of violations over time',
+  [timeThresholdTypes.userImpactOfViolationsInSequence]: 'User impact',
+  [timeThresholdTypes.requestImpact]: 'Request impact'
+};
+
 export default function TimeThresholdConfigPresenter({
   form,
   onChange,
   uniqueUsersOrSessionsResult,
   updateForm,
+  hasRequestImpactOption,
   hasUserImpactOption
 }) {
   return (
@@ -21,7 +29,12 @@ export default function TimeThresholdConfigPresenter({
       mainContentHeadline={getTitle(form.get('timeThreshold'))}
       mainContent={<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />}
       secondaryContent={
-        <SelectThreshold form={form} updateForm={updateForm} hasUserImpactOption={hasUserImpactOption} />
+        <SelectThreshold
+          form={form}
+          updateForm={updateForm}
+          hasUserImpactOption={hasUserImpactOption}
+          hasRequestImpactOption={hasRequestImpactOption}
+        />
       }
       warnMessage={
         uniqueUsersOrSessionsResult &&
@@ -46,16 +59,8 @@ export default function TimeThresholdConfigPresenter({
 }
 
 function getTitle(form) {
-  const { violationsInSequence, violationsInPeriod, userImpactOfViolationsInSequence } = timeThresholdTypes;
   const timeThresholdType = form.get('type').value;
-  switch (timeThresholdType) {
-    case violationsInSequence:
-      return 'Persistence over time';
-    case violationsInPeriod:
-      return 'Number of violations over time';
-    case userImpactOfViolationsInSequence:
-      return 'User impact';
-  }
+  return titleValues[timeThresholdType];
 }
 
 TimeThresholdConfigPresenter.propTypes = {
@@ -63,5 +68,6 @@ TimeThresholdConfigPresenter.propTypes = {
   onChange: PropTypes.func.isRequired,
   uniqueUsersOrSessionsResult: PropTypes.object,
   updateForm: PropTypes.func.isRequired,
+  hasRequestImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool
 };

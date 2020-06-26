@@ -4,7 +4,8 @@ import React from 'react';
 import {
   createViolationsInSequenceForm,
   createViolationsInPeriodForm,
-  createUserImpactOfViolationsInSequenceForm
+  createUserImpactOfViolationsInSequenceForm,
+  createRequestImpactForm
 } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import CheckboxFancy from 'in-new-components/Alerting/components/CheckboxFancy';
@@ -15,11 +16,17 @@ import locals from './TimeThresholdConfig.mless';
 export const timeThresholdLabels = Object.freeze({
   violationsInSequence: 'When the condition persists over a specified amount of time',
   violationsInPeriod: 'Every time the condition triggers a specified amount of times in a defined time frame',
-  userImpactOfViolationsInSequence: 'When a certain amount of my users are impacted'
+  userImpactOfViolationsInSequence: 'When a certain amount of my users are impacted',
+  requestImpact: 'When a certain amount of requests are impacted'
 });
 
-export default function SelectThreshold({ form, updateForm, hasUserImpactOption }) {
-  const { violationsInSequence, violationsInPeriod, userImpactOfViolationsInSequence } = timeThresholdTypes;
+export default function SelectThreshold({ form, updateForm, hasUserImpactOption, hasRequestImpactOption }) {
+  const {
+    violationsInSequence,
+    violationsInPeriod,
+    userImpactOfViolationsInSequence,
+    requestImpact
+  } = timeThresholdTypes;
   const checkboxes = [
     createOption(form, updateForm, violationsInSequence),
     createOption(form, updateForm, violationsInPeriod)
@@ -27,6 +34,10 @@ export default function SelectThreshold({ form, updateForm, hasUserImpactOption 
 
   if (hasUserImpactOption) {
     checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence));
+  }
+
+  if (hasRequestImpactOption) {
+    checkboxes.push(createOption(form, updateForm, requestImpact));
   }
 
   return (
@@ -71,10 +82,14 @@ function getTimeThresholdFormForType(form, thresholdType) {
   if (thresholdType === 'userImpactOfViolationsInSequence') {
     return createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
   }
+  if (thresholdType === 'requestImpact') {
+    return createRequestImpactForm(form.get('timeThreshold').toJS());
+  }
 }
 
 SelectThreshold.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  hasUserImpactOption: PropTypes.bool
+  hasUserImpactOption: PropTypes.bool,
+  hasRequestImpactOption: PropTypes.bool
 };

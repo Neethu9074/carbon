@@ -1,5 +1,6 @@
 export const timeThresholdTypes = Object.freeze({
   violationsInSequence: 'violationsInSequence',
   violationsInPeriod: 'violationsInPeriod',
-  userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence'
+  userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence',
+  requestImpact: 'requestImpact'
 });

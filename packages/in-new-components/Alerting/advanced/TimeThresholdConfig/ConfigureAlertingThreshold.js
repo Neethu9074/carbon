@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ConfigureRequestImpact from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureRequestImpact';
 import ConfigureGranularity from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureGranularity';
 import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureTimeWindow';
 import ConfigureViolations from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureViolations';
@@ -10,7 +11,7 @@ import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThre
 import locals from './TimeThresholdConfig.mless';
 
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm }) {
-  const { violationsInPeriod, userImpactOfViolationsInSequence } = timeThresholdTypes;
+  const { violationsInPeriod, userImpactOfViolationsInSequence, requestImpact } = timeThresholdTypes;
   const granularity = form.get('granularity')?.value;
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdType = timeThresholdForm.get('type')?.value;
@@ -50,6 +51,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
       {timeThresholdType === userImpactOfViolationsInSequence && (
         <ConfigureUserImpact form={form} onChange={onChange} updateForm={updateForm} />
       )}
+      {timeThresholdType === requestImpact && <ConfigureRequestImpact form={form} onChange={onChange} />}
     </div>
   );
 
