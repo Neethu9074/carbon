@@ -113,7 +113,15 @@ function EventTable(props) {
 
 function Header(props) {
   if (!props.result) {
-    return <DashboardHeader title="Event" icon="" result={{ data: null }} renderTimeSelection={renderTimeSelection} />;
+    return (
+      <DashboardHeader
+        title="Event"
+        icon=""
+        result={{ data: null }}
+        renderTimeSelection={renderTimeSelection}
+        hideUrlShortener
+      />
+    );
   }
 
   return (
@@ -124,6 +132,7 @@ function Header(props) {
       label={props.result.data.getIn(['problem', 'problemText'], '')}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
+      hideUrlShortener
     />
   );
 }
