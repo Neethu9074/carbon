@@ -1,268 +1,146 @@
-import { combineLatest } from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
-import renderLocalHighlightedTimeframe from 'in-components/Chart/renderer/localHighlightedTimeframe';
-import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';
-import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
-import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
-import renderTickLines from 'in-components/Chart/renderer/tickLines';
-import renderTimeLine from 'in-components/Chart/renderer/timeLine';
-import clearRender from 'in-components/Chart/renderer/clear';
-import { copyCanvasInto } from 'in-components/Chart/canvas';
-import { toServerTime } from 'in-stores/timeOffset';
-import { offset$ } from 'in-stores/timeOffset';
-
-const STEADY_FRAMERATE = 1000 / 30; // max FPS in ms the render scheduler renders
+import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
+import { toServerTime, offset$ } from 'in-stores/timeOffset';
+import createScale from 'in-services/scale';
 
 export default class RenderScheduler {
-  constructor(chart) {
-    this.chart = chart;
-    this.config = chart.config;
+  constructor(callbackHolder) {
+    this.callbackHolder = callbackHolder;
+    this.timeConfig = null;
+
+    this.isLive = false;
+    this.isLive$ = create().emit(this.isLive);
+
+    this.initScale();
 
     this.serverTimeOffset = 0;
-
-    this.combinedSubscriptions = combineLatest([
-      offset$,
-      chart.config.localHighlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE),
-      highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
-    ]).subscribe(([serverTimeOffset, localHighlightedTimeframe, highlightedTimeframe]) => {
+    this.serverTimeOffsetSubscription = offset$.nextFrame().subscribe(serverTimeOffset => {
       this.serverTimeOffset = serverTimeOffset;
-      this.highlightedTimeframe = highlightedTimeframe;
-      this.localHighlightedTimeframe = localHighlightedTimeframe;
-      chart.requestRender();
+      this.forceRender();
     });
   }
 
+  initScale() {
+    this.xScaleBackBuffer = createScale();
+    this.xScaleBackBuffer.setRangeFrom(0);
+    // other places like the chart overlay are not directly controlled my the scheduler but organize themselves.
+    // therefore, we expose the current up-2-date scale via an observable
+    this.xScaleBackBuffer$ = create().emit(this.xScaleBackBuffer);
+  }
+
+  update(timeConfig, width) {
+    this.xScaleBackBuffer.setRangeTo(width);
+    this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
+    this.timeConfig = timeConfig;
+
+    // we need to check if the windowSize has changed in order to adjust the scale during live mode
+    const hasWindowSizeChanged = this?.timeConfig?.windowSize !== timeConfig.windowSize;
+
+    const isLive = timeConfig.autoRefresh;
+
+    if (isLive && !this.isLive) {
+      this.startLiveMode();
+    } else if (!isLive && this.isLive) {
+      this.stopLiveMode();
+    }
+
+    if (isLive && this.isLive) {
+      if (hasWindowSizeChanged) {
+        this.startLiveMode();
+      }
+      this.render();
+    } else {
+      this.atomicRender();
+    }
+    if (this.isLive !== isLive) {
+      this.isLive$.emit(isLive);
+    }
+    this.isLive = isLive;
+  }
+
   atomicRender() {
-    const config = this.config;
-    const timeConfig = config.timeConfig;
-
+    const timeConfig = this.timeConfig;
     const to = toServerTime(timeConfig.to, this.serverTimeOffset);
-    config.scales.xBackBuffer.setDomainFrom(to - timeConfig.windowSize);
-    config.scales.xBackBuffer.setDomainTo(to);
 
-    this.tickPositions = null;
-    this.calculateTicks();
-    this.render();
-    this.drawBackBufferToFrontBuffer();
+    this.xScaleBackBuffer.setDomainFrom(to - timeConfig.windowSize);
+    this.xScaleBackBuffer.setDomainTo(to);
+    this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
+
+    this.call('atomicRender', this.getRenderProps());
+  }
+
+  forceRender() {
+    if (this.isLive) {
+      this.render();
+    } else {
+      this.atomicRender();
+    }
+  }
+
+  render() {
+    this.call('render', this.getRenderProps());
   }
 
   startLiveMode() {
-    const config = this.config;
     this.stopLiveMode();
 
     this.setXDomainToLiveMode();
 
     let initialRenderDone = false;
     const animate = ({ timeSinceLastAnimationDurationPassed, progress }) => {
-      this.drawBackBufferToFrontBuffer(progress);
+      this.onProgress(progress);
 
-      if (timeSinceLastAnimationDurationPassed >= config.animationDuration || !initialRenderDone) {
-        config.scales.xBackBuffer.shiftDomain(timeSinceLastAnimationDurationPassed);
+      if (timeSinceLastAnimationDurationPassed >= ANIMATION_DURATION || !initialRenderDone) {
+        this.onProgress(progress);
 
-        // just renders the current state to the back-buffer
-        this.calculateTicks();
-        this.render();
+        this.xScaleBackBuffer.shiftDomain(timeSinceLastAnimationDurationPassed);
+        this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
+
+        this.call('renderAfterAnimationTimePassed', this.getRenderProps());
         initialRenderDone = true;
-
-        this.updateExistingTickPositions();
       }
     };
 
-    this.updateSubscription = getAnimationFramesWithAnAnimationDurationOf(config.animationDuration).subscribe(animate);
+    this.updateSubscription = getAnimationFramesWithAnAnimationDurationOf(ANIMATION_DURATION).subscribe(animate);
   }
 
-  setXDomainToLiveMode() {
-    const config = this.config;
-    const wiggleRoom = config.wiggleRoom;
-    const now = Date.now();
-    const windowSize = config.timeConfig.windowSize;
-    const to = toServerTime(now, this.serverTimeOffset);
-    config.scales.xBackBuffer.setDomainFrom(to - windowSize - wiggleRoom);
-    config.scales.xBackBuffer.setDomainTo(to - wiggleRoom);
-  }
+  onProgress() {}
 
   stopLiveMode() {
-    if (this.autoUpdateHandle) {
-      this.autoUpdateHandle.cancel();
-      this.autoUpdateHandle = null;
-    }
-
     if (this.updateSubscription) {
       this.updateSubscription.dispose();
       this.updateSubscription = null;
     }
-
-    this.tickPositions = null;
+    this.call('stopLiveMode');
   }
 
-  intermediateRenderDuringAnimation() {
-    this.render();
+  setXDomainToLiveMode() {
+    const now = Date.now();
+    const windowSize = this.timeConfig.windowSize;
+    const to = toServerTime(now, this.serverTimeOffset);
+    this.xScaleBackBuffer.setDomainFrom(to - windowSize - WIGGLE_ROOM);
+    this.xScaleBackBuffer.setDomainTo(to - WIGGLE_ROOM);
+    this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
   }
 
-  updateWindowSizeDuringAnimation() {
-    // in order to get a clean state update, we can just call startLiveMode. It will take care that the current animation progress
-    // is stopped and the scales are all refreshed to they reflect the current config state.
-    this.startLiveMode();
-  }
-
-  render() {
-    const config = this.config;
-    clearRender(config);
-
-    this.renderAxisMetrics('y1', config);
-    this.renderAxisMetrics('y2', config);
-
-    renderTickLines(config);
-
-    renderLocalHighlightedTimeframe(config, this.localHighlightedTimeframe);
-    renderHighlightedTimeframe(config, this.highlightedTimeframe);
-
-    this.clearOverdraw(config);
-
-    this.chart.renderEvents(config);
-
-    renderTimeLine(config, this.tickPositions);
-  }
-
-  renderAxisMetrics(axisName, config) {
-    const axis = config[axisName];
-    if (!axis) {
-      return;
-    }
-
-    const filteredIndices = this.getFilteredMetricIndices(axisName, axis, config);
-
-    // all metrics are filtered, so don't try to paint anything
-    if (filteredIndices.length === axis.metrics.length) {
-      return;
-    }
-
-    const metrics = axis.metrics.filter((series, i) => filteredIndices.indexOf(i) === -1);
-    const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
-    const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);
-
-    if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther || axis.manualRenderLoop) {
-      axis.renderer.render({
-        axis,
-        metrics,
-        colors,
-        colors100,
-        scale: config.scales[axisName],
-        config
-      });
-    } else {
-      for (let i = 0; i < metrics.length; i++) {
-        const dataSeries = metrics[i];
-        if (dataSeries.length === 0) {
-          continue;
-        }
-        axis.renderer.render({
-          axis,
-          index: i,
-          dataSeries: metrics[i],
-          color: colors100[i],
-          colors,
-          colors100,
-          scale: config.scales[axisName],
-          config
-        });
-      }
-    }
-  }
-
-  getFilteredMetricIndices(axisName, axis, config) {
-    const filteredIndices = [];
-    for (let i = 0; i < axis.metrics.length; i++) {
-      if (config.isFiltered(axisName, i)) {
-        filteredIndices.push(i);
-      }
-    }
-    return filteredIndices;
-  }
-
-  clearOverdraw(config) {
-    config.clearBottomOverdraw();
-    config.clearLeftOverdraw();
-    config.clearRightOverdraw();
-  }
-
-  calculateTicks() {
-    if (this.tickPositions) {
-      return;
-    }
-
-    const { backBufferWidth, timeConfig } = this.config;
-    if (!backBufferWidth) {
-      return;
-    }
-
-    const scale = {
-      from: timeConfig.to - timeConfig.windowSize,
-      to: timeConfig.to
+  getRenderProps() {
+    return {
+      xScaleBackBuffer: this.xScaleBackBuffer
     };
-    const formattingConfig = getAxisConfig(scale.to - scale.from);
-    const xBackBuffer = this.config.scales.xBackBuffer;
-    const fullDomain = xBackBuffer.getDomainTo() - xBackBuffer.getDomainFrom();
-    this.tickPositions = getAxisTickPositions(formattingConfig, backBufferWidth, scale).map(
-      tickPositionInPercent => xBackBuffer.getDomainFrom() + tickPositionInPercent * fullDomain
-    );
   }
 
-  updateExistingTickPositions() {
-    if (!this.tickPositions) {
-      return;
+  call(method, args) {
+    if (this.callbackHolder[method]) {
+      this.callbackHolder[method](args);
     }
-
-    const xBackBuffer = this.config.scales.xBackBuffer;
-    const from = xBackBuffer.getDomainFrom() - (xBackBuffer.getDomainTo() - xBackBuffer.getDomainFrom()) / 4; // give the ticks some room so they can vanish out of view nicely
-    this.tickPositions = this.tickPositions.filter(tick => tick > from);
-
-    const distanceBetweenTicks = this.getDistanceBetweenTicks();
-    if (!distanceBetweenTicks) {
-      return;
-    }
-
-    const to = xBackBuffer.getDomainTo();
-    const lastTick = this.tickPositions[this.tickPositions.length - 1];
-    const ticksToAdd = Math.floor((to - lastTick) / distanceBetweenTicks);
-    for (let i = 0; i < ticksToAdd; i++) {
-      this.tickPositions.push(lastTick + (i + 1) * distanceBetweenTicks);
-    }
-  }
-
-  getDistanceBetweenTicks() {
-    // you need at least two points to calculate a distance
-    if (!this.tickPositions || this.tickPositions.length < 2) {
-      return null;
-    }
-    return this.tickPositions[1] - this.tickPositions[0];
-  }
-
-  drawBackBufferToFrontBuffer(progress = 1) {
-    progress = Math.min(1, progress);
-    const config = this.config;
-    const dpr = config.devicePixelRatio;
-
-    copyCanvasInto(
-      config.backBufferCanvas,
-      config.frontBufferCtx,
-      Math.round(progress * config.bufferOffsetInPx * dpr),
-      0,
-      Math.round(config.frontBufferWidth * dpr),
-      Math.round(config.height * dpr),
-      0,
-      0,
-      config.frontBufferWidth,
-      config.height
-    );
   }
 
   dispose() {
-    this.combinedSubscriptions.dispose();
-    this.combinedSubscriptions = null;
-
     this.stopLiveMode();
+
+    this.serverTimeOffsetSubscription.dispose();
+    this.serverTimeOffsetSubscription = null;
   }
 }

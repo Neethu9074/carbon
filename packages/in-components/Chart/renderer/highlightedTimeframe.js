@@ -1,15 +1,10 @@
 export default function render(config, highlightedTimeframe) {
   if (!highlightedTimeframe) return null;
 
-  const {
-    scales: { xBackBuffer: xScale },
-    backBufferCtx,
-    height: canvasHeight,
-    timeAxisHeight
-  } = config;
+  const { backBufferCtx, height: canvasHeight, timeAxisHeight, xScaleBackBuffer } = config;
 
-  const from = Math.max(xScale.getRangeFrom(), xScale.getRange(highlightedTimeframe[0]));
-  const to = Math.min(xScale.getRangeTo(), xScale.getRange(highlightedTimeframe[1]));
+  const from = Math.max(xScaleBackBuffer.getRangeFrom(), xScaleBackBuffer.getRange(highlightedTimeframe[0]));
+  const to = Math.min(xScaleBackBuffer.getRangeTo(), xScaleBackBuffer.getRange(highlightedTimeframe[1]));
 
   const height = canvasHeight - timeAxisHeight;
   const width = to - from;

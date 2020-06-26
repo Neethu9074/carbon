@@ -7,7 +7,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 
-export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId }) {
+export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId, renderPostChartContent }) {
   const entityFilter = createEntityFilter(applicationId, serviceId, endpointId);
 
   // For consistency's sake with other charts in AP dashboards different granularity values
@@ -42,6 +42,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
 
   return (
     <OpenEventsCountChartWrapper
+      renderPostChartContent={renderPostChartContent}
       cardTitle="Infrastructure Issues &amp; Changes"
       timeConfig={timeConfig}
       granularity={granularity}

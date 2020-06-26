@@ -8,7 +8,6 @@ export default function TooltipLineAndContent({
   cursorXPosition,
   align,
   timestamp,
-  hoveredEvent,
   chart,
   reverseTooltipOrder,
   metrics,
@@ -25,7 +24,6 @@ export default function TooltipLineAndContent({
       <div className={[locals[align]]}>
         <TooltipContent
           customEventSection={customEventSection}
-          hoveredEvent={hoveredEvent}
           timestamp={timestamp}
           chart={chart}
           reverseTooltipOrder={reverseTooltipOrder}

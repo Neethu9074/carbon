@@ -11,7 +11,7 @@ export default {
         continue;
       }
       const nextDataPoint = dataSeries[i + 1];
-      const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
+      const xPos = config.xScaleBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
 
       if (distanceBetweenDataPointsIsTooBig(dataPoint, previousDataPoint)) {

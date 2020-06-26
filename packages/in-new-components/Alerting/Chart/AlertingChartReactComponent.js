@@ -6,9 +6,7 @@ import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Legend from 'in-components/Chart/components/Legend';
 import AlertingChartOverlay from './AlertingChartOverlay';
-import { getSetting$ } from 'in-services/settings';
 import AlertingChart from './AlertingChart';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './AlertingChartReactComponent.mless';
 
@@ -23,15 +21,7 @@ export default getElementDimensions(function AlertingChartReactComponent(props) 
   return <AlertingChartReactWrapper {...props} width={overlayWidth} height={height} />;
 });
 
-const AlertingChartReactWrapper = compose(
-  withState('chart', 'setChart', null),
-  connectTo({
-    devicePixelRatio: getSetting$('charts_adaptToDevicePixelRatio')
-      .map(adaptToDevicePixelRatio => (adaptToDevicePixelRatio ? window.devicePixelRatio : 1))
-      .distinct()
-      .startWith(window.devicePixelRatio || 1)
-  })
-)(
+const AlertingChartReactWrapper = compose(withState('chart', 'setChart', null))(
   class AlertingChartReactWrapper extends React.Component {
     static displayName = 'AlertingChartReactWrapper';
 

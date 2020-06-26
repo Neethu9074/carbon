@@ -16,12 +16,14 @@ export default function Errors({
   boundaryScope,
   cardTitle,
   isSynthetic,
-  groupByTag
+  groupByTag,
+  renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
     <AppdataChartWrapper
+      renderPostChartContent={renderPostChartContent}
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{
@@ -80,6 +82,7 @@ export default function Errors({
             )
         }
       ]}
+      withMarkerLanes
     />
   );
 }

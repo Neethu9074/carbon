@@ -9,9 +9,6 @@ export default class Scales {
     this.config = config;
     this.filteredDataSeries = filteredDataSeries || new Map();
 
-    this.xBackBuffer = createScale();
-    this.xBackBuffer.setRangeFrom(0);
-
     this.y1 = createScale();
     if (config.y2) {
       this.y2 = createScale();
@@ -19,8 +16,6 @@ export default class Scales {
   }
 
   update() {
-    this.xBackBuffer.setRangeTo(this.config.backBufferWidth);
-
     calculateAxisMinMax('y1', this.config.y1, this.filteredDataSeries);
     calculateAxisMinMax('y2', this.config.y2, this.filteredDataSeries);
 

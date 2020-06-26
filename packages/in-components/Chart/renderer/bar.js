@@ -18,7 +18,7 @@ export const MIN_BAR_TO_MARGIN_RATION = 8;
 
 export default {
   render: ({ metrics, scale, config, colors100, axis }) => {
-    const xScale = config.scales.xBackBuffer;
+    const xScale = config.xScaleBackBuffer;
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
 
     const chartHeight = scale.getRangeFrom();

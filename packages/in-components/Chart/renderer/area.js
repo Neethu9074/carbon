@@ -9,8 +9,8 @@ export default {
     function drawBlock(block) {
       const firstDataPoint = block[0];
       const lastDataPoint = block[block.length - 1];
-      const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);
-      const lastDataPointXPos = config.scales.xBackBuffer.getRange(lastDataPoint[0]);
+      const firstDataPointXPos = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
+      const lastDataPointXPos = config.xScaleBackBuffer.getRange(lastDataPoint[0]);
 
       config.backBufferCtx.beginPath();
       config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
@@ -21,7 +21,7 @@ export default {
           continue;
         }
 
-        const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
+        const xPos = config.xScaleBackBuffer.getRange(dataPoint[0]);
         const yPos = scale.getRange(dataPoint[1]);
         config.backBufferCtx.lineTo(xPos, yPos);
       }

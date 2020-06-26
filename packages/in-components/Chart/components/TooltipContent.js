@@ -3,26 +3,16 @@ import React from 'react';
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
-import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({
-  timestamp,
-  chart,
-  reverseTooltipOrder,
-  hoveredEvent,
-  excludedLabelsFromTooltip,
-  customEventSection
-}) {
+export default function TooltipContent({ timestamp, chart, reverseTooltipOrder, excludedLabelsFromTooltip }) {
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
 
   return (
     <div className={locals.tooltipContent}>
-      {customEventSection ? customEventSection({ event: hoveredEvent }) : <EventSection event={hoveredEvent} />}
-
       <div className={locals.heading}>
         {formatDateTime(timestamp)}
         <span className={locals.rollupLabel}> ({chart.config.rollupLabel})</span>

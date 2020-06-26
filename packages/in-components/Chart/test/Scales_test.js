@@ -27,7 +27,6 @@ describe('in-components/Chart/Scales', () => {
   describe('update', () => {
     it('should update axis according to the given config', () => {
       const scales = new Scales({
-        animationDuration: 0,
         y1: { formatter: [number] },
         y2: { labels: ['a'], metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
         timeConfig: { windowSize: 20000, to: 60000 },
@@ -37,9 +36,6 @@ describe('in-components/Chart/Scales', () => {
         markerPaneHeight: 0
       });
       scales.update();
-
-      expect(scales.xBackBuffer.getRangeFrom()).to.equal(0);
-      expect(scales.xBackBuffer.getRangeTo()).to.equal(100);
 
       expect(scales.y1.getRangeFrom()).to.equal(50);
       expect(scales.y1.getRangeTo()).to.equal(0);
@@ -66,7 +62,6 @@ describe('in-components/Chart/Scales', () => {
           ],
           formatter: [number]
         },
-        animationDuration: 0,
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,
@@ -91,7 +86,6 @@ describe('in-components/Chart/Scales', () => {
             [[0, 4], [1000, 10]] // series 2
           ]
         },
-        animationDuration: 0,
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,

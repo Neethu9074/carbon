@@ -1,7 +1,4 @@
-export function updateCanvasDimensions(canvas, ctx, width, height, devicePixelRatio) {
-  if (devicePixelRatio === undefined) {
-    devicePixelRatio = window.devicePixelRatio || 1;
-  }
+export function updateCanvasDimensions(canvas, ctx, width, height, devicePixelRatio = window.devicePixelRatio) {
   const backingStoreRatio =
     ctx.webkitBackingStorePixelRatio ||
     ctx.mozBackingStorePixelRatio ||
