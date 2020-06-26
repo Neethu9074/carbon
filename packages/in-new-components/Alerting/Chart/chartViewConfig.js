@@ -4,7 +4,7 @@ import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils
 import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export const chartViewConfigPropType = PropTypes.shape({
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   timeConfig: propTypeTimeConfig.isRequired,
   minChartMetricGranularity: PropTypes.number.isRequired,
   smoothMetric: PropTypes.bool
@@ -33,3 +33,10 @@ export const chartViewConfigs = Object.freeze([
     smoothMetric: true
   }
 ]);
+
+export function createDefaultChartConfig(timeConfig) {
+  return {
+    timeConfig,
+    minChartMetricGranularity: 0
+  };
+}
