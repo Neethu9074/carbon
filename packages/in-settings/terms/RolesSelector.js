@@ -20,6 +20,7 @@ export default function RolesSelector({ form, onChange }) {
             options={roles}
             onChange={e => onChange('role', e.value || '')}
             searchable
+            clearable={false}
           />
           {form.get('dynamicRole') && (
             <>
