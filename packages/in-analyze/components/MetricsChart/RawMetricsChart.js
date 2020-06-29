@@ -5,9 +5,12 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 
 import locals from './MetricsChart.mless';
 
-export default RawMetricsChart;
-
-function RawMetricsChart({ chartDefinitions, customChartRenderers = [], focusedMetric, onFocusedMetricChange }) {
+export default function RawMetricsChart({
+  chartDefinitions,
+  customChartRenderers = [],
+  focusedMetric,
+  onFocusedMetricChange
+}) {
   const chartDefinitionKeys = chartDefinitions.map(d => d.key);
   const customChartRendererKeys = customChartRenderers.map(d => d.key);
 

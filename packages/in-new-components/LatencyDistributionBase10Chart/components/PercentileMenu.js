@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { joinClassNames } from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 
@@ -35,7 +36,7 @@ function PercentileMenuContent({ percentilesShown, selectPercentile, selectNoPer
       </li>
       {percentilesShown.map((percentileShown, index) => {
         return (
-          <li key={index} className={`${locals.item} ${locals.child}`}>
+          <li key={index} className={joinClassNames(locals.item, locals.child)}>
             <CheckboxFancy
               checked={percentileShown.get('enabled')}
               onChange={() => selectPercentile(index)}
