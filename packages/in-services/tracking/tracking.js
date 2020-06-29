@@ -4,6 +4,8 @@ export function track(event, payload) {
   trackInternal(event, payload);
 }
 
+export const URL_SHORTENER_OPEN = 'url.shortener.open';
+
 export const CUSTOM_DASHBOARD_CREATE = 'custom.dashboard.create';
 export const CUSTOM_DASHBOARD_SHARE = 'custom.dashboard.share';
 export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
@@ -66,9 +68,6 @@ export const TABLE_METRIC_ADDED = 'table.metric.added';
 export const TABLE_METRIC_CLEARED = 'table.metric.cleared';
 export const TABLE_METRIC_REMOVED = 'table.metric.removed';
 export const TABLE_TYPE_CHANGED = 'table.type.changed';
-
-export const TIMELINE_TOGGLE = 'timeline.toggle';
-export const TIMELINE_CLICK_ON_EVENT = 'timeline.clickOnEvent';
 
 export const WEBSITES_ADD_WEBSITE = 'websites.addWebsite';
 export const WEBSITES_OPEN_ADD_FORM = 'websites.website.add';
