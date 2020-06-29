@@ -7,6 +7,7 @@ import getLatencyDistribution from 'in-subscription/application/getLatencyDistri
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
+import { operators } from 'in-analyze/applicationFilter';
 
 const latencyDistributionChartDefinition = {
   label: 'Latency (distribution)',
@@ -42,8 +43,32 @@ export default function LatencyDistributionHistogram({
             application: applicationId,
             service: serviceId,
             endpoint: endpointId,
-            applicationBoundaryScope: boundaryScope,
-            includeSyntheticCalls
+            applicationBoundaryScope: boundaryScope
+          },
+          includeSyntheticCalls: includeSyntheticCalls,
+          tagFilterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: [
+              {
+                type: 'TAG_FILTER',
+                name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+                stringValue: applicationId,
+                operator: operators.EQUALS
+              },
+              {
+                type: 'TAG_FILTER',
+                name: 'service.id',
+                stringValue: serviceId,
+                operator: operators.EQUALS
+              },
+              {
+                type: 'TAG_FILTER',
+                name: 'endpoint.id',
+                stringValue: endpointId,
+                operator: operators.EQUALS
+              }
+            ].filter(e => e.stringValue)
           }
         })}
         chartDefinition={latencyDistributionChartDefinition}
