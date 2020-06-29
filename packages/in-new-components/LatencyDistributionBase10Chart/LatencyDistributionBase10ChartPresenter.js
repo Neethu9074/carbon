@@ -10,32 +10,37 @@ import LoadingIndicator from '../LoadingIndicators/LoadingIndicator';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import { List, Map } from 'immutable';
 import theme from 'in-themes';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
-export default function LatencyDistributionBase10ChartPresenter(props) {
+export default function LatencyDistributionBase10ChartPresenter({
+  height,
+  width,
+  customWidth,
+  customHeight,
+  chartDefinition,
+  showPercentileMenu = true,
+  subscription
+}) {
   const [percentilesShown, setPercentilesShown] = useState(enabledPercentiles);
-  const { subscription, height, width, customWidth, customHeight, chartDefinition, showPercentileMenu = true } = props;
 
-  const buckets = subscription.data ? subscription.data : [];
+  const subscriptionResult = useObservable(subscription, [subscription]);
 
   if (!width) {
     return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
-  // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
-  // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
-  const data = buckets;
 
   const chartWidth = customWidth || width;
   const chartHeight = (customHeight || height) - horizontalAxisHeight;
 
-  if (subscription.errors.length > 0) {
+  if (subscriptionResult.errors.length > 0) {
     return (
       <div className={locals.container}>
         <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} />
       </div>
     );
-  } else if (subscription.progress.loading) {
+  } else if (subscriptionResult.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     return (
       <div className={locals.container}>
@@ -43,6 +48,13 @@ export default function LatencyDistributionBase10ChartPresenter(props) {
       </div>
     );
   }
+
+  const buckets = subscriptionResult.data || [];
+
+  // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
+  // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
+  const data = buckets;
+
   const bucketWidth = `calc(75% / ${buckets.length})`;
   const percentileHeight = 0.725 * 16 + 10; // rem to px conversion
   const maxDataValue = getMaxDataValue(data);
