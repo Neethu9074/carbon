@@ -5,7 +5,8 @@ import { getSingle } from 'in-services/settings';
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;
 export const byteBase = 1024;
-const decimalSeparator = isLocaleAware ? window.instana.numberLocale.decimal : '.';
+export const decimalSeparator = (isLocaleAware && window.instana.numberLocale.decimal) || '.';
+export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale.thousands) || ',';
 
 export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
