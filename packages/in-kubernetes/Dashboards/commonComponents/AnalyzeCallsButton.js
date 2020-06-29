@@ -19,7 +19,7 @@ export default function AnalyzeCallsButton({
       icon="lib_application_call"
       href$={getLinkToAnalyze({
         dataSource: 'calls',
-        filters: getFilters(
+        filters: getFilters({
           clusterName,
           namespaceName,
           daemonSetName,
@@ -27,7 +27,7 @@ export default function AnalyzeCallsButton({
           deploymentConfigName,
           serviceName,
           podName
-        ),
+        }),
         groupByTag: groupByTag ? groupByTag : {}
       })}
     >
@@ -36,7 +36,7 @@ export default function AnalyzeCallsButton({
   );
 }
 
-export function getFilters(
+export function getFilters({
   clusterName,
   namespaceName,
   daemonSetName,
@@ -44,7 +44,7 @@ export function getFilters(
   deploymentConfigName,
   serviceName,
   podName
-) {
+}) {
   const filters = [];
 
   if (clusterName) {

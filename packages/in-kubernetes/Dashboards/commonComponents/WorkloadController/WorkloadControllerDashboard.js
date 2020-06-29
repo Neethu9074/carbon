@@ -120,7 +120,8 @@ function renderButtonLine({
     groupByTag: { name: 'kubernetes.pod.name' },
     timeConfig: timeConfig
   };
-  analyzeCallsProps[`${workloadControllerType}Name`] = workloadControllerName;
+  const workloadControllerFieldName = `${workloadControllerType}Name`;
+  analyzeCallsProps[workloadControllerFieldName] = workloadControllerName;
 
   return (
     <>
@@ -128,7 +129,7 @@ function renderButtonLine({
         snapshotId={workloadControllerId}
         timeConfig={timeConfig}
         plugin={fullyQualifiedPluginName}
-        tagFilters={getFilters(clusterName, namespaceName, workloadControllerName)}
+        tagFilters={getFilters({ clusterName, namespaceName, [workloadControllerFieldName]: workloadControllerName })}
       />
       {React.createElement(AnalyzeCallsButton, analyzeCallsProps, null)}
     </>

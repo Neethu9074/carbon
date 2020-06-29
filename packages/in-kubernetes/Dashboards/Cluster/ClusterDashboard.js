@@ -97,7 +97,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
         snapshotId={clusterId}
         plugin={fullyQualifiedPlugins.kubernetesCluster}
         timeConfig={timeConfig}
-        tagFilters={getFilters(clusterName)}
+        tagFilters={getFilters({ clusterName })}
       />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
