@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import React from 'react';
 
 import HorizontalAxis from 'in-new-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
@@ -12,124 +13,96 @@ import theme from 'in-themes';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
-export default class LatencyDistributionBase10ChartPresenter extends React.Component {
-  static displayName = 'LatencyDistributionBase10ChartPresenter';
+export default function LatencyDistributionBase10ChartPresenter(props) {
+  const [percentilesShown, setPercentilesShown] = useState(enabledPercentiles);
+  const { subscription, height, width, customWidth, customHeight, chartDefinition, showPercentileMenu = true } = props;
 
-  constructor(props) {
-    super(props);
+  const buckets = subscription.data ? subscription.data : [];
 
-    this.state = { percentilesShown: enabledPercentiles };
+  if (!width) {
+    return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
+  // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
+  // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
+  const data = buckets;
 
-  render() {
-    const {
-      subscription,
-      height,
-      width,
-      customWidth,
-      customHeight,
-      chartDefinition,
-      showPercentileMenu = true
-    } = this.props;
-    const { percentilesShown } = this.state;
+  const chartWidth = customWidth || width;
+  const chartHeight = (customHeight || height) - horizontalAxisHeight;
 
-    const buckets = subscription.data ? subscription.data : [];
-
-    if (!width) {
-      return <div style={{ height: customHeight || height }} className={locals.histogram} />;
-    }
-    // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
-    // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
-    const data = buckets;
-
-    const chartWidth = customWidth || width;
-    const chartHeight = (customHeight || height) - horizontalAxisHeight;
-
-    if (subscription.errors.length > 0) {
-      return (
-        <div className={locals.container}>
-          <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} />
-        </div>
-      );
-    } else if (subscription.progress.loading) {
-      // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
-      return (
-        <div className={locals.container}>
-          <LoadingIndicator height={chartHeight} />
-        </div>
-      );
-    }
-    const bucketWidth = `calc(75% / ${buckets.length})`;
-    const percentileHeight = 0.725 * 16 + 10; // rem to px conversion
-    const maxDataValue = getMaxDataValue(data);
+  if (subscription.errors.length > 0) {
     return (
-      <>
-        <div className={locals.legend}>
-          <div className={locals.metric}>
-            <div className={locals.dot} style={{ background: theme.lib.colors.chart.strokeColors100[0] }} />
-            Calls
-          </div>
-          {showPercentileMenu && (
-            <PercentileMenu
-              percentilesShown={percentilesShown}
-              selectPercentile={this.selectPercentile}
-              selectAllPercentiles={this.selectAllPercentiles}
-              selectNoPercentile={this.selectNoPercentile}
-            />
-          )}
-        </div>
-        <div className={locals.container}>
-          <VerticalAxis
-            scale={{ from: 0, to: maxDataValue }}
-            height={chartHeight - percentileHeight}
-            style={{ marginTop: percentileHeight, zIndex: 5, backgroundColor: 'white' }}
-          />
-          <div>
-            <div className={locals.bars}>
-              {buckets.map(bucket => (
-                <Bucket
-                  key={bucket.from || 0}
-                  bucket={bucket}
-                  bucketWidth={bucketWidth}
-                  maxDataValue={maxDataValue}
-                  height={chartHeight}
-                  percentileHeight={percentileHeight}
-                  percentilesShown={percentilesShown.filter(p => p.get('enabled')).map(p => p.get('value'))}
-                  formatter={chartDefinition.formatter}
-                />
-              ))}
-            </div>
-            <HorizontalAxis
-              buckets={buckets}
-              bucketWidth={bucketWidth}
-              width={chartWidth}
-              formatter={chartDefinition.formatter}
-            />
-            <HorizontalLines
-              nbBars={4}
-              height={chartHeight - percentileHeight}
-              width={chartWidth}
-              style={{ marginTop: percentileHeight }}
-            />
-          </div>
-        </div>
-      </>
+      <div className={locals.container}>
+        <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} />
+      </div>
+    );
+  } else if (subscription.progress.loading) {
+    // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
+    return (
+      <div className={locals.container}>
+        <LoadingIndicator height={chartHeight} />
+      </div>
     );
   }
-
-  selectPercentile = index => {
-    this.setState(state => ({
-      percentileShown: (state.percentilesShown = state.percentilesShown.update(index, undefined, value =>
-        value.update('enabled', true, enabled => !enabled)
-      ))
-    }));
-  };
-  selectAllPercentiles = () => {
-    this.setState(state => ({ percentileShown: (state.percentilesShown = enabledPercentiles) }));
-  };
-  selectNoPercentile = () => {
-    this.setState(state => ({ percentileShown: (state.percentilesShown = disabledPercentiles) }));
-  };
+  const bucketWidth = `calc(75% / ${buckets.length})`;
+  const percentileHeight = 0.725 * 16 + 10; // rem to px conversion
+  const maxDataValue = getMaxDataValue(data);
+  return (
+    <>
+      <div className={locals.legend}>
+        <div className={locals.metric}>
+          <div className={locals.dot} style={{ background: theme.lib.colors.chart.strokeColors100[0] }} />
+          Calls
+        </div>
+        {showPercentileMenu && (
+          <PercentileMenu
+            percentilesShown={percentilesShown}
+            selectPercentile={index =>
+              setPercentilesShown(
+                percentilesShown.update(index, undefined, value => value.update('enabled', true, enabled => !enabled))
+              )
+            }
+            selectAllPercentiles={() => setPercentilesShown(enabledPercentiles)}
+            selectNoPercentile={() => setPercentilesShown(disabledPercentiles)}
+          />
+        )}
+      </div>
+      <div className={locals.container}>
+        <VerticalAxis
+          scale={{ from: 0, to: maxDataValue }}
+          height={chartHeight - percentileHeight}
+          style={{ marginTop: percentileHeight, zIndex: 5, backgroundColor: 'white' }}
+        />
+        <div>
+          <div className={locals.bars}>
+            {buckets.map(bucket => (
+              <Bucket
+                key={bucket.from || 0}
+                bucket={bucket}
+                bucketWidth={bucketWidth}
+                maxDataValue={maxDataValue}
+                height={chartHeight}
+                percentileHeight={percentileHeight}
+                percentilesShown={percentilesShown.filter(p => p.get('enabled')).map(p => p.get('value'))}
+                formatter={chartDefinition.formatter}
+              />
+            ))}
+          </div>
+          <HorizontalAxis
+            buckets={buckets}
+            bucketWidth={bucketWidth}
+            width={chartWidth}
+            formatter={chartDefinition.formatter}
+          />
+          <HorizontalLines
+            nbBars={4}
+            height={chartHeight - percentileHeight}
+            width={chartWidth}
+            style={{ marginTop: percentileHeight }}
+          />
+        </div>
+      </div>
+    </>
+  );
 }
 
 function HorizontalLines({ nbBars, height, width, style }) {
