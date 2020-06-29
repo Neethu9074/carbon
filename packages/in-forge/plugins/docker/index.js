@@ -12,6 +12,7 @@ import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import iconSvgPath from 'in-forge/plugins/docker/iconPath';
 import { hasRestrictedAccess } from 'in-stores/permission';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -43,7 +44,7 @@ registerSnapshotDefinition({
           timeConfig
         }
       },
-      containerInfoEnabled && !hasRestrictedAccess && containerInfoButtonConfig
+      containerInfoEnabled && containerInfoAvailable(snapshot) && !hasRestrictedAccess && containerInfoButtonConfig
     ].filter(Boolean);
   }
 });
@@ -62,3 +63,18 @@ addFormattedValueLocator(
   // translates free -> used -> whateverBytes
   (max, value) => percentageTwoDecimalPlaces(value)
 );
+
+function containerInfoAvailable(snapshot) {
+  const labels = snapshot?.getIn(['data', 'Labels'], emptyMap);
+  return !isServerless(labels);
+}
+
+function isServerless(labels) {
+  // Containers monitored by serverless monitoring (via an in-process collector reporting to serverless-acceptor)
+  // currently do not provide a backchannel, thus they do not have the container info button available.
+  return isAwsFargate(labels);
+}
+
+function isAwsFargate(labels) {
+  return labels.has('com.amazonaws.ecs.container-name') || labels.has('com.amazonaws.ecs.task-arn');
+}
