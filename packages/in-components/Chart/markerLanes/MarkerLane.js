@@ -1,33 +1,20 @@
-import { combineLatest } from 'reactive-observables';
-import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import createObjectCollectionStream from 'in-map/stores/ObjectCollectionStream';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { generateUniqueShortId } from 'in-services/util/id';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { applyTransform } from 'in-services/util/dom';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './MarkerLane.mless';
 
 class MarkersLane extends React.Component {
   constructor(props) {
     super(props);
-
-    this.domItems = createObjectCollectionStream();
-
     this.renderScheduler = new RenderScheduler(this);
-    this.updateSubscription = combineLatest([this.renderScheduler.xScaleBackBuffer$, this.domItems.stream])
-      .nextFrame()
-      .subscribe(([xScale, domItems]) => {
-        for (const { time, domItem } of domItems.values()) {
-          const xPos = xScale.getRange(time);
-          applyTransform(domItem, `translateX(${xPos}px)`);
-        }
-      });
   }
 
   componentDidUpdate() {
@@ -37,63 +24,100 @@ class MarkersLane extends React.Component {
 
   componentWillUnmount() {
     this.renderScheduler.dispose();
-    this.updateSubscription.dispose();
   }
 
   render() {
-    return (
-      <div className={locals.lane}>
-        {this.props.events.map(eventData => (
-          <Tooltip
-            key={eventData.id ?? eventData.start}
-            align="topMiddle"
-            content={this.props.tooltipContent(eventData)}
-          >
-            <LaneItem
-              time={eventData.start}
-              add={this.domItems.add}
-              remove={this.domItems.remove}
-              iconType={this.props.iconType}
-            />
-          </Tooltip>
-        ))}
-        {this.props.labelVisible && (
-          <div className={locals.laneLabel} style={{ [this.props.labelAlignment]: 0 }}>
-            <div
-              className={locals.laneLabelText}
-              style={{
-                [`padding${this.props.labelAlignment === 'left' ? 'Right' : 'Left'}`]: '8px'
-              }}
-            >
-              {this.props.label}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+    return <MarkersLanePresenter {...{ ...this.props, renderScheduler: this.renderScheduler }} />;
   }
 }
 
-function LaneItem({ time, add, remove, iconType }) {
-  const domItemRef = useRef(null);
-
-  useEffect(
-    () => {
-      const id = generateUniqueShortId();
-      add(id, { domItem: domItemRef.current, time });
-      return () => remove(id);
-    },
-    [time]
-  );
+function MarkersLanePresenter({
+  events,
+  tooltipContent,
+  renderScheduler,
+  labelVisible,
+  labelAlignment,
+  label,
+  chartContentPosition,
+  ...remainingProps
+}) {
+  const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [renderScheduler]);
 
   return (
-    <div className={locals.laneItem} ref={domItemRef}>
-      <SvgIcon size="xs" className={locals.marker} type={iconType} />
+    <div className={locals.lane}>
+      {events.map(eventData => {
+        const clusterWidth = xScale?.getRangeArea(remainingProps.clusterSize);
+        const isCluster = eventData.numberOfEventsInCluster > 1;
+        const xPos = isCluster
+          ? xScale?.getRange(eventData.start) + clusterWidth / 2
+          : xScale?.getRange(eventData.start);
+        return (
+          <Tooltip
+            align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
+            key={eventData.id ?? eventData.start}
+            content={tooltipContent(eventData)}
+          >
+            <LaneItem
+              xPos={xPos}
+              clusterWidth={clusterWidth}
+              time={eventData.start}
+              {...{ ...eventData, ...remainingProps, isCluster, chartContentPosition }}
+            />
+          </Tooltip>
+        );
+      })}
+      {labelVisible && (
+        <div className={locals.laneLabel} style={{ [labelAlignment]: 0 }}>
+          <div
+            className={locals.laneLabelText}
+            style={{
+              [`padding${labelAlignment === 'left' ? 'Right' : 'Left'}`]: '8px'
+            }}
+          >
+            {label}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  function getTooltipAlignmentForChartContentPosition(chartContentPosition) {
+    if (chartContentPosition === 'pre') return 'topMiddle';
+    if (chartContentPosition === 'post') return 'bottomMiddle';
+  }
+}
+
+function LaneItem({ xPos, iconConfig, onClick, onHover, clusterWidth, chartContentPosition, isCluster }) {
+  return (
+    <div
+      style={{ transform: `translateX(${xPos}px)` }}
+      className={locals.laneItem}
+      onMouseEnter={e => {
+        stopPropagationAndPreventDefault(e);
+        onHover?.({
+          overlayVisible: isCluster,
+          lineVisible: !isCluster,
+          color: iconConfig.color,
+          width: clusterWidth,
+          chartContentPosition,
+          xPos
+        });
+      }}
+      onMouseLeave={e => {
+        stopPropagationAndPreventDefault(e);
+        onHover?.({});
+      }}
+    >
+      <SvgIcon
+        size="xs"
+        className={locals.marker}
+        onClick={onClick}
+        type={isCluster ? iconConfig.typeCluster : iconConfig.type}
+        color={iconConfig.color}
+      />
     </div>
   );
 }
-
-export default getElementDimensions(MarkersLane);
 
 MarkersLane.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
@@ -101,6 +125,19 @@ MarkersLane.propTypes = {
   labelAlignment: PropTypes.oneOf(['left', 'right']).isRequired,
   tooltipContent: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  iconType: PropTypes.string.isRequired,
-  events: PropTypes.array.isRequired
+  iconConfig: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    typeCluster: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
+  }).isRequired,
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      start: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  onClick: PropTypes.func,
+  onHover: PropTypes.func,
+  chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired
 };
+
+export default getElementDimensions(MarkersLane);

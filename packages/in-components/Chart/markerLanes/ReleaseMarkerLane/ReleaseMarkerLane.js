@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ReleaseMarkerLanePresenter from './ReleaseMarkerLanePresenter';
+import ReleaseMarkerLanePresenter from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLanePresenter';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import getReleases from 'in-events/subscriptions/getReleases';
 import useObservable from 'in-hooks/useObservable';
 
-export default function ReleaseMarkerLane(props) {
+export default function ReleaseMarkerLane({ ...props }) {
   const releases =
     useObservable(
       getReleases({

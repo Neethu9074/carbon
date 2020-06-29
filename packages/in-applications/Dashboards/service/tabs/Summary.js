@@ -33,8 +33,8 @@ export default connectTo(
       applicationBoundaryScope: boundaryScope
     };
 
-    const postChartContent = timeConfig => (
-      <MarkerLanesPresenter timeConfig={timeConfig}>
+    const postChartContent = props => (
+      <MarkerLanesPresenter {...props}>
         <ReleaseMarkerLane />
       </MarkerLanesPresenter>
     );

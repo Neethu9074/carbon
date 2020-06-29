@@ -1,11 +1,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  .markerLanes {
+  .markerLanesContainer {
+    position: relative;
     padding: 0.5rem 0;
   }
 
-  .markerLanesContainer {
+  .markerLanesWrapper {
     position: relative;
 
     > div:nth-child(even) {
@@ -27,5 +28,12 @@
 
   .right {
     right: 0;
+  }
+
+  .hoverLine {
+    position: absolute;
+    background: currentColor;
+    width: 1px;
+    opacity: 0.5;
   }
 }

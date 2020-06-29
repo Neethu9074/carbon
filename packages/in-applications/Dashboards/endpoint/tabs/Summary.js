@@ -9,6 +9,7 @@ import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesA
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
+import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -32,7 +33,11 @@ export default connectTo(
       includeSyntheticCalls
     };
 
-    const postChartContent = timeConfig => <MarkerLanesPresenter timeConfig={timeConfig} />;
+    const postChartContent = props => (
+      <MarkerLanesPresenter {...props}>
+        <ReleaseMarkerLane />
+      </MarkerLanesPresenter>
+    );
 
     return (
       <Fragment>

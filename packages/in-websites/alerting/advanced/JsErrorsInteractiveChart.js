@@ -3,19 +3,19 @@ import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
-import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
-import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alerting/form/thresholdFormData';
 import {
   getThresholdValueForPercentageMetric,
   getValueRoundedToDecimals,
   round
 } from 'in-new-components/Alerting/utils/formatUtils';
-import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/alerting/tracker';
+import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
+import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alerting/form/thresholdFormData';
+import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
@@ -103,7 +103,6 @@ function JsErrorsInteractiveChart({
               granularity={granularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
-              alertsPreviewEnabled
               canReload
             />
           )}

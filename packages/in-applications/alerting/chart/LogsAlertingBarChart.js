@@ -12,7 +12,9 @@ import { boundaryScopePropType } from 'in-applications/alerting/advanced/Inbound
 import { getApplicationIdTagFilter, getLogLevelTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
+import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
 import { number } from 'in-services/formatters/number';
@@ -42,7 +44,29 @@ export default function LogsAlertingBarChart({
 
   return (
     <AlertingBarChartWrapper
-      releaseMarkersDisabled
+      renderPreChartContent={props => {
+        if (!alertsPreviewEnabled) return;
+
+        const alertsPreviewConfiguration = getAlertsPreviewConfiguration(
+          timeConfig,
+          tagFiltersWithApplicationId,
+          granularity,
+          threshold,
+          timeThreshold
+        );
+
+        return (
+          alertsPreviewConfiguration && (
+            <MarkerLanesPresenter
+              {...props}
+              getAlertsPreview={getApplicationMetricsAlertPreview}
+              alertsPreviewConfiguration={alertsPreviewConfiguration}
+            >
+              <SmartAlertMarkerLane />
+            </MarkerLanesPresenter>
+          )
+        );
+      }}
       timeConfig={timeConfig}
       granularity={metricChartGranularity}
       canReload={canReload}
@@ -71,17 +95,8 @@ export default function LogsAlertingBarChart({
         ])
       }}
       getMetric={getApplicationMetrics}
-      getAlertsPreview={getApplicationMetricsAlertPreview}
       metricsConfiguration={getMetricConfiguration(tagFiltersWithApplicationId, timeConfig, metricChartGranularity)}
-      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
-        timeConfig,
-        tagFiltersWithApplicationId,
-        granularity,
-        threshold,
-        timeThreshold
-      )}
       thresholdType={threshold.type}
-      alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
         doMutate: smoothMetric,
         metricNames: ['logs'],

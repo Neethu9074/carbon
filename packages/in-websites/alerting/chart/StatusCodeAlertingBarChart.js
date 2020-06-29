@@ -12,6 +12,8 @@ import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/ge
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
@@ -39,7 +41,31 @@ export default function StatusCodeAlertingBarChart({
 
   return (
     <AlertingBarChartWrapper
-      releaseMarkersDisabled
+      renderPreChartContent={props => {
+        if (!alertsPreviewEnabled) return;
+
+        const alertsPreviewConfiguration = getAlertsPreviewConfiguration(
+          timeConfig,
+          tagFiltersWithWebsiteId,
+          metricName,
+          granularity,
+          numeratorFilter,
+          threshold,
+          timeThreshold
+        );
+
+        return (
+          alertsPreviewConfiguration && (
+            <MarkerLanesPresenter
+              {...props}
+              getAlertsPreview={getAlertsPreview(metricName)}
+              alertsPreviewConfiguration={alertsPreviewConfiguration}
+            >
+              <SmartAlertMarkerLane />
+            </MarkerLanesPresenter>
+          )
+        );
+      }}
       timeConfig={timeConfig}
       granularity={metricChartGranularity}
       canReload={canReload}
@@ -77,7 +103,6 @@ export default function StatusCodeAlertingBarChart({
         ])
       }}
       getMetric={metricConfig => getMetric(metricName, metricConfig)}
-      getAlertsPreview={metricConfig => getAlertsPreview(metricName, metricConfig)}
       metricsConfiguration={getMetricConfiguration(
         websiteId,
         metricName,
@@ -86,17 +111,7 @@ export default function StatusCodeAlertingBarChart({
         timeConfig,
         metricChartGranularity
       )}
-      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
-        timeConfig,
-        tagFiltersWithWebsiteId,
-        metricName,
-        granularity,
-        numeratorFilter,
-        threshold,
-        timeThreshold
-      )}
       thresholdType={threshold.type}
-      alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
         doMutate: smoothMetric,
         metricNames: ['statusCode'],
@@ -126,11 +141,11 @@ function getMetric(metricName, metricConfig) {
   return getWebsiteMetrics(metricConfig);
 }
 
-function getAlertsPreview(metricName, metricConfig) {
+function getAlertsPreview(metricName) {
   if (metricName === statusCodeRate) {
-    return getWebsiteRateMetricAlertsPreview(metricConfig);
+    return getWebsiteRateMetricAlertsPreview;
   }
-  return getWebsiteMetricAlertsPreview(metricConfig);
+  return getWebsiteMetricAlertsPreview;
 }
 
 function getMetricConfiguration(websiteId, metric, numeratorFilter, tagFilters, timeConfig, granularity) {

@@ -16,6 +16,7 @@
     position: absolute;
     user-select: none;
     cursor: default;
+    z-index: 2;
   }
 
   .laneLabelText {
@@ -33,10 +34,7 @@
     justify-content: center;
 
     width: 1px;
-
-    &:hover {
-      background: @lib__colors__N500;
-    }
+    z-index: 1;
 
     &:hover:before {
       content: '';
@@ -45,7 +43,7 @@
       height: calc(var(--lane-height) - 0.25rem);
       border-radius: @lib__shapes__radius_round;
       background: @lib__colors__N600Light;
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
 
@@ -53,6 +51,6 @@
     position: relative;
     top: 0;
     bottom: 0;
-    fill: @lib__colors__N700Medium;
+    padding: 4px;
   }
 }

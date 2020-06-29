@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane';
@@ -13,7 +14,11 @@ export default function ReleaseMarkerLanePresenter(props) {
       {...props}
       events={props.releases}
       label="Releases"
-      iconType="lib_release_rocket"
+      iconConfig={{
+        type: 'lib_release_rocket',
+        typeCluster: '',
+        color: theme.lib.colors.N700Medium
+      }}
       tooltipContent={({ start, name }) => (
         <div className={locals.tooltipContent}>
           <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
