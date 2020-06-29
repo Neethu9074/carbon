@@ -8,6 +8,7 @@ import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicati
 import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
+import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
@@ -44,10 +45,12 @@ export default connectTo(
     const alertType = rule.alertType;
     const aggregation = rule.aggregation;
 
-    const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
+    const timeConfig = {
+      ...getChartTimeConfigByEvent({ event }),
+      windowSize: alertingEventDetailsChartTimeframe
+    };
+    const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-    const chartViewConfig = { timeConfig };
     return (
       <>
         <Row withoutSideMargin>

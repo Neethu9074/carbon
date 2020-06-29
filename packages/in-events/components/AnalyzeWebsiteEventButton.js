@@ -120,18 +120,12 @@ function getStatusCodeTagFilter(alertRule) {
 }
 
 function getBaselineDurationTagFilter(alertConfig, timeConfig) {
-  const threshold = alertConfig.threshold;
+  const { operator, baseline, deviationFactor } = alertConfig.threshold;
   const baselineGranularity = alertConfig.granularity;
-  const isGreaterOp = isGreaterOperator(threshold.operator);
+  const isGreaterOp = isGreaterOperator(operator);
   const baselineValues = [];
   for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    const baselineValue = getBaselineValue(
-      time,
-      threshold.baseline,
-      threshold.deviationFactor,
-      baselineGranularity,
-      isGreaterOp
-    );
+    const baselineValue = getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp);
     baselineValues.push(baselineValue);
   }
 
@@ -140,7 +134,7 @@ function getBaselineDurationTagFilter(alertConfig, timeConfig) {
   }
 
   const thresholdValue = isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
-  return getThresholdDurationTagFilter(thresholdValue, threshold.operator);
+  return getThresholdDurationTagFilter(thresholdValue, operator);
 }
 
 function getThresholdDurationTagFilter(thresholdValue, thresholdOperator) {
