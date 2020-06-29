@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .filterList {
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+
+  .filterList,
+  .list {
+    min-width: 20rem;
+    max-width: 20rem;
+  }
+
+  .option {
+    justify-content: space-between;
+    font-weight: normal;
+  }
+}

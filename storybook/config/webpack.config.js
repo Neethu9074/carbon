@@ -129,5 +129,10 @@ module.exports = async ({ config }) => {
   );
   config.module.rules = necessaryLoaders;
   config.plugins.push(cssIdentWebpackPlugin);
+  config.watchOptions = {
+    ignored: /node_modules/,
+    aggregateTimeout: 300,
+    poll: 2000
+  };
   return config;
 };

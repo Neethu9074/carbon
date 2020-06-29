@@ -1,0 +1,9 @@
+:local {
+  .list {
+    max-width: 12rem;
+  }
+
+  .option {
+    justify-content: flex-start;
+  }
+}

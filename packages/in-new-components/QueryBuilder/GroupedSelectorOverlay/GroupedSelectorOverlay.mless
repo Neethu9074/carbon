@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    max-width: 20rem;
+  }
+
+  .option {
+    justify-content: space-between;
+    font-weight: normal;
+  }
+}

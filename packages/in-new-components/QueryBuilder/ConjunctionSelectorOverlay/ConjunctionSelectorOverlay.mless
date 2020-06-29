@@ -1,0 +1,33 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    max-width: 6rem;
+  }
+
+  .paranthesis {
+    display: flex;
+
+    & > * {
+      width: 100%;
+      border-left: 1px solid @lib__colors__N400;
+      border-top: 1px solid @lib__colors__N400;
+
+      &:first-child {
+        border-left: 0;
+      }
+    }
+  }
+
+  .clear {
+    font-weight: 500;
+    justify-content: space-between;
+    color: @lib__colors__N600Light;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+
+    svg {
+      fill: @lib__colors__N600Light;
+    }
+  }
+}

@@ -1,7 +1,7 @@
+import { ColumnizedContent, Ul, Li, ListGroup } from 'in-new-components/lists/List';
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import PermanentlyVisibleOverlay from '../util/PermanentlyVisibleOverlay';
 import { action as storybookAction } from '@storybook/addon-actions';
-
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 
 export const columnDefinitions = [
   {
@@ -147,5 +147,46 @@ Use the `initiallyOpen` prop to expand content by default.
         Exandable content toggled on row click
       </Li>
     </Ul>
+  </Story>
+</Preview>
+
+## List Groups
+
+<Preview>
+  <Story name="List Groups">
+    <Ul>
+      <ListGroup label="Group 1">
+        <Li><ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" /></Li>
+        <Li><ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" /></Li>
+        <Li><ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" /></Li>
+      </ListGroup>
+      <ListGroup label="Group 2">
+        <Li><ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" /></Li>
+        <Li><ColumnizedContent columnDefinitions={columnDefinitions} label="label 1" /></Li>
+      </ListGroup>
+    </Ul>
+  </Story>
+</Preview>
+
+
+## Stylistic Variants
+
+### Rounded Corners
+
+You can ask the `List` to render itself with rounded corners. This is helpful when the `List` is supposed to be
+rendered inside `Overlay`s.
+
+Please note that the `List` only supports `medium` as a valid `borderRadius`. The `borderRadius` mode is also
+currently not fully supported when using sub-lists or nested content.
+
+<Preview>
+  <Story name="Rounded Corners (sub lists)">
+    <PermanentlyVisibleOverlay>
+      <Ul borderRadius="medium" style={{maxWidth: '10rem'}}>
+        <Li>A</Li>
+        <Li>B</Li>
+        <Li>C</Li>
+      </Ul>
+    </PermanentlyVisibleOverlay>
   </Story>
 </Preview>

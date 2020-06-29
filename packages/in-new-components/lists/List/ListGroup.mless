@@ -2,11 +2,13 @@
 
 :local {
   .groupHead {
+    margin-bottom: 0.125rem;
     padding: 1.2rem 1rem 0.2rem;
+
     font-size: 0.75rem;
     font-weight: 500;
-    margin-bottom: 0.125rem;
   }
+
   .moreItems {
     text-indent: 5rem;
   }

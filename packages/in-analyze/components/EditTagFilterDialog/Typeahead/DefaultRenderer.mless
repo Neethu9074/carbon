@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    padding: 0;
+    margin: 0;
+    border: 1px solid @lib__colors__N400;
+    border-collapse: collapse;
+    max-height: 12.875rem;
+    overflow-y: scroll;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 1;
+  }
+
+  .listItem {
+    list-style: none;
+    padding: 0.5rem 0.625rem;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .higlightedText {
+    color: @lib__colors__primary1;
+  }
+}

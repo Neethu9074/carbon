@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .letter,
+  .word {
+    display: inline-block;
+    padding: 0.3rem 0;
+  }
+
+  .letter {
+    width: 2px;
+
+    &:focus,
+    &:active {
+      outline: 0;
+      background: @lib__colors__light-blue800;
+    }
+  }
+
+  .word {
+    width: 0.5rem;
+    position: relative;
+
+    &:focus,
+    &:active {
+      outline: 0;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(50% - 1px);
+        border-right: 2px solid @lib__colors__light-blue800;
+      }
+    }
+  }
+}

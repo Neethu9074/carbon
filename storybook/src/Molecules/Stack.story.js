@@ -31,7 +31,7 @@ const stackResult = {
               }
             }
           ],
-          relationShip: 'PROVIDES'
+          relationship: 'PROVIDES'
         },
         {
           items: [
@@ -56,7 +56,7 @@ const stackResult = {
               }
             }
           ],
-          relationShip: 'PART_OF'
+          relationship: 'PART_OF'
         }
       ],
       healthInfo: {
@@ -92,7 +92,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'EXECUTED_BY'
+          relationship: 'EXECUTED_BY'
         },
         {
           items: [
@@ -119,7 +119,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'RUNNING_ON'
+          relationship: 'RUNNING_ON'
         }
       ],
       healthInfo: {
@@ -144,7 +144,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'RUNNING_ON'
+          relationship: 'RUNNING_ON'
         },
         {
           items: [
@@ -160,7 +160,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'SCHEDULING_ON'
+          relationship: 'SCHEDULING_ON'
         },
         {
           items: [
@@ -176,7 +176,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'EXPOSED_THROUGH'
+          relationship: 'EXPOSED_THROUGH'
         },
         {
           items: [
@@ -214,7 +214,7 @@ const stackResult = {
               offline: false
             }
           ],
-          relationShip: 'ORCHESTRATED_ON'
+          relationship: 'ORCHESTRATED_ON'
         }
       ],
       healthInfo: {

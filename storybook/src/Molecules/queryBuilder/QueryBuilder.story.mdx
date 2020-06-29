@@ -1,0 +1,343 @@
+import {useState} from 'react';
+
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+import {createQueryBuilder} from 'in-new-components/QueryBuilder';
+import tagCatalogExample from './tagCatalogExample.png';
+
+<Meta title="Molecules|queryBuilder/QueryBuilder" />
+
+# QueryBuilder
+
+## Example
+
+export const DefaultExampleQueryBuilder = createQueryBuilder({});
+
+export function DefaultExample() {
+  const [value, setState] = useState([
+    {
+      type: 'OPEN_BRACKET'
+    },
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'shop',
+      entity: 'DESTINATION'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'OR'
+    },
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'shipping',
+      entity: 'DESTINATION'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'OR'
+    },
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'product',
+      entity: 'SOURCE'
+    },
+    {
+      type: 'CLOSE_BRACKET'
+    }
+  ]);
+  return <DefaultExampleQueryBuilder value={value} onChange={setState} />;
+}
+
+<Preview>
+  <Story name="default">
+    <DefaultExample />
+  </Story>
+</Preview>
+
+## Usage
+
+```js
+import {createQueryBuilder} from 'in-new-components/QueryBuilder';
+
+const QueryBuilder = createQueryBuilder({
+  // see dedicated TagCatalog story for more information about the
+  // TagCatalog structure.
+  getTagCatalog: Observable<Result<TagCatalog>>
+});
+
+function MyQueryBuilder({value, onChange}) {
+  return (
+    <QueryBuilder
+      /*
+       * See following sections to learn more about the FormModel
+       * structure. This is a required parameter. It should be an
+       * empty array in case the user hasn't typed in anything yet.
+       */
+      value={value}
+
+      /*
+       * An onChange handler which triggers whenever the query is
+       * manipulated. Please note that the form model might
+       * represented an invalid state, e.g. it might contains
+       * unclosed brackets.
+       */
+      onChange={newFormModel => {…}} />
+  );
+}
+```
+
+## Models
+
+The query builder makes use of four different tag filter expression
+models in order to do its job:
+
+ 1. **Backend Query Model**: This is the model used in backend queries. You
+    can find a detailed definition within the [backend repo](https://github.com/instana/backend/blob/644270feae74f41f871d92bfdd3aa9e01d2ff7ca/ui-model/src/main/java/com/instana/ui/model/tags/TagFilterExpressionElement.java).
+ 2. **Form Model**: This is the input and output for the query builder.
+    This is what is being kept within a local state in
+    the query builder. It is a flattened version of the tag filter
+    expressions. This is done because the user must be able
+    to type in invalid queries. Something that is not fully possible
+    with the backend query model, e.g. single braces are not possible in the
+    backend qyert model.
+
+    The form model also contains the validation states.
+ 3. **Render Model**: The rendering model is created based on the form
+    model. It exists to create
+ 4. **DOM**: The DOM is specially crafted in order to ensure
+    that cursor and caret positioning, focus states and tabbing works.
+    One core concern here is keyboard and mouse interaction to get as close
+    to regular input field behavior as possible.
+
+## Transformations
+
+ 1. `Form Model -> Render Model -> DOM Model -(events)-> Form Model`
+ 2. `Form Model -> Backend Query Model` via `in-new-components/QueryBuilder/transformation/backendQueryModel`
+    via `toBackendQueryModel(formModel)`.
+
+## Backend Query Model
+
+### Only a Single Tag
+
+```js
+{
+  type: 'TAG',
+  name: 'service.name',
+  operator: 'EQUALS',
+  stringValue: 'shop',
+  entity: 'DESTINATION'
+}
+```
+
+### Multiple Tags
+
+```js
+{
+  type: 'EXPRESSION',
+  logicalOperator: 'OR',
+  elements: [
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'shop',
+      entity: 'DESTINATION'
+    },
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'shipping',
+      entity: 'DESTINATION'
+    },
+    {
+      type: 'TAG',
+      name: 'service.name',
+      operator: 'EQUALS',
+      stringValue: 'product',
+      entity: 'SOURCE'
+    }
+  ]
+}
+```
+
+## Form Model
+
+### Only a Single Tag
+
+```js
+[
+  {
+    type: 'TAG',
+    name: 'service.name',
+    operator: 'EQUALS',
+    stringValue: 'shop',
+    entity: 'DESTINATION'
+  }
+]
+```
+
+### Multiple Tags
+
+```js
+[
+  {
+    type: 'OPEN_BRACKET'
+  },
+  {
+    type: 'TAG',
+    name: 'service.name',
+    operator: 'EQUALS',
+    stringValue: 'shop',
+    entity: 'DESTINATION'
+  },
+  {
+    type: 'CONJUNCTION',
+    logicalOperator: 'OR'
+  },
+  {
+    type: 'TAG',
+    name: 'service.name',
+    operator: 'EQUALS',
+    stringValue: 'shipping',
+    entity: 'DESTINATION'
+  },
+  {
+    type: 'CONJUNCTION',
+    logicalOperator: 'OR'
+  },
+  {
+    type: 'TAG',
+    name: 'service.name',
+    operator: 'EQUALS',
+    stringValue: 'product',
+    entity: 'SOURCE'
+  },
+  {
+    type: 'CLOSE_BRACKET'
+  }
+]
+```
+
+## Render Model
+
+### Only a Single Tag
+
+```js
+[
+  {
+    type: 'TAG',
+    name: 'service.name',
+    operator: 'EQUALS',
+    stringValue: 'shop',
+    entity: 'DESTINATION',
+    formModelIndex: 0
+  }
+]
+```
+
+### Multiple Tags
+
+```js
+[
+  {
+    // To implement expression/group highlighting effects when hovering
+    // or when focusing via the keyboard (tabbing or left/right keys).
+    // In the future also support a "rainbow brackets" kind of visual
+    // styling. Similar to the styling shown here in the GitHub README:
+    // https://github.com/luochen1990/rainbow
+    type: 'EXPRESSION',
+    elements: [
+      {
+        type: 'OPEN_BRACKET',
+        // formModelIndex helps to implement event handler implementations.
+        formModelIndex: 0
+      },
+      // Serves mutliple use cases:
+      // - is a visual whitespace element.
+      // - is a cursor/caret step while interacting with the keyboard.
+      // - is a drop-target for drag & drop interactions.
+      {
+         type: 'SPACING',
+        size: 'LETTER',
+        // Are added to simlify form manipulations (insert item at, remove item at, etc.)
+        leftFormModelIndex: 0,
+        rightFormModelIndex: 1
+      },
+      {
+        type: 'TAG',
+        name: 'service.name',
+        operator: 'EQUALS',
+        stringValue: 'shop',
+        entity: 'DESTINATION',
+        formModelIndex: 1
+      },
+      {
+        type: 'SPACING',
+        size: 'WORD',
+        leftFormModelIndex: 1,
+        rightFormModelIndex: 2
+      },
+      {
+        type: 'CONJUNCTION',
+        logicalOperator: 'OR',
+        formModelIndex: 2
+      },
+      {
+        type: 'SPACING',
+        size: 'WORD',
+        leftFormModelIndex: 2,
+        rightFormModelIndex: 3
+      },
+      {
+        type: 'TAG'
+        name: 'service.name',
+        operator: 'EQUALS',
+        stringValue: 'shipping',
+        entity: 'DESTINATION',
+        formModelIndex: 3
+      },
+      {
+        type: 'SPACING',
+        size: 'WORD',
+        leftFormModelIndex: 3,
+        rightFormModelIndex: 4
+      },
+      {
+        type: 'CONJUNCTION',
+        logicalOperator: 'OR',
+        formModelIndex: 4,
+      },
+      {
+        type: 'SPACING',
+        size: 'WORD',
+        leftFormModelIndex: 4,
+        rightFormModelIndex: 5
+      },
+      {
+        type: 'TAG'
+        name: 'service.name',
+        operator: 'EQUALS',
+        stringValue: 'product',
+        entity: 'SOURCE',
+        formModelIndex: 5
+      },
+      {
+        type: 'SPACING',
+        size: 'LETTER',
+        leftFormModelIndex: 5,
+        rightFormModelIndex: 6
+      },
+      {
+        type: 'CLOSE_BRACKET',
+        formModelIndex: 6
+      }
+    ]
+  }
+]
+```

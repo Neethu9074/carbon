@@ -1,0 +1,55 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import {
+  and,
+  or,
+  not,
+  openParenthesis,
+  closeParenthesis,
+  clear
+} from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import { Ul } from 'in-new-components/lists/List/List';
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './ConjunctionSelectorOverlay.mless';
+
+export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
+  return (
+    <Ul framed={false} className={locals.list} borderRadius="medium">
+      <OverlayOption
+        autoFocus={value == null || value === and}
+        onChange={onChange}
+        close={close}
+        selectedValue={value}
+        value={and}
+      >
+        AND
+      </OverlayOption>
+      <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
+        OR
+      </OverlayOption>
+      <OverlayOption onChange={onChange} close={close} selectedValue={value} value={not}>
+        NOT
+      </OverlayOption>
+      <div className={locals.paranthesis}>
+        <OverlayOption onChange={onChange} close={close} selectedValue={value} value={openParenthesis}>
+          (
+        </OverlayOption>
+        <OverlayOption onChange={onChange} close={close} selectedValue={value} value={closeParenthesis}>
+          )
+        </OverlayOption>
+      </div>
+      <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
+        <SvgIcon size="s" type="lib_openclose_cancel" /> Clear
+      </OverlayOption>
+    </Ul>
+  );
+}
+
+ConjunctionSelectorOverlay.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired
+};

@@ -4,6 +4,7 @@ import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-compo
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
+import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import useAutoFocus from 'in-hooks/useAutoFocus';
@@ -14,19 +15,24 @@ import locals from './List.mless';
 
 export { default as ColumnizedContent } from 'in-new-components/lists/List/ColumnizedContent';
 
+export const ListGroup = ListGroupComponent;
 export const LoadMoreLi = LoadMoreLiComponent;
 export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
 export const LoadingSkeletonLi = LoadingSkeletonLiComponent;
+export const supportBorderRadii = ['medium'];
 
-export function Ul({ framed = true, className, children }) {
+export function Ul({ framed = true, className, children, borderRadius, style, refSetter }) {
   return (
     <ul
       className={evaluateClassNames({
         [locals.list]: true,
         [locals.framed]: framed === true,
         [locals.framedTopBottom]: framed === 'topBottom',
-        [className]: className
+        [className]: className,
+        [locals[`${borderRadius}BorderRadius`]]: borderRadius
       })}
+      style={style}
+      ref={refSetter}
     >
       {children}
     </ul>

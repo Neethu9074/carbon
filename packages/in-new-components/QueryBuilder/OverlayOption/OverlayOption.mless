@@ -1,0 +1,6 @@
+:local {
+  .option {
+    font-weight: 600;
+    justify-content: center;
+  }
+}

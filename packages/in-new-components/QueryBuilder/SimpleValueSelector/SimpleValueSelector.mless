@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .highlighted {
+    background: @lib__colors__faded-blue800;
+  }
+}

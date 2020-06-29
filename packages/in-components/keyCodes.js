@@ -7,6 +7,8 @@ export default {
   },
   tab: 9,
   space: 32,
+  backspace: 8,
+  delete: 46,
   escape: 27,
   return: 13,
   questionMark: 191,
