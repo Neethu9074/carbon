@@ -7,9 +7,7 @@ import Legend, { HEIGHT as legendHeight } from 'in-components/Chart/components/L
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import { getSetting$ } from 'in-services/settings';
 import Chart from 'in-components/Chart/Chart';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './Chart.mless';
 
@@ -33,15 +31,7 @@ function CompletelyAutomaticallySized(props) {
   );
 }
 
-const ChartReactWrapper = compose(
-  withState('chart', 'setChart', null),
-  connectTo({
-    devicePixelRatio: getSetting$('charts_adaptToDevicePixelRatio')
-      .map(adaptToDevicePixelRatio => (adaptToDevicePixelRatio ? window.devicePixelRatio : 1))
-      .distinct()
-      .startWith(window.devicePixelRatio || 1)
-  })
-)(
+const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   class ChartReactWrapper extends React.Component {
     static displayName = 'ChartReactWrapper';
 
@@ -68,6 +58,7 @@ const ChartReactWrapper = compose(
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart && renderLegend && <Legend chart={chart} />}
+          {this.props?.renderPreChartContent?.(timeConfig)}
           <div className={locals.chartAxisWrapper}>
             {chart &&
               chart.config.y1 && (
@@ -92,6 +83,7 @@ const ChartReactWrapper = compose(
                 <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
               )}
           </div>
+          {this.props?.renderPostChartContent?.(timeConfig)}
         </div>
       );
     }

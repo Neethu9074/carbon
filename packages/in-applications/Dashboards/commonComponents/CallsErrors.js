@@ -16,12 +16,14 @@ export default function CallsErrors({
   groupByTag,
   includeSyntheticCalls,
   boundaryScope,
-  cardTitle
+  cardTitle,
+  renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
   const labels = ['Calls', 'Erroneous Calls'];
   return (
     <AppdataChartWrapper
+      renderPostChartContent={renderPostChartContent}
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{

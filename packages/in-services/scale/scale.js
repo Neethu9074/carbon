@@ -16,6 +16,13 @@ class Scale {
     this.clamp = false;
   }
 
+  setFromScale(scale) {
+    this.rangeFrom = scale.getRangeFrom();
+    this.rangeTo = scale.getRangeTo();
+    this.domainFrom = scale.getDomainFrom();
+    this.domainTo = scale.getDomainTo();
+  }
+
   setRangeFrom(v) {
     this.rangeFrom = v;
   }

@@ -31,7 +31,8 @@ export default connectTo(
     filters,
     isSynthetic,
     groupByTag,
-    metrics
+    metrics,
+    renderPostChartContent
   }) {
     if (!hasHttpEndpoints(types)) {
       return null;
@@ -41,6 +42,7 @@ export default connectTo(
     const metricsIds = ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'];
     return (
       <AppdataChartWrapper
+        renderPostChartContent={renderPostChartContent}
         timeConfig={timeConfig}
         y1={{
           renderer: Renderer.stackedBar,

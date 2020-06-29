@@ -23,9 +23,9 @@ export default function axis(config) {
     for (let i = 0; i < tickPositions.length; i++) {
       const tick = tickPositions[i];
       backBufferCtx.rect(
-        config.scales.xBackBuffer.getRangeFrom(),
+        config.xScaleBackBuffer.getRangeFrom(),
         tick.range,
-        config.scales.xBackBuffer.getRangeTo() - config.scales.xBackBuffer.getRangeFrom(),
+        config.xScaleBackBuffer.getRangeTo() - config.xScaleBackBuffer.getRangeFrom(),
         1
       );
     }

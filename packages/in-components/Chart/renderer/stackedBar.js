@@ -11,8 +11,8 @@ export default {
     }
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
     const width =
-      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo()) -
-      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
+      config.xScaleBackBuffer.getRange(config.xScaleBackBuffer.getDomainTo()) -
+      config.xScaleBackBuffer.getRange(config.xScaleBackBuffer.getDomainTo() - blockSizeMillis);
     const barMargin = Math.min(MAX_BAR_MARGIN_IN_PX, width / (2 + MIN_BAR_TO_MARGIN_RATION));
     const barWidth = width - 2 * barMargin;
 
@@ -47,7 +47,7 @@ function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSerie
   config.backBufferCtx.globalAlpha = 1.0;
 
   const startIndex =
-    !config.includeFirstDataPoint && shouldSkipFirstDataPoint(block[0], config.scales.xBackBuffer, barWidth) ? 1 : 0;
+    !config.includeFirstDataPoint && shouldSkipFirstDataPoint(block[0], config.xScaleBackBuffer, barWidth) ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
     if (!dataPoint) {
@@ -61,7 +61,7 @@ function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSerie
       metricMap[time] -= dataPoint[1];
     }
 
-    const xPos = config.scales.xBackBuffer.getRange(time) - barWidth / 2;
+    const xPos = config.xScaleBackBuffer.getRange(time) - barWidth / 2;
 
     const yPos = scale.getRange(value);
     const barHeight = Math.max(MIN_BAR_HEIGHT_IN_PX, chartHeight - yPos);

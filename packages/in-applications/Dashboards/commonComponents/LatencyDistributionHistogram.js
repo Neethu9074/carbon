@@ -10,10 +10,12 @@ export default function LatencyDistributionHistogram({
   endpointId,
   boundaryScope,
   includeSyntheticCalls,
-  callType
+  callType,
+  renderPostChartContent
 }) {
   return (
     <LatencyDistributionChart
+      renderPostChartContent={renderPostChartContent}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}

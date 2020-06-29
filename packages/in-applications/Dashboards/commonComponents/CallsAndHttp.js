@@ -13,7 +13,8 @@ export default function CallsAndHttp({
   boundaryScope,
   cardTitle,
   callGroupByTag,
-  includeSyntheticCalls
+  includeSyntheticCalls,
+  renderPostChartContent
 }) {
   const tabs = ['Call count', 'HTTP status codes'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -43,6 +44,7 @@ export default function CallsAndHttp({
           timeConfig={timeConfig}
           groupByTag={callGroupByTag}
           includeSyntheticCalls={includeSyntheticCalls}
+          renderPostChartContent={renderPostChartContent}
         />
       )}
       {activeTab === 'HTTP status codes' && (
@@ -53,6 +55,7 @@ export default function CallsAndHttp({
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
           groupByTag={{ name: 'call.http.status' }}
+          renderPostChartContent={renderPostChartContent}
           showGraph
         />
       )}

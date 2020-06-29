@@ -1,0 +1,5 @@
+{
+  "name": "ReleaseMarkerLane",
+  "private": true,
+  "main": "./ReleaseMarkerLane.js"
+}

@@ -30,8 +30,8 @@ function renderDataSeries(config, color, borderColor, dataSeries, metricMap, sca
 function drawBlock(metricMap, config, scale, block, borderColor) {
   const firstDataPoint = block[0];
   const lastDataPoint = block[block.length - 1];
-  const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);
-  const lastDataPointXPos = config.scales.xBackBuffer.getRange(lastDataPoint[0]);
+  const firstDataPointXPos = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
+  const lastDataPointXPos = config.xScaleBackBuffer.getRange(lastDataPoint[0]);
 
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
@@ -49,7 +49,7 @@ function drawBlock(metricMap, config, scale, block, borderColor) {
       value = metricMap[time];
       metricMap[time] -= dataPoint[1];
     }
-    const xPos = config.scales.xBackBuffer.getRange(time);
+    const xPos = config.xScaleBackBuffer.getRange(time);
     const yPos = scale.getRange(value);
     config.backBufferCtx.lineTo(xPos, yPos);
   }

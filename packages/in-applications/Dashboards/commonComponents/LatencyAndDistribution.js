@@ -14,7 +14,8 @@ export default function LatencyAndDistribution({
   includeSyntheticCalls,
   cardTitle,
   percentileGroupBy,
-  callType
+  callType,
+  renderPostChartContent
 }) {
   const tabs = ['Percentiles', 'Distribution'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -44,6 +45,7 @@ export default function LatencyAndDistribution({
           includeSyntheticCalls={includeSyntheticCalls}
           timeConfig={timeConfig}
           groupByTag={percentileGroupBy}
+          renderPostChartContent={renderPostChartContent}
         />
       )}
       {activeTab === 'Distribution' && (
@@ -55,6 +57,7 @@ export default function LatencyAndDistribution({
           boundaryScope={boundaryScope}
           includeSyntheticCalls={includeSyntheticCalls}
           callType={callType}
+          renderPostChartContent={renderPostChartContent}
         />
       )}
     </Card>

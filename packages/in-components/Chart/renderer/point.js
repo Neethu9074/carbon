@@ -10,7 +10,7 @@ export default {
         continue;
       }
 
-      const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
+      const xPos = config.xScaleBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
 
       if (!pointsAreTooCloseTogether(lastXPos, xPos)) {

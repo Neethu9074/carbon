@@ -15,14 +15,14 @@ export default function axis(config, tickPositions) {
     return;
   }
 
-  const { backBufferCtx: ctx, scales, bufferOffsetInPx, height, timeAxisHeight, backBufferWidth } = config;
+  const { backBufferCtx: ctx, xScaleBackBuffer, bufferOffsetInPx, height, timeAxisHeight, backBufferWidth } = config;
   if (!timeLabelWidth) {
     timeLabelWidth = ctx.measureText('00:00:00').width;
   }
 
   tickPositions = tickPositions
     .map(tick => ({
-      xPos: scales.xBackBuffer.getRange(tick),
+      xPos: xScaleBackBuffer.getRange(tick),
       tick
     }))
     .filter(({ xPos }) => xPos + bufferOffsetInPx >= 0);

@@ -2,7 +2,7 @@ import { MIN_BAR_HEIGHT_IN_PX, MAX_BAR_MARGIN_IN_PX, MIN_BAR_TO_MARGIN_RATION } 
 
 export default {
   render: ({ axis, dataSeries, color, scale, config }) => {
-    const xScale = config.scales.xBackBuffer;
+    const xScale = config.xScaleBackBuffer;
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
 
     const width = xScale.getRange(xScale.getDomainTo()) - xScale.getRange(xScale.getDomainTo() - blockSizeMillis);

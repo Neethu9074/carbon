@@ -25,7 +25,7 @@ export default {
       renderDataSeries(config, metrics[iMetric], metricMap, scale, iMetric === 0);
     }
 
-    const dpr = config.devicePixelRatio;
+    const dpr = window.devicePixelRatio;
     const widthSrc = Math.round(config.backBufferWidth * dpr);
     const heightSrc = Math.round(config.height * dpr);
     const widthDest = Math.round(config.backBufferWidth);
@@ -53,8 +53,8 @@ function renderDataSeries(config, dataSeries, metricMap, scale, isLastSeries) {
 function drawBlock(metricMap, config, scale, block, cutArea) {
   const firstDataPoint = block[0];
   const lastDataPoint = block[block.length - 1];
-  const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);
-  const lastDataPointXPos = config.scales.xBackBuffer.getRange(lastDataPoint[0]);
+  const firstDataPointXPos = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
+  const lastDataPointXPos = config.xScaleBackBuffer.getRange(lastDataPoint[0]);
 
   layerBufferCtx.beginPath();
   layerBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
@@ -72,7 +72,7 @@ function drawBlock(metricMap, config, scale, block, cutArea) {
       value = metricMap[time];
       metricMap[time] -= dataPoint[1];
     }
-    const xPos = config.scales.xBackBuffer.getRange(time);
+    const xPos = config.xScaleBackBuffer.getRange(time);
     const yPos = scale.getRange(value);
     layerBufferCtx.lineTo(xPos, yPos);
   }

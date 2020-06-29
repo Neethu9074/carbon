@@ -6,6 +6,7 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
@@ -30,6 +31,8 @@ export default connectTo(
       applicationBoundaryScope: boundaryScope,
       includeSyntheticCalls
     };
+
+    const postChartContent = timeConfig => <MarkerLanesPresenter timeConfig={timeConfig} />;
 
     return (
       <Fragment>
@@ -97,6 +100,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+                renderPostChartContent={postChartContent}
               />
             ) : (
               <CallsErrors
@@ -108,6 +112,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+                renderPostChartContent={postChartContent}
               />
             )}
           </Col>
@@ -121,6 +126,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              renderPostChartContent={postChartContent}
             />
           </Col>
           <Col lg={4}>
@@ -134,6 +140,7 @@ export default connectTo(
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
               callType={type}
+              renderPostChartContent={postChartContent}
             />
           </Col>
         </Row>
@@ -146,6 +153,7 @@ export default connectTo(
                   serviceId={serviceId}
                   endpointId={endpointId}
                   timeConfig={timeConfig}
+                  renderPostChartContent={postChartContent}
                 />
               </Col>
               <Col lg={6}>
@@ -158,7 +166,12 @@ export default connectTo(
                     timeConfig={timeConfig}
                   />
                 ) : (
-                  <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
+                  <TechnologyBreakdown
+                    applicationId={applicationId}
+                    endpointId={endpointId}
+                    timeConfig={timeConfig}
+                    renderPostChartContent={postChartContent}
+                  />
                 )}
               </Col>
             </Row>

@@ -15,12 +15,14 @@ export default function Latency({
   boundaryScope,
   cardTitle,
   isSynthetic,
-  groupByTag
+  groupByTag,
+  renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
     <AppdataChartWrapper
+      renderPostChartContent={renderPostChartContent}
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       reverseTooltipOrder

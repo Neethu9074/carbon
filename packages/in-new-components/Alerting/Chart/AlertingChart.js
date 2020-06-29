@@ -1,6 +1,6 @@
+import DoubleBufferRenderScheduler from 'in-components/Chart/DoubleBufferRenderScheduler';
 import AlertingChartEventsClusterManager from './AlertingChartEventsClusterManager';
 import AlertingChartEventsManager from './AlertingChartEventsManager';
-import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import Config from 'in-components/Chart/Configuration';
 
 export default class AlertingChart {
@@ -20,7 +20,7 @@ export default class AlertingChart {
       this.config.markerPaneHeight = 36;
     }
 
-    this.renderScheduler = new RenderScheduler(this);
+    this.renderScheduler = new DoubleBufferRenderScheduler(this);
 
     this.eventsSubscription = this.chartEventsManager.alertEvents$.subscribe(alertEvents => {
       this.alertEvents = alertEvents;

@@ -34,7 +34,8 @@ export default connectTo(
     timeConfig,
     result,
     boundaryScope,
-    isSynthetic
+    isSynthetic,
+    renderPostChartContent
   }) {
     let config = {
       cardTitle: 'Processing Time'
@@ -55,6 +56,7 @@ export default connectTo(
       const colors = endpointTypes.map(type => (type === 'SELF' ? theme.lib.colors.chart.self25 : getColorChart(type)));
 
       config = {
+        renderPostChartContent,
         cardTitle: config.cardTitle,
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),

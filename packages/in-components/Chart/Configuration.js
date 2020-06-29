@@ -9,25 +9,22 @@ import {
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
-import { createCanvas } from 'in-components/Chart/canvasHelper';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
 
-export const animationDuration = 2000;
-export const wiggleRoom = 5000;
+// Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
+// of availability of metrics. We are removing x millis from the right border in order to
+// hide this fact from the user.
+export const WIGGLE_ROOM = 5000;
+
+export const ANIMATION_DURATION = 1000;
 
 export default class Config {
-  constructor(frontBufferCanvas, props) {
+  constructor(props) {
     this.timeAxisHeight = 30;
     this.markerPaneHeight = 22;
-    this.frontBufferCanvas = frontBufferCanvas;
-    this.frontBufferCtx = this.frontBufferCanvas.getContext('2d');
-
-    this.backBufferCanvas = createCanvas();
-    this.backBufferCtx = this.backBufferCanvas.getContext('2d');
 
     this.localHighlightedTimeframe$ = create().emit(null);
 
@@ -74,11 +71,6 @@ export default class Config {
   }
 
   update(props) {
-    let shouldResize = false;
-    if (this.frontBufferWidth !== props.width || this.height !== props.height) {
-      shouldResize = true;
-    }
-
     assign(this, props);
     this.enrichConfig();
 
@@ -89,24 +81,6 @@ export default class Config {
       this.scales = new Scales(this, this.filteredDataSeries);
     }
     this.scales.update();
-
-    updateCanvasDimensions(
-      this.backBufferCanvas,
-      this.backBufferCtx,
-      this.backBufferWidth,
-      this.height,
-      this.devicePixelRatio
-    );
-
-    if (shouldResize) {
-      updateCanvasDimensions(
-        this.frontBufferCanvas,
-        this.frontBufferCtx,
-        this.frontBufferWidth,
-        this.height,
-        this.devicePixelRatio
-      );
-    }
   }
 
   calculateMaxMillisBetweenDatapoints() {
@@ -120,25 +94,6 @@ export default class Config {
   }
 
   enrichConfig() {
-    const fullDomain = this.timeConfig.windowSize;
-
-    // we need to round the pixels to full values because some browser APIs cannot handle floats here.
-    // because rounding manipulates the calculation we need to add the error created by the rounding to the animation time
-    // to avoid chart hoppings
-    const adaptedAnimationDuration = this.timeConfig.autoRefresh ? animationDuration : 0;
-    const bufferOffsetInPx = this.width * (adaptedAnimationDuration / fullDomain);
-    const bufferOffsetInPxRounded = Math.ceil(this.width * (adaptedAnimationDuration / fullDomain));
-    const differenceInPx = bufferOffsetInPxRounded - bufferOffsetInPx || 0;
-    const differenceInTime = (fullDomain / this.width) * differenceInPx || 0;
-
-    this.animationDuration = adaptedAnimationDuration + differenceInTime;
-
-    this.bufferOffsetInPx = bufferOffsetInPxRounded;
-
-    this.frontBufferWidth = this.width;
-    this.backBufferWidth = this.width + this.bufferOffsetInPx;
-    delete this.width;
-
     if (this.granularity) {
       this.rollup = this.granularity;
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
@@ -147,11 +102,6 @@ export default class Config {
       this.rollup = rollup || 1000;
       this.rollupLabel = label;
     }
-
-    // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
-    // of availability of metrics. We are removing x millis from the right border in order to
-    // hide this fact from the user.
-    this.wiggleRoom = this.wiggleRoom || wiggleRoom;
 
     this.maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints();
 
@@ -202,7 +152,7 @@ export default class Config {
           windowSize: this.timeConfig.windowSize,
           maxDataPoints: axis.maxDataPoints,
           minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-          width: this.frontBufferWidth,
+          width: this.width,
           rollup: this.granularity
         })
       )
@@ -251,18 +201,6 @@ export default class Config {
 
   setLocalHighlightedtimeframe(t1, t2) {
     this.localHighlightedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
-  }
-
-  clearBottomOverdraw() {
-    this.backBufferCtx.clearRect(0, this.scales.y1.getRangeFrom(), this.backBufferWidth, this.height);
-  }
-
-  clearLeftOverdraw() {
-    this.backBufferCtx.clearRect(0, 0, this.scales.xBackBuffer.getRangeFrom(), this.height);
-  }
-
-  clearRightOverdraw() {
-    this.backBufferCtx.clearRect(this.scales.xBackBuffer.getRangeTo(), 0, this.backBufferWidth, this.height);
   }
 
   getAllDomainValues() {
