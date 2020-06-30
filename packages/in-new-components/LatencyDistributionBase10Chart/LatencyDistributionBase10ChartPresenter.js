@@ -27,7 +27,7 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   const subscriptionResult = useObservable(subscription, [subscription]);
 
-  if (!width) {
+  if (!width || !subscriptionResult) {
     return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
 
