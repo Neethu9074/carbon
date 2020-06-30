@@ -3,10 +3,12 @@ import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { millis } from 'in-services/formatters/number';
+import { withKnobs, number } from '@storybook/addon-knobs';
 
 export default {
   title: 'Molecules|LatencyDistributionBase10Chart',
-  component: LatencyDistributionBase10Chart
+  component: LatencyDistributionBase10Chart,
+  decorators: [withKnobs]
 };
 
 const mockSubscription = {
@@ -259,8 +261,8 @@ export const dashboard = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
-    cheight={182}
-    cwidth={552}
+    cheight={number('Height', 182)}
+    cwidth={number('Width', 552)}
   />
 );
 
@@ -268,8 +270,8 @@ export const unboundedAnalytics = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
-    cheight={130}
-    cwidth={872}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 872)}
   />
 );
 
@@ -277,8 +279,8 @@ export const stackedUp2Percentiles = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription2)}
     chartDefinition={chartDefinition}
-    cheight={130}
-    cwidth={872}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 872)}
   />
 );
 
@@ -286,8 +288,8 @@ export const stackedUp3Percentiles = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription3)}
     chartDefinition={chartDefinition}
-    cheight={130}
-    cwidth={872}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 872)}
   />
 );
 
@@ -295,8 +297,8 @@ export const noData = () => (
   <LatencyDistributionBase10Chart
     subscription={just(noDataMock)}
     chartDefinition={chartDefinition}
-    cheight={130}
-    cwidth={1300}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 1300)}
   />
 );
 
@@ -304,7 +306,7 @@ export const loading = () => (
   <LatencyDistributionBase10Chart
     subscription={just(loadingMock)}
     chartDefinition={chartDefinition}
-    cheight={130}
-    cwidth={1300}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 1300)}
   />
 );
