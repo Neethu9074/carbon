@@ -1,10 +1,10 @@
 import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import theme from 'in-themes';
 
 import BigHeaderDialogWithSlideInView from 'in-new-components/BigHeaderDialog/BigHeaderDialogWithSlideInView';
 import Button from 'in-new-components/Button/Button';
+import theme from 'in-themes';
 
 export default {
   title: 'Molecules|Dialogs/BigHeaderDialogWithSlideInView',
@@ -12,7 +12,7 @@ export default {
   decorator: { text, action }
 };
 
-export const BigHeaderDialogWithSlideInViewDefault = () => (
+export const Default = () => (
   <div>
     <BigHeaderDialogWithSlideInView title={text('Title', 'Some title')} onClose={action('onClose')}>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
@@ -21,14 +21,14 @@ export const BigHeaderDialogWithSlideInViewDefault = () => (
   </div>
 );
 
-export const BigHeaderDialogWithSlideInViewCustom = () => (
+export const Custom = () => (
   <div>
     <BigHeaderDialogWithSlideInView
       onClose={action('onClose')}
       renderCustomCloseBehaviour={() => (
-        <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
+        <Button style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
           Custom close
-        </span>
+        </Button>
       )}
       title="Title with icon"
       titleIconType="lib_flame"
@@ -39,7 +39,7 @@ export const BigHeaderDialogWithSlideInViewCustom = () => (
   </div>
 );
 
-export const BigHeaderDialogWithSlideInViewSlideIn = () => {
+export const SlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
     <div>
@@ -66,6 +66,44 @@ export const BigHeaderDialogWithSlideInViewSlideIn = () => {
           dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
           consequuntur?
           <Button onClick={() => setSlideInVisible(true)}>SlideIn</Button>
+        </div>
+      </BigHeaderDialogWithSlideInView>
+    </div>
+  );
+};
+
+export const ResetScrollPosition = () => {
+  const inner = React.useRef();
+  return (
+    <div>
+      <BigHeaderDialogWithSlideInView
+        onClose={action('onClose')}
+        renderCustomCloseBehaviour={removeScrollShadow => (
+          <Button
+            style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }}
+            onClick={() => {
+              inner.current.parentNode.scrollTo(0, 0);
+              removeScrollShadow();
+            }}
+          >
+            Scroll-to-top
+          </Button>
+        )}
+        title="Title with icon"
+        titleIconType="lib_flame"
+      >
+        <div ref={inner} style={{ height: 1000 }}>
+          <p>Please scroll down to see scroll shadow on the header!</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Long text...</p>
+          <p>Press button above to reset scroll position. Then the shadow will go away.</p>
         </div>
       </BigHeaderDialogWithSlideInView>
     </div>
