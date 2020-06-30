@@ -62,11 +62,11 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart && renderLegend && <Legend chart={chart} />}
-          {this.props?.renderPreChartContent?.({
-            timeConfig,
+          {this.props.renderPreChartContent?.({
+            timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
             onHover: config => this.onMarkerLaneItemHover$.emit(config),
             onMarkerLaneItemHover$: this.onMarkerLaneItemHover$,
-            granularity: this.props?.chart?.config?.rollup,
+            granularity: this.props.chart?.config?.rollup,
             chartContentPosition: 'pre'
           })}
           <HighlightOverlayWrapper
@@ -99,11 +99,11 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
                 )}
             </div>
           </HighlightOverlayWrapper>
-          {this.props?.renderPostChartContent?.({
-            timeConfig,
+          {this.props.renderPostChartContent?.({
+            timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
             onHover: config => this.onMarkerLaneItemHover$.emit(config),
             onMarkerLaneItemHover$: this.onMarkerLaneItemHover$,
-            granularity: this.props?.chart?.config?.rollup,
+            granularity: this.props.chart?.config?.rollup,
             chartContentPosition: 'post'
           })}
         </div>
