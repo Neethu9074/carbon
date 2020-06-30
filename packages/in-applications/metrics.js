@@ -32,7 +32,8 @@ export function getResolvedTimeConfig(timeConfig, resultOrTime) {
   }
   return {
     ...timeConfig,
-    to: resultTime
+    to: resultTime,
+    focusedMoment: resultTime
   };
 }
 

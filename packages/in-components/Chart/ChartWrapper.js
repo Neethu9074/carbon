@@ -106,6 +106,7 @@ function wrapProps(result, props) {
   // time config for the chart. We never want to show a time axis that is time shifting aware.
   // This change ensures that the axis always represents the current time window.
   const smallestTimeShift = getSmallestTimeShift(propsClone.y1, propsClone.y2);
+  propsClone.originalTimeConfig = propsClone.timeConfig;
   propsClone.timeConfig = getResolvedTimeConfig(propsClone.timeConfig, result.time - smallestTimeShift);
   propsClone.granularity = propsClone.granularity || getChartGranularity(propsClone.timeConfig);
   propsClone.cardHeader = props.cardHeader;
