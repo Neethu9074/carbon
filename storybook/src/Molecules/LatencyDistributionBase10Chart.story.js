@@ -269,6 +269,7 @@ export const unboundedAnalytics = () => (
     subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
     cheight={130}
+    cwidth={872}
   />
 );
 
