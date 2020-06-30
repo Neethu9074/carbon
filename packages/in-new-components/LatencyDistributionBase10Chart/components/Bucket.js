@@ -29,10 +29,14 @@ export default function Bucket({
 }
 
 function Bar({ calls, maxDataValue, height }) {
+  let barHeight = (calls / maxDataValue) * height;
+  if (calls > 0) {
+    barHeight = Math.max(2, barHeight);
+  }
   return (
     <div
       style={{
-        height: `${(calls / maxDataValue) * height}px`,
+        height: `${barHeight}px`,
         background: theme.lib.colors.chart.strokeColors100[0] + '60'
       }}
       className={locals.barInner}

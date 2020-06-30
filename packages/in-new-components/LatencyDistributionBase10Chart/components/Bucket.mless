@@ -47,7 +47,6 @@
 
   .barInner {
     background: @lib__colors__light-blue800;
-    min-height: 2px;
     width: 100%;
   }
 
