@@ -1,11 +1,12 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
-import LatencyDistributionBase10ChartPresenter from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10ChartPresenter';
+import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { millis } from 'in-services/formatters/number';
 
 export default {
-  title: 'Molecules|LatencyDistBase10Chart',
-  component: LatencyDistributionBase10ChartPresenter
+  title: 'Molecules|LatencyDistributionBase10Chart',
+  component: LatencyDistributionBase10Chart
 };
 
 const mockSubscription = {
@@ -255,55 +256,54 @@ const chartDefinition = {
 };
 
 export const dashboard = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={mockSubscription}
+  <LatencyDistributionBase10Chart
+    subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
-    height={182}
-    width={552}
+    cheight={182}
+    cwidth={552}
   />
 );
 
 export const unboundedAnalytics = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={mockSubscription}
+  <LatencyDistributionBase10Chart
+    subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
-    height={130}
-    width={872}
+    cheight={130}
   />
 );
 
 export const stackedUp2Percentiles = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={mockSubscription2}
+  <LatencyDistributionBase10Chart
+    subscription={just(mockSubscription2)}
     chartDefinition={chartDefinition}
-    height={130}
-    width={872}
+    cheight={130}
+    cwidth={872}
   />
 );
 
 export const stackedUp3Percentiles = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={mockSubscription3}
+  <LatencyDistributionBase10Chart
+    subscription={just(mockSubscription3)}
     chartDefinition={chartDefinition}
-    height={130}
-    width={872}
+    cheight={130}
+    cwidth={872}
   />
 );
 
 export const noData = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={noDataMock}
+  <LatencyDistributionBase10Chart
+    subscription={just(noDataMock)}
     chartDefinition={chartDefinition}
-    height={130}
-    width={1300}
+    cheight={130}
+    cwidth={1300}
   />
 );
 
 export const loading = () => (
-  <LatencyDistributionBase10ChartPresenter
-    subscription={loadingMock}
+  <LatencyDistributionBase10Chart
+    subscription={just(loadingMock)}
     chartDefinition={chartDefinition}
-    height={130}
-    width={1300}
+    cheight={130}
+    cwidth={1300}
   />
 );
