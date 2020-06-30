@@ -29,27 +29,26 @@ function getNavigationTree(props: any): NavigationTree {
   const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
 
   const navigationTree = [
-    props.isInternalVisible &&
-      isAtLeastOneAuthMethogAvailable && {
-        title: 'Identity Providers',
-        pages: [
-          props.isGoogleSSOAvailable && {
-            path: googleSSO,
-            label: 'Google SSO',
-            component: GoogleSSO
-          },
-          props.isSamlAvailable && {
-            path: saml,
-            label: 'SAML',
-            component: Saml
-          },
-          props.isLdapAvailable && {
-            path: ldap,
-            label: 'LDAP',
-            component: Ldap
-          }
-        ].filter(Boolean)
-      },
+    isAtLeastOneAuthMethogAvailable && {
+      title: 'Identity Providers',
+      pages: [
+        props.isGoogleSSOAvailable && {
+          path: googleSSO,
+          label: 'Google SSO',
+          component: GoogleSSO
+        },
+        props.isSamlAvailable && {
+          path: saml,
+          label: 'SAML',
+          component: Saml
+        },
+        props.isLdapAvailable && {
+          path: ldap,
+          label: 'LDAP',
+          component: Ldap
+        }
+      ].filter(Boolean)
+    },
     isOwner && {
       title: '2Factor',
       pages: [
@@ -113,15 +112,6 @@ export default connectTo(
   }
 );
 
-function isAtLeastOneAuthMethogAvailable({
-  isInternalVisible,
-  isGoogleSSOAvailable,
-  isSamlAvailable,
-  isLdapAvailable
-}) {
-  return (
-    isInternalVisible &&
-    role.canConfigureAuthenticationMethods &&
-    (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable)
-  );
+function isAtLeastOneAuthMethogAvailable({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable }) {
+  return role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable);
 }

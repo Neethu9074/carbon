@@ -87,20 +87,10 @@ export default getElementDimensions(
     };
 
     render() {
-      const selfTimeHighlighted = this.props.selfTimeHighlighted;
       const selectedNode = this.props.selectedNode;
 
       return (
         <div className={locals.wrapper}>
-          <div>
-            <Button
-              className={locals.controlButton}
-              kind={selfTimeHighlighted ? 'primaryv2' : 'secondary'}
-              onClick={() => this.props.setSelfTimeHighlighted(!selfTimeHighlighted)}
-            >
-              Highlight self CPU
-            </Button>
-          </div>
           {selectedNode ? (
             <Button
               className={locals.resetButton}
