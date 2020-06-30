@@ -1,8 +1,6 @@
 :local {
   .queryBuilder {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: inline;
 
     // TODO this must be supported on input elements. Reconsider this approach?
     user-select: none;

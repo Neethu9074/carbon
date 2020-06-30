@@ -27,7 +27,7 @@ export function toRenderModel(formModel) {
     return [];
   }
 
-  return addSpacingsAndIncides(formModel);
+  return buildExpressionTrees(addRenderModelIndices(addSpacingsAndIncides(formModel)));
 }
 
 export function addSpacingsAndIncides(elements) {
@@ -50,10 +50,51 @@ export function addSpacingsAndIncides(elements) {
   return elementsWithSpacings;
 }
 
+function addRenderModelIndices(elements) {
+  return elements.map((element, i) => {
+    element.renderModelIndex = i;
+    return element;
+  });
+}
+
+export function buildExpressionTrees(elements) {
+  const expressionTreeStack = [];
+  const rootTree = createExpressionTreeNode();
+  let currentExpressionTree = rootTree;
+
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+    if (element.type === OPEN_BRACKET) {
+      const newExpressionTree = createExpressionTreeNode();
+      currentExpressionTree.elements.push(newExpressionTree);
+      currentExpressionTree = newExpressionTree;
+      expressionTreeStack.push(currentExpressionTree);
+      currentExpressionTree.elements.push(element);
+    } else if (element.type === CLOSE_BRACKET) {
+      currentExpressionTree.elements.push(element);
+
+      expressionTreeStack.pop();
+      currentExpressionTree =
+        expressionTreeStack.length > 0 ? expressionTreeStack[expressionTreeStack.length - 1] : rootTree;
+    } else {
+      currentExpressionTree.elements.push(element);
+    }
+  }
+
+  return rootTree.elements;
+}
+
 function createSpacing(type, index) {
   return {
     ...type,
     leftFormModelIndex: index,
     rightFormModelIndex: index + 1
+  };
+}
+
+function createExpressionTreeNode() {
+  return {
+    type: EXPRESSION,
+    elements: []
   };
 }

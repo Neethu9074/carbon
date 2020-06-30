@@ -7,7 +7,7 @@ export const OPERATOR_AND = 'AND';
 
 export function toBackendQueryModel(formModel) {
   if (!formModel || formModel.length === 0) {
-    return createTagFilterExpression({ type: EXPRESSION, logicalOperator: OPERATOR_OR, elements: [] });
+    return createTagFilterExpression(OPERATOR_OR, []);
   }
 
   return mapTags(formModel);
@@ -38,7 +38,7 @@ function collectExpression(tags, cursor) {
     }
   }
 
-  const expression = createTagFilterExpression({ type: EXPRESSION, logicalOperator, elements });
+  const expression = createTagFilterExpression(logicalOperator, elements);
   return {
     cursor,
     expression
@@ -59,9 +59,9 @@ function createTagFilter({ type, name, stringValue, numberValue, booleanValue, o
   return mappedTag;
 }
 
-export function createTagFilterExpression({ type, logicalOperator, elements }) {
+function createTagFilterExpression(logicalOperator, elements) {
   return {
-    type,
+    type: EXPRESSION,
     logicalOperator,
     elements
   };

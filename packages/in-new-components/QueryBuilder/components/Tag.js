@@ -19,6 +19,7 @@ export default function Tag({
       className={locals.tag}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
+      data-query-builder-element="true"
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
     >
       {name} {operator} {stringValue ?? numberValue ?? booleanValue}

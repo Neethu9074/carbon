@@ -16,6 +16,7 @@ export default function Spacing({ renderModelIndex, size, onRemove, leftFormMode
       })}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
+      data-query-builder-element="true"
       onKeyUp={onKeyUp}
     >
       &nbsp;

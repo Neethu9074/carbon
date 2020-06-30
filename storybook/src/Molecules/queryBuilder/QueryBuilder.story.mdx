@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
 import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+import { QueryBuilderStateHelper } from "./QueryBuilderStateHelper";
 import {createQueryBuilder} from 'in-new-components/QueryBuilder';
 import tagCatalogExample from './tagCatalogExample.png';
 
@@ -13,44 +14,11 @@ import tagCatalogExample from './tagCatalogExample.png';
 export const DefaultExampleQueryBuilder = createQueryBuilder({});
 
 export function DefaultExample() {
-  const [value, setState] = useState([
-    {
-      type: 'OPEN_BRACKET'
-    },
-    {
-      type: 'TAG',
-      name: 'service.name',
-      operator: 'EQUALS',
-      stringValue: 'shop',
-      entity: 'DESTINATION'
-    },
-    {
-      type: 'CONJUNCTION',
-      logicalOperator: 'OR'
-    },
-    {
-      type: 'TAG',
-      name: 'service.name',
-      operator: 'EQUALS',
-      stringValue: 'shipping',
-      entity: 'DESTINATION'
-    },
-    {
-      type: 'CONJUNCTION',
-      logicalOperator: 'OR'
-    },
-    {
-      type: 'TAG',
-      name: 'service.name',
-      operator: 'EQUALS',
-      stringValue: 'product',
-      entity: 'SOURCE'
-    },
-    {
-      type: 'CLOSE_BRACKET'
-    }
-  ]);
-  return <DefaultExampleQueryBuilder value={value} onChange={setState} />;
+  return (
+    <QueryBuilderStateHelper>
+      {({value, setState}) => <DefaultExampleQueryBuilder value={value} onChange={setState} />}
+    </QueryBuilderStateHelper>
+  )
 }
 
 <Preview>
@@ -236,7 +204,8 @@ models in order to do its job:
     operator: 'EQUALS',
     stringValue: 'shop',
     entity: 'DESTINATION',
-    formModelIndex: 0
+    formModelIndex: 0,
+    renderModelIndex: 0
   }
 ]
 ```
@@ -256,18 +225,21 @@ models in order to do its job:
       {
         type: 'OPEN_BRACKET',
         // formModelIndex helps to implement event handler implementations.
-        formModelIndex: 0
+        formModelIndex: 0,
+        // renderModelIndex helps to implement keyboard navigation
+        renderModelIndex: 0
       },
-      // Serves mutliple use cases:
+      // SPACING serves mutliple use cases:
       // - is a visual whitespace element.
       // - is a cursor/caret step while interacting with the keyboard.
       // - is a drop-target for drag & drop interactions.
       {
-         type: 'SPACING',
+        type: 'SPACING',
         size: 'LETTER',
         // Are added to simlify form manipulations (insert item at, remove item at, etc.)
         leftFormModelIndex: 0,
-        rightFormModelIndex: 1
+        rightFormModelIndex: 1,
+        renderModelIndex: 1
       },
       {
         type: 'TAG',
@@ -275,24 +247,28 @@ models in order to do its job:
         operator: 'EQUALS',
         stringValue: 'shop',
         entity: 'DESTINATION',
-        formModelIndex: 1
+        formModelIndex: 1,
+        renderModelIndex: 2
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 1,
-        rightFormModelIndex: 2
+        rightFormModelIndex: 2,
+        renderModelIndex: 3
       },
       {
         type: 'CONJUNCTION',
         logicalOperator: 'OR',
-        formModelIndex: 2
+        formModelIndex: 2,
+        renderModelIndex: 4
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 2,
-        rightFormModelIndex: 3
+        rightFormModelIndex: 3,
+        renderModelIndex: 5
       },
       {
         type: 'TAG'
@@ -300,24 +276,28 @@ models in order to do its job:
         operator: 'EQUALS',
         stringValue: 'shipping',
         entity: 'DESTINATION',
-        formModelIndex: 3
+        formModelIndex: 3,
+        renderModelIndex: 6
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 3,
-        rightFormModelIndex: 4
+        rightFormModelIndex: 4,
+        renderModelIndex: 7
       },
       {
         type: 'CONJUNCTION',
         logicalOperator: 'OR',
         formModelIndex: 4,
+        renderModelIndex: 8
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 4,
-        rightFormModelIndex: 5
+        rightFormModelIndex: 5,
+        renderModelIndex: 9
       },
       {
         type: 'TAG'
@@ -325,17 +305,20 @@ models in order to do its job:
         operator: 'EQUALS',
         stringValue: 'product',
         entity: 'SOURCE',
-        formModelIndex: 5
+        formModelIndex: 5,
+        renderModelIndex: 10
       },
       {
         type: 'SPACING',
         size: 'LETTER',
         leftFormModelIndex: 5,
-        rightFormModelIndex: 6
+        rightFormModelIndex: 6,
+        renderModelIndex: 11
       },
       {
         type: 'CLOSE_BRACKET',
-        formModelIndex: 6
+        formModelIndex: 6,
+        renderModelIndex: 12
       }
     ]
   }

@@ -1,9 +1,14 @@
+import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 
-// TODO testing
 export function onKeyDown(e, stopElement) {
   if (e.keyCode !== keyCodes.arrows.left && e.keyCode !== keyCodes.arrows.right) {
+    return;
+  }
+
+  // Do execute custom focus change logic when typing in regular input fields
+  if (isPrimaryInteractiveElement(e.target)) {
     return;
   }
 
@@ -14,14 +19,11 @@ export function onKeyDown(e, stopElement) {
   focusNext({
     element: e.target,
     stopElement,
-    allowSelfFocussing: false,
-    parentFocussable: false
+    allowSelfFocussing: false
   });
 }
 
-// TODO testing
-// Exported to allow testing
-export function focusPrevious({ element, stopElement, allowSelfFocussing = true, traverseChildren = true }) {
+function focusPrevious({ element, stopElement, allowSelfFocussing = true, traverseChildren = true }) {
   if (!element) {
     return false;
   }
@@ -51,9 +53,7 @@ export function focusPrevious({ element, stopElement, allowSelfFocussing = true,
   return false;
 }
 
-// TODO testing
-// Exported to allow testing
-export function focusNext({ element, stopElement, allowSelfFocussing = true }) {
+function focusNext({ element, stopElement, allowSelfFocussing = true, traverseChildren = true }) {
   if (!element) {
     return false;
   }
@@ -63,8 +63,24 @@ export function focusNext({ element, stopElement, allowSelfFocussing = true }) {
     return true;
   }
 
+  if (traverseChildren && element.childNodes?.length > 0) {
+    const firstChild = element.childNodes[0];
+    if (focusNext({ element: firstChild, stopElement: element })) {
+      return true;
+    }
+  }
+
   const { nextSibling } = element;
   if (nextSibling && focusNext({ element: nextSibling, stopElement })) {
+    return true;
+  }
+
+  const parent = element.parentNode;
+  if (
+    parent &&
+    parent !== stopElement &&
+    focusNext({ element: parent, stopElement, traverseChildren: false, allowSelfFocussing: false })
+  ) {
     return true;
   }
 
@@ -74,12 +90,12 @@ export function focusNext({ element, stopElement, allowSelfFocussing = true }) {
 function isFocusable(element) {
   return (
     element.tabIndex >= 0 &&
-    // Avoid focussing the query builder elements sub-elements.
-    element.dataset.renderModelIndex != null
+    // Avoid focussing the query builder elements' sub-elements, e.g. the input fields
+    // within the Tag component.
+    element.dataset.queryBuilderElement === 'true'
   );
 }
 
-// TODO testing
 export function onElementKeyUp({ event, onRemove, renderModelIndex, formModelIndex }) {
   if (!onRemove) {
     return;

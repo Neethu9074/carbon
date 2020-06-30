@@ -10,6 +10,7 @@ export default function Conjunction({ renderModelIndex, logicalOperator, formMod
       className={locals.conjunction}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
+      data-query-builder-element="true"
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
     >
       {logicalOperator}

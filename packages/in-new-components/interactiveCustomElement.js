@@ -76,7 +76,7 @@ function isDefaultInteractionTrigger(e) {
   return code === keyCodes.return || code === keyCodes.space;
 }
 
-function isPrimaryInteractiveElement(element) {
+export function isPrimaryInteractiveElement(element) {
   return (
     element instanceof HTMLInputElement ||
     element instanceof HTMLTextAreaElement ||

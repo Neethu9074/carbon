@@ -9,7 +9,9 @@
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
 
-    &:focus, &:active, &:hover {
+    &:focus,
+    &:active,
+    &:hover {
       outline: 0;
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
