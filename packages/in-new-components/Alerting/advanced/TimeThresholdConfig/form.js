@@ -1,7 +1,7 @@
 import { createMapForm, createField } from 'formalistic';
 
-const numberOfUsersDefault = 20;
-const percentageOfUserDefault = 0.2;
+export const numberOfUsersDefault = 20;
+export const percentageOfUserDefault = 0.2;
 const timeWindowDefault = 600000;
 
 export function createViolationsInSequenceForm(timeThresholdConfig) {
@@ -43,7 +43,8 @@ export function createViolationsInPeriodForm(timeThresholdConfig) {
 }
 
 export function createUserImpactOfViolationsInSequenceForm(timeThresholdConfig) {
-  return createMapForm()
+  let form = createMapForm();
+  form = form
     .put(
       'type',
       createField({
@@ -55,39 +56,17 @@ export function createUserImpactOfViolationsInSequenceForm(timeThresholdConfig) 
       createField({
         value: timeWindowDefault
       })
-    )
-    .put(
-      'users',
-      createField({
-        value: timeThresholdConfig.users ?? numberOfUsersDefault,
-        validator: num => {
-          if (num === '' || num < 1) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please provide a number >= 1'
-              }
-            ];
-          }
-        }
-      })
-    )
-    .put(
-      'userPercentage',
-      createField({
-        value: timeThresholdConfig.userPercentage ?? percentageOfUserDefault,
-        validator: num => {
-          if (num === '' || num < 0.01 || num > 1.0) {
-            return [
-              {
-                severity: 'error',
-                message: 'Please provide a number between 1% and 100%'
-              }
-            ];
-          }
-        }
-      })
     );
+
+  if (timeThresholdConfig.users) {
+    form = putUsersField(form, timeThresholdConfig.users);
+  }
+
+  if (timeThresholdConfig.userPercentage || (!timeThresholdConfig.userPercentage && !timeThresholdConfig.users)) {
+    form = putUserPercentageField(form, timeThresholdConfig.userPercentage);
+  }
+
+  return form;
 }
 
 export default function createTimeThresholdForm(timeThresholdConfig) {
@@ -102,4 +81,42 @@ export default function createTimeThresholdForm(timeThresholdConfig) {
   if (type === 'userImpactOfViolationsInSequence') {
     return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig);
   }
+}
+
+export function putUsersField(form, users) {
+  return form.put(
+    'users',
+    createField({
+      value: users ?? numberOfUsersDefault,
+      validator: num => {
+        if (num === '' || num < 1) {
+          return [
+            {
+              severity: 'error',
+              message: 'Please provide a number >= 1'
+            }
+          ];
+        }
+      }
+    })
+  );
+}
+
+export function putUserPercentageField(form, userPercentage) {
+  return form.put(
+    'userPercentage',
+    createField({
+      value: userPercentage ?? percentageOfUserDefault,
+      validator: num => {
+        if (num === '' || num < 0.01 || num > 1.0) {
+          return [
+            {
+              severity: 'error',
+              message: 'Please provide a number between 1% and 100%'
+            }
+          ];
+        }
+      }
+    })
+  );
 }
