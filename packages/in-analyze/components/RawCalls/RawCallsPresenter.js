@@ -12,7 +12,6 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationRawMetricsChart from '../MetricsChart/ApplicationRawMetricsChart';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
@@ -27,9 +26,8 @@ import TimestampCell from 'in-analyze/components/TimestampCell';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ isInternalVisible: isInternalVisible$ }, function RawCallsPresenter(props) {
+export default function RawCallsPresenter(props) {
   const {
     items,
     totalHits,
@@ -54,7 +52,8 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
         {...props}
         forAnalyzeCalls
         // disable the 'show/hide graph' button, if the FF is not enabled
-        onChange={latencyDistributionBase10Enabled ? e => onShowGraphChange(e['showGraph']) : null} />
+        onChange={latencyDistributionBase10Enabled ? e => onShowGraphChange(e['showGraph']) : null}
+      />
       {latencyDistributionBase10Enabled && showGraph && <ApplicationRawMetricsChart {...props} />}
       <Table tableInCard>
         <Thead>
@@ -130,4 +129,4 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
       <SetBodyColor color="#fff" />
     </AnalyzeWorkspace>
   );
-});
+}
