@@ -10,6 +10,8 @@ import {
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
@@ -37,7 +39,29 @@ export default function SlownessAlertingBarChart({
 
   return (
     <AlertingBarChartWrapper
-      releaseMarkersDisabled
+      renderPreChartContent={props => {
+        if (!alertsPreviewEnabled) return;
+        const alertsPreviewConfiguration = getAlertsPreviewConfiguration(
+          timeConfig,
+          tagFiltersWithWebsiteId,
+          aggregation,
+          granularity,
+          threshold,
+          timeThreshold
+        );
+        return (
+          alertsPreviewConfiguration && (
+            <MarkerLanesPresenter
+              {...props}
+              alertsPreviewConfiguration={alertsPreviewConfiguration}
+              getAlertsPreview={getWebsiteMetricAlertsPreview}
+              isClustered
+            >
+              <SmartAlertMarkerLane />
+            </MarkerLanesPresenter>
+          )
+        );
+      }}
       timeConfig={timeConfig}
       granularity={metricChartGranularity}
       canReload={canReload}
@@ -83,7 +107,6 @@ export default function SlownessAlertingBarChart({
         ])
       }}
       getMetric={getWebsiteMetrics}
-      getAlertsPreview={getWebsiteMetricAlertsPreview}
       metricsConfiguration={{
         timeConfig,
         tagFilters: tagFiltersWithWebsiteId,
@@ -95,16 +118,7 @@ export default function SlownessAlertingBarChart({
           }
         }
       }}
-      alertsPreviewConfiguration={getAlertsPreviewConfiguration(
-        timeConfig,
-        tagFiltersWithWebsiteId,
-        aggregation,
-        granularity,
-        threshold,
-        timeThreshold
-      )}
       thresholdType={threshold.type}
-      alertsPreviewEnabled={alertsPreviewEnabled}
       mutateMetrics={{
         doMutate: smoothMetric,
         metricNames: ['onLoadTime'],

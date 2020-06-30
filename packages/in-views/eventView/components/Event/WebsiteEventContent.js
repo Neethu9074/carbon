@@ -3,6 +3,7 @@ import React from 'react';
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
+import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -45,9 +46,12 @@ export default connectTo(
     const threshold = alertConfig.threshold;
     const granularity = alertConfig.granularity;
 
-    const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
-    const chartViewConfig = { timeConfig };
+    const timeConfig = {
+      ...getChartTimeConfigByEvent({ event }),
+      windowSize: alertingEventDetailsChartTimeframe
+    };
+    const chartViewConfig = createDefaultChartConfig(timeConfig);
+
     return (
       <>
         <Row withoutSideMargin>

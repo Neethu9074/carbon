@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './KpiCard.mless';
+
+const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
 export default function KpiCard({
   title,
@@ -36,7 +39,7 @@ export default function KpiCard({
   let minor = null;
 
   if (value != null) {
-    const match = String(value).match(/^([0-9,.]+)(.*)$/);
+    const match = String(value).match(valueSplitRegExp);
     if (!match) {
       major = value;
     } else {

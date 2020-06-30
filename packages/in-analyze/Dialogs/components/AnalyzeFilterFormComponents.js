@@ -43,7 +43,7 @@ export function KeySelectionSection({ keys, value, onChange, messages, autoFocus
       <SelectBox
         id="key"
         value={value}
-        onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
+        onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e?.value), ['fullyQualifiedName'], ''))}
         options={options}
         autoFocus={autoFocus}
       />

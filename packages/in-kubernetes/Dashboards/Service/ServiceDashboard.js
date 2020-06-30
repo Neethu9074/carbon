@@ -111,7 +111,7 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
         id={serviceId}
         timeConfig={timeConfig}
         plugin={fullyQualifiedPlugins.kubernetesService}
-        tagFilters={getFilters(clusterName, namespaceName, null, null, serviceName)}
+        tagFilters={getFilters({ clusterName, namespaceName, serviceName })}
         serviceId={serviceId}
       />
       <AnalyzeCallsButton

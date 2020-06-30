@@ -137,7 +137,8 @@ function getStatusCodeAnalyzeFilter(rule) {
 }
 
 function getBaselineThresholdValue(alertConfig, timeConfig) {
-  const { granularity: baselineGranularity, operator, baseline, deviationFactor } = alertConfig.threshold;
+  const { operator, baseline, deviationFactor } = alertConfig.threshold;
+  const baselineGranularity = alertConfig.granularity;
   const isGreaterOp = operator === '>=' || operator === '>';
 
   const baselineValues = [];

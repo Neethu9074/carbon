@@ -6,13 +6,21 @@ import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
 export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
-  const { clusterGranularity } = remainingProps;
+  const { clusterSizeMillis } = remainingProps;
 
   const alerts =
-    useObservable(getAlertsPreview({ ...alertsPreviewConfiguration, clusterGranularity }).startWith(pendingResult), [
-      alertsPreviewConfiguration,
-      getAlertsPreview
-    ]) ?? emptyArray;
+    useObservable(
+      getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
+        .startWith(pendingResult)
+        .map(
+          ({ data }) =>
+            data?.alerts.map(([start, numberOfEventsInCluster]) => ({
+              start,
+              numberOfEventsInCluster
+            })) ?? []
+        ),
+      [alertsPreviewConfiguration, getAlertsPreview]
+    ) ?? emptyArray;
 
   return (
     <SmartAlertMarkerLanePresenter
