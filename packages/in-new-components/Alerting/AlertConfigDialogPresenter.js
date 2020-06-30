@@ -80,7 +80,7 @@ function AlertConfigDialogPresenter(props) {
       doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
-      renderCustomCloseBehaviour={() =>
+      renderCustomCloseBehaviour={resetScrollShadow =>
         !editMode && (
           <Button
             onClick={() => {
@@ -89,6 +89,7 @@ function AlertConfigDialogPresenter(props) {
               const newMode = !simpleMode;
               setSimpleMode(newMode);
               updateChartForBaselineSupportedBlueprint(newMode);
+              resetScrollShadow();
             }}
             kind="action"
           >

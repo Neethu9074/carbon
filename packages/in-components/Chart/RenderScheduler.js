@@ -62,7 +62,7 @@ export default class RenderScheduler {
 
   atomicRender() {
     const timeConfig = this.timeConfig;
-    const to = toServerTime(timeConfig.to, this.serverTimeOffset);
+    const to = timeConfig.to ?? toServerTime(Date.now(), this.serverTimeOffset);
 
     this.xScaleBackBuffer.setDomainFrom(to - timeConfig.windowSize);
     this.xScaleBackBuffer.setDomainTo(to);

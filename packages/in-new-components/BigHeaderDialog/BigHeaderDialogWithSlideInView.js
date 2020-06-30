@@ -26,6 +26,11 @@ export default function BigHeaderDialogWithSlideInView({
   slideInViewVisible
 }) {
   const [scrollshadow, setScrollshadow] = useState(false);
+
+  const resetScrollShadow = () => {
+    setScrollshadow(false);
+  };
+
   return (
     <div
       className={evaluateClassNames({
@@ -50,7 +55,9 @@ export default function BigHeaderDialogWithSlideInView({
               icon={titleIconType}
               onIconClick={onTitleIconClick}
               title={title}
-              renderCustomCloseBehaviour={renderCustomCloseBehaviour}
+              renderCustomCloseBehaviour={() => {
+                return renderCustomCloseBehaviour && renderCustomCloseBehaviour(resetScrollShadow);
+              }}
               onClose={onClose}
               addScrollShadow={scrollshadow}
             />
