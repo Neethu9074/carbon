@@ -14,6 +14,13 @@
     margin-bottom: 0;
   }
 
+  .checkbox {
+    font-size: 0.75rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .footer {
     display: flex;
     align-items: center;
