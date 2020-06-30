@@ -41,7 +41,6 @@ export default connectTo(
     enrichChartMetrics(props);
     return (
       <div className={locals.container}>
-        {/* <ChartWrapper showNoDataInfoWhenEmpty={false} customChartComponent={AlertingChartReactComponent} {...props} /> */}
         <ChartWrapper showNoDataInfoWhenEmpty={false} {...props} />
       </div>
     );
