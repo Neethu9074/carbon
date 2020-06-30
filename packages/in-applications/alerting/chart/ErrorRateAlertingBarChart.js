@@ -54,6 +54,7 @@ export default function ErrorRateAlertingBarChart({
               {...props}
               getAlertsPreview={getApplicationMetricsAlertPreview}
               alertsPreviewConfiguration={alertsPreviewConfiguration}
+              isClustered
             >
               <SmartAlertMarkerLane />
             </MarkerLanesPresenter>

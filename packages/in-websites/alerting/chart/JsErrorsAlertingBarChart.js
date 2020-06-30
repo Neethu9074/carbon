@@ -58,6 +58,7 @@ export default function JsErrorsAlertingBarChart({
               {...props}
               getAlertsPreview={getAlertsPreview(metricName)}
               alertsPreviewConfiguration={alertsPreviewConfiguration}
+              isClustered
             >
               <SmartAlertMarkerLane />
             </MarkerLanesPresenter>

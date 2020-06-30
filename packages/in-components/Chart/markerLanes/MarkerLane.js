@@ -39,6 +39,7 @@ function MarkersLanePresenter({
   labelAlignment,
   label,
   chartContentPosition,
+  isClustered,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [renderScheduler]);
@@ -46,11 +47,12 @@ function MarkersLanePresenter({
   return (
     <div className={locals.lane}>
       {events.map(eventData => {
-        const clusterWidth = xScale?.getRangeArea(remainingProps.clusterSize);
-        const isCluster = eventData.numberOfEventsInCluster > 1;
-        const xPos = isCluster
+        const clusterWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
+        const containsMoreThenOneItem = eventData.numberOfEventsInCluster > 1;
+        const xPos = isClustered
           ? xScale?.getRange(eventData.start) + clusterWidth / 2
           : xScale?.getRange(eventData.start);
+
         return (
           <Tooltip
             align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
@@ -59,9 +61,12 @@ function MarkersLanePresenter({
           >
             <LaneItem
               xPos={xPos}
-              clusterWidth={clusterWidth}
               time={eventData.start}
-              {...{ ...eventData, ...remainingProps, isCluster, chartContentPosition }}
+              containsMoreThenOneItem={containsMoreThenOneItem}
+              chartContentPosition={chartContentPosition}
+              clusterWidth={clusterWidth}
+              isClustered={isClustered}
+              {...{ ...eventData, ...remainingProps }}
             />
           </Tooltip>
         );
@@ -87,7 +92,16 @@ function MarkersLanePresenter({
   }
 }
 
-function LaneItem({ xPos, iconConfig, onClick, onHover, clusterWidth, chartContentPosition, isCluster }) {
+function LaneItem({
+  xPos,
+  iconConfig,
+  onClick,
+  onHover,
+  clusterWidth,
+  chartContentPosition,
+  containsMoreThenOneItem,
+  isClustered
+}) {
   return (
     <div
       style={{ transform: `translateX(${xPos}px)` }}
@@ -95,8 +109,8 @@ function LaneItem({ xPos, iconConfig, onClick, onHover, clusterWidth, chartConte
       onMouseEnter={e => {
         stopPropagationAndPreventDefault(e);
         onHover?.({
-          overlayVisible: isCluster,
-          lineVisible: !isCluster,
+          overlayVisible: isClustered,
+          lineVisible: !isClustered,
           color: iconConfig.color,
           width: clusterWidth,
           chartContentPosition,
@@ -112,7 +126,7 @@ function LaneItem({ xPos, iconConfig, onClick, onHover, clusterWidth, chartConte
         size="xs"
         className={locals.marker}
         onClick={onClick}
-        type={isCluster ? iconConfig.typeCluster : iconConfig.type}
+        type={containsMoreThenOneItem ? iconConfig.typeCluster : iconConfig.type}
         color={iconConfig.color}
       />
     </div>

@@ -54,7 +54,7 @@ export default function SlownessAlertingBarChart({
 
         return (
           alertsPreviewConfiguration && (
-            <MarkerLanesPresenter {...props} getAlertsPreview={getApplicationMetricsAlertPreview}>
+            <MarkerLanesPresenter {...props} getAlertsPreview={getApplicationMetricsAlertPreview} isClustered>
               <SmartAlertMarkerLane />
             </MarkerLanesPresenter>
           )

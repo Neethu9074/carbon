@@ -1,29 +1,35 @@
 import React, { useState, Children, cloneElement, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { getPredefinedBlockSizeMillisForBlockSize, getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
+import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { sizes } from 'in-components/SvgIcon/SvgIcon';
 import useObservable from 'in-hooks/useObservable';
 
 import locals from './MarkerLanesPresenter.mless';
 
-export default function MarkerLanesPresenter({ children, granularity, onMarkerLaneItemHover$, ...remainingProps }) {
+export default function MarkerLanesPresenter({
+  children,
+  granularity,
+  onMarkerLaneItemHover$,
+  isClustered,
+  ...remainingProps
+}) {
   const [labelAlignment, setLabelAligment] = useState('left');
   const [labelVisible, setLabelVisible] = useState(false);
   const markerLanesWrapperRef = useRef(null);
 
   if (!children) return null;
 
-  const minPixelsPerBlock = sizes.xs + 8;
-  const clusterSize = getPredefinedBlockSizeMillisForBlockSize(
-    getBlockSizeMillis({
-      windowSize: remainingProps.timeConfig.windowSize,
-      minPixelsPerBlock,
-      width: markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
-      rollup: granularity
-    })
-  );
+  const minPixelsPerBlock = sizes.xs + 16;
+  const clusterSizeMillis = isClustered
+    ? getBlockSizeMillis({
+        windowSize: remainingProps.timeConfig.windowSize,
+        minPixelsPerBlock,
+        width: markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
+        rollup: granularity
+      })
+    : granularity;
 
   return (
     <div className={locals.markerLanesContainer} onMouseLeave={() => setLabelVisible(false)}>
@@ -33,7 +39,8 @@ export default function MarkerLanesPresenter({ children, granularity, onMarkerLa
             ...remainingProps,
             labelVisible,
             labelAlignment,
-            clusterSize
+            clusterSizeMillis,
+            isClustered
           });
         })}
       </div>
@@ -81,5 +88,6 @@ MarkerLanesPresenter.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
   granularity: PropTypes.number.isRequired,
-  onMarkerLaneItemHover$: PropTypes.object.isRequired
+  onMarkerLaneItemHover$: PropTypes.object.isRequired,
+  isClustered: PropTypes.bool
 };

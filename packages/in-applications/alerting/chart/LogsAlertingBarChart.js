@@ -61,6 +61,7 @@ export default function LogsAlertingBarChart({
               {...props}
               getAlertsPreview={getApplicationMetricsAlertPreview}
               alertsPreviewConfiguration={alertsPreviewConfiguration}
+              isClustered
             >
               <SmartAlertMarkerLane />
             </MarkerLanesPresenter>
