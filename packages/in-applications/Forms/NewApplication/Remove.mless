@@ -14,12 +14,6 @@
     margin-bottom: 0;
   }
 
-  .checkbox {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
   .footer {
     display: flex;
     align-items: center;

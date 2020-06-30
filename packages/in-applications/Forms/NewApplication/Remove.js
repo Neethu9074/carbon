@@ -5,7 +5,6 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
@@ -45,13 +44,8 @@ export default class Remove extends React.PureComponent {
             If you no longer wish to monitor the application perspective <strong>{application.label}</strong>, please
             use the button below to remove it. Removing an application perspective may take up to a few minutes.
           </DescriptionText>
-          <CheckboxFancy
-            wrapperClassName={locals.checkbox}
-            label="I understand that this action cannot be undone"
-            checked={this.state.checkboxChecked}
-            onChange={this.onTickChange}
-            disabled={loading}
-          />
+          <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} />{' '}
+          I understand that this action cannot be undone.
           {removeError && <SaveError>{removeError}</SaveError>}
           <div className={locals.footer}>
             <Button
