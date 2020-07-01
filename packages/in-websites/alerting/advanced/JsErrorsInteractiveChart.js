@@ -103,6 +103,7 @@ function JsErrorsInteractiveChart({
               granularity={granularity}
               threshold={threshold}
               timeThreshold={form.get('timeThreshold').toJS()}
+              alertsPreviewEnabled
               canReload
             />
           )}
