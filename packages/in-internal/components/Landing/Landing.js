@@ -392,20 +392,44 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     <LinkList>
                       <LinkListItem
                         label="SaaS Monitoring Units"
-                        description="These two units exist to monitor our own SaaS installations. They themselves are SaaS units."
+                        description="These units exist to monitor our own SaaS installations. They themselves are SaaS units."
                       >
                         <LinkList>
                           <LinkListItem
-                            label="EU"
-                            href="https://eu-instanaops.instana.io"
+                            label="🟢 Green"
+                            href="https://green-instanaops.instana.io"
                             external
-                            description="Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
+                            description="Unit monitoring the Green (GCP) SaaS installation."
                           />
                           <LinkListItem
-                            label="US"
+                            label="🟠 Orange"
+                            href="https://orange-instanaops.instana.io"
+                            external
+                            description="Unit monitoring the Orange (GCP) SaaS installation."
+                          />
+                          <LinkListItem
+                            label="🔴 Red"
+                            href="https://red-instanaops.instana.io"
+                            external
+                            description="Unit monitoring the Red (AWS US) SaaS installation."
+                          />
+                          <LinkListItem
+                            label="🔵 Blue"
+                            href="https://blue-instanaops.instana.io"
+                            external
+                            description="Unit monitoring the Blue (AWS EU) SaaS installation."
+                          />
+                          <LinkListItem
+                            label="🇪🇺 EU (deprecated)"
+                            href="https://eu-instanaops.instana.io"
+                            external
+                            description="Deprecated: Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
+                          />
+                          <LinkListItem
+                            label="🇺🇸 US (deprecated)"
                             href="https://us-instanaops.instana.io"
                             external
-                            description="Unit monitoring the US SaaS installation."
+                            description="Deprecated: Unit monitoring the US SaaS installation."
                           />
                         </LinkList>
                       </LinkListItem>
