@@ -16,6 +16,7 @@ export default function UrlShortener(props) {
 function Button({ toggle, refSetter, darkTheme }) {
   return (
     <DashboardHeaderButton
+      id="url-shortener-button"
       icon="lib_actions_interface_link"
       onClick={() => {
         track(URL_SHORTENER_OPEN);
