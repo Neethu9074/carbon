@@ -5,8 +5,8 @@ registerSpanDefinition({
   category: 'messaging',
 
   typeName: {
-    singular: 'Celery Worker',
-    plural: 'Celery Workers'
+    singular: 'Celery Worker Call',
+    plural: 'Celery Worker Calls'
   },
 
   detailView: 'CeleryWorkerSpanDetailView',

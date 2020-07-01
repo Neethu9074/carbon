@@ -6,8 +6,8 @@ import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptio
 export default function CeleryWorkerSpanDetailView({ span }) {
   return (
     <Dl>
-      <Di title="Task">{span.getIn(['data', 'celery', 'task'])}</Di>
-      <Di title="Task ID">{span.getIn(['data', 'celery', 'task_id'])}</Di>
+      <Di title="Celery Task">{span.getIn(['data', 'celery', 'task'])}</Di>
+      <Di title="Celery Task ID">{span.getIn(['data', 'celery', 'task_id'])}</Di>
       <Di title="Retry Reason">{span.getIn(['data', 'celery', 'retry-reason'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'celery', 'error'])} />
     </Dl>
