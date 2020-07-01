@@ -19,6 +19,8 @@ import './batch-synthetic';
 import './blade';
 import './camel';
 import './cassandra';
+import './celery-client';
+import './celery-worker';
 import './corba';
 import './corba.client';
 import './cosmos';
