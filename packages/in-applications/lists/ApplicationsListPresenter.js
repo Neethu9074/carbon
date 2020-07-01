@@ -3,9 +3,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -18,12 +18,16 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import CreateApplication from 'in-applications/creation/CreateApplication';
+import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
+import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
+import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -153,7 +157,23 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-const rightHeader = role.canConfigureApplications && <CreateApplication className={locals.button} />;
+const rightHeader = role.canConfigureApplications && (
+  <>
+    {instanaInternalFeaturesEnabled ? (
+      <CreateApplication className={locals.button} />
+    ) : (
+      <Button
+        className={locals.button}
+        kind="action"
+        href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+        onClick={() => applicationOpenSubmitFormTracker()}
+        icon="lib_openclose_add_circle_outline"
+      >
+        Create Application Perspective
+      </Button>
+    )}
+  </>
+);
 
 export default function ApplicationsLisPresenter({
   timeConfig,
