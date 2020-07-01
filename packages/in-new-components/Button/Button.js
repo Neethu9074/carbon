@@ -33,6 +33,7 @@ export default function Button({
   icon,
   iconSpinning,
   iconSize,
+  id,
   className,
   kind = 'primary',
   size = 'normal',
@@ -86,6 +87,7 @@ export default function Button({
   if (!resolvedHref) {
     return (
       <button
+        id={id}
         className={classes}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
@@ -102,6 +104,7 @@ export default function Button({
 
   return (
     <a
+      id={id}
       href={resolvedHref}
       target={target}
       rel={target === '_blank' ? 'noopener noreferrer' : undefined}
@@ -123,6 +126,7 @@ Button.propTypes = {
   icon: rpt.string,
   iconSpinning: rpt.bool,
   iconSize: rpt.oneOf(['xs', 's', 'm', 'l']),
+  id: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node,
