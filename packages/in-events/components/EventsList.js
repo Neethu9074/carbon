@@ -11,16 +11,13 @@ import {
   Th,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingScale';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
 import Card from 'in-new-components/Card';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './EventsList.mless';
 
@@ -32,18 +29,15 @@ export default function EventsList(props) {
   return <HeightRestrictedView render={() => list} />;
 }
 
-const List = connectTo(props => getHealthStream(props), function List(props) {
+function List(props) {
   const {
     selectedEventId,
     onItemClicked,
     items: rawEventList,
-    health,
     canLoadMore,
     loadMore,
-    orderBy,
     progress,
     eventType,
-    orderDirection,
     isPresentingHighlightedTimeframe
   } = props;
   const isDenseList = !!selectedEventId;
@@ -92,29 +86,16 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
           </Thead>
           <Tbody>
             {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-            {rawEventList.map(
-              event =>
-                event.type === 'release' ? (
-                  <ReleaseStatusRowPresenter
-                    key={event.id}
-                    event={event}
-                    orderBy={orderBy}
-                    cols={cols}
-                    orderDirection={orderDirection}
-                    isDenseList={isDenseList}
-                    health={health}
-                  />
-                ) : (
-                  <EventListRow
-                    key={event.id}
-                    selectedEventId={selectedEventId}
-                    onItemClicked={onItemClicked}
-                    isDenseList={isDenseList}
-                    event={event}
-                    timeScale={timeScale}
-                  />
-                )
-            )}
+            {rawEventList.map(event => (
+              <EventListRow
+                key={event.id}
+                selectedEventId={selectedEventId}
+                onItemClicked={onItemClicked}
+                isDenseList={isDenseList}
+                event={event}
+                timeScale={timeScale}
+              />
+            ))}
 
             {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
             <HorizontalIndicatorRow cols={cols} progress={progress} />
@@ -152,29 +133,16 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
         </Thead>
         <Tbody>
           {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-          {rawEventList.map(
-            event =>
-              event.type === 'release' ? (
-                <ReleaseStatusRowPresenter
-                  key={event.id}
-                  event={event}
-                  orderBy={orderBy}
-                  cols={cols}
-                  orderDirection={orderDirection}
-                  isDenseList={isDenseList}
-                  health={health}
-                />
-              ) : (
-                <EventListRow
-                  key={event.id}
-                  selectedEventId={selectedEventId}
-                  onItemClicked={onItemClicked}
-                  isDenseList={isDenseList}
-                  event={event}
-                  timeScale={timeScale}
-                />
-              )
-          )}
+          {rawEventList.map(event => (
+            <EventListRow
+              key={event.id}
+              selectedEventId={selectedEventId}
+              onItemClicked={onItemClicked}
+              isDenseList={isDenseList}
+              event={event}
+              timeScale={timeScale}
+            />
+          ))}
 
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
           <HorizontalIndicatorRow cols={cols} progress={progress} />
@@ -183,21 +151,6 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
       </Table>
     );
   }
-});
-
-function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols, isDenseList, health }) {
-  if (isDenseList) {
-    return null;
-  }
-
-  return orderBy === 'start' ? (
-    <ReleaseStatusRow
-      rawEvent={event}
-      orderDirection={orderDirection}
-      cols={cols}
-      healthStatus={health && health[event.start]}
-    />
-  ) : null;
 }
 
 function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName }) {
@@ -216,20 +169,4 @@ function SortableColumn({ children, orderBy, orderDirection, onChange, technical
       {children}
     </SortableTh>
   );
-}
-
-function getHealthStream({ orderBy, items, timeConfig, query }) {
-  let startTimeStamps = [];
-  if (orderBy === 'start' && items && items.length > 0) {
-    startTimeStamps = items.filter(rawEvent => rawEvent.type === 'release').map(rawEvent => rawEvent.start);
-  }
-
-  const eventType = 'event.type:incident';
-  return {
-    health: getIncidentBasedHealthInTimeFrame({
-      timeConfig,
-      query: query ? `(${query}) AND (${eventType})` : eventType,
-      timestamps: startTimeStamps
-    }).map(({ data }) => data || null)
-  };
 }
