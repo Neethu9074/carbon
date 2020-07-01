@@ -14,5 +14,22 @@ export default {
     },
     explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_initialized_too_late`
+  },
+  nodejs_collector_native_addon_autoprofile_missing: {
+    issueDescription: {
+      Component: function nodejsCollectorNativeAddonAutoProfileMissing() {
+        return (
+          <span>
+            The package <code>@instana/autoprofile</code> could not be loaded. You will not get profiling information
+            for this Node.js app in Instana, although autoprofiling has been enabled via configuration. This typically
+            occurs when native addons could not be installed during module installation (<code>npm install</code>/
+            <code>yarn</code>
+            ).
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_native_addon_autoprofile_missing`
   }
 };
