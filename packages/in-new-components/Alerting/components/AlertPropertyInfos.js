@@ -7,23 +7,26 @@ import Label from 'in-components/form/Label';
 
 import locals from './AlertPropertyInfos.mless';
 
-const warningIndex = 0;
-const severityWarning = 5;
-const severityCritical = 10;
-
-const severitySelectOptions = [
-  { value: severityWarning, label: 'Warning' },
-  { value: severityCritical, label: 'Critical' }
-];
+const propertiesBySeverity = Object.freeze({
+  5: {
+    icon: 'lib_events_warning',
+    label: 'Warning'
+  },
+  10: {
+    icon: 'lib_events_critical',
+    label: 'Critical'
+  }
+});
 
 export default function AlertPropertyInfos({ alertConfig: { name, description, triggering, severity } }) {
+  const severityProperty = propertiesBySeverity[severity];
   return (
     <>
       <PropContainer left="Title" right={<Label className={locals.staticTitle}>{name}</Label>} />
       <PropContainer
-        icon={severity <= severityWarning ? 'lib_events_warning' : 'lib_events_critical'}
+        icon={severityProperty.icon}
         left="Alert Level"
-        right={<Label className={locals.staticSeverity}>{severitySelectOptions[warningIndex].label}</Label>}
+        right={<Label className={locals.staticSeverity}>{severityProperty.label}</Label>}
       />
       <PropContainer
         icon="lib_events_incident"
