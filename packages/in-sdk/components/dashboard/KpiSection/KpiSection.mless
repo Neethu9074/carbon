@@ -1,9 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .kpiSection {
-    .in-dashboard__content-heading {
-      display: none;
-    }
-  }
-}

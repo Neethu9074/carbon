@@ -5,13 +5,13 @@ import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
-import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { Col, Row } from 'in-new-components/layout/Grid';
 import MetricValue from 'in-components/MetricValue';
 import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
@@ -47,17 +47,22 @@ export default connectTo({
         <KpiKeyValue label="Event loop lag">
           <MetricValue snapshotId={snapshotId} metric="libuv.lag" formatter={time} />
         </KpiKeyValue>
-        {isInternalVisible && (
-          <Button onClick={() => getSource(snapshot)} kind="secondary">
-            Get source for arbitrary file
-          </Button>
-        )}
-        {isInternalVisible && (
-          <Button onClick={() => getModuleAnalysis(snapshot)} kind="secondary">
-            Analyse Modules
-          </Button>
-        )}
       </KpiSection>
+
+      {isInternalVisible && (
+        <Row withBottomMargin>
+          <Col xs>
+            <Button onClick={() => getSource(snapshot)} kind="secondary">
+              Get source for arbitrary file
+            </Button>
+          </Col>
+          <Col xs>
+            <Button onClick={() => getModuleAnalysis(snapshot)} kind="secondary">
+              Analyse Modules
+            </Button>
+          </Col>
+        </Row>
+      )}
 
       <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeConfig)}</DashboardSection>
 
@@ -94,8 +99,6 @@ export default connectTo({
       </DashboardSection>
 
       <HealthchecksTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <CpuProfiler snapshot={snapshot} />
 
       <HttpServersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
