@@ -45,7 +45,6 @@ export default function LatencyDistributionHistogram({
             endpoint: endpointId,
             applicationBoundaryScope: boundaryScope
           },
-          includeSyntheticCalls: includeSyntheticCalls,
           tagFilterExpression: {
             type: 'EXPRESSION',
             logicalOperator: 'AND',
@@ -68,7 +67,16 @@ export default function LatencyDistributionHistogram({
                 stringValue: endpointId,
                 operator: operators.EQUALS
               }
-            ].filter(e => e.stringValue)
+            ]
+              .filter(e => e.stringValue)
+              .concat([
+                {
+                  type: 'TAG_FILTER',
+                  name: 'call.is_synthetic',
+                  booleanValue: includeSyntheticCalls || false,
+                  operator: operators.EQUALS
+                }
+              ])
           }
         })}
         chartDefinition={latencyDistributionChartDefinition}
