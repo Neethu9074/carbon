@@ -52,7 +52,7 @@ export default connectTo(
             const args = row.arguments ? row.arguments.toJS() : {};
             const issueDefinition = getIssueDefinitionForSnapshotAndCode(row.snapshot, row.code);
             return (
-              <Message withIcon type={warning} className={locals.monitoringMessage}>
+              <Message withIcon type={warning} className={locals.monitoringMessage} key={row.code}>
                 <div className={locals.monitoringIssuesMessageContent}>
                   <div>
                     <p className={locals.monitoringIssueMessageText}>
