@@ -66,7 +66,7 @@ export function getValueSuggestions({ tagFilters, timeConfig, form }) {
     return noResultObservable();
   }
 
-  return getTagSuggestions({
+  const newTagSuggestions = getTagSuggestions({
     filter: {
       timeConfig
     },
@@ -76,6 +76,8 @@ export function getValueSuggestions({ tagFilters, timeConfig, form }) {
     entity,
     valueFilter: null
   }).map(mapResultData);
+
+  return newTagSuggestions;
 }
 
 function isMissingInForm(form, attribute) {

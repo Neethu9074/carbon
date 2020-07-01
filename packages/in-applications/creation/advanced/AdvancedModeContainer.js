@@ -35,6 +35,9 @@ export default function AdvancedModeContainer({ form, updateForm, timeConfig, on
     timeConfig,
     tagFilter: tagFiltersForSubscription
   };
+
+  const conjunctions = form.toJS().matchSpecification?.map(item => item.conjunction);
+
   return (
     <div>
       <h1 className={locals.heading}>1. Define a name for your application perspective.</h1>
@@ -105,6 +108,7 @@ export default function AdvancedModeContainer({ form, updateForm, timeConfig, on
                     );
                   }}
                   forAnalyzeCalls
+                  conjunctions={conjunctions}
                 />
               )
             }
@@ -166,6 +170,7 @@ export default function AdvancedModeContainer({ form, updateForm, timeConfig, on
                     updateForm(form);
                   }}
                   removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
+                  conjunctions={conjunctions}
                   forAnalyzeCalls
                 />
               ),

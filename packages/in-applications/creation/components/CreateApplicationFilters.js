@@ -6,7 +6,6 @@ import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
 } from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
-import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import { applicationCreationAddTag, applicationCreationRemoveTag } from 'in-applications/creation/tracker';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
@@ -24,6 +23,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
     timeConfig,
     tagFilter: tagFiltersForSubscription
   };
+  const conjunctions = form.toJS().matchSpecification?.map(item => item.conjunction);
   return (
     <TagFilterConfigurationWrapper
       quickFilterBar={
@@ -36,7 +36,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
               timeConfig={timeConfig}
               onClick={() =>
                 addActiveDialog(
-                  <ApplicationEditTagFilterDialog
+                  <EditTagFilterDialog
                     tagFilters={filters.tagFilter}
                     tagSuggestions={curatedFilter.tags}
                     getKeySuggestions={getSecondLevelKeySuggestions}
@@ -55,6 +55,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
                       );
                       applicationCreationAddTag({ _tag });
                     }}
+                    conjunctions={conjunctions}
                     forAnalyzeCalls
                   />
                 )
@@ -66,7 +67,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
           ))}
           onMoreClick={() => {
             addActiveDialog(
-              <ApplicationEditTagFilterDialog
+              <EditTagFilterDialog
                 tagFilters={filters.tagFilter}
                 tagSuggestions={getApplicationCreationTagKeys()}
                 getKeySuggestions={getSecondLevelKeySuggestions}
@@ -85,6 +86,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
                   );
                   applicationCreationAddTag({ _tag });
                 }}
+                conjunctions={conjunctions}
                 forAnalyzeCalls
               />
             );
@@ -147,6 +149,7 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
                   removeTagFilter={() => {
                     removeMatchSpecification(i, form, updateForm);
                   }}
+                  conjunctions={conjunctions}
                   forAnalyzeCalls
                 />
               ),
