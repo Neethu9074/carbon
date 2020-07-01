@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/nodeJsRuntimePlatform/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/kpiDefinitions';
@@ -15,6 +16,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   tableDefinition,
   getCodeView,
   technologyDescriptor: {
