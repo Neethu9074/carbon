@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .button {
-    padding: 0.25rem;
-    margin-top: 1rem;
-  }
-}

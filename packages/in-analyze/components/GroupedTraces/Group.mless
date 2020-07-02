@@ -74,4 +74,10 @@
   .serviceLink {
     color: @lib__colors__N600Light;
   }
+
+  .linkToAnalyseAllCalls {
+    display: flex;
+    justify-content: center;
+  }
+
 }

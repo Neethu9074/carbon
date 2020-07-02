@@ -77,21 +77,7 @@ export function getLinkToAnalyze({
     // and just no desire to change filters.
     let tagFilter = null;
     if (applicationName != null) {
-      tagFilter = tagFilter || [];
-      if (boundaryScope === boundaryScopes.all) {
-        tagFilter.push({
-          name: APPLICATION.name,
-          value: applicationName,
-          operator: operators.EQUALS,
-          entity: entityTypes.DESTINATION
-        });
-      } else if (boundaryScope === boundaryScopes.inbound) {
-        tagFilter.push({
-          name: APPLICATION_INBOUND.name,
-          value: applicationName,
-          operator: operators.EQUALS
-        });
-      }
+      tagFilter = tagFiltersForBoundaryScope(boundaryScope, applicationName);
     }
     if (serviceName != null) {
       tagFilter = tagFilter || [];
@@ -194,6 +180,29 @@ export function getLinkToAnalyze({
       setOrDeleteMatrixKey(params, analyze, `groups.${focusedMetricMatrixParameter}`, focusedMetric);
     }
   });
+}
+
+export function tagFiltersForBoundaryScope(boundaryScope, applicationName) {
+  if (boundaryScope === boundaryScopes.all) {
+    return [
+      {
+        name: APPLICATION.name,
+        value: applicationName,
+        operator: operators.EQUALS,
+        entity: entityTypes.DESTINATION
+      }
+    ];
+  }
+  if (boundaryScope === boundaryScopes.inbound) {
+    return [
+      {
+        name: APPLICATION_INBOUND.name,
+        value: applicationName,
+        operator: operators.EQUALS
+      }
+    ];
+  }
+  return [];
 }
 
 export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyObject) {

@@ -5,12 +5,9 @@ import { websitesAlertingEventDetailsViewEditConfig } from 'in-websites/alerting
 import { goToAlertConfig } from 'in-websites/navigation/paths';
 import Button from 'in-new-components/Button';
 
-import locals from './WebsiteAlertConfigButton.mless';
-
 export default function WebsiteAlertConfigButton({ alertConfig }) {
   return (
     <Button
-      className={locals.button}
       kind="secondary"
       onClick={() => {
         websitesAlertingEventDetailsViewEditConfig(alertConfig.id);

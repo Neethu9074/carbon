@@ -55,7 +55,7 @@ function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig
   );
 }
 
-function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
+export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   const alertType = alertConfig.rule.alertType;
   let analyzeFilters = convertToAnalyzeFilters(alertConfig.tagFilters);
   if (alertType === 'errorRate') {

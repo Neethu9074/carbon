@@ -1,0 +1,7 @@
+:local {
+  .linkToAnalyseAllCalls {
+    display: flex;
+    justify-content: center;
+  }
+
+}

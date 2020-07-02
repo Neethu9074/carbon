@@ -65,7 +65,10 @@ export default connectTo(
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />
-              <WebsiteAlertConfigButton alertConfig={alertConfig} />
+              <div className={locals.descriptionButtonGroup}>
+                <WebsiteAlertConfigButton alertConfig={alertConfig} />
+                <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
+              </div>
             </Card>
           </Col>
         </Row>
@@ -73,9 +76,6 @@ export default connectTo(
         <Row withoutSideMargin>
           <Col xs>
             <Card title="Metrics">
-              <div className={locals.analyzeButtonWrapper}>
-                <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
-              </div>
               <AlertTypeSwitch
                 alertType={alertType}
                 renderJsErrors={() => (
