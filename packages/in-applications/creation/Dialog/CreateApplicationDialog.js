@@ -58,9 +58,6 @@ function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving) 
   const entityToUpdate = form.toJS();
 
   const result$ = addApplicationConfig(entityToUpdate);
-  if (form.hierarchyValid) {
-    addApplicationConfig(entityToUpdate);
-  }
 
   result$.once(
     result => goToPath(getOnSavePath(result)),
