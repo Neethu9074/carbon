@@ -215,9 +215,9 @@ function addValue(backendTagFilter, tag) {
   const type = node ? node.type : TAG_TYPES.STRING.technicalName;
 
   if (type === TAG_TYPES.NUMBER.technicalName) {
-    backendTagFilter.numberValue = tag.value;
+    backendTagFilter.numberValue = tag.value ?? tag.numberValue;
   } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
-    backendTagFilter.booleanValue = tag.value;
+    backendTagFilter.booleanValue = tag.value ?? tag.booleanValue;
   } else {
     backendTagFilter.stringValue = tag.secondLevelName
       ? `${tag.secondLevelName}=${tag.value}`
