@@ -25,13 +25,13 @@ export default class Overlay extends React.Component {
     const newState = !this.state.isOpen;
     this.setOpen(newState);
     if (!newState) {
-      this.props?.onCloseSideEffect();
+      this.props.onCloseSideEffect?.();
     }
   };
   open = () => this.setOpen(true);
   close = e => {
     this.setOpen(false);
-    this.props?.onCloseSideEffect(e);
+    this.props.onCloseSideEffect?.(e);
   };
   delayedAutoOpenStateChange$ = create();
 
@@ -92,7 +92,7 @@ export default class Overlay extends React.Component {
       .subscribe(open => {
         this.setOpen(open);
         if (!open) {
-          this.props?.onCloseSideEffect();
+          this.props.onCloseSideEffect?.();
         }
       });
   }
