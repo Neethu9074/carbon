@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  putUsersField,
+  putUserPercentageField,
+  numberOfUsersDefault,
+  percentageOfUserDefault
+} from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import { getValueRoundedToDecimals, round } from 'in-new-components/Alerting/utils/formatUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -13,7 +19,8 @@ import locals from './TimeThresholdConfig.mless';
 
 export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   const timeThresholdForm = form.get('timeThreshold');
-  const hiddenFieldsForm = form.get('hiddenFields');
+  const alertByPercentageOfUsersChecked = timeThresholdForm.containsKey('userPercentage');
+  const alertByNumberOfUsersChecked = timeThresholdForm.containsKey('users');
 
   return (
     <>
@@ -22,96 +29,92 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         <div>
           <FormGroup className={locals.formGroup} withoutBottomMargin>
             <Label># of Users</Label>
-            {timeThresholdForm.get('users').map(({ value }) => (
-              <Input
-                className={locals.input}
-                type="number"
-                min="1"
-                name="users"
-                value={value}
-                onChange={e =>
-                  onChange(['timeThreshold', 'users'], field =>
-                    field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
-                  )
-                }
-                step="1"
-                disabled={!hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').value}
-              />
-            ))}
+            <Input
+              className={locals.input}
+              type="number"
+              min="1"
+              name="users"
+              value={timeThresholdForm.get('users')?.value ?? ''}
+              placeholder={numberOfUsersDefault}
+              onChange={e =>
+                onChange(['timeThreshold', 'users'], field =>
+                  field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
+                )
+              }
+              step="1"
+              disabled={!alertByNumberOfUsersChecked}
+            />
           </FormGroup>
         </div>
-        {hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').map(({ value }) => (
-          <Toggle
-            name="alertByNumberOfImpactedUsersEnabled"
-            className={locals.toggle}
-            checked={value}
-            onChange={() => {
-              const _value = !value;
-              const alertByPercentageEnabled = hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').value;
-
-              let updatedForm = form
-                .updateIn(['hiddenFields', 'alertByPercentageOfImpactedUsersEnabled'], f =>
-                  f.setValue((!_value && !alertByPercentageEnabled) || alertByPercentageEnabled).setTouched(true)
-                )
-                .updateIn(['hiddenFields', 'alertByNumberOfImpactedUsersEnabled'], f =>
-                  f.setValue(_value).setTouched(true)
-                );
-
-              updateForm(updatedForm);
-            }}
-          />
-        ))}
+        <Toggle
+          name="alertByNumberOfUsersChecked"
+          className={locals.toggle}
+          checked={alertByNumberOfUsersChecked}
+          onChange={() => {
+            let updatedTimeThresholdForm = timeThresholdForm;
+            if (!alertByNumberOfUsersChecked && alertByPercentageOfUsersChecked) {
+              updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
+            } else if (alertByNumberOfUsersChecked) {
+              updatedTimeThresholdForm = timeThresholdForm.remove('users');
+              updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);
+            } else {
+              updatedTimeThresholdForm = timeThresholdForm.remove('userPercentage');
+              updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
+            }
+            updateForm(form.put('timeThreshold', updatedTimeThresholdForm));
+          }}
+        />
       </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" hasExtraColumnOnRight>
         <div className={locals.operatorLabel}>At least</div>
         <div>
           <FormGroup className={locals.formGroup} withoutBottomMargin>
             <Label>% of Users</Label>
-            {timeThresholdForm.get('userPercentage').map(({ value }) => (
-              <Input
-                className={locals.input}
-                type="number"
-                min="1"
-                max="100"
-                value={getValueRoundedToDecimals(value, true)}
-                name={'userPercentage'}
-                onChange={e =>
-                  onChange(['timeThreshold', 'userPercentage'], field =>
-                    field
-                      .setValue(e.target.value !== '' ? round(Math.abs(e.target.value) / 100, 3) : '')
-                      .setTouched(true)
-                  )
-                }
-                step="1"
-                disabled={!hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').value}
-              />
-            ))}
+            <Input
+              className={locals.input}
+              type="number"
+              min="1"
+              max="100"
+              value={
+                timeThresholdForm.containsKey('userPercentage')
+                  ? getValueRoundedToDecimals(timeThresholdForm.get('userPercentage').value, true)
+                  : ''
+              }
+              name={'userPercentage'}
+              placeholder={getValueRoundedToDecimals(percentageOfUserDefault, true)}
+              onChange={e => {
+                onChange(['timeThreshold', 'userPercentage'], field =>
+                  field.setValue(e.target.value !== '' ? round(Math.abs(e.target.value) / 100, 3) : '').setTouched(true)
+                );
+              }}
+              step="1"
+              disabled={!alertByPercentageOfUsersChecked}
+            />
           </FormGroup>
         </div>
-        {hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').map(({ value }) => (
-          <Toggle
-            name={'alertByPercentageOfImpactedUsersEnabled'}
-            className={locals.toggle}
-            checked={value}
-            onChange={() => {
-              const _value = !value;
-              const alertByNumberEnabled = hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').value;
-
-              const updatedForm = form
-                .updateIn(['hiddenFields', 'alertByNumberOfImpactedUsersEnabled'], f =>
-                  f.setValue((!_value && !alertByNumberEnabled) || alertByNumberEnabled).setTouched(true)
-                )
-                .updateIn(['hiddenFields', 'alertByPercentageOfImpactedUsersEnabled'], f =>
-                  f.setValue(_value).setTouched(true)
-                );
-
-              updateForm(updatedForm);
-            }}
-          />
-        ))}
+        <Toggle
+          name={'alertByPercentageOfImpactedUsersEnabled'}
+          className={locals.toggle}
+          checked={alertByPercentageOfUsersChecked}
+          onChange={() => {
+            let updatedTimeThresholdForm = timeThresholdForm;
+            if (!alertByPercentageOfUsersChecked && alertByNumberOfUsersChecked) {
+              updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);
+            } else if (alertByPercentageOfUsersChecked) {
+              updatedTimeThresholdForm = timeThresholdForm.remove('userPercentage');
+              updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
+            } else {
+              updatedTimeThresholdForm = timeThresholdForm.remove('users');
+              updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);
+            }
+            updateForm(form.put('timeThreshold', updatedTimeThresholdForm));
+          }}
+        />
       </AlertThresholdConfigItemContainer>
-      <TouchedMessages field={timeThresholdForm.get('userPercentage')} />
-      <TouchedMessages field={timeThresholdForm.get('users')} />
+      {timeThresholdForm.containsKey('userPercentage') && (
+        <TouchedMessages field={timeThresholdForm.get('userPercentage')} />
+      )}
+      {timeThresholdForm.containsKey('users') && <TouchedMessages field={timeThresholdForm.get('users')} />}
     </>
   );
 }
