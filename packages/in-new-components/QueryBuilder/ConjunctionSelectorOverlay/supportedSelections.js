@@ -1,5 +1,6 @@
 export const and = 'AND';
 export const or = 'OR';
 export const not = 'NOT';
-export const openParenthesis = '(';
-export const closeParenthesis = ')';
+export const openBracket = '(';
+export const closeBracket = ')';
+export const clear = '';

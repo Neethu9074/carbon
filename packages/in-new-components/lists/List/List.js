@@ -21,7 +21,7 @@ export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
 export const LoadingSkeletonLi = LoadingSkeletonLiComponent;
 export const supportBorderRadii = ['medium'];
 
-export function Ul({ framed = true, className, children, borderRadius, style, refSetter }) {
+export function Ul({ framed = true, className, children, borderRadius, style, refSetter, onKeyUp, onKeyDown }) {
   return (
     <ul
       className={evaluateClassNames({
@@ -33,6 +33,8 @@ export function Ul({ framed = true, className, children, borderRadius, style, re
       })}
       style={style}
       ref={refSetter}
+      onKeyUp={onKeyUp}
+      onKeyDown={onKeyDown}
     >
       {children}
     </ul>

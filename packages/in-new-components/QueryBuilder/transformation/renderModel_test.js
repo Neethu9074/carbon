@@ -6,6 +6,7 @@ import {
   toRenderModel,
   addSpacingsAndIncides,
   buildExpressionTrees,
+  validate,
   LETTER,
   WORD,
   TAG as RM_TAG,
@@ -20,14 +21,17 @@ import {
   OPEN_BRACKET as FM_OPEN_BRACKET,
   CLOSE_BRACKET as FM_CLOSE_BRACKET
 } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { ADD_CLOSING_BRACKET, REMOVE_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
+import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/conjunction';
+import { MISSING_CLOSING_BRACKET } from '../validation/expression';
 
 describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
   describe('#addSpacingsAndIncides', () => {
     beforeEach(resetIndices);
 
     it('should add no spacings is one or no elements', () => {
-      expect(addSpacingsAndIncides([])).to.deep.equal([]);
-      expect(addSpacingsAndIncides([fm_tag()])).to.deep.equal([rm_tag()]);
+      expect(addSpacingsAndIncides([])).to.deep.equal([rm_letter()]);
+      expect(addSpacingsAndIncides([fm_tag()])).to.deep.equal([rm_tag(), rm_letter()]);
     });
 
     it('should add spacings between each element', () => {
@@ -72,7 +76,8 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         rm_word(),
         rm_tag(),
         rm_letter(),
-        rm_closeBracket()
+        rm_closeBracket(),
+        rm_letter()
       ]);
     });
 
@@ -100,7 +105,8 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         rm_word(),
         rm_tag(),
         rm_letter(),
-        rm_closeBracket()
+        rm_closeBracket(),
+        rm_letter()
       ]);
     });
   });
@@ -243,14 +249,70 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
     });
   });
 
+  describe('#validate', () => {
+    it('should add validation information to elements', () => {
+      resetIndices();
+      const given = [
+        rm_tag(),
+        rm_letter(),
+        rm_closeBracket(),
+        rm_word(),
+        rm_expression([
+          rm_openBracket(),
+          rm_letter(),
+          rm_expression([rm_openBracket(), rm_letter(), rm_tag(), rm_word(), rm_tag(), rm_letter(), rm_closeBracket()]),
+          rm_word(),
+          rm_tag(),
+          rm_word(),
+          rm_conjunction(),
+          rm_word()
+        ])
+      ];
+      resetIndices();
+      const expected = [
+        rm_tag(),
+        rm_letter(),
+        addValidation(rm_closeBracket(), false, [{ type: REMOVE_BRACKET }]),
+        rm_word(),
+        addValidation(
+          rm_expression([
+            rm_openBracket(),
+            rm_letter(),
+            rm_expression([
+              rm_openBracket(),
+              rm_letter(),
+              rm_tag(),
+              addValidation(rm_word(), false, [{ type: ADD_CONJUNCTION }]),
+              rm_tag(),
+              rm_letter(),
+              rm_closeBracket()
+            ]),
+            rm_word(),
+            rm_tag(),
+            rm_word(),
+            rm_conjunction(),
+            addValidation(rm_word(), false, [{ type: ADD_CLOSING_BRACKET }])
+          ]),
+          false,
+          [{ type: MISSING_CLOSING_BRACKET }]
+        )
+      ];
+      expect(validate(given)).to.deep.equal(expected);
+    });
+  });
+
   describe('#toRenderModel', () => {
+    beforeEach(resetIndices);
+
     it('should map null or undefined form model to an empty array', () => {
-      expect(toRenderModel(null)).to.deep.equal([]);
-      expect(toRenderModel(undefined)).to.deep.equal([]);
+      formModelIndex++;
+      expect(toRenderModel(null)).to.deep.equal([rm_letter()]);
+      expect(toRenderModel(undefined)).to.deep.equal([rm_letter()]);
     });
 
     it('should map an empty form model to an empty array', () => {
-      expect(toRenderModel([])).to.deep.equal([]);
+      formModelIndex++;
+      expect(toRenderModel([])).to.deep.equal([rm_letter()]);
     });
   });
 });
@@ -312,5 +374,13 @@ function rm_expression(elements) {
   return {
     type: EXPRESSION,
     elements
+  };
+}
+
+function addValidation(element, valid = true, suggestions = []) {
+  return {
+    ...element,
+    valid,
+    suggestions
   };
 }

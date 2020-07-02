@@ -56,15 +56,15 @@ export default class CloseWrapper extends React.Component {
       .map(o => o.close);
   };
 
-  handleMouse = () => {
+  handleMouse = e => {
     const toClose = this.closeFunctionsToExecute;
     this.closeFunctionsToExecute = emptyArray;
-    toClose.filter(o => o.parentOverlay == null).forEach(f => f());
+    toClose.filter(o => o.parentOverlay == null).forEach(f => f(e));
   };
 
   handleKeyUp = e => {
     if (e.keyCode === keyCodes.escape) {
-      this.props.overlays.slice().forEach(o => o.parentOverlay == null && o.close());
+      this.props.overlays.slice().forEach(o => o.parentOverlay == null && o.close(e));
     }
   };
 

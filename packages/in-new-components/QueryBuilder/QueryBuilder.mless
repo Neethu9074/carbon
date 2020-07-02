@@ -1,8 +1,17 @@
+@import '~in-new-components/QueryBuilder/shared.less';
+
 :local {
   .queryBuilder {
-    display: inline;
+    // required in order to execute offset calculations via JS (see offsetX, offsetY access)
+    position: relative;
 
+    display: inline;
+    line-height: @query-builder-line-height;
     // TODO this must be supported on input elements. Reconsider this approach?
     user-select: none;
+
+    &:hover {
+      cursor: text;
+    }
   }
 }

@@ -4,6 +4,9 @@ import {
   CONJUNCTION as CONJUNCTION_TYPE,
   TAG as TAG_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { ADD_CLOSING_BRACKET, REMOVE_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
+import { MISSING_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/expression';
+import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/conjunction';
 
 export const CLOSE_BRACKET = CLOSE_BRACKET_TYPE;
 export const OPEN_BRACKET = OPEN_BRACKET_TYPE;
@@ -24,17 +27,17 @@ export const WORD = {
 
 export function toRenderModel(formModel) {
   if (!formModel || formModel.length === 0) {
-    return [];
+    return [createSpacing(LETTER, 0)];
   }
 
-  return buildExpressionTrees(addRenderModelIndices(addSpacingsAndIncides(formModel)));
+  return validate(buildExpressionTrees(addRenderModelIndices(addSpacingsAndIncides(formModel))));
 }
 
 export function addSpacingsAndIncides(elements) {
   const elementsWithSpacings = [];
 
   for (let formModelIndex = 0; formModelIndex < elements.length; formModelIndex++) {
-    const element = elements[formModelIndex];
+    const element = { ...elements[formModelIndex] };
     const nextElement = elements[formModelIndex + 1];
 
     element.formModelIndex = formModelIndex;
@@ -46,6 +49,9 @@ export function addSpacingsAndIncides(elements) {
       elementsWithSpacings.push(createSpacing(WORD, formModelIndex));
     }
   }
+
+  // Trailing space to have a standard interaction point.
+  elementsWithSpacings.push(createSpacing(LETTER, elements.length - 1));
 
   return elementsWithSpacings;
 }
@@ -82,6 +88,59 @@ export function buildExpressionTrees(elements) {
   }
 
   return rootTree.elements;
+}
+
+export function validate(elements) {
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+
+    if (element.type === TAG) {
+      validateTag(element);
+    } else if (element.type === EXPRESSION) {
+      validateExpression(element);
+    } else if (element.type === SPACING) {
+      validateSpacing(element, i, elements);
+    } else if (element.type === CLOSE_BRACKET) {
+      validateClosingBracket(element, i, elements);
+    }
+  }
+  return elements;
+}
+
+function validateTag() {}
+
+function validateExpression(expressionElement) {
+  validate(expressionElement.elements);
+
+  const lastElement = expressionElement.elements[expressionElement.elements.length - 1];
+  if (lastElement && lastElement.type !== CLOSE_BRACKET) {
+    addSuggestionToElement(lastElement, ADD_CLOSING_BRACKET);
+    addSuggestionToElement(expressionElement, MISSING_CLOSING_BRACKET);
+  }
+}
+
+function validateSpacing(spacingElement, index, elements) {
+  const prevElement = elements[index - 1];
+  const nextElement = elements[index + 1];
+
+  if (prevElement && nextElement && prevElement.type === TAG && nextElement.type === TAG) {
+    addSuggestionToElement(spacingElement, ADD_CONJUNCTION);
+  }
+}
+
+function validateClosingBracket(closingBracketElement, index, elements) {
+  if (index < elements.length - 1) {
+    addSuggestionToElement(closingBracketElement, REMOVE_BRACKET);
+  }
+}
+
+function addSuggestionToElement(element, suggestion) {
+  element.valid = false;
+  if (element.suggestions) {
+    element.suggestions.push({ type: suggestion });
+  } else {
+    element.suggestions = [{ type: suggestion }];
+  }
 }
 
 function createSpacing(type, index) {

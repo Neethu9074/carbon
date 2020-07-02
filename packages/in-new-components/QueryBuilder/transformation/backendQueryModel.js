@@ -1,4 +1,10 @@
-import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
+import {
+  createTagFilter,
+  CLOSE_BRACKET,
+  OPEN_BRACKET,
+  TAG,
+  CONJUNCTION
+} from 'in-new-components/QueryBuilder/transformation/formModel';
 
 export const EXPRESSION = 'EXPRESSION';
 
@@ -43,20 +49,6 @@ function collectExpression(tags, cursor) {
     cursor,
     expression
   };
-}
-
-function createTagFilter({ type, name, stringValue, numberValue, booleanValue, operator = OPERATOR_OR, entity }) {
-  const mappedTag = { type, name, operator, entity };
-  if (stringValue !== undefined) {
-    mappedTag.stringValue = stringValue;
-  }
-  if (numberValue !== undefined) {
-    mappedTag.numberValue = numberValue;
-  }
-  if (booleanValue !== undefined) {
-    mappedTag.booleanValue = booleanValue;
-  }
-  return mappedTag;
 }
 
 function createTagFilterExpression(logicalOperator, elements) {

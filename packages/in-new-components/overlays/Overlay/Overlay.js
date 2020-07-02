@@ -21,9 +21,18 @@ export default class Overlay extends React.Component {
     parentOverlay: null
   };
 
-  toggle = () => this.setOpen(!this.state.isOpen);
+  toggle = () => {
+    const newState = !this.state.isOpen;
+    this.setOpen(newState);
+    if (!newState) {
+      this.props?.onCloseSideEffect();
+    }
+  };
   open = () => this.setOpen(true);
-  close = () => this.setOpen(false);
+  close = e => {
+    this.setOpen(false);
+    this.props?.onCloseSideEffect(e);
+  };
   delayedAutoOpenStateChange$ = create();
 
   /*
@@ -80,7 +89,12 @@ export default class Overlay extends React.Component {
         }
         return timeout(500).map(() => false);
       })
-      .subscribe(open => this.setOpen(open));
+      .subscribe(open => {
+        this.setOpen(open);
+        if (!open) {
+          this.props?.onCloseSideEffect();
+        }
+      });
   }
 
   componentWillUnmount() {

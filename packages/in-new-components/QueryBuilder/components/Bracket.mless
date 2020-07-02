@@ -8,6 +8,8 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
+    cursor: pointer;
+    line-height: @lib__typography__line-height;
 
     &:focus,
     &:active,
@@ -16,5 +18,10 @@
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
     }
+  }
+
+  .invalid {
+    background: @lib__colors__failure40;
+    border: 1px solid @lib__colors__failure;
   }
 }

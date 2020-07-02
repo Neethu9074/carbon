@@ -62,7 +62,7 @@ export function withInteractivitySideEffects({
   };
 }
 
-function isDefaultInteractionTrigger(e) {
+export function isDefaultInteractionTrigger(e) {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
     return false;
   }

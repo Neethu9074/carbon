@@ -3,24 +3,44 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 
 export function onKeyDown(e, stopElement) {
-  if (e.keyCode !== keyCodes.arrows.left && e.keyCode !== keyCodes.arrows.right) {
-    return;
-  }
-
   // Do execute custom focus change logic when typing in regular input fields
   if (isPrimaryInteractiveElement(e.target)) {
     return;
   }
 
-  stopPropagationAndPreventDefault(e);
-  if (e.keyCode === keyCodes.arrows.left) {
-    return focusPrevious({ element: e.target, stopElement, allowSelfFocussing: false, traverseChildren: false });
+  // keyCode is deprecated and code is not yet supported everywhere
+  const code = e.code ?? e.keyCode;
+  if ((e.metaKey && code === keyCodes.arrows.left) || code === keyCodes.home || (e.ctrlKey && code === keyCodes.a)) {
+    stopPropagationAndPreventDefault(e);
+    focusFirst(stopElement);
+  } else if (
+    (e.metaKey && code === keyCodes.arrows.right) ||
+    code === keyCodes.end ||
+    (e.ctrlKey && code === keyCodes.e)
+  ) {
+    stopPropagationAndPreventDefault(e);
+    focusLast(stopElement);
+  } else if (code === keyCodes.arrows.left) {
+    stopPropagationAndPreventDefault(e);
+    focusPrevious({ element: e.target, stopElement, allowSelfFocussing: false, traverseChildren: false });
+  } else if (code === keyCodes.arrows.right) {
+    stopPropagationAndPreventDefault(e);
+    focusNext({
+      element: e.target,
+      stopElement,
+      allowSelfFocussing: false
+    });
   }
-  focusNext({
-    element: e.target,
-    stopElement,
-    allowSelfFocussing: false
-  });
+}
+
+function focusFirst(stopElement) {
+  const elements = stopElement.querySelectorAll('[data-query-builder-element]');
+  elements[0]?.focus();
+}
+
+function focusLast(stopElement) {
+  const elements = stopElement.querySelectorAll('[data-query-builder-element]');
+  elements[elements.length - 1]?.focus();
 }
 
 function focusPrevious({ element, stopElement, allowSelfFocussing = true, traverseChildren = true }) {
@@ -97,7 +117,7 @@ function isFocusable(element) {
 }
 
 export function onElementKeyUp({ event, onRemove, renderModelIndex, formModelIndex }) {
-  if (!onRemove) {
+  if (!onRemove || isPrimaryInteractiveElement(event.target)) {
     return;
   }
 
@@ -105,4 +125,35 @@ export function onElementKeyUp({ event, onRemove, renderModelIndex, formModelInd
     stopPropagationAndPreventDefault(event);
     onRemove(formModelIndex, renderModelIndex - 1);
   }
+}
+
+export function onClickQueryBuilderContent(e, stopElement) {
+  if (e.target !== stopElement) {
+    return;
+  }
+
+  stopPropagationAndPreventDefault(e);
+
+  const clickedX = e.offsetX ?? e.nativeEvent?.offsetX;
+  const clickedY = e.offsetY ?? e.nativeEvent?.offsetY;
+  let closestElement;
+  let closestXDistance;
+  const elements = stopElement.querySelectorAll('[data-query-builder-element][data-render-model-index]');
+  for (const element of elements) {
+    const top = element.offsetTop;
+    const bottom = element.offsetTop + element.offsetHeight;
+    const x = element.offsetLeft + element.offsetWidth / 2;
+    if (clickedY < top || clickedY > bottom) {
+      // Click in a different row: Do not focus
+      continue;
+    }
+
+    const xDistance = Math.abs(clickedX - x);
+    if (closestElement == null || xDistance < closestXDistance) {
+      closestElement = element;
+      closestXDistance = xDistance;
+    }
+  }
+
+  closestElement?.focus();
 }

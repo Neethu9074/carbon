@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    max-width: 9rem;
+  }
+
+  .option {
+    justify-content: flex-start;
+  }
+}

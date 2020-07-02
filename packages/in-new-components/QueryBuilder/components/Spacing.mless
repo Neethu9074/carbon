@@ -5,15 +5,39 @@
   .word {
     display: inline-block;
     padding: 0.3rem 0;
+    position: relative;
+    cursor: text;
+    line-height: @lib__typography__line-height;
+
+    &:focus,
+    &:active {
+      .addIndicator {
+        display: block;
+      }
+    }
   }
 
   .letter {
     width: 2px;
 
+    @keyframes blinking-letter-caret {
+      0%,
+      100% {
+        background: @lib__colors__light-blue800;
+      }
+      50% {
+        background: transparent;
+      }
+    }
+
     &:focus,
     &:active {
       outline: 0;
       background: @lib__colors__light-blue800;
+      animation-name: blinking-letter-caret;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: step-end;
     }
   }
 
@@ -25,6 +49,16 @@
     &:active {
       outline: 0;
 
+      @keyframes blinking-word-caret {
+        0%,
+        100% {
+          border-color: @lib__colors__light-blue800;
+        }
+        50% {
+          border-color: transparent;
+        }
+      }
+
       &::after {
         content: '';
         display: block;
@@ -33,7 +67,47 @@
         bottom: 0;
         left: calc(50% - 1px);
         border-right: 2px solid @lib__colors__light-blue800;
+        animation-name: blinking-word-caret;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: step-end;
       }
+    }
+  }
+
+  .invalid {
+    background: @lib__colors__failure40;
+  }
+
+  .addIndicator {
+    --size: 0.875rem;
+    --arrow-height: 0.25rem;
+    --arrow-width: 0.25rem;
+
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    left: calc(50% - var(--size) / 2);
+    bottom: calc((var(--size) + var(--arrow-height)) * -1);
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__light-blue800;
+    border-radius: @lib__shapes__radius_medium;
+    display: none;
+
+    &:hover {
+      background: @lib__colors__N200;
+      cursor: pointer;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: calc(var(--arrow-height) * -2);
+      left: calc(50% - var(--arrow-width));
+      border-width: var(--arrow-height) var(--arrow-width);
+      border-style: solid;
+      pointer-events: none;
+      border-color: transparent transparent @lib__colors__light-blue800 transparent;
     }
   }
 }

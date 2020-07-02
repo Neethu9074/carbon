@@ -70,10 +70,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
     }
   ]);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 400 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <Component value={value} setState={setState} />
 
-      <div style={{ borderTop: '1px dashed lightgray', paddingTop: 8 }}>
+      <div style={{ borderTop: '1px dashed lightgray', paddingTop: 8, marginTop: '2rem' }}>
         <Button
           kind="secondary"
           onClick={() =>

@@ -14,9 +14,7 @@ export default function OverlayOption({ autoFocus, className, selectedValue, val
       autoFocus={autoFocus ?? selectedValue === value}
       subList={subList}
       onClick={() => {
-        if (selectedValue !== value) {
-          onChange(value);
-        }
+        onChange(value);
         close();
       }}
     >

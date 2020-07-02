@@ -8,6 +8,8 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
+    cursor: pointer;
+    line-height: @lib__typography__line-height;
 
     &:focus,
     &:active,

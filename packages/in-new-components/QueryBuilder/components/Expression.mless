@@ -1,16 +1,19 @@
+@import '~in-new-components/QueryBuilder/shared.less';
 @import '~in-themes/active.less';
 
 :local {
   .expression {
     display: inline;
 
-    border: 1px solid transparent;
     padding: 0.375rem 0px;
+
+    line-height: @query-builder-line-height;
+    border: 1px solid transparent;
+    border-radius: 3px;
 
     &:focus,
     &:hover {
       outline: 0;
-      border-radius: 3px;
 
       & > * {
         &:first-child {
@@ -34,18 +37,17 @@
   }
 
   .expressioncolor_0 {
-    &:focus,
-    &:hover {
-      background: #f8ecff;
-      border: 1px solid @lib__colors__purple800;
-    }
+    background: #f8ecff;
+    border: 1px solid #dca1ff;
   }
 
   .expressioncolor_1 {
-    &:focus,
-    &:hover {
-      background: #ffeaf5;
-      border: 1px solid @lib__colors__pink800;
-    }
+    background: #ffeaf5;
+    border: 1px solid #ffa4d3;
+  }
+
+  .invalid {
+    border: 1px solid @lib__colors__failure;
+    background: @lib__colors__failure40;
   }
 }

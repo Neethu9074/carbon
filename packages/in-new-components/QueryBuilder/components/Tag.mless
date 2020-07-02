@@ -2,19 +2,55 @@
 
 :local {
   .tag {
-    // TODO dark mode
-
     display: inline;
     padding: 0.3rem;
     background: @lib__colors__N050;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
+    line-height: @lib__typography__line-height;
 
-    &:focus, &:active, &:hover {
+    // TODO this will likely need to be removed down the road
+    cursor: pointer;
+
+    &:focus,
+    &:active,
+    &:hover {
       outline: 0;
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
+    }
+  }
+
+  .operatorWrapper {
+    display: inline;
+    background: red;
+  }
+
+  .operator {
+    margin: 0 0.25rem;
+    padding: 0.0625rem 0.3125rem;
+
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+
+    text-transform: lowercase;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N300;
+      border: 1px solid @lib__colors__N400;
+    }
+  }
+
+  .icon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem -0.5rem 0.5rem;
+
+    fill: @lib__colors__N400;
+    cursor: pointer;
+    &:hover {
+      fill: @lib__colors__N600Light;
     }
   }
 }
