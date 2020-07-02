@@ -5,12 +5,9 @@ import { applicationsAlertingEventDetailsViewEditConfig } from 'in-applications/
 import { goToAlertConfig } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
 
-import locals from './ApplicationAlertConfigButton.mless';
-
 export default function ApplicationAlertConfigButton({ alertConfig }) {
   return (
     <Button
-      className={locals.button}
       kind="secondary"
       onClick={() => {
         applicationsAlertingEventDetailsViewEditConfig(alertConfig.id);
