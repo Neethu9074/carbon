@@ -63,6 +63,7 @@ import './f5';
 import './garden';
 import './gce';
 import './googleCloudSQL';
+import './googleCloudStorage';
 import './genericHardware';
 import './genericZone';
 import './glassfishApplicationContainer';
