@@ -72,52 +72,6 @@ export default [
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('http', 'requests', 'Http Server Key'),
-    label: 'Requests / s',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: number
-  },
-  {
-    metric: getDynamicMetricMatch('http', 'responses', 'Http Server Key'),
-    label: 'Responses / s',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: number
-  },
-  {
-    metric: getDynamicMetricMatch('http', 'responseTime50', 'Http Server Key'),
-    label: 'Response Time 50th',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: millis,
-    isPercentile: true
-  },
-  {
-    metric: getDynamicMetricMatch('http', 'responseTime90', 'Http Server Key'),
-    label: 'Response Time 90th',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: millis,
-    isPercentile: true
-  },
-  {
-    metric: getDynamicMetricMatch('http', 'responseTime95', 'Http Server Key'),
-    label: 'Response Time 95th',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: millis,
-    isPercentile: true
-  },
-  {
-    metric: getDynamicMetricMatch('http', 'responseTime99', 'Http Server Key'),
-    label: 'Response Time 99th',
-    min: 0,
-    category: ['HTTP Servers'],
-    formatter: millis,
-    isPercentile: true
-  },
-  {
     metric: 'healthcheckResult',
     label: 'Health check result',
     min: 0,
