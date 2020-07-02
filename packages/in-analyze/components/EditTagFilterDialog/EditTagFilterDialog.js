@@ -189,7 +189,13 @@ export default compose(
       key: currentKey,
       tag: props.form.get('tag').value,
       // Do not load suggestions with the tag filter that is being edited
-      tagFilters: props.tagFilter ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter)) : props.tagFilters
+      // If one of the conjunctions are OR send an empty array to show all suggestions instead of breaking.
+      tagFilters:
+        props.conjunctions && props.conjunctions.includes('OR')
+          ? []
+          : props.tagFilter
+            ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter))
+            : props.tagFilters
     };
     let keySuggestions$;
     if (props.getKeySuggestions && props.selectedTagType === 'KEY_VALUE_PAIR') {
