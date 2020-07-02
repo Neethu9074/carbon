@@ -13,7 +13,6 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [calculateThresholdOnBackend, setCalculateThresholdOnBackend] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(formData));
   const [isSaving, setIsSaving] = useState(false);
 
@@ -22,10 +21,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       updateForm={setForm}
       form={form}
       onChange={createOnChange(setForm, form)}
-      onChartViewConfigChange={index => {
-        setSelectedChartViewConfigIndex(index);
-        setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
-      }}
+      onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
@@ -33,8 +29,6 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       websiteLabel={websiteLabel}
       editMode={editMode}
       granularity={form.get('granularity').value}
-      calculateThresholdOnBackend={calculateThresholdOnBackend}
-      doCalculateThresholdOnBackend={load => setCalculateThresholdOnBackend(load)}
       isSaving={isSaving}
     />
   );
