@@ -1,4 +1,3 @@
-import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 
@@ -14,27 +13,9 @@ export default function toAlertConfig(form) {
     name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: form.get('threshold').toJS(),
-    timeThreshold: getTimeThreshold(form),
+    timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value
   });
-}
-
-function getTimeThreshold(form) {
-  const timeThresholdForm = form.get('timeThreshold');
-  const hiddenFieldsForm = form.get('hiddenFields');
-  const timeThreshold = timeThresholdForm.toJS();
-
-  if (timeThresholdForm.get('type').value === timeThresholdTypes.userImpactOfViolationsInSequence) {
-    timeThreshold['users'] = hiddenFieldsForm.get('alertByNumberOfImpactedUsersEnabled').value
-      ? timeThresholdForm.get('users').value
-      : null;
-
-    timeThreshold['userPercentage'] = hiddenFieldsForm.get('alertByPercentageOfImpactedUsersEnabled').value
-      ? timeThresholdForm.get('userPercentage').value
-      : null;
-  }
-
-  return timeThreshold;
 }
 
 export function isGreaterOperator(operator) {

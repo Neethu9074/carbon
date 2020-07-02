@@ -15,7 +15,7 @@ import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import Agents from 'in-internal/thisUnit/Agents';
 
 // features for monitoring units
-import AppDataLiveAggregator from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregator';
+import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
@@ -86,7 +86,7 @@ export default function Internal() {
           <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
           <Route
             path="/internal/monitoringUnit/appdataLiveAggregator"
-            component={wrapIninternalView(AppDataLiveAggregator)}
+            component={wrapIninternalView(AppDataLiveAggregatorOverview)}
           />
           <Route
             path="/internal/monitoringUnit/appdataProcessing"

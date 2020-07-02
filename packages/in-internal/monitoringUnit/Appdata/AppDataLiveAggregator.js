@@ -82,7 +82,7 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.compact,
+                  formatter: number.detailed,
                   metrics: rows.map(
                     () =>
                       'metrics.gauges.com.instana.appdata.liveaggregator.aggregation.request.AggregationRequestRegistry.store-size'
@@ -139,9 +139,9 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(() => `metrics.meters.KPI.incoming.calls.calls`),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -154,9 +154,9 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(() => `metrics.meters.KPI.incoming.calls.errors`),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -171,9 +171,9 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(() => `metrics.meters.grpc.server.calls`),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -186,9 +186,9 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(() => `metrics.meters.grpc.server.errors`),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -203,12 +203,12 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
                       `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics`
                   ),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -221,12 +221,12 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
                       `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests`
                   ),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -241,12 +241,12 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
                       `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetMetricsRetriever.requested-metrics`
                   ),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -259,12 +259,12 @@ export default connectTo({
                 minRollup={5000}
                 y1={{
                   min: 0,
-                  formatter: number.perSecond.compact,
+                  formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
                       `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetMetricsRetriever.answered-metric-requests`
                   ),
-                  labels,
+                  labels: labels,
                   type: 'stackedArea'
                 }}
               />
@@ -314,7 +314,7 @@ function getRowDetails(row) {
                 .map(name => name + ' Time')
                 .toArray(),
               type: 'line',
-              formatter: millis.fixedCompact
+              formatter: millis.fixedDetailed
             }}
             y2={{
               metrics: row.jvm
@@ -326,7 +326,7 @@ function getRowDetails(row) {
                 .map(name => name + ' Invocations')
                 .toArray(),
               type: 'point',
-              formatter: number.compact
+              formatter: number.detailed
             }}
           />
         </DashboardSection>

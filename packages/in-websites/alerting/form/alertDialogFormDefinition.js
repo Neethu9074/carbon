@@ -21,9 +21,7 @@ export const fieldNames = Object.freeze({
 
 // We don't sent this fields to the api
 export const hiddenFieldNames = Object.freeze({
-  calculateThresholdOnBackend: 'calculateThresholdOnBackend',
-  alertByNumberOfImpactedUsersEnabled: 'alertByNumberOfImpactedUsersEnabled',
-  alertByPercentageOfImpactedUsersEnabled: 'alertByPercentageOfImpactedUsersEnabled'
+  calculateThresholdOnBackend: 'calculateThresholdOnBackend'
 });
 
 export default function alertFormDefinition(alertConfig) {
@@ -104,32 +102,16 @@ export default function alertFormDefinition(alertConfig) {
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put(
-      'hiddenFields',
-      createHiddenFieldsForm(alertConfig.timeThreshold ?? {}, alertConfig.calculateThresholdOnBackend)
-    );
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
 
   return form;
 }
 
-function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = false) {
-  return createMapForm()
-    .put(
-      'alertByNumberOfImpactedUsersEnabled',
-      createField({
-        value: !!(timeThreshold && timeThreshold.users)
-      })
-    )
-    .put(
-      'alertByPercentageOfImpactedUsersEnabled',
-      createField({
-        value: !!(typeof timeThreshold.userPercentage === 'undefined' ? true : timeThreshold.userPercentage)
-      })
-    )
-    .put(
-      'calculateThresholdOnBackend',
-      createField({
-        value: calculateThresholdOnBackend
-      })
-    );
+function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+  return createMapForm().put(
+    'calculateThresholdOnBackend',
+    createField({
+      value: calculateThresholdOnBackend
+    })
+  );
 }
