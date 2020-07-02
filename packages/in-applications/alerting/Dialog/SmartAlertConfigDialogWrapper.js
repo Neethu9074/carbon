@@ -32,10 +32,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       updateForm={setForm}
       granularity={form.get('granularity').value}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
-      onChartViewConfigChange={index => {
-        setSelectedChartViewConfigIndex(index);
-        setForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
-      }}
+      onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       advancedModeElement={AdvancedModeContainer}
       simpleModeElement={SimpleModeContainer}
