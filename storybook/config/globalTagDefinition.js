@@ -165,6 +165,7 @@ window.instana.tags = [
   { name: 'nomad.task.name', type: 'STRING', category: 'CONTAINER' },
   { name: 'beacon.timing.children', type: 'NUMBER', category: 'WEBSITE_MONITORING' },
   { name: 'jvm.version', type: 'STRING', category: 'LANGUAGE' },
+  { name: 'jvm.args', type: 'KEY_VALUE_PAIR', category: 'LANGUAGE' },
   { name: 'mssql.instance', type: 'STRING', category: 'DATABASE' },
   { name: 'call.is_synthetic', type: 'BOOLEAN', category: 'CALL' },
   { name: 'kubernetes.replicationcontroller.name', type: 'STRING', category: 'CONTAINER' },

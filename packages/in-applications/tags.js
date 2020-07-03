@@ -38,6 +38,7 @@ export const customServiceMappingTagKeys = [
   'gce.zone',
   'nova.zone',
   'jvm.app.name',
+  'jvm.args',
   'kafka.cluster.name',
   'mongo.replicatSetName',
   'kubernetes.cluster.name',
@@ -91,7 +92,8 @@ const blacklists = {
       'call.meta_tags': !isInstanaEngineer,
       'log.span_type': !isInstanaEngineer,
       'related.infra.entity.snapshotId': !isInstanaEngineer,
-      'related.infra.entity.pluginId': !isInstanaEngineer
+      'related.infra.entity.pluginId': !isInstanaEngineer,
+      'jvm.args': true
     };
     return tag => blacklist[tag];
   })(),
