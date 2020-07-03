@@ -9,7 +9,7 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import { number } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 
-import locals from './GroupMetricsChart.mless';
+import locals from './MetricsChart.mless';
 
 export default GroupMetricsChart;
 

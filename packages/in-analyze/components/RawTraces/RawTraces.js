@@ -19,13 +19,20 @@ export default compose(
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,
-      orderDirection: 'DESC',
-      previewEnabled: false
+      orderDirection: 'DESC'
+    }),
+    getParsedUrlValues: urlValues => ({
+      orderBy: urlValues.orderBy,
+      orderDirection: urlValues.orderDirection
+    }),
+    getSerializedUrlValues: props => ({
+      orderBy: props.orderBy,
+      orderDirection: props.orderDirection
     }),
     reducerName: 'onChangeOrder'
   }),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'previewEnabled'],
+    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'showGraph', 'metrics', 'previewEnabled'],
     get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection, previewEnabled }) =>
       getTraces({
         pagination: {

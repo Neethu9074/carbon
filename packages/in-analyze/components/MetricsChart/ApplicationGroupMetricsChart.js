@@ -1,6 +1,6 @@
 import { withProps } from 'recompose';
 
-import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/GroupMetricsChart';
+import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/MetricsChart/GroupMetricsChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 
@@ -23,7 +23,8 @@ const countChartDefinitions = [
   }
 ];
 
-export default withProps(({ filters, metrics, availableMetrics }) => ({
+export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricChange }) => ({
   timeConfig: filters.timeConfig,
-  chartDefinitions: countChartDefinitions.concat(metricsChartDefinitions(metrics, availableMetrics))
+  chartDefinitions: countChartDefinitions.concat(metricsChartDefinitions(metrics, availableMetrics)),
+  onChange: (e) => onFocusedMetricChange(e.focusedMetric)
 }))(GroupMetricsChart);

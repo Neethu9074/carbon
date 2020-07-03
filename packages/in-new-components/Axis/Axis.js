@@ -24,7 +24,8 @@ export default function Axis({
   tickColor,
   tickLabelColor,
   tickPositions,
-  renderTickLines = true
+  renderTickLines = true,
+  style
 }) {
   if (__DEV__) {
     invariant(scale, 'You should define a scale or discreteTicks');
@@ -42,8 +43,9 @@ export default function Axis({
     }
   }
 
+  const styleWithHeight = Object.assign({ minHeight: height, maxHeight: height }, style);
   return (
-    <div style={{ minHeight: height, maxHeight: height }} className={locals.axis}>
+    <div style={styleWithHeight} className={locals.axis}>
       {renderTickLines && (
         <Ticks
           tickColor={tickColor}
