@@ -3,7 +3,7 @@ import React from 'react';
 
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './SelectListDialog.mless';
 

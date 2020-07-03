@@ -2,7 +2,7 @@ import { withProps, compose, withState, setPropTypes } from 'recompose';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import BigHeaderDialogWithSlideInView from 'in-new-components/BigHeaderDialog/BigHeaderDialogWithSlideInView';
+import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import evaluateClassNames from 'in-services/util/classnames';
 import Button from 'in-new-components/Button/Button';
 
@@ -71,7 +71,7 @@ function AlertConfigDialogPresenter(props) {
     setSimpleModeStep: setSimpleModeStep
   });
   return (
-    <BigHeaderDialogWithSlideInView
+    <DialogWithSlideInView
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
@@ -106,7 +106,7 @@ function AlertConfigDialogPresenter(props) {
       >
         {simpleMode ? SimpleMode : AdvancedMode}
       </div>
-    </BigHeaderDialogWithSlideInView>
+    </DialogWithSlideInView>
   );
 
   /**

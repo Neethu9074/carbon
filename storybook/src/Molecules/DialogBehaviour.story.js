@@ -2,8 +2,8 @@ import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 
 export default {
   title: 'Molecules|Dialogs/Behaviour',
@@ -14,7 +14,6 @@ export function MultipleDialogs() {
   return (
     <>
       <DialogPresenter />
-
       <Button onClick={() => addActiveDialog(<FirstDialog />)}>Open first dialog</Button>
     </>
   );

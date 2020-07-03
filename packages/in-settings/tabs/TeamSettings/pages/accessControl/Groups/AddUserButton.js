@@ -5,8 +5,8 @@ import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 
 import locals from './AddUserButton.mless';
 

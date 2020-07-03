@@ -5,7 +5,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './BigHeaderDialog.mless';
+import locals from './Dialog.mless';
 
 export default function Header({ icon, onIconClick, title, renderCustomCloseBehaviour, onClose, addScrollShadow }) {
   return (

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
-import Header from 'in-new-components/BigHeaderDialog/Header';
+import Header from 'in-new-components/Dialog/Header';
 
-import locals from './BigHeaderDialog.mless';
+import locals from './Dialog.mless';
 
-export default function BigHeaderDialogWithSlideInView({
+export default function DialogWithSlideInView({
   title,
   titleIconType,
   onClose,
@@ -77,7 +77,7 @@ export default function BigHeaderDialogWithSlideInView({
   );
 }
 
-BigHeaderDialogWithSlideInView.propTypes = {
+DialogWithSlideInView.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   renderCustomCloseBehaviour: PropTypes.func,

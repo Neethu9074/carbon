@@ -4,7 +4,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -18,22 +18,12 @@ export default connectTo(
   },
   function CodeDialog({ packageName, response, lang }) {
     let header;
-    if (!response) {
-      header = `Retrieving package: ${packageName}`;
-    } else if (response.error) {
-      header = `Failed to retrieve package: ${packageName}`;
-    } else {
-      header = (
-        <div>
-          <span className={locals.title}>Package: {packageName}</span>
-
-          <CopyToClipboardButton getText={() => response.data} />
-        </div>
-      );
+    if (response && !response.error) {
+      header = <CopyToClipboardButton getText={() => response.data} />;
     }
 
     return (
-      <Dialog header={header} onClose={close} contentClassName={locals.content}>
+      <Dialog title={`Package: ${packageName}`} onClose={close} renderCustomCloseBehaviour={() => header}>
         {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (

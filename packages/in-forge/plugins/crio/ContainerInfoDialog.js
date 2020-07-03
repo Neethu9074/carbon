@@ -4,9 +4,8 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
-import FlexHeader from 'in-components/Dialog/components/FlexHeader';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -21,25 +20,14 @@ export default connectTo(
     })
   }),
   function CodeDialog({ response }) {
-    let header;
-
     const codeTargetId = 'codeContainerInfo';
-
-    if (!response) {
-      header = `Retrieving info for CRI-O container…`;
-    } else if (response.error) {
-      header = `Failed to retrieve container info`;
-    } else {
-      header = (
-        <FlexHeader>
-          Container Info
-          <CopyToClipboardButton targetId={codeTargetId} />
-        </FlexHeader>
-      );
+    let header;
+    if (response && !response.error) {
+      header = <CopyToClipboardButton targetId={codeTargetId} />;
     }
 
     return (
-      <Dialog header={header} onClose={close}>
+      <Dialog title="Container info" onClose={close} renderCustomCloseBehaviour={() => header}>
         {!response && <LoadingIndicator />}
 
         {response &&

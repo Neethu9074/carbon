@@ -1,7 +1,7 @@
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
 
-import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
+import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 
 export default compose(

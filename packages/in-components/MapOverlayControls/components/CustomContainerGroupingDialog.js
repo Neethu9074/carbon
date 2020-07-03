@@ -4,11 +4,11 @@ import React from 'react';
 import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
-import Dialog from 'in-components/Dialog';
 
 export default class CustomContainerGroupingDialog extends React.Component {
   state = {
@@ -25,7 +25,7 @@ export default class CustomContainerGroupingDialog extends React.Component {
     const form = this.state.form;
 
     return (
-      <Dialog header="Custom Grouping" onClose={close}>
+      <Dialog title="Custom Grouping" onClose={close}>
         <form onSubmit={this.onSubmit}>
           {form.get('path').map(field => (
             <FormGroup>

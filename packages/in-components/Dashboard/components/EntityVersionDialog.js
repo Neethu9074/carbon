@@ -7,7 +7,7 @@ import EntityVersionList from 'in-new-components/EntityVersionList';
 import VersionTimeline from 'in-new-components/VersionTimeline';
 import { close } from 'in-components/DialogPresenter/store';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Dialog from 'in-new-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 

@@ -3,17 +3,17 @@ import React from 'react';
 import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetConfiguration';
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector';
 import { SideNavigationWrapper } from 'in-new-components/SideNavigation/SideNavigation';
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
-import Actions from 'in-new-components/BigHeaderDialog/Actions';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
+import Actions from 'in-new-components/Dialog/Actions';
 import SaveButton from 'in-components/form/SaveButton';
+import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './WidgetEditorDialogPresenter.mless';
 
 export default function WidgetEditorDialogPresenter({ isEditing, onSubmit, onChange, form, onChangeType }) {
   return (
-    <BigHeaderDialog
+    <Dialog
       titleIconType="lib_views_grid"
       title={isEditing ? 'Edit Widget' : 'Add a Widget'}
       onClose={close}
@@ -35,6 +35,6 @@ export default function WidgetEditorDialogPresenter({ isEditing, onSubmit, onCha
           <SaveButton form={form}>{isEditing ? 'Confirm' : 'Create'}</SaveButton>
         </Actions>
       </form>
-    </BigHeaderDialog>
+    </Dialog>
   );
 }

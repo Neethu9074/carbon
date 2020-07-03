@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 
 export default function ReloadUiDialog({ onClose = close }) {
   return (

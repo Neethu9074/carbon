@@ -1,34 +1,44 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
+import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import { stopPropagation } from 'in-services/util/function';
-import SvgIcon from 'in-components/SvgIcon';
+import Header from 'in-new-components/Dialog/Header';
 
 import locals from './Dialog.mless';
 
 export default function Dialog({
-  title,
-  onClose,
-  children,
   className,
+  title,
+  titleIconType,
+  onClose,
+  onTitleIconClick,
+  children,
   renderCustomCloseBehaviour,
   withoutBodyPadding,
   showOverflow,
-  headless = false
+  headless = false,
+  doNotCloseOnOutsideClick
 }) {
+  const [scrollshadow, setScrollshadow] = useState(false);
   return (
-    <div className={locals.wrapper} onClick={onClose}>
+    <div
+      className={evaluateClassNames({
+        [locals.wrapper]: true,
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
+      })}
+      onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
+    >
       <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
         {!headless && (
-          <div className={locals.header}>
-            <h1 className={locals.title}>{title}</h1>
-            {renderCustomCloseBehaviour ? (
-              <>{renderCustomCloseBehaviour()}</>
-            ) : (
-              <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={onClose} />
-            )}
-          </div>
+          <Header
+            icon={titleIconType}
+            onIconClick={onTitleIconClick}
+            title={title}
+            renderCustomCloseBehaviour={renderCustomCloseBehaviour}
+            onClose={onClose}
+            addScrollShadow={scrollshadow}
+          />
         )}
         <div
           className={evaluateClassNames({
@@ -36,6 +46,7 @@ export default function Dialog({
             [locals.withoutPadding]: withoutBodyPadding,
             [locals.showOverflow]: showOverflow
           })}
+          onScroll={e => setScrollshadow(e.currentTarget?.scrollTop > 0)}
         >
           {children}
         </div>
@@ -45,12 +56,15 @@ export default function Dialog({
 }
 
 Dialog.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   className: PropTypes.string,
   renderCustomCloseBehaviour: PropTypes.func,
   headless: PropTypes.bool,
   onClose: PropTypes.func,
+  onTitleIconClick: PropTypes.func,
   showOverflow: PropTypes.bool,
   title: PropTypes.string,
-  withoutBodyPadding: PropTypes.bool
+  titleIconType: PropTypes.string,
+  withoutBodyPadding: PropTypes.bool,
+  doNotCloseOnOutsideClick: PropTypes.bool
 };

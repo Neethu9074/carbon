@@ -2,9 +2,9 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
 import React from 'react';
 
-import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
+import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import Toggle from 'in-components/form/Toggle';

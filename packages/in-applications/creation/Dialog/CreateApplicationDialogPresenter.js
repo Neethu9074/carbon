@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './CreateApplicationDialogPresenter.mless';
@@ -33,7 +33,7 @@ export default function CreateApplicationDialogPresenter(props) {
   });
 
   return (
-    <BigHeaderDialog
+    <Dialog
       titleIconType="lib_application"
       title="Create New Application Perspective"
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
@@ -51,6 +51,6 @@ export default function CreateApplicationDialogPresenter(props) {
       )}
     >
       <div className={locals.dialog}>{simpleMode ? SimpleMode : AdvancedMode}</div>
-    </BigHeaderDialog>
+    </Dialog>
   );
 }

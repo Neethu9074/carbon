@@ -4,15 +4,15 @@ import React from 'react';
 
 import SmartAlertMarkerLanePresenter from 'in-components/Chart/markerLanes/AlertMarkerLane/SmartAlertMarkerLanePresenter';
 import ReleaseMarkerLanePresenter from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLanePresenter';
-import BigHeaderDialogWithSlideInView from 'in-new-components/BigHeaderDialog/BigHeaderDialogWithSlideInView';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compare } from 'in-services/util/number';
 
 export default {
   title: 'Molecules|MarkerLanes',
-  component: BigHeaderDialogWithSlideInView,
+  component: DialogWithSlideInView,
   decorator: { text, action }
 };
 

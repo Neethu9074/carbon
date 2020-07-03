@@ -4,8 +4,8 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import NotificationDialog from 'in-components/NotificationDialog';
 import { closeCurrentHelpIfOpen } from 'in-stores/navigation';
+import Dialog from 'in-new-components/Dialog/Dialog';
 
 import './HelpDialog.less';
 
@@ -65,21 +65,21 @@ class HelpDialog extends React.PureComponent {
     let content;
     if (this.state.article) {
       content = (
-        <NotificationDialog title={this.state.article.meta.title} onClose={closeCurrentHelpIfOpen}>
+        <Dialog title={this.state.article.meta.title} onClose={closeCurrentHelpIfOpen}>
           <DangerousHtmlPresenter className={`${block}__content`} html={this.state.article.html} />
-        </NotificationDialog>
+        </Dialog>
       );
     } else if (this.state.error) {
       content = (
-        <NotificationDialog title="Help Article Missing" onClose={closeCurrentHelpIfOpen}>
+        <Dialog title="Help Article Missing" onClose={closeCurrentHelpIfOpen}>
           <p className={`${block}__content`}>Sorry, we failed to retrieve the help article :(.</p>
-        </NotificationDialog>
+        </Dialog>
       );
     } else {
       content = (
-        <NotificationDialog title="Loading help text…" onClose={closeCurrentHelpIfOpen}>
+        <Dialog title="Loading help text…" onClose={closeCurrentHelpIfOpen}>
           <LoadingIndicator />
-        </NotificationDialog>
+        </Dialog>
       );
     }
 

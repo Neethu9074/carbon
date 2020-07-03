@@ -2,8 +2,8 @@ import React from 'react';
 
 import { markAsRead, unreadReleaseNotesContentAndVersion$ } from 'in-stores/releaseNotes';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import NotificationDialog from 'in-components/NotificationDialog';
 import { toHtml } from 'in-services/formatters/markdown';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 
 import './ReleaseNotesDialog.less';
@@ -20,9 +20,9 @@ export default connectTo(
     }
 
     return (
-      <NotificationDialog onClose={() => markAsRead(releaseNotes.version)} title="Release Notes">
+      <Dialog onClose={() => markAsRead(releaseNotes.version)} title="Release Notes">
         <DangerousHtmlPresenter className={block} html={toHtml(releaseNotes.content)} />
-      </NotificationDialog>
+      </Dialog>
     );
   }
 );

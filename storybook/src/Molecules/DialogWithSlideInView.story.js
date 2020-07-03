@@ -1,29 +1,29 @@
 import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-
-import BigHeaderDialogWithSlideInView from 'in-new-components/BigHeaderDialog/BigHeaderDialogWithSlideInView';
-import Button from 'in-new-components/Button/Button';
 import theme from 'in-themes';
 
+import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import Button from 'in-new-components/Button/Button';
+
 export default {
-  title: 'Molecules|Dialogs/BigHeaderDialogWithSlideInView',
-  component: BigHeaderDialogWithSlideInView,
+  title: 'Molecules|Dialogs/DialogWithSlideInView',
+  component: DialogWithSlideInView,
   decorator: { text, action }
 };
 
 export const Default = () => (
   <div>
-    <BigHeaderDialogWithSlideInView title={text('Title', 'Some title')} onClose={action('onClose')}>
+    <DialogWithSlideInView title={text('Title', 'Some title')} onClose={action('onClose')}>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
       cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
-    </BigHeaderDialogWithSlideInView>
+    </DialogWithSlideInView>
   </div>
 );
 
 export const Custom = () => (
   <div>
-    <BigHeaderDialogWithSlideInView
+    <DialogWithSlideInView
       onClose={action('onClose')}
       renderCustomCloseBehaviour={() => (
         <Button style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
@@ -35,7 +35,7 @@ export const Custom = () => (
     >
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
       cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
-    </BigHeaderDialogWithSlideInView>
+    </DialogWithSlideInView>
   </div>
 );
 
@@ -43,7 +43,7 @@ export const SlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
     <div>
-      <BigHeaderDialogWithSlideInView
+      <DialogWithSlideInView
         title={'Some title'}
         slideInViewTitle={'SlideIn Title'}
         onSlideInViewTitleClick={() => setSlideInVisible(false)}
@@ -67,7 +67,7 @@ export const SlideIn = () => {
           consequuntur?
           <Button onClick={() => setSlideInVisible(true)}>SlideIn</Button>
         </div>
-      </BigHeaderDialogWithSlideInView>
+      </DialogWithSlideInView>
     </div>
   );
 };
@@ -76,7 +76,7 @@ export const ResetScrollPosition = () => {
   const inner = React.useRef();
   return (
     <div>
-      <BigHeaderDialogWithSlideInView
+      <DialogWithSlideInView
         onClose={action('onClose')}
         renderCustomCloseBehaviour={removeScrollShadow => (
           <Button
@@ -105,7 +105,7 @@ export const ResetScrollPosition = () => {
           <p>Long text...</p>
           <p>Press button above to reset scroll position. Then the shadow will go away.</p>
         </div>
-      </BigHeaderDialogWithSlideInView>
+      </DialogWithSlideInView>
     </div>
   );
 };

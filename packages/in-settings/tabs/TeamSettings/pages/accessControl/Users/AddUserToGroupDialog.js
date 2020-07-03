@@ -7,8 +7,8 @@ import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import createApiList from 'in-settings/components/ApiList';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 
 import locals from './AddUserToGroupDialog.mless';
 

@@ -5,7 +5,7 @@ import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { listSensors } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';
 import Table from 'in-sdk/components/dashboard/Table';
-import Dialog from 'in-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './SensorsInfo.mless';
@@ -53,7 +53,7 @@ export function getRows(sensors = []) {
 export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), function SensorsInfo({ sensors }) {
   let rows = getRows(sensors);
   return (
-    <Dialog header="Sensors Info" onClose={close} contentClassName={locals.dialog}>
+    <Dialog title="Sensors Info" onClose={close} className={locals.dialog}>
       {!sensors && <LoadingIndicator />}
 
       {sensors && (

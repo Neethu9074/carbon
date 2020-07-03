@@ -3,11 +3,11 @@ import React from 'react';
 import { form$, setValue, save, error$ } from 'in-components/SearchBar/stores/dialog';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
-import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 
 import './SaveDialog.less';
@@ -21,7 +21,7 @@ export default connectTo(
   },
   function SaveDialog({ form, error }) {
     return (
-      <Dialog header="Save filter" onClose={close}>
+      <Dialog title="Save filter" onClose={close}>
         <form onSubmit={onSubmit}>
           {form.get('name').map(field => (
             <FormGroup>

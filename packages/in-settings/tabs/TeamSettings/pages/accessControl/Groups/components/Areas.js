@@ -22,9 +22,9 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 import { light } from 'in-themes/themes';
 
 import locals from './Areas.mless';

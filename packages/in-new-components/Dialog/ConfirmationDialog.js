@@ -1,11 +1,11 @@
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
-import Actions from 'in-new-components/BigHeaderDialog/Actions';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
+import Actions from 'in-new-components/Dialog/Actions';
 import SaveButton from 'in-components/form/SaveButton';
+import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './commonDialog.mless';
 
@@ -21,7 +21,7 @@ export default function ConfirmationDialog({
   onClose = close
 }) {
   return (
-    <BigHeaderDialog className={locals.dialog} titleIconType={headerIcon} title={header} onClose={onClose}>
+    <Dialog className={locals.dialog} titleIconType={headerIcon} title={header} onClose={onClose}>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -39,6 +39,6 @@ export default function ConfirmationDialog({
           </SaveButton>
         </Actions>
       </form>
-    </BigHeaderDialog>
+    </Dialog>
   );
 }

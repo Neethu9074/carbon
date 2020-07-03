@@ -3,12 +3,11 @@ import React from 'react';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { build } from 'in-services/config';
-import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './AboutInstanaDialog.mless';
@@ -19,15 +18,7 @@ export default connectTo(
   },
   function AboutInstanaDialog({ uiBackendVersion }) {
     return (
-      <Dialog
-        title="About"
-        onClose={close}
-        customHeader={
-          <div className={locals.header}>
-            <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" size="l" onClick={close} />
-          </div>
-        }
-      >
+      <Dialog onClose={close}>
         <div className={locals.wrapper}>
           <Lettering className={locals.lettering} />
           <div className={locals.row}>

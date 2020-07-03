@@ -7,12 +7,11 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import CodeComponent from 'in-components/Code';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { region } from 'in-services/config';
 import Link from 'in-components/Link';
 
@@ -186,11 +185,9 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
     <Dialog
       className={locals.dialog}
       title={title || 'Configuration'}
+      onClose={close}
       renderCustomCloseBehaviour={() => (
-        <div className={locals.dialogHeader}>
-          <CopyToClipboardButtonInternal getText={() => content} disabledErrorMessage={disabledErrorMessage} />
-          <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={close} />
-        </div>
+        <CopyToClipboardButtonInternal getText={() => content} disabledErrorMessage={disabledErrorMessage} />
       )}
     >
       <CodeComponent code={content} showLineNumbers lang={language} />

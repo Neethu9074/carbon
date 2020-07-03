@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
-import Dialog from 'in-components/Dialog';
 
 import locals from './ConfirmationDialog.mless';
 
@@ -21,18 +20,7 @@ export default function ConfirmationDialog({
   bButtonIcon
 }) {
   return (
-    <Dialog
-      customHeaderClassName={locals.customHeader}
-      contentWrapperClassName={locals.contentWrapper}
-      contentClassName={locals.content}
-      customHeader={
-        <Fragment>
-          <h1 className={locals.title}>{header}</h1>
-          <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" size="l" onClick={() => close()} />
-        </Fragment>
-      }
-      onClose={onClose}
-    >
+    <Dialog className={locals.content} title={header} onClose={onClose}>
       <p>{description}</p>
 
       {children}

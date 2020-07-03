@@ -4,15 +4,13 @@ import React from 'react';
 import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
-import Dialog from 'in-components/Dialog';
 
-import './CustomHostGroupingDialog.less';
-
-const block = 'in-custom-host-grouping-dialog';
+import locals from './CustomHostGroupingDialog.mless';
 
 export default class CustomHostGroupingDialog extends React.Component {
   state = {
@@ -29,7 +27,7 @@ export default class CustomHostGroupingDialog extends React.Component {
     const form = this.state.form;
 
     return (
-      <Dialog header="Custom grouping using tag prefix" onClose={close} contentClassName={block}>
+      <Dialog title="Custom grouping using tag prefix" onClose={close} className={locals.dialog}>
         <p>
           Group hosts by defining a prefix which is used to define the group. For example a host tagged as{' '}
           <code>group=demo</code> can be placed into the zone <code>demo</code> using the prefix <code>group=</code>.

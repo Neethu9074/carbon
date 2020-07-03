@@ -28,6 +28,7 @@ export default function TermsDialogPresenter({
           </span>
         ) : null
       }
+      doNotCloseOnOutsideClick
     >
       <form onSubmit={e => onSave(e, form)} className={locals.dialogContent}>
         {pageNumber === 1 && <TermsPage1 onNext={setPageNumber} onChange={onChange} form={form} />}

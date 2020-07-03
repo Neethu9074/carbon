@@ -1,10 +1,10 @@
 import React from 'react';
 
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
 import Option from 'in-custom-dashboards/CustomDashboard/SharingDialog/Option';
-import Actions from 'in-new-components/BigHeaderDialog/Actions';
 import { close } from 'in-components/DialogPresenter/store';
+import Actions from 'in-new-components/Dialog/Actions';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
 
 import locals from './SharingDialogPresenter.mless';
@@ -13,7 +13,7 @@ export default function SharingDialogPresenter(props) {
   const { isPrivate, setPrivate, onSubmit } = props;
 
   return (
-    <BigHeaderDialog title="Share" titleIconType="lib_actions_share" onClose={close} className={locals.dialog}>
+    <Dialog title="Share" titleIconType="lib_actions_share" onClose={close} className={locals.dialog}>
       <form onSubmit={onSubmit}>
         <Option
           label="Private Dashboard (default)"
@@ -36,6 +36,6 @@ export default function SharingDialogPresenter(props) {
           </Button>
         </Actions>
       </form>
-    </BigHeaderDialog>
+    </Dialog>
   );
 }

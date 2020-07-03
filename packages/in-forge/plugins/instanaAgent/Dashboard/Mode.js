@@ -3,11 +3,11 @@ import React from 'react';
 import { setMode } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
-import Dialog from 'in-components/Dialog';
 
 import locals from './Mode.mless';
 
@@ -29,7 +29,7 @@ export default class extends React.Component {
     const currentMode = this.props.snapshot.getIn(['data', 'mode']);
 
     return (
-      <Dialog header="Change Agent Mode" onClose={close} contentClassName={locals.dialog}>
+      <Dialog title="Change Agent Mode" onClose={close} className={locals.dialog}>
         <p>
           Change the monitoring detail level of this agent. Currently, this agent is running in the{' '}
           <strong>{modes[currentMode]}</strong> mode. Mode changes become active within a few seconds.

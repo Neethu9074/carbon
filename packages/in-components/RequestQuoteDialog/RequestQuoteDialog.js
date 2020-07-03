@@ -11,9 +11,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import requestQuote from 'in-subscription/requestQuote';
 import { emptyObject } from 'in-services/fixedObjects';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Section from 'in-settings/components/Section';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-components/Dialog';
 import connect from 'in-hoc/connectTo';
 
 import locals from './RequestQuoteDialog.mless';
@@ -33,7 +33,7 @@ class RequestQuoteDialog extends React.Component {
   render() {
     const { form } = this.props;
     return (
-      <Dialog>
+      <Dialog onClose={close}>
         {!form && (
           <div className={locals.loadingState}>
             <LoadingIndicator className={locals.loadingStateIcon} width={300} text="Loading necessary information…" />

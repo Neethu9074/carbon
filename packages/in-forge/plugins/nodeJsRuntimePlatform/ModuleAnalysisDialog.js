@@ -4,7 +4,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -19,18 +19,8 @@ export default connectTo(
     };
   },
   function CodeDialog({ response }) {
-    let header;
-
-    if (!response) {
-      header = 'Retrieving Node.js module analysis';
-    } else if (response.error) {
-      header = 'Failed to retrieve Node.js module analysis';
-    } else {
-      header = 'Node.js module analysis';
-    }
-
     return (
-      <Dialog header={header} onClose={close}>
+      <Dialog title="Node.js module analysis" onClose={close}>
         {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (

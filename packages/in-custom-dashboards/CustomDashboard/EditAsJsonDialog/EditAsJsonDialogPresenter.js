@@ -1,18 +1,17 @@
 import React from 'react';
 
-import BigHeaderDialog from 'in-new-components/BigHeaderDialog/BigHeaderDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Actions from 'in-new-components/BigHeaderDialog/Actions';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
+import Actions from 'in-new-components/Dialog/Actions';
+import SaveButton from 'in-components/form/SaveButton';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Code from 'in-components/form/Code';
 
-import SaveButton from 'in-components/form/SaveButton';
-
 export default function EditAsJsonDialogPresenter({ onSubmit, field, setField }) {
   return (
-    <BigHeaderDialog titleIconType="lib_views_grid" title="Edit Dashboard" onClose={close} doNotCloseOnOutsideClick>
+    <Dialog titleIconType="lib_views_grid" title="Edit Dashboard" onClose={close} doNotCloseOnOutsideClick>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -34,6 +33,6 @@ export default function EditAsJsonDialogPresenter({ onSubmit, field, setField })
           <SaveButton form={field}>Confirm</SaveButton>
         </Actions>
       </form>
-    </BigHeaderDialog>
+    </Dialog>
   );
 }

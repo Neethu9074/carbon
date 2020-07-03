@@ -7,8 +7,8 @@ import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { fromNowAccurately } from 'in-services/formatters/date';
 import { pendingResult } from 'in-services/fixedObjects';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
-import Dialog from 'in-new-components/Dialog';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
@@ -68,7 +68,7 @@ function ReleasesPresets({ onChange, timeConfig, result, closeOverlay }) {
         onClick={() => {
           closeOverlay();
           addActiveDialog(
-            <Dialog className={locals.dialog} title="Search for a release" onClose={() => close()}>
+            <Dialog className={locals.dialog} title="Search for a release" onClose={close}>
               <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={5} />
             </Dialog>
           );

@@ -1,10 +1,9 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import NotificationDialog from 'in-components/NotificationDialog';
-import connectTo from 'in-hoc/connectTo';
-
 import { clearMessage, message$ } from './MessageDialogStores';
+import Dialog from 'in-new-components/Dialog/Dialog';
+import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
@@ -24,9 +23,9 @@ export default connectTo(
       }
 
       return (
-        <NotificationDialog title={message.title} onClose={this.onClose}>
+        <Dialog title={message.title} onClose={this.onClose}>
           <p>{message.text}</p>
-        </NotificationDialog>
+        </Dialog>
       );
     }
 

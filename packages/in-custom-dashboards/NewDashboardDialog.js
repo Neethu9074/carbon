@@ -2,8 +2,8 @@ import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
 import React from 'react';
 
-import PromptPresenter from 'in-new-components/BigHeaderDialog/PromptPresenter';
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
 import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';

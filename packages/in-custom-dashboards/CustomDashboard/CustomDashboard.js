@@ -17,14 +17,14 @@ import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dash
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
-import ConfirmationDialog from 'in-new-components/BigHeaderDialog/ConfirmationDialog';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import Prompt from 'in-new-components/BigHeaderDialog/Prompt';
 import { generateUniqueShortId } from 'in-services/util/id';
+import Prompt from 'in-new-components/Dialog/Prompt';
 import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';

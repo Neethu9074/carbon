@@ -4,9 +4,8 @@ import { loadRawAgentConfiguration } from 'in-forge/plugins/instanaAgent/selfMon
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
-import FlexHeader from 'in-components/Dialog/components/FlexHeader';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -16,18 +15,15 @@ export default connectTo(
   ({ snapshot }) => ({ response: loadRawAgentConfiguration(snapshot) }),
   function AgentConfiguration({ response }) {
     const codeTargetId = 'agentConfiguration';
-
-    const header = response ? (
-      <FlexHeader>
-        Agent Configuration
-        <CopyToClipboardButton targetId={codeTargetId} />
-      </FlexHeader>
-    ) : (
-      'Retrieving agent configuration…'
-    );
+    const header = response && <CopyToClipboardButton targetId={codeTargetId} />;
 
     return (
-      <Dialog header={header} onClose={close} contentClassName={locals.dialog}>
+      <Dialog
+        className={locals.dialog}
+        title="Agent Configuration"
+        renderCustomCloseBehaviour={() => header}
+        onClose={close}
+      >
         {!response && <LoadingIndicator />}
 
         {response &&
