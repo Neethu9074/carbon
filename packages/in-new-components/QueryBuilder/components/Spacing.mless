@@ -12,7 +12,7 @@
     &:focus,
     &:active {
       .addIndicator {
-        display: block;
+        display: flex;
       }
     }
   }
@@ -75,39 +75,72 @@
     }
   }
 
-  .invalid {
-    background: @lib__colors__failure40;
-  }
-
-  .addIndicator {
-    --size: 0.875rem;
-    --arrow-height: 0.25rem;
-    --arrow-width: 0.25rem;
+  .addIndicator,
+  .addSuggestionIndicator,
+  .closeBracketSuggestionIndicator {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 
     position: absolute;
-    width: var(--size);
-    height: var(--size);
-    left: calc(50% - var(--size) / 2);
-    bottom: calc((var(--size) + var(--arrow-height)) * -1);
-    background: @lib__colors__N050;
-    border: 1px solid @lib__colors__light-blue800;
+    top: 1.8125rem;
+    height: 1.1875rem;
+
+    padding-bottom: 2px;
+
+    font-weight: 500;
+    color: @lib__colors__failure;
+    background: @lib__colors__failure10;
+    border: 1px solid @lib__colors__failure;
     border-radius: @lib__shapes__radius_medium;
-    display: none;
 
     &:hover {
-      background: @lib__colors__N200;
+      font-weight: bold;
       cursor: pointer;
     }
 
     &::after {
       content: '';
       position: absolute;
-      top: calc(var(--arrow-height) * -2);
-      left: calc(50% - var(--arrow-width));
-      border-width: var(--arrow-height) var(--arrow-width);
+      top: -0.25rem;
+      left: calc(50% - 0.1875rem);
+      border-width: 1px 0px 0px 1px;
       border-style: solid;
       pointer-events: none;
-      border-color: transparent transparent @lib__colors__light-blue800 transparent;
+      border-color: @lib__colors__failure;
+      background: @lib__colors__failure10;
+      transform: rotateZ(45deg);
+      width: 0.375rem;
+      height: 0.375rem;
     }
+  }
+
+  .addIndicator {
+    --width: 1rem;
+
+    display: none;
+    left: calc(50% - var(--width) / 2);
+    width: var(--width);
+
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__light-blue800;
+    &::after {
+      border-color: @lib__colors__light-blue800;
+      background: @lib__colors__N050;
+    }
+  }
+
+  .addSuggestionIndicator {
+    --width: 2.25rem;
+
+    left: calc(50% - var(--width) / 2);
+    width: var(--width);
+  }
+
+  .closeBracketSuggestionIndicator {
+    --width: 1.5rem;
+
+    left: calc(50% - var(--width) / 2);
+    width: var(--width);
   }
 }

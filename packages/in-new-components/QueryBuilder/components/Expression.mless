@@ -45,9 +45,4 @@
     background: #ffeaf5;
     border: 1px solid #ffa4d3;
   }
-
-  .invalid {
-    border: 1px solid @lib__colors__failure;
-    background: @lib__colors__failure40;
-  }
 }

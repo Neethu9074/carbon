@@ -22,8 +22,9 @@ import {
   CLOSE_BRACKET as FM_CLOSE_BRACKET
 } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { ADD_CLOSING_BRACKET, REMOVE_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
-import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/conjunction';
-import { MISSING_CLOSING_BRACKET } from '../validation/expression';
+import { MISSING_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/expression';
+import { REMOVE_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/conjunction';
+import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spacing';
 
 describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
   describe('#addSpacingsAndIncides', () => {
@@ -253,7 +254,7 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
     it('should add validation information to elements', () => {
       resetIndices();
       const given = [
-        rm_tag(),
+        rm_conjunction(),
         rm_letter(),
         rm_closeBracket(),
         rm_word(),
@@ -261,6 +262,8 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
           rm_openBracket(),
           rm_letter(),
           rm_expression([rm_openBracket(), rm_letter(), rm_tag(), rm_word(), rm_tag(), rm_letter(), rm_closeBracket()]),
+          rm_word(),
+          rm_conjunction(),
           rm_word(),
           rm_tag(),
           rm_word(),
@@ -270,9 +273,9 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
       ];
       resetIndices();
       const expected = [
-        rm_tag(),
+        addValidation(rm_conjunction(), REMOVE_CONJUNCTION),
         rm_letter(),
-        addValidation(rm_closeBracket(), false, [{ type: REMOVE_BRACKET }]),
+        addValidation(rm_closeBracket(), REMOVE_BRACKET),
         rm_word(),
         addValidation(
           rm_expression([
@@ -282,21 +285,30 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
               rm_openBracket(),
               rm_letter(),
               rm_tag(),
-              addValidation(rm_word(), false, [{ type: ADD_CONJUNCTION }]),
+              addValidation(rm_word(), ADD_CONJUNCTION),
               rm_tag(),
               rm_letter(),
               rm_closeBracket()
             ]),
             rm_word(),
+            rm_conjunction(),
+            rm_word(),
             rm_tag(),
             rm_word(),
             rm_conjunction(),
-            addValidation(rm_word(), false, [{ type: ADD_CLOSING_BRACKET }])
+            addValidation(rm_word(), ADD_CLOSING_BRACKET)
           ]),
-          false,
-          [{ type: MISSING_CLOSING_BRACKET }]
+          MISSING_CLOSING_BRACKET
         )
       ];
+      expect(validate(given)).to.deep.equal(expected);
+    });
+
+    it('should validate leading NOT conjunctions', () => {
+      resetIndices();
+      const given = [rm_conjunction('NOT')];
+      resetIndices();
+      const expected = [rm_conjunction('NOT')];
       expect(validate(given)).to.deep.equal(expected);
     });
   });
@@ -329,8 +341,8 @@ function fm_tag() {
   return { type: FM_TAG };
 }
 
-function fm_conjunction() {
-  return { type: FM_CONJUNCTION };
+function fm_conjunction(logicalOperator = 'AND') {
+  return { type: FM_CONJUNCTION, logicalOperator };
 }
 
 let formModelIndex = 0;
@@ -350,8 +362,8 @@ function rm_tag() {
   return { type: RM_TAG, formModelIndex: formModelIndex++ };
 }
 
-function rm_conjunction() {
-  return { type: RM_CONJUNCTION, formModelIndex: formModelIndex++ };
+function rm_conjunction(logicalOperator = 'AND') {
+  return { type: RM_CONJUNCTION, logicalOperator, formModelIndex: formModelIndex++ };
 }
 
 function rm_letter() {
@@ -377,10 +389,10 @@ function rm_expression(elements) {
   };
 }
 
-function addValidation(element, valid = true, suggestions = []) {
+function addValidation(element, suggestion) {
   return {
     ...element,
-    valid,
-    suggestions
+    valid: false,
+    suggestions: [{ type: suggestion }]
   };
 }

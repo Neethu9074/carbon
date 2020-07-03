@@ -80,16 +80,25 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
         onRemove={onRemove}
         createTagForm={resolvedCreateTagForm}
         onChange={onChangeFormModelElement}
+        onAdd={onAddFormModelElement}
         focus={focus}
       />
     </div>
   );
 
   function onChangeFormModelElement(formModelIndex, renderModelIndex, newFormModel) {
+    updateFormModel(formModelIndex, renderModelIndex, newFormModel, true);
+  }
+
+  function onAddFormModelElement(formModelIndex, renderModelIndex, newFormModel) {
+    updateFormModel(formModelIndex, renderModelIndex, newFormModel, false);
+  }
+
+  function updateFormModel(formModelIndex, renderModelIndex, newFormModel, removeTargetItem) {
     const copiedFormModel = formModel.slice();
-    copiedFormModel.splice(formModelIndex, 1, newFormModel);
+    copiedFormModel.splice(formModelIndex, removeTargetItem ? 1 : 0, newFormModel);
     focus(
-      renderModelIndex,
+      renderModelIndex + 1,
       // Forced re-render not necessary because the onChange call down below will also
       // caused a re-render.
       false
@@ -127,7 +136,7 @@ QueryBuilder.propTypes = {
   getTagCatalog: rpt.func.isRequired
 };
 
-function Elements({ elements, onRemove, createTagForm, onChange, focus, depth = 0 }) {
+function Elements({ elements, onRemove, createTagForm, onChange, onAdd, focus, depth = 0 }) {
   return (
     <>
       {elements.map((element, i) => {
@@ -140,15 +149,19 @@ function Elements({ elements, onRemove, createTagForm, onChange, focus, depth = 
             onRemove={onRemove}
             createTagForm={createTagForm}
             onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}
+            onAdd={newElement =>
+              onAdd(element.formModelIndex || element.rightFormModelIndex, element.renderModelIndex, newElement)
+            }
             focus={focus}
             depth={depth}
           >
             {element.elements && (
               <Elements
+                createTagForm={createTagForm}
                 elements={element.elements}
                 onRemove={onRemove}
-                createTagForm={createTagForm}
                 onChange={onChange}
+                onAdd={onAdd}
                 focus={focus}
                 depth={depth + 1}
               />

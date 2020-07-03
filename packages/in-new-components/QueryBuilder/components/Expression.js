@@ -7,14 +7,13 @@ import keyCodes from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
 
-export default function Expression({ onRemove, children, elements, valid, depth }) {
+export default function Expression({ onRemove, children, elements, depth }) {
   return (
     <div
       className={evaluateClassNames({
         [locals.expression]: true,
         [locals.completeExpression]: elements[elements.length - 1].type === CLOSE_BRACKET,
-        [locals[`expressioncolor_${depth % 2}`]]: true,
-        [locals.invalid]: valid === false
+        [locals[`expressioncolor_${depth % 2}`]]: true
       })}
       tabIndex={0}
       data-query-builder-element="true"

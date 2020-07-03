@@ -4,9 +4,10 @@ import {
   CONJUNCTION as CONJUNCTION_TYPE,
   TAG as TAG_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { ADD_CLOSING_BRACKET, REMOVE_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
-import { MISSING_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/expression';
-import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/conjunction';
+import validateConjunction from 'in-new-components/QueryBuilder/validation/conjunction';
+import validateExpression from 'in-new-components/QueryBuilder/validation/expression';
+import validateCloseBracked from 'in-new-components/QueryBuilder/validation/bracket';
+import validateSpacing from 'in-new-components/QueryBuilder/validation/spacing';
 
 export const CLOSE_BRACKET = CLOSE_BRACKET_TYPE;
 export const OPEN_BRACKET = OPEN_BRACKET_TYPE;
@@ -93,45 +94,26 @@ export function buildExpressionTrees(elements) {
 export function validate(elements) {
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i];
+    const config = { element, index: i, elements, addSuggestionToElement };
 
-    if (element.type === TAG) {
-      validateTag(element);
-    } else if (element.type === EXPRESSION) {
-      validateExpression(element);
-    } else if (element.type === SPACING) {
-      validateSpacing(element, i, elements);
-    } else if (element.type === CLOSE_BRACKET) {
-      validateClosingBracket(element, i, elements);
+    switch (element.type) {
+      case EXPRESSION:
+        validate(element.elements);
+        validateExpression(config);
+        break;
+      case CLOSE_BRACKET:
+        validateCloseBracked(config);
+        break;
+      case SPACING:
+        validateSpacing(config);
+        break;
+      case CONJUNCTION:
+        validateConjunction(config);
+        break;
     }
   }
+
   return elements;
-}
-
-function validateTag() {}
-
-function validateExpression(expressionElement) {
-  validate(expressionElement.elements);
-
-  const lastElement = expressionElement.elements[expressionElement.elements.length - 1];
-  if (lastElement && lastElement.type !== CLOSE_BRACKET) {
-    addSuggestionToElement(lastElement, ADD_CLOSING_BRACKET);
-    addSuggestionToElement(expressionElement, MISSING_CLOSING_BRACKET);
-  }
-}
-
-function validateSpacing(spacingElement, index, elements) {
-  const prevElement = elements[index - 1];
-  const nextElement = elements[index + 1];
-
-  if (prevElement && nextElement && prevElement.type === TAG && nextElement.type === TAG) {
-    addSuggestionToElement(spacingElement, ADD_CONJUNCTION);
-  }
-}
-
-function validateClosingBracket(closingBracketElement, index, elements) {
-  if (index < elements.length - 1) {
-    addSuggestionToElement(closingBracketElement, REMOVE_BRACKET);
-  }
 }
 
 function addSuggestionToElement(element, suggestion) {

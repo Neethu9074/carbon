@@ -241,6 +241,7 @@ function buildLib() {
   lib.colors.lightPrimary240 = addTransparency(lib.colors.lightBlue800, 0.4);
   lib.colors.success40 = addTransparency(lib.colors.success, 0.4);
   lib.colors.failure40 = addTransparency(lib.colors.failure, 0.4);
+  lib.colors.failure10 = addTransparency(lib.colors.failure, 0.1);
   lib.colors.warning40 = addTransparency(lib.colors.warning, 0.4);
   lib.colors.black72 = addTransparency(lib.colors.black, 0.72);
 

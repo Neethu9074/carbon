@@ -3,13 +3,16 @@
 :local {
   .conjunction {
     display: inline;
+
     padding: 0.3rem;
+
     background: @lib__colors__N050;
+    color: @lib__colors__success;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
-    cursor: pointer;
     line-height: @lib__typography__line-height;
+    cursor: pointer;
 
     &:focus,
     &:active,
@@ -18,5 +21,11 @@
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
     }
+  }
+
+  .invalid {
+    background: @lib__colors__failure10;
+    color: @lib__colors__failure;
+    border-color: @lib__colors__failure;
   }
 }

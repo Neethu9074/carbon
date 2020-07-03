@@ -1,21 +1,32 @@
 import React from 'react';
 
-import { LETTER, WORD } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import { LETTER, WORD, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
+import { ADD_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
+import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spacing';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { CLOSE_BRACKET } from '../transformation/formModel';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Spacing.mless';
 
-export default function Spacing({ renderModelIndex, size, valid, onRemove, leftFormModelIndex, rightFormModelIndex }) {
+export default function Spacing({
+  renderModelIndex,
+  size,
+  suggestions,
+  onRemove,
+  onAdd: onAddToFormModel,
+  leftFormModelIndex,
+  rightFormModelIndex
+}) {
   return (
     <div
       className={evaluateClassNames({
         [locals.letter]: size === LETTER.size,
-        [locals.word]: size === WORD.size,
-        [locals.invalid]: valid === false
+        [locals.word]: size === WORD.size
       })}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
@@ -23,9 +34,7 @@ export default function Spacing({ renderModelIndex, size, valid, onRemove, leftF
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
     >
-      <div className={locals.addIndicator} onClick={onOpenAddDialog}>
-        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
-      </div>
+      {renderSuggestion(suggestions, onOpenAddDialog, onAddToFormModel)}
       &nbsp;
     </div>
   );
@@ -57,4 +66,41 @@ function onKeyDown(e) {
     // interaction.
     stopPropagationAndPreventDefault(e);
   }
+}
+
+function renderSuggestion(suggestions, onOpenAddDialog, onAddToFormModel) {
+  if (!suggestions || suggestions.length === 0) {
+    return (
+      <div className={locals.addIndicator} onClick={onOpenAddDialog}>
+        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
+      </div>
+    );
+  }
+
+  const suggestion = suggestions[0];
+  if (suggestion.type === ADD_CONJUNCTION) {
+    return (
+      <div
+        className={locals.addSuggestionIndicator}
+        onClick={() =>
+          onAddToFormModel({
+            type: CONJUNCTION,
+            logicalOperator: and
+          })
+        }
+      >
+        AND
+      </div>
+    );
+  }
+
+  if (suggestion.type === ADD_CLOSING_BRACKET) {
+    return (
+      <div className={locals.closeBracketSuggestionIndicator} onClick={() => onAddToFormModel({ type: CLOSE_BRACKET })}>
+        {`)`}
+      </div>
+    );
+  }
+
+  return null;
 }
