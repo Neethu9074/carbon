@@ -126,9 +126,22 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: bytes.detailed,
-              metrics: ['memory.swapTotal', 'memory.swapFree', 'memory.buffers', 'memory.cached', 'memory.available'],
-              labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
-              type: 'stackedArea'
+              metrics: ['memory.buffers', 'memory.cached', 'memory.available'],
+              labels: ['Buffers', 'Cached', 'Available'],
+              type: 'line'
+            }}
+          />
+        )}
+        {isLinux(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.swapTotal', 'memory.swapFree'],
+              labels: ['Swap total', 'Swap free'],
+              type: 'line'
             }}
           />
         )}
