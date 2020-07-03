@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
 import { withState, compose } from 'recompose';
-import { create } from 'reactive-observables';
 import React from 'react';
 
 import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/ExternallyDefinedWidthAndHeight';
@@ -9,7 +8,6 @@ import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import useObservable from 'in-hooks/useObservable';
 import Chart from 'in-components/Chart/Chart';
 
 import locals from './Chart.mless';
@@ -38,10 +36,13 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   class ChartReactWrapper extends React.Component {
     static displayName = 'ChartReactWrapper';
 
+    state = {
+      hoverState: {}
+    };
+
     componentDidMount() {
       const chart = new Chart(this.canvas, this.props);
       this.props.setChart(chart);
-      this.onMarkerLaneItemHover$ = create().emit({});
     }
 
     UNSAFE_componentWillUpdate(nextProps) {
@@ -52,7 +53,6 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
       if (this.props.chart) {
         this.props.chart.dispose();
       }
-      this.onMarkerLaneItemHover$?.dispose?.();
     }
 
     render() {
@@ -64,13 +64,13 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
           {chart && renderLegend && <Legend chart={chart} />}
           {this.props.renderPreChartContent?.({
             timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
-            onHover: config => this.onMarkerLaneItemHover$.emit(config),
-            onMarkerLaneItemHover$: this.onMarkerLaneItemHover$,
+            onHover: hoverState => this.setState({ hoverState }),
+            hoverState: this.state.hoverState,
             granularity: this.props.chart?.config?.rollup,
             chartContentPosition: 'pre'
           })}
           <HighlightOverlayWrapper
-            onMarkerLaneItemHover$={this.onMarkerLaneItemHover$}
+            hoverState={this.state.hoverState}
             timeAxisHeight={chart?.config?.timeAxisHeight}
             markerPaneHeight={chart?.config?.markerPaneHeight}
           >
@@ -101,8 +101,8 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
           </HighlightOverlayWrapper>
           {this.props.renderPostChartContent?.({
             timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
-            onHover: config => this.onMarkerLaneItemHover$.emit(config),
-            onMarkerLaneItemHover$: this.onMarkerLaneItemHover$,
+            onHover: hoverState => this.setState({ hoverState }),
+            hoverState: this.state.hoverState,
             granularity: this.props.chart?.config?.rollup,
             chartContentPosition: 'post'
           })}
@@ -112,9 +112,8 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   }
 );
 
-function HighlightOverlayWrapper({ children, onMarkerLaneItemHover$, timeAxisHeight, markerPaneHeight }) {
-  const { overlayVisible, lineVisible, xPos, color, width, chartContentPosition } =
-    useObservable(onMarkerLaneItemHover$?.map(config => config), [children]) ?? {};
+function HighlightOverlayWrapper({ children, hoverState, timeAxisHeight, markerPaneHeight }) {
+  const { overlayVisible, lineVisible, xPos, color, width, chartContentPosition } = hoverState;
 
   return (
     <div className={locals.markerLanesWrapper}>

@@ -27,7 +27,7 @@ class MarkersLane extends React.Component {
   }
 
   render() {
-    return <MarkersLanePresenter {...{ ...this.props, renderScheduler: this.renderScheduler }} />;
+    return <MarkersLanePresenter {...this.props} renderScheduler={this.renderScheduler} />;
   }
 }
 
@@ -66,7 +66,8 @@ function MarkersLanePresenter({
               chartContentPosition={chartContentPosition}
               clusterWidth={clusterWidth}
               isClustered={isClustered}
-              {...{ ...eventData, ...remainingProps }}
+              {...eventData}
+              {...remainingProps}
             />
           </Tooltip>
         );
