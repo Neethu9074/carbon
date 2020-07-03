@@ -26,7 +26,11 @@ export default function Header({ service }) {
 
       {service.numberOfOpenIssues > 0 && (
         <div className={locals.healthRow}>
-          <HealthIndicatorButtonPresenter openIssues={service.numberOfOpenIssues} maxSeverity={service.maxSeverity} />
+          <HealthIndicatorButtonPresenter
+            openIssues={service.numberOfOpenIssues}
+            maxSeverity={service.maxSeverity}
+            onClick={() => {}}
+          />
         </div>
       )}
     </Fragment>
