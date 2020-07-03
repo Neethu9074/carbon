@@ -7,7 +7,6 @@ import React from 'react';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import MobileAppMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/MobileAppMonitoringData';
-import ErroneousTraceIndicator from 'in-analyze/TraceDetail/components/ErroneousTraceIndicator';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
@@ -169,7 +168,7 @@ class Summary extends React.Component {
           {rootCall && rootCall.errorCount ? (
             <Row withoutSideMargin>
               <Col lg={12}>
-                <ErroneousTraceIndicator errorCount={trace.totalErrorCount} />
+                <Message type={trace.totalErrorCount} title="Erroneous Trace" />
               </Col>
             </Row>
           ) : null}
