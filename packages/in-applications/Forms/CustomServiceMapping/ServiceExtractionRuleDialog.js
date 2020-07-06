@@ -97,7 +97,7 @@ class BasicDialog extends React.Component {
                             field => field.setValue(e.target.value).setTouched(true)
                           );
 
-                          if (getTagType(e.target.value) === 'KEY_VALUE_PAIR') {
+                          if (isKeyValuePairOrJvmArgs(e.target.value)) {
                             updatedForm = updatedForm.updateIn(
                               [serviceConfigIndex, 'matchSpecification', matchSpecificationIndex],
                               field =>
@@ -131,7 +131,7 @@ class BasicDialog extends React.Component {
                   {matchSpecification.get('secondLevelName') &&
                     matchSpecification.get('secondLevelName').map(field => {
                       const key = matchSpecification.get('key').value;
-                      if (getTagType(key) !== 'KEY_VALUE_PAIR') {
+                      if (!isKeyValuePairOrJvmArgs(key)) {
                         return null;
                       }
                       return (
@@ -258,4 +258,8 @@ function getCustomServiceMappingTagValuesAsOptions() {
         {tag.label}
       </option>
     ));
+}
+
+function isKeyValuePairOrJvmArgs(key) {
+  return getTagType(key) === 'KEY_VALUE_PAIR' || key === 'jvm.args';
 }

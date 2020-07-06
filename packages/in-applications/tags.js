@@ -92,8 +92,7 @@ const blacklists = {
       'call.meta_tags': !isInstanaEngineer,
       'log.span_type': !isInstanaEngineer,
       'related.infra.entity.snapshotId': !isInstanaEngineer,
-      'related.infra.entity.pluginId': !isInstanaEngineer,
-      'jvm.args': true
+      'related.infra.entity.pluginId': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
