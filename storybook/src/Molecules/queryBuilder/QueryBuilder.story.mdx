@@ -54,6 +54,10 @@ function MyQueryBuilder({value, onChange}) {
   const valid = useObservable(isQueryValid(value), [value]);
   console.log('Provided query is valid?', valid);
 
+  // FormModel is a Result<FormModel>
+  const formModel = useObservable(toFormModel(tagFiltersArray), [tagFiltersArray]);
+  console.log('Tag filters array converted to query builder form model:', formModel);
+
   return (
     <QueryBuilder
       /*
@@ -109,7 +113,7 @@ models in order to do its job:
 
 ```js
 {
-  type: 'TAG',
+  type: 'TAG_FILTER',
   name: 'service.name',
   operator: 'EQUALS',
   stringValue: 'shop',
@@ -125,21 +129,21 @@ models in order to do its job:
   logicalOperator: 'OR',
   elements: [
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'service.name',
       operator: 'EQUALS',
       stringValue: 'shop',
       entity: 'DESTINATION'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'service.name',
       operator: 'EQUALS',
       stringValue: 'shipping',
       entity: 'DESTINATION'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'service.name',
       operator: 'EQUALS',
       stringValue: 'product',
@@ -156,7 +160,7 @@ models in order to do its job:
 ```js
 [
   {
-    type: 'TAG',
+    type: 'TAG_FILTER',
     name: 'service.name',
     operator: 'EQUALS',
     stringValue: 'shop',
@@ -173,7 +177,7 @@ models in order to do its job:
     type: 'OPEN_BRACKET'
   },
   {
-    type: 'TAG',
+    type: 'TAG_FILTER',
     name: 'service.name',
     operator: 'EQUALS',
     stringValue: 'shop',
@@ -184,7 +188,7 @@ models in order to do its job:
     logicalOperator: 'OR'
   },
   {
-    type: 'TAG',
+    type: 'TAG_FILTER',
     name: 'service.name',
     operator: 'EQUALS',
     stringValue: 'shipping',
@@ -195,7 +199,7 @@ models in order to do its job:
     logicalOperator: 'OR'
   },
   {
-    type: 'TAG',
+    type: 'TAG_FILTER',
     name: 'service.name',
     operator: 'EQUALS',
     stringValue: 'product',
@@ -214,7 +218,7 @@ models in order to do its job:
 ```js
 [
   {
-    type: 'TAG',
+    type: 'TAG_FILTER',
     name: 'service.name',
     operator: 'EQUALS',
     stringValue: 'shop',
@@ -277,7 +281,7 @@ models in order to do its job:
         ]
       },
       {
-        type: 'TAG',
+        type: 'TAG_FILTER',
         name: 'service.name',
         operator: 'EQUALS',
         stringValue: 'shop',
@@ -307,7 +311,7 @@ models in order to do its job:
         renderModelIndex: 5
       },
       {
-        type: 'TAG'
+        type: 'TAG_FILTER'
         name: 'service.name',
         operator: 'EQUALS',
         stringValue: 'shipping',
@@ -337,7 +341,7 @@ models in order to do its job:
         renderModelIndex: 9
       },
       {
-        type: 'TAG'
+        type: 'TAG_FILTER'
         name: 'service.name',
         operator: 'EQUALS',
         stringValue: 'product',

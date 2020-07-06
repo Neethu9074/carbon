@@ -1,9 +1,10 @@
 import React from 'react';
 
 import OperatorSelectorOverlay from 'in-new-components/QueryBuilder/OperatorSelectorOverlay/OperatorSelectorOverlay';
-import { createTagFilter } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { number } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Tag.mless';
@@ -19,6 +20,7 @@ export default function Tag(props) {
       data-query-builder-element="true"
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
     >
+      <TagName {...props} />
       <Key {...props} />
       <Operator operator={props.operator} onChange={onChange} />
       <Value {...props} />
@@ -28,7 +30,7 @@ export default function Tag(props) {
 
   function onChange(newOperator) {
     onChangeInFormModel({
-      ...createTagFilter(props),
+      ...toTagFilter(props),
       operator: newOperator
     });
   }
@@ -45,8 +47,12 @@ function RemoveIcon({ renderModelIndex, formModelIndex, onRemove }) {
   );
 }
 
-function Key({ name }) {
+function TagName({ name }) {
   return name;
+}
+
+function Key({ element }) {
+  return element.key ?? null;
 }
 
 function Operator({ operator, renderModelIndex, onChange }) {
@@ -72,6 +78,12 @@ function Operator({ operator, renderModelIndex, onChange }) {
   );
 }
 
-function Value({ stringValue, numberValue, booleanValue }) {
-  return <>{stringValue ?? numberValue ?? booleanValue}</>;
+function Value({ value }) {
+  if (typeof value == 'number') {
+    return <>{number.detailed(value)}</>;
+  } else if (typeof value == 'boolean') {
+    return <>{String(value)}</>;
+  }
+
+  return value ?? null;
 }

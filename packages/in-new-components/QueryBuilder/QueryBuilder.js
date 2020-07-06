@@ -146,6 +146,9 @@ function Elements({ elements, onRemove, createTagForm, onChange, onAdd, focus, d
           <Component
             key={i}
             {...element}
+            // Also forward element props as "element" in order to avoid problems caused by
+            // React's reserved words, e.g. key or ref
+            element={element}
             onRemove={onRemove}
             createTagForm={createTagForm}
             onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}

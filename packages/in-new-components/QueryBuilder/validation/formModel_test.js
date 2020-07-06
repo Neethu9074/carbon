@@ -14,7 +14,6 @@ import {
   OPERATOR_NOT
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
-import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 
 const openBracket = {
   type: OPEN_BRACKET_TYPE
@@ -65,7 +64,7 @@ describe('in-new-components/QueryBuilder/validation/formModel#isFormModelValid',
   let tagCatalog;
 
   beforeEach(() => {
-    tagCatalog = enrichTagCatalog({
+    tagCatalog = {
       tags: [
         {
           name: 'service.name',
@@ -87,7 +86,7 @@ describe('in-new-components/QueryBuilder/validation/formModel#isFormModelValid',
           category: 'APPLICATION'
         }
       ]
-    });
+    };
   });
 
   it('must classify an empty form model as valid', () => {

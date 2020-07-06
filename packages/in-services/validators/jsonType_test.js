@@ -7,6 +7,7 @@ import {
   booleanValidator,
   stringValidator,
   numberValidator,
+  jsonPrimitiveValidator,
   getErrorMessage
 } from 'in-services/validators/jsonType';
 
@@ -74,6 +75,20 @@ describe('in-services/validators/jsonType', () => {
     it('boolean as error', () => expectError(numberValidator(false), getErrorMessage('Number', 'Boolean')));
     it('Array as error', () => expectError(numberValidator([]), getErrorMessage('Number', 'Array')));
     it('Object as error', () => expectError(numberValidator({}), getErrorMessage('Number', 'Object')));
+  });
+
+  describe('jsonPrimitiveValidator must identify', () => {
+    const allowedTypes = 'String|Boolean|Number';
+    it('undefined as okay (because value is missing)', () => expectNoErrors(jsonPrimitiveValidator(undefined)));
+    it('null as error', () => expectError(jsonPrimitiveValidator(null), getErrorMessage(allowedTypes, 'null')));
+    it('string as okay', () => expectNoErrors(jsonPrimitiveValidator('foo')));
+    it('string as okay', () => expectNoErrors(jsonPrimitiveValidator('')));
+    it('number as okay', () => expectNoErrors(jsonPrimitiveValidator(1.24)));
+    it('number (NaN) as error', () => expectError(jsonPrimitiveValidator(NaN), 'The provided number is invalid.'));
+    it('boolean as okay', () => expectNoErrors(jsonPrimitiveValidator(true)));
+    it('boolean as okay', () => expectNoErrors(jsonPrimitiveValidator(false)));
+    it('Array as error', () => expectError(jsonPrimitiveValidator([]), getErrorMessage(allowedTypes, 'Array')));
+    it('Object as error', () => expectError(jsonPrimitiveValidator({}), getErrorMessage(allowedTypes, 'Object')));
   });
 });
 

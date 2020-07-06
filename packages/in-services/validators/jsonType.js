@@ -1,23 +1,23 @@
+import { notANumberValidator } from 'in-services/validators/number';
+
 // These validators can be used for features such as "Edit as JSON"
 // to validate that specific types be used.
 
-export const objectValidator = createPrototypeCheck(Object.prototype);
-export const arrayValidator = createPrototypeCheck(Array.prototype);
-export const booleanValidator = createPrototypeCheck(Boolean.prototype);
-export const stringValidator = createPrototypeCheck(String.prototype);
-export const numberValidator = createPrototypeCheck(Number.prototype, num => {
-  if (isNaN(num)) {
-    return [
-      {
-        severity: 'error',
-        message: `The provided number is invalid.`
-      }
-    ];
-  }
-});
+export const objectValidator = createPrototypeCheck([Object.prototype]);
+export const arrayValidator = createPrototypeCheck([Array.prototype]);
+export const booleanValidator = createPrototypeCheck([Boolean.prototype]);
+export const stringValidator = createPrototypeCheck([String.prototype]);
+export const numberValidator = createPrototypeCheck([Number.prototype], notANumberValidator);
+export const jsonPrimitiveValidator = createPrototypeCheck(
+  [String.prototype, Boolean.prototype, Number.prototype],
+  notANumberValidator
+);
 
-function createPrototypeCheck(expectedPrototype, validateTypeDetails) {
-  const expectedPrototypeLabel = expectedPrototype.constructor?.name;
+function createPrototypeCheck(expectedPrototypes, validateTypeDetails) {
+  const expectedPrototypesLabel = expectedPrototypes
+    .map(p => p.constructor?.name)
+    .filter(Boolean)
+    .join('|');
 
   return v => {
     // Do not check for required – deliberate triple eq check!
@@ -30,25 +30,28 @@ function createPrototypeCheck(expectedPrototype, validateTypeDetails) {
       return [
         {
           severity: 'error',
-          message: getErrorMessage(expectedPrototypeLabel, 'null')
+          message: getErrorMessage(expectedPrototypesLabel, 'null')
         }
       ];
     }
 
     const actualPrototype = Object.getPrototypeOf(v);
-    if (actualPrototype !== expectedPrototype) {
-      const actualPrototypeLabel = actualPrototype.constructor?.name;
-      return [
-        {
-          severity: 'error',
-          message: getErrorMessage(expectedPrototypeLabel, actualPrototypeLabel)
+    for (const expectedPrototype of expectedPrototypes) {
+      if (actualPrototype === expectedPrototype) {
+        if (validateTypeDetails) {
+          return validateTypeDetails(v);
         }
-      ];
+        return;
+      }
     }
 
-    if (validateTypeDetails) {
-      return validateTypeDetails(v);
-    }
+    const actualPrototypeLabel = actualPrototype.constructor?.name;
+    return [
+      {
+        severity: 'error',
+        message: getErrorMessage(expectedPrototypesLabel, actualPrototypeLabel)
+      }
+    ];
   };
 }
 

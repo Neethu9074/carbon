@@ -53,3 +53,14 @@ export function positiveNumberValidator(v) {
     return positiveNumberFailureMessage;
   }
 }
+
+export function notANumberValidator(v) {
+  if (typeof v === 'number' && isNaN(v)) {
+    return [
+      {
+        severity: 'error',
+        message: `The provided number is invalid.`
+      }
+    ];
+  }
+}

@@ -37,8 +37,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
         type: FM_TAG,
         name: 'service.name',
         operator: 'EQUALS',
-        stringValue: 'shop',
-        entity: 'DESTINATION'
+        value: 'shop',
+        entity: 'DESTINATION',
+        key: undefined
       };
       expect(
         toBackendQueryModel([{ ...tagFilter, otherPropertyWhichIsOnlyPartOfTheFormModel: 'foobar' }])
@@ -54,8 +55,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'service.name',
           operator: 'EQUALS',
-          stringValue: 'shop',
-          entity: 'DESTINATION'
+          value: 'shop',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CONJUNCTION,
@@ -65,8 +67,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'service.name',
           operator: 'EQUALS',
-          stringValue: 'shipping',
-          entity: 'DESTINATION'
+          value: 'shipping',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CONJUNCTION,
@@ -76,7 +79,7 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'service.name',
           operator: 'EQUALS',
-          stringValue: 'product',
+          value: 'product',
           entity: 'SOURCE'
         },
         {
@@ -91,21 +94,23 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
-            stringValue: 'shop',
-            entity: 'DESTINATION'
+            value: 'shop',
+            entity: 'DESTINATION',
+            key: undefined
           },
           {
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
-            stringValue: 'shipping',
-            entity: 'DESTINATION'
+            value: 'shipping',
+            entity: 'DESTINATION',
+            key: undefined
           },
           {
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
-            stringValue: 'product',
+            value: 'product',
             entity: 'SOURCE'
           }
         ]
@@ -121,8 +126,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'key',
           operator: 'EQUALS',
-          stringValue: 'A',
-          entity: 'DESTINATION'
+          value: 'A',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CONJUNCTION,
@@ -135,8 +141,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'key',
           operator: 'EQUALS',
-          stringValue: 'B',
-          entity: 'DESTINATION'
+          value: 'B',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CONJUNCTION,
@@ -146,8 +153,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           type: FM_TAG,
           name: 'key',
           operator: 'EQUALS',
-          stringValue: 'C',
-          entity: 'DESTINATION'
+          value: 'C',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CLOSE_BRACKET
@@ -164,8 +172,9 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
             type: FM_TAG,
             name: 'key',
             operator: 'EQUALS',
-            stringValue: 'A',
-            entity: 'DESTINATION'
+            value: 'A',
+            entity: 'DESTINATION',
+            key: undefined
           },
           {
             type: EXPRESSION,
@@ -175,15 +184,17 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
                 type: FM_TAG,
                 name: 'key',
                 operator: 'EQUALS',
-                stringValue: 'B',
-                entity: 'DESTINATION'
+                value: 'B',
+                entity: 'DESTINATION',
+                key: undefined
               },
               {
                 type: FM_TAG,
                 name: 'key',
                 operator: 'EQUALS',
-                stringValue: 'C',
-                entity: 'DESTINATION'
+                value: 'C',
+                entity: 'DESTINATION',
+                key: undefined
               }
             ]
           }

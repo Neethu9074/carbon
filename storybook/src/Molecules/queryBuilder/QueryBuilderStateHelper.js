@@ -6,11 +6,34 @@ import Button from 'in-new-components/Button';
 export function QueryBuilderStateHelper({ children: Component }) {
   const [value, setState] = useState([
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'endpoint.name',
       operator: 'EQUALS',
-      stringValue: 'GET /api/maintenanceConfig/:id',
+      value: 'GET /api/maintenanceConfig/:id',
       entity: 'SOURCE'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'TAG_FILTER',
+      name: 'call.latency',
+      operator: 'GREATER_THAN',
+      value: 1000,
+      entity: 'DESTINATION'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'TAG_FILTER',
+      name: 'call.http.header',
+      operator: 'CONTAINS',
+      key: 'user-agent',
+      value: 'chrome',
+      entity: 'DESTINATION'
     },
     {
       type: 'CONJUNCTION',
@@ -20,10 +43,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
       type: 'OPEN_BRACKET'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'service.name',
       operator: 'EQUALS',
-      stringValue: 'shop',
+      value: 'shop',
       entity: 'DESTINATION'
     },
     {
@@ -31,10 +54,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
       logicalOperator: 'OR'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'service.name',
       operator: 'EQUALS',
-      stringValue: 'shipping',
+      value: 'shipping',
       entity: 'DESTINATION'
     },
     {
@@ -45,10 +68,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
       type: 'OPEN_BRACKET'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'endpoint.name',
       operator: 'EQUALS',
-      stringValue: 'product',
+      value: 'product',
       entity: 'SOURCE'
     },
     {
@@ -56,10 +79,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
       logicalOperator: 'AND'
     },
     {
-      type: 'TAG',
+      type: 'TAG_FILTER',
       name: 'endpoint.name',
       operator: 'EQUALS',
-      stringValue: 'user',
+      value: 'user',
       entity: 'SOURCE'
     },
     {
@@ -80,10 +103,10 @@ export function QueryBuilderStateHelper({ children: Component }) {
             setState(
               value.concat([
                 {
-                  type: 'TAG',
+                  type: 'TAG_FILTER',
                   name: 'service.name',
                   operator: 'EQUALS',
-                  stringValue: 'shop',
+                  value: 'shop',
                   entity: 'DESTINATION'
                 }
               ])

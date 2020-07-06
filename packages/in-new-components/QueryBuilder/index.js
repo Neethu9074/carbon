@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import isFormModelValid from 'in-new-components/QueryBuilder/validation/formModel';
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
@@ -25,12 +26,22 @@ export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog }) {
       return <QueryBuilder {...props} getTagCatalog={getTagCatalog} />;
     },
 
+    // Observable<Result<Boolean>>
     isQueryValid: formModel =>
       getTagCatalog().map(result => {
         if (!result.data) {
           return result;
         }
         return success(isFormModelValid({ tagCatalog: result.data, formModel }));
+      }),
+
+    // Observable<Result<FormModel>>
+    toFormModel: tagFilterArray =>
+      getTagCatalog().map(result => {
+        if (!result.data) {
+          return result;
+        }
+        return success(fromTagFiltersArray(tagFilterArray, result.data));
       })
   };
 }
