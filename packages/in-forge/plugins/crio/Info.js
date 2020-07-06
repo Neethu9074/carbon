@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export default function CrioInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -12,9 +12,7 @@ export default function CrioInfo({ snapshot }) {
       <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
       <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
       <DescriptionItem title="IP">{data.get('ip')}</DescriptionItem>
-      <DescriptionItem title="Created">
-        {formatDateTime(data.get('created'))} ({fromNow(data.get('created'))})
-      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('created')} />
     </DescriptionList>
   );
 }

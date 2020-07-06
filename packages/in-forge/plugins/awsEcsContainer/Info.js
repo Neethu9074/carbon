@@ -1,13 +1,11 @@
 import React from 'react';
 
+import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import { getRuntimeByKey } from 'in-forge/plugins/awsEcsContainer/runtimes';
-import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
-  const data = snapshot.get('data'),
-    createdAt = data.get('createdAt'),
-    startedAt = data.get('startedAt');
+  const data = snapshot.get('data');
 
   return (
     <DescriptionList>
@@ -26,12 +24,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Known Status">{data.get('knownStatus')}</DescriptionItem>
       <DescriptionItem title="CPU Limit">{data.get('limits.cpu')}</DescriptionItem>
       <DescriptionItem title="Memory Limit">{data.get('limits.memory')}</DescriptionItem>
-      <DescriptionItem title="Created At">
-        {formatDateTime(createdAt)} ({fromNow(createdAt)})
-      </DescriptionItem>
-      <DescriptionItem title="Started At">
-        {formatDateTime(startedAt)} ({fromNow(startedAt)})
-      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem title="Created At" dateTime={data.get('createdAt')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Started At" dateTime={data.get('startedAt')} />
       <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
       <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
     </DescriptionList>

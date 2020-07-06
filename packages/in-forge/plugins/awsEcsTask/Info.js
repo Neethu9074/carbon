@@ -1,12 +1,10 @@
 import React from 'react';
 
+import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
-import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
-  const data = snapshot.get('data'),
-    pullStartedAt = data.get('pullStartedAt'),
-    pullStoppedAt = data.get('pullStoppedAt');
+  const data = snapshot.get('data');
 
   return (
     <DescriptionList>
@@ -19,12 +17,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Availability Zone">{data.get('availabilityZone')}</DescriptionItem>
       <DescriptionItem title="Desired Status">{data.get('desiredStatus')}</DescriptionItem>
       <DescriptionItem title="Known Status">{data.get('knownStatus')}</DescriptionItem>
-      <DescriptionItem title="Pull Started">
-        {formatDateTime(pullStartedAt)} ({fromNow(pullStartedAt)})
-      </DescriptionItem>
-      <DescriptionItem title="Pull Stopped">
-        {formatDateTime(pullStoppedAt)} ({fromNow(pullStoppedAt)})
-      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem title="Pull Started" dateTime={data.get('pullStartedAt')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Pull Stopped" dateTime={data.get('pullStoppedAt')} />
       <DescriptionItem title="CPU Limit">{data.get('limits.cpu')}</DescriptionItem>
       <DescriptionItem title="Memory Limit">{data.get('limits.memory')}</DescriptionItem>
     </DescriptionList>

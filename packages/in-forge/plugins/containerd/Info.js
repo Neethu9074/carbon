@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export default function ContainerdInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -10,12 +10,8 @@ export default function ContainerdInfo({ snapshot }) {
       <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
       <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
       <DescriptionItem title="Containerd namespace">{data.get('namespace')}</DescriptionItem>
-      <DescriptionItem title="Created">
-        {formatDateTime(data.get('createdAt'))} ({fromNow(data.get('createdAt'))})
-      </DescriptionItem>
-      <DescriptionItem title="Updated">
-        {formatDateTime(data.get('updatedAt'))} ({fromNow(data.get('updatedAt'))})
-      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('createdAt')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Updated" dateTime={data.get('updatedAt')} />
     </DescriptionList>
   );
 }
