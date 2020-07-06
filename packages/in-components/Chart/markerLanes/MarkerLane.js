@@ -48,20 +48,20 @@ function MarkersLanePresenter({
     <div className={locals.lane}>
       {events.map(eventData => {
         const clusterWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
-        const containsMoreThenOneItem = eventData.numberOfEventsInCluster > 1;
+        const containsMoreThenOneItem = eventData?.count > 1;
         const xPos = isClustered
-          ? xScale?.getRange(eventData.start) + clusterWidth / 2
-          : xScale?.getRange(eventData.start);
+          ? xScale?.getRange(eventData.startTime) + clusterWidth / 2
+          : xScale?.getRange(eventData.startTime);
 
         return (
           <Tooltip
             align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-            key={eventData.id ?? eventData.start}
+            key={eventData.id ?? eventData.startTime}
             content={tooltipContent(eventData)}
           >
             <LaneItem
               xPos={xPos}
-              time={eventData.start}
+              time={eventData.startTime}
               containsMoreThenOneItem={containsMoreThenOneItem}
               chartContentPosition={chartContentPosition}
               clusterWidth={clusterWidth}
@@ -147,7 +147,8 @@ MarkersLane.propTypes = {
   }).isRequired,
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      start: PropTypes.number.isRequired
+      startTime: PropTypes.number.isRequired,
+      count: PropTypes.number
     })
   ).isRequired,
   onClick: PropTypes.func,

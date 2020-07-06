@@ -41,7 +41,7 @@ export default connectTo(
     };
 
     const postChartContent = props => (
-      <MarkerLanesPresenter {...props}>
+      <MarkerLanesPresenter {...props} isClustered>
         <ReleaseMarkerLane />
       </MarkerLanesPresenter>
     );

@@ -3,5 +3,18 @@
 :local {
   .tooltipContent {
     line-height: 1.25rem;
+    > div:not(:last-child) {
+      padding-bottom: 0.5rem;
+      border-bottom: solid 1px @lib__colors__N500;
+    }
+    > div:not(:first-child) {
+      padding-top: 0.5rem;
+    }
+    width: max-content;
+    font-weight: 300;
+  }
+
+  .name {
+    font-weight: normal;
   }
 }

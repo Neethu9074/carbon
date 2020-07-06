@@ -1,24 +1,29 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ReleaseMarkerLanePresenter from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLanePresenter';
+import getReleaseClusters from 'in-events/subscriptions/getReleaseClusters';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
-import getReleases from 'in-events/subscriptions/getReleases';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 
 export default function ReleaseMarkerLane(props) {
+  if (!props.clusterSizeMillis || !props.timeConfig) return null;
   const releases =
     useObservable(
-      getReleases({
+      getReleaseClusters({
         timeConfig: props.timeConfig,
-        pagination: {
-          page: 1,
-          pageSize: 100
-        }
+        granularity: props.clusterSizeMillis
       })
         .startWith(pendingResult)
-        .map(({ data }) => data?.items ?? []),
+        .map(({ data = [] }) => data),
       [props.timeConfig]
     ) ?? emptyArray;
 
   return <ReleaseMarkerLanePresenter {...props} releases={releases} />;
 }
+
+ReleaseMarkerLane.propTypes = {
+  clusterSizeMillis: PropTypes.number,
+  timeConfig: propTypeTimeConfig
+};

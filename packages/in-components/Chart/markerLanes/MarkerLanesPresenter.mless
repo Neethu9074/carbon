@@ -35,5 +35,6 @@
     background: currentColor;
     width: 1px;
     opacity: 0.5;
+    pointer-events: none;
   }
 }

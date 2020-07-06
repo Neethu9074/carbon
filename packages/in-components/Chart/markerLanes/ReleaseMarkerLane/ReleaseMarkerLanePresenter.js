@@ -8,6 +8,8 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 
 import locals from './ReleaseMarkerLanePresenter.mless';
 
+const maxNumReleasesToShow = 3;
+
 export default function ReleaseMarkerLanePresenter(props) {
   return (
     <MarkerLane
@@ -16,13 +18,18 @@ export default function ReleaseMarkerLanePresenter(props) {
       label="Releases"
       iconConfig={{
         type: 'lib_release_rocket',
-        typeCluster: '',
+        typeCluster: 'lib_release_rocket',
         color: theme.lib.colors.N700Medium
       }}
-      tooltipContent={({ start, name }) => (
+      tooltipContent={({ clusteredReleases, count }) => (
         <div className={locals.tooltipContent}>
-          <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
-          <div>Release: {name}</div>
+          {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
+            <div key={start}>
+              <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
+              <div className={locals.name}>{`${name}`}</div>
+            </div>
+          ))}
+          {count > maxNumReleasesToShow && <div>{`+${count - maxNumReleasesToShow} more releases`}</div>}
         </div>
       )}
     />

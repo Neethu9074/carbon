@@ -17,9 +17,9 @@ export default function SmartAlertMarkerLanePresenter({ alerts, ...remainingProp
         typeCluster: 'lib_alerts_multiple_alerts',
         color: theme.lib.colors.red800
       }}
-      tooltipContent={({ numberOfEventsInCluster }) => (
+      tooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
-          <div>Alerts: {numberOfEventsInCluster}</div>
+          <div>Alerts: {count}</div>
         </div>
       )}
     />
