@@ -2,9 +2,12 @@ import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import { getRuntimeByKey } from 'in-forge/plugins/awsEcsContainer/runtimes';
+import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
-  const data = snapshot.get('data');
+  const data = snapshot.get('data'),
+    createdAt = data.get('createdAt'),
+    startedAt = data.get('startedAt');
 
   return (
     <DescriptionList>
@@ -23,8 +26,12 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Known Status">{data.get('knownStatus')}</DescriptionItem>
       <DescriptionItem title="CPU Limit">{data.get('limits.cpu')}</DescriptionItem>
       <DescriptionItem title="Memory Limit">{data.get('limits.memory')}</DescriptionItem>
-      <DescriptionItem title="Created At">{data.get('createdAt')}</DescriptionItem>
-      <DescriptionItem title="Started At">{data.get('startedAt')}</DescriptionItem>
+      <DescriptionItem title="Created At">
+        {formatDateTime(createdAt)} ({fromNow(createdAt)})
+      </DescriptionItem>
+      <DescriptionItem title="Started At">
+        {formatDateTime(startedAt)} ({fromNow(startedAt)})
+      </DescriptionItem>
       <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
       <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
     </DescriptionList>
