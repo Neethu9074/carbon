@@ -7,43 +7,14 @@ import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { timeConfig$ } from 'in-stores/time/config';
-import connectTo from 'in-hoc/connectTo';
+import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 
-export default connectTo(({ config }) => ({
-  timeConfig: timeConfig$,
-  result: timeConfig$.map(extendWindowSizeOnLiveMode).flatMap(timeConfig => {
-    const granularity = getChartGranularity(timeConfig);
+export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
+  const timeConfig = useTimeConfig();
+  let result = useResultData(config, timeConfig) ?? pendingResult;
 
-    const metrics = {};
-
-    config.y1.metrics.forEach(
-      (metricConfiguration, i) =>
-        (metrics[getMetricId('y1', i)] = {
-          ...metricConfiguration,
-          resultType: config.type,
-          granularity,
-          timeConfig,
-          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        })
-    );
-
-    config.y2.metrics.forEach(
-      (metricConfiguration, i) =>
-        (metrics[getMetricId('y2', i)] = {
-          ...metricConfiguration,
-          resultType: config.type,
-          granularity,
-          timeConfig,
-          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        })
-    );
-
-    return getUnifiedMetrics({ metrics });
-  })
-}))(ChartWidget);
-
-function ChartWidget({ result, actions, config, title, timeConfig, isPreview, dragHandle, customHeight }) {
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
     result = {
@@ -76,6 +47,37 @@ function ChartWidget({ result, actions, config, title, timeConfig, isPreview, dr
       customHeight={customHeight}
     />
   );
+}
+
+function useResultData(config, timeConfig) {
+  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
+  const granularity = getChartGranularity(timeConfigExtendedForLiveMode);
+
+  const metrics = {};
+
+  config.y1.metrics.forEach(
+    (metricConfiguration, i) =>
+      (metrics[getMetricId('y1', i)] = {
+        ...metricConfiguration,
+        resultType: config.type,
+        granularity,
+        timeConfig: timeConfigExtendedForLiveMode,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
+      })
+  );
+
+  config.y2.metrics.forEach(
+    (metricConfiguration, i) =>
+      (metrics[getMetricId('y2', i)] = {
+        ...metricConfiguration,
+        resultType: config.type,
+        granularity,
+        timeConfig: timeConfigExtendedForLiveMode,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
+      })
+  );
+
+  return useObservable(getUnifiedMetrics({ metrics }), [timeConfig, config]);
 }
 
 function toAxisConfiguration(name, axis) {
