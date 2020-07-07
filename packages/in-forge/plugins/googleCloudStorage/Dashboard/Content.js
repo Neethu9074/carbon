@@ -1,13 +1,13 @@
 import React from 'react';
 
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { KpiKeyValue, KpiSection } from '../../../../in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
 
-export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
+export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
