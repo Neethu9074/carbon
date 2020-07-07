@@ -5,7 +5,7 @@ import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane
 
 export default function K8DashboardsMarkerLanes(props) {
   return (
-    <MarkerLanesPresenter {...props}>
+    <MarkerLanesPresenter {...props} isClustered>
       <ReleaseMarkerLane />
     </MarkerLanesPresenter>
   );

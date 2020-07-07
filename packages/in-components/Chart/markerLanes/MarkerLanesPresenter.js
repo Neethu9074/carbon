@@ -12,8 +12,6 @@ export default function MarkerLanesPresenter({ children, granularity, hoverState
   const [labelVisible, setLabelVisible] = useState(false);
   const markerLanesWrapperRef = useRef(null);
 
-  if (!children || !granularity || !hoverState || !remainingProps.timeConfig) return null;
-
   const minPixelsPerBlock = sizes.xs + 16;
   const clusterSizeMillis = isClustered
     ? getBlockSizeMillis({
