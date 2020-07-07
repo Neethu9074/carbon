@@ -14,17 +14,31 @@ export default function Bucket({
   height,
   percentileHeight,
   percentilesShown,
+  percentilesAndValues,
   formatter
 }) {
-  const percentiles = bucket.percentiles?.filter(p => percentilesShown.includes(p));
+  const bucketPercentiles =
+    (percentilesAndValues &&
+      Object.keys(percentilesAndValues)
+        .map(p => parseInt(p))
+        .filter(p => percentilesShown.includes(p))
+        .filter(p => isInBucket(percentilesAndValues, bucket, p))) ||
+    [];
   return (
-    <Tooltip themeStyle="unset" content={TooltipContent(bucket, formatter)}>
+    <Tooltip themeStyle="unset" content={TooltipContent(bucket, bucketPercentiles, percentilesAndValues, formatter)}>
       <Link className={locals.barOuter} style={{ width: bucketWidth, height: `${height}px` }}>
         <Bar calls={bucket.calls} maxDataValue={maxDataValue} height={height - percentileHeight} />
-        {percentiles && percentiles.length > 0 && <PercentileMarker percentiles={percentiles} />}
+        {bucketPercentiles.length > 0 && <PercentileMarker percentiles={bucketPercentiles} />}
         <StrikeLine height={height - percentileHeight} />
       </Link>
     </Tooltip>
+  );
+}
+
+function isInBucket(percentiles, bucket, p) {
+  return (
+    (percentiles[p] >= bucket.from || (percentiles[p] === 0 && bucket.from === undefined)) &&
+    (bucket.to === undefined || percentiles[p] < bucket.to)
   );
 }
 
@@ -57,7 +71,7 @@ function PercentileMarker({ percentiles }) {
   );
 }
 
-const TooltipContent = (bucket, formatter) => {
+const TooltipContent = (bucket, bucketPercentiles, percentilesAndValues, formatter) => {
   const from = formatter.detailed(bucket.from);
   const to = formatter.detailed(bucket.to);
   let text;
@@ -77,6 +91,12 @@ const TooltipContent = (bucket, formatter) => {
           <span>Calls (sum)</span>
           <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
         </div>
+        {bucketPercentiles.map((p, idx) => (
+          <div key={idx} className={locals.labelWrapper}>
+            <span>p{p}</span>
+            <span className={locals.value}>{formatter.detailed(percentilesAndValues[p])}</span>
+          </div>
+        ))}
       </div>
     </>
   );
