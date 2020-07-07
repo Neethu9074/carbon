@@ -14,10 +14,10 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Requests">
-          <MetricValue snapshotId={snapshotId} metric="api.request_count" formatter={number} />
+          <MetricValue snapshotId={snapshotId} metric="api.request_count" formatter={number.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Objects Count">
-          <MetricValue snapshotId={snapshotId} metric="storage.object_count" formatter={number} />
+          <MetricValue snapshotId={snapshotId} metric="storage.object_count" formatter={number.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Objects Size">
           <MetricValue snapshotId={snapshotId} metric="storage.total_bytes" formatter={bytesZeroDecimalPlaces} />
@@ -32,6 +32,21 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['api.request_count'],
               labels: ['Total Count'],
+              type: 'line',
+              formatter: number.detailed
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Object Requests">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['api.request_count2.ReadObject', 'api.request_count2.WriteObject'],
+              labels: ['Read', 'Write'],
               type: 'line',
               formatter: number.detailed
             }}

@@ -2,7 +2,12 @@ import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: ['api.request_count', 'storage.object_count'],
+    metrics: [
+      'api.request_count',
+      'storage.object_count',
+      'api.request_count2.ReadObject',
+      'api.request_count2.WriteObject'
+    ],
     labels: ['Request count', 'Objects count'],
     min: 0,
     formatter: number
