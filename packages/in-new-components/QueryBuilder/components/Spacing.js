@@ -8,6 +8,7 @@ import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spaci
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { CLOSE_BRACKET } from '../transformation/formModel';
+import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -19,12 +20,23 @@ export default function Spacing({
   suggestions,
   onRemove,
   onAdd: onAddToFormModel,
+  draggedFormModelIndex$,
+  dragAndDropProps,
   leftFormModelIndex,
   rightFormModelIndex
 }) {
+  const isHighlightedThroughDrag = useObservable(
+    draggedFormModelIndex$
+      .distinct()
+      .map(draggedFormModelIndex => rightFormModelIndex === draggedFormModelIndex)
+      .distinct(),
+    [draggedFormModelIndex$]
+  );
+
   return (
     <div
       className={evaluateClassNames({
+        [locals.visible]: isHighlightedThroughDrag,
         [locals.letter]: size === LETTER.size,
         [locals.word]: size === WORD.size
       })}
@@ -33,6 +45,7 @@ export default function Spacing({
       data-query-builder-element="true"
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
+      {...dragAndDropProps}
     >
       {renderSuggestion(suggestions, onOpenAddDialog, onAddToFormModel)}
       &nbsp;

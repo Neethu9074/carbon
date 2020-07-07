@@ -6,7 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Conjunction.mless';
 
 export default function Conjunction(props) {
-  const { logicalOperator, valid } = props;
+  const { logicalOperator, valid, dragAndDropProps } = props;
 
   return (
     <ConjunctionOrBracketBehavior
@@ -15,15 +15,17 @@ export default function Conjunction(props) {
       aria-label="Chosen conjunction. Click to change the conjunction, to select a bracket or to remove the conjunction."
     >
       {({ refSetter, elementProps }) => (
-        <div
-          className={evaluateClassNames({
-            [locals.conjunction]: true,
-            [locals.invalid]: valid === false
-          })}
-          ref={refSetter}
-          {...elementProps}
-        >
-          {logicalOperator}
+        <div className={locals.draggableWrapper} {...dragAndDropProps}>
+          <div
+            className={evaluateClassNames({
+              [locals.conjunction]: true,
+              [locals.invalid]: valid === false
+            })}
+            ref={refSetter}
+            {...elementProps}
+          >
+            {logicalOperator}
+          </div>
         </div>
       )}
     </ConjunctionOrBracketBehavior>

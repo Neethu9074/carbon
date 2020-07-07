@@ -11,7 +11,8 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Bracket.mless';
 
 export default function Bracket(props) {
-  const { type, valid } = props;
+  const { type, valid, dragAndDropProps } = props;
+
   return (
     <ConjunctionOrBracketBehavior
       {...props}
@@ -19,15 +20,17 @@ export default function Bracket(props) {
       aria-label="Chosen bracket. Click to change the bracket, to select a conjunction or to remove the bracket."
     >
       {({ refSetter, elementProps }) => (
-        <div
-          ref={refSetter}
-          {...elementProps}
-          className={evaluateClassNames({
-            [locals.bracket]: true,
-            [locals.invalid]: valid === false
-          })}
-        >
-          {type === OPEN_BRACKET ? '(' : ')'}
+        <div className={locals.draggableWrapper} {...dragAndDropProps}>
+          <div
+            ref={refSetter}
+            {...elementProps}
+            className={evaluateClassNames({
+              [locals.bracket]: true,
+              [locals.invalid]: valid === false
+            })}
+          >
+            {type === OPEN_BRACKET ? '(' : ')'}
+          </div>
         </div>
       )}
     </ConjunctionOrBracketBehavior>

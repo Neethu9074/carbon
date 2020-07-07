@@ -1,6 +1,19 @@
 @import '~in-themes/active.less';
 
 :local {
+  .visible {
+    outline: 0;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(50% - 1px);
+      border-right: 2px solid @lib__colors__light-blue800;
+    }
+  }
+
   .letter,
   .word {
     display: inline-block;

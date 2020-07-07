@@ -22,11 +22,6 @@
     }
   }
 
-  .operatorWrapper {
-    display: inline;
-    background: red;
-  }
-
   .operator {
     margin: 0 0.25rem;
     padding: 0.0625rem 0.3125rem;

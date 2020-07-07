@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect, useState } from 'react';
-import invariant from 'invariant';
+import { create } from 'reactive-observables';
 import rpt from 'prop-types';
 
 import {
@@ -12,6 +12,7 @@ import {
   EXPRESSION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
+import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
 import Conjunction from 'in-new-components/QueryBuilder/components/Conjunction';
 import Expression from 'in-new-components/QueryBuilder/components/Expression';
@@ -43,6 +44,7 @@ export default function QueryBuilderErrorBoundry(props) {
 function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   const tagCatalog = useObservable(getTagCatalog(), [getTagCatalog]);
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
+  const [draggedFormModelIndex$] = useState(create());
 
   // TODO loading state?
 
@@ -76,8 +78,10 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
       onKeyDown={e => onKeyDown(e, refContainer.current)}
     >
       <Elements
+        draggedFormModelIndex$={draggedFormModelIndex$}
         elements={toRenderModel(formModel)}
         onRemove={onRemove}
+        switchFormModelIndices={switchFormModelIndices}
         createTagForm={resolvedCreateTagForm}
         onChange={onChangeFormModelElement}
         onAdd={onAddFormModelElement}
@@ -85,6 +89,17 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
       />
     </div>
   );
+
+  function switchFormModelIndices(indexA, indexB) {
+    if (indexA === indexB) {
+      return;
+    }
+
+    const copiedFormModel = formModel.slice();
+    const [tmp] = copiedFormModel.splice(indexA, 1);
+    copiedFormModel.splice(indexB, 0, tmp);
+    onChange(copiedFormModel);
+  }
 
   function onChangeFormModelElement(formModelIndex, renderModelIndex, newFormModel) {
     updateFormModel(formModelIndex, renderModelIndex, newFormModel, true);
@@ -130,52 +145,71 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   }
 }
 
-QueryBuilder.propTypes = {
-  onChange: rpt.func.isRequired,
-  value: rpt.array.isRequired,
-  getTagCatalog: rpt.func.isRequired
-};
-
-function Elements({ elements, onRemove, createTagForm, onChange, onAdd, focus, depth = 0 }) {
+function Elements({
+  elements,
+  switchFormModelIndices,
+  draggedFormModelIndex$,
+  onRemove,
+  createTagForm,
+  onChange,
+  onAdd,
+  focus,
+  depth = 0
+}) {
   return (
     <>
       {elements.map((element, i) => {
         const Component = componentMapping[element.type];
-        checkIfTypeIsHasSupportedComponent(Component, element.type);
         return (
-          <Component
+          <DragAndDropBehaviour
             key={i}
-            {...element}
-            // Also forward element props as "element" in order to avoid problems caused by
-            // React's reserved words, e.g. key or ref
-            element={element}
-            onRemove={onRemove}
-            createTagForm={createTagForm}
-            onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}
-            onAdd={newElement =>
-              onAdd(element.formModelIndex || element.rightFormModelIndex, element.renderModelIndex, newElement)
-            }
-            focus={focus}
-            depth={depth}
+            formModelIndex={element.formModelIndex}
+            fixDropIndex={element.rightFormModelIndex}
+            dragEnabled={element.type !== SPACING}
+            switchFormModelIndices={switchFormModelIndices}
+            setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}
           >
-            {element.elements && (
-              <Elements
-                createTagForm={createTagForm}
-                elements={element.elements}
+            {({ dragAndDropProps }) => (
+              <Component
+                {...element}
+                // Also forward element props as "element" in order to avoid problems caused by
+                // React's reserved words, e.g. key or ref
+                element={element}
                 onRemove={onRemove}
-                onChange={onChange}
-                onAdd={onAdd}
+                createTagForm={createTagForm}
+                onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}
+                onAdd={newElement =>
+                  onAdd(element.formModelIndex || element.rightFormModelIndex, element.renderModelIndex, newElement)
+                }
                 focus={focus}
-                depth={depth + 1}
-              />
+                depth={depth}
+                dragAndDropProps={dragAndDropProps}
+                draggedFormModelIndex$={draggedFormModelIndex$}
+              >
+                {element.elements && (
+                  <Elements
+                    draggedFormModelIndex$={draggedFormModelIndex$}
+                    switchFormModelIndices={switchFormModelIndices}
+                    createTagForm={createTagForm}
+                    elements={element.elements}
+                    onRemove={onRemove}
+                    onChange={onChange}
+                    onAdd={onAdd}
+                    focus={focus}
+                    depth={depth + 1}
+                  />
+                )}
+              </Component>
             )}
-          </Component>
+          </DragAndDropBehaviour>
         );
       })}
     </>
   );
 }
 
-function checkIfTypeIsHasSupportedComponent(Component, type) {
-  invariant(Component, `Unsupported element type '${type}' found in render model.`);
-}
+QueryBuilder.propTypes = {
+  onChange: rpt.func.isRequired,
+  value: rpt.array.isRequired,
+  getTagCatalog: rpt.func.isRequired
+};

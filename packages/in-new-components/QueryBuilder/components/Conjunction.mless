@@ -1,6 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .draggableWrapper {
+    display: inline;
+  }
+
   .conjunction {
     display: inline;
 

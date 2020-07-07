@@ -10,7 +10,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './Tag.mless';
 
 export default function Tag(props) {
-  const { renderModelIndex, formModelIndex, onRemove, onChange: onChangeInFormModel } = props;
+  const { renderModelIndex, formModelIndex, onChange: onChangeInFormModel, onRemove, dragAndDropProps } = props;
 
   return (
     <div
@@ -19,6 +19,7 @@ export default function Tag(props) {
       data-render-model-index={renderModelIndex}
       data-query-builder-element="true"
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
+      {...dragAndDropProps}
     >
       <TagName {...props} />
       <Key {...props} />
