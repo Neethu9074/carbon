@@ -12,7 +12,7 @@ export default function CrioInfo({ snapshot }) {
       <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
       <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
       <DescriptionItem title="IP">{data.get('ip')}</DescriptionItem>
-      <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('created')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Created At" dateTime={data.get('created')} />
     </DescriptionList>
   );
 }

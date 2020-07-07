@@ -10,8 +10,8 @@ export default function ContainerdInfo({ snapshot }) {
       <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
       <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
       <DescriptionItem title="Containerd namespace">{data.get('namespace')}</DescriptionItem>
-      <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('createdAt')} />
-      <DateTimeWithPeriodSinceDescriptionItem title="Updated" dateTime={data.get('updatedAt')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Created At" dateTime={data.get('createdAt')} />
+      <DateTimeWithPeriodSinceDescriptionItem title="Updated At" dateTime={data.get('updatedAt')} />
     </DescriptionList>
   );
 }
