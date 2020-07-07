@@ -6,6 +6,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesHostsByCluster from 'in-subscription/kubernetes/getKubernetesHostsByCluster';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -48,6 +49,7 @@ const columnDefinitions = [
           formatter={percentageZeroDecimalPlaces}
           tooltipFormatter={percentageTwoDecimalPlaces}
           metric="cpu.used"
+          renderPostChartContent={K8DashboardsMarkerLanes}
         />
       );
     }
@@ -64,6 +66,7 @@ const columnDefinitions = [
           formatter={percentageZeroDecimalPlaces}
           tooltipFormatter={percentageTwoDecimalPlaces}
           metric="memory.used"
+          renderPostChartContent={K8DashboardsMarkerLanes}
         />
       );
     }

@@ -1,9 +1,9 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes } from 'in-services/formatters/number';
-
 import AZAppTable from './AZAppTable';
 
 export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
@@ -21,6 +21,7 @@ export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -35,6 +36,7 @@ export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -49,6 +51,7 @@ export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <AZAppTable snapshot={snapshot} timeConfig={timeConfig} />

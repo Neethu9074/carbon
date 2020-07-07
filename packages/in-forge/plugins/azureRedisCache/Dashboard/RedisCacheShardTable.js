@@ -1,12 +1,13 @@
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   percentagePlainTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -184,6 +185,7 @@ function getRowDetails(row) {
           labels: ['Cache Read', 'Cache Write'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -194,6 +196,7 @@ function getRowDetails(row) {
           labels: ['Cache Hits', 'Cache Misses'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -205,6 +208,7 @@ function getRowDetails(row) {
           labels: ['Gets', 'Sets'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -216,6 +220,7 @@ function getRowDetails(row) {
           labels: ['Keys Expired', 'Keys Evicted'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

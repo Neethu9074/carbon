@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import {
   zeroDecimalPlaces,
@@ -8,12 +9,12 @@ import {
 } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
@@ -90,6 +91,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 type: 'line',
                 colors: [requests, limits, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -105,6 +107,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 type: 'line',
                 colors: [requests, limits, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -126,6 +129,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 type: 'line',
                 colors: [allocated, pending, unscheduled, unready]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -143,6 +147,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 labels: ['Available', 'Desired'],
                 type: 'line'
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -157,6 +162,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 labels: ['Pending phase duration'],
                 type: 'line'
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

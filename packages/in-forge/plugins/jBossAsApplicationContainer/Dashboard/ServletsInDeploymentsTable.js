@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -92,6 +93,7 @@ function getRowDetails(row) {
           aggregation: 'sum',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -102,6 +104,7 @@ function getRowDetails(row) {
           labels: ['Average Response Time'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

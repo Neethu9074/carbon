@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { bytes, number, timeByMillisFourDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -46,6 +47,7 @@ function renderTimeMetrics(snapshot, timeConfig) {
         labels: ['In User Mode', 'In System Mode'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -62,6 +64,7 @@ function renderMemoryMetrics(snapshot, timeConfig) {
         labels: ['Shared Memory', 'Unshared Memory', 'Maximum Resident Set Size', 'Unshared Stack Size'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -85,6 +88,7 @@ function renderGcMetrics(snapshot, timeConfig) {
         labels: ['Collect 1', 'Threshold 1', 'Collect 2', 'Threshold 2'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -101,6 +105,7 @@ function renderPagingMetrics(snapshot, timeConfig) {
         labels: ['Page Faults Not Requiring I/O', 'Page Faults Requiring I/O', 'Swap Outs'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -117,6 +122,7 @@ function renderThreadsMetrics(snapshot, timeConfig) {
         labels: ['Alive Threads', 'Dummy Threads', 'Daemon Threads'],
         type: 'stackedArea'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -133,6 +139,7 @@ function renderIoMetrics(snapshot, timeConfig) {
         labels: ['Block Input Operations', 'Block Output Operations'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -149,6 +156,7 @@ function renderEventsMetrics(snapshot, timeConfig) {
         labels: ['Messages Sent', 'Messages Received', 'Signals Received'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -165,6 +173,7 @@ function renderContextMetrics(snapshot, timeConfig) {
         labels: ['Voluntary', 'Involuntary'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

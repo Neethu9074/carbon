@@ -1,6 +1,7 @@
 import { Range } from 'immutable';
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -156,6 +157,7 @@ function getRowDetails(row) {
         labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
         type: 'stackedArea'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

@@ -6,6 +6,7 @@ import ExecutorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboar
 import WebAppsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/WebAppsTable';
 import { twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
@@ -30,6 +31,7 @@ export default function TomcatDashboard({ snapshot, timeConfig }) {
             labels: ['Total session count'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

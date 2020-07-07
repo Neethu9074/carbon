@@ -1,7 +1,9 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
@@ -27,7 +29,6 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './XhrRequest.mless';
 
@@ -133,6 +134,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -159,6 +161,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -225,6 +228,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
         </Row>
@@ -316,6 +320,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         }
                       }
                     }}
+                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
                   />
                 )}
               </AggregationSelector>
@@ -380,6 +385,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
 
@@ -425,6 +431,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
         </Row>
@@ -452,6 +459,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             </Col>
 
@@ -493,6 +501,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         }
                       }
                     }}
+                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
                   />
                 )}
               </AggregationSelector>
@@ -521,6 +530,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     fallbackMetricValue: 0
                   }
                 ]}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             </Col>
 

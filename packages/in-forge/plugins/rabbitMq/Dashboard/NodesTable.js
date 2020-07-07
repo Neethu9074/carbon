@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -152,6 +153,7 @@ function getRowDetails(row) {
               labels: ['File descriptors used', 'Total file descriptors'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -163,6 +165,7 @@ function getRowDetails(row) {
               labels: ['Memory used', 'Memory limit'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </div>
         <div>
@@ -174,6 +177,7 @@ function getRowDetails(row) {
               labels: ['Erlang processes used', 'Max Erlang processes'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
 
           <Chart
@@ -186,6 +190,7 @@ function getRowDetails(row) {
               labels: ['Disk free space', 'Disk alarm threshold'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </div>
       </Columize>
@@ -198,6 +203,7 @@ function getRowDetails(row) {
           labels: ['Sockets used', 'Total sockets'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

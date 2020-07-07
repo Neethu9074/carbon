@@ -2,6 +2,7 @@ import React from 'react';
 
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number, siPrefix } from 'in-services/formatters/number';
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
@@ -28,6 +29,7 @@ export default connectTo(
               formatter: percentageZeroDecimalPlaces,
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -42,6 +44,7 @@ export default connectTo(
               labels: ['Virtual', 'Resident', 'Share'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -67,6 +70,7 @@ export default connectTo(
                   formatter: percentageZeroDecimalPlaces,
                   type: 'line'
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
           )}
@@ -83,6 +87,7 @@ export default connectTo(
                 formatter: number.compact,
                 type: 'line'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         ) : null}

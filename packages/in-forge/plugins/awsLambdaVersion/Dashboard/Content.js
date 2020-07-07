@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -39,6 +40,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Durations">
@@ -59,6 +61,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Errors">
@@ -72,6 +75,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Throttles">
@@ -85,6 +89,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Dead Letter Errors">
@@ -98,6 +103,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Iterator Age">
@@ -118,6 +124,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Concurrent Executions">
@@ -138,6 +145,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Unreserved Concurrent Executions">
@@ -151,6 +159,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, seconds } from 'in-services/formatters/number';
@@ -21,6 +22,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Cache">
@@ -34,6 +36,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Replication">
@@ -54,6 +57,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: seconds.fixedCompact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -68,6 +72,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Commands">
@@ -81,6 +86,7 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

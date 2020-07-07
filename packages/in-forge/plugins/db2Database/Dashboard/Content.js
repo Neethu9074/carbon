@@ -3,6 +3,7 @@ import React from 'react';
 import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -61,6 +62,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -75,6 +77,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Commits/Rollbacks">
@@ -88,6 +91,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -109,6 +113,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Queries">
@@ -122,6 +127,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -142,6 +148,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Buffer Pool Index Pages">
@@ -161,6 +168,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Buffer Pool XDA">
@@ -180,6 +188,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Buffer Pool Time">
@@ -193,6 +202,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -207,6 +217,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Log IO">
@@ -220,6 +231,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -241,6 +253,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

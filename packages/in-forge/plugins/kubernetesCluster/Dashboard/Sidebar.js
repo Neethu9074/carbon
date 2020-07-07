@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -32,6 +33,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
               aggregation: 'mean'
             }
           ]}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <SparkChartsSection
           snapshot={snapshot}
@@ -43,6 +45,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
               aggregation: 'mean'
             }
           ]}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
 

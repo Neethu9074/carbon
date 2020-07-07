@@ -1,10 +1,10 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
-
-import { emptyList } from 'in-services/fixedImmutables';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -171,6 +171,7 @@ function getRowDetails(row) {
           labels: ['DB open records', 'Add entry', 'Modify entry', 'Delete entry', 'Rename entry', 'Changed entry'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

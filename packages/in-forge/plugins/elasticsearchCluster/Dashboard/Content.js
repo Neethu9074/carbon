@@ -12,9 +12,10 @@ import {
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.js';
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) {
   return (
@@ -41,6 +42,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             labels: ['Number Of Queries'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -64,6 +66,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             labels: ['Added', 'Removed'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -80,6 +83,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               labels: ['Indices'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Shards">
@@ -100,6 +104,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               labels: ['Active', 'Active Primary', 'Initializing', 'Relocating', 'Unassigned'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -117,6 +122,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               labels: ['Cluster Store Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cluster State Size">
@@ -131,6 +137,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               labels: ['Cluster State Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

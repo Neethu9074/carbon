@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
@@ -41,6 +42,7 @@ export default function LiferayDashboard({ snapshot, timeConfig }) {
             ],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Requests">
@@ -52,6 +54,7 @@ export default function LiferayDashboard({ snapshot, timeConfig }) {
             labels: ['Request Count', 'Success Count', 'Error Count'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

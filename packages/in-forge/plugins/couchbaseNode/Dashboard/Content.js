@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { bytes, number } from 'in-services/formatters/number';
-import DashboardNotification from 'in-components/DashboardNotification';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Columize from 'in-sdk/components/dashboard/Columize';
-
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function CouchbaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -33,6 +33,7 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
               formatter: bytes.compact,
               tooltipFormatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -45,6 +46,7 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
               formatter: bytes.compact,
               tooltipFormatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -67,6 +69,7 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: number.perSecond.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

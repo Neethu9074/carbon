@@ -6,6 +6,7 @@ import {
   resourceQuotaTwoDecimalPlaces
 } from '../formatters/resourceQuota';
 import createNamespacesForClusterSubscription from 'in-subscription/namespacesForCluster';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -162,6 +163,7 @@ function getNamespaceRowDetails(row) {
               type: 'line',
               min: 0
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -176,6 +178,7 @@ function getNamespaceRowDetails(row) {
               type: 'line',
               min: 0
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

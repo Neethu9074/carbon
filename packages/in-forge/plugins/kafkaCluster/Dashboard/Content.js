@@ -7,7 +7,6 @@ import {
   msTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
 import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable';
 import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/PartitionsPerNodeTable';
 import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
@@ -15,6 +14,7 @@ import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTab
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
 import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js';
 import NodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
@@ -52,6 +52,7 @@ export default connectTo(
               labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="All Brokers Traffic">
@@ -65,6 +66,7 @@ export default connectTo(
               labels: ['In', 'Out', 'Rejected'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="All Brokers Messages In">
@@ -78,6 +80,7 @@ export default connectTo(
               labels: ['Count'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="All Brokers Failures">
@@ -91,6 +94,7 @@ export default connectTo(
               labels: ['Fetch', 'Produce'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="All Brokers state metrics">
@@ -120,6 +124,7 @@ export default connectTo(
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Average Idle Time Percentage">
@@ -133,6 +138,7 @@ export default connectTo(
               labels: ['Network Processor', 'Request Handler'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Log Flushing">
@@ -153,6 +159,7 @@ export default connectTo(
               labels: ['Flushes'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 

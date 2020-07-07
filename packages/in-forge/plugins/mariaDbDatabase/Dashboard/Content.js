@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -35,6 +36,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Slow Queries">
@@ -46,6 +48,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
             labels: ['Slow Queries'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Key Access">
@@ -62,6 +65,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
             labels: ['Reads', 'Writes'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Aria Engine Properties">
@@ -73,6 +77,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
             labels: ['Pagecache Reads', 'Pagecache Writes'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

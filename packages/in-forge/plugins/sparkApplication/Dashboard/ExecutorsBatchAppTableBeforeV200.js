@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -184,6 +185,7 @@ function getRowDetails(row) {
           labels: ['All Completed Tasks', 'All Failed Tasks'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -194,6 +196,7 @@ function getRowDetails(row) {
           labels: ['RDD Blocks'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -205,6 +208,7 @@ function getRowDetails(row) {
           labels: ['Storage Memory', 'Max Memory'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -216,6 +220,7 @@ function getRowDetails(row) {
           labels: ['Disk Used'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -227,6 +232,7 @@ function getRowDetails(row) {
           labels: ['Total Input Bytes'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -238,6 +244,7 @@ function getRowDetails(row) {
           labels: ['Total Shuffle Read', 'Total Shuffle Write'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

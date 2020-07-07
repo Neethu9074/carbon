@@ -2,14 +2,13 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
-import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
@@ -32,12 +31,6 @@ export default connectTo(
       applicationBoundaryScope: boundaryScope,
       includeSyntheticCalls
     };
-
-    const postChartContent = props => (
-      <MarkerLanesPresenter {...props} isClustered>
-        <ReleaseMarkerLane />
-      </MarkerLanesPresenter>
-    );
 
     return (
       <Fragment>
@@ -105,7 +98,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={postChartContent}
+                renderPostChartContent={ApplicationDashboardsMarkerLanes}
               />
             ) : (
               <CallsErrors
@@ -117,7 +110,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={postChartContent}
+                renderPostChartContent={ApplicationDashboardsMarkerLanes}
               />
             )}
           </Col>
@@ -131,7 +124,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -145,7 +138,7 @@ export default connectTo(
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
               callType={type}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
         </Row>
@@ -158,7 +151,7 @@ export default connectTo(
                   serviceId={serviceId}
                   endpointId={endpointId}
                   timeConfig={timeConfig}
-                  renderPostChartContent={postChartContent}
+                  renderPostChartContent={ApplicationDashboardsMarkerLanes}
                 />
               </Col>
               <Col lg={6}>
@@ -175,7 +168,7 @@ export default connectTo(
                     applicationId={applicationId}
                     endpointId={endpointId}
                     timeConfig={timeConfig}
-                    renderPostChartContent={postChartContent}
+                    renderPostChartContent={ApplicationDashboardsMarkerLanes}
                   />
                 )}
               </Col>

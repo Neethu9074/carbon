@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-
 import NodeSummary from '../NodeSummary.js';
 
 function isAtLeastMinorVersion(version, minorVersion) {
@@ -39,6 +39,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               labels: ['Operation Count'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -56,6 +57,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               labels: ['MigrationQueue Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -72,6 +74,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               labels: ['EventQueue Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -111,6 +114,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -142,6 +146,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -158,6 +163,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
             labels: ['Connected Clients'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

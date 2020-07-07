@@ -7,8 +7,8 @@ import {
   bytesTwoDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -37,6 +37,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Statistics">
@@ -50,6 +51,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Publish">
@@ -70,6 +72,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: msZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Snapshot">
@@ -90,6 +93,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: msZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Region Server - Split">
@@ -103,6 +107,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -124,6 +129,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Region Server - Flush">
@@ -144,6 +150,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -166,6 +173,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytesTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Region Server - Block cache">
@@ -186,6 +194,7 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

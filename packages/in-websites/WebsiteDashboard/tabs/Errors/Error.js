@@ -2,6 +2,7 @@ import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
@@ -195,6 +196,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -223,6 +225,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -249,6 +252,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
         </Row>

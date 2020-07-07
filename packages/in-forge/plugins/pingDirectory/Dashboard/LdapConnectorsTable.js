@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-
-import { emptyList } from 'in-services/fixedImmutables';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -85,6 +85,7 @@ function getRowDetails(row) {
             labels: ['Connections'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connection Statistics">
@@ -113,6 +114,7 @@ function getRowDetails(row) {
             ],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

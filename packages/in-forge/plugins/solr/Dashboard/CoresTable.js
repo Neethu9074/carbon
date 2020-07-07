@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
-
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyList } from 'in-services/fixedImmutables';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -137,6 +137,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Request Time">
@@ -150,6 +151,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: millis.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -166,6 +168,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cache Hit Rate">
@@ -179,6 +182,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: hitRateZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -195,6 +199,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Evictions">
@@ -208,6 +213,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -224,6 +230,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Timeouts">
@@ -237,6 +244,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -252,6 +260,7 @@ function getRowDetails(row) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

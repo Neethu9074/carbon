@@ -13,6 +13,7 @@ import {
 import PubSubChannelsTable from 'in-forge/plugins/redis/Dashboard/PubSubChannelsTable';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -93,6 +94,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
               formatter: latencyFormatter.bind(latencyThreshold),
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -107,6 +109,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             formatter: number.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -128,6 +131,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -142,6 +146,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             formatter: number.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -155,6 +160,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
               labels: dbKeysLabels(dbNames),
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -178,6 +184,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             labels: ['Fragmentation ratio'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -191,6 +198,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             labels: getConnectionLabelsForRole(role),
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -207,6 +215,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
               labels: ['Subscribed patterns'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -222,6 +231,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             formatter: persistenceFormatter,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -240,6 +250,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
               labels: ['Bytes left before syncing is complete'],
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}

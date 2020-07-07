@@ -1,9 +1,10 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -149,6 +150,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.detailed
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -161,6 +163,7 @@ function getDetails(row) {
             labels: ['Queries'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -172,6 +175,7 @@ function getDetails(row) {
             labels: ['Commits', 'Rollbacks'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
       <Chart
@@ -201,6 +205,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -219,6 +224,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

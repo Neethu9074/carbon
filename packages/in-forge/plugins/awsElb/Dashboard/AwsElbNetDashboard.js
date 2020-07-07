@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes } from 'in-services/formatters/number';
@@ -20,6 +21,7 @@ export default function AwsElbNetDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="New Flow Count">
@@ -33,6 +35,7 @@ export default function AwsElbNetDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="TCP Resets (RST)">
@@ -46,6 +49,7 @@ export default function AwsElbNetDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

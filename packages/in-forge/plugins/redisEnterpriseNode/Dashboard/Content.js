@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { number, bytes, millis } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { number, bytes, millis } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
@@ -40,6 +41,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -54,6 +56,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             formatter: millis.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -68,6 +71,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -82,6 +86,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             labels: ['User', 'System', 'Idle'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -96,6 +101,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             labels: ['Free', 'Available', 'Provisional'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -110,6 +116,7 @@ export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
             labels: ['Ingress', 'Egress'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

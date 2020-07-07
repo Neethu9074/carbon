@@ -6,10 +6,11 @@ import {
   percentageTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Columize from 'in-sdk/components/dashboard/Columize';
 
 const cols = [
   {
@@ -154,6 +155,7 @@ function getDetails(row) {
           type: 'line',
           formatter: percentageTwoDecimalPlaces
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -165,6 +167,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -183,6 +186,7 @@ function getDetails(row) {
           type: 'line',
           formatter: bytes.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -202,6 +206,7 @@ function getDetails(row) {
             type: 'line',
             formatter: bytesPerSecondZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -220,6 +225,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

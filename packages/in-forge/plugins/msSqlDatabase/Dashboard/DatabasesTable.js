@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -118,6 +119,7 @@ function getDetails(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
@@ -131,6 +133,7 @@ function getDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Transactions">
@@ -146,6 +149,7 @@ function getDetails(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

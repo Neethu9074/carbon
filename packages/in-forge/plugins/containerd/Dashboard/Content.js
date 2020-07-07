@@ -8,6 +8,7 @@ import {
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
@@ -37,6 +38,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -55,6 +57,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: timeByNanoTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title={`Memory`}>
@@ -68,6 +71,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -79,6 +83,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

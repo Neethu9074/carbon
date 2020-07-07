@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, millis } from 'in-services/formatters/number';
@@ -22,6 +23,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Put Records">
@@ -35,6 +37,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Get Records Performance">
@@ -55,6 +58,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Get Records Traffic">
@@ -68,6 +72,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Put Record Performance">
@@ -88,6 +93,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Put Record Traffic">
@@ -101,6 +107,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Incoming Records">
@@ -121,6 +128,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Put Records Performance">
@@ -141,6 +149,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Provisioned Throughput Exceeded">
@@ -154,6 +163,7 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

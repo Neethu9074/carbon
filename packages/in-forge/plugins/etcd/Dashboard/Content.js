@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -26,6 +27,7 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
             type: 'stackedBar',
             aggregation: 'sum'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Traffic">
@@ -39,6 +41,7 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
             type: 'stackedBar',
             aggregation: 'sum'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Storage">
@@ -52,6 +55,7 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -62,6 +66,7 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>

@@ -4,6 +4,7 @@ import ClusterNodesTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard
 import DatabasesTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard/DatabasesTable';
 import ShardsTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard/ShardsTable';
 import ClusterSummary from 'in-forge/plugins/redisEnterpriseCluster/ClusterSummary';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
@@ -26,6 +27,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -37,6 +39,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -52,6 +55,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             labels: ['Used', 'Used RSS', 'Lua Heap Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -73,6 +77,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             labels: ['Total Received'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

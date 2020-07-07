@@ -1,12 +1,13 @@
+import theme from 'in-themes';
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import theme from 'in-themes';
 
 const cols = [
   {
@@ -115,6 +116,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="CPU States">
@@ -146,6 +148,7 @@ function getDetails(row) {
             min: 0,
             formatter: percentage.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Disk Usage">
@@ -159,6 +162,7 @@ function getDetails(row) {
             min: 0,
             formatter: percentage.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Application Latency">
@@ -180,6 +184,7 @@ function getDetails(row) {
             type: 'line',
             formatter: millis.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Application Requests">
@@ -205,6 +210,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

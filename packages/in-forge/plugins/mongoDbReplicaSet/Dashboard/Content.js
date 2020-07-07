@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { number, bytes, millis } from 'in-services/formatters/number';
-
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, bytes, millis } from 'in-services/formatters/number';
 
 export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -21,6 +21,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             aggregation: 'sum',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -35,6 +36,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             labels: ['Replication Lag'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -49,6 +51,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -70,6 +73,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             labels: ['Apply batches total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -91,6 +95,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             labels: ['Bytes'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -112,6 +117,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             labels: ['Buffer Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -133,6 +139,7 @@ export default function MongoDbReplicaSetDashboard({ snapshot, timeConfig }) {
             labels: ['Docs total', 'Indexes total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

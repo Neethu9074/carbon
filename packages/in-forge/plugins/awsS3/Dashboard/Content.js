@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, millis } from 'in-services/formatters/number';
@@ -30,6 +31,7 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Traffic">
@@ -43,6 +45,7 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Errors">
@@ -56,6 +59,7 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Latency">
@@ -69,6 +73,7 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

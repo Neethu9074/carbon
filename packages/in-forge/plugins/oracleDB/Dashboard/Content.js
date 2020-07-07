@@ -7,10 +7,10 @@ import {
   hitRateTwoDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
@@ -31,6 +31,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['DB', 'DB CPU', 'SQL Execute', 'Parse'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="DB / CPU Time">
@@ -45,6 +46,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Ratio'],
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Time Waited per Second">
@@ -82,6 +84,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             ],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="SQL Execution">
@@ -100,6 +103,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Average Time'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="SQL Parse Count">
@@ -112,6 +116,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Hard Parse', 'Total Parse'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="SQL Parse Ratios">
@@ -126,6 +131,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Soft / Total', 'Without Parses'],
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="User Calls Commits Rollbacks">
@@ -144,6 +150,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['User Calls', 'Recursive Calls', 'User Commits', 'User Rollbacks', 'User Log Ons'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Physical and Session Logical Reads">
@@ -156,6 +163,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Physical', 'Logical'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Buffer Cache Hit">
@@ -170,6 +178,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Ratio'],
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Sessions">
@@ -182,6 +191,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Active User', 'Inactive User', 'Background'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Used Sessions Ratio">
@@ -196,6 +206,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             labels: ['Sessions / Session Limit'],
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <TablespaceUsagesTable snapshot={snapshot} timeConfig={timeConfig} />

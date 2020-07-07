@@ -1,13 +1,14 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import InstancesTable from 'in-forge/plugins/awsBeanstalk/Dashboard/InstancesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import theme from 'in-themes';
 
 export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -59,6 +60,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Latency">
@@ -81,6 +83,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: millis.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Requests">
@@ -107,6 +110,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <InstancesTable snapshot={snapshot} timeConfig={timeConfig} />

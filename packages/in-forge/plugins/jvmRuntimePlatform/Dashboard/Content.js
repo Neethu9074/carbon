@@ -9,6 +9,7 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
@@ -70,6 +71,7 @@ export default connectTo({
             type: 'stackedArea',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -90,6 +92,7 @@ export default connectTo({
             labels: ['Used'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -116,6 +119,7 @@ export default connectTo({
               type: 'point',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -135,6 +139,7 @@ export default connectTo({
             type: 'line',
             formatter: timeByMicroTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

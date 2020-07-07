@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -118,6 +119,7 @@ function getDetails(row) {
         labels: ['Memory'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

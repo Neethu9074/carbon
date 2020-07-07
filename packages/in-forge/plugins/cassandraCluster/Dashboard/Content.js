@@ -5,10 +5,11 @@ import {
   bytesZeroDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
-import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
-import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.js';
-import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.js';
 import ClusterDownNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterDownNodesTable.js';
+import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.js';
+import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { capitalize } from 'in-services/formatters/string';
@@ -35,6 +36,7 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -55,6 +57,7 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
               labels: ['Mean', '50th Percentile', '95th Percentile', '99th Percentile'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ))}
@@ -70,6 +73,7 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Overall Disk Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

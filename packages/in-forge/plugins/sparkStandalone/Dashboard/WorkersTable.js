@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -125,6 +126,7 @@ function getDetails(row) {
             labels: ['Memory Used', 'Memory Total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -135,6 +137,7 @@ function getDetails(row) {
             labels: ['Cores Used', 'Cores Total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

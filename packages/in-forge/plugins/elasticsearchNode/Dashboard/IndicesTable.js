@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -110,6 +111,7 @@ function getDetails(row) {
         formatter: bytesTwoDecimalPlaces,
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

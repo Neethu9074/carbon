@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-
 import DatabasesTable from '../Dashboard/DatabasesTable';
 
 export default function SybaseDashboard({ snapshot, timeConfig }) {
@@ -28,6 +28,7 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -42,6 +43,7 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -56,6 +58,7 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
             formatter: bytesTwoDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -70,6 +73,7 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

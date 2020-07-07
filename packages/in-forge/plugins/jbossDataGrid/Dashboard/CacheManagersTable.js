@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -104,6 +105,7 @@ function getRowDetails(row) {
           labels: ['Defined', 'Created', 'Running'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

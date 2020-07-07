@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
@@ -103,6 +104,7 @@ function getRowDetails(row) {
         labels: ['Active connections'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

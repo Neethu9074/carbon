@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -50,6 +51,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Added', 'Acknowledged', 'Expired', 'Killed'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Broker wide message">
@@ -62,6 +64,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Count'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -78,6 +81,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Total Connections', 'Total Consumers'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Memory usage">
@@ -92,6 +96,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Address Memory Usage'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

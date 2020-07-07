@@ -8,6 +8,7 @@ import {
 } from 'in-services/formatters/number';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -50,6 +51,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -67,6 +69,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: timeByNanoTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {hasMemoryMetrics(snapshot) ? (
@@ -90,6 +93,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -101,6 +105,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
               formatter: bytesTwoDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -116,6 +121,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {hasNetworkMetrics(snapshot) ? (
@@ -138,6 +144,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
               formatter: percentageTwoDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, ms } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -106,6 +107,7 @@ function getDetails(row) {
         labels: ['Throttling'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

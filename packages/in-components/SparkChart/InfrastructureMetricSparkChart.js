@@ -9,7 +9,8 @@ export default function InfrastructureMetricSparkChart({
   timeConfig,
   tooltipFormatter,
   formatter,
-  metric
+  metric,
+  renderPostChartContent
 }) {
   return (
     <InfrastructureMetricChartBehavior
@@ -22,11 +23,12 @@ export default function InfrastructureMetricSparkChart({
         tooltipFormatter
       }}
       chartRenderer={SparkChartPropsAdapter}
+      renderPostChartContent={renderPostChartContent}
     />
   );
 }
 
-function SparkChartPropsAdapter({ timeConfig, granularity, y1 }) {
+function SparkChartPropsAdapter({ timeConfig, granularity, y1, renderPostChartContent }) {
   const metrics = y1.metrics[0];
   const metric = metrics && metrics.length > 0 ? metrics[metrics.length - 1][1] : null;
 
@@ -37,6 +39,7 @@ function SparkChartPropsAdapter({ timeConfig, granularity, y1 }) {
       metrics={metrics}
       tooltipFormatter={y1.tooltipFormatter || y1.formatter}
       metric={metric}
+      renderPostChartContent={renderPostChartContent}
     />
   );
 }

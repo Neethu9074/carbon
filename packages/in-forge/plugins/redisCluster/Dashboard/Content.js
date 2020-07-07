@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 
 import { bytesTwoDecimalPlaces, bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/redisCluster/Dashboard/ClusterNodesTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import ClusterSummary from 'in-forge/plugins/redisCluster/ClusterSummary';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 
 export default function RedisClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,6 +24,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             formatter: number,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Key">
@@ -36,6 +38,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Hits', 'Misses'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Objects">
@@ -52,6 +55,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             formatter: number,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Memory">
@@ -67,6 +71,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Used', 'Used rss', 'Used lua'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -80,6 +85,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Connected', 'Blocked', 'Rejected connections'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Messages">
@@ -96,6 +102,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

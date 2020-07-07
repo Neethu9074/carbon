@@ -1,13 +1,15 @@
 import semver from 'semver';
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
-import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
-import StagesTable from './StagesTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';
+import StagesTable from './StagesTable';
+
 export default function BatchAppContent({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
   const stagesTable = semver.satisfies(version, '>=1.6.0') ? (
@@ -27,6 +29,7 @@ export default function BatchAppContent({ snapshot, timeConfig }) {
             labels: ['All Failed Jobs', 'All Completed Jobs', 'All Active Jobs'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Stages">
@@ -39,6 +42,7 @@ export default function BatchAppContent({ snapshot, timeConfig }) {
             labels: ['All Pending Stages', 'All Failed Stages', 'All Completed Stages', 'All Active Stages'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {stagesTable}

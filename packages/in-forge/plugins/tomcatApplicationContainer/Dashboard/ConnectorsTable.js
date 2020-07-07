@@ -1,9 +1,10 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 
 // Tomcat 6 which does not have connection infos
 const colsWithoutConnections = [
@@ -142,6 +143,7 @@ function createDetailsWithConnections(row) {
         labels: [row.key + ' Threads', row.key + ' Busy Threads', row.key + ' Connections'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -156,6 +158,7 @@ function createDetailsWithoutConnections(row) {
         labels: [row.key + ' Threads', row.key + ' Busy Threads'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

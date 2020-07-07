@@ -2,6 +2,7 @@ import React from 'react';
 
 import { bytesZeroDecimalPlaces, zeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -39,6 +40,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Reads/Writes">
@@ -51,6 +53,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Get Hits/Misses">
@@ -71,6 +74,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Delete Hits/Misses">
@@ -91,6 +95,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Flush Command">
@@ -103,6 +108,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Evictions">
@@ -115,6 +121,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Used Bytes">
@@ -128,6 +135,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -141,6 +149,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

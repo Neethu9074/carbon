@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -25,6 +26,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: msZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Requests">
@@ -38,6 +40,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -51,6 +54,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Packets">
@@ -71,6 +75,7 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

@@ -2,6 +2,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -79,6 +80,7 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
             aggregation: 'sum',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {httpSessionsMax ? (
@@ -91,6 +93,7 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
               labels: ['Active Sessions'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}

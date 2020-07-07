@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -13,7 +15,6 @@ import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 const showUsage = k8sClusterUsageEnabled;
 
@@ -91,6 +92,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 type: 'line',
                 colors: [requests, limits, capacity, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -108,6 +110,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 type: 'line',
                 colors: [requests, limits, capacity, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -123,6 +126,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 type: 'line',
                 colors: [running, pending, allocated, capacity]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

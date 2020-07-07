@@ -1,8 +1,9 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, twoDecimalPlacesPerSecond } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -118,6 +119,7 @@ function getDetails(row) {
             labels: ['Record Read Rate', 'Record Send Rate'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </div>
     );
@@ -135,6 +137,7 @@ function getDetails(row) {
             labels: ['Record Poll Rate', 'Record Write Rate'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </div>
     );

@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
 
 export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
@@ -31,6 +32,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -43,6 +45,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Bytes">
@@ -55,6 +58,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Statistics">
@@ -67,6 +71,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Waiters">
@@ -79,6 +84,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Threads">
@@ -91,6 +97,7 @@ export default function OpenLDAPDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

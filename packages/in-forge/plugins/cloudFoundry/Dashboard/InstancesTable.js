@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -82,6 +83,7 @@ function getRowDetails(row) {
             labels: ['CPU'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Memory">
@@ -95,6 +97,7 @@ function getRowDetails(row) {
             labels: ['Disk', 'Memory'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </Columize>

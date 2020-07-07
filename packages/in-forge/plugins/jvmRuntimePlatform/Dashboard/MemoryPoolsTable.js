@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import TableExplanation from 'in-sdk/components/dashboard/TableExplanation';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -114,6 +115,7 @@ function getDetails(row) {
         labels: [row.name + ' Usage'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

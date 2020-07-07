@@ -10,6 +10,7 @@ import {
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import TopicsTable from 'in-forge/plugins/kafka/Dashboard/TopicsTable';
@@ -45,6 +46,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               labels: ['In', 'Out', 'Rejected'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -59,6 +61,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               labels: ['Count'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -82,6 +85,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               labels: ['Mean Latency'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -103,6 +107,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               labels: ['Mean Latency'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -124,6 +129,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               labels: ['Mean Latency'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -139,6 +145,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             labels: ['Network Processor', 'Request Handler'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -153,6 +160,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             labels: ['Fetch', 'Produce'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -183,6 +191,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             ],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -197,6 +206,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             labels: ['Count'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -218,6 +228,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             labels: ['Flushes'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

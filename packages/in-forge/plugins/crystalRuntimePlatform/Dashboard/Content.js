@@ -1,8 +1,8 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default function CrystalDashboard({ snapshot, timeConfig }) {
@@ -19,6 +19,7 @@ export default function CrystalDashboard({ snapshot, timeConfig }) {
             labels: ['Size', 'Free', 'Unused'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Boehm GC">
@@ -32,6 +33,7 @@ export default function CrystalDashboard({ snapshot, timeConfig }) {
             labels: ['Bytes Since GC'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

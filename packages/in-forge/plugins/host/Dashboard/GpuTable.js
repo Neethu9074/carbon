@@ -2,6 +2,7 @@ import { Range } from 'immutable';
 import React from 'react';
 
 import { percentage, bytesPerSecondTwoDecimalPlaces, bytes, temperature } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -173,6 +174,7 @@ function getDetails(row) {
             labels: ['Temperature'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -185,6 +187,7 @@ function getDetails(row) {
             labels: ['Encoder', 'Decoder'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
       <Columize>
@@ -206,6 +209,7 @@ function getDetails(row) {
             labels: ['Memory Total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -217,6 +221,7 @@ function getDetails(row) {
             labels: ['Transmitted/s', 'Received/s'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

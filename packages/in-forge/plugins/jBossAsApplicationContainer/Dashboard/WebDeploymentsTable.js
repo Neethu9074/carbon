@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServletsInDeploymentsTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
@@ -107,6 +108,7 @@ function getRowDetails(row) {
           type: 'line',
           min: 0
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number, micros } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -150,6 +151,7 @@ function getDetails(row) {
         labels: ['Reads', 'Writes'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

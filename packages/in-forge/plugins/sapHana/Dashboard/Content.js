@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-
 import AlertsTable from './AlertsTable.js';
 
 export default function Dashboard({ snapshot, timeConfig }) {
@@ -25,6 +25,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Cpu Usage'],
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="SAP HANA System Memory Usage">
@@ -37,6 +38,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Used Memory', 'Resident Memory'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Disk Usage">
@@ -50,6 +52,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Data Size', 'Log Size', 'Trace Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Sessions">
@@ -69,6 +72,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Total', 'Idle', 'Running', 'Blocked', 'Blocking'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Currently Connected Users and Applications">
@@ -82,6 +86,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Distinct Database Users', 'Distinct Applications', 'Distinct Application Users'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Threads">
@@ -95,6 +100,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Total', 'Active', 'Blocked'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Job Worker Threads">
@@ -112,6 +118,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Total', 'Active', 'Blocked'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="SQL Executor Threads">
@@ -129,6 +136,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Total', 'Active', 'Blocked'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Workload">
@@ -148,6 +156,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Statement Executions', 'Statement Compilations', 'Update Transactions', 'Rollbacks', 'Commits'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Requests">
@@ -165,6 +174,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: ['Finished Requests', 'Active Requests', 'Pending Requests'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />

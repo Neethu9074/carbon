@@ -2,6 +2,7 @@ import React from 'react';
 
 import { number, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -62,6 +63,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
               labels: ['Connections', 'Sessions'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Durables">
@@ -74,6 +76,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
               labels: ['Count'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -88,6 +91,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
             labels: ['Read Operations Rate', 'Write Operations Rate'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -108,6 +112,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
               labels: ['Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Messages Memory">
@@ -120,6 +125,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
               labels: ['Used Memory'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -140,6 +146,7 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
             labels: ['In Messages Rate', 'Out Messages Rate'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

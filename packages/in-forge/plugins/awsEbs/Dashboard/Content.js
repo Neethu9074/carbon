@@ -2,6 +2,7 @@ import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import { bytes, number, percentage, seconds } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -21,6 +22,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytes.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Operations">
@@ -34,6 +36,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Time">
@@ -47,6 +50,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: seconds.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Idle">
@@ -60,6 +64,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: seconds.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Queue">
@@ -73,6 +78,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {snapshot.getIn(['data', 'type']) !== 'io1' && (
@@ -87,6 +93,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentage.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -146,6 +147,7 @@ function getDetails(row) {
           labels: ['Containers Running'],
           type: 'stackedArea'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -158,6 +160,7 @@ function getDetails(row) {
             labels: ['Memory Used', 'Memory Available'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -168,6 +171,7 @@ function getDetails(row) {
             labels: ['Virtual Cores Used', 'Virtual Cores Available'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

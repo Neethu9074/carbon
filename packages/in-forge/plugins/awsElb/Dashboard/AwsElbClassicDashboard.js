@@ -1,9 +1,9 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
-
 import AZClassicTable from './AZClassicTable';
 
 export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
@@ -22,6 +22,7 @@ export default function AwsElbAppDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <AZClassicTable snapshot={snapshot} timeConfig={timeConfig} />

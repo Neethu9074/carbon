@@ -1,8 +1,9 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
@@ -24,6 +25,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         ))}
       </DashboardSection>

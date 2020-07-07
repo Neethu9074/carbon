@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 
-import { number } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-
-import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
 import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterNodesTable';
-import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
+import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
+import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import { number } from 'in-services/formatters/number';
 
 export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -43,6 +43,7 @@ export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Operations per sec.', 'Gets per sec.', 'Sets per sec.'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

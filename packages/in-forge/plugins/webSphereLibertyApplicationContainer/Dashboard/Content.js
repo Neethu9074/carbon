@@ -1,10 +1,10 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-
 import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';
 import SessionsTable from './SessionsTable';
@@ -34,6 +34,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
               labels: ['Active Threads', 'Pool Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : (

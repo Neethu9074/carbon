@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -11,7 +13,6 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function Summary({ timeConfig, data: service }) {
   const snapshotId = service.id;
@@ -91,6 +92,7 @@ export default function Summary({ timeConfig, data: service }) {
                 type: 'line',
                 colors: [usage, requests, limits]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -106,6 +108,7 @@ export default function Summary({ timeConfig, data: service }) {
                 type: 'line',
                 colors: [usage, requests, limits]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

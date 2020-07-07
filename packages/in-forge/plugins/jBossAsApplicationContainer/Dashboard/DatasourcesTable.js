@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -129,6 +130,7 @@ function getRowDetails(row) {
           labels: ['Active', 'Available', 'In Use', 'Created', 'Timed Out'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -142,6 +144,7 @@ function getRowDetails(row) {
           labels: ['Time Waited for Exclusive Lock on Pool', 'Time Spent on Creating Connections'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

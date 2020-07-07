@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -23,6 +24,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -38,6 +40,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               tooltipFormatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Memory Statistics">
@@ -52,6 +55,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -68,6 +72,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Containers Allocated">
@@ -82,6 +87,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               tooltipFormatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -97,6 +103,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               type: 'stackedArea',
               formatter: percentage
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Total Concurrent Data Transfers">
@@ -111,6 +118,7 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               tooltipFormatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

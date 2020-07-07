@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces, hitRate } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -137,6 +138,7 @@ function getRowDetails(row) {
           labels: ['Hit Ratio'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -152,6 +154,7 @@ function getRowDetails(row) {
           labels: ['Hits', 'Misses', 'Remove Hits', 'Remove Misses'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

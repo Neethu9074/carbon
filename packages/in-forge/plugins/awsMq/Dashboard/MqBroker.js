@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { getLabel } from 'in-sdk/snapshot';
-
 import QueuesTable from './QueuesTable';
 import TopicsTable from './TopicsTable';
 
@@ -34,6 +34,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               type: 'line',
               formatter: percentage.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         {instanceType === 'mq.t2.micro' && (
@@ -48,6 +49,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
                 type: 'line',
                 formatter: number.compact
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         )}
@@ -66,6 +68,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               type: 'line',
               formatter: percentage.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Heap Usage">
@@ -80,6 +83,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               type: 'line',
               formatter: percentage.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -96,6 +100,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               type: 'line',
               formatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Open Transactions">
@@ -109,6 +114,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               type: 'line',
               formatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -124,6 +130,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
             type: 'line',
             formatter: bytes.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -142,6 +149,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Journal Files For Recovery">
@@ -155,6 +163,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -149,6 +150,7 @@ function getNodeRowDetails(row) {
           labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -160,6 +162,7 @@ function getNodeRowDetails(row) {
           labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

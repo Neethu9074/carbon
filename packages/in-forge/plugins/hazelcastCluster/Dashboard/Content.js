@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/hazelcastCluster/Dashboard/ClusterNodesTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ClusterSummary from 'in-forge/plugins/hazelcastCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -23,6 +24,7 @@ export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
             labels: ['Node Count'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

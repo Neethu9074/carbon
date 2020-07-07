@@ -3,6 +3,7 @@ import React from 'react';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -74,6 +75,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -88,6 +90,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {performanceDataAvailable ? (
@@ -102,6 +105,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: millis.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -116,6 +120,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {performanceDataAvailable ? (
@@ -130,6 +135,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: msFormatter
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -151,6 +157,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {performanceDataAvailable && data.get('dbs', emptyList).size > 0 ? (

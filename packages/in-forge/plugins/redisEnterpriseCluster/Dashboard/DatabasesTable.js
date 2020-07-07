@@ -1,14 +1,15 @@
 import React from 'react';
 
 import getRedisEnterpriseDatabasesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseDatabasesForCluster';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number, millis } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { timeConfig$ } from 'in-stores/time/config';
 
 const cols = [
   {
@@ -167,6 +168,7 @@ function getRowDetails(row) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -178,6 +180,7 @@ function getRowDetails(row) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Memory">
@@ -192,6 +195,7 @@ function getRowDetails(row) {
             labels: ['Used', 'Lua Heap Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -212,6 +216,7 @@ function getRowDetails(row) {
             formatter: number.perSecond,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Latency">
@@ -225,6 +230,7 @@ function getRowDetails(row) {
             formatter: millis.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

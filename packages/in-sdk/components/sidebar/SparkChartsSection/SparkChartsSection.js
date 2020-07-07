@@ -5,17 +5,22 @@ import MetricValue from 'in-components/MetricValue';
 
 import locals from './SparkChartsSection.mless';
 
-export default function SparkChartsSection({ snapshot, metrics }) {
+export default function SparkChartsSection({ snapshot, metrics, renderPostChartContent }) {
   return (
     <div className={locals.section}>
       {metrics.map(metric => (
-        <LabeledSparkChart key={metric.metric + metric.aggregation} snapshotId={snapshot.get('id')} metric={metric} />
+        <LabeledSparkChart
+          key={metric.metric + metric.aggregation}
+          snapshotId={snapshot.get('id')}
+          metric={metric}
+          renderPostChartContent={renderPostChartContent}
+        />
       ))}
     </div>
   );
 }
 
-function LabeledSparkChart({ snapshotId, metric }) {
+function LabeledSparkChart({ snapshotId, metric, renderPostChartContent }) {
   const { label, formatter, aggregation } = metric;
   const metricName = metric.metric;
 
@@ -27,6 +32,7 @@ function LabeledSparkChart({ snapshotId, metric }) {
         metric={metricName}
         tooltipFormatter={formatter.detailed}
         aggregation={aggregation}
+        renderPostChartContent={renderPostChartContent}
       />
       <div className={locals.description}>
         <span className={locals.label}>{label}</span>

@@ -47,8 +47,8 @@ phases:
     commands:
       # Test Client-Side
       - yarn run test
-      # Test Server-Side
-      - cd packages/in-server && yarn run test && cd ../..
+      # Test Server-Side – ensure that we only leave production dependencies in the workspace once done.
+      - cd packages/in-server && yarn run test && rm -rf node_modules && yarn --prod && cd ../..
       # Build static files
       - yarn run build
       # Verify that CSS files are compressed in build artifacts

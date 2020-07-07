@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, hitRate } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -120,6 +121,7 @@ function getRowDetails(row) {
           labels: ['Cache Puts'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -131,6 +133,7 @@ function getRowDetails(row) {
           labels: ['Read/Write Ratio'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -141,6 +144,7 @@ function getRowDetails(row) {
           labels: ['Entries'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -151,6 +155,7 @@ function getRowDetails(row) {
           labels: ['Evictions'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

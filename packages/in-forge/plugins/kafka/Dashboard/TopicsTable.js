@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -151,6 +152,7 @@ function getDetails(row) {
           labels: ['Bytes In', 'Bytes Out', 'Bytes Rejected'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -163,6 +165,7 @@ function getDetails(row) {
             labels: ['Messages In'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -174,6 +177,7 @@ function getDetails(row) {
             labels: ['In-Sync Replicas'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

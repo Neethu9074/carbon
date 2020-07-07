@@ -2,6 +2,7 @@ import React from 'react';
 
 import { bytesTwoDecimalPlaces, millis, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -58,6 +59,7 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             labels: ['GC CPU Time/Second', 'GC Wall Clock Time/Second', 'Mutator Threads CPU Time/Second'],
             type: 'point'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="GC Bytes">
@@ -79,6 +81,7 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             labels: ['Bytes Copied/Second', 'Byte Usage Samples/Second'],
             type: 'point'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="CPU">
@@ -93,6 +96,7 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             labels: ['Total CPU Time/Second'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="GCs/Second">
@@ -106,6 +110,7 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             labels: ['#GCs/Second'],
             type: 'point'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={gaugeMetricNames} title="GC Gauges" />

@@ -14,6 +14,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -88,6 +89,7 @@ const columnDefinitions = [
           formatter={percentageZeroDecimalPlaces}
           tooltipFormatter={percentageTwoDecimalPlaces}
           metric="cpu.total_usage"
+          renderPostChartContent={K8DashboardsMarkerLanes}
         />
       );
     }
@@ -104,6 +106,7 @@ const columnDefinitions = [
           formatter={bytesZeroDecimalPlaces}
           tooltipFormatter={bytesTwoDecimalPlaces}
           metric="memory.usage"
+          renderPostChartContent={K8DashboardsMarkerLanes}
         />
       );
     }

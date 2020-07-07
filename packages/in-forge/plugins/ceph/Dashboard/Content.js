@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
-import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import {
   number,
   percentageTwoDecimalPlaces,
   msZeroDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import MetricValue from 'in-components/MetricValue';
 
 export default function CephDashboard({ snapshot, timeConfig }) {
@@ -44,6 +45,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="OSD Status">
@@ -57,6 +59,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Latency">
@@ -70,6 +73,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: msZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Unhealthy OSDs">
@@ -83,6 +87,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Placement Groups">
@@ -96,6 +101,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Number Of Pools">
@@ -109,6 +115,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Number Of Object">
@@ -122,6 +129,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="IO">
@@ -142,6 +150,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesPerSecondZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="OPS">
@@ -162,6 +171,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Overall capacity usage">
@@ -176,6 +186,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: percentageTwoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

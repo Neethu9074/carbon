@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -186,6 +187,7 @@ function getRowDetails(row) {
           labels: ['Queue Size'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -201,6 +203,7 @@ function getRowDetails(row) {
           aggregation: 'sum',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -212,6 +215,7 @@ function getRowDetails(row) {
           aggregation: 'sum',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

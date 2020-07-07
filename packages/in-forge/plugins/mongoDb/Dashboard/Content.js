@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import MetricValue from 'in-components/MetricValue';
-
-import DatabaseSizesTable from './DatabaseSizesTable';
-
-import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
+import DatabaseSizesTable from './DatabaseSizesTable';
+import MetricValue from 'in-components/MetricValue';
 
 export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -55,6 +54,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
             aggregation: 'sum',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -69,6 +69,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

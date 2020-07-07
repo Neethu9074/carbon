@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ServletsInWebAppTable from './ServletsInWebAppTable';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -99,6 +100,7 @@ function getRowDetails(row) {
           type: 'line',
           min: 0
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

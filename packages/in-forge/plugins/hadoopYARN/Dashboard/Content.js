@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-
 import NodesTable from './NodesTable';
 import AppsTable from './AppsTable';
 
@@ -22,6 +22,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -35,6 +36,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cluster Containers">
@@ -47,6 +49,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -62,6 +65,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               tooltipFormatter: bytesTwoDecimalPlaces,
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cluster Virtual Cores">
@@ -74,6 +78,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

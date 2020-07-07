@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -173,6 +174,7 @@ function getDetails(row) {
           type: 'line',
           formatter: millis.detailed
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </DashboardSection>
   );

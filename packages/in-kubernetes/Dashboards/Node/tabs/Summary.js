@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
@@ -14,7 +16,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function Summary({ timeConfig, data: node }) {
   const snapshotId = node.id;
@@ -101,6 +102,7 @@ export default function Summary({ timeConfig, data: node }) {
                 type: 'line',
                 colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -116,6 +118,7 @@ export default function Summary({ timeConfig, data: node }) {
                 type: 'line',
                 colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -130,6 +133,7 @@ export default function Summary({ timeConfig, data: node }) {
                 labels: ['Allocated', 'Capacity'],
                 type: 'line'
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

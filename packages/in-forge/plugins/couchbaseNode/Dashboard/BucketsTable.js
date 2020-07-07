@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { number, bytes, percentage } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, bytes, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -149,6 +150,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.perSecond.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Used Resources">
@@ -165,6 +167,7 @@ function getDetails(row) {
               formatter: percentage.compact,
               tooltipFormatter: percentage.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={row.snapshotId}
@@ -175,6 +178,7 @@ function getDetails(row) {
               type: 'line',
               formatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -200,6 +204,7 @@ function getDetails(row) {
             formatter: percentage.compact,
             tooltipFormatter: percentage.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -214,6 +219,7 @@ function getDetails(row) {
             min: 0,
             formatter: number.perSecond.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Fragmentation">
@@ -229,6 +235,7 @@ function getDetails(row) {
             formatter: percentage.compact,
             tooltipFormatter: percentage.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

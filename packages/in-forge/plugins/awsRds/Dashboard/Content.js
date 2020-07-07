@@ -2,6 +2,7 @@ import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -27,6 +28,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -46,6 +48,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: percentage.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -56,6 +59,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: bytes.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -69,6 +73,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -82,6 +87,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: bytes.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -101,6 +107,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: millis.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -114,6 +121,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: bytes.perSecond.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -127,6 +135,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: bytes.perSecond.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -140,6 +149,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
             formatter: millis.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -155,6 +165,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytes.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

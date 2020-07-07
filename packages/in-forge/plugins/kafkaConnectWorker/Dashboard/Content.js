@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -37,6 +38,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             labels: ['Completed Rebalances'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshot.get('id')}
@@ -47,6 +49,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             labels: ['Rebalance Average Time'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
       <Columize>
@@ -59,6 +62,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             labels: ['Rebalancing'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshot.get('id')}
@@ -69,6 +73,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             labels: ['Time Since Last Rebalance'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

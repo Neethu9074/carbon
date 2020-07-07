@@ -14,6 +14,7 @@ import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInter
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -25,8 +26,8 @@ import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import Footer from 'in-new-components/Footer';
-
 import { role } from 'in-stores/user';
+
 import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
@@ -63,6 +64,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
               type: 'stackedArea'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -77,6 +79,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
                 labels: ['Context Switches'],
                 type: 'line'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         )}
@@ -95,6 +98,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
                 labels: ['Load'],
                 type: 'stackedArea'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         )}
@@ -118,6 +122,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             labels: ['Used'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         {isLinux(snapshot) && (
           <Chart
@@ -126,10 +131,25 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: bytes.detailed,
-              metrics: ['memory.swapTotal', 'memory.swapFree', 'memory.buffers', 'memory.cached', 'memory.available'],
-              labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
-              type: 'stackedArea'
+              metrics: ['memory.buffers', 'memory.cached', 'memory.available'],
+              labels: ['Buffers', 'Cached', 'Available'],
+              type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        )}
+        {isLinux(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.swapTotal', 'memory.swapFree'],
+              labels: ['Swap total', 'Swap free'],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         )}
       </DashboardSection>
@@ -156,6 +176,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               labels: ['Used'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -184,6 +205,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: percentageZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

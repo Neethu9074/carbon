@@ -1,11 +1,5 @@
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import MetricValue from 'in-components/MetricValue';
-
 import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
@@ -13,6 +7,12 @@ import {
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import MetricValue from 'in-components/MetricValue';
 
 export default function RubyDashboard({ snapshot, timeConfig }) {
   return (
@@ -42,6 +42,7 @@ export default function RubyDashboard({ snapshot, timeConfig }) {
             labels: ['Resident'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Heap Slots">
@@ -55,6 +56,7 @@ export default function RubyDashboard({ snapshot, timeConfig }) {
             labels: ['Live', 'Free'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -86,6 +88,7 @@ function GcTime({ snapshot, timeConfig }) {
         labels: ['#Minor GCs', '#Major GCs'],
         type: 'point'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -102,6 +105,7 @@ function ThreadMetrics({ snapshot, timeConfig }) {
         labels: ['#Thread Count'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
