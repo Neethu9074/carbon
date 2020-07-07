@@ -1,16 +1,17 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyList } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
 import {
   activityZeroDecimalPlaces,
   hitRateZeroDecimalPlaces,
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -198,6 +199,7 @@ function getRowDetails(row) {
               labels: ['Rolled back'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cache">
@@ -212,6 +214,7 @@ function getRowDetails(row) {
               type: 'line',
               formatter: hitRateZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -227,6 +230,7 @@ function getRowDetails(row) {
               labels: ['Standby Conflicts'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Tuples">
@@ -240,6 +244,7 @@ function getRowDetails(row) {
               labels: ['Read', 'Fetched'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -255,6 +260,7 @@ function getRowDetails(row) {
               labels: ['Size'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Connections">
@@ -268,6 +274,7 @@ function getRowDetails(row) {
               labels: ['Active'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

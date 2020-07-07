@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
@@ -8,7 +10,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
-import theme from 'in-themes';
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
@@ -57,6 +58,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
         <Col lg={6}>
@@ -130,6 +132,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
       </Row>
@@ -258,6 +261,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -305,6 +309,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -340,6 +345,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -373,6 +379,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             )}
           </AggregationSelector>

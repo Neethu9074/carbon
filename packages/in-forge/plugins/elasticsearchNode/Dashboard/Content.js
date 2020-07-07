@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,
   timeByMillisTwoDecimalPlaces,
@@ -10,9 +9,10 @@ import {
   twoDecimalPlaces
 } from 'in-services/formatters/number';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-
 import NodeSummary from '../NodeSummary.js';
 
 export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
@@ -39,6 +39,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             labels: ['Number Of Queries'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -62,6 +63,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             labels: ['Added', 'Removed'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -78,6 +80,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
               labels: ['Indices'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Shards">
@@ -92,6 +95,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
               labels: ['Active', 'Active Primary'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -108,6 +112,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             labels: ['Store Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -130,6 +135,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             formatter: timeByMillisTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -145,6 +151,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             tooltipFormatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Active Threads">
@@ -167,6 +174,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Queued Tasks">
@@ -189,6 +197,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Rejected Tasks">
@@ -207,6 +216,7 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             formatter: twoDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

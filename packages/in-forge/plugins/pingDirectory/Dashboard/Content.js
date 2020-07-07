@@ -1,4 +1,6 @@
 import React from 'react';
+
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -18,6 +20,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
             labels: ['Operations', 'Searches'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -30,6 +33,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
             labels: ['Established', 'Max concurrent', 'Total'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Descriptors">
@@ -42,6 +46,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
             labels: ['Available', 'Open', 'Max'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Failed Operations">
@@ -63,6 +68,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
             labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Total Operations">
@@ -84,6 +90,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
             labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <LdapConnectorsTable snapshot={snapshot} timeConfig={timeConfig} />

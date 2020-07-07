@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { number, ms } from 'in-services/formatters/number';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { number, ms } from 'in-services/formatters/number';
 import Info from '../Info';
 
 export default function KafkaClusterSidebar({ snapshot }) {
@@ -42,6 +42,7 @@ export default function KafkaClusterSidebar({ snapshot }) {
             aggregation: 'mean'
           }
         ]}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <ClusterMemberList snapshotId={snapshotId} />

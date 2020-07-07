@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import {
   bytesZeroDecimalPlaces,
@@ -11,11 +12,11 @@ import {
   twoDecimalPlaces,
   time
 } from 'in-services/formatters/number';
-
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
@@ -29,7 +30,6 @@ import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 export default connectTo(
   {
@@ -62,6 +62,7 @@ export default connectTo(
                   type: 'stackedArea',
                   formatter: number.detailed
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
           ) : null}
@@ -87,6 +88,7 @@ export default connectTo(
                 labels: ['Native Used'],
                 type: 'line'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -106,6 +108,7 @@ export default connectTo(
               labels: ['Copy Invocation', 'MarkSweepCompact Invocation'],
               type: 'point'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Network">
@@ -120,6 +123,7 @@ export default connectTo(
               labels: ['Received', 'Sent'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Discovery">
@@ -140,6 +144,7 @@ export default connectTo(
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Sensors">
@@ -160,6 +165,7 @@ export default connectTo(
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         {isInternalVisible && (
@@ -180,6 +186,7 @@ export default connectTo(
                   type: 'line',
                   formatter: percentage
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
             <DashboardSection title="Slow Sensors">
@@ -200,6 +207,7 @@ export default connectTo(
                   colors: [theme.lib.colors.failure],
                   formatter: number.compact
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
             <SensorTimingList snapshot={snapshot} />
@@ -224,6 +232,7 @@ export default connectTo(
                     type: 'line',
                     formatter: number.compact
                   }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
                 />
                 <Chart
                   snapshotId={snapshotId}
@@ -242,6 +251,7 @@ export default connectTo(
                     type: 'line',
                     formatter: bytesZeroDecimalPlaces
                   }}
+                  renderPostChartContent={PluginDashboardsMarkerLanes}
                 />
               </Columize>
             </DashboardSection>
@@ -257,6 +267,7 @@ export default connectTo(
                   type: 'line',
                   formatter: number.compact
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
             <SpanMetrics snapshot={snapshot} timeConfig={timeConfig} />

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
 
 import {
@@ -8,8 +9,9 @@ import {
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
+import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
@@ -21,7 +23,6 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 const resourceQuotaSet = v => v !== -1;
 
@@ -113,6 +114,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -139,6 +141,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -155,6 +158,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 min: 0,
                 colors: [pods, hardLimits]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

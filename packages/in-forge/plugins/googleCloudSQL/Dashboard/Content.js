@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, bytesZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -34,6 +35,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Memory">
@@ -54,6 +56,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -76,6 +79,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Disk ops">
@@ -89,6 +93,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -104,6 +109,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytesZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Failover">
@@ -117,6 +123,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -140,6 +147,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: bytesZeroDecimalPlaces
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           {isReplica && (
@@ -154,6 +162,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
                   type: 'line',
                   formatter: number.compact
                 }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
           )}
@@ -176,6 +185,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: number.compact
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="InnoDB">
@@ -194,6 +204,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: number.compact
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -211,6 +222,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: number.compact
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         )}

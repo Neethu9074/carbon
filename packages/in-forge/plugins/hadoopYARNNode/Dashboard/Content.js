@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
@@ -18,6 +19,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Memory">
@@ -31,6 +33,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             tooltipFormatter: bytes.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Virtual Cores">
@@ -43,6 +46,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

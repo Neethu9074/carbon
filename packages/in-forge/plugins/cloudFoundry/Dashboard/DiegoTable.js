@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -59,6 +60,7 @@ function auctioneerCharts(row) {
             labels: ['Go routines'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -77,6 +79,7 @@ function auctioneerCharts(row) {
             labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </Columize>
@@ -99,6 +102,7 @@ function stagerCharts(row) {
               labels: ['Go routines'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -117,6 +121,7 @@ function stagerCharts(row) {
               labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -131,6 +136,7 @@ function stagerCharts(row) {
             labels: ['Requests failed', 'Requests succeeded'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>
@@ -152,6 +158,7 @@ function fileserverCharts(row) {
             labels: ['Go routines'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -166,6 +173,7 @@ function fileserverCharts(row) {
             labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </Columize>

@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
 import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
@@ -10,6 +7,10 @@ import {
   zeroDecimalPlaces,
   number
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 function optionalCountFormatter(v) {
   if (v < 0) {
@@ -183,6 +184,7 @@ function getDetails(row) {
           tooltipFormatter: bytesTwoDecimalPlaces,
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -194,6 +196,7 @@ function getDetails(row) {
           formatter: number.compact,
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </Fragment>
   );

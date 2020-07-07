@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { number, millis } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, millis } from 'in-services/formatters/number';
 
 export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -19,6 +20,7 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
             formatter: millis.compact,
             type: 'bar'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -38,6 +40,7 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -51,6 +54,7 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

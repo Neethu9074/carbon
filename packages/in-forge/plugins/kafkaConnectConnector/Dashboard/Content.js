@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TasksTable from 'in-forge/plugins/kafkaConnectConnector/Dashboard/TasksTable.js';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
@@ -27,6 +28,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             labels: ['Total', 'Running', 'Failed', 'Destroyed', 'Paused', 'Unassigned'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

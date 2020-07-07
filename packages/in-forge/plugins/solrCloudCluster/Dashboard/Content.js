@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ClusterSummary from 'in-forge/plugins/solrCloudCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -25,6 +26,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Request Time">
@@ -38,6 +40,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: millis.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -54,6 +57,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cache Hit Rate">
@@ -67,6 +71,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: hitRateZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -83,6 +88,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Evictions">
@@ -96,6 +102,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -112,6 +119,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Timeouts">
@@ -125,6 +133,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -140,6 +149,7 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

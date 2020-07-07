@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, bytes, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -19,6 +20,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: percentage.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Freeable Memory">
@@ -31,6 +33,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: bytes.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Network Traffic">
@@ -43,6 +46,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: bytes.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Swap Usage">
@@ -55,6 +59,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: bytes.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -67,6 +72,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Items count">
@@ -79,6 +85,7 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import WorkersTable from './WorkersTable';
-import AppsTable from './AppsTable';
 import DriversTable from './DriversTable';
+import AppsTable from './AppsTable';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -28,6 +28,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <Columize>
@@ -42,6 +43,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               tooltipFormatter: bytesTwoDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cluster Cores">
@@ -54,6 +56,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

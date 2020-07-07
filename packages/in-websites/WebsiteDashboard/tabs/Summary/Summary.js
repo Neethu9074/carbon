@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
@@ -17,7 +18,6 @@ import Card from 'in-new-components/Card';
 
 export default function Summary({ websiteId, tagFilters, timeConfig, pageId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
-
   return (
     <Fragment>
       <Row>
@@ -137,6 +137,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
         <Col lg={4}>
@@ -166,6 +167,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
         <Col lg={4}>
@@ -197,6 +199,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                     }
                   }
                 }}
+                renderPostChartContent={WebsiteDashboardsMarkerLanes}
               />
             )}
           </AggregationSelector>

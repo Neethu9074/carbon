@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { number, percentagePlainTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-
 import DatabaseTable from 'in-forge/plugins/azureSqlServer/Dashboard/DatabaseTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -58,6 +58,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['eDTU Percentage'],
               type: 'bar'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -78,6 +79,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             labels: ['Storage percentage'],
             type: 'bar'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -91,6 +93,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             labels: ['CPU percentage'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -105,6 +108,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['Data IO'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
 
           <Chart
@@ -116,6 +120,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['Log IO'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -131,6 +136,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['Workers'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -141,6 +147,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['Sessions'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -155,6 +162,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             labels: ['In-Memory OLTP storage'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -172,6 +180,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
               labels: ['CPU Limit', 'CPU Used'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

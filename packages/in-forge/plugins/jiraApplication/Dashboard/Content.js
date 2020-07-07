@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -22,6 +23,7 @@ export default function JiraDashboard({ snapshot, timeConfig }) {
             labels: ['Concurrent Requests'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="DB Pool">
@@ -33,6 +35,7 @@ export default function JiraDashboard({ snapshot, timeConfig }) {
             labels: ['Idle Connections'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

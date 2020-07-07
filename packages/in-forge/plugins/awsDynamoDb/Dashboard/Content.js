@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
@@ -23,6 +24,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Throttled read requests">
@@ -36,6 +38,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -51,6 +54,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Throttled write requests">
@@ -64,6 +68,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -86,6 +91,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Put latency">
@@ -106,6 +112,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Query latency">
@@ -126,6 +133,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Scan latency">
@@ -146,6 +154,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Update latency">
@@ -166,6 +175,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Delete latency">
@@ -186,6 +196,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Batch get latency">
@@ -206,6 +217,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Batch write latency">
@@ -226,6 +238,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -241,6 +254,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Returned query item count">
@@ -254,6 +268,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -270,6 +285,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="User error">
@@ -283,6 +299,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -298,6 +315,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="System errors read">
@@ -311,6 +329,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -325,6 +344,7 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

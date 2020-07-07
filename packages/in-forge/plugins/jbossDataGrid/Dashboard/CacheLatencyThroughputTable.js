@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { ms, number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -130,6 +131,7 @@ function getRowDetails(row) {
           labels: ['Average Read Time', 'Average Remove Time', 'Average Write Time'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -140,6 +142,7 @@ function getRowDetails(row) {
           labels: ['Throughput (ops/sec)'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

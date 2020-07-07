@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getRedisEnterpriseShardsForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseShardsForCluster';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
@@ -141,6 +142,7 @@ function getRowDetails(row) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={snapshotId}
@@ -152,6 +154,7 @@ function getRowDetails(row) {
             formatter: number.compact,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -167,6 +170,7 @@ function getRowDetails(row) {
             labels: ['Used', 'Lua Heap Size', 'Used RSS'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

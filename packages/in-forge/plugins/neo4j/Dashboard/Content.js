@@ -1,10 +1,10 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number, siPrefix } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-
 import isAtLeastMinorVersion from '../Neo4jVersion.js';
 import NodeSummary from '../NodeSummary.js';
 
@@ -39,6 +39,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
             labels: ['Node IDs', 'Property IDs', 'Relationship IDs', 'RelationShipType IDs'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -55,6 +56,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 labels: ['Bytes Read'],
                 type: 'area'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="Bytes Written">
@@ -68,6 +70,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 labels: ['Bytes Written'],
                 type: 'area'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -109,6 +112,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -140,6 +144,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -163,6 +168,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
               labels: ['Open', 'Opened', 'Committed', 'Rolled Back', 'Peak Concurrent'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -196,6 +202,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -47,6 +48,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Secrets Read">
@@ -65,6 +67,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -85,6 +88,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Secrets Deleted">
@@ -103,6 +107,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -123,6 +128,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Tokens Lookup">
@@ -141,6 +147,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -155,6 +162,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
             labels: ['Lost', 'Setup Failed'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -175,6 +183,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Count Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Audit Log Responses">
@@ -193,6 +202,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               labels: ['Count Duration'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -207,6 +217,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
             labels: ['Put', 'Get', 'Delete', 'List'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -226,6 +237,7 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
             labels: ['Initialize', 'Close', 'Create User', 'Renew User', 'Revoke User'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

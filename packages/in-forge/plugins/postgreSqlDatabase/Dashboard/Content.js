@@ -1,12 +1,5 @@
 import React from 'react';
 
-import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
-import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import MetricValue from 'in-components/MetricValue';
 import {
   activityZeroDecimalPlaces,
   zeroDecimalPlaces,
@@ -14,6 +7,14 @@ import {
   bytesZeroDecimalPlaces,
   seconds
 } from 'in-services/formatters/number';
+import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
+import MetricValue from 'in-components/MetricValue';
 
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -49,6 +50,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connection Usage">
@@ -63,6 +65,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
             labels: ['Usage'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {isSlave && (
@@ -84,6 +87,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
               labels: ['In Seconds'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

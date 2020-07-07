@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -200,6 +201,7 @@ function getRowDetails(row) {
           labels: ['Requests', 'Request Errors', 'Denied Requests'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -215,6 +217,7 @@ function getRowDetails(row) {
           labels: ['Session Usage'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -226,6 +229,7 @@ function getRowDetails(row) {
           aggregation: 'sum',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -236,6 +240,7 @@ function getRowDetails(row) {
           labels: ['Bytes Sent', 'Bytes Received'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

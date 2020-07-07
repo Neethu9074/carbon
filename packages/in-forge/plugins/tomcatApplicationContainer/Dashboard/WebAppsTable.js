@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, minutes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -97,6 +98,7 @@ function getRowDetails(row) {
           labels: ['Sessions'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

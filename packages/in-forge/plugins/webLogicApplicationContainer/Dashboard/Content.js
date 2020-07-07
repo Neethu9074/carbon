@@ -1,9 +1,9 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-
 import JMSDestinationsTable from './JMSDestinationsTable';
 import DatasourcesTable from './DatasourcesTable';
 import WebAppsTable from './WebAppsTable';
@@ -37,6 +37,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             labels: threadPoolLabels,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -57,6 +58,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
               labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}

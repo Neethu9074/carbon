@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -116,6 +117,7 @@ function getDetails(row) {
           type: 'line',
           formatter: percentage.detailed
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -127,6 +129,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -143,6 +146,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.compact
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
           snapshotId={row.snapshotId}
@@ -154,6 +158,7 @@ function getDetails(row) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
       <Chart
@@ -166,6 +171,7 @@ function getDetails(row) {
           type: 'line',
           formatter: millis.detailed
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -177,6 +183,7 @@ function getDetails(row) {
           type: 'line',
           formatter: number.compact
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

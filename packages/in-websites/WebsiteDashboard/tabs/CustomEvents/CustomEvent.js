@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getLinkToWebsite, getLinkToAnalyze, customEventsTabFullyQualified } from 'in-websites/navigation/paths';
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import { customEventId as customEventIdMatrixParameter } from 'in-websites/navigation/matrix';
@@ -130,6 +131,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
         <Col lg={6}>
@@ -156,6 +158,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
       </Row>
@@ -225,6 +228,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
       </Row>

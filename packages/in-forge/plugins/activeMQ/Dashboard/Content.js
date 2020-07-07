@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -55,6 +56,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               type: 'stackedBar',
               aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Broker wide topics message stats">
@@ -68,6 +70,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               type: 'stackedBar',
               aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -83,6 +86,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Memory and store usage">
@@ -97,6 +101,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               labels: ['Memory Usage', 'Store Usage'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

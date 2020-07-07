@@ -8,6 +8,7 @@ import {
   percentage
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
@@ -52,6 +53,7 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
             formatter: percentage.compact,
             tooltipFormatter: percentage.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -66,6 +68,7 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
             labels: ['Generation 1', 'Generation 2', 'Large Objects'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Thread-Locks and Contention">
@@ -86,6 +89,7 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
             labels: ['Contention-Rate'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

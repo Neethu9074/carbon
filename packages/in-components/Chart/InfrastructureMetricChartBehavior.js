@@ -55,7 +55,17 @@ export default getElementDimensions(
     }
 
     mapProps = props => {
-      let { timeConfig, y1, y2, customHeight, minRollup, renderLegend, primaryContextMenuAction } = props;
+      let {
+        timeConfig,
+        y1,
+        y2,
+        customHeight,
+        minRollup,
+        renderLegend,
+        primaryContextMenuAction,
+        renderPostChartContent,
+        originalTimeConfig
+      } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
       this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
       this.primaryContextMenuAction = primaryContextMenuAction;
@@ -63,6 +73,8 @@ export default getElementDimensions(
       this.renderLegend = renderLegend;
       this.y1 = mapAxis(y1);
       this.y2 = mapAxis(y2);
+      this.renderPostChartContent = renderPostChartContent;
+      this.originalTimeConfig = originalTimeConfig;
     };
 
     createQueuesAndDataHolders = () => {
@@ -198,7 +210,17 @@ export default getElementDimensions(
     };
 
     render() {
-      let { customHeight, timeConfig, granularity, y1, y2, renderLegend, primaryContextMenuAction } = this;
+      let {
+        customHeight,
+        timeConfig,
+        granularity,
+        y1,
+        y2,
+        renderLegend,
+        primaryContextMenuAction,
+        renderPostChartContent,
+        originalTimeConfig
+      } = this;
       const { y1Metrics = [], y2Metrics = [] } = this.state;
 
       y1.metrics = y1Metrics;
@@ -216,6 +238,8 @@ export default getElementDimensions(
           y2={y2}
           customHeight={customHeight}
           primaryContextMenuAction={primaryContextMenuAction}
+          renderPostChartContent={renderPostChartContent}
+          originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         />
       );
     }

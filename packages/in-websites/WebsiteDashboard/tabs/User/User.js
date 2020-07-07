@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/tabs/User/EffectiveConnectionTypeTopList';
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WindowWidthBreakdown from 'in-websites/WebsiteDashboard/tabs/User/WindowWidthBreakdown';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/User/BrowserTopList';
@@ -59,6 +60,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                 }
               }
             }}
+            renderPostChartContent={WebsiteDashboardsMarkerLanes}
           />
         </Col>
       </Row>

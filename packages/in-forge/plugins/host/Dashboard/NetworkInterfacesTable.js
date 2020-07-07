@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
@@ -9,6 +7,9 @@ import {
   bytesTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -148,6 +149,7 @@ function getDetails(row) {
         tooltipFormatter: percentageTwoDecimalPlaces,
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

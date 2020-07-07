@@ -2,12 +2,11 @@ import React, { Fragment } from 'react';
 
 import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
-import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLane';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -39,12 +38,6 @@ export default connectTo(
       service: serviceId,
       applicationBoundaryScope: boundaryScope
     };
-
-    const postChartContent = props => (
-      <MarkerLanesPresenter {...props}>
-        <ReleaseMarkerLane />
-      </MarkerLanesPresenter>
-    );
 
     return (
       <Fragment>
@@ -115,7 +108,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -127,7 +120,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -139,7 +132,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
         </Row>
@@ -148,7 +141,7 @@ export default connectTo(
             <IssuesAndEvents
               applicationId={applicationId}
               timeConfig={timeConfig}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -160,7 +153,7 @@ export default connectTo(
               serviceId={serviceId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
-              renderPostChartContent={postChartContent}
+              renderPostChartContent={ApplicationDashboardsMarkerLanes}
             />
           </Col>
         </Row>

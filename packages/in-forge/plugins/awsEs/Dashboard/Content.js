@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -9,11 +10,11 @@ import {
   bytes
 } from 'in-services/formatters/number';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import theme from 'in-themes';
 
 export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -33,6 +34,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: timeByMillisTwoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Cluster status">
@@ -47,6 +49,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               colors: [theme.lib.colors.green800, theme.lib.colors.yellow800, theme.lib.colors.red800]
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -62,6 +65,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'stackedArea',
               formatter: percentagePlainZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="CPU Credit">
@@ -75,6 +79,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -90,6 +95,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Storage space">
@@ -103,6 +109,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'stackedArea',
               formatter: bytes.detailed
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -118,6 +125,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="JVM memory">
@@ -131,6 +139,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: percentagePlainZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -152,6 +161,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
                 theme.lib.colors.red800
               ]
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Read/write latency">
@@ -166,6 +176,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               formatter: seconds.fixedCompact,
               colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -182,6 +193,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               formatter: bytesPerSecondZeroDecimalPlaces,
               colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Read/write iops">
@@ -196,6 +208,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               formatter: number.perSecond.detailed,
               colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>

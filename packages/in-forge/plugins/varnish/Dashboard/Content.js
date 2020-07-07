@@ -7,6 +7,7 @@ import {
   hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MseTable from 'in-forge/plugins/varnish/Dashboard/MseTable';
@@ -41,6 +42,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             tooltipFormatter: twoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Cache">
@@ -61,6 +63,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Cached objects">
@@ -75,6 +78,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Threads">
@@ -102,6 +106,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Backend">
@@ -124,6 +129,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {hasMse ? (
@@ -137,6 +143,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytesZeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <MseTable snapshot={snapshot} timeConfig={timeConfig} />
         </DashboardSection>

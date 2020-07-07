@@ -6,8 +6,8 @@ import {
   percentagePlainTwoDecimalPlaces,
   millis
 } from 'in-services/formatters/number';
-
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -42,6 +42,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               type: 'area',
               min: 0
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
@@ -56,6 +57,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               type: 'area',
               min: 0
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -82,6 +84,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -119,6 +122,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

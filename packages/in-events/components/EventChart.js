@@ -16,6 +16,7 @@ import EventMetricChartDownloadView from 'in-components/DownloadButton/component
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import EventsViewDashboardsMarkerLanes from './EventsViewDashboardsMarkerLanes';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
@@ -133,6 +134,7 @@ const ChartWrapper = connectTo(
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed
           }}
+          renderPostChartContent={EventsViewDashboardsMarkerLanes}
         />
       </div>
     );

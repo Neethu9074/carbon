@@ -3,6 +3,7 @@ import React from 'react';
 
 import { bytesZeroDecimalPlaces, number, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -57,6 +58,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
               labels: ['kBytes'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -78,6 +80,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
               labels: ['Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -114,6 +117,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
             ],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -130,6 +134,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: percentageZeroDecimalPlaces
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="Traffic per Request">
@@ -143,6 +148,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
                 type: 'line',
                 formatter: bytesZeroDecimalPlaces
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </div>

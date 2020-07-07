@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -134,6 +135,7 @@ function getDetails(row) {
           labels: ['Bytes In', 'Bytes Out', 'Bytes Rejected'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -145,6 +147,7 @@ function getDetails(row) {
           labels: ['Messages In'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

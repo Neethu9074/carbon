@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CollectionsTable from 'in-forge/plugins/azureCosmosDb/Dashboard/CollectionsTable';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
@@ -24,6 +25,7 @@ export default function Database({ snapshot, timeConfig, region, database, colle
           labels: ['Metadata Requests'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -35,6 +37,7 @@ export default function Database({ snapshot, timeConfig, region, database, colle
           labels: ['Document Count'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <CollectionsTable

@@ -13,6 +13,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
@@ -85,6 +86,7 @@ export default connectTo(
                           formatter={percentageZeroDecimalPlaces}
                           tooltipFormatter={percentageTwoDecimalPlaces}
                           metric="cpu.total_usage"
+                          renderPostChartContent={K8DashboardsMarkerLanes}
                         />
                       )}
                     </Td>
@@ -96,6 +98,7 @@ export default connectTo(
                           formatter={bytesZeroDecimalPlaces}
                           tooltipFormatter={bytesTwoDecimalPlaces}
                           metric="memory.usage"
+                          renderPostChartContent={K8DashboardsMarkerLanes}
                         />
                       )}
                     </Td>
@@ -129,6 +132,7 @@ export default connectTo(
                         formatter={percentageZeroDecimalPlaces}
                         tooltipFormatter={percentageTwoDecimalPlaces}
                         metric="cpu.total_usage"
+                        renderPostChartContent={K8DashboardsMarkerLanes}
                       />
                     )}
                   </Td>
@@ -140,6 +144,7 @@ export default connectTo(
                         formatter={bytesZeroDecimalPlaces}
                         tooltipFormatter={bytesTwoDecimalPlaces}
                         metric="memory.usage"
+                        renderPostChartContent={K8DashboardsMarkerLanes}
                       />
                     )}
                   </Td>

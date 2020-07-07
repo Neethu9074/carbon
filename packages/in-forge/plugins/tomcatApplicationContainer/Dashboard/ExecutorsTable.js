@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -99,6 +100,7 @@ function getRowDetails(row) {
         labels: [row.key + ' Active Threads', row.key + ' Queue Size'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

@@ -1,11 +1,13 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import {
   getResourceTypes,
   types as resourceTypes
 } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
+import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { getLinkToWebsite, resourcesTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
@@ -31,7 +33,6 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './Resource.mless';
 
@@ -196,6 +197,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                   }
                 }
               }}
+              renderPostChartContent={WebsiteDashboardsMarkerLanes}
             />
           </Col>
         </Row>
@@ -300,6 +302,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         }
                       }
                     }}
+                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
                   />
                 )}
               </AggregationSelector>

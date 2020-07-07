@@ -8,13 +8,12 @@ import {
   percentagePlainTwoDecimalPlaces,
   muSecondsZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
+import RedisCacheShardTable from 'in-forge/plugins/azureRedisCache/Dashboard/RedisCacheShardTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
-
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import RedisCacheShardTable from 'in-forge/plugins/azureRedisCache/Dashboard/RedisCacheShardTable.js';
+import MetricValue from 'in-components/MetricValue';
 
 export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -49,6 +48,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -62,6 +62,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             labels: ['Cache Hits', 'Cache Misses'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -75,6 +76,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             labels: ['Gets', 'Sets'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -88,6 +90,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             labels: ['Keys Expired', 'Keys Evicted'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -103,6 +106,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             labels: ['Used RSS', 'Used'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -118,6 +122,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             labels: ['Cache Read', 'Cache Write'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -132,6 +137,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -146,6 +152,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -159,6 +166,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: twoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -172,6 +180,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: twoDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -185,6 +194,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -198,6 +208,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: percentagePlainTwoDecimalPlaces,
             type: 'area'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -211,6 +222,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: muSecondsZeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -224,6 +236,7 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

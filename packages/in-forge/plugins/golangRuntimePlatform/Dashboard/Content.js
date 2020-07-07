@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { timeNs, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -40,6 +41,7 @@ export default function GolangDashboard({ snapshot, timeConfig }) {
             labels: ['GC Pause'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -53,6 +55,7 @@ export default function GolangDashboard({ snapshot, timeConfig }) {
             labels: ['Executed Goroutines'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>
@@ -77,6 +80,7 @@ function renderHeapMetrics(snapshot, timeConfig) {
         labels: ['Objects'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -93,6 +97,7 @@ function renderMemoryMetrics(snapshot, timeConfig) {
         labels: ['Allocated Memory', 'Obtained From System'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

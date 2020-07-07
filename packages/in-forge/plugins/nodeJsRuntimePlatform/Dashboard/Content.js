@@ -7,6 +7,7 @@ import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleA
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -72,6 +73,7 @@ export default connectTo({
             labels: ['GC Pause'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -90,6 +92,7 @@ export default connectTo({
             labels: ['#Handles', '#Requests'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -123,6 +126,7 @@ function renderGcMetrics(snapshot, timeConfig) {
           labels: ['#Minor GCs', '#Major GCs'],
           type: 'point'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     );
   }
@@ -139,6 +143,7 @@ function renderGcMetrics(snapshot, timeConfig) {
         labels: ['RSS', 'Heap Size'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }
@@ -163,6 +168,7 @@ function renderEventLoopMetrics(snapshot, timeConfig) {
           labels: ['Loops per second'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     );
   }
@@ -178,6 +184,7 @@ function renderEventLoopMetrics(snapshot, timeConfig) {
         labels: ['Event loop lag'],
         type: 'line'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

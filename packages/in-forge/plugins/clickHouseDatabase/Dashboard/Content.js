@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import RunningQueries from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningQueries';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import ActiveParts from 'in-forge/plugins/clickHouseDatabase/Dashboard/ActiveParts';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -55,6 +56,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               labels: ['QueryPreempted'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Merge">
@@ -67,6 +69,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               labels: ['Merge'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -89,6 +92,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Tasks">
@@ -102,6 +106,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -116,6 +121,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               labels: ['HTTP Connections', 'TCP Connections', 'Interserver'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <DashboardSection title="Memory">
@@ -129,6 +135,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: bytes.compact
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -142,6 +149,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
             labels: ['Open Files (Read)', 'Open Files (Write)'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

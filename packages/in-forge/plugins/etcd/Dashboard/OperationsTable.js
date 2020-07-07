@@ -1,9 +1,10 @@
+import theme from 'in-themes';
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import theme from 'in-themes';
 
 const cols = [
   {
@@ -87,6 +88,7 @@ function getRowDetails(row) {
         colors: [theme.lib.colors.green800, theme.lib.colors.red800],
         aggregation: 'sum'
       }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
 }

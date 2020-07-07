@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function Summary({ timeConfig, data: daemonSet }) {
   const snapshotId = daemonSet.id;
@@ -81,6 +82,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
                 type: 'line',
                 colors: [usage, requests, limits].filter(Boolean)
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -96,6 +98,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
                 type: 'line',
                 colors: [usage, requests, limits].filter(Boolean)
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -117,6 +120,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
                 type: 'line',
                 colors: [allocated, pending, unscheduled, unready]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -134,6 +138,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
                 labels: ['Available', 'Desired', 'Unavailable', 'Misscheduled'],
                 type: 'line'
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-
 import NodeSummary from '../NodeSummary.js';
 
 export default function CockroachDBDashboard({ snapshot, timeConfig }) {
@@ -27,6 +27,7 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
             labels: ['50th', '75th', '90th', '99th', 'Max'],
             type: 'integral'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Disk">
@@ -45,6 +46,7 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Disk IOPS in progress">
@@ -57,6 +59,7 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Network">
@@ -75,6 +78,7 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

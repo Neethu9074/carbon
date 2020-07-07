@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { number, millis, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -25,6 +26,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
             formatter: number.detailed,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -38,6 +40,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
             formatter: number.detailed,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -57,6 +60,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -70,6 +74,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
             formatter: number.detailed,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

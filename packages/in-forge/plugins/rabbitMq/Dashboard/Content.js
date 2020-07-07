@@ -2,6 +2,7 @@ import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -46,6 +47,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Message Status">
@@ -59,6 +61,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
           <Chart
             snapshotId={snapshotId}
@@ -73,6 +76,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -88,6 +92,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 

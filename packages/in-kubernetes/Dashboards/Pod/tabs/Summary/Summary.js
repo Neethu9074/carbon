@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
 
-import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -16,7 +18,6 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -125,6 +126,7 @@ export default function Summary({ data: pod, timeConfig }) {
                 type: 'line',
                 colors: [usage, requests, limits]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>
@@ -140,6 +142,7 @@ export default function Summary({ data: pod, timeConfig }) {
                 type: 'line',
                 colors: [usage, requests, limits]
               }}
+              renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
         </Col>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -60,6 +61,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="Memory">
@@ -73,6 +75,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -88,6 +91,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="IOPS">
@@ -101,6 +105,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -120,6 +125,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
               labels: ['Running', 'Migrating', 'Pending', 'Terminal', 'Blocked'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <Columize>
@@ -133,6 +139,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 labels: ['Unacknowledged', 'Ready'],
                 type: 'line'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection title="Broker">
@@ -150,6 +157,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 labels: ['Unacknowledged', 'Waiting', 'Ready', 'Blocked'],
                 type: 'line'
               }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
@@ -167,6 +175,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
               labels: ['Quota limit', 'Blocked', 'Escaped'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <Columize>

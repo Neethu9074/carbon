@@ -6,12 +6,12 @@ import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
-
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import MetricValue from 'in-components/MetricValue';
 
 export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -62,6 +62,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['DTU Percentage'],
               type: 'bar'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -82,6 +83,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['Database size'],
             type: 'bar'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -95,6 +97,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['CPU percentage'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -108,6 +111,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['Successful Connections', 'Failed Connections'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -121,6 +125,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['Blocked by Firewall'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -134,6 +139,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['Deadlocks'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -148,6 +154,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['Data IO'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
 
           <Chart
@@ -159,6 +166,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['Log IO'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -174,6 +182,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['Workers'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
 
           <Chart
@@ -185,6 +194,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['Sessions'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </Columize>
       </DashboardSection>
@@ -199,6 +209,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             labels: ['In-Memory OLTP storage'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -216,6 +227,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               labels: ['CPU Limit', 'CPU Used'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

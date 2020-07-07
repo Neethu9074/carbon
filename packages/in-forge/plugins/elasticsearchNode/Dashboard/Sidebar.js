@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import { siPrefix, bytes } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from '../Info';
 
 export default function ElasticsearchSidebar({ snapshot }) {
@@ -45,6 +45,7 @@ export default function ElasticsearchSidebar({ snapshot }) {
             aggregation: 'mean'
           }
         ]}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <ServiceInstancesList snapshot={snapshot} />

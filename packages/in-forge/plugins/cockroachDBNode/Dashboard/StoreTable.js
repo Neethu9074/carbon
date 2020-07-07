@@ -2,6 +2,7 @@ import { Range } from 'immutable';
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -139,6 +140,7 @@ function getRowDetails(row) {
           labels: ['Capacity', 'Available', 'Used'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -153,6 +155,7 @@ function getRowDetails(row) {
           labels: ['Queries', 'Writes'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </Columize>
   );

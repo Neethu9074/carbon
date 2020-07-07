@@ -1,9 +1,9 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-
 import DatasourcesTable from './DatasourcesTable';
 import WebModulesTable from './WebModulesTable';
 
@@ -20,6 +20,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
             labels: ['Active Threads', 'Pool Size'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <WebModulesTable snapshot={snapshot} timeConfig={timeConfig} />

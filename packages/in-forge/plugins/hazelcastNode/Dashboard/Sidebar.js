@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { siPrefix } from 'in-services/formatters/number';
-
 import Info from '../Info';
 
 export default function HazelcastSidebar({ snapshot }) {
@@ -36,6 +36,7 @@ export default function HazelcastSidebar({ snapshot }) {
             formatter: siPrefix
           }
         ]}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <ServiceInstancesList snapshot={snapshot} />

@@ -5,6 +5,7 @@ import {
   percentagePlainZeroDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
@@ -25,6 +26,7 @@ export default function F5Dashboard({ snapshot, timeConfig }) {
             labels: ['Free'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -39,6 +41,7 @@ export default function F5Dashboard({ snapshot, timeConfig }) {
             formatter: percentagePlainZeroDecimalPlaces,
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -53,6 +56,7 @@ export default function F5Dashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

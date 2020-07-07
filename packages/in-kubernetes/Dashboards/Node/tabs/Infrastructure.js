@@ -6,6 +6,7 @@ import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-compone
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -88,6 +89,7 @@ export default connectTo(
                   formatter={percentageZeroDecimalPlaces}
                   tooltipFormatter={percentageTwoDecimalPlaces}
                   metric="cpu.used"
+                  renderPostChartContent={K8DashboardsMarkerLanes}
                 />
               </Td>
               <Td>
@@ -97,6 +99,7 @@ export default connectTo(
                   formatter={percentageZeroDecimalPlaces}
                   tooltipFormatter={percentageTwoDecimalPlaces}
                   metric="memory.used"
+                  renderPostChartContent={K8DashboardsMarkerLanes}
                 />
               </Td>
             </Tr>

@@ -2,10 +2,11 @@ import semver from 'semver';
 import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
+import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
-import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 
 export default function StreamingAppContent({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
@@ -22,6 +23,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Completed Batches per Second'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Scheduling Delay">
@@ -34,6 +36,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Scheduling Delay'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Total Delay">
@@ -46,6 +49,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Total Delay'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Processing Time">
@@ -58,6 +62,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Processing Time'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {semver.satisfies(version, '>=1.6.0') ? (
@@ -71,6 +76,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
               labels: ['Completed Output Operations', 'Failed Output Operations'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
@@ -84,6 +90,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Input Records'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Receivers">
@@ -96,6 +103,7 @@ export default function StreamingAppContent({ snapshot, timeConfig }) {
             labels: ['Active Receivers', 'Inactive Receivers'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {semver.satisfies(version, '>=2.0.0') ? (

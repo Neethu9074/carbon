@@ -9,6 +9,7 @@ import {
 } from 'in-services/formatters/number';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { capitalize } from 'in-services/formatters/string';
@@ -60,6 +61,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: number.detailed
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -80,6 +82,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
               labels: ['Mean', '50th Percentile', '95th Percentile', '99th Percentile'],
               type: 'line'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ))}
@@ -110,6 +113,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ))}
@@ -131,6 +135,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -147,6 +152,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -162,6 +168,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             labels: ['Counter', 'Key', 'Row'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -177,6 +184,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             labels: ['Miss Rate'],
             type: 'stackedArea'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

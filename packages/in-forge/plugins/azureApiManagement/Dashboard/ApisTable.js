@@ -1,10 +1,11 @@
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
-import { emptyMap } from 'in-services/fixedImmutables';
+import { zeroDecimalPlaces, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { zeroDecimalPlaces, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
+import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -130,6 +131,7 @@ function getRowDetails(row) {
           labels: ['Total Calls', 'Successful Calls', 'Blocked Calls', 'Failed Calls', 'Other Calls'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -141,6 +143,7 @@ function getRowDetails(row) {
           labels: ['Bandwidth'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <Chart
@@ -152,6 +155,7 @@ function getRowDetails(row) {
           labels: ['Cache Hits', 'Cache Misses'],
           type: 'line'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Columize>
         <Chart
@@ -167,6 +171,7 @@ function getRowDetails(row) {
             labels: ['API Average Response Time', 'API Minimum Response Time', 'API Maximum Response Time'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
 
         <Chart
@@ -182,6 +187,7 @@ function getRowDetails(row) {
             labels: ['Service Average Response Time', 'Service Minimum Response Time', 'Service Maximum Response Time'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
     </div>

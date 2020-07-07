@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { percentage, bytes, kiloBytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -165,6 +166,7 @@ function getDetails(row) {
             labels: ['Free', 'Leaked'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
 
         <Chart
@@ -186,6 +188,7 @@ function getDetails(row) {
             labels: ['Bytes Read/s', 'Bytes Written/s'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
       {!row.windows &&
@@ -211,6 +214,7 @@ function getDetails(row) {
               formatter: withSiMultiplyPrefixThreeDecimalPlaces,
               tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         )}
     </Fragment>

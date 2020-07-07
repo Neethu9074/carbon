@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, percentage } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -110,6 +111,7 @@ function getRowDetails(row) {
           labels: ['Used Space'],
           type: 'area'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart
         snapshotId={row.snapshotId}
@@ -122,6 +124,7 @@ function getRowDetails(row) {
           labels: ['Used Percent'],
           type: 'area'
         }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
     </div>
   );

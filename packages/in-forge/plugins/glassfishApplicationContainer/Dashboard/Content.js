@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, hitRateZeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
-
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -49,6 +49,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: msZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Connections">
@@ -69,6 +70,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="Keep Alive">
@@ -88,6 +90,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="File cache">
@@ -109,6 +112,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title="JDBC Connections">
@@ -122,6 +126,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>

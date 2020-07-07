@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import { hitRate, siPrefix } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from '../Info';
 
 export default function Neo4jSidebar({ snapshot }) {
@@ -51,6 +51,7 @@ export default function Neo4jSidebar({ snapshot }) {
             formatter: hitRate
           }
         ]}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
       />
 
       <ServiceInstancesList snapshot={snapshot} />

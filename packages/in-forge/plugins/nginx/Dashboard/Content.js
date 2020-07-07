@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -130,6 +131,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -145,6 +147,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -167,6 +170,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: twoDecimalPlaces
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
@@ -194,6 +198,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -214,6 +219,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}
@@ -230,6 +236,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: twoDecimalPlaces
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       )}

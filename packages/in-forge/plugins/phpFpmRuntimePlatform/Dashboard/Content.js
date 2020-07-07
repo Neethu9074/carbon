@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -61,6 +62,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
             labels: ['Listen Queue', 'Max', 'Length'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
@@ -85,6 +87,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
             labels: ['Max Active', 'Max Children'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
@@ -98,6 +101,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
             labels: ['Memory'],
             type: 'line'
           }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
     </div>
