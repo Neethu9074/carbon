@@ -38,6 +38,8 @@ export const customServiceMappingTagKeys = [
   'gce.zone',
   'nova.zone',
   'jvm.app.name',
+  // 'jvm.args' is not part of the backend (/api/tags) and therefore not present in the window.instana.tags
+  // This is on purpose as the tag is only required for custom service mapping.
   'jvm.args',
   'kafka.cluster.name',
   'mongo.replicatSetName',
