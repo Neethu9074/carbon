@@ -11,6 +11,7 @@ import {
   CLOSE_BRACKET,
   EXPRESSION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import QueryBuilderDragAndDropBehaviour from 'in-new-components/QueryBuilder/QueryBuilderDragAndDropBehaviour';
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
@@ -71,23 +72,33 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   );
 
   return (
-    <div
-      ref={refContainer}
-      className={locals.queryBuilder}
-      onClick={e => onClickQueryBuilderContent(e, refContainer.current)}
-      onKeyDown={e => onKeyDown(e, refContainer.current)}
+    <QueryBuilderDragAndDropBehaviour
+      queryBuilderRef={refContainer.current}
+      totalItems={formModel.length}
+      switchFormModelIndices={switchFormModelIndices}
+      setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}
     >
-      <Elements
-        draggedFormModelIndex$={draggedFormModelIndex$}
-        elements={toRenderModel(formModel)}
-        onRemove={onRemove}
-        switchFormModelIndices={switchFormModelIndices}
-        createTagForm={resolvedCreateTagForm}
-        onChange={onChangeFormModelElement}
-        onAdd={onAddFormModelElement}
-        focus={focus}
-      />
-    </div>
+      {({ dragAndDropProps }) => (
+        <div
+          ref={refContainer}
+          className={locals.queryBuilder}
+          onClick={e => onClickQueryBuilderContent(e, refContainer.current)}
+          onKeyDown={e => onKeyDown(e, refContainer.current)}
+          {...dragAndDropProps}
+        >
+          <Elements
+            draggedFormModelIndex$={draggedFormModelIndex$}
+            elements={toRenderModel(formModel)}
+            onRemove={onRemove}
+            switchFormModelIndices={switchFormModelIndices}
+            createTagForm={resolvedCreateTagForm}
+            onChange={onChangeFormModelElement}
+            onAdd={onAddFormModelElement}
+            focus={focus}
+          />
+        </div>
+      )}
+    </QueryBuilderDragAndDropBehaviour>
   );
 
   function switchFormModelIndices(indexA, indexB) {

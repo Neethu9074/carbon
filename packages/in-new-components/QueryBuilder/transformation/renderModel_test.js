@@ -28,11 +28,12 @@ import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spaci
 
 describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
   describe('#addSpacingsAndIncides', () => {
-    beforeEach(resetIndices);
+    beforeEach(() => {
+      resetIndices();
+    });
 
     it('should add no spacings is one or no elements', () => {
-      expect(addSpacingsAndIncides([])).to.deep.equal([rm_letter()]);
-      expect(addSpacingsAndIncides([fm_tag()])).to.deep.equal([rm_tag(), rm_letter()]);
+      expect(addSpacingsAndIncides([fm_tag()])).to.deep.equal([rm_letter(), rm_tag(), rm_word()]);
     });
 
     it('should add spacings between each element', () => {
@@ -53,6 +54,7 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
           fm_closeBracket()
         ])
       ).to.deep.equal([
+        rm_letter(),
         rm_tag(),
         rm_word(),
         rm_openBracket(),
@@ -78,7 +80,7 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         rm_tag(),
         rm_letter(),
         rm_closeBracket(),
-        rm_letter()
+        rm_word()
       ]);
     });
 
@@ -94,6 +96,7 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
           fm_closeBracket()
         ])
       ).to.deep.equal([
+        rm_letter(),
         rm_openBracket(),
         rm_letter(),
         rm_openBracket(),
@@ -107,7 +110,7 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         rm_tag(),
         rm_letter(),
         rm_closeBracket(),
-        rm_letter()
+        rm_word()
       ]);
     });
   });

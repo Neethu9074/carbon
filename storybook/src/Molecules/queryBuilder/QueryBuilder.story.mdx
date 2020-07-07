@@ -217,6 +217,15 @@ models in order to do its job:
 
 ```js
 [
+  // All render queries will start with a spacing.
+  // This allows us to support cursor navigation at the beginning of the query.
+  {
+    type: 'SPACING',
+    size: 'LETTER',
+    leftFormModelIndex: -1,
+    rightFormModelIndex: 0,
+    renderModelIndex: 0
+  },
   {
     type: 'TAG_FILTER',
     name: 'service.name',
@@ -224,7 +233,7 @@ models in order to do its job:
     stringValue: 'shop',
     entity: 'DESTINATION',
     formModelIndex: 0,
-    renderModelIndex: 0
+    renderModelIndex: 1
     // Note: No validation/suggestion information for type=TAG
   },
   // All render queries will end with a spacing.
@@ -234,7 +243,7 @@ models in order to do its job:
     size: 'LETTER',
     leftFormModelIndex: 0,
     rightFormModelIndex: 1,
-    renderModelIndex: 1
+    renderModelIndex: 2
   }
 ]
 ```
@@ -243,6 +252,15 @@ models in order to do its job:
 
 ```js
 [
+  // All render queries will start with a spacing.
+  // This allows us to support cursor navigation at the beginning of the query.
+  {
+    type: 'SPACING',
+    size: 'LETTER',
+    leftFormModelIndex: -1,
+    rightFormModelIndex: 0,
+    renderModelIndex: 0
+  },
   {
     // To implement expression/group highlighting effects when hovering
     // or when focusing via the keyboard (tabbing or left/right keys).
@@ -256,7 +274,7 @@ models in order to do its job:
         // formModelIndex helps to implement event handler implementations.
         formModelIndex: 0,
         // renderModelIndex helps to implement keyboard navigation
-        renderModelIndex: 0
+        renderModelIndex: 1
       },
       // SPACING serves mutliple use cases:
       // - is a visual whitespace element.
@@ -268,7 +286,7 @@ models in order to do its job:
         // Are added to simlify form manipulations (insert item at, remove item at, etc.)
         leftFormModelIndex: 0,
         rightFormModelIndex: 1,
-        renderModelIndex: 1,
+        renderModelIndex: 2,
         // Example for validation messages.
         valid: false,
         suggestions: [
@@ -287,7 +305,7 @@ models in order to do its job:
         stringValue: 'shop',
         entity: 'DESTINATION',
         formModelIndex: 1,
-        renderModelIndex: 2
+        renderModelIndex: 3
         // Note: No validation/suggestion information for type=TAG
       },
       {
@@ -295,20 +313,20 @@ models in order to do its job:
         size: 'WORD',
         leftFormModelIndex: 1,
         rightFormModelIndex: 2,
-        renderModelIndex: 3
+        renderModelIndex: 4
       },
       {
         type: 'CONJUNCTION',
         logicalOperator: 'OR',
         formModelIndex: 2,
-        renderModelIndex: 4
+        renderModelIndex: 5
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 2,
         rightFormModelIndex: 3,
-        renderModelIndex: 5
+        renderModelIndex: 6
       },
       {
         type: 'TAG_FILTER'
@@ -317,7 +335,7 @@ models in order to do its job:
         stringValue: 'shipping',
         entity: 'DESTINATION',
         formModelIndex: 3,
-        renderModelIndex: 6
+        renderModelIndex: 7
         // Note: No validation/suggestion information for type=TAG
       },
       {
@@ -325,20 +343,20 @@ models in order to do its job:
         size: 'WORD',
         leftFormModelIndex: 3,
         rightFormModelIndex: 4,
-        renderModelIndex: 7
+        renderModelIndex: 8
       },
       {
         type: 'CONJUNCTION',
         logicalOperator: 'OR',
         formModelIndex: 4,
-        renderModelIndex: 8
+        renderModelIndex: 9
       },
       {
         type: 'SPACING',
         size: 'WORD',
         leftFormModelIndex: 4,
         rightFormModelIndex: 5,
-        renderModelIndex: 9
+        renderModelIndex: 10
       },
       {
         type: 'TAG_FILTER'
@@ -347,7 +365,7 @@ models in order to do its job:
         stringValue: 'product',
         entity: 'SOURCE',
         formModelIndex: 5,
-        renderModelIndex: 10
+        renderModelIndex: 11
         // Note: No validation/suggestion information for type=TAG
       },
       {
@@ -355,12 +373,12 @@ models in order to do its job:
         size: 'LETTER',
         leftFormModelIndex: 5,
         rightFormModelIndex: 6,
-        renderModelIndex: 11
+        renderModelIndex: 12
       },
       {
         type: 'CLOSE_BRACKET',
         formModelIndex: 6,
-        renderModelIndex: 12
+        renderModelIndex: 13
       }
     ]
   },
@@ -371,7 +389,7 @@ models in order to do its job:
     size: 'LETTER',
     leftFormModelIndex: 6,
     rightFormModelIndex: 7,
-    renderModelIndex: 13
+    renderModelIndex: 14k
   }
 ]
 ```

@@ -35,8 +35,7 @@ export function toRenderModel(formModel) {
 }
 
 export function addSpacingsAndIncides(elements) {
-  const elementsWithSpacings = [];
-
+  const elementsWithSpacings = [createSpacing(LETTER, -1)];
   for (let formModelIndex = 0; formModelIndex < elements.length; formModelIndex++) {
     const element = { ...elements[formModelIndex] };
     const nextElement = elements[formModelIndex + 1];
@@ -52,7 +51,7 @@ export function addSpacingsAndIncides(elements) {
   }
 
   // Trailing space to have a standard interaction point.
-  elementsWithSpacings.push(createSpacing(LETTER, elements.length - 1));
+  elementsWithSpacings.push(createSpacing(WORD, elements.length - 1));
 
   return elementsWithSpacings;
 }

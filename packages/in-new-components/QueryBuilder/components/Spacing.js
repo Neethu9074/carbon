@@ -30,7 +30,7 @@ export default function Spacing({
       .distinct()
       .map(draggedFormModelIndex => rightFormModelIndex === draggedFormModelIndex)
       .distinct(),
-    [draggedFormModelIndex$]
+    [draggedFormModelIndex$, rightFormModelIndex]
   );
 
   return (
@@ -43,6 +43,7 @@ export default function Spacing({
       tabIndex={0}
       data-render-model-index={renderModelIndex}
       data-query-builder-element="true"
+      data-query-builder-space-element="true"
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
       {...dragAndDropProps}

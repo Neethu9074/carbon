@@ -134,11 +134,19 @@ export function onClickQueryBuilderContent(e, stopElement) {
 
   stopPropagationAndPreventDefault(e);
 
+  const closestElement = getNearestDomElement(
+    e,
+    stopElement.querySelectorAll('[data-query-builder-element][data-render-model-index]')
+  );
+
+  closestElement?.focus();
+}
+
+export function getNearestDomElement(e, elements) {
   const clickedX = e.offsetX ?? e.nativeEvent?.offsetX;
   const clickedY = e.offsetY ?? e.nativeEvent?.offsetY;
   let closestElement;
   let closestXDistance;
-  const elements = stopElement.querySelectorAll('[data-query-builder-element][data-render-model-index]');
   for (const element of elements) {
     const top = element.offsetTop;
     const bottom = element.offsetTop + element.offsetHeight;
@@ -155,5 +163,5 @@ export function onClickQueryBuilderContent(e, stopElement) {
     }
   }
 
-  closestElement?.focus();
+  return closestElement;
 }

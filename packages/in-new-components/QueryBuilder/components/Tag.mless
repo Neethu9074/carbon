@@ -2,7 +2,7 @@
 
 :local {
   .tag {
-    display: inline;
+    display: inline-block;
     padding: 0.3rem;
     background: @lib__colors__N050;
     border: 1px solid @lib__colors__N400;
