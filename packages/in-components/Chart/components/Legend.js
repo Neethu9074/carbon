@@ -64,7 +64,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
             onClick={() => {
               if (isToggleable) {
                 config.toggleDataSeries(dataSeriesName);
-                chart.requestRender();
+                chart.renderScheduler.forceRender();
               }
             }}
           >
