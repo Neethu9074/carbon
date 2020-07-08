@@ -95,6 +95,7 @@ export default function ErrorRateAlertingBarChart({
         metricNames: ['errors'],
         mutate: smoothMetrics
       }}
+      nonInteractive
     />
   );
 }

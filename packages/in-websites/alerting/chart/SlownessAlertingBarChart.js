@@ -124,6 +124,7 @@ export default function SlownessAlertingBarChart({
         metricNames: ['onLoadTime'],
         mutate: smoothMetrics
       }}
+      nonInteractive
     />
   );
 

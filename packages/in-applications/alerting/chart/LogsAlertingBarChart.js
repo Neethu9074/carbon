@@ -103,6 +103,7 @@ export default function LogsAlertingBarChart({
         metricNames: ['logs'],
         mutate: smoothMetrics
       }}
+      nonInteractive
     />
   );
 }

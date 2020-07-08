@@ -23,4 +23,8 @@
 
     cursor: pointer;
   }
+
+  .glassPaneNonInteractive {
+    cursor: default;
+  }
 }

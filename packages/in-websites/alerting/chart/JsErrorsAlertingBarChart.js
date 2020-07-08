@@ -113,6 +113,7 @@ export default function JsErrorsAlertingBarChart({
         metricNames: ['errors'],
         mutate: smoothMetrics
       }}
+      nonInteractive
     />
   );
 }
