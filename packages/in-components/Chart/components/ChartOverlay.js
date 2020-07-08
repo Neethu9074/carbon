@@ -120,14 +120,12 @@ export default connectTo(
     };
 
     setupSubscriptions = () => {
-      if (this.props.nonInteractive) return;
-
       const glassPane = this.glassPane;
-      this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
-      this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
+
       this.onMouseMoveSubscription = on(glassPane, 'mousemove')
         .throttle(userInteractionThrottlingMillis)
         .subscribe(this.onMouseMove.bind(this));
+
       this.onMouseLeaveSubscription = on(glassPane, 'mouseleave')
         // Needs to be greater than the timeout we have defined in the mousemove handler.
         // Just to be safe we use two times the userInteractionThrottlingMillis. Theoretically
@@ -136,6 +134,10 @@ export default connectTo(
         // userInteractionThrottlingMillis.
         .throttle(userInteractionThrottlingMillis * 2, { leading: false })
         .subscribe(this.onMouseLeave.bind(this));
+
+      if (this.props.nonInteractive) return;
+      this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
+      this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
       this.onContextMenuSubscription = on(glassPane, 'contextmenu').subscribe(e => e.preventDefault());
     };
 
