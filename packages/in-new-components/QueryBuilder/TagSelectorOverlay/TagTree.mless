@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .option {
+    justify-content: space-between;
+    font-weight: normal;
+  }
+}

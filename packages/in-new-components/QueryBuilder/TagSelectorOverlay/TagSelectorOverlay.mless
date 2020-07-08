@@ -1,7 +1,22 @@
 @import '~in-themes/active.less';
 
 :local {
-  .filterList {
+  .searchInputWrapper {
+    padding: 0.5rem;
+  }
+
+  .overlay {
+    width: 26rem;
+
+    border-radius: @lib__shapes__radius_medium;
+  }
+
+  .content {
+    min-height: 30rem;
+  }
+
+  .filterList,
+  .searchInputWrapper {
     border-bottom: 1px solid @lib__colors__N400;
   }
 

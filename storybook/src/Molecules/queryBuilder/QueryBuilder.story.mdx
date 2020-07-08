@@ -4,6 +4,7 @@ import {useState} from 'react';
 import { QueryBuilderStateHelper } from "./QueryBuilderStateHelper";
 import { successObservableFactory } from 'in-services/util/result';
 import {createQueryBuilder} from 'in-new-components/QueryBuilder';
+import tagCatalogExampleJson from './tagCatalogExample';
 import tagCatalogExample from './tagCatalogExample.png';
 
 <Meta title="Molecules|queryBuilder/QueryBuilder" />
@@ -13,10 +14,7 @@ import tagCatalogExample from './tagCatalogExample.png';
 ## Example
 
 export const DefaultExampleQueryBuilder = createQueryBuilder({
-  getTagCatalog: successObservableFactory({
-    tags: [],
-    tagTree: []
-  })
+  getTagCatalog: successObservableFactory(tagCatalogExampleJson)
 }).QueryBuilder;
 
 export function DefaultExample() {

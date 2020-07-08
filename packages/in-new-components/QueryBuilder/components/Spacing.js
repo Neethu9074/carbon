@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { LETTER, WORD, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import { ADD_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
@@ -8,6 +9,7 @@ import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spaci
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { CLOSE_BRACKET } from '../transformation/formModel';
+import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
@@ -19,6 +21,7 @@ export default function Spacing({
   size,
   suggestions,
   onRemove,
+  tagCatalog,
   onAdd: onAddToFormModel,
   draggedFormModelIndex$,
   dragAndDropProps,
@@ -48,7 +51,7 @@ export default function Spacing({
       onKeyUp={onKeyUp}
       {...dragAndDropProps}
     >
-      {renderSuggestion(suggestions, onOpenAddDialog, onAddToFormModel)}
+      {renderSuggestion(suggestions, tagCatalog, renderModelIndex, onAddToFormModel)}
       &nbsp;
     </div>
   );
@@ -82,12 +85,29 @@ function onKeyDown(e) {
   }
 }
 
-function renderSuggestion(suggestions, onOpenAddDialog, onAddToFormModel) {
+function renderSuggestion(suggestions, tagCatalog, renderModelIndex, onAddToFormModel) {
   if (!suggestions || suggestions.length === 0) {
     return (
-      <div className={locals.addIndicator} onClick={onOpenAddDialog}>
-        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
-      </div>
+      <Overlay
+        align="bottomMiddle"
+        content={TagSelectorOverlay}
+        props={{
+          tagCatalog,
+          onChange: onAddToFormModel
+        }}
+        onCloseSideEffect={e => {
+          // Ensure the element retains its focus when closing the overlay with the escape key.
+          if (e instanceof KeyboardEvent) {
+            focus(renderModelIndex);
+          }
+        }}
+      >
+        {({ toggle, refSetter }) => (
+          <div className={locals.addIndicator} onClick={toggle} ref={refSetter}>
+            <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
+          </div>
+        )}
+      </Overlay>
     );
   }
 

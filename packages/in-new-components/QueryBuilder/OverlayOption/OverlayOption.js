@@ -6,7 +6,16 @@ import { Li } from 'in-new-components/lists/List/List';
 
 import locals from './OverlayOption.mless';
 
-export default function OverlayOption({ autoFocus, className, selectedValue, value, onChange, close, children, subList }) {
+export default function OverlayOption({
+  autoFocus,
+  className,
+  selectedValue,
+  value,
+  onChange,
+  close,
+  children,
+  subList
+}) {
   return (
     <Li
       className={joinClassNames(locals.option, className)}
@@ -27,7 +36,7 @@ OverlayOption.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
   selectedValue: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   children: PropTypes.any.isRequired,

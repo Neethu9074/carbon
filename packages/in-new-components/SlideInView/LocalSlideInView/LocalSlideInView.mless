@@ -36,7 +36,6 @@
   .inputBlocker {
     position: absolute;
     z-index: 2;
-    top: 5rem;
     bottom: 0;
     left: 0;
     right: 0;
@@ -50,8 +49,7 @@
     background: @lib__colors__white;
     z-index: 3;
     box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0);
-    height: calc(100% - 5rem);
-    top: 5rem;
+    bottom: 0;
     right: -100%;
     white-space: nowrap;
     width: 100%;

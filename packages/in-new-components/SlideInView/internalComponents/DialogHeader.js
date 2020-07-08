@@ -4,9 +4,9 @@ import React from 'react';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import evaluateClassNames from 'in-services/util/classnames';
 
-import locals from './Header.mless';
+import locals from './DialogHeader.mless';
 
-export default function Header({ title, onTitleIconClick, scrollShadow }) {
+export default function DialogHeader({ title, onTitleIconClick, scrollShadow }) {
   return (
     <div
       className={evaluateClassNames({
@@ -22,7 +22,7 @@ export default function Header({ title, onTitleIconClick, scrollShadow }) {
   );
 }
 
-Header.propTypes = {
+DialogHeader.propTypes = {
   scrollShadow: PropTypes.bool,
   title: PropTypes.string,
   onTitleIconClick: PropTypes.func

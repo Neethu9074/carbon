@@ -88,12 +88,13 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
         >
           <Elements
             draggedFormModelIndex$={draggedFormModelIndex$}
-            elements={toRenderModel(formModel)}
-            onRemove={onRemove}
             switchFormModelIndices={switchFormModelIndices}
             createTagForm={resolvedCreateTagForm}
+            elements={toRenderModel(formModel)}
             onChange={onChangeFormModelElement}
             onAdd={onAddFormModelElement}
+            tagCatalog={tagCatalog}
+            onRemove={onRemove}
             focus={focus}
           />
         </div>
@@ -160,8 +161,9 @@ function Elements({
   elements,
   switchFormModelIndices,
   draggedFormModelIndex$,
-  onRemove,
   createTagForm,
+  tagCatalog,
+  onRemove,
   onChange,
   onAdd,
   focus,
@@ -186,6 +188,7 @@ function Elements({
                 // Also forward element props as "element" in order to avoid problems caused by
                 // React's reserved words, e.g. key or ref
                 element={element}
+                tagCatalog={tagCatalog}
                 onRemove={onRemove}
                 createTagForm={createTagForm}
                 onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}
@@ -199,6 +202,7 @@ function Elements({
               >
                 {element.elements && (
                   <Elements
+                    tagCatalog={tagCatalog}
                     draggedFormModelIndex$={draggedFormModelIndex$}
                     switchFormModelIndices={switchFormModelIndices}
                     createTagForm={createTagForm}

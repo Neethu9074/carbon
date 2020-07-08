@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import tagCatalogExample from './tagCatalogExample.png';
 
+
 <Meta title="Molecules|queryBuilder/TagCatalog" />
 
 # Tag Catalog
@@ -79,7 +80,7 @@ Refer to the tag tree model for those.
 
 ```json
 {
-  name: 'beacon.website.name,
+  name: 'beacon.website.name',
   type: 'STRING',
   category: 'WEBSITE_MONITORING'
 }
@@ -117,13 +118,21 @@ The following code snippet shows that the definition for the
     {
       type: 'LEVEL',
       label: 'Cluster',
-      icon: 'lib_k8s_cluster',
+      icon: 'lib_kubernetes_cluster',
       children: [
         {
           type: 'TAG',
           label: 'Label',
-          description: 'Defined in Kubernetes',
-          tagName: 'kubernetes.cluster.name'
+          icon: 'lib_kubernetes_label',
+          description: 'Key/Value - Defined in Kubernetes',
+          tag: 'kubernetes.cluster.label'
+        },
+        {
+          type: 'TAG',
+          label: 'Name',
+          icon: 'lib_kubernetes_label',
+          description: 'String - Cluster´s name',
+          tag: 'kubernetes.cluster.name'
         }
       ]
     }

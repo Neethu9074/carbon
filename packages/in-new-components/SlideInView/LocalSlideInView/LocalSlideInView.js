@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Header from 'in-new-components/SlideInView/internalComponents/Header';
+import DialogHeaderComponent from 'in-new-components/SlideInView/internalComponents/DialogHeader';
+import ListHeaderComponent from 'in-new-components/SlideInView/internalComponents/ListHeader';
 import evaluateClassNames from 'in-services/util/classnames';
 
 import locals from './LocalSlideInView.mless';
 
-export default function LocalSlideInView({ sliderContent, children, slideIn, title, onTitleIconClick }) {
+export const DialogHeader = DialogHeaderComponent;
+export const ListHeader = ListHeaderComponent;
+
+export default function LocalSlideInView({
+  sliderContent,
+  children,
+  slideIn,
+  title,
+  onTitleIconClick,
+  HeaderComponent = DialogHeader
+}) {
   const [scrollShadow, setScrollShadow] = useState(false);
   const { doSlideIn, style } = useCustomSlideInBehaviour(slideIn);
+  const top = HeaderComponent === DialogHeader ? '5rem' : '3.5rem';
 
   return (
     <div className={locals.container}>
       <div className={locals.content}>{children}</div>
 
       <div
+        style={{ top }}
         className={evaluateClassNames({
           [locals.inputBlocker]: true,
           [locals.slideIn]: slideIn
@@ -22,7 +35,7 @@ export default function LocalSlideInView({ sliderContent, children, slideIn, tit
       />
 
       <div
-        style={style}
+        style={{ ...style, top }}
         className={evaluateClassNames({
           [locals.slider]: true,
           [locals.slideIn]: doSlideIn
@@ -38,7 +51,7 @@ export default function LocalSlideInView({ sliderContent, children, slideIn, tit
           [locals.slideIn]: slideIn
         })}
       >
-        <Header scrollShadow={scrollShadow} title={title} onTitleIconClick={onTitleIconClick} />
+        <HeaderComponent scrollShadow={scrollShadow} title={title} onTitleIconClick={onTitleIconClick} />
       </div>
     </div>
   );
@@ -46,6 +59,7 @@ export default function LocalSlideInView({ sliderContent, children, slideIn, tit
 
 LocalSlideInView.propTypes = {
   children: PropTypes.node.isRequired,
+  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader]),
   sliderContent: PropTypes.node,
   slideIn: PropTypes.bool,
   title: PropTypes.string,
