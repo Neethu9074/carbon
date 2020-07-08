@@ -1,12 +1,18 @@
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 
 export default function VSphereViewSwitcher() {
   return (
     <>
-      <DashboardHeader icon="lib_vsphere_inverted" label="vSphere Clusters" title="vSphere Clusters" />
+      <DashboardHeader
+        icon="lib_vsphere_inverted"
+        label="vSphere Clusters"
+        title="vSphere Clusters"
+        renderTopLevelButtonLine={UseBeeInstantToggle}
+      />
       <DashboardHeaderShadowModule />
     </>
   );

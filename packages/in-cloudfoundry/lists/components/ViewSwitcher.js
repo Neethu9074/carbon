@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
+import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 
 export default function CloudfoundryViewSwitcher() {
@@ -10,6 +11,7 @@ export default function CloudfoundryViewSwitcher() {
         icon="lib_cloudfoundry_inverted"
         label="Cloud Foundry Applications"
         title="Cloud Foundry Applications"
+        renderTopLevelButtonLine={UseBeeInstantToggle}
       />
       <DashboardHeaderShadowModule />
     </>

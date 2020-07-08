@@ -4,6 +4,7 @@ import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { useBeeInstant$, rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -36,8 +37,8 @@ export default getElementDimensions(
       return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
     }
 
-    componentDidUpdate(prevProps) {
-      if (!isEqual(this.props, prevProps)) {
+    componentDidUpdate(prevProps, prevState) {
+      if (!isEqual(prevState, this.state) || !isEqual(prevProps, this.props)) {
         this.disposeMetricSubscriptions();
 
         this.queues$ = create();
@@ -50,8 +51,17 @@ export default getElementDimensions(
       }
     }
 
+    componentDidMount() {
+      this.useBeeInstantSubscription = useBeeInstant$.subscribe(useBeeInstant =>
+        this.setState({
+          useBeeInstant
+        })
+      );
+    }
+
     componentWillUnmount() {
       this.disposeMetricSubscriptions();
+      this.useBeeInstantSubscription.dispose();
     }
 
     mapProps = props => {
@@ -213,7 +223,6 @@ export default getElementDimensions(
       let {
         customHeight,
         timeConfig,
-        granularity,
         y1,
         y2,
         renderLegend,
@@ -221,7 +230,9 @@ export default getElementDimensions(
         renderPostChartContent,
         originalTimeConfig
       } = this;
-      const { y1Metrics = [], y2Metrics = [] } = this.state;
+      const { y1Metrics = [], y2Metrics = [], useBeeInstant } = this.state;
+
+      const granularity = useBeeInstant ? rollupForBeeInstantMetrics(this.granularity) : this.granularity;
 
       y1.metrics = y1Metrics;
       if (y2) {

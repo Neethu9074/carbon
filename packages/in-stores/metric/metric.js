@@ -1,3 +1,6 @@
+import { just, combineLatest } from 'reactive-observables';
+
+import { useBeeInstant$, rollupForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';
 import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
@@ -76,28 +79,51 @@ const rollupDurationThresholds = [
   }
 ];
 
-const getLatestMetrics = resolveTimeConfig(createLatestMetricsObservable);
+const getLatestMetrics = resolveTimeConfigAndStat(createLatestMetricsObservable, true);
 
-const getMetrics = resolveTimeConfig(createMetricsObservable);
+const getMetrics = resolveTimeConfigAndStat(createMetricsObservable, false);
 
-function resolveTimeConfig(f) {
-  return ({ timeConfig, rollup, ...rest }) => {
-    if (timeConfig) {
-      return f({
+function resolveTimeConfigAndStat(createFn, single) {
+  return ({ timeConfig, rollup, stat, ...rest }) =>
+    combineLatest([resolveTimeConfig(timeConfig), resolveStat(stat)]).flatMap(([timeConfig, stat]) =>
+      createFn({
         timeConfig,
-        rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup,
-        ...rest
-      });
-    }
-
-    return timeConfig$.flatMap(timeConfig =>
-      f({
-        timeConfig,
-        rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup,
+        rollup: resolveRollup(rollup, timeConfig, stat, single),
+        stat,
         ...rest
       })
     );
-  };
+}
+
+function resolveTimeConfig(timeConfig) {
+  if (timeConfig) {
+    return just(timeConfig);
+  } else {
+    return timeConfig$;
+  }
+}
+
+function resolveStat(stat) {
+  return useBeeInstant$.map(useBeeInstant => {
+    if (useBeeInstant) {
+      return stat || DEFAULT_STAT;
+    } else {
+      return null;
+    }
+  });
+}
+
+function resolveRollup(rollup, timeConfig, stat, single) {
+  const nonBeeInstantRollup = rollup || getDefaultMetricRollupDuration(timeConfig).rollup;
+  if (stat) {
+    if (single) {
+      return timeConfig.windowSize;
+    } else {
+      return rollupForBeeInstantMetrics(nonBeeInstantRollup);
+    }
+  } else {
+    return nonBeeInstantRollup;
+  }
 }
 
 export const getMetric = memoize(

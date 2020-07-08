@@ -3,6 +3,7 @@ import React from 'react';
 import DashboardHeaaderButtonSection from 'in-components/Dashboard/components/DashboardHeaaderButtonSection';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
+import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
@@ -29,6 +30,7 @@ export default function DashboardHeader(props) {
           renderButtonLine={renderButtonLine}
           renderButtonLineSecondary={renderButtonLineSecondary}
           renderMetaInformation={renderMetaInformation}
+          renderTopLevelButtonLine={UseBeeInstantToggle}
         />
       </div>
     </>
