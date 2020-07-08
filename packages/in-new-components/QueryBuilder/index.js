@@ -5,18 +5,21 @@ import isFormModelValid from 'in-new-components/QueryBuilder/validation/formMode
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { timeConfig$ } from 'in-stores/time/config';
 import { success } from 'in-services/util/result';
 
 export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog }) {
-  // Ensure that we only ever receive the tag catalog once.
+  // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = memoize(
     () =>
-      originalGetTagCatalog().map(result => {
-        if (result.data) {
-          return success(enrichTagCatalog(result.data));
-        }
-        return result;
-      }),
+      timeConfig$.flatMap(timeConfig =>
+        originalGetTagCatalog({ timeConfig }).map(result => {
+          if (result.data) {
+            return success(enrichTagCatalog(result.data));
+          }
+          return result;
+        })
+      ),
     () => '',
     Number.MAX_VALUE
   );
