@@ -7,6 +7,7 @@ import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
 import { ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import ContextMenu from 'in-components/Chart/components/ContextMenu';
+import evaluateClassNames from 'in-services/util/classnames';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -55,7 +56,13 @@ export default connectTo(
 
       return (
         <div className={locals.overlay}>
-          <div className={locals.glassPane} ref={glassPane => (this.glassPane = glassPane)} />
+          <div
+            className={evaluateClassNames({
+              [locals.glassPane]: true,
+              [locals.glassPaneNonInteractive]: this.props.nonInteractive
+            })}
+            ref={glassPane => (this.glassPane = glassPane)}
+          />
 
           <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />
 
@@ -113,6 +120,8 @@ export default connectTo(
     };
 
     setupSubscriptions = () => {
+      if (this.props.nonInteractive) return;
+
       const glassPane = this.glassPane;
       this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));

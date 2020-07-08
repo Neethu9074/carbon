@@ -89,6 +89,7 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
                       chartWrapper={this.chartWrapper}
                       reverseTooltipOrder={reverseTooltipOrder}
                       metrics={this.props}
+                      nonInteractive={this.props.nonInteractive}
                     />
                   )}
                 <canvas className={locals.canvas} ref={canvas => (this.canvas = canvas)} />

@@ -118,6 +118,7 @@ export default function StatusCodeAlertingBarChart({
         metricNames: ['statusCode'],
         mutate: smoothMetrics
       }}
+      nonInteractive
     />
   );
 }
