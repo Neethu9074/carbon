@@ -19,5 +19,7 @@ export default {
   canConfigureLogManagement: 'Configuration of log management',
   canConfigureReleases: 'Configuration of releases',
   canCreatePublicCustomDashboards: 'Creation of public custom dashboards',
-  restrictedAccess: 'Limit access by group access scopes'
+  restrictedAccess: 'Limit access by group access scopes',
+  canViewLogs: 'Restricted access of logs in the trace detail view',
+  canViewTraceDetails: 'Restricted access of trace details in the trace detail view'
 };

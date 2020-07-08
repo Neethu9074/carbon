@@ -19,6 +19,7 @@ import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
+import { role } from 'in-stores/user';
 
 import locals from './ServiceComponent.mless';
 
@@ -50,6 +51,9 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const errorLogs = logs.filter(log => log.errorCount === 1);
   const warnLogs = logs.filter(log => log.errorCount === 0);
 
+  const canSeeCallDetails = role.canViewTraceDetails;
+  const canViewLogs = role.canViewLogs;
+
   if (sourcePhysicalContext === null && destinationPhysicalContext === null) {
     return (
       <div className={locals.serviceLine}>
@@ -74,17 +78,18 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             span={intermediateSpan}
             inProcessCall
           />
-          {hasNonEmptyData(intermediateSpan) && (
-            <ExpandableGroup
-              title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-              defaultExpanded
-            >
-              <SpanDetails call={call} span={intermediateSpan} />
-              {intermediateSpan.stackTrace.length > 0 && (
-                <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
-              )}
-            </ExpandableGroup>
-          )}
+          {canSeeCallDetails &&
+            hasNonEmptyData(intermediateSpan) && (
+              <ExpandableGroup
+                title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                defaultExpanded
+              >
+                <SpanDetails call={call} span={intermediateSpan} />
+                {intermediateSpan.stackTrace.length > 0 && (
+                  <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
+                )}
+              </ExpandableGroup>
+            )}
           <ExpandableGroup
             title={
               <div className={locals.infraTitle}>
@@ -106,15 +111,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             )}
           </ExpandableGroup>
-          {logs.length > 0 && (
-            <ExpandableGroup
-              title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
-                warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
-              } )`}
-            >
-              <CallLogs call={call} />
-            </ExpandableGroup>
-          )}
+          <Logs />
         </Fragment>
       )
     );
@@ -164,17 +161,18 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                           <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                         </ExpandableGroup>
                       )}
-                    {hasNonEmptyData(exitSpan) && (
-                      <ExpandableGroup
-                        title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                        defaultExpanded
-                      >
-                        <SpanDetails call={call} span={exitSpan} />
-                        {exitSpan.stackTrace.length > 0 && (
-                          <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
-                        )}
-                      </ExpandableGroup>
-                    )}
+                    {canSeeCallDetails &&
+                      hasNonEmptyData(exitSpan) && (
+                        <ExpandableGroup
+                          title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                          defaultExpanded
+                        >
+                          <SpanDetails call={call} span={exitSpan} />
+                          {exitSpan.stackTrace.length > 0 && (
+                            <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
+                          )}
+                        </ExpandableGroup>
+                      )}
                     {sourceService.id === 'ROOT' &&
                       !websiteBeacon &&
                       !mobileAppBeacon && (
@@ -227,17 +225,18 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             </div>
             <div className={locals.destinationChildren}>
-              {(hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
-                <ExpandableGroup
-                  title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                  defaultExpanded
-                >
-                  <SpanDetails call={call} span={entrySpan} />
-                  {entrySpan.stackTrace.length > 0 && (
-                    <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
-                  )}
-                </ExpandableGroup>
-              )}
+              {canSeeCallDetails &&
+                (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
+                  <ExpandableGroup
+                    title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                    defaultExpanded
+                  >
+                    <SpanDetails call={call} span={entrySpan} />
+                    {entrySpan.stackTrace.length > 0 && (
+                      <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
+                    )}
+                  </ExpandableGroup>
+                )}
 
               {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
                 <ExpandableGroup
@@ -288,20 +287,28 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                     }
                   />
                 )}
-              {logs.length > 0 && (
-                <ExpandableGroup
-                  title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
-                    warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
-                  } )`}
-                >
-                  <CallLogs call={call} />
-                </ExpandableGroup>
-              )}
+              <Logs />
             </div>
           </Fragment>
         )}
     </Fragment>
   );
+
+  function Logs() {
+    if (!canViewLogs || !logs || logs.length === 0) {
+      return null;
+    }
+
+    return (
+      <ExpandableGroup
+        title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
+          warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
+        } )`}
+      >
+        <CallLogs call={call} />
+      </ExpandableGroup>
+    );
+  }
 }
 
 function getSnapshotId(call, location) {

@@ -40,11 +40,37 @@ export default function RoleForm({ form, onChange, roleId }) {
         <Permission
           form={form}
           disabled={disabled}
-          onChange={onChange}
+          onChange={(fieldName, value) => {
+            if (!value) {
+              onChange([fieldName, 'canViewLogs', 'canViewTraceDetails'], [value, false, false]);
+            } else {
+              onChange(fieldName, value);
+            }
+          }}
           name="restrictedAccess"
           label={permissions['restrictedAccess']}
           helpText="Enable role based access control."
         />
+        {form.get('restrictedAccess').map(field => (
+          <>
+            <Permission
+              form={form}
+              disabled={!field.value}
+              onChange={onChange}
+              name="canViewLogs"
+              label={permissions['canViewLogs']}
+              helpText="Enable role based access control."
+            />
+            <Permission
+              form={form}
+              disabled={!field.value}
+              onChange={onChange}
+              name="canViewTraceDetails"
+              label={permissions['canViewTraceDetails']}
+              helpText="Enable role based access control."
+            />
+          </>
+        ))}
       </FormGroup>
 
       <Permissions form={form} onChange={onChange} disabled={disabled} />

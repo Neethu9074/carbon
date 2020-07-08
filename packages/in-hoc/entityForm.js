@@ -177,6 +177,8 @@ export default function entityForm(ComposedComponent) {
       this.setState({
         form: updatedForm
       });
+
+      return updatedForm;
     };
 
     setSaveEnabled = enabled => {
