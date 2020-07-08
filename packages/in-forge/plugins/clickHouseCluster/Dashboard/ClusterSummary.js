@@ -16,7 +16,7 @@ export default function ClusterSummary({ snapshot }) {
         <MetricValue snapshotId={snapshotId} metric="rows" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
       <KpiKeyValue label="Total Disk Usage">
-        <MetricValue snapshotId={snapshotId} metric="bytes_on_disk" formatter={bytes.compact} />
+        <MetricValue snapshotId={snapshotId} metric="bytes_on_disk" formatter={bytes.detailed} />
       </KpiKeyValue>
     </KpiSection>
   );

@@ -76,7 +76,7 @@ const cols = [
       getMetricName(row) {
         return `table_metric.${row.key}.bytes_on_disk`;
       },
-      getContent: bytes.compact,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -164,7 +164,7 @@ function getDetails(row) {
             metrics: [`table_metric.${row.key}.bytes_on_disk`],
             labels: ['Disk Usage'],
             type: 'line',
-            formatter: bytes.compact
+            formatter: bytes.detailed
           }}
         />
       </DashboardSection>

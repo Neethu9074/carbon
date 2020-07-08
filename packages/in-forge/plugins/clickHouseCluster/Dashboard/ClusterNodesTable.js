@@ -61,7 +61,7 @@ const cols = [
       getMetricName() {
         return 'bytes_on_disk';
       },
-      getContent: bytes.compact,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }

@@ -33,7 +33,7 @@ export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
               metrics: ['InsertedBytes'],
               labels: ['Inserted Bytes'],
               type: 'line',
-              formatter: bytes.compact
+              formatter: bytes.detailed
             }}
           />
         </Columize>
