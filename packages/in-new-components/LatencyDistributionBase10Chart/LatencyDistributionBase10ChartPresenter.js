@@ -47,6 +47,12 @@ export default function LatencyDistributionBase10ChartPresenter({
         <LoadingIndicator height={chartHeight} />
       </div>
     );
+  } else if (subscriptionResult.data.map(b => b.calls).reduce((a, b) => a + b, 0) === 0) {
+    return (
+      <div className={locals.container}>
+        <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} text={'No data to display'} />
+      </div>
+    );
   }
 
   const buckets = subscriptionResult.data || [];

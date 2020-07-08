@@ -1,8 +1,13 @@
 import { withProps } from 'recompose';
+import React from 'react';
 
+import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/MetricsChart/GroupMetricsChart';
+import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
+import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { number } from 'in-services/formatters/number';
 
 const countChartDefinitions = [
   {
@@ -23,8 +28,34 @@ const countChartDefinitions = [
   }
 ];
 
+const latencyDistributionChartDefinition = {
+  label: 'Latency (distribution)',
+  key: 'calls_DISTRIBUTION',
+  formatter: millis.forcedCompactOnMs
+};
+
+const latencyChartDefinitions = latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [];
+
 export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricChange }) => ({
   timeConfig: filters.timeConfig,
-  chartDefinitions: countChartDefinitions.concat(metricsChartDefinitions(metrics, availableMetrics)),
-  onChange: (e) => onFocusedMetricChange(e.focusedMetric)
+  chartDefinitions: latencyChartDefinitions
+    .concat(countChartDefinitions)
+    .concat(metricsChartDefinitions(metrics, availableMetrics)),
+  onChange: e => onFocusedMetricChange(e.focusedMetric),
+  customChartRenderers: [
+    {
+      key: 'calls_DISTRIBUTION',
+      render: function LatencyDistribution() {
+        const timeConfig = filters.timeConfig;
+        const subscription = getLatencyDistributionBase10({
+          maxLatencyBuckets: 80,
+          filter: filters,
+          tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
+          timeConfig
+        });
+        const chartDefinition = latencyDistributionChartDefinition;
+        return <LatencyDistributionBase10Chart subscription={subscription} chartDefinition={chartDefinition} />;
+      }
+    }
+  ]
 }))(GroupMetricsChart);

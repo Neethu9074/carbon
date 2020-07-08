@@ -239,6 +239,18 @@ const mockSubscription3 = {
   progress: { percentage: null, loading: false, note: null }
 };
 
+const mockEmptySubscription = {
+  data: [
+    { to: 1, calls: 0, tickMark: true },
+    { from: 1, to: 60000, calls: 0, tickMark: false, percentiles: [50, 90, 95, 99] },
+    { from: 60000, calls: 0, tickMark: true }
+  ],
+  time: 1582718129565,
+  adjustedWindowSize: null,
+  errors: [],
+  progress: { percentage: null, loading: false, note: null }
+};
+
 const loadingMock = {
   time: 1583417899531,
   adjustedWindowSize: null,
@@ -292,7 +304,16 @@ export const stackedUp3Percentiles = () => (
   />
 );
 
-export const noData = () => (
+export const loading = () => (
+  <LatencyDistributionBase10Chart
+    subscription={just(loadingMock)}
+    chartDefinition={chartDefinition}
+    cheight={number('Height', 130)}
+    cwidth={number('Width', 1300)}
+  />
+);
+
+export const noDataAvailable = () => (
   <LatencyDistributionBase10Chart
     subscription={just(noDataMock)}
     chartDefinition={chartDefinition}
@@ -301,9 +322,9 @@ export const noData = () => (
   />
 );
 
-export const loading = () => (
+export const noDataToDisplay = () => (
   <LatencyDistributionBase10Chart
-    subscription={just(loadingMock)}
+    subscription={just(mockEmptySubscription)}
     chartDefinition={chartDefinition}
     cheight={number('Height', 130)}
     cwidth={number('Width', 1300)}
