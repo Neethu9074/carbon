@@ -47,7 +47,7 @@ export default function LatencyDistributionBase10ChartPresenter({
         <LoadingIndicator height={chartHeight} />
       </div>
     );
-  } else if (subscriptionResult.data.map(b => b.calls).reduce((a, b) => a + b, 0) === 0) {
+  } else if (subscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0) {
     return (
       <div className={locals.container}>
         <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} text={'No data to display'} />
@@ -55,15 +55,15 @@ export default function LatencyDistributionBase10ChartPresenter({
     );
   }
 
-  const buckets = subscriptionResult.data || [];
-
   // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
   // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
-  const data = buckets;
+  const data = subscriptionResult.data || { buckets: [] };
+  const buckets = data.buckets;
+  const percentilesAndValues = data.percentiles;
 
   const bucketWidth = `calc(75% / ${buckets.length})`;
   const percentileHeight = 0.725 * 16 + 20; // rem to px conversion
-  const maxDataValue = getMaxDataValue(data);
+  const maxDataValue = getMaxDataValue(buckets);
   return (
     <>
       <div className={locals.legend}>
@@ -101,6 +101,7 @@ export default function LatencyDistributionBase10ChartPresenter({
                 height={chartHeight}
                 percentileHeight={percentileHeight}
                 percentilesShown={percentilesShown.filter(p => p.get('enabled')).map(p => p.get('value'))}
+                percentilesAndValues={percentilesAndValues}
                 formatter={chartDefinition.formatter}
               />
             ))}
@@ -135,11 +136,11 @@ function HorizontalLines({ nbBars, height, width, style }) {
   );
 }
 
-function getMaxDataValue(data) {
+function getMaxDataValue(buckets) {
   let max = 0;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].calls > max) {
-      max = data[i].calls;
+  for (let i = 0; i < buckets.length; i++) {
+    if (buckets[i].calls > max) {
+      max = buckets[i].calls;
     }
   }
   return max;
