@@ -1,16 +1,13 @@
 import React from 'react';
 
 import RunningQueries from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningQueries';
+import TablesTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/TablesTable.js';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
-import ActiveParts from 'in-forge/plugins/clickHouseDatabase/Dashboard/ActiveParts';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { number, bytes } from 'in-services/formatters/number';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import MetricValue from 'in-components/MetricValue';
 
 export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -22,140 +19,68 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <KpiSection>
-        <KpiKeyValue label="Query Thread">
-          <MetricValue snapshotId={snapshotId} metric="QueryThread" formatter={number.compact} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Query Preempted">
-          <MetricValue snapshotId={snapshotId} metric="QueryPreempted" formatter={number.compact} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Read">
-          <MetricValue snapshotId={snapshotId} metric="Read" formatter={number.compact} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Write">
-          <MetricValue snapshotId={snapshotId} metric="Write" formatter={number.compact} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Merge">
-          <MetricValue snapshotId={snapshotId} metric="Merge" formatter={number.compact} />
-        </KpiKeyValue>
-      </KpiSection>
-      <Columize>
-        <DashboardSection title="Query">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['QueryThread'],
-              labels: ['Query Thread'],
-              type: 'line'
-            }}
-            y2={{
-              min: 0,
-              metrics: ['Query Preempted'],
-              labels: ['QueryPreempted'],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title="Merge">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['Merge'],
-              labels: ['Merge'],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title="Reads versus Writes">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['Read'],
-              labels: ['Reads'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            y2={{
-              min: 0,
-              metrics: ['Write'],
-              labels: ['Writes'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title="Tasks">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['BackgroundPoolTask'],
-              labels: ['Background Pool Tasks'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title="Connections">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['HTTPConnection', 'TCPConnection', 'InterserverConnection'],
-              labels: ['HTTP Connections', 'TCP Connections', 'Interserver'],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title="Memory">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['MemoryTracking', 'MemoryTrackingInBackgroundProcessingPool', 'MemoryTrackingForMerges'],
-              labels: ['Memory Tracking', 'Background Processing Pool', 'For Merges'],
-              type: 'line',
-              formatter: bytes.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <DashboardSection title="File IO">
+      <DashboardSection title="Select Queries">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['OpenFileForRead', 'OpenFileForWrite'],
-            labels: ['Open Files (Read)', 'Open Files (Write)'],
+            metrics: ['SelectQuery'],
+            labels: ['Select Queries'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['QueryThread'],
+            labels: ['Query Threads'],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
-      <ActiveParts snapshot={snapshot} timeConfig={timeConfig} />
-      <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
+      <DashboardSection title="Insert Queries">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['InsertQuery'],
+            labels: ['Insert Queries'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['InsertedBytes'],
+            labels: ['Inserted Bytes'],
+            type: 'line',
+            formatter: bytes.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title="Merges">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['Merge'],
+            labels: ['Merges'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['parts'],
+            labels: ['Active Parts'],
+            type: 'line',
+            formatter: withSiPrefixThreeDecimalPlaces
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <TablesTable snapshot={snapshot} timeConfig={timeConfig} />
       <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

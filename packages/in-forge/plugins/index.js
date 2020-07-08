@@ -38,6 +38,7 @@ import './cassandraCluster';
 import './cassandraNode';
 import './ceph';
 import './clickHouseDatabase';
+import './clickHouseCluster';
 import './clrRuntimePlatform';
 import './cloudFoundry';
 import './cockroachDBCluster';

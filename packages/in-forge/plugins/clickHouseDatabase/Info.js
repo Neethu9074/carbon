@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ClickHouseInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -11,7 +10,10 @@ export default function ClickHouseInfo({ snapshot }) {
       <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <DescriptionItem title="Host">{data.get('host')}</DescriptionItem>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Clusters">{data.get('clusters', emptyList).join(', ')}</DescriptionItem>
+      <DescriptionItem title="Cluster">{data.get('cluster.name')}</DescriptionItem>
+      <DescriptionItem title="Shard">{data.get('shard_num')}</DescriptionItem>
+      <DescriptionItem title="Shard Weight">{data.get('shard_weight')}</DescriptionItem>
+      <DescriptionItem title="Replica">{data.get('replica_num')}</DescriptionItem>
       <DescriptionItem title="HTTP Port">{data.get('http_port')}</DescriptionItem>
       <DescriptionItem title="TCP Port">{data.get('tcp_port')}</DescriptionItem>
       <DescriptionItem title="Server Log">{data.get('log')}</DescriptionItem>

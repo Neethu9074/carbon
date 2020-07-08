@@ -50,7 +50,7 @@ export default function MetricsTable({ snapshot, timeConfig }) {
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
-      maxItemsPerPage={25}
+      maxItemsPerPage={10}
     />
   );
 }
