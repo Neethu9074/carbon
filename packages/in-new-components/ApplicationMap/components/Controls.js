@@ -87,7 +87,7 @@ const TrafficButton = connectTo(
   }),
   function ParticlesButton({ isActive, onChangeUrlProperties }) {
     return (
-      <Tooltip themeStyle="light" content="Toggle dependent services outside this application">
+      <Tooltip themeStyle="light" content="Toggle all services outside this application">
         <Button
           icon="lib_actions_traffic"
           onClick={() => onChangeUrlProperties({ traffic: !isActive })}
