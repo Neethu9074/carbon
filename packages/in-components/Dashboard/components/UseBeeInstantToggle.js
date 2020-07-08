@@ -17,7 +17,7 @@ export default function UseBeeInstantToggle() {
   return (
     <Tooltip themeStyle="light" content={tooltipContent()} align="bottomMiddle">
       <DashboardHeaderButton outlineOnly onClick={() => setUseBeeInstant(!useBeeInstant)}>
-        <div>Use BeeInstant</div>
+        <div>Use BeeInstana</div>
         <Toggle checked={useBeeInstant} onChange={e => setUseBeeInstant(e.target.checked)} />
       </DashboardHeaderButton>
     </Tooltip>
