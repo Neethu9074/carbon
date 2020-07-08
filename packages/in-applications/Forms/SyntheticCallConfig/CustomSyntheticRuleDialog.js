@@ -3,7 +3,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import TagFilterEditor from 'in-analyze/Dialogs/components/TagFilterEditor';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { operatorBlacklists } from 'in-analyze/applicationFilter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
@@ -75,7 +77,7 @@ class EditRuleForm extends React.Component {
                 <Button kind="action" className={locals.addDescriptionButton} onClick={this.onAddDescription}>
                   Add description
                 </Button>
-                <span className={locals.helpText}>optional</span>
+                <span className={locals.helpText}>(optional)</span>
               </div>
             )}
           </FormGroup>
@@ -161,7 +163,7 @@ export function getInitialForm(rule = {}) {
       'name',
       createField({
         value: get(rule, 'name', ''),
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(stringMaxLengthValidator(256), notBlankValidator)
       })
     )
     .put(

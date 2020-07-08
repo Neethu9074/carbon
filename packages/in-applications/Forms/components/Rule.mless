@@ -83,4 +83,9 @@
   .iconPlaceholder {
     width: 1.5rem;
   }
+
+  .query {
+    .breakWord();
+    .ellipsis();
+  }
 }
