@@ -1,10 +1,10 @@
 export function stringMaxLengthValidator(maxLength = 128) {
   return str => {
-    if (str.length > maxLength) {
+    if (typeof str === 'string' && str.length > maxLength) {
       return [
         {
           severity: 'error',
-          message: `Value must be shorted than ${maxLength} characters`
+          message: `Value must be shorter than ${maxLength} characters.`
         }
       ];
     }

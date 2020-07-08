@@ -6,6 +6,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import * as entities from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
@@ -32,22 +33,14 @@ export function createTagForm(tagCatalog, tagFormModel) {
       'key',
       createField({
         value: tagFormModel?.key,
-        validator: composeAndShortCircuitOnError(
-          stringValidator
-          // TODO validate max length. Waiting for merge of
-          // https://github.com/instana/ui-client/pull/3542/files
-        )
+        validator: composeAndShortCircuitOnError(stringValidator, stringMaxLengthValidator(512))
       })
     )
     .put(
       'value',
       createField({
         value: tagFormModel?.value,
-        validator: composeAndShortCircuitOnError(
-          jsonPrimitiveValidator
-          // TODO validate max length. Waiting for merge of
-          // https://github.com/instana/ui-client/pull/3542/files
-        )
+        validator: composeAndShortCircuitOnError(jsonPrimitiveValidator, stringMaxLengthValidator(512))
       })
     )
     .put(
