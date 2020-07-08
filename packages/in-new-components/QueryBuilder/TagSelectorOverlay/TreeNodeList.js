@@ -13,7 +13,7 @@ const columnDefinitions = [
   {
     width: '2rem',
     getContent({ node }) {
-      return <SvgIcon className={locals.icon} type={node.icon} />;
+      return <SvgIcon className={locals.icon} type={node.icon ?? 'lib_views_tag'} />;
     }
   },
   {
