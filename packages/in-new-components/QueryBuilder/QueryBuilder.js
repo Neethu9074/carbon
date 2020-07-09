@@ -116,23 +116,25 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     onChange(copiedFormModel);
   }
 
-  function onChangeFormModelElement(formModelIndex, renderModelIndex, newFormModel) {
-    updateFormModel(formModelIndex, renderModelIndex, newFormModel, true);
+  function onChangeFormModelElement({ formModelIndex, renderModelIndex, newFormModel, changeFocus }) {
+    updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem: true, changeFocus });
   }
 
-  function onAddFormModelElement(formModelIndex, renderModelIndex, newFormModel) {
-    updateFormModel(formModelIndex, renderModelIndex, newFormModel, false);
+  function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
+    updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem: false });
   }
 
-  function updateFormModel(formModelIndex, renderModelIndex, newFormModel, removeTargetItem) {
+  function updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem, changeFocus }) {
     const copiedFormModel = formModel.slice();
     copiedFormModel.splice(formModelIndex, removeTargetItem ? 1 : 0, newFormModel);
-    focus(
-      renderModelIndex + 1,
-      // Forced re-render not necessary because the onChange call down below will also
-      // caused a re-render.
-      false
-    );
+    if (changeFocus) {
+      focus(
+        renderModelIndex + 1,
+        // Forced re-render not necessary because the onChange call down below will also
+        // caused a re-render.
+        false
+      );
+    }
     onChange(copiedFormModel);
   }
 
@@ -187,16 +189,26 @@ function Elements({
           >
             {({ dragAndDropProps }) => (
               <Component
-                {...element}
                 // Also forward element props as "element" in order to avoid problems caused by
                 // React's reserved words, e.g. key or ref
                 element={element}
                 tagCatalog={tagCatalog}
                 onRemove={onRemove}
                 createTagForm={createTagForm}
-                onChange={newElement => onChange(element.formModelIndex, element.renderModelIndex, newElement)}
-                onAdd={newElement =>
-                  onAdd(element.formModelIndex || element.rightFormModelIndex, element.renderModelIndex, newElement)
+                onChange={(newFormModel, changeFocus = true) =>
+                  onChange({
+                    formModelIndex: element.formModelIndex,
+                    renderModelIndex: element.renderModelIndex,
+                    newFormModel,
+                    changeFocus
+                  })
+                }
+                onAdd={newFormModel =>
+                  onAdd({
+                    formModelIndex: element.formModelIndex || element.rightFormModelIndex,
+                    renderModelIndex: element.renderModelIndex,
+                    newFormModel
+                  })
                 }
                 focus={focus}
                 depth={depth}

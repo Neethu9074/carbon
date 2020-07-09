@@ -14,12 +14,36 @@ export function enrichTagCatalog(tagCatalog) {
     ...tagCatalog
   };
 
+  const tagsWithPath = resolveTagsFromTree(tagCatalog.tagTree);
   tagCatalog.tagsByName = tagCatalog.tags.reduce((agg, tag) => {
-    agg[tag.name] = tag;
+    agg[tag.name] = { ...tag, ...tagsWithPath[tag.name] };
     return agg;
   }, {});
 
   tagCatalog.allTagNames = Object.keys(tagCatalog.tagsByName);
 
   return tagCatalog;
+}
+
+function resolveTagsFromTree(tree) {
+  const lut = {};
+  if (tree) {
+    for (let i = 0; i < tree.length; i++) {
+      const group = tree[i];
+      resolveNode(group, lut, []);
+    }
+  }
+  return lut;
+}
+
+function resolveNode(node, lut, parents) {
+  const localParents = parents.slice();
+  localParents.push(node);
+  if (node.children) {
+    for (let i = 0; i < node.children.length; i++) {
+      resolveNode(node.children[i], lut, localParents);
+    }
+  } else {
+    lut[node.tagName] = { icon: node.icon, path: localParents };
+  }
 }

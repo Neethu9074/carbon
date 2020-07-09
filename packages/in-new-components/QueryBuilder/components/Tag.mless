@@ -23,13 +23,12 @@
   }
 
   .operator {
-    margin: 0 0.25rem;
+    margin-right: 0.25rem;
     padding: 0.0625rem 0.3125rem;
 
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_large;
 
-    text-transform: lowercase;
     cursor: pointer;
 
     &:hover {
@@ -40,12 +39,60 @@
 
   .icon {
     // icons have a built in margin so we need to substract it when it is used in smaller frames
-    margin: -0.5rem -0.25rem -0.5rem 0.5rem;
+    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
 
     fill: @lib__colors__N400;
     cursor: pointer;
     &:hover {
       fill: @lib__colors__N600Light;
+    }
+  }
+
+  .tagIcon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem;
+
+    fill: @lib__colors__N700Medium;
+  }
+
+  .entityIcon,
+  .sourceIcon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem 0.25rem -0.5rem 0;
+
+    fill: @lib__colors__N700Medium;
+  }
+
+  .entityIcon {
+    margin-right: 0;
+  }
+
+  .sourceIcon {
+    cursor: pointer;
+
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .tagName {
+    margin-right: 0.25rem;
+    font-weight: 600;
+  }
+
+  .input {
+    max-width: 7.5rem;
+
+    margin-right: 0.25rem;
+
+    background: @lib__colors__N050;
+    line-height: 0.75rem;
+    border: none;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
     }
   }
 }

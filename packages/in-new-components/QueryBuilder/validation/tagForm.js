@@ -10,11 +10,12 @@ import * as operatorValueRequirement from 'in-new-components/QueryBuilder/tagFil
 import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
+import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import * as entities from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
@@ -33,6 +34,20 @@ export function createTagForm(tagCatalog, tagFormModel) {
   } = identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagFormModel?.name, tagFormModel?.operator);
 
   let form = createMapForm()
+    // type field is not actually editable. We only expose it so that the caller can call toJS() on the
+    // formalistic form to generate a valid form model tag filter element.
+    .put(
+      'type',
+      createField({
+        value: TAG,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator([TAG])
+        )
+      })
+    )
     .put(
       'name',
       createField({
@@ -133,15 +148,28 @@ export function changeOperator(tagCatalog, formalisticTagForm, newOperator) {
   return createTagForm(tagCatalog, tagForm);
 }
 
+export function getFormPresentationInformation(tagCatalog, formalisticTagForm) {
+  const { allowedOperators, valueType, type } = identifyFormRequirementsBasedOnPartialInput(
+    tagCatalog,
+    formalisticTagForm.get('name').value,
+    formalisticTagForm.get('operator').value
+  );
+  // Reduce the number of exposed fields.
+  return { allowedOperators, valueType, type };
+}
+
 function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operator) {
   const result = {
+    type: null,
     requiresKey: false,
     // By default we always want to show this, as it is the most common case.
     requiresValue: true,
     valueValidators: [jsonPrimitiveValidator],
     requiresEntity: false,
     operator: operator ?? EQUALS,
-    allowedOperators: []
+    allowedOperators: [],
+    // To allow the form to decide whether to use a String, Boolean or Number input
+    valueType: String
   };
 
   if (!tagName) {
@@ -153,6 +181,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
     return result;
   }
 
+  result.type = tagDefinition.type;
   result.allowedOperators = typeToOperatorsMapping[tagDefinition.type];
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;
@@ -163,10 +192,13 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
 
   if (tagDefinition.type === NUMBER) {
     result.valueValidators = [notUndefinedValidator, numberValidator];
+    result.valueType = Number;
   } else if (tagDefinition.type === BOOLEAN) {
     result.valueValidators = [notUndefinedValidator, booleanValidator];
+    result.valueType = Boolean;
   } else {
     result.valueValidators = [notUndefinedValidator, stringValidator, notBlankValidator, stringMaxLengthValidator(512)];
+    result.valueType = String;
   }
 
   return result;

@@ -98,6 +98,7 @@
     "react-dom": "^16.13.0",
     "react-grid-layout": "^0.17.1",
     "react-immutable-proptypes": "^2.1.0",
+    "react-input-autosize": "^2.2.2",
     "react-motion": "^0.4.4",
     "react-on-screen": "^2.1.0",
     "react-onclickoutside": "^6.8.0",

@@ -17,17 +17,14 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './Spacing.mless';
 
 export default function Spacing({
-  renderModelIndex,
-  size,
-  suggestions,
+  element,
   onRemove,
   tagCatalog,
   onAdd: onAddToFormModel,
   draggedFormModelIndex$,
-  dragAndDropProps,
-  leftFormModelIndex,
-  rightFormModelIndex
+  dragAndDropProps
 }) {
+  const { renderModelIndex, leftFormModelIndex, rightFormModelIndex, suggestions, size } = element;
   const isHighlightedThroughDrag = useObservable(
     draggedFormModelIndex$
       .distinct()
@@ -37,29 +34,48 @@ export default function Spacing({
   );
 
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.visible]: isHighlightedThroughDrag,
-        [locals.letter]: size === LETTER.size,
-        [locals.word]: size === WORD.size
-      })}
-      tabIndex={0}
-      data-render-model-index={renderModelIndex}
-      data-query-builder-element="true"
-      data-query-builder-space-element="true"
-      onKeyDown={onKeyDown}
-      onKeyUp={onKeyUp}
-      {...dragAndDropProps}
+    <Overlay
+      align="bottomMiddle"
+      content={TagSelectorOverlay}
+      props={{
+        tagCatalog,
+        onChange: onAddToFormModel
+      }}
+      onCloseSideEffect={e => {
+        // Ensure the element retains its focus when closing the overlay with the escape key.
+        if (e instanceof KeyboardEvent) {
+          focus(renderModelIndex);
+        }
+      }}
+      withoutWrapper
     >
-      {renderSuggestion(suggestions, tagCatalog, renderModelIndex, onAddToFormModel)}
-      &nbsp;
-    </div>
+      {({ toggle, open: openTagSuggestionOverlay, refSetter }) => (
+        <div
+          className={evaluateClassNames({
+            [locals.visible]: isHighlightedThroughDrag,
+            [locals.letter]: size === LETTER.size,
+            [locals.word]: size === WORD.size
+          })}
+          tabIndex={0}
+          data-render-model-index={renderModelIndex}
+          data-query-builder-element="true"
+          data-query-builder-space-element="true"
+          onKeyDown={onKeyDown}
+          onKeyUp={e => onKeyUp(e, openTagSuggestionOverlay)}
+          {...dragAndDropProps}
+          ref={refSetter}
+        >
+          {renderSuggestion({ toggle, suggestions, onAddToFormModel })}
+          &nbsp;
+        </div>
+      )}
+    </Overlay>
   );
 
-  function onKeyUp(e) {
+  function onKeyUp(e, openTagSuggestionOverlay) {
     if (isDefaultInteractionTrigger(e)) {
       stopPropagationAndPreventDefault(e);
-      onOpenAddDialog();
+      openTagSuggestionOverlay();
     } else if (onRemove && e.keyCode === keyCodes.backspace) {
       stopPropagationAndPreventDefault(e);
       // Deleting a single element also deletes the whitespace element.
@@ -68,11 +84,6 @@ export default function Spacing({
       stopPropagationAndPreventDefault(e);
       onRemove(rightFormModelIndex, renderModelIndex);
     }
-  }
-
-  function onOpenAddDialog() {
-    // eslint-disable-next-line
-    console.log('TODO show add tag dialog');
   }
 }
 
@@ -85,29 +96,12 @@ function onKeyDown(e) {
   }
 }
 
-function renderSuggestion(suggestions, tagCatalog, renderModelIndex, onAddToFormModel) {
+function renderSuggestion({ toggle, suggestions, onAddToFormModel }) {
   if (!suggestions || suggestions.length === 0) {
     return (
-      <Overlay
-        align="bottomMiddle"
-        content={TagSelectorOverlay}
-        props={{
-          tagCatalog,
-          onChange: onAddToFormModel
-        }}
-        onCloseSideEffect={e => {
-          // Ensure the element retains its focus when closing the overlay with the escape key.
-          if (e instanceof KeyboardEvent) {
-            focus(renderModelIndex);
-          }
-        }}
-      >
-        {({ toggle, refSetter }) => (
-          <div className={locals.addIndicator} onClick={toggle} ref={refSetter}>
-            <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
-          </div>
-        )}
-      </Overlay>
+      <div className={locals.addIndicator} onClick={toggle}>
+        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
+      </div>
     );
   }
 

@@ -2,7 +2,7 @@
 
 :local {
   .list {
-    max-width: 9rem;
+    max-width: 15rem;
   }
 
   .option {

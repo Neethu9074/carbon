@@ -5,7 +5,7 @@
   .expression {
     display: inline;
 
-    padding: 0.375rem 0px;
+    padding: 0.4375rem 0px;
 
     line-height: @query-builder-line-height;
     border: 1px solid transparent;

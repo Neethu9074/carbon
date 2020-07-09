@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
 
-export default function Expression({ onRemove, children, elements, depth }) {
+export default function Expression({ onRemove, children, element: {elements}, depth }) {
   return (
     <div
       className={evaluateClassNames({
@@ -24,7 +25,7 @@ export default function Expression({ onRemove, children, elements, depth }) {
   );
 
   function onKeyUp(event) {
-    if (!onRemove) {
+    if (!onRemove || isPrimaryInteractiveElement(event.target)) {
       return;
     }
 

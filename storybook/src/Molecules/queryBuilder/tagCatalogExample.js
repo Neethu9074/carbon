@@ -128,6 +128,7 @@ export default {
             {
               type: 'TAG',
               label: 'Name',
+              icon: 'lib_application_service',
               description: 'String - Service´s name',
               tagName: 'service.name'
             }
@@ -141,8 +142,9 @@ export default {
             {
               type: 'TAG',
               label: 'Label',
+              icon: 'lib_application_endpoint',
               description: 'String - Endpoint name',
-              tag: 'endpoint.name'
+              tagName: 'endpoint.name'
             }
           ]
         },
@@ -154,19 +156,19 @@ export default {
               type: 'TAG',
               label: 'Latency',
               description: 'Call latency',
-              tag: 'call.latency'
+              tagName: 'call.latency'
             },
             {
               type: 'TAG',
               label: 'Erroneous',
               description: 'Whether or not the call was successful',
-              tag: 'call.erroneous'
+              tagName: 'call.erroneous'
             },
             {
               type: 'TAG',
               label: 'HTTP Headers',
               description: 'HTTP headers in HTTP request',
-              tag: 'call.http.header'
+              tagName: 'call.http.header'
             }
           ]
         }

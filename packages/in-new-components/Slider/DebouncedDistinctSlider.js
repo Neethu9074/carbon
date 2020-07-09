@@ -1,34 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { create } from 'reactive-observables';
+import React from 'react';
 
 import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 export default function DebouncedDistinctSlider(props) {
-  const [value$] = useState(create());
-  const [value, setValue] = useState(props.value);
-  useEffect(
-    () => {
-      value$.emit(value);
-    },
-    [value]
-  );
-
-  let subscription = null;
-  useEffect(() => {
-    if (!subscription) {
-      subscription = value$
-        .debounce(500)
-        .distinct()
-        .subscribe(props.onChange);
-    }
-
-    return () => {
-      if (subscription) {
-        subscription.dispose();
-        subscription = null;
-      }
-    };
-  }, []);
-
-  return <DistinctSlider {...props} value={value} onChange={setValue} />;
+  const result = useDebouncedValue(props.value, props.onChange, 500);
+  return <DistinctSlider {...props} value={result.value} onChange={result.onChange} />;
 }

@@ -5,7 +5,6 @@ import ConjunctionsAndBrackets from 'in-new-components/QueryBuilder/TagSelectorO
 import PreviousUsedFilter from 'in-new-components/QueryBuilder/TagSelectorOverlay/PreviousUsedFilter';
 import TreeNodeList from 'in-new-components/QueryBuilder/TagSelectorOverlay/TreeNodeList';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/LocalSlideInView';
-import SearchInput from 'in-new-components/QueryBuilder/TagSelectorOverlay/SearchInput';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import TagTree from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagTree';
 import { Ul, ListGroup } from 'in-new-components/lists/List/List';
@@ -20,7 +19,15 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
   return (
     <div>
       <div className={locals.searchInputWrapper}>
-        <ExternalSearchInput placeholder="Search" onChange={setQuery} query={query} autoFocus />
+        <ExternalSearchInput
+          placeholder="Search"
+          onChange={_query => {
+            setQuery(_query);
+            setActiveGroup(null);
+          }}
+          query={query}
+          autoFocus
+        />
       </div>
       <div className={locals.overlay}>
         <SlideInView
@@ -53,7 +60,6 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
               <>
                 <Ul className={locals.filterList} framed={false} borderRadius="medium">
                   <PreviousUsedFilter filter="foo AND bar" onClick={() => {}} />
-                  <SearchInput query={query} setQuery={setQuery} />
                 </Ul>
 
                 <ListGroup label="Recently Used">

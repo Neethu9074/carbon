@@ -5,6 +5,7 @@ import {
   source,
   destination
 } from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/supportedSelections';
+import { onKeyDown } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import { Ul } from 'in-new-components/lists/List/List';
 import SvgIcon from 'in-components/SvgIcon';
@@ -13,7 +14,7 @@ import locals from './SourceDestinationSelectorOverlay.mless';
 
 export default function SourceDestinationSelectorOverlay({ value, onChange, close }) {
   return (
-    <Ul framed={false} className={locals.list} borderRadius="medium">
+    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onKeyDown}>
       <OverlayOption
         autoFocus={value !== destination}
         className={locals.option}

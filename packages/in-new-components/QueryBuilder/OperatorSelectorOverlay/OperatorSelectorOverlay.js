@@ -1,52 +1,37 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  equals,
-  notEqual,
-  contains,
-  notContains,
-  labels
-} from 'in-new-components/QueryBuilder/OperatorSelectorOverlay/supportedSelections';
+import { onKeyDown } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
+import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import { Ul } from 'in-new-components/lists/List/List';
 
 import locals from './OperatorSelectorOverlay.mless';
 
-export default function OperatorSelectorOverlay({ value, onChange, close }) {
+export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType }) {
   return (
-    <Ul framed={false} className={locals.list} borderRadius="medium">
-      <OverlayOption
-        className={locals.option}
-        autoFocus={value === equals}
-        onChange={onChange}
-        close={close}
-        selectedValue={value}
-        value={equals}
-      >
-        {labels[equals]}
-      </OverlayOption>
-      <OverlayOption className={locals.option} onChange={onChange} close={close} selectedValue={value} value={notEqual}>
-        {labels[notEqual]}
-      </OverlayOption>
-      <OverlayOption className={locals.option} onChange={onChange} close={close} selectedValue={value} value={contains}>
-        {labels[contains]}
-      </OverlayOption>
-      <OverlayOption
-        className={locals.option}
-        onChange={onChange}
-        close={close}
-        selectedValue={value}
-        value={notContains}
-      >
-        {labels[notContains]}
-      </OverlayOption>
+    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onKeyDown}>
+      {allowedOperators.map(operator => (
+        <OverlayOption
+          key={operator}
+          className={locals.option}
+          autoFocus={value === operator}
+          onChange={onChange}
+          close={close}
+          selectedValue={value}
+          value={operator}
+        >
+          {operatorLabels[`${tagType}_${operator}`]}
+        </OverlayOption>
+      ))}
     </Ul>
   );
 }
 
 OperatorSelectorOverlay.propTypes = {
-  value: PropTypes.string,
+  allowedOperators: PropTypes.array.isRequired,
+  tagType: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  value: PropTypes.string
 };

@@ -15,8 +15,10 @@ import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteracti
 import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function ConjunctionOrBracketBehavior({
-  renderModelIndex,
-  formModelIndex,
+  element: {
+    renderModelIndex,
+    formModelIndex
+  },
   onRemove,
   onChange: onChangeInFormModel,
   focus,

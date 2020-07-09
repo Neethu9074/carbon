@@ -7,6 +7,16 @@ export function QueryBuilderStateHelper({ children: Component }) {
   const [value, setState] = useState([
     {
       type: 'TAG_FILTER',
+      name: 'kubernetes.cluster.name',
+      operator: 'CONTAINS',
+      value: 'prod-shop',
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'TAG_FILTER',
       name: 'endpoint.name',
       operator: 'EQUALS',
       value: 'GET /api/maintenanceConfig/:id',

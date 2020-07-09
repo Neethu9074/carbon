@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import invariant from 'invariant';
 
 import { emptyObject } from 'in-services/fixedObjects';
-import invariant from 'invariant';
 
 export default function useObservable(observable, fieldsToWatch, { pure = true } = emptyObject) {
   invariant(fieldsToWatch, 'fieldsToWatch (second parameter) must be defined.');

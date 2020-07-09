@@ -15,15 +15,8 @@
     min-height: 30rem;
   }
 
-  .filterList,
-  .searchInputWrapper {
+  .filterList {
     border-bottom: 1px solid @lib__colors__N400;
-  }
-
-  .filterList,
-  .list {
-    min-width: 20rem;
-    max-width: 20rem;
   }
 
   .option {

@@ -56,7 +56,7 @@ ConjunctionSelectorOverlay.propTypes = {
   close: PropTypes.func.isRequired
 };
 
-function onKeyDown(event) {
+export function onKeyDown(event) {
   const focusableElements = event.currentTarget.querySelectorAll('[tabindex]');
   // Note: We cannot call indexOf on focusableElements directly because
   // focusableElements is a NodeList that does not implement indexOf
