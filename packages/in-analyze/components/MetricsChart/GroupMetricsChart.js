@@ -1,4 +1,4 @@
-import { find, union } from 'lodash';
+import { find, union, intersection } from 'lodash';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -39,10 +39,11 @@ function GroupMetricsChart({
     autoRefresh: false,
     windowSize: timeConfig.windowSize
   };
+  const metricsKeys = Object.keys(items[0].metrics);
   const chartDefinitionKeys = chartDefinitions.map(d => d.key);
+  const metricsAvailableForPresentation = intersection(metricsKeys, chartDefinitionKeys);
   const customChartRendererKeys = customChartRenderers.map(d => d.key);
 
-  const metricsAvailableForPresentation = chartDefinitionKeys;
   const supportedMetricKeys = union(metricsAvailableForPresentation, customChartRendererKeys);
   if (supportedMetricKeys.length === 0) {
     // no metrics to show
