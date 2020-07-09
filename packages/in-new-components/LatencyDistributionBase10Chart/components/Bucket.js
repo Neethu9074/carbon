@@ -82,6 +82,7 @@ const TooltipContent = (bucket, bucketPercentiles, percentilesAndValues, formatt
   } else {
     text = `< ${to}`;
   }
+  const percentileValue = p => (percentilesAndValues[p] === 0 ? '< 1ms' : formatter.detailed(percentilesAndValues[p]));
   return (
     <>
       <div className={locals.tooltipContent}>
@@ -94,7 +95,7 @@ const TooltipContent = (bucket, bucketPercentiles, percentilesAndValues, formatt
         {bucketPercentiles.map((p, idx) => (
           <div key={idx} className={locals.labelWrapper}>
             <span>p{p}</span>
-            <span className={locals.value}>{formatter.detailed(percentilesAndValues[p])}</span>
+            <span className={locals.value}>{percentileValue(p)}</span>
           </div>
         ))}
       </div>
