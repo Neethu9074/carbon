@@ -4,7 +4,6 @@ import { action as storybookAction } from '@storybook/addon-actions';
 import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
 import PermanentlyVisibleOverlay from '../../util/PermanentlyVisibleOverlay';
 import tagCatalogExampleJson from './tagCatalogExample';
-import { success } from "in-services/util/result";
 
 <Meta title="Molecules|queryBuilder/TagSelectorOverlay" component={TagSelectorOverlay} />
 
@@ -16,7 +15,7 @@ conjunction, braces or to even clear the selection.
 <Preview>
   <Story name="default">
     <PermanentlyVisibleOverlay>
-      <TagSelectorOverlay onChange={storybookAction('onChange')} close={storybookAction('close')} tagCatalogResult={success(tagCatalogExampleJson)}/>
+      <TagSelectorOverlay onChange={storybookAction('onChange')} close={storybookAction('close')} tagCatalog={tagCatalogExampleJson}/>
     </PermanentlyVisibleOverlay>
   </Story>
 </Preview>

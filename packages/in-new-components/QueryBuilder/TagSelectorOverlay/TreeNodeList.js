@@ -33,9 +33,9 @@ export default function TreeNodeList({ nodes, onChange, close }) {
           onChange={node =>
             onChange({
               type: 'TAG_FILTER',
-              name: node.tag,
+              name: node.tagName,
               operator: 'EQUALS',
-              value: ''
+              value: 'placeholder'
             })
           }
           close={close}

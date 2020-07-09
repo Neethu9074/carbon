@@ -1,13 +1,13 @@
 export default {
   tags: [],
 
-  tagTreeNodes: [
+  tagTree: [
     {
-      type: 'GROUP',
+      type: 'LEVEL',
       label: 'Kubernetes',
       children: [
         {
-          type: 'SUB_LEVEL',
+          type: 'LEVEL',
           label: 'Cluster',
           icon: 'lib_kubernetes_cluster',
           children: [
@@ -16,19 +16,19 @@ export default {
               label: 'Label',
               icon: 'lib_kubernetes_label',
               description: 'Key/Value - Defined in Kubernetes',
-              tag: 'kubernetes.cluster.label'
+              tagName: 'kubernetes.cluster.label'
             },
             {
               type: 'TAG',
               label: 'Name',
               icon: 'lib_kubernetes_label',
               description: 'String - Cluster´s name',
-              tag: 'kubernetes.cluster.name'
+              tagName: 'kubernetes.cluster.name'
             }
           ]
         },
         {
-          type: 'SUB_LEVEL',
+          type: 'LEVEL',
           label: 'Namespace',
           icon: 'lib_kubernetes_namespace',
           children: [
@@ -37,25 +37,25 @@ export default {
               label: 'Label',
               icon: 'lib_kubernetes_label',
               description: 'Key/Value - Defined in Kubernetes',
-              tag: 'kubernetes.namespace.label'
+              tagName: 'kubernetes.namespace.label'
             },
             {
               type: 'TAG',
               label: 'Name',
               icon: 'lib_kubernetes_label',
               description: 'String - Namespace´s name',
-              tag: 'kubernetes.namespace.name'
+              tagName: 'kubernetes.namespace.name'
             }
           ]
         }
       ]
     },
     {
-      type: 'GROUP',
+      type: 'LEVEL',
       label: 'Application',
       children: [
         {
-          type: 'SUB_LEVEL',
+          type: 'LEVEL',
           label: 'Application Perspective',
           icon: 'lib_application',
           children: [
@@ -64,21 +64,21 @@ export default {
               label: 'Name',
               icon: 'lib_views_tag',
               description: 'String - Application´s name',
-              tag: 'application.name'
+              tagName: 'application.name'
             }
           ]
         },
         {
-          type: 'SUB_LEVEL',
+          type: 'LEVEL',
           label: 'Service',
           icon: 'lib_application_service',
           children: [
             {
               type: 'TAG',
-              label: 'Label',
+              label: 'Name',
               icon: 'lib_views_tag',
               description: 'String - Service´s name',
-              tag: 'service.name'
+              tagName: 'service.name'
             }
           ]
         }

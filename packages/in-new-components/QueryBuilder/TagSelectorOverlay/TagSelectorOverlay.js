@@ -64,7 +64,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
               </>
             )}
 
-            <TagTree tagCatalog={tagCatalog} onChange={setActiveGroup} close={close} />
+            <TagTree tagCatalog={tagCatalog} query={query} onChange={setActiveGroup} close={close} />
           </div>
         </SlideInView>
       </div>

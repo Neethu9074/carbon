@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import filterCatalog from 'in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import { ColumnizedContent } from 'in-new-components/lists/List';
 import { ListGroup } from 'in-new-components/lists/List/List';
@@ -28,9 +29,8 @@ const columnDefinitions = [
   }
 ];
 
-export default function TagTree({ tagCatalog, onChange }) {
-  const tagTreeNodes = tagCatalog.data.tagTreeNodes;
-
+export default function TagTree({ tagCatalog, query, onChange }) {
+  const tagTreeNodes = filterCatalog(tagCatalog, query).tagTree;
   return (
     <>
       {tagTreeNodes.map(group => (
@@ -40,6 +40,7 @@ export default function TagTree({ tagCatalog, onChange }) {
               key={child.label}
               className={locals.option}
               onChange={onChange}
+              size="compact"
               // clicking a group does not close the overlay
               close={() => {}}
               value={child}

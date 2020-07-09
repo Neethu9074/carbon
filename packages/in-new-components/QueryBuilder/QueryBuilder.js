@@ -47,8 +47,6 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
   const [draggedFormModelIndex$] = useState(create());
 
-  // TODO loading state?
-
   const refContainer = useRef();
   // To allow re-rendering when no React state has changed. We use this when we change the
   // postUpdateFocus ref in order to force React to re-execute the hooks. Updating a ref
@@ -70,6 +68,11 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     },
     [nextFocusId]
   );
+
+  // TODO: loading state
+  if (!tagCatalog || !tagCatalog.data) {
+    return null;
+  }
 
   return (
     <QueryBuilderDragAndDropBehaviour
@@ -93,7 +96,7 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
             elements={toRenderModel(formModel)}
             onChange={onChangeFormModelElement}
             onAdd={onAddFormModelElement}
-            tagCatalog={tagCatalog}
+            tagCatalog={tagCatalog.data}
             onRemove={onRemove}
             focus={focus}
           />

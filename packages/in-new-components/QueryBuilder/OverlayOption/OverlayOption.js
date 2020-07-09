@@ -13,6 +13,7 @@ export default function OverlayOption({
   value,
   onChange,
   close,
+  size,
   children,
   subList
 }) {
@@ -22,6 +23,7 @@ export default function OverlayOption({
       noAlternatingBg
       autoFocus={autoFocus ?? selectedValue === value}
       subList={subList}
+      size={size}
       onClick={() => {
         onChange(value);
         close();
@@ -40,5 +42,6 @@ OverlayOption.propTypes = {
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   children: PropTypes.any.isRequired,
-  subList: PropTypes.array
+  subList: PropTypes.array,
+  size: PropTypes.string
 };
