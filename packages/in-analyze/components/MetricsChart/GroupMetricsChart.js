@@ -43,8 +43,9 @@ function GroupMetricsChart({
   const chartDefinitionKeys = chartDefinitions.map(d => d.key);
   const metricsAvailableForPresentation = intersection(metricsKeys, chartDefinitionKeys);
   const customChartRendererKeys = customChartRenderers.map(d => d.key);
+  const customChartsAvailableForPresentation = intersection(chartDefinitionKeys, customChartRendererKeys);
 
-  const supportedMetricKeys = union(metricsAvailableForPresentation, customChartRendererKeys);
+  const supportedMetricKeys = union(metricsAvailableForPresentation, customChartsAvailableForPresentation);
   if (supportedMetricKeys.length === 0) {
     // no metrics to show
     return null;
