@@ -41,7 +41,7 @@ const not = {
 const validStringTag = {
   type: TAG_TYPE,
   name: 'service.name',
-  stringValue: 'shop',
+  value: 'shop',
   operator: 'EQUALS',
   entity: 'DESTINATION'
 };
@@ -49,14 +49,14 @@ const validStringTag = {
 const validNumberTag = {
   type: TAG_TYPE,
   name: 'call.latency',
-  numberValue: 42,
+  value: 42,
   operator: 'GREATER_OR_EQUAL_THAN'
 };
 
 const validBooleanTag = {
   type: TAG_TYPE,
   name: 'call.erroneous',
-  booleanValue: true,
+  value: true,
   operator: 'EQUALS'
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
-import isFormModelValid from 'in-new-components/QueryBuilder/validation/formModel';
+import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
 import memoize from 'in-services/util/memoizingObservableGenerator';
