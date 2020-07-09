@@ -72,19 +72,28 @@ function useCustomSlideInBehaviour(slideIn) {
   const [doSlideIn, setDoSlideIn] = useState(false);
   const [style, setStyle] = useState({});
 
+  let currentTimeout;
+  function disposeTimeout() {
+    if (currentTimeout) {
+      clearTimeout(currentTimeout);
+    }
+  }
+
   useEffect(
     () => {
+      disposeTimeout();
       if (!slideIn) {
         setDoSlideIn(false);
-        setTimeout(() => {
+        currentTimeout = setTimeout(() => {
           setStyle({ display: 'none' });
         }, 500);
       } else {
         setStyle({ display: 'block' });
-        setTimeout(() => {
+        currentTimeout = setTimeout(() => {
           setDoSlideIn(true);
         }, 100);
       }
+      return disposeTimeout;
     },
     [slideIn]
   );
