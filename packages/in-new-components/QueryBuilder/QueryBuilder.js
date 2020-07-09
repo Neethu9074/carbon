@@ -16,10 +16,10 @@ import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBu
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
 import Conjunction from 'in-new-components/QueryBuilder/components/Conjunction';
+import Spacing from 'in-new-components/QueryBuilder/components/Spacing/Spacing';
 import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
-import Spacing from 'in-new-components/QueryBuilder/components/Spacing';
-import Tag from 'in-new-components/QueryBuilder/components/Tag';
+import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import useObservable from 'in-hooks/useObservable';
 

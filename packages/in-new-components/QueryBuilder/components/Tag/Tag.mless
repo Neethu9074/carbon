@@ -1,0 +1,40 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tag {
+    display: inline-block;
+    padding: 0.3rem;
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+    font-weight: 500;
+    line-height: @lib__typography__line-height;
+
+    // TODO this will likely need to be removed down the road
+    cursor: pointer;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      background: @lib__colors__N200;
+      border-color: @lib__colors__light-blue800;
+    }
+  }
+
+  .input {
+    max-width: 7.5rem;
+
+    margin-right: 0.25rem;
+
+    background: @lib__colors__N050;
+    line-height: 0.75rem;
+    border: none;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+    }
+  }
+}

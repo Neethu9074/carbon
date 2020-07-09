@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .operator {
+    margin-right: 0.25rem;
+    padding: 0.0625rem 0.3125rem;
+
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N300;
+      border: 1px solid @lib__colors__N400;
+    }
+  }
+}

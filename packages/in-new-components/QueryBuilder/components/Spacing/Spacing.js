@@ -1,18 +1,14 @@
 import React from 'react';
 
-import { LETTER, WORD, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { LETTER, WORD } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
-import { ADD_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
-import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spacing';
+import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { CLOSE_BRACKET } from '../transformation/formModel';
 import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Spacing.mless';
 
@@ -65,7 +61,7 @@ export default function Spacing({
           {...dragAndDropProps}
           ref={refSetter}
         >
-          {renderSuggestion({ toggle, suggestions, onAddToFormModel })}
+          <Suggestions toggle={toggle} suggestions={suggestions} onAddToFormModel={onAddToFormModel} />
           &nbsp;
         </div>
       )}
@@ -94,41 +90,4 @@ function onKeyDown(e) {
     // interaction.
     stopPropagationAndPreventDefault(e);
   }
-}
-
-function renderSuggestion({ toggle, suggestions, onAddToFormModel }) {
-  if (!suggestions || suggestions.length === 0) {
-    return (
-      <div className={locals.addIndicator} onClick={toggle}>
-        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
-      </div>
-    );
-  }
-
-  const suggestion = suggestions[0];
-  if (suggestion.type === ADD_CONJUNCTION) {
-    return (
-      <div
-        className={locals.addSuggestionIndicator}
-        onClick={() =>
-          onAddToFormModel({
-            type: CONJUNCTION,
-            logicalOperator: and
-          })
-        }
-      >
-        AND
-      </div>
-    );
-  }
-
-  if (suggestion.type === ADD_CLOSING_BRACKET) {
-    return (
-      <div className={locals.closeBracketSuggestionIndicator} onClick={() => onAddToFormModel({ type: CLOSE_BRACKET })}>
-        {`)`}
-      </div>
-    );
-  }
-
-  return null;
 }
