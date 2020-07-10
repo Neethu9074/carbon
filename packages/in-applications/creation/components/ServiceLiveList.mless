@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .listContainer {
+    overflow-y: scroll;
+    position: relative;
+  }
+
+  .listHeader {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid @lib__colors__N400;
+    padding: 0 0 0.5rem;
+  }
+
+  .listHeaderText {
+    color: #1b2733;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .listWrapper {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .filtersPrompt {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: @lib__colors__N600Light;
+    margin-top: 0.5rem;
+  }
+}

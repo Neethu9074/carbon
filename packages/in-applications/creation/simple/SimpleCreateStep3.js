@@ -3,6 +3,7 @@ import React from 'react';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
+import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -10,7 +11,7 @@ import Input from 'in-components/form/Input';
 
 import locals from './SimpleCreateStep2.mless';
 
-export default function SimpleCreateStep3({ form, updateForm }) {
+export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, matchSpecification }) {
   const labelField = form.get('label');
 
   return (
@@ -37,6 +38,12 @@ export default function SimpleCreateStep3({ form, updateForm }) {
         <Spacer type="dark" />
         <ApplicationScopeSelector form={form} updateForm={updateForm} />
       </div>
+      <ServiceLiveList
+        servicesLiveList={servicesLiveList}
+        headerText="Services in this Application Perspective..."
+        descriptionText="Not impacted by settings in this step."
+        matchSpecification={matchSpecification}
+      />
     </SimpleModeStepContentWrapper>
   );
 }
