@@ -4,6 +4,11 @@
   .name {
     margin-right: 0.25rem;
     font-weight: 600;
+    color: @lib__colors__N900Primary;
+
+    &:hover {
+      color: @lib__colors__N600Light;
+    }
   }
 
   .icon {

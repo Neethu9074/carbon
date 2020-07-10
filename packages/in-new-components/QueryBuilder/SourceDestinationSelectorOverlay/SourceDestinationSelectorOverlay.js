@@ -7,10 +7,25 @@ import {
 } from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/supportedSelections';
 import { onKeyDown } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import { ColumnizedContent } from 'in-new-components/lists/List';
 import { Ul } from 'in-new-components/lists/List/List';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SourceDestinationSelectorOverlay.mless';
+
+const columnDefinitions = [
+  {
+    width: '2rem',
+    getContent({ icon }) {
+      return <SvgIcon className={locals.icon} type={icon} />;
+    }
+  },
+  {
+    getContent({ label }) {
+      return label;
+    }
+  }
+];
 
 export default function SourceDestinationSelectorOverlay({ value, onChange, close }) {
   return (
@@ -22,17 +37,23 @@ export default function SourceDestinationSelectorOverlay({ value, onChange, clos
         close={close}
         selectedValue={value}
         value={source}
+        size="compact"
       >
-        <SvgIcon size="s" type="lib_application_call_source" /> Source
+        <ColumnizedContent columnDefinitions={columnDefinitions} icon="lib_application_call_source" label="Source" />
       </OverlayOption>
       <OverlayOption
         className={locals.option}
         onChange={onChange}
         close={close}
         selectedValue={value}
+        size="compact"
         value={destination}
       >
-        <SvgIcon size="s" type="lib_application_call_destination" /> Destination
+        <ColumnizedContent
+          columnDefinitions={columnDefinitions}
+          icon="lib_application_call_destination"
+          label="Destination"
+        />
       </OverlayOption>
     </Ul>
   );

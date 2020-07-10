@@ -16,7 +16,7 @@ export function enrichTagCatalog(tagCatalog) {
 
   const tagsWithPath = resolveTagsFromTree(tagCatalog.tagTree);
   tagCatalog.tagsByName = tagCatalog.tags.reduce((agg, tag) => {
-    agg[tag.name] = { ...tag, ...tagsWithPath[tag.name] };
+    agg[tag.name] = { ...tag, path: tagsWithPath[tag.name] };
     return agg;
   }, {});
 
@@ -44,6 +44,6 @@ function resolveNode(node, lut, parents) {
       resolveNode(node.children[i], lut, localParents);
     }
   } else {
-    lut[node.tagName] = { icon: node.icon, path: localParents };
+    lut[node.tagName] = localParents;
   }
 }

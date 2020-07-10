@@ -5,7 +5,7 @@
   .expression {
     display: inline;
 
-    padding: 0.4375rem 0px;
+    padding: 0.5rem 0;
 
     line-height: @query-builder-line-height;
     border: 1px solid transparent;
@@ -37,12 +37,18 @@
   }
 
   .expressioncolor_0 {
-    background: #f8ecff;
-    border: 1px solid #dca1ff;
+    &:focus,
+    &:hover {
+      background: #f8ecff;
+      border: 1px solid #dca1ff;
+    }
   }
 
   .expressioncolor_1 {
-    background: #ffeaf5;
-    border: 1px solid #ffa4d3;
+    &:focus,
+    &:hover {
+      background: #ffeaf5;
+      border: 1px solid #ffa4d3;
+    }
   }
 }

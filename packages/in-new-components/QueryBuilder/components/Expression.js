@@ -8,7 +8,7 @@ import keyCodes from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
 
-export default function Expression({ onRemove, children, element: {elements}, depth }) {
+export default function Expression({ onRemove, children, element: { elements }, depth }) {
   return (
     <div
       className={evaluateClassNames({

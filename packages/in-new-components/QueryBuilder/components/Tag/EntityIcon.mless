@@ -1,9 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .icon {
-    margin: -0.5rem 0;
-
-    fill: @lib__colors__N700Medium;
-  }
-}

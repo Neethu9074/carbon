@@ -1,8 +1,8 @@
 // each exported const is named the following way:
 // ${type}_${operator}
 
-export const STRING_EQUALS = 'equals';
-export const STRING_NOT_EQUAL = 'does not equal';
+export const STRING_EQUALS = '=';
+export const STRING_NOT_EQUAL = '!=';
 export const STRING_CONTAINS = 'contains';
 export const STRING_NOT_CONTAIN = 'does not contain';
 export const STRING_NOT_EMPTY = 'is present';
@@ -11,6 +11,9 @@ export const STRING_STARTS_WITH = 'starts with';
 export const STRING_ENDS_WITH = 'ends with';
 export const STRING_NOT_STARTS_WITH = 'does not start with';
 export const STRING_NOT_ENDS_WITH = 'does not end with';
+
+export const STRING_EQUALS_DESCRIPTION = 'equals';
+export const STRING_NOT_EQUAL_DESCRIPTION = 'does not equal';
 
 export const STRING_SET_EQUALS = STRING_EQUALS;
 export const STRING_SET_NOT_EQUAL = STRING_NOT_EQUAL;
@@ -22,6 +25,9 @@ export const STRING_SET_STARTS_WITH = STRING_STARTS_WITH;
 export const STRING_SET_ENDS_WITH = STRING_ENDS_WITH;
 export const STRING_SET_NOT_STARTS_WITH = STRING_NOT_STARTS_WITH;
 export const STRING_SET_NOT_ENDS_WITH = STRING_NOT_ENDS_WITH;
+
+export const STRING_SET_EQUALS_DESCRIPTION = 'equals';
+export const STRING_SET_NOT_EQUAL_DESCRIPTION = 'does not equal';
 
 export const STRING_LIST_EQUALS = STRING_SET_EQUALS;
 export const STRING_LIST_NOT_EQUAL = STRING_SET_NOT_EQUAL;

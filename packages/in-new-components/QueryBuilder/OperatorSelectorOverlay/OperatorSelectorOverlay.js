@@ -11,19 +11,23 @@ import locals from './OperatorSelectorOverlay.mless';
 export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType }) {
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onKeyDown}>
-      {allowedOperators.map(operator => (
-        <OverlayOption
-          key={operator}
-          className={locals.option}
-          autoFocus={value === operator}
-          onChange={onChange}
-          close={close}
-          selectedValue={value}
-          value={operator}
-        >
-          {operatorLabels[`${tagType}_${operator}`]}
-        </OverlayOption>
-      ))}
+      {allowedOperators.map(operator => {
+        const description = operatorLabels[`${tagType}_${operator}_DESCRIPTION`];
+        return (
+          <OverlayOption
+            key={operator}
+            className={locals.option}
+            autoFocus={value === operator}
+            onChange={onChange}
+            close={close}
+            selectedValue={value}
+            value={operator}
+          >
+            {operatorLabels[`${tagType}_${operator}`]}
+            {description ? ` ${description}` : null}
+          </OverlayOption>
+        );
+      })}
     </Ul>
   );
 }

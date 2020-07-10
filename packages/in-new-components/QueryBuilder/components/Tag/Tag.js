@@ -2,14 +2,21 @@
 import AutosizeInput from 'react-input-autosize';
 import React from 'react';
 
-import { getFormPresentationInformation, createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
+import {
+  changeOperator,
+  changeName,
+  createTagForm,
+  getFormPresentationInformation
+} from 'in-new-components/QueryBuilder/validation/tagForm';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
-import EntityIcon from 'in-new-components/QueryBuilder/components/Tag/EntityIcon';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
+import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Tag.mless';
 
@@ -18,7 +25,6 @@ export default function Tag(props) {
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
-  const tagTreeNode = tagCatalog.tagsByName[element.name];
 
   return (
     <div
@@ -29,7 +35,6 @@ export default function Tag(props) {
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
       {...dragAndDropProps}
     >
-      <EntityIcon tagTreeNode={tagTreeNode} />
       {form
         .get('entity')
         ?.map(field => (
@@ -39,29 +44,59 @@ export default function Tag(props) {
             onChange={entity => onChange('entity', entity)}
           />
         ))}
-      <Name tagTreeNode={tagTreeNode} name={element.name} />
+      <Name
+        {...props}
+        onChange={newTag => {
+          if (newTag.type === TAG) {
+            const newForm = changeName(tagCatalog, form, newTag.name);
+            onChangeInFormModel(newForm.toJS(), false);
+          } else {
+            onChangeInFormModel(newTag, false);
+          }
+        }}
+      />
       {form
         .get('key')
-        ?.map(field => <Input value={field.value} properyName="value" onChange={value => onChange('key', value)} />)}
+        ?.map(field => (
+          <Input
+            value={field.value}
+            properyName="value"
+            onChange={value => onChange('key', value)}
+            valid={field.valid}
+            messages={field.messages}
+          />
+        ))}
       <Operator
-        operator={element.operator}
+        {...element}
         allowedOperators={allowedOperators}
+        onChange={_operator => {
+          const newForm = changeOperator(tagCatalog, form, _operator);
+          onChangeInFormModel(newForm.toJS(), false);
+        }}
         tagType={tagType}
-        onChange={_operator => onChange('operator', _operator)}
       />
       {form.get('value')?.map(field => (
         <>
-          {valueType === Boolean && <div />}
+          {valueType === Boolean && <span>true</span>}
           {valueType === Number && (
             <Input
               type="number"
-              value={field.value}
+              value={field.value || 0}
               properyName="valueAsNumber"
               onChange={value => onChange('value', value)}
+              valid={field.valid}
+              messages={field.messages}
             />
           )}
           {valueType === String && (
-            <Input type="text" value={field.value} properyName="value" onChange={value => onChange('value', value)} />
+            <Input
+              type="text"
+              value={field.value}
+              properyName="value"
+              onChange={value => onChange('value', value)}
+              valid={field.valid}
+              messages={field.messages}
+            />
           )}
         </>
       ))}
@@ -82,16 +117,28 @@ export default function Tag(props) {
   }
 }
 
-function Input({ value, type, properyName, onChange }) {
+function Input({ value, type, properyName, onChange, valid, messages }) {
   const result = useDebouncedValue(value, onChange, 500);
 
-  return (
+  const input = (
     <AutosizeInput
-      inputClassName={locals.input}
+      inputClassName={evaluateClassNames({
+        [locals.input]: true,
+        [locals.invalid]: !valid
+      })}
       type={type}
       value={result.value}
       minWidth={32}
       onChange={e => result.onChange(e.target[properyName])}
     />
   );
+
+  if (!valid) {
+    return (
+      <Tooltip themeStyle="light" content={messages[0].message} align="bottomMiddle">
+        {input}
+      </Tooltip>
+    );
+  }
+  return input;
 }

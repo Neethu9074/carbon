@@ -6,3 +6,15 @@ export const KEY_VALUE_PAIRS_NOT_EMPTY = false;
 export const KEY_VALUE_PAIRS_IS_EMPTY = false;
 export const KEY_VALUE_PAIRS_IS_BLANK = false;
 export const KEY_VALUE_PAIRS_NOT_BLANK = false;
+
+export const STRING_NOT_EMPTY = false;
+export const STRING_IS_EMPTY = false;
+
+export const NUMBER_NOT_EMPTY = false;
+export const NUMBER_IS_EMPTY = false;
+
+export const STRING_SET_NOT_EMPTY = false;
+export const STRING_SET_IS_EMPTY = false;
+
+export const STRING_LIST_NOT_EMPTY = false;
+export const STRING_LIST_IS_EMPTY = false;

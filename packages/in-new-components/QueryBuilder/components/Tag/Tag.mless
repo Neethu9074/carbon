@@ -3,7 +3,7 @@
 :local {
   .tag {
     display: inline-block;
-    padding: 0.3rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.5rem;
     background: @lib__colors__N050;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
@@ -29,12 +29,17 @@
 
     background: @lib__colors__N050;
     line-height: 0.75rem;
-    border: none;
+    border: 1px solid transparent;
+    border-radius: @lib__shapes__radius_small;
 
     &:focus,
     &:active,
     &:hover {
       outline: 0;
     }
+  }
+
+  .invalid {
+    border: 1px solid @lib__colors__failure;
   }
 }
