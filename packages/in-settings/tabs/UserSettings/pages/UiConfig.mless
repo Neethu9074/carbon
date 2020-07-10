@@ -1,0 +1,9 @@
+:local {
+  .slider {
+    max-width: 12.5rem;
+  }
+
+  .warning {
+    color: #ffde00;
+  }
+}

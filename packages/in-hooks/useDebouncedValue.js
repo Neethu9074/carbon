@@ -1,9 +1,7 @@
 import { create } from 'reactive-observables';
 import { useState, useEffect } from 'react';
 
-// Just a small alias to make usage of time configs in React components
-// a lot more explicit.
-export default function useTimeConfig(value, onChange, delay = 1000) {
+export default function useDebouncedValue(value, onChange, delay = 1000) {
   const [value$] = useState(create());
   const [stateValue, setStateValue] = useState(value);
   useEffect(

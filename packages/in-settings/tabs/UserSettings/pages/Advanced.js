@@ -1,211 +1,168 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { settings$, set } from 'in-services/settings/settings';
 import SectionLine from 'in-settings/components/SectionLine';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
-import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 
-import './UiConfig.less';
+import locals from './UiConfig.mless';
 
-const block = 'in-ui-config';
+export default function UiConfigAdvancedPage() {
+  const [settings, saveSetting] = useSettingsEditor();
 
-export default class extends React.Component {
-  static displayName = 'UiConfigAdvancedPage';
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      settings: null
-    };
+  if (!settings) {
+    return null;
   }
 
-  componentDidMount() {
-    this.settingsSubscription = settings$.subscribe(_settings =>
-      this.setState({
-        settings: _settings
-      })
-    );
-  }
-
-  componentWillUnmount() {
-    this.settingsSubscription.dispose();
-    this.settingsSubscription = null;
-
-    set(this.state.settings);
-  }
-
-  saveSetting = (k, v) => {
-    const newSettings = this.state.settings;
-    newSettings[k] = v;
-    this.setState({
-      settings: newSettings
-    });
-  };
-
-  render() {
-    const { settings } = this.state;
-    if (!settings) {
-      return null;
-    }
-
-    return (
-      <SettingsDetailPage>
-        <Title title="Advanced User Interface Settings" />
-        <SubViewHeader>Advanced User Interface Settings</SubViewHeader>
-        <SectionLine />
-
-        <SectionHeading>3D Maps</SectionHeading>
-
-        <div style={{ marginBottom: '1rem' }}>
-          <HorizontalFormGroup>
-            <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
-            <Toggle
-              id="scroll-direction"
-              checked={settings['map_scrollDirection'] === -1}
-              onChange={e => this.saveSetting('map_scrollDirection', e.target.checked ? -1 : 1)}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading text="Show zoom panel" htmlFor="zoom-panel" />
-            <Toggle
-              id="zoom-panel"
-              checked={settings['zoomPanelIsActive']}
-              onChange={e => this.saveSetting('zoomPanelIsActive', e.target.checked)}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading text="Show host/container labels" htmlFor="showHostLabels" />
-            <Toggle
-              id="host-labels"
-              checked={settings['map_showHostLabels']}
-              onChange={e => this.saveSetting('map_showHostLabels', e.target.checked)}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading text="Zoom and panning speed" htmlFor="zoom-speed" />
-            <input
-              type="range"
-              id="zoom-speed"
-              min={0.1}
-              max={20}
-              step={0.1}
-              className={`${block}__zoom-speed`}
-              value={settings['map_scrollSpeed']}
-              onChange={e => this.saveSetting('map_scrollSpeed', e.target.value)}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading
-              text={`Space between groups in x direction (${settings['map_packingXSpace']})`}
-              htmlFor="packing_x_direction"
-            />
-            <input
-              type="range"
-              id="packing_x_direction"
-              min={1}
-              max={10}
-              step={1}
-              className={`${block}__slider`}
-              value={settings['map_packingXSpace']}
-              onChange={e => this.saveSetting('map_packingXSpace', Number(e.target.value))}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading
-              text={`Space between groups in y direction (${settings['map_packingYSpace']})`}
-              htmlFor="packing_y_direction"
-            />
-            <input
-              type="range"
-              id="packing_y_direction"
-              min={1}
-              max={10}
-              step={1}
-              className={`${block}__slider`}
-              value={settings['map_packingYSpace']}
-              onChange={e => this.saveSetting('map_packingYSpace', Number(e.target.value))}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup>
-            <Heading text="Anti-aliasing" htmlFor="antialiasing" />
-            <Toggle
-              id="antialiasing"
-              checked={settings['map_antialias'] === 'browserAA'}
-              onChange={e => this.saveSetting('map_antialias', e.target.checked ? 'browserAA' : 'off')}
-            />
-          </HorizontalFormGroup>
-        </div>
-
-        <SectionHeading>Pod Map</SectionHeading>
-        <div style={{ marginBottom: '1rem' }}>
-          <HorizontalFormGroup>
-            <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
-            <Toggle
-              id="kubernetes_ungrouped-pods"
-              checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
-              onChange={e => this.saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
-            />
-          </HorizontalFormGroup>
-        </div>
-
-        <SectionHeading>Infrastructure</SectionHeading>
-        <div>
-          <HorizontalFormGroup>
-            <Heading
-              text={`Compact layouter: Space between groups in x direction (${settings['map_packingXSpace']})`}
-              htmlFor="packing_x_direction"
-            />
-            <input
-              type="range"
-              id="packing_x_direction"
-              min={1}
-              max={10}
-              step={1}
-              className={`${block}__slider`}
-              value={settings['map_packingXSpace']}
-              onChange={e => this.saveSetting('map_packingXSpace', Number(e.target.value))}
-            />
-          </HorizontalFormGroup>
-          <HorizontalFormGroup>
-            <Heading
-              text={`Compact layouter: Space between groups in y direction (${settings['map_packingYSpace']})`}
-              htmlFor="packing_y_direction"
-            />
-            <input
-              type="range"
-              id="packing_y_direction"
-              min={1}
-              max={10}
-              step={1}
-              className={`${block}__slider`}
-              value={settings['map_packingYSpace']}
-              onChange={e => this.saveSetting('map_packingYSpace', Number(e.target.value))}
-            />
-          </HorizontalFormGroup>
-        </div>
-        <Footer />
-      </SettingsDetailPage>
-    );
-  }
-}
-
-function Heading({ text, htmlFor }) {
   return (
-    <Label className={`${block}__label`} htmlFor={htmlFor}>
-      {text}
-    </Label>
+    <SettingsDetailPage>
+      <Title title="Advanced User Interface Settings" />
+      <SubViewHeader>Advanced User Interface Settings</SubViewHeader>
+      <SectionLine />
+
+      <SectionHeading>3D Maps</SectionHeading>
+
+      <div style={{ marginBottom: '1rem' }}>
+        <HorizontalFormGroup>
+          <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
+          <Toggle
+            id="scroll-direction"
+            checked={settings['map_scrollDirection'] === -1}
+            onChange={e => saveSetting('map_scrollDirection', e.target.checked ? -1 : 1)}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading text="Show zoom panel" htmlFor="zoom-panel" />
+          <Toggle
+            id="zoom-panel"
+            checked={settings['zoomPanelIsActive']}
+            onChange={e => saveSetting('zoomPanelIsActive', e.target.checked)}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading text="Show host/container labels" htmlFor="showHostLabels" />
+          <Toggle
+            id="host-labels"
+            checked={settings['map_showHostLabels']}
+            onChange={e => saveSetting('map_showHostLabels', e.target.checked)}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading text="Zoom and panning speed" htmlFor="zoom-speed" />
+          <input
+            type="range"
+            id="zoom-speed"
+            min={0.1}
+            max={20}
+            step={0.1}
+            className={locals.slider}
+            value={settings['map_scrollSpeed']}
+            onChange={e => saveSetting('map_scrollSpeed', e.target.value)}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading
+            text={`Space between groups in x direction (${settings['map_packingXSpace']})`}
+            htmlFor="packing_x_direction"
+          />
+          <input
+            type="range"
+            id="packing_x_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingXSpace']}
+            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading
+            text={`Space between groups in y direction (${settings['map_packingYSpace']})`}
+            htmlFor="packing_y_direction"
+          />
+          <input
+            type="range"
+            id="packing_y_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingYSpace']}
+            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup>
+          <Heading text="Anti-aliasing" htmlFor="antialiasing" />
+          <Toggle
+            id="antialiasing"
+            checked={settings['map_antialias'] === 'browserAA'}
+            onChange={e => saveSetting('map_antialias', e.target.checked ? 'browserAA' : 'off')}
+          />
+        </HorizontalFormGroup>
+      </div>
+
+      <SectionHeading>Pod Map</SectionHeading>
+      <div style={{ marginBottom: '1rem' }}>
+        <HorizontalFormGroup>
+          <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
+          <Toggle
+            id="kubernetes_ungrouped-pods"
+            checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
+            onChange={e => saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
+          />
+        </HorizontalFormGroup>
+      </div>
+
+      <SectionHeading>Infrastructure</SectionHeading>
+      <div>
+        <HorizontalFormGroup>
+          <Heading
+            text={`Compact layouter: Space between groups in x direction (${settings['map_packingXSpace']})`}
+            htmlFor="packing_x_direction"
+          />
+          <input
+            type="range"
+            id="packing_x_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingXSpace']}
+            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
+          />
+        </HorizontalFormGroup>
+        <HorizontalFormGroup>
+          <Heading
+            text={`Compact layouter: Space between groups in y direction (${settings['map_packingYSpace']})`}
+            htmlFor="packing_y_direction"
+          />
+          <input
+            type="range"
+            id="packing_y_direction"
+            min={1}
+            max={10}
+            step={1}
+            className={locals.slider}
+            value={settings['map_packingYSpace']}
+            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
+          />
+        </HorizontalFormGroup>
+      </div>
+      <Footer />
+    </SettingsDetailPage>
   );
 }
