@@ -83,7 +83,7 @@ function termToTagFilter(term) {
     return exactMatchTagFilter(term);
   } else if (term.includes('~')) {
     return containsTagFilter(term);
-  } else return keylessTagFilter(term);
+  } else return null;
 }
 
 function exactMatchTagFilter(term) {
@@ -99,21 +99,11 @@ function keyValueTagFilter(term, splitter) {
   if (rest.length == 0 && tagValueIsValid(tagValue, splitter)) {
     let prefixedKey = tagKey.startsWith('entity.') ? tagKey : `entity.${tagKey}`;
     return {
-      key: replaceAliases(prefixedKey),
+      name: replaceAliases(prefixedKey),
       operator: splitter === '=' ? 'EQUALS' : 'CONTAINS',
       value: tagValue
     };
   } else return null;
-}
-
-function keylessTagFilter(term) {
-  if (tagValueIsValid(term)) {
-    return {
-      operator: 'CONTAINS',
-      value: term
-    };
-  }
-  return null;
 }
 
 function tagValueIsValid(tagValue, operator = '~') {
