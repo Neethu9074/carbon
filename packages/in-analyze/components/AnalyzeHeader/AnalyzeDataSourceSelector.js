@@ -160,7 +160,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         ));
 
         if (dataSourceListEntries.length === 1) {
-          return <>{dataSourceListEntries}</>;
+          return dataSourceListEntries[0];
         }
 
         return (
