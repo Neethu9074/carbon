@@ -152,7 +152,14 @@ export default function AdvancedModeContainer(props) {
           label: 'Time Threshold',
           title: 'Time Threshold: When do you want to be alerted?',
           checked: true,
-          content: <TimeThresholdConfigPresenter form={form} onChange={onChange} updateForm={updateForm} />
+          content: (
+            <TimeThresholdConfigPresenter
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              hasRequestImpactOption
+            />
+          )
         },
         {
           scrollId: '4',
