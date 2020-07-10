@@ -1,39 +1,29 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import Code from 'in-components/Code';
 
-const ActuatorDependencyCode = `<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
-`;
-
-export default function SpringbootDashboard({ snapshot, timeConfig }) {
+export default connectTo(({ snapshot, timeConfig }) => {
+  const snapshotId = snapshot.get('id');
+  return {
+    monitoringIssues: getMonitoringIssuesForSnapshot({ timeConfig, snapshotId })
+      .filter(issuesResult => issuesResult && issuesResult.get('data'))
+      .map(issuesResult => issuesResult.get('data'))
+      .startWith(null)
+  };
+})(function SpringbootDashboard({ snapshot, timeConfig, monitoringIssues }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
   const snapshotId = snapshot.get('id');
-  const status = snapshot.getIn(['data', 'status']);
-
-  if (status == null) {
-    return (
-      <DashboardNotification type="warning">
-        <p>Spring Boot monitoring requires that Spring Boot Actuator is configured:</p>
-        <Code code={ActuatorDependencyCode} lang="html" showLineNumbers={false} />
-        More info can be found on the{' '}
-        <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
-          Spring Boot configuration page
-        </Link>
-      </DashboardNotification>
-    );
-  }
 
   if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
@@ -50,6 +40,7 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      {getActuatorConfiguredHint(snapshot, monitoringIssues)}
       <KpiSection>
         <KpiKeyValue label="Active Sessions">
           <MetricValue snapshotId={snapshotId} metric="metrics.httpsessions.active" />
@@ -99,4 +90,34 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
       ) : null}
     </div>
   );
+});
+
+function getActuatorConfiguredHint(snapshot, monitoringIssues) {
+  const status = snapshot.getIn(['data', 'status']);
+  // Check if we also show the monitoring issue notification for this problem, to avoid showing both (the monitoring
+  // issue notification and the old dashboard notification)
+  const monitoringIssueNotificationExists = monitoringIssues?.find(
+    issue =>
+      issue.get('agentMonitoringCode') === 'springboot_actuator_not_configured' ||
+      issue.get('agentMonitoringCode') === 'springboot_jmx_not_enabled'
+  );
+
+  if (monitoringIssueNotificationExists && agentMonitoringIssuesEnabled) {
+    return null;
+  }
+
+  if (status == null) {
+    return (
+      <DashboardNotification type="warning">
+        <p>
+          Spring Boot monitoring requires that Spring Boot Actuator is configured. For Spring Boot 2.2.x and later it is
+          necessary to enable JMX.
+        </p>
+        More info can be found on the{' '}
+        <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
+          Spring Boot configuration page
+        </Link>
+      </DashboardNotification>
+    );
+  }
 }

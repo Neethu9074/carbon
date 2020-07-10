@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/springbootApplicationContainer/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/springbootApplicationContainer/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/springbootApplicationContainer/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/springbootApplicationContainer/iconPath';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
