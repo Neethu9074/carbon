@@ -227,3 +227,7 @@ export const PROFILING_WAITTIME_TREEVIEW_OPENEND = 'profiling.waitTime.treeView.
 export const PROFILING_WAITTIME_FLAMEGRAPH_OPENEND = 'profiling.waitTime.flameGraph.openend';
 export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const PROFILING_FLAMEGRAPH_CLICKED = 'profiling.flameGraph.clicked';
+
+export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
+export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
+export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { contextGuideStackLoadedDurationTracker } from 'in-infrastructure/tracking/tracking';
 import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import SelfEntityHeader from 'in-new-components/Stack/SelfEntityHeader';
@@ -14,11 +15,13 @@ import locals from './StackPresenter.mless';
 
 const preferredContextGuideTabSettingsKey = 'preferredContextGuideTab';
 
-export default function StackPresenter({ applicationId, stack, isLoading, productArea, selfEntity }) {
+export default function StackPresenter({ applicationId, stack, isLoading, productArea, selfEntity, plugin }) {
   useEffect(() => {
     disableBodyScroll();
     return enableBodyScroll;
   });
+
+  useEffect(() => trackLoading(isLoading, { dashboard: plugin || productArea }), [isLoading]);
 
   if (isLoading) {
     return <Loader />;
@@ -139,4 +142,12 @@ function healthSeverityFromHealthInfo(healthInfo) {
   }
 
   return SEVERITY_MAP[healthInfo.type];
+}
+
+function trackLoading(isLoading, props) {
+  if (isLoading) {
+    contextGuideStackLoadedDurationTracker.start();
+  } else {
+    contextGuideStackLoadedDurationTracker.stop(props);
+  }
 }

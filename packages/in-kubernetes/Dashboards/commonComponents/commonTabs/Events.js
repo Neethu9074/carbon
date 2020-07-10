@@ -15,8 +15,6 @@ import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 
-const unknownPlugin = 'com.instana.plugins.Unknown';
-
 const allColumns = [
   {
     id: 'type',
@@ -54,19 +52,20 @@ const allColumns = [
     id: 'name',
     label: 'Involved Object',
     getContent(item, { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
+      const plugin = translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin);
       const isLinkableEntity =
-        item.sourcePlugin !== unknownPlugin &&
+        plugin &&
         [clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(
           item.sourceId
         ) === -1 &&
-        translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin) !== plugins.kubernetesReplicaSet;
+        plugin !== plugins.kubernetesReplicaSet;
 
       if (isLinkableEntity) {
         return (
           <EntityLink
-            icon={getIconByPlugin(translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin))}
+            icon={getIconByPlugin(plugin)}
             label={item.name}
-            href$={getDashboardForEntity(item.sourceId, item.sourcePlugin)}
+            href$={getDashboardForEntity(item.sourceId, plugin)}
           />
         );
       }

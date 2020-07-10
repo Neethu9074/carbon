@@ -12,7 +12,6 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
@@ -22,6 +21,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
+import { plugins } from 'in-forge/constants';
 
 export default function NamespaceDashboard({ location }) {
   const props = {
@@ -100,7 +100,7 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
       <DashboardButtonLine
         snapshotId={namespaceId}
         timeConfig={timeConfig}
-        plugin={fullyQualifiedPlugins.kubernetesNamespace}
+        plugin={plugins.kubernetesNamespace}
         tagFilters={getFilters({ clusterName, namespaceName })}
       />
       <AnalyzeCallsButton

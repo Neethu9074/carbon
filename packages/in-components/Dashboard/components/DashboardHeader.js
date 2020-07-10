@@ -49,7 +49,12 @@ function renderButtonLine(props) {
       />
 
       {![plugins.instanaAgent, plugins.prometheus].includes(snapshot.get('plugin')) && (
-        <ContextGuide id={snapshot.get('id')} timeConfig={timeConfig} tagFilters={getSnapshotIdTagFilter(snapshot)} />
+        <ContextGuide
+          id={snapshot.get('id')}
+          timeConfig={timeConfig}
+          tagFilters={getSnapshotIdTagFilter(snapshot)}
+          plugin={snapshot.get('plugin')}
+        />
       )}
     </>
   );

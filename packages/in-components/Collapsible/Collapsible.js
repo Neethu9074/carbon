@@ -11,7 +11,8 @@ import locals from './Collapsible.mless';
 class Collapsible extends React.PureComponent {
   static propTypes = {
     children: rpt.array.isRequired,
-    initiallyOpen: rpt.bool
+    initiallyOpen: rpt.bool,
+    onOpen: rpt.function
   };
 
   state = {
@@ -39,6 +40,9 @@ class Collapsible extends React.PureComponent {
   }
 
   toggle = () => {
+    if (this.props.onOpen && !this.state.open) {
+      this.props.onOpen();
+    }
     this.setState({ open: !this.state.open });
   };
 }

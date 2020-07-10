@@ -11,7 +11,6 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
@@ -22,6 +21,7 @@ import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
+import { plugins } from 'in-forge/constants';
 
 export default function ServiceDashboard({ location }) {
   const props = {
@@ -110,7 +110,7 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
       <ContextGuide
         id={serviceId}
         timeConfig={timeConfig}
-        plugin={fullyQualifiedPlugins.kubernetesService}
+        plugin={plugins.kubernetesService}
         tagFilters={getFilters({ clusterName, namespaceName, serviceName })}
         serviceId={serviceId}
       />

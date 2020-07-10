@@ -5,17 +5,16 @@ import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKuber
 import { daemonSetId as matrixDaemonSetId } from 'in-kubernetes/navigation/matrix';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { daemonSetDashboard } from 'in-kubernetes/navigation/paths';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import tabs from 'in-kubernetes/Dashboards/DaemonSet/tabs/index';
 import { daemonSetTabChange } from 'in-kubernetes/tracker';
+import { plugins } from 'in-forge/constants';
 
 export default function DaemonSetDashboard({ location }) {
   return (
     <WorkloadControllerDashboard
       location={location}
       workloadControllerType="daemonSet"
-      shortPluginName={plugins.kubernetesDaemonSet}
-      fullyQualifiedPluginName={fullyQualifiedPlugins.kubernetesDaemonSet}
+      plugin={plugins.kubernetesDaemonSet}
       dashboardPath={daemonSetDashboard}
       matrixParameterId={matrixDaemonSetId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}

@@ -25,6 +25,7 @@ export default function ContextGuide({
         productArea={productArea}
         className={locals.leftButton}
         includeSelfEntity={includeSelfEntity}
+        plugin={plugin}
         noAutoMargin
       />
       <UpstreamDownstreamButton

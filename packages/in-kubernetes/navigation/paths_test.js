@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { setHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { setSelectedSnapshotId } from 'in-stores/snapshot';
-import { fullyQualifiedPlugins } from 'in-forge/constants';
+import { plugins } from 'in-forge/constants';
 
 describe('in-kubernetes/navigation/paths', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a pod', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesPod;
+    const plugin = plugins.kubernetesPod;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -27,7 +27,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a service', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesService;
+    const plugin = plugins.kubernetesService;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -41,7 +41,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a deployment', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesDeployment;
+    const plugin = plugins.kubernetesDeployment;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -55,7 +55,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a deploymentConfig', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.openshiftDeploymentConfig;
+    const plugin = plugins.openshiftDeploymentConfig;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -69,7 +69,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a daemonSet', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesDaemonSet;
+    const plugin = plugins.kubernetesDaemonSet;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -83,7 +83,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a namespace', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesNamespace;
+    const plugin = plugins.kubernetesNamespace;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
@@ -97,7 +97,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
   it('should return the correct link for an event on a cluster', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
-    const plugin = fullyQualifiedPlugins.kubernetesCluster;
+    const plugin = plugins.kubernetesCluster;
     const subscriber = sinon.stub();
 
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);

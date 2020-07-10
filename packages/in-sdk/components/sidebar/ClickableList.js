@@ -13,7 +13,7 @@ import locals from './ClickableList.mless';
 
 export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) => ({
   snapshot: children != null ? undefined : getSnapshot(snapshotId)
-}))(function ClickableSnapshotListItem({ snapshotId, snapshot, children, withIcon = false }) {
+}))(function ClickableSnapshotListItem({ snapshotId, snapshot, children, withIcon = false, onClick }) {
   let content = children;
   if (!content) {
     if (!snapshot) {
@@ -36,7 +36,11 @@ export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) =>
     );
   }
 
-  return <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>{content}</ClickableListItem>;
+  return (
+    <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)} onClick={onClick}>
+      {content}
+    </ClickableListItem>
+  );
 });
 
 export function ClickableListItem({ onClick, href$, children }) {
