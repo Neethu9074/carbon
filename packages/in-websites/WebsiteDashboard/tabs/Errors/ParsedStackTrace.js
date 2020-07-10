@@ -40,11 +40,11 @@ function getIndicator(websiteId, line) {
   return (
     <InfoIndicator href$={href$} href={href} external={external}>
       {translationStatus.explanation}
-      {isNotBlank(translationStatus.translationExplanation) &&
-        translationStatus.translationExplanation !== 'null' && (
+      {isNotBlank(line.translationExplanation) &&
+        line.translationExplanation !== 'null' && (
           <Fragment>
             <br />
-            <strong>translationStatus.translationExplanation</strong>
+            <strong>{line.translationExplanation}</strong>
           </Fragment>
         )}
       {explanation && (
