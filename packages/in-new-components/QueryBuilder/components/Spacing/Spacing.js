@@ -16,6 +16,7 @@ export default function Spacing({
   element,
   onRemove,
   tagCatalog,
+  focus,
   onAdd: onAddToFormModel,
   draggedFormModelIndex$,
   dragAndDropProps

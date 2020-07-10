@@ -26,10 +26,12 @@ export default function DragAndDropBehaviour({
   function onDragStart(e) {
     // attach data to the event so it can be read by elements with the onDrop handler
     e.dataTransfer.setData('text', dragIndex);
+    e.currentTarget.style.opacity = '0.4';
   }
 
-  function onDragEnd() {
+  function onDragEnd(e) {
     setDraggedFormModelIndex(null);
+    e.currentTarget.style.opacity = '1';
   }
 
   function onDragOver(e) {

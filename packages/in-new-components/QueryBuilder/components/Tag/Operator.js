@@ -6,7 +6,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 
 import locals from './Operator.mless';
 
-export default function Operator({ operator, allowedOperators, tagType, renderModelIndex, onChange }) {
+export default function Operator({ element: { operator, renderModelIndex }, allowedOperators, tagType, onChange }) {
   return (
     <Overlay
       withoutWrapper

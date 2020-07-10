@@ -21,7 +21,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './Tag.mless';
 
 export default function Tag(props) {
-  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element } = props;
+  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, focus, tagCatalog, element } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
@@ -46,6 +46,7 @@ export default function Tag(props) {
         ))}
       <Name
         {...props}
+        focus={focus}
         onChange={newTag => {
           if (newTag.type === TAG) {
             const newForm = changeName(tagCatalog, form, newTag.name);
@@ -59,7 +60,7 @@ export default function Tag(props) {
         .get('key')
         ?.map(field => (
           <Input
-            value={field.value}
+            value={field.value || ''}
             properyName="value"
             onChange={value => onChange('key', value)}
             valid={field.valid}
@@ -67,7 +68,7 @@ export default function Tag(props) {
           />
         ))}
       <Operator
-        {...element}
+        element={element}
         allowedOperators={allowedOperators}
         onChange={_operator => {
           const newForm = changeOperator(tagCatalog, form, _operator);
@@ -77,7 +78,7 @@ export default function Tag(props) {
       />
       {form.get('value')?.map(field => (
         <>
-          {valueType === Boolean && <span>true</span>}
+          {valueType === Boolean && <span className={locals.booleanPlaceholder}>true</span>}
           {valueType === Number && (
             <Input
               type="number"
@@ -91,7 +92,7 @@ export default function Tag(props) {
           {valueType === String && (
             <Input
               type="text"
-              value={field.value}
+              value={field.value || ''}
               properyName="value"
               onChange={value => onChange('value', value)}
               valid={field.valid}
@@ -120,25 +121,22 @@ export default function Tag(props) {
 function Input({ value, type, properyName, onChange, valid, messages }) {
   const result = useDebouncedValue(value, onChange, 500);
 
-  const input = (
-    <AutosizeInput
-      inputClassName={evaluateClassNames({
-        [locals.input]: true,
-        [locals.invalid]: !valid
-      })}
-      type={type}
-      value={result.value}
-      minWidth={32}
-      onChange={e => result.onChange(e.target[properyName])}
-    />
+  return (
+    <Tooltip
+      themeStyle="light"
+      content={messages && messages.length > 0 ? messages[0].message : undefined}
+      align="bottomMiddle"
+    >
+      <AutosizeInput
+        inputClassName={evaluateClassNames({
+          [locals.input]: true,
+          [locals.invalid]: !valid
+        })}
+        type={type}
+        minWidth={32}
+        value={result.value}
+        onChange={e => result.onChange(e.target[properyName])}
+      />
+    </Tooltip>
   );
-
-  if (!valid) {
-    return (
-      <Tooltip themeStyle="light" content={messages[0].message} align="bottomMiddle">
-        {input}
-      </Tooltip>
-    );
-  }
-  return input;
 }

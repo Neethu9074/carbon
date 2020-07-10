@@ -6,9 +6,8 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Name.mless';
 
-export default function Name({ tagCatalog, onChange, element: { name, renderModelIndex } }) {
+export default function Name({ tagCatalog, onChange, focus, element: { name, renderModelIndex } }) {
   const tagTreeNode = tagCatalog.tagsByName[name];
-
   const path = tagTreeNode?.path;
 
   if (path) {

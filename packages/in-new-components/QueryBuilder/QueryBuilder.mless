@@ -1,4 +1,5 @@
 @import '~in-new-components/QueryBuilder/shared.less';
+@import '~in-themes/active.less';
 
 :local {
   .queryBuilder {
@@ -13,5 +14,12 @@
     &:hover {
       cursor: text;
     }
+  }
+
+  .emptyQueryHelpText {
+    margin-left: 0.125rem;
+
+    color: @lib__colors__N400;
+    pointer-events: none;
   }
 }

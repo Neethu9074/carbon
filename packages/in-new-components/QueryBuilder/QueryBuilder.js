@@ -74,6 +74,8 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     return null;
   }
 
+  const renderModel = toRenderModel(formModel);
+
   return (
     <QueryBuilderDragAndDropBehaviour
       queryBuilderRef={refContainer.current}
@@ -93,13 +95,16 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
             draggedFormModelIndex$={draggedFormModelIndex$}
             switchFormModelIndices={switchFormModelIndices}
             createTagForm={resolvedCreateTagForm}
-            elements={toRenderModel(formModel)}
             onChange={onChangeFormModelElement}
             onAdd={onAddFormModelElement}
             tagCatalog={tagCatalog.data}
+            elements={renderModel}
             onRemove={onRemove}
             focus={focus}
           />
+          {formModel.length === 0 && (
+            <span className={locals.emptyQueryHelpText}>Filter using a tag or search through all tags</span>
+          )}
         </div>
       )}
     </QueryBuilderDragAndDropBehaviour>

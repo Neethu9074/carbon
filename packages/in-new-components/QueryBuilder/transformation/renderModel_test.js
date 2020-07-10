@@ -321,13 +321,13 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
 
     it('should map null or undefined form model to an empty array', () => {
       formModelIndex++;
-      expect(toRenderModel(null)).to.deep.equal([rm_letter()]);
-      expect(toRenderModel(undefined)).to.deep.equal([rm_letter()]);
+      expect(toRenderModel(null)).to.deep.equal([{ ...rm_letter(), renderModelIndex: 0 }]);
+      expect(toRenderModel(undefined)).to.deep.equal([{ ...rm_letter(), renderModelIndex: 0 }]);
     });
 
     it('should map an empty form model to an empty array', () => {
       formModelIndex++;
-      expect(toRenderModel([])).to.deep.equal([rm_letter()]);
+      expect(toRenderModel([])).to.deep.equal([{ ...rm_letter(), renderModelIndex: 0 }]);
     });
   });
 });

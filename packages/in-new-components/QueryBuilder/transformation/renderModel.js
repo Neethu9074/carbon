@@ -28,7 +28,7 @@ export const WORD = {
 
 export function toRenderModel(formModel) {
   if (!formModel || formModel.length === 0) {
-    return [createSpacing(LETTER, 0)];
+    return addRenderModelIndices([createSpacing(LETTER, 0)]);
   }
 
   return validate(buildExpressionTrees(addRenderModelIndices(addSpacingsAndIncides(formModel))));
