@@ -39,7 +39,7 @@ function GroupMetricsChart({
     autoRefresh: false,
     windowSize: timeConfig.windowSize
   };
-  const metricsKeys = Object.keys(items[0].metrics);
+  const metricsKeys = Object.keys(items[0]?.metrics ?? {});
   const chartDefinitionKeys = chartDefinitions.map(d => d.key);
   const metricsAvailableForPresentation = intersection(metricsKeys, chartDefinitionKeys);
   const customChartRendererKeys = customChartRenderers.map(d => d.key);
