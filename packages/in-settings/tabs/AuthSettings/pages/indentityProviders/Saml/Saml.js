@@ -63,7 +63,7 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
     <>
       <Title title="SAML Configuration" />
       <SubViewHeader>SAML Configuration</SubViewHeader>
-      <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP)</h2>
+      <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
 
       <form method="post" encType="multipart/form-data">
         <p>
@@ -130,10 +130,10 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
         ))}
 
         <ul className={locals.list}>
-          <li>Download the Configuration Metadata via the link above</li>
-          <li>Upload the Instana metadata file to your IdP</li>
-          <li>Download the IdP-metadata issued from your IdP</li>
-          <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
+          <li>Download the Configuration Metadata via the link above.</li>
+          <li>Upload the Instana metadata file to your IdP.</li>
+          <li>Download the IdP-metadata issued from your IdP.</li>
+          <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana.`}</li>
         </ul>
 
         <div className={indentityProvidersLocals.space} />
@@ -163,7 +163,7 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
         <ul className={locals.list}>
           <li>
             There will be an option to download the IdP-metadata. Store that file in a known location on your local
-            machine
+            machine.
           </li>
           <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
         </ul>

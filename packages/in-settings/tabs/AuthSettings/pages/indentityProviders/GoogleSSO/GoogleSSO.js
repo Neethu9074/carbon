@@ -61,7 +61,7 @@ function render({ form, setForm }) {
                   autoComplete="off"
                   hasError={!field.valid && field.touched}
                 />
-                <DescriptionText>Separate multiple domains with a comma</DescriptionText>
+                <DescriptionText>Separate multiple domains with a comma.</DescriptionText>
                 <TouchedMessages field={field} />
               </FormGroup>
             ))}
