@@ -275,6 +275,7 @@ const columnDefinitions = [
       const { isWebsite, metrics } = item;
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
@@ -294,6 +295,7 @@ const columnDefinitions = [
 
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation={isWebsite ? 'MEAN' : 'SUM'}

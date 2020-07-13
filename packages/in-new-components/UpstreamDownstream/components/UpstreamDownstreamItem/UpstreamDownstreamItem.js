@@ -72,6 +72,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
         </div>
         <div className={locals.chartWrapper}>
           <SparkChart
+            loading={result?.progress?.loading}
             rollup={getSparkChartGranularity(timeConfig)}
             timeConfig={getResolvedTimeConfig(timeConfig, result)}
             aggregation="SUM"
@@ -83,6 +84,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
           <div className={locals.chartItemWrapper}>
             {selectedMetric === 'callsAndlatency' ? (
               <SparkChart
+                loading={result?.progress?.loading}
                 rollup={getSparkChartGranularity(timeConfig)}
                 timeConfig={getResolvedTimeConfig(timeConfig, result)}
                 aggregation="MEAN"
@@ -93,6 +95,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
               />
             ) : (
               <SparkChart
+                loading={result?.progress?.loading}
                 rollup={getSparkChartGranularity(timeConfig)}
                 timeConfig={getResolvedTimeConfig(timeConfig, result)}
                 aggregation="SUM"

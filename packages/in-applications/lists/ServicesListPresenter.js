@@ -98,6 +98,7 @@ const columnDefinitions = [
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
@@ -115,6 +116,7 @@ const columnDefinitions = [
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
@@ -132,6 +134,7 @@ const columnDefinitions = [
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="MEAN"
