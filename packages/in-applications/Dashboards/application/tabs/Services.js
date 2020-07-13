@@ -7,7 +7,6 @@ import {
   createEndpointTypesUrlParameter,
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
-import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -215,7 +214,6 @@ function ServiceList(props) {
     applicationId,
     serviceId,
     endpointId,
-    onBoundaryStateChange,
     endpointTypes,
     technologies,
     setFilter,
@@ -241,11 +239,6 @@ function ServiceList(props) {
 
   return (
     <Fragment>
-      <InboundOrAllCallsChoiceHorizontal
-        boundaryScope={boundaryScope}
-        onBoundaryStateChange={onBoundaryStateChange}
-        defaultBoundaryScope={application.boundaryScope}
-      />
       <Card>
         <ServerTableWithUrlState
           get={getTableData}

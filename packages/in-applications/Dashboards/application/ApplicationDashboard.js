@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
@@ -79,6 +80,7 @@ function Header(props) {
       title="Application"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
     />
   );
 }
@@ -111,6 +113,7 @@ function renderButtonLine(props) {
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
         area="application"
       />
+
       {role.canConfigureCustomAlerts &&
         applicationSmartAlertsEnabled && (
           <FloatingActionButtons>
@@ -125,5 +128,16 @@ function renderButtonLine(props) {
           </FloatingActionButtons>
         )}
     </>
+  );
+}
+
+function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScope }) {
+  return (
+    <InboundAllCallsDropdown
+      data={result.data}
+      boundaryScope={boundaryScope}
+      onBoundaryStateChange={onBoundaryStateChange}
+      area="application"
+    />
   );
 }

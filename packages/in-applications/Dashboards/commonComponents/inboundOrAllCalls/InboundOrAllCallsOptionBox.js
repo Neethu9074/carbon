@@ -6,7 +6,7 @@ import { boundaryScopes } from 'in-applications/constants';
 
 import locals from './InboundOrAllCallsChoiceHorizontal.mless';
 
-export default function InboundOrAllCallsOptionBox({ boundaryScope, onBoundaryStateChange, scope }) {
+export default function InboundOrAllCallsOptionBox({ boundaryScope, onBoundaryStateChange, scope, noPaddingBottom }) {
   const { icon, text, dashboard } = boundaryScopes.info[scope];
   return (
     <OptionBox
@@ -15,6 +15,7 @@ export default function InboundOrAllCallsOptionBox({ boundaryScope, onBoundarySt
       asRadioButton
       className={evaluateClassNames({
         [locals.optionBox]: true,
+        [locals.noPaddingBottom]: noPaddingBottom,
         [locals.optionBoxUnchecked]: scope !== boundaryScope
       })}
       description={dashboard}

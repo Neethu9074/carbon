@@ -16,7 +16,8 @@ export const SIGNALS = {
   MOUSE_MOVE: 'mouseMove',
   CLICKED: 'clicked',
   SIZING_METRIC: 'sizingMetric',
-  POWER_FUNCTIONS: 'power'
+  POWER_FUNCTIONS: 'power',
+  BOUNDARY_SCOPE: 'boundaryScope'
 };
 
 export default function createEventBusService(id) {

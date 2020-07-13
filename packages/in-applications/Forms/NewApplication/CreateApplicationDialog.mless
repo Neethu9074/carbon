@@ -23,4 +23,23 @@
 
     margin-bottom: 0.5rem;
   }
+
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+      padding-top: 0.2rem;
+      padding-bottom: 0.2rem;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: @lib__colors__N600Light;
+      }
+
+      * {
+        color: @lib__colors__N600Light;
+      }
+    }
+  }
 }

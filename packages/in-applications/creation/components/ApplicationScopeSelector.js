@@ -16,6 +16,19 @@ export default function ApplicationScopeSelector({ form, updateForm, description
         <OptionBox
           className={evaluateClassNames({
             [locals.optionBox]: true,
+            [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_NO_DOWNSTREAM'
+          })}
+          title="No downstream services"
+          asRadioButton
+          checked={scopeField.value == 'INCLUDE_NO_DOWNSTREAM'}
+          onChange={() => {
+            applicationCreationScopeSelect({ scope: 'INCLUDE_NO_DOWNSTREAM' });
+            updateForm(form.updateIn(['scope'], field => field.setValue('INCLUDE_NO_DOWNSTREAM').setTouched(true)));
+          }}
+        />
+        <OptionBox
+          className={evaluateClassNames({
+            [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
           })}
           title="Immediate downstream database and messaging services"

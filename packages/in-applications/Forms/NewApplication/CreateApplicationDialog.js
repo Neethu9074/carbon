@@ -24,6 +24,7 @@ import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -235,37 +236,38 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       stepTitle: 'Downstream services.',
                       content: form.get('scope').map(field => (
                         <FormGroup>
-                          <Label htmlFor="scope" hasError={!field.valid && field.touched}>
-                            By checking this box you are including all downstream services to this application.
-                          </Label>
                           <OptionBox
-                            icon="lib_application_downstream"
-                            title="Include All Downstream Services"
-                            description={
-                              <Fragment>
-                                By checking the box to the left, you are including in the application all services that
-                                transitively fall downstream of those matched by the tags specified above, instead of
-                                only the immediate
-                                <Pill color={getColor('DATABASE')} kind="light">
-                                  DATABASE
-                                </Pill>
-                                and
-                                <Pill color={getColor('MESSAGING')} kind="light">
-                                  MESSAGING
-                                </Pill>
-                                ones.
-                              </Fragment>
+                            className={evaluateClassNames({
+                              [locals.optionBox]: true,
+                              [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_NO_DOWNSTREAM'
+                            })}
+                            title="No downstream services"
+                            asRadioButton
+                            checked={field.value == 'INCLUDE_NO_DOWNSTREAM'}
+                            onChange={() => setValue(['scope'], 'INCLUDE_NO_DOWNSTREAM', form)}
+                          />
+                          <OptionBox
+                            className={evaluateClassNames({
+                              [locals.optionBox]: true,
+                              [locals.optionBoxUnchecked]:
+                                field.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
+                            })}
+                            title="Immediate downstream database and messaging services"
+                            asRadioButton
+                            checked={field.value == 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'}
+                            onChange={() =>
+                              setValue(['scope'], 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING', form)
                             }
+                          />
+                          <OptionBox
+                            className={evaluateClassNames({
+                              [locals.optionBox]: true,
+                              [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_ALL_DOWNSTREAM'
+                            })}
+                            title="All downstream services"
+                            asRadioButton
                             checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
-                            onChange={checked =>
-                              setValue(
-                                ['scope'],
-                                checked
-                                  ? 'INCLUDE_ALL_DOWNSTREAM'
-                                  : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
-                                form
-                              )
-                            }
+                            onChange={() => setValue(['scope'], 'INCLUDE_ALL_DOWNSTREAM', form)}
                           />
                         </FormGroup>
                       ))
