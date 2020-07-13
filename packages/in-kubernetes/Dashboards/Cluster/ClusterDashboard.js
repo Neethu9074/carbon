@@ -12,7 +12,6 @@ import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -24,6 +23,7 @@ import { clusterTabChange } from 'in-kubernetes/tracker';
 import icons from 'in-components/SvgIcon/registry.json';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
+import { plugins } from 'in-forge/constants';
 
 export default function ClusterDashboard({ location }) {
   const props = {
@@ -95,7 +95,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
     <>
       <DashboardButtonLine
         snapshotId={clusterId}
-        plugin={fullyQualifiedPlugins.kubernetesCluster}
+        plugin={plugins.kubernetesCluster}
         timeConfig={timeConfig}
         tagFilters={getFilters({ clusterName })}
       />

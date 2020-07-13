@@ -56,7 +56,10 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
             } else if (alertByNumberOfUsersChecked) {
               updatedTimeThresholdForm = timeThresholdForm.remove('users');
-              updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);
+              updatedTimeThresholdForm = putUserPercentageField(
+                updatedTimeThresholdForm,
+                updatedTimeThresholdForm.get('userPercentage')?.value
+              );
             } else {
               updatedTimeThresholdForm = timeThresholdForm.remove('userPercentage');
               updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
@@ -102,7 +105,10 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);
             } else if (alertByPercentageOfUsersChecked) {
               updatedTimeThresholdForm = timeThresholdForm.remove('userPercentage');
-              updatedTimeThresholdForm = putUsersField(updatedTimeThresholdForm);
+              updatedTimeThresholdForm = putUsersField(
+                updatedTimeThresholdForm,
+                updatedTimeThresholdForm.get('users')?.value
+              );
             } else {
               updatedTimeThresholdForm = timeThresholdForm.remove('users');
               updatedTimeThresholdForm = putUserPercentageField(updatedTimeThresholdForm);

@@ -22,7 +22,8 @@ export default connectTo(
     productArea,
     noAutoMargin,
     includeSelfEntity,
-    className
+    className,
+    plugin
   }) {
     if (isInternalVisible || contextGuideEnabled) {
       return (
@@ -35,6 +36,7 @@ export default connectTo(
               timeConfig={timeConfig}
               productArea={productArea}
               includeSelfEntity={includeSelfEntity}
+              plugin={plugin}
             />
           )}
           behindSidebar

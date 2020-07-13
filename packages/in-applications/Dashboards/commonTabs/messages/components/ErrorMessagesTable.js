@@ -43,6 +43,7 @@ const columnDefinitions = [
     getContent(item, { result, timeConfig }) {
       return (
         <SparkChart
+          loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           metrics={item.metrics.calls}

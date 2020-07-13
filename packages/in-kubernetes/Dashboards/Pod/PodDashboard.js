@@ -12,7 +12,6 @@ import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
@@ -22,6 +21,7 @@ import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { podTabChange } from 'in-kubernetes/tracker';
 import Footer from 'in-new-components/Footer';
+import { plugins } from 'in-forge/constants';
 
 export default function PodDashboard({ location }) {
   const props = {
@@ -97,7 +97,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
       <DashboardButtonLine
         snapshotId={podId}
         timeConfig={timeConfig}
-        plugin={fullyQualifiedPlugins.kubernetesPod}
+        plugin={plugins.kubernetesPod}
         tagFilters={getFilters({ clusterName, namespaceName, podName })}
       />
       <AnalyzeCallsButton

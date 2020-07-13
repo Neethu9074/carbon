@@ -18,7 +18,6 @@ function GroupMetricsChart({
   items,
   groupColors,
   time,
-  selectedChart,
   onChange,
   chartDefinitions,
   timeConfig,
@@ -50,26 +49,15 @@ function GroupMetricsChart({
     // no metrics to show
     return null;
   }
-  if (!focusedMetric || !supportedMetricKeys.includes(focusedMetric)) {
-    focusedMetric = supportedMetricKeys[0];
-  }
 
   const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
     def => supportedMetricKeys.indexOf(def.key) !== -1
   );
 
-  selectedChart = selectedChart || chartDefinitionsAvailableForPresentation[0].key;
-  let chartDefinition = find(chartDefinitionsAvailableForPresentation, d => d.key === selectedChart);
-  if (!chartDefinition) {
-    chartDefinition = chartDefinitionsAvailableForPresentation[0];
-    selectedChart = chartDefinition.key;
-  }
-
-  if (focusedMetric) {
-    const chartToDisplay = chartDefinitionsAvailableForPresentation.filter(chart => chart.key.includes(focusedMetric));
-    selectedChart =
-      chartToDisplay.length !== 0 ? chartToDisplay[0].key : chartDefinitionsAvailableForPresentation[0].key;
-  }
+  const chartDefinition =
+    find(chartDefinitionsAvailableForPresentation, d => d.key.includes(focusedMetric)) ??
+    chartDefinitionsAvailableForPresentation[0];
+  const selectedChart = chartDefinition.key;
 
   // Render chart selector and chart.
   return (
@@ -93,7 +81,6 @@ function GroupMetricsChart({
         selectedChart={selectedChart}
         chartDefinitions={chartDefinitionsAvailableForPresentation}
         groupNameProcessor={groupNameProcessor}
-        focusedMetric={focusedMetric}
         customChartRenderers={customChartRenderers}
       />
 
@@ -110,10 +97,9 @@ function ChartElement({
   selectedChart,
   chartDefinitions,
   groupNameProcessor = identity,
-  customChartRenderers,
-  focusedMetric
+  customChartRenderers
 }) {
-  const customChartRenderer = find(customChartRenderers, renderer => renderer.key === focusedMetric);
+  const customChartRenderer = find(customChartRenderers, renderer => renderer.key === selectedChart);
   if (customChartRenderer) {
     return customChartRenderer.render();
   }

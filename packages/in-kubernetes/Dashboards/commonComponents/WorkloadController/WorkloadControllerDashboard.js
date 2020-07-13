@@ -18,8 +18,7 @@ import Footer from 'in-new-components/Footer';
 export default function WorkloadControllerDashboard({
   location,
   workloadControllerType,
-  shortPluginName,
-  fullyQualifiedPluginName,
+  plugin,
   dashboardPath,
   matrixParameterId,
   BreadCrumbComponent,
@@ -37,7 +36,7 @@ export default function WorkloadControllerDashboard({
     timeConfig: getTimeConfig(location),
     headerTitle: headerTitle,
     badgeType: badgeType,
-    fullyQualifiedPluginName: fullyQualifiedPluginName,
+    plugin: plugin,
     BreadCrumbComponent: BreadCrumbComponent
   };
   props[`${props.workloadControllerType}Id`] = props.workloadControllerId;
@@ -58,7 +57,7 @@ export default function WorkloadControllerDashboard({
         renderErrors={errors => (
           <CenterAlignmentColumn>
             <EntityVersionList
-              plugin={shortPluginName}
+              plugin={plugin}
               snapshotId={props.workloadControllerId}
               timeConfig={props.timeConfig}
               errors={errors}
@@ -104,13 +103,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({
-  workloadControllerType,
-  workloadControllerId,
-  timeConfig,
-  fullyQualifiedPluginName,
-  result
-}) {
+function renderButtonLine({ workloadControllerType, workloadControllerId, timeConfig, plugin, result }) {
   const clusterName = result.data?.clusterId;
   const namespaceName = result.data?.namespace;
   const workloadControllerName = result.data?.name;
@@ -128,7 +121,7 @@ function renderButtonLine({
       <DashboardButtonLine
         snapshotId={workloadControllerId}
         timeConfig={timeConfig}
-        plugin={fullyQualifiedPluginName}
+        plugin={plugin}
         tagFilters={getFilters({ clusterName, namespaceName, [workloadControllerFieldName]: workloadControllerName })}
       />
       {React.createElement(AnalyzeCallsButton, analyzeCallsProps, null)}

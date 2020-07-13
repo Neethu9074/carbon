@@ -1,5 +1,9 @@
 import React, { Fragment } from 'react';
 
+import {
+  trackSidebarRelatedEntitiesExpanded,
+  trackSidebarRelatedEntitiesClicked
+} from 'in-infrastructure/tracking/tracking';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -31,7 +35,7 @@ export default connectTo(
       <div>
         {groupPlugins.map(plugin => (
           <div key={plugin}>
-            <Collapsible initiallyOpen={initiallyOpen}>
+            <Collapsible initiallyOpen={initiallyOpen} onOpen={() => trackSidebarRelatedEntitiesExpanded({ plugin })}>
               <Collapsible.Header>
                 <div className={locals.snapshotListHeader}>
                   <Fragment>
@@ -50,7 +54,11 @@ export default connectTo(
                   {groups[plugin]
                     .sort((snapshotA, snapshotB) => compareIgnoreCase(getLabel(snapshotA), getLabel(snapshotB)))
                     .map(snapshot => (
-                      <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')} />
+                      <ClickableSnapshotListItem
+                        key={snapshot.get('id')}
+                        snapshotId={snapshot.get('id')}
+                        onClick={() => trackSidebarRelatedEntitiesClicked({ plugin })}
+                      />
                     ))}
                 </ClickableList>
               </Collapsible.Content>

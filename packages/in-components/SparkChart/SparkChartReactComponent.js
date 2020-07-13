@@ -41,7 +41,7 @@ function SparkChartReactComponent(props) {
 
   let sparkChart;
   if (loading) {
-    sparkChart = <LoadingIndicator text="Loading data" width={width} height={height} />;
+    sparkChart = <LoadingIndicator text="" width={width} height={height} />;
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {

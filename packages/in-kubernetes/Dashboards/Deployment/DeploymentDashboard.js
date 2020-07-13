@@ -5,17 +5,16 @@ import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKuber
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
-import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { deploymentTabChange } from 'in-kubernetes/tracker';
+import { plugins } from 'in-forge/constants';
 
 export default function DeploymentDashboard({ location }) {
   return (
     <WorkloadControllerDashboard
       location={location}
       workloadControllerType="deployment"
-      shortPluginName={plugins.kubernetesDeployment}
-      fullyQualifiedPluginName={fullyQualifiedPlugins.kubernetesDeployment}
+      plugin={plugins.kubernetesDeployment}
       dashboardPath={deploymentDashboard}
       matrixParameterId={matrixDeploymentId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}

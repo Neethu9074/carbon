@@ -50,16 +50,14 @@ export default function SlownessAlertingBarChart({
           timeThreshold
         );
         return (
-          alertsPreviewConfiguration && (
-            <MarkerLanesPresenter
-              {...props}
-              alertsPreviewConfiguration={alertsPreviewConfiguration}
-              getAlertsPreview={getWebsiteMetricAlertsPreview}
-              isClustered
-            >
-              <SmartAlertMarkerLane />
-            </MarkerLanesPresenter>
-          )
+          <MarkerLanesPresenter
+            {...props}
+            alertsPreviewConfiguration={alertsPreviewConfiguration}
+            getAlertsPreview={getWebsiteMetricAlertsPreview}
+            isClustered
+          >
+            <SmartAlertMarkerLane />
+          </MarkerLanesPresenter>
         );
       }}
       timeConfig={timeConfig}
