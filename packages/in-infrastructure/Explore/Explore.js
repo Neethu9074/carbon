@@ -23,9 +23,9 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
-import { shorten } from 'in-services/util/string';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
+import locals from 'in-components/Link/Link.mless';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 
@@ -134,7 +134,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <EntityLink label={shorten(item.label, 64)} plugin={item.pluginId} href$={getDashboardLink(item.snapshotId)} />
+        <EntityLink
+          className={locals.ellipsis}
+          label={item.label}
+          plugin={item.pluginId}
+          href$={getDashboardLink(item.snapshotId)}
+        />
       );
     }
   }
