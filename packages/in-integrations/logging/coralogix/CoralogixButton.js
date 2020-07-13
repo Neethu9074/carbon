@@ -41,14 +41,19 @@ function constructCoralogixLink(integration, props) {
   return `https://${integration.team}.coralogix.com/#/query/logs${toParams(queryParameters, '?', '&')}`;
 }
 
-function serializeHosts({ hostFqdn }) {
-  let query = '';
+export function serializeHosts({ hostName, hostFqdn }) {
+  let query = [];
 
+  if (hostName) {
+    query.push(`host:"${hostName}"`);
+    query.push(`hostname:"${hostName}"`);
+  }
   if (hostFqdn) {
-    query = 'hostname:' + hostFqdn;
+    query.push(`host:"${hostFqdn}"`);
+    query.push(`hostname:"${hostFqdn}"`);
   }
 
-  return query.trim();
+  return query.join(' OR ').trim();
 }
 
 export function shouldShowButton(props) {
