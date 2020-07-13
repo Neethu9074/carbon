@@ -53,16 +53,14 @@ export default function JsErrorsAlertingBarChart({
           timeThreshold
         );
         return (
-          alertsPreviewConfiguration && (
-            <MarkerLanesPresenter
-              {...props}
-              getAlertsPreview={getAlertsPreview(metricName)}
-              alertsPreviewConfiguration={alertsPreviewConfiguration}
-              isClustered
-            >
-              <SmartAlertMarkerLane />
-            </MarkerLanesPresenter>
-          )
+          <MarkerLanesPresenter
+            {...props}
+            getAlertsPreview={getAlertsPreview(metricName)}
+            alertsPreviewConfiguration={alertsPreviewConfiguration}
+            isClustered
+          >
+            <SmartAlertMarkerLane />
+          </MarkerLanesPresenter>
         );
       }}
       timeConfig={timeConfig}

@@ -55,16 +55,14 @@ export default function StatusCodeAlertingBarChart({
         );
 
         return (
-          alertsPreviewConfiguration && (
-            <MarkerLanesPresenter
-              {...props}
-              getAlertsPreview={getAlertsPreview(metricName)}
-              alertsPreviewConfiguration={alertsPreviewConfiguration}
-              isClustered
-            >
-              <SmartAlertMarkerLane />
-            </MarkerLanesPresenter>
-          )
+          <MarkerLanesPresenter
+            {...props}
+            getAlertsPreview={getAlertsPreview(metricName)}
+            alertsPreviewConfiguration={alertsPreviewConfiguration}
+            isClustered
+          >
+            <SmartAlertMarkerLane />
+          </MarkerLanesPresenter>
         );
       }}
       timeConfig={timeConfig}

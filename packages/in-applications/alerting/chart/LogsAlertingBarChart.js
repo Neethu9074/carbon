@@ -56,16 +56,14 @@ export default function LogsAlertingBarChart({
         );
 
         return (
-          alertsPreviewConfiguration && (
-            <MarkerLanesPresenter
-              {...props}
-              getAlertsPreview={getApplicationMetricsAlertPreview}
-              alertsPreviewConfiguration={alertsPreviewConfiguration}
-              isClustered
-            >
-              <SmartAlertMarkerLane />
-            </MarkerLanesPresenter>
-          )
+          <MarkerLanesPresenter
+            {...props}
+            getAlertsPreview={getApplicationMetricsAlertPreview}
+            alertsPreviewConfiguration={alertsPreviewConfiguration}
+            isClustered
+          >
+            <SmartAlertMarkerLane />
+          </MarkerLanesPresenter>
         );
       }}
       timeConfig={timeConfig}
