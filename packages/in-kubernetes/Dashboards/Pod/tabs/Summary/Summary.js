@@ -26,7 +26,7 @@ export default function Summary({ data: pod, timeConfig }) {
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
-  const kpiWidth = 3;
+  const kpiWidth = 2;
 
   return (
     <Fragment>
