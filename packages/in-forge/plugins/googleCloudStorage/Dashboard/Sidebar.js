@@ -8,7 +8,7 @@ export default function GoogleCloudStorageSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Google Cloud Storage Info</Collapsible.Header>
+        <Collapsible.Header>Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

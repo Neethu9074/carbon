@@ -1,4 +1,4 @@
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -16,6 +16,6 @@ export default [
     metrics: ['storage.total_bytes', 'network.sent_bytes_count', 'network.received_bytes_count'],
     labels: ['Objects size', 'Sent bytes', 'Received bytes'],
     min: 0,
-    formatter: bytesZeroDecimalPlaces
+    formatter: bytes.detailed
   }
 ];

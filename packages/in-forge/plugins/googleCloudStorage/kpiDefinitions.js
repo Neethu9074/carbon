@@ -1,4 +1,4 @@
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -14,6 +14,6 @@ export default [
   {
     label: 'Objects Size',
     metric: 'storage.total_bytes',
-    formatter: bytesZeroDecimalPlaces
+    formatter: bytes.detailed
   }
 ];

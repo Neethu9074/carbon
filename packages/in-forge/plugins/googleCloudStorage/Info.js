@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
+import { formatDateTime } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -13,8 +14,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Region">{data.get('gceZone')}</DescriptionItem>
       <DescriptionItem title="Location Type">{data.get('locationType')}</DescriptionItem>
       <DescriptionItem title="Storage Class">{data.get('storageClass')}</DescriptionItem>
-      <DescriptionItem title="Created At">{data.get('created')}</DescriptionItem>
-      <DescriptionItem title="Updated At">{data.get('updated')}</DescriptionItem>
+      <DescriptionItem title="Created At">{formatDateTime(data.get('created', ''))}</DescriptionItem>
+      <DescriptionItem title="Updated At">{formatDateTime(data.get('updated', ''))}</DescriptionItem>
     </DescriptionList>
   );
 }
