@@ -19,7 +19,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './WebsiteEventContent.mless';
+import locals from 'in-events/components/EventContent/WebsiteEventContent.mless';
 
 export default connectTo(
   ({ event }) => {
