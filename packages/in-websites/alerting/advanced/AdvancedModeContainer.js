@@ -28,8 +28,8 @@ import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { blueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced } from 'in-websites/alerting/constants';
+import LightCard from 'in-new-components/Card/LightCard';
 import Message from 'in-new-components/Message';
-import Card from 'in-new-components/Card';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -74,7 +74,7 @@ export default function AdvancedModeContainer(props) {
                 alertType={form.get('rule').get('alertType').value}
                 renderJsErrors={() => (
                   <>
-                    <Card title="JS Error Message" withoutPadding darkFrame>
+                    <LightCard title="JS Error Message" withoutPadding darkFrame>
                       <ProvideJsError
                         form={form}
                         timeConfig={{
@@ -84,7 +84,7 @@ export default function AdvancedModeContainer(props) {
                         onSelectJsError={setSliderState}
                         mode={modeAdvanced}
                       />
-                    </Card>
+                    </LightCard>
                     <JsErrorsInteractiveChart
                       form={form}
                       onChange={onChange}
@@ -98,9 +98,9 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderStatusCode={() => (
                   <>
-                    <Card title="HTTP Status Code" withoutPadding darkFrame>
+                    <LightCard title="HTTP Status Code" withoutPadding darkFrame>
                       <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
-                    </Card>
+                    </LightCard>
                     <StatusCodeInteractiveChart
                       form={form}
                       onChange={onChange}

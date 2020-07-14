@@ -24,8 +24,8 @@ import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMes
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import LightCard from 'in-new-components/Card/LightCard';
 import Message from 'in-new-components/Message';
-import Card from 'in-new-components/Card';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -105,7 +105,7 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderLogs={() => (
                   <>
-                    <Card title="Log Message" withoutPadding darkFrame>
+                    <LightCard title="Log Message" withoutPadding darkFrame>
                       {
                         <ProvideLogMessage
                           form={form}
@@ -117,7 +117,7 @@ export default function AdvancedModeContainer(props) {
                           mode="Advanced"
                         />
                       }
-                    </Card>
+                    </LightCard>
                     <LogsInteractiveChart
                       form={form}
                       timeConfig={timeConfig}
@@ -130,9 +130,9 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderStatusCode={() => (
                   <>
-                    <Card title="HTTP Status Codes" withoutPadding darkFrame>
+                    <LightCard title="HTTP Status Codes" withoutPadding darkFrame>
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
-                    </Card>
+                    </LightCard>
                     <StatusCodeInteractiveChart
                       form={form}
                       granularity={granularity}
