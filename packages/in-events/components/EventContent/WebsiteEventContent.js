@@ -2,16 +2,17 @@ import React from 'react';
 
 import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
+import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
+import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
+import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import { errorCount } from 'in-websites/alerting/constants';
@@ -79,39 +80,45 @@ export default connectTo(
               <AlertTypeSwitch
                 alertType={alertType}
                 renderJsErrors={() => (
-                  <JsErrorsAlertingBarChart
-                    websiteId={entityId}
-                    tagFilters={tagFilters}
-                    viewConfig={chartViewConfig}
-                    errorFilter={getErrorMessageTagFilter(alertConfig.rule)}
-                    granularity={granularity}
-                    metricName={metricName}
-                    threshold={alertConfig.threshold}
-                    timeThreshold={alertConfig.timeThreshold}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getJsErrorsChartConfig({
+                      websiteId: entityId,
+                      viewConfig: chartViewConfig,
+                      errorFilter: getErrorMessageTagFilter(alertConfig.rule),
+                      threshold: alertConfig.threshold,
+                      timeThreshold: alertConfig.timeThreshold,
+                      tagFilters,
+                      granularity,
+                      metricName
+                    })}
                   />
                 )}
                 renderStatusCode={() => (
-                  <StatusCodeAlertingBarChart
-                    websiteId={entityId}
-                    tagFilters={tagFilters}
-                    numeratorFilter={getStatusCodeTagFilter(alertConfig.rule)}
-                    granularity={granularity}
-                    metricName={metricName}
-                    viewConfig={chartViewConfig}
-                    threshold={alertConfig.threshold}
-                    timeThreshold={alertConfig.timeThreshold}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getStatusCodeChartConfig({
+                      websiteId: entityId,
+                      numeratorFilter: getStatusCodeTagFilter(alertConfig.rule),
+                      timeThreshold: alertConfig.timeThreshold,
+                      threshold: alertConfig.threshold,
+                      viewConfig: chartViewConfig,
+                      tagFilters,
+                      granularity,
+                      metricName
+                    })}
                   />
                 )}
                 renderSlowness={() => (
-                  <SlownessAlertingBarChart
-                    websiteId={entityId}
-                    sensitivity={sensitivity}
-                    tagFilters={tagFilters}
-                    viewConfig={chartViewConfig}
-                    aggregation={aggregation}
-                    granularity={granularity}
-                    threshold={threshold}
-                    timeThreshold={alertConfig.timeThreshold}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getSlownessChartConfig({
+                      timeThreshold: alertConfig.timeThreshold,
+                      viewConfig: chartViewConfig,
+                      websiteId: entityId,
+                      sensitivity,
+                      tagFilters,
+                      aggregation,
+                      granularity,
+                      threshold
+                    })}
                   />
                 )}
               />

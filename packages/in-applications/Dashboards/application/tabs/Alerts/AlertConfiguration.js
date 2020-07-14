@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
-import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
-import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
+import getStatusCodeChartConfig from 'in-applications/alerting/data/chartConfigForStatusCode';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
+import getErrorRateChartConfig from 'in-applications/alerting/data/chartConfigForErrorRate';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
-import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import getSlownessChartConfig from 'in-applications/alerting/data/chartConfigForSlowness';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+import getLogsChartConfig from 'in-applications/alerting/data/chartConfigForLogs';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -59,20 +60,24 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
             <AlertTypeSwitch
               alertType={alertType}
               renderErrorRate={() => (
-                <ErrorRateAlertingBarChart
-                  {...alertConfig}
-                  viewConfig={chartViewConfig}
-                  tagFilters={tagFilters}
-                  granularity={granularity}
+                <AlertingBarChart
+                  chartConfigForBlueprint={getErrorRateChartConfig({
+                    viewConfig: chartViewConfig,
+                    tagFilters: tagFilters,
+                    granularity: granularity,
+                    ...alertConfig
+                  })}
                 />
               )}
               renderSlowness={() => (
-                <SlownessAlertingBarChart
-                  {...alertConfig}
-                  sensitivity={deviationFactor}
-                  viewConfig={chartViewConfig}
-                  aggregation={aggregation}
-                  granularity={granularity}
+                <AlertingBarChart
+                  chartConfigForBlueprint={getSlownessChartConfig({
+                    sensitivity: deviationFactor,
+                    viewConfig: chartViewConfig,
+                    aggregation: aggregation,
+                    granularity: granularity,
+                    ...alertConfig
+                  })}
                 />
               )}
               renderLogs={() => (
@@ -83,29 +88,32 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                     badges={getLogLevelAsList(level)}
                   />
 
-                  <LogsAlertingBarChart
-                    {...alertConfig}
-                    logMessage={message}
-                    logMessageOperator={operator}
-                    logLevel={level}
-                    viewConfig={chartViewConfig}
-                    tagFilters={tagFilters}
-                    granularity={granularity}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getLogsChartConfig({
+                      logMessage: message,
+                      logMessageOperator: operator,
+                      logLevel: level,
+                      viewConfig: chartViewConfig,
+                      tagFilters: tagFilters,
+                      granularity: granularity,
+                      ...alertConfig
+                    })}
                   />
                 </>
               )}
               renderStatusCode={() => (
-                <StatusCodeAlertingBarChart
-                  applicationId={alertConfig.applicationId}
-                  statusCodeStart={alertConfig.rule.statusCodeStart}
-                  statusCodeEnd={alertConfig.rule.statusCodeEnd}
-                  logLevel={alertConfig.rule.level}
-                  viewConfig={chartViewConfig}
-                  tagFilters={tagFilters}
-                  granularity={granularity}
-                  threshold={alertConfig.threshold}
-                  timeThreshold={alertConfig.timeThreshold}
-                  boundaryScope={alertConfig.boundaryScope}
+                <AlertingBarChart
+                  chartConfigForBlueprint={getStatusCodeChartConfig({
+                    applicationId: alertConfig.applicationId,
+                    statusCodeStart: alertConfig.rule.statusCodeStart,
+                    statusCodeEnd: alertConfig.rule.statusCodeEnd,
+                    viewConfig: chartViewConfig,
+                    tagFilters: tagFilters,
+                    granularity: granularity,
+                    threshold: alertConfig.threshold,
+                    timeThreshold: alertConfig.timeThreshold,
+                    boundaryScope: alertConfig.boundaryScope
+                  })}
                 />
               )}
             />

@@ -11,10 +11,11 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
-import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import getStatusCodeChartConfig from 'in-applications/alerting/data/chartConfigForStatusCode';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -116,17 +117,19 @@ function StatusCodeInteractiveChart({
             headerTransparent
           >
             {chartViewConfig => (
-              <StatusCodeAlertingBarChart
-                applicationId={form.get('applicationId').value}
-                threshold={threshold}
-                statusCodeStart={form.get('rule').get('statusCodeStart').value}
-                statusCodeEnd={form.get('rule').get('statusCodeEnd').value}
-                timeThreshold={form.get('timeThreshold').toJS()}
-                viewConfig={chartViewConfig}
-                tagFilters={form.get('tagFilters').value}
-                granularity={granularity}
-                boundaryScope={form.get('boundaryScope').value}
-                alertsPreviewEnabled
+              <AlertingBarChart
+                chartConfigForBlueprint={getStatusCodeChartConfig({
+                  applicationId: form.get('applicationId').value,
+                  threshold: threshold,
+                  statusCodeStart: form.get('rule').get('statusCodeStart').value,
+                  statusCodeEnd: form.get('rule').get('statusCodeEnd').value,
+                  timeThreshold: form.get('timeThreshold').toJS(),
+                  viewConfig: chartViewConfig,
+                  tagFilters: form.get('tagFilters').value,
+                  granularity: granularity,
+                  boundaryScope: form.get('boundaryScope').value,
+                  alertsPreviewEnabled: true
+                })}
                 canReload
               />
             )}

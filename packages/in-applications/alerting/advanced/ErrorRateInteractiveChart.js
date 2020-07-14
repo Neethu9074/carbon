@@ -11,10 +11,11 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-applications/alerting/form/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
-import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import getErrorRateChartConfig from 'in-applications/alerting/data/chartConfigForErrorRate';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -68,15 +69,17 @@ function ErrorRateInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <ErrorRateAlertingBarChart
-            applicationId={form.get('applicationId').value}
-            viewConfig={chartViewConfig}
-            tagFilters={form.get('tagFilters').value}
-            granularity={granularity}
-            threshold={threshold}
-            timeThreshold={form.get('timeThreshold').toJS()}
-            boundaryScope={form.get('boundaryScope').value}
-            alertsPreviewEnabled
+          <AlertingBarChart
+            chartConfigForBlueprint={getErrorRateChartConfig({
+              applicationId: form.get('applicationId').value,
+              viewConfig: chartViewConfig,
+              tagFilters: form.get('tagFilters').value,
+              granularity: granularity,
+              threshold: threshold,
+              timeThreshold: form.get('timeThreshold').toJS(),
+              boundaryScope: form.get('boundaryScope').value,
+              alertsPreviewEnabled: true
+            })}
             canReload
           />
         )}

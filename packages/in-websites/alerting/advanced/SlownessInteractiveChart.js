@@ -23,11 +23,12 @@ import {
   thresholdTypeOptions,
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-websites/alerting/form/thresholdFormData';
-import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
+import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
+import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
@@ -94,20 +95,22 @@ function SlownessInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <SlownessAlertingBarChart
-            websiteId={form.get('websiteId').value}
-            threshold={threshold}
-            timeThreshold={form.get('timeThreshold').toJS()}
-            sensitivity={Number(
-              doDebounceDeviationFactor
-                ? tempThresholdDeviationFactor
-                : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-            )}
-            viewConfig={chartViewConfig}
-            tagFilters={form.get('tagFilters').value}
-            aggregation={form.get('rule').get('aggregation').value}
-            granularity={granularity}
-            alertsPreviewEnabled
+          <AlertingBarChart
+            chartConfigForBlueprint={getSlownessChartConfig({
+              websiteId: form.get('websiteId').value,
+              threshold: threshold,
+              timeThreshold: form.get('timeThreshold').toJS(),
+              sensitivity: Number(
+                doDebounceDeviationFactor
+                  ? tempThresholdDeviationFactor
+                  : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+              ),
+              viewConfig: chartViewConfig,
+              tagFilters: form.get('tagFilters').value,
+              aggregation: form.get('rule').get('aggregation').value,
+              granularity: granularity,
+              alertsPreviewEnabled: true
+            })}
             canReload
           />
         )}

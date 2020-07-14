@@ -14,8 +14,9 @@ import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import getLogsChartConfig from 'in-applications/alerting/data/chartConfigForLogs';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -76,18 +77,20 @@ function LogsInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <LogsAlertingBarChart
-            applicationId={form.get('applicationId').value}
-            logMessage={form.get('rule').get('message').value}
-            logMessageOperator={form.get('rule').get('operator').value}
-            logLevel={form.get('rule').get('level').value}
-            viewConfig={chartViewConfig}
-            tagFilters={form.get('tagFilters').value}
-            granularity={granularity}
-            threshold={threshold}
-            timeThreshold={form.get('timeThreshold').toJS()}
-            boundaryScope={form.get('boundaryScope').value}
-            alertsPreviewEnabled
+          <AlertingBarChart
+            chartConfigForBlueprint={getLogsChartConfig({
+              applicationId: form.get('applicationId').value,
+              logMessage: form.get('rule').get('message').value,
+              logMessageOperator: form.get('rule').get('operator').value,
+              logLevel: form.get('rule').get('level').value,
+              viewConfig: chartViewConfig,
+              tagFilters: form.get('tagFilters').value,
+              granularity: granularity,
+              threshold: threshold,
+              timeThreshold: form.get('timeThreshold').toJS(),
+              boundaryScope: form.get('boundaryScope').value,
+              alertsPreviewEnabled: true
+            })}
             canReload
           />
         )}

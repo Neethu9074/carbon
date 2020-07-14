@@ -6,13 +6,14 @@ import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/f
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
-import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
-import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
+import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
+import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
+import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -62,42 +63,48 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                     svgIconType="lib_help_error_warning"
                   />
 
-                  <JsErrorsAlertingBarChart
-                    {...alertConfig}
-                    viewConfig={chartViewConfig}
-                    errorFilter={{
-                      name: 'beacon.error.message',
-                      operator: operator,
-                      stringValue: value
-                    }}
-                    metricName={metricName}
-                    granularity={granularity}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getJsErrorsChartConfig({
+                      viewConfig: chartViewConfig,
+                      errorFilter: {
+                        name: 'beacon.error.message',
+                        operator: operator,
+                        stringValue: value
+                      },
+                      metricName: metricName,
+                      granularity: granularity,
+                      ...alertConfig
+                    })}
                   />
                 </>
               )}
               renderStatusCode={() => (
                 <>
                   <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
-                  <StatusCodeAlertingBarChart
-                    {...alertConfig}
-                    viewConfig={chartViewConfig}
-                    numeratorFilter={{
-                      name: 'beacon.http.status',
-                      operator: operator,
-                      stringValue: value
-                    }}
-                    metricName={metricName}
-                    granularity={granularity}
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getStatusCodeChartConfig({
+                      viewConfig: chartViewConfig,
+                      numeratorFilter: {
+                        name: 'beacon.http.status',
+                        operator: operator,
+                        stringValue: value
+                      },
+                      metricName: metricName,
+                      granularity: granularity,
+                      ...alertConfig
+                    })}
                   />
                 </>
               )}
               renderSlowness={() => (
-                <SlownessAlertingBarChart
-                  {...alertConfig}
-                  sensitivity={deviationFactor}
-                  viewConfig={chartViewConfig}
-                  aggregation={aggregation}
-                  granularity={granularity}
+                <AlertingBarChart
+                  chartConfigForBlueprint={getSlownessChartConfig({
+                    sensitivity: deviationFactor,
+                    viewConfig: chartViewConfig,
+                    aggregation: aggregation,
+                    granularity: granularity,
+                    ...alertConfig
+                  })}
                 />
               )}
             />

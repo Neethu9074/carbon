@@ -16,9 +16,10 @@ import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-we
 import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alerting/form/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
+import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
 import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import Dropdown from 'in-new-components/Dropdown';
@@ -80,20 +81,22 @@ function StatusCodeInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <StatusCodeAlertingBarChart
-            websiteId={form.get('websiteId').value}
-            viewConfig={chartViewConfig}
-            tagFilters={form.get('tagFilters').value}
-            granularity={granularity}
-            numeratorFilter={{
-              name: 'beacon.http.status',
-              operator: form.get('rule').get('operator').value,
-              stringValue: form.get('rule').get('value').value
-            }}
-            threshold={threshold}
-            timeThreshold={form.get('timeThreshold').toJS()}
-            metricName={metricName}
-            alertsPreviewEnabled
+          <AlertingBarChart
+            chartConfigForBlueprint={getStatusCodeChartConfig({
+              websiteId: form.get('websiteId').value,
+              viewConfig: chartViewConfig,
+              tagFilters: form.get('tagFilters').value,
+              granularity: granularity,
+              numeratorFilter: {
+                name: 'beacon.http.status',
+                operator: form.get('rule').get('operator').value,
+                stringValue: form.get('rule').get('value').value
+              },
+              threshold: threshold,
+              timeThreshold: form.get('timeThreshold').toJS(),
+              metricName: metricName,
+              alertsPreviewEnabled: true
+            })}
             canReload
           />
         )}

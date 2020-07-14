@@ -18,8 +18,9 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alertin
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
+import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import { errorCount, errorRate } from 'in-websites/alerting/constants';
@@ -90,20 +91,22 @@ function JsErrorsInteractiveChart({
           headerTransparent
         >
           {chartViewConfig => (
-            <JsErrorsAlertingBarChart
-              websiteId={form.get(fieldNames.websiteId).value}
-              viewConfig={chartViewConfig}
-              tagFilters={form.get(fieldNames.tagFilters).value}
-              errorFilter={{
-                name: 'beacon.error.message',
-                operator: form.get('rule').get('operator').value,
-                stringValue: form.get('rule').get('value').value
-              }}
-              metricName={metricName}
-              granularity={granularity}
-              threshold={threshold}
-              timeThreshold={form.get('timeThreshold').toJS()}
-              alertsPreviewEnabled
+            <AlertingBarChart
+              chartConfigForBlueprint={getJsErrorsChartConfig({
+                websiteId: form.get(fieldNames.websiteId).value,
+                viewConfig: chartViewConfig,
+                tagFilters: form.get(fieldNames.tagFilters).value,
+                errorFilter: {
+                  name: 'beacon.error.message',
+                  operator: form.get('rule').get('operator').value,
+                  stringValue: form.get('rule').get('value').value
+                },
+                granularity: granularity,
+                metricName: metricName,
+                threshold: threshold,
+                timeThreshold: form.get('timeThreshold').toJS(),
+                alertsPreviewEnabled: true
+              })}
               canReload
             />
           )}

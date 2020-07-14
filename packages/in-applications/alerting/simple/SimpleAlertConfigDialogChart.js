@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
-import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
-import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
-import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import getStatusCodeChartConfig from 'in-applications/alerting/data/chartConfigForStatusCode';
+import getErrorRateChartConfig from 'in-applications/alerting/data/chartConfigForErrorRate';
+import getSlownessChartConfig from 'in-applications/alerting/data/chartConfigForSlowness';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+import getLogsChartConfig from 'in-applications/alerting/data/chartConfigForLogs';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -31,32 +32,36 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           alertType={rule.alertType}
           renderErrorRate={() => (
             <div className={locals.placeholder}>
-              <ErrorRateAlertingBarChart
-                applicationId={applicationId}
-                viewConfig={chartViewConfig}
-                tagFilters={tagFilters}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
-                boundaryScope={boundaryScope}
-                alertsPreviewEnabled
+              <AlertingBarChart
+                chartConfigForBlueprint={getErrorRateChartConfig({
+                  applicationId: applicationId,
+                  viewConfig: chartViewConfig,
+                  tagFilters: tagFilters,
+                  granularity: granularity,
+                  threshold: threshold,
+                  timeThreshold: timeThreshold,
+                  boundaryScope: boundaryScope,
+                  alertsPreviewEnabled: true
+                })}
                 canReload
               />
             </div>
           )}
           renderSlowness={() => (
             <div className={locals.placeholder}>
-              <SlownessAlertingBarChart
-                applicationId={applicationId}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
-                sensitivity={threshold.deviationFactor}
-                viewConfig={chartViewConfig}
-                tagFilters={tagFilters}
-                aggregation={rule.aggregation}
-                granularity={granularity}
-                boundaryScope={boundaryScope}
-                alertsPreviewEnabled
+              <AlertingBarChart
+                chartConfigForBlueprint={getSlownessChartConfig({
+                  applicationId: applicationId,
+                  threshold: threshold,
+                  timeThreshold: timeThreshold,
+                  sensitivity: threshold.deviationFactor,
+                  viewConfig: chartViewConfig,
+                  tagFilters: tagFilters,
+                  aggregation: rule.aggregation,
+                  granularity: granularity,
+                  boundaryScope: boundaryScope,
+                  alertsPreviewEnabled: true
+                })}
                 canReload
               />
             </div>
@@ -65,18 +70,20 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
             <>
               {hasLogMessageSelected(form) ? (
                 <div className={locals.placeholder}>
-                  <LogsAlertingBarChart
-                    applicationId={applicationId}
-                    logMessage={rule.message}
-                    logMessageOperator={rule.operator}
-                    logLevel={rule.level}
-                    viewConfig={chartViewConfig}
-                    tagFilters={tagFilters}
-                    granularity={granularity}
-                    threshold={threshold}
-                    timeThreshold={timeThreshold}
-                    boundaryScope={boundaryScope}
-                    alertsPreviewEnabled
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getLogsChartConfig({
+                      applicationId: applicationId,
+                      logMessage: rule.message,
+                      logMessageOperator: rule.operator,
+                      logLevel: rule.level,
+                      viewConfig: chartViewConfig,
+                      tagFilters: tagFilters,
+                      granularity: granularity,
+                      threshold: threshold,
+                      timeThreshold: timeThreshold,
+                      boundaryScope: boundaryScope,
+                      alertsPreviewEnabled: true
+                    })}
                     canReload
                   />
                 </div>
@@ -89,17 +96,19 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
             <>
               {hasStatusCodeSelected(form) ? (
                 <div className={locals.placeholder}>
-                  <StatusCodeAlertingBarChart
-                    applicationId={applicationId}
-                    statusCodeStart={rule.statusCodeStart}
-                    statusCodeEnd={rule.statusCodeEnd}
-                    viewConfig={chartViewConfig}
-                    tagFilters={tagFilters}
-                    granularity={granularity}
-                    threshold={threshold}
-                    timeThreshold={timeThreshold}
-                    boundaryScope={boundaryScope}
-                    alertsPreviewEnabled
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getStatusCodeChartConfig({
+                      applicationId: applicationId,
+                      statusCodeStart: rule.statusCodeStart,
+                      statusCodeEnd: rule.statusCodeEnd,
+                      viewConfig: chartViewConfig,
+                      tagFilters: tagFilters,
+                      granularity: granularity,
+                      threshold: threshold,
+                      timeThreshold: timeThreshold,
+                      boundaryScope: boundaryScope,
+                      alertsPreviewEnabled: true
+                    })}
                     canReload
                   />
                 </div>

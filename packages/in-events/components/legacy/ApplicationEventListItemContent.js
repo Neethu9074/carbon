@@ -1,17 +1,18 @@
 import React from 'react';
 
-import StatusCodeAlertingBarChart from 'in-applications/alerting/chart/StatusCodeAlertingBarChart';
-import ErrorRateAlertingBarChart from 'in-applications/alerting/chart/ErrorRateAlertingBarChart';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
-import SlownessAlertingBarChart from 'in-applications/alerting/chart/SlownessAlertingBarChart';
+import getStatusCodeChartConfig from 'in-applications/alerting/data/chartConfigForStatusCode';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
+import getErrorRateChartConfig from 'in-applications/alerting/data/chartConfigForErrorRate';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
-import LogsAlertingBarChart from 'in-applications/alerting/chart/LogsAlertingBarChart';
+import getSlownessChartConfig from 'in-applications/alerting/data/chartConfigForSlowness';
 import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+import getLogsChartConfig from 'in-applications/alerting/data/chartConfigForLogs';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
@@ -38,7 +39,6 @@ export default connectTo(
     const boundaryScope = alertConfig.boundaryScope;
     const tagFilters = alertConfig.tagFilters;
     const sensitivity = alertConfig.threshold.deviationFactor;
-    const operator = alertConfig.threshold.operator;
     const alertType = alertConfig.rule.alertType;
     const aggregation = alertConfig.rule.aggregation;
     const threshold = alertConfig.threshold;
@@ -60,56 +60,62 @@ export default connectTo(
           <AlertTypeSwitch
             alertType={alertType}
             renderErrorRate={() => (
-              <ErrorRateAlertingBarChart
-                applicationId={entityId}
-                boundaryScope={boundaryScope}
-                operator={operator}
-                tagFilters={tagFilters}
-                viewConfig={chartViewConfig}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
+              <AlertingBarChart
+                chartConfigForBlueprint={getErrorRateChartConfig({
+                  applicationId: entityId,
+                  boundaryScope,
+                  tagFilters,
+                  viewConfig: chartViewConfig,
+                  granularity,
+                  threshold,
+                  timeThreshold
+                })}
               />
             )}
             renderSlowness={() => (
-              <SlownessAlertingBarChart
-                applicationId={entityId}
-                boundaryScope={boundaryScope}
-                sensitivity={sensitivity}
-                tagFilters={tagFilters}
-                viewConfig={chartViewConfig}
-                aggregation={aggregation}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
+              <AlertingBarChart
+                chartConfigForBlueprint={getSlownessChartConfig({
+                  applicationId: entityId,
+                  boundaryScope,
+                  sensitivity,
+                  tagFilters,
+                  viewConfig: chartViewConfig,
+                  aggregation,
+                  granularity,
+                  threshold,
+                  timeThreshold
+                })}
               />
             )}
             renderLogs={() => (
-              <LogsAlertingBarChart
-                applicationId={entityId}
-                boundaryScope={boundaryScope}
-                logMessage={alertConfig.rule.message}
-                logMessageOperator={alertConfig.rule.operator}
-                logLevel={alertConfig.rule.level}
-                operator={operator}
-                tagFilters={tagFilters}
-                viewConfig={chartViewConfig}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
+              <AlertingBarChart
+                chartConfigForBlueprint={getLogsChartConfig({
+                  applicationId: entityId,
+                  logMessage: alertConfig.rule.message,
+                  logMessageOperator: alertConfig.rule.operator,
+                  logLevel: alertConfig.rule.level,
+                  viewConfig: chartViewConfig,
+                  boundaryScope,
+                  tagFilters,
+                  granularity,
+                  threshold,
+                  timeThreshold
+                })}
               />
             )}
             renderStatusCode={() => (
-              <StatusCodeAlertingBarChart
-                applicationId={entityId}
-                statusCodeStart={alertConfig.rule.statusCodeStart}
-                statusCodeEnd={alertConfig.rule.statusCodeEnd}
-                operator={operator}
-                tagFilters={tagFilters}
-                viewConfig={chartViewConfig}
-                granularity={granularity}
-                threshold={threshold}
-                timeThreshold={timeThreshold}
+              <AlertingBarChart
+                chartConfigForBlueprint={getStatusCodeChartConfig({
+                  applicationId: entityId,
+                  statusCodeStart: alertConfig.rule.statusCodeStart,
+                  statusCodeEnd: alertConfig.rule.statusCodeEnd,
+                  viewConfig: chartViewConfig,
+                  boundaryScope,
+                  tagFilters,
+                  granularity,
+                  threshold,
+                  timeThreshold
+                })}
               />
             )}
           />

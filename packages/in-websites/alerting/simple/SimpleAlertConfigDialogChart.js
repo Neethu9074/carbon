@@ -3,10 +3,11 @@ import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import StatusCodeAlertingBarChart from 'in-websites/alerting/chart/StatusCodeAlertingBarChart';
-import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
-import JsErrorsAlertingBarChart from 'in-websites/alerting/chart/JsErrorsAlertingBarChart';
+import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
+import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
+import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
 
@@ -28,20 +29,22 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
             <>
               {hasJsErrorSelected(form) ? (
                 <div className={locals.placeholder}>
-                  <JsErrorsAlertingBarChart
-                    websiteId={form.get(fieldNames.websiteId).value}
-                    viewConfig={chartViewConfig}
-                    tagFilters={form.get(fieldNames.tagFilters).value}
-                    errorFilter={{
-                      name: 'beacon.error.message',
-                      operator: form.get('rule').get('operator').value,
-                      stringValue: form.get('rule').get('value').value
-                    }}
-                    metricName={form.get('rule').get('metricName').value}
-                    granularity={granularity}
-                    threshold={form.get('threshold').toJS()}
-                    timeThreshold={form.get('timeThreshold').toJS()}
-                    alertsPreviewEnabled
+                  <AlertingBarChart
+                    chartConfigForBlueprint={getJsErrorsChartConfig({
+                      websiteId: form.get(fieldNames.websiteId).value,
+                      viewConfig: chartViewConfig,
+                      tagFilters: form.get(fieldNames.tagFilters).value,
+                      errorFilter: {
+                        name: 'beacon.error.message',
+                        operator: form.get('rule').get('operator').value,
+                        stringValue: form.get('rule').get('value').value
+                      },
+                      metricName: form.get('rule').get('metricName').value,
+                      granularity: granularity,
+                      threshold: form.get('threshold').toJS(),
+                      timeThreshold: form.get('timeThreshold').toJS(),
+                      alertsPreviewEnabled: true
+                    })}
                     canReload
                   />
                 </div>
@@ -52,36 +55,40 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           )}
           renderStatusCode={() => (
             <div className={locals.placeholder}>
-              <StatusCodeAlertingBarChart
-                websiteId={form.get(fieldNames.websiteId).value}
-                threshold={form.get('threshold').toJS()}
-                timeThreshold={form.get('timeThreshold').toJS()}
-                viewConfig={chartViewConfig}
-                tagFilters={form.get(fieldNames.tagFilters).value}
-                numeratorFilter={{
-                  name: 'beacon.http.status',
-                  operator: form.get('rule').get('operator').value,
-                  stringValue: form.get('rule').get('value').value
-                }}
-                metricName={form.get('rule').get('metricName').value}
-                granularity={granularity}
-                alertsPreviewEnabled
+              <AlertingBarChart
+                chartConfigForBlueprint={getStatusCodeChartConfig({
+                  websiteId: form.get(fieldNames.websiteId).value,
+                  threshold: form.get('threshold').toJS(),
+                  timeThreshold: form.get('timeThreshold').toJS(),
+                  viewConfig: chartViewConfig,
+                  tagFilters: form.get(fieldNames.tagFilters).value,
+                  numeratorFilter: {
+                    name: 'beacon.http.status',
+                    operator: form.get('rule').get('operator').value,
+                    stringValue: form.get('rule').get('value').value
+                  },
+                  metricName: form.get('rule').get('metricName').value,
+                  granularity: granularity,
+                  alertsPreviewEnabled: true
+                })}
                 canReload
               />
             </div>
           )}
           renderSlowness={() => (
             <div className={locals.placeholder}>
-              <SlownessAlertingBarChart
-                websiteId={form.get(fieldNames.websiteId).value}
-                threshold={form.get('threshold').toJS()}
-                timeThreshold={form.get('timeThreshold').toJS()}
-                sensitivity={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)}
-                viewConfig={chartViewConfig}
-                tagFilters={form.get(fieldNames.tagFilters).value}
-                aggregation={form.get('rule').get('aggregation').value}
-                granularity={granularity}
-                alertsPreviewEnabled
+              <AlertingBarChart
+                chartConfigForBlueprint={getSlownessChartConfig({
+                  websiteId: form.get(fieldNames.websiteId).value,
+                  threshold: form.get('threshold').toJS(),
+                  timeThreshold: form.get('timeThreshold').toJS(),
+                  sensitivity: getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0),
+                  viewConfig: chartViewConfig,
+                  tagFilters: form.get(fieldNames.tagFilters).value,
+                  aggregation: form.get('rule').get('aggregation').value,
+                  granularity: granularity,
+                  alertsPreviewEnabled: true
+                })}
                 canReload
               />
             </div>
