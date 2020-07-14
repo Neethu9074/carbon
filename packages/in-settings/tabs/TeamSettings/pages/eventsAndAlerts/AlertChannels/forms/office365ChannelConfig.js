@@ -13,7 +13,7 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'OFFICE_365';
-const label = 'Office365';
+const label = 'Office 365 / Microsoft Teams';
 
 const parameters = [
   {
@@ -98,7 +98,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Office365 Alert Channel"
+            placeholder="Office 365 / Microsoft Teams Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}

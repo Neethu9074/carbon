@@ -16,6 +16,7 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title="OS">
         {data.get('os.name')} {data.get('os.version')} ({data.get('os.arch')})
       </DescriptionItem>
+      <DescriptionItem title="Distribution">{data.get('os.dist')}</DescriptionItem>
 
       <DescriptionItem title="CPU">
         {data.get('cpu.count')} x {data.get('cpu.model')}
