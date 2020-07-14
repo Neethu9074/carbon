@@ -20,9 +20,7 @@ export default connectTo(
     return (
       <div>
         <DescriptionItem title="Hadoop health check result">{healthy ? 'Healthy' : 'Unhealthy'}</DescriptionItem>
-        <DescriptionItem title="Time of last hadoop health check">
-          {formatDateTime(timeOfLastHealthReport)}
-        </DescriptionItem>
+        <DescriptionItem title="Last Hadoop health check">{formatDateTime(timeOfLastHealthReport)}</DescriptionItem>
       </div>
     );
   }

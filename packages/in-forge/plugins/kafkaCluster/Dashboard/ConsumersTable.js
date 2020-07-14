@@ -32,7 +32,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.consumer.${row.key}.consumedByteRate`;
+        return `kafkaClient.consumer.${row.consumerId}.consumedByteRate`;
       },
       getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -48,7 +48,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`;
+        return `kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`;
       },
       getContent: ms.compact,
       getTimeWindowAggregation() {
@@ -65,7 +65,8 @@ export default function ConsumersTable({ clientSnapshots, timeConfig }) {
     const ids = jvmSnapshot.getIn(['data', 'kafkaClient.consumer.clientIds']);
     ids.forEach(consumerId => {
       rows.push({
-        key: String(consumerId),
+        key: String(consumerId) + jvmSnapshot.get('id'),
+        consumerId: String(consumerId),
         name: String(consumerId.split('#')[1]),
         snapshotId: jvmSnapshot.get('id'),
         timeConfig
@@ -96,14 +97,14 @@ function getDetails(row) {
       y1={{
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-        metrics: [`kafkaClient.consumer.${row.key}.consumedByteRate`],
+        metrics: [`kafkaClient.consumer.${row.consumerId}.consumedByteRate`],
         labels: ['Byte Rate'],
         type: 'line'
       }}
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.consumer.${row.key}.consumerFetchThrottleTime`],
+        metrics: [`kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`],
         labels: ['Throttling'],
         type: 'line'
       }}
