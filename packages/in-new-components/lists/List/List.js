@@ -21,9 +21,19 @@ export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
 export const LoadingSkeletonLi = LoadingSkeletonLiComponent;
 export const supportBorderRadii = ['medium'];
 
-export function Ul({ framed = true, className, children, borderRadius, style, refSetter, onKeyUp, onKeyDown }) {
+export function Ul({
+  framed = true,
+  className,
+  children,
+  borderRadius,
+  style,
+  refSetter,
+  onKeyUp,
+  onKeyDown,
+  component: Component = 'ul'
+}) {
   return (
-    <ul
+    <Component
       className={evaluateClassNames({
         [locals.list]: true,
         [locals.framed]: framed === true,
@@ -37,7 +47,7 @@ export function Ul({ framed = true, className, children, borderRadius, style, re
       onKeyDown={onKeyDown}
     >
       {children}
-    </ul>
+    </Component>
   );
 }
 
@@ -55,7 +65,8 @@ export function Li(props) {
     toggleContentOnRowClick,
     initiallyOpen,
     onDefaultHrefInteractionSideEffect,
-    autoFocus
+    autoFocus,
+    component: Component = 'li'
   } = props;
   let { onClick } = props;
 
@@ -124,7 +135,7 @@ export function Li(props) {
   }
 
   return (
-    <li
+    <Component
       className={evaluateClassNames({
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
@@ -141,6 +152,6 @@ export function Li(props) {
 
       {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
       {open && subList}
-    </li>
+    </Component>
   );
 }

@@ -10,9 +10,9 @@ const alignments = ['left', 'center', 'right'];
 const spaces = ['disabled', 'xxsmall', 'xsmall', 'small', 'gutter', 'medium', 'large', 'xlarge', 'xxlarge'];
 
 // An implementation of https://seek-oss.github.io/braid-design-system/components/Stack/
-export default function Stack({ component = 'div', space = 'gutter', align = null, children }) {
+export default function Stack({ component: Component = 'div', space = 'gutter', align = null, children }) {
   return React.createElement(
-    component,
+    Component,
     {
       className: evaluateClassNames({
         [locals.stack]: true,

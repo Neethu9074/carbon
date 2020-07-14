@@ -6,7 +6,7 @@
     // required in order to execute offset calculations via JS (see offsetX, offsetY access)
     position: relative;
 
-    display: inline;
+    display: block;
     line-height: @query-builder-line-height;
     // TODO this must be supported on input elements. Reconsider this approach?
     user-select: none;

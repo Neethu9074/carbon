@@ -1,0 +1,28 @@
+:local {
+  .section {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .title {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    width: 8rem;
+    white-space: nowrap;
+  }
+
+  .titleText {
+    margin: 0 0 0 0.5rem;
+  }
+
+  .content {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  .actions {
+    flex-shrink: 0;
+  }
+}

@@ -4,21 +4,21 @@
   .stack {
     display: flex;
     flex-direction: column;
+
+    // Raise the specificity to two class selectors to overwrite
+    // default margins of child elements.
+    &.alignment-left { align-items: flex-start; }
+    &.alignment-center { align-items: center; }
+    &.alignment-right { align-items: flex-end; }
+    &.spacing-disabled > * { margin-bottom: 0; }
+    &.spacing-xxsmall > * { margin-bottom: .25rem; }
+    &.spacing-xsmall > * { margin-bottom: .5rem; }
+    &.spacing-small > * { margin-bottom: .75rem; }
+    &.spacing-gutter > * { margin-bottom: @grid__gutter * 1px; }
+    &.spacing-medium > * { margin-bottom: 1.25rem; }
+    &.spacing-large > * { margin-bottom: 2rem; }
+    &.spacing-xlarge > * { margin-bottom: 3rem; }
+    &.spacing-xxlarge > * { margin-bottom: 6rem; }
+    &.stack > *:last-child { margin-bottom: 0; }
   }
-
-  .alignment-left { align-items: flex-start; }
-  .alignment-center { align-items: center; }
-  .alignment-right { align-items: flex-end; }
-
-  .spacing-disabled > * { margin-bottom: 0; }
-  .spacing-xxsmall > * { margin-bottom: .25rem; }
-  .spacing-xsmall > * { margin-bottom: .5rem; }
-  .spacing-small > * { margin-bottom: .75rem; }
-  .spacing-gutter > * { margin-bottom: @grid__gutter * 1px; }
-  .spacing-medium > * { margin-bottom: 1.25rem; }
-  .spacing-large > * { margin-bottom: 2rem; }
-  .spacing-xlarge > * { margin-bottom: 3rem; }
-  .spacing-xxlarge > * { margin-bottom: 6rem; }
-  .stack > *:last-child { margin-bottom: 0; }
-
 }

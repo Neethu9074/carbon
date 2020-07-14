@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
+import { tagFilterExpressionMatrixParameter } from 'in-infrastructure/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
@@ -10,50 +13,112 @@ import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { warning } from 'in-new-components/Message/types';
-import { timeConfig$ } from 'in-stores/time/config';
+import { warning, error } from 'in-new-components/Message/types';
+import Sections from 'in-new-components/workspace/Sections';
+import Section from 'in-new-components/workspace/Section';
+import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Stack from 'in-new-components/layout/Stack';
+import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
+import useUrlState from 'in-hooks/useUrlState';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
-
 import Title from 'in-components/Title';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  {
-    timeConfig: timeConfig$
-  },
-  function InfraExploreView({ timeConfig }) {
-    let [tagFilters, setTagFilters] = useState(null);
-    return (
-      <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
-        <Title title="Explore" />
-        <LeftRightPadding>
-          <Stack>
-            <Message type={warning} withIcon small>
-              This is a work in progress. The final version of Infra Explore might look nothing like this.
+const urlStateDefinition = {
+  bind: [tagFilterExpressionMatrixParameter]
+};
+
+export default function InfraExploreView() {
+  const timeConfig = useTimeConfig();
+  // TODO remove once tag filter expressions are supported by the bacend
+  const [tagFilters, setTagFilters] = useState(null);
+  const [{ tagFilterExpression }, onChange] = useUrlState(urlStateDefinition);
+  const validResult = useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
+
+  return (
+    <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
+      <Title title="Explore" />
+      <LeftRightPadding>
+        <Stack>
+          <Message type={warning} withIcon small>
+            This is a work in progress. The final version of Infra Explore might look nothing like this.
+          </Message>
+
+          {/* TODO remove once tag filter expressions are supported by the bacend */}
+          <SearchBar onFiltersChanged={filters => setTagFilters(filters)} />
+
+          <Message type={warning} withIcon small>
+            The query builder is not yet connected to the backend. Whatever you enter down below will be transmitted to
+            the backend, but not yet interpreted.
+          </Message>
+
+          <Sections>
+            <Section
+              icon="lib_actions_filter"
+              title="Filter"
+              firstLineAlignmentOffsetPx={7}
+              actions={
+                tagFilterExpression.length > 0 && (
+                  <Button
+                    kind="subtle"
+                    icon="lib_openclose_cancel"
+                    size="compact"
+                    onClick={() => onChange({ tagFilterExpression: [] })}
+                  >
+                    Clear
+                  </Button>
+                )
+              }
+            >
+              <QueryBuilder
+                value={tagFilterExpression}
+                onChange={tagFilterExpression => onChange({ tagFilterExpression })}
+              />
+            </Section>
+          </Sections>
+
+          {validResult.data === false && (
+            <Message type={error} withIcon small>
+              The filter expression is invalid. Please address the validation failures before continuing.
             </Message>
+          )}
 
-            <SearchBar onFiltersChanged={filters => setTagFilters(filters)} />
-
+          {validResult.data === true && (
             <Card>
-              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} tagFilters={tagFilters} />
+              <ServerTableWithUrlState
+                get={getTableData}
+                timeConfig={timeConfig}
+                // TODO remove once tag filter expressions are supported by the bacend
+                tagFilters={tagFilters}
+                tagFilterExpression={tagFilterExpression}
+              />
             </Card>
-          </Stack>
-        </LeftRightPadding>
-      </InfraPageHeaderWithTabs>
-    );
-  }
-);
+          )}
+        </Stack>
+      </LeftRightPadding>
+    </InfraPageHeaderWithTabs>
+  );
+}
 
-function getTableData({ timeConfig, page, pageSize, tagFilters, orderBy, orderDirection }) {
-  if (tagFilters) {
-    return getEntities({
-      filter: { tagFilters, timeConfig },
-      order: { by: orderBy, direction: orderDirection },
-      pagination: { page, pageSize }
-    });
-  }
+function getTableData({ timeConfig, page, pageSize, tagFilters, tagFilterExpression, orderBy, orderDirection }) {
+  return getEntities({
+    filter: {
+      // TODO remove once tag filter expressions are supported by the bacend
+      tagFilters: tagFilters ?? [],
+      tagFilterExpression: toBackendQueryModel(tagFilterExpression),
+      timeConfig
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    pagination: {
+      page,
+      pageSize
+    }
+  });
 }
 
 const columnDefinitions = [
