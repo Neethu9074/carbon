@@ -93,6 +93,7 @@ function getTagFilterValue(tagFilter) {
 function getErroneousCallsAnalyzeFilter() {
   return {
     name: 'call.erroneous',
+    operator: 'EQUALS',
     value: 'true'
   };
 }
