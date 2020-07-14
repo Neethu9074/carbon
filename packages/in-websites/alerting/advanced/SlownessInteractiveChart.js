@@ -24,13 +24,13 @@ import {
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-websites/alerting/form/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
+import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
-import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -249,6 +249,7 @@ export function renderThresholdCondition(
                 ? tempThresholdDeviationFactor
                 : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')
             }
+            defaultValue={defaultDeviationFactor}
             onChange={value => {
               setDoDebounceDeviationFactor(true);
               setTempThresholdDeviationFactor(value);

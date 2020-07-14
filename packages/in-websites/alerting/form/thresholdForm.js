@@ -1,5 +1,7 @@
 import { createField, createMapForm } from 'formalistic';
 
+export const defaultDeviationFactor = 3;
+
 export default function createThresholdForm(threshold, alertType) {
   const baseForm = createBaseForm(threshold);
 
@@ -96,7 +98,7 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
     .put(
       'deviationFactor',
       createField({
-        value: threshold.deviationFactor ?? 4
+        value: threshold.deviationFactor ?? defaultDeviationFactor
       })
     );
 }
