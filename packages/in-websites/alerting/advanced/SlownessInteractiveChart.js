@@ -23,13 +23,13 @@ import {
   thresholdTypeOptions,
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-websites/alerting/form/thresholdFormData';
-import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
+import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import SlownessAlertingBarChart from 'in-websites/alerting/chart/SlownessAlertingBarChart';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
-import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -246,6 +246,7 @@ export function renderThresholdCondition(
                 ? tempThresholdDeviationFactor
                 : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')
             }
+            defaultValue={defaultDeviationFactor}
             onChange={value => {
               setDoDebounceDeviationFactor(true);
               setTempThresholdDeviationFactor(value);
