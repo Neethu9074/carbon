@@ -32,7 +32,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.key}.producerOutgoingByteRate`;
+        return `kafkaClient.producer.${row.producerId}.producerOutgoingByteRate`;
       },
       getContent: bytesPerSecondTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -48,7 +48,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `kafkaClient.producer.${row.key}.produceThrottleTime`;
+        return `kafkaClient.producer.${row.producerId}.produceThrottleTime`;
       },
       getContent: ms.compact,
       getTimeWindowAggregation() {
@@ -65,7 +65,8 @@ export default function ProducersTable({ clientSnapshots, timeConfig }) {
     const ids = jvmSnapshot.getIn(['data', 'kafkaClient.producer.clientIds']);
     ids.forEach(producerId => {
       rows.push({
-        key: String(producerId),
+        key: String(producerId) + jvmSnapshot.get('id'),
+        producerId: String(producerId),
         name: String(producerId.split('#')[1]),
         snapshotId: jvmSnapshot.get('id'),
         timeConfig
@@ -96,14 +97,14 @@ function getDetails(row) {
       y1={{
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
-        metrics: [`kafkaClient.producer.${row.key}.producerOutgoingByteRate`],
+        metrics: [`kafkaClient.producer.${row.producerId}.producerOutgoingByteRate`],
         labels: ['Byte Rate'],
         type: 'line'
       }}
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.producer.${row.key}.produceThrottleTime`],
+        metrics: [`kafkaClient.producer.${row.producerId}.produceThrottleTime`],
         labels: ['Throttling'],
         type: 'line'
       }}
