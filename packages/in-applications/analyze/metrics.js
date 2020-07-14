@@ -4,6 +4,8 @@ import { percentage } from 'in-services/formatters/number';
 
 export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors', aggregation: 'MEAN' }];
 
+const calls = newNumberMetric({ metric: 'calls', label: 'Calls' });
+
 const errorRate = {
   metric: 'errors',
   label: 'Erroneous Calls (rate)',
@@ -20,13 +22,9 @@ const erroneousCalls = newNumberMetric({
   category: 'Erroneous Calls'
 });
 
-const latency = newTimeMetric({ metric: 'latency', label: 'Latency' });
-latency.category = 'Latency';
-latency.unfoldAggregations = true;
+const latency = {
+  ...newTimeMetric({ metric: 'latency', label: 'Latency', category: 'Latency' }),
+  unfoldAggregations: true
+};
 
-export const availableMetrics = [
-  newNumberMetric({ metric: 'calls', label: 'Calls' }),
-  latency,
-  erroneousCalls,
-  errorRate
-];
+export const availableMetrics = [calls, latency, erroneousCalls, errorRate];

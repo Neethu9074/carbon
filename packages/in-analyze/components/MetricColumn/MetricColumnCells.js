@@ -7,12 +7,7 @@ import { number } from 'in-services/formatters/number';
 export default function MetricColumnCells({ item, metrics, availableMetrics }) {
   return metrics.map(({ metric, aggregation }) => {
     const value = get(item, ['metrics', `${metric}_${aggregation}_Agg`, 0, 1]);
-    let formatter = number.detailed;
-    const metricDefinition = find(availableMetrics, m => m.metric === metric);
-    if (metricDefinition) {
-      formatter = metricDefinition.formatter.detailed;
-    }
-
+    const formatter = find(availableMetrics, m => m.metric === metric)?.formatter.detailed ?? number.detailed;
     return (
       <Td key={`${metric}_${aggregation}`} noWrap>
         <span>

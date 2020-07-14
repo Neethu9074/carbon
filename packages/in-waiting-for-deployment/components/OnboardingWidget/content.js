@@ -1018,7 +1018,7 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           items={[
             'Ubuntu Linux (14.04 / 16.04 / 18.04 / 20.04)',
             'CentOS (6 / 7 / 8)',
-            'Debian (8 / 9 / 10)',
+            'Debian (9 / 10)',
             'Suse Linux Enterprise Server (SLES) (12)',
             'Redhat Enterprise Linux (RHEL) (6 / 7 / 8)',
             'Amazon Linux (1 / 2)'

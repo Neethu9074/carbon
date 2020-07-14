@@ -70,7 +70,7 @@ export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   return analyzeFilters;
 }
 
-function convertToAnalyzeFilters(tagFilters) {
+export function convertToAnalyzeFilters(tagFilters) {
   return tagFilters.map(tagFilter => {
     return {
       name: tagFilter.name,

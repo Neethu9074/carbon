@@ -1,0 +1,18 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .labelCell {
+    position: relative;
+
+    &:hover {
+      .filterButton {
+        display: flex;
+      }
+    }
+  }
+
+  .cell {
+    .flexbox();
+  }
+
+}

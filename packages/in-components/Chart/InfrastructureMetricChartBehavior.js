@@ -30,7 +30,9 @@ export default getElementDimensions(
       this.mapProps(this.props);
       this.createQueuesAndDataHolders();
 
-      this.state = {};
+      this.state = {
+        useBeeInstant: false
+      };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -38,7 +40,7 @@ export default getElementDimensions(
     }
 
     componentDidUpdate(prevProps, prevState) {
-      if (!isEqual(prevState, this.state) || !isEqual(prevProps, this.props)) {
+      if (prevState.useBeeInstant !== this.state.useBeeInstant || !isEqual(prevProps, this.props)) {
         this.disposeMetricSubscriptions();
 
         this.queues$ = create();
