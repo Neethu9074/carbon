@@ -34,7 +34,8 @@ export default compose(
       trackFilterChanged,
       trackFilterRemoved
     }) => {
-      const rangeFilter = f => f.name === tag && (f.operator === 'LESS_THAN' || f.operator === 'GREATER_THAN');
+      const operators = ['LESS_THAN', 'GREATER_THAN', 'LESS_OR_EQUAL_THAN', 'GREATER_OR_EQUAL_THAN'];
+      const rangeFilter = f => f.name === tag && operators.includes(f.operator);
       const equalityFilter = f => f.name === tag && (f.operator === 'EQUALS' || f.operator === 'NOT_EQUAL');
       return {
         getOnChangeHandler: fieldName => e =>
@@ -92,12 +93,30 @@ export default compose(
               });
             }
 
+            if (isNotBlank(form.get('lte').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('lte').value,
+                numberValue: parseInt(form.get('lte').value, 10),
+                operator: 'LESS_OR_EQUAL_THAN'
+              });
+            }
+
             if (isNotBlank(form.get('gt').value)) {
               tagFilterChange = tagFilterChange.concat({
                 name: tag,
                 value: form.get('gt').value,
                 numberValue: parseInt(form.get('gt').value, 10),
                 operator: 'GREATER_THAN'
+              });
+            }
+
+            if (isNotBlank(form.get('gte').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('gte').value,
+                numberValue: parseInt(form.get('gte').value, 10),
+                operator: 'GREATER_OR_EQUAL_THAN'
               });
             }
           } else if (showEquality) {
@@ -138,7 +157,7 @@ export default compose(
 )(NumberBarOverlayPresenter);
 
 function getInitialState(props) {
-  const { gt, lt, neq, eq } = getNumberTagFilters(props);
+  const { gt, lt, gte, lte, neq, eq } = getNumberTagFilters(props);
   const { showRange, showEquality } = props;
   let form = createMapForm();
 
@@ -152,9 +171,23 @@ function getInitialState(props) {
         })
       )
       .put(
+        'lte',
+        createField({
+          value: lte ? String(lte.numberValue || lte.value) : undefined,
+          validator: numericValidator
+        })
+      )
+      .put(
         'gt',
         createField({
           value: gt ? String(gt.numberValue || gt.value) : undefined,
+          validator: numericValidator
+        })
+      )
+      .put(
+        'gte',
+        createField({
+          value: gte ? String(gte.numberValue || gte.value) : undefined,
           validator: numericValidator
         })
       );

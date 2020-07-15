@@ -16,15 +16,19 @@ export default function NumberBarItemBehavior(props) {
 
 function Content(props) {
   const { singularLabel, toggle, isOpen, refSetter, formatter = identity, minValue } = props;
-  const { gt, lt, neq, eq } = getNumberTagFilters(props);
+  const { gt, gte, lt, lte, neq, eq } = getNumberTagFilters(props);
 
   let label = singularLabel;
-  if (lt || gt) {
+  if (lt || lte || gt || gte) {
     if (lt) {
       label = `${label} < ${formatter(lt.numberValue || lt.value)}`;
+    } else if (lte) {
+      label = `${label} <= ${formatter(lte.numberValue || lte.value)}`;
     }
     if (gt) {
       label = `${formatter(gt.numberValue || gt.value)} < ${label}`;
+    } else if (gte) {
+      label = `${formatter(gte.numberValue || gte.value)} <= ${label}`;
     }
   } else if (eq) {
     label = `${label} = ${formatter(eq.numberValue || eq.value)}`;

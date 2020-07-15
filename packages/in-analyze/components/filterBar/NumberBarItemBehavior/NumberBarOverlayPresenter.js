@@ -52,25 +52,48 @@ export default function NumberBarOverlayPresenter({
         {showRange && (
           <Row>
             <Col xs={6}>
-              <InputGroup
-                label="greater than"
-                form={form}
-                fieldId="gt"
-                getOnChangeHandler={getOnChangeHandler}
-                autoFocus={!showEquality}
-                unit={unit}
-                minValue={minValue}
-              />
+              {(form.items.gte?.value && (
+                <InputGroup
+                  label="greater than or equals"
+                  form={form}
+                  fieldId="gte"
+                  getOnChangeHandler={getOnChangeHandler}
+                  autoFocus={!showEquality}
+                  unit={unit}
+                  minValue={minValue}
+                />
+              )) || (
+                <InputGroup
+                  label="greater than"
+                  form={form}
+                  fieldId="gt"
+                  getOnChangeHandler={getOnChangeHandler}
+                  autoFocus={!showEquality}
+                  unit={unit}
+                  minValue={minValue}
+                />
+              )}
             </Col>
             <Col xs={6}>
-              <InputGroup
-                label="less than"
-                form={form}
-                fieldId="lt"
-                getOnChangeHandler={getOnChangeHandler}
-                unit={unit}
-                minValue={minValue}
-              />
+              {(form.items.lte?.value && (
+                <InputGroup
+                  label="less than or equals"
+                  form={form}
+                  fieldId="lte"
+                  getOnChangeHandler={getOnChangeHandler}
+                  unit={unit}
+                  minValue={minValue}
+                />
+              )) || (
+                <InputGroup
+                  label="less than"
+                  form={form}
+                  fieldId="lt"
+                  getOnChangeHandler={getOnChangeHandler}
+                  unit={unit}
+                  minValue={minValue}
+                />
+              )}
             </Col>
           </Row>
         )}
