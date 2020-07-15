@@ -55,6 +55,7 @@ const helpTexts = {
   'entity.gce': 'Google Compute Engine',
   'entity.gcp': 'Google Cloud Platform',
   'entity.gcp.sql': 'Google Cloud SQL',
+  'entity.gcp.storage': 'Google Cloud Storage',
   'entity.vsphere.cluster': 'vSphere Cluster',
   'entity.vsphere.esxihost': 'vSphere ESXi Host',
   'entity.vsphere.vm': 'vSphere Virtual Machine',
