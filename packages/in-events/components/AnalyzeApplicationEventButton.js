@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { mapThresholdValueAndOperatorForAnalyze } from 'in-new-components/Alerting/utils/alertUtils';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -106,11 +105,10 @@ function getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig) {
     value = getBaselineThresholdValue(alertConfig, timeConfig);
   }
 
-  const analyzeThreshold = mapThresholdValueAndOperatorForAnalyze(value, alertConfig.threshold.operator);
   return {
     name: 'call.latency',
-    operator: analyzeThreshold.operator,
-    value: analyzeThreshold.value
+    operator: alertConfig.threshold.operator,
+    value: value
   };
 }
 
