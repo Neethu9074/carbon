@@ -10,8 +10,6 @@ const AffectedEntities = compose(
   cursorPaginated({
     getResettingProps: () => ['filters'],
     get: ({ tagFilters, cursor, timeConfig, filterGroup = {}, totalFilters }) => {
-      const tagFilterListForBackendSubscription = getTagFilterListForBackendSubscription(tagFilters);
-
       const baseQueryParameters = {
         order: {
           by: 'calls_SUM_Agg',
@@ -36,7 +34,7 @@ const AffectedEntities = compose(
 
       const affected = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: tagFilterListForBackendSubscription,
+        tagFilters: getTagFilterListForBackendSubscription(tagFilters),
         pagination: {
           cursor,
           retrievalSize: 20
@@ -44,7 +42,7 @@ const AffectedEntities = compose(
       });
       const allEntities = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: totalFilters,
+        tagFilters: getTagFilterListForBackendSubscription(totalFilters),
         pagination: {
           cursor,
           retrievalSize: 200
