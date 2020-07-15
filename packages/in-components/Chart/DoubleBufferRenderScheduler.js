@@ -30,13 +30,16 @@ export default class DoubleBufferRenderScheduler extends RenderScheduler {
 
     const fullDomain = timeConfig.windowSize;
 
+    const bufferOffsetInPx = this.frontBufferWidth * ((timeConfig.autoRefresh ? ANIMATION_DURATION : 0) / fullDomain);
     // we need to round the pixels to full values because some browser APIs cannot handle floats here.
     // because rounding manipulates the calculation we need to add the error created by the rounding to the animation time
-    // to avoid chart hoppings
-    const bufferOffsetInPx = this.frontBufferWidth * ((timeConfig.autoRefresh ? ANIMATION_DURATION : 0) / fullDomain);
+    // to avoid chart hoppings.
+    //
+    // Important: Please make sure to test the changes you make herein in Safari in 1h time window live mode!
+    const bufferOffsetInPxRounded = Math.ceil(bufferOffsetInPx);
 
     this.bufferOffsetInPx = bufferOffsetInPx;
-    this.backBufferWidth = this.frontBufferWidth + bufferOffsetInPx;
+    this.backBufferWidth = this.frontBufferWidth + bufferOffsetInPxRounded;
 
     this.updateBuffer(shouldResizeFrontBuffer);
 
