@@ -151,30 +151,29 @@ export default class Overlay extends React.Component {
 
     return (
       <Fragment>
-        {isOpen &&
-          this.state.wrapper && (
-            <OverlayMounter
-              id={id}
-              content={OverlayContent}
-              props={{
-                ...props,
-                close: this.close
-              }}
-              relativeTo={this.state.wrapper}
-              parentOverlay={this.state.parentOverlay}
-              kind={kind}
-              close={this.close}
-              delayedOpen={this.delayedOpen}
-              delayedClose={this.delayedClose}
-              autoOpen={autoOpen}
-              autoClose={autoClose}
-              withoutArrow={withoutArrow}
-              inContentArea={inContentArea}
-              behindSidebar={behindSidebar}
-              align={align}
-              forceConfiguredAlignment={forceConfiguredAlignment}
-            />
-          )}
+        {isOpen && this.state.wrapper && (
+          <OverlayMounter
+            id={id}
+            content={OverlayContent}
+            props={{
+              ...props,
+              close: this.close
+            }}
+            relativeTo={this.state.wrapper}
+            parentOverlay={this.state.parentOverlay}
+            kind={kind}
+            close={this.close}
+            delayedOpen={this.delayedOpen}
+            delayedClose={this.delayedClose}
+            autoOpen={autoOpen}
+            autoClose={autoClose}
+            withoutArrow={withoutArrow}
+            inContentArea={inContentArea}
+            behindSidebar={behindSidebar}
+            align={align}
+            forceConfiguredAlignment={forceConfiguredAlignment}
+          />
+        )}
         {content}
       </Fragment>
     );
@@ -207,6 +206,7 @@ Overlay.propTypes = {
   behindSidebar: PropTypes.bool,
   kind: PropTypes.string,
   onToggle: PropTypes.func,
+  onCloseSideEffect: PropTypes.func,
   withoutArrow: PropTypes.bool,
   withoutWrapper: PropTypes.bool,
   wrapperClassName: PropTypes.string,

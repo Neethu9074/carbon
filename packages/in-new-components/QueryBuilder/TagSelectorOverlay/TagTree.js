@@ -56,6 +56,7 @@ export default function TagTree({ tagCatalog, query, onChange }) {
 
 TagTree.propTypes = {
   tagCatalog: PropTypes.any.isRequired,
+  query: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired
 };

@@ -7,6 +7,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';
 import getRawEvents from 'in-subscription/getRawEvents';
 import ListTitle from 'in-new-components/lists/Title';
@@ -65,6 +66,7 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
 };
 
 AlertHistoryListPresenter.propTypes = {
+  timeConfig: propTypeTimeConfig,
   rawEvents: PropTypes.shape({
     data: PropTypes.shape({
       items: PropTypes.array,
