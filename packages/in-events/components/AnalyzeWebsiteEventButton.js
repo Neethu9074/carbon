@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/alerting/tracker';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
@@ -139,7 +140,7 @@ function getBaselineDurationTagFilter(alertConfig, timeConfig) {
 function getThresholdDurationTagFilter(thresholdValue, thresholdOperator) {
   return {
     name: 'beacon.duration',
-    operator: thresholdOperator,
+    operator: toTagFilterNumberOperator(thresholdOperator),
     numberValue: thresholdValue
   };
 }
