@@ -49,7 +49,7 @@ export default {
       }
     },
     {
-      width: '15rem',
+      width: '20rem',
       getContent({ item }) {
         const data = item.snapshot.get('data');
         return <KeyValue label="OS" value={`${data.get('os.name', '')} ${data.get('os.version', '')}`} accentuated />;

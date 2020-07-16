@@ -12,7 +12,7 @@ export default function ColumnizedContent(props) {
       {columnDefinitions.map(({ width, getContent }, i) => (
         <div
           key={i}
-          style={{ minWidth: width }}
+          style={{ minWidth: width, maxWidth: width }}
           className={evaluateClassNames({
             [locals.flexColumn]: !width
           })}
