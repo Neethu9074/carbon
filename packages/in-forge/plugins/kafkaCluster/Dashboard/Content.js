@@ -1,12 +1,6 @@
 import React from 'react';
 
-import {
-  number,
-  bytes,
-  msZeroDecimalPlaces,
-  msTwoDecimalPlaces,
-  percentageZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable';
 import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/PartitionsPerNodeTable';
 import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
@@ -46,8 +40,8 @@ export default connectTo(
               type: 'line'
             }}
             y2={{
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.compact,
+              tooltipFormatter: millis.detailed,
               metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
               labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
               type: 'line'
@@ -146,15 +140,15 @@ export default connectTo(
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: msTwoDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.detailed,
+              tooltipFormatter: millis.detailed,
               metrics: ['logflush.mean'],
               labels: ['Mean'],
               type: 'line'
             }}
             y2={{
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msZeroDecimalPlaces,
+              formatter: number.detailed,
+              tooltipFormatter: number.detailed,
               metrics: ['logflush.inv'],
               labels: ['Flushes'],
               type: 'line'

@@ -1,7 +1,5 @@
 import {
   siPrefix,
-  msZeroDecimalPlaces,
-  msTwoDecimalPlaces,
   number,
   bytesPerSecondTwoDecimalPlaces,
   millis,
@@ -34,19 +32,19 @@ export default [
     metric: 'broker.totalTimeProduce',
     label: 'Produce Latency',
     min: 0,
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'broker.totalTimeFetchConsumer',
     label: 'Fetch Consumer Latency',
     min: 0,
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'broker.totalTimeFetchFollower',
     label: 'Fetch Follower Latency',
     min: 0,
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'broker.bytesIn',
@@ -142,13 +140,13 @@ export default [
     metric: 'logflush.mean',
     label: 'Log Flushing Mean',
     min: 0,
-    formatter: msTwoDecimalPlaces
+    formatter: millis.detailed
   },
   {
     metric: 'logflush.inv',
     label: 'Log Flushes',
     min: 0,
-    formatter: msTwoDecimalPlaces
+    formatter: number.detailed
   },
   {
     metric: 'nodeCount',

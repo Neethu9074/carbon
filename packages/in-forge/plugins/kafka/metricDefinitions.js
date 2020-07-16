@@ -59,9 +59,15 @@ export default [
     formatter: percentage
   },
   {
-    metrics: ['broker.partitionCount', 'broker.messagesIn', 'logflush.mean', 'logflush.inv'],
-    labels: ['Count', 'Messages In', 'Mean ms', 'Flushes'],
+    metrics: ['broker.partitionCount', 'broker.messagesIn', 'logflush.inv'],
+    labels: ['Count', 'Messages In', 'Log Flushes'],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: ['logflush.mean'],
+    labels: ['Log Flush Mean'],
+    min: 0,
+    formatter: millis
   }
 ];

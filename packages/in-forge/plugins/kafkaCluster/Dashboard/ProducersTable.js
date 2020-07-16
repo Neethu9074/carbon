@@ -59,6 +59,10 @@ const cols = [
 ];
 
 export default function ProducersTable({ clientSnapshots, timeConfig }) {
+  if (!clientSnapshots) {
+    return null;
+  }
+
   let rows = [];
 
   clientSnapshots.forEach(jvmSnapshot => {

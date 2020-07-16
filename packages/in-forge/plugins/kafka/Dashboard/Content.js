@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-  zeroDecimalPlaces,
-  twoDecimalPlaces,
-  bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  msZeroDecimalPlaces,
-  msTwoDecimalPlaces,
-  percentageZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -24,13 +16,13 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Produce Latency">
-          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeProduce" formatter={msZeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeProduce" formatter={millis.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Fetch Consumer Latency">
-          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchConsumer" formatter={msZeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchConsumer" formatter={millis.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Fetch Follower Latency">
-          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchFollower" formatter={msZeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchFollower" formatter={millis.compact} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -40,8 +32,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: bytesZeroDecimalPlaces,
-              tooltipFormatter: bytesTwoDecimalPlaces,
+              formatter: bytes.compact,
+              tooltipFormatter: bytes.detailed,
               metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
               labels: ['In', 'Out', 'Rejected'],
               type: 'line'
@@ -55,8 +47,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              formatter: number.compact,
+              tooltipFormatter: number.detailed,
               metrics: ['broker.messagesIn'],
               labels: ['Count'],
               type: 'line'
@@ -72,15 +64,15 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              formatter: number.compact,
+              tooltipFormatter: number.detailed,
               metrics: ['broker.produceRequests'],
               labels: ['Count'],
               type: 'line'
             }}
             y2={{
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.compact,
+              tooltipFormatter: millis.detailed,
               metrics: ['broker.produceLatency'],
               labels: ['Mean Latency'],
               type: 'line'
@@ -94,15 +86,15 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              formatter: number.compact,
+              tooltipFormatter: number.detailed,
               metrics: ['broker.fetchConsumerRequests'],
               labels: ['Count'],
               type: 'line'
             }}
             y2={{
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.compact,
+              tooltipFormatter: millis.detailed,
               metrics: ['broker.fetchLatency'],
               labels: ['Mean Latency'],
               type: 'line'
@@ -116,15 +108,15 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: twoDecimalPlaces,
+              formatter: number.compact,
+              tooltipFormatter: number.detailed,
               metrics: ['broker.fetchFollowerRequests'],
               labels: ['Count'],
               type: 'line'
             }}
             y2={{
-              formatter: msZeroDecimalPlaces,
-              tooltipFormatter: msTwoDecimalPlaces,
+              formatter: millis.compact,
+              tooltipFormatter: millis.detailed,
               metrics: ['broker.fetchFollowerLatency'],
               labels: ['Mean Latency'],
               type: 'line'
@@ -154,8 +146,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.detailed,
             metrics: ['broker.failedFetch', 'broker.failedProduce'],
             labels: ['Fetch', 'Produce'],
             type: 'line'
@@ -169,8 +161,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [
               'broker.underReplicatedPartitions',
               'broker.offlinePartitionsCount',
@@ -200,8 +192,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: ['broker.partitionCount'],
             labels: ['Count'],
             type: 'line'
@@ -215,15 +207,15 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: msTwoDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
+            formatter: millis.detailed,
+            tooltipFormatter: millis.detailed,
             metrics: ['logflush.mean'],
             labels: ['Mean'],
             type: 'line'
           }}
           y2={{
-            formatter: msTwoDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: ['logflush.inv'],
             labels: ['Flushes'],
             type: 'line'
