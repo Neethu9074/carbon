@@ -38,12 +38,7 @@ export default function Spacing({
         tagCatalog,
         onChange: onAddToFormModel
       }}
-      onCloseSideEffect={e => {
-        // Ensure the element retains its focus when closing the overlay with the escape key.
-        if (e instanceof KeyboardEvent) {
-          focus(renderModelIndex);
-        }
-      }}
+      onCloseSideEffect={() => focus(renderModelIndex)}
       withoutWrapper
     >
       {({ toggle, open: openTagSuggestionOverlay, refSetter }) => (

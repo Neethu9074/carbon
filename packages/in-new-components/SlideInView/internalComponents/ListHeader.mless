@@ -20,7 +20,8 @@
     fill: @lib__colors__N900Primary;
     margin-right: 0.5rem;
 
-    &:hover {
+    &:hover,
+    &:focus {
       fill: @lib__colors__N700Medium;
     }
   }

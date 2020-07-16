@@ -19,12 +19,7 @@ export default function Name({ tagCatalog, onChange, focus, element: { name, ren
           tagCatalog,
           onChange
         }}
-        onCloseSideEffect={e => {
-          // Ensure the element retains its focus when closing the overlay with the escape key.
-          if (e instanceof KeyboardEvent) {
-            focus(renderModelIndex);
-          }
-        }}
+        onCloseSideEffect={() => focus(renderModelIndex)}
         withoutWrapper
       >
         {({ toggle, refSetter }) => (

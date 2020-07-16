@@ -11,13 +11,14 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Bracket.mless';
 
 export default function Bracket(props) {
-  const { element, dragAndDropProps } = props;
+  const { element, renderModelIndex, dragAndDropProps } = props;
 
   return (
     <ConjunctionOrBracketBehavior
       element={element}
       value={element.type === OPEN_BRACKET ? openBracket : closeBracket}
       aria-label="Chosen bracket. Click to change the bracket, to select a conjunction or to remove the bracket."
+      data-render-model-index={renderModelIndex}
       {...props}
     >
       {({ refSetter, elementProps }) => (

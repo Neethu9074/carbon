@@ -6,7 +6,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Conjunction.mless';
 
 export default function Conjunction(props) {
-  const { element, dragAndDropProps } = props;
+  const { element, renderModelIndex, dragAndDropProps } = props;
   const { logicalOperator, valid } = element;
 
   return (
@@ -17,7 +17,7 @@ export default function Conjunction(props) {
       {...props}
     >
       {({ refSetter, elementProps }) => (
-        <div className={locals.draggableWrapper} {...dragAndDropProps}>
+        <div className={locals.draggableWrapper} data-render-model-index={renderModelIndex} {...dragAndDropProps}>
           <div
             className={evaluateClassNames({
               [locals.conjunction]: true,

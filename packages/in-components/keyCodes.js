@@ -6,6 +6,7 @@ export default {
     left: 37
   },
   tab: 9,
+  enter: 13,
   space: 32,
   backspace: 8,
   delete: 46,

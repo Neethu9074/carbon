@@ -26,7 +26,7 @@ const columnDefinitions = [
 export default function TreeNodeList({ nodes, onChange, close }) {
   return (
     <Ul framed="topBottom">
-      {nodes.map(node => (
+      {nodes.map((node, i) => (
         <OverlayOption
           key={node.label}
           className={locals.option}
@@ -37,6 +37,7 @@ export default function TreeNodeList({ nodes, onChange, close }) {
               operator: 'EQUALS'
             })
           }
+          autoFocus={i === 0}
           close={close}
           value={node}
         >
