@@ -13,10 +13,11 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-applications/ale
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import getErrorRateChartConfig from 'in-applications/alerting/data/chartConfigForErrorRate';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
+import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -41,14 +42,18 @@ function ErrorRateInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value:
-      (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, true)
-        : form.get('threshold').get('value').value) || 0
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value:
+        (doDebounce
+          ? getThresholdValueForPercentageMetric(tempThreshold, true)
+          : form.get('threshold').get('value').value) || 0
+    }
   };
-  const granularity = form.get('granularity').value;
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <div className={locals.container}>
@@ -70,14 +75,10 @@ function ErrorRateInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getErrorRateChartConfig({
-              applicationId: form.get('applicationId').value,
+            chartConfigForBlueprint={getChartConfig({
+              alertConfig,
               viewConfig: chartViewConfig,
-              tagFilters: form.get('tagFilters').value,
-              granularity: granularity,
-              threshold: threshold,
-              timeThreshold: form.get('timeThreshold').toJS(),
-              boundaryScope: form.get('boundaryScope').value,
+              blueprintConfig,
               alertsPreviewEnabled: true
             })}
             canReload

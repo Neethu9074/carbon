@@ -13,10 +13,11 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import getStatusCodeChartConfig from 'in-applications/alerting/data/chartConfigForStatusCode';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
+import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -36,7 +37,6 @@ export default compose(
 function StatusCodeInteractiveChart({
   form,
   onChange,
-  granularity,
   debounceOnChange$,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
@@ -44,100 +44,101 @@ function StatusCodeInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value:
-      (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, true)
-        : form.get('threshold').get('value').value) || 0
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value:
+        (doDebounce
+          ? getThresholdValueForPercentageMetric(tempThreshold, true)
+          : form.get('threshold').get('value').value) || 0
+    }
   };
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+    return (
+      <div className={locals.container}>
+        <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+      </div>
+    );
+  }
 
   return (
     <div className={locals.container}>
-      {hasStatusCodeSelected(form) ? (
-        <>
-          <div className={locals.controls}>
-            <FormGroup>
-              <Label htmlFor="statusCode">Metric</Label>
-              <Input
-                id="statusCode"
-                className={joinClassNames(locals.narrowControl, locals.disabledControl)}
-                name="statusCode"
-                value={ruleMetricNameOptions.statusCode[0].label}
-                disabled
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="thresholdOperator">Operator</Label>
-              <ComboBox
-                id="thresholdOperator"
-                className={locals.narrowControl}
-                name="thresholdOperator"
-                value={form.get('threshold').get('operator').value}
-                options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
-                onChange={e => {
-                  const value = e?.value ?? '';
-                  onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-                  applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
-                }}
-                defaultValue={thresholdOperatorOptions[0].value}
-                clearable={false}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
-              <Input
-                id="thresholdValue"
-                className={locals.narrowControl}
-                type="number"
-                min="0"
-                name="thresholdValue"
-                step="1"
-                value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
-                onChange={e => {
-                  let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
-                  setDoDebounce(true);
-                  setTempThreshold(value);
+      <div className={locals.controls}>
+        <FormGroup>
+          <Label htmlFor="statusCode">Metric</Label>
+          <Input
+            id="statusCode"
+            className={joinClassNames(locals.narrowControl, locals.disabledControl)}
+            name="statusCode"
+            value={ruleMetricNameOptions.statusCode[0].label}
+            disabled
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="thresholdOperator">Operator</Label>
+          <ComboBox
+            id="thresholdOperator"
+            className={locals.narrowControl}
+            name="thresholdOperator"
+            value={form.get('threshold').get('operator').value}
+            options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
+            onChange={e => {
+              const value = e?.value ?? '';
+              onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
+              applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
+            }}
+            defaultValue={thresholdOperatorOptions[0].value}
+            clearable={false}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
+          <Input
+            id="thresholdValue"
+            className={locals.narrowControl}
+            type="number"
+            min="0"
+            name="thresholdValue"
+            step="1"
+            value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
+            onChange={e => {
+              let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+              setDoDebounce(true);
+              setTempThreshold(value);
 
-                  const onChangCallback = () => {
-                    onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
-                    setDoDebounce(false);
-                  };
+              const onChangCallback = () => {
+                onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+                setDoDebounce(false);
+              };
 
-                  debounceOnChange$.emit(onChangCallback.bind(this));
-                  debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
-                }}
-              />
-            </FormGroup>
-          </div>
-          <ChartViewConfigurator
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            className={locals.chartContainer}
-            headerTransparent
-          >
-            {chartViewConfig => (
-              <AlertingBarChart
-                chartConfigForBlueprint={getStatusCodeChartConfig({
-                  applicationId: form.get('applicationId').value,
-                  threshold: threshold,
-                  statusCodeStart: form.get('rule').get('statusCodeStart').value,
-                  statusCodeEnd: form.get('rule').get('statusCodeEnd').value,
-                  timeThreshold: form.get('timeThreshold').toJS(),
-                  viewConfig: chartViewConfig,
-                  tagFilters: form.get('tagFilters').value,
-                  granularity: granularity,
-                  boundaryScope: form.get('boundaryScope').value,
-                  alertsPreviewEnabled: true
-                })}
-                canReload
-              />
-            )}
-          </ChartViewConfigurator>
-        </>
-      ) : (
-        <IncompleteChartPlaceholder message="Please select a Status Code to see when this alert triggers" />
-      )}
+              debounceOnChange$.emit(onChangCallback.bind(this));
+              debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
+            }}
+          />
+        </FormGroup>
+      </div>
+      <ChartViewConfigurator
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        className={locals.chartContainer}
+        headerTransparent
+      >
+        {chartViewConfig => (
+          <AlertingBarChart
+            chartConfigForBlueprint={getChartConfig({
+              alertConfig,
+              viewConfig: chartViewConfig,
+              blueprintConfig,
+              alertsPreviewEnabled: true
+            })}
+            canReload
+          />
+        )}
+      </ChartViewConfigurator>
     </div>
   );
 }
@@ -150,7 +151,3 @@ StatusCodeInteractiveChart.propTypes = {
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
-
-function hasStatusCodeSelected(form) {
-  return !!(form && form.get('rule').get('statusCodeStart').value && form.get('rule').get('statusCodeEnd').value);
-}

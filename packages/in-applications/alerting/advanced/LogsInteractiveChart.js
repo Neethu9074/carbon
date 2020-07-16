@@ -15,8 +15,9 @@ import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/al
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
-import getLogsChartConfig from 'in-applications/alerting/data/chartConfigForLogs';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -41,22 +42,26 @@ function LogsInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  if (!hasLogMessageSelected(form)) {
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value:
+        (doDebounce
+          ? getThresholdValueForPercentageMetric(tempThreshold, true)
+          : form.get('threshold').get('value').value) || 0
+    }
+  };
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
     return (
       <div className={locals.container}>
-        <IncompleteChartPlaceholder message="Please select a Log Message to see when this alert triggers" />
+        <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
       </div>
     );
   }
-
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value:
-      (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, true)
-        : form.get('threshold').get('value').value) || 0
-  };
-  const granularity = form.get('granularity').value;
 
   return (
     <div className={locals.container}>
@@ -78,17 +83,10 @@ function LogsInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getLogsChartConfig({
-              applicationId: form.get('applicationId').value,
-              logMessage: form.get('rule').get('message').value,
-              logMessageOperator: form.get('rule').get('operator').value,
-              logLevel: form.get('rule').get('level').value,
+            chartConfigForBlueprint={getChartConfig({
+              alertConfig,
               viewConfig: chartViewConfig,
-              tagFilters: form.get('tagFilters').value,
-              granularity: granularity,
-              threshold: threshold,
-              timeThreshold: form.get('timeThreshold').toJS(),
-              boundaryScope: form.get('boundaryScope').value,
+              blueprintConfig,
               alertsPreviewEnabled: true
             })}
             canReload
@@ -162,7 +160,3 @@ LogsInteractiveChart.propTypes = {
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
-
-function hasLogMessageSelected(form) {
-  return !!(form && form.get('rule').get('message').value);
-}

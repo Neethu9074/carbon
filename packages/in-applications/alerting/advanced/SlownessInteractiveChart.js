@@ -28,8 +28,9 @@ import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/Thr
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import getSlownessChartConfig from 'in-applications/alerting/data/chartConfigForSlowness';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -60,12 +61,21 @@ function SlownessInteractiveChart({
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
-    baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || []
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
+      baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || [],
+      deviationFactor: Number(
+        doDebounceDeviationFactor
+          ? tempThresholdDeviationFactor
+          : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+      )
+    }
   };
-  const granularity = form.get('granularity').value;
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <div className={locals.container}>
@@ -80,7 +90,7 @@ function SlownessInteractiveChart({
         doDebounceDeviationFactor,
         setDoDebounceThreshold,
         setDoDebounceDeviationFactor,
-        threshold,
+        alertConfig.threshold,
         tempThreshold,
         setTempThreshold,
         tempThresholdDeviationFactor,
@@ -95,20 +105,10 @@ function SlownessInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getSlownessChartConfig({
-              sensitivity: Number(
-                doDebounceDeviationFactor
-                  ? tempThresholdDeviationFactor
-                  : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-              ),
-              applicationId: form.get('applicationId').value,
-              threshold: threshold,
-              timeThreshold: form.get('timeThreshold').toJS(),
+            chartConfigForBlueprint={getChartConfig({
+              alertConfig,
               viewConfig: chartViewConfig,
-              tagFilters: form.get('tagFilters').value,
-              aggregation: form.get('rule').get('aggregation').value,
-              granularity: granularity,
-              boundaryScope: form.get('boundaryScope').value,
+              blueprintConfig,
               alertsPreviewEnabled: true
             })}
             canReload

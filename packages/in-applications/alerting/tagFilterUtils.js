@@ -1,3 +1,27 @@
+export function getEnrichedTagFilters(alertConfig) {
+  const alertType = alertConfig.rule.alertType;
+  let tagFilters = alertConfig.tagFilters;
+  if (alertType === 'logs') {
+    const {
+      rule: { operator, message, level }
+    } = alertConfig;
+    tagFilters = [...tagFilters, ...getLogLevelTagFilters(message, operator, level)];
+  } else if (alertType === 'statusCode') {
+    const {
+      rule: { statusCodeStart, statusCodeEnd }
+    } = alertConfig;
+    tagFilters = [...tagFilters, ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)];
+  }
+
+  return [
+    ...tagFilters,
+    getApplicationIdTagFilter({
+      applicationId: alertConfig.applicationId,
+      boundaryScope: alertConfig.boundaryScope
+    })
+  ];
+}
+
 export function getApplicationIdTagFilter({ applicationId, boundaryScope }) {
   return createStringTagFilter(
     boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',

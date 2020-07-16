@@ -6,7 +6,7 @@ import {
   enhaceLabels,
   legendColors,
   smoothMetrics,
-  getMaxSlownessChart
+  getMaxForBaselineChart
 } from 'in-new-components/Alerting/utils/chartUtil';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -52,7 +52,7 @@ export default function getSlownessChartConfig({
       operator: threshold.operator,
       sensitivity,
       baseline: threshold.baseline,
-      getMax: metricsMaxValue => getMaxSlownessChart({ metricsMaxValue, baseline: threshold.baseline, sensitivity })
+      getMax: metricsMaxValue => getMaxForBaselineChart({ metricsMaxValue, baseline: threshold.baseline, sensitivity })
     },
     config: {
       thresholdType: threshold.type,

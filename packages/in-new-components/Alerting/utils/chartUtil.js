@@ -53,7 +53,7 @@ export function getSmoothedMetricTooltipContent(isSmoothedMetric) {
   return isSmoothedMetric ? ['Smoothed metric'] : null;
 }
 
-export function getMaxSlownessChart({ metricsMaxValue, baseline, sensitivity }) {
+export function getMaxForBaselineChart({ metricsMaxValue, baseline, sensitivity }) {
   let maxBaselineVal = 0;
   if (baseline) {
     for (let i = 0; i < baseline.length; ++i) {
