@@ -7,34 +7,29 @@ import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
 
-export default function MarkerLanesPresenter({ children, granularity, hoverState, isClustered, ...remainingProps }) {
+export default function MarkerLanesPresenter({
+  children,
+  granularity,
+  hoverState,
+  isClustered,
+  chartWidth,
+  ...remainingProps
+}) {
+  if (!children || !granularity || !hoverState) return null;
+
   const [labelAlignment, setLabelAligment] = useState('left');
   const [labelVisible, setLabelVisible] = useState(false);
-  const markerLanesWrapperRef = useRef(null);
-
-  const minPixelsPerBlock = sizes.xs + 16;
-  const clusterSizeMillis = isClustered
-    ? getBlockSizeMillis({
-        windowSize: remainingProps.timeConfig.windowSize,
-        minPixelsPerBlock,
-        width: markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
-        rollup: granularity
-      })
-    : granularity;
 
   return (
     <div className={locals.markerLanesContainer} onMouseLeave={() => setLabelVisible(false)}>
-      <div ref={markerLanesWrapperRef} className={locals.markerLanesWrapper} onMouseEnter={() => setLabelVisible(true)}>
-        {Children.map(children, child => {
-          return cloneElement(child, {
-            ...remainingProps,
-            labelVisible,
-            labelAlignment,
-            clusterSizeMillis,
-            isClustered
-          });
-        })}
-      </div>
+      <MarkerLanesWrapper
+        labelVisible={labelVisible}
+        labelAlignment={labelAlignment}
+        chartWidth={chartWidth}
+        isClustered={isClustered}
+        granularity={granularity}
+        remainingProps={remainingProps}
+      />
       <div
         className={locals[labelAlignment]}
         onMouseEnter={() => setLabelAligment(labelAlignment === 'left' ? 'right' : 'left')}
@@ -42,6 +37,29 @@ export default function MarkerLanesPresenter({ children, granularity, hoverState
       <HoverLine {...hoverState} />
     </div>
   );
+
+  function MarkerLanesWrapper({ labelVisible, labelAlignment, chartWidth, isClustered, granularity, remainingProps }) {
+    const markerLanesWrapperRef = useRef(null);
+    return (
+      <div ref={markerLanesWrapperRef} className={locals.markerLanesWrapper} onMouseEnter={() => setLabelVisible(true)}>
+        {Children.map(children, child => {
+          return cloneElement(child, {
+            ...remainingProps,
+            labelVisible,
+            labelAlignment,
+            clusterSizeMillis: isClustered
+              ? getClusterSizeMillis({
+                  width: chartWidth ?? markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
+                  windowSize: remainingProps.timeConfig.windowSize,
+                  granularity
+                })
+              : granularity,
+            isClustered
+          });
+        })}
+      </div>
+    );
+  }
 }
 
 function HoverLine({ overlayVisible, lineVisible, xPos, chartContentPosition, color }) {
@@ -70,6 +88,16 @@ function HoverLine({ overlayVisible, lineVisible, xPos, chartContentPosition, co
       if (chartContentPosition === 'post') return { bottom: '8px', top: '0px' };
     }
   }
+}
+
+function getClusterSizeMillis({ windowSize, width, granularity }) {
+  const minPixelsPerBlock = sizes.xs + 16;
+  return getBlockSizeMillis({
+    windowSize,
+    minPixelsPerBlock,
+    width,
+    rollup: granularity
+  });
 }
 
 MarkerLanesPresenter.propTypes = {

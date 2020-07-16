@@ -35,7 +35,9 @@ export const AlertConfigDialogWithThreshold = compose(
     return {
       thresholdResult: resolveThresholdRequest(form, simpleMode)
         .filter(resp => resp && !resp.progress.loading)
-        .tap(({ data, errors, time }) => updateThresholdInForm(form, updateForm, data, errors, time))
+        .tap(({ data, errors, time }) => {
+          updateThresholdInForm(form, updateForm, data, errors, time);
+        })
     };
   }),
   withProps(({ onClose, onCreate, form }) => ({
@@ -77,6 +79,9 @@ export const AlertConfigDialogWithThreshold = compose(
 });
 
 function resolveThresholdRequest(form, fallbackOnError) {
+  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+  if (!calculateThresholdOnBackend) return empty;
+
   const websiteId = form.get(fieldNames.websiteId).value;
   const stringValue = getFormValueOrDefault(form.get('rule'), 'value');
   const operator = getFormValueOrDefault(form.get('rule'), 'operator');
@@ -113,7 +118,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
           granularity
         )
       );
-    case statusCodeRate:
+    case statusCodeRate: {
       return getWebsiteRateMetricThresholdSuggestion(
         getThresholdQueryForStatusCode(
           websiteId,
@@ -125,6 +130,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
           granularity
         )
       );
+    }
     case onLoadTime: {
       const aggregation = form.get('rule').get('aggregation').value;
       const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');

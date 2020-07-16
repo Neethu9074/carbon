@@ -59,14 +59,19 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
       const { chart, width, height, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
+      const preAndPostContentConfig = {
+        timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
+        onHover: hoverState => this.setState({ hoverState }),
+        hoverState: this.state.hoverState,
+        granularity: this.props.chart?.config?.rollup,
+        chartWidth: width
+      };
+
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart && renderLegend && <Legend chart={chart} />}
           {this.props.renderPreChartContent?.({
-            timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
-            onHover: hoverState => this.setState({ hoverState }),
-            hoverState: this.state.hoverState,
-            granularity: this.props.chart?.config?.rollup,
+            ...preAndPostContentConfig,
             chartContentPosition: 'pre'
           })}
           <HighlightOverlayWrapper
@@ -101,10 +106,7 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
             </div>
           </HighlightOverlayWrapper>
           {this.props.renderPostChartContent?.({
-            timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
-            onHover: hoverState => this.setState({ hoverState }),
-            hoverState: this.state.hoverState,
-            granularity: this.props.chart?.config?.rollup,
+            ...preAndPostContentConfig,
             chartContentPosition: 'post'
           })}
         </div>

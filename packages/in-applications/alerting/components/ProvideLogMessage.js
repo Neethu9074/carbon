@@ -51,6 +51,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                           .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
                           .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                          .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
                       );
                     }}
                     slideOut={() => onSelectLogMessage({ isVisible: false })}
@@ -81,6 +82,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                 form
                   .updateIn(['rule', 'level'], f => f.setValue(newLevel).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
               );
             }}
             defaultValue={ruleLogLevelOptions[0].value}
@@ -115,6 +117,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                   .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
                   .updateIn(['rule', 'message'], f => f.setValue(newRuleValueValue).setTouched(true))
                   .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
               );
             }}
             defaultValue={ruleLogMessageOperatorOptions[0].value}

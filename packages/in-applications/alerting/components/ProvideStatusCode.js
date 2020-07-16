@@ -36,6 +36,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                       f.setValue(Number(getEndForStatusCode(e.value))).setTouched(true)
                     )
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                    .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
                 );
               }}
               clearable={false}

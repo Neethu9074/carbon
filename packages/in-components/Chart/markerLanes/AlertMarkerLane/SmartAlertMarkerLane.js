@@ -6,9 +6,10 @@ import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
 export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
-  if (!alertsPreviewConfiguration || !getAlertsPreview) return null;
+  if (!alertsPreviewConfiguration || !getAlertsPreview || !isConfigValid(alertsPreviewConfiguration)) return null;
 
   const { clusterSizeMillis } = remainingProps;
+
   const alerts =
     useObservable(
       getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
@@ -31,6 +32,16 @@ export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAl
       }}
     />
   );
+}
+
+function isConfigValid({ threshold }) {
+  if (threshold.type === 'historicBaseline' && threshold.baseline?.length === 0) {
+    return false;
+  }
+  if (threshold.type === 'staticThreshold' && !threshold.value) {
+    return false;
+  }
+  return true;
 }
 
 SmartAlertMarkerLane.propTypes = {

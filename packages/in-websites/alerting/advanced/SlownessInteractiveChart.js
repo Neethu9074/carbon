@@ -155,6 +155,7 @@ export function renderThresholdCondition(
             updateForm(
               form
                 .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
+                .updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(true)) // reset baseline
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
             websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });

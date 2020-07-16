@@ -18,7 +18,8 @@ export default function createBlueprintForm(form, alertType) {
   const newThresholdForm = createThresholdForm(
     {
       ...threshold,
-      type: getThresholdTypeForAlertType(alertType, threshold)
+      type: getThresholdTypeForAlertType(alertType, threshold),
+      value: null // reset the "old" value
     },
     alertType
   );

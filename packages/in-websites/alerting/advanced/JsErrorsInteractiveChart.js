@@ -150,6 +150,7 @@ export function renderThresholdCondition(
             form
               .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
               .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
           );
           websitesAlertingThresholdMetricChanged({ ...getBlueprintObject(form), value });
         }}

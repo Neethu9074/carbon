@@ -28,6 +28,9 @@ export const SmartAlertConfigDialog = compose(
 });
 
 function resolveThresholdRequest(form, fallbackOnError) {
+  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+  if (!calculateThresholdOnBackend) return empty;
+
   const applicationId = form.get('applicationId').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilters = form.get('tagFilters').value;
