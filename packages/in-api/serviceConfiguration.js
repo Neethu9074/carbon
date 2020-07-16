@@ -89,7 +89,7 @@ function mapFromServerResponse(response) {
     for (let i = 0; i < config.matchSpecification.length; i++) {
       const matchSpecification = config.matchSpecification[i];
 
-      const keyValueTag = getKeyValuePairTag(matchSpecification.key);
+      const keyValueTag = getKeyValueTag(matchSpecification.key);
       if (keyValueTag) {
         const name = keyValueTag.fullyQualifiedName;
         const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first .
@@ -115,4 +115,11 @@ export function fillEmptyValues(config) {
     element.value = element.value || '.*';
   }
   return config;
+}
+
+function getKeyValueTag(matchSpecificationKey) {
+  // the 'jvm.args' tag is not part of the /api/tags and needs to be treated explicitly here.
+  return getKeyValuePairTag(matchSpecificationKey) || matchSpecificationKey.indexOf('jvm.args') === 0
+    ? { fullyQualifiedName: 'jvm.args' } // we only need the FQN for mapping
+    : null;
 }
