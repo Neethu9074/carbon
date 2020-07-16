@@ -15,7 +15,6 @@ import { getEnrichedTagFilters } from 'in-applications/alerting/tagFilterUtils';
 import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import { getMetricLabel } from 'in-applications/alerting/form/formUtils';
-import { millis } from 'in-services/formatters/number';
 
 export default function getChartConfig({ alertConfig, viewConfig, blueprintConfig, alertsPreviewEnabled = false }) {
   const {
@@ -37,7 +36,7 @@ export default function getChartConfig({ alertConfig, viewConfig, blueprintConfi
         getSmoothedMetricTooltipContent(viewConfig.smoothMetric)
       ),
       labels: enhaceLabels(getMetricLabel(alertType, blueprintConfig.metric), viewConfig.smoothMetric),
-      formatter: millis.forcedFixedCompact,
+      formatter: blueprintConfig.metricFormat,
       renderer: getRenderer(isStaticThreshold, viewConfig.smoothMetric),
       icons: {
         types: [viewConfig.smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],

@@ -1,5 +1,4 @@
-import { percentage } from 'in-services/formatters/number';
-import { millis } from 'in-services/formatters/number';
+import { percentage, millis, number } from 'in-services/formatters/number';
 
 export const blueprintConfig = Object.freeze([
   {
@@ -37,6 +36,7 @@ export const blueprintConfig = Object.freeze([
       'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
     baselineEnabled: false,
     metric: 'calls',
+    metricFormat: number.forcedCompact,
     aggregation: 'SUM',
     isRuleComplete: alertRule => !!alertRule.message,
     incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers'
@@ -49,6 +49,7 @@ export const blueprintConfig = Object.freeze([
     text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
     baselineEnabled: false,
     metric: 'calls',
+    metricFormat: number.forcedCompact,
     aggregation: 'SUM',
     isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
     incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers'

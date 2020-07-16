@@ -105,5 +105,6 @@ MarkerLanesPresenter.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
   granularity: PropTypes.number,
   hoverState: PropTypes.object,
-  isClustered: PropTypes.bool
+  isClustered: PropTypes.bool,
+  chartWidth: PropTypes.number
 };

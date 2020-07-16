@@ -29,7 +29,8 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 chartConfigForBlueprint={getChartConfig({
                   alertConfig,
                   viewConfig: chartViewConfig,
-                  blueprintConfig
+                  blueprintConfig,
+                  alertsPreviewEnabled: true
                 })}
                 canReload
               />
