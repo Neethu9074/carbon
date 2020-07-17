@@ -14,7 +14,7 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
   // We do this in order to encourage proper usage of this hook. In production mode we will still get
   // improved rendering performance (through fewer render calls).
   const initialState = __DEV__ ? undefined : observable?._lastEmittedValue;
-  const [lastKnownRenderState, scheduleRenderStateUpdate] = useState(initialState);
+  const [lastKnownRenderState, scheduleRenderStateUpdate] = useInternalState(initialState, pure);
 
   useEffect(() => {
     // We may have multiple state updates between React updates. In order to avoid any diffing
@@ -73,4 +73,14 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
   }, fieldsToWatch);
 
   return lastKnownRenderState;
+}
+
+function useInternalState(initialState, pure) {
+  if (pure) {
+    const [lastKnownRenderStateValue, scheduleRenderStateUpdate] = useState(initialState);
+    return [lastKnownRenderStateValue, scheduleRenderStateUpdate];
+  } else {
+    const [[lastKnownRenderStateValue], scheduleRenderStateUpdate] = useState([initialState]);
+    return [lastKnownRenderStateValue, v => scheduleRenderStateUpdate([v])];
+  }
 }
