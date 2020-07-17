@@ -82,12 +82,12 @@ const mockSubscription = {
       { from: 54116, to: 60000, calls: 0, tickMark: false },
       { from: 60000, calls: 0, tickMark: true }
     ],
-    percentiles: {
-      50: 0,
-      90: 6,
-      95: 10,
-      99: 122
-    }
+    percentiles: [
+      { percentile: 50, latency: 0 },
+      { percentile: 90, latency: 6 },
+      { percentile: 95, latency: 10 },
+      { percentile: 99, latency: 122 }
+    ]
   },
   time: 1582718129565,
   adjustedWindowSize: null,
@@ -166,12 +166,12 @@ const mockSubscription2 = {
       { from: 54116, to: 60000, calls: 0, tickMark: false },
       { from: 60000, calls: 0, tickMark: true }
     ],
-    percentiles: {
-      50: 0,
-      90: 0,
-      95: 10,
-      99: 122
-    }
+    percentiles: [
+      { percentile: 50, latency: 0 },
+      { percentile: 90, latency: 0 },
+      { percentile: 95, latency: 10 },
+      { percentile: 99, latency: 122 }
+    ]
   },
   time: 1582718129565,
   adjustedWindowSize: null,
@@ -250,12 +250,12 @@ const mockSubscription3 = {
       { from: 54116, to: 60000, calls: 0, tickMark: false },
       { from: 60000, calls: 0, tickMark: true }
     ],
-    percentiles: {
-      50: 0,
-      90: 0,
-      95: 0,
-      99: 122
-    }
+    percentiles: [
+      { percentile: 50, latency: 0 },
+      { percentile: 90, latency: 0 },
+      { percentile: 95, latency: 0 },
+      { percentile: 99, latency: 122 }
+    ]
   },
   time: 1582718129565,
   adjustedWindowSize: null,
@@ -270,12 +270,12 @@ const mockEmptySubscription = {
       { from: 1, to: 60000, calls: 0, tickMark: false },
       { from: 60000, calls: 0, tickMark: true }
     ],
-    percentiles: {
-      50: 0,
-      90: 0,
-      95: 0,
-      99: 0
-    }
+    percentiles: [
+      { percentile: 50, latency: 0 },
+      { percentile: 90, latency: 0 },
+      { percentile: 95, latency: 0 },
+      { percentile: 99, latency: 0 }
+    ]
   },
   time: 1582718129565,
   adjustedWindowSize: null,

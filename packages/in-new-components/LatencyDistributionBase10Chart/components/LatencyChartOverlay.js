@@ -258,7 +258,6 @@ function Tooltip({ bucket, percentiles, style }) {
   } else {
     latencyRangeLabel = `${from} to ${to}`;
   }
-  const percentileValue = p => (percentiles[p] === 0 ? '< 1ms' : formatTime(percentiles[p]));
   return (
     <div className={locals.tooltipContent} style={style}>
       <div className={locals.labelWrapper}>{latencyRangeLabel}</div>
@@ -267,10 +266,10 @@ function Tooltip({ bucket, percentiles, style }) {
         <span>Calls (sum)</span>
         <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
       </div>
-      {Object.keys(percentiles).map(p => (
-        <div key={p} className={locals.labelWrapper}>
-          <span>p{p}</span>
-          <span className={locals.value}>{percentileValue(p)}</span>
+      {percentiles.map(p => (
+        <div key={p.percentile} className={locals.labelWrapper}>
+          <span>p{p.percentile}</span>
+          <span className={locals.value}>{p.latency}</span>
         </div>
       ))}
     </div>

@@ -1,4 +1,3 @@
-import { pickBy } from 'lodash';
 import React from 'react';
 
 import locals from './BarChart.mless';
@@ -16,9 +15,9 @@ export default function BarChart({
   const barMaxHeight = chartHeight - percentileHeight - 1;
   return (
     <div>
-      {buckets.map((bucket, idx) => {
-        const percentiles = pickBy(percentileBuckets[idx], (value, key) => percentilesShown.includes(parseInt(key)));
-        const bucketPosition = bucketWidth * idx;
+      {buckets.map((bucket, i) => {
+        const percentiles = percentileBuckets[i].filter(p => percentilesShown.includes(parseInt(p.percentile)));
+        const bucketPosition = bucketWidth * i;
         let barHeight = Math.floor((bucket.calls / maxCallCount) * barMaxHeight);
         if (bucket.calls > 0) {
           barHeight = Math.max(2, barHeight);
@@ -30,7 +29,11 @@ export default function BarChart({
             style={{ width: bucketWidth + 'px', height: chartHeight + 'px', left: bucketPosition + 'px' }}
           >
             <Bar height={barHeight} bucketWidth={bucketWidth} />
-            <PercentileMarker percentiles={Object.keys(percentiles)} position={bucketCenter} barHeight={barHeight} />
+            <PercentileMarker
+              percentiles={percentiles.map(p => p.percentile)}
+              position={bucketCenter}
+              barHeight={barHeight}
+            />
           </div>
         );
       })}

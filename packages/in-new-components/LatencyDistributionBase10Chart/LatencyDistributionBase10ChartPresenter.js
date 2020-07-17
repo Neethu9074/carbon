@@ -155,20 +155,22 @@ function getMaxCallCount(buckets) {
 
 /**
  * Breaks the percentiles object by buckets. The resulting array has the same size as the buckets array,
- * e.g., [{50:0}, {}, {90:6, 95:10}, ...].
+ * e.g., [
+ *         [{percentile: 50, latency: 0}],
+ *         [],
+ *         [{percentile: 90, latency: 6}, {percentile: 95, latency: 10}],
+ *         ...
+ *       ]
  *
  * @param {*} buckets - Array of latency distribution buckets [{from: 0, to: 1, tickMark: true, calls: 2033}, ...].
- * @param {*} percentiles - Object with percentiles as keys and latencies as values, e.g., {50: 0, 90: 6, 95: 10, 99: 122}.
+ * @param {*} percentiles - Array of percentiles [{percentile: 50, latency: 0}, {percentile: 90, latency: 6}, {percentile: 95, latency: 10}, {percentile: 99, latency: 122}].
  */
 function createPercentileBuckets(buckets, percentiles) {
-  return buckets.map(bucket => {
-    return Object.keys(percentiles)
-      .filter(
-        percentile =>
-          (bucket.from == null || bucket.from <= percentiles[percentile]) &&
-          (bucket.to == null || percentiles[percentile] < bucket.to)
-      )
-      .map(percentile => ({ [percentile]: percentiles[percentile] }))
-      .reduce((prev, cur) => Object.assign(prev, cur), {});
-  });
+  return buckets.map(bucket =>
+    percentiles.filter(
+      percentile =>
+        (bucket.from == null || bucket.from <= percentile.latency) &&
+        (bucket.to == null || percentile.latency < bucket.to)
+    )
+  );
 }
