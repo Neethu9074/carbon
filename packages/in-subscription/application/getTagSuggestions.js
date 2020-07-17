@@ -5,3 +5,5 @@ export default createResultSubscriptionFactory({
   memoizeFor: 5000,
   trackSubscriptionStatistics: true
 });
+
+// TODO in analyze?

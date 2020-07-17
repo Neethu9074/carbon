@@ -5,3 +5,5 @@ export default createResultSubscriptionFactory({
   trackSubscriptionStatistics: true,
   disposeSubscriptionOnDocumentHidden: false
 });
+
+// TODO move to analyze

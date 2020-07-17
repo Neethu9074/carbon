@@ -5,3 +5,5 @@ export default createResultSubscriptionFactory({
   memoizeFor: 1000,
   trackSubscriptionStatistics: true
 });
+
+// move out of application

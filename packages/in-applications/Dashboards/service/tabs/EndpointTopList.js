@@ -1,12 +1,12 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import getEndpoints from 'in-subscription/application/getEndpoints';
+import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './EndpointTopList.mless';
 

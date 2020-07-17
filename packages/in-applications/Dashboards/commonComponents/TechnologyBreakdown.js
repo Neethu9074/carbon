@@ -1,7 +1,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
+import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -86,7 +86,10 @@ export default connectTo(
                   showGraph: true,
                   jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
                   filters: isSynthetic
-                    ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
+                    ? [
+                        { name: 'call.is_synthetic', value: 'true' },
+                        { name: 'include_synthetic', value: 'true' }
+                      ]
                     : filtersBasedOnMetrics(labels, config),
                   groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE },
                   focusedMetric: 'latency_MEAN'

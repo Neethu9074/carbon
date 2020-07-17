@@ -14,7 +14,7 @@ import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import getInfrastructure from 'in-subscription/application/getInfrastructure';
+import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
@@ -76,16 +76,15 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       plugin={plugin}
       snapshot={snapshot}
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-        stay =>
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
+        stay
+          ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+          : getDashboardLink(entity.id, {
+              pathname: '/physical/dashboard',
+              to: entity.time,
+              focusedMoment: entity.time,
+              autoRefresh: false
+            })
       )}
       subscriptComponent={<SubscriptComponentForSnapshot plugin={plugin} snapshot={snapshot} time={entity.time} />}
     />

@@ -3,7 +3,7 @@ import React from 'react';
 
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
-import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
+import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';

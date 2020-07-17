@@ -1,5 +1,6 @@
-import React from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
+import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
@@ -12,7 +13,6 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './TraceTopList.mless';
 

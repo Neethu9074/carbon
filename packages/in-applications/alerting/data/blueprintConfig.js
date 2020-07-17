@@ -1,6 +1,6 @@
 import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 

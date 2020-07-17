@@ -4,3 +4,5 @@ export default createResultSubscriptionFactory({
   eventId: 'getTraceActivityTree',
   trackSubscriptionStatistics: true
 });
+
+// TODO move to analyze

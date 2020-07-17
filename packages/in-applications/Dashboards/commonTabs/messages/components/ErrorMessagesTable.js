@@ -7,7 +7,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import getErrorMessages from 'in-subscription/application/getErrorMessages';
+import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { operators } from 'in-analyze/applicationFilter';
 import { number } from 'in-services/formatters/number';

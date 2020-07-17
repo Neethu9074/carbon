@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import getLogMessages from 'in-subscription/application/getLogMessages';
+import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';

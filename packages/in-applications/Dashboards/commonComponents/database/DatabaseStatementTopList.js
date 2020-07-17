@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
 
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
@@ -13,7 +14,6 @@ import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 const metrics = ['latency', 'calls', 'errors'];
 const labels = ['Latency', 'Calls', 'Erroneous Calls'];

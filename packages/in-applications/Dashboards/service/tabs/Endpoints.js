@@ -22,7 +22,7 @@ import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
-import getEndpoints from 'in-subscription/application/getEndpoints';
+import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
@@ -218,17 +218,16 @@ function Endpoints(props) {
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = ({ query }) => (
     <Fragment>
-      {hasHttpType &&
-        role.canConfigureServiceMapping && (
-          <Button
-            className={locals.button}
-            icon="lib_actions_settings"
-            kind="action"
-            href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
-          >
-            Configure Endpoints
-          </Button>
-        )}
+      {hasHttpType && role.canConfigureServiceMapping && (
+        <Button
+          className={locals.button}
+          icon="lib_actions_settings"
+          kind="action"
+          href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
+        >
+          Configure Endpoints
+        </Button>
+      )}
 
       <Filters
         endpointTypes={endpointTypes}

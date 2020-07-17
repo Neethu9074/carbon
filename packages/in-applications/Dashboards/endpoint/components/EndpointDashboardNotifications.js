@@ -7,8 +7,8 @@ import {
   configureSyntheticEndpointsView,
   getEndpointDashboard
 } from 'in-applications/navigation/paths';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -53,22 +53,21 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
 
   return (
     <div className={locals.wrapper}>
-      {applicationId &&
-        currentTab !== '/flowMap' && (
-          <div className={locals.messageWrapper}>
-            <InboundOrAllCallsNotification
-              applicationId={applicationId}
-              boundaryScope={boundaryScope}
-              entityType="endpoint"
-              switchTo={getEndpointDashboard(endpointId, {
-                applicationId,
-                serviceId,
-                boundaryScope: switchScope(boundaryScope),
-                tab: currentTab
-              })}
-            />
-          </div>
-        )}
+      {applicationId && currentTab !== '/flowMap' && (
+        <div className={locals.messageWrapper}>
+          <InboundOrAllCallsNotification
+            applicationId={applicationId}
+            boundaryScope={boundaryScope}
+            entityType="endpoint"
+            switchTo={getEndpointDashboard(endpointId, {
+              applicationId,
+              serviceId,
+              boundaryScope: switchScope(boundaryScope),
+              tab: currentTab
+            })}
+          />
+        </div>
+      )}
 
       {syntheticType === 'SYNTHETIC' && (
         <MessageBar
@@ -156,7 +155,10 @@ function SyntheticCallsLink({
           endpointName: endpointLabel,
           boundaryScope: boundaryScope,
           dataSource: 'calls',
-          filters: [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }],
+          filters: [
+            { name: 'call.is_synthetic', value: 'true' },
+            { name: 'include_synthetic', value: 'true' }
+          ],
           groupByTag: emptyObject
         })}
       >

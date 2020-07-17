@@ -7,16 +7,16 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import getLogMessages from 'in-subscription/application/getLogMessages';
+import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
 
+import locals from './MessagesTable.mless';
+
 const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';
-
-import locals from './MessagesTable.mless';
 
 const columnDefinitions = [
   {

@@ -2,14 +2,13 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import getServiceFlowNodes from 'in-subscription/application/getServiceFlowNodes';
+import getServiceFlowNodes from 'in-applications/subscriptions/getServiceFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-components/ServerFlowMap';
 import withUrlState from 'in-hoc/withUrlState';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(

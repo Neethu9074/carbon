@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import getEndpointFlowNodes from 'in-subscription/application/getEndpointFlowNodes';
+import getEndpointFlowNodes from 'in-applications/subscriptions/getEndpointFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
@@ -10,7 +10,6 @@ import getService from 'in-subscription/application/getService';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-components/ServerFlowMap';
 import withUrlState from 'in-hoc/withUrlState';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
