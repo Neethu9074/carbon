@@ -16,7 +16,7 @@ export default function BarChart({
   return (
     <div>
       {buckets.map((bucket, i) => {
-        const percentiles = percentileBuckets[i].filter(p => percentilesShown.includes(parseInt(p.percentile)));
+        const percentiles = percentileBuckets[i].map(p => p.percentile).filter(p => percentilesShown.includes(p));
         const bucketPosition = bucketWidth * i;
         let barHeight = Math.floor((bucket.calls / maxCallCount) * barMaxHeight);
         if (bucket.calls > 0) {
@@ -29,11 +29,7 @@ export default function BarChart({
             style={{ width: bucketWidth + 'px', height: chartHeight + 'px', left: bucketPosition + 'px' }}
           >
             <Bar height={barHeight} bucketWidth={bucketWidth} />
-            <PercentileMarker
-              percentiles={percentiles.map(p => p.percentile)}
-              position={bucketCenter}
-              barHeight={barHeight}
-            />
+            <PercentileMarker percentiles={percentiles} position={bucketCenter} barHeight={barHeight} />
           </div>
         );
       })}
