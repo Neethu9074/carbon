@@ -2,9 +2,9 @@ import React from 'react';
 
 import HorizontalAxis from 'in-new-components/LatencyDistributionChart/components/HorizontalAxis';
 import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import Bar from 'in-new-components/LatencyDistributionChart/components/Bar';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import LoadingIndicator from '../LoadingIndicators/LoadingIndicator';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 
 import locals from './LatencyDistributionChartPresenter.mless';

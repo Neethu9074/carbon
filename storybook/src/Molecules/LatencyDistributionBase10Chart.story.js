@@ -301,12 +301,24 @@ const chartDefinition = {
   formatter: millis.forcedCompactOnMs
 };
 
+let latencySelection;
+
 export const dashboard = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
     cheight={number('Height', 182)}
     cwidth={number('Width', 552)}
+    showLegend
+    selectionMenuItems={[
+      {
+        name: 'analyze',
+        icon: 'lib_analyze',
+        label: 'View in Analytics',
+        onClick: () => alert(`Selected latency range: ${latencySelection?.from} - ${latencySelection?.to}`)
+      }
+    ]}
+    onSelectionChanged={e => (latencySelection = e)}
   />
 );
 
@@ -314,7 +326,8 @@ export const unboundedAnalytics = () => (
   <LatencyDistributionBase10Chart
     subscription={just(mockSubscription)}
     chartDefinition={chartDefinition}
-    cheight={number('Height', 130)}
+    cheight={number('Height', 172)}
+    showPercentileMenu
   />
 );
 

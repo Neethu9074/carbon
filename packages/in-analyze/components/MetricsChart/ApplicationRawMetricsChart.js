@@ -28,8 +28,7 @@ export default withProps(({ filters }) => ({
           tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
           timeConfig
         });
-        const chartDefinition = latencyDistributionChartDefinition;
-        return <LatencyDistributionBase10Chart subscription={subscription} chartDefinition={chartDefinition} />;
+        return <LatencyDistributionBase10Chart subscription={subscription} showPercentileMenu />;
       }
     }
   ]

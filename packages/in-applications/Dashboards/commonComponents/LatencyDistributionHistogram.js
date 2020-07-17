@@ -1,22 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart/LatencyDistributionChart';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
+import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart/LatencyDistributionChart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import { millis } from 'in-services/formatters/number';
+import getJumpToAnalyzeHref$ from '../../components/getJumpToAnalyzeHref';
 import { operators } from 'in-analyze/applicationFilter';
-
-const latencyDistributionChartDefinition = {
-  label: 'Latency (distribution)',
-  key: 'calls_DISTRIBUTION',
-  renderer: Renderer.bar,
-  aggregation: 'DISTRIBUTION',
-  formatter: millis.forcedCompactOnMs,
-  min: 0
-};
 
 export default function LatencyDistributionHistogram({
   timeConfig,
@@ -28,6 +18,49 @@ export default function LatencyDistributionHistogram({
   callType,
   renderPostChartContent
 }) {
+  const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
+
+  const filterForLink = () => {
+    const { from, to } = selectedLatencyRange;
+    let filters = [];
+    if (from != null && from === to) {
+      filters.push({
+        name: 'call.latency',
+        value: from,
+        operator: 'EQUALS'
+      });
+    } else {
+      if (from > 0) {
+        filters.push({
+          name: 'call.latency',
+          value: from,
+          operator: 'GREATER_OR_EQUAL_THAN'
+        });
+      }
+      if (to) {
+        filters.push({
+          name: 'call.latency',
+          value: to,
+          operator: 'LESS_THAN'
+        });
+      }
+    }
+    if (callType) {
+      filters.push({
+        name: 'call.type',
+        value: callType,
+        operator: 'EQUALS'
+      });
+    }
+    if (includeSyntheticCalls) {
+      filters.push({
+        name: 'include_synthetic',
+        value: 'true'
+      });
+    }
+    return filters;
+  };
+
   if (latencyDistributionBase10Enabled) {
     return (
       <LatencyDistributionBase10Chart
@@ -80,8 +113,25 @@ export default function LatencyDistributionHistogram({
               ])
           }
         })}
-        chartDefinition={latencyDistributionChartDefinition}
-        showPercentileMenu={false}
+        selectionMenuItems={[
+          {
+            name: 'analyze',
+            icon: 'lib_analyze',
+            label: 'View in Analytics',
+            getHref$: () =>
+              getJumpToAnalyzeHref$(
+                { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
+                {
+                  boundaryScope,
+                  groupByTag: {},
+                  filters: filterForLink(),
+                  focusedMetric: 'calls_DISTRIBUTION'
+                }
+              )
+          }
+        ]}
+        onSelectionChanged={setSelectedLatencyRange}
+        showLegend
       />
     );
   }

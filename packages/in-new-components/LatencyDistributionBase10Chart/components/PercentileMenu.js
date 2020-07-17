@@ -1,3 +1,4 @@
+import { List } from 'immutable';
 import React from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -6,6 +7,8 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 
 import locals from './PercentileMenu.mless';
+
+export const ALL_PERCENTILES = List.of(50, 90, 95, 99);
 
 export default function PercentileMenu(props) {
   return (
@@ -18,29 +21,30 @@ export default function PercentileMenu(props) {
     </Overlay>
   );
 }
-function PercentileMenuContent({ percentilesShown, selectPercentile, selectNoPercentile, selectAllPercentiles }) {
+function PercentileMenuContent({ percentilesShown, onChange }) {
   return (
     <ul className={locals.list}>
       <li key="all" className={locals.item}>
         <CheckboxFancy
-          checked={percentilesShown.every(p => p.get('enabled') === true)}
-          indeterminate={
-            percentilesShown.some(p => p.get('enabled') === true) &&
-            percentilesShown.some(p => p.get('enabled') === false)
-          }
+          checked={percentilesShown.count() === ALL_PERCENTILES.count()}
+          indeterminate={0 < percentilesShown.count() && percentilesShown.count() < ALL_PERCENTILES.count()}
           onChange={() =>
-            percentilesShown.every(p => p.get('enabled') === true) ? selectNoPercentile() : selectAllPercentiles()
+            percentilesShown.count() === ALL_PERCENTILES.count() ? onChange(List()) : onChange(ALL_PERCENTILES)
           }
           label="All"
         />
       </li>
-      {percentilesShown.map((percentileShown, index) => {
+      {ALL_PERCENTILES.map(percentile => {
         return (
-          <li key={index} className={joinClassNames(locals.item, locals.child)}>
+          <li key={percentile} className={joinClassNames(locals.item, locals.child)}>
             <CheckboxFancy
-              checked={percentileShown.get('enabled')}
-              onChange={() => selectPercentile(index)}
-              label={'p' + percentileShown.get('value')}
+              checked={percentilesShown.includes(percentile)}
+              onChange={() =>
+                percentilesShown.includes(percentile)
+                  ? onChange(percentilesShown.filter(p => p !== percentile))
+                  : onChange(percentilesShown.push(percentile).sort())
+              }
+              label={'p' + percentile}
             />
           </li>
         );

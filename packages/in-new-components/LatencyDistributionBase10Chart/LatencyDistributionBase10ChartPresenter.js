@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import React from 'react';
 
+import PercentileMenu, {
+  ALL_PERCENTILES
+} from 'in-new-components/LatencyDistributionBase10Chart/components/PercentileMenu';
+import LatencyChartOverlay from 'in-new-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
 import HorizontalAxis from 'in-new-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
-import PercentileMenu from 'in-new-components/LatencyDistributionBase10Chart/components/PercentileMenu';
-import Bucket from 'in-new-components/LatencyDistributionBase10Chart/components/Bucket';
+import BarChart from 'in-new-components/LatencyDistributionBase10Chart/components/BarChart';
 import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import LoadingIndicator from '../LoadingIndicators/LoadingIndicator';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
-import { List, Map } from 'immutable';
-import theme from 'in-themes';
 import useObservable from 'in-hooks/useObservable';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
@@ -19,11 +20,13 @@ export default function LatencyDistributionBase10ChartPresenter({
   width,
   customWidth,
   customHeight,
-  chartDefinition,
-  showPercentileMenu = true,
-  subscription
+  showPercentileMenu,
+  showLegend,
+  subscription,
+  selectionMenuItems,
+  onSelectionChanged
 }) {
-  const [percentilesShown, setPercentilesShown] = useState(enabledPercentiles);
+  const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
 
   const subscriptionResult = useObservable(subscription, [subscription]);
 
@@ -59,63 +62,67 @@ export default function LatencyDistributionBase10ChartPresenter({
   // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
   const data = subscriptionResult.data || { buckets: [] };
   const buckets = data.buckets;
-  const percentilesAndValues = data.percentiles;
+  const percentileBuckets = createPercentileBuckets(buckets, data.percentiles);
 
-  const bucketWidth = `calc(75% / ${buckets.length})`;
-  const percentileHeight = 0.725 * 16 + 20; // rem to px conversion
-  const maxDataValue = getMaxDataValue(buckets);
+  // Buckets should be at least 4 pixels wide. At least 1 pixel will be used for a
+  // gap between bars.
+  const bucketWidth = Math.max(4, chartWidth / buckets.length);
+  // Round the bucket center downward to its nearest integer to avoid positioning
+  // issues related to decimal pixel values.
+  const bucketCenter = Math.floor(bucketWidth / 2);
+
+  const percentileHeight = Math.floor(0.725 * 16 + 20);
+  const maxCallCount = getMaxCallCount(buckets);
   return (
     <>
-      <div className={locals.legend}>
-        <div className={locals.metric}>
-          <div className={locals.dot} style={{ background: theme.lib.colors.chart.strokeColors100[0] }} />
-          Calls
-        </div>
+      <div className={locals.header}>
+        {showLegend && (
+          <div className={locals.legend}>
+            <div className={locals.dot} />
+            Calls
+          </div>
+        )}
         {showPercentileMenu && (
-          <PercentileMenu
-            percentilesShown={percentilesShown}
-            selectPercentile={index =>
-              setPercentilesShown(
-                percentilesShown.update(index, undefined, value => value.update('enabled', true, enabled => !enabled))
-              )
-            }
-            selectAllPercentiles={() => setPercentilesShown(enabledPercentiles)}
-            selectNoPercentile={() => setPercentilesShown(disabledPercentiles)}
-          />
+          <div className={locals.percentileButton}>
+            <PercentileMenu
+              percentilesShown={percentilesShown}
+              onChange={percentiles => setPercentilesShown(percentiles)}
+            />
+          </div>
         )}
       </div>
-      <div className={locals.container}>
+      <div className={locals.container} style={{ width: chartWidth }}>
         <VerticalAxis
-          scale={{ from: 0, to: maxDataValue }}
+          scale={{ from: 0, to: maxCallCount }}
           height={chartHeight - percentileHeight}
-          style={{ marginTop: percentileHeight, zIndex: 5, backgroundColor: 'white' }}
+          style={{ marginTop: percentileHeight, backgroundColor: 'white', position: 'absolute' }}
         />
-        <div>
-          <div className={locals.bars}>
-            {buckets.map(bucket => (
-              <Bucket
-                key={bucket.from || 0}
-                bucket={bucket}
-                bucketWidth={bucketWidth}
-                maxDataValue={maxDataValue}
-                height={chartHeight}
-                percentileHeight={percentileHeight}
-                percentilesShown={percentilesShown.filter(p => p.get('enabled')).map(p => p.get('value'))}
-                percentilesAndValues={percentilesAndValues}
-                formatter={chartDefinition.formatter}
-              />
-            ))}
-          </div>
-          <HorizontalAxis
+        <div className={locals.chart} style={{ height: chartHeight }}>
+          <LatencyChartOverlay
             buckets={buckets}
+            percentileBuckets={percentileBuckets}
             bucketWidth={bucketWidth}
+            bucketCenter={bucketCenter}
+            height={chartHeight - percentileHeight}
             width={chartWidth}
-            formatter={chartDefinition.formatter}
+            selectionMenuItems={selectionMenuItems}
+            onSelectionChanged={onSelectionChanged}
           />
+          <BarChart
+            buckets={buckets}
+            percentileBuckets={percentileBuckets}
+            bucketWidth={bucketWidth}
+            bucketCenter={bucketCenter}
+            maxCallCount={maxCallCount}
+            chartHeight={chartHeight}
+            percentileHeight={percentileHeight}
+            percentilesShown={percentilesShown}
+          />
+          <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} bucketCenter={bucketCenter} />
           <HorizontalLines
             nbBars={4}
             height={chartHeight - percentileHeight}
-            width={chartWidth}
+            width={bucketWidth * buckets.length}
             style={{ marginTop: percentileHeight }}
           />
         </div>
@@ -136,7 +143,7 @@ function HorizontalLines({ nbBars, height, width, style }) {
   );
 }
 
-function getMaxDataValue(buckets) {
+function getMaxCallCount(buckets) {
   let max = 0;
   for (let i = 0; i < buckets.length; i++) {
     if (buckets[i].calls > max) {
@@ -146,6 +153,22 @@ function getMaxDataValue(buckets) {
   return max;
 }
 
-const percentiles = List.of(50, 90, 95, 99);
-const enabledPercentiles = percentiles.map(p => Map({ value: p, enabled: true }));
-const disabledPercentiles = percentiles.map(p => Map({ value: p, enabled: false }));
+/**
+ * Breaks the percentiles object by buckets. The resulting array has the same size as the buckets array,
+ * e.g., [{50:0}, {}, {90:6, 95:10}, ...].
+ *
+ * @param {*} buckets - Array of latency distribution buckets [{from: 0, to: 1, tickMark: true, calls: 2033}, ...].
+ * @param {*} percentiles - Object with percentiles as keys and latencies as values, e.g., {50: 0, 90: 6, 95: 10, 99: 122}.
+ */
+function createPercentileBuckets(buckets, percentiles) {
+  return buckets.map(bucket => {
+    return Object.keys(percentiles)
+      .filter(
+        percentile =>
+          (bucket.from == null || bucket.from <= percentiles[percentile]) &&
+          (bucket.to == null || percentiles[percentile] < bucket.to)
+      )
+      .map(percentile => ({ [percentile]: percentiles[percentile] }))
+      .reduce((prev, cur) => Object.assign(prev, cur), {});
+  });
+}

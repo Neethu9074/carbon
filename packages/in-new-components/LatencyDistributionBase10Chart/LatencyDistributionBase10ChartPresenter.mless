@@ -1,22 +1,10 @@
-@import '~in-themes/active.less';
+@import './components/shared.less';
 
 :local {
   .container {
-    display: flex;
-    align-items: flex-start;
+    display: block;
     position: relative;
-  }
-
-  .bars {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 100%;
-    height: 100%;
-    padding: 0 11px;
-    &:hover {
-      cursor: pointer;
-    }
+    margin-bottom: 2rem;
   }
 
   .lines {
@@ -26,25 +14,39 @@
   }
 
   .horizontalLine {
-    border-top: 1px solid @lib__colors__N300;
+    border-top: 1px solid @lib__colors__N600Light;
+    opacity: 0.2;
+  }
+
+  .header {
+    position: relative;
+    height: 2rem;
   }
 
   .legend {
-    height: 2rem;
+    position: absolute;
+    left: 0;
     display: flex;
     justify-content: space-between;
-  }
-
-  .metric {
-    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
   }
 
   .dot {
+    background-color: @color_calls;
     max-width: 0.75rem;
     max-height: 0.75rem;
     min-width: 0.75rem;
     min-height: 0.75rem;
     margin-right: 0.375rem;
     border-radius: 50%;
+  }
+
+  .percentileButton {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    right: 0;
+    height: 2rem;
   }
 }

@@ -1,41 +1,38 @@
 import React from 'react';
 
+import { millis } from 'in-services/formatters/number';
 import locals from './HorizontalAxis.mless';
 
-export default function HorizontalAxis({ buckets, bucketWidth, width, formatter }) {
+export default function HorizontalAxis({ buckets, bucketWidth, bucketCenter }) {
   return (
-    <div className={locals.horizontalAxis} style={{ minWidth: width }}>
-      {buckets.map((bucket, i) => (
+    <div className={locals.horizontalAxis} style={{ width: bucketWidth * buckets.length }}>
+      {buckets.map((bucket, i) => bucket.tickMark !== true ? null : (
         <Tick
-          key={i}
+          key={bucket.from || 0}
           bucket={bucket}
+          bucketPosition={bucketWidth * i}
           bucketWidth={bucketWidth}
-          formatter={formatter}
-          enabled={bucket.tickMark === true}
+          bucketCenter={bucketCenter}
         />
       ))}
     </div>
   );
 }
 
-function Tick({ bucket, bucketWidth, formatter, enabled }) {
-  let value;
-  if (bucket.from !== 0 && bucket.to !== 0) {
-    value = formatter.detailed(bucket.from);
-  } else if (bucket.from !== 0) {
-    value = '> ' + formatter.detailed(bucket.from);
+function Tick({ bucket, bucketPosition, bucketWidth, bucketCenter }) {
+  const formatTime = millis.forcedCompactOnMs.detailed;
+  let label;
+  if (bucket.from == null || bucket.from === 0) {
+    label = '< ' + formatTime(bucket.to);
+  } else if (bucket.to == null) {
+    label = '> ' + formatTime(bucket.from);
   } else {
-    value = '< ' + formatter.detailed(bucket.to);
+    label = formatTime(bucket.from);
   }
-
   return (
-    <div className={locals.tickContainer} style={{ width: bucketWidth }}>
-      {enabled && (
-        <>
-          <div className={locals.tick} />
-          <div className={locals.tickValues}>{value}</div>
-        </>
-      )}
+    <div className={locals.tickContainer} style={{ width: bucketWidth + 'px', left: bucketPosition + 'px' }}>
+        <div className={locals.tick} style={{ left: bucketCenter }} />
+        <div className={locals.tickValues}>{label}</div>
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import theme from 'in-themes';
+
 export default function render(config, highlightedTimeframe) {
   if (!highlightedTimeframe) return null;
 
@@ -12,7 +14,7 @@ export default function render(config, highlightedTimeframe) {
   backBufferCtx.globalCompositeOperation = 'multiply';
   backBufferCtx.beginPath();
   backBufferCtx.rect(from, config.markerPaneHeight, width, height);
-  backBufferCtx.fillStyle = 'rgba(75, 165, 210, 0.2)';
+  backBufferCtx.fillStyle = theme.lib.colors.chartSelection;
   backBufferCtx.fill();
   backBufferCtx.globalCompositeOperation = 'source-over';
 }
