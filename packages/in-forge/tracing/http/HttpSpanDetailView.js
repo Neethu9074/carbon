@@ -38,6 +38,7 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
     <Fragment>
       <Di title="Host">{span.getIn(['data', 'http', 'host'])}</Di>
       <Di title="Request Path">{path}</Di>
+      <Di title="Context Root">{span.getIn(['data', 'http', 'context_root'])}</Di>
       <Di title="Path Template">{span.getIn(['data', 'http', 'path_tpl'])}</Di>
       {url && url !== path ? <Di title="URL">{url}</Di> : null}
       <Di title="WSDL Service">{span.getIn(['data', 'http', 'wsdl_srv'])}</Di>
@@ -61,22 +62,21 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
       <Di title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</Di>
       {getCustomHeaders(span)}
 
-      {traceContextState &&
-        traceContextState.size > 0 && (
-          <Di title="Trace Context State" verticalDisplay>
-            <Code
-              code={JSON.stringify(
-                traceContextState.toJS().reduce((agg, { k, v }) => {
-                  agg[k] = v;
-                  return agg;
-                }, {}),
-                0,
-                2
-              )}
-              lang="json"
-            />
-          </Di>
-        )}
+      {traceContextState && traceContextState.size > 0 && (
+        <Di title="Trace Context State" verticalDisplay>
+          <Code
+            code={JSON.stringify(
+              traceContextState.toJS().reduce((agg, { k, v }) => {
+                agg[k] = v;
+                return agg;
+              }, {}),
+              0,
+              2
+            )}
+            lang="json"
+          />
+        </Di>
+      )}
 
       <ErrorDescriptionItem error={error} />
     </Fragment>
