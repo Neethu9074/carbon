@@ -22,10 +22,10 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
           ) : (
             <SvgIcon size="l" type={icon} />
           )}
-          <h1 className={locals.title}>{title}</h1>
+          <Title title={title} />
         </div>
       ) : (
-        <h1 className={locals.title}>{title}</h1>
+        <Title title={title} />
       )}
       {renderCustomCloseBehaviour && (
         <span className={locals.customCloseBehaviour}>{renderCustomCloseBehaviour()}</span>
@@ -35,10 +35,17 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
   );
 }
 
+function Title({ title }) {
+  if (typeof title === 'string') {
+    return <h1 className={locals.title}>{title}</h1>;
+  }
+  return title;
+}
+
 Header.propType = {
   icon: rpt.string,
   onIconClick: rpt.func,
-  title: rpt.string.isRequired,
+  title: rpt.oneOfType([rpt.string, rpt.object]),
   renderCustomCloseBehaviour: rpt.func,
   onClose: rpt.func,
   addScrollShadow: rpt.bool

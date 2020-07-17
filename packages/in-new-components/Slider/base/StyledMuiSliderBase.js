@@ -1,7 +1,6 @@
 import MuiSlider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-
 import theme from 'in-themes';
 
 export const StyledMuiSliderBase = withStyles({
@@ -70,7 +69,7 @@ StyledMuiSliderBase.propTypes = {
   marks: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired
+      label: PropTypes.string
     }).isRequired
   ).isRequired,
   max: PropTypes.number.isRequired,

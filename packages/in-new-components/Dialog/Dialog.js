@@ -63,7 +63,7 @@ Dialog.propTypes = {
   onClose: PropTypes.func,
   onTitleIconClick: PropTypes.func,
   showOverflow: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   titleIconType: PropTypes.string,
   withoutBodyPadding: PropTypes.bool,
   doNotCloseOnOutsideClick: PropTypes.bool

@@ -38,6 +38,6 @@ Section.propTypes = {
   // within children.
   firstLineAlignmentOffsetPx: PropTypes.number,
   icon: PropTypes.string.isRequired,
-  actions: PropTypes.element,
+  actions: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
   children: PropTypes.node.isRequired
 };

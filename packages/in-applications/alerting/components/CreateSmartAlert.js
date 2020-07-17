@@ -66,7 +66,7 @@ function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endp
 }
 
 CreateSmartAlert.propTypes = {
-  applicationId: PropTypes.string.isRequired,
+  applicationId: PropTypes.string,
   applicationLabel: PropTypes.string,
   endpointLabel: PropTypes.string,
   location: propTypeLocation.isRequired,
