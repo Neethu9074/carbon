@@ -154,6 +154,7 @@ import './tomcatApplicationContainer';
 import './unmonitoredHost';
 import './varnish';
 import './vault';
+import './vsphereDatacenter';
 import './vsphereHost';
 import './vsphereVm';
 import './webLogicApplicationContainer';

@@ -5,6 +5,7 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
+const { getMixpanelToken } = require('../services/mixpanel');
 const buildInformation = require('../../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
@@ -371,12 +372,7 @@ function sendIndex(
       indexJsChecksum,
       nonce,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-      mixpanelToken:
-        user &&
-        user.email &&
-        !user.email.endsWith('@instana.com') &&
-        termsAndPrivacy.allAnalyticsServices &&
-        serverConfig.mixpanelToken,
+      mixpanelToken: getMixpanelToken(user, termsAndPrivacy.allAnalyticsServices),
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

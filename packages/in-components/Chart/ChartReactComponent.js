@@ -85,29 +85,26 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
             markerPaneHeight={chart?.config?.markerPaneHeight}
           >
             <div className={locals.chartAxisWrapper}>
-              {chart &&
-                chart.config.y1 && (
-                  <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
-                )}
+              {chart && chart.config.y1 && (
+                <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
+              )}
               <>
-                {chart &&
-                  width && (
-                    <ChartOverlay
-                      width={width}
-                      timeConfig={timeConfig}
-                      chart={chart}
-                      chartWrapper={this.chartWrapper}
-                      reverseTooltipOrder={reverseTooltipOrder}
-                      metrics={this.props}
-                      nonInteractive={this.props.nonInteractive}
-                    />
-                  )}
+                {chart && width && (
+                  <ChartOverlay
+                    width={width}
+                    timeConfig={timeConfig}
+                    chart={chart}
+                    chartWrapper={this.chartWrapper}
+                    reverseTooltipOrder={reverseTooltipOrder}
+                    metrics={this.props}
+                    nonInteractive={this.props.nonInteractive}
+                  />
+                )}
                 <canvas className={locals.canvas} ref={canvas => (this.canvas = canvas)} />
               </>
-              {chart &&
-                chart.config.y2 && (
-                  <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
-                )}
+              {chart && chart.config.y2 && (
+                <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
+              )}
             </div>
           </HighlightOverlayWrapper>
           {this.props.renderPostChartContent?.({

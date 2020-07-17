@@ -60,7 +60,7 @@
       ineum('meta', 'allSupportAndResearchServices', window.instana.termsAndPrivacySettings.allSupportAndResearchServices);
       ineum('meta', 'productTips', window.instana.termsAndPrivacySettings.productTips);
       ineum('meta', 'testingGroup', window.instana.termsAndPrivacySettings.testingGroup);
-      ineum('meta', 'selfDefinedRole', window.instana.termsAndPrivacySettings.role);
+      ineum('meta', 'selfDefinedRole', window.instana.termsAndPrivacySettings.dynamicRole || window.instana.termsAndPrivacySettings.role);
     }
   </script>
   <script defer crossorigin="anonymous" src="https://{{eumRetrievalDomain}}/eum.min.js"></script>

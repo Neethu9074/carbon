@@ -1,7 +1,9 @@
+import { uniqBy } from 'lodash';
 import React from 'react';
 
 import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { getLabel } from 'in-applications/technologyRegistry';
 
 import locals from './TechnologyIndicatorList.mless';
 
@@ -34,18 +36,15 @@ export default getElementDimensions(
 
       return (
         <ul className={locals.list}>
-          {technologies &&
-            technologies.length > 0 &&
-            technologies
-              .slice()
-              .map(pluginOrGroupType => (
-                <TechnologyIndicator
-                  getHref$={getHref$}
-                  key={pluginOrGroupType}
-                  pluginOrGroupType={pluginOrGroupType}
-                  showTechnologyLabel={this.state.showTechnologyLabel}
-                />
-              ))}
+          {technologies?.length > 0 &&
+            uniqBy(technologies, getLabel).map(pluginOrGroupType => (
+              <TechnologyIndicator
+                getHref$={getHref$}
+                key={pluginOrGroupType}
+                pluginOrGroupType={pluginOrGroupType}
+                showTechnologyLabel={this.state.showTechnologyLabel}
+              />
+            ))}
         </ul>
       );
     }

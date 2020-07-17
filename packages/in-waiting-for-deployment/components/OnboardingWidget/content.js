@@ -254,124 +254,220 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
 }
 
 function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  const platformOptions = ['Elastic Compute Cloud (EC2)', 'Elastic Container Service (ECS)'];
+
+  const [selectedPlatform, setPlatform] = useState(platformOptions[0]);
+
+  let permissions = {
+    Version: '2012-10-17',
+    Statement: [{
+      Action: [
+        'elasticbeanstalk:DescribeEnvironments',
+        'elasticbeanstalk:ListTagsForResource',
+        'elasticbeanstalk:DescribeInstancesHealth',
+        'dynamodb:ListTables',
+        'dynamodb:DescribeTable',
+        'dynamodb:ListTagsOfResource',
+        'rds:DescribeDBInstances',
+        'rds:DescribeEvents',
+        'rds:ListTagsForResource',
+        'sqs:ListQueues',
+        'sqs:GetQueueAttributes',
+        'sqs:ListQueueTags',
+        'elasticache:ListTagsForResource',
+        'elasticache:DescribeCacheClusters',
+        'elasticache:DescribeEvents',
+        'elasticloadbalancing:DescribeLoadBalancers',
+        'elasticloadbalancing:DescribeTags',
+        'elasticmapreduce:ListClusters',
+        'elasticmapreduce:DescribeCluster',
+        'es:ListDomainNames',
+        'es:DescribeElasticsearchDomain',
+        'es:ListTags',
+        'ec2:DescribeInstances',
+        'ec2:DescribeTags',
+        'ec2:DescribeVolumes',
+        'kinesis:ListStreams',
+        'kinesis:DescribeStream',
+        'kinesis:ListTagsForStream',
+        'lambda:ListTags',
+        'lambda:ListFunctions',
+        'lambda:ListVersionsByFunction',
+        'lambda:ListEventSourceMappings',
+        'lambda:GetFunctionConfiguration',
+        'mq:ListBrokers',
+        'mq:DescribeBroker',
+        's3:GetBucketTagging',
+        's3:ListAllMyBuckets',
+        's3:GetBucketLocation',
+        'xray:BatchGetTraces',
+        'xray:GetTraceSummaries',
+        'tag:GetResources'
+      ],
+      Effect: 'Allow',
+      Resource: '*'
+    },
+    {
+      Action: [
+        'cloudwatch:GetMetricStatistics',
+        'cloudwatch:GetMetricData',
+        'cloudwatch:ListMetrics'
+      ],
+      Effect: 'Allow',
+      Resource: '*'
+    }]
+  };
+
+  let content;
+
+  const iamPermissions = (
+    <Fragment>
+      <JSONFile
+        title="IAM permissions"
+        content={JSON.stringify(permissions, 0, 2)}
+      />
+    </Fragment>
+  );
+
+  if (selectedPlatform === platformOptions[0]) {
+    let trustRelationship = {
+      Version: '2012-10-17',
+      Statement: [{
+        Effect: 'Allow',
+        Principal: {
+          Service: 'ec2.amazonaws.com'
+        },
+        Action: 'sts:AssumeRole'
+      }]
+    };
+
+    content = (
+      <Fragment>
+        <Description
+          lines={[
+            'We advise to run the Instana AWS sensor on a dedicated EC2, "Current Generation General Purpose" Linux Virtual Machine. The m4.large instances, for example, are perfectly suited to the task.',
+            'Use the following as "User Data" when spinning up the dedicated EC2 Virtual Machine.'
+          ]}
+        />
+        <Bash
+          lines={[
+            'curl -o setup_agent.sh https://setup.instana.io/agent',
+            'chmod 700 ./setup_agent.sh',
+            `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
+          ]}
+        />
+        <Spacer />
+        <HelpBox title="User Data in AWS EC2">
+          <TextWithLink
+            text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+            linkText='"Running Commands on Your Linux Instance at Launch" page.'
+            href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
+          />
+        </HelpBox>
+        <Spacer />
+        <Description lines={['The AWS Agent needs the following IAM permissions:']} />
+        {iamPermissions}
+        <Spacer />
+        <Description
+          lines={[
+            'The IAM role containing the permissions above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
+          ]}
+        />
+        <JSONFile
+          title="Trust Relationship"
+          content={JSON.stringify(trustRelationship, 0, 2)}
+        />
+      </Fragment>
+    );
+  } else if (selectedPlatform === platformOptions[1]) {
+    const taskDefinition = {
+      family: 'instana-aws-sensor',
+      containerDefinitions: [{
+        name: 'aws-sensor',
+        image: 'instana/agent',
+        environment: [
+          {
+            name: 'INSTANA_AGENT_ENDPOINT',
+            value: agentEndpoint
+          },
+          {
+            name: 'INSTANA_AGENT_ENDPOINT_PORT',
+            value: agentEndpointPort
+          },
+          {
+            name: 'INSTANA_AGENT_KEY',
+            value: agentKey
+          },
+          {
+            name: 'INSTANA_AGENT_MODE',
+            value: 'AWS'
+          }
+        ]
+      }],
+      cpu: '2048',
+      memory: '4096',
+      requiresCompatibilities: ['FARGATE'],
+      networkMode: 'awsvpc'
+  };
+
+    content = (
+      <Fragment>
+        <HelpBox title="ECS supported runtimes">
+          <Description
+            lines={[
+              'The AWS Agent can run on both ECS on EC2 and Fargate on ECS using the ECS platforms version 1.3 and version 1.4.'
+            ]}
+          />
+        </HelpBox>
+        <Spacer />
+        <Description lines={['Create an ECS Task Definition using this template:']} />
+        <JSONFile
+          title="Task Definition"
+          content={JSON.stringify(taskDefinition, 0, 2)}
+        />
+        <Spacer />
+        <Description
+          lines={['Assign to the ECS Task Definition a role with at least the following IAM permissions:']}
+        />
+        {iamPermissions}
+        <Spacer />
+        <HelpBox title="ECS Service Definition">
+          <Description
+            lines={[
+              'Create a service using the above Task Definition and run only one instance to avoid unnecessary charges for the CloudWatch API.'
+            ]}
+          />
+        </HelpBox>
+      </Fragment>
+    );
+  }
+
   return (
     <>
       <HelpBox>
         <TextWithLink
-          text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
+          text="The AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
           linkText="supported AWS Services list."
           href="https://docs.instana.io/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
+
       <Spacer />
-      <Description
-        lines={[
-          'Use the following as "User Data" when spinning up a dedicated EC2 Virtual Machine. We advise to run the Instana AWS sensor on an "Current Generation General Purpose" machine running Linux. The m4.large instances, for example, are perfectly suited to the task. Please take note of the "-m aws" switch in the following command line.'
-        ]}
-      />
-      <Bash
-        lines={[
-          'curl -o setup_agent.sh https://setup.instana.io/agent',
-          'chmod 700 ./setup_agent.sh',
-          `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
-        ]}
-      />
+
+      <Row>
+        Run your AWS Agent on:
+        <DropDown value={selectedPlatform} options={platformOptions} onChange={setPlatform} />
+      </Row>
+
       <Spacer />
-      <Description lines={['The EC2 Virtual Machine running the Instana AWS Sensor needs the following IAM Roles.']} />
-      <JSONFile
-        content={
-          '{\n  "Version": "2012-10-17",\n  "Statement": [{\n' +
-          '    "Action": [\n' +
-          '      "elasticbeanstalk:DescribeEnvironments",\n' +
-          '      "elasticbeanstalk:ListTagsForResource",\n' +
-          '      "elasticbeanstalk:DescribeInstancesHealth",\n' +
-          '      "dynamodb:ListTables",\n' +
-          '      "dynamodb:DescribeTable",\n' +
-          '      "dynamodb:ListTagsOfResource",\n' +
-          '      "rds:DescribeDBInstances",\n' +
-          '      "rds:DescribeEvents",\n' +
-          '      "rds:ListTagsForResource",\n' +
-          '      "sqs:ListQueues",\n' +
-          '      "sqs:GetQueueAttributes",\n' +
-          '      "sqs:ListQueueTags",\n' +
-          '      "elasticache:ListTagsForResource",\n' +
-          '      "elasticache:DescribeCacheClusters",\n' +
-          '      "elasticache:DescribeEvents",\n' +
-          '      "elasticloadbalancing:DescribeLoadBalancers",\n' +
-          '      "elasticloadbalancing:DescribeTags",\n' +
-          '      "elasticmapreduce:ListClusters",\n' +
-          '      "elasticmapreduce:DescribeCluster",\n' +
-          '      "es:ListDomainNames",\n' +
-          '      "es:DescribeElasticsearchDomain",\n' +
-          '      "es:ListTags",\n' +
-          '      "ec2:DescribeInstances",\n' +
-          '      "ec2:DescribeTags",\n' +
-          '      "ec2:DescribeVolumes",\n' +
-          '      "kinesis:ListStreams",\n' +
-          '      "kinesis:DescribeStream",\n' +
-          '      "kinesis:ListTagsForStream",\n' +
-          '      "lambda:ListTags",\n' +
-          '      "lambda:ListFunctions",\n' +
-          '      "lambda:ListVersionsByFunction",\n' +
-          '      "lambda:ListEventSourceMappings",\n' +
-          '      "lambda:GetFunctionConfiguration",\n' +
-          '      "mq:ListBrokers",\n' +
-          '      "mq:DescribeBroker",\n' +
-          '      "s3:GetBucketTagging",\n' +
-          '      "s3:ListAllMyBuckets",\n' +
-          '      "s3:GetBucketLocation",\n' +
-          '      "xray:BatchGetTraces",\n' +
-          '      "xray:GetTraceSummaries",\n' +
-          '      "tag:GetResources"\n' +
-          '    ],\n' +
-          '    "Effect": "Allow",\n' +
-          '    "Resource": "*"\n' +
-          '  },{\n' +
-          '    "Action": [\n' +
-          '      "cloudwatch:GetMetricStatistics",\n' +
-          '      "cloudwatch:GetMetricData",\n' +
-          '      "cloudwatch:ListMetrics"\n' +
-          '    ],\n' +
-          '    "Effect": "Allow",\n' +
-          '    "Resource": "*"\n' +
-          '  }]\n' +
-          '}\n'
-        }
-      />
-      <Spacer />
-      <Description
-        lines={[
-          'The role above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
-        ]}
-      />
-      <JSONFile
-        content={
-          '{\n' +
-          '  "Version": "2012-10-17",\n' +
-          '  "Statement": [{\n' +
-          '    "Effect": "Allow",\n' +
-          '    "Principal": {\n' +
-          '      "Service": "ec2.amazonaws.com"\n' +
-          '    },\n' +
-          '    "Action": "sts:AssumeRole"\n' +
-          '  }]\n' +
-          '}\n'
-        }
-      />
-      <Spacer />
-      <HelpBox title="User Data in AWS EC2">
-        <TextWithLink
-          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
-          href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
-        />
-      </HelpBox>
+
+      {content}
     </>
   );
 }
 
 function AWSFargateContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Java', '.NET Core', 'Node.js'];
+  const runtimeOptions = ['Go', 'Java', '.NET Core', 'Node.js'];
   const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
 
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
@@ -381,6 +477,31 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <HelpBox title="Alpha">
+          <Description lines={['Support for Go applications running on AWS Fargate is in alpha.']} />
+        </HelpBox>
+        <TextWithLink
+          text="The support for Go on Fargate on ECS works the same way as with any Go application. Follow the instructions of the "
+          linkText="Go documentation."
+          href="https://docs.instana.com/ecosystem/go"
+        />
+        <Spacer />
+        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
     steps = (
       <Fragment>
         <HelpBox title="Technical Preview">
@@ -425,11 +546,11 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         </GridRow>
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[1]) {
+  } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
       <Fragment>
         <HelpBox title="Technical Preview">
-          <Description lines={['Support for .NET Cor applications running on AWS Fargate is in technical preview.']} />
+          <Description lines={['Support for .NET Core applications running on AWS Fargate is in technical preview.']} />
         </HelpBox>
         <Spacer />
         Linux base image: &nbsp;
@@ -476,7 +597,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         </GridRow>
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[2]) {
+  } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
       <Fragment>
         <HelpBox title="Technical Preview">
@@ -922,7 +1043,7 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
           text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText="&quot;Running commands on your Windows instance at launch&quot; page."
+          linkText='"Running commands on your Windows instance at launch" page.'
           href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
         />
       </HelpBox>
@@ -943,7 +1064,7 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPo
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
           text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
+          linkText='"Running Commands on Your Linux Instance at Launch" page.'
           href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
         />
       </HelpBox>
@@ -1042,7 +1163,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
       <HelpBox title="Startup Scripts in Google Compute Engine">
         <TextWithLink
           text="For more information on how to use the script above as a startup script in GCE, refer to the "
-          linkText="&quot;Running startup scripts&quot; page."
+          linkText='"Running startup scripts" page.'
           href="https://cloud.google.com/compute/docs/startupscript"
         />
       </HelpBox>
@@ -1329,7 +1450,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             <HelpBox title="Instana BOSH addon">
               <TextWithLink
                 text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
-                linkText="&quot;BOSH Runtime Configurations&quot; documentation."
+                linkText='"BOSH Runtime Configurations" documentation.'
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
@@ -1385,7 +1506,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               </Row>
               <TextWithLink
                 text="For more information on how to set up BOSH runtime configurations, refer to the "
-                linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+                linkText='"Applying the Instana agent runtime configurations" page.'
                 href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
@@ -1414,13 +1535,13 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
-        text="Download the &quot;Instana Microservices Application Monitoring&quot; tile from "
+        text='Download the "Instana Microservices Application Monitoring" tile from '
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
         linkText="VMware Tanzu Network."
       />
       <Spacer />
       <TextWithLink
-        text="Upload the &quot;Instana Microservices Application Monitoring&quot; tile to your Ops Manager as described in the"
+        text='Upload the "Instana Microservices Application Monitoring" tile to your Ops Manager as described in the'
         href="https://docs.pivotal.io/partners/instana/installing.html"
         linkText="Instana tile documentation on VMware Tanzu Network."
       />
@@ -1450,7 +1571,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           'Finally, you will need to give your VMware Tanzu foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
         ]}
       />
-      <TextWithLink text="Apply the changes introduced by the &quot;Instana Microservices Application Monitoring&quot; tile to all tiles in the Ops Manager. Tiles that are not selected for the &quot;Apply changes&quot; step in Ops Manager will not be visible in Instana." />
+      <TextWithLink text='Apply the changes introduced by the "Instana Microservices Application Monitoring" tile to all tiles in the Ops Manager. Tiles that are not selected for the "Apply changes" step in Ops Manager will not be visible in Instana.' />
       <Spacer />
       <HelpBox title="Supported Ops Manager versions">
         <Listing items={['2.3+']} />
