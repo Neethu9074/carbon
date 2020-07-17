@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -52,17 +53,7 @@ export default function NumberBarOverlayPresenter({
         {showRange && (
           <Row>
             <Col xs={6}>
-              {(form.items.gte?.value && (
-                <InputGroup
-                  label="greater than or equals"
-                  form={form}
-                  fieldId="gte"
-                  getOnChangeHandler={getOnChangeHandler}
-                  autoFocus={!showEquality}
-                  unit={unit}
-                  minValue={minValue}
-                />
-              )) || (
+              {(showGt(form.items.gt?.value, form.items.gte?.value) && (
                 <InputGroup
                   label="greater than"
                   form={form}
@@ -72,23 +63,33 @@ export default function NumberBarOverlayPresenter({
                   unit={unit}
                   minValue={minValue}
                 />
+              )) || (
+                <InputGroup
+                  label="greater than or equals"
+                  form={form}
+                  fieldId="gte"
+                  getOnChangeHandler={getOnChangeHandler}
+                  autoFocus={!showEquality}
+                  unit={unit}
+                  minValue={minValue}
+                />
               )}
             </Col>
             <Col xs={6}>
-              {(form.items.lte?.value && (
+              {(showLt(form.items.lt?.value, form.items.lte?.value) && (
                 <InputGroup
-                  label="less than or equals"
+                  label="less than"
                   form={form}
-                  fieldId="lte"
+                  fieldId="lt"
                   getOnChangeHandler={getOnChangeHandler}
                   unit={unit}
                   minValue={minValue}
                 />
               )) || (
                 <InputGroup
-                  label="less than"
+                  label="less than or equals"
                   form={form}
-                  fieldId="lt"
+                  fieldId="lte"
                   getOnChangeHandler={getOnChangeHandler}
                   unit={unit}
                   minValue={minValue}

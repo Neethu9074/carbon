@@ -1,7 +1,7 @@
 import React from 'react';
 
 import NumberBarOverlayBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayBehavior';
-import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
+import { getNumberTagFilters, showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
@@ -20,12 +20,12 @@ function Content(props) {
 
   let label = singularLabel;
   if (lt || lte || gt || gte) {
-    if (lt) {
+    if (showLt(lt?.value, lte?.value)) {
       label = `${label} < ${formatter(lt.numberValue || lt.value)}`;
     } else if (lte) {
       label = `${label} <= ${formatter(lte.numberValue || lte.value)}`;
     }
-    if (gt) {
+    if (showGt(gt?.value, gte?.value)) {
       label = `${formatter(gt.numberValue || gt.value)} < ${label}`;
     } else if (gte) {
       label = `${formatter(gte.numberValue || gte.value)} <= ${label}`;
