@@ -12,7 +12,7 @@ export default function ReleaseMarkerLane(props) {
   const releases =
     useObservable(
       getReleaseClusters({
-        timeConfig: props.timeConfig,
+        timeConfig: cleanUpTimeConfigForReleasesAPI(props.timeConfig),
         granularity: props.clusterSizeMillis
       })
         .startWith(pendingResult)
@@ -21,6 +21,18 @@ export default function ReleaseMarkerLane(props) {
     ) ?? emptyArray;
 
   return <ReleaseMarkerLanePresenter {...props} releases={releases} />;
+}
+
+/**
+ *
+ * we need this function because in non-live mode we need to use the chart-time-config,
+ * which needs to be put in a valid state for the request
+ */
+function cleanUpTimeConfigForReleasesAPI(timeConfig) {
+  if (timeConfig.to !== timeConfig.focusedMoment) {
+    return { ...timeConfig, focusedMoment: timeConfig.to };
+  }
+  return timeConfig;
 }
 
 ReleaseMarkerLane.propTypes = {

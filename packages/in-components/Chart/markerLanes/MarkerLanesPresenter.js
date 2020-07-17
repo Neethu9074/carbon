@@ -7,12 +7,13 @@ import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
 
+const minPixelsPerBlock = sizes.xs;
 export default function MarkerLanesPresenter({
   children,
   granularity,
   hoverState,
-  isClustered,
   chartWidth,
+  chartBucketWidth,
   ...remainingProps
 }) {
   if (!children || !granularity || !hoverState) return null;
@@ -26,7 +27,7 @@ export default function MarkerLanesPresenter({
         labelVisible={labelVisible}
         labelAlignment={labelAlignment}
         chartWidth={chartWidth}
-        isClustered={isClustered}
+        isClustered={chartBucketWidth < minPixelsPerBlock - 2}
         granularity={granularity}
         remainingProps={remainingProps}
       />
@@ -91,7 +92,6 @@ function HoverLine({ overlayVisible, lineVisible, xPos, chartContentPosition, co
 }
 
 function getClusterSizeMillis({ windowSize, width, granularity }) {
-  const minPixelsPerBlock = sizes.xs + 16;
   return getBlockSizeMillis({
     windowSize,
     minPixelsPerBlock,
@@ -105,6 +105,6 @@ MarkerLanesPresenter.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
   granularity: PropTypes.number,
   hoverState: PropTypes.object,
-  isClustered: PropTypes.bool,
-  chartWidth: PropTypes.number
+  chartWidth: PropTypes.number,
+  chartBucketWidth: PropTypes.number
 };

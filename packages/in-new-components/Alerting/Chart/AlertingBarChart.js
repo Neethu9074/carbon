@@ -68,7 +68,6 @@ export default function AlertingBarChart({
               threshold,
               timeThreshold
             })}
-            isClustered
           >
             <SmartAlertMarkerLane />
           </MarkerLanesPresenter>

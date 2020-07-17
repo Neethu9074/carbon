@@ -60,11 +60,16 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
       const preAndPostContentConfig = {
-        timeConfig: this.props.originalTimeConfig ?? this.props.timeConfig,
+        timeConfig: this.props.timeConfig.autoRefresh
+          ? this.props.originalTimeConfig ?? this.props.timeConfig
+          : this.props.timeConfig, // for non live mode we need the chart-time-config.
         onHover: hoverState => this.setState({ hoverState }),
         hoverState: this.state.hoverState,
         granularity: this.props.chart?.config?.rollup,
-        chartWidth: width
+        chartWidth: width,
+        chartBucketWidth: chart?.renderScheduler
+          ?.getRenderProps()
+          ?.xScaleBackBuffer?.getRangeArea(chart?.config?.rollup)
       };
 
       return (

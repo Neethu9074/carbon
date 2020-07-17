@@ -5,7 +5,7 @@ import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane
 
 export default function WebsiteDashboardsMarkerLanes(props) {
   return (
-    <MarkerLanesPresenter {...props} isClustered>
+    <MarkerLanesPresenter {...props}>
       <ReleaseMarkerLane />
     </MarkerLanesPresenter>
   );

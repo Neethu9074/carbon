@@ -42,7 +42,7 @@ function MarkersLanePresenter({
   isClustered,
   ...remainingProps
 }) {
-  const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [renderScheduler]);
+  const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
 
   return (
     <div className={locals.lane}>
